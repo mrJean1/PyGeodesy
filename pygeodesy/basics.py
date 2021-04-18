@@ -327,7 +327,7 @@ def _xinstanceof(*Types, **name_value_pairs):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
        @arg Types: One or more classes or types (C{class}).
-       @kwarg name_value_pairs: One or more B{C{name=value}} pairs
+       @kwarg name_value_pairs: One or more C{B{name}=value} pairs
                                 with the C{value} to be checked.
 
        @raise TypeError: At least one of the B{C{name_value_pairs}}
@@ -356,7 +356,7 @@ def _xsubclassof(Class, **name_value_pairs):
     '''(INTERNAL) Check super C{Class} of all C{name=value} pairs.
 
        @arg Class: A class or type (C{class}).
-       @kwarg name_value_pairs: One or more B{C{name=value}} pairs
+       @kwarg name_value_pairs: One or more C{B{name}=value} pairs
                                 with the C{value} to be checked.
 
        @raise TypeError: At least one of the B{C{name_value_pairs}}

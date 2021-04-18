@@ -51,8 +51,11 @@ ellipsoid), the error is bounded by 7 nm (7 nanometers) for the WGS84 ellipsoid.
 See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentric.html>}
 for further information on the errors.
 
-@see: Python class L{LocalCartesian} a transcription of I{Charles Karney}'s C++ class
-U{LocalCartesian<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}
+@see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s
+C++ class U{LocalCartesian
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>},
+providing conversion to and from I{local} cartesian cordinates in a I{local tangent
+plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
 from pygeodesy.basics import copysign, isscalar, issubclassof, neg, \
@@ -81,7 +84,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.04.10'
+__version__ = '21.04.17'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -277,7 +280,7 @@ class EcefKarney(_EcefBase):
                              L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
                              equatorial radius (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
+                     for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
@@ -474,7 +477,7 @@ class EcefVeness(_EcefBase):
                              L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
                              equatorial radius (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
+                     for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
@@ -802,7 +805,7 @@ class EcefYou(_EcefBase):
                              L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
                              equatorial radius (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required for
-                     C{scalar} B{C{a_ellipsoid}}, use B{C{f=0}} to represent a sphere.
+                     C{scalar} B{C{a_ellipsoid}}, use C{B{f}=0} to represent a sphere.
            @kwarg name: Optional name (C{str}).
 
            @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
@@ -1198,8 +1201,8 @@ class Ecef9Tuple(_NamedTuple):
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword arguments, ignored
                                   if C{B{Cartesian}=None}.
 
-           @return: A B{C{Cartesian}}C{(x, y, z)} instance or a L{Vector4Tuple}C{(x, y, z, h)}
-                    if C{B{Cartesian}=None}.
+           @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance or
+                    a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian}=None}.
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
@@ -1240,7 +1243,7 @@ class Ecef9Tuple(_NamedTuple):
            @kwarg LatLon_kwds: Optional B{C{height}}, B{C{datum}} and other
                                B{C{LatLon}} keyword arguments.
 
-           @return: An instance of C{LatLon}C{(lat, lon, **LatLon_kwds)}
+           @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
                     or if B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
                     datum)} depending on whether C{datum} is un-/specified.
@@ -1261,17 +1264,17 @@ class Ecef9Tuple(_NamedTuple):
         return r
 
     def toLocal(self, ltp, Xyz=None, **Xyz_kwds):
-        '''Convert this geocentric to I{local} C{X}, C{Y} and C{Z}.
+        '''Convert this geocentric to I{local} C{x}, C{y} and C{z}.
 
            @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}).
-           @kwarg Xyz: Optional class to return C{X}, C{Y} and C{Z}
+           @kwarg Xyz: Optional class to return C{x}, C{y} and C{z}
                        (L{XyzLocal}, L{Enu}, L{Ned}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
                             arguments, ignored if C{B{Xyz}=None}.
 
            @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
-                    a L{Local6Tuple}C{(x, y, z, ltp, ecef, M)}
-                    with C{M=None} always.
+                    a L{Local9Tuple}C{(x, y, z, lat, lon, height,
+                    ltp, ecef, M)} with C{M=None}, always.
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''

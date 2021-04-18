@@ -91,7 +91,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.02.17'
+__version__ = '21.04.15'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -144,9 +144,9 @@ class Elliptic(_Named):
            @see: Method L{reset} for further details.
 
            @note: If only elliptic integrals of the first and second kinds
-                  are needed, then set B{C{alpha2}} = 0, the default value.
-                  In that case, we have Π(φ, 0, k) = F(φ, k), G(φ, 0, k) =
-                  E(φ, k), and H(φ, 0, k) = F(φ, k) - D(φ, k).
+                  are needed, use C{B{alpha2}=0}, the default value.  In
+                  that case, we have C{Π(φ, 0, k) = F(φ, k), G(φ, 0, k) =
+                  E(φ, k)} and C{H(φ, 0, k) = F(φ, k) - D(φ, k)}.
         '''
         self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
 
@@ -574,11 +574,10 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid B{C{k2}}, B{C{alpha2}}, B{C{kp2}}
                                  or B{C{alphap2}} or no convergence.
 
-           @note: The arguments must satisfy I{B{C{k2}} + B{C{kp2}} = 1}
-                  and I{B{C{alpha2}} + B{C{alphap2}} = 1}.  No checking
-                  is done that these conditions are met to enable
-                  accuracy to be maintained, e.g., when C{k} is very
-                  close to unity.
+           @note: The arguments must satisfy C{B{k2} + B{kp2} = 1} and
+                  C{B{alpha2} + B{alphap2} = 1}.  No checking is done
+                  that these conditions are met to enable accuracy to
+                  be maintained, e.g., when C{k} is very close to unity.
         '''
         _update_all(self)
 
@@ -672,7 +671,7 @@ class Elliptic(_Named):
            @arg x: The argument (C{float}).
 
            @return: An L{Elliptic3Tuple}C{(sn, cn, dn)} with
-                    C{*n}C{(}B{C{x}}C{, k}C{)}.
+                    C{*n(B{x}, k)}.
 
            @raise EllipticError: No convergence.
         '''

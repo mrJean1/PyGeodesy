@@ -5,11 +5,11 @@ u'''Test I{local tangent plane} (LTP) classes, tuples and conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 from base import TestsBase
 
-from pygeodesy import Aer, Enu, fstr, Local6Tuple, Ltp, Ned, XyzLocal
+from pygeodesy import Aer, Enu, fstr, Local9Tuple, Ltp, Ned, XyzLocal
 from pygeodesy.ellipsoidalKarney import Cartesian, LatLon
 from pygeodesy.interns import _DOT_
 
@@ -53,7 +53,7 @@ class Tests(TestsBase):
             t = _truncate(c.toStr(prec=2))
             self.test(_DOT_(N, 'to' + n), t, t)
 
-            if Loc is Local6Tuple:
+            if Loc is Local9Tuple:
                 continue
 
             r = c.toLocal(Loc, ltp=Z, name=N)  # XXX ltp req'd
@@ -62,9 +62,15 @@ class Tests(TestsBase):
 
         for a in ('azimuth', 'elevation', 'slantrange', 'groundrange',
                   'east', 'north', 'up', 'down',
-                  'x', 'y', 'z', 'xyz'):
+                  'x', 'y', 'z', 'xyz'):  # coverage
             t = fstr(getattr(z, a), prec=3)
             self.test(_DOT_(N, a), t, t)
+
+        if Loc is Local9Tuple:  # coverage
+            for a in ('lat', 'lon', 'latlon', 'latlonheight',
+                      'phi', 'lam', 'philam', 'philamheight'):
+                t = fstr(getattr(z, a), prec=3)
+                self.test(_DOT_(N, a), t, t)
 
 
 class Xyz(XyzLocal):  # shorten name
@@ -78,6 +84,6 @@ if __name__ == '__main__':
     t.testLoc(Enu, 100, 200, 1000, ltp=Z)
     t.testLoc(Ned, 200, 100, 1000, ltp=Z)
     t.testLoc(Xyz,  10,  20, 100, ltp=Z)
-    t.testLoc(Local6Tuple, 10.0, 20.0, 100.0, Z, None, None)
+    t.testLoc(Local9Tuple, 10.0, 20.0, 100.0, 46.02, 7.75, 1773.0, Z, None, None)
     t.results()
     t.exit()

@@ -31,7 +31,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -264,17 +264,17 @@ def compassPoint(bearing, prec=3):
 
        @example:
 
-       >>> p = compassPoint(24, 1)  # 'N'
-       >>> p = compassPoint(24, 2)  # 'NE'
-       >>> p = compassPoint(24, 3)  # 'NNE'
-       >>> p = compassPoint(24)     # 'NNE'
-       >>> p = compassPoint(11, 4)  # 'NbE'
-       >>> p = compassPoint(30, 4)  # 'NEbN'
+        >>> p = compassPoint(24, 1)  # 'N'
+        >>> p = compassPoint(24, 2)  # 'NE'
+        >>> p = compassPoint(24, 3)  # 'NNE'
+        >>> p = compassPoint(24)     # 'NNE'
+        >>> p = compassPoint(11, 4)  # 'NbE'
+        >>> p = compassPoint(30, 4)  # 'NEbN'
 
-       >>> p = compassPoint(11.249)  # 'N'
-       >>> p = compassPoint(11.25)   # 'NNE'
-       >>> p = compassPoint(-11.25)  # 'N'
-       >>> p = compassPoint(348.749) # 'NNW'
+        >>> p = compassPoint(11.249)  # 'N'
+        >>> p = compassPoint(11.25)   # 'NNE'
+        >>> p = compassPoint(-11.25)  # 'N'
+        >>> p = compassPoint(348.749) # 'NNW'
     '''
     try:  # m = 2 << prec; x = 32 // m
         m, x = _MOD_X[prec]
@@ -295,7 +295,7 @@ _WINDS = (_N_, 'NbE', 'NNE', 'NEbN', _NE_, 'NEbE', 'ENE', 'EbN',
 
 
 def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
-    '''Convert degrees to a string in degrees, minutes B{I{or}} seconds.
+    '''Convert degrees to a string in degrees, minutes I{or} seconds.
 
        @arg deg: Value in degrees (C{scalar}).
        @kwarg prec: Optional number of decimal digits (0..9 or
@@ -308,7 +308,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
        @kwarg neg: Optional sign for negative (C{'-'}).
        @kwarg pos: Optional sign for positive (C{''}).
 
-       @return: I{Either} degrees, minutes B{I{or}} seconds (C{str}).
+       @return: I{Either} degrees, minutes I{or} seconds (C{str}).
     '''
     try:
         deg = float(deg)
@@ -657,8 +657,8 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180):
 
        @example:
 
-       >>> parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')
-       (51.4778°N, 000.0015°W, 0)
+        >>> parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')
+        (51.4778°N, 000.0015°W, 0)
     '''
     from pygeodesy.namedTuples import LatLon3Tuple  # avoid circluar import
 

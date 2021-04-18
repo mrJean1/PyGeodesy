@@ -95,7 +95,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.04.06'
+__version__ = '21.04.15'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1277,7 +1277,7 @@ class GeoidPGM(_GeoidBase):
                   C{egm*.pgm} file size and may exceed the available memory,
                   especially with 32-bit Python.  To reduce memory usage, set
                   keyword argument B{C{crop}} to the region of interest.  For example
-                  B{crop=(20, -125, 50, -65)} covers the U{conterminous US<https://
+                  C{B{crop}=(20, -125, 50, -65)} covers the U{conterminous US<https://
                   www.NGS.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
                   (CONUS), less than 3% of the entire C{egm2008-1.pgm} dataset.
 

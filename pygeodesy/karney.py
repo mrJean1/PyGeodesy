@@ -75,7 +75,7 @@ functions and methods:
 are implementations of I{Karney}'s post U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and paper
 U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section
-B{I{14. MARITIME BOUNDARIES}}).
+B{14. MARITIME BOUNDARIES}).
 '''
 
 from pygeodesy.basics import _xversion
@@ -89,7 +89,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.03.27'
+__version__ = '21.04.15'
 
 
 class _Adict(dict):

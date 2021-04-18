@@ -38,7 +38,7 @@ Keyword argument B{C{radius}} of all fuctions is set to the mean earth
 radius in meter.  Other units can be choosen, provided that the radius
 and tolerance are always specified in the same units.
 
-Use keyword argument B{C{indices}}=C{True} in any function to return a
+Use keyword argument C{B{indices}=True} in any function to return a
 list of simplified point I{indices} instead of the simplified points.
 The first and last index are always the first and last original index.
 
@@ -51,7 +51,7 @@ possibly other values, use class L{Numpy2LatLon} to wrap the C{NumPy}
 array into I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon}
 instance to any I{simplify} function and the returned result will be
 a C{NumPy} array containing the simplified subset, a partial copy of
-the original C{NumPy} array.  Use keyword argument B{C{indices}}=C{True}
+the original C{NumPy} array.  Use keyword argument C{B{indices}=True}
 to return a list of array row indices inlieu of the simplified array
 subset.
 
@@ -85,7 +85,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.01.16'
+__version__ = '21.04.14'
 
 
 # try:

@@ -5,10 +5,10 @@ u'''Lazily import C{pygeodesy} modules and attributes, based on
 U{lazy_import<https://modutil.ReadTheDocs.io/en/latest/#lazy_import>}
 from Brett Cannon's U{modutil<https://PyPI.org/project/modutil>}.
 
-C{Lazy import} is I{supported only for U{Python 3.7+
-<https://Snarky.CA/lazy-importing-in-python-3-7>}} and is I{enabled by
-default in U{PyGeodesy 18.11.10+<https://PyPI.org/project/PyGeodesy>}
-and later}.
+C{Lazy import} is I{supported only for }U{Python 3.7+
+<https://Snarky.CA/lazy-importing-in-python-3-7>} and is I{enabled by
+default in }U{PyGeodesy 18.11.10+<https://PyPI.org/project/PyGeodesy>}
+I{ and later}.
 
 To I{enable} C{lazy import}, set C{env} variable C{PYGEODESY_LAZY_IMPORT}
 to C{1}, C{2}, C{3} or higher prior to C{import pygeodesy}.  To I{disable}
@@ -205,7 +205,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=('Frustum', 'LocalCartesian', 'LocalError', 'Ltp'),
-                      ltpTuples=('Aer', 'Aer4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local6Tuple',
+                      ltpTuples=('Aer', 'Aer4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
                                  'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
@@ -276,7 +276,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.04.09'
+__version__ = '21.04.15'
 
 
 def _ALL_OTHER(*objs):

@@ -79,7 +79,7 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.9.2 (with geographiclib_ 1.50),
+The tests have been run with Python 3.9.4 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
 and macOS\' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.2.3
 (10.16) Big Sur and all in 64-bit only.  The tests are run with and
@@ -87,7 +87,7 @@ without ``lazy import`` for Python 3 and with ``-W always`` and
 environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
 The results of those tests are included in the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.2
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.4
 (with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
 1.19.2 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with numpy_ 1.16.6).
 The complete coverage report in HTML and a PDF summary are included in
@@ -104,7 +104,7 @@ A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 3.7.2-6,
+Previously, the tests were run with Python 3.9.0-2, 3.8.0-5, 3.7.2-6,
 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0,
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_
 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13
@@ -122,7 +122,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.9.2, both in 64-bit on macOS 11.2.3 (10.16)
+and with Flake8_ using Python 3.9.4, both in 64-bit on macOS 11.2.3 (10.16)
 Big Sur.
 
 Classes with a name ending in ``Karney`` and several more are transcribed
@@ -132,7 +132,7 @@ package to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 12, 2021.*
+*Last updated: Apr 21, 2021.*
 
 License
 =======

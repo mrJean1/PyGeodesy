@@ -18,7 +18,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.04.08'
+__version__ = '21.04.15'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -294,7 +294,7 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
                         used as C{name=value} keyword arguments.
        @kwarg name_value_fmt: Format for (name, value) (C{str}).
        @kwarg txt: Optional explanation of the error (C{str}).
-       @kwarg name_values: One or more B{C{name=value}} pairs overriding
+       @kwarg name_values: One or more C{B{name}=value} pairs overriding
                            any B{C{name_value}} positional arguments.
     '''
     if name_values:
@@ -333,7 +333,7 @@ def exception_chaining(error=None):
 
        @kwarg error: An error instance (C{Exception}) or C{None}.
 
-       @return: If B{C{error=None}}, return C{True} if exception
+       @return: If C{B{error}=None}, return C{True} if exception
                 chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
                 B{C{error}} is not C{None}, return the previous,
@@ -357,10 +357,10 @@ def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=
     '''(INTERNAL) Create an C{Error} instance.
 
        @kwarg Error: The error class or sub-class (C{Exception}).
-       @kwarg txt_name_values: One or more B{C{name=value}} pairs
-                               and optionally, a B{C{txt=...}}
+       @kwarg txt_name_values: One or more C{B{name}=value} pairs
+                               and optionally, a C{B{txt}=...}
                                keyword argument to override the
-                               default B{C{txt='invalid'}}
+                               default C{B{txt}='invalid'}
 
        @return: An B{C{Error}} instance.
     '''
@@ -379,10 +379,10 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
 
        @arg nouns: One or more expected class or type names,
                    usually nouns (C{str}).
-       @kwarg name_value_Error: One B{C{name=value}} pair and
-                                optionally, an B{C{Error=...}}
+       @kwarg name_value_Error: One C{B{name}=value} pair and
+                                optionally, an C{B{Error}=...}
                                 keyword argument to override
-                                the default B{C{Error=TypeError}}.
+                                the default C{B{Error}=TypeError}.
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
@@ -432,14 +432,14 @@ def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=Pars
 
        @arg parser: The parser (C{callable}).
        @arg args: Any parser positional arguments (any C{type}s).
-       @kwarg name_values_Error: One or more B{C{name=value}} pairs
-                                 and optionally, an B{C{Error=...}}
+       @kwarg name_values_Error: One or more C{B{name}=value} pairs
+                                 and optionally, an C{B{Error}=...}
                                  keyword argument to override the
-                                 default B{C{Error=ParseError}}.
+                                 default C{B{Error}=ParseError}.
 
        @return: Parser result.
 
-       @raise ParseError: Or the specified B{C{Error=...}}.
+       @raise ParseError: Or the specified C{B{Error}=...}.
 
        @raise RangeError: If that error occurred.
     '''

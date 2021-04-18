@@ -35,7 +35,7 @@ from pygeodesy.units import Float, Radius, Radius_, Scalar
 from math import atan2, hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.04.10'
+__version__ = '21.04.15'
 
 _raise_ = 'raise'
 
@@ -457,12 +457,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @return: C{True} if vectors are identical, C{False} otherwise.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
-
-           @example:
-
-           >>> v1 = Vector3d(52.205, 0.119)
-           >>> v2 = Vector3d(52.205, 0.119)
-           >>> e = v1.isequalTo(v2)  # True
         '''
         self.others(other)
 

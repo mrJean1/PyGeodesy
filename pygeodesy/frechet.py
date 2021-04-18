@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.02.08'
+__version__ = '21.04.15'
 
 
 def _fraction(fraction, n):
@@ -153,7 +153,7 @@ class Frechet(_Named):
                                of the mean latitude, iff applicable.
 
            @raise FrechetError: Insufficient number of B{C{points}} or
-                                invalid B{C{fraction}} or B{{wrap}} or
+                                invalid B{C{fraction}} or B{C{wrap}} or
                                 B{C{ajust}} not applicable.
 
         '''

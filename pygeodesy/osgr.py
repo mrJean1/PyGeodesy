@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.02.14'
+__version__ = '21.04.15'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -123,8 +123,8 @@ class Osgr(_NamedBase):
 
            @example:
 
-           >>> from pygeodesy import Osgr
-           >>> r = Osgr(651409, 313177)
+            >>> from pygeodesy import Osgr
+            >>> r = Osgr(651409, 313177)
         '''
         self._easting  = Easting( easting,  Error=OSGRError, osgr=True)
         self._northing = Northing(northing, Error=OSGRError, osgr=True)
@@ -208,11 +208,11 @@ class Osgr(_NamedBase):
 
            @example:
 
-           >>> from pygeodesy import ellipsoidalVincenty as eV
-           >>> g = Osgr(651409.903, 313177.270)
-           >>> p = g.toLatLon(eV.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
-           >>> # to obtain (historical) OSGB36 lat-/longitude point
-           >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
+            >>> from pygeodesy import ellipsoidalVincenty as eV
+            >>> g = Osgr(651409.903, 313177.270)
+            >>> p = g.toLatLon(eV.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
+            >>> # to obtain (historical) OSGB36 lat-/longitude point
+            >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
         if self._latlon:
             return self._latlon3(LatLon, datum)
@@ -319,9 +319,9 @@ class Osgr(_NamedBase):
 
            @example:
 
-           >>> r = Osgr(651409, 313177)
-           >>> str(r)  # TG 5140 1317
-           >>> r.toStr(prec=0)  # 651409,313177
+            >>> r = Osgr(651409, 313177)
+            >>> str(r)  # TG 5140 1317
+            >>> r.toStr(prec=0)  # 651409,313177
         '''
         def _i2c(i):
             if i > 7:
@@ -375,15 +375,15 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
 
        @example:
 
-       >>> g = parseOSGR('TG 51409 13177')
-       >>> str(g)  # TG 51409 13177
-       >>> g = parseOSGR('TG5140913177')
-       >>> str(g)  # TG 51409 13177
-       >>> g = parseOSGR('TG51409 13177')
-       >>> str(g)  # TG 51409 13177
-       >>> g = parseOSGR('651409,313177')
-       >>> str(g)  # TG 51409 13177
-       >>> g.toStr(prec=0)  # 651409,313177
+        >>> g = parseOSGR('TG 51409 13177')
+        >>> str(g)  # TG 51409 13177
+        >>> g = parseOSGR('TG5140913177')
+        >>> str(g)  # TG 51409 13177
+        >>> g = parseOSGR('TG51409 13177')
+        >>> str(g)  # TG 51409 13177
+        >>> g = parseOSGR('651409,313177')
+        >>> str(g)  # TG 51409 13177
+        >>> g.toStr(prec=0)  # 651409,313177
     '''
     def _c2i(G):
         g = ord(G.upper()) - _ord_A
@@ -449,7 +449,7 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
                     (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
        @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
-                         arguments, ignored if B{C{Osgr=None}}.
+                         arguments, ignored if C{B{Osgr}=None}.
 
        @return: The OSGR coordinate (B{C{Osgr}}) or an
                 L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
@@ -462,10 +462,10 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
 
        @example:
 
-       >>> p = LatLon(52.65798, 1.71605)
-       >>> r = toOsgr(p)  # TG 51409 13177
-       >>> # for conversion of (historical) OSGB36 lat-/longitude:
-       >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
+        >>> p = LatLon(52.65798, 1.71605)
+        >>> r = toOsgr(p)  # TG 51409 13177
+        >>> # for conversion of (historical) OSGB36 lat-/longitude:
+        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
     if not isinstance(latlon, _LLEB):
         # XXX fix failing _LLEB.toDatum()

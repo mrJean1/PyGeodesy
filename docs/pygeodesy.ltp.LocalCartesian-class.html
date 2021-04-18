@@ -78,9 +78,9 @@
 
 <hr />
 <p>Conversion between geodetic <code>(lat, lon, height)</code> and 
-  <i>local cartesian</i> <code>(x, y, z)</code> coordinates with geodetic 
-  origin <code>(lat0, lon0, height0)</code>, transcribed from 
-  <i>Karney</i>'s C++ class <a 
+  <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
+  <i>geodetic</i> origin <code>(lat0, lon0, height0)</code>, transcribed 
+  from <i>Karney</i>'s C++ class <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
   target="_top">LocalCartesian</a>.</p>
   <p>The <code>z</code> axis is normal to the ellipsoid, the <code>y</code>
@@ -350,11 +350,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlonh0</code></strong> - Either a <code>LatLon</code>, an <a 
+        <li><strong class="pname"><code>latlonh0</code></strong> - Either a <code>LatLon</code>, <a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a> or <code>scalar</code> latitude of 
-          the origin (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon0</code></strong> - Optional <code>scalar</code> longitude of the origin for 
+          the (goedetic) origin (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Optional <code>scalar</code> longitude of the (goedetic) origin 
           <code>scalar</code> <b><code>latlonh0</code></b> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>height0</code></strong> - Optional origin height (<code>meter</code>), vertically above (or
@@ -379,7 +380,12 @@
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        If B<code>latlonh0</code> is <a href="pygeodesy.ltp.Ltp-class.html"
+        class="link">Ltp</a>, only the lat-, longitude and height are 
+        duplicated, <i>not</i> the ECEF converter.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="forward"></a>
 <div>
@@ -404,12 +410,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlonh</code></strong> - Either a <code>LatLon</code>, an <a 
+        <li><strong class="pname"><code>latlonh</code></strong> - Either a <code>LatLon</code>, a <a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> or <code>scalar</code> latitude 
+          class="link">Ecef9Tuple</a> or <code>scalar</code> (geodetic) 
+          latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional <code>scalar</code> (geodetic) longitude for 
+          <code>scalar</code> <b><code>latlonh</code></b> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional <code>scalar</code> longitude for <code>scalar</code> 
-          <b><code>latlonh</code></b> (<code>degrees</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code>), vertically above (or below)
           the surface of the ellipsoid.</li>
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
@@ -417,18 +425,26 @@
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
-          class="link">Local6Tuple</a><code>(x, y, z, ltp, ecef, M)</code> 
-          with the <i>local</i> <code>(x, y, z)</code> coordinates, 
-          <code>ecef</code> converted to this <code>datum</code>, this 
-          <code>ltp</code> and the rotation matrix <code>M</code> (<a 
-          href="pygeodesy.ecef.EcefMatrix-class.html" 
+        <dd>A <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+          class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
+          ltp, ecef, M)</code> with <i>local</i> <code>x</code>, 
+          <code>y</code>, <code>z</code>, <i>geodetic</i> 
+          <code>(lat</code>, <code>lon</code>, <code>height</code>, this 
+          <code>ltp</code>, <code>ecef</code> (<a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>) with <i>geocentric</i> 
+          <code>x</code>, <code>y</code>, <code>z</code> (and 
+          <i>geodetic</i> <code>lat</code>, <code>lon</code>, 
+          <code>height</code>) and the <i>concatenated</i> rotation matrix 
+          <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a>) if requested.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - If <b><code>latlonh</code></b> not <code>LatLon</code>, <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - If <b><code>latlonh</code></b> not <code>scalar</code>, 
+        <code>LatLon</code>, <a href="pygeodesy.ltp.Ltp-class.html" 
+        class="link">Ltp</a>, <a 
         href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-        class="link">Ecef9Tuple</a>, <code>scalar</code> or invalid or if 
+        class="link">Ecef9Tuple</a> or invalid or if 
         <b><code>lon</code></b> not <code>scalar</code> for 
         <code>scalar</code> <b><code>latlonh</code></b> or invalid or if 
         <b><code>height</code></b> invalid.</li>
@@ -515,8 +531,8 @@
           <a href="pygeodesy.ltpTuples.Ned-class.html" 
           class="link">Ned</a>, <a 
           href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>, 
-          <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
-          class="link">Local6Tuple</a>) or local <code>x</code> coordinate 
+          <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+          class="link">Local9Tuple</a>) or local <code>x</code> coordinate 
           (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Local <code>y</code> coordinate for <code>scalar</code> 
           <b><code>xyz</code></b> and <b><code>z</code></b> 
@@ -524,18 +540,23 @@
         <li><strong class="pname"><code>z</code></strong> - Local <code>z</code> coordinate for <code>scalar</code> 
           <b><code>xyz</code></b> and <b><code>y</code></b> 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
+        <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
-          M, datum)</code> with the <i>geodetic</i> <code>lat</code>, 
-          <code>lon</code> and <code>height</code> plus <i>geocentric</i> 
-          <code>x</code>, <code>y</code> and <code>z</code>, case 
-          <code>C</code>, the rotation matrix <code>M</code> if requested 
-          and <code>datum</code> if available.</dd>
+        <dd>An <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+          class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
+          ltp, ecef, M)</code> with <i>local</i> <code>x</code>, 
+          <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>,
+          <code>lon</code>, <code>height</code>, this <code>ltp</code>, an 
+          <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
+          class="link">Ecef9Tuple</a>) with the <i>geocentric</i> 
+          <code>x</code>, <code>y</code>, <code>z</code> (and 
+          <i>geodetic</i> <code>lat</code>, <code>lon</code>, 
+          <code>height</code>) and the <i>concatenated</i> rotation matrix 
+          <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
+          class="link">EcefMatrix</a>) if requested.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid <b><code>xyz</code></b> or <code>scalar</code> 
@@ -765,7 +786,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:46 2021
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:05 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

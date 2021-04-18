@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.named._NamedTuple</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.named-module.html">Module&nbsp;named</a> ::
+        Class&nbsp;_NamedTuple
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.named._NamedTuple-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class _NamedTuple</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+object --+    
+         |    
+     tuple --+
+             |
+object --+   |
+         |   |
+    <a href="pygeodesy.named._Named-class.html">_Named</a> --+
+             |
+            <strong class="uidshort">_NamedTuple</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ltpTuples.Aer4Tuple-class.html">ltpTuples.Aer4Tuple</a></li><li>, <a href="pygeodesy.albers.Albers7Tuple-class.html">albers.Albers7Tuple</a></li><li>, <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html">azimuthal.Azimuthal7Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Bearing2Tuple-class.html">namedTuples.Bearing2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Bounds2Tuple-class.html">namedTuples.Bounds2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Bounds4Tuple-class.html">namedTuples.Bounds4Tuple</a></li><li>, <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html">ellipsoids.Circle4Tuple</a></li><li>, <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">deprecated.ClipCS3Tuple</a></li><li>, <a href="pygeodesy.clipy.ClipCS4Tuple-class.html">clipy.ClipCS4Tuple</a></li><li>, <a href="pygeodesy.clipy.ClipLB6Tuple-class.html">clipy.ClipLB6Tuple</a></li><li>, <a href="pygeodesy.clipy.ClipSH3Tuple-class.html">clipy.ClipSH3Tuple</a></li><li>, <a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html">ellipsoids.Curvature2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Destination2Tuple-class.html">namedTuples.Destination2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Destination3Tuple-class.html">namedTuples.Destination3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Distance2Tuple-class.html">namedTuples.Distance2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Distance3Tuple-class.html">namedTuples.Distance3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Distance4Tuple-class.html">namedTuples.Distance4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.EasNor2Tuple-class.html">namedTuples.EasNor2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.EasNor3Tuple-class.html">namedTuples.EasNor3Tuple</a></li><li>, <a href="pygeodesy.css.EasNorAziRk4Tuple-class.html">css.EasNorAziRk4Tuple</a></li><li>, <a href="pygeodesy.etm.EasNorExact4Tuple-class.html">etm.EasNorExact4Tuple</a></li><li>, <a href="pygeodesy.webmercator.EasNorRadius3Tuple-class.html">webmercator.EasNorRadius3Tuple</a></li><li>, <a href="pygeodesy.ecef.Ecef9Tuple-class.html">ecef.Ecef9Tuple</a></li><li>, <a href="pygeodesy.ecef.EcefMatrix-class.html">ecef.EcefMatrix</a></li><li>, <a href="pygeodesy.elevations.Elevation2Tuple-class.html">elevations.Elevation2Tuple</a></li><li>, <a href="pygeodesy.elliptic.Elliptic3Tuple-class.html">elliptic.Elliptic3Tuple</a></li><li>, <a href="pygeodesy.ltpTuples.Enu4Tuple-class.html">ltpTuples.Enu4Tuple</a></li><li>, <a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html">ltpTuples.Footprint5Tuple</a></li><li>, <a href="pygeodesy.frechet.Frechet6Tuple-class.html">frechet.Frechet6Tuple</a></li><li>, <a href="pygeodesy.elevations.GeoidHeight2Tuple-class.html">elevations.GeoidHeight2Tuple</a></li><li>, <a href="pygeodesy.geoids.GeoidHeight5Tuple-class.html">geoids.GeoidHeight5Tuple</a></li><li>, <a href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html">hausdorff.Hausdorff6Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">namedTuples.LatLon2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html">namedTuples.LatLon3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLon4Tuple-class.html">namedTuples.LatLon4Tuple</a></li><li>, <a href="pygeodesy.css.LatLonAziRk4Tuple-class.html">css.LatLonAziRk4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLonDatum3Tuple-class.html">namedTuples.LatLonDatum3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html">namedTuples.LatLonDatum5Tuple</a></li><li>, <a href="pygeodesy.etm.LatLonExact4Tuple-class.html">etm.LatLonExact4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html">namedTuples.LatLonPrec3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.LatLonPrec5Tuple-class.html">namedTuples.LatLonPrec5Tuple</a></li><li>, <a href="pygeodesy.ltpTuples.Local9Tuple-class.html">ltpTuples.Local9Tuple</a></li><li>, <a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">mgrs.Mgrs4Tuple</a></li><li>, <a href="pygeodesy.mgrs.Mgrs6Tuple-class.html">mgrs.Mgrs6Tuple</a></li><li>, <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html">namedTuples.NearestOn3Tuple</a></li><li>, <a href="pygeodesy.points.NearestOn5Tuple-class.html">points.NearestOn5Tuple</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html">ellipsoidalNvector.Ned3Tuple</a></li><li>, <a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">ltpTuples.Ned4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html">namedTuples.PhiLam2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.PhiLam3Tuple-class.html">namedTuples.PhiLam3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html">namedTuples.PhiLam4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Point3Tuple-class.html">namedTuples.Point3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Points2Tuple-class.html">namedTuples.Points2Tuple</a></li><li>, <a href="pygeodesy.formy.Radical2Tuple-class.html">formy.Radical2Tuple</a></li><li>, <a href="pygeodesy.geohash.Resolutions2Tuple-class.html">geohash.Resolutions2Tuple</a></li><li>, <a href="pygeodesy.points.Shape2Tuple-class.html">points.Shape2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Triangle7Tuple-class.html">namedTuples.Triangle7Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Triangle8Tuple-class.html">namedTuples.Triangle8Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">namedTuples.Trilaterate5Tuple</a></li><li>, <a href="pygeodesy.namedTuples.UtmUps2Tuple-class.html">namedTuples.UtmUps2Tuple</a></li><li>, <a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">deprecated.UtmUps4Tuple</a></li><li>, <a href="pygeodesy.namedTuples.UtmUps5Tuple-class.html">namedTuples.UtmUps5Tuple</a></li><li>, <a href="pygeodesy.namedTuples.UtmUps8Tuple-class.html">namedTuples.UtmUps8Tuple</a></li><li>, <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html">namedTuples.UtmUpsLatLon5Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Vector2Tuple-class.html">namedTuples.Vector2Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Vector3Tuple-class.html">namedTuples.Vector3Tuple</a></li><li>, <a href="pygeodesy.namedTuples.Vector4Tuple-class.html">namedTuples.Vector4Tuple</a></li><li>, <a href="pygeodesy.ltpTuples.Xyz4Tuple-class.html">ltpTuples.Xyz4Tuple</a></li><li>, <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">ellipsoids.a_f2Tuple</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>(INTERNAL) Base for named <code>tuple</code>s with both index 
+  <i>and</i> attribute name access to the items.</p>
+
+<hr />
+<div class="fields">      <p><strong>Note:</strong>
+        This class is similar to Python's <code>namedtuple</code>, but 
+        statically defined, lighter and limited.
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__delattr__" class="summary-sig-name">__delattr__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Delete an attribute by <b><code>name</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__getattr__"></a><span class="summary-sig-name">__getattr__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Get the value of an attribute or item by <b><code>name</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__getitem__" class="summary-sig-name">__getitem__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">item</span>)</span><br />
+      Get the value of an item by <b><code>name</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Default <code>repr(self)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__setattr__" class="summary-sig-name">__setattr__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">value</span>)</span><br />
+      Set attribute or item <b><code>name</code></b> to 
+      <b><code>value</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Default <code>repr(self)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#items" class="summary-sig-name">items</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield the items, each as a <code>(name, value)</code> pair 
+      (<code>2-tuple</code>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#iteritems" class="summary-sig-name">iteritems</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield the items, each as a <code>(name, value)</code> pair 
+      (<code>2-tuple</code>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#iterunits" class="summary-sig-name">iterunits</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
+      Yield the items, each as a <code>(name, value</code>) pair 
+      (<code>2-tuple</code>) with the value wrapped as an instance of its 
+      <a href="pygeodesy.named._NamedTuple-class.html#units" 
+      class="link">units</a> class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Return this <code>Named-Tuple</code> items as <code>name=value</code>
+      string(s).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Return this <code>Named-Tuple</code> items as string(s).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#toUnits" class="summary-sig-name">toUnits</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
+      Return a copy of this <code>Named-Tuple</code> with each item value 
+      wrapped as an instance of its <a 
+      href="pygeodesy.named._NamedTuple-class.html#units" 
+      class="link">units</a> class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#units" class="summary-sig-name">units</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span><br />
+      Yield the items, each as a <code>(name, value</code>) pair 
+      (<code>2-tuple</code>) with the value wrapped as an instance of its 
+      <a href="pygeodesy.named._NamedTuple-class.html#units" 
+      class="link">units</a> class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
+      <code>__add__</code>,
+      <code>__contains__</code>,
+      <code>__eq__</code>,
+      <code>__ge__</code>,
+      <code>__getattribute__</code>,
+      <code>__getnewargs__</code>,
+      <code>__getslice__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__iter__</code>,
+      <code>__le__</code>,
+      <code>__len__</code>,
+      <code>__lt__</code>,
+      <code>__mul__</code>,
+      <code>__ne__</code>,
+      <code>__rmul__</code>,
+      <code>count</code>,
+      <code>index</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">_Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__init__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">a new object with type S, a subtype of T</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedTuple-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**name_only</span>)</span><br />
+      New <a href="pygeodesy.named._NamedTuple-class.html" 
+      class="link">_NamedTuple</a> initialized with 
+      <b><code>positional</code></b> arguments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.named._NamedTuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="()"><code class="variable-group">(</code><code class="variable-group">)</code></code><br />
+      Tuple specifying the <code>name</code> of each 
+      <code>Named-Tuple</code> item.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.named._NamedTuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="()"><code class="variable-group">(</code><code class="variable-group">)</code></code><br />
+      Tuple defining the <code>units</code> of the value of each 
+      <code>Named-Tuple</code> item.
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.named._NamedTuple-class.html#iteration" class="summary-name">iteration</a><br />
+      Get the iteration number (<code>int</code>) or <code>None</code> if 
+      not available/applicable.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">_Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__delattr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__delattr__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Delete an attribute by <b><code>name</code></b>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__delattr__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Items can not be deleted.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="__getitem__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__getitem__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">item</span>)</span>
+    <br /><em class="fname">(Indexing operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the value of an item by <b><code>name</code></b>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        tuple.__getitem__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>&nbsp;(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**name_only</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <a href="pygeodesy.named._NamedTuple-class.html" 
+  class="link">_NamedTuple</a> initialized with 
+  <b><code>positional</code></b> arguments.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Tuple items (<code>any</code>), all positional arguments.</li>
+        <li><strong class="pname"><code>name_only</code></strong> - Only <code><b>name</b>='name'</code> is used, all other keyword 
+          arguments are <i>silently</i> ignored.</li>
+    </ul></dd>
+    <dt>Returns: a new object with type S, a subtype of T</dt>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Unequal number of positional arguments and number of item 
+        <code>_Names_</code> or <code>_Units_</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <code>_Names_</code> or <code>_Units_</code> attribute is not a
+        <code>tuple</code> of at least 2 items.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Item name is not a <code>str</code> or valid 
+        <code>identifier</code> or starts with <code>underscore</code>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__new__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__repr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Default <code>repr(self)</code>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__repr__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__setattr__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__setattr__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set attribute or item <b><code>name</code></b> to 
+  <b><code>value</code></b>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__setattr__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Default <code>repr(self)</code>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="items"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">items</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the items, each as a <code>(name, value)</code> pair 
+  (<code>2-tuple</code>).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>.units</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="iteritems"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iteritems</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the items, each as a <code>(name, value)</code> pair 
+  (<code>2-tuple</code>).</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>.units</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="iterunits"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iterunits</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the items, each as a <code>(name, value</code>) pair 
+  (<code>2-tuple</code>) with the value wrapped as an instance of its <a 
+  href="pygeodesy.named._NamedTuple-class.html#units" 
+  class="link">units</a> class.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+          href="pygeodesy.named._NamedTuple-class.html#units" 
+          class="link">units</a> issues (<code>UnitError</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <code>Named-Tuple</code> item or <a 
+        href="pygeodesy.named._NamedTuple-class.html#units" 
+        class="link">units</a> class.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>.items</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toRepr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
+        <span class="sig-arg">**unused</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this <code>Named-Tuple</code> items as <code>name=value</code> 
+  string(s).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Tuple items (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toRepr">_Named.toRepr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
+        <span class="sig-arg">**unused</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this <code>Named-Tuple</code> items as string(s).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Tuple items (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toStr">_Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toUnits"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUnits</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a copy of this <code>Named-Tuple</code> with each item value 
+  wrapped as an instance of its <a 
+  href="pygeodesy.named._NamedTuple-class.html#units" 
+  class="link">units</a> class.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+          href="pygeodesy.named._NamedTuple-class.html#units" 
+          class="link">units</a> issues (<code>UnitError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A duplicate of this <code>Named-Tuple</code> 
+          (<code><code>Named-Tuple</code></code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <code>Named-Tuple</code> item or <a 
+        href="pygeodesy.named._NamedTuple-class.html#units" 
+        class="link">units</a> class.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="units"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">units</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the items, each as a <code>(name, value</code>) pair 
+  (<code>2-tuple</code>) with the value wrapped as an instance of its <a 
+  href="pygeodesy.named._NamedTuple-class.html#units" 
+  class="link">units</a> class.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+          href="pygeodesy.named._NamedTuple-class.html#units" 
+          class="link">units</a> issues (<code>UnitError</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <code>Named-Tuple</code> item or <a 
+        href="pygeodesy.named._NamedTuple-class.html#units" 
+        class="link">units</a> class.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>.items</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variable Details</span></td>
+</tr>
+</table>
+<a name="_Names_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Names_</h3>
+  <p>Tuple specifying the <code>name</code> of each 
+  <code>Named-Tuple</code> item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Specify at least 2 item names.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_Units_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Units_</h3>
+  <p>Tuple defining the <code>units</code> of the value of each 
+  <code>Named-Tuple</code> item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="iteration"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">iteration</h3>
+  <p>Get the iteration number (<code>int</code>) or <code>None</code> if 
+  not available/applicable.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">iteration(<span class="summary-sig-arg">self</span>)</span>
+        - Get the iteration number (<code>int</code>) or <code>None</code> if not 
+available/applicable.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:06 2021
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

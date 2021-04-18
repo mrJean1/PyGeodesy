@@ -5,13 +5,13 @@ u'''Test I{local tangent plane} (LTP) classes .
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 from base import TestsBase
 
 from pygeodesy import Aer, EcefFarrell21, EcefFarrell22, EcefKarney, \
                       EcefVeness, EcefSudano, Ecef9Tuple, EcefYou, Enu, \
-                      Frustum, fstr, LatLon_, LocalCartesian, Local6Tuple, \
+                      Frustum, fstr, LatLon_, LocalCartesian, Local9Tuple, \
                       Ltp, Ned, XyzLocal, EcefCartesian  # DEPRECATED, use L{LocalCartesian}
 
 
@@ -43,20 +43,20 @@ class Tests(TestsBase):
         self.test('name', c.name, 'Paris')
         self.test(c.name, fstr((c.lat0, c.lon0, c.height0), prec=3), '48.833, 2.333, 0.0')
 
-        t = c.forward(LatLon_(50.9, 1.8, name='Calais'))  # Local6Tuple
+        t = c.forward(LatLon_(50.9, 1.8, name='Calais'))  # Local9Tuple
         self.test('forward', fstr(t[0:3], prec=2), '-37518.64, 229949.65, -4260.43')
         self.test('name', t.name, 'Calais')
 
-        t = c.reverse(-37518.64, 229949.65, -4260.43)
+        t = c.reverse(-37518.64, 229949.65, -4260.43)  # Local9Tuple
         self.test('reverse', fstr(t[3:6], prec=2), '50.9, 1.8, -0.0', known=Sudano)
         self.test('name', t.name, 'Paris')
 
         t = c.reverse(-38e3, 230e3, -4e3)
-        self.test('reverse', fstr(t[0:3], prec=1), '4028834.2, 126130.9, 4926765.2')
+        self.test('reverse', fstr(t[0:3], prec=1), '-38000.0, 230000.0, -4000.0')
         self.test('reverse', fstr(t[3:6], prec=2), '50.9, 1.79, 264.92', known=Sudano)
 
-        t = c.forward(50.9, 1.79, 264.92)  # Local6Tuple
-        self.test('forward', fstr(t[0:3], prec=1), '-38000.0, 230000.0, -4000.0', known=True)
+        t = c.forward(50.9, 1.79, 264.92)  # Local9Tuple
+        self.test('forward', fstr(t[0:3], prec=1), '-38223.7, 229964.2, -4000.0')
 
         # <https://www.MathWorks.com/help/map/ref/enu2geodetic.html>
         Z = Ltp(46.017, 7.750, 1673, name='Zermatt', **kwds)
@@ -73,8 +73,8 @@ class Tests(TestsBase):
         self.test('_local2ecef', t.toStr(prec=3), Ecef9Tuple.__name__, known=True)
         self.test('_local2ecef', t.__class__.__name__, Ecef9Tuple.__name__)
         t = Z._ecef2local(t, None, {})  # coverage
-        self.test('_ecef2local', t.toStr(prec=3), Local6Tuple.__name__, known=True)
-        self.test('_ecef2local', t.__class__.__name__, Local6Tuple.__name__)
+        self.test('_ecef2local', t.toStr(prec=3), Local9Tuple.__name__, known=True)
+        self.test('_ecef2local', t.__class__.__name__, Local9Tuple.__name__)
 
         t = M.toXyz()  # Matterhorn XYZ/ENU
         self.test('Xyz', t.toStr(prec=3), '(-7134.8, -4556.3, 2852.4, None)', known=Sudano)

@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -105,7 +105,7 @@ class Cartesian(CartesianEllipsoidalBase):
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
                                      C{B{LatLon}=None}.  Use
-                                     B{C{LatLon=...}} to override this
+                                     C{B{LatLon}=...} to override this
                                      L{LatLon} class or specify
                                      C{B{LatLon}=None}.
 
@@ -192,8 +192,8 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(-37.95103, 144.42487)
-           >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
+            >>> p = LatLon(-37.95103, 144.42487)
+            >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
         '''
         return self._direct(distance, bearing, True, height=height).destination
 
@@ -228,13 +228,13 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(-37.95103, 144.42487)
-           >>> b = 306.86816
-           >>> d, f = p.destination2(54972.271, b)
-           >>> d
-           LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
-           >>> f
-           307.1736313846706
+            >>> p = LatLon(-37.95103, 144.42487)
+            >>> b = 306.86816
+            >>> d, f = p.destination2(54972.271, b)
+            >>> d
+            LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
+            >>> f
+            307.1736313846706
         '''
         return self._direct(distance, bearing, True, height=height)
 
@@ -260,9 +260,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(50.06632, -5.71475)
-           >>> q = LatLon(58.64402, -3.07009)
-           >>> d = p.distanceTo(q)  # 969,954.166 m
+            >>> p = LatLon(50.06632, -5.71475)
+            >>> q = LatLon(58.64402, -3.07009)
+            >>> d = p.distanceTo(q)  # 969,954.166 m
         '''
         return self._inverse(other, False, wrap).distance
 
@@ -342,9 +342,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(-37.95103, 144.42487)
-           >>> b = 306.86816
-           >>> f = p.finalBearingOn(54972.271, b)  # 307.1736
+            >>> p = LatLon(-37.95103, 144.42487)
+            >>> b = 306.86816
+            >>> f = p.finalBearingOn(54972.271, b)  # 307.1736
         '''
         return self._direct(distance, bearing, False).final
 
@@ -371,13 +371,13 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = new LatLon(50.06632, -5.71475)
-           >>> q = new LatLon(58.64402, -3.07009)
-           >>> f = p.finalBearingTo(q)  # 11.2972°
+            >>> p = new LatLon(50.06632, -5.71475)
+            >>> q = new LatLon(58.64402, -3.07009)
+            >>> f = p.finalBearingTo(q)  # 11.2972°
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> f = p.finalBearingTo(q)  # 157.9
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> f = p.finalBearingTo(q)  # 157.9
         '''
         return self._inverse(other, True, wrap).final
 
@@ -404,13 +404,13 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(50.06632, -5.71475)
-           >>> q = LatLon(58.64402, -3.07009)
-           >>> b = p.initialBearingTo(q)  # 9.141877°
+            >>> p = LatLon(50.06632, -5.71475)
+            >>> q = LatLon(58.64402, -3.07009)
+            >>> b = p.initialBearingTo(q)  # 9.141877°
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> b = p.initialBearingTo(q)  # 156.11064°
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> b = p.initialBearingTo(q)  # 156.11064°
 
            @JSname: I{bearingTo}.
         '''
@@ -446,9 +446,9 @@ class LatLon(LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = ellipsoidalVincenty.LatLon(52.205, 0.119)
-           >>> q = ellipsoidalVincenty.LatLon(48.857, 2.351)
-           >>> i = p.intermediateTo(q, 0.25)  # 51.372275°N, 000.707253°E
+            >>> p = ellipsoidalVincenty.LatLon(52.205, 0.119)
+            >>> q = ellipsoidalVincenty.LatLon(48.857, 2.351)
+            >>> i = p.intermediateTo(q, 0.25)  # 51.372275°N, 000.707253°E
         '''
         return _intermediateTo(self, other, fraction, height, wrap)
 
@@ -476,10 +476,10 @@ class LatLon(LatLonEllipsoidalBase):
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
                                         and other keyword arguments, ignored
-                                        if B{C{Cartesian=None}}.  Use
-                                        B{C{Cartesian=...}} to override this
+                                        if C{B{Cartesian}=None}.  Use
+                                        C{B{Cartesian}=...} to override this
                                         L{Cartesian} class or specify
-                                        B{C{Cartesian=None}}.
+                                        C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -725,7 +725,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{I{14. MARITIME BOUNDARIES}},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME BOUNDARIES},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.

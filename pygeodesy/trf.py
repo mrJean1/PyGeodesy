@@ -8,8 +8,8 @@ U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/bl
 latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
 
-Following is a copy of I{Veness}' B{U{latlon-ellipsoidal-referenceframe.js
-<https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>}} comments.
+Following is a copy of the comments in I{Veness}' U{latlon-ellipsoidal-referenceframe.js
+<https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>}.
 
 Modern geodetic reference frames: a latitude/longitude point defines a geographic location on,
 above or below the earth’s surface, measured in degrees from the equator and the U{International
@@ -63,7 +63,7 @@ from pygeodesy.units import Epoch
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.01.30'
+__version__ = '21.04.15'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)

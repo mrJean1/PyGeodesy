@@ -22,10 +22,11 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.02.25'
+__version__ = '21.04.14'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
+_has_been_   = 'has been'
 _Warnings    =  0
 _W_DEV       = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
                 and _env.get('PYGEODESY_WARNINGS', NN)
@@ -245,13 +246,13 @@ def property_doc_(doc):
 
        @example:
 
-       >>> @property_doc_("documentation text.")
-       >>> def name(self):
-       >>>     ...
-       >>>
-       >>> @name.setter
-       >>> def name(self, value):
-       >>>     ...
+        >>> @property_doc_("documentation text.")
+        >>> def name(self):
+        >>>     ...
+        >>>
+        >>> @name.setter
+        >>> def name(self, value):
+        >>>     ...
     '''
     # See Luciano Ramalho, "Fluent Python", page 212ff, O'Reilly, 2016,
     # "Parameterized Decorators", especially Example 7-23.  Also, see
@@ -409,12 +410,14 @@ def _qualified(inst, name):
 def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''(INTERNAL) Report or raise a C{DeprecationWarning}.
     '''
-    text = _SPACE_(kind, Fmt.CURLY(L=name), 'has been', doc)
+    line =  doc.split('\n\n', 1)[0].split()
+    text = _SPACE_(kind, Fmt.CURLY(L=name), _has_been_, *line)
     kwds = _xkwds(stacklevel, stacklevel=3)
-    global _Warnings
-    _Warnings += 1
     # XXX _warn or raise DeprecationWarning(text)
     _warn(text, category=DeprecationWarning, **kwds)
+
+    global _Warnings
+    _Warnings += 1
 
 # **) MIT License
 #

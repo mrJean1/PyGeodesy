@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.units.FIx</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.units-module.html">Module&nbsp;units</a> ::
+        Class&nbsp;FIx
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.units.FIx-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class FIx</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+      object --+            
+               |            
+           float --+        
+                   |        
+  object --+       |        
+           |       |        
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+               |   |        
+      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
+                   |        
+               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
+                       |    
+                  <a href="pygeodesy.units.Float_-class.html">Float_</a> --+
+                           |
+                          <strong class="uidshort">FIx</strong>
+</pre>
+
+<hr />
+<p>A named <i>Fractional Index</i>, an <code>int</code> or 
+  <code>float</code> index into a <code>list</code> or <code>tuple</code> 
+  of <code>points</code>, typically.  A <code>float</code> <i>Fractional 
+  Index</i> <code>fi</code> represents a location on the edge between 
+  <code>points[int(fi)]</code> and <code>points[(int(fi) + 1) % 
+  len(points)]</code>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.units.FIx-class.html#fractional" class="summary-sig-name">fractional</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">**LatLon_LatLon_kwds</span>)</span><br />
+      Return the point at this <i>Fractional Index</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
+      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.units.Float-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.units.Float-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
+      <code>__abs__</code>,
+      <code>__add__</code>,
+      <code>__coerce__</code>,
+      <code>__div__</code>,
+      <code>__divmod__</code>,
+      <code>__eq__</code>,
+      <code>__float__</code>,
+      <code>__floordiv__</code>,
+      <code>__format__</code>,
+      <code>__ge__</code>,
+      <code>__getattribute__</code>,
+      <code>__getformat__</code>,
+      <code>__getnewargs__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__int__</code>,
+      <code>__le__</code>,
+      <code>__long__</code>,
+      <code>__lt__</code>,
+      <code>__mod__</code>,
+      <code>__mul__</code>,
+      <code>__ne__</code>,
+      <code>__neg__</code>,
+      <code>__nonzero__</code>,
+      <code>__pos__</code>,
+      <code>__pow__</code>,
+      <code>__radd__</code>,
+      <code>__rdiv__</code>,
+      <code>__rdivmod__</code>,
+      <code>__rfloordiv__</code>,
+      <code>__rmod__</code>,
+      <code>__rmul__</code>,
+      <code>__rpow__</code>,
+      <code>__rsub__</code>,
+      <code>__rtruediv__</code>,
+      <code>__setformat__</code>,
+      <code>__sub__</code>,
+      <code>__truediv__</code>,
+      <code>__trunc__</code>,
+      <code>as_integer_ratio</code>,
+      <code>conjugate</code>,
+      <code>fromhex</code>,
+      <code>hex</code>,
+      <code>is_integer</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__init__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">a new object with type S, a subtype of T</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.units.FIx-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">fi</span>,
+        <span class="summary-sig-arg">fin</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name_Error</span>)</span><br />
+      New <i>Fractional Index</i> in a <code>list</code> or 
+      <code>tuple</code> of points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.FIx-class.html#fin" class="summary-name">fin</a><br />
+      Get the given <code>len</code>, the index <code>[n]</code> wrapped to
+      <code>[0]</code> (<code>int</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
+      <code>imag</code>,
+      <code>real</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>&nbsp;(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">fi</span>,
+        <span class="sig-arg">fin</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name_Error</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <i>Fractional Index</i> in a <code>list</code> or 
+  <code>tuple</code> of points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>float</code> or <code>int</code>).</li>
+        <li><strong class="pname"><code>fin</code></strong> - Optional <code>len</code>, the number of <code>points</code>, the
+          index <code>[n]</code> wrapped to <code>[0]</code> 
+          (<code>int</code> or <code>None</code>).</li>
+        <li><strong class="pname"><code>name_Error</code></strong> - Optional keyword argument <code>name=&lt;name&gt;</code> and/or 
+          <code>Error=&lt;Exception&gt;</code>.</li>
+    </ul></dd>
+    <dt>Returns: a new object with type S, a subtype of T</dt>
+        <dd>The <b><code>fi</code></b> (named <a 
+          href="pygeodesy.units.FIx-class.html" class="link">FIx</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>arg</code></b> below 
+        <b><code>low</code></b> or above <b><code>high</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__new__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The returned <b><code>fi</code></b> may exceed the 
+        <b><code>flen</code></b> of the original <code>points</code> in 
+        certain open/closed cases.
+      </p>
+      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.units.FIx-class.html#fractional" 
+        class="link">fractional</a> or function <a 
+        href="pygeodesy.points-module.html#fractional" 
+        class="link">pygeodesy.fractional</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fractional"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fractional</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">**LatLon_LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the point at this <i>Fractional Index</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
+        <li><strong class="pname"><code>**LatLon_LatLon_kwds</code></strong> - Optional class to return the <i>intermediate</i>, 
+          <i>fractional</i> point (<code>LatLon</code>) or 
+          <code>None</code> and optional <b><code>LatLon</code></b> keyword
+          arguments thereof.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>See function <a href="pygeodesy.points-module.html#fractional" 
+          class="link">pygeodesy.fractional</a>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>IndexError</strong></code> - Fractional index invalid for <b><code>points</code></b> or 
+        <b><code>points</code></b> not subscriptable or not closed.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="fin"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">fin</h3>
+  <p>Get the given <code>len</code>, the index <code>[n]</code> wrapped to 
+  <code>[0]</code> (<code>int</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:06 2021
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

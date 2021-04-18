@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.04.10'
+__version__ = '21.04.17'
 
 
 def _c2(*names):
@@ -77,10 +77,11 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soldner',
-             'sphere', 'sphere-intersections', 'stereographic', 'spherical_deficit', 'spherical_excess',
-             'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
+             'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
+             'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
-             'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',
+             'Transverse', 'TransverseMercatorExact', 'TRF', 'triangle', 'triangulate', 'trigonometry',
+             'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'volume', ' volumetric',
@@ -134,7 +135,7 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '3.9'),
                    _c2('Topic', 'Software Development'),
                    _c2('Topic', 'Scientific/Engineering', 'GIS'),
-      ],
+      ],  # PYCHOK indent
 
 #     download_url='https://GitHub.com/mrJean1/PyGeodesy',
 #     entry_points={},
@@ -142,4 +143,4 @@ setup(name='PyGeodesy',
 #     install_requires=[],
 #     namespace_packages=[],
 #     py_modules=[],
-)
+)  # PYCHOK indent

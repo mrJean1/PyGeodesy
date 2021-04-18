@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.sphericalNvector.Cartesian</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.sphericalNvector-module.html">Module&nbsp;sphericalNvector</a> ::
+        Class&nbsp;Cartesian
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.sphericalNvector.Cartesian-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Cartesian</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+          object --+                    
+                   |                    
+        <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+                       |                
+        <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                           |            
+           <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+        
+                               |        
+     <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a> --+    
+                                   |    
+<a href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html">sphericalBase.CartesianSphericalBase</a> --+
+                                       |
+                                      <strong class="uidshort">Cartesian</strong>
+</pre>
+
+<hr />
+<p>Extended to convert geocentric, <a 
+  href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+  class="link">Cartesian</a> points to <a 
+  href="pygeodesy.sphericalNvector.Nvector-class.html" 
+  class="link">Nvector</a> and n-vector-based, spherical <a 
+  href="pygeodesy.sphericalNvector.LatLon-class.html" 
+  class="link">LatLon</a>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.Cartesian-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      Convert this cartesian to an <code>Nvector</code>-based geodetic 
+      point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.Cartesian-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**Nvector_and_kwds</span>)</span><br />
+      Convert this cartesian to <a 
+      href="pygeodesy.sphericalNvector.Nvector-class.html" 
+      class="link">Nvector</a> components, <i>including height</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html">sphericalBase.CartesianSphericalBase</a></code></b>:
+      <code><a href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html#intersections2">intersections2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#destinationXyz">destinationXyz</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toDatum">toDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLocal">toLocal</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLtp">toLtp</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector">toVector</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__">__abs__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__cmp__">__cmp__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__div__">__div__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__ge__">__ge__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__gt__">__gt__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__le__">__le__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__lt__">__lt__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__mul__">__mul__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__pos__">__pos__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__radd__">__radd__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__rsub__">__rsub__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__sub__">__sub__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__truediv__">__truediv__</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#cmp">cmp</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#cross">cross</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#dividedBy">dividedBy</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#dot">dot</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith">iscolinearWith</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#minus">minus</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn">nearestOn</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#negate">negate</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#plus">plus</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#rotate">rotate</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#rotateAround">rotateAround</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#sum">sum</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#to2ll">to2ll</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#unit">unit</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum">latlonheightdatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheightdatum">philamheightdatum</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#length">length</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#length2">length2</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="toLatLon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this cartesian to an <code>Nvector</code>-based geodetic 
+  point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>, <b><code>datum</code></b> and other 
+          keyword arguments.  Use <code><b>LatLon</b>=...</code> to 
+          override this <a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a> class or specify 
+          <code><b>LatLon</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The geodetic point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or if <b><code>LatLon</code></b> is set 
+          to <code>None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon_and_kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon">cartesianBase.CartesianBase.toLatLon</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**Nvector_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this cartesian to <a 
+  href="pygeodesy.sphericalNvector.Nvector-class.html" 
+  class="link">Nvector</a> components, <i>including height</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Nvector_and_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>, <b><code>datum</code></b> and other 
+          keyword arguments.  Use <code><b>Nvector</b>=...</code> to 
+          override this <a 
+          href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a> class or specify 
+          <code><b>Nvector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code>n-vector</code> components (<a 
+          href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>) or if <b><code>Nvector</code></b> is 
+          set to <code>None</code>, a <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector_and_kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector">cartesianBase.CartesianBase.toNvector</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:06 2021
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -901,8 +901,9 @@
         <code>TMExact</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Frustum-class.html">pygeodesy.ltp.Frustum</a></strong>:
-      <em class="summary">A rectangular pyramid, typically representing a camera's field of 
-        view (fov) and projections or intersections thereof.</em>
+      <em class="summary">A rectangular pyramid, typically representing a camera's <i>field 
+        of view</i> (fov) and the intersection with (or projection to) a 
+        <i>local tangent plane</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>LatLon</code> points on spherical 
@@ -971,8 +972,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.LocalCartesian-class.html">pygeodesy.ltp.LocalCartesian</a></strong>:
       <em class="summary">Conversion between geodetic <code>(lat, lon, height)</code> and 
         <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
-        geodetic origin <code>(lat0, lon0, height0)</code>, transcribed 
-        from <i>Karney</i>'s C++ class <a 
+        <i>geodetic</i> origin <code>(lat0, lon0, height0)</code>, 
+        transcribed from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.</em>
     <ul>
@@ -1583,17 +1584,20 @@
         <code>height</code> or <code>radius</code> in <code>meter</code> 
         (or <code>None</code> if missing).</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local6Tuple-class.html">pygeodesy.ltpTuples.Local6Tuple</a></strong>:
-      <em class="summary">6-Tuple <code>(x, y, z, ltp, ecef, M)</code> with <i>local</i> 
-        <code>x</code>, <code>y</code> and <code>z</code> all in 
-        <code>meter</code>, <i>local tangent plane</i> <code>ltp</code> (<a
-        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
-        <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-        class="link">Ecef9Tuple</a>) with both the <i>geocentric</i> and 
-        <i>geodectic</i> coordinates and optionally, the concatenated 
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">pygeodesy.ltpTuples.Local9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(x, y, z, lat, lon, height, ltp, ecef, M)</code> with
+        <i>local</i> <code>x</code>, <code>y</code>, <code>z</code> all in 
+        <code>meter</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <code>height</code>, <i>local tangent plane</i> 
+        <code>ltp</code> (<a href="pygeodesy.ltp.Ltp-class.html" 
+        class="link">Ltp</a>), <code>ecef</code> (<a 
+        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a>) with <i>geocentric</i> <code>x</code>,
+        <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <code>height</code> and <i>concatenated</i> 
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
-        class="link">EcefMatrix</a>).</em>
+        class="link">EcefMatrix</a>) or <code>None</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -2512,17 +2516,20 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>height</code> or <code>radius</code> in <code>meter</code> 
         (or <code>None</code> if missing).</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local6Tuple-class.html">pygeodesy.ltpTuples.Local6Tuple</a></strong>:
-      <em class="summary">6-Tuple <code>(x, y, z, ltp, ecef, M)</code> with <i>local</i> 
-        <code>x</code>, <code>y</code> and <code>z</code> all in 
-        <code>meter</code>, <i>local tangent plane</i> <code>ltp</code> (<a
-        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
-        <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-        class="link">Ecef9Tuple</a>) with both the <i>geocentric</i> and 
-        <i>geodectic</i> coordinates and optionally, the concatenated 
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">pygeodesy.ltpTuples.Local9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(x, y, z, lat, lon, height, ltp, ecef, M)</code> with
+        <i>local</i> <code>x</code>, <code>y</code>, <code>z</code> all in 
+        <code>meter</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <code>height</code>, <i>local tangent plane</i> 
+        <code>ltp</code> (<a href="pygeodesy.ltp.Ltp-class.html" 
+        class="link">Ltp</a>), <code>ecef</code> (<a 
+        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a>) with <i>geocentric</i> <code>x</code>,
+        <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <code>height</code> and <i>concatenated</i> 
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
-        class="link">EcefMatrix</a>).</em>
+        class="link">EcefMatrix</a>) or <code>None</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -2736,7 +2743,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:40 2021
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:01 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

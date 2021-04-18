@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
-and local coordinate tuples L{Local6Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
+and local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
 L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 
 @see: References in module L{ltp}.
@@ -12,24 +12,26 @@ from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypesError, _xkwds
 from pygeodesy.fmath import hypot, hypot_
-from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, \
+from pygeodesy.interns import NN, _4_, _azimuth_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, \
-                             _ltp_, _M_, _name_, _north_, _up_, \
-                             _x_, _xyz_, _y_, _z_, _4_, _0_0, _90_0
+                             _height_, _lat_, _lon_, _ltp_, _M_, \
+                             _name_, _north_, _up_, _x_, _xyz_, \
+                             _y_, _z_, _0_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
-# from pygeodesy.namedTuples import Vector3Tuple  # from vector3d
+from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Degrees_, Meter, Meter_
+from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, \
+                            Lon, Meter, Meter_
 from pygeodesy.utily import atan2d, atan2b, sincos2d
-from pygeodesy.vector3d import Vector3d, Vector3Tuple
+from pygeodesy.vector3d import Vector3d
 
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 _aer_        = 'aer'
 _slantrange_ = 'slantrange'
@@ -39,7 +41,7 @@ def _er2gr(e, r):
     '''(INTERNAL) Elevation and slant range to ground range.
     '''
     c = cos(radians(e))
-    return Meter(groundrange=r * c)
+    return Meter_(groundrange=r * c)
 
 
 def _4Tuple2Cls(inst, Cls, Cls_kwds):
@@ -55,8 +57,8 @@ def _4Tuple2Cls(inst, Cls, Cls_kwds):
         return inst.xyzLocal.toNed(Ned=Cls, **Cls_kwds)
     elif issubclassof(Cls, XyzLocal):
         return inst.xyzLocal.toXyz(Xyz=Cls, **Cls_kwds)
-    elif Cls is Local6Tuple:
-        return inst.xyzLocal.toLocal6Tuple(**Cls_kwds)
+    elif Cls is Local9Tuple:
+        return inst.xyzLocal.toLocal9Tuple(**Cls_kwds)
     n = inst.__class__.__name__[:3]
     raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
 
@@ -67,7 +69,7 @@ def _xyz2aer4(inst):
     x, y, z, _ = inst.xyz4
     A = Bearing(azimuth=atan2b(x, y))
     E = Degrees(elevation=atan2d(z, hypot(x, y)))
-    R = Meter_(slantrange=hypot_(x, y, z))
+    R = Meter(slantrange=hypot_(x, y, z))
     return Aer4Tuple(A, E, R, inst.ltp, name=inst.name)
 
 
@@ -374,7 +376,7 @@ class Ned(_NamedBase):
     def groundrange(self):
         '''Get the I{ground range}, distance (C{meter}).
         '''
-        return Meter_(groundrange=hypot(self.north, self.east))
+        return Meter(groundrange=hypot(self.north, self.east))
 
     @deprecated_Property_RO
     def length(self):
@@ -545,7 +547,7 @@ class XyzLocal(Vector3d):
         '''New L{XyzLocal}.
 
            @arg xyz: Scalar X component (C{meter}), C{east} or a local (L{XyzLocal},
-                     L{Xyz4Tuple}, L{Enu}, L{Enu4Tuple}, L{Local6Tuple}).
+                     L{Xyz4Tuple}, L{Enu}, L{Enu4Tuple}, L{Local9Tuple}).
            @kwarg y: Scalar Y component (C{meter}) if scalar B{C{xyz}}, C{north}.
            @kwarg z: Scalar Z component if scalar B{C{xyz}}, normal C{up} from the
                      surface of the ellipsoid or sphere (C{meter}).
@@ -558,7 +560,7 @@ class XyzLocal(Vector3d):
         '''
         try:
             self._x, self._y, self._z = xyz.x, xyz.y, xyz.z
-            _xinstanceof(XyzLocal, Xyz4Tuple, Enu, Enu4Tuple, Local6Tuple, Ned,
+            _xinstanceof(XyzLocal, Xyz4Tuple, Enu, Enu4Tuple, Local9Tuple, Ned,
                       **{self._toStr: xyz})
             p = getattr(xyz, _ltp_, ltp)
             n = getattr(xyz, _name_, name)
@@ -639,7 +641,7 @@ class XyzLocal(Vector3d):
     def groundrange(self):
         '''Get the I{ground range}, distance (C{meter}).
         '''
-        return Meter_(groundrange=hypot(self.x, self.y))
+        return Meter(groundrange=hypot(self.x, self.y))
 
     @Property_RO
     def ltp(self):
@@ -685,7 +687,7 @@ class XyzLocal(Vector3d):
            @kwarg Cartesian: Optional class to return C{(x, y, z)} (C{Cartesian})
                              or C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
-                       overriding this ENU/NED/AER/XYZ's LTP.
+                       overriding this C{ltp}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
                                   arguments, ignored if C{B{Cartesian}=None}.
 
@@ -696,10 +698,10 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}.
         '''
         ltp = self._xLtp(self.ltp if ltp is None else ltp)
-        x, y, z = ltp._local2ecef(self)
         if Cartesian is None:
-            r = ltp.ecef.reverse(x, y, z, M=False)
+            r = ltp._local2ecef(self, nine=True)
         else:
+            x, y, z = ltp._local2ecef(self)
             kwds = _xkwds(Cartesian_kwds, datum=ltp.datum)
             r = Cartesian(x, y, z, **kwds)
         return _xnamed(r, self.name or ltp.name)
@@ -719,7 +721,7 @@ class XyzLocal(Vector3d):
     def toLatLon(self, LatLon=None, ltp=None, **LatLon_kwds):
         '''Get the geodetic C{(lat, lon, height)} coordinates if this local.
 
-            @kwarg LatLon: Optional class to return C{(x, y, z)} (C{LatLon})
+           @kwarg LatLon: Optional class to return C{(x, y, z)} (C{LatLon})
                           or C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
                        overriding this ENU/NED/AER/XYZ's LTP.
@@ -733,8 +735,7 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}.
         '''
         ltp = self._xLtp(self.ltp if ltp is None else ltp)
-        x, y, z = ltp._local2ecef(self)
-        r = ltp.ecef.reverse(x, y, z, M=False)
+        r = ltp._local2ecef(self, nine=True)
         if LatLon is None:
             r = _xnamed(r, self.name or ltp.name)
         else:
@@ -743,15 +744,20 @@ class XyzLocal(Vector3d):
             r = LatLon(r.lat, r.lon, **kwds)  # XXX ltp?
         return r
 
-    def toLocal6Tuple(self, M=None, name=NN):
-        '''Get this local as a C{Local6Tuple}.
+    def toLocal9Tuple(self, M=False, name=NN):
+        '''Get this local as a C{Local9Tuple}.
 
-           @kwarg M: Optional rotation matrix (L{EcefMatrix}).
+           @kwarg M: Optionally include the rotation matrix (C{bool}).
            @kwarg name: Optional name (C{str}).
 
-           @return: L{Local6Tuple}C{(x, y, z, ltp, ecef, M)} with C{M=B{M}}.
+           @return: L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp,
+                    ecef, M)} with C{ltp} this C{Ltp}, C{ecef} an
+                    L{Ecef9Tuple} and C{M} L{EcefMatrix} or C{None}.
         '''
-        return Local6Tuple(self.x, self.y, self.z, self.ltp, self.ecef, M, name=name)
+        ltp = self.ltp  # see C{self.toLatLon}
+        t = ltp._local2ecef(self, nine=True, M=M)
+        return Local9Tuple(self.x, self.y, self.z, t.lat, t.lon, t.height,
+                                           ltp, t, t.M, name=name or t.name)
 
     def toNed(self, Ned=None, **Ned_kwds):
         '''Get the local I{North, East, Down} (Ned) components.
@@ -782,7 +788,7 @@ class XyzLocal(Vector3d):
         return _xzipairs(a.upper(), t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this ENU/NED/XYZ.
+        '''Return a string representation of this ENU/XYZ.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg fmt: Optional enclosing backets format (C{str}).
@@ -813,11 +819,11 @@ class XyzLocal(Vector3d):
         '''
         return Meter(up=self.z)
 
-    @Property_RO
-    def x(self):
-        '''Get the X component (C{meter}).
-        '''
-        return self._x
+#   @Property_RO
+#   def x(self):  # see: Vector3d.x
+#       '''Get the X component (C{meter}).
+#       '''
+#       return self._x
 
     @Property_RO
     def _xLtp(self):
@@ -844,17 +850,17 @@ class XyzLocal(Vector3d):
         '''
         return self
 
-    @Property_RO
-    def y(self):
-        '''Get the Y component (C{meter}).
-        '''
-        return self._y
-
-    @Property_RO
-    def z(self):
-        '''Get the Z component (C{meter}).
-        '''
-        return self._z
+#   @Property_RO
+#   def y(self):  # see: Vector3d.y
+#       '''Get the Y component (C{meter}).
+#       '''
+#       return self._y
+#
+#   @Property_RO
+#   def z(self):  # see: Vector3d.z
+#       '''Get the Z component (C{meter}).
+#       '''
+#       return self._z
 
 
 class Xyz4Tuple(_NamedTuple):
@@ -890,7 +896,7 @@ class Enu(XyzLocal):
         '''New L{Enu}.
 
            @arg enu: Scalar East component (C{meter}) or a local (L{Enu},
-                     (L{XyzLocal}, L{Local6Tuple}).
+                     (L{XyzLocal}, L{Local9Tuple}).
            @kwarg north: Scalar North component (C{meter}) if scalar B{C{enu}}.
            @kwarg up: Scalar Up component if scalar B{C{enu}}, normal from the
                       surface of the ellipsoid or sphere (C{meter}).
@@ -930,14 +936,15 @@ class Enu4Tuple(_NamedTuple):
         return XyzLocal(*self, name=self.name)
 
 
-class Local6Tuple(_NamedTuple):
-    '''6-Tuple C{(x, y, z, ltp, ecef, M)} with I{local} C{x}, C{y} and C{z} all
-       in C{meter}, I{local tangent plane} C{ltp} (L{Ltp}), C{ecef} (L{Ecef9Tuple})
-       with both the I{geocentric} and I{geodectic} coordinates and optionally,
-       the concatenated rotation matrix C{M} (L{EcefMatrix}).
+class Local9Tuple(_NamedTuple):
+    '''9-Tuple C{(x, y, z, lat, lon, height, ltp, ecef, M)} with I{local} C{x},
+       C{y}, C{z} all in C{meter}, I{geodetic} C{lat}, C{lon}, C{height}, I{local
+       tangent plane} C{ltp} (L{Ltp}), C{ecef} (L{Ecef9Tuple}) with I{geocentric}
+       C{x}, C{y}, C{z}, I{geodetic} C{lat}, C{lon}, C{height} and I{concatenated}
+       rotation matrix C{M} (L{EcefMatrix}) or C{None}.
     '''
-    _Names_ = (_x_,   _y_,   _z_,    _ltp_, _ecef_, _M_)
-    _Units_ = ( Meter, Meter, Meter, _Pass, _Pass,  _Pass)
+    _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _ltp_, _ecef_, _M_)
+    _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,  _Pass, _Pass,  _Pass)
 
     @Property_RO
     def azimuth(self):
@@ -970,10 +977,46 @@ class Local6Tuple(_NamedTuple):
         return self.xyzLocal.aer4.groundrange
 
     @Property_RO
+    def lam(self):
+        '''Get the I{geodetic} longitude in C{radians} (C{float}).
+        '''
+        return self.philam.lam
+
+    @Property_RO
+    def latlon(self):
+        '''Get the I{geodetic} lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.lat, self.lon, name=self.name)
+
+    @Property_RO
+    def latlonheight(self):
+        '''Get the I{geodetic} lat-, longitude in C{degrees} and height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self.latlon.to3Tuple(self.height)
+
+    @Property_RO
     def north(self):
         '''Get the I{local} North, C{y} component (C{meter}).
         '''
         return self.y
+
+    @Property_RO
+    def phi(self):
+        '''Get the I{geodetic} latitude in C{radians} (C{float}).
+        '''
+        return self.philam.phi
+
+    @Property_RO
+    def philam(self):
+        '''Get the I{geodetic} lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return PhiLam2Tuple(radians(self.lat), radians(self.lon), name=self.name)
+
+    @Property_RO
+    def philamheight(self):
+        '''Get the I{geodetic} lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self.philam.to3Tuple(self.height)
 
     @Property_RO
     def slantrange(self):
@@ -988,7 +1031,7 @@ class Local6Tuple(_NamedTuple):
            @kwarg Aer_kwds: Optional, additional B{L{Aer}} keyword
                             arguments, ignored if B{C{Aer}} is C{None}.
 
-           @return: AER as an L{Aer} instance or if B{C{Aer=None}},
+           @return: AER as an L{Aer} instance or if C{B{Aer}=None},
                     an L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
         '''
         return self.xyzLocal.toAer(Aer=Aer, **Aer_kwds)
@@ -1001,20 +1044,21 @@ class Local6Tuple(_NamedTuple):
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
                                   arguments, ignored if C{B{Cartesian}=None}.
 
-           @return: A B{C{Cartesian}} instance of if C{B{Cartesian}=None}, an
-                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with C{M=None}, always.
+           @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance
+                    or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian}=None}.
+
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
-        return self.xyzLocal.toCartesian(Cartesian=Cartesian, **Cartesian_kwds)
+        return self.ecef.toCartesian(Cartesian=Cartesian, **Cartesian_kwds)  # PYCHOK _Tuple
 
     def toEnu(self, Enu=None, **Enu_kwds):
         '''Get the I{local} I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
            @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
-                            arguments, ignored if B{C{Enu}} is C{None}.
+                            arguments, ignored if C{B{Enu}=None}.
 
-           @return: ENU as an L{Enu} instance or if B{C{Enu=None}},
+           @return: ENU as an L{Enu} instance or if C{B{Enu}=None},
                     an L{Enu4Tuple}C{(east, north, up, ltp)}.
         '''
         return self.xyzLocal.toEnu(Enu=Enu, **Enu_kwds)
@@ -1027,11 +1071,14 @@ class Local6Tuple(_NamedTuple):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon}=None}.
 
-           @return: An B{C{LatLon}} instance of if C{B{LatLon}=None}, an
-                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{M=None}, always.
+           @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
+                    or if C{B{LatLon}=None}, a L{LatLon3Tuple}C{(lat, lon,
+                    height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
+                    datum)} depending on whether C{datum} is un-/specified.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        return self.xyzLocal.toLatLon(LatLon=LatLon, **LatLon_kwds)
+        return self.ecef.toLatLon(LatLon=LatLon, **LatLon_kwds)  # PYCHOK _Tuple
 
     def toNed(self, Ned=None, **Ned_kwds):
         '''Get the I{local} I{North, East, Down} (NED) components.
@@ -1040,7 +1087,7 @@ class Local6Tuple(_NamedTuple):
            @kwarg Ned_kwds: Optional, additional B{L{Ned}} keyword
                             arguments, ignored if B{C{Ned}} is C{None}.
 
-           @return: NED as an L{Ned} instance or if B{C{Ned=None}},
+           @return: NED as an L{Ned} instance or if C{B{Ned}=None},
                     an L{Ned4Tuple}C{(north, east, down, ltp)}.
         '''
         return self.xyzLocal.toNed(Ned=Ned, **Ned_kwds)
@@ -1071,13 +1118,13 @@ class Local6Tuple(_NamedTuple):
 
     @Property_RO
     def xyzLocal(self):
-        '''Get this L{Local6Tuple} as an L{XyzLocal}.
+        '''Get this L{Local9Tuple} as an L{XyzLocal}.
         '''
         return XyzLocal(self)
 
 
 _XyzLocals4 =  XyzLocal, Enu, Ned, Aer  # PYCHOK in .ltp
-_XyzLocals5 = _XyzLocals4 + (Local6Tuple,)  # PYCHOK in .ltp
+_XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
 
 
 class Footprint5Tuple(_NamedTuple):

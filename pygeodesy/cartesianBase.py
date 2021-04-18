@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 
 class CartesianBase(Vector3d):
@@ -114,15 +114,15 @@ class CartesianBase(Vector3d):
         '''Calculate the destination using a I{local} delta from this cartesian.
 
            @arg delta: Local delta to the destination (L{XyzLocal}, L{Enu},
-                       L{Ned} or L{Local6Tuple}).
+                       L{Ned} or L{Local9Tuple}).
            @kwarg Cartesian: Optional (geocentric) class to return the
                              destination or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
                                   arguments, ignored if C{B{Cartesian}=None}.
 
-           @return: Destination as a C{Cartesian}C{(x, y, z, **Cartesian_kwds)}
-                    instance or if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x,
-                    y, z, lat, lon, height, C, M, datum)}.
+           @return: Destination as a C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})}
+                    instance or if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y,
+                    z, lat, lon, height, C, M, datum)} with C{M=None} always.
 
            @raise TypeError: Invalid B{C{delta}}, B{C{Cartesian}} or
                              B{C{Cartesian_kwds}}.
@@ -380,8 +380,8 @@ class CartesianBase(Vector3d):
                             arguments, ignored if C{B{Xyz}=None}.
 
            @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
-                    a L{Local6Tuple}C{(x, y, z, ltp, ecef, M)}
-                    with C{M=None} always.
+                    a L{Local9Tuple}C{(x, y, z, lat, lon, height,
+                    ltp, ecef, M)} with C{M=None} always.
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
@@ -409,7 +409,7 @@ class CartesianBase(Vector3d):
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}) overriding this cartesian's datum.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if B{C{Nvector=None}}.
+                                arguments, ignored if C{B{Nvector}=None}.
 
            @return: The C{unit, n-vector} components (B{C{Nvector}}) or a
                     L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}} is C{None}.
@@ -420,8 +420,8 @@ class CartesianBase(Vector3d):
 
            @example:
 
-           >>> c = Cartesian(3980581, 97, 4966825)
-           >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
+            >>> c = Cartesian(3980581, 97, 4966825)
+            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
         r =  self._N_vector.xyzh if d == self.datum else self._n_xyzh4(d)

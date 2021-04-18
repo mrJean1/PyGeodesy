@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.02.24'
+__version__ = '21.04.15'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -69,9 +69,9 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @example:
 
-           >>> from pygeodesy.sphericalNvector import Nvector
-           >>> v = Nvector(0.5, 0.5, 0.7071, 1)
-           >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
+            >>> from pygeodesy.sphericalNvector import Nvector
+            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
+            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         x, y, z, h, d, n = _xyzhdn6(x, y, z, h, datum, ll)
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
@@ -219,7 +219,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @deprecated_method
     def to3abh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use method L{philamheight} or C{philam.to3Tuple}C{(}B{C{height}}C{)}.
+        '''DEPRECATED, use method L{philamheight} or C{philam.to3Tuple(B{height})}.
 
            @kwarg height: Optional height, overriding this
                           n-vector's height (C{meter}).
@@ -240,7 +240,7 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg datum: Optional datum (C{Datum}), overriding this datum.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
-                                  B{C{Cartesian=None}}.
+                                  C{B{Cartesian}=None}.
 
            @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
                     if B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y,
@@ -253,9 +253,9 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @example:
 
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
-           >>> p = c.toLatLon()  # 45.0°N, 45.0°E
+            >>> v = Nvector(0.5, 0.5, 0.7071)
+            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
+            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
         E =  d.ellipsoid
@@ -320,8 +320,8 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @example:
 
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
+             >>> v = Nvector(0.5, 0.5, 0.7071)
+             >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
         h =  self.h if height is None else Height(height)
@@ -465,7 +465,7 @@ class LatLonNvectorBase(LatLonBase):
            height}.
 
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if B{C{Nvector=None}}.
+                                arguments, ignored if C{B{Nvector}=None}.
 
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
                     B{C{Nvector}} is C{None}.
@@ -492,9 +492,9 @@ class LatLonNvectorBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-           >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
-           >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
+            >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
+            >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
+            >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
         '''
         return _triangulate(self, bearing1, self.others(other), bearing2,
                                   height=height, LatLon=self.classof)
@@ -549,7 +549,7 @@ class LatLonNvectorBase(LatLonBase):
            @raise IntersectionError: No intersection, trilateration failed.
 
            @raise NotImplementedError: Keyword argument C{B{area}=True} or
-                                       B{C{wrap}=True} not (yet) supported.
+                                       C{B{wrap}=True} not (yet) supported.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 

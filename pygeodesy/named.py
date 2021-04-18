@@ -29,7 +29,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.02.17'
+__version__ = '21.04.14'
 
 _at_       = 'at'
 _del_      = 'del'
@@ -53,7 +53,7 @@ def _xjoined_(prefix, name):
 
 
 def _xnamed(inst, name, force=False):
-    '''(INTERNAL) Set the instance' C{.name = }B{C{name}}.
+    '''(INTERNAL) Set the instance' C{.name = B{name}}.
 
        @arg inst: The instance (C{_Named}).
        @arg name: The name (C{str}).

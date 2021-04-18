@@ -38,7 +38,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -127,7 +127,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
+            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
         if datum not in (None, self._datum):
@@ -377,7 +377,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
                  calculating-intersection-of-two-circles>}, U{Karney's paper
-                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{I{14. MARITIME BOUNDARIES}},
+                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME BOUNDARIES},
                  U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
                  U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
                  intersections.
@@ -524,8 +524,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-           >>> p.toDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
+            >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
+            >>> p.toDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
         d2 = _ellipsoidal_datum(datum2, name=self.name)
         if self.datum == d2:
@@ -577,8 +577,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
-           >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
+            >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
+            >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
         '''
         from pygeodesy.trf import RefFrame, _reframeTransforms2
         _xinstanceof(RefFrame, reframe2=reframe2)

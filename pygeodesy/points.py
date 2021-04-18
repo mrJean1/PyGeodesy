@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.02.27'
+__version__ = '21.04.15'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -271,7 +271,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @kwarg Nvector: Optional class to return the C{n-vector}
                            components (C{Nvector}) or C{None}.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if B{C{Nvector=None}}.
+                                arguments, ignored if C{B{Nvector}=None}.
 
            @return: The C{n-vector} components B{C{Nvector}} or if
                     B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x,
@@ -954,15 +954,15 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
 
            @example:
 
-           >>> type(array)
-           <type 'numpy.ndarray'>  # <class ...> in Python 3+
-           >>> points = Numpy2LatLon(array, lat=0, lon=1)
-           >>> simply = simplifyRDP(points, ...)
-           >>> type(simply)
-           <type 'numpy.ndarray'>  # <class ...> in Python 3+
-           >>> sliced = points[1:-1]
-           >>> type(sliced)
-           <class '...Numpy2LatLon'>
+            >>> type(array)
+            <type 'numpy.ndarray'>  # <class ...> in Python 3+
+            >>> points = Numpy2LatLon(array, lat=0, lon=1)
+            >>> simply = simplifyRDP(points, ...)
+            >>> type(simply)
+            <type 'numpy.ndarray'>  # <class ...> in Python 3+
+            >>> sliced = points[1:-1]
+            >>> type(sliced)
+            <class '...Numpy2LatLon'>
         '''
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
@@ -1002,8 +1002,8 @@ class Tuple2LatLon(_Array2LatLon):
            @kwarg ilon: Optional index of the longitudes value (C{int}).
            @kwarg LatLon: Optional C{LatLon} class to use (L{LatLon_}).
 
-           @raise IndexError: If I{(len(B{C{tuples}}), min(len(t) for t
-                              in B{C{tuples}}))} is not (1+, 2+).
+           @raise IndexError: If C{(len(B{tuples}), min(len(t) for t
+                              in B{tuples}))} is not (1+, 2+).
 
            @raise TypeError: If B{C{tuples}} is not a C{list}, C{tuple}
                              or C{sequence} or if B{C{LatLon}} is not a
@@ -1015,28 +1015,28 @@ class Tuple2LatLon(_Array2LatLon):
 
            @example:
 
-           >>> tuples = [(0, 1), (2, 3), (4, 5)]
-           >>> type(tuples)
-           <type 'list'>  # <class ...> in Python 3+
-           >>> points = Tuple2LatLon(tuples, lat=0, lon=1)
-           >>> simply = simplifyRW(points, 0.5, ...)
-           >>> type(simply)
-           <type 'list'>  # <class ...> in Python 3+
-           >>> simply
-           [(0, 1), (4, 5)]
-           >>> sliced = points[1:-1]
-           >>> type(sliced)
-           <class '...Tuple2LatLon'>
-           >>> sliced
-           ...Tuple2LatLon([(2, 3), ...][1], ilat=0, ilon=1)
+            >>> tuples = [(0, 1), (2, 3), (4, 5)]
+            >>> type(tuples)
+            <type 'list'>  # <class ...> in Python 3+
+            >>> points = Tuple2LatLon(tuples, lat=0, lon=1)
+            >>> simply = simplifyRW(points, 0.5, ...)
+            >>> type(simply)
+            <type 'list'>  # <class ...> in Python 3+
+            >>> simply
+            [(0, 1), (4, 5)]
+            >>> sliced = points[1:-1]
+            >>> type(sliced)
+            <class '...Tuple2LatLon'>
+            >>> sliced
+            ...Tuple2LatLon([(2, 3), ...][1], ilat=0, ilon=1)
 
-           >>> closest, _ = nearestOn2(LatLon_(2, 1), points, adjust=False)
-           >>> closest
-           LatLon_(lat=1.0, lon=2.0)
+            >>> closest, _ = nearestOn2(LatLon_(2, 1), points, adjust=False)
+            >>> closest
+            LatLon_(lat=1.0, lon=2.0)
 
-           >>> closest, _ = nearestOn2(LatLon_(3, 2), points)
-           >>> closest
-           LatLon_(lat=2.001162, lon=3.001162)
+            >>> closest, _ = nearestOn2(LatLon_(3, 2), points)
+            >>> closest
+            LatLon_(lat=2.001162, lon=3.001162)
         '''
         _xinstanceof(list, tuple, tuples=tuples)
         s = len(tuples), min(len(_) for _ in tuples)
@@ -1142,9 +1142,9 @@ def boundsOf(points, wrap=True, LatLon=None):
 
        @example:
 
-       >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-       >>> boundsOf(b)  # False
-       >>> 45.0, 1.0, 46.0, 2.0
+        >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+        >>> boundsOf(b)  # False
+        >>> 45.0, 1.0, 46.0, 2.0
     '''
     Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
     lox, loy, _ = hix, hiy, _ = Ps[0]
@@ -1247,10 +1247,10 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
                            ignored of C{B{LatLon}=None}.
 
        @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
-                L{LatLon2Tuple}C{(lat, lon)} for B{C{points[fi]}} if
+                L{LatLon2Tuple}C{(lat, lon)} for C{B{points}[B{fi}]} if
                 I{fractional} index B{C{fi}} is C{int}, otherwise the
-                intermediate point between B{C{points[int(fi)]}} and
-                B{C{points[int(fi) + 1]}} for C{float} I{fractional}
+                intermediate point between C{B{points}[int(B{fi})]} and
+                C{B{points}[int(B{fi}) + 1]} for C{float} I{fractional}
                 index B{C{fi}}.
 
        @raise IndexError: Fractional index B{C{fi}} invalid or
@@ -1289,9 +1289,9 @@ def isclockwise(points, adjust=False, wrap=True):
 
        @example:
 
-       >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-       >>> isclockwise(f)  # False
-       >>> isclockwise(reversed(f))  # True
+        >>> f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+        >>> isclockwise(f)  # False
+        >>> isclockwise(reversed(f))  # True
     '''
     a, pts = _area2(points, adjust, wrap)
     if a > 0:
@@ -1320,11 +1320,11 @@ def isconvex(points, adjust=False, wrap=True):
 
        @example:
 
-       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-       >>> isconvex(t)  # True
+        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+        >>> isconvex(t)  # True
 
-       >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
-       >>> isconvex(f)  # False
+        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+        >>> isconvex(f)  # False
     '''
     return bool(isconvex_(points, adjust=adjust, wrap=wrap))
 
@@ -1348,11 +1348,11 @@ def isconvex_(points, adjust=False, wrap=True):
 
        @example:
 
-       >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
-       >>> isconvex_(t)  # +1
+        >>> t = LatLon(45,1), LatLon(46,1), LatLon(46,2)
+        >>> isconvex_(t)  # +1
 
-       >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
-       >>> isconvex_(f)  # 0
+        >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
+        >>> isconvex_(f)  # 0
     '''
     def _unroll_adjust(x1, y1, x2, y2, w):
         x21, x2 = unroll180(x1, x2, wrap=w)

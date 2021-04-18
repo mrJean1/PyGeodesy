@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.02.09'
+__version__ = '21.04.15'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -267,8 +267,8 @@ class Utm(UtmUpsBase):
 
            @example:
 
-           >>> import pygeodesy
-           >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
+            >>> import pygeodesy
+            >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
         '''
         if name:
             self.name = name
@@ -410,9 +410,9 @@ class Utm(UtmUpsBase):
 
            @example:
 
-           >>> u = Utm(31, 'N', 448251.795, 5411932.678)
-           >>> from pygeodesy import ellipsoidalVincenty as eV
-           >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
+            >>> u = Utm(31, 'N', 448251.795, 5411932.678)
+            >>> from pygeodesy import ellipsoidalVincenty as eV
+            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         if eps < EPS:
             eps = EPS  # less doesn't converge
@@ -534,9 +534,9 @@ class Utm(UtmUpsBase):
 
            @example:
 
-           >>> u = Utm(3, 'N', 448251, 5411932.0001)
-           >>> u.toStr(4)  # 03 N 448251.0 5411932.0001
-           >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
+            >>> u = Utm(3, 'N', 448251, 5411932.0001)
+            >>> u.toStr(4)  # 03 N 448251.0 5411932.0001
+            >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
         '''
 
         return self._toStr(self.hemisphere, B, cs, prec, sep)
@@ -629,10 +629,10 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
 
        @example:
 
-       >>> u = parseUTM5('31 N 448251 5411932')
-       >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
-       >>> u = parseUTM5('31 N 448251.8 5411932.7')
-       >>> u.toStr()  # 31 N 448252 5411933
+        >>> u = parseUTM5('31 N 448251 5411932')
+        >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
+        >>> u = parseUTM5('31 N 448251.8 5411932.7')
+        >>> u.toStr()  # 31 N 448252 5411933
     '''
     r = _parseUTM5(strUTM, datum, Utm, falsed, name=name)
     return r
@@ -678,10 +678,10 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
 
        @example:
 
-       >>> p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
-       >>> u = toUtm(p)  # 31 N 448252 5411933
-       >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
-       >>> u = toUtm(p)  # 48 N 377302 1483035
+        >>> p = LatLon(48.8582, 2.2945)  # 31 N 448251.8 5411932.7
+        >>> u = toUtm(p)  # 31 N 448252 5411933
+        >>> p = LatLon(13.4125, 103.8667) # 48 N 377302.4 1483034.8
+        >>> u = toUtm(p)  # 48 N 377302 1483035
     '''
     z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
                                              falsed, name, zone,

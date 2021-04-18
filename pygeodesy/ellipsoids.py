@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.02.19'
+__version__ = '21.04.17'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -978,15 +978,15 @@ class Ellipsoid(_NamedEnumItem):
             ks = (_0_0,) * k
         return ks
 
-    @property_doc_(''' the I{Krüger} series' order (C{int}), see L{AlphaKs}, L{BetaKs}.''')
+    @property_doc_(''' the I{Krüger} series' order (C{int}), see properties C{AlphaKs}, C{BetaKs}.''')
     def KsOrder(self):
-        '''Get the Krüger series order (C{int} 4, 6 or 8), see L{AlphaKs}, L{BetaKs}.
+        '''Get the I{Krüger} series' order (C{int} 4, 6 or 8).
         '''
         return self._KsOrder
 
     @KsOrder.setter  # PYCHOK setter!
     def KsOrder(self, order):
-        '''Set the I{Krüger} series' order, see L{AlphaKs}, L{BetaKs}.
+        '''Set the I{Krüger} series' order.
 
            @arg order: New I{Krüger} series' order (C{int} 4, 6 or 8).
 
@@ -1275,7 +1275,7 @@ class Ellipsoid(_NamedEnumItem):
            radii of curvature of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
-           @kwarg scaled: Scale prime_vertical by B{C{cos(radians(lat))}} (C{bool}).
+           @kwarg scaled: Scale prime_vertical by C{cos(radians(B{lat}))} (C{bool}).
 
            @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
                     the radii of curvature.
@@ -1294,7 +1294,7 @@ class Ellipsoid(_NamedEnumItem):
            radii of curvature of (geodetic) latitude.
 
            @arg phi: Latitude (C{radians}).
-           @kwarg scaled: Scale prime_vertical by B{C{cos(phi)}} (C{bool}).
+           @kwarg scaled: Scale prime_vertical by C{cos(B{phi})} (C{bool}).
 
            @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
                     the radii of curvature.

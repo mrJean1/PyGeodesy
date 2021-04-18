@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.02.09'
+__version__ = '21.04.15'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -107,9 +107,9 @@ class Conic(_NamedEnumItem):
 
            @example:
 
-           >>> from pygeodesy import Conic, Datums, ellipsoidalNvector
-           >>> ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
-           >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
+            >>> from pygeodesy import Conic, Datums, ellipsoidalNvector
+            >>> ll0 = ellipsoidalNvector.LatLon(23, -96, datum=Datums.NAD27)
+            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
             _xinstanceof(_LLEB, latlon0=latlon0)
@@ -423,7 +423,7 @@ class Lcc(_NamedBase):
 
            @example:
 
-           >>> lb = Lcc(448251, 5411932.0001)
+            >>> lb = Lcc(448251, 5411932.0001)
         '''
         _xinstanceof(Conic, conic=conic)
         self._conic = conic
@@ -592,9 +592,9 @@ class Lcc(_NamedBase):
 
            @example:
 
-           >>> lb = Lcc(448251, 5411932.0001)
-           >>> lb.toStr(4)  # 448251.0 5411932.0001
-           >>> lb.toStr(sep=', ')  # 448251, 5411932
+            >>> lb = Lcc(448251, 5411932.0001)
+            >>> lb.toStr(4)  # 448251.0 5411932.0001
+            >>> lb.toStr(sep=', ')  # 448251, 5411932
         '''
         t, _ = _fstrENH2(self, prec, m)
         return t if sep is None else sep.join(t)
@@ -612,11 +612,11 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
                    (L{Lcc}).
        @kwarg name: Optional B{C{Lcc}} name (C{str}).
        @kwarg Lcc_kwds: Optional, additional B{C{Lcc}} keyword
-                        arguments, ignored if B{C{Lcc=None}}.
+                        arguments, ignored if B{C{Lcc}} is C{None}.
 
        @return: The I{Lambert} location (L{Lcc}) or an
                 L{EasNor3Tuple}C{(easting, northing, height)}
-                if B{C{Lcc}} is C{None}.
+                if C{B{Lcc}=None}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''

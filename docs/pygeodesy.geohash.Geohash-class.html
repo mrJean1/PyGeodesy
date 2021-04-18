@@ -792,16 +792,16 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return <i>bounds</i> (<code>LatLon</code>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional keyword arguments for <b>{LatLon}</b>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>, 
+          ignored if <b><code>LatLon</code></b> is <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Bounds2Tuple-class.html" 
           class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> of
-          <b><code>LatLon</code></b>s or if <b><code>LatLon</code></b> is 
-          <code>None</code>, a <a 
+          <b><code>LatLon</code></b>s or a <a 
           href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
           class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
-          lonE)</code>.</dd>
+          lonE)</code> if <code><b>LatLon</b>=None</code>,</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1046,13 +1046,13 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i> or the 
-          ellipsoid or datum axes or <code>radians <i>squared</i></code> if
-          <b><code>radius</code></b> is <code>None</code> or 
-          <code>0</code>).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or the ellipsoid or datum axes or 
+          <code>radians <i>squared</i></code> if <b><code>radius</code></b>
+          is <code>None</code> or <code>0</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code> 
         or invalid <b><code>radius</code></b>.</li>
@@ -1104,11 +1104,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i> or the 
-          ellipsoid or datum axes).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code> 
         or invalid <b><code>radius</code></b>.</li>
@@ -1153,11 +1153,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i> or the 
-          ellipsoid or datum axes).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code> 
         or invalid <b><code>radius</code></b>.</li>
@@ -1247,11 +1247,11 @@
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as <i>radius</i> or the 
-          ellipsoid or datum axes).</dd>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <i>other</i> is not a <a 
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> is not a <a 
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a>, <code>LatLon</code> or <code>str</code> 
         or invalid <b><code>radius</code></b>.</li>
@@ -1302,10 +1302,6 @@
   as a <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
   class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
   <code>degrees</code>.</p>
-  <p><b>Example:</b></p>
-<pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.Geohash(<span class="py-string">'geek'</span>).latlon  <span class="py-comment"># 65.478515625, -17.75390625</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'</span></pre>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -1319,7 +1315,12 @@
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.Geohash(<span class="py-string">'geek'</span>).latlon  <span class="py-comment"># 65.478515625, -17.75390625</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="neighbors"></a>
 <div>
@@ -1332,7 +1333,6 @@
   class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> 
   of <a href="pygeodesy.geohash.Geohash-class.html" 
   class="link">Geohash</a>es.</p>
-  <p><b>JSname:</b> <i>neighbours</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -1346,7 +1346,10 @@
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>neighbours</i>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="philam"></a>
 <div>
@@ -1644,7 +1647,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:45 2021
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:04 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

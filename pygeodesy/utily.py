@@ -23,7 +23,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.01.27'
+__version__ = '21.04.15'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -620,25 +620,25 @@ def splice(iterable, n=2, **fill):
 
        @example:
 
-       >>> from pygeodesy import splice
+        >>> from pygeodesy import splice
 
-       >>> a, b = splice(range(10))
-       >>> a, b
-       ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
+        >>> a, b = splice(range(10))
+        >>> a, b
+        ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
 
-       >>> a, b, c = splice(range(10), n=3)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))
+        >>> a, b, c = splice(range(10), n=3)
+        >>> a, b, c
+        ((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))
 
-       >>> a, b, c = splice(range(10), n=3, fill=-1)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
+        >>> a, b, c = splice(range(10), n=3, fill=-1)
+        >>> a, b, c
+        ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
 
-       >>> tuple(splice(list(range(9)), n=5))
-       ([0, 5], [1, 6], [2, 7], [3, 8], [4])
+        >>> tuple(splice(list(range(9)), n=5))
+        ([0, 5], [1, 6], [2, 7], [3, 8], [4])
 
-       >>> splice(range(9), n=1)
-       <generator object splice at 0x0...>
+        >>> splice(range(9), n=1)
+        <generator object splice at 0x0...>
     '''
     if not isint(n):
         raise _TypeError(n=n)
@@ -704,7 +704,7 @@ def unroll180(lon1, lon2, wrap=True):
        @arg lon2: End longitude (C{degrees}).
        @kwarg wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
 
-       @return: 2-Tuple (B{C{lon2-lon1}}, B{C{lon2}}) unrolled (C{degrees},
+       @return: 2-Tuple C{(B{lon2}-B{lon1}, B{lon2})} unrolled (C{degrees},
                 C{degrees}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
@@ -725,7 +725,7 @@ def unrollPI(rad1, rad2, wrap=True):
        @arg rad2: End longitude (C{radians}).
        @kwarg wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
 
-       @return: 2-Tuple (B{C{rad2 - rad1}}, B{C{rad2}}) unrolled (C{radians},
+       @return: 2-Tuple C{(B{rad2}-B{rad1}, B{rad2})} unrolled (C{radians},
                 C{radians}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib

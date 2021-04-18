@@ -24,7 +24,7 @@ from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.03.15'
+__version__ = '21.04.14'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -988,7 +988,7 @@ def hypot2(x, y):
        @arg x: Argument (C{scalar}).
        @arg y: Argument (C{scalar}).
 
-       @return: B{C{x}}C{**2 + }B{C{y}}C{**2} (C{float}).
+       @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
     x, y = x**2, y**2
     if x < y:
@@ -999,7 +999,7 @@ def hypot2(x, y):
 
 
 def hypot2_(*xs):
-    '''Compute the I{squared} norm M{sum(x**2 for x in xs)}.
+    '''Compute the I{squared} norm C{sum(x**2 for x in B{xs})}.
 
        @arg xs: X arguments, positional (C{scalar}[]).
 

@@ -40,7 +40,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 
 class _GH(object):
@@ -235,11 +235,12 @@ class Geohash(Str):
 
            @kwarg LatLon: Optional class to return I{bounds} (C{LatLon})
                           or C{None}.
-           @kwarg LatLon_kwds: Optional keyword arguments for B{{LatLon}}.
+           @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
+                               ignored if B{C{LatLon}} is C{None}.
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
-                    or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
-                    lonW, latN, lonE)}.
+                    or a L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} if
+                    C{B{LatLon}=None},
         '''
         r = self._bounds
         return r if LatLon is None else \
@@ -305,11 +306,11 @@ class Geohash(Str):
                           C{bool}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance (C{meter}, same units as I{radius} or the
+           @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes or C{radians I{squared}} if
                     B{C{radius}} is C{None} or C{0}).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
 
            @see: U{Local, flat earth approximation
@@ -333,10 +334,10 @@ class Geohash(Str):
                           C{bool}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance (C{meter}, same units as I{radius} or the
+           @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
         return self._distanceTo(euclidean, other, radius=radius,
@@ -352,10 +353,10 @@ class Geohash(Str):
                           L{Datum} or L{a_f2Tuple}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance (C{meter}, same units as I{radius} or the
+           @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
         return self._distanceTo(haversine, other, radius=radius, wrap=wrap)
@@ -365,12 +366,11 @@ class Geohash(Str):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
 
-           B{Example:}
+           @example:
 
-           >>> geohash.Geohash('geek').latlon  # 65.478515625, -17.75390625
-           >>> geohash.decode('geek')  # '65.48', '-17.75'
+            >>> geohash.Geohash('geek').latlon  # 65.478515625, -17.75390625
+            >>> geohash.decode('geek')  # '65.48', '-17.75'
         '''
-        # B{Example:} not @example: since that causes Epydoc error
         lat, lon = self._latlon or _2center(self.bounds())
         return LatLon2Tuple(lat, lon, name=self.name)
 
@@ -379,7 +379,7 @@ class Geohash(Str):
         '''Get all 8 adjacent cells as a L{Neighbors8Dict}C{(N, NE,
            E, SE, S, SW, W, NW)} of L{Geohash}es.
 
-           B{JSname:} I{neighbours}.
+           @JSname: I{neighbours}.
         '''
         return Neighbors8Dict(N=self.N, NE=self.NE, E=self.E, SE=self.SE,
                               S=self.S, SW=self.SW, W=self.W, NW=self.NW,
@@ -424,10 +424,10 @@ class Geohash(Str):
 
            @example:
 
-           >>> from sphericalTrigonometry import LatLon
-           >>> ll = Geohash('u120fxw').toLatLon(LatLon)
-           >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
-           >>> print(ll)  # 52.204971°N, 000.11879°E
+            >>> from sphericalTrigonometry import LatLon
+            >>> ll = Geohash('u120fxw').toLatLon(LatLon)
+            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
+            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
         return self.latlon if LatLon is None else _xnamed(LatLon(
               *self.latlon, **LatLon_kwds), self.name)
@@ -442,10 +442,10 @@ class Geohash(Str):
                           L{Datum} or L{a_f2Tuple}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance (C{meter}, same units as I{radius} or the
+           @return: Distance (C{meter}, same units as B{C{radius}} or the
                     ellipsoid or datum axes).
 
-           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+           @raise TypeError: The B{C{other}} is not a L{Geohash}, C{LatLon}
                              or C{str} or invalid B{C{radius}}.
         '''
         return self._distanceTo(vincentys, other, radius=radius, wrap=wrap)
@@ -541,9 +541,8 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
 
        @example:
 
-       >>> geohash.bounds('u120fxw')  #  52.20428467, 0.11810303,
-                                      #  52.20565796, 0.11947632
-       >>> geohash.decode('u120fxw')  # '52.205',    '0.1188'
+        >>> geohash.bounds('u120fxw')  #  52.20428467, 0.11810303, 52.20565796, 0.11947632
+        >>> geohash.decode('u120fxw')  # '52.205',    '0.1188'
     '''
     gh = _2Geohash(geohash)
     if len(gh) < 1:
@@ -595,11 +594,11 @@ def decode(geohash):
 
        @example:
 
-       >>> geohash.decode('u120fxw')  # '52.205', '0.1188'
-       >>> geohash.decode('sunny')  # '23.708', '42.473'  Saudi Arabia
-       >>> geohash.decode('fur')  # '69.6', '-45.7'  Greenland
-       >>> geohash.decode('reef')  # '-24.87', '162.95'  Coral Sea
-       >>> geohash.decode('geek')  # '65.48', '-17.75'  Iceland
+        >>> geohash.decode('u120fxw')  # '52.205', '0.1188'
+        >>> geohash.decode('sunny')  # '23.708', '42.473'  Saudi Arabia
+        >>> geohash.decode('fur')  # '69.6', '-45.7'  Greenland
+        >>> geohash.decode('reef')  # '-24.87', '162.95'  Coral Sea
+        >>> geohash.decode('geek')  # '65.48', '-17.75'  Iceland
     '''
     b, h, w  = _bounds3(geohash)
     lat, lon = _2center(b)
@@ -649,10 +648,10 @@ def decode_error(geohash):
 
        @example:
 
-       >>> geohash.decode_error('u120fxw')  # 0.00068665, 0.00068665
-       >>> geohash.decode_error('fur')  # 0.703125, 0.703125
-       >>> geohash.decode_error('fu')  # 2.8125, 5.625
-       >>> geohash.decode_error('f')  # 22.5, 22.5
+        >>> geohash.decode_error('u120fxw')  # 0.00068665, 0.00068665
+        >>> geohash.decode_error('fur')  # 0.703125, 0.703125
+        >>> geohash.decode_error('fu')  # 2.8125, 5.625
+        >>> geohash.decode_error('f')  # 22.5, 22.5
     '''
     _, h, w = _bounds3(geohash)
     return LatLon2Tuple(h * _0_5,  # Height error
@@ -672,7 +671,7 @@ def distance_(geohash1, geohash2):
 
        @example:
 
-       >>> geohash.distance_('u120fxwsh', 'u120fxws0')  # 15.239
+        >>> geohash.distance_('u120fxwsh', 'u120fxws0')  # 15.239
     '''
     return _2Geohash(geohash1).distanceTo(geohash2)
 
@@ -711,11 +710,11 @@ def encode(lat, lon, precision=None):
 
        @example:
 
-       >>> geohash.encode(52.205, 0.119,   7)  # 'u120fxw'
-       >>> geohash.encode(52.205, 0.119,  12)  # 'u120fxwshvkg'
-       >>> geohash.encode(52.205, 0.1188, 12)  # 'u120fxws0jre'
-       >>> geohash.encode(52.205, 0.1188)      # 'u120fxw'
-       >>> geohash.encode(     0, 0)           # 's00000000000'
+        >>> geohash.encode(52.205, 0.119,   7)  # 'u120fxw'
+        >>> geohash.encode(52.205, 0.119,  12)  # 'u120fxwshvkg'
+        >>> geohash.encode(52.205, 0.1188, 12)  # 'u120fxws0jre'
+        >>> geohash.encode(52.205, 0.1188)      # 'u120fxw'
+        >>> geohash.encode(     0, 0)           # 's00000000000'
     '''
     lat, lon = _2fll(lat, lon)
 
@@ -781,7 +780,7 @@ def equirectangular_(geohash1, geohash2, radius=R_M):
 
        @example:
 
-       >>> geohash.equirectangular_('u120fxwsh', 'u120fxws0')  # 19.0879
+        >>> geohash.equirectangular_('u120fxwsh', 'u120fxws0')  # 19.0879
     '''
     return _2Geohash(geohash1).equirectangularTo(geohash2, radius=radius)
 
@@ -802,7 +801,7 @@ def haversine_(geohash1, geohash2, radius=R_M):
 
        @example:
 
-       >>> geohash.haversine_('u120fxwsh', 'u120fxws0')  # 11.6978
+        >>> geohash.haversine_('u120fxwsh', 'u120fxws0')  # 11.6978
     '''
     return _2Geohash(geohash1).haversineTo(geohash2, radius=radius)
 

@@ -17,7 +17,7 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.01.25'
+__version__ = '21.04.14'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -214,7 +214,7 @@ def attrs(inst, *names, **kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, s
        @arg inst: The instance (any C{type}).
        @arg names: The attribute names (C{str}s).
        @kwarg kwds: Keyword argument for function L{pairs}, except
-                    B{C{Nones=True}} to in-/exclude missing or
+                    C{B{Nones}=True} to in-/exclude missing or
                     attributes with a C{None} I{value}.
 
        @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values, ...)))}

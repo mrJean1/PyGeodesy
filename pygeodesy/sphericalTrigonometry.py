@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.02.28'
+__version__ = '21.04.15'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -98,7 +98,7 @@ class Cartesian(CartesianSphericalBase):
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
                                      C{B{LatLon}=None}.  Use
-                                     B{C{LatLon=...}} to override this
+                                     C{B{LatLon}=...} to override this
                                      L{LatLon} class or specify
                                      C{B{LatLon}=None}.
 
@@ -117,7 +117,7 @@ class LatLon(LatLonSphericalBase):
 
        @example:
 
-       >>> p = LatLon(52.205, 0.119)  # height=0
+        >>> p = LatLon(52.205, 0.119)  # height=0
     '''
 
     def _trackDistanceTo3(self, start, end, radius, wrap):
@@ -161,11 +161,11 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.2611, -0.7972)
+            >>> p = LatLon(53.2611, -0.7972)
 
-           >>> s = LatLon(53.3206, -1.7297)
-           >>> e = LatLon(53.1887, 0.1334)
-           >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
+            >>> s = LatLon(53.3206, -1.7297)
+            >>> e = LatLon(53.1887, 0.1334)
+            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
         cx = cos(x)
@@ -232,11 +232,11 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.2611, -0.7972)
+            >>> p = LatLon(53.2611, -0.7972)
 
-           >>> s = LatLon(53.3206, -1.7297)
-           >>> e = LatLon(53.1887, 0.1334)
-           >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
+            >>> s = LatLon(53.3206, -1.7297)
+            >>> e = LatLon(53.1887, 0.1334)
+            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         _, x, _ = self._trackDistanceTo3(start, end, radius, wrap)
         return _r2m(x, radius)
@@ -259,9 +259,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(51.4778, -0.0015)
-           >>> p2 = p1.destination(7794, 300.7)
-           >>> p2.toStr()  # '51.5135°N, 000.0983°W'
+            >>> p1 = LatLon(51.4778, -0.0015)
+            >>> p2 = p1.destination(7794, 300.7)
+            >>> p2.toStr()  # '51.5135°N, 000.0983°W'
 
            @JSname: I{destinationPoint}.
         '''
@@ -289,9 +289,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351);
-           >>> d = p1.distanceTo(p2)  # 404300
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351);
+            >>> d = p1.distanceTo(p2)  # 404300
         '''
         self.others(other)
 
@@ -323,9 +323,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.3206, -1.7297)
-           >>> g = p.greatCircle(96.0)
-           >>> g.toStr()  # (-0.794, 0.129, 0.594)
+            >>> p = LatLon(53.3206, -1.7297)
+            >>> g = p.greatCircle(96.0)
+            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.philam
 
@@ -343,7 +343,7 @@ class LatLon(LatLonSphericalBase):
            @arg other: The other point (spherical L{LatLon}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
            @kwarg raiser: Optionally, raise L{CrossError} (C{bool}),
-                          use B{C{raiser}}=C{True} for behavior like
+                          use C{B{raiser}=True} for behavior like
                           C{sphericalNvector.LatLon.initialBearingTo}.
 
            @return: Initial bearing (compass C{degrees360}).
@@ -356,9 +356,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.initialBearingTo(p2)  # 156.2
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351)
+            >>> b = p1.initialBearingTo(p2)  # 156.2
 
            @JSname: I{bearingTo}.
         '''
@@ -392,9 +392,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351)
+            >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
 
            @JSname: I{intermediatePointTo}.
         '''
@@ -459,9 +459,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(51.8853, 0.2545)
-           >>> s = LatLon(49.0034, 2.5735)
-           >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
+            >>> p = LatLon(51.8853, 0.2545)
+            >>> s = LatLon(49.0034, 2.5735)
+            >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
         return intersection(self, end1, other, end2,
                                   height=height, wrap=wrap,
@@ -523,9 +523,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-           >>> p = LatLon(45,1, 1.1)
-           >>> inside = p.isEnclosedBy(b)  # True
+            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+            >>> p = LatLon(45,1, 1.1)
+            >>> inside = p.isEnclosedBy(b)  # True
         '''
         Ps = self.PointsIter(points, loop=2)
         n0 = self._N_vector
@@ -605,9 +605,9 @@ class LatLon(LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351)
+            >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         self.others(other)
 
@@ -660,7 +660,7 @@ class LatLon(LatLonSphericalBase):
             if not within:
                 notImplemented(self, self.nearestOn, within=within)
 
-#           # UNTESTED - handle C{B{within}=False} and B{C{within}=True}
+#           # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
 #           wrap = options.get('wrap', False)
 #           a = self.alongTrackDistanceTo(point1, point2, radius=radius, wrap=wrap)
 #           if abs(a) < EPS or (within and a < EPS):
@@ -740,10 +740,10 @@ class LatLon(LatLonSphericalBase):
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
                                         and other keyword arguments, ignored
-                                        if B{C{Cartesian=None}}.  Use
-                                        B{C{Cartesian=...}} to override
+                                        if C{B{Cartesian}=None}.  Use
+                                        C{B{Cartesian}=...} to override
                                         this L{Cartesian} class or specify
-                                        B{C{Cartesian=None}}.
+                                        C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -867,11 +867,11 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @example:
 
-       >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-       >>> areaOf(b)  # 8666058750.718977
+        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+        >>> areaOf(b)  # 8666058750.718977
 
-       >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
-       >>> areaOf(c)  # 6.18e9
+        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
+        >>> areaOf(c)  # 6.18e9
     '''
     Ps = _T00.PointsIter(points, loop=1)
     p1 = p2 = Ps[0]
@@ -986,9 +986,9 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
        @example:
 
-       >>> p = LatLon(51.8853, 0.2545)
-       >>> s = LatLon(49.0034, 2.5735)
-       >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
+        >>> p = LatLon(51.8853, 0.2545)
+        >>> s = LatLon(49.0034, 2.5735)
+        >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
     _T00.others(start1=start1)
     _T00.others(start2=start2)
@@ -1254,7 +1254,7 @@ def nearestOn3(point, points, closed=False, radius=R_M,
                        L{equirectangular_}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
-                C{closest} point as B{L{LatLon}} or L{LatLon3Tuple}C{(lat,
+                C{closest} point as B{C{LatLon}} or L{LatLon3Tuple}C{(lat,
                 lon, height)} if B{C{LatLon}} is C{None}.  The C{distance}
                 is the L{equirectangular_} distance between the C{closest}
                 and the given B{C{point}} in C{meter}, same units as

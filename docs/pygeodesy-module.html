@@ -205,7 +205,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.9.2 (with <a 
+    <p>The tests have been run with Python 3.9.4 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -221,7 +221,7 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.9.2 (with <a 
+    4.5.4 using Python 3.9.4 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -251,7 +251,7 @@
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 
+    <p>Previously, the tests were run with Python 3.9.0-2, 3.8.0-5, 
     3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
@@ -282,7 +282,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.9.2, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.9.4, both in 64-bit on macOS 
     11.2.3 (10.16) Big Sur.</p>
     <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
@@ -380,7 +380,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.04.12
+        21.04.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -763,8 +763,8 @@
         href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> and 
         <a href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a> 
         and local coordinate tuples <a 
-        href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
-        class="link">Local6Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+        class="link">Local9Tuple</a>, <a 
         href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
         class="link">Xyz4Tuple</a>, <a 
         href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
@@ -899,12 +899,12 @@
         href="pygeodesy.utmups-module.html#UtmUps" class="link">UtmUps</a> 
         and <a href="pygeodesy.utmups-module.html#utmupsZoneBand5" 
         class="link">utmupsZoneBand5</a> to handle both <i>Universal 
-        Transverse Mercator (<a 
+        Transverse Mercator</i> (<a 
         href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
-        target="_top">UTM</a>)</i> and <i>Universal Polar Stereographic (<a
+        target="_top">UTM</a>) and <i>Universal Polar Stereographic</i> (<a
         
         href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
-        target="_top">UPS</a>)</i> coordinates.</em>    </li>
+        target="_top">UPS</a>) coordinates.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html" onclick="show_private();">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) Base class <code>UtmUpsBase</code> and private functions
         for the UTM, UPS, Mgrs and Epsg classes/modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Generic 3-D vector base class <a 
@@ -2124,8 +2124,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.Frustum-class.html" class="summary-name">Frustum</a><br />
-      A rectangular pyramid, typically representing a camera's field of 
-        view (fov) and projections or intersections thereof.
+      A rectangular pyramid, typically representing a camera's <i>field 
+        of view</i> (fov) and the intersection with (or projection to) a 
+        <i>local tangent plane</i>.
     </td>
   </tr>
 <tr>
@@ -2959,17 +2960,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" class="summary-name">Local6Tuple</a><br />
-      6-Tuple <code>(x, y, z, ltp, ecef, M)</code> with <i>local</i> 
-        <code>x</code>, <code>y</code> and <code>z</code> all in 
-        <code>meter</code>, <i>local tangent plane</i> <code>ltp</code> (<a
-        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
-        <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-        class="link">Ecef9Tuple</a>) with both the <i>geocentric</i> and 
-        <i>geodectic</i> coordinates and optionally, the concatenated 
+        <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" class="summary-name">Local9Tuple</a><br />
+      9-Tuple <code>(x, y, z, lat, lon, height, ltp, ecef, M)</code> with
+        <i>local</i> <code>x</code>, <code>y</code>, <code>z</code> all in 
+        <code>meter</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <a href=pygeodesy.heights-module.html><code>height</code></a>, <i>local tangent plane</i> 
+        <code>ltp</code> (<a href="pygeodesy.ltp.Ltp-class.html" 
+        class="link">Ltp</a>), <code>ecef</code> (<a 
+        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a>) with <i>geocentric</i> <code>x</code>,
+        <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>, 
+        <code>lon</code>, <a href=pygeodesy.heights-module.html><code>height</code></a> and <i>concatenated</i> 
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
-        class="link">EcefMatrix</a>).
+        class="link">EcefMatrix</a>) or <code>None</code>.
     </td>
   </tr>
 <tr>
@@ -2979,8 +2983,8 @@
         <a href="pygeodesy.ltp.LocalCartesian-class.html" class="summary-name">LocalCartesian</a><br />
       Conversion between geodetic <code>(lat, lon, height)</code> and 
         <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
-        geodetic origin <code>(lat0, lon0, height0)</code>, transcribed 
-        from <i>Karney</i>'s C++ class <a 
+        <i>geodetic</i> origin <code>(lat0, lon0, height0)</code>, 
+        transcribed from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.
     </td>
@@ -5074,8 +5078,7 @@
         <span class="summary-sig-arg">s_S</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default">'-'</span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert degrees to a string in degrees, minutes <b><i>or</i></b> 
-      seconds.</td>
+      Convert degrees to a string in degrees, minutes <i>or</i> seconds.</td>
           <td align="right" valign="top">
             
             
@@ -6698,7 +6701,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9496715550&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fde24ed5cd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6933,8 +6936,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2_" class="summary-sig-name">hypot2_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Compute the <i>squared</i> norm <i class="math">sum(x**2 for x in 
-      xs)</i>.</td>
+      Compute the <i>squared</i> norm <code>sum(x**2 for x in 
+      <b>xs</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9910,7 +9913,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.4.12'"><code class="variable-quote">'</code><code class="variable-string">21.4.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.4.21'"><code class="variable-quote">'</code><code class="variable-string">21.4.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11346,7 +11349,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>names</code></strong> - The attribute names (<code>str</code>s).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Keyword argument for function <a 
           href="pygeodesy.streprs-module.html#pairs" 
-          class="link">pairs</a>, except <b><code>Nones=True</code></b> to 
+          class="link">pairs</a>, except <code><b>Nones</b>=True</code> to 
           in-/exclude missing or attributes with a <code>None</code> 
           <i>value</i>.</li>
     </ul></dd>
@@ -13039,8 +13042,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert degrees to a string in degrees, minutes <b><i>or</i></b> 
-  seconds.</p>
+  <p>Convert degrees to a string in degrees, minutes <i>or</i> seconds.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -13058,7 +13060,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive (<code>''</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><i>Either</i> degrees, minutes <b><i>or</i></b> seconds 
+        <dd><i>Either</i> degrees, minutes <i>or</i> seconds 
           (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
@@ -14032,7 +14034,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>error</code></strong> - An error instance (<code>Exception</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>If <b><code>error=None</code></b>, return <code>True</code> if 
+        <dd>If <code><b>error</b>=None</code>, return <code>True</code> if 
           exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
           available.  If <b><code>error</code></b> is not 
@@ -14769,7 +14771,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>falsed</code></strong> - Value includes false origin (<code>bool</code>).</li>
         <li><strong class="pname"><code>Error</code></strong> - Optional, overriding error (<code>Exception</code>).</li>
-        <li><strong class="pname"><code>name_value</code></strong> - One <b><code>name=value</code></b> pair.</li>
+        <li><strong class="pname"><code>name_value</code></strong> - One <code><b>name</b>=value</code> pair.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (<code>float</code>).</dd>
@@ -14779,7 +14781,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Error</strong></code> - Invalid or negative <b><code>name=value</code></b>.</li>
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid or negative <code><b>name</b>=value</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -15580,10 +15582,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>, a <a 
           href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code> for 
-          <b><code>points[fi]</code></b> if <i>fractional</i> index 
+          <code><b>points</b>[<b>fi</b>]</code> if <i>fractional</i> index 
           <b><code>fi</code></b> is <code>int</code>, otherwise the 
-          intermediate point between <b><code>points[int(fi)]</code></b> 
-          and <b><code>points[int(fi) + 1]</code></b> for 
+          intermediate point between 
+          <code><b>points</b>[int(<b>fi</b>)]</code> and 
+          <code><b>points</b>[int(<b>fi</b>) + 1]</code> for 
           <code>float</code> <i>fractional</i> index 
           <b><code>fi</code></b>.</dd>
     <dt>Raises:</dt>
@@ -16177,7 +16180,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9496715550&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fde24ed5cd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16703,9 +16706,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>y</code></strong> - Argument (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><b><code>x</code></b><code>**2 + 
-          </code><b><code>y</code></b><code>**2</code> 
-          (<code>float</code>).</dd>
+        <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -16723,8 +16724,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Compute the <i>squared</i> norm <i class="math">sum(x**2 for x in 
-  xs)</i>.</p>
+  <p>Compute the <i>squared</i> norm <code>sum(x**2 for x in 
+  <b>xs</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19395,12 +19396,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The MGRS grid reference (<b><a 
-          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a></b>) 
-          or an <a href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
+        <dd>The MGRS grid reference (<b><code>Mgrs</code></b>) or an <a 
+          href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
           class="link">Mgrs4Tuple</a><code>(zone, digraph, easting, 
-          northing)</code> if <b><code>Mgrs</code></b> is 
-          <code>None</code>.</dd>
+          northing)</code> if <code><b>Mgrs</b>=None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
@@ -20269,8 +20268,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>A function to generate random ranges.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Random <b><code>seed=None</code></b> seeds from the current time or
-        from a platform-specific randomness source, if available.
+        Random with <code><b>seed</b>=None</code> seeds from the current 
+        time or from a platform-specific randomness source, if available.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -21405,14 +21404,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Lcc</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>Lcc_kwds</code></strong> - Optional, additional <b><code>Lcc</code></b> keyword arguments, 
-          ignored if <b><code>Lcc=None</code></b>.</li>
+          ignored if <b><code>Lcc</code></b> is <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <i>Lambert</i> location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>) or an 
           <a href="pygeodesy.namedTuples.EasNor3Tuple-class.html" 
           class="link">EasNor3Tuple</a><code>(easting, northing, 
-          height)</code> if <b><code>Lcc</code></b> is <code>None</code>.</dd>
+          height)</code> if <code><b>Lcc</b>=None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal.</li>
@@ -21449,16 +21448,13 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
-          ignored if <b><code>Mgrs=None</code></b>.</li>
+          ignored if <code><b>Mgrs</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The MGRS grid reference (<b><a 
-          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a></b>) 
-          or an <a href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
+        <dd>The MGRS grid reference (<b><code>Mgrs</code></b>) or an <a 
+          href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
           class="link">Mgrs6Tuple</a><code>(zone, digraph, easting, 
-          northing, band, datum)</code> if <b><a 
-          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a></b> 
-          is <code>None</code>.</dd>
+          northing, band, datum)</code> if <code><b>Mgrs</b>=None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>utm</code></b> is not <a 
@@ -21513,7 +21509,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
-          ignored if <b><code>Osgr=None</code></b>.</li>
+          ignored if <code><b>Osgr</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
@@ -21834,7 +21830,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           or <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>Wm_kwds</code></strong> - Optional, additional <b><code>Wm</code></b> keyword arguments, 
-          ignored if <b><code>Wm=None</code></b>.</li>
+          ignored if <code><b>Wm</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<b><code>Wm</code></b>) or an <a 
@@ -22070,7 +22066,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<b><code>lon2-lon1</code></b>, <b><code>lon2</code></b>)
+        <dd>2-Tuple <code>(<b>lon2</b>-<b>lon1</b>, <b>lon2</b>)</code> 
           unrolled (<code>degrees</code>, <code>degrees</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -22106,9 +22102,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<b><code>rad2 - rad1</code></b>, 
-          <b><code>rad2</code></b>) unrolled (<code>radians</code>, 
-          <code>radians</code>).</dd>
+        <dd>2-Tuple <code>(<b>rad2</b>-<b>rad1</b>, <b>rad2</b>)</code> 
+          unrolled (<code>radians</code>, <code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Capability <code>LONG_UNROLL</code> in <a 
@@ -22883,7 +22878,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:41 2021
+    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:02 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

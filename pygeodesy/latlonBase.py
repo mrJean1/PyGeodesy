@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 
 class LatLonBase(_NamedBase):
@@ -69,8 +69,8 @@ class LatLonBase(_NamedBase):
 
            @example:
 
-           >>> p = LatLon(50.06632, -5.71475)
-           >>> q = LatLon('50°03′59″N', """005°42'53"W""")
+            >>> p = LatLon(50.06632, -5.71475)
+            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
         if name:
             self.name = name
@@ -268,13 +268,13 @@ class LatLonBase(_NamedBase):
         '''Calculate the destination using a I{local} delta from this point.
 
            @arg delta: Local delta to the destination (L{XyzLocal}, L{Enu},
-                       L{Ned} or L{Local6Tuple}).
+                       L{Ned} or L{Local9Tuple}).
            @kwarg LatLon: Optional (geodetic) class to return the destination
                           or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored is C{B{LatLon}=None}.
 
-           @return: Destination as a C{LatLon}C{(lat, lon, **LatLon_kwds)}
+           @return: Destination as a C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
                     instance or if C{B{LatLon}=None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} respectively L{LatLon4Tuple}C{(lat, lon,
                     height, datum)} depending on whether a C{datum} keyword
@@ -544,9 +544,9 @@ class LatLonBase(_NamedBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(52.205, 0.119)
-           >>> e = p.isequalTo(q)  # True
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(52.205, 0.119)
+            >>> e = p.isequalTo(q)  # True
         '''
         self.others(other)
 
@@ -574,9 +574,9 @@ class LatLonBase(_NamedBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119, 42)
-           >>> q = LatLon(52.205, 0.119)
-           >>> e = p.isequalTo3(q)  # False
+            >>> p = LatLon(52.205, 0.119, 42)
+            >>> q = LatLon(52.205, 0.119)
+            >>> e = p.isequalTo3(q)  # False
         '''
         return self.height == other.height and self.isequalTo(other, eps=eps)
 
@@ -808,7 +808,7 @@ class LatLonBase(_NamedBase):
                              coordinates (C{Cartesian}) or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
-                                  B{C{Cartesian=None}}.
+                                  C{B{Cartesian}=None}.
 
            @return: A B{C{Cartesian}} or if B{C{Cartesian}} is C{None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -857,8 +857,8 @@ class LatLonBase(_NamedBase):
                             arguments, ignored if C{B{Xyz}=None}.
 
            @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
-                    a L{Local6Tuple}C{(x, y, z, ltp, ecef, M)}
-                    with C{M=None} always.
+                    a L{Local9Tuple}C{(x, y, z, lat, lon, height,
+                    ltp, ecef, M)} with C{M=None}, always.
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
@@ -888,7 +888,7 @@ class LatLonBase(_NamedBase):
                            components (C{Nvector}) or C{None}.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
                                 keyword arguments, ignored if
-                                B{C{Nvector=None}}.
+                                C{B{Nvector}=None}.
 
            @return: A B{C{Nvector}} or an L{Vector4Tuple}C{(x, y, z, h)}
                     if B{C{Nvector}} is C{None}.
@@ -913,9 +913,9 @@ class LatLonBase(_NamedBase):
 
            @example:
 
-           >>> LatLon(51.4778, -0.0016).toStr()  # 51°28′40″N, 000°00′06″W
-           >>> LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
-           >>> LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
+            >>> LatLon(51.4778, -0.0016).toStr()  # 51°28′40″N, 000°00′06″W
+            >>> LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
+            >>> LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
 
         '''
         t = [latDMS(self.lat, form=form, prec=prec),

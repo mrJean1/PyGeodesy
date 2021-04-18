@@ -45,7 +45,7 @@ from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
 from pygeodesy.utily import sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.04.10'
+__version__ = '21.04.15'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -63,7 +63,7 @@ class Cartesian(CartesianEllipsoidalBase):
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{datum}} and other
-                                   keyword arguments.  Use B{C{LatLon=...}} to
+                                   keyword arguments.  Use C{B{LatLon}=...} to
                                    override this L{LatLon} class or specify
                                    C{B{LatLon}=None}.
 
@@ -80,9 +80,9 @@ class Cartesian(CartesianEllipsoidalBase):
         '''Convert this cartesian to L{Nvector} components, I{including height}.
 
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
-                                    keyword arguments.  Use B{C{Nvector=...}} to
+                                    keyword arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    B{C{Nvector=None}}.
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
@@ -91,9 +91,9 @@ class Cartesian(CartesianEllipsoidalBase):
 
            @example:
 
-           >>> from ellipsoidalNvector import LatLon
-           >>> c = Cartesian(3980581, 97, 4966825)
-           >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
+            >>> from ellipsoidalNvector import LatLon
+            >>> c = Cartesian(3980581, 97, 4966825)
+            >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector, datum=self.datum)
         return CartesianEllipsoidalBase.toNvector(self, **kwds)
@@ -104,8 +104,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
        @example:
 
-       >>> from ellipsoidalNvector import LatLon
-       >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
+        >>> from ellipsoidalNvector import LatLon
+        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
     _Nv = None  # cached toNvector (L{Nvector})
 
@@ -134,14 +134,14 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @example:
 #
-#            >>> p = LatLon(53.2611, -0.7972)
+#             >>> p = LatLon(53.2611, -0.7972)
 #
-#            >>> s = LatLon(53.3206, -1.7297)
-#            >>> b = 96.0
-#            >>> d = p.crossTrackDistanceTo(s, b)  # -305.7
+#             >>> s = LatLon(53.3206, -1.7297)
+#             >>> b = 96.0
+#             >>> d = p.crossTrackDistanceTo(s, b)  # -305.7
 #
-#            >>> e = LatLon(53.1887, 0.1334)
-#            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
+#             >>> e = LatLon(53.1887, 0.1334)
+#             >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
 #         '''
 #         self.others(start=start)
 #
@@ -175,12 +175,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> a = LatLon(49.66618, 3.45063)
-           >>> b = LatLon(48.88667, 2.37472)
-           >>> delta = a.deltaTo(b)  # [N:-86126, E:-78900, D:1069]
-           >>> d = delta.length  # 116807.681 m
-           >>> b = delta.bearing  # 222.493°
-           >>> e = delta.elevation  # -0.5245°
+            >>> a = LatLon(49.66618, 3.45063)
+            >>> b = LatLon(48.88667, 2.37472)
+            >>> delta = a.deltaTo(b)  # [N:-86126, E:-78900, D:1069]
+            >>> d = delta.length  # 116807.681 m
+            >>> b = delta.bearing  # 222.493°
+            >>> e = delta.elevation  # -0.5245°
         '''
         self.ellipsoids(other)  # throws TypeError and ValueError
 
@@ -207,9 +207,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @example:
 #
-#            >>> p = LatLon(51.4778, -0.0015)
-#            >>> q = p.destination(7794, 300.7)
-#            >>> q.toStr()  # '51.5135°N, 000.0983°W' ?
+#             >>> p = LatLon(51.4778, -0.0015)
+#             >>> q = p.destination(7794, 300.7)
+#             >>> q.toStr()  # '51.5135°N, 000.0983°W' ?
 #         '''
 #         r = _angular(distance, radius)  # angular distance in radians
 #         # great circle by starting from this point on given bearing
@@ -235,9 +235,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> a = LatLon(49.66618, 3.45063)
-           >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
-           >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
+            >>> a = LatLon(49.66618, 3.45063)
+            >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
+            >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
 
            @JSname: I{destinationPoint}.
         '''
@@ -271,9 +271,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351);
-           >>> d = p.distanceTo(q)  # 404300
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351);
+            >>> d = p.distanceTo(q)  # 404300
         '''
         self.others(other)
 
@@ -311,9 +311,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(52.205, 0.119)
-           >>> e = p.isequalTo(q)  # True
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(52.205, 0.119)
+            >>> e = p.isequalTo(q)  # True
         '''
         return LatLonEllipsoidalBase.isequalTo(self, other, eps=eps) \
                if self.datum == other.datum else False
@@ -331,9 +331,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @example:
 #
-#            >>> p = LatLon(53.3206, -1.7297)
-#            >>> g = p.greatCircle(96.0)
-#            >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
+#             >>> p = LatLon(53.3206, -1.7297)
+#             >>> g = p.greatCircle(96.0)
+#             >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
 #         '''
 #         a, b, _ = self.philamheight
 #         t = radians(bearing)
@@ -355,9 +355,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #
 #            @example:
 #
-#            >>> p1 = LatLon(52.205, 0.119)
-#            >>> p2 = LatLon(48.857, 2.351)
-#            >>> b = p1.bearingTo(p2)  # 156.2
+#             >>> p1 = LatLon(52.205, 0.119)
+#             >>> p2 = LatLon(48.857, 2.351)
+#             >>> b = p1.bearingTo(p2)  # 156.2
 #
 #            @JSname: I{bearingTo}.
 #         '''
@@ -388,9 +388,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
 
            @JSname: I{intermediatePointTo}.
         '''
@@ -420,9 +420,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Convert this point to an C{Nvector}-based geodetic point.
 
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} and other
-                                      keyword arguments.  Use B{C{Cartesian=...}}
+                                      keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      B{C{Cartesian=None}}.
+                                      C{B{Cartesian}=None}.
 
            @return: The geodetic point (L{Cartesian}) or if B{C{Cartesian}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -437,9 +437,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Convert this point to L{Nvector} components, I{including height}.
 
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
-                                    keyword arguments.  Use B{C{Nvector=...}}
+                                    keyword arguments.  Use C{B{Nvector}=...}
                                     to override this L{Nvector} class or specify
-                                    B{C{Nvector=None}}.
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
@@ -448,9 +448,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @example:
 
-           >>> p = LatLon(45, 45)
-           >>> n = p.toNvector()
-           >>> n.toStr()  # [0.50, 0.50, 0.70710]
+            >>> p = LatLon(45, 45)
+            >>> n = p.toNvector()
+            >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector, datum=self.datum)
         return LatLonNvectorBase.toNvector(self, **kwds)
@@ -527,9 +527,9 @@ class Nvector(NvectorBase):
 
            @example:
 
-           >>> from ellipsoidalNvector import Nvector
-           >>> v = Nvector(0.5, 0.5, 0.7071, 1)
-           >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
+            >>> from ellipsoidalNvector import Nvector
+            >>> v = Nvector(0.5, 0.5, 0.7071, 1)
+            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         NvectorBase.__init__(self, x, y, z, h=h, ll=ll, name=name)
         if datum not in (None, self._datum):
@@ -545,9 +545,9 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF) coordinates.
 
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{h}}, B{C{datum}} and
-                                      other keyword arguments.  Use B{C{Cartesian=...}}
+                                      other keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      B{C{Cartesian=None}}.
+                                      C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -557,9 +557,9 @@ class Nvector(NvectorBase):
 
            @example:
 
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
-           >>> p = c.toLatLon()  # 45.0°N, 45.0°E
+            >>> v = Nvector(0.5, 0.5, 0.7071)
+            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
+            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         kwds = _xkwds(Cartesian_and_kwds, h=self.h, Cartesian=Cartesian,
                                                         datum=self.datum)
@@ -569,7 +569,7 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{height}}, B{C{datum}}
-                                   and other keyword arguments.  Use B{C{LatLon=...}}
+                                   and other keyword arguments.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
                                    C{B{LatLon}=None}.
 
@@ -581,8 +581,8 @@ class Nvector(NvectorBase):
 
            @example:
 
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
+            >>> v = Nvector(0.5, 0.5, 0.7071)
+            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
         kwds = _xkwds(LatLon_and_kwds, height=self.h, datum=self.datum, LatLon=LatLon)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
@@ -666,7 +666,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
        @return: An NED vector equivalent to this B{C{distance}},
                 B{C{bearing}} and B{C{elevation}} (DEPRECATED L{Ned})
                 or a DEPRECATED L{Ned3Tuple}C{(north, east, down)}
-                if B{C{Ned=None}}.
+                if C{B{Ned}=None}.
 
        @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
                           or B{C{elevation}}.

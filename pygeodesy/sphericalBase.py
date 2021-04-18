@@ -37,7 +37,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.02.27'
+__version__ = '21.04.15'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -151,7 +151,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
+            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
         if datum not in (None, self.datum):
@@ -167,7 +167,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @return: A L{Bearing2Tuple}C{(initial, final)}.
 
-           @raise TypeError: The I{other} point is not spherical.
+           @raise TypeError: The B{C{other}} point is not spherical.
 
            @see: Methods C{initialBearingTo} and C{finalBearingTo}.
         '''
@@ -207,13 +207,13 @@ class LatLonSphericalBase(LatLonBase):
 
            @return: Final bearing (compass C{degrees360}).
 
-           @raise TypeError: The I{other} point is not spherical.
+           @raise TypeError: The B{C{other}} point is not spherical.
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> b = p.finalBearingTo(q)  # 157.9
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> b = p.finalBearingTo(q)  # 157.9
         '''
         self.others(other)
 
@@ -304,13 +304,13 @@ class LatLonSphericalBase(LatLonBase):
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise TypeError: The I{other} point is not spherical.
+           @raise TypeError: The B{C{other}} point is not spherical.
 
            @example:
 
-           >>> p = LatLon(51.127, 1.338)
-           >>> q = LatLon(50.964, 1.853)
-           >>> b = p.rhumbBearingTo(q)  # 116.7
+            >>> p = LatLon(51.127, 1.338)
+            >>> q = LatLon(50.964, 1.853)
+            >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         _, db, dp = self._rhumb3(other)
         return atan2b(db, dp)
@@ -321,11 +321,11 @@ class LatLonSphericalBase(LatLonBase):
            given bearing.
 
            @arg distance: Distance travelled (C{meter}, same units as
-                          I{radius}).
+                          B{C{radius}}).
            @arg bearing: Bearing from this point (compass C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg height: Optional height, overriding the default height
-                          (C{meter}, same unit as I{radius}).
+                          (C{meter}, same unit as B{C{radius}}).
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -334,8 +334,8 @@ class LatLonSphericalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.127, 1.338)
-           >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
+            >>> p = LatLon(51.127, 1.338)
+            >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
 
            @JSname: I{rhumbDestinationPoint}
         '''
@@ -376,9 +376,9 @@ class LatLonSphericalBase(LatLonBase):
 
            @example:
 
-           >>> p = LatLon(51.127, 1.338)
-           >>> q = LatLon(50.964, 1.853)
-           >>> d = p.rhumbDistanceTo(q)  # 403100
+            >>> p = LatLon(51.127, 1.338)
+            >>> q = LatLon(50.964, 1.853)
+            >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
         # see <https://www.EdWilliams.org/avform.htm#Rhumb>
         da, db, dp = self._rhumb3(other)
@@ -401,16 +401,16 @@ class LatLonSphericalBase(LatLonBase):
 
            @return: The midpoint (spherical C{LatLon}).
 
-           @raise TypeError: The I{other} point is not spherical.
+           @raise TypeError: The B{C{other}} point is not spherical.
 
            @raise ValueError: Invalid B{C{height}}.
 
            @example:
 
-           >>> p = LatLon(51.127, 1.338)
-           >>> q = LatLon(50.964, 1.853)
-           >>> m = p.rhumb_midpointTo(q)
-           >>> m.toStr()  # '51.0455°N, 001.5957°E'
+            >>> p = LatLon(51.127, 1.338)
+            >>> q = LatLon(50.964, 1.853)
+            >>> m = p.rhumb_midpointTo(q)
+            >>> m.toStr()  # '51.0455°N, 001.5957°E'
         '''
         self.others(other)
 
@@ -443,7 +443,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
                                 keyword arguments, ignored if
-                                B{C{Nvector=None}}.
+                                C{B{Nvector}=None}.
 
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
                     if B{C{Nvector}} is C{None}.

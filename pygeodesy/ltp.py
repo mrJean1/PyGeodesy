@@ -19,9 +19,9 @@ from pygeodesy.interns import EPS, NN, _ltp_, _M_, _lat0_, \
                              _2_0, _90_0, _180_0, _360_0
 from pygeodesy.interns import _ecef_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.ltpTuples import Footprint5Tuple, Local6Tuple, \
+from pygeodesy.ltpTuples import Footprint5Tuple, Local9Tuple, \
                                _XyzLocals4, _XyzLocals5, Xyz4Tuple
-from pygeodesy.named import _NamedBase, _xnamed
+from pygeodesy.named import _NamedBase
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.units import Degrees, Meter
 from pygeodesy.utily import sincos2d
@@ -29,7 +29,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.04.11'
+__version__ = '21.04.17'
 
 _Xyz_ = 'Xyz'
 
@@ -42,7 +42,7 @@ class LocalError(_ValueError):
 
 class LocalCartesian(_NamedBase):
     '''Conversion between geodetic C{(lat, lon, height)} and I{local cartesian}
-       C{(x, y, z)} coordinates with geodetic origin C{(lat0, lon0, height0)},
+       C{(x, y, z)} coordinates with I{geodetic} origin C{(lat0, lon0, height0)},
        transcribed from I{Karney}'s C++ class U{LocalCartesian
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 
@@ -60,9 +60,10 @@ class LocalCartesian(_NamedBase):
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New L{LocalCartesian} converter.
 
-           @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                            latitude of the origin (C{degrees}).
-           @kwarg lon0: Optional C{scalar} longitude of the origin for
+           @kwarg latlonh0: Either a C{LatLon}, L{Ltp}, L{Ecef9Tuple} or
+                            C{scalar} latitude of the (goedetic) origin
+                            (C{degrees}).
+           @kwarg lon0: Optional C{scalar} longitude of the (goedetic) origin
                         C{scalar} B{C{latlonh0}} (C{degrees}).
            @kwarg height0: Optional origin height (C{meter}), vertically
                            above (or below) the surface of the ellipsoid.
@@ -75,6 +76,9 @@ class LocalCartesian(_NamedBase):
                               invalid or if B{C{height0}} invalid.
 
            @raise TypeError: Invalid B{C{ecef}}, not L{EcefKarney}.
+
+           @note: If BC{latlonh0} is L{Ltp}, only the lat-, longitude and
+                  height are duplicated, I{not} the ECEF converter.
         '''
         if ecef:
             _xinstanceof(EcefKarney, ecef=ecef)
@@ -100,15 +104,18 @@ class LocalCartesian(_NamedBase):
            @arg Xyz: An L{XyzLocal}, L{Enu} or L{Ned} I{class} or C{None}.
            @arg Xyz_kwds: B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}=None}.
 
-           @return: A L{Local6Tuple}C{(x, y, z, ltp, ecef, M)} with this C{ltp},
-                    C{ecef} converted to this C{datum} and C{M=None} always
-                    or an C{B{Xyz}(x, y, z, ltp, **B{Xyz_kwds}} instance.
+           @return: An C{B{Xyz}(x, y, z, ltp, **B{Xyz_kwds}} instance or if
+                    C{B{Xyz}=None}, an L{Local9Tuple}C{(x, y, z, lat, lon,
+                    height, ltp, ecef, M)} with this C{ltp}, B{C{ecef}}
+                    (L{Ecef9Tuple}) converted to this C{datum} and C{M=None},
+                    always.
         '''
         ltp = self
         if ecef.datum != ltp.datum:
             ecef = ecef.toDatum(ltp.datum)
         x, y, z = self.M.rotate(ecef.xyz, *ltp._xyz0)
-        r = Local6Tuple(x, y, z, ltp, ecef, None, name=ecef.name)
+        r = Local9Tuple(x, y, z, ecef.lat, ecef.lon, ecef.height,
+                                 ltp, ecef, None, name=ecef.name)
         if Xyz:
             if not issubclassof(Xyz, *_XyzLocals4):  # Vector3d
                 raise _TypesError(_Xyz_, Xyz, *_XyzLocals4)
@@ -119,23 +126,25 @@ class LocalCartesian(_NamedBase):
         '''Convert I{geodetic} C{(lat, lon, height)} to I{local} cartesian
            C{(x, y, z)}.
 
-           @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                         latitude (C{degrees}).
-           @kwarg lon: Optional C{scalar} longitude for C{scalar} B{C{latlonh}}
-                       (C{degrees}).
+           @arg latlonh: Either a C{LatLon}, a L{Ltp}, an L{Ecef9Tuple} or
+                         C{scalar} (geodetic) latitude (C{degrees}).
+           @kwarg lon: Optional C{scalar} (geodetic) longitude for C{scalar}
+                       B{C{latlonh}} (C{degrees}).
            @kwarg height: Optional height (C{meter}), vertically above (or below)
                           the surface of the ellipsoid.
            @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
 
-           @return: A L{Local6Tuple}C{(x, y, z, ltp, ecef, M)} with the I{local}
-                    C{(x, y, z)} coordinates, C{ecef} converted to this C{datum},
-                    this C{ltp} and the rotation matrix C{M} (L{EcefMatrix}) if
-                    requested.
+           @return: A L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)}
+                    with I{local} C{x}, C{y}, C{z}, I{geodetic} C{(lat}, C{lon},
+                    C{height}, this C{ltp}, C{ecef} (L{Ecef9Tuple}) with
+                    I{geocentric} C{x}, C{y}, C{z} (and I{geodetic} C{lat},
+                    C{lon}, C{height}) and the I{concatenated} rotation matrix
+                    C{M} (L{EcefMatrix}) if requested.
 
-           @raise LocalError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple},
-                              C{scalar} or invalid or if B{C{lon}} not
-                              C{scalar} for C{scalar} B{C{latlonh}} or
-                              invalid or if B{C{height}} invalid.
+           @raise LocalError: If B{C{latlonh}} not C{scalar}, C{LatLon}, L{Ltp},
+                              L{Ecef9Tuple} or invalid or if B{C{lon}} not
+                              C{scalar} for C{scalar} B{C{latlonh}} or invalid
+                              or if B{C{height}} invalid.
 
            @see: Note at method L{EcefKarney.forward}.
         '''
@@ -143,7 +152,7 @@ class LocalCartesian(_NamedBase):
         t = self.ecef.forward(lat, lon, h, M=M)
         x, y, z = self.M.rotate(t.xyz, *self._xyz0)
         m = self.M.multiply(t.M) if M else None
-        return Local6Tuple(x, y, z, self, t, m, name=n or self.name)
+        return Local9Tuple(x, y, z, lat, lon, h, self, t, m, name=n or self.name)
 
     @Property_RO
     def height0(self):
@@ -157,19 +166,20 @@ class LocalCartesian(_NamedBase):
         '''
         return self._t0.lat
 
-    def _local2ecef(self, local, nine=False):
+    def _local2ecef(self, local, nine=False, M=False):
         '''(INTERNAL) Convert I{local} to geocentric/geodetic, like I{.reverse}.
 
-           @arg local: Local (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer} or L{Local6Tuple}).
+           @arg local: Local (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer} or L{Local9Tuple}).
            @kwarg nine: Return 3- or 9-tuple (C{bool}).
+           @kwarg M: Include the rotation matrix (C{bool}).
 
            @return: A I{geocentric} 3-tuple C{(x, y, z)} or if C{B{nine}=True},
-                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with C{M=None}, always.
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)},
+                    optionally including rotation matrix C{M} or C{None}.
         '''
         t = self.M.unrotate(local.xyz, *self._xyz0)
         if nine:
-            t = self.ecef.reverse(*t)  # no C{M}
+            t = self.ecef.reverse(*t, M=M)
         return t
 
     @Property_RO
@@ -214,16 +224,17 @@ class LocalCartesian(_NamedBase):
     def reverse(self, xyz, y=None, z=None, M=False):
         '''Convert I{local} C{(x, y, z)} to I{geodetic} C{(lat, lon, height)}.
 
-           @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local6Tuple}) or
+           @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local9Tuple}) or
                      local C{x} coordinate (C{scalar}).
            @kwarg y: Local C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: Local C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix} (C{bool}).
 
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with the I{geodetic} C{lat}, C{lon} and C{height} plus
-                    I{geocentric} C{x}, C{y} and C{z}, case C{C}, the rotation
-                    matrix C{M} if requested and C{datum} if available.
+           @return: An L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)} with
+                    I{local} C{x}, C{y}, C{z}, I{geodetic} C{lat}, C{lon}, C{height},
+                    this C{ltp}, an C{ecef} (L{Ecef9Tuple}) with the I{geocentric} C{x},
+                    C{y}, C{z} (and I{geodetic} C{lat}, C{lon}, C{height}) and the
+                    I{concatenated} rotation matrix C{M} (L{EcefMatrix}) if requested.
 
            @raise LocalError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                               not C{scalar} for C{scalar} B{C{xyz}}.
@@ -231,11 +242,10 @@ class LocalCartesian(_NamedBase):
            @see: Note at method L{EcefKarney.reverse}.
         '''
         x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError)
-        x, y, z = self.M.unrotate((x, y, z), *self._xyz0)
-        t = self.ecef.reverse(x, y, z, M=M)
-        if M:  # t.M = self.M.multiply(t.M)
-            t = t._M_x_M(self.M)
-        return _xnamed(t, n) if n else t
+        xyz = self.M.unrotate((x, y, z), *self._xyz0)
+        t = self.ecef.reverse(*xyz, M=M)
+        m = self.M.multiply(t.M) if M else None
+        return Local9Tuple(x, y, z, t.lat, t.lon, t.height, self, t, m, name=n or self.name)
 
     def toStr(self, prec=9):  # PYCHOK signature
         '''Return this L{LocalCartesian} as a string.
@@ -260,8 +270,9 @@ class Ltp(LocalCartesian):
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New C{Ltp}.
 
-           @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                            latitude of the (goedetic) origin (C{degrees}).
+           @kwarg latlonh0: Either a C{LatLon}, L{Ltp}, L{Ecef9Tuple} or
+                            C{scalar} latitude of the (goedetic) origin
+                            (C{degrees}).
            @kwarg lon0: Optional C{scalar} longitude of the (goedetic) origin
                         for C{scalar} B{C{latlonh0}} (C{degrees}).
            @kwarg height0: Optional origin height (C{meter}), vertically
@@ -281,7 +292,12 @@ class Ltp(LocalCartesian):
 
            @raise TypeError: Invalid B{C{ecef}}.
         '''
-        LocalCartesian.__init__(self, latlonh0, lon0=lon0, height0=height0, name=name)
+        if isinstance(latlonh0, Ltp):
+            self._ecef = latlonh0.ecef
+            self._t0   = latlonh0._to
+            self.name  = name or latlonh0.name
+        else:
+            LocalCartesian.__init__(self, latlonh0, lon0=lon0, height0=height0, name=name)
         if ecef:
             self.ecef = ecef
 
@@ -306,8 +322,8 @@ class Ltp(LocalCartesian):
 
 
 class Frustum(_NamedBase):
-    '''A rectangular pyramid, typically representing a camera's field of view
-       (fov) and projections or intersections thereof.
+    '''A rectangular pyramid, typically representing a camera's I{field of view}
+       (fov) and the intersection with (or projection to) a I{local tangent plane}.
 
        @see: U{Viewing frustum<https://WikiPedia.org/wiki/Viewing_frustum>}.
     '''
@@ -348,14 +364,15 @@ class Frustum(_NamedBase):
         '''
         return Degrees(hfov=self._h_2 * _2_0)
 
-    def footprint5(self, altitude, tilt, yaw=0, roll=0, ltp=None):  # MCCABE 15
+    def footprint5(self, altitude, tilt, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
         '''Compute the center and corners of the intersection with (or projection
            to) the I{local tangent plane} (LTP).
 
            @arg altitude: Altitude (C{meter}) above I{local tangent plane}.
            @arg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down.
-           @kwarg yaw: Heading from North (C{degrees360}), clockwise from north.
-           @kwarg roll: Roll (C{degrees}), positive to the right.
+           @kwarg yaw: Heading, bearing from North (C{degrees360}), clockwise from north.
+           @kwarg roll: Roll, bank (C{degrees}), positive to the right and down.
+           kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        frustum's C{ltp}.
 
@@ -364,7 +381,7 @@ class Frustum(_NamedBase):
 
            @raise TypeError: Invalid B{C{ltp}}.
 
-           @raise UnitError: Invalid B{C{altitude}}, B{C{tilt}} or B{C{roll}}.
+           @raise UnitError: Invalid B{C{altitude}}, B{C{tilt}}, B{C{roll}} or B{C{z}}.
 
            @raise ValueError: If B{C{altitude}} too low or B{C{tilt}} or B{C{roll}}
                               -including B{C{vfow}} respectively B{C{hfov}}- over
@@ -376,7 +393,7 @@ class Frustum(_NamedBase):
             # left and right corners, or swapped
             if r < EPS:  # no roll
                 r = a * tan_h_2
-                l = -r # PYCHOK l is ell
+                l = -r  # PYCHOK l is ell
             else:  # roll
                 sl, cl, sr, cr = sincos2d(r + h_2, r - h_2)
                 if cl < EPS or cr < EPS:
@@ -398,6 +415,13 @@ class Frustum(_NamedBase):
         a = Meter(altitude=altitude)
         if a < EPS:  # too low
             raise _ValueError(altitude=altitude)
+        if z:
+            z  = Meter(z=z)
+            a -= z
+            if a < EPS:  # z above a
+                raise _ValueError(altitude_z=a)
+        else:
+            z = _0_0
 
         b =  Degrees(yaw=yaw) % _360_0
         t = -Degrees(tilt=tilt)
@@ -426,7 +450,7 @@ class Frustum(_NamedBase):
                         + _xy2(a, t + self._v_2, -self._h_2, r, -self._tan_h_2)  # swapped
         # rotate center and corners by yaw
         p = self.ltp if ltp is None else _xLtp(ltp)
-        return Footprint5Tuple(*(Xyz4Tuple(x, y, _0_0, p) for
+        return Footprint5Tuple(*(Xyz4Tuple(x, y, z, p) for
                                            x, y in _xys(b, *xys)))
 
     @Property_RO
@@ -439,7 +463,7 @@ class Frustum(_NamedBase):
     def vfov(self):
         '''Get the vertical C{fov} (C{degrees}).
         '''
-        return Degrees(hfov=self._v_2 * _2_0)
+        return Degrees(vfov=self._v_2 * _2_0)
 
 
 def _xLtp(ltp):

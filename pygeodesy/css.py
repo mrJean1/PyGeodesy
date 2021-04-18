@@ -29,7 +29,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.02.17'
+__version__ = '21.04.15'
 
 
 def _CS0(cs0):
@@ -77,12 +77,12 @@ class CassiniSoldner(_NamedBase):
 
            @example:
 
-           >>> p = CassiniSoldner(48 + 50/60.0, 2 + 20/60.0)  # Paris
-           >>> p.forward(50.9, 1.8)  # Calais
-           (-37518.854545, 230003.561828)
+            >>> p = CassiniSoldner(48 + 50/60.0, 2 + 20/60.0)  # Paris
+            >>> p.forward(50.9, 1.8)  # Calais
+            (-37518.854545, 230003.561828)
 
-           >>> p.reverse4(-38e3, 230e3)
-           (50.899937, 1.793161, 89.580797, 0.999982)
+            >>> p.reverse4(-38e3, 230e3)
+            (50.899937, 1.793161, 89.580797, 0.999982)
         '''
         if datum not in (None, self._datum):
             self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, name=name))
@@ -354,7 +354,7 @@ class Css(_NamedBase):
 
            @example:
 
-           >>> cs = Css(448251, 5411932.0001)
+            >>> cs = Css(448251, 5411932.0001)
         '''
         self._cs0 = _CS0(cs0)
         self._easting  = Easting(e,  Error=CSSError)

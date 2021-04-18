@@ -8,16 +8,17 @@ C{pygeodesy,nvector}, previously inside the C{pygeodesy} package.
 Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
 '''
+from pygeodesy.ecef import Ecef9Tuple as _Ecef9Tuple
+from pygeodesy.errors import TRFError as _TRFError
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.errors import TRFError as _TRFError
 from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _scalar_, _SPACE_, _UNDER_
 from pygeodesy.interns import _easting_, _end_, _hemipole_, _northing_, _sep_, \
                               _start_, _zone_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, isLazy
 from pygeodesy.ltp import LocalCartesian
-from pygeodesy.props import deprecated_class, deprecated_function
+from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.streprs import Fmt as _Fmt
 from pygeodesy.units import Easting, Northing, Number_, Scalar_, Str
@@ -28,7 +29,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.04.09'
+__version__ = '21.04.17'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -49,10 +50,42 @@ class ClipCS3Tuple(_NamedTuple):  # PYCHOK no cover
 
 class EcefCartesian(LocalCartesian):
     '''DEPRECATED, use class L{LocalCartesian}.
+
+       @note: This class is named I{incorrectly}, since it provides conversion to
+              and from I{local} cartesian coordinates in a I{local tangent plane}
+              and I{not geocentric} (ECEF) ones, as the name suggests.
     '''
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         deprecated_class(self.__class__)
         LocalCartesian.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
+
+    @deprecated_method
+    def forward(self, latlonh, lon=None, height=0, M=False):
+        '''DEPRECATED, use method L{LocalCartesian.forward}.
+
+           @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
+                    M, datum)} with I{local} C{(x, y, z)} coordinates for the given
+                    I{geodetic} ones C{(lat, lon, height)}, case C{C=0} always,
+                    optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
+        '''
+        t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M)
+        return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                          0, t.M, t.ecef.datum,
+                                          name=t.name or self.name)
+
+    @deprecated_method
+    def reverse(self, xyz, y=None, z=None, M=False):
+        '''DEPRECATED, use method L{LocalCartesian.reverse}.
+
+           @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
+                    M, datum)} with I{geodetic} coordinates C{(lat, lon, height)} for
+                    the given I{local} ones C{(x, y, z)}, case C{C}, optionally
+                    I{concatenated} L{EcefMatrix} C{M} and C{datum}.
+        '''
+        t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M)
+        return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                          t.ecef.C, t.M, t.ecef.datum,
+                                          name=t.name or self.name)
 
 
 class HeightIDW(_HeightIDWeuclidean):  # PYCHOK no cover
@@ -211,11 +244,11 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
        @kwarg falsed: Value includes false origin (C{bool}).
        @kwarg Error: Optional, overriding error (C{Exception}).
-       @kwarg name_value: One B{C{name=value}} pair.
+       @kwarg name_value: One C{B{name}=value} pair.
 
        @return: The value (C{float}).
 
-       @raise Error: Invalid or negative B{C{name=value}}.
+       @raise Error: Invalid or negative C{B{name}=value}.
     '''
     t = NN
     if len(name_value) == 1:

@@ -40,7 +40,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.02.09'
+__version__ = '21.04.15'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -80,8 +80,8 @@ class Wm(_NamedBase):
 
            @example:
 
-           >>> import pygeodesy
-           >>> w = pygeodesy.Wm(448251, 5411932)
+            >>> import pygeodesy
+            >>> w = pygeodesy.Wm(448251, 5411932)
         '''
         self._x = Easting( x=x, Error=WebMercatorError)
         self._y = Northing(y=y, Error=WebMercatorError)
@@ -186,9 +186,9 @@ class Wm(_NamedBase):
 
            @example:
 
-           >>> w = Wm(448251.795, 5411932.678)
-           >>> from pygeodesy import sphericalTrigonometry as sT
-           >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
+            >>> w = Wm(448251.795, 5411932.678)
+            >>> from pygeodesy import sphericalTrigonometry as sT
+            >>> ll = w.toLatLon(sT.LatLon)  # 43°39′11.58″N, 004°01′36.17″E
         '''
         e = issubclassof(LatLon, _LLEB)
         if e and datum:
@@ -234,9 +234,9 @@ class Wm(_NamedBase):
 
            @example:
 
-           >>> w = Wm(448251, 5411932.0001)
-           >>> w.toStr(4)  # 448251.0 5411932.0001
-           >>> w.toStr(sep=', ')  # 448251, 5411932
+            >>> w = Wm(448251, 5411932.0001)
+            >>> w.toStr(4)  # 448251.0 5411932.0001
+            >>> w.toStr(sep=', ')  # 448251, 5411932
         '''
         fs = self._x, self._y
         if radius in (False, None):
@@ -281,8 +281,8 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
 
        @example:
 
-       >>> u = parseWM('448251 5411932')
-       >>> u.toRepr()  # [E:448251, N:5411932]
+        >>> u = parseWM('448251 5411932')
+        >>> u.toRepr()  # [E:448251, N:5411932]
     '''
     def _WM_(strWM, radius, Wm, name):
         w = strWM.replace(_COMMA_, _SPACE_).strip().split()
@@ -311,7 +311,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
                   (L{Wm}) or C{None}.
        @kwarg name: Optional name (C{str}).
        @kwarg Wm_kwds: Optional, additional B{C{Wm}} keyword
-                       arguments, ignored if B{C{Wm=None}}.
+                       arguments, ignored if C{B{Wm}=None}.
 
        @return: The WM coordinate (B{C{Wm}}) or an
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}
@@ -324,10 +324,10 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
 
        @example:
 
-       >>> p = LatLon(48.8582, 2.2945)  # 448251.8 5411932.7
-       >>> w = toWm(p)  # 448252 5411933
-       >>> p = LatLon(13.4125, 103.8667)  # 377302.4 1483034.8
-       >>> w = toWm(p)  # 377302 1483035
+        >>> p = LatLon(48.8582, 2.2945)  # 448251.8 5411932.7
+        >>> w = toWm(p)  # 448252 5411933
+        >>> p = LatLon(13.4125, 103.8667)  # 377302.4 1483034.8
+        >>> w = toWm(p)  # 377302 1483035
     '''
     e, r = None, Radius(radius)
     try:

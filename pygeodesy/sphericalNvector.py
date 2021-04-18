@@ -54,7 +54,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 _paths_ = 'paths'
 
@@ -68,7 +68,7 @@ class Cartesian(CartesianSphericalBase):
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{datum}} and other
-                                   keyword arguments.  Use B{C{LatLon=...}} to
+                                   keyword arguments.  Use C{B{LatLon}=...} to
                                    override this L{LatLon} class or specify
                                    C{B{LatLon}=None}.
 
@@ -85,9 +85,9 @@ class Cartesian(CartesianSphericalBase):
         '''Convert this cartesian to L{Nvector} components, I{including height}.
 
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
-                                    keyword arguments.  Use B{C{Nvector=...}} to
+                                    keyword arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    B{C{Nvector=None}}.
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
@@ -110,8 +110,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
        @example:
 
-       >>> from sphericalNvector import LatLon
-       >>> p = LatLon(52.205, 0.119)
+        >>> from sphericalNvector import LatLon
+        >>> p = LatLon(52.205, 0.119)
     '''
     _Nv = None  # cached_toNvector L{Nvector})
 
@@ -148,11 +148,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.2611, -0.7972)
+            >>> p = LatLon(53.2611, -0.7972)
 
-           >>> s = LatLon(53.3206, -1.7297)
-           >>> e = LatLon(53.1887, 0.1334)
-           >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
+            >>> s = LatLon(53.3206, -1.7297)
+            >>> e = LatLon(53.1887, 0.1334)
+            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         self.others(start=start)
         gc, _, _ = self._gc3(start, end, _end_)
@@ -186,13 +186,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.2611, -0.7972)
+            >>> p = LatLon(53.2611, -0.7972)
 
-           >>> s = LatLon(53.3206, -1.7297)
-           >>> d = p.crossTrackDistanceTo(s, 96)  # -305.7
+            >>> s = LatLon(53.3206, -1.7297)
+            >>> d = p.crossTrackDistanceTo(s, 96)  # -305.7
 
-           >>> e = LatLon(53.1887, 0.1334)
-           >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
+            >>> e = LatLon(53.1887, 0.1334)
+            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         self.others(start=start)
         gc, _, _ = self._gc3(start, end, _end_)
@@ -218,9 +218,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(51.4778, -0.0015)
-           >>> q = p.destination(7794, 300.7)
-           >>> q.toStr()  # 51.513546°N, 000.098345°W
+            >>> p = LatLon(51.4778, -0.0015)
+            >>> q = p.destination(7794, 300.7)
+            >>> q.toStr()  # 51.513546°N, 000.098345°W
 
            @JSname: I{destinationPoint}.
         '''
@@ -249,9 +249,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351);
-           >>> d = p.distanceTo(q)  # 404.3 km
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351);
+            >>> d = p.distanceTo(q)  # 404.3 km
         '''
         self.others(other)
 
@@ -315,13 +315,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(53.3206, -1.7297)
-           >>> gc = p.greatCircle(96.0)
-           >>> gc.toStr()  # (-0.79408, 0.12856, 0.59406)
+            >>> p = LatLon(53.3206, -1.7297)
+            >>> gc = p.greatCircle(96.0)
+            >>> gc.toStr()  # (-0.79408, 0.12856, 0.59406)
 
-           >>> q = LatLon(53.1887, 0.1334)
-           >>> g = p.greatCircleTo(q)
-           >>> g.toStr()  # (-0.79408, 0.12859, 0.59406)
+            >>> q = LatLon(53.1887, 0.1334)
+            >>> g = p.greatCircleTo(q)
+            >>> g.toStr()  # (-0.79408, 0.12859, 0.59406)
         '''
         gc, _, _ = self._gc3(self, other, _other_)
         return gc.unit()
@@ -343,9 +343,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> b = p1.initialBearingTo(p2)  # 156.2
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351)
+            >>> b = p1.initialBearingTo(p2)  # 156.2
 
            @JSname: I{bearingTo}.
         '''
@@ -374,9 +374,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
 
            @JSname: I{intermediatePointOnChordTo}, I{intermediatePointDirectlyTo}.
         '''
@@ -409,9 +409,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(52.205, 0.119)
-           >>> q = LatLon(48.857, 2.351)
-           >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
+            >>> p = LatLon(52.205, 0.119)
+            >>> q = LatLon(48.857, 2.351)
+            >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
 
            @JSname: I{intermediatePointTo}.
         '''
@@ -452,9 +452,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> s = LatLon(51.8853, 0.2545)
-           >>> e = LatLon(49.0034, 2.5735)
-           >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
+            >>> s = LatLon(51.8853, 0.2545)
+            >>> e = LatLon(49.0034, 2.5735)
+            >>> i = s.intersection(108.55, e, 32.44)  # 50.9076°N, 004.5086°E
         '''
         return intersection(self, end1, start2, end2,
                             height=height, LatLon=self.classof)
@@ -473,9 +473,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
-           >>> p = LatLon(45.1, 1.1)
-           >>> inside = p.isenclosedBy(b)  # True
+            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
+            >>> p = LatLon(45.1, 1.1)
+            >>> inside = p.isenclosedBy(b)  # True
 
            @JSname: I{enclosedBy}.
         '''
@@ -558,9 +558,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p1 = LatLon(52.205, 0.119)
-           >>> p2 = LatLon(48.857, 2.351)
-           >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
+            >>> p1 = LatLon(52.205, 0.119)
+            >>> p2 = LatLon(48.857, 2.351)
+            >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
         self.others(other)
 
@@ -583,23 +583,23 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Closest point on the arc (L{LatLon}).
 
-           @raise NotImplementedError: Keyword argument B{C{wrap}=True}
+           @raise NotImplementedError: Keyword argument C{B{wrap}=True}
                                        not supported.
 
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
            @example:
 
-           >>> s1 = LatLon(51.0, 1.0)
-           >>> s2 = LatLon(51.0, 2.0)
+            >>> s1 = LatLon(51.0, 1.0)
+            >>> s2 = LatLon(51.0, 2.0)
 
-           >>> s = LatLon(51.0, 1.9)
-           >>> p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
+            >>> s = LatLon(51.0, 1.9)
+            >>> p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
 
-           >>> d = p.distanceTo(s)  # 42.71 m
+            >>> d = p.distanceTo(s)  # 42.71 m
 
-           >>> s = LatLon(51.0, 2.1)
-           >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
+            >>> s = LatLon(51.0, 2.1)
+            >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
 
            @JSname: I{nearestPointOnSegment}.
         '''
@@ -686,9 +686,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Convert this point to C{Nvector}-based cartesian (ECEF) coordinates.
 
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} or other
-                                      keyword arguments.  Use B{C{Cartesian=...}}
+                                      keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      B{C{Cartesian=None}}.
+                                      C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -703,9 +703,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Convert this point to L{Nvector} components, I{including height}.
 
            @kwarg Nvector_and_kwds: Optional L{Nvector} and other keyword
-                                    arguments.  Use B{C{Nvector=...}} to
+                                    arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    B{C{Nvector=None}}.
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}} is
                     set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}.
@@ -714,9 +714,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @example:
 
-           >>> p = LatLon(45, 45)
-           >>> n = p.toNvector()
-           >>> n.toStr()  # [0.50, 0.50, 0.70710]
+            >>> p = LatLon(45, 45)
+            >>> n = p.toNvector()
+            >>> n.toStr()  # [0.50, 0.50, 0.70710]
 
            @JSname: I{toVector}.
         '''
@@ -745,9 +745,9 @@ class Nvector(NvectorBase):
            (ECEF) coordinates.
 
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{h}} and other
-                                      keyword arguments.  Use B{C{Cartesian=...}}
+                                      keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      B{C{Cartesian=None}}.
+                                      C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -762,7 +762,7 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{height}} and other
-                                   keyword arguments.  Use B{C{LatLon=...}}
+                                   keyword arguments.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
                                    C{B{LatLon}=None}.
 
@@ -793,8 +793,8 @@ class Nvector(NvectorBase):
 
            @example:
 
-           >>> n = LatLon(53.3206, -1.7297).toNvector()
-           >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
+            >>> n = LatLon(53.3206, -1.7297).toNvector()
+            >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
         '''
         s, c = sincos2d(Bearing(bearing))
 
@@ -828,8 +828,8 @@ def areaOf(points, radius=R_M):
 
        @example:
 
-       >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
-       >>> areaOf(b)  # 8666058750.718977
+        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+        >>> areaOf(b)  # 8666058750.718977
     '''
     def _interangles(Ps):
         # use vector to 1st point as plane normal for sign of α
@@ -888,9 +888,9 @@ def intersection(start1, end1, start2, end2,
 
        @example:
 
-       >>> p = LatLon(51.8853, 0.2545)
-       >>> q = LatLon(49.0034, 2.5735)
-       >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
+        >>> p = LatLon(51.8853, 0.2545)
+        >>> q = LatLon(49.0034, 2.5735)
+        >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
     '''
     _Nvll.others(start1=start1)
     _Nvll.others(start2=start2)
@@ -1061,7 +1061,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
 
 def triangulate(point1, bearing1, point2, bearing2,
                 height=None, LatLon=LatLon, **LatLon_kwds):
-    '''Locate a point given two known points and initial bearings
+    '''Locate a point given two known points and the initial bearings
        from those points.
 
        @arg point1: First reference point (L{LatLon}).
@@ -1083,9 +1083,9 @@ def triangulate(point1, bearing1, point2, bearing2,
 
        @example:
 
-       >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-       >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
-       >>> t = triangulate(p, 7, q, 295)  # 47.323667°N, 002.568501°W'
+        >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
+        >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
+        >>> t = triangulate(p, 7, q, 295)  # 47.323667°N, 002.568501°W'
     '''
     return _triangulate(_Nvll.others(point1=point1), bearing1,
                         _Nvll.others(point2=point2), bearing2,

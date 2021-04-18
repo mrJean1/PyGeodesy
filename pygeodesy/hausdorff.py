@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 
 class HausdorffError(PointsError):
@@ -125,9 +125,9 @@ class Hausdorff(_Named):
                                unrolled longitudinal delta by the cosine
                                of the mean latitude, iff applicable.
 
-           @raise HausdorffError: Insufficient number of B{C{points}} or an
-                                  invalid B{C{point}}, B{C{seed}} or B{{wrap}}
-                                  or B{C{ajust}} not applicable.
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  an invalid B{C{point}}, B{C{seed}} or
+                                  B{C{wrap}} or B{C{ajust}} not applicable.
         '''
         _, self._model = self._points2(points)
         if seed:
@@ -987,7 +987,7 @@ def randomrangenerator(seed):
        @arg seed: Initial, internal L{Random} state (C{hashable}
                   or C{None}).
 
-       @note: L{Random} B{C{seed=None}} seeds from the current
+       @note: L{Random} with C{B{seed}=None} seeds from the current
               time or from a platform-specific randomness source,
               if available.
 
@@ -995,9 +995,9 @@ def randomrangenerator(seed):
 
        @example:
 
-       >>> rrange = randomrangenerator('R')
-       >>> for r in rrange(n):
-       >>>    ...  # r is random in 0..n-1
+        >>> rrange = randomrangenerator('R')
+        >>> for r in rrange(n):
+        >>>    ...  # r is random in 0..n-1
     '''
     R = Random(seed)
 

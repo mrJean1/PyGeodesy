@@ -45,7 +45,7 @@ from pygeodesy.utmupsBase import _hemi
 
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.02.09'
+__version__ = '21.04.15'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -107,8 +107,8 @@ class Mgrs(_NamedBase):
 
            @example:
 
-           >>> from pygeodesy import Mgrs
-           >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
+            >>> from pygeodesy import Mgrs
+            >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
         '''
         if name:
             self.name = name
@@ -220,8 +220,8 @@ class Mgrs(_NamedBase):
 
            @example:
 
-           >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
-           >>> m.toStr()  # '31U DQ 48251 11932'
+            >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
+            >>> m.toStr()  # '31U DQ 48251 11932'
         '''
         t = NN(Fmt.zone(self._zone), self._band)
         t = enstr2(self._easting, self._northing, prec, t, self._en100k)
@@ -239,9 +239,9 @@ class Mgrs(_NamedBase):
 
            @example:
 
-           >>> m = Mgrs('31U', 'DQ', 448251, 11932)
-           >>> u = m.toUtm()  # 31 N 448251 5411932
-           >>> u = m.toUtm(None)  # 31 N 448251 5411932 U
+            >>> m = Mgrs('31U', 'DQ', 448251, 11932)
+            >>> u = m.toUtm()  # 31 N 448251 5411932
+            >>> u = m.toUtm(None)  # 31 N 448251 5411932 U
         '''
         r, u = self._utmups5utm2
         if Utm is None:
@@ -325,22 +325,22 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
                     reference (L{Mgrs}) or C{None}.
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
 
-       @return: The MGRS grid reference (B{L{Mgrs}}) or an
+       @return: The MGRS grid reference (B{C{Mgrs}}) or an
                 L{Mgrs4Tuple}C{(zone, digraph, easting, northing)}
-                if B{C{Mgrs}} is C{None}.
+                if C{B{Mgrs}=None}.
 
        @raise MGRSError: Invalid B{C{strMGRS}}.
 
        @example:
 
-       >>> m = parseMGRS('31U DQ 48251 11932')
-       >>> str(m)  # 31U DQ 48251 11932
-       >>> m = parseMGRS('31UDQ4825111932')
-       >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
-       >>> m = mgrs.parseMGRS('42SXD0970538646')
-       >>> str(m)  # 42S XD 09705 38646
-       >>> m = mgrs.parseMGRS('42SXD9738')  # Km
-       >>> str(m)  # 42S XD 97000 38000
+        >>> m = parseMGRS('31U DQ 48251 11932')
+        >>> str(m)  # 31U DQ 48251 11932
+        >>> m = parseMGRS('31UDQ4825111932')
+        >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
+        >>> m = mgrs.parseMGRS('42SXD0970538646')
+        >>> str(m)  # 42S XD 09705 38646
+        >>> m = mgrs.parseMGRS('42SXD9738')  # Km
+        >>> str(m)  # 42S XD 97000 38000
     '''
     def _mg(RE, s):  # return re.match groups
         m = RE.match(s)
@@ -383,11 +383,11 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
                     reference (L{Mgrs}) or C{None}.
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
        @kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
-                         arguments, ignored if B{C{Mgrs=None}}.
+                         arguments, ignored if C{B{Mgrs}=None}.
 
-       @return: The MGRS grid reference (B{L{Mgrs}}) or an
+       @return: The MGRS grid reference (B{C{Mgrs}}) or an
                 L{Mgrs6Tuple}C{(zone, digraph, easting, northing,
-                band, datum)} if B{L{Mgrs}} is C{None}.
+                band, datum)} if C{B{Mgrs}=None}.
 
        @raise TypeError: If B{C{utm}} is not L{Utm} nor L{Etm}.
 
@@ -395,8 +395,8 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
 
        @example:
 
-       >>> u = Utm(31, 'N', 448251, 5411932)
-       >>> m = u.toMgrs()  # 31U DQ 48251 11932
+        >>> u = Utm(31, 'N', 448251, 5411932)
+        >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
     _xinstanceof(Utm, utm=utm)  # Utm, Etm
 

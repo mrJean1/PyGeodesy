@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.02.25'
+__version__ = '21.04.15'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -156,8 +156,8 @@ class Etm(Utm):
 
            @example:
 
-           >>> import pygeodesy
-           >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
+            >>> import pygeodesy
+            >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
         '''
         Utm.__init__(self, zone, hemisphere, easting, northing,
                                  band=band, datum=datum, falsed=falsed,
@@ -225,9 +225,9 @@ class Etm(Utm):
 
            @example:
 
-           >>> from pygeodesy import ellipsoidalVincenty as eV, Etm
-           >>> u = Etm(31, 'N', 448251.795, 5411932.678)
-           >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
+            >>> from pygeodesy import ellipsoidalVincenty as eV, Etm
+            >>> u = Etm(31, 'N', 448251.795, 5411932.678)
+            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         xTM, d = self.exactTM, self.datum
         # double check that this and exactTM's ellipsoids stil match
@@ -968,10 +968,10 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
 
        @example:
 
-       >>> u = parseETM5('31 N 448251 5411932')
-       >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
-       >>> u = parseETM5('31 N 448251.8 5411932.7')
-       >>> u.toStr()  # 31 N 448252 5411933
+        >>> u = parseETM5('31 N 448251 5411932')
+        >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
+        >>> u = parseETM5('31 N 448251.8 5411932.7')
+        >>> u.toStr()  # 31 N 448252 5411933
     '''
     r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError, name=name)
     return r
