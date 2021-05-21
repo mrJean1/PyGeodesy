@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.09.17'
+__version__ = '21.05.11'
 
 from base import isPyPy, TestsBase, type2str
 
@@ -52,7 +52,9 @@ if __name__ == '__main__':
             m = getattr(f, '__module__', '.').split('.')[-1]
             if m and m not in ('math', 'pygeodesy'):
                 n = a + type2str(pygeodesy, a)
-                t.test(n, m in pygeodesy.__all__ or a in ('freduce' , 'isclass', 'iskeyword'), True)
+                t.test(n, m in  pygeodesy.__all__ or
+                          m in ('gx', 'gxarea') or  # inside .geodesicx
+                          a in ('freduce' , 'isclass', 'iskeyword'), True)
 
     t.results()
     t.exit()

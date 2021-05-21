@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
+u'''Spherical, C{N-vector}-based geodesy.
+
+N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
 (ECEF) L{Cartesian} and L{Nvector} and functions L{areaOf}, L{intersection},
 L{meanOf}, L{nearestOn3}, L{perimeterOf}, L{sumOf}, L{triangulate} and
 L{trilaterate}, I{all spherical}.
@@ -27,11 +29,8 @@ z => 90°N while Gade uses x => 90°N, y => 0°N,90°E, z => 0°N,0°E.
 
 Also note that on a spherical earth model, an n-vector is equivalent
 to a normalised version of an (ECEF) cartesian coordinate.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
-# make sure int/int division yields float quotient, see .basics
+# make sure int/int division yields float quosient, see .basics
 from __future__ import division
 
 from pygeodesy.basics import isscalar, neg, _xinstanceof
@@ -54,7 +53,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _paths_ = 'paths'
 
@@ -1050,7 +1049,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
        @arg nvectors: Vectors to be added (L{Nvector}[]).
        @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
        @kwarg h: Optional height, overriding the mean height (C{meter}).
-       @kwarg kwds: Optional, additional B{C{Vector}} keyword arguments.
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments.
 
        @return: Vectorial sum (B{C{Vector}}).
 

@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and
+u'''Military Grid Reference System (MGRS/NATO) references.
+
+Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and
 L{MGRSError} and functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
@@ -22,8 +24,6 @@ Depending on requirements, some parts of the reference may be omitted
 See also U{United States National Grid
 <https://www.FGDC.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>}
 and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_reference_system>}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import halfs2, _xinstanceof
@@ -45,7 +45,7 @@ from pygeodesy.utmupsBase import _hemi
 
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums

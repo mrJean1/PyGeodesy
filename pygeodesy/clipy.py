@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to I{clip} a path or polygon of C{LatLon} points
-against a rectangular box or a (convex) clip region.
+u'''Clip a path or polygon.
 
-@newfield example: Example, Examples
+Clip a path or polygon of C{LatLon} points against a rectangular
+box or a (convex) clip region.
 '''
 
 from pygeodesy.basics import len2
@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.02.18'
+__version__ = '21.04.24'
 
 _fi_ = 'fi'
 _fj_ = 'fj'

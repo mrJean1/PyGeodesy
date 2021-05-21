@@ -1,15 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) base class L{LatLonBase} for elliposiodal, spherical and
-n-vectorial C{LatLon}s.
+u'''(INTERNAL) Base class L{LatLonBase} for elliposiodal, spherical and
+N-vectorial C{LatLon}s.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
 U{<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}
 and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import isstr, _xinstanceof
@@ -40,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.04.17'
+__version__ = '21.05.19'
 
 
 class LatLonBase(_NamedBase):
@@ -260,7 +258,7 @@ class LatLonBase(_NamedBase):
 
     @property_RO
     def datum(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self.datum)
 
@@ -311,13 +309,13 @@ class LatLonBase(_NamedBase):
 
     @Property_RO
     def _Ecef_forward(self):
-        '''(INTERNAL) Helper for L{_ecef9} and L{toEcef}.
+        '''(INTERNAL) Helper for L{_ecef9} and L{toEcef} (C{callable}).
         '''
         return self.Ecef(self.datum, name=self.name).forward
 
     @Property_RO
     def _ecef9(self):
-        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
+        '''(INTERNAL) Helper for L{toCartesian}, L{toEcef} and L{toCartesian} (L{Ecef9Tuple}).
         '''
         return self._Ecef_forward(self, M=True)
 

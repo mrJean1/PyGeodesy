@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Generic 3-D vector base class L{Vector3d}, class L{VectorError}
+u'''I{Veness}' Vector functions.
+
+Generic 3-D vector base class L{Vector3d}, class L{VectorError}
 and functions L{intersections2}, L{iscolinearWith}, L{nearestOn},
 L{parse3d}, L{sumOf} and L{trilaterate3d2}.
 
@@ -9,9 +11,6 @@ Pure Python implementation of vector-based functions by I{(C) Chris
 Veness 2011-2015} published under the same MIT Licence**, see
 U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import copysign, len2, map1, map2, neg, _xnumpy
@@ -35,7 +34,7 @@ from pygeodesy.units import Float, Radius, Radius_, Scalar
 from math import atan2, hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _raise_ = 'raise'
 
@@ -321,7 +320,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                          positive if this->other is clockwise looking
                          along vSign or negative in opposite direction,
                          otherwise angle is unsigned.
-           @kwarg warp: Wrap/unroll the angle to +/-PI (c{bool}).
+           @kwarg wrap: Wrap/unroll the angle to +/-PI (c{bool}).
 
            @return: Angle (C{radians}).
 

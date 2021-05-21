@@ -1,9 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellipsoidal I{Thaddeus Vincenty}'s geodetic (lat-/longitude) L{LatLon},
-geocentric (ECEF) L{Cartesian} and L{VincentyError} classes and functions
-L{areaOf}, L{intersections2}, L{nearestOn} and L{perimeterOf}.
+u'''Ellipsoidal, I{Vincenty}-based geodesy.
+
+I{Thaddeus Vincenty}'s geodetic (lat-/longitude) L{LatLon}, geocentric
+(ECEF) L{Cartesian} and L{VincentyError} classes and functions L{areaOf},
+L{intersections2}, L{nearestOn} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -46,9 +48,6 @@ as follows:
 or by converting to anothor datum:
 
     >>> p = p.toDatum(Datums.OSGB36)
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -74,7 +73,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!

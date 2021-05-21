@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Trigonometric classes geodetic (lat-/longitude) L{LatLon} and
+u'''Spherical, C{trigonometry}-based geodesy.
+
+Trigonometric classes geodetic (lat-/longitude) L{LatLon} and
 geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{intersection},
 L{intersections2}, L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn3} and
 L{perimeterOf}, I{all spherical}.
@@ -10,9 +12,6 @@ Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -50,7 +49,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -1180,7 +1179,7 @@ def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
 
 
 def _latlon3(lat, lon, height, func, LatLon, LatLon_kwds):
-    '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanof}.
+    '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanOf}.
     '''
     if LatLon is None:
         r = LatLon3Tuple(lat, lon, height)

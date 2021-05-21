@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Geocentric conversions transcribed from I{Charles Karney}'s C++ class U{Geocentric
+u'''I{Geocentric} Earth-Centered, Earth-Fixed (ECEF) coordinates.
+
+Geocentric conversions transcribed from I{Charles Karney}'s C++ class U{Geocentric
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
 into pure Python class L{EcefKarney}, class L{EcefSudano} based on I{John Sudano}'s
 U{paper<https://www.ResearchGate.net/publication/
@@ -84,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.04.17'
+__version__ = '21.05.19'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -209,7 +211,7 @@ class _EcefBase(_NamedBase):
     f = flattening
 
     def forward(self, latlonh, lon=None, height=0, M=False):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self.forward, latlonh, lon=lon,
                                       height=height, M=M)
@@ -251,7 +253,7 @@ class _EcefBase(_NamedBase):
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
 
     def reverse(self, xyz, y=None, z=None, M=False):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self.reverse, xyz, y=y, z=z, M=M)
 

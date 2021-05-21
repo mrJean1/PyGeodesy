@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Lambert conformal conic projection for 1- or 2-Standard Parallels
+u'''Lambert Conformal Conic (LCC) projection.
+
+Lambert conformal conic projection for 1- or 2-Standard Parallels
 classes L{Conic}, L{Conics} registry, L{LCCError} and position class
 L{Lcc}.
 
@@ -13,8 +15,6 @@ U{Lambert Conformal Conic Projection
 <https://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
 and John P. Snyder U{'Map Projections - A Working Manual'
 <https://Pubs.USGS.gov/pp/1395/report.pdf>}, 1987, pp 107-109.
-
-@newfield example: Example, Examples
 
 @var Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.8333339, par2=51.1666672, E0=649328, N0=665262, k0=1, SP=2, datum=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
 @var Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

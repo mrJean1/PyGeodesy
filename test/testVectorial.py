@@ -4,9 +4,10 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.04.08'
+__version__ = '21.05.17'
 
-from base import coverage, isPyPy, isPython2, numpy_version, TestsBase
+from base import coverage, GeodSolve, isPyPy, isPython2, \
+                 numpy_version, TestsBase
 
 from pygeodesy import EPS, F_D, fstr, IntersectionError, NEG0, \
                       sphericalNvector, trilaterate2d2, \
@@ -386,8 +387,9 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import Datums, cartesianBase, ellipsoidalKarney, ellipsoidalNvector, \
-                          ellipsoidalVincenty, nvectorBase, sphericalTrigonometry
+    from pygeodesy import Datums, cartesianBase, ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, nvectorBase, \
+                          sphericalTrigonometry
 
     t = Tests(__file__, __version__)
 
@@ -397,11 +399,17 @@ if __name__ == '__main__':
     t.testNvectorBase(nvectorBase, datum=Datums.Sphere)
     t.testNvectorBase(nvectorBase, datum=Datums.WGS84)
 
-    t.testTrilaterate3d(ellipsoidalKarney,     ellipsoidalKarney.Cartesian)
-    t.testTrilaterate3d(ellipsoidalNvector,    ellipsoidalNvector.Cartesian)
-    t.testTrilaterate3d(ellipsoidalVincenty,   ellipsoidalVincenty.Cartesian)
     t.testTrilaterate3d(sphericalNvector,      sphericalNvector.Cartesian)
     t.testTrilaterate3d(sphericalTrigonometry, sphericalTrigonometry.Cartesian)
+
+    t.testTrilaterate3d(ellipsoidalNvector,  ellipsoidalNvector.Cartesian)
+    t.testTrilaterate3d(ellipsoidalVincenty, ellipsoidalVincenty.Cartesian)
+    t.testTrilaterate3d(ellipsoidalKarney,   ellipsoidalKarney.Cartesian)
+    t.testTrilaterate3d(ellipsoidalExact,    ellipsoidalExact.Cartesian)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testTrilaterate3d(ellipsoidalGeodSolve, ellipsoidalGeodSolve.Cartesian)
 
     t.testTrilaterate3d(cartesianBase,         cartesianBase.CartesianBase)
     t.testTrilaterate3d(nvectorBase,           nvectorBase.NvectorBase)

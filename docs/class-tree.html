@@ -147,6 +147,10 @@
         href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
         issue.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodesicError-class.html">pygeodesy.karney.GeodesicError</a></strong>:
+      <em class="summary">Error raised for <i>geodesicx</i>'s methods for lack of convergence
+        or other issues.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.GeohashError-class.html">pygeodesy.geohash.GeohashError</a></strong>:
       <em class="summary">Geohash encode, decode or other <a 
         href="pygeodesy.geohash.Geohash-class.html" 
@@ -434,6 +438,12 @@
         <code>degrees</code> from <code>LatLon</code> points in 
         <code>degrees</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetExact-class.html">pygeodesy.frechet.FrechetExact</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a><code>.Inverse</code>.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetKarney-class.html">pygeodesy.frechet.FrechetKarney</a></strong>:
       <em class="summary">Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from 
@@ -441,6 +451,8 @@
         target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -543,6 +555,12 @@
         class="link">Hausdorff</a> base class for distances from 
         <code>LatLon</code> points in <code>degrees</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffExact-class.html">pygeodesy.hausdorff.HausdorffExact</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>degrees</code> from method <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a><code>.Inverse</code>.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffKarney-class.html">pygeodesy.hausdorff.HausdorffKarney</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from 
@@ -550,6 +568,8 @@
         target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -905,6 +925,27 @@
         of view</i> (fov) and the intersection with (or projection to) a 
         <i>local tangent plane</i>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html">pygeodesy.geodesicx.gxarea.GeodesicAreaExact</a></strong>:
+      <em class="summary">Area and perimeter of a geodesic polygon, an enhanced version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.polygonarea"
+        target="_top">PolygonArea</a> using the more accurate surface area.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea.PolygonArea-class.html">pygeodesy.geodesicx.gxarea.PolygonArea</a></strong>:
+      <em class="summary">For <code>geographiclib</code> compatibility, sub-class of <a 
+        href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+        class="link">GeodesicAreaExact</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html">pygeodesy.geodsolve.GeodesicSolve</a></strong>:
+      <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
+        target="_top">GeodSolve</a> as an <code>Exact</code> version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html#geographiclib.geodesic.Geodesic"
+        target="_top">Geodesic</a> <i>wrapper</i>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>LatLon</code> points on spherical 
         or ellipsoidal earth models.</em>
@@ -912,6 +953,44 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>s.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact.LatLon-class.html">pygeodesy.ellipsoidalExact.LatLon</a></strong>:
+      <em class="summary">An ellipsoidal <a 
+        href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
+        class="link">LatLon</a> like <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> but using exact geodesic 
+        classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a> to compute the geodesic 
+        distance, initial and final bearing (azimuths) between two given 
+        points or the destination point given a start point and an 
+        (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html">pygeodesy.ellipsoidalGeodSolve.LatLon</a></strong>:
+      <em class="summary">An ellipsoidal <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
+        class="link">LatLon</a> like <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> but using exact geodesic 
+        class <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> to compute the geodesic distance, 
+        initial and final bearing (azimuths) between two given points or 
+        the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
+      <em class="summary">An n-vector-based, ellipsoidal <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a> point.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -923,19 +1002,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
-      <em class="summary">An n-vector-based, ellipsoidal <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a> point.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -984,7 +1050,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Ltp-class.html">pygeodesy.ltp.Ltp</a></strong>:
       <em class="summary">A <i>local tangent plan</i> LTP, a sub-class of 
-        <code>LocalCartesian</code> with configurable <code>Ecef</code> and
+        <code>LocalCartesian</code> with configurable ECEF converter and 
         without optional rotation matrix.</em>
     </li>
     </ul>
@@ -1041,11 +1107,18 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>s.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact.Cartesian-class.html">pygeodesy.ellipsoidalExact.Cartesian</a></strong>:
+      <em class="summary">Extended to convert exact <a 
+        href="pygeodesy.ellipsoidalExact.Cartesian-class.html" 
+        class="link">Cartesian</a> to exact <a 
+        href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html">pygeodesy.ellipsoidalGeodSolve.Cartesian</a></strong>:
+      <em class="summary">Extended to convert exact <a 
+        href="pygeodesy.ellipsoidalGeodSolve.Cartesian-class.html" 
+        class="link">Cartesian</a> to exact <a 
+        href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
@@ -1056,6 +1129,13 @@
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1205,11 +1285,40 @@
         href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.</em>
     </li>
-    <li> <strong class="uidlink">pygeodesy.azimuthal._AzimuthalBaseKarney</strong>:
+    <li> <strong class="uidlink">pygeodesy.azimuthal._AzimuthalGeodesic</strong>:
       <em class="summary">(INTERNAL) Base class for azimuthal projections using <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-        target="_top">Karney Geodesic</a>.</em>
+        target="_top">Karney Geodesic</a> or exact geodesic classes <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.</em>
     <ul>
+    <li> <strong class="uidlink">pygeodesy.azimuthal._EquidistantBase</strong>:
+      <em class="summary">(INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+        class="link">EquidistantExact</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+        class="link">EquidistantGeodSolve</a> and <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.EquidistantExact-class.html">pygeodesy.azimuthal.EquidistantExact</a></strong>:
+      <em class="summary">Azimuthal equidistant projection, a Python version of 
+        <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
+        target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
+        classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html">pygeodesy.azimuthal.EquidistantGeodSolve</a></strong>:
+      <em class="summary">Azimuthal equidistant projection, a Python version of 
+        <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
+        target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
+        classes <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.EquidistantKarney-class.html">pygeodesy.azimuthal.EquidistantKarney</a></strong>:
       <em class="summary">Azimuthal equidistant projection, a Python version of 
         <i>Karney</i>'s C++ class <a 
@@ -1218,6 +1327,25 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to be installed.</em>
     </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.azimuthal._GnomonicBase</strong>:
+      <em class="summary">(INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.GnomonicExact-class.html" 
+        class="link">GnomonicExact</a> and <a 
+        href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+        class="link">GnomonicKarney</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.GnomonicExact-class.html">pygeodesy.azimuthal.GnomonicExact</a></strong>:
+      <em class="summary">Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
+        C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+        target="_top">Gnomonic</a>, based on exact geodesic classes <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.GnomonicKarney-class.html">pygeodesy.azimuthal.GnomonicKarney</a></strong>:
       <em class="summary">Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
         C++ class <a 
@@ -1225,6 +1353,8 @@
         target="_top">Gnomonic</a>, requiring package <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to be installed.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -1277,6 +1407,34 @@
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformations</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.geodesicx.bases._GeodesicBase</strong>:
+      <em class="summary">(INTERNAL) Base class for <code>[_]Geodesic*Exact</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html">pygeodesy.geodesicx.gx.GeodesicExact</a></strong>:
+      <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact</a>, modeled after <i>Karney</i>'s 
+        Python class <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesic"
+        target="_top">Geodesic</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html">pygeodesy.geodesicx.gxline._GeodesicLineExact</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html">pygeodesy.geodesicx.gx.GeodesicLineExact</a></strong>:
+      <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
+        target="_top">GeodesicLineExact</a>, modeled after <i>Karney</i>'s 
+        Python class <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesicline"
+        target="_top">GeodesicLine</a>.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -1759,6 +1917,39 @@
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
+    <li> <strong class="uidlink">pygeodesy.karney._GTuple</strong>:
+      <em class="summary">(INTERNAL) Helper.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Direct9Tuple-class.html">pygeodesy.karney.Direct9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
+        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
+        <code>lon2</code> and azimuth <code>azi2</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
+        <code>meter</code> <i>squared</i>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodSolve12Tuple-class.html">pygeodesy.karney.GeodSolve12Tuple</a></strong>:
+      <em class="summary">12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
+        M12, M21, S12)</code> with angles <code>lat1</code>, {Clon1}, 
+        <code>azi1</code>, <code>lat2</code>, <code>lon2</code> and 
+        <code>azi2</code> and arc <code>a12</code> all in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and geodesic scales 
+        <code>M12</code> and <code>M21</code> <code>scalar</code>, see <a 
+        href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
+        target="_top">GeodSolve</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Inverse10Tuple-class.html">pygeodesy.karney.Inverse10Tuple</a></strong>:
+      <em class="summary">10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
+        M21, S12)</code> with arc lenght <code>1a12</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and sines and cosines of initial 
+        and final (forward) azimuths.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
         <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
@@ -2022,6 +2213,16 @@ dict(iterable) -&gt; new dictionary initialized as if via:
 dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     in the keyword argument list.</em>
     <ul>
+    <li> <strong class="uidlink">pygeodesy.named._Dict</strong>:
+      <em class="summary">(INTERNAL) An <code>dict</code> with both key <i>and</i> attribute 
+        access to the <code>dict</code> items.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.GDict-class.html">pygeodesy.karney.GDict</a></strong>:
+      <em class="summary">Basic <code>dict</code> with both key <i>and</i> attribute access 
+        to the <code>dict</code> items.</em>
+    <ul>
+    </ul>
+    </li>
     <li> <strong class="uidlink">pygeodesy.named._NamedDict</strong>:
       <em class="summary">(INTERNAL) Named <code>dict</code> with key <i>and</i> attribute 
         access to the items.</em>
@@ -2035,6 +2236,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.named._NamedEnum-class.html">pygeodesy.named._NamedEnum</a></strong>:
       <em class="summary">(INTERNAL) Enum-like <code>_NamedDict</code> with attribute access 
         restricted to valid keys.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -2691,6 +2894,39 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
         except <code>ltp</code>.</em>
     </li>
+    <li> <strong class="uidlink">pygeodesy.karney._GTuple</strong>:
+      <em class="summary">(INTERNAL) Helper.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Direct9Tuple-class.html">pygeodesy.karney.Direct9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
+        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
+        <code>lon2</code> and azimuth <code>azi2</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
+        <code>meter</code> <i>squared</i>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodSolve12Tuple-class.html">pygeodesy.karney.GeodSolve12Tuple</a></strong>:
+      <em class="summary">12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
+        M12, M21, S12)</code> with angles <code>lat1</code>, {Clon1}, 
+        <code>azi1</code>, <code>lat2</code>, <code>lon2</code> and 
+        <code>azi2</code> and arc <code>a12</code> all in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and geodesic scales 
+        <code>M12</code> and <code>M21</code> <code>scalar</code>, see <a 
+        href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
+        target="_top">GeodSolve</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Inverse10Tuple-class.html">pygeodesy.karney.Inverse10Tuple</a></strong>:
+      <em class="summary">10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
+        M21, S12)</code> with arc lenght <code>1a12</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and sines and cosines of initial 
+        and final (forward) azimuths.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
         <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
@@ -2743,7 +2979,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:01 2021
+    Generated by Epydoc 3.0.1 on Fri May 21 13:12:33 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

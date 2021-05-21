@@ -3,7 +3,7 @@
 
 u'''Lazily import C{pygeodesy} modules and attributes, based on
 U{lazy_import<https://modutil.ReadTheDocs.io/en/latest/#lazy_import>}
-from Brett Cannon's U{modutil<https://PyPI.org/project/modutil>}.
+from I{Brett Cannon}'s U{modutil<https://PyPI.org/project/modutil>}.
 
 C{Lazy import} is I{supported only for }U{Python 3.7+
 <https://Snarky.CA/lazy-importing-in-python-3-7>} and is I{enabled by
@@ -26,22 +26,23 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _dunder_name, \
                              _enabled_, _EQUALSPACED_, _immutable_, \
-                             _isclockwise_, _ispolar_, _module_, _no_, \
-                             _not_, _or_, _perimeterOf_, _Python_, \
-                             _pygeodesy_abspath_, _UNDER_, _version_
+                             _isclockwise_, _ispolar_, _module_, \
+                             _NL_, _no_, _not_, _or_, _perimeterOf_, \
+                             _Python_, _pygeodesy_abspath_, _sep_, \
+                             _SPACE_, _UNDER_, _version_
 
-from os import environ as _env
+from os import environ as _env  # in .geodsolve
 from os.path import basename as _basename
-import sys as _sys
+import sys as _sys  # in .geodsolve
 
 _a_l_l_         = '__all__'
-_deprecated_    = 'deprecated'
 _FOR_DOCS       = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _imports_       = 'imports'
 _p_a_c_k_a_g_e_ = '__package__'
 _PYGEODESY_LAZY_IMPORT_  = 'PYGEODESY_LAZY_IMPORT'
 _PYTHON_X_DEV   =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
                   _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
+_sub_packages   = 'deprecated' , 'geodesicx'
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy
@@ -109,21 +110,22 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
                                  'AlbersError', 'Albers7Tuple'),
                       azimuthal=('AzimuthalError', 'Azimuthal7Tuple',
-                                 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'GnomonicKarney',
+                                 'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
+                                 'Gnomonic', 'GnomonicExact', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
                                  'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
-                                 'ub2str'),
+                                 'ub2str', 'unsign0'),
                           clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
-                     deprecated=('OK',  # DEPRECATED contants
+                     deprecated=('OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
@@ -141,6 +143,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                            ecef=('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2',
                                  'Elevation2Tuple', 'GeoidHeight2Tuple'),
+               ellipsoidalExact=(),  # module only
+           ellipsoidalGeodSolve=(),  # module only
               ellipsoidalKarney=(),  # module only
              ellipsoidalNvector=('Ned3Tuple',),  # nothing else
             ellipsoidalVincenty=('VincentyError',),  # nothing else
@@ -163,7 +167,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
-                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt0', 'sqrt3'),
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'norm2', 'norm_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -179,19 +183,23 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
                                  'FrechetCosineLaw', 'FrechetDistanceTo', 'FrechetEquirectangular',
-                                 'FrechetEuclidean', 'FrechetFlatLocal', 'FrechetFlatPolar', 'FrechetHaversine',
-                                 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas', 'FrechetVincentys', 'Frechet6Tuple',
+                                 'FrechetEuclidean', 'FrechetExact', 'FrechetFlatLocal', 'FrechetFlatPolar',
+                                 'FrechetHaversine', 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas',
+                                 'FrechetVincentys', 'Frechet6Tuple',
                                  'frechet_'),
                            gars=('Garef', 'GARSError'),
+                      geodesicx=('gx', 'gxarea', 'gxline',  # modules
+                                 'Caps', 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
+                      geodsolve=('GeodesicSolve',),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                  'PGMError', 'GeoidHeight5Tuple'),
                       hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
                                  'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
                                  'HausdorffCosineLaw', 'HausdorffDistanceTo', 'HausdorffEquirectangular',
-                                 'HausdorffEuclidean', 'HausdorffFlatLocal', 'HausdorffFlatPolar', 'HausdorffHaversine',
-                                 'HausdorffHubeny', 'HausdorffKarney', 'HausdorffThomas', 'HausdorffVincentys',
-                                 'Hausdorff6Tuple',
+                                 'HausdorffEuclidean', 'HausdorffExact', 'HausdorffFlatLocal', 'HausdorffFlatPolar',
+                                 'HausdorffHaversine', 'HausdorffHubeny', 'HausdorffKarney', 'HausdorffThomas',
+                                 'HausdorffVincentys', 'Hausdorff6Tuple',
                                  'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError',
                                  'HeightIDWcosineAndoyerLambert', 'HeightIDWcosineForsytheAndoyerLambert',
@@ -201,8 +209,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                         interns=_interns_a_l_l_,
                           iters=('LatLon2PsxyIter', 'PointsIter', 'points2'),
-                         karney=(),  # module only
-                         lazily=('LazyImportError', 'isLazy'),
+                         karney=('Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
+                         lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=('Frustum', 'LocalCartesian', 'LocalError', 'Ltp'),
                       ltpTuples=('Aer', 'Aer4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
@@ -276,7 +284,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.04.15'
+__version__ = '21.05.20'
 
 
 def _ALL_OTHER(*objs):
@@ -322,7 +330,7 @@ def _all_imports(**more):
                 for attr in attrs:
                     attr, _, as_attr = attr.partition(' as ')
                     if as_attr:
-                        imports_add(as_attr, _DOT_(mod, attr), _deprecated_)
+                        imports_add(as_attr, _DOT_(mod, attr), *_sub_packages)
                     else:
                         imports_add(attr, mod)
     return imports
@@ -379,7 +387,8 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
 
     import_module, package, parent = _lazy_init3(_pygeodesy_)
 
-    packages = (parent, '__main__', NN, _DOT_(parent, _deprecated_))
+    packages = (parent, '__main__', NN) + tuple(
+               _DOT_(parent, s) for s in _sub_packages)
     imports  = _all_imports()
 
     def __getattr__(name):  # __getattr__ only for Python 3.7+
@@ -394,7 +403,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
             imported = import_module(_DOT_(_pygeodesy_, mod), parent)
             pkg = getattr(imported, _p_a_c_k_a_g_e_, None)
             if pkg not in packages:  # invalid package
-                raise LazyImportError(_DOT_(mod, _p_a_c_k_a_g_e_), repr(pkg))
+                raise LazyImportError(_DOT_(mod, _p_a_c_k_a_g_e_), pkg)
             # import the module or module attribute
             if attr:
                 imported = getattr(imported, attr, MISSING)
@@ -422,7 +431,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
                     z = '%s by %s line %d' % (z, f, s)
                 except ValueError:  # PYCHOK no cover
                     pass
-            print('# lazily imported %s%s' % (_DOT_(parent, name), z))
+            printf('# lazily imported %s%s', _DOT_(parent, name), z)
 
         return imported  # __getattr__
 
@@ -475,6 +484,49 @@ def _lazy_init3(_pygeodesy_):
         raise LazyImportError(_lazy_init3.__name__, _pygeodesy_, txt=str(x))
 
     return import_module, package, parent
+
+
+def print_(*args, **nl_nt_prefix_end_file_flush_sep):
+    '''Python 3-style C{print} function.
+
+       @arg args: Values to be converted to C{str} and
+                  concatenated (C{any} types).
+       @kwarg nl=0: Number of leading blank lines (C{int}).
+       @kwarg nt=0: Number of additional , trailing blank lines (C{int}).
+       @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
+
+       @note: Python 3+ keyword arguments C{end}, C{file} and C{flush}
+              are silently ignored.
+    '''
+    sep = nl_nt_prefix_end_file_flush_sep.get(_sep_, _SPACE_)
+    txt = sep.join(map(str, args))
+    printf(txt, **nl_nt_prefix_end_file_flush_sep)
+
+
+def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep):
+    '''C-style C{printf} function.
+
+       @arg fmt: C-style formating text (C{str}).
+       @arg args: Values to be formatted (C{any} types).
+       @kwarg nl=0: Number of leading blank lines (C{int}).
+       @kwarg nt=0: Number of additional , trailing blank lines (C{int}).
+       @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
+
+       @note: Python 3+ keyword arguments C{end}, C{file}, C{flush}
+              and C{sep} are silently ignored.
+    '''
+    def _kwds(nl=0, nt=0, prefix=NN, **kwds):  # XXX end?
+        nl = (_NL_ * nl) if nl else NN
+        nt = (_NL_ * nt) if nt else NN
+        return nl, nt, prefix, kwds
+
+    nl, nt, prefix, _ = _kwds(**nl_nt_prefix_end_file_flush_sep)
+    if args:
+        fmt %= args
+#   elif kwds:
+#       fmt %= kwds
+    print(NN(nl, prefix, fmt, nt))
+
 
 # **) MIT License
 #

@@ -71,7 +71,7 @@ object --+
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.ltpTuples.Aer-class.html">ltpTuples.Aer</a></li><li>, <a href="pygeodesy.albers._AlbersBase-class.html">albers._AlbersBase</a></li><li>, <a href="pygeodesy.css.CassiniSoldner-class.html">css.CassiniSoldner</a></li><li>, <a href="pygeodesy.named._NamedEnumItem-class.html">_NamedEnumItem</a></li><li>, <a href="pygeodesy.css.Css-class.html">css.Css</a></li><li>, <a href="pygeodesy.ltp.LocalCartesian-class.html">ltp.LocalCartesian</a></li><li>, <a href="pygeodesy.ecef._EcefBase-class.html">ecef._EcefBase</a></li><li>, <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></li><li>, <a href="pygeodesy.azimuthal._AzimuthalBase-class.html">azimuthal._AzimuthalBase</a></li><li>, <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a></li><li>, <a href="pygeodesy.etm.ExactTransverseMercator-class.html">etm.ExactTransverseMercator</a></li><li>, <a href="pygeodesy.ltp.Frustum-class.html">ltp.Frustum</a></li><li>, <a href="pygeodesy.lcc.Lcc-class.html">lcc.Lcc</a></li><li>, <a href="pygeodesy.mgrs.Mgrs-class.html">mgrs.Mgrs</a></li><li>, <a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a></li><li>, <a href="pygeodesy.osgr.Osgr-class.html">osgr.Osgr</a></li><li>, <a href="pygeodesy.webmercator.Wm-class.html">webmercator.Wm</a></li><li>, <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></li>  </ul>
+<li><a href="pygeodesy.ltpTuples.Aer-class.html">ltpTuples.Aer</a></li><li>, <a href="pygeodesy.albers._AlbersBase-class.html">albers._AlbersBase</a></li><li>, <a href="pygeodesy.css.CassiniSoldner-class.html">css.CassiniSoldner</a></li><li>, <a href="pygeodesy.named._NamedEnumItem-class.html">_NamedEnumItem</a></li><li>, <a href="pygeodesy.css.Css-class.html">css.Css</a></li><li>, <a href="pygeodesy.ltp.LocalCartesian-class.html">ltp.LocalCartesian</a></li><li>, <a href="pygeodesy.ecef._EcefBase-class.html">ecef._EcefBase</a></li><li>, <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></li><li>, <a href="pygeodesy.azimuthal._AzimuthalBase-class.html">azimuthal._AzimuthalBase</a></li><li>, <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a></li><li>, <a href="pygeodesy.etm.ExactTransverseMercator-class.html">etm.ExactTransverseMercator</a></li><li>, <a href="pygeodesy.ltp.Frustum-class.html">ltp.Frustum</a></li><li>, <a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html">geodesicx.gxarea.GeodesicAreaExact</a></li><li class="private">, geodesicx.bases._GeodesicBase</li><li>, <a href="pygeodesy.geodsolve.GeodesicSolve-class.html">geodsolve.GeodesicSolve</a></li><li>, <a href="pygeodesy.lcc.Lcc-class.html">lcc.Lcc</a></li><li>, <a href="pygeodesy.mgrs.Mgrs-class.html">mgrs.Mgrs</a></li><li>, <a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a></li><li>, <a href="pygeodesy.osgr.Osgr-class.html">osgr.Osgr</a></li><li>, <a href="pygeodesy.webmercator.Wm-class.html">webmercator.Wm</a></li><li>, <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></li><li class="private">, geodesicx.gxarea._Accumulator</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -166,7 +166,8 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      (INTERNAL) <i>Must be overloaded</i>.</td>
+      (INTERNAL) <i>Must be overloaded</i>, see function 
+      <code>notOverloaded</code>.</td>
           <td align="right" valign="top">
             
             
@@ -304,7 +305,7 @@ object --+
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other instance (<code class="link">any</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other instance (any <code>type</code>).</li>
         <li><strong class="pname"><code>name_other_up</code></strong> - Overriding <code>name=other</code> and <code>up=1</code> keyword 
           arguments.</li>
     </ul></dd>
@@ -364,14 +365,9 @@ object --+
     </td>
   </tr></table>
   
-  <p>(INTERNAL) <i>Must be overloaded</i>.</p>
+  <p>(INTERNAL) <i>Must be overloaded</i>, see function 
+  <code>notOverloaded</code>.</p>
   <dl class="fields">
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
-        href="pygeodesy.named-module.html#notOverloaded" 
-        class="link">notOverloaded</a>.</li>
-    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">_Named.toStr</a>
     </dt>
@@ -410,7 +406,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:06 2021
+    Generated by Epydoc 3.0.1 on Fri May 21 13:12:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

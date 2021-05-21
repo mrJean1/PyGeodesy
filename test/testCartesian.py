@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.16'
 
-from base import geographiclib, TestsBase
+from base import GeodSolve, geographiclib, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, modulename # PYCHOK expected
+from pygeodesy import R_M, classname, Datums, degrees, fstr, modulename # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
@@ -18,7 +18,7 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
 
 class Tests(TestsBase):
 
-    def testCartesian(self, module, Sph=False, Nv=True):  # MCCABE 45
+    def testCartesian(self, module, Sph=False, Nv=False, X=False):  # MCCABE 45
 
         self.subtitle(module, 'Cartesian')
 
@@ -48,8 +48,9 @@ class Tests(TestsBase):
             self.test(t+'6', n.toStr(prec=6), '(0.625377, 0.000015, 0.780323, -5918.38)' if Sph
                                          else '(0.622818, 0.000015, 0.782367, +0.24)')  # PYCHOK attribute
         else:
-            self.test(t, repr(n), '(x=0.6253769790183048, y=1.5239375097448227e-05, z=0.7803227754472505, h=-5918.3802583276365)' if Sph
-                             else '(x=0.6228177647454303, y=1.517701139112776e-05, z=0.782366941841975, h=0.24288680875513333)', known=True)
+            n = fstr(n, fmt='g', prec=12)
+            self.test(t, n, '0.625376979018, 1.52393750974e-05, 0.780322775447, -5918.38025833' if Sph
+                       else '0.622817764745, 1.51770113911e-05, 0.782366941842, 0.242886808456')
 
         for ll in ((50.0379, 8.5622),  # FRA
                    (51.47,   0.4543),  # LHR
@@ -140,20 +141,26 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty, \
+    from pygeodesy import ellipsoidalExact, ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry
 
     t = Tests(__file__, __version__)
 
+    t.testCartesian(sphericalNvector, Sph=True, Nv=True)
+    t.testCartesian(sphericalTrigonometry, Sph=True)
+
+    t.testCartesian(ellipsoidalNvector, Nv=True)
+    t.testCartesian(ellipsoidalVincenty)
+
     if geographiclib:
         from pygeodesy import ellipsoidalKarney
-        t.testCartesian(ellipsoidalKarney, Sph=False, Nv=False)
+        t.testCartesian(ellipsoidalKarney)
 
-    t.testCartesian(ellipsoidalNvector, Sph=False, Nv=True)
-    t.testCartesian(ellipsoidalVincenty, Sph=False, Nv=False)
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testCartesian(ellipsoidalGeodSolve)
 
-    t.testCartesian(sphericalNvector, Sph=True, Nv=True)
-    t.testCartesian(sphericalTrigonometry, Sph=True, Nv=False)
+    t.testCartesian(ellipsoidalExact, X=True)
 
     t.results()
     t.exit()

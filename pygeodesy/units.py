@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Sub-classes C{Float}, C{Int} and C{Str} from basic
-C{float}, C{int} respectively C{str} to named units as
-L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
+u'''C{Float}, C{int} and C{str}ing units.
 
-@newfield example: Example, Examples
+Sub-classes C{Float}, C{Int} and C{Str} from basic C{float},
+C{int} respectively C{str} to named units as L{Degrees},
+L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
 from pygeodesy.basics import isstr, issubclassof
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.03.21'
+__version__ = '21.04.24'
 
 
 class _NamedUnit(_Named):
@@ -764,11 +764,11 @@ class FIx(Float_):
 
            @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg **LatLon_LatLon_kwds: Optional class to return the
-                                        I{intermediate}, I{fractional}
-                                        point (C{LatLon}) or C{None}
-                                        and optional B{C{LatLon}} keyword
-                                        arguments thereof.
+           @kwarg LatLon_LatLon_kwds: Optional class to return the
+                                      I{intermediate}, I{fractional}
+                                      point (C{LatLon}) or C{None}
+                                      and optional B{C{LatLon}} keyword
+                                      arguments thereof.
 
            @return: See function L{pygeodesy.fractional}.
 

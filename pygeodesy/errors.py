@@ -1,24 +1,26 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Error, exception classes and functions to format PyGeodesy errors,
-    including the setting of I{exception chaining} in Python 3+.
+u'''Errors, exceptions and exception chaining.
 
-    By default, I{exception chaining} is turned off.  To enable
-    I{exception chaining}, use command line option C{python -X dev} or
-    set environment variable C{PYTHONDEVMODE} to C{1} or any non-empyty
-    string OR set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
-    to C{'std'} or any other non-empty string.
+Error, exception classes and functions to format PyGeodesy errors,
+including the setting of I{exception chaining} in Python 3+.
+
+By default, I{exception chaining} is turned off.  To enable
+I{exception chaining}, use command line option C{python -X dev} or
+set environment variable C{PYTHONDEVMODE} to C{1} or any non-empyty
+string OR set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
+to C{'std'} or any other non-empty string.
 '''
 from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _COLON_, _COMMA_, _COMMASPACE_, \
                              _datum_, _ellipsoidal_, _EQUAL_, \
                              _invalid_, _len_, _name_, _no_, \
-                             _not_, _or_, _SPACE_, _UNDER_
+                             _not_, _or_, _SPACE_, _UNDER_, __vs__
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.04.15'
+__version__ = '21.05.05'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -161,7 +163,7 @@ class LenError(_ValueError):
         x = _xkwds_pop(lens_txt, txt=_invalid_)
         ns, vs = zip(*sorted(lens_txt.items()))
         ns = _COMMASPACE_.join(ns)
-        vs = ' vs '.join(map(str, vs))
+        vs = __vs__.join(map(str, vs))
         t  = _SPACE_(_Fmt.PAREN(where.__name__, ns), _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
@@ -292,7 +294,7 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
                         particular for name conflicts with keyword
                         arguments of C{error_init} or which can't be
                         used as C{name=value} keyword arguments.
-       @kwarg name_value_fmt: Format for (name, value) (C{str}).
+       @kwarg fmt_name_value: Format for (name, value) (C{str}).
        @kwarg txt: Optional explanation of the error (C{str}).
        @kwarg name_values: One or more C{B{name}=value} pairs overriding
                            any B{C{name_value}} positional arguments.

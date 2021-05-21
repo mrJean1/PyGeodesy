@@ -5,9 +5,9 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.04.06'
+__version__ = '21.05.16'
 
-from base import TestsBase
+from base import GeodSolve, TestsBase
 
 from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, Ellipsoids, \
@@ -226,7 +226,8 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalTrigonometry
 
     t = Tests(__file__, __version__)
@@ -237,10 +238,16 @@ if __name__ == '__main__':
     t.testEcef(EcefSudano)
     t.testEcef(EcefYou)
     t.testEcefMatrix()
-    t.testLatLonEcef(ellipsoidalKarney, EcefKarney)
-    t.testLatLonEcef(ellipsoidalNvector, EcefVeness)
-    t.testLatLonEcef(ellipsoidalVincenty, EcefVeness)
+
     t.testLatLonEcef(sphericalNvector, EcefKarney)
     t.testLatLonEcef(sphericalTrigonometry, EcefKarney)
+    t.testLatLonEcef(ellipsoidalNvector, EcefVeness)
+    t.testLatLonEcef(ellipsoidalVincenty, EcefVeness)
+    t.testLatLonEcef(ellipsoidalKarney, EcefKarney)
+    t.testLatLonEcef(ellipsoidalExact, EcefKarney)
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testLatLonEcef(ellipsoidalGeodSolve, EcefKarney)
+
     t.results()
     t.exit()

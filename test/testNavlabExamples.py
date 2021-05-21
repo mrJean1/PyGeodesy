@@ -9,13 +9,13 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '21.04.08'
+__version__ = '21.05.17'
 
 if __name__ == '__main__':
 
-    from base import geographiclib, TestsBase
+    from base import GeodSolve, geographiclib, TestsBase
 
-    from pygeodesy import Datums, F_D, ellipsoidalKarney, \
+    from pygeodesy import Datums, F_D, ellipsoidalExact, \
                           ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry
 
@@ -23,6 +23,12 @@ if __name__ == '__main__':
         def test(self, ex, name, *args, **kwds):
             name = 'Example %s %s' % (ex, name)
             TestsBase.test(self, name, *args, **kwds)
+
+    def destination(m, x):
+        a = m.LatLon(80, -90)  # +++
+        b = a.destination(1000, 200)
+        n = '%s(%s)' % (destination.__name__, m.__name__)
+        t.test(8, n, b.toStr(F_D), x)
 
     t = Examples(__file__, __version__)
 
@@ -97,22 +103,16 @@ if __name__ == '__main__':
 #   t.test(7, 'meanOfLatLon', mean.__class__, "<class 'sphericalNvector.LatLon'>")  # ++
 
 # Example 8: A and azimuth/distance to B
-    a = sphericalNvector.LatLon(80, -90)
-    b = a.destination(1000, 200)  # JSname: destinationPoint
-    t.test(8, 'destination(sphNv)', b.toStr(F_D), '79.991549°N, 090.017698°W')
-
-    a = sphericalTrigonometry.LatLon(80, -90)  # +++
-    b = a.destination(1000, 200)  # JSname: destinationPoint
-    t.test(8, 'destination(sphTy)', b.toStr(F_D), '79.991549°N, 090.017698°W')
-
+    destination(sphericalNvector,      '79.991549°N, 090.017698°W')
+    destination(sphericalTrigonometry, '79.991549°N, 090.017698°W')
+    destination(ellipsoidalVincenty,   '79.991584°N, 090.017621°W')
     if geographiclib:
-        a = ellipsoidalKarney.LatLon(80, -90)  # +++
-        b = a.destination(1000, 200)
-        t.test(8, 'destination(ellKarney)  ', b.toStr(F_D), '79.991584°N, 090.017621°W')
-
-    a = ellipsoidalVincenty.LatLon(80, -90)  # +++
-    b = a.destination(1000, 200)
-    t.test(8, 'destination(ellVincenty)', b.toStr(F_D), '79.991584°N, 090.017621°W')
+        from pygeodesy import ellipsoidalKarney
+        destination(ellipsoidalKarney, '79.991584°N, 090.017621°W')
+    destination(ellipsoidalExact,      '79.991584°N, 090.017621°W')
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        destination(ellipsoidalGeodSolve, '79.991584°N, 090.017621°W')
 
 # Example 9: Intersection of two paths
     a1 = sphericalNvector.LatLon(10, 20)

@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Garef} and L{GARSError} and several functions to encode,
+u'''I{Global Area Reference System} (GARS) en-/decoding.
+
+Classes L{Garef} and L{GARSError} and several functions to encode,
 decode and inspect I{Global Area Reference System} (GARS) references.
 
 Transcribed from C++ class U{GARS
@@ -9,8 +11,6 @@ Transcribed from C++ class U{GARS
 by I{Charles Karney}.  See also U{Global Area Reference System
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
 <https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import isstr
@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.01.28'
+__version__ = '21.04.24'
 
 _Digits  = _0to9_
 _LatLen  =    2

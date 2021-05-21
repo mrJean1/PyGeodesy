@@ -1,16 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Spherical base classes C{CartesianSphericalBase} and
-C{LatLonSphericalBase} used by C{.sphericalNvector} or C{.sphericalTrigonometry}.
+u'''(INTERNAL) Spherical geodesy bases.
+
+Base classes C{CartesianSphericalBase} and C{LatLonSphericalBase}
+imported by L{sphericalNvector} or L{sphericalTrigonometry}.
 
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -37,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 
 def _angular(distance, radius):  # PYCHOK for export

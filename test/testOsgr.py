@@ -4,9 +4,9 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.11'
+__version__ = '21.05.17'
 
-from base import geographiclib, TestsBase
+from base import GeodSolve, geographiclib, TestsBase
 
 from pygeodesy import F_D, F_DEG, F_DMS, fstr, Datums, osgr
 
@@ -15,7 +15,7 @@ class Tests(TestsBase):
 
     def testOSgr(self, module):
 
-        self.subtitle(module)
+        self.subtitle(module, 'OSgr')
         LatLon = module.LatLon
 
         # check convertDatum and back
@@ -176,14 +176,20 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
-                          ellipsoidalVincenty  # sphericalNvector
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty  # sphericalNvector
 
     t = Tests(__file__, __version__, osgr)
-    if geographiclib:
-        t.testOSgr(ellipsoidalKarney)
     t.testOSgr(ellipsoidalNvector)
 #   t.testOSgr(sphericalNvector)
     t.testOSgr(ellipsoidalVincenty)
+
+    if geographiclib:
+        t.testOSgr(ellipsoidalKarney)
+    t.testOSgr(ellipsoidalExact)
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testOSgr(ellipsoidalGeodSolve)
+
     t.results()
     t.exit()

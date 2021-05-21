@@ -17,7 +17,7 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.04.14'
+__version__ = '21.05.09'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -67,11 +67,11 @@ class Fstr(str):
     name = NN
 
     def __call__(self, flt, prec=None, ints=False):
-        '''Format the B{C{flt}} like function L{fstrs}.
+        '''Format the B{C{flt}} like function L{fstr}.
         '''
         return str.__mod__(self, flt) if prec is None else \
                next(_streprs(prec, (flt,), self, ints, True, None))
-               # PYCHOK see function fstrs if isscalar case below
+               # PYCHOK see function C{fstr} if isscalar case below
 
     def __mod__(self, arg, **unused):
         '''Regular C{%} operator.
@@ -369,7 +369,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
        @kwarg fmt: Optional, C{float} format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
+       @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining I{names} and I{values} (C{str}).
 
        @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values,...)))}
@@ -396,7 +396,7 @@ def reprs(objs, prec=6, fmt=Fmt.F, ints=False):
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
        @kwarg fmt: Optional, C{float} format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
+       @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|repr, objs))} of C{str}s.
     '''
@@ -411,7 +411,7 @@ def strs(objs, prec=6, fmt=Fmt.F, ints=False):
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
        @kwarg fmt: Optional, C{float} format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
+       @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|str, objs))} of C{str}s.
     '''

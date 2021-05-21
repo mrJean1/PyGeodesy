@@ -1,14 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{ETMError} and L{Etm}, a pure Python transcription of
+u'''I{Karney}'s Exact Transverse Mercator (ETM) projection.
+
+Classes L{ETMError} and L{Etm}, a pure Python transcription of
 I{Charles Karney}'s C++ class U{TransverseMercatorExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
 abbreviated as C{TMExact} below.
 
 Python class L{ExactTransverseMercator} implements the C{Exact Transverse
 Mercator} (ETM) projection.  Instances of class L{Etm} represent ETM
-C{easting, nothing} locations.
+C{(easting, nothing)} locations.
 
 Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8hpp_source.html>}
@@ -57,8 +59,6 @@ Minor alterations have been made in some of Lee's expressions in an
 attempt to control round-off.  For example, C{atanh(sin(phi))} is
 replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.04.15'
+__version__ = '21.04.29'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS

@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
+u'''Albers Equal-Area projections.
+
+Classes L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
 L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} and
 L{AlbersError}, a transcription of I{Charles Karney}'s C++ class U{AlbersEqualArea
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html>}.
@@ -9,8 +11,6 @@ L{AlbersError}, a transcription of I{Charles Karney}'s C++ class U{AlbersEqualAr
 See also I{Albers Equal-Area Conic Projection} in U{John P. Snyder, "Map Projections
 -- A Working Manual", 1987<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 98-106
 and the Albers Conical Equal-Area examples on pp 291-294.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.04.14'
+__version__ = '21.04.24'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?

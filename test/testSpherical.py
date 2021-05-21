@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.03.03'
+__version__ = '21.05.17'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -38,11 +38,11 @@ Antarctica = ((-63.1, -58),
 
 class Tests(_TestsLL, _TestsV):
 
-    def testSpherical(self, module, Sph=True):  # MCCABE 13
+    def testSpherical(self, module, Sph=True, Nv=False):  # MCCABE 13
 
         self.subtitle(module, 'Spherical')
 
-        LatLon, Vct = module.LatLon, not Sph
+        LatLon = module.LatLon
 
         p = LatLon(51.8853, 0.2545)
         self.test('isSpherical', p.isSpherical, True)
@@ -286,21 +286,21 @@ class Tests(_TestsLL, _TestsV):
 
         if hasattr(module, 'nearestOn3'):
             c, d, _ = module.nearestOn3(p, b)
-            self.test('nearestOn3', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.369324°E')
-            self.test('nearestOn3', d, '569987.49' if Vct else '570101.83', fmt='%.2f')
+            self.test('nearestOn3', c, '46.000996°N, 001.353049°E' if Nv else '46.0°N, 001.369324°E')
+            self.test('nearestOn3', d, '569987.49' if Nv else '570101.83', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '569987.49' if Vct else '570101.82', fmt='%.2f')
+            self.test('distanceTo', d, '569987.49' if Nv else '570101.82', fmt='%.2f')
 
             p = LatLon(47, 3)
             c, d, _ = module.nearestOn3(p, b)
-            self.test('nearestOn3', c, '46.0°N, 002.0°E' if Vct else '46.0°N, 002.0°E')
-            self.test('nearestOn3', d, '134989.80' if Vct else '134992.48', fmt='%.2f')
+            self.test('nearestOn3', c, '46.0°N, 002.0°E' if Nv else '46.0°N, 002.0°E')
+            self.test('nearestOn3', d, '134989.80' if Nv else '134992.48', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '134989.80' if Vct else '134989.80', fmt='%.2f')
+            self.test('distanceTo', d, '134989.80' if Nv else '134989.80', fmt='%.2f')
 
             p = LatLon(45, 2)
             b = LatLon(45, 1), LatLon(47, 3)
-            if Vct:
+            if Nv:
                 c, d, _ = module.nearestOn3(p, b)
                 self.test('nearestOn3', c, '45.330691°N, 001.318551°E')
                 self.test('distance', d, '64856.28', fmt='%.2f')
@@ -316,9 +316,9 @@ class Tests(_TestsLL, _TestsV):
                 self.test('distance', d, '64074.48', fmt='%.2f')
                 self.test('angle', a, '305.10', fmt='%.2f')
             d = p.distanceTo(c)
-            self.test('distanceTo', d, '64856.28' if Vct else '64074.12', fmt='%.2f')
+            self.test('distanceTo', d, '64856.28' if Nv else '64074.12', fmt='%.2f')
             a = p.compassAngleTo(c)  # adjust=True
-            self.test('compassAngleTo', a, '304.54' if Vct else '305.10', fmt='%.2f')
+            self.test('compassAngleTo', a, '304.54' if Nv else '305.10', fmt='%.2f')
             # TrigTrue vs Nvector closests
             p = LatLon(45.330691, 001.318551)
             d = p.distanceTo(LatLon(45.331319, 001.331319))
@@ -350,7 +350,7 @@ class Tests(_TestsLL, _TestsV):
                 self.test('ispolar', module.ispolar(p), 'True', known=True)  # PYCHOK test attr?
             p = [LatLon(*ll) for ll in Antarctica]  # PYCHOK test attr?
             for _ in self.testiter():
-                self.test('ispolar', module.ispolar(p), 'True', known=Vct)  # PYCHOK test attr?
+                self.test('ispolar', module.ispolar(p), 'True', known=Nv)  # PYCHOK test attr?
 
         if hasattr(LatLon, 'triangle7'):
             t = LatLon(10, 10).triangle7(LatLon(70, -20), LatLon(70, 40))  # radius=R_M
@@ -377,12 +377,12 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
 
-    t.testLatLon(Nv, Sph=True)
+    t.testLatLon(Nv, Sph=True, Nv=True)
     t.testVectorial(Nv)
-    t.testSpherical(Nv, Sph=False)
+    t.testSpherical(Nv, Sph=False, Nv=True)
 
     t.testLatLon(Trig, Sph=True)
-    t.testSpherical(Trig, Sph=True)
+    t.testSpherical(Trig)
 
     t.results()
     t.exit()

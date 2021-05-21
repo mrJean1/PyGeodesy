@@ -8,8 +8,6 @@ After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
 U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}..
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import _xinstanceof
@@ -31,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.04.17'
+__version__ = '21.04.24'
 
 
 class CartesianBase(Vector3d):
@@ -76,7 +74,7 @@ class CartesianBase(Vector3d):
            @return: The transformed point (C{Cartesian}).
 
            @raise Valuerror: If C{B{inverse}=True} and B{C{datum}}
-                             is not L{Datums.WGS84}.
+                             is not L{Datums}C{.WGS84}.
         '''
         d = datum or self.datum
         if inverse and d != _WGS84:
@@ -143,7 +141,7 @@ class CartesianBase(Vector3d):
 
     @Property_RO
     def _ecef9(self):
-        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
+        '''(INTERNAL) Helper for L{toEcef}, L{toLocal} and L{toLtp} (L{Ecef9Tuple}).
         '''
         return self.Ecef(self.datum, name=self.name).reverse(self, M=True)
 

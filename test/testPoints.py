@@ -4,14 +4,14 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.17'
 
-from base import geographiclib, isPython37, TestsBase
+from base import GeodSolve, geographiclib, isPython37, TestsBase
 
-from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, \
-                      LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
-                      areaOf, boundsOf, centroidOf, classname, fstr, \
-                      isclockwise, isconvex, perimeterOf, points, quadOf
+from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
+                      Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \
+                      centroidOf, classname, fstr, isclockwise, \
+                      isconvex, luneOf, perimeterOf, points, quadOf
 
 try:
     if isPython37:
@@ -193,6 +193,12 @@ class Tests(TestsBase):
 
         self.testCopy(p)
 
+    def testArea(self, module, area):
+        self.subtitle(module, 'Area')
+        q = module.areaOf(luneOf(-45, 45))  # datum=WGS84
+        a = area / 4
+        t.test('luneOf', q, a, fmt='%.14e', known=abs(q - a) < 0.1)  # 0.1 m^2 == 10 cm^2
+
 
 if __name__ == '__main__':  # PYCHOK internal error?
 
@@ -234,21 +240,25 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(pts, tup, False)
     tup = pts = None
 
-    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
-                          ellipsoidalVincenty, Ellipsoids, luneOf, \
-                          sphericalTrigonometry, sphericalNvector
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
+                          Ellipsoids, sphericalTrigonometry, sphericalNvector
     t.test3(LatLon_)
-    t.test3(ellipsoidalKarney.LatLon)
-    t.test3(ellipsoidalVincenty.LatLon)
-    t.test3(sphericalTrigonometry.LatLon)
-    t.test3(ellipsoidalNvector.LatLon)
+
     t.test3(sphericalNvector.LatLon)
+    t.test3(sphericalTrigonometry.LatLon)
+
+    t.test3(ellipsoidalNvector.LatLon)
+    t.test3(ellipsoidalVincenty.LatLon)
+    t.test3(ellipsoidalKarney.LatLon)
+    t.test3(ellipsoidalExact.LatLon)
 
     if geographiclib:
-        from pygeodesy.ellipsoidalKarney import areaOf as area
-        q = area(luneOf(-45, 45))  # datum=WGS84
-        a = Ellipsoids.WGS84.area / 4
-        t.test('luneOf', q, a, fmt='%.14e', known=abs(q - a) < 0.1)  # 0.1 m^2 == 10 cm^2
+        t.testArea(ellipsoidalKarney, Ellipsoids.WGS84.area)
+    t.testArea(ellipsoidalExact, Ellipsoids.WGS84.areax)
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testArea(ellipsoidalGeodSolve, Ellipsoids.WGS84.areax)
 
     t.results()
     t.exit()

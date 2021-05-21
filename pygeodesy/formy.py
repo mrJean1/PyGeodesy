@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 u'''Formulary of basic geodesy functions and approximations.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -31,7 +29,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.02.24'
+__version__ = '21.04.24'
 
 
 def _non0(x):

@@ -1,8 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) L{LatLon},
-geocentric (ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf}.
+u'''Ellipsoidal, C{N-vector}-based geodesy.
+
+Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric
+(ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf},
 L{sumOf} and L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
@@ -18,9 +20,6 @@ of a great circle.
 See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
 <https://www.NavLab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>},
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -45,7 +44,7 @@ from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
 from pygeodesy.utily import sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -307,7 +306,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @raise ValueError: Invalid B{C{eps}}.
 
-           @see: Use method L{isequalTo3} to include I{height}.
+           @see: Method C{isequalTo3} to include I{height}.
 
            @example:
 

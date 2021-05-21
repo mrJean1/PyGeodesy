@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian} and L{Ltp},
+u'''I{Local tangent plane} (LTP) and I{local} cartesian coordinates.
+
+I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian} and L{Ltp},
 L{LocalError} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
@@ -29,7 +31,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.04.17'
+__version__ = '21.04.22'
 
 _Xyz_ = 'Xyz'
 
@@ -242,8 +244,8 @@ class LocalCartesian(_NamedBase):
            @see: Note at method L{EcefKarney.reverse}.
         '''
         x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError)
-        xyz = self.M.unrotate((x, y, z), *self._xyz0)
-        t = self.ecef.reverse(*xyz, M=M)
+        c = self.M.unrotate((x, y, z), *self._xyz0)
+        t = self.ecef.reverse(*c, M=M)
         m = self.M.multiply(t.M) if M else None
         return Local9Tuple(x, y, z, t.lat, t.lon, t.height, self, t, m, name=n or self.name)
 
@@ -265,7 +267,7 @@ class LocalCartesian(_NamedBase):
 
 class Ltp(LocalCartesian):
     '''A I{local tangent plan} LTP, a sub-class of C{LocalCartesian} with
-       configurable C{Ecef} and without optional rotation matrix.
+       configurable ECEF converter and without optional rotation matrix.
     '''
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New C{Ltp}.
@@ -370,7 +372,7 @@ class Frustum(_NamedBase):
 
            @arg altitude: Altitude (C{meter}) above I{local tangent plane}.
            @arg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down.
-           @kwarg yaw: Heading, bearing from North (C{degrees360}), clockwise from north.
+           @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North.
            @kwarg roll: Roll, bank (C{degrees}), positive to the right and down.
            kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
@@ -383,13 +385,13 @@ class Frustum(_NamedBase):
 
            @raise UnitError: Invalid B{C{altitude}}, B{C{tilt}}, B{C{roll}} or B{C{z}}.
 
-           @raise ValueError: If B{C{altitude}} too low or B{C{tilt}} or B{C{roll}}
-                              -including B{C{vfow}} respectively B{C{hfov}}- over
-                              the horizon.
+           @raise ValueError: If B{C{altitude}} too low, B{C{z}} too high or B{C{tilt}}
+                              or B{C{roll}} -including B{C{vfov}} respectively B{C{hfov}}-
+                              over the horizon.
 
            @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>}.
         '''
-        def _xy2(a, t, h_2, r, tan_h_2):
+        def _xy2(a, t, h_2, tan_h_2, r):
             # left and right corners, or swapped
             if r < EPS:  # no roll
                 r = a * tan_h_2
@@ -407,7 +409,7 @@ class Frustum(_NamedBase):
             return (l, y), (r, y)
 
         def _xys(b, *xys):
-            # rotate (x, y)'s clockwise
+            # rotate (x, y)'s by bearing, clockwise
             s, c = sincos2d(b)
             for x, y in xys:
                 yield (x * c + y * s), (y * c - x * s)
@@ -443,15 +445,17 @@ class Frustum(_NamedBase):
         s, c = sincos2d(t)
         if s < EPS:
             raise _ValueError(tilt=tilt)
-        y = (a * c / s) if c > EPS else _0_0
+        y = a * c / s
+        if abs(y) < EPS:
+            y = _0_0
 
-        # center and corners, clockwise from upperleft
-        xys = ((x, y),) + _xy2(a, t - self._v_2,  self._h_2, r,  self._tan_h_2) \
-                        + _xy2(a, t + self._v_2, -self._h_2, r, -self._tan_h_2)  # swapped
-        # rotate center and corners by yaw
+        # center and corners, clockwise from upperleft, rolled
+        xy5 = ((x, y),) + _xy2(a, t - self._v_2,  self._h_2,  self._tan_h_2, r) \
+                        + _xy2(a, t + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
+        # turn center and corners by yaw, clockwise
         p = self.ltp if ltp is None else _xLtp(ltp)
         return Footprint5Tuple(*(Xyz4Tuple(x, y, z, p) for
-                                           x, y in _xys(b, *xys)))
+                                           x, y in _xys(b, *xy5)))
 
     @Property_RO
     def ltp(self):

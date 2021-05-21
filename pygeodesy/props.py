@@ -1,15 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Im-/mutable, caching or memoizing properties and decorators
-for C{DeprecationWarning}s.
+u'''Im-/mutable, caching or memoizing property and deprecation decorators.
 
 To enable C{DeprecationWarning}s from C{PyGeodesy}, set environment
 variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
 with command line option C{-X dev} or one or the C{-W} choices, see
 function L{DeprecationWarnings} below.
-
-@newfield example: Example, Examples
 '''
 from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
@@ -22,7 +19,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.04.14'
+__version__ = '21.04.24'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."

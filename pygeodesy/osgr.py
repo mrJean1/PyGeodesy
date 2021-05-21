@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ordinance Survey Grid References (OSGR) classes L{Osgr} an L{OSGRError}
-and functions L{parseOSGR} and L{toOsgr}.
+u'''Ordinance Survey Grid References (OSGR) references.
+
+Classes L{Osgr} and L{OSGRError} and functions L{parseOSGR} and L{toOsgr}.
 
 Pure Python implementation of OS Grid Reference functions using an
 ellipsoidal earth model, transcribed from JavaScript originals by
@@ -27,8 +28,6 @@ U{'Die Mathematik der Gauß-Krueger-Abbildung'
 <https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006 and
 U{Transverse Mercator: Redfearn series
 <https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -56,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

@@ -1,9 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Precision floating point functions, utilities and constants.
-
-@newfield example: Example, Examples
+u'''Precision floating point functions, classes and utilities.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -13,7 +11,7 @@ from pygeodesy.basics import copysign, isfinite, isint, isscalar, \
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
 from pygeodesy.interns import EPS0, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _EPS0__2, _finite_, _few_, _negative_,\
+                             _EPS0__2, _finite_, _few_, _h_, _negative_,\
                              _not_, _singular_, _SPACE_, _too_, \
                              _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -24,7 +22,7 @@ from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.04.14'
+__version__ = '21.05.02'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -1013,6 +1011,42 @@ def hypot2_(*xs):
     '''
     h, x2 = _h_x2(xs)
     return (h**2 * x2) if x2 else _0_0
+
+
+def norm2(x, y):
+    '''Normalize a 2-dimensional vector.
+
+       @arg x: X component (C{scalar}).
+       @arg y: Y component (C{scalar}).
+
+       @return: 2-Tuple C{(x, y)}, normalized.
+
+       @raise ValueError: Invalid B{C{x}} or B{C{y}}
+              or zero norm.
+    '''
+    h = hypot(x, y)
+    try:
+        return x / h, y / h
+    except (TypeError, ValueError) as X:
+        raise _ValueError(x=x, y=y, h=h, txt=str(X))
+
+
+def norm_(*xs):
+    '''Normalize all n-dimensional vector components.
+
+       @arg xs: The component (C{scalar}[]).
+
+       @return: Yield each component, normalized.
+
+       @raise ValueError: Invalid or insufficent B{C{xs}}
+              or zero norm.
+    '''
+    h = hypot_(*xs)
+    try:
+        for i, x in enumerate(xs):
+            yield x / h
+    except (TypeError, ValueError) as X:
+        raise _ValueError(Fmt.SQUARE(xs=i), x, _h_, h, txt=str(X))
 
 
 def sqrt0(x):

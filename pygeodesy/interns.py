@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-u'''Single-instance floats and strings, C{intern}'ed across modules.
+u'''Single-instance C{float}s and C{str}ings, C{intern}'ed across modules.
 '''
 from math import pi as PI, sqrt
 
@@ -87,6 +87,7 @@ _and_                 = 'and'                # PYCHOK expected
 _AT_            = _Join('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
+_azi2_                = 'azi2'               # PYCHOK expected
 _azimuth_             = 'azimuth'            # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
@@ -185,6 +186,7 @@ _linear_              = 'linear'             # PYCHOK expected
 #_LPAREN_             = '('                  # PYCHOK expected
 _lon_                 = 'lon'                # PYCHOK expected
 _lon0_                = 'lon0'               # PYCHOK expected
+_lon2_                = 'lon2'               # PYCHOK expected
 #_LSQUARE_            = '['                  # PYCHOK LBRACK
 _ltp_                 = 'ltp'                # PYCHOK expected
 _m_                   = 'm'                  # PYCHOK expected
@@ -286,6 +288,7 @@ _V_                   = 'V'                  # PYCHOK expected
 _valid_               = 'valid'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
+__vs__                = ' vs '              # PYCHOK expected
 _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
@@ -388,15 +391,17 @@ _3600_0 = _float(3600)      # PYCHOK expected
 try:
     from sys import float_info as _float_info
 
-    EPS    = _float(_float_info.epsilon)   # PYCHOK system's EPSilon
-    MANTIS =        _float_info.mant_dig   # PYCHOK system's mantissa bits
-    MAX    = _float(_float_info.max)       # PYCHOK system's MAX float
-    MIN    = _float(_float_info.min)       # PYCHOK system's MIN float
+    DIG      =        _float_info.dig        # PYCHOK system's float decimal digits
+    EPS      = _float(_float_info.epsilon)   # PYCHOK system's EPSilon
+    MANT_DIG =        _float_info.mant_dig   # PYCHOK system's float mantissa bits
+    MAX      = _float(_float_info.max)       # PYCHOK system's MAX float 1.7976931348623157e+308
+    MIN      = _float(_float_info.min)       # PYCHOK system's MIN float 2.2250738585072014e-308
 except (AttributeError, ImportError):  # PYCHOK no cover
-    EPS    = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
-    MANTIS =  53  # PYCHOK mantissa bits ≈53 (C{int})
-    MAX    = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
-    MIN    = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
+    DIG      =  15  # PYCHOK system's float decimal digits
+    EPS      = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
+    MAN_DIG  =  53  # PYCHOK float mantissa bits ≈ 53 (C{int})
+    MAX      = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
+    MIN      = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
 EPS2     = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
 EPS_2    = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
@@ -406,11 +411,13 @@ EPS1_2   = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
 _1_EPS   = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
 # _2_EPS = _float(_2_0 / EPS)      # PYCHOK = 9007199254740992.0
 _EPS4    = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
-_EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
-_EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09
 _EPS__2  = _float(EPS**2)          # PYCHOK = 4.930380657631e-32
 _EPS__4  = _float(EPS**4)          # PYCHOK = 2.430865342915e-63
 _EPS0__2 = _EPS__4                 # PYCHOK near-zero square root
+
+_EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
+_EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
+_EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
 EPS0     = _EPS__2          # PYCHOK near-zero comparison, or EPS or EPS_2
 INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
@@ -426,11 +433,16 @@ PI_4  = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
-__all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
-           'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
+MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
+
+__all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
+           'INF', 'MANT_DIG',
+           'MANTIS',  # DEPRECATED
+           'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.04.10'
+__version__ = '21.05.10'
+
 
 # **) MIT License
 #

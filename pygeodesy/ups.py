@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Universal Polar Stereographic (UPS) classes L{Ups} and L{UPSError}
-and functions L{parseUPS5}, L{toUps8} and L{upsZoneBand5}.
+u'''I{Karney}'s Universal Polar Stereographic (UPS) projection.
+
+Classes L{Ups} and L{UPSError} and functions L{parseUPS5}, L{toUps8} and L{upsZoneBand5}.
 
 A pure Python implementation, partially transcribed from C++ class U{PolarStereographic
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html>}
@@ -14,8 +15,6 @@ system is used in conjuction with U{UTM
 for locations on the polar regions of the earth.  UPS covers areas south of 79.5°S
 and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N by 30' at
 each end).
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import neg
@@ -24,7 +23,7 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import EPS, NN, _A_, _B_, _COMMASPACE_, _N_, \
-                             _EPS__2, _EPStol as _TOL, _inside_, \
+                             _EPS__2, _EPSmin as _Tol90, _inside_, \
                              _pole_, _range_, _S_, _SPACE_, _to_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -43,7 +42,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.02.20'
+__version__ = '21.05.10'
 
 _Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -355,7 +354,7 @@ class Ups(UtmUpsBase):
 
 
 class _Ups_K1(Ups):
-    '''(INTERNAL) For method L{Ups.rescale}.
+    '''(INTERNAL) For method L{Ups.rescale0}.
     '''
     _scale0 = _K1_UPS
 
@@ -440,7 +439,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     N = p == _N_  # is north
 
     a = lat if N else -lat
-    A = abs(a - _90_0) < _TOL  # at pole
+    A = abs(a - _90_0) < _Tol90  # at pole
 
     t = tan(radians(a))
     T = E.es_taupf(t)

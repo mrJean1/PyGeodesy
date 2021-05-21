@@ -1,12 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Cassini-Soldner projection classes L{CassiniSoldner}, L{Css} and
-L{CSSError} requiring I{Charles Karney}'s U{geographiclib
-<https://PyPI.org/project/geographiclib/>} Python package to be
-installed.
+u'''Cassini-Soldner (CSS) projection.
 
-@newfield example: Example, Examples
+Classes L{CassiniSoldner}, L{Css} and L{CSSError} requiring I{Charles Karney}'s
+U{geographiclib <https://PyPI.org/project/geographiclib/>} Python package to be
+installed.
 '''
 
 from pygeodesy.basics import copysign, neg, _xinstanceof, _xsubclassof
@@ -29,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 
 def _CS0(cs0):

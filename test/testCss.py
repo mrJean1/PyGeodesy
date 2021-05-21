@@ -4,9 +4,9 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.30'
+__version__ = '21.05.16'
 
-from base import TestsBase, geographiclib
+from base import GeodSolve, TestsBase, geographiclib
 
 from pygeodesy import CassiniSoldner, Css, fstr, haversine, hypot, toCss
 
@@ -109,9 +109,14 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, css)
 
     if geographiclib:
-        t.testCss(ellipsoidalKarney.LatLon,
-                  ellipsoidalNvector.LatLon,
-                  ellipsoidalVincenty.LatLon)
+        lls = (ellipsoidalKarney.LatLon,
+               ellipsoidalNvector.LatLon,
+               ellipsoidalVincenty.LatLon)
+        if GeodSolve:
+            from pygeodesy import ellipsoidalGeodSolve
+            lls += (ellipsoidalGeodSolve.LatLon,)
+
+        t.testCss(*lls)
     else:
         t.skip('no geographiclib', n=14)
 

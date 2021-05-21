@@ -59,21 +59,24 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module karney</h1><p class="nomargin-top"></p>
-<p>Wrapper around <i>Charles Karney</i>'s Python classes 
+<p><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a>.</p>
+  <p>Wrapper around <i>Charles Karney</i>'s Python classes 
   <code>Geodesic</code> and <code>GeodesicLine</code> and <code>Math</code>
   functions <code>AngDiff</code>, <code>AngNormalize</code>, 
-  <code>LatFix</code> and <code>sum</code> from <i>Karney's</i> <a 
+  <code>LatFix</code> and <code>sum</code> from <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>, Python package, provided that package is
   installed.</p>
   <p>The <i>wrapped</i> class methods return a 
-  <code>named._NamedDict</code>-like instance providing access to the 
-  <code>dict</code> items by key or by attribute.</p>
+  <code>named._NamedDict</code>-like instance providing access to the <a 
+  href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> items by 
+  key or by attribute name.</p>
   <p>Following are <a href="https://PyPI.org/project/PyGeodesy" 
   target="_top">PyGeodesy</a> classes and functions <i>transcribed</i> from
-  <i>Karney</i>'s original <a 
+  <i>Karney</i>'s original C++ <a 
   href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-  target="_top">GeographicLib</a> in C++:</p>
+  target="_top">GeographicLib</a>:</p>
   <ul>
     <li>
       <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
@@ -121,6 +124,24 @@
       class="link">ExactTransverseMercator</a> -- <a 
       href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
       target="_top">TransverseMercatorExact</a>
+    </li>
+    <li>
+      <a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+      class="link">GeodesicAreaExact</a>, <a 
+      href="pygeodesy.geodesicx.gxarea.PolygonArea-class.html" 
+      class="link">PolygonArea</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolygonAreaT.html"
+      target="_top">PolygonArea</a>
+    </li>
+    <li>
+      <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+      class="link">GeodesicExact</a>, <a 
+      href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+      class="link">GeodesicLineExact</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+      target="_top">GeodesicExact</a>, <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
+      target="_top">GeodesicLineExact</a>
     </li>
     <li>
       <a href="pygeodesy.geoids.GeoidKarney-class.html" 
@@ -178,7 +199,9 @@
   target="_top">PyGeodesy</a> module, classes and functions are 
   <i>wrappers</i> around some of <i>Karney</i>'s Python <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a>:</p>
+  target="_top">geographiclib</a> or C++ <a 
+  href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+  target="_top">Utility programs</a>:</p>
   <ul>
     <li>
       <a href="pygeodesy.karney-module.html" class="link">karney</a>, <a 
@@ -197,7 +220,12 @@
       href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
       class="link">ellipsoidalKarney.isclockwise</a>, <a 
       href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-      class="link">ellipsoidalKarney.perimeterOf</a>
+      class="link">ellipsoidalKarney.perimeterOf</a>, <a 
+      href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a>, <a
+      href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+      class="link">GeodesicSolve</a>, <a 
+      href="pygeodesy.ellipsoidalGeodSolve-module.html" 
+      class="link">ellipsoidalGeodSolve</a>
     </li>
   </ul>
   <p>Lastly, spherical functions:</p>
@@ -234,9 +262,79 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.04.15
+        21.05.18
       </p>
-</div><!-- ==================== VARIABLES ==================== -->
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.Direct9Tuple-class.html" class="summary-name">Direct9Tuple</a><br />
+      9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
+        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
+        <code>lon2</code> and azimuth <code>azi2</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
+        <code>meter</code> <i>squared</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.GDict-class.html" class="summary-name">GDict</a><br />
+      Basic <code>dict</code> with both key <i>and</i> attribute access 
+        to the <code>dict</code> items.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.GeodesicError-class.html" class="summary-name">GeodesicError</a><br />
+      Error raised for <i>geodesicx</i>'s methods for lack of convergence
+        or other issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
+      12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
+        M12, M21, S12)</code> with angles <code>lat1</code>, {Clon1}, 
+        <code>azi1</code>, <code>lat2</code>, <code>lon2</code> and 
+        <code>azi2</code> and arc <code>a12</code> all in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and geodesic scales 
+        <code>M12</code> and <code>M21</code> <code>scalar</code>, see <a 
+        href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
+        target="_top">GeodSolve</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.Inverse10Tuple-class.html" class="summary-name">Inverse10Tuple</a><br />
+      10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
+        M21, S12)</code> with arc lenght <code>1a12</code> in 
+        <code>degrees</code>, distance <code>s12</code> and reduced length 
+        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
+        <code>meter</code> <i>squared</i> and sines and cosines of initial 
+        and final (forward) azimuths.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -283,7 +381,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:02 2021
+    Generated by Epydoc 3.0.1 on Fri May 21 13:12:34 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -9,20 +9,21 @@ See also U{Geodesic calculations for an ellipsoid done right
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.10.12'
+__version__ = '21.05.16'
 
 from base import geographiclib, TestsBase
 
-from pygeodesy import ellipsoidalKarney, ellipsoidalVincenty, \
+from pygeodesy import ellipsoidalExact, ellipsoidalKarney, ellipsoidalVincenty, \
                       Ellipsoids, VincentyError
 
+_LLX = ellipsoidalExact.LatLon
 _LLK = ellipsoidalKarney.LatLon
 _LLV = ellipsoidalVincenty.LatLon
 
 
 class Tests(TestsBase):
 
-    def testGeodTest(self, test, line, precV, epsV, precK, epsK):
+    def testGeodTest(self, test, line, precV, epsV, precK, epsK, precX, epsX):
         # format: lat1 lon1 azimuth1 lat2 lon2 azimuth2 s12 as12 m12 S12
         lat1, lon1, azi1, lat2, lon2, azi2, s12, _, _, _ = map(float, test.split())
 
@@ -40,6 +41,11 @@ class Tests(TestsBase):
             self.test(line + 'lon2', ll.lon, lon2, prec=precK, known=abs(ll.lon - lon2) < epsK)
             self.test(line + 'azi2', b2,     azi2, prec=precK, known=abs(b2 - azi2) < epsK)
 
+        ll, b2 = _LLX(lat1, lon1).destination2(s12, azi1)
+        self.test(line + 'lat2', ll.lat, lat2, prec=precX, known=abs(ll.lat - lat2) < epsX)
+        self.test(line + 'lon2', ll.lon, lon2, prec=precX, known=abs(ll.lon - lon2) < epsX)
+        self.test(line + 'azi2', b2,     azi2, prec=precX, known=abs(b2 - azi2) < epsX)
+
 
 if __name__ == '__main__':
 
@@ -50,6 +56,7 @@ if __name__ == '__main__':
         v = False
         precV, epsV = 3, 1.9e-3
         precK, epsK = 8, 1.9e-8
+        precX, epsX = 8, 1.9e-8
 
     else:
         try:
@@ -59,6 +66,7 @@ if __name__ == '__main__':
         v = True
         precV, epsV = 6,  1.5e-6
         precK, epsK = 12, 1.5e-12
+        precX, epsX = 12, 1.5e-12
 
         # first 500 of the 500,000 lines in file "GeodTest.dat"
         tests = StringIO('''
@@ -564,11 +572,11 @@ if __name__ == '__main__':
 64.60720493901 0 108.984728103641 -57.494440629886070709 113.054056725195484074 130.988276746435850126 16487654.3721395 148.441701929211374632 3333513.871827889334 15572115521240.964969
 '''.strip())
 
-    m = ellipsoidalKarney if geographiclib else ellipsoidalVincenty
+    m = ellipsoidalKarney if geographiclib else ellipsoidalExact
     t = Tests(__file__, __version__, m, verbose=v)
 
     for n, test in enumerate(tests.readlines()):
-        t.testGeodTest(test.rstrip(), 'line %d ' % (n + 1,), precV, epsV, precK, epsK)
+        t.testGeodTest(test.rstrip(), 'line %d ' % (n + 1,), precV, epsV, precK, epsK, precX, epsX)
 
     # XXX Pythonista run_path doesn't reload modules
     E = Ellipsoids.WGS84

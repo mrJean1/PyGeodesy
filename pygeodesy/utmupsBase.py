@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
-for the UTM, UPS, Mgrs and Epsg classes/modules.
+u'''(INTERNAL) ETM, Epsg, Mgrs, UTM and UPS bases.
+
+Base class C{UtmUpsBase} and private functions and constants.
 '''
 
 from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
@@ -24,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.02.14'
+__version__ = '21.04.22'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -145,7 +146,7 @@ class UtmUpsBase(_NamedBase):
     _convergence =  None   # meridian conversion (C{degrees})
     _datum       = _WGS84  # L{Datum}
     _easting     = _0_0    # Easting, see B{C{falsed}} (C{meter})
-    _Error       =  None   # I{Must be overloaded}
+    _Error       =  None   # I{Must be overloaded}, see function C{notOverloaded}
     _falsed      =  True   # falsed easting and northing (C{bool})
     _hemisphere  =  NN     # hemisphere ('N' or 'S'), different from pole
     _latlon      =  None   # cached toLatLon (C{LatLon})
@@ -246,7 +247,7 @@ class UtmUpsBase(_NamedBase):
 
     @Property_RO
     def falsed2(self):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self.falsed2)
 

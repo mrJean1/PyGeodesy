@@ -1,17 +1,19 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
+u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}.
+
+Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
 C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix} and
-C{sum} from I{Karney's} U{geographiclib<https://PyPI.org/project/geographiclib>},
+C{sum} from I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>},
 Python package, provided that package is installed.
 
 The I{wrapped} class methods return a C{named._NamedDict}-like instance providing
-access to the C{dict} items by key or by attribute.
+access to the L{GDict} items by key or by attribute name.
 
-Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
-and functions I{transcribed} from I{Karney}'s original U{GeographicLib
-<https://GeographicLib.SourceForge.io/html/annotated.html>} in C++:
+Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
+functions I{transcribed} from I{Karney}'s original C++ U{GeographicLib
+<https://GeographicLib.SourceForge.io/html/annotated.html>}:
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
@@ -32,6 +34,13 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
 
   - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
     <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
+
+  - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/
+    html/classGeographicLib_1_1PolygonAreaT.html>}
+
+  - L{GeodesicExact}, L{GeodesicLineExact} -- U{GeodesicExact<https://GeographicLib.SourceForge.io/
+    html/classGeographicLib_1_1GeodesicExact.html>}, U{GeodesicLineExact<https://GeographicLib.SourceForge.io/
+    html/classGeographicLib_1_1GeodesicLineExact.html>}
 
   - L{GeoidKarney} -- U{Geoid<https://GeographicLib.SourceForge.io/html/geoid.html>}
 
@@ -57,10 +66,12 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
     classGeographicLib_1_1Math.html>}
 
 The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} module, classes and functions are I{wrappers}
-around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}:
+around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} or C++
+U{Utility programs<https://GeographicLib.SourceForge.io/html/utilities.html>}:
 
-  - L{karney}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney}, L{HeightIDWkarney},
-    L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.isclockwise}, L{ellipsoidalKarney.perimeterOf}
+  - L{karney}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney},
+    L{HeightIDWkarney}, L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.isclockwise},
+    L{ellipsoidalKarney.perimeterOf}, L{geodsolve}, L{GeodesicSolve}, L{ellipsoidalGeodSolve}
 
 Lastly, spherical functions:
 
@@ -79,28 +90,154 @@ B{14. MARITIME BOUNDARIES}).
 '''
 
 from pygeodesy.basics import _xversion
-from pygeodesy.datums import _WGS84  # PYCHOK used!
-from pygeodesy.interns import NAN, _0_0, _180_0, _360_0
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
+from pygeodesy.ellipsoids import Ellipsoid2
+from pygeodesy.errors import _ValueError
+from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, \
+                             _lat2_, _lon2_, _0_0, _1_0, _2_0, \
+                             _16_0, _180_0, _360_0
+from pygeodesy.iters import PointsIter
 from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _Dict, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import Property_RO
-from pygeodesy.utily import unroll180, wrap360
+from pygeodesy.props import Property, Property_RO
+from pygeodesy.units import Degrees as _Deg, Meter as _M, \
+                            Meter2 as _M2
+from pygeodesy.utily import atan2d, unroll180, wrap360
 
-from math import fmod
+from math import copysign, fmod
+
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.04.15'
+__version__ = '21.05.18'
+
+_16th = _1_0 / _16_0
+
+_a12_  = 'a12'
+_azi1_ = 'azi1'
+_azi2_ = 'azi2'
+_lon1_ = 'lon1'
+_m12_  = 'm12'
+_M12_  = 'M12'
+_M21_  = 'M21'
+_s12_  = 's12'
+_S12_  = 'S12'
 
 
-class _Adict(dict):
-    '''(INTERNAL) Basic C{dict} with key I{and} attribute access
-       to the C{dict} items, minimal version of C{named._NamedDict}.
+class _GTuple(_NamedTuple):  # in .testNamedTuples
+    '''(INTERNAL) Helper.
     '''
-    def __getattr__(self, name):
-        try:
-            return self[name]
-        except KeyError:
-            return dict.__getattr__(self, name)
+    def toGDict(self, **updates):
+        '''Convert this C{*Tuple} to a L{GDict}.
+
+           @kwarg updates: Optional updates to apply
+                           (C{nam=value} pairs)
+
+        '''
+        r = GDict(zip(self._Names_, self))
+        if updates:
+            r.update(updates)
+        return r
+
+
+class Direct9Tuple(_GTuple):
+    '''9-Tuple C{(a12, lat2, lon2, azi2, s12, m12, M12, M21, S12)} with arc
+       length C{a12}, C{lat2}, C{lon2} and azimuth C{azi2} in C{degrees},
+       distance C{s12} and reduced length C{m12} in C{meter} and area C{S12}
+       in C{meter} I{squared}.
+    '''
+    _Names_ = (_a12_, _lat2_, _lon2_, _azi2_, _s12_, _m12_, _M12_, _M21_, _S12_)
+    _Units_ = (_Deg,  _Deg,   _Deg,   _Deg,   _M,    _Pass, _Pass, _Pass, _M2)
+
+
+class GDict(_Dict):
+    '''Basic C{dict} with both key I{and} attribute access
+       to the C{dict} items.
+
+       Results of all C{geodesic} methods are returned as a
+       L{GDict} instance.
+    '''
+    def toDirect9Tuple(self, dflt=NAN):
+        '''Convert this L{GDict} result to a 9-tuple, compatible
+           with I{Karney}'s C{geographiclib} method C{Direct}.
+
+           @return: L{Direct9Tuple}C{(a12, lat2, lon2, azi2,
+                    s12, m12, M12, M21, S12)}
+        '''
+
+        def _9Tuple(a12=dflt, lat2=dflt, lon2=dflt, azi2=dflt,
+                    s12=dflt, m12=dflt,  M12=dflt,  M21=dflt, S12=dflt,
+                  **unused):
+            return Direct9Tuple(a12, lat2, lon2, azi2,
+                                s12, m12,  M12,  M21, S12)
+
+        return _9Tuple(**self)
+
+    def toGeodSolve12Tuple(self, dflt=NAN):  # PYCHOK 12 args
+        '''Convert this L{GDict} result to a 12-Tuple, compatible with
+           I{Karney}'s U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+           result.
+
+           @return: L{GeodSolve12Tuple}C{(lat1, lon1, azi1, lat2, lon2, azi2,
+                    s12, a12, m12, M12, M21, S12)}.
+        '''
+
+        def _12Tuple(lat1=dflt, lon1=dflt, azi1=dflt,
+                     lat2=dflt, lon2=dflt, azi2=dflt, s12=dflt, a12=dflt,
+                                                      m12=dflt, M12=dflt,
+                                                      M21=dflt, S12=dflt,
+                                                    **unused):
+            return GeodSolve12Tuple(lat1, lon1, azi1, lat2, lon2, azi2,
+                                    s12,  a12,  m12,  M12,  M21,  S12)
+
+        return _12Tuple(**self)
+
+    def toInverse10Tuple(self, dflt=NAN):
+        '''Convert this L{GDict} result to a 10-tuple, compatible
+           with I{Karney}'s C{geographiclib} method C{Indirect}.
+
+           @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1,
+                    salp2, calp2, m12, M12, M21, S12)}.
+        '''
+
+        def _10Tuple(a12=dflt, s12=dflt, salp1=dflt, calp1=dflt,
+                                         salp2=dflt, calp2=dflt,
+                                         m12=dflt,   M12=dflt,
+                                         M21=dflt,   S12=dflt,
+                                       **unused):
+            return Inverse10Tuple(a12, s12, salp1, calp1, salp2, calp2,
+                                       m12,   M12,   M21,   S12)
+
+        return _10Tuple(**self)
+
+
+class GeodesicError(_ValueError):  # PYCHOK exported
+    '''Error raised for I{geodesicx}'s methods for lack of convergence
+       or other issues.
+    '''
+    pass
+
+
+class GeodSolve12Tuple(_GTuple):
+    '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
+       angles C{lat1}, {Clon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
+       C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area C{S12} in
+       C{meter} I{squared} and geodesic scales C{M12} and C{M21} C{scalar}, see U{GeodSolve
+       <https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}.
+    '''
+    # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
+    _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)
+    _Units_ = (_Deg,   _Deg,   _Deg,   _Deg,   _Deg,   _Deg,   _M,    _Deg,  _Pass, _Pass, _Pass, _M2)
+
+
+class Inverse10Tuple(_GTuple):
+    '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)}
+       with arc lenght C{1a12} in C{degrees}, distance C{s12} and reduced
+       length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and
+       sines and cosines of initial and final (forward) azimuths.
+    '''
+    _Names_ = (_a12_, _s12_, 'salp1', 'calp1', 'salp2', 'calp2', _m12_, _M12_, _M21_, _S12_)
+    _Units_ = (_Deg,  _M,    _Pass,   _Pass,   _Pass,   _Pass,   _Pass, _Pass, _Pass, _M2)
 
 
 class _Wrapped(object):
@@ -109,7 +246,7 @@ class _Wrapped(object):
     '''
     _geographiclib = None
 
-    @Property_RO
+    @Property_RO  # MCCABE 14
     def Geodesic(self):
         '''Get the I{wrapped} C{Geodesic} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
@@ -123,25 +260,92 @@ class _Wrapped(object):
                python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
             '''
 
+            def __init__(self, a_ellipsoid, f=None, name=NN):  # PYCHOK signature
+                '''New C{Geodesic} instance.
+
+                   @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum
+                                     (L{datum}) or the equatorial radius
+                                     of the ellipsoid (C{meter}).
+                   @arg f: The flattening of the ellipsoid (C{scalar}) if
+                           B{C{a_ellipsoid}) is specified as C{meter}.
+                   @kwarg name: Optional name (C{str}).
+                '''
+                if f is None:
+                    self._E = _ellipsoidal_datum(a_ellipsoid, name=name).ellipsoid
+                else:
+                    self._E =  Ellipsoid2(a_ellipsoid, f, name=name)
+                _Geodesic.__init__(self, self.ellipsoid.a, self.ellipsoid.f)
+
+            Area   = _Geodesic.Polygon  # like GeodesicExact.Area
+
+            _debug = 0  # like .geodesicx.bases._GeodesicBase
+
+            @Property
+            def debug(self):
+                '''Get the C{debug} option (C{bool}).
+                '''
+                return bool(self._debug)
+
+            @debug.setter  # PYCHOK setter!
+            def debug(self, debug):
+                '''Set the C{debug} option.
+
+                   @arg debug: Include more details in results (C{bool}).
+                '''
+                from pygeodesy.geodesicx.bases import Caps
+                self._debug = Caps._DEBUG_ALL if debug else 0
+
             def Direct(self, lat1, lon1, azi1, s12, *outmask):
                 '''Return the C{Direct} result.
                 '''
                 d = _Geodesic.Direct(self, lat1, lon1, azi1, s12, *outmask)
-                return _Adict(d)
+                return GDict(d)
 
             def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
                 '''Return the destination lat, lon and reverse azimuth
                    (final bearing) in C{degrees}.
+
+                   @return: L{Destination3Tuple}C{(lat, lon, final)}.
                 '''
                 m = self.AZIMUTH | self.LATITUDE | self.LONGITUDE
                 d = self.Direct(lat1, lon1, azi1, s12, m)
                 return Destination3Tuple(d.lat2, d.lon2, d.azi2)
 
+            @Property_RO
+            def ellipsoid(self):
+                '''Get this geodesic's ellipsoid (C{Ellipsoid[2]}).
+                '''
+                return self._E
+
+            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, *outmask):
+                '''(INTERNAL) Get C{._GenDirect} result as C{GDict}.
+                '''
+                def _toGdict(a12, lat2, lon2, azi2,
+                             s12, m12,  M12,  M21, S12):
+                    return GDict(a12=a12, lat2=lat2, lon2=lon2, azi2=azi2,
+                                 s12=s12, m12=m12,   M12=M12,   M21=M21, S12=S12)
+
+                t = _Geodesic._GenDirect(self, lat, lon, azi, arcmode, s12_a12, *outmask)
+                return _toGdict(*t)
+
+            def _GDictInverse(self, lat1, lon1, lat2, lon2, *outmask):
+                '''(INTERNAL) Get C{._GenInverse} result as C{GDict}.
+                '''
+                def _toGdict(a12, s12, salp1, calp1, salp2, calp2,
+                                       m12,   M12,   M21,   S12):
+                    return GDict(a12=a12, s12=s12,
+                                 salp1=salp1, calp1=calp1, azi1=atan2d(salp1, calp1),
+                                 salp2=salp2, calp2=calp2, azi2=atan2d(salp2, calp2),
+                                 m12=m12, M12=M12, M21=M21, S12=S12, lon1=lon1)
+
+                t =_Geodesic._GenInverse(self, lat1, lon1, lat2, lon2, *outmask)
+                return _toGdict(*t)
+
             def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
                 '''Return the C{Inverse} result.
                 '''
                 d = _Geodesic.Inverse(self, lat1, lon1, lat2, lon2, *outmask)
-                return _Adict(d)
+                return GDict(d)
 
             def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
                 '''Return the non-negative, I{angular} distance in C{degrees}.
@@ -156,6 +360,8 @@ class _Wrapped(object):
             def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
                 '''Return the distance in C{meter} and the forward and
                    reverse azimuths (initial and final bearing) in C{degrees}.
+
+                   @return: L{Distance3Tuple}C{(distance, initial, final)}.
                 '''
                 m = self.DISTANCE | self.AZIMUTH
                 d = self.Inverse(lat1, lon1, lat2, lon2, m)
@@ -163,6 +369,9 @@ class _Wrapped(object):
 
             def Line(self, lat1, lon1, azi1, *caps):
                 return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
+
+            _Line = Line  # for .azimuthal._GnomonicBase.reverse, matching
+            # PYCHOK .geodesicx.GeodesictExact._Line and -._GDictDirect
 
         # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
         # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__
@@ -184,11 +393,11 @@ class _Wrapped(object):
             '''
             def ArcPosition(self, a12, *outmask):
                 d = _GeodesicLine.ArcPosition(self, a12, *outmask)
-                return _Adict(d)
+                return GDict(d)
 
             def Position(self, s12, *outmask):
                 d = _GeodesicLine.Position(self, s12, *outmask)
-                return _Adict(d)
+                return GDict(d)
 
         # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__
         # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
@@ -221,10 +430,13 @@ class _Wrapped(object):
             from geographiclib.geomath import Math
             # replace karney. with Math. functions
             from pygeodesy import karney
-            karney._diff182 = Math.AngDiff
-            karney._fix90   = Math.LatFix
-            karney._norm180 = Math.AngNormalize
-            karney._sum2    = Math.sum
+            karney._around    = Math.AngRound
+            karney._diff182   = Math.AngDiff
+            karney._fix90     = Math.LatFix
+            karney._isfinite  = Math.isfinite
+            karney._norm180   = Math.AngNormalize
+            karney._remainder = Math.remainder
+            karney._sum2      = Math.sum
         except ImportError:
             Math = None
         return Math
@@ -238,6 +450,25 @@ class _Wrapped(object):
         return self._geographiclib
 
 _wrapped = _Wrapped()  # PYCHOK singleton, .datum
+
+
+def _around(x):
+    '''Coarsen a scalar to zero.
+
+       @return: Coarsened value (C{float}).
+    '''
+    M = _wrapped.Math
+    if M:
+        return M.AngRound(x)
+
+    if x:
+        y = abs(x)
+        if y < _16th:
+            y = _16th - y
+            x = copysign(_16th - y, x)
+    else:
+        x = _0_0  # -0 to 0
+    return x
 
 
 def _diff182(deg0, deg):  # mimick Math.AngDiff
@@ -254,6 +485,19 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
     if t > 0 and d == _180_0:
         d = -_180_0
     return _sum2(d, t)
+
+
+def _Equidistant(equidistant, exact=False, geodsolve=False):
+    # (INTERNAL) Get the C{EquidistantExact}, C{-GeodSolve} or
+    # C{-Karney} class if B{C{equidistant}} in not callable.
+    if equidistant is None or not callable(equidistant):
+        if exact:
+            from pygeodesy.azimuthal import EquidistantExact as equidistant
+        elif geodsolve:
+            from pygeodesy.azimuthal import EquidistantGeodSolve as equidistant
+        else:
+            from pygeodesy.azimuthal import EquidistantKarney as equidistant
+    return equidistant
 
 
 def _fix90(deg):  # mimick Math.LatFix
@@ -287,6 +531,18 @@ def _fsum2_(*vs):  # see .test/testKarney.py
     return (s + r), t
 
 
+def _isfinite(x):  # mimick Math.AngNormalize
+    '''Check finitenessof C{x}.
+
+       @return: True if finite.
+    '''
+    M = _wrapped.Math
+    if M:
+        return M.isfinite(x)
+
+    return abs(x) <= _MAX
+
+
 def _norm180(deg):  # mimick Math.AngNormalize
     '''Reduce angle in C{degrees} to (-180,180].
 
@@ -313,10 +569,51 @@ def _norm180(deg):  # mimick Math.AngNormalize
 
     # On Windows 32-bit with Python 2.7, math.fmod(-0.0, 360)
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
-    # in the C++ library.  Math::sincosd has a similar fix.
-    d = fmod(deg, _360_0) if deg else deg
-    return (d + _360_0) if d <= -_180_0 else (d
-                        if d <=  _180_0 else (d - _360_0))
+    # in the C++ library, Math::sincosd has a similar fix.
+    d = (fmod(deg, _360_0) if _isfinite(deg) else NAN) if deg else deg
+    return (d + _360_0) if d < -_180_0 else (d  # XXX was <= twice
+                        if d <  _180_0 else (d - _360_0))
+
+
+def _polygon(geodesic, points, closed, line, wrap):
+    # Compute the area or perimeter of a polygon,
+    # using the geographiclib package, iff installed
+    if not wrap:  # capability LONG_UNROLL can't be off
+        raise _ValueError(wrap=wrap)
+
+    gP = geodesic.Polygon(line)
+    p_ = gP.AddPoint
+
+    Ps = PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
+    p0 = Ps[0]
+
+    # note, lon deltas are unrolled, by default
+    p_(p0.lat, p0.lon)
+    for p in Ps.iterate(closed=closed):
+        p_(p.lat, p.lon)
+    if closed and line and p != p0:
+        p_(p0.lat, p0.lon)
+
+    # p.Compute returns (number_of_points, perimeter, signed area)
+    return gP.Compute(False, True)[1 if line else 2]
+
+
+def _remainder(x, y):
+    '''Remainder of C{x / y}.
+
+       @return: Remainder in the range M{[-y / 2, y / 2]}.
+    '''
+    M = _wrapped.Math
+    if M:
+        return M.remainder(x, y)
+
+    z = (fmod(x, y) if _isfinite(x) else NAN) if x else x
+    # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
+    # == +0.0.  This fixes this bug.  See also Math::AngNormalize
+    # in the C++ library, Math.sincosd has a similar fix.
+    h = y / _2_0
+    return (z + y) if z < -h else (z
+                   if z <  h else (z - y))
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2

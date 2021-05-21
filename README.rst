@@ -12,17 +12,17 @@ Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
 and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2020* and
 published under the same `MIT License`_.
 
-There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
-*-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
-and *-Nvector*.  Each module provides a geodetic LatLon_ and a geocentric
-Cartesian_ class with methods and functions to compute distance, surface
-area, perimeter, initial and final bearing, intermediate and nearest points,
-circle intersections, path intersections, trilateration (by intersection, by
-overlap and in 3d), conversions and unrolling, among other things.  For more
-information and further details see the documentation_, the descriptions
-of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
-original `JavaScript source`_ or docs_ and the Python `geographiclib`_
-and `C++ GeographicLib`_.
+There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
+*-Karney*, *-Vincenty* and *-Nvector* and two for spherical ones,
+*sphericalTrigonometry* and *-Nvector*.  Each module provides a geodetic
+LatLon_ and a geocentric Cartesian_ class with methods and functions to
+compute distance, surface area, perimeter, initial and final bearing,
+intermediate and nearest points, circle intersections, path intersections,
+trilateration (by intersection, by overlap and in 3d), conversions and
+unrolling, among other things.  For more information and further details
+see the documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_
+and `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_
+and *Karney*\'s Python geographiclib_ and `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
@@ -58,14 +58,16 @@ To run all PyGeodesy tests, type ``python[3] setup.py test`` or type
 ``python[3] test/run.py`` or type ``python[3] test/unitTestSuite.py``
 before or after installation.
 
-Installation of `geographiclib`_, `numpy`_ and `scipy`_ is optional.
-However, the former is required to use classes *EquidistantKarney*,
-*GnomonicKarney*, *CassiniSoldner* and *Css* and function *toCss*, for
-module *ellipsoidalKarney* classes *LatLon* and *Cartesian* and
-functions *areaOf*, *intersections2* and *perimeterOf* and for the
-*HeightIDWkarney* interpolator.  Both the latter are needed for
-most *Geoid\...* and *Height\...* interpolator classes, but not for
-the other *HeigthIDW\...* ones.
+Dependencies
+============
+
+Installation of *Karney*\'s Python geographiclib_ is optional, but required
+to use modules *ellipsoidalKarney* and *css*, *azimuthal* classes
+*EquidistantKarney* and *GnomonicKarney* and the *HeightIDWkarney*
+interpolator.  Both numpy_ and scipy_ must be installed for most *Geoid\...*
+and *Height\...* interpolators, except the *HeigthIDW\...* ones.  Modules
+*ellipsoidalGeodSolve* and *geodsolve* depend on *Karney*\'s GeodSolve_
+utility to be executable.
 
 Documentation
 =============
@@ -79,15 +81,15 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.9.4 (with geographiclib_ 1.50),
+The tests have been run with Python 3.9.5 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS\' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.2.3
+and macOS\' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.3.1
 (10.16) Big Sur and all in 64-bit only.  The tests are run with and
 without ``lazy import`` for Python 3 and with ``-W always`` and
 environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
 The results of those tests are included in the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.4
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.5
 (with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
 1.19.2 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with numpy_ 1.16.6).
 The complete coverage report in HTML and a PDF summary are included in
@@ -108,7 +110,7 @@ Previously, the tests were run with Python 3.9.0-2, 3.8.0-5, 3.7.2-6,
 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0,
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_
 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13
-and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 11.0-2.2
+and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 11.0-2.3
 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6
 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X
 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49
@@ -122,8 +124,8 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.9.4, both in 64-bit on macOS 11.2.3 (10.16)
-Big Sur.
+and with Flake8_ using Python 3.9.5, both in 64-bit on macOS 11.3.1
+(10.16) Big Sur.
 
 Classes with a name ending in ``Karney`` and several more are transcribed
 from *Karney*\'s `C++ classes`_ or require *Karney*\'s geographiclib_
@@ -132,7 +134,7 @@ package to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Apr 21, 2021.*
+*Last updated: May 21, 2021.*
 
 License
 =======
@@ -165,7 +167,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
   :target: https://Travis-CI.com/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
+.. image:: https://Img.Shields.io/badge/coverage-95%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy
@@ -196,6 +198,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Flake8: https://PyPI.org/project/flake8
 .. _Frechet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
+.. _GeodSolve: https://GeographicLib.SourceForge.io/html/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System

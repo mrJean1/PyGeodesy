@@ -1,17 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base class L{LatLonNvectorBase} for C{n-vectorial}
-ellipsoidal and spherical C{LatLon}s, class L{NvectorBase} for
-C{Cartesian}s and function L{sumOf}.
+u'''(INTERNAL) Base classes for elliposiodal and spherical C{Nvector}s.
+
+Classes L{LatLonNvectorBase} for C{n-vectorial} ellipsoidal and spherical
+C{LatLon}s, class L{NvectorBase} for C{Cartesian}s and function L{sumOf}.
 
 Pure Python implementation of C{n-vector}-based geodesy tools for
 ellipsoidal earth models, transcribed from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import len2, map1
@@ -40,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.04.15'
+__version__ = '21.05.19'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -235,17 +234,17 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF) coordinates.
 
            @kwarg h: Optional height, overriding this n-vector's height (C{meter}).
-           @kwarg Cartesian: Optional class to return the (ECEF)
-                             coordinates (L{Cartesian}).
+           @kwarg Cartesian: Optional class to return the (ECEF) coordinates
+                             (C{Cartesian}).
            @kwarg datum: Optional datum (C{Datum}), overriding this datum.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
                                   C{B{Cartesian}=None}.
 
            @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
-                    if B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y,
-                    z, lat, lon, height, C, M, datum)} with C{C} and C{M}
-                    if available.
+                    if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M} if
+                    available.
 
            @raise TypeError: Invalid B{C{Cartesian}}.
 
@@ -305,14 +304,14 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg height: Optional height, overriding this n-vector's
                           height (C{meter}).
            @kwarg LatLon: Optional class to return the geodetic point
-                          (L{LatLon}) or C{None}.
+                          (C{LatLon}) or C{None}.
            @kwarg datum: Optional, spherical datum (C{Datum}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
-                    height, C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (C{LatLon}) or if C{B{LatLon}=None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
+                    datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon}}.
 
@@ -425,9 +424,7 @@ class LatLonNvectorBase(LatLonBase):
             LatLonBase._update(self, updated, *attrs)
 
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
-#       '''(INTERNAL) I{Must be overloaded}.
-#
-#          @raise AssertionError: Always, see function L{notOverloaded}.
+#       '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
 #       '''
 #       from pygeodesy.named import notOverloaded
 #       notOverloaded(self, self.distanceTo, other, **kwds)

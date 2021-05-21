@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Basic definitions and functions.
+u'''Some, basic definitions and functions.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
@@ -20,7 +20,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.03.28'
+__version__ = '21.05.18'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -311,6 +311,14 @@ def ub2str(ub):
     return ub
 
 
+def unsign0(x):
+    '''Return unsigned C{0.0}.
+
+       @return: C{B{x}} if B{C{x}} else C{0.0}.
+    '''
+    return x if x else _0_0
+
+
 def _xcopy(inst, deep=False):
     '''(INTERNAL) Copy an object, shallow or deep.
 
@@ -343,6 +351,14 @@ def _xnumpy(where, *required):
     '''
     import numpy
     return _xversion(numpy, where, *required)
+
+
+def _xor(x, *xs):
+    '''(INTERNAL) Exclusive-or C{x} and C{xs}.
+    '''
+    for x_ in xs:
+        x ^= x_
+    return x
 
 
 def _xscipy(where, *required):

@@ -1,16 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Classes C{_Named}, C{_NamedDict} and C{_NamedTuple},
-all with nameable instances and several subclasses thereof.
+u'''(INTERNAL) Nameable class instances.
+
+Classes C{_Named}, C{_NamedDict} and C{_NamedTuple} and several
+subclasses thereof, all with nameable instances.
 
 In addition, the items in a C{_NamedDict} are accessable as attributes
 and the items in a C{_NamedTuple} can be named to be accessable as
 attributes, similar to standard Python C{namedtuple}s.
 
 @see: Module L{pygeodesy.namedTuples} for the C{Named-Tuples}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
@@ -29,7 +29,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.04.14'
+__version__ = '21.05.19'
 
 _at_       = 'at'
 _del_      = 'del'
@@ -97,6 +97,52 @@ def _xvalid(name, _OK=False):
                          and (_OK or not name.startswith(_UNDER_))
                          and (not iskeyword(name))
                          and isidentifier(name)) else False
+
+
+class _Dict(dict):
+    '''(INTERNAL) An C{dict} with both key I{and}
+       attribute access to the C{dict} items.
+    '''
+    def __getattr__(self, name):
+        '''Get an attribute or item by B{C{name}}.
+        '''
+        try:
+            return self[name]
+        except KeyError:
+            pass
+        name = _DOT_(self.__class__.__name__, name)
+        raise _AttributeError(item=name, txt=_doesn_t_exist_)
+
+    def __repr__(self):
+        '''Default C{repr(self)}.
+        '''
+        return self.toRepr()
+
+    def __str__(self):
+        '''Default C{str(self)}.
+        '''
+        return self.toStr()
+
+    def set_(self, **attrs):  # PYCHOK signature
+        '''Add one or several new items or replace existing ones.
+
+           @kwarg attrs: One or more C{name=value} pairs.
+        '''
+        dict.update(self, attrs)
+
+    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
+        '''Like C{repr(dict)} but with C{name} prefix and with
+           C{floats} formatting by C{fstr}.
+        '''
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
+        n = self.get(_name_, classname(self))
+        return Fmt.PAREN(n, _COMMASPACE_.join(sorted(t)))
+
+    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
+        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+        '''
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLONSPACE_)
+        return Fmt.CURLY(_COMMASPACE_.join(sorted(t)))
 
 
 class _Named(object):
@@ -305,7 +351,7 @@ class _NamedBase(_Named):
         '''Refined class comparison, invoked as C{.others(other=other)},
            C{.others(name=other)} or C{.others(other, name='other')}.
 
-           @arg other: The other instance (L{any}).
+           @arg other: The other instance (any C{type}).
            @kwarg name_other_up: Overriding C{name=other} and C{up=1}
                                  keyword arguments.
 
@@ -346,9 +392,7 @@ class _NamedBase(_Named):
 #       return Fmt.PAREN(self.named, s)  # clips(s)
 
     def toStr(self, **kwds):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
-
-           @raise AssertionError: Always, see function L{notOverloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self.toStr, **kwds)
 
@@ -376,7 +420,7 @@ class _NamedBase(_Named):
             _update_all(self, *attrs)
 
 
-class _NamedDict(dict, _Named):
+class _NamedDict(_Dict, _Named):
     '''(INTERNAL) Named C{dict} with key I{and} attribute
        access to the items.
     '''
@@ -389,35 +433,35 @@ class _NamedDict(dict, _Named):
             kwds = _xkwds(dict(args[0]), **kwds)
         if _name_ in kwds:
             _Named.name.fset(self, kwds.pop(_name_))  # see _Named.name
-        dict.__init__(self, kwds)
+        _Dict.__init__(self, kwds)
 
     def __delattr__(self, name):
         '''Delete an attribute or item by B{C{name}}.
         '''
-        if name in dict.keys(self):
-            dict.pop(name)
+        if name in _Dict.keys(self):
+            _Dict.pop(name)
         elif name in (_name_, _name):
-            # dict.__setattr__(self, name, NN)
+            # _Dict.__setattr__(self, name, NN)
             _Named.rename(self, NN)
         else:
-            dict.__delattr__(self, name)
+            _Dict.__delattr__(self, name)
 
     def __getattr__(self, name):
-        '''Get the value of an attribute or item by B{C{name}}.
+        '''Get an attribute or item by B{C{name}}.
         '''
         try:
             return self[name]
         except KeyError:
             if name == _name_:
                 return _Named.name.fget(self)
-            return dict.__getattr__(self, name)
+        raise _AttributeError(item=self._DOT_(name), txt=_doesn_t_exist_)
 
     def __getitem__(self, key):
         '''Get the value of an item by B{C{key}}.
         '''
         if key == _name_:
             raise KeyError(Fmt.SQUARE(self.classname, key))
-        return dict.__getitem__(self, key)
+        return _Dict.__getitem__(self, key)
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -427,30 +471,31 @@ class _NamedDict(dict, _Named):
     def __setattr__(self, name, value):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
-        if name in dict.keys(self):
-            dict.__setitem__(self, name, value)  # self[name] = value
+        if name in _Dict.keys(self):
+            _Dict.__setitem__(self, name, value)  # self[name] = value
         else:
-            dict.__setattr__(self, name, value)
+            _Dict.__setattr__(self, name, value)
 
     def __setitem__(self, key, value):
         '''Set item B{C{key}} to B{C{value}}.
         '''
         if key == _name_:
             raise KeyError(_EQUAL_(Fmt.SQUARE(self.classname, key), repr(value)))
-        dict.__setitem__(self, key, value)
+        _Dict.__setitem__(self, key, value)
 
     def __str__(self):
         '''Default C{str(self)}.
         '''
         return self.toStr()
 
-    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK _Named
-        '''Like C{repr(dict)} but with C{name} and  C{floats} formatting by C{fstr}.
+    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
+        '''Like C{repr(dict)} but with C{name} prefix and with
+           C{floats} formatting by C{fstr}.
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
         return Fmt.PAREN(self.name, _COMMASPACE_.join(sorted(t)))
 
-    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK _Named
+    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLONSPACE_)
@@ -518,7 +563,7 @@ class _NamedEnum(_NamedDict):
            @return: The B{C{item}}'s name if found (C{str}), or C{{dflt}} if
                     there is no such I{registered} B{C{item}}.
         '''
-        for k, v in dict.items(self):  # XXX not self.items()
+        for k, v in _Dict.items(self):  # XXX not self.items()
             if v is item:
                 return k
         return dflt
@@ -547,7 +592,7 @@ class _NamedEnum(_NamedDict):
             for n in tuple(n for n, p in self.__class__.__dict__.items()
                                       if isinstance(p, _LazyNamedEnumItem)):
                 _ = getattr(self, n)
-        return dict.items(self)
+        return _Dict.items(self)
 
     def keys(self, all=False):
         '''Yield the keys of all or only the I{registered} items.
@@ -563,7 +608,7 @@ class _NamedEnum(_NamedDict):
 
            @return: The removed item.
         '''
-        return self._zapitem(*dict.pop(self))
+        return self._zapitem(*_Dict.pop(self))
 
     def register(self, item):
         '''Registed a new item.
@@ -606,7 +651,7 @@ class _NamedEnum(_NamedDict):
         else:
             name = self.find(name_or_item)
         try:
-            item = dict.pop(self, name)
+            item = _Dict.pop(self, name)
         except KeyError:  # PYCHOK no cover
             raise _NameError(item=self._DOT_(name), txt=_doesn_t_exist_)
         return self._zapitem(name, item)

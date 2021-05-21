@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM} to interpolate
+u'''Geoid models and interpolations.
+
+Classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM} to interpolate
 the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
 C{LatLon} locations or separate lat-/longitudes using different
 interpolation methods and C{geoid} model files.
@@ -95,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.04.15'
+__version__ = '21.04.22'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

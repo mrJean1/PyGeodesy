@@ -9,14 +9,14 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '21.02.12'
+__version__ = '21.05.11'
 
 try:  # MCCABE 16
-    from pygeodesy import interns, isLazy, pygeodesy_abspath, version, \
-                                  _isfrozen
-    from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, \
-                                 _pygeodesy_abspath_, _Python_, \
-                                 _SPACE_, _version_
+    from pygeodesy import _isfrozen, isLazy, pygeodesy_abspath, version
+    from pygeodesy.interns import _COMMASPACE_, _floats, \
+                                  _pygeodesy_abspath_, _Python_, \
+                                  _SPACE_, _version_
+    from pygeodesy.lazily import printf
     from pygeodesy.streprs import Fmt
 
     def _dot_attr(name, value):
@@ -26,7 +26,7 @@ try:  # MCCABE 16
                                  (_pygeodesy_abspath_, pygeodesy_abspath),
                                  ('isLazy',            isLazy),
                                  ('_isfrozen',        _isfrozen),
-                                 ('_floats',       len(interns._floats)))]
+                                 ('_floats',      len(_floats)))]
 
     def _name_version(pkg):
         return _SPACE_(pkg.__name__, pkg.__version__)
@@ -57,16 +57,16 @@ try:  # MCCABE 16
     except ImportError:
         pass
     x = os_path.basename(pygeodesy_abspath)
-    print('%s%s (%s)' % (x, _COMMASPACE_.join(p), _COMMASPACE_.join(v)))
+    printf('%s%s (%s)', x, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
 
 except ImportError:
-    m = os_path.dirname(__file__).replace(os.getcwd(), _DOT_).strip()
+    m = os_path.dirname(__file__).replace(os.getcwd(), '...').strip()
     if len(m.split()) > 1:
-        m = Fmt.QUOTE2(m)
+        m = '"%s"' % (m,)  # no Fmt.QUOTE2(m)
     v = sys.version_info[0]
     if v < 3:
-        v = NN
-    print('usage: python%s -m %s' % (v, m))
+        v = ''  # no NN
+    printf('usage: python%s -m %s', v, m)
 
 # **) MIT License
 #

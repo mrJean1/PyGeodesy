@@ -6,12 +6,12 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '21.01.11'
+__version__ = '21.05.16'
 
 from inspect import isclass
 from os.path import basename
 
-from base import TestsBase, type2str
+from base import GeodSolve, TestsBase, type2str
 
 
 class Tests(TestsBase):
@@ -71,24 +71,29 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry, \
                           vector3d, nvectorBase  # DEPRECATED nvector
 
     t = Tests(__file__, __version__)
 
+    ms = (sphericalNvector, sphericalTrigonometry,
+          ellipsoidalNvector, ellipsoidalVincenty,
+          ellipsoidalKarney, ellipsoidalExact)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        ms += (ellipsoidalGeodSolve,)
+
     # check Cartesian attributes and mro's
-    t.testCartesianAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-                         sphericalNvector, sphericalTrigonometry)
+    t.testCartesianAttrs(*ms)
 
     # check LatLon attributes and mro's
-    t.testLatLonAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-                      sphericalNvector, sphericalTrigonometry)
+    t.testLatLonAttrs(*ms)
 
     # check vector attributes and mro's
-    t.testVectorAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
-                      sphericalNvector, sphericalTrigonometry,
-                      nvectorBase, vector3d)  # DEPRECATED nvector
+    t.testVectorAttrs(nvectorBase, vector3d, *ms)  # DEPRECATED nvector
 
     import pygeodesy  # PYCHOK re-import
     t.testCopyAttr(pygeodesy)

@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
+u'''Named, I{local tangent plane} (LTP) tuples.
+
+Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
 and local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
 L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 
@@ -31,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.04.17'
+__version__ = '21.04.22'
 
 _aer_        = 'aer'
 _slantrange_ = 'slantrange'
@@ -206,7 +208,7 @@ class Aer(_NamedBase):
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
                             arguments, ignored if C{B{Xyz}=None}.
 
-           @return: XYZ as an L{Xyz} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
 
            @raise TypeError: Invalid B{C{Xyz}}.
@@ -458,7 +460,7 @@ class Ned(_NamedBase):
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
                             arguments, ignored if C{B{Xyz}=None}.
 
-           @return: XYZ as an L{Xyz} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
 
            @raise TypeError: Invalid B{C{Xyz}}.
@@ -808,7 +810,7 @@ class XyzLocal(Vector3d):
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
                             arguments, ignored if C{B{Xyz}=None}.
 
-           @return: XYZ as an L{Xyz} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
         '''
         return self.xyz4._toXyz(Xyz, Xyz_kwds)
@@ -1096,10 +1098,10 @@ class Local9Tuple(_NamedTuple):
         '''Get the I{local} I{X, Y, Z} (XYZ) components.
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{L{Xyz}} keyword
+           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
                             arguments, ignored if C{B{Xyz}=None}.
 
-           @return: XYZ as an L{Xyz} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
         '''
         return self.xyzLocal.toXyz(Xyz=Xyz, **Xyz_kwds)

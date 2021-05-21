@@ -61,7 +61,7 @@
 <h1 class="epydoc">Module lazily</h1><p class="nomargin-top"></p>
 <p>Lazily import <code>pygeodesy</code> modules and attributes, based on 
   <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
-  target="_top">lazy_import</a> from Brett Cannon's <a 
+  target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
   href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</p>
   <p><code>Lazy import</code> is <i>supported only for </i><a 
   href="https://Snarky.CA/lazy-importing-in-python-3-7" 
@@ -87,7 +87,7 @@
         module.
       </p>
       <p><strong>Version:</strong>
-        21.04.15
+        21.05.20
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -104,6 +104,52 @@
         <a href="pygeodesy.lazily.LazyImportError-class.html" class="summary-name">LazyImportError</a><br />
       Raised if <code>lazy import</code> is not supported, disabled or 
         failed some other way.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lazily-module.html#print_" class="summary-sig-name">print_</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
+      Python 3-style <code>print</code> function.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lazily-module.html#printf" class="summary-sig-name">printf</a>(<span class="summary-sig-arg">fmt</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
+      C-style <code>printf</code> function.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -124,6 +170,81 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="print_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">print_</span>&nbsp;(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Python 3-style <code>print</code> function.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Values to be converted to <code>str</code> and concatenated 
+          (<code>any</code> types).</li>
+        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional , trailing blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Python 3+ keyword arguments <code>end</code>, <code>file</code> and
+        <code>flush</code> are silently ignored.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="printf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">printf</span>&nbsp;(<span class="sig-arg">fmt</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>C-style <code>printf</code> function.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fmt</code></strong> - C-style formating text (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Values to be formatted (<code>any</code> types).</li>
+        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional , trailing blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Python 3+ keyword arguments <code>end</code>, <code>file</code>, 
+        <code>flush</code> and <code>sep</code> are silently ignored.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -155,7 +276,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:02 2021
+    Generated by Epydoc 3.0.1 on Fri May 21 13:12:34 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

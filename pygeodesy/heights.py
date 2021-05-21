@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{HeightCubic}, L{HeightIDWcosineAndoyerLambert},
+u'''Height interpolation methods.
+
+Classes L{HeightCubic}, L{HeightIDWcosineAndoyerLambert},
 L{HeightIDWcosineForsytheAndoyerLambert}, L{HeightIDWcosineLaw},
 L{HeightIDWdistanceTo}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
 L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
@@ -74,7 +76,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.01.30'
+__version__ = '21.05.19'
 
 
 class HeightError(PointsError):
@@ -187,7 +189,7 @@ class _HeightBase(_Named):  # imported by .geoids
     _wrap   = None     # not applicable
 
     def __call__(self, *args):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, '__call__', *args)
 
@@ -207,7 +209,7 @@ class _HeightBase(_Named):  # imported by .geoids
         return self._datum
 
     def _ev(self, *args):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self._ev, *args)
 
@@ -432,7 +434,7 @@ class _HeightIDW(_HeightBase):
             self._datum = _ellipsoidal_datum(d, name=self.name)
 
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self, self._distances, x, y)
 

@@ -1,9 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED classes, functions, etc. exported for backward compatibility,
-including deprecated modules C{pygeodesy.bases}, C{pygeodesy.datum} and
-C{pygeodesy,nvector}, previously inside the C{pygeodesy} package.
+u'''DEPRECATED classes, functions, methods, etc.
+
+Kept and exported for backward compatibility, including deprecated modules
+C{pygeodesy.bases}, C{pygeodesy.datum} and C{pygeodesy,nvector}, previously
+inside the C{pygeodesy} package.
 
 Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
@@ -29,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.04.17'
+__version__ = '21.04.22'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'

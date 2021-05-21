@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Datum} and L{Transform} and registries L{Datums} and
+u'''Datums and transformations thereof.
+
+Classes L{Datum} and L{Transform} and registries L{Datums} and
 L{Transforms}, respectively.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
@@ -25,8 +27,6 @@ The UK Ordnance Survey National Grid References are still based on the otherwise
 historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
 in Great Britain', Section 6<https://www.OrdnanceSurvey.co.UK/docs/support/
 guide-coordinate-systems-great-britain.pdf>}.
-
-@newfield example: Example, Examples
 
 @var Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
 @var Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
@@ -92,7 +92,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.01.28'
+__version__ = '21.04.24'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'

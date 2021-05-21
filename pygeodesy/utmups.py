@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions L{parseUTMUPS5}, L{toUtmUps8},  L{UtmUps} and L{utmupsZoneBand5}
+u'''I{Karney}'s UTM and UPS utilities.
+
+Functions L{parseUTMUPS5}, L{toUtmUps8}, L{UtmUps} and L{utmupsZoneBand5}
 to handle both I{Universal Transverse Mercator} (U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>})
 and I{Universal Polar Stereographic} (U{UPS
@@ -29,7 +31,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.04.15'
+__version__ = '21.04.22'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE

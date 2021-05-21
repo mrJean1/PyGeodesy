@@ -15,14 +15,14 @@ from pygeodesy.props import deprecated_class  # _deprecated_module
 class Nvector(NvectorBase):
     '''DEPRECATED, see class L{NvectorBase}.
     '''
-    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
+    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):  # PYCHOK no cover
         deprecated_class(self.__class__)
         NvectorBase.__init__(self, x, y=y, z=z, h=h, ll=ll, datum=datum, name=name)
 
 
 __all__ = _ALL_DOCS(LatLonNvectorBase, Nvector, sumOf) + (
           _NorthPole_, _SouthPole_)  # constants
-__version__ = '21.04.09'
+__version__ = '21.05.20'
 
 # _deprecated_module(__name__)
 

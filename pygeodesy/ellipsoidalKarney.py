@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
+u'''Ellipsoidal, I{Karney}-based geodesy.
+
+Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
 (ECEF) L{Cartesian} classes and functions L{areaOf}, L{intersections2},
 L{isclockwise}, L{nearestOn} and L{perimeterOf}, all requiring I{Charles
 Karney}'s U{geographiclib <https://PyPI.org/project/geographiclib>}
@@ -25,17 +27,14 @@ as follows:
 or by converting to anothor datum:
 
     >>> p = p.toDatum(Datums.OSGB36)
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.datums import _WGS84
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
-from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
-from pygeodesy.iters import PointsIter
+from pygeodesy.errors import _xellipsoidal, _xkwds
+from pygeodesy.karney import _Equidistant, _polygon
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
@@ -44,7 +43,7 @@ from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.04.15'
+__version__ = '21.05.18'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -463,7 +462,7 @@ class LatLon(LatLonEllipsoidalBase):
                     a L{Destination3Tuple}C{(lat, lon, final)} if
                     B{C{LL}} is C{None}.
         '''
-        g = self.datum.ellipsoid.geodesic
+        g = self.geodesic
         r = g.Direct3(self.lat, self.lon, bearing, distance)
         if LL:
             h = self.height if height is None else height
@@ -484,37 +483,6 @@ class LatLon(LatLonEllipsoidalBase):
         g = self.ellipsoids(other).geodesic
         _, lon = unroll180(self.lon, other.lon, wrap=wrap)
         return g.Inverse3(self.lat, self.lon, other.lat, lon)
-
-
-def _EquidistantKarney(equidistant):
-    # (INTERNAL) Get the C{EquidistantKarney} class.
-    if equidistant is None or not callable(equidistant):
-        from pygeodesy.azimuthal import EquidistantKarney as equidistant
-    return equidistant
-
-
-def _geodesic(datum, points, closed, line, wrap):
-    # Compute the area or perimeter of a polygon,
-    # using the geographiclib package, iff installed
-    if not wrap:  # capability LONG_UNROLL can't be off
-        raise _ValueError(wrap=wrap)
-
-    g  = datum.ellipsoid.geodesic
-    g  = g.Polygon(line)
-    p_ = g.AddPoint
-
-    Ps = PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
-    p0 = Ps[0]
-
-    # note, lon deltas are unrolled, by default
-    p_(p0.lat, p0.lon)
-    for p in Ps.iterate(closed=closed):
-        p_(p.lat, p.lon)
-    if closed and line and p != p0:
-        p_(p0.lat, p0.lon)
-
-    # g.Compute returns (number_of_points, perimeter, signed area)
-    return g.Compute(False, True)[1 if line else 2]
 
 
 def areaOf(points, datum=_WGS84, wrap=True):
@@ -544,7 +512,7 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
     '''
-    return abs(_geodesic(datum, points, True, False, wrap))
+    return abs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap))
 
 
 def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
@@ -597,7 +565,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
-    E = _EquidistantKarney(equidistant)
+    E = _Equidistant(equidistant)
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
                                     equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
@@ -627,7 +595,7 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
        @see: L{pygeodesy.isclockwise}.
     '''
-    a = _geodesic(datum, points, True, False, wrap)
+    a = _polygon(datum.ellipsoid.geodesic, points, True, False, wrap)
     if a > 0:
         return True
     elif a < 0:
@@ -669,7 +637,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
     p = _xellipsoidal(point=point)
     p1 = p.others(point1=point1)
     p2 = p.others(point2=point2)
-    E = _EquidistantKarney(equidistant)
+    E = _Equidistant(equidistant)
     return _nearestOn(p, p1, p2, within=within, height=height, wrap=wrap,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
@@ -701,7 +669,7 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''
-    return _geodesic(datum, points, closed, True, wrap)
+    return _polygon(datum.ellipsoid.geodesic, points, closed, True, wrap)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes

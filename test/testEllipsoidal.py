@@ -4,9 +4,9 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.14'
+__version__ = '21.05.19'
 
-from base import coverage, geographiclib, RandomLatLon
+from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
@@ -119,7 +119,7 @@ class Tests(_TestsLL, _TestsV):
         x ='3806542.943647' if Nvector else ('3817991.074015' if module is V else '3802238.504989')
         self.test('distance', d, x, known=abs(float(x) - d) < 5e-6)
 
-    def testKarney(self, module, datum):
+    def testKarney(self, module, datum, X=False, GS=False):
 
         d = datum
         self.subtitle(module, 'Karney', datum=d.name)
@@ -155,12 +155,12 @@ class Tests(_TestsLL, _TestsV):
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
 
-        self.testKarneyVincenty(module, LatLon, d)
-        self.testKarneyVincentyError(module, LatLon, d, True)
+        self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)
+        self.testKarneyVincentyError(module, LatLon, d, K=True, X=X, GS=GS)
 
-    def testKarneyPython(self, module):
+    def testKarney_s(self, module, K=False, X=False):
 
-        self.subtitle(module, 'KarneyPython')
+        self.subtitle(module, 'Karney_s')
 
         ll1 = module.LatLon(-41.32, 174.81)
         # <https://GeographicLib.SourceForge.io/html/python>
@@ -174,7 +174,8 @@ class Tests(_TestsLL, _TestsV):
         self.test('.s12',  d.s12, 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
-        self.test('distanceTo3', fstr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=True)
+        self.test('distanceTo3', fstr(d3, prec=11), '19959679.26735382527, 161.06766998616, 18.82519512325' if K else
+                                                    '19959679.26735382155, 161.06766998616, 18.82519512325')
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fstr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
@@ -187,11 +188,11 @@ class Tests(_TestsLL, _TestsV):
             LL(-69.8,   25), LL(-70.0,   -4), LL(-71.0,  -14), \
             LL(-77.3,  -33), LL(-77.9,  -46), LL(-74.7,  -61)  # on/around south pole!
         self.test('areaOf', module.areaOf(p), '1.366270368e+13', fmt='%.9e')  # 1.366270368002013e+13'
-        self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
+        self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683089136e+07' if X else '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
         self.test('isclockwise', module.isclockwise(p), True)  # polar
         self.test('isclockwise', module.isclockwise(reversed(p)), False)  # polar
 
-    def testVincenty(self, module, datum):
+    def testVincenty(self, module, datum, X=False, GS=False):
 
         d = datum
         self.subtitle(module, 'Vincenty', datum=d.name)
@@ -232,10 +233,10 @@ class Tests(_TestsLL, _TestsV):
         self.test('iterations', q.iterations, 200)
         self.test('iteration', q.iteration, None)
 
-        self.testKarneyVincenty(module, LatLon, d)
-        self.testKarneyVincentyError(module, LatLon, d, False)
+        self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)
+        self.testKarneyVincentyError(module, LatLon, d, K=False, X=X, GS=GS)
 
-    def testKarneyVincenty(self, module, LatLon, d):
+    def testKarneyVincenty(self, module, LatLon, d, X=False, GS=False):
 
         self.subtitle(module, 'KarneyVincenty', datum=d.name)
 
@@ -359,7 +360,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(1, 0, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP', m, '110574.389', fmt='%.3f')
+        self.test('distanceToMP', m, '110574.361' if X or GS else '110574.389', fmt='%.3f')
 
         # <https://PyPI.org/project/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
@@ -383,7 +384,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo2', m, '54902.390', fmt='%.3f')
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
-    def testKarneyVincentyError(self, module, LatLon, d, isKarney):  # MCCABE 21
+    def testKarneyVincentyError(self, module, LatLon, d, K=False, X=False, GS=False):  # MCCABE 21
 
         self.subtitle(module, 'KarneyVincentyError', datum=d.name)
 
@@ -435,7 +436,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(-90, 0, datum=d)
         m = p.distanceTo(q)
-        self.test(_i('distanceTo/meridional', p), m, 10001965.729, fmt='%.3f')
+        self.test(_i('distanceTo/meridional', p), m, '9999551.606' if X or GS else '10001965.729', fmt='%.3f')
         b = p.initialBearingTo(q)
         self.test(_i('initialBearingTo/meridional', p), b, 180.0, fmt='%.1f')
 
@@ -445,12 +446,12 @@ class Tests(_TestsLL, _TestsV):
         m = p.distanceTo(p)
         self.test(_i('distanceTo/coincident', p), m, '0.0', fmt='%.1f')
         try:
-            b, t, fmt = p.initialBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
+            b, t, fmt = p.initialBearingTo(p), '180.0' if K else '0.0', '%.1f'
         except VincentyError as x:
             b, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('initialBearingTo/coincident', p), b, t, fmt=fmt, known=True)  # NaN
         try:
-            f, t, fmt = p.finalBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
+            f, t, fmt = p.finalBearingTo(p), '180.0' if K else '0.0', '%.1f'
         except VincentyError as x:
             f, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('finalBearingTo/coincident', p), f, t, fmt=fmt, known=True)  # NaN
@@ -523,7 +524,7 @@ class Tests(_TestsLL, _TestsV):
         t = p.distanceTo3(q)
         self.test('NOAAexample4', _dfr(*t), '145239.0603, 114 29 26.9586, 295 21 32.6566')  # Ell Dist, FAZ, BAZ
 
-    def testIntersections2(self, m, E, K, d_m):
+    def testIntersections2(self, m, E, GS=False, K=False, X=False, V=False, d_m=1e-6):
 
         self.subtitle(m, 'Intersections2')
         n = E.__name__
@@ -533,9 +534,9 @@ class Tests(_TestsLL, _TestsV):
                                              for b in t) / r
             return e, '%g (%% of radius)' % (e,)  # percentages
 
-        def _x(g_K):
-            return '36.9879°N, 088.1564°W, 38.2441°N, 092.3835°W' if g_K else \
-                   '36.9892°N, 088.152°W, 38.2377°N, 092.39°W'
+        def _x(x):
+            return '36.9879°N, 088.1564°W, 38.2441°N, 092.3835°W' if x else (
+                   '36.9892°N, 088.152°W, 38.2377°N, 092.39°W')
                  # '36.9893°N, 088.151°W, 38.2384°N, 092.3905°W'  # PYCHOK cf. sph.Trig
 
         # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
@@ -543,23 +544,23 @@ class Tests(_TestsLL, _TestsV):
         q = m.LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
 
         t = p.intersections2(0.0312705 * R_M, q, 0.0421788 * R_M)  # radians to meter
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(geographiclib))
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X), known=V)   # V and isPython2
 
         t = m.intersections2(p, 0.0312705 * R_M, q, 0.0421788 * R_M,  # radians to meter
                              equidistant=E, LatLon=m.LatLon)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(K))
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))
 
         r = PI_4 * R_M
         t = m.intersections2(m.LatLon(30, 0), r, m.LatLon(-30, 0), r, equidistant=E, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '00.0°N, 035.3478°W, 00.0°S, 035.3478°E' if K
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '00.0°N, 035.3478°W, 00.0°S, 035.3478°E' if K or X
                                                           else '00.0°S, 035.4073°W, 00.0°S, 035.4073°E', known=True)  # 0.0
                                                              # '00.0°N, 035.2644°W, 00.0°N, 035.2644°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
         t = m.intersections2(m.LatLon(0, 40), r, m.LatLon(0, -40), r, equidistant=E, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '22.657°N, 000.0°E, 22.657°S, 000.0°E' if K
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '22.657°N, 000.0°E, 22.657°S, 000.0°E' if K or X
                                                           else '22.756°N, 000.0°W, 22.756°S, 000.0°W', known=True)  # 0.0
                                                              # '22.622°N, 000.0°E, 22.622°S, 000.0°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
@@ -567,7 +568,7 @@ class Tests(_TestsLL, _TestsV):
         r = R_M * PI / 3
         t = m.intersections2(m.LatLon(30, 30), r, m.LatLon(-30, -30), r, equidistant=E, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '29.4898°N, 040.1785°W, 29.4898°S, 040.1785°E' if K
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '29.4898°N, 040.1785°W, 29.4898°S, 040.1785°E' if GS or K or X
                                                           else '29.2359°N, 040.2625°W, 29.2359°S, 040.2625°E', knonw=e < 1.5)
                                                              # '14.6128°N, 026.1109°W, 14.6128°S, 026.1109°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
@@ -575,7 +576,7 @@ class Tests(_TestsLL, _TestsV):
         r = R_M * PI / 4
         t = m.intersections2(m.LatLon(0, 0), r, m.LatLon(0, 22.567), r / 2, equidistant=E, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '02.7402°S, 044.885°E, 02.7402°N, 044.885°E' if K
+        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '02.7402°S, 044.885°E, 02.7402°N, 044.885°E' if GS or K or X
                                                           else '01.1557°S, 045.0894°E, 01.1557°N, 045.0894°E', knonw=e < 2.0)
                                                              # '00.0001°S, 045.0°E,    0.00001°N, 045.0°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
@@ -625,31 +626,51 @@ class Tests(_TestsLL, _TestsV):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney as K, \
+    from pygeodesy import ellipsoidalExact as X, \
                           ellipsoidalNvector as N, \
-                          Equidistant, EquidistantKarney
+                          Equidistant, EquidistantExact, \
+                          EquidistantGeodSolve, EquidistantKarney
 
     t = Tests(__file__, __version__)
 
     t.testEllipsoidal(N, N.Cartesian, N.Nvector)
-    t.testLatLon(N, Sph=False, Nv=True)
+    t.testLatLon(N, Nv=True)
     t.testVectorial(N)
 
     t.testEllipsoidal(V, V.Cartesian, None)
-    t.testLatLon(V, Sph=False, Nv=False)
+    t.testLatLon(V)
     t.testNOAA(V)
-    t.testIntersections2(V, Equidistant, False, 99999)  # 100 Km vs ...
+    t.testIntersections2(V, Equidistant, V=True, d_m=99999)  # 100 Km vs ...
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V, d)
 
     if geographiclib:
+        from pygeodesy import ellipsoidalKarney as K
         t.testEllipsoidal(K, K.Cartesian, None)
-        t.testLatLon(K, Sph=False, Nv=False)
+        t.testLatLon(K, X=False)
         t.testNOAA(K)
-        t.testIntersections2(K, EquidistantKarney, True, 1e-6)  # ... 1 micrometer
+        t.testIntersections2(K, EquidistantKarney, K=True)  # ... 1 micrometer
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(K, d)
-        t.testKarneyPython(K)
+        t.testKarney_s(K, K=True)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve as GS
+        t.testEllipsoidal(GS, GS.Cartesian, None)
+        t.testLatLon(GS, X=True)
+        t.testNOAA(GS)
+        t.testIntersections2(GS, EquidistantGeodSolve, GS=True)  # ... 1 micrometer
+        for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
+            t.testKarney(GS, d, GS=True)
+        t.testKarney_s(GS)
+
+    t.testEllipsoidal(X, X.Cartesian, None)
+    t.testLatLon(X, GS=True)
+    t.testNOAA(X)
+    t.testIntersections2(X, EquidistantExact, X=True)  # ... 1 micrometer
+    for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
+        t.testKarney(X, d, X=True)
+    t.testKarney_s(X, X=True)
 
     t.results()
     t.exit()

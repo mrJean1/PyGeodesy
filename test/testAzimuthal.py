@@ -4,13 +4,13 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '20.09.11'
+__version__ = '21.05.16'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
 from pygeodesy import Equidistant, EquidistantKarney, \
                       Gnomonic, GnomonicKarney, LambertEqualArea, \
-                      Orthographic, Stereographic, \
+                      Orthographic, Stereographic, ellipsoidalExact, \
                       ellipsoidalKarney, ellipsoidalNvector, \
                       ellipsoidalVincenty, F_D, fstr, hypot, \
                       IntersectionError, latlonDMS, vincentys
@@ -36,7 +36,8 @@ class Tests(TestsBase):
         f = P.forward(r.lat, r.lon, name='Calais')
         self.test('forward', fstr(f[:6], prec=6), xs[3])
 
-        for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty):
+        for m in (ellipsoidalExact, ellipsoidalKarney,
+                  ellipsoidalNvector, ellipsoidalVincenty):
             r = P.reverse(-38e3, 230e3, LatLon=m.LatLon)
             self.test('reverse', repr(r), xs[4])
 
@@ -77,7 +78,7 @@ class Tests(TestsBase):
             return '%s  %s, %s of Random%s' % (s, _100p(i.lat, r.lat, 2),
                                                   _100p(i.lon, r.lon, 3), t)
 
-        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+        for m in (ellipsoidalExact, ellipsoidalKarney, ellipsoidalVincenty):
             LL = m.LatLon
             e = LL(0, 0)
             n = m.__name__

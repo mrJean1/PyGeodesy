@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Iterator classes L{LatLon2PsxyIter} and L{PointsIter} to iterate
+u'''Iterators with options.
+
+Iterator classes L{LatLon2PsxyIter} and L{PointsIter} to iterate
 over iterables, lists, sets, tuples, etc. with optional loop-back to
 the initial items, skipping of duplicate items and copying of the
 iterated items.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import issubclassof, len2, map2
@@ -21,7 +21,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, isNumpy2, isTuple2, wrap90, wrap180
 
 __all__ = _ALL_LAZY.iters
-__version__ = '21.02.12'
+__version__ = '21.04.24'
 
 _items_ = 'items'
 

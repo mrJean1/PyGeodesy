@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Web Mercator (WM) classes L{Wm} and L{WebMercatorError} and functions
-L{parseWM} and L{toWm}.
+u'''Web Mercator (WM) projection.
+
+Classes L{Wm} and L{WebMercatorError} and functions L{parseWM} and L{toWm}.
 
 Pure Python implementation of a U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
 (aka I{Pseudo-Mercator}) class and conversion functions for spherical and
@@ -13,8 +14,6 @@ References U{Google Maps / Bing Maps Spherical Mercator Projection
 U{Geomatics Guidance Note 7, part 2<https://www.EPSG.org/Portals/0/373-07-02.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
 <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import isscalar, issubclassof
@@ -40,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

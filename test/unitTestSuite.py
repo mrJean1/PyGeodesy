@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '21.04.11'
+__version__ = '21.05.20'
 
 
 class TestSuite(unittest.TestCase):
@@ -102,6 +102,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Geohash(self):
         self._run('testGeohash')
+
+    def test_Geodesicx(self):
+        self._run('testGeodesicx')
 
     def test_Geoids(self):
         self._run('testGeoids')  # both Karney and PGM

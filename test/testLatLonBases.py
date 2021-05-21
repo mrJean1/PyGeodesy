@@ -4,9 +4,9 @@
 # Test LatLon base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.10.08'
+__version__ = '21.05.17'
 
-from base import TestsBase
+from base import GeodSolve, TestsBase
 
 from pygeodesy import F_D, F_DMS, precision
 
@@ -66,18 +66,24 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
-                          ellipsoidalVincenty, sphericalNvector, \
-                          sphericalTrigonometry, LazyImportError
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, \
+                          sphericalNvector, sphericalTrigonometry, \
+                          LazyImportError
 
     t = Tests(__file__, __version__)
 
-    t.testBases(ellipsoidalKarney, ellipsoidalKarney.LatLon)
-    t.testBases(ellipsoidalNvector, ellipsoidalNvector.LatLon)
-    t.testBases(ellipsoidalVincenty, ellipsoidalVincenty.LatLon)
-
     t.testBases(sphericalNvector, sphericalNvector.LatLon)
     t.testBases(sphericalTrigonometry, sphericalTrigonometry.LatLon)
+
+    t.testBases(ellipsoidalNvector, ellipsoidalNvector.LatLon)
+    t.testBases(ellipsoidalVincenty, ellipsoidalVincenty.LatLon)
+    t.testBases(ellipsoidalKarney, ellipsoidalKarney.LatLon)
+    t.testBases(ellipsoidalExact, ellipsoidalExact.LatLon)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testBases(ellipsoidalGeodSolve, ellipsoidalGeodSolve.LatLon)
 
     try:  # (INTERNAL) modules not explicitly exported
         from pygeodesy import ellipsoidalBase, latlonBase, \

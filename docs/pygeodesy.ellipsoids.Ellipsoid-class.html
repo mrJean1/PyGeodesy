@@ -874,8 +874,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2" class="summary-name">a2</a><br />
-      Get the <i>equatorial</i> radius <i>squared</i> (<code>float</code>),
-      <i class="math">a**2</i>.
+      Get the <i>equatorial</i> radius <i>squared</i> 
+      (<code>meter**2</code>), <i class="math">a**2</i>.
     </td>
   </tr>
 <tr>
@@ -884,7 +884,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_" class="summary-name">a2_</a><br />
       Get the inverse of the <i>equatorial</i> radius <i>squared</i> 
-      (<code>float</code>), <i class="math">1 / a**2</i>.
+      (<code>meter**2</code>), <i class="math">1 / a**2</i>.
     </td>
   </tr>
 <tr>
@@ -954,7 +954,17 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" class="summary-name">area</a><br />
       Get the ellipsoid's surface area (<code>meter**2</code>), <i 
-      class="math">4 * PI * R2**2</i>.
+      class="math">4 * PI * c2</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" class="summary-name">areax</a><br />
+      Get the ellipsoid's surface area (<code>meter**2</code>), <i 
+      class="math">4 * PI * c2x</i>, more accurate for very <i>oblate</i> 
+      ellipsoids.
     </td>
   </tr>
 <tr>
@@ -1045,11 +1055,17 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" class="summary-name">c2</a><br />
       Get the <i>authalic</i> earth radius <i>squared</i> 
-      (<code>meter**2</code>), see <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
-      class="link">area</a>, <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-      class="link">R2</a>.
+      (<code>meter**2</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" class="summary-name">c2x</a><br />
+      Get the <i>authalic</i> earth radius <i>squared</i> 
+      (<code>meter**2</code>), more accurate for very <i>oblate</i> 
+      ellipsoids.
     </td>
   </tr>
 <tr>
@@ -1109,8 +1125,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e12" class="summary-name">e12</a><br />
       Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i
-      class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
-      class="math">b**2 / a**2</i>, see <a 
+      class="math">1 - e**2 == (1 - f)**2</i> == <i class="math">b**2 / 
+      a**2</i>, see <a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a2" 
       class="link">b2_a2</a>.
     </td>
@@ -1121,9 +1137,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22" class="summary-name">e22</a><br />
       Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (1 - e2) == <i class="math">e2 / (1 - f)**2</i> == 
-      (a / b)**2 - 1</i>, see <a 
-      href="pygeodesy.ellipsoids-module.html#a_b2e22" 
+      class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
+      see <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
       class="link">a_b2e22</a>.
     </td>
   </tr>
@@ -1133,9 +1148,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2" class="summary-name">eccentricity2nd2</a><br />
       Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (1 - e2) == <i class="math">e2 / (1 - f)**2</i> == 
-      (a / b)**2 - 1</i>, see <a 
-      href="pygeodesy.ellipsoids-module.html#a_b2e22" 
+      class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
+      see <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
       class="link">a_b2e22</a>.
     </td>
   </tr>
@@ -1267,6 +1281,28 @@
       target="_top">Geodesic</a>, provided the <a 
       href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicx" class="summary-name">geodesicx</a><br />
+      Get this ellipsoid's <a 
+      href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+      class="link">GeodesicExact</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodsolve" class="summary-name">geodsolve</a><br />
+      Get this ellipsoid's <i>wrapped</i> utility <a 
+      href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
+      target="_top">GeodSolve</a>, provided the path to the <a 
+      href="http://GeodSolve" target="_top">GeodSolve</a> executable is 
+      specified with env variable <code>PYGEODESY_GEODSOLVE</code>.
     </td>
   </tr>
 <tr>
@@ -1409,7 +1445,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" class="summary-name">R2</a><br />
       Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt((a**2 + b**2 * atan[h](e) / e) / 2)</i>.
+      class="math">sqrt(c2)</i>.
     </td>
   </tr>
 <tr>
@@ -1418,7 +1454,25 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalic" class="summary-name">Rauthalic</a><br />
       Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-      class="math">sqrt((a**2 + b**2 * atan[h](e) / e) / 2)</i>.
+      class="math">sqrt(c2)</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" class="summary-name">R2x</a><br />
+      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
+      class="math">sqrt(c2x)</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rauthalicx" class="summary-name">Rauthalicx</a><br />
+      Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
+      class="math">sqrt(c2x)</i>.
     </td>
   </tr>
 <tr>
@@ -2887,12 +2941,6 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Ellipsoid attributes (<code>str</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
-        href="pygeodesy.named-module.html#notOverloaded" 
-        class="link">notOverloaded</a>.</li>
-    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -2959,8 +3007,8 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2</h3>
-  <p>Get the <i>equatorial</i> radius <i>squared</i> (<code>float</code>), 
-  <i class="math">a**2</i>.</p>
+  <p>Get the <i>equatorial</i> radius <i>squared</i> 
+  (<code>meter**2</code>), <i class="math">a**2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -2983,7 +3031,7 @@
 <tr><td>
   <h3 class="epydoc">a2_</h3>
   <p>Get the inverse of the <i>equatorial</i> radius <i>squared</i> 
-  (<code>float</code>), <i class="math">1 / a**2</i>.</p>
+  (<code>meter**2</code>), <i class="math">1 / a**2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -3055,7 +3103,13 @@
       <p><strong>Note:</strong>
         Symbol <code>c</code> is used by IUGG and IERS for the <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>.
+        target="_top">polar radius of curvature</a>, see <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        class="link">c2</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">R2</a> or <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">Rauthalic</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3164,7 +3218,7 @@
 <tr><td>
   <h3 class="epydoc">area</h3>
   <p>Get the ellipsoid's surface area (<code>meter**2</code>), <i 
-  class="math">4 * PI * R2**2</i>.</p>
+  class="math">4 * PI * c2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -3179,10 +3233,46 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
+        class="link">areax</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
         class="link">c2</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
         class="link">R2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="areax"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">areax</h3>
+  <p>Get the ellipsoid's surface area (<code>meter**2</code>), <i 
+  class="math">4 * PI * c2x</i>, more accurate for very <i>oblate</i> 
+  ellipsoids.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
+        class="link">area</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
+        class="link">c2x</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
+        class="link">R2x</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3391,11 +3481,7 @@
 <tr><td>
   <h3 class="epydoc">c2</h3>
   <p>Get the <i>authalic</i> earth radius <i>squared</i> 
-  (<code>meter**2</code>), see <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
-  class="link">area</a>, <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-  class="link">R2</a>.</p>
+  (<code>meter**2</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -3410,7 +3496,14 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <i>Karney's</i> <a 
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
+        class="link">c2x</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
+        class="link">area</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">R2</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">Rauthalic</a>, <i>Karney's</i> <a 
         href="https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z"
         target="_top">equation 60</a> and C++ <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
@@ -3421,6 +3514,45 @@
         area</a> and <a 
         href="https://www.Numericana.com/answer/geometry.htm#oblate" 
         target="_top">surface area</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="c2x"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">c2x</h3>
+  <p>Get the <i>authalic</i> earth radius <i>squared</i> 
+  (<code>meter**2</code>), more accurate for very <i>oblate</i> 
+  ellipsoids.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        class="link">c2</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
+        class="link">areax</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
+        class="link">R2x</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
+        class="link">Rauthalicx</a>, <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <i>Karney</i>'s comments at C++ 
+        attribute <a 
+        href="https://GeographicLib.SourceForge.io/html/GeodesicExact_8cpp_source.html"
+        target="_top">GeodesicExact._c2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3552,9 +3684,8 @@
 <tr><td>
   <h3 class="epydoc">e12</h3>
   <p>Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-  class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
-  class="math">b**2 / a**2</i>, see <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a2" 
+  class="math">1 - e**2 == (1 - f)**2</i> == <i class="math">b**2 / 
+  a**2</i>, see <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a2" 
   class="link">b2_a2</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
@@ -3578,8 +3709,8 @@
 <tr><td>
   <h3 class="epydoc">e22</h3>
   <p>Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (1 - e2) == <i class="math">e2 / (1 - f)**2</i> == (a /
-  b)**2 - 1</i>, see <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
+  class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
+  <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
   class="link">a_b2e22</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
@@ -3603,8 +3734,8 @@
 <tr><td>
   <h3 class="epydoc">eccentricity2nd2</h3>
   <p>Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (1 - e2) == <i class="math">e2 / (1 - f)**2</i> == (a /
-  b)**2 - 1</i>, see <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
+  class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
+  <a href="pygeodesy.ellipsoids-module.html#a_b2e22" 
   class="link">a_b2e22</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
@@ -3917,6 +4048,56 @@
   target="_top">Geodesic</a>, provided the <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodesicx"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodesicx</h3>
+  <p>Get this ellipsoid's <a 
+  href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+  class="link">GeodesicExact</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="geodsolve"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">geodsolve</h3>
+  <p>Get this ellipsoid's <i>wrapped</i> utility <a 
+  href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
+  target="_top">GeodSolve</a>, provided the path to the <a 
+  href="http://GeodSolve" target="_top">GeodSolve</a> executable is 
+  specified with env variable <code>PYGEODESY_GEODSOLVE</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -4275,7 +4456,7 @@
 <tr><td>
   <h3 class="epydoc">R2</h3>
   <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt((a**2 + b**2 * atan[h](e) / e) / 2)</i>.</p>
+  class="math">sqrt(c2)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -4290,19 +4471,14 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>, <a 
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
+        class="link">R2x</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        class="link">c2</a>, <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
         class="link">area</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a>.
-      </p>
-      <p><strong>Note:</strong>
-        Symbol <code>c</code> is also used by IUGG and IERS for the <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>, see <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" 
-        class="link">rocPolar</a>.
+        href="https://WikiPedia.org/wiki/Earth_radius" target="_top">Earth 
+        radius</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4313,7 +4489,7 @@
 <tr><td>
   <h3 class="epydoc">Rauthalic</h3>
   <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
-  class="math">sqrt((a**2 + b**2 * atan[h](e) / e) / 2)</i>.</p>
+  class="math">sqrt(c2)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -4328,19 +4504,76 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>, <a 
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2x" 
+        class="link">R2x</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        class="link">c2</a>, <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
         class="link">area</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a>.
+        href="https://WikiPedia.org/wiki/Earth_radius" target="_top">Earth 
+        radius</a>.
       </p>
-      <p><strong>Note:</strong>
-        Symbol <code>c</code> is also used by IUGG and IERS for the <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>, see <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" 
-        class="link">rocPolar</a>.
+</div></td></tr></table>
+</div>
+<a name="R2x"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">R2x</h3>
+  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
+  class="math">sqrt(c2x)</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">R2</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
+        class="link">c2x</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
+        class="link">areax</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Rauthalicx"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rauthalicx</h3>
+  <p>Get the <i>authalic</i> earth radius (<code>meter</code>), <i 
+  class="math">sqrt(c2x)</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">R2</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2x" 
+        class="link">c2x</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#areax" 
+        class="link">areax</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4626,7 +4859,13 @@
       <p><strong>Note:</strong>
         Symbol <code>c</code> is used by IUGG and IERS for the <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>.
+        target="_top">polar radius of curvature</a>, see <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
+        class="link">c2</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">R2</a> or <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+        class="link">Rauthalic</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4689,7 +4928,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 17 13:41:04 2021
+    Generated by Epydoc 3.0.1 on Fri May 21 13:12:36 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

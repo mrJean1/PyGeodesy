@@ -1,15 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to parse and format bearing, compass, lat- and longitudes
+u'''Parsers and formatters of degrees, minutes and seconds.
+
+Functions to parse and format bearing, compass, lat- and longitudes
 in various forms of degrees, minutes and seconds.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import copysign, issequence, isstr, map2, neg
@@ -31,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix

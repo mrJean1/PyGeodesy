@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to obtain elevations and geoid heights thru web services,
+u'''Web-services-based elevations and geoid heights.
+
+Functions to obtain elevations and geoid heights thru web services,
 for (lat, lon) locations, currently limited to the U{Conterminous US
 (CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>}, see also
 module L{geoids}, module L{heights} classes and U{USGS10mElev.py
@@ -13,8 +15,6 @@ I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
 <https://StackOverflow.com/questions/27835619/urllib-and-ssl-certificate
 -verify-failed-error>} for a remedy.  From a Terminal window run:
 C{"/Applications/Python X.Y/Install Certificates.command"}
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import clips, ub2str
@@ -27,7 +27,7 @@ from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '21.03.21'
+__version__ = '21.04.24'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup

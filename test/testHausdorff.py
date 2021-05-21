@@ -4,9 +4,10 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.17'
 
-from base import geographiclib, isPython3, isWindows, TestsBase
+from base import GeodSolve, geographiclib, isPython3, isWindows, \
+                 TestsBase
 
 from pygeodesy import Datums, fstr, hausdorff_, \
                       HausdorffCosineAndoyerLambert, \
@@ -14,11 +15,11 @@ from pygeodesy import Datums, fstr, hausdorff_, \
                       HausdorffDegrees, HausdorffDistanceTo, \
                       HausdorffRadians, HausdorffCosineLaw, \
                       HausdorffEquirectangular, HausdorffEuclidean, \
-                      HausdorffFlatLocal, HausdorffFlatPolar, \
-                      HausdorffHaversine, HausdorffHubeny, \
-                      HausdorffKarney, HausdorffThomas, \
-                      HausdorffVincentys, LatLon_, \
-                      randomrangenerator
+                      HausdorffExact, HausdorffFlatLocal, \
+                      HausdorffFlatPolar, HausdorffHaversine, \
+                      HausdorffHubeny, HausdorffKarney, \
+                      HausdorffThomas, HausdorffVincentys, \
+                      LatLon_, randomrangenerator
 
 
 class HausdorffDegrees_(HausdorffDegrees):
@@ -152,6 +153,11 @@ if __name__ == '__main__':  # MCCABE 13
                                          (28.79903, 35, 3, 150, 11.53021)),
                                      datum=Datums.WGS84)
 
+        if t._testX:
+            t.test4(HausdorffExact, *_4((28.79903, 35, 3,  90, 12.16138),
+                                        (28.79903, 35, 3, 150, 11.53021)),
+                                    datum=Datums.WGS84)
+
         t.test4_(hausdorff_, *_4((40.0, 22,  6,  90, 18.16111),
                                  (48.0, 38, 36, 150, 17.30667)))
 
@@ -200,6 +206,11 @@ if __name__ == '__main__':  # MCCABE 13
                                          (30.11794, 74, 45, 150,  9.49554)),
                                      datum=Datums.WGS84)
 
+        if t._testX:
+            t.test4(HausdorffExact, *_4((30.11794, 74, 45,  90, 10.43166),
+                                        (30.11794, 74, 45, 150,  9.49554)),
+                                    datum=Datums.WGS84)
+
         t.test4_(hausdorff_, *_4((51.0, 10, 50,  90, 15.92222),
                                  (51.0, 10, 50, 150, 14.32667)))
 
@@ -247,15 +258,29 @@ if __name__ == '__main__':  # MCCABE 13
             t.test4(HausdorffKarney, *_4((32.28234, 49, 29,  90, 11.34653),
                                          (32.28234, 49, 29, 150, 10.09914)),
                                      datum=Datums.WGS84)
+        if t._testX:
+            t.test4(HausdorffExact, *_4((32.28234, 49, 29,  90, 11.34653),
+                                        (32.28234, 49, 29, 150, 10.09914)),
+                                    datum=Datums.WGS84)
 
         t.test4_(hausdorff_, *_4((50.5, 61, 7,  90, 18.45556),
                                  (50.5, 61, 7, 150, 16.05)))
 
     if isPython3:
-        from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+        from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty, \
                               sphericalNvector, sphericalTrigonometry
 
-        ms = (ellipsoidalKarney, ellipsoidalVincenty) if geographiclib else (ellipsoidalVincenty,)
+        ms = (ellipsoidalVincenty,)
+        if geographiclib:
+            from pygeodesy import ellipsoidalKarney
+            ms += (ellipsoidalKarney,)
+        if t._testX:
+            from pygeodesy import ellipsoidalExact
+            ms += (ellipsoidalExact,)
+            if GeodSolve:
+                from pygeodesy import ellipsoidalGeodSolve
+                ms += (ellipsoidalGeodSolve,)
+
         for m in ms:
             _ms = [m.LatLon(*ll.latlon) for ll in _ms]
             _ps = [m.LatLon(*ll.latlon) for ll in _ps]

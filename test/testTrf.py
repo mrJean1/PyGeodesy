@@ -9,18 +9,21 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.17'
 
-from base import TestsBase
+from base import GeodSolve, TestsBase
 
 from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
 
 
 class Tests(TestsBase):
 
-    def testTrf(self, Cartesian, LatLon, ellipsoidal):  # MCCABE 17
+    def testTrf(self, ellipsoidal_):  # MCCABE 17
 
-        self.test('ellipsoidal' + ellipsoidal, '...', '...')
+        self.subtitle(ellipsoidal_, 'Trf')
+
+        Cartesian = ellipsoidal_.Cartesian
+        LatLon    = ellipsoidal_.LatLon
 
         p = LatLon(51.47788, -0.00147, reframe=RefFrames.ITRF2000)
         x = p.convertRefFrame(RefFrames.ETRF2000)
@@ -134,10 +137,10 @@ class Tests(TestsBase):
 
         try:  # coverage
             e = date2epoch(None, 1, 2)
-            self.test('epoch', e, TRFError.__name__)
+            self.test('epoch', e, TRFError.__name__, nl=1)
         except TRFError as x:
             t = str(x)
-            self.test('TRFError', t, t)
+            self.test('TRFError', t, t, nl=1)
 
         r = RefFrames.GDA94
         t = r.toStr()
@@ -169,14 +172,19 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalKarney as K, \
-                          ellipsoidalNvector as N, \
-                          ellipsoidalVincenty as V, trf
+    from pygeodesy import ellipsoidalExact, ellipsoidalKarney, \
+                          ellipsoidalNvector, ellipsoidalVincenty, trf
 
     t = Tests(__file__, __version__, trf)
-    t.testTrf(K.Cartesian, K.LatLon, 'Karney')
-    t.testTrf(N.Cartesian, N.LatLon, 'Nvector')
-    t.testTrf(V.Cartesian, V.LatLon, 'Vincenty')
+    t.testTrf(ellipsoidalNvector)
+    t.testTrf(ellipsoidalVincenty)
+    t.testTrf(ellipsoidalKarney)
+    t.testTrf(ellipsoidalExact)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve
+        t.testTrf(ellipsoidalGeodSolve)
+
     t.testEpoch()
     t.results()
     t.exit()

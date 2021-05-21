@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Seven functions to I{simplify} or linearize a path of C{LatLon} points.
+u'''Simplify or linearize a path.
 
 Each of the I{simplify} functions is based on a different algorithm and
 produces different simplified results in (very) different run times for
@@ -68,8 +68,6 @@ See:
  - U{https://PyPI.org/project/rdp}
  - U{https://PyPI.org/project/visvalingam}
  - U{https://PyPI.org/project/simplification}
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -85,7 +83,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.04.14'
+__version__ = '21.04.24'
 
 
 # try:

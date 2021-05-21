@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{a_f2Tuple}, L{Ellipsoid} and L{Ellipsoid2}, an L{Ellipsoids} registry and
+u'''Ellipsoidal and spherical earth models.
+
+Classes L{a_f2Tuple}, L{Ellipsoid} and L{Ellipsoid2}, an L{Ellipsoids} registry and
 a dozen functions to convert I{equatorial} radius, I{polar} radius, I{eccentricities},
 I{flattenings} and I{inverse flattening}.
 
 See module L{datums} for more information and other details.
-
-@newfield example: Example, Examples
 
 @var Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=6366914.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470808, R3=6370453.30994572)
 @var Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.44793853, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=6366691.77461988, L=10000776.05340819, R1=6370238.27531284, R2=6370236.69633043, R3=6370230.35179012)
@@ -96,10 +96,12 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.04.17'
+__version__ = '21.05.14'
 
-_f_0_0  = Float(f =_0_0)
-_f__0_0 = Float(f_=_0_0)
+_f_0_0   = Float(f =_0_0)
+_f__0_0  = Float(f_=_0_0)
+# like U{WGS84_f()<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Constants.html>}
+_f_WGS84 = Float(f = 1 / (1000000000 / 298257223563))
 
 
 def _aux(lat, inverse, auxLat, clip=90):
@@ -141,7 +143,7 @@ class a_f2Tuple(_NamedTuple):
 
        @see: Class L{Ellipsoid2}.
     '''
-    _Names_ = (_a_,   _f_)  # 'f' not 'f_'
+    _Names_ = (_a_,   _f_)  # name 'f' not 'f_'
     _Units_ = (_Pass, _Pass)
 
     def __new__(cls, a, f, **name):
@@ -292,13 +294,13 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def a2(self):
-        '''Get the I{equatorial} radius I{squared} (C{float}), M{a**2}.
+        '''Get the I{equatorial} radius I{squared} (C{meter**2}), M{a**2}.
         '''
         return Meter2(a2=self.a**2)
 
     @Property_RO
     def a2_(self):
-        '''Get the inverse of the I{equatorial} radius I{squared} (C{float}), M{1 / a**2}.
+        '''Get the inverse of the I{equatorial} radius I{squared} (C{meter**2}), M{1 / a**2}.
         '''
         return Float(a2_=_1_0 / self.a2)
 
@@ -317,8 +319,9 @@ class Ellipsoid(_NamedEnumItem):
                  and U{Moritz, H. (1980), Geodetic Reference System 1980
                  <https://WikiPedia.org/wiki/Earth_radius#cite_note-Moritz-2>}.
 
-           @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of
-                  curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of curvature
+                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}, see L{c2} and
+                  L{R2} or L{Rauthalic}.
         '''
         return Radius(a2_b=self.a2 / self.b if self.f else self.a)  # = rocPolar
 
@@ -373,11 +376,20 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def area(self):
-        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * R2**2}.
+        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2}.
 
-           @see: L{c2} and L{R2}.
+           @see: L{areax}, L{c2} and L{R2}.
         '''
         return Meter2(area=self.c2 * PI4)
+
+    @Property_RO
+    def areax(self):
+        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2x},
+           more accurate for very I{oblate} ellipsoids.
+
+           @see: L{area}, L{c2x}, L{R2x} and L{GeodesicExact}.
+        '''
+        return Meter2(areax=self.c2x * PI4)
 
     def _assert(self, val, eps=_TOL, f0=_0_0, **name_value):
         '''(INTERNAL) Assert a C{name=value} vs C{val}.
@@ -585,20 +597,37 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def c2(self):
-        '''Get the I{authalic} earth radius I{squared} (C{meter**2}), see L{area}, L{R2}.
+        '''Get the I{authalic} earth radius I{squared} (C{meter**2}).
 
-           @see: I{Karney's} U{equation 60<https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++
-                 U{Ellipsoid.Area()<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>},
+
+           @see: L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation 60
+                 <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area()
+                 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>},
                  U{Authalic radius<https://WikiPedia.org/wiki/Earth_radius#Authalic_radius>}, U{Surface area
                  <https://WikiPedia.org/wiki/Ellipsoid>} and U{surface area
                  <https://www.Numericana.com/answer/geometry.htm#oblate>}.
+        '''
+        return self._c2f(False)
+
+    @Property_RO
+    def c2x(self):
+        '''Get the I{authalic} earth radius I{squared} (C{meter**2}), more accurate for very I{oblate}
+           ellipsoids.
+
+           @see: L{c2}, L{areax}, L{R2x}, L{Rauthalicx}, L{GeodesicExact} and I{Karney}'s comments at C++
+                 attribute U{GeodesicExact._c2<https://GeographicLib.SourceForge.io/html/GeodesicExact_8cpp_source.html>}.
+        '''
+        return self._c2f(True)
+
+    def _c2f(self, c2x):
+        '''(INTERNAL) Helper for C{.c2} and C{.c2x}.
         '''
         f = self.f
         if f:
             c2, e = self.b2, self.e
             if e > EPS0:
                 if f > 0:  # .isOblate
-                    c2 *= atanh(e) / e
+                    c2 *= (asinh(sqrt(self.e22abs)) if c2x else atanh(e)) / e
                 elif f < 0:  # .isProlate
                     c2 *= atan(e) / e  # XXX asin?
             c2 = Meter2(c2=(self.a2 + c2) * _0_5)
@@ -712,15 +741,15 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def e12(self):
-        '''Get 1 less I{(1st) eccentricity squared} (C{float}), M{1 - e**2}
-           == M{(1 - f)**2} == M{b**2 / a**2}, see L{b2_a2}.
+        '''Get 1 less I{(1st) eccentricity squared} (C{float}), M{1 - e**2
+           == (1 - f)**2} == M{b**2 / a**2}, see L{b2_a2}.
         '''
         return self._assert((_1_0 - self.f)**2, e12=_1_0 - self.e2, f0=_1_0)  # 1 - e2
 
     @Property_RO
     def e22(self):
         '''Get the I{2nd eccentricity squared} (C{float}), M{e2 / (1 - e2)
-           == M{e2 / (1 - f)**2} == (a / b)**2 - 1}, see L{a_b2e22}.
+           == e2 / (1 - f)**2 == (a / b)**2 - 1}, see L{a_b2e22}.
         '''
         return self._assert(a_b2e22(self.a, self.b), e22=f2e22(self.f))
 
@@ -730,7 +759,7 @@ class Ellipsoid(_NamedEnumItem):
     def e22abs(self):
         '''Get C{abs} value of the I{(2nd) eccentricity squared} (C{float}).
         '''
-        return abs(self._e22)
+        return abs(self.e22)
 
     @Property_RO
     def e32(self):
@@ -914,7 +943,7 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         from pygeodesy.karney import _wrapped
         Ellipsoid._Math = _wrapped.Math  # hold
-        return _wrapped.Geodesic(self.a, self.f)
+        return _wrapped.Geodesic(self)
 
     @Property_RO
     def _geodesic_Math2(self):
@@ -923,6 +952,27 @@ class Ellipsoid(_NamedEnumItem):
         '''
         g = self.geodesic
         return g, Ellipsoid._Math
+
+    @Property_RO
+    def geodesicx(self):
+        '''Get this ellipsoid's L{GeodesicExact}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        from pygeodesy.geodesicx import GeodesicExact
+        return GeodesicExact(self, name=self.name)
+
+    @Property_RO
+    def geodsolve(self):
+        '''Get this ellipsoid's I{wrapped} utility U{GeodSolve
+           <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>},
+           provided the path to the U{GeodSolve} executable is specified
+           with env variable C{PYGEODESY_GEODSOLVE}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        from pygeodesy.geodsolve import GeodesicSolve
+        return GeodesicSolve(self, name=self.name)
 
     def _hubeny2_(self, phi2, phi1, lam21):
         '''(INTERNAL) like function L{flatLocal_}/L{hubeny_} but
@@ -1110,16 +1160,24 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def R2(self):
-        '''Get the I{authalic} earth radius (C{meter}), M{sqrt((a**2 + b**2 * atan[h](e) / e) / 2)}.
+        '''Get the I{authalic} earth radius (C{meter}), M{sqrt(c2)}.
 
-           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}, L{area} and L{c2}.
-
-           @note: Symbol C{c} is also used by IUGG and IERS for the U{polar radius of curvature
-                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}, see L{rocPolar}.
+           @see: L{R2x}, L{c2}, L{area} and U{Earth radius
+                 <https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         return Radius(R2=sqrt(self.c2) if self.f else self.a)
 
     Rauthalic = R2
+
+    @Property_RO
+    def R2x(self):
+        '''Get the I{authalic} earth radius (C{meter}), M{sqrt(c2x)}.
+
+           @see: L{R2}, L{c2x} and L{areax}.
+        '''
+        return Radius(R2x=sqrt(self.c2x) if self.f else self.a)
+
+    Rauthalicx = R2x
 
     @Property_RO
     def R3(self):
@@ -1863,9 +1921,9 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Engelis1985    = _lazy('Engelis1985',    6378136.05,  6356751.32272154,  298.2566),
     Everest1969    = _lazy('Everest1969',    6377295.664, 6356094.667915,    300.801699997),
     Fisher1968     = _lazy('Fisher1968',     6378150.0,   6356768.33724438,  298.3),
-    GEM10C         = _lazy('GEM10C',         6378137.0,   6356752.31424783,  298.2572236),
+    GEM10C         = _lazy('GEM10C',         R_MA,        6356752.31424783,  298.2572236),
     GRS67          = _lazy('GRS67',          6378160.0,   None,              298.247167427),  # Lucerne b=6356774.516
-    GRS80          = _lazy(_GRS80_,          6378137.0,   6356752.314140347, 298.257222101),  # ITRS, ETRS89
+    GRS80          = _lazy(_GRS80_,          R_MA,        6356752.314140347, 298.257222101),  # ITRS, ETRS89
     Helmert1906    = _lazy('Helmert1906',    6378200.0,   6356818.16962789,  298.3),
     IERS1989       = _lazy('IERS1989',       6378136.0,   None,              298.257),  # b=6356751.302
     IERS1992TOPEX  = _lazy('IERS1992TOPEX',  6378136.3,   6356751.61659215,  298.257223563),  # IERS/TOPEX/Poseidon/McCarthy
@@ -1888,8 +1946,8 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     WGS60          = _lazy('WGS60',          6378165.0,   6356783.28695944,  298.3),
     WGS66          = _lazy('WGS66',          6378145.0,   6356759.76948868,  298.25),
     WGS72          = _lazy(_WGS72_,          6378135.0,   None,              298.26),  # b=6356750.52
-    WGS84          = _lazy(_WGS84_,          R_MA,        None,              298.257223563),  # GPS b=6356752.3142451793
-#   Prolate        = _lazy('Prolate',        6356752.3,   6378137.0,         None),
+    WGS84          = _lazy(_WGS84_,          R_MA,        None,             _f_WGS84),  # GPS b=6356752.3142451793
+#   Prolate        = _lazy('Prolate',        6356752.3,   R_MA,              None),
     Sphere         = _lazy(_Sphere_,         R_M,         R_M,              _0_0),  # pseudo
     SphereAuthalic = _lazy('SphereAuthalic', R_FM,        R_FM,             _0_0),  # pseudo
     SpherePopular  = _lazy('SpherePopular',  R_MA,        R_MA,             _0_0),  # EPSG:3857 Spheroid
@@ -1943,7 +2001,7 @@ if __name__ == '__main__':
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# % python -m pygeodesy.ellipsoids
+# % python3 -m pygeodesy.ellipsoids
 
 # Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184747, R3=6371000.790009154,
 #  e=8.1819190842622e-02, f_=2.98257223563e+02, f=3.3528106647475e-03, n=1.6792203863837e-03 (0.0e+00),

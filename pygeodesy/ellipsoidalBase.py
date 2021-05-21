@@ -1,16 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Ellipsoidal base classes C{CartesianEllipsoidalBase} and
-C{LatLonEllipsoidalBase} and several ellipsoidal functions, all used by
-C{.ellipsoidalKarney}, C{.ellipsoidalNvector} or C{.ellipsoidalVincenty}.
+u'''(INTERNAL) Ellipsoidal geodesy bases.
+
+Base classes C{CartesianEllipsoidalBase} and C{LatLonEllipsoidalBase} and
+several ellipsoidal functions, imported by modules L{ellipsoidalKarney},
+L{ellipsoidalNvector} or L{ellipsoidalVincenty}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -38,7 +38,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.04.15'
+__version__ = '21.05.17'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -663,7 +663,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use method L{toEcef}.
+        '''DEPRECATED, use method C{toEcef}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -768,7 +768,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _wm(self):
-        '''(INTERNAL) Get this C{LatLon} point as webmercator (L{WM}).
+        '''(INTERNAL) Get this C{LatLon} point as webmercator (L{Wm}).
         '''
         from pygeodesy.webmercator import toWm
         return toWm(self)
@@ -780,11 +780,9 @@ def _Equidistant2(equidistant, datum):
 
     if equidistant is None or not callable(equidistant):
         equidistant = _az.equidistant
-    elif not (issubclassof(equidistant, _az.Equidistant) or
-              issubclassof(equidistant, _az.EquidistantKarney)):
-        raise _IsnotError(_az.Equidistant.__name__,
-                          _az.EquidistantKarney.__name__,
-                           equidistant=equidistant)
+    elif not issubclassof(equidistant, *_az._Equidistants):
+        t = tuple(_.__name__ for _ in _az._Equidistants)
+        raise _IsnotError(*t, equidistant=equidistant)
     return equidistant(0, 0, datum)
 
 

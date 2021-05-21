@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Geohash} and L{GeohashError} and several functions to
+u'''Geohash en-/decoding.
+
+Classes L{Geohash} and L{GeohashError} and several functions to
 encode, decode and inspect I{geohashes}.
 
 Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
@@ -12,9 +14,6 @@ See also U{Geohash<https://WikiPedia.org/wiki/Geohash>},
 U{Geohash<https://GitHub.com/vinsci/geohash>},
 U{PyGeohash<https://PyPI.org/project/pygeohash>} and
 U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
-
-@newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import isstr, map2
@@ -40,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 
 class _GH(object):

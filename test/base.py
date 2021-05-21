@@ -34,17 +34,18 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 
 from pygeodesy import anstr, clips, DeprecationWarnings, isLazy, \
                       issubclassof, iterNumpy2over, LazyImportError, \
-                      map2, NN, normDMS, pairs, property_RO, \
+                      map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
-__all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
+__all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
+           'numpy', 'numpy_version',
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
            'PyGeodesy_dir', 'PythonX', 'scipy', 'scipy_version',
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '21.02.14'
+__version__ = '21.05.17'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -90,6 +91,8 @@ isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
 isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
 isWindows  = sys.platform.startswith('win')
+
+GeodSolve  = getenv('PYGEODESY_GEODSOLVE', None)
 
 try:
     # use distro only for Linux, not macOS, etc.
@@ -140,6 +143,7 @@ class TestsBase(object):
     _iterisk  =  NN
     _prefix   = _SPACE_ * 4
     _raiser   =  False
+    _testX    =  False  # slow Exact test
     _time     =  0
     _verbose  =  True  # print all tests, otherwise failures only
     _versions =  NN  # cached versions() string
@@ -149,7 +153,8 @@ class TestsBase(object):
     skipped = 0
     total   = 0
 
-    def __init__(self, testfile, version, module=None, verbose=True, raiser=False):
+    def __init__(self, testfile, version, module=None, verbose=True,
+                                          raiser=False, testX=False):
         if not self._versions:  # get versions once
             TestsBase._versions = versions()
         self._file = testfile
@@ -158,6 +163,8 @@ class TestsBase(object):
         self._time = time()
         self._verbose = verbose
         self._raiser = raiser if raiser else '-raiser'.startswith(sys.argv[-1])
+        self._testX = testX if testX else ('-testX' in sys.argv[1:] or
+                                           '-Exact' in sys.argv[1:])
 
     def errors(self):
         '''Return the number of tests failures,
@@ -219,12 +226,7 @@ class TestsBase(object):
     def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
         '''
-        if kwds:
-            nl = '\n' * kwds.get('nl', 0)
-            nt = '\n' * kwds.get('nt', 0)
-        else:
-            nl = nt = NN
-        print(NN.join((nl, self._prefix, (fmt % args), nt)))
+        printf((fmt % args), prefix=self._prefix, **kwds)
 
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.

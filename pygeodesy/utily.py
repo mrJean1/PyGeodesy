@@ -1,13 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Geometric and other utility functions and constants.
+u'''Various utility functions.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
-
-@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -23,7 +21,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.04.15'
+__version__ = '21.05.10'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -231,8 +229,8 @@ def ft2m(feet, usurvey=False):
     '''Convert I{International} or I{US Survey} feet to meter.
 
        @arg feet: Value in feet (C{scalar}).
-       @kwarg usurvery: Convert I{US Survey} feet (C{bool}),
-                        I{International} feet otherwise.
+       @kwarg usurvey: Convert I{US Survey} feet (C{bool}),
+                       I{International} feet otherwise.
 
        @return: Value in C{meter} (C{float}).
 
@@ -398,8 +396,8 @@ def m2ft(meter, usurvey=False):
     '''Convert meter to I{International} or I{US Survey} feet (C{ft}).
 
        @arg meter: Value in meter (C{scalar}).
-       @kwarg usurvery: Convert to I{US Survey} feet (C{bool}),
-                        I{International} feet otherwise.
+       @kwarg usurvey: Convert to I{US Survey} feet (C{bool}),
+                       I{International} feet otherwise.
 
        @return: Value in C{feet} (C{float}).
 
@@ -661,7 +659,7 @@ def splice(iterable, n=2, **fill):
         yield t
 
 
-def tan_2(rad, **semi):
+def tan_2(rad, **semi):  # edge=1
     '''Compute the tangent of half angle.
 
        @arg rad: Angle (C{radians}).

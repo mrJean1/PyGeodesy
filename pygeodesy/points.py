@@ -1,7 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Functions to handle collections and sequences of C{LatLon} points
+u'''Utilities for point lists, tuples, etc.
+
+Functions to handle collections and sequences of C{LatLon} points
 specified as 2-d U{NumPy<https://www.NumPy.org>}, C{arrays} or tuples as
 C{LatLon} or as C{pseudo-x/-y} pairs.
 
@@ -21,8 +23,6 @@ L{pygeodesy} function or method accepting a I{points} argument.
 Similarly, class L{Tuple2LatLon} is used to instantiate a C{LatLon}
 for each 2+tuple in a list, tuple or sequence of such 2+tuples from
 the index for the lat- and longitude index in each 2+tuple.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import isclass, isint, isscalar, issequence, map1, \
@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.04.15'
+__version__ = '21.05.10'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -195,7 +195,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def others(self, *other, **name_other_up):  # see .named._namedBase.others
         '''Refined class comparison.
 
-           @arg other: The other instance (L{any}).
+           @arg other: The other instance (any C{type}).
            @kwarg name_other_up: Overriding C{name=other} and C{up=1}
                                  keyword arguments.
 
@@ -439,7 +439,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             yield self.point(self._array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
 
            @arg attrs: Optional arguments.
         '''
@@ -1169,12 +1169,11 @@ def centroidOf(points, wrap=True, LatLon=None):
 
        @arg points: The polygon points (C{LatLon}[]).
        @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
-       @kwarg LatLon: Optional class to return the centroid
-                      (L{LatLon}) or C{None}.
+       @kwarg LatLon: Optional class to return the centroid (C{LatLon})
+                      or C{None}.
 
-       @return: Centroid location (B{C{LatLon}}) or a
-                L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
-                is C{None}.
+       @return: Centroid (B{C{LatLon}}) or a L{LatLon2Tuple}C{(lat, lon)}
+                if C{B{LatLon}=None}.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -1553,18 +1552,17 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg wrap: Wrap and L{unroll180} longitudes and longitudinal
                     delta (C{bool}) in function L{equirectangular_}.
-       @kwarg LatLon: Optional class to return the closest point
-                      (L{LatLon}) or C{None}.
+       @kwarg LatLon: Optional class to return the closest point (C{LatLon})
+                      or C{None}.
        @kwarg options: Other keyword arguments for function L{equirectangular_}.
 
-       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with
-                the {closest} point (B{C{LatLon}}) or if B{C{LatLon}} is
-                C{None} a L{NearestOn5Tuple}C{(lat, lon, distance, angle,
-                height)}.  The C{distance} is the L{equirectangular_}
-                distance between the C{closest} and reference B{C{point}}
-                in C{degrees}.  The C{angle} from the reference B{C{point}}
-                to the C{closest} is in compass C{degrees360}, like function
-                L{compassAngle}.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
+                {closest} point (B{C{LatLon}}) or if C{B{LatLon}=None}, a
+                L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)} where
+                C{distance} is the L{equirectangular_} distance between the
+                C{closest} and reference B{C{point}} in C{degrees}.  The
+                C{angle} from the reference B{C{point}} to the C{closest} is
+                in compass C{degrees360}, like function L{compassAngle}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.

@@ -5,12 +5,12 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.08.21'
+__version__ = '21.05.19'
 
-from base import geographiclib, TestsBase
+from base import GeodSolve, geographiclib, TestsBase
 
-from pygeodesy import ellipsoidalKarney, LatLon_, karney, \
-                      NEG0, unroll180, wrap180
+from pygeodesy import LatLon_, karney, NEG0, unroll180, wrap180
+from pygeodesy.interns import _0_0, _360_0
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -40,49 +40,54 @@ _testCases = ((35.60777, -139.44815, 111.098748429560326,
               -0.81299800519154474, 97825992354058.708))
 
 
+def _signOf(x):
+    return -1 if x < 0 else (1 if x > 0 else 0)
+
+
 class Tests(TestsBase):
 
-    def testDelta(self, n, x, v, e):
-        self.test('dict.' + n, v, x, known=abs(v - x) <= e)
+    def testDelta(self, n, x, v, e=1e-10):
+        w = _360_0 if _signOf(v) != _signOf(x) else _0_0  # wrap
+        self.test(n, v, x, prec=15, known=abs((v - x + w) * 100.0 / x) < e)
 
-    def testDirect(self, g):
-        self.subtitle(karney, 'Direct')
+    def testDirect(self, g, module):
+        self.subtitle(module, 'Direct')
 
         # from <https://PyPI.org/project/geographiclib>
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
             d = g.Direct(lat1, lon1, azi1, s12, m)
-            self.testDelta('lat2', lat2, d.lat2, 1e-13)
-            self.testDelta('lon2', lon2, d.lon2, 1e-13)
-            self.testDelta('azi2', azi2, d.azi2, 1e-13)
-            self.testDelta('a12',  a12,  d.a12,  1e-13)
-            self.testDelta('m12',  m12,  d.m12,  1e-8)
-            self.testDelta('M12',  M12,  d.M12,  1e-15)
-            self.testDelta('M21',  M21,  d.M21,  1e-15)
-            self.testDelta('S12',  S12,  d.S12,  0.1)
+            self.testDelta('Direct.lat2', lat2, d.lat2)
+            self.testDelta('Direct.lon2', lon2, d.lon2)
+            self.testDelta('Direct.azi2', azi2, d.azi2)
+            self.testDelta('Direct.a12',  a12,  d.a12)
+            self.testDelta('Direct.m12',  m12,  d.m12)
+            self.testDelta('Direct.M12',  M12,  d.M12)
+            self.testDelta('Direct.M21',  M21,  d.M21)
+            self.testDelta('Direct.S12',  S12,  d.S12)
 
-    def testInverse(self, g):
-        self.subtitle(karney, 'Inverse')
+    def testInverse(self, g, module):
+        self.subtitle(module, 'Inverse')
 
         # from <https://PyPI.org/project/geographiclib>
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
             d = g.Inverse(lat1, lon1, lat2, lon2, m)
-            self.testDelta('lat2', lat2, d.lat2, 1e-13)
-            self.testDelta('lon2', lon2, d.lon2, 1e-13)
-            self.testDelta('azi1', azi1, d.azi1, 1e-13)
-            self.testDelta('azi2', azi2, d.azi2, 1e-13)
-            self.testDelta('s12',  s12,  d.s12,  1e-8)
-            self.testDelta('a12',  a12,  d.a12,  1e-13)
-            self.testDelta('m12',  m12,  d.m12,  1e-8)
-            self.testDelta('M12',  M12,  d.M12,  1e-15)
-            self.testDelta('M21',  M21,  d.M21,  1e-15)
-            self.testDelta('S12',  S12,  d.S12,  0.1)
+            self.testDelta('Inverse.lat2', lat2, d.lat2)
+            self.testDelta('Inverse.lon2', lon2, d.lon2)
+            self.testDelta('Inverse.azi1', azi1, d.azi1)
+            self.testDelta('Inverse.azi2', azi2, d.azi2)
+            self.testDelta('Inverse.s12',  s12,  d.s12)
+            self.testDelta('Inverse.a12',  a12,  d.a12)
+            self.testDelta('Inverse.m12',  m12,  d.m12)
+            self.testDelta('Inverse.M12',  M12,  d.M12)
+            self.testDelta('Inverse.M21',  M21,  d.M21)
+            self.testDelta('Inverse.S12',  S12,  d.S12)
 
-    def testGeodCalc(self):
-        self.subtitle(karney, 'GeodCalc')
+    def testGeodCalc(self, module, X=False):
+        self.subtitle(module, 'GeodCalc')
         # <https://GeographicLib.sourceforge.io/scripts/geod-calc.html#area>
         p = [LatLon_(*t) for t in ((-63.1,  -58),
                                    (-72.9,  -74),
@@ -102,13 +107,14 @@ class Tests(TestsBase):
                                    (-77.3,  -33),
                                    (-77.9,  -46),
                                    (-74.7,  -61))]
-        self.test('area',      ellipsoidalKarney.areaOf(p), 13662703680020.125, fmt='%.0f')
-        self.test('perimeter', ellipsoidalKarney.perimeterOf(p, closed=True), 16831067.89279071, fmt='%.6f')
+        self.test('area',      module.areaOf(p), 13662703680020.125, fmt='%.0f')
+        self.test('perimeter', module.perimeterOf(p, closed=True), 16830891.356049 if X else
+                                                                   16831067.89279071, fmt='%.6f')
 
-    def testMask(self):
-        self.subtitle(karney, 'Mask')
+    def testMask(self, G, module):
+        self.subtitle(module, 'Mask')
 
-        g = karney._wrapped.Geodesic(1, 0)  # .WGS84
+        g = G(1, 0)  # .WGS84
         for n in ('EMPTY', 'LATITUDE', 'LONGITUDE', 'AZIMUTH',
                   'DISTANCE', 'STANDARD', 'DISTANCE_IN',
                   'REDUCEDLENGTH', 'GEODESICSCALE', 'AREA',
@@ -126,7 +132,7 @@ class Tests(TestsBase):
             for b in range(-180, 181, 90):
                 d, _ = _diff(a, b)
                 x, _ = _diff(b, a)
-                self.test(n % (a, b), d, -x, known=d in (0, 180))
+                self.test(n % (a, b), d, -x, known=d in (0, 180, -180))
 
         # compare geomath.Math.AngNormalize with mimicked _norm180
         _norm180 = karney._norm180
@@ -165,21 +171,42 @@ class Tests(TestsBase):
             lon = float(lon)
             _t = _unroll2(-30.0, lon, wrap=True)
             t = unroll180(-30.0, lon, wrap=True)
-            self.test('unroll', _t, t)
+            self.test('unroll(-30, %s)' % (int(lon),), _t, t, known=lon == 150)
 
 
 if __name__ == '__main__':
 
+    from pygeodesy import ellipsoidalExact, geodesicx
+
     t = Tests(__file__, __version__, karney)
+
     if geographiclib:
+        from pygeodesy import ellipsoidalKarney
         g = karney._wrapped.Geodesic_WGS84
         t.test('Geodesic', isinstance(g, karney._wrapped.Geodesic), True)
-        t.testDirect(g)
-        t.testInverse(g)
-        t.testGeodCalc()
-        t.testMask()
+        t.testDirect(g, karney)
+        t.testInverse(g, karney)
+        t.testGeodCalc(ellipsoidalKarney)
+        t.testMask(karney._wrapped.Geodesic, karney)
     else:
         t.skip('no geographiclib', n=103)
+
+    g = geodesicx.GeodesicExact()  # _WGS84
+    t.testDirect(g, geodesicx)
+    t.testInverse(g, geodesicx)
+    t.testGeodCalc(ellipsoidalExact, X=True)
+    t.testMask(geodesicx.GeodesicExact, geodesicx)
+
+    if GeodSolve:
+        from pygeodesy import ellipsoidalGeodSolve, GeodesicSolve, geodsolve
+        g = GeodesicSolve()  # _WGS84
+        t.testDirect(g, geodsolve)
+        t.testInverse(g, geodsolve)
+        t.testGeodCalc(ellipsoidalGeodSolve)
+        t.testMask(GeodesicSolve, geodsolve)
+    else:
+        t.skip('no GeodSolve', n=102)
+
     t.testMath()
     t.results()
     t.exit()

@@ -1,8 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Universal Transverse Mercator (UTM) classes L{Utm} and L{UTMError}
-and functions L{parseUTM5}, L{toUtm8} and L{utmZoneBand5}.
+u'''I{Veness}' Universal Transverse Mercator (UTM) projection.
+
+Classes L{Utm} and L{UTMError} and functions L{parseUTM5}, L{toUtm8}
+and L{utmZoneBand5}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcribed from JavaScript originals by
@@ -29,8 +31,6 @@ Some other references are U{Universal Transverse Mercator coordinate system
 U{Transverse Mercator Projection<https://GeographicLib.SourceForge.io/tm.html>}
 and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 <https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006.
-
-@newfield example: Example, Examples
 '''
 
 from pygeodesy.basics import len2, map2, neg
@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.04.15'
+__version__ = '21.04.24'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

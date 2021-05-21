@@ -1,12 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Elliptic integrals and functions transcribed from I{Charles Karney}'s
-C++ class U{EllipticFunction
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
-into pure Python class L{Elliptic}.
+u'''I{Karney}'s elliptic functions and integrals.
 
-Python method names follow the C++ member functions, except:
+Class L{Elliptic} transcribed from I{Charles Karney}'s C++ class U{EllipticFunction
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
+to pure Python.
+
+Python method names follow the C++ member functions, I{except}:
 
  - member functions I{without arguments} are mapped to Python properties
    prefixed with C{"c"}, for example C{E()} is property C{cE},
@@ -91,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.04.15'
+__version__ = '21.05.10'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -312,7 +313,7 @@ class Elliptic(_Named):
             raise _invokationError(t, sn, cn, dn)
 
         if cn < 0:
-            cn, sn = -cn, neg(sn)
+            cn, sn = -cn, -sn
         return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
 
     @Property_RO
@@ -495,8 +496,8 @@ class Elliptic(_Named):
                  GeographicLib.SourceForge.io/html/geodesic.html#geodellip>}
                  for the expression for the longitude in terms of this function.
         '''
-        return self._fXa(phi_or_sn, cn, dn, self.alphap2,
-                                            self.cH, self.deltaH)
+        return self._fXa(phi_or_sn, cn, dn, -self.alphap2,
+                                             self.cH, self.deltaH)
 
     def fPi(self, phi_or_sn, cn=None, dn=None):
         '''The incomplete integral of the third kind in terms of
@@ -536,10 +537,10 @@ class Elliptic(_Named):
             t = self.classname + '.f' + deltaX.__name__[5:]
             raise _invokationError(t, sn, cn, dn)
 
-        if cn > 0:  # enforce usual trig-like symmetries
-            xi = fX(sn, cn, dn)
-        elif cn < 0:
+        if cn < 0:  # enforce usual trig-like symmetries
             xi = _2_0 * cX - fX(sn, cn, dn)
+        elif cn > 0:
+            xi = fX(sn, cn, dn)
         else:
             xi = cX
         return copysign(xi, sn)
@@ -612,13 +613,13 @@ class Elliptic(_Named):
                 # D(k) = (K(k) - E(k))/k2, Carlson eq.4.3
                 # <https://DLMF.NIST.gov/19.25.E1>
                 self._cD = _RD_3(_0_0, kp2, _1_0)
-                self._cKE = k2 * self.cD
                 # Complete elliptic integral E(k), Carlson eq. 4.2
                 # <https://DLMF.NIST.gov/19.25.E1>
                 self._cE = _RG_(kp2, _1_0) * _2_0
                 # Complete elliptic integral K(k), Carlson eq. 4.1
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cK = _RF_(kp2, _1_0)
+                self._cK  = _RF_(kp2, _1_0)
+                self._cKE =  k2 * self.cD
             else:
                 self._eps =  k2
                 self._cD  =  self._cK = self._cKE = INF
@@ -804,11 +805,11 @@ def _RD(x, y, z):  # used by testElliptic.py
              U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     # Carlson, eqs 2.28 - 2.34
-    m = _1_0
     A =  fsum_(x, y, _3_0 * z) / _5_0
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRD)
     S =  Fsum()
+    m = _1_0
     for _ in range(_TRIPS):
         An = T[0]
         if Q < abs(m * An):  # max 7 trips
@@ -861,10 +862,10 @@ def _RF(x, y, z):  # used by testElliptic.py
              U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     # Carlson, eqs 2.2 - 2.7
-    m = _1_0
     A =  fmean_(x, y, z)
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRF)
+    m = _1_0
     for _ in range(_TRIPS):
         An = T[0]
         if Q < abs(m * An):  # max 6 trips
@@ -902,8 +903,8 @@ def _RG_(x, y):
     a, b = sqrt(x), sqrt(y)
     if a < b:
         a, b = b, a
-    m = _0_5
     S =  Fsum(_0_25 * (a + b)**2)
+    m = _0_5
     for _ in range(_TRIPS):  # max 4 trips
         if abs(a - b) <= (_TolRG0 * a):
             S *= PI_2 / (a + b)
@@ -927,7 +928,7 @@ def _RG(x, y, z):  # used by testElliptic.py
         y, z = z, y
     # Carlson, eq 1.7
     return fsum_(_RF(x, y, z) * z,
-                 _RD_3(x, y, z) * (x - z) * (z - y),
+                 _RD_3(x, y, z) * (x - z) * (z - y),  # - (y - z)
                   sqrt(x * y / z)) * _0_5
 
 
@@ -949,12 +950,12 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
         return (x + p) * (y + p) * (z + p)
 
     # Carlson, eqs 2.17 - 2.25
-    m =  m3 = _1_0
     D =  neg(_xyzp(x, y, z, -p))
     A =  fsum_(x, y, z, _2_0 * p) / _5_0
     T = (A, x, y, z, p)
     Q = _Q(A, T, _TolRD)
     S =  Fsum()
+    m =  m3 = _1_0
     for _ in range(_TRIPS):
         An = T[0]
         if Q < abs(m * An):  # max 7 trips

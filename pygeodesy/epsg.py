@@ -1,9 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
-I{European Petroleum Survey Group} (U{EPSG<https://www.EPSG-Registry.org>}) codes
-from and to U{UTM
+u'''European Petroleum Survey Group (EPSG) en-/decoding.
+
+Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
+(U{EPSG<https://www.EPSG-Registry.org>}) codes from and to U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 zones.
@@ -27,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '21.01.20'
+__version__ = '21.04.22'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N

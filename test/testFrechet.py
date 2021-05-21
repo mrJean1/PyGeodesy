@@ -4,10 +4,10 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.17'
 
-from base import coverage, geographiclib, isPython3, isWindows, \
-                 TestsBase
+from base import coverage, GeodSolve, geographiclib, \
+                 isPython3, isWindows, TestsBase
 
 from pygeodesy import FrechetError, fstr, LatLon_, randomrangenerator
 
@@ -56,9 +56,9 @@ if __name__ == '__main__':  # MCCABE 13
     from pygeodesy import fractional, frechet_, FrechetCosineAndoyerLambert, \
                           FrechetCosineForsytheAndoyerLambert, FrechetCosineLaw, \
                           FrechetDegrees, FrechetDistanceTo, FrechetEquirectangular, \
-                          FrechetEuclidean, FrechetFlatLocal, FrechetFlatPolar, \
-                          FrechetKarney, FrechetHaversine, FrechetHubeny, \
-                          FrechetRadians, FrechetThomas, FrechetVincentys
+                          FrechetEuclidean, FrechetExact, FrechetFlatLocal, \
+                          FrechetFlatPolar, FrechetKarney, FrechetHaversine, \
+                          FrechetHubeny, FrechetRadians, FrechetThomas, FrechetVincentys
 
     def _distance(p1, p2):
         dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
@@ -125,6 +125,10 @@ if __name__ == '__main__':  # MCCABE 13
             t.test2(FrechetKarney, (151.09508, 0, 0, 149,  5400),
                                    (151.09508, 0, 0, 208, 10710))
 
+        if t._testX:
+            t.test2(FrechetExact, (151.09508, 0, 0, 149,  5400),
+                                  (151.09508, 0, 0, 208, 10710))
+
     elif isWindows:  # Python 2
         t.test2(FrechetDegrees_, (182.5,  83, 45,   21,  5400),
                                  (175.75, 83, 56.5, 12, 10710))
@@ -168,6 +172,10 @@ if __name__ == '__main__':  # MCCABE 13
         if geographiclib:
             t.test2(FrechetKarney, (100.27538, 49, 27,  73,  5400),
                                    (100.27538, 49, 27, 105, 10710))
+
+        if t._testX:
+            t.test2(FrechetExact, (100.27538, 49, 27,  73,  5400),
+                                  (100.27538, 49, 27, 105, 10710))
 
     else:  # Python 2, elsewhere
         t.test2(FrechetDegrees_, (288.0, 1, 1, 147,  5400),
@@ -213,11 +221,25 @@ if __name__ == '__main__':  # MCCABE 13
             t.test2(FrechetKarney, (104.00172, 18, 14,   117,  5400),
                                    (105.26515,  3,  4.5, 196, 10710))
 
+        if t._testX:
+            t.test2(FrechetExact, (104.00172, 18, 14,   117,  5400),
+                                  (105.26515,  3,  4.5, 196, 10710))
+
     if isPython3:
-        from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+        from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty, \
                               sphericalNvector, sphericalTrigonometry
 
-        ms = (ellipsoidalKarney, ellipsoidalVincenty) if geographiclib else (ellipsoidalVincenty,)
+        ms = (ellipsoidalVincenty,)
+        if geographiclib:
+            from pygeodesy import ellipsoidalKarney
+            ms += (ellipsoidalKarney,)
+        if t._testX:
+            from pygeodesy import ellipsoidalExact
+            ms += (ellipsoidalExact,)
+            if GeodSolve:
+                from pygeodesy import ellipsoidalGeodSolve
+                ms += (ellipsoidalGeodSolve,)
+
         for m in ms:
             _ms = [m.LatLon(*ll.latlon) for ll in _ms]
             _ps = [m.LatLon(*ll.latlon) for ll in _ps]
