@@ -108,8 +108,8 @@ class Tests(TestsBase):
         p.AddEdge( 90, 1000)
         p.AddEdge(  0, 1000)
         p.AddEdge(-90, 1000)
-        self.test('AddEdges',  _t3(p.Compute()),           '(4, 4000, 1000000)')
-        self.test('TestEdge',  _t3(p.TestEdge(180, 1000)), '(5, 4000, 1000000)')
+        self.test('AddEdges',  _t3(p.Compute()),           (4, 4000, 1000000))
+        self.test('TestEdge',  _t3(p.TestEdge(180, 1000)), (5, 4000, 1000000))
 
         n = p.Clear()  # .Reset()
         self.test('Clear', n, 0, known=n is None)
@@ -118,8 +118,8 @@ class Tests(TestsBase):
         p.AddPoint( 41, -74)  # New York
         p.AddPoint(-23, -43)  # Rio de Janeiro
         p.AddPoint(-26,  28)  # Johannesburg
-        self.test('AddPoints',  _t3(p.Compute()),        '(4, 29506941, 65690027591346)')
-        self.test('TestPoint',  _t3(p.TestPoint(52, 0)), '(5, 29506941, 65690027591346)')
+        self.test('AddPoints',  _t3(p.Compute()),        (4, 29506941, 65690027591346))
+        self.test('TestPoint',  _t3(p.TestPoint(52, 0)), (5, 29506941, 65690027591346))
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.05.19'
+__version__ = '21.05.21'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -158,7 +158,7 @@ class Tests(_TestsLL, _TestsV):
         self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)
         self.testKarneyVincentyError(module, LatLon, d, K=True, X=X, GS=GS)
 
-    def testKarney_s(self, module, K=False, X=False):
+    def testKarney_s(self, module, X=False):
 
         self.subtitle(module, 'Karney_s')
 
@@ -174,8 +174,9 @@ class Tests(_TestsLL, _TestsV):
         self.test('.s12',  d.s12, 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
-        self.test('distanceTo3', fstr(d3, prec=11), '19959679.26735382527, 161.06766998616, 18.82519512325' if K else
-                                                    '19959679.26735382155, 161.06766998616, 18.82519512325')
+        t = fstr(d3, prec=11)
+        self.test('distanceTo3', t,   '19959679.26735382155, 161.06766998616, 18.82519512325',
+                           known=t == '19959679.26735382527, 161.06766998616, 18.82519512325')
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fstr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
@@ -652,7 +653,7 @@ if __name__ == '__main__':
         t.testIntersections2(K, EquidistantKarney, K=True)  # ... 1 micrometer
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(K, d)
-        t.testKarney_s(K, K=True)
+        t.testKarney_s(K)
 
     if GeodSolve:
         from pygeodesy import ellipsoidalGeodSolve as GS
@@ -662,7 +663,7 @@ if __name__ == '__main__':
         t.testIntersections2(GS, EquidistantGeodSolve, GS=True)  # ... 1 micrometer
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(GS, d, GS=True)
-        t.testKarney_s(GS)
+        t.testKarney_s(GS)  # X=True
 
     t.testEllipsoidal(X, X.Cartesian, None)
     t.testLatLon(X, GS=True)
