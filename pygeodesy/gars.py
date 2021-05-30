@@ -6,7 +6,7 @@ u'''I{Global Area Reference System} (GARS) en-/decoding.
 Classes L{Garef} and L{GARSError} and several functions to encode,
 decode and inspect I{Global Area Reference System} (GARS) references.
 
-Transcribed from C++ class U{GARS
+Transcoded from C++ class U{GARS
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
 by I{Charles Karney}.  See also U{Global Area Reference System
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>} and U{NGA (GARS)
@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.04.24'
+__version__ = '21.05.26'
 
 _Digits  = _0to9_
 _LatLen  =    2

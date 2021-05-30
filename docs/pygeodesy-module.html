@@ -60,10 +60,10 @@
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
   and spherical earth models using precision trigonometric, vector-based, 
-  elliptic and approximate methods for geodetic (lat-/longitude) and 
+  exact elliptic and approximate methods for geodetic (lat-/longitude) and 
   geocentric (<a href="https://WikiPedia.org/wiki/ECEF" 
   target="_top">ECEF</a> cartesian) coordinates.</p>
-  <p>Transcribed from <a href="https://GitHub.com/ChrisVeness/geodesy" 
+  <p>Transcoded from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2019</i> and several <a 
   href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -172,7 +172,7 @@
     <code>python[3] test/unitTestSuite.py</code> before or after 
     installation.</p>
   <h1 class="heading">Dependencies</h1>
-    <p>Installation of <i>Karney</i>'s Python <a 
+    <p>Installation of <i>Karney</i>'s Python package <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> is optional, but required to use 
     modules <a href="pygeodesy.ellipsoidalKarney-module.html" 
@@ -184,17 +184,26 @@
     href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
     class="link">GnomonicKarney</a> and the <a 
     href="pygeodesy.heights.HeightIDWkarney-class.html" 
-    class="link">HeightIDWkarney</a> interpolator. Both <a 
+    class="link">HeightIDWkarney</a> interpolator.  Both <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> and <a 
     href="https://PyPI.org/project/scipy" target="_top">scipy</a> must be 
     installed for most <code>Geoid...</code> and <code>Height...</code> 
-    interpolators, except the <code>HeightIDW...</code> ones.  Modules <a 
-    href="pygeodesy.ellipsoidalGeodSolve-module.html" 
+    interpolators, except the <code>HeightIDW...</code> ones.  Function <a 
+    href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+    class="link">trilaterate3d2</a> and method <a 
+    href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2" 
+    class="link">Vector3d.trilaterate3d2</a> require <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a>.  Modules
+    <a href="pygeodesy.ellipsoidalGeodSolve-module.html" 
     class="link">ellipsoidalGeodSolve</a> and <a 
-    href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> 
-    depend on <i>Karney</i>'s <a 
+    href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> and 
+    <a href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
+    classes <a href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+    class="link">EquidistantGeodSolve</a> and <a 
+    href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+    class="link">GnomonicGeodSolve</a> depend on <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeodSolve</a> utility to be executable.</p>
+    target="_top">GeodSolve</a> C++ utility to be executable.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -216,9 +225,9 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 11.3.1 (10.16) Big Sur and all in 64-bit only.  The tests 
-    are run with and without <code>lazy import</code> for Python 3 and with
-    <code>-W always</code> and environment variable 
+    all on macOS 11.4 (10.16) Big Sur and in 64-bit (and Intel) only.  The 
+    tests are run with and without <code>lazy import</code> for Python 3 
+    and with <code>-W always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
@@ -239,7 +248,7 @@
     2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
-    14.04</a> and with Python 3.9.1 (and <a 
+    16.04</a> and with Python 3.9.1 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -253,7 +262,7 @@
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.9.0-2, 3.8.0-5, 
+    <p>Previously, the tests were run with Python 3.9.0-4, 3.8.0-5, 
     3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
@@ -264,7 +273,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 11.0-2.3 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
+    on macOS 11.0-3.1 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
     Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El
     Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
@@ -285,7 +294,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.5, both in 64-bit on macOS 
-    11.3.1 (10.16) Big Sur.</p>
+    11.4 (10.16) Big Sur (Intel).</p>
     <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -387,7 +396,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.05.21
+        21.05.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -457,14 +466,14 @@
         target="_top">GeodesicExactC4</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.__main__-module.html">pygeodesy.geodesicx.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.geodesicx-module.html" 
         class="link">geodesicx</a> version, etc.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.bases-module.html" onclick="show_private();">pygeodesy.geodesicx.bases</a></strong>: <em class="summary">Base <a href="pygeodesy.geodesicx-module.html" 
-        class="link">geodesicx</a> classes, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx-module.html">pygeodesy.geodesicx.gx</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea-module.html">pygeodesy.geodesicx.gxarea</a></strong>: <em class="summary">Slightly enhanced versions of <i>Karney</i>'s Python classes <a 
         href="https://GeographicLib.SourceForge.io/1.50/python/code.html#module-geographiclib.polygonarea"
         target="_top">PolygonArea</a> and <code>Accumulator</code>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">Base <a href="pygeodesy.geodesicx-module.html" 
+        class="link">geodesicx</a> classes, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>    </li>
@@ -472,8 +481,8 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodsolve-module.html">pygeodesy.geodsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb" 
-        target="_top">GeodSolve</a> utility, intended <i>for testing 
-        purposes only</i>.</em>    </li>
+        target="_top">GeodSolve</a> utility as an (exact) geodesic, but 
+        intended <i>for testing purposes only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
@@ -516,7 +525,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmups-module.html">pygeodesy.utmups</a></strong>: <em class="summary"><i>Karney</i>'s UTM and UPS utilities.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html" onclick="show_private();">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) ETM, Epsg, Mgrs, UTM and UPS bases.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary"><i>Veness</i>' Vector functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Extended 3-D vector class <a 
+        href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> and functions.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.vector3dBase-module.html" onclick="show_private();">pygeodesy.vector3dBase</a></strong>: <em class="summary"><i>Veness</i>' 3-D vector base class <code>Vector3dBase</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">World Geographic Reference System (WGRS) en-/decoding.</em>    </li>
   </ul></td></tr>
@@ -1407,7 +1419,9 @@
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
         target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
         classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a>.
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -1418,9 +1432,13 @@
       Azimuthal equidistant projection, a Python version of 
         <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
-        target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
-        classes <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
-        class="link">GeodesicSolve</a>.
+        target="_top">AzimuthalEquidistant</a>, based on (exact) geodesic 
+        <i>wrappers</i> <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> and <a 
+        href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+        class="link">GeodesicLineSolve</a> and intended <i>for testing 
+        purposes only</i>.
     </td>
   </tr>
 <tr>
@@ -1846,13 +1864,26 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" class="summary-name">GeodesicLineSolve</a><br />
+      Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
+        target="_top">GeodSolve</a> as an <code>Exact</code> version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html#geographiclib.geodesicline.GeodesicLine"
+        target="_top">GeodesicLine</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" class="summary-name">GeodesicSolve</a><br />
       Wrapper to invoke <i>Karney</i>'s <a 
         href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a> as an <code>Exact</code> version of 
         <i>Karney</i>'s Python class <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html#geographiclib.geodesic.Geodesic"
-        target="_top">Geodesic</a> <i>wrapper</i>.
+        target="_top">Geodesic</a>.
     </td>
   </tr>
 <tr>
@@ -1975,6 +2006,23 @@
         class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
         class="link">GeodesicLineExact</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" class="summary-name">GnomonicGeodSolve</a><br />
+      Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
+        C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+        target="_top">Gnomonic</a>, based on (exact) geodesic 
+        <i>wrappers</i> <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> and <a 
+        href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+        class="link">GeodesicLineSolve</a> and intended <i>for testing 
+        purposes only</i>.
     </td>
   </tr>
 <tr>
@@ -3469,7 +3517,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html" class="summary-name">Vector3d</a><br />
-      Generic 3-D vector manipulation.
+      Extended 3-D vector.
     </td>
   </tr>
 <tr>
@@ -3485,9 +3533,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.vector3d.VectorError-class.html" class="summary-name">VectorError</a><br />
+        <a href="pygeodesy.errors.VectorError-class.html" class="summary-name">VectorError</a><br />
       <a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code> issue.
+        class="link">Vector3d</a>, <code>Cartesian*</code> or 
+        <code>*Nvector</code> issues.
     </td>
   </tr>
 <tr>
@@ -5183,7 +5232,9 @@
         <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return an <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
-      class="link">EquidistantExact</a> or (if <i>Karney</i>'s <a 
+      class="link">EquidistantExact</a>, <a 
+      href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+      class="link">EquidistantGeodSolve</a> or (if <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed) an <a 
       href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
@@ -6354,11 +6405,12 @@
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
       class="link">GnomonicExact</a> or (if <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
-      target="_top">geographiclib</a> package is installed), a <a 
+      target="_top">geographiclib</a> package is installed) a <a 
       href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
       class="link">GnomonicKarney</a>, otherwise a <a 
       href="pygeodesy.azimuthal.Gnomonic-class.html" 
@@ -6474,7 +6526,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8fa8f5c3d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f93324e1250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6787,6 +6839,32 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instantiation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersection3d" class="summary-sig-name">intersection3d</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Compute the intersection point of two lines, each defined by or 
+      through a start and end point.</td>
           <td align="right" valign="top">
             
             
@@ -9345,7 +9423,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres, each given as a (3d) center and a radius.</td>
+      Trilaterate three spheres, each given as a (3-D) center and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -9775,7 +9853,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.5.21'"><code class="variable-quote">'</code><code class="variable-string">21.5.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.5.31'"><code class="variable-quote">'</code><code class="variable-string">21.5.31</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12839,7 +12917,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Previous setting (<code>bool</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Property <code>Vector3d.crosserrors</code>.
+        Property <code>Vector3d[Base].crosserrors</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -13490,7 +13568,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return an <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
-  class="link">EquidistantExact</a> or (if <i>Karney</i>'s <a 
+  class="link">EquidistantExact</a>, <a 
+  href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+  class="link">EquidistantGeodSolve</a> or (if <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed) an <a 
   href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
@@ -13522,6 +13602,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
           class="link">EquidistantExact</a>, <a 
+          href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+          class="link">EquidistantGeodSolve</a>, <a 
           href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
           class="link">EquidistantKarney</a> or <a 
           href="pygeodesy.azimuthal.Equidistant-class.html" 
@@ -15890,6 +15972,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">geodsolve</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -15900,7 +15983,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <p>Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
   class="link">GnomonicExact</a> or (if <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> package is installed), a <a 
+  target="_top">geographiclib</a> package is installed) a <a 
   href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
   class="link">GnomonicKarney</a>, otherwise a <a 
   href="pygeodesy.azimuthal.Gnomonic-class.html" class="link">Gnomonic</a> 
@@ -15921,11 +16004,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
           class="link">GnomonicExact</a> instance.</li>
+        <li><strong class="pname"><code>geodsolve</code></strong> - Return an <a 
+          href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+          class="link">GnomonicGeodSolve</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
           class="link">GnomonicExact</a>, <a 
+          href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+          class="link">GnomonicGeodSolve</a>, <a 
           href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
           class="link">GnomonicKarney</a> or <a 
           href="pygeodesy.azimuthal.Gnomonic-class.html" 
@@ -16086,7 +16174,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8fa8f5c3d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f93324e1250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16776,6 +16864,87 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Representation (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="intersection3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d</span>&nbsp;(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection point of two lines, each defined by or 
+  through a start and end point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of the first line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> the intersection point must be on or between
+          the start and end points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code> use the Z component, if <code>False</code> 
+          force <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code> for <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intersection point (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines or 
+        the intersection point is outside, not between the start and end 
+        points and <code><b>within</b>=True</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Line-line <a 
+        href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
+        target="_top">intersection</a> and <a 
+        href="https://MathWorld.Wolfram.com/Line-LineDistance.html" 
+        target="_top">distance</a>, <a 
+        href="https://MathWorld.Wolfram.com/SkewLines.html" 
+        target="_top">skew lines</a> and <a 
+        href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
+        target="_top">point-line distance</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="intersections2"></a>
 <div>
@@ -18997,7 +19166,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -19405,7 +19574,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <code>&quot;[grid] easting northing&quot;</code>.</p>
   <p>Accepts standard OS Grid References like 'SU 387 148', with or without
   whitespace separators, from 2- up to 10-digit references (1 m &#215; 1 m 
-  square), or fully numeric, comma-separated references in meters, for 
+  square), or all-numeric, comma-separated references in meters, for 
   example '438700,114800'.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -21980,7 +22149,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres, each given as a (3d) center and a 
+  <p>Trilaterate three spheres, each given as a (3-D) center and a 
   radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -22022,8 +22191,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers or 
-        trilateration failed some other way.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres 
+        or <code>numpy</code> issue.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -22932,7 +23101,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:34 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:38 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

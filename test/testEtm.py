@@ -5,9 +5,9 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.05.28'
 
-from base import isiOS, isNix, isWindows, TestsBase
+from base import TestsBase
 
 from pygeodesy import etm, ExactTransverseMercator
 
@@ -90,8 +90,8 @@ class Tests(TestsBase):
 
         if extendp:
             e, n, g, k = xtm.forward(lat, lon)
-            self.test('easting',  e, '29735142.37835703', prec=8, known=isNix or isWindows or isiOS)
-            self.test('northing', n,  '4235043.60793304', prec=8, known=isNix or isWindows or isiOS)
+            self.test('easting',  e, '29735142.37835703', prec=8, known=round(e, 6) == 29735142.378357)
+            self.test('northing', n,  '4235043.60793304', prec=8, known=round(n, 6) ==  4235043.607933)
             self.test('gamma',    g,       '67.63332900', prec=8)
             self.test('scale',    k,       '26.33699547', prec=8)
 

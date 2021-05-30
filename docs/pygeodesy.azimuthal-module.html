@@ -134,7 +134,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.05.19
+        21.05.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -213,7 +213,9 @@
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
         target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
         classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link">GeodesicExact</a>.
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -224,9 +226,13 @@
       Azimuthal equidistant projection, a Python version of 
         <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
-        target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
-        classes <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
-        class="link">GeodesicSolve</a>.
+        target="_top">AzimuthalEquidistant</a>, based on (exact) geodesic 
+        <i>wrappers</i> <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> and <a 
+        href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+        class="link">GeodesicLineSolve</a> and intended <i>for testing 
+        purposes only</i>.
     </td>
   </tr>
 <tr>
@@ -267,6 +273,23 @@
         class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
         class="link">GeodesicLineExact</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" class="summary-name">GnomonicGeodSolve</a><br />
+      Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
+        C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+        target="_top">Gnomonic</a>, based on (exact) geodesic 
+        <i>wrappers</i> <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> and <a 
+        href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+        class="link">GeodesicLineSolve</a> and intended <i>for testing 
+        purposes only</i>.
     </td>
   </tr>
 <tr>
@@ -342,7 +365,9 @@
         <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return an <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
-      class="link">EquidistantExact</a> or (if <i>Karney</i>'s <a 
+      class="link">EquidistantExact</a>, <a 
+      href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+      class="link">EquidistantGeodSolve</a> or (if <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed) an <a 
       href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
@@ -368,11 +393,12 @@
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">geodsolve</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
       class="link">GnomonicExact</a> or (if <i>Karney</i>'s <a 
       href="https://PyPI.org/project/geographiclib" 
-      target="_top">geographiclib</a> package is installed), a <a 
+      target="_top">geographiclib</a> package is installed) a <a 
       href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
       class="link">GnomonicKarney</a>, otherwise a <a 
       href="pygeodesy.azimuthal.Gnomonic-class.html" 
@@ -432,7 +458,9 @@
   </tr></table>
   
   <p>Return an <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
-  class="link">EquidistantExact</a> or (if <i>Karney</i>'s <a 
+  class="link">EquidistantExact</a>, <a 
+  href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+  class="link">EquidistantGeodSolve</a> or (if <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed) an <a 
   href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
@@ -464,6 +492,8 @@
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
           class="link">EquidistantExact</a>, <a 
+          href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+          class="link">EquidistantGeodSolve</a>, <a 
           href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
           class="link">EquidistantKarney</a> or <a 
           href="pygeodesy.azimuthal.Equidistant-class.html" 
@@ -488,6 +518,7 @@
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">geodsolve</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -498,7 +529,7 @@
   <p>Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
   class="link">GnomonicExact</a> or (if <i>Karney</i>'s <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> package is installed), a <a 
+  target="_top">geographiclib</a> package is installed) a <a 
   href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
   class="link">GnomonicKarney</a>, otherwise a <a 
   href="pygeodesy.azimuthal.Gnomonic-class.html" class="link">Gnomonic</a> 
@@ -519,11 +550,16 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
           class="link">GnomonicExact</a> instance.</li>
+        <li><strong class="pname"><code>geodsolve</code></strong> - Return an <a 
+          href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+          class="link">GnomonicGeodSolve</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
           class="link">GnomonicExact</a>, <a 
+          href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+          class="link">GnomonicGeodSolve</a>, <a 
           href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
           class="link">GnomonicKarney</a> or <a 
           href="pygeodesy.azimuthal.Gnomonic-class.html" 
@@ -569,7 +605,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:34 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:38 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

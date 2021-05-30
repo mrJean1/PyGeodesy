@@ -4,9 +4,9 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.05.21'
+__version__ = '21.05.29'
 
-from base import coverage, GeodSolve, geographiclib, RandomLatLon
+from base import coverage, GeodSolve, geographiclib, isiOS, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
@@ -158,7 +158,7 @@ class Tests(_TestsLL, _TestsV):
         self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)
         self.testKarneyVincentyError(module, LatLon, d, K=True, X=X, GS=GS)
 
-    def testKarney_s(self, module, X=False):
+    def testKarney_s(self, module, GS=False, X=False):
 
         self.subtitle(module, 'Karney_s')
 
@@ -175,8 +175,9 @@ class Tests(_TestsLL, _TestsV):
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
         t = fstr(d3, prec=11)
-        self.test('distanceTo3', t,   '19959679.26735382155, 161.06766998616, 18.82519512325',
-                           known=t == '19959679.26735382527, 161.06766998616, 18.82519512325')
+        self.test('distanceTo3', t, ('19959679.26735381782, 161.06766998616, 18.82519512325' if GS or X else
+                                     '19959679.26735382155, 161.06766998616, 18.82519512325'), known=isiOS or  # XXX
+                                  t=='19959679.26735382527, 161.06766998616, 18.82519512325')
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fstr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
@@ -663,7 +664,7 @@ if __name__ == '__main__':
         t.testIntersections2(GS, EquidistantGeodSolve, GS=True)  # ... 1 micrometer
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(GS, d, GS=True)
-        t.testKarney_s(GS)  # X=True
+        t.testKarney_s(GS, GS=True)  # X=True
 
     t.testEllipsoidal(X, X.Cartesian, None)
     t.testLatLon(X, GS=True)

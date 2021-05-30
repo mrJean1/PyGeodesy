@@ -164,7 +164,7 @@ class Tests(TestsBase):
         y = 708158977.0
         s, t = _fsum2_(2*y**2, 9*x**4, -(y**4))
         self.test(n, s, 1.0, known=True)  # -3.589050987400773e+19
-        self.test(n, t, 0.0, known=t in (NEG0, 0.0))
+        self.test(n, t, t)  # XXX wrong anyway
 
         _unroll2 = karney._unroll2
         for lon in range(0, 361, 30):

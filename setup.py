@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.05.20'
+__version__ = '21.05.31'
 
 
 def _c2(*names):
@@ -57,13 +57,13 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Euclidean', 'ExactTM', 'excess',
              'Farrell', 'Farrell-Barth', 'flattening', 'fmath', 'footprint', 'Forsythe', 'fov',
              'fractional', 'Frechet', 'Fréchet', 'frustum',
-             'GARS', 'geocentric', 'geodesy', 'GeodesicExact', 'geodetic', 'GeodSolve', 'GeodTest',
+             'GARS', 'geocentric', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'intermediate', 'interpolate',
-             'intersect', 'intersection', 'intersections',
+             'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',

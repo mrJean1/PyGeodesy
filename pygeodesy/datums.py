@@ -9,7 +9,7 @@ L{Transforms}, respectively.
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 including datums and ellipsoid parameters for different geographic coordinate
 systems and methods for converting between them and to cartesian coordinates.
-Transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016} and
+Transcoded from JavaScript originals by I{(C) Chris Veness 2005-2016} and
 published under the same MIT Licence**, see U{latlon-ellipsoidal.js
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
@@ -92,7 +92,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.04.24'
+__version__ = '21.05.26'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'

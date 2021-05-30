@@ -43,7 +43,7 @@ from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.05.18'
+__version__ = '21.05.24'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -492,8 +492,8 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (C{meter}, same as units of the B{C{datum}}
-                ellipsoid, squared).
+       @return: Area (C{meter}, same as units of the
+                B{C{datum}}'s ellipsoid axes, I{squared}).
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}
@@ -509,8 +509,9 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @note: This function requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
-       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
-             L{sphericalTrigonometry.areaOf}.
+       @see: L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf},
+             L{ellipsoidalGeodSolve.areaOf}, L{sphericalNvector.areaOf}
+             and L{sphericalTrigonometry.areaOf}.
     '''
     return abs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap))
 
@@ -650,8 +651,8 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (C{meter}, same as units of the B{C{datum}}
-                ellipsoid).
+       @return: Perimeter (C{meter}, same as units of the
+                B{C{datum}}'s ellipsoid axes).
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}
@@ -667,7 +668,9 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
        @note: This function requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
-       @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
+       @see: L{pygeodesy.perimeterOf}, L{ellipsoidalExact.perimeterOf},
+             L{ellipsoidalGeodSolve.perimeterOf}, L{sphericalNvector.perimeterOf}
+             and L{sphericalTrigonometry.perimeterOf}.
     '''
     return _polygon(datum.ellipsoid.geodesic, points, closed, True, wrap)
 

@@ -5,7 +5,7 @@ u'''I{Veness}' Terrestrial Reference Frames (TRF).
 
 Classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
-Transcribed from I{Chris Veness'} (C) 2006-2019 JavaScript originals
+Transcoded from I{Chris Veness'} (C) 2006-2019 JavaScript originals
 U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/blob/master/
 latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
@@ -65,7 +65,7 @@ from pygeodesy.units import Epoch
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.04.22'
+__version__ = '21.05.26'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)

@@ -7,7 +7,7 @@ Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
 (ECEF) L{Cartesian} classes and functions L{areaOf}, L{intersections2},
 L{isclockwise}, L{nearestOn} and L{perimeterOf} based on module
 L{geodsolve}, a wrapper invoking I{Karney}'s U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb>} utility.
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} utility.
 '''
 
 from pygeodesy.datums import _WGS84
@@ -24,7 +24,7 @@ from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '21.05.20'
+__version__ = '21.05.24'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -51,8 +51,8 @@ class Cartesian(CartesianEllipsoidalBase):
 
 
 class LatLon(LatLonEllipsoidalBase):
-    '''An ellipsoidal L{LatLon} like L{ellipsoidalKarney.LatLon} but using
-       exact geodesic class L{GeodesicSolve} to compute the geodesic distance,
+    '''An ellipsoidal L{LatLon} like L{ellipsoidalKarney.LatLon} but using (exact)
+       geodesic I{wrapper} L{GeodesicSolve} to compute the geodesic distance,
        initial and final bearing (azimuths) between two given points or the
        destination point given a start point and an (initial) bearing.
     '''
@@ -192,7 +192,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     @Property_RO
     def geodesicx(self):
-        '''Get this C{LatLon}'s exact geodesic (L{GeodesicSolve}).
+        '''Get this C{LatLon}'s (exact) geodesic (L{GeodesicSolve}).
         '''
         return self.datum.ellipsoid.geodsolve
 
@@ -360,8 +360,8 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (C{meter}, same as units of the B{C{datum}}
-                ellipsoid, squared).
+       @return: Area (C{meter}, same as units of the
+                B{C{datum}}'s ellipsoid axes, I{squared}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -370,8 +370,9 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @raise ValueError: Invalid C{B{wrap}=False}, unwrapped,
                           unrolled longitudes not supported.
 
-       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
-             L{sphericalTrigonometry.areaOf}.
+       @see: L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf},
+             L{ellipsoidalKarney.areaOf}, L{sphericalNvector.areaOf}
+             and L{sphericalTrigonometry.areaOf}.
     '''
     return abs(_polygon(datum.ellipsoid.geodsolve, points, True, False, wrap))
 
@@ -496,8 +497,8 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (C{meter}, same as units of the B{C{datum}}
-                ellipsoid).
+       @return: Perimeter (C{meter}, same as units of the
+                B{C{datum}}'s ellipsoid axes).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -506,7 +507,9 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
        @raise ValueError: Invalid C{B{wrap}=False}, unwrapped,
                           unrolled longitudes not supported.
 
-       @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
+       @see: L{pygeodesy.perimeterOf}, L{ellipsoidalExact.perimeterOf},
+             L{ellipsoidalKarney.perimeterOf}, L{sphericalNvector.perimeterOf}
+             and L{sphericalTrigonometry.perimeterOf}.
     '''
     return _polygon(datum.ellipsoid.geodsolve, points, closed, True, wrap)
 

@@ -29,7 +29,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.04.24'
+__version__ = '21.05.22'
 
 
 def _non0(x):
@@ -950,7 +950,7 @@ def intersections2(lat1, lon1, radius1,
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib/>}
        is installed, or ...
 
-       4) L{ellipsoidalVincenty.intersections2} otherwise provided B{C{datum}}
+       4) L{ellipsoidalExact.intersections2} otherwise provided B{C{datum}}
        is ellipsoidal.
 
        @arg lat1: Latitude of the first circle center (C{degrees}).
@@ -1006,7 +1006,7 @@ def intersections2(lat1, lon1, radius1,
                     pass
                 import pygeodesy.ellipsoidalKarney as m
             except ImportError:
-                import pygeodesy.ellipsoidalVincenty as m
+                import pygeodesy.ellipsoidalExact as m
         else:
             raise _AssertionError(datum=d)
 

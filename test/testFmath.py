@@ -4,16 +4,16 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.03.15'
+__version__ = '21.05.28'
 
 from base import coverage, TestsBase
 
 from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
-                      fatan2, fhorner, fmath, fpolynomial, fpowers, \
-                      Fsum, fsum, fsum_, hypot_, hypot2_, sqrt3
+                      fatan, fatan2, fhorner, fmath, fpolynomial, fpowers, \
+                      Fsum, fsum, fsum_, hypot_, hypot2_, norm_, sqrt3
 #                     hypot3  # DEPRECATED
 
-from math import acos, asin, atan2, sqrt
+from math import acos, asin, atan, atan2, sqrt
 from random import random, gauss, shuffle
 
 
@@ -151,8 +151,8 @@ class Tests(TestsBase):
         self.test('euclid_', e, h, prec=8, known=abs(e - h) < h * 0.01)
         t = hypot2_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot2_', t, '1.00002500', prec=8)
-        s = hypot_(1.0, 0.0050, 0.0000000000010)  # DEPRECATED hypot3
-        self.test('hypot_ ', s, h, prec=8)
+        s = hypot_(*norm_(1.0, 0.0050, 0.0000000000010))  # PYCHOK norm_
+        self.test('norm_  ', s, 1.0, prec=8)
 
         h = hypot_(3000, 2000, 100)  # note, all C{int}
         self.test('hypot_ ', h, '3606.937759', prec=6)
@@ -161,8 +161,8 @@ class Tests(TestsBase):
         t = hypot2_(3000, 2000, 100)  # note, all C{int}
         s = fsum_(3000**2, 2000**2, 100**2)
         self.test('hypot2_', t, s, prec=1)
-        s = hypot_(3000, 2000, 100)  # DEPRECATED hypot3
-        self.test('hypot_ ', s, h, prec=6)
+        s = hypot_(*norm_(3000, 2000, 100))  # PYCHOK norm_
+        self.test('norm_  ', s, 1.0, prec=1)
 
         h = hypot_(40000, 3000, 200, 10.0)
         s = fsum_(40000**2, 3000**2, 200**2, 100)
@@ -191,13 +191,15 @@ class Tests(TestsBase):
         self.test('Fsum ', Fsum().fsum_(*t), '1.0', prec=-12, known=True)
         self.test('sum  ',  sum(t),          '1.0', prec=-12, known=True)
 
-        c = s = t = 0
+        a = c = s = t = 0
         for f in range(100):
             f = float(f)
             t = max(t, abs(atan2(f, 2.0) - fatan2(f, 2.0)))
             f = 1.0 / (f + 1.0)
             s = max(s, abs(asin(f) - fasin1(f)))
             c = max(c, abs(acos(f) - facos1(f)))
+            a = max(a, abs(atan(a) - fatan(a)))
+        self.test('fatan ', a, '0.0000000', prec=7, known=True)
         self.test('facos1', c, '0.0000631', prec=7, known=True)
         self.test('fasin1', s, '0.0000631', prec=7, known=True)
         self.test('fatan2', t, '0.0015047', prec=7, known=True)

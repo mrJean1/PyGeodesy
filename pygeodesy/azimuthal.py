@@ -66,7 +66,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.05.19'
+__version__ = '21.05.22'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -84,7 +84,7 @@ class _AzimuthalBase(_NamedBase):
     _datum     = _WGS84  # L{Datum}
     _iteration =  None   # iteration number for L{GnomonicKarney}
     _latlon0   = ()      # lat0, lon0 (L{LatLon2Tuple})
-    _sc0       = ()      # 2-Tuple C{sincos2(lat0)}
+    _sc0       = ()      # 2-Tuple C{sincos2d(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -223,10 +223,10 @@ class _AzimuthalBase(_NamedBase):
             t = (c0 * sc * (y / r)) if r > EPS0 else _0_0
             lat = degrees(asin1(s0 * cc + t))
             if lea or abs(c0) > EPS:
-                lon = atan2(x * sc, c0 * cc * r - s0 * sc * y)
+                lon = atan2d(x * sc, c0 * cc * r - s0 * sc * y)
             else:
-                lon = atan2(x, (y if s0 < 0 else -y))
-            lon = _norm180(self.lon0 + degrees(lon))
+                lon = atan2d(x, (y if s0 < 0 else -y))
+            lon = _norm180(self.lon0 + lon)
         else:
             k, z = _1_0, _0_0
             lat, lon = self.latlon0
@@ -292,9 +292,10 @@ class Equidistant(_AzimuthalBase):
        <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html>}.
 
-       @note: Results from this L{Equidistant} and the L{EquidistantKarney}
-              projection C{may differ} by 10% or more.  For an example, see
-              method C{testDiscrepancies} in module C{testAzimuthal.py}.
+       @note: Results from this L{Equidistant} and an L{EquidistantExact},
+              L{EquidistantGeodSolve} or L{EquidistantKarney} projection
+              C{may differ} by 10% or more.  For an example, see method
+              C{testDiscrepancies} in module C{testAzimuthal.py}.
     '''
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
@@ -354,9 +355,9 @@ class Equidistant(_AzimuthalBase):
 
 
 def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
-    '''Return an L{EquidistantExact} or (if I{Karney}'s U{geographiclib
-       <https://PyPI.org/project/geographiclib>} package is installed)
-       an L{EquidistantKarney}, otherwise an L{Equidistant} instance.
+    '''Return an L{EquidistantExact}, L{EquidistantGeodSolve} or (if I{Karney}'s
+       U{geographiclib<https://PyPI.org/project/geographiclib>} package is
+       installed) an L{EquidistantKarney}, otherwise an L{Equidistant} instance.
 
        @arg lat0: Latitude of center point (C{degrees90}).
        @arg lon0: Longitude of center point (C{degrees180}).
@@ -367,7 +368,8 @@ def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN)
        @kwarg geodsolve: Return an L{EquidistantGeodSolve} instance.
        @kwarg name: Optional name for the projection (C{str}).
 
-       @return: An L{EquidistantExact}, L{EquidistantKarney} or L{Equidistant} instance.
+       @return: An L{EquidistantExact}, L{EquidistantGeodSolve},
+                L{EquidistantKarney} or L{Equidistant} instance.
 
        @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or (spherical) B{C{datum}}.
 
@@ -433,14 +435,13 @@ class _EquidistantBase(_AzimuthalGeodesic):
                     The C{scale} of the projection is C{1} in I{radial} direction and
                     is C{1 / reciprocal} in the direction perpendicular to this.
 
-           @see: Method L{EquidistantKarney.reverse}.  A call to C{.forward}
-                 followed by a call to C{.reverse} will return the original
-                 C{lat, lon} to within roundoff.
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
 
-            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
+           @note: A call to C{.forward} followed by a call to C{.reverse} will return
+                  the original C{lat, lon} to within roundoff.
        '''
         r = self.geodesic.Inverse(self.lat0, self.lon0,
-                                       Lat_(lat), Lon_(lon), self._mask)
+                                  Lat_(lat), Lon_(lon), self._mask)
         x, y = sincos2d(r.azi1)
         return self._7Tuple(x * r.s12, y * r.s12, r, name=name)
 
@@ -477,7 +478,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
 class EquidistantExact(_EquidistantBase):
     '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
-       based on exact geodesic classes L{GeodesicExact}.
+       based on exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
 
        An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
        For a point in projected space C{(x, y)}, the geodesic distance from the center position
@@ -503,6 +504,10 @@ class EquidistantExact(_EquidistantBase):
         '''
         _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
+    if _FOR_DOCS:
+        forward = _EquidistantBase.forward
+        reverse = _EquidistantBase.reverse
+
     @Property_RO
     def geodesic(self):
         '''Get this projection's exact geodesic (L{GeodesicExact}).
@@ -513,17 +518,10 @@ class EquidistantExact(_EquidistantBase):
 class EquidistantGeodSolve(_EquidistantBase):
     '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
-       based on exact geodesic classes L{GeodesicSolve}.
+       based on (exact) geodesic I{wrappers} L{GeodesicSolve} and L{GeodesicLineSolve} and intended
+       I{for testing purposes only}.
 
-       An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
-       For a point in projected space C{(x, y)}, the geodesic distance from the center position
-       is C{hypot(x, y)} and the C{azimuth} of the geodesic from the center point is C{atan2(x, y)},
-       clockwise from true North.
-
-       The C{.forward} and C{.reverse} methods also return the C{azimuth} of the geodesic at C{(x,
-       y)} and the C{scale} in the azimuthal direction which, together with the basic properties
-       of the projection, serve to specify completely the local affine transformation between
-       geographic and projected coordinates.
+       @see: L{EquidistantExact} and module L{geodsolve}.
     '''
     def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
         '''New azimuthal L{EquidistantGeodSolve} projection.
@@ -539,9 +537,13 @@ class EquidistantGeodSolve(_EquidistantBase):
         '''
         _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
+    if _FOR_DOCS:
+        forward = _EquidistantBase.forward
+        reverse = _EquidistantBase.reverse
+
     @Property_RO
     def geodesic(self):
-        '''Get this projection's exact geodesic (L{GeodesicSolve}).
+        '''Get this projection's (exact) geodesic (L{GeodesicSolve}).
         '''
         return self.datum.ellipsoid.geodsolve
 
@@ -551,15 +553,7 @@ class EquidistantKarney(_EquidistantBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
        requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
 
-       An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
-       For a point in projected space C{(x, y)}, the geodesic distance from the center position
-       is C{hypot(x, y)} and the C{azimuth} of the geodesic from the center point is C{atan2(x, y)},
-       clockwise from true North.
-
-       The C{.forward} and C{.reverse} methods also return the C{azimuth} of the geodesic at C{(x,
-       y)} and the C{scale} in the azimuthal direction which, together with the basic properties
-       of the projection, serve to specify completely the local affine transformation between
-       geographic and projected coordinates.
+       @see: L{EquidistantExact}.
     '''
     def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
         '''New azimuthal L{EquidistantKarney} projection.
@@ -577,6 +571,10 @@ class EquidistantKarney(_EquidistantBase):
            @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
         '''
         _EquidistantBase.__init__(self, lat0, lon0, datum=datum, name=name)
+
+    if _FOR_DOCS:
+        forward = _EquidistantBase.forward
+        reverse = _EquidistantBase.reverse
 
     @Property_RO
     def geodesic(self):
@@ -647,9 +645,9 @@ class Gnomonic(_AzimuthalBase):
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)
 
 
-def gnomonic(lat0, lon0, datum=_WGS84, exact=False, name=NN):
+def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
     '''Return a L{GnomonicExact} or (if I{Karney}'s U{geographiclib
-       <https://PyPI.org/project/geographiclib>} package is installed),
+       <https://PyPI.org/project/geographiclib>} package is installed)
        a L{GnomonicKarney}, otherwise a L{Gnomonic} instance.
 
        @arg lat0: Latitude of center point (C{degrees90}).
@@ -658,9 +656,11 @@ def gnomonic(lat0, lon0, datum=_WGS84, exact=False, name=NN):
                      L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                      radius (C{meter}).
        @kwarg exact: Return a L{GnomonicExact} instance.
+       @kwarg geodsolve: Return an L{GnomonicGeodSolve} instance.
        @kwarg name: Optional name for the projection (C{str}).
 
-       @return: A L{GnomonicExact}, L{GnomonicKarney} or L{Gnomonic} instance.
+       @return: A L{GnomonicExact}, L{GnomonicGeodSolve},
+                L{GnomonicKarney} or L{Gnomonic} instance.
 
        @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or (spherical) B{C{datum}}.
 
@@ -668,6 +668,8 @@ def gnomonic(lat0, lon0, datum=_WGS84, exact=False, name=NN):
     '''
     if exact:
         return GnomonicExact(lat0, lon0, datum=datum, name=name)
+    elif geodsolve:
+        return GnomonicGeodSolve(lat0, lon0, datum=datum, name=name)  # PYCHOK types
     try:
         return GnomonicKarney(lat0, lon0, datum=datum, name=name)  # PYCHOK types
     except ImportError:
@@ -699,15 +701,16 @@ class _GnomonicBase(_AzimuthalGeodesic):
                     and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
                     The C{scale} of the projection is C{1 / reciprocal**2} in I{radial}
                     direction and C{1 / reciprocal} in the direction perpendicular to
-                    this.  Both C{x} and C{y} will be C{NAN} if the geodetic location
-                    lies over the horizon and B{C{raiser}} is C{False}.
+                    this.  Both C{x} and C{y} will be C{NAN} if the (geodetic) location
+                    lies over the horizon and C{B{raiser}=False}.
 
-           @raise AzimuthalError: Invalid B{C{lat}}, B{C{lon}} or the geodetic location
-                                  lies over the horizon and B{C{raiser}} is C{True}.
+           @raise AzimuthalError: Invalid B{C{lat}}, B{C{lon}} or the location lies
+                                  over the horizon and C{B{raiser}=True}.
         '''
         self._iteration = 0
 
-        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
+        r = self.geodesic.Inverse(self.lat0, self.lon0,
+                                  Lat_(lat), Lon_(lon), self._mask)
         M = r.M21
         if M > EPS0:
             q = r.m12 / M  # .M12
@@ -761,10 +764,12 @@ class _GnomonicBase(_AzimuthalGeodesic):
                 return (q * r.M12 - r.m12) * r.M12  # negated
         e *= _EPS_K
 
+        m = self._mask
+        g = self.geodesic._Line(self.lat0, self.lon0, z, m)
+        P = g.Position
         S = Fsum(s)
-        g = self.geodesic._Line(self.lat0, self.lon0, z, self._mask)
         for self._iteration in range(1, _TRIPS):
-            r = g.Position(s, self._mask)
+            r = P(s, m)
             if abs(d) < e:
                 break
             s, d = S.fsum2_(_d(r, q))
@@ -799,6 +804,10 @@ class GnomonicExact(_GnomonicBase):
         '''
         _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
+    if _FOR_DOCS:
+        forward = _GnomonicBase.forward
+        reverse = _GnomonicBase.reverse
+
     @Property_RO
     def geodesic(self):
         '''Get this projection's exact geodesic (L{GeodesicExact}).
@@ -806,13 +815,45 @@ class GnomonicExact(_GnomonicBase):
         return self.datum.ellipsoid.geodesicx
 
 
+class GnomonicGeodSolve(_GnomonicBase):
+    '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
+       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
+       based on (exact) geodesic I{wrappers} L{GeodesicSolve} and L{GeodesicLineSolve} and
+       intended I{for testing purposes only}.
+
+       @see: L{GnomonicExact} and module L{geodsolve}.
+    '''
+    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
+        '''New azimuthal L{GnomonicGeodSolve} projection.
+
+           @arg lat0: Latitude of center point (C{degrees90}).
+           @arg lon0: Longitude of center point (C{degrees180}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                         radius (C{meter}).
+           @kwarg name: Optional name for the projection (C{str}).
+
+           @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
+        '''
+        _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
+
+    if _FOR_DOCS:
+        forward = _GnomonicBase.forward
+        reverse = _GnomonicBase.reverse
+
+    @Property_RO
+    def geodesic(self):
+        '''Get this projection's (exact) geodesic (L{GeodesicSolve}).
+        '''
+        return self.datum.ellipsoid.geodsolve
+
+
 class GnomonicKarney(_GnomonicBase):
     '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
        requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
 
-       @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/html/
-             classGeographicLib_1_1Gnomonic.html>}, especially the B{Warning}.
+       @see: L{GnomonicExact}.
     '''
     def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
         '''New azimuthal L{GnomonicKarney} projection.
@@ -830,6 +871,10 @@ class GnomonicKarney(_GnomonicBase):
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
         _GnomonicBase.__init__(self, lat0, lon0, datum=datum, name=name)
+
+    if _FOR_DOCS:
+        forward = _GnomonicBase.forward
+        reverse = _GnomonicBase.reverse
 
     @Property_RO
     def geodesic(self):

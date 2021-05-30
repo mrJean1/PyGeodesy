@@ -6,7 +6,7 @@ u'''World Geographic Reference System (WGRS) en-/decoding.
 Classes L{Georef} and L{WGRSError} and several functions to encode,
 decode and inspect WGRS references.
 
-Transcribed from I{Charles Karney}'s C++ class U{Georef
+Transcoded from I{Charles Karney}'s C++ class U{Georef
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>},
 but with modified C{precision} and extended with C{height} and C{radius}.  See
 also U{World Geographic Reference System
@@ -17,8 +17,9 @@ from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, _float, \
-                             _height_, _radius_, _SPACE_, _0to9_, \
-                             _0_5, _0_001, _1_0, _2_0, _60_0, _90_0
+                             _height_, _radius_, _SPACE_, \
+                             _0to9_, _0_5, _0_001, _1_0, _2_0, \
+                             _60_0, _90_0, _1000_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
@@ -31,9 +32,8 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '21.04.22'
+__version__ = '21.05.26'
 
-_1000_0  = _float(1000)
 _Base    =  10
 _BaseLen =  4
 _DegChar = _AtoZnoIO_.tillQ

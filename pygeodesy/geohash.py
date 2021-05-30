@@ -6,7 +6,7 @@ u'''Geohash en-/decoding.
 Classes L{Geohash} and L{GeohashError} and several functions to
 encode, decode and inspect I{geohashes}.
 
-Transcribed from JavaScript originals by I{(C) Chris Veness 2011-2015}
+Transcoded from JavaScript originals by I{(C) Chris Veness 2011-2015}
 and published under the same MIT Licence**, see U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}.
 
@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.04.24'
+__version__ = '21.05.26'
 
 
 class _GH(object):

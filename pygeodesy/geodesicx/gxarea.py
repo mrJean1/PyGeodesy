@@ -20,7 +20,7 @@ from pygeodesy.basics import unsign0
 from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
                              _0_0, _2_0
 from pygeodesy.karney import GeodesicError, _diff182, \
-                            _norm180, _remainder, _sum2
+                            _norm180, _remainder, _3sum2
 from pygeodesy.lazily import _ALL_DOCS, printf
 from pygeodesy.named import callername, _Dict, _NamedBase, pairs
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '21.05.20'
+__version__ = '21.05.29'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -464,16 +464,8 @@ class _Accumulator(_NamedBase):
            @return: Current C{sum}.
         '''
         self._n += 1
-        # see I{Karney's} C++ U{Accumulaor<https://GeographicLib.sourceforge.io/
-        # html/Accumulator_8hpp_source.html>} comments for more details
-        s, u = _sum2(y, self._t)  # accumulate starting at
-        s, t = _sum2(s, self._s)  # least significant end
-        if s:
-            t += u  # accumulate u to t
-        else:       # s = t = 0
-            s  = u   # result is u
-        self._s, self._t = s, t
-        return s  # current .Sum()
+        self._s, self._t = _3sum2(self._s, self._t, y)
+        return self._s  # current .Sum()
 
     def Negate(self):
         '''Negate sum.

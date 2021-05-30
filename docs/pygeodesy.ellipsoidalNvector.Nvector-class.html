@@ -61,17 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Nvector</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                
-           |                
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
-               |            
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
-                   |        
-   <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
-                       |    
- <a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a> --+
-                           |
-                          <strong class="uidshort">Nvector</strong>
+       object --+                    
+                |                    
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+                    |                
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                        |            
+<a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a> --+        
+                            |        
+            <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
+                                |    
+          <a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a> --+
+                                    |
+                                   <strong class="uidshort">Nvector</strong>
 </pre>
 
 <hr />
@@ -186,45 +188,47 @@
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d">toVector3d</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__">__abs__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__add__">__add__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__cmp__">__cmp__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__div__">__div__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__ge__">__ge__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__gt__">__gt__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__le__">__le__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__lt__">__lt__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__matmul__">__matmul__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__mul__">__mul__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__neg__">__neg__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__pos__">__pos__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__radd__">__radd__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__rsub__">__rsub__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__sub__">__sub__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__truediv__">__truediv__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#angleTo">angleTo</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#cmp">cmp</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#cross">cross</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#dividedBy">dividedBy</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#dot">dot</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith">iscolinearWith</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#isequalTo">isequalTo</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#minus">minus</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn">nearestOn</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#negate">negate</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#others">others</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#parse">parse</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#plus">plus</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#rotate">rotate</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#rotateAround">rotateAround</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#sum">sum</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#times">times</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__cmp__">__cmp__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__div__">__div__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ge__">__ge__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__gt__">__gt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__le__">__le__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__lt__">__lt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__">__mul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pos__">__pos__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__">__radd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rsub__">__rsub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#negate">negate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus">plus</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotate">rotate</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotateAround">rotateAround</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
@@ -291,15 +295,15 @@
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheightdatum">philamheightdatum</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#xyzh">xyzh</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#euclid">euclid</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#length">length</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#length2">length2</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#x">x</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#xyz">xyz</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#y">y</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#z">z</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#crosserrors">crosserrors</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid">euclid</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -515,7 +519,7 @@
           href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.vector3d.Vector3d-class.html#unit">vector3d.Vector3d.unit</a>
+        <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#unit">vector3dBase.Vector3dBase.unit</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -585,7 +589,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:36 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:41 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

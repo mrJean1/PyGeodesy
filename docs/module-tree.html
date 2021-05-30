@@ -60,8 +60,8 @@
 <ul class="nomargin-top">
     <li> <strong class="uidlink"><a href="pygeodesy-module.html">pygeodesy</a></strong>: <em class="summary">A pure Python implementation of geodesy tools for various 
         ellipsoidal and spherical earth models using precision 
-        trigonometric, vector-based, elliptic and approximate methods for 
-        geodetic (lat-/longitude) and geocentric (<a 
+        trigonometric, vector-based, exact elliptic and approximate methods
+        for geodetic (lat-/longitude) and geocentric (<a 
         href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a> 
         cartesian) coordinates.</em>
     <ul>
@@ -123,14 +123,14 @@
         target="_top">GeodesicExactC4</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.__main__-module.html">pygeodesy.geodesicx.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.geodesicx-module.html" 
         class="link">geodesicx</a> version, etc.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.bases-module.html" onclick="show_private();">pygeodesy.geodesicx.bases</a></strong>: <em class="summary">Base <a href="pygeodesy.geodesicx-module.html" 
-        class="link">geodesicx</a> classes, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gx-module.html">pygeodesy.geodesicx.gx</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea-module.html">pygeodesy.geodesicx.gxarea</a></strong>: <em class="summary">Slightly enhanced versions of <i>Karney</i>'s Python classes <a 
         href="https://GeographicLib.SourceForge.io/1.50/python/code.html#module-geographiclib.polygonarea"
         target="_top">PolygonArea</a> and <code>Accumulator</code>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">Base <a href="pygeodesy.geodesicx-module.html" 
+        class="link">geodesicx</a> classes, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>    </li>
@@ -138,8 +138,8 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodsolve-module.html">pygeodesy.geodsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb" 
-        target="_top">GeodSolve</a> utility, intended <i>for testing 
-        purposes only</i>.</em>    </li>
+        target="_top">GeodSolve</a> utility as an (exact) geodesic, but 
+        intended <i>for testing purposes only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
@@ -182,7 +182,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmups-module.html">pygeodesy.utmups</a></strong>: <em class="summary"><i>Karney</i>'s UTM and UPS utilities.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html" onclick="show_private();">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) ETM, Epsg, Mgrs, UTM and UPS bases.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary"><i>Veness</i>' Vector functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Extended 3-D vector class <a 
+        href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> and functions.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.vector3dBase-module.html" onclick="show_private();">pygeodesy.vector3dBase</a></strong>: <em class="summary"><i>Veness</i>' 3-D vector base class <code>Vector3dBase</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">World Geographic Reference System (WGRS) en-/decoding.</em>    </li>
     </ul>
@@ -219,7 +222,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:32 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:36 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

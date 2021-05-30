@@ -14,9 +14,9 @@ and the background information on the page U{Geodesics on an ellipsoid of revolu
 Also, compare to I{standard} classes C{Geodesic} and C{GeodesicLine} from U{geographiclib
 <https://GeographicLib.SourceForge.io/html/other.html#python>}, I{Karney}'s Python implementation.
 '''
-from pygeodesy.geodesicx.bases import Caps, GeodesicError  # PYCHOK exported
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
 from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # PYCHOK exported
+from pygeodesy.geodesicx.gxbases import Caps, GeodesicError  # PYCHOK exported
 # from pygeodesy.karney import GeodesicError  # from .geodesicx.bases
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 # no need to ... from pygeodesy.geodesicx import gx, gxline
@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError, GeodesicAreaExact,
                                           GeodesicExact, GeodesicLineExact,
                                           PolygonArea)
-__version__ = '21.05.17'
+__version__ = '21.05.28'
 
 # **) MIT License
 #

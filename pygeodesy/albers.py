@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.04.24'
+__version__ = '21.05.24'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -98,7 +98,7 @@ def _Lon(**name_lon):
 def _tol(tol, x):
     '''(INTERNAL) Converge tolerance.
     '''
-    return tol * max(1, abs(x))
+    return tol * max(_1_0, abs(x))
 
 
 class _AlbersBase(_NamedBase):

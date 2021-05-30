@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.05.19'
+__version__ = '21.05.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -677,7 +677,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     # no intersection, d < EPS_2 or abs(j) < EPS_2 or z < EPS
-    t = NN(_no_, _intersection_, _SPACE_)
+    t = _SPACE_(_no_, _intersection_, NN)
     raise IntersectionError(point1=point1, distance1=distance1,
                             point2=point2, distance2=distance2,
                             point3=point3, distance3=distance3,

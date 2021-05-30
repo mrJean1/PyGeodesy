@@ -59,11 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module vector3d</h1><p class="nomargin-top"></p>
-<p><i>Veness</i>' Vector functions.</p>
-  <p>Generic 3-D vector base class <a 
-  href="pygeodesy.vector3d.Vector3d-class.html" class="link">Vector3d</a>, 
-  class <a href="pygeodesy.vector3d.VectorError-class.html" 
-  class="link">VectorError</a> and functions <a 
+<p>Extended 3-D vector class <a 
+  href="pygeodesy.vector3d.Vector3d-class.html" class="link">Vector3d</a> 
+  and functions.</p>
+  <p>Function <a href="pygeodesy.vector3d-module.html#intersection3d" 
+  class="link">intersection3d</a>, <a 
   href="pygeodesy.vector3d-module.html#intersections2" 
   class="link">intersections2</a>, <a 
   href="pygeodesy.vector3d-module.html#iscolinearWith" 
@@ -71,17 +71,15 @@
   href="pygeodesy.vector3d-module.html#nearestOn" class="link" 
   onclick="show_private();">nearestOn</a>, <a 
   href="pygeodesy.vector3d-module.html#parse3d" class="link">parse3d</a>, 
-  <a href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a> and
-  <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+  <a href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>, <a
+  href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+  class="link">trilaterate2d2</a> and <a 
+  href="pygeodesy.vector3d-module.html#trilaterate3d2" 
   class="link">trilaterate3d2</a>.</p>
-  <p>Pure Python implementation of vector-based functions by <i>(C) Chris 
-  Veness 2011-2015</i> published under the same MIT Licence**, see <a 
-  href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
-  target="_top">Vector-based geodesy</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.04.24
+        21.05.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -95,9 +93,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.vector3d.VectorError-class.html" class="summary-name">VectorError</a><br />
-      <a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code> issue.
+        <a href="pygeodesy.vector3dBase.Vector3dBase-class.html" class="summary-name">Vector3dBase</a><br />
+      (INTERNAL) Generic 3-D vector base class.
     </td>
   </tr>
 <tr>
@@ -105,7 +102,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html" class="summary-name">Vector3d</a><br />
-      Generic 3-D vector manipulation.
+      Extended 3-D vector.
     </td>
   </tr>
 </table>
@@ -117,6 +114,32 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#intersection3d" class="summary-sig-name">intersection3d</a>(<span class="summary-sig-arg">start1</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">start2</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Compute the intersection point of two lines, each defined by or 
+      through a start and end point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -242,7 +265,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres, each given as a (3d) center and a radius.</td>
+      Trilaterate three spheres, each given as a (3-D) center and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -278,6 +301,87 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="intersection3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d</span>&nbsp;(<span class="sig-arg">start1</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">start2</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection point of two lines, each defined by or 
+  through a start and end point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start1</code></strong> - Start point of the first line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> the intersection point must be on or between
+          the start and end points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code> use the Z component, if <code>False</code> 
+          force <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code> for <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intersection point (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines or 
+        the intersection point is outside, not between the start and end 
+        points and <code><b>within</b>=True</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Line-line <a 
+        href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
+        target="_top">intersection</a> and <a 
+        href="https://MathWorld.Wolfram.com/Line-LineDistance.html" 
+        target="_top">distance</a>, <a 
+        href="https://MathWorld.Wolfram.com/SkewLines.html" 
+        target="_top">skew lines</a> and <a 
+        href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
+        target="_top">point-line distance</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="intersections2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -438,7 +542,7 @@
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -479,7 +583,7 @@
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - No <b><code>vectors</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - No <b><code>vectors</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -576,7 +680,7 @@
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres, each given as a (3d) center and a 
+  <p>Trilaterate three spheres, each given as a (3-D) center and a 
   radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -618,8 +722,8 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers or 
-        trilateration failed some other way.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres 
+        or <code>numpy</code> issue.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -674,7 +778,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:35 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

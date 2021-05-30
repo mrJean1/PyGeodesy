@@ -131,7 +131,7 @@ def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCAB
                                 modified=False, indices=False):  # PYCHOK expected
     '''Stack-based Douglas Peucker line simplification.
 
-       Transcribed from JavaScript original after code by U{Dr. Gary J.
+       Transcoded from JavaScript original after code by U{Dr. Gary J.
        Robinson<https://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js>},
        Environmental Systems Science Centre, University of Reading,
        Reading, UK.

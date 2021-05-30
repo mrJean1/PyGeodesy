@@ -33,11 +33,12 @@ from __future__ import division
 # - s and c prefixes mean sin and cos
 
 from pygeodesy.fmath import fsum_, norm2
-from pygeodesy.geodesicx.bases import _ALL_DOCS, Caps, _coSeries, \
-                                      _GeodesicBase, _sincos12, \
-                                      _TINY
+from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
+                                        _coSeries, _GeodesicBase, \
+                                        _sincos12, _TINY
 from pygeodesy.interns import NAN, NN, PI_2, _COMMASPACE_, \
                              _name_, _0_0, _1_0, _90_0, _180_0
+# from pygeodesy.lazily import _ALL_DOCS  # from .geodesicx.bases
 from pygeodesy.karney import _around, _fix90, GDict, _norm180
 from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import pairs
@@ -46,7 +47,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, copysign, degrees, floor, hypot, radians
 
 __all__ = ()
-__version__ = '21.05.21'
+__version__ = '21.05.28'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 
@@ -234,13 +235,12 @@ class _GeodesicLineExact(_GeodesicBase):
         '''Check the available capabilities.
 
            @arg caps: Bit-or'ed combination of L{Caps} values
-                      of the capabilities to be checked.
+                      for all capabilities to be checked.
 
            @return: C{True} if I{all} B{C{caps}} are available,
                     C{False} otherwise (C{bool}).
         '''
-        caps &= Caps._OUT_ALL
-        return (self.caps & caps) == caps
+        return _all_caps(self.caps, caps)
 
     @Property_RO
     def _D0_k2(self):
@@ -513,12 +513,12 @@ class _GeodesicLineExact(_GeodesicBase):
                      point (C{degrees}).
 
            @return: The distance C{s13} (C{meter}) between the first and
-                    the reference point or C{NAN}.
+                    the reference point.
         '''
         self._a13 = a13
         # In case the GeodesicLineExact doesn't have the DISTANCE capability.
-        self._s13 = s = self._GDictPosition(True, a13, Caps.DISTANCE).s12
-        return s
+        self._s13 = s13 = self._GDictPosition(True, a13, Caps.DISTANCE).s12
+        return s13
 
     def SetDistance(self, s13):
         '''Set reference point 3 in terms of distance to the first point.
@@ -526,13 +526,13 @@ class _GeodesicLineExact(_GeodesicBase):
            @arg s13: Distance from the first to the reference point C({meter}).
 
            @return: The arc length C{a13} (C{degrees}) between the first
-                    and the reference point on C{NAN}.
+                    and the reference point or C{NAN}.
         '''
         self._s13 = s13
         # _a13 will be_NAN if the GeodesicLineExact
         # doesn't have the DISTANCE_IN capability
-        self._a13 = a = self._GDictPosition(False, s13, 0).a12
-        return a
+        self._a13 = a13 = self._GDictPosition(False, s13, 0).a12
+        return a13
 
     @Property_RO
     def _stau1_ctau1(self):
@@ -555,7 +555,8 @@ class _GeodesicLineExact(_GeodesicBase):
            @return: C{GeodesicExactLine} (C{str}).
         '''
         d = dict(geodesic=self.geodesic,
-                 lat1=self.lat1, lon1=self.lon1, azi1=self.azi1)
+                 lat1=self.lat1, lon1=self.lon1, azi1=self.azi1,
+                 a13=self.a13, s13=self.s13)
         return sep.join(pairs(d, prec=prec))
 
 

@@ -1,428 +1,52 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Veness}' Vector functions.
+u'''Extended 3-D vector class L{Vector3d} and functions.
 
-Generic 3-D vector base class L{Vector3d}, class L{VectorError}
-and functions L{intersections2}, L{iscolinearWith}, L{nearestOn},
-L{parse3d}, L{sumOf} and L{trilaterate3d2}.
-
-Pure Python implementation of vector-based functions by I{(C) Chris
-Veness 2011-2015} published under the same MIT Licence**, see
-U{Vector-based geodesy
-<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+Function L{intersection3d}, L{intersections2}, L{iscolinearWith},
+L{nearestOn}, L{parse3d}, L{sumOf}, L{trilaterate2d2} and
+L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import copysign, len2, map1, map2, neg, _xnumpy
-from pygeodesy.errors import _and, _AssertionError, CrossError, IntersectionError, \
-                             _TypeError, _ValueError, _xkwds_popitem
-from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
-from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2, sincos2  # utily
-from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
-                             _EPSqrt, _and_, _coincident_, _colinear_, _COMMA_, \
-                             _COMMASPACE_, _datum_, _h_, _height_, _intersection_, \
-                             _invalid_, _name_, _near_concentric_, _no_, _SPACE_, \
-                             _too_, _xyz_, _y_, _z_, _0_0, _1_0, _2_0
+from pygeodesy.basics import len2, map2, _xnumpy
+from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
+                             _TypeError, _ValueError, VectorError, \
+                             _xkwds_popitem
+from pygeodesy.fmath import fdot, fsum, fsum_, hypot2_
+from pygeodesy.formy import _radical2
+from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
+                             _and_, _colinear_, _COMMA_, _COMMASPACE_, \
+                             _datum_, _h_, _height_, _intersection_, \
+                             _invalid_, _name_, _near_concentric_, \
+                             _no_, _SPACE_, _too_, _xyz_, _y_, _z_, \
+                             _0_0, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import modulename, _NamedBase, _xnamed, \
-                           _xother3, _xotherError
+from pygeodesy.named import modulename, _xnamed, _xotherError
 from pygeodesy.namedTuples import Vector2Tuple, Vector3Tuple  # Vector4Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_doc_
-from pygeodesy.streprs import Fmt, strs
-from pygeodesy.units import Float, Radius, Radius_, Scalar
+from pygeodesy.streprs import Fmt
+from pygeodesy.units import Float, Radius, Radius_
+from pygeodesy.vector3dBase import Vector3dBase
 
-from math import atan2, hypot, sqrt
+from math import hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.04.24'
+__version__ = '21.05.28'
 
-_raise_ = 'raise'
-
-
-def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
-    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
-    '''
-    try:
-        t = xyz.x, xyz.y, xyz.z
-        n = getattr(xyz, _name_, NN)
-    except AttributeError:
-        t = xyz, y, z
-        n = NN
-    try:
-        x, y, z = map2(float, t)
-    except (TypeError, ValueError) as x:
-        d = dict(zip((_xyz_, _y_, _z_), t))
-        raise Error(txt=str(x), **d)
-
-    return x, y, z, n
+_outside_ = 'outside'
+_raise_   = 'raise'
 
 
-def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
-    '''(INTERNAL) Get an C{(x, y, z, h, d, name)} 6-tuple.
-    '''
-    x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
-
-    h = height or getattr(xyz, _height_, None) \
-               or getattr(xyz, _h_, None) \
-               or getattr(ll,  _height_, None)
-
-    d = datum or getattr(xyz, _datum_, None) \
-              or getattr(ll,  _datum_, None)
-
-    return x, y, z, h, d, n
-
-
-class VectorError(_ValueError):
-    '''L{Vector3d} or C{*Nvector} issue.
-    '''
-    pass
-
-
-class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
-    '''Generic 3-D vector manipulation.
+class Vector3d(Vector3dBase):
+    '''Extended 3-D vector.
 
        In a geodesy context, these may be used to represent:
         - n-vector representing a normal to point on earth's surface
-        - earth-centered, earth-fixed vector (= n-vector for spherical model)
+        - earth-centered, earth-fixed cartesian (= spherical n-vector)
         - great circle normal to vector
         - motion vector on earth's surface
         - etc.
     '''
-    _crosserrors = True  # un/set by .errors.crosserrors
-
-    _fromll = None  # original latlon, '_fromll'
-    _numpy  = None  # module numpy iff imported by trilaterate3d2 below
-
-    _x = 0  # X component
-    _y = 0  # Y component
-    _z = 0  # Z component
-
-    def __init__(self, x, y, z, ll=None, name=NN):
-        '''New 3-D L{Vector3d}.
-
-           The vector may be normalised or use x/y/z values
-           for height relative to the surface of the sphere
-           or ellipsoid, distance from earth centre, etc.
-
-           @arg x: X component of vector (C{scalar}).
-           @arg y: Y component of vector (C{scalar}).
-           @arg z: Z component of vector (C{scalar}).
-           @kwarg ll: Optional latlon reference (C{LatLon}).
-           @kwarg name: Optional name (C{str}).
-        '''
-        self._x = x
-        self._y = y
-        self._z = z
-        if ll:
-            self._fromll = ll
-        if name:
-            self.name = name
-
-    def __abs__(self):
-        '''Return the norm of this vector.
-
-           @return: Norm, unit length (C{float});
-        '''
-        return self.length
-
-    def __add__(self, other):
-        '''Add this to an other vector (L{Vector3d}).
-
-           @return: Vectorial sum (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        return self.plus(other)
-#   __iadd__ = __add__
-    __radd__ = __add__
-
-    def __cmp__(self, other):  # Python 2-
-        '''Compare this and an other vector
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: -1, 0 or +1 (C{int}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return -1 if self.length < other.length else (
-               +1 if self.length > other.length else 0)
-
-    cmp = __cmp__
-
-    def __div__(self, scalar):
-        '''Divide this vector by a scalar.
-
-           @arg scalar: The divisor (C{scalar}).
-
-           @return: Quotient (L{Vector3d}).
-
-           @raise TypeError: Non-scalar B{C{scalar}}.
-        '''
-        return self.dividedBy(scalar)
-#   __itruediv__ = __div__
-    __truediv__ = __div__
-
-    def __eq__(self, other):
-        '''Is this vector equal to an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if equal, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return self.isequalTo(other)
-
-    def __ge__(self, other):
-        '''Is this vector longer than or equal to an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if so, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return self.length >= other.length
-
-    def __gt__(self, other):
-        '''Is this vector longer than an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if so, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return self.length > other.length
-
-    def __le__(self, other):  # Python 3+
-        '''Is this vector shorter than or equal to an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if so, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return self.length <= other.length
-
-    def __lt__(self, other):  # Python 3+
-        '''Is this vector shorter than an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if so, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return self.length < other.length
-
-    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
-    def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Compute the cross product of this and an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Cross product (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        return self.cross(other)
-#   __imatmul__ = __matmul__
-
-    def __mul__(self, scalar):
-        '''Multiply this vector by a scalar
-
-           @arg scalar: Factor (C{scalar}).
-
-           @return: Product (L{Vector3d}).
-        '''
-        return self.times(scalar)
-#   __imul__ = __mul__
-#   __rmul__ = __mul__
-
-    def __ne__(self, other):
-        '''Is this vector not equal to an other vector?
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: C{True} if so, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return not self.isequalTo(other)
-
-    def __neg__(self):
-        '''Negate this vector.
-
-           @return: Negative (L{Vector3d})
-        '''
-        return self.negate()
-
-    def __pos__(self):
-        '''Copy this vector.
-
-           @return: Positive (L{Vector3d})
-        '''
-        return self.copy()
-
-    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
-    def __rmatmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Compute the cross product of an other and this vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Cross product (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return other.cross(self)
-
-    def __rsub__(self, other):
-        '''Subtract this vector from an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Difference (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-        return other.minus(self)
-
-    def __sub__(self, other):
-        '''Subtract an other vector from this vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Difference (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        return self.minus(other)
-#   __isub__ = __sub__
-
-    def angleTo(self, other, vSign=None, wrap=False):
-        '''Compute the angle between this and an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-           @kwarg vSign: Optional vector, if supplied (and out of the
-                         plane of this and the other), angle is signed
-                         positive if this->other is clockwise looking
-                         along vSign or negative in opposite direction,
-                         otherwise angle is unsigned.
-           @kwarg wrap: Wrap/unroll the angle to +/-PI (c{bool}).
-
-           @return: Angle (C{radians}).
-
-           @raise TypeError: If B{C{other}} or B{C{vSign}} not a L{Vector3d}.
-        '''
-        x = self.cross(other)
-        s = x.length
-        if s < EPS0:
-            return _0_0
-        # use vSign as reference to get sign of s
-        if vSign and x.dot(vSign) < 0:
-            s = neg(s)
-
-        a = atan2(s, self.dot(other))
-        if wrap and abs(a) > PI:
-            a -= copysign(PI2, a)
-        return a
-
-    def cross(self, other, raiser=None):  # raiser=NN
-        '''Compute the cross product of this and an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-           @kwarg raiser: Optional, L{CrossError} label if raised (C{str}).
-
-           @return: Cross product (L{Vector3d}).
-
-           @raise CrossError: Zero or near-zero cross product and both
-                              B{C{raiser}} and L{crosserrors} set.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-
-        x = self.y * other.z - self.z * other.y
-        y = self.z * other.x - self.x * other.z
-        z = self.x * other.y - self.y * other.x
-
-        if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
-            t = _coincident_ if self.isequalTo(other) else _colinear_
-            r = getattr(other, '_fromll', None) or other
-            raise CrossError(raiser, r, txt=t)
-
-        return self.classof(x, y, z)
-
-    @property_doc_('''raise or ignore L{CrossError} exceptions (C{bool}).''')
-    def crosserrors(self):
-        '''Get L{CrossError} exceptions (C{bool}).
-        '''
-        return self._crosserrors
-
-    @crosserrors.setter  # PYCHOK setter!
-    def crosserrors(self, raiser):
-        '''Raise L{CrossError} exceptions (C{bool}).
-        '''
-        self._crosserrors = bool(raiser)
-
-    def dividedBy(self, factor):
-        '''Divide this vector by a scalar.
-
-           @arg factor: The divisor (C{scalar}).
-
-           @return: New, scaled vector (L{Vector3d}).
-
-           @raise TypeError: Non-scalar B{C{factor}}.
-
-           @raise VectorError: Invalid or zero B{C{factor}}.
-        '''
-        f = Scalar(factor=factor)
-        try:
-            return self.times(_1_0 / f)
-        except (ValueError, ZeroDivisionError) as x:
-            raise VectorError(factor=factor, txt=str(x))
-
-    def dot(self, other):
-        '''Compute the dot (scalar) product of this and an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Dot product (C{float}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        if other is self:
-            d = self.length2
-        else:
-            self.others(other)
-            d = fdot(self.xyz, *other.xyz)
-        return d
-
-    @deprecated_method
-    def equals(self, other, units=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isequalTo}.
-        '''
-        return self.isequalTo(other, units=units)
-
-    @Property_RO
-    def euclid(self):
-        '''Approximate the length (norm, magnitude) of this vector.
-
-           @see: Function L{euclid_} and properties C{length} and C{length2}.
-        '''
-        return Float(euclid=euclid_(self.x, self.y, self.z))
+    _numpy = None  # module numpy iff imported by trilaterate3d2 below
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other points are colinear.
@@ -444,58 +68,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         v = self if self.name else _otherV3d(this=self)
         return _iscolinearWith(v, point1, point2, eps=eps)
 
-    def isequalTo(self, other, units=False, eps=EPS):
-        '''Check if this and an other vector are equal or equivalent.
-
-           @arg other: The other vector (L{Vector3d}).
-           @kwarg units: Optionally, compare the normalized, unit
-                         version of both vectors.
-           @kwarg eps: Tolerance (C{scalar}), same units as C{x},
-                       C{y}, and C{z}.
-
-           @return: C{True} if vectors are identical, C{False} otherwise.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-
-        if units:
-            d = self.unit().minus(other.unit())
-        else:
-            d = self.minus(other)
-        return max(map(abs, d.xyz)) < eps
-
-    @Property_RO
-    def length(self):  # __dict__ value overwritten by Property_RO C{_united}
-        '''Get the length (norm, magnitude) of this vector (C{float}).
-
-           @see: Properties L{length2} and L{euclid}.
-        '''
-        return Float(length=hypot_(self.x, self.y, self.z))
-
-    @Property_RO
-    def length2(self):  # __dict__ value overwritten by Property_RO C{_united}
-        '''Get the length I{squared} of this vector (C{float}).
-
-           @see: Property L{length}.
-        '''
-        return Float(length2=hypot2_(self.x, self.y, self.z))
-
-    def minus(self, other):
-        '''Subtract an other vector from this vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: New vector difference (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-
-        return self.classof(self.x - other.x,
-                            self.y - other.y,
-                            self.z - other.z)
-
     def nearestOn(self, other1, other2, within=True):
         '''Locate the point between two points closest to this point.
 
@@ -514,154 +86,25 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                  U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
                  Point-LineDistance3-Dimensional.html>}.
         '''
-        return _nearestOn(self, _V3d(other1) or _otherV3d(other1=other1),
-                                _V3d(other2) or _otherV3d(other2=other2),
-                                within=within)
-
-    def negate(self):
-        '''Return this vector in opposite direction.
-
-           @return: New, opposite vector (L{Vector3d}).
-        '''
-        return self.classof(-self.x, -self.y, -self.z)
-
-    @Property_RO
-    def _N_vector(self):
-        '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
-        '''
-        from pygeodesy.nvectorBase import _N_vector_
-        return _N_vector_(*self.xyz, name=self.name)
-
-    def others(self, *other, **name_other_up):
-        '''Refined class comparison.
-
-           @arg other: The other vector (L{Vector3d}).
-           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
-                                 keyword arguments.
-
-           @return: The B{C{other}} if compatible.
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        other, name, up = _xother3(self, other, **name_other_up)
-        if not isinstance(other, Vector3d):
-            _NamedBase.others(self, other, name=name, up=up + 1)
-        return other
+        return _nearestOn(self, _otherV3d(other1=other1),
+                                _otherV3d(other2=other2), within=within)
 
     def parse(self, str3d, sep=_COMMA_, name=NN):
-        '''Parse an C{"x, y, z"} string to a similar L{Vector3d} instance.
+        '''Parse an C{"x, y, z"} string to a L{Vector3d} instance.
 
            @arg str3d: X, y and z string (C{str}), see function L{parse3d}.
            @kwarg sep: Optional separator (C{str}).
            @kwarg name: Optional instance name (C{str}), overriding this name.
 
-           @return: The similar instance (L{Vector3d}).
+           @return: The instance (L{Vector3d}).
 
            @raise VectorError: Invalid B{C{str3d}}.
         '''
         return parse3d(str3d, sep=sep, Vector=self.classof,
                               name=name or self.name)
 
-    def plus(self, other):
-        '''Add this vector and an other vector.
-
-           @arg other: The other vector (L{Vector3d}).
-
-           @return: Vectorial sum (L{Vector3d}).
-
-           @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
-
-        return self.classof(self.x + other.x,
-                            self.y + other.y,
-                            self.z + other.z)
-
-    sum = plus  # alternate name
-
-    def rotate(self, axis, theta):
-        '''Rotate this vector around an axis by a specified angle.
-
-           See U{Rotation matrix from axis and angle
-           <https://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
-           and U{Quaternion-derived rotation matrix
-           <https://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
-
-           @arg axis: The axis being rotated around (L{Vector3d}).
-           @arg theta: The angle of rotation (C{radians}).
-
-           @return: New, rotated vector (L{Vector3d}).
-
-           @JSname: I{rotateAround}.
-        '''
-        s, c = sincos2(theta)
-
-        a = self.others(axis=axis).unit()  # axis being rotated around
-        b = a.times(_1_0 - c)
-        s = a.times(s)
-
-        p = self.unit().xyz  # point being rotated
-        # multiply p by a quaternion-derived rotation matrix
-        ax, ay, az = a.x, a.y, a.z
-        bx, by, bz = b.x, b.y, b.z
-        sx, sy, sz = s.x, s.y, s.z
-        return self.classof(fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy),
-                            fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx),
-                            fdot(p, az * bx - sy, az * by + sx, az * bz + c))
-
-    @deprecated_method
-    def rotateAround(self, axis, theta):  # PYCHOK no cover
-        '''DEPRECATED, use method C{rotate}.'''
-        return self.rotate(axis, theta)
-
-    def times(self, factor):
-        '''Multiply this vector by a scalar.
-
-           @arg factor: Scale factor (C{scalar}).
-
-           @return: New, scaled vector (L{Vector3d}).
-
-           @raise TypeError: Non-scalar B{C{factor}}.
-        '''
-        f = Scalar(factor=factor)
-        return self.classof(self.x * f, self.y * f, self.z * f)
-
-    @deprecated_method
-    def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Nvector.philam}.
-
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-        '''
-        return n_xyz2philam(self.x, self.y, self.z)
-
-    @deprecated_method
-    def to2ll(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Nvector.latlon}.
-
-           @return: A L{LatLon2Tuple}C{(lat, lon)}.
-        '''
-        return n_xyz2latlon(self.x, self.y, self.z)
-
-    @deprecated_method
-    def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{xyz}.
-        '''
-        return self.xyz
-
-    def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this vector.
-
-           @kwarg prec: Optional number of decimal places (C{int}).
-           @kwarg fmt: Optional, enclosing format to use (C{str}).
-           @kwarg sep: Optional separator between components (C{str}).
-
-           @return: Vector as "(x, y, z)" (C{str}).
-        '''
-        t = sep.join(strs(self.xyz, prec=prec))
-        return (fmt % (t,)) if fmt else t
-
     def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
-        '''Trilaterate this and two other spheres, each given as a (3d) center
+        '''Trilaterate this and two other spheres, each given as a (3-D) center
            and a radius.
 
            @arg radius: Radius of this sphere (same C{units} as this C{x}, C{y}
@@ -683,8 +126,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise ImportError: Package C{numpy} not found, not installed or
                                older than version 1.15.
 
-           @raise IntersectionError: No intersection, colinear or near concentric
-                                     centers or trilateration failed some other way.
+           @raise IntersectionError: Near-concentric, colinear, too distant or
+                                     non-intersecting spheres or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{center2}} or B{C{center3}}.
 
@@ -710,56 +153,105 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                                     center3=center3, radius3=radius3,
                                     txt=str(x))
 
-    def unit(self, ll=None):
-        '''Normalize this vector to unit length.
 
-           @kwarg ll: Optional, original location (C{LatLon}).
+def intersection3d(start1, end1, start2, end2, eps=EPS, within=True, useZ=True,
+                                               Vector=None, **Vector_kwds):
+    '''Compute the intersection point of two lines, each defined by
+       or through a start and end point.
 
-           @return: Normalized vector (L{Vector3d}).
-        '''
-        u = self._united
-        if ll:
-            u._fromll = ll
-        return u
+       @arg start1: Start point of the first line (L{Vector3d},
+                    C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg end1: End point of the first line (L{Vector3d},
+                  C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg start2: Start point of the second line (L{Vector3d},
+                    C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg end2: End point of the second line (L{Vector3d},
+                  C{Vector3Tuple} or C{Vector4Tuple}).
+       @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
+       @kwarg within: If C{True} the intersection point must be on
+                      or between the start and end points (C{bool}).
+       @kwarg useZ: If C{True} use the Z component, if C{False} force
+                    C{z=0} (C{bool}).
+       @kwarg Vector: Class to return intersections (L{Vector3d} or
+                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                           ignored if C{B{Vector}=None}.
 
-    @Property_RO
-    def _united(self):  # __dict__ value overwritten below
-        '''(INTERNAL) Get normalized vector (L{Vector3d}).
-        '''
-        n = self.length
-        if n > EPS0 and abs(n - _1_0) > EPS0:
-            u = self._xnamed(self.dividedBy(n))
-            u._overwrite(length=_1_0, length2=_1_0)
-        else:
-            u = self.copy()
-        u._overwrite(_united=u)
-        if self._fromll:
-            u._fromll = self._fromll
-        return u
+       @return: Intersection point (L{Vector3d} or C{Vector}).
 
-    @Property_RO
-    def x(self):
-        '''Get the X component (C{float}).
-        '''
-        return self._x
+       @raise IntersectionError: Invalid, skew, non-coplanar or otherwise
+                                 non-intersecting lines or the intersection
+                                 point is outside, not between the start
+                                 and end points and C{B{within}=True}.
 
-    @Property_RO
-    def xyz(self):
-        '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
-        '''
-        return Vector3Tuple(self.x, self.y, self.z, name=self.name)
+       @see: Line-line U{intersection<https://MathWorld.Wolfram.com/Line-LineIntersection.html>} and
+             U{distance<https://MathWorld.Wolfram.com/Line-LineDistance.html>}, U{skew lines
+             <https://MathWorld.Wolfram.com/SkewLines.html>} and U{point-line distance
+             <https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
+    '''
+    try:
+        v, i1, i2 = _intersect3d3(start1, end1, start2, end2, eps=eps, useZ=useZ)
+        if within and (i1 or i2):
+            t = _SPACE_.join(('%+d' % (i,)) for i in (i1, i2) if i)
+            raise _ValueError(_outside_, txt=t)
+    except (TypeError, ValueError) as x:
+        raise IntersectionError(start1=start1, end1=end1,
+                                start2=start2, end2=end2, txt=str(x))
+    return _V_n(v, intersection3d.__name__, Vector, Vector_kwds)
 
-    @Property_RO
-    def y(self):
-        '''Get the Y component (C{float}).
-        '''
-        return self._y
 
-    @Property_RO
-    def z(self):
-        '''Get the Z component (C{float}).
-        '''
-        return self._z
+def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
+    # (INTERNAL) Intersect two lines, see L{intersection} above,
+    # separated to allow callers to embellish any exceptions
+
+    def _outside(t, d2):  # -1 before start#, +1 after end#
+        return -1 if t < 0 else (+1 if t > d2 else 0)
+
+    s1 = _otherV3d(useZ=useZ, start1=start1)
+    e1 = _otherV3d(useZ=useZ, end1=end1)
+    s2 = _otherV3d(useZ=useZ, start2=start2)
+    e2 = _otherV3d(useZ=useZ, end2=end2)
+
+    a  = e1.minus(s1)
+    b  = e2.minus(s2)
+    c  = s2.minus(s1)
+
+    ab = a.cross(b)
+    d  = abs(c.dot(ab))
+    e  = max(EPS0, eps or _0_0)
+    if d > EPS0 and ab.length > e:
+        d = d / ab.length
+        if d > e:  # argonic, skew lines distance
+            raise _ValueError(skew_d=d, txt=_no_(_intersection_))
+
+    # co-planar, non-skew lines
+    ab2 = ab.length2
+    if ab2 < e:  # colinear, parallel or null line(s)
+        x = a.length2 > b.length2
+        if x:  # make a shortest
+            a,  b  = b,  a
+            s1, s2 = s2, s1
+            e1, e2 = e2, e1
+        if b.length2 < e:  # both null
+            if c.length < e:
+                return s1, 0, 0
+            elif e2.minus(e1).length < e:
+                return e1, 0, 0
+        elif a.length2 < e:  # null (s1, e1), non-null (s2, e2)
+            # like _nearestOn(s1, s2, e2, within=False, eps=e)
+            t = s1.minus(s2).dot(b)
+            p = s2.plus(b.times(t / b.length2))
+            if s1.minus(p).length < e:
+                i = _outside(t, b.length2)
+                return (p, i, 0) if x else (p, 0, (i * 2))
+        raise _ValueError(length2=ab2, txt=_no_(_intersection_))
+
+    cb =  c.cross(b)
+    t  =  cb.dot(ab)
+    i1 = _outside(t, ab2)
+    p  =  s1.plus(a.times(t / ab2))
+    i2 = _outside(p.minus(s2).dot(b), b.length2) * 2
+    return p, i1, i2
 
 
 def intersections2(center1, radius1, center2, radius2, sphere=True,
@@ -826,8 +318,8 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
         return _V3(fdot(xy1, u.x, -u.y, c1.x),
                    fdot(xy1, u.y,  u.x, c1.y), _0_0)
 
-    c1 = _otherV3d(sphere=sphere, center1=center1)
-    c2 = _otherV3d(sphere=sphere, center2=center2)
+    c1 = _otherV3d(useZ=sphere, center1=center1)
+    c2 = _otherV3d(useZ=sphere, center2=center2)
 
     if r1 < r2:  # r1, r2 == R, r
         c1, c2 = c2, c1
@@ -890,16 +382,15 @@ def iscolinearWith(point, point1, point2, eps=EPS):
 
        @see: Function L{nearestOn}.
     '''
-    return _iscolinearWith(_V3d(point) or _otherV3d(point=point),
+    return _iscolinearWith(_otherV3d(point=point),
                             point1, point2, eps=eps)
 
 
 def _iscolinearWith(v, p1, p2, eps=EPS):
     # (INTERNAL) Check colinear, see L{isColinear} above,
     # separated to allow callers to embellish any exceptions
-
-    v1 = _V3d(p1) or _otherV3d(point1=p1)
-    v2 = _V3d(p2) or _otherV3d(point2=p2)
+    v1 = _otherV3d(point1=p1)
+    v2 = _otherV3d(point2=p2)
     n  = _nearestOn(v, v1, v2, within=False, eps=eps)
     return n is v1 or n.minus(v).length2 < eps
 
@@ -932,17 +423,15 @@ def nearestOn(point, point1, point2, within=True,
              U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
              Point-LineDistance3-Dimensional.html>}.
     '''
-    v = _nearestOn(_V3d(point)  or _otherV3d(point =point),
-                   _V3d(point1) or _otherV3d(point1=point1),
-                   _V3d(point2) or _otherV3d(point2=point2),
-                   within=within)
+    v = _nearestOn(_otherV3d(point =point),
+                   _otherV3d(point1=point1),
+                   _otherV3d(point2=point2), within=within)
     return _V_n(v, nearestOn.__name__, Vector, Vector_kwds)
 
 
 def _nearestOn(p0, p1, p2, within=True, eps=EPS):
     # (INTERNAL) Get closest point, see L{nearestOn} above,
     # separated to allow callers to embellish any exceptions
-
     p21 = p2.minus(p1)
     d2 = p21.length2
     if d2 < eps:  # coincident
@@ -989,11 +478,17 @@ def _null_space2(numpy, A, eps):
     return n, r
 
 
-def _otherV3d(sphere=True, **name_v):
+def _otherV3d(useZ=True, **name_v):
     # check B{C{name#}} vector instance, return Vector3d
+    if not name_v:
+        raise _AssertionError(name_v=MISSING)
+
     name, v = _xkwds_popitem(name_v)
+    if useZ and isinstance(v, Vector3dBase):
+        return v
+
     try:
-        return Vector3d(v.x, v.y, v.z if sphere else _0_0, name=name)
+        return Vector3d(v.x, v.y, v.z if useZ else _0_0, name=name)
     except AttributeError:  # no _x_ or _y_ attr
         pass
     raise _xotherError(Vector3d(0, 0, 0), v, name=name, up=2)
@@ -1128,7 +623,7 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
 
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, Vector=None, **Vector_kwds):
-    '''Trilaterate three spheres, each given as a (3d) center and a radius.
+    '''Trilaterate three spheres, each given as a (3-D) center and a radius.
 
        @arg center1: Center of the 1st sphere (L{Vector3d}, C{Vector3Tuple}
                      or C{Vector4Tuple}).
@@ -1155,8 +650,8 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @raise ImportError: Package C{numpy} not found, not installed or
                            older than version 1.15.
 
-       @raise IntersectionError: No intersection, colinear or near-concentric
-                                 centers or trilateration failed some other way.
+       @raise IntersectionError: Near-concentric, colinear, too distant or
+                                 non-intersecting spheres or C{numpy} issue.
 
        @raise TypeError: Invalid B{C{center1}}, B{C{center2}} or B{C{center3}}.
 
@@ -1183,9 +678,10 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                 txt=str(x))
 
 
-def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds):  # MCCABE 13
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds):
     # (INTERNAL) Intersect three spheres or circles, see L{trilaterate3d2}
-    # above, separated to allow callers to embellish any exceptions
+    # above, separated to allow callers to embellish any exceptions, like
+    # C{FloatingPointError}s from C{numpy}
 
     def _0f3d(F):
         # map numpy 4-vector to floats and split
@@ -1238,6 +734,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
         ps = _0_0,
     for p in ps:
         b = [((r + p)**2 - b) for r, b in zip(R, B)]  # 1 x 3 or 3 x 1
+        # t = ()
         try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
             e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
             X = np.dot(A, b)
@@ -1251,7 +748,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
             np.seterr(**e)
         if t:
             break
-    else:  # coincident, colinear, too distant, no intersection, etc.
+    else:  # coincident, concentric, colinear, too distant, no intersection, etc.
         raise _trilaterror(c1, r1, c2, r2, c3, r3, eps)
 
     v = _N3(t[0], x, z)
@@ -1286,11 +783,6 @@ def _tri_r2h(r1, r2, h):
            _near_concentric_ if h < abs(r1 - r2) else NN)
 
 
-def _V3d(v3d):
-    # return v3d if it's a L{Vector3d} instance
-    return v3d if isinstance(v3d, Vector3d) else None
-
-
 def _V_n(v, name, Vector, Vector_kwds):
     # return a named Vector instance
     if Vector is not None:
@@ -1298,7 +790,40 @@ def _V_n(v, name, Vector, Vector_kwds):
     return _xnamed(v, name)
 
 
-__all__ += _ALL_DOCS(intersections2, sumOf)
+def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
+    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
+    '''
+    try:
+        t = xyz.x, xyz.y, xyz.z
+        n = getattr(xyz, _name_, NN)
+    except AttributeError:
+        t = xyz, y, z
+        n = NN
+    try:
+        x, y, z = map2(float, t)
+    except (TypeError, ValueError) as x:
+        d = dict(zip((_xyz_, _y_, _z_), t))
+        raise Error(txt=str(x), **d)
+
+    return x, y, z, n
+
+
+def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
+    '''(INTERNAL) Get an C{(x, y, z, h, d, name)} 6-tuple.
+    '''
+    x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
+
+    h = height or getattr(xyz, _height_, None) \
+               or getattr(xyz, _h_, None) \
+               or getattr(ll,  _height_, None)
+
+    d = datum or getattr(xyz, _datum_, None) \
+              or getattr(ll,  _datum_, None)
+
+    return x, y, z, h, d, n
+
+
+__all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)
 
 # **) MIT License
 #

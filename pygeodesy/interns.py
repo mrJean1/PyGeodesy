@@ -386,6 +386,7 @@ _180_0  = _float( 180)      # PYCHOK expected
 _360_0  = _float( 360)      # PYCHOK expected
 _400_0  = _float( 400)      # PYCHOK expected
 _720_0  = _float( 720)      # PYCHOK expected
+_1000_0 = _float(1000)      # PYCHOK expected
 _3600_0 = _float(3600)      # PYCHOK expected
 
 try:
@@ -441,7 +442,7 @@ __all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.05.10'
+__version__ = '21.05.22'
 
 
 # **) MIT License

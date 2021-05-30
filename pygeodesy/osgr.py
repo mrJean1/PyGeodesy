@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.04.24'
+__version__ = '21.05.23'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -357,9 +357,9 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
 
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
-       10-digit references (1 m × 1 m square), or fully
-       numeric, comma-separated references in meters, for
-       example '438700,114800'.
+       10-digit references (1 m × 1 m square), or all-numeric,
+       comma-separated references in meters, for example
+       '438700,114800'.
 
        @arg strOSGR: An OSGR coordinate (C{str}).
        @kwarg Osgr: Optional class to return the OSGR

@@ -29,15 +29,15 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.05.19'
+__version__ = '21.05.27'
 
-_at_       = 'at'
-_del_      = 'del'
-_exists_   = 'exists'
-_I_        = 'I'
-_item_     = 'item'
-_MRO_      = 'MRO'
-_O_        = 'O'
+_at_     = 'at'
+_del_    = 'del'
+_exists_ = 'exists'
+_I_      = 'I'
+_item_   = 'item'
+_MRO_    = 'MRO'
+_O_      = 'O'
 # __DUNDER gets mangled in class
 _name        = '_name'
 _Names_      = '_Names_'

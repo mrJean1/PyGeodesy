@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.05.19'
+__version__ = '21.05.26'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -953,12 +953,8 @@ class EcefMatrix(_NamedTuple):
     def column(self, column):
         '''Get matrix B{C{column}} as 3-tuple.
         '''
-        if column == 0:
-            return self._column_0
-        elif column == 1:
-            return self._column_1
-        elif column == 2:
-            return self._column_2
+        if 0 <= column < 3:
+            return self[column::3]
         raise _IndexError(column=column)
 
     @Property_RO
@@ -1025,12 +1021,9 @@ class EcefMatrix(_NamedTuple):
     def row(self, row):
         '''Get matrix B{C{row}} as 3-tuple.
         '''
-        if row == 0:
-            return self._row_0
-        elif row == 1:
-            return self._row_1
-        elif row == 2:
-            return self._row_2
+        if 0 <= row < 3:
+            r = row * 3
+            return self[r:r+3]
         raise _IndexError(row=row)
 
     @Property_RO

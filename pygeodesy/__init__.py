@@ -3,10 +3,10 @@
 
 u'''A pure Python implementation of geodesy tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
-elliptic and approximate methods for geodetic (lat-/longitude) and
+exact elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian) coordinates.
 
-Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
+Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2019} and several U{C++ classes
 <https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles F.F.
 Karney (C) 2008-2020} and published under the same U{MIT License
@@ -86,13 +86,17 @@ test/run.py} or type C{python[3] test/unitTestSuite.py} before or after installa
 Dependencies
 ============
 
-Installation of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
-is optional, but required to use modules L{ellipsoidalKarney} and L{css}, L{azimuthal}
-classes L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.
-Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
-must be installed for most C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...}
-ones.  Modules L{ellipsoidalGeodSolve} and L{geodsolve} depend on I{Karney}'s U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} utility to be executable.
+Installation of I{Karney}'s Python package U{geographiclib
+<https://PyPI.org/project/geographiclib>} is optional, but required to use modules
+L{ellipsoidalKarney} and L{css}, L{azimuthal} classes L{EquidistantKarney} and
+L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.  Both U{numpy
+<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
+must be installed for most C{Geoid...} and C{Height...} interpolators, except the
+C{HeightIDW...} ones.  Function L{trilaterate3d2} and method L{Vector3d.trilaterate3d2}
+require U{numpy<https://PyPI.org/project/numpy>}.  Modules L{ellipsoidalGeodSolve} and
+L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve} and L{GnomonicGeodSolve}
+depend on I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>}
+C++ utility to be executable.
 
 Documentation
 =============
@@ -114,11 +118,11 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
-macOS 11.3.1 (10.16) Big Sur and all in 64-bit only.  The tests
-are run with and without C{lazy import} for Python 3 and with C{-W
-always} and environment variable C{PYGEODESY_WARNINGS=on} for all
-Python versions.  The results of those tests are included in the
-distribution files.
+macOS 11.4 (10.16) Big Sur and in 64-bit (and Intel) only.  The
+tests are run with and without C{lazy import} for Python 3 and with
+C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for
+all Python versions.  The results of those tests are included in
+the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.5 (with
@@ -132,7 +136,7 @@ distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 14.04
+<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 16.04
 <https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on
 U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in
@@ -145,13 +149,13 @@ A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.9.0-2, 3.8.0-5, 3.7.2-6, 3.7.0,
+Previously, the tests were run with Python 3.9.0-4, 3.8.0-5, 3.7.2-6, 3.7.0,
 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>}
 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0
 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and
 3.5.3) and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>}
-3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-2.3 Big
+3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-3.1 Big
 Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra,
 macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with
 U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49
@@ -170,7 +174,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
 <https://PyPI.org/project/flake8>} using Python 3.9.5, both in 64-bit
-on macOS 11.3.1 (10.16) Big Sur.
+on macOS 11.4 (10.16) Big Sur (Intel).
 
 Classes with a name ending in C{Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -504,7 +508,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.05.21'
+__version__ = '21.05.31'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

@@ -4,12 +4,13 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '21.05.16'
+__version__ = '21.05.22'
 
-from base import geographiclib, TestsBase, RandomLatLon
+from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
-from pygeodesy import Equidistant, EquidistantKarney, \
-                      Gnomonic, GnomonicKarney, LambertEqualArea, \
+from pygeodesy import Equidistant, EquidistantExact, EquidistantGeodSolve, \
+                      EquidistantKarney, Gnomonic, GnomonicExact, \
+                      GnomonicGeodSolve, GnomonicKarney, LambertEqualArea, \
                       Orthographic, Stereographic, ellipsoidalExact, \
                       ellipsoidalKarney, ellipsoidalNvector, \
                       ellipsoidalVincenty, F_D, fstr, hypot, \
@@ -78,7 +79,7 @@ class Tests(TestsBase):
             return '%s  %s, %s of Random%s' % (s, _100p(i.lat, r.lat, 2),
                                                   _100p(i.lon, r.lon, 3), t)
 
-        for m in (ellipsoidalExact, ellipsoidalKarney, ellipsoidalVincenty):
+        for m in (ellipsoidalExact, ellipsoidalVincenty):  # ellipsoidalKarney
             LL = m.LatLon
             e = LL(0, 0)
             n = m.__name__
@@ -92,7 +93,7 @@ class Tests(TestsBase):
                 r1 = r.distanceTo(p)
                 r2 = r.distanceTo(q)
                 t = []
-                for E in (None, EquidistantKarney, Equidistant):
+                for E in (None, EquidistantExact, Equidistant):
                     a = getattr(E, '__name__', 'Spherical')
                     try:
                         i1, i2 = _si2(p, r1, q, r2, LatLon=LL) if E is None else \
@@ -152,6 +153,43 @@ if __name__ == '__main__':
                    '170581.851218, -293945.134107, 48.833333, 2.333333, 149.872606, 1.001416',
                    '170581.851218, -293945.134107, 48.833333, 2.333333, 149.872606, 1.000472')
 
+    t.testAzimuthal(EquidistantExact,
+                   '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                   '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                   '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                   '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                   'LatLon(50°53′59.86″N, 001°47′35.8″E)',
+                   '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529',
+                   '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+
+    t.testAzimuthal(GnomonicExact,
+                   '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                   '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                   '-38000.0, 230000.0, 50.899044, 1.793528, 350.205718, 0.999333',
+                   '-37999.995965, 229999.975581, 50.899044, 1.793528, 350.205718, 0.999334',
+                   'LatLon(50°53′56.56″N, 001°47′36.7″E)',
+                   '170778.089295, -293487.270649, 48.833333, 2.333333, 151.589952, 0.998587',
+                   '170778.089295, -293487.270649, 48.833333, 2.333334, 151.589953, 0.998588')
+
+    if GeodSolve:
+        t.testAzimuthal(EquidistantGeodSolve,
+                       '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                       '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                       '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                       '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                       'LatLon(50°53′59.86″N, 001°47′35.8″E)',
+                       '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529',
+                       '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+
+        t.testAzimuthal(GnomonicGeodSolve,
+                       '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                       '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                       '-38000.0, 230000.0, 50.899044, 1.793528, 350.205718, 0.999333',
+                       '-37999.995965, 229999.975581, 50.899044, 1.793528, 350.205718, 0.999334',
+                       'LatLon(50°53′56.56″N, 001°47′36.7″E)',
+                       '170778.089295, -293487.270649, 48.833333, 2.333333, 151.589952, 0.998587',
+                       '170778.089295, -293487.270649, 48.833333, 2.333334, 151.589953, 0.998588')
+
     if geographiclib:
         t.testAzimuthal(EquidistantKarney,
                        '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
@@ -170,11 +208,10 @@ if __name__ == '__main__':
                        'LatLon(50°53′56.56″N, 001°47′36.7″E)',
                        '170778.089295, -293487.270649, 48.833333, 2.333333, 151.589952, 0.998587',
                        '170778.089295, -293487.270649, 48.833333, 2.333334, 151.589953, 0.998588')
-
-        t.testDiscrepancies()
-
     else:
         t.skip('no geographiclib', n=14)
+
+    t.testDiscrepancies()
 
     As = tuple(Azimuthal(0, 0, datum=1) for  # spherical datum of radius=1 for Snyder's Table ...
                         # ... 30, pp 196-197      26, pp 168           28, pp 188-189      22, pp 151          24, pp 158-159

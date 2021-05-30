@@ -82,7 +82,9 @@
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
   target="_top">AzimuthalEquidistant</a>, based on exact geodesic classes 
   <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-  class="link">GeodesicExact</a>.</p>
+  class="link">GeodesicExact</a> and <a 
+  href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+  class="link">GeodesicLineExact</a>.</p>
   <p>An azimuthal equidistant projection is centered at an arbitrary 
   position on the ellipsoid. For a point in projected space <code>(x, 
   y)</code>, the geodesic distance from the center position is 
@@ -127,12 +129,52 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.azimuthal.EquidistantExact-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Convert an (ellipsoidal) geodetic location to azimuthal equidistant 
+      east- and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.azimuthal.EquidistantExact-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Convert an azimuthal equidistant location to (ellipsoidal) geodetic 
+      lat- and longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_EquidistantBase</code></b>:
-      <code>forward</code>,
-      <code>reverse</code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.azimuthal._AzimuthalBase-class.html">_AzimuthalBase</a></code></b>:
       <code><a href="pygeodesy.azimuthal._AzimuthalBase-class.html#reset">reset</a></code>,
       <code><a href="pygeodesy.azimuthal._AzimuthalBase-class.html#toRepr">toRepr</a></code>,
@@ -270,6 +312,108 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="forward"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an (ellipsoidal) geodetic location to azimuthal equidistant 
+  east- and northing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude of the location (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name for the location (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
+          class="link">Azimuthal7Tuple</a><code>(x, y, lat, lon, azimuth, 
+          scale, datum)</code> with easting <code>x</code> and northing 
+          <code>y</code> of point in <code>meter</code> and 
+          <code>lat</code> and <code>lon</code> in <code>degrees</code> and
+          <code>azimuth</code> clockwise from true North. The 
+          <code>scale</code> of the projection is <code>1</code> in 
+          <i>radial</i> direction and is <code>1 / reciprocal</code> in the
+          direction perpendicular to this.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        _EquidistantBase.forward
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        A call to <code>.forward</code> followed by a call to 
+        <code>.reverse</code> will return the original <code>lat, 
+        lon</code> to within roundoff.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="reverse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an azimuthal equidistant location to (ellipsoidal) geodetic 
+  lat- and longitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Easting of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Northing of the location (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name for the location (<code>str</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The geodetic (<code>LatLon</code>) or if 
+          <b><code>LatLon</code></b> is <code>None</code> an <a 
+          href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
+          class="link">Azimuthal7Tuple</a><code>(x, y, lat, lon, azimuth, 
+          scale, datum)</code>.</dd>
+    <dt>Overrides:
+        _EquidistantBase.reverse
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>lat</code> will be in the range <code>[-90..90] 
+        degrees</code> and <code>lon</code> in the range <code>[-180..180] 
+        degrees</code>.  The scale of the projection is <code>1</code> in 
+        <i>radial</i> direction, <code>azimuth</code> clockwise from true 
+        North and is <code>1 / reciprocal</code> in the direction 
+        perpendicular to this.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -336,7 +480,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 21 13:12:35 2021
+    Generated by Epydoc 3.0.1 on Sat May 29 22:30:40 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

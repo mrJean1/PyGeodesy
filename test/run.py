@@ -8,14 +8,14 @@
 # and 11.0, 11.1 and 11.2 (10.16) Big Sur and with Pythonista 3.1
 # and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
-from base import clips, coverage, isiOS, PyGeodesy_dir, PythonX, \
+from base import clips, coverage, isiOS, isPython3, PyGeodesy_dir, PythonX, \
                  secs2str, test_dir, tilde, versions, _W_opts  # PYCHOK expected
 
 from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '21.02.12'
+__version__ = '21.05.25'
 
 if isiOS:  # MCCABE 14
 
@@ -55,9 +55,7 @@ if isiOS:  # MCCABE 14
                 x = 1  # count as a failure
         sys.argv, sys.stdout, sys.stderr = sys3
 
-        r = std.getvalue()
-        if isinstance(r, bytes):  # Python 3+
-            r = r.decode('utf-8')
+        r = _decoded(std.getvalue())
 
         std.close()
         std = None  # del std
@@ -97,9 +95,7 @@ else:  # non-iOS
                      stdout       =PIPE,  # XXX
                      stderr       =STDOUT)  # XXX
 
-        r = p.communicate()[0]
-        if isinstance(r, bytes):  # Python 3+
-            r = r.decode('utf-8')
+        r = _decoded(p.communicate()[0])
 
         # the exit status reflects the number of
         # test failures in the tested module
@@ -115,6 +111,21 @@ _results    = False  # or file
 _verbose    = False
 _Total = 0  # total tests
 _FailX = 0  # failed tests
+
+
+if isPython3:
+    def _decoded(r):
+        return r.decode('utf-8') if isinstance(r, bytes) else r
+
+    def _encoded(r):
+        return r.encode('utf-8') if isinstance(r, str) else r
+
+else:  # avoids UnicodeDecodeError
+    def _decoded(r):  # PYCHOK redefined
+        return r
+
+    def _encoded(r):  # PYCHOK redefined
+        return r
 
 
 def _exit(last, text, exit):
@@ -184,7 +195,7 @@ def _testlines(r):
 def _write(text):
     '''(INTERNAL) Write text to results.
     '''
-    _results.write(text.encode('utf-8'))
+    _results.write(_encoded(text))
 
 
 if __name__ == '__main__':  # MCCABE 19

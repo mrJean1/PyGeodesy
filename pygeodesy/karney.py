@@ -29,8 +29,8 @@ functions I{transcribed} from I{Karney}'s original C++ U{GeographicLib
   - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1EllipticFunction.html>}
 
-  - L{EquidistantKarney} -- U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1AzimuthalEquidistant.html>}
+  - L{EquidistantExact}, L{EquidistantGeodSolve}, L{EquidistantKarney} -- U{AzimuthalEquidistant
+    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>}
 
   - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
     <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
@@ -47,8 +47,8 @@ functions I{transcribed} from I{Karney}'s original C++ U{GeographicLib
   - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1Georef.html>}
 
-  - L{GnomonicKarney} -- U{Gnomonic<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1Gnomonic.html>}
+  - L{GnomonicExact}, L{GnomonicGeodSolve}, L{GnomonicKarney} -- U{Gnomonic
+    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>}
 
   - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1LocalCartesian.html>}
@@ -66,12 +66,12 @@ functions I{transcribed} from I{Karney}'s original C++ U{GeographicLib
     classGeographicLib_1_1Math.html>}
 
 The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} module, classes and functions are I{wrappers}
-around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} or C++
-U{Utility programs<https://GeographicLib.SourceForge.io/html/utilities.html>}:
+around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} or C++ U{Utility
+programs<https://GeographicLib.SourceForge.io/html/utilities.html>}:
 
-  - L{karney}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney},
-    L{HeightIDWkarney}, L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.isclockwise},
-    L{ellipsoidalKarney.perimeterOf}, L{geodsolve}, L{GeodesicSolve}, L{ellipsoidalGeodSolve}
+  - L{karney}, L{ellipsoidalGeodSolve}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney},
+    L{geodsolve}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{GnomonicGeodSolve}, L{GnomonicKarney},
+    L{HeightIDWkarney}
 
 Lastly, spherical functions:
 
@@ -81,7 +81,13 @@ are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>} and ellipsoidal
 functions and methods:
 
-  - L{ellipsoidalKarney.intersections2}, L{ellipsoidalKarney.nearestOn}, L{ellipsoidalKarney.LatLon.intersections2}, L{ellipsoidalKarney.LatLon.nearestOn}
+  - L{ellipsoidalExact.areaOf}, L{ellipsoidalExact.intersections2}, L{ellipsoidalExact.isclockwise},
+    L{ellipsoidalExact.nearestOn}, L{ellipsoidalExact.LatLon.intersections2},
+    L{ellipsoidalExact.LatLon.nearestOn}, L{ellipsoidalExact.perimeterOf}
+
+  - L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.intersections2}, L{ellipsoidalKarney.isclockwise},
+    L{ellipsoidalKarney.nearestOn}, L{ellipsoidalKarney.LatLon.intersections2},
+    L{ellipsoidalKarney.LatLon.nearestOn}, L{ellipsoidalKarney.perimeterOf}
 
 are implementations of I{Karney}'s post U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and paper
@@ -109,7 +115,7 @@ from math import copysign, fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.05.18'
+__version__ = '21.05.29'
 
 _16th = _1_0 / _16_0
 
@@ -292,7 +298,7 @@ class _Wrapped(object):
 
                    @arg debug: Include more details in results (C{bool}).
                 '''
-                from pygeodesy.geodesicx.bases import Caps
+                from pygeodesy.geodesicx.gxbases import Caps
                 self._debug = Caps._DEBUG_ALL if debug else 0
 
             def Direct(self, lat1, lon1, azi1, s12, *outmask):
@@ -317,7 +323,8 @@ class _Wrapped(object):
                 '''
                 return self._E
 
-            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, *outmask):
+            def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12,
+                                                  outmask=_Geodesic.STANDARD):
                 '''(INTERNAL) Get C{._GenDirect} result as C{GDict}.
                 '''
                 def _toGdict(a12, lat2, lon2, azi2,
@@ -325,10 +332,10 @@ class _Wrapped(object):
                     return GDict(a12=a12, lat2=lat2, lon2=lon2, azi2=azi2,
                                  s12=s12, m12=m12,   M12=M12,   M21=M21, S12=S12)
 
-                t = _Geodesic._GenDirect(self, lat, lon, azi, arcmode, s12_a12, *outmask)
+                t = _Geodesic._GenDirect(self, lat, lon, azi, arcmode, s12_a12, outmask)
                 return _toGdict(*t)
 
-            def _GDictInverse(self, lat1, lon1, lat2, lon2, *outmask):
+            def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_Geodesic.STANDARD):
                 '''(INTERNAL) Get C{._GenInverse} result as C{GDict}.
                 '''
                 def _toGdict(a12, s12, salp1, calp1, salp2, calp2,
@@ -338,7 +345,7 @@ class _Wrapped(object):
                                  salp2=salp2, calp2=calp2, azi2=atan2d(salp2, calp2),
                                  m12=m12, M12=M12, M21=M21, S12=S12, lon1=lon1)
 
-                t =_Geodesic._GenInverse(self, lat1, lon1, lat2, lon2, *outmask)
+                t =_Geodesic._GenInverse(self, lat1, lon1, lat2, lon2, outmask)
                 return _toGdict(*t)
 
             def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
@@ -435,8 +442,11 @@ class _Wrapped(object):
             karney._fix90     = Math.LatFix
             karney._isfinite  = Math.isfinite
             karney._norm180   = Math.AngNormalize
-            karney._remainder = Math.remainder
             karney._sum2      = Math.sum
+            try:  # geographiclib 1.49
+                karney._remainder = Math.remainder
+            except AttributeError:
+                pass
         except ImportError:
             Math = None
         return Math
@@ -523,12 +533,10 @@ def _fsum2_(*vs):  # see .test/testKarney.py
 
        @see: U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
-    s = r = t = _0_0
+    s = t = _0_0
     for v in vs:
-        s, t = _sum2(s, float(v))
-        if t:
-            r, t = _sum2(r, t)  # inlieu of r += t
-    return (s + r), t
+        s, t = _3sum2(s, t, v)
+    return _sum2(s, t)
 
 
 def _isfinite(x):  # mimick Math.AngNormalize
@@ -576,8 +584,11 @@ def _norm180(deg):  # mimick Math.AngNormalize
 
 
 def _polygon(geodesic, points, closed, line, wrap):
-    # Compute the area or perimeter of a polygon,
-    # using the geographiclib package, iff installed
+    '''(INTERNAL) Compute the area or perimeter of a polygon,
+        using a L{GeodesicExact}, L{GeodesicSolve} or (if the
+        C{geographiclib} package is installed) a C{Geodesic}
+        or C{_wrapped.Geodesic} instance.
+    '''
     if not wrap:  # capability LONG_UNROLL can't be off
         raise _ValueError(wrap=wrap)
 
@@ -594,7 +605,7 @@ def _polygon(geodesic, points, closed, line, wrap):
     if closed and line and p != p0:
         p_(p0.lat, p0.lon)
 
-    # p.Compute returns (number_of_points, perimeter, signed area)
+    # gP.Compute returns (number_of_points, perimeter, signed area)
     return gP.Compute(False, True)[1 if line else 2]
 
 
@@ -605,7 +616,10 @@ def _remainder(x, y):
     '''
     M = _wrapped.Math
     if M:
-        return M.remainder(x, y)
+        try:  # geographiclib 1.49
+            return M.remainder(x, y)
+        except AttributeError:
+            pass
 
     z = (fmod(x, y) if _isfinite(x) else NAN) if x else x
     # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
@@ -643,6 +657,22 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 
     # u + v =       s      + t
     #       = round(u + v) + t
+    return s, t
+
+
+def _3sum2(s, t, x):
+    '''Accumulate B{C{x}} into C{_sum2(s, t)}.
+
+       @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.sourceforge.io/
+             html/Accumulator_8hpp_source.html>} comments for more details.
+    '''
+    if x:
+        t, u = _sum2(t, x)  # start at least-
+        s, t = _sum2(s, t)  # significant end
+        if s:
+            t += u  # accumulate u to t
+        else:
+            s  = u  # result is u
     return s, t
 
 

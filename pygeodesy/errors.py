@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.05.05'
+__version__ = '21.05.28'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -234,6 +234,12 @@ class UnitError(_ValueError):
     pass
 
 
+class VectorError(_ValueError):
+    '''L{Vector3d}, C{Cartesian*} or C{*Nvector} issues.
+    '''
+    pass
+
+
 def _an(noun):
     '''(INTERNAL) Prepend an article to a noun based
        on the pronounciation of the first letter.
@@ -262,12 +268,12 @@ def crosserrors(raiser=None):
 
        @return: Previous setting (C{bool}).
 
-       @see: Property C{Vector3d.crosserrors}.
+       @see: Property C{Vector3d[Base].crosserrors}.
     '''
-    from pygeodesy.vector3d import Vector3d
-    t = Vector3d._crosserrors  # XXX class attr!
+    from pygeodesy.vector3dBase import Vector3dBase
+    t = Vector3dBase._crosserrors  # XXX class attr!
     if raiser in (True, False):
-        Vector3d._crosserrors = raiser
+        Vector3dBase._crosserrors = raiser
     return t
 
 
@@ -557,7 +563,7 @@ def _xkwds_popitem(name_value):
     '''(INTERNAL) Return exactly one C{(name, value)} item.
     '''
     t = name_value.popitem()  # XXX AttributeError, KeyError
-    if not name_value:
+    if not name_value:  # must be empty
         return t
 
     raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='value')

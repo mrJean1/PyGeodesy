@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.05.14'
+__version__ = '21.05.26'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -964,10 +964,10 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def geodsolve(self):
-        '''Get this ellipsoid's I{wrapped} utility U{GeodSolve
-           <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>},
-           provided the path to the U{GeodSolve} executable is specified
-           with env variable C{PYGEODESY_GEODSOLVE}.
+        '''Get this ellipsoid's L{GeodesicSolve}, the I{wrapper} around utility
+           U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>},
+           provided the path to the C{GeodSolve} executable is specified with env
+           variable C{PYGEODESY_GEODSOLVE}.
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)

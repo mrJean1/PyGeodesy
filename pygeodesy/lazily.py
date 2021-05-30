@@ -111,7 +111,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'AlbersError', 'Albers7Tuple'),
                       azimuthal=('AzimuthalError', 'Azimuthal7Tuple',
                                  'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
-                                 'Gnomonic', 'GnomonicExact', 'GnomonicKarney',
+                                 'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign', 'halfs2',
@@ -157,7 +157,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
-                                 'RangeError', 'SciPyError', 'SciPyWarning', 'TRFError', 'UnitError',
+                                 'RangeError', 'SciPyError', 'SciPyWarning', 'TRFError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'EasNorExact4Tuple', 'LatLonExact4Tuple',
@@ -190,7 +190,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                            gars=('Garef', 'GARSError'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
                                  'Caps', 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
-                      geodsolve=('GeodesicSolve',),
+                      geodsolve=('GeodesicSolve', 'GeodesicLineSolve'),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                  'PGMError', 'GeoidHeight5Tuple'),
@@ -265,7 +265,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError', 'iscolinearWith', 'parse3d', 'trilaterate2d2', 'trilaterate3d2'),
+                       vector3d=('Vector3d', 'intersection3d', 'iscolinearWith', 'parse3d',
+                                 'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -284,7 +285,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.05.20'
+__version__ = '21.05.28'
 
 
 def _ALL_OTHER(*objs):

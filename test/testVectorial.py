@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '21.05.28'
 
 from base import coverage, GeodSolve, isPyPy, isPython2, \
                  numpy_version, TestsBase
@@ -16,6 +16,27 @@ from pygeodesy.interns import _DOT_  # INTERNAL
 
 
 class Tests(TestsBase):
+
+    def testIntersection3d(self):
+
+        i3d = vector3d.intersection3d
+        V3d = vector3d.Vector3d
+        self.subtitle(vector3d, i3d.__name__)
+
+        # <https://www.MathOpenRef.com/coordintersection.html>
+        s1, e1 = V3d(15, 10, 1), V3d(49, 25, 2)
+        s2, e2 = V3d(29, 5, 3),  V3d(32, 32, 4)
+        self.test('(30, 17)', i3d(s1, e1, s2, e2, useZ=False), '(30.30584, 16.75258, 0.0)')
+        s2 = V3d(7, 10, 5)
+        self.test('(-1,  3)', i3d(s1, e1, s2, e2, useZ=False, within=False), '(-1.0429, 2.92225, 0.0)')
+        s2 = V3d(62, 32, 6)
+        self.test('(65, 32)', i3d(s1, e1, s2, e2, useZ=False, within=False), '(64.86667, 32.0, 0.0)')
+        try:
+            s2 = V3d(32 - (49 - 15), 32 - (25 - 10), 7)
+            self.test('(-2, 17)', i3d(s1, e1, s2, e2, useZ=False, within=False), IntersectionError.__name__)
+        except Exception as x:
+            self.test('(-2, 17)', x.__class__, IntersectionError)
+        self.test('(49, 25)', i3d(s1, e1, e1, e1, useZ=False), '(49.0, 25.0, 0.0)')
 
     def testNvectorBase(self, module, **kwds):
 
@@ -417,6 +438,8 @@ if __name__ == '__main__':
 
     t.testTrilaterate2d2()
     t.testTrilaterate3d2(vector3d.Vector3d)
+
+    t.testIntersection3d()
 
     t.results()
     t.exit()

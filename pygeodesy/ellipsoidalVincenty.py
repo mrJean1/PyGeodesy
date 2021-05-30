@@ -73,7 +73,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.04.24'
+__version__ = '21.05.24'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -667,7 +667,7 @@ def _r3(a, f):
 
 @deprecated_function
 def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function L{ellipsoidalKarney.areaOf}.
+    '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
     from pygeodesy.ellipsoidalKarney import areaOf
     return areaOf(points, datum=datum, wrap=wrap)
@@ -775,11 +775,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 
 @deprecated_function
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function L{ellipsoidalKarney.perimeterOf}.
-
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
-                           not installed or not found.
+    '''DEPRECATED, use function L{ellipsoidalExact.perimeterOf} or L{ellipsoidalKarney.perimeterOf}.
     '''
     from pygeodesy.ellipsoidalKarney import perimeterOf
     return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)

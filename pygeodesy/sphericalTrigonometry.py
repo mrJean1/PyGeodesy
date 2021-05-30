@@ -49,7 +49,12 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.04.24'
+__version__ = '21.05.26'
+
+_infinite_ = 'infinite'
+_null_     = 'null'
+_parallel_ = 'parallel'
+_path_     = 'path'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -930,7 +935,7 @@ def _i3d2(start, end, wrap, _i_, hs):
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
-        raise ValueError(_SPACE_('path' + _i_,'null'))
+        raise ValueError(_SPACE_(_path_ + _i_, _null_))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * _0_5, -(b1 + b2) * _0_5
 
@@ -1008,7 +1013,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
             x1, x2 = (sr12 * ca1), (sr12 * ca2)
             if abs(x1) < EPS0 or abs(x2) < EPS0:
-                raise ValueError('parallel')
+                raise ValueError(_parallel_)
             # handle domain error for equivalent longitudes,
             # see also functions asin_safe and acos_safe at
             # <https://www.EdWilliams.org/avform.htm#Math>
@@ -1024,7 +1029,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                                   t21 - t23)  # angle 1-2-3
             sx1, cx1, sx2, cx2 = sincos2(x1, x2)
             if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-                raise ValueError('infinite')
+                raise ValueError(_infinite_)
             sx3 = sx1 * sx2
 # XXX       if sx3 < 0:
 # XXX           raise ValueError(_ambiguous_)
