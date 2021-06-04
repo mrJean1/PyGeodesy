@@ -14,17 +14,18 @@ from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
                              _easting_, _h_, _height_, _hemipole_, _lam_, \
                              _lat_, _lon_, _n_, _northing_, _number_, \
-                             _phi_, _points_, _precision_, _radius_, \
-                             _scale_, _x_, _y_, _z_, _zone_
+                             _outside_, _phi_, _point_, _points_, \
+                             _precision_, _radius_, _scale_, _x_, _y_, \
+                             _z_, _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass, _xnamed
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
-                            Height, Lam, Lat, Lon, Meter, Meter2, \
+                            Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.04.24'
+__version__ = '21.06.01'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -118,6 +119,18 @@ class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
     '''
     _Names_ = (_easting_, _northing_, _height_)
     _Units_ = ( Easting,   Northing,   Height)
+
+
+class Intersection3Tuple(_NamedTuple):  # .css.py, .lcc.py
+    '''3-Tuple C{(point, outside1, outside2)} of an intersection
+       C{point} and C{outside1}, the position of the C{point},
+       C{-1} if before the start, C{+1} if after the end and C{0}
+       if on or between the stat and end point of the first line.
+       Similarly, C{outside2} is C{-2}, C{+2} or C{0} to indicate
+       the position of C{point} on the secodne line or path.
+    '''
+    _Names_ = (_point_, _outside_ + _1_, _outside_ + _2_)
+    _Units_ = (_Pass,    Int,             Int)
 
 
 class LatLon2Tuple(_NamedTuple):

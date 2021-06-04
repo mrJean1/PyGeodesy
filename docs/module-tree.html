@@ -90,8 +90,12 @@
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy bases.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact-module.html">pygeodesy.ellipsoidalExact</a></strong>: <em class="summary">Exact ellipsoidal geodesy.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy base classes 
+        <code>CartesianEllipsoidalBase</code> and 
+        <code>LatLonEllipsoidalBase</code>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBaseDI-module.html" onclick="show_private();">pygeodesy.ellipsoidalBaseDI</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal direct/inverse geodesy base class 
+        <code>LatLonEllipsoidalBaseDI</code> and functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact-module.html">pygeodesy.ellipsoidalExact</a></strong>: <em class="summary">Exact ellipsoidal geodesy using <i>Karney</i>'s Exact Geodesic.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve-module.html">pygeodesy.ellipsoidalGeodSolve</a></strong>: <em class="summary">Exact ellipsoidal geodesy, intended <i>for testing purposes 
         only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal, <i>Karney</i>-based geodesy.</em>    </li>
@@ -112,13 +116,13 @@
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>
     <ul>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_24-module.html">pygeodesy.geodesicx._C4_24</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_24-module.html">pygeodesy.geodesicx._C4_24</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_27-module.html">pygeodesy.geodesicx._C4_27</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_27-module.html">pygeodesy.geodesicx._C4_27</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_30-module.html">pygeodesy.geodesicx._C4_30</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_30-module.html">pygeodesy.geodesicx._C4_30</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.__main__-module.html">pygeodesy.geodesicx.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.geodesicx-module.html" 
@@ -148,7 +152,7 @@
         <code>intern</code>'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>.</em>    </li>
+        target="_top">geographiclib</a>, wrapped.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -158,9 +162,9 @@
         target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
         href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert Conformal Conic (LCC) projection.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local tangent plane</i> (LTP) and <i>local</i> cartesian 
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local Tangent Plane</i> (LTP) and <i>local</i> cartesian 
         coordinates.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Named, <i>local tangent plane</i> (LTP) tuples.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Named, <i>Local Tangent Plane</i> (LTP) tuples.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Nameable class instances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Named tuples.</em>    </li>
@@ -168,7 +172,7 @@
         <code>Nvector</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Utilities for point lists, tuples, etc.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Im-/mutable, caching or memoizing property and deprecation 
+    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Im-/mutable, caching or memoizing properties and deprecation 
         decorators.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Simplify or linearize a path.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical geodesy bases.</em>    </li>
@@ -176,7 +180,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary"><code>Float</code>, <code>int</code> and <code>str</code>ing units.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various <code>Float</code>, <code>Int</code> and 
+        <code>Str</code>ing units.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary"><i>Karney</i>'s Universal Polar Stereographic (UPS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Various utility functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
@@ -222,7 +227,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:34 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:38 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

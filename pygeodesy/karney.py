@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}.
+u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}, wrapped.
 
 Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
 C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix} and
@@ -115,7 +115,7 @@ from math import copysign, fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.05.29'
+__version__ = '21.06.04'
 
 _16th = _1_0 / _16_0
 
@@ -497,17 +497,17 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
     return _sum2(d, t)
 
 
-def _Equidistant(equidistant, exact=False, geodsolve=False):
-    # (INTERNAL) Get the C{EquidistantExact}, C{-GeodSolve} or
-    # C{-Karney} class if B{C{equidistant}} in not callable.
-    if equidistant is None or not callable(equidistant):
-        if exact:
-            from pygeodesy.azimuthal import EquidistantExact as equidistant
-        elif geodsolve:
-            from pygeodesy.azimuthal import EquidistantGeodSolve as equidistant
-        else:
-            from pygeodesy.azimuthal import EquidistantKarney as equidistant
-    return equidistant
+# def _Equidistant(equidistant, exact=False, geodsolve=False):
+#     # (INTERNAL) Get the C{EquidistantExact}, C{-GeodSolve} or
+#     # C{-Karney} class if B{C{equidistant}} in not callable.
+#     if equidistant is None or not callable(equidistant):
+#         if exact:
+#             from pygeodesy.azimuthal import EquidistantExact as equidistant
+#         elif geodsolve:
+#             from pygeodesy.azimuthal import EquidistantGeodSolve as equidistant
+#         else:
+#             from pygeodesy.azimuthal import EquidistantKarney as equidistant
+#     return equidistant
 
 
 def _fix90(deg):  # mimick Math.LatFix
@@ -676,7 +676,7 @@ def _3sum2(s, t, x):
     return s, t
 
 
-def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersects2
+def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''Unroll B{C{lon2 - lon1}} like C{geodesic.Geodesic.Inverse}.
 
        @return: 2-Tuple C{(lon2 - lon1, lon2)} with B{C{lon2}} unrolled

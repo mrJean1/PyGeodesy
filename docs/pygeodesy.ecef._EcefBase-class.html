@@ -121,7 +121,8 @@
         <span class="summary-sig-arg">latlonh</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       (INTERNAL) <i>Must be overloaded</i>, see function 
       <code>notOverloaded</code>.</td>
           <td align="right" valign="top">
@@ -143,7 +144,8 @@
         <span class="summary-sig-arg">xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       (INTERNAL) <i>Must be overloaded</i>, see function 
       <code>notOverloaded</code>.</td>
           <td align="right" valign="top">
@@ -379,7 +381,8 @@
   <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">equatoradius(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -388,6 +391,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -401,7 +405,8 @@
   <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">equatoradius(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -410,6 +415,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -423,7 +429,8 @@
   <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">equatoradius(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -432,6 +439,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -446,7 +454,9 @@
   class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
+class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -455,6 +465,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -471,7 +482,11 @@
   class="link">Ellipsoid2</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+class="link">Ellipsoid</a> or <a 
+href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+class="link">Ellipsoid2</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -480,6 +495,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -495,7 +511,10 @@
   <code>0</code> for <i>near-spherical</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+a</i>, positive for <i>oblate</i>, negative for <i>prolate</i> or 
+<code>0</code> for <i>near-spherical</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -504,6 +523,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -519,7 +539,10 @@
   <code>0</code> for <i>near-spherical</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+a</i>, positive for <i>oblate</i>, negative for <i>prolate</i> or 
+<code>0</code> for <i>near-spherical</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -528,6 +551,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -564,7 +588,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:39 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:41 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

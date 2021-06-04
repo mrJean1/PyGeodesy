@@ -3041,7 +3041,9 @@
   <i>lazily</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">Ecef(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ECEF <i>class</i> (<a href="pygeodesy.ecef.EcefKarney-class.html" 
+class="link">EcefKarney</a>), <i>lazily</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3050,6 +3052,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3075,6 +3078,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3109,7 +3113,9 @@
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
+        - Check whether this point is ellipsoidal (<code>bool</code> or 
+<code>None</code> if unknown).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3118,6 +3124,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3132,7 +3139,9 @@
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
+        - Check whether this point is spherical (<code>bool</code> or 
+<code>None</code> if unknown).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3141,6 +3150,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3154,7 +3164,8 @@
   <p>Get the longitude (<b><code>radians</code></b>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude (<b><code>radians</code></b>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3163,6 +3174,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3198,14 +3210,19 @@
   class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude (<a 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlonh</span>)</span>
+        - Set the lat- and longitude and optionally the height.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3221,7 +3238,10 @@
   class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude and height (<a 
+href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3230,6 +3250,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3263,7 +3284,8 @@
   <p>Get the latitude (<b><code>radians</code></b>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude (<b><code>radians</code></b>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3272,6 +3294,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3287,7 +3310,10 @@
   class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude (<a 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3296,6 +3322,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3311,7 +3338,10 @@
   class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude in <code>radians</code> and height (<a 
+href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3320,6 +3350,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -3335,7 +3366,10 @@
   class="link">Vector3Tuple</a><code>(x, y, z)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>n-vector</code> X, Y and Z components (<a 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a><code>(x, y, z)</code>)
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3344,6 +3378,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -3363,7 +3398,10 @@
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>n-vector</code> X, Y, Z and H components (<a 
+href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3372,6 +3410,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -3412,7 +3451,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:43 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

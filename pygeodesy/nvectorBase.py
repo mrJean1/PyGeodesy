@@ -26,7 +26,7 @@ from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
                              _1_, _2_, _3_, _2_0
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _xother3
+from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
 from pygeodesy.props import deprecated_method, property_doc_, Property_RO
@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.05.24'
+__version__ = '21.06.01'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -427,14 +427,12 @@ class LatLonNvectorBase(LatLonBase):
 #       '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
 #       '''
 #       from pygeodesy.named import notOverloaded
-#       notOverloaded(self, self.distanceTo, other, **kwds)
+#       notOverloaded(self, other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
         '''B{Not implemented}, throws a C{NotImplementedError} always.
         '''
-        from pygeodesy.named import notImplemented
-        notImplemented(self, LatLonNvectorBase.intersections2,
-                       radius1=radius1, other=other, radius2=radius2, **kwds)
+        notImplemented(self, radius1, other, radius2, **kwds)
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.
@@ -554,8 +552,7 @@ class LatLonNvectorBase(LatLonBase):
                               B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
         '''
         if area or wrap:
-            from pygeodesy.named import notImplemented
-            notImplemented(self, self.trilaterate5, area=area, wrap=wrap)
+            notImplemented(self, area=area, wrap=wrap)
 
         t = _trilaterate(self, distance1, self.others(point2=point2), distance2,
                                           self.others(point3=point3), distance3,

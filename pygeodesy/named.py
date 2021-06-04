@@ -29,7 +29,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.05.27'
+__version__ = '21.06.01'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -394,7 +394,7 @@ class _NamedBase(_Named):
     def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.toStr, **kwds)
+        notOverloaded(self, **kwds)
 
 #   def toStr(self, **kwds):
 #       if kwds:
@@ -1106,27 +1106,27 @@ def _notError(inst, name, args, kwds):  # PYCHOK no cover
     return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
 
 
-def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover
+def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
     '''Raise a C{NotImplementedError} for a missing method or property.
 
        @arg inst: Instance (C{any}).
-       @arg name: Method, property or name (C{str} or C{callable}).
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    t = _notError(inst, name, args, kwds)
+    n =  kwds.pop(callername.__name__, NN) or callername(up=2)
+    t = _notError(inst, n, args, kwds)
     raise _NotImplementedError(t, txt=notImplemented.__name__.replace(_I_, ' i'))
 
 
-def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
+def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
     '''Raise an C{AssertionError} for a method or property not overloaded.
 
        @arg inst: Instance (C{any}).
-       @arg name: Method, property or name (C{str} or C{callable}).
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    t = _notError(inst, name, args, kwds)
+    n =  kwds.pop(callername.__name__, NN) or callername(up=2)
+    t = _notError(inst, n, args, kwds)
     raise _AssertionError(t, txt=notOverloaded.__name__.replace(_O_, ' o'))
 
 

@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.05.28'
+__version__ = '21.06.01'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -173,6 +173,12 @@ class LimitError(_ValueError):
        the B{C{limit}} in functions L{equirectangular} and
        L{equirectangular_} and C{nearestOn*} and C{simplify*}
        functions or methods.
+    '''
+    pass
+
+
+class NumPyError(_ValueError):
+    '''Error raised for C{NumPy} errors.
     '''
     pass
 
@@ -506,6 +512,22 @@ def _xellipsoidal(**name_value):
     except AttributeError:
         pass
     raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
+
+
+def _xError(x, **kwds):
+    '''(INTERNAL) Embellish an exception.
+
+       @arg x: The exception instance (usually, C{_Error}).
+       @arg kwds: Embelishments (C{any}).
+    '''
+    X = x.__class__
+    t = str(x)
+    try:  # C{_Error} style
+        return X(txt=t, **kwds)
+    except TypeError:  # no keyword arguments
+        pass
+    # not an C{_Error}, format as C{_Error}
+    return X(str(_ValueError(txt=t, **kwds)))
 
 
 try:

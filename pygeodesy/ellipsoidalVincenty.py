@@ -53,16 +53,16 @@ or by converting to anothor datum:
 from __future__ import division
 
 from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
-                                       CartesianEllipsoidalBase, \
-                                       LatLonEllipsoidalBase, _nearestOn
-from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase
+from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
+                                       _intersection3, _intersections2, \
+                                       _nearestOn
+from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.interns import EPS0, EPS, NN, _ambiguous_, _convergence_, _no_, \
                              _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
-from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
-                                  Distance3Tuple
+from pygeodesy.namedTuples import Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
@@ -73,7 +73,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.05.24'
+__version__ = '21.06.03'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -119,7 +119,7 @@ class Cartesian(CartesianEllipsoidalBase):
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 
-class LatLon(LatLonEllipsoidalBase):
+class LatLon(LatLonEllipsoidalBaseDI):
     '''Using the formulae devised by U{I{Thaddeus Vincenty (1975)}
        <https://WikiPedia.org/wiki/Vincenty's_formulae>} for an (oblate)
        ellipsoidal model of the earth to compute the geodesic distance
@@ -136,163 +136,15 @@ class LatLon(LatLonEllipsoidalBase):
        and/or iteration C{limit}, see properties L{LatLon.epsilon} and
        L{LatLon.iterations}.
     '''
-    _epsilon    = 1.0e-12  # about 0.006 mm
-    _iteration  = None     # iteration number
-    _iterations = 100      # max 100 vs Veness' 500
+    _epsilon    = 1e-12  # radians, about 6 um
+    _iteration  = None   # iteration number
+    _iterations = 100    # max 100 vs Veness' 500
 
     @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method L{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap)
-
-    def bearingTo2(self, other, wrap=False):
-        '''Compute the initial and final bearing (forward and reverse
-           azimuth) from this to an other point, using I{Vincenty}'s
-           C{inverse} method.  See methods L{initialBearingTo} and
-           L{finalBearingTo} for more details.
-
-           @arg other: The other point (L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: A L{Bearing2Tuple}C{(initial, final)}.
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-        '''
-        r = self._inverse(other, True, wrap)
-        return Bearing2Tuple(r.initial, r.final, name=self.name)
-
-    def destination(self, distance, bearing, height=None):
-        '''Compute the destination point after having travelled
-           for the given distance from this point along a geodesic
-           given by an initial bearing, using I{Vincenty}'s C{direct}
-           method.  See method L{destination2} for more details.
-
-           @arg distance: Distance (C{meter}).
-           @arg bearing: Initial bearing (compass C{degrees360}).
-           @kwarg height: Optional height, overriding the default
-                          height (C{meter}, same units as C{distance}).
-
-           @return: The destination point (L{LatLon}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit.
-
-           @example:
-
-            >>> p = LatLon(-37.95103, 144.42487)
-            >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
-        '''
-        return self._direct(distance, bearing, True, height=height).destination
-
-    def destination2(self, distance, bearing, height=None):
-        '''Compute the destination point and the final bearing (reverse
-           azimuth) after having travelled for the given distance from
-           this point along a geodesic given by an initial bearing,
-           using I{Vincenty}'s C{direct} method.
-
-           The distance must be in the same units as this point's datum
-           axes, conventionally C{meter}.  The distance is measured on
-           the surface of the ellipsoid, ignoring this point's height.
-
-           The initial and final bearing (forward and reverse azimuth)
-           are in compass C{degrees360}.
-
-           The destination point's height and datum are set to this
-           point's height and datum, unless the former is overridden.
-
-           @arg distance: Distance (C{meter}).
-           @arg bearing: Initial bearing (compass C{degrees360}).
-           @kwarg height: Optional height, overriding the default
-                          height (C{meter}, same units as B{C{distance}}).
-
-           @return: A L{Destination2Tuple}C{(destination, final)}.
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit.
-
-           @example:
-
-            >>> p = LatLon(-37.95103, 144.42487)
-            >>> b = 306.86816
-            >>> d, f = p.destination2(54972.271, b)
-            >>> d
-            LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
-            >>> f
-            307.1736313846706
-        '''
-        return self._direct(distance, bearing, True, height=height)
-
-    def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
-        '''Compute the distance between this and an other point
-           along a geodesic, using I{Vincenty}'s C{inverse} method.
-           See method L{distanceTo3} for more details.
-
-           @arg other: The other point (L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: Distance (C{meter}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-
-           @example:
-
-            >>> p = LatLon(50.06632, -5.71475)
-            >>> q = LatLon(58.64402, -3.07009)
-            >>> d = p.distanceTo(q)  # 969,954.166 m
-        '''
-        return self._inverse(other, False, wrap).distance
-
-    def distanceTo3(self, other, wrap=False):
-        '''Compute the distance, the initial and final bearing along a
-           geodesic between this and an other point, using Vincenty's
-           C{inverse} method.
-
-           The distance is in the same units as this point's datum axes,
-           conventially meter.  The distance is measured on the surface
-           of the ellipsoid, ignoring this point's height.
-
-           The initial and final bearing (forward and reverse azimuth)
-           are in compass C{degrees360} from North.
-
-           @arg other: Destination point (L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-        '''
-        return self._inverse(other, True, wrap)
 
     @Property_RO
     def Ecef(self):
@@ -301,155 +153,23 @@ class LatLon(LatLonEllipsoidalBase):
         from pygeodesy.ecef import EcefVeness
         return EcefVeness
 
-    @property_doc_(''' the convergence epsilon (C{scalar}).''')
+    @property_doc_(''' the convergence epsilon (C{radians}).''')
     def epsilon(self):
-        '''Get the convergence epsilon (C{scalar}).
+        '''Get the convergence epsilon (C{radians}).
         '''
         return self._epsilon
 
     @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, eps):
+    def epsilon(self, epsilon):
         '''Set the convergence epsilon.
 
-           @arg eps: New epsilon (C{scalar}).
+           @arg epsilon: New epsilon (C{radians}).
 
-           @raise TypeError: Non-scalar B{C{eps}}.
+           @raise TypeError: Non-scalar B{C{epsilon}}.
 
-           @raise ValueError: Out of bounds B{C{eps}}.
+           @raise ValueError: Out of bounds B{C{epsilon}}.
         '''
-        self._epsilon = Scalar_(epsilon=eps)
-
-    def finalBearingOn(self, distance, bearing):
-        '''Compute the final bearing (reverse azimuth) after having
-           travelled for the given distance along a geodesic given
-           by an initial bearing from this point, using Vincenty's
-           C{direct} method.  See method L{destination2} for more details.
-
-           @arg distance: Distance (C{meter}).
-           @arg bearing: Initial bearing (compass C{degrees360}).
-
-           @return: Final bearing (compass C{degrees360}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit.
-
-           @example:
-
-            >>> p = LatLon(-37.95103, 144.42487)
-            >>> b = 306.86816
-            >>> f = p.finalBearingOn(54972.271, b)  # 307.1736
-        '''
-        return self._direct(distance, bearing, False).final
-
-    def finalBearingTo(self, other, wrap=False):
-        '''Compute the final bearing (reverse azimuth) after having
-           travelled along a geodesic from this point to an other
-           point, using I{Vincenty}'s C{inverse} method.  See method
-           L{distanceTo3} for more details.
-
-           @arg other: The other point (L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: Final bearing (compass C{degrees360}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-
-           @example:
-
-            >>> p = new LatLon(50.06632, -5.71475)
-            >>> q = new LatLon(58.64402, -3.07009)
-            >>> f = p.finalBearingTo(q)  # 11.2972°
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> f = p.finalBearingTo(q)  # 157.9
-        '''
-        return self._inverse(other, True, wrap).final
-
-    def initialBearingTo(self, other, wrap=False):
-        '''Compute the initial bearing (forward azimuth) to travel
-           along a geodesic from this point to an other point,
-           using I{Vincenty}'s C{inverse} method.  See method
-           L{distanceTo3} for more details.
-
-           @arg other: The other point (L{LatLon}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: Initial bearing (compass C{degrees360}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-
-           @example:
-
-            >>> p = LatLon(50.06632, -5.71475)
-            >>> q = LatLon(58.64402, -3.07009)
-            >>> b = p.initialBearingTo(q)  # 9.141877°
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(48.857, 2.351)
-            >>> b = p.initialBearingTo(q)  # 156.11064°
-
-           @JSname: I{bearingTo}.
-        '''
-        return self._inverse(other, True, wrap).initial
-
-    def intermediateTo(self, other, fraction, height=None, wrap=False):
-        '''Return the point at given fraction along the geodesic between
-           this and an other point, using I{Vincenty}'s C{direct} and
-           C{inverse} methods.
-
-           @arg other: The other point (L{LatLon}).
-           @arg fraction: Fraction between both points ranging from
-                          0, meaning this to 1, the other point (C{float}).
-           @kwarg height: Optional height, overriding the fractional
-                          height (C{meter}).
-           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-
-           @return: Intermediate point (L{LatLon}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
-
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
-
-           @raise VincentyError: Vincenty fails to converge for the current
-                                 L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
-                                 point are coincident or near-antipodal.
-
-           @see: Methods L{distanceTo3} and L{destination}.
-
-           @example:
-
-            >>> p = ellipsoidalVincenty.LatLon(52.205, 0.119)
-            >>> q = ellipsoidalVincenty.LatLon(48.857, 2.351)
-            >>> i = p.intermediateTo(q, 0.25)  # 51.372275°N, 000.707253°E
-        '''
-        return _intermediateTo(self, other, fraction, height, wrap)
+        self._epsilon = Scalar_(epsilon=epsilon)
 
     @property_doc_(''' the iteration limit (C{int}).''')
     def iterations(self):
@@ -489,9 +209,9 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian,
                                                 datum=self.datum)
-        return LatLonEllipsoidalBase.toCartesian(self, **kwds)
+        return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
 
-    def _direct(self, distance, bearing, llr, height=None):
+    def _Direct(self, distance, bearing, llr, height):
         '''(INTERNAL) Direct Vincenty method.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
@@ -545,7 +265,7 @@ class LatLon(LatLonEllipsoidalBase):
             d = None
         return Destination2Tuple(d, r, name=self.name)
 
-    def _inverse(self, other, azis, wrap):
+    def _Inverse(self, other, wrap, azis=True):  # PYCHOK signature
         '''(INTERNAL) Inverse Vincenty method.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
@@ -673,30 +393,65 @@ def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
     return areaOf(points, datum=datum, wrap=wrap)
 
 
-def _Equidistant(equidistant):
-    # (INTERNAL) Get the C{Equidistant} class.
-    if equidistant is None or not callable(equidistant):
-        from pygeodesy.azimuthal import Equidistant as equidistant
-    return equidistant
+def intersection3(start1, end1, start2, end2, height=None, wrap=True,
+                  equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+    '''Interatively compute the intersection point of two paths,
+       each defined by an (ellipsoidal) start and end point.
+
+       @arg start1: Start point of the first path (L{LatLon}).
+       @arg end1: End point of the first path (L{LatLon}).
+       @arg start2: Start point of the second path (L{LatLon}).
+       @arg end2: End point of the second path (L{LatLon}).
+       @kwarg height: Optional height at the intersection (C{meter},
+                      conventionally) or C{None} for the mean height.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                           or function L{equidistant}) or C{None} for
+                           the preferred C{B{start1}.Equidistant}.
+       @kwarg tol: Tolerance for skew line distance and length and for
+                   convergence (C{meter}, conventionally).
+       @kwarg LatLon: Optional class to return the intersection points
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon}=None}.
+
+       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
+                with C{point} a B{C{LatLon}} or if C{B{LatLon}=None},
+                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found, but only if
+                           C{B{equidistant}=}L{EquidistantKarney}.
+
+       @raise IntersectionError: Skew, colinear, parallel or otherwise
+                                 non-intersecting paths or no convergence
+                                 for the B{C{tol}}.
+
+       @raise TypeError: Invalid or non-ellipsoidal B{C{start1}}, B{C{end1}},
+                         B{C{start2}} or B{C{end2}} or invalide B{C{equidistant}}.
+    '''
+    return _intersection3(start1, end1, start2, end2, height=height, wrap=wrap,
+                          equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection points of two circles each defined
-       by an (ellipsoidal) center point and a radius.
+    '''Iteratively compute the intersection points of two circles,
+       each defined by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
        @arg radius1: Radius of the first circle (C{meter}, conventionally).
        @arg center2: Center of the second circle (L{LatLon}).
        @arg radius2: Radius of the second circle (C{meter}, same units as
                      B{C{radius1}}).
-       @kwarg height: Optional height for the intersection points,
-                      overriding the "radical height" at the "radical
-                      line" between both centers (C{meter}) or C{None}.
+       @kwarg height: Optional height for the intersection points (C{meter},
+                      conventionally) or C{None} for the I{"radical height"}
+                      at the I{radical line} between both centers.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection (class
-                           L{EquidistantKarney} or function L{equidistant}),
-                           or C{None} for L{Equidistant}.
+       @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                           or function L{equidistant}) or C{None} for
+                           the preferred C{B{center1}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                    and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points
@@ -706,16 +461,17 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if B{C{LatLon}} is C{None}.  For abutting circles, both
+                if C{B{LatLon}=None}.  For abutting circles, both
                 intersection points are the same instance.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found, but only if
+                           C{B{equidistant}=}L{EquidistantKarney}.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles or no
                                  convergence for the B{C{tol}}.
-
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
-                           not installed or not found.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{center1}} or B{C{center2}}
                          or invalid B{C{equidistant}}.
@@ -729,14 +485,14 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
-    E = _Equidistant(equidistant)
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
-                                    equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the arc between two other points.
+    '''Iteratively locate the closest point on the arc between two
+       other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the arc (C{LatLon}).
@@ -744,33 +500,35 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg within: If C{True} return the closest point I{between}
                       B{C{point1}} and B{C{point2}}, otherwise the
                       closest point elsewhere on the arc (C{bool}).
-       @kwarg height: Optional height for the closest point (C{meter})
-                      or C{None}.
+       @kwarg height: Optional height for the closest point (C{meter},
+                      conventionally) or C{None} or C{False} for the
+                      interpolated height.  If C{False}, the distance
+                      between points takes height into account.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection (class
-                           L{EquidistantKarney} or function L{equidistant}),
-                           or C{None} for L{Equidistant}.
+       @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                           or function L{equidistant}) or C{None} for
+                           the preferred C{B{point}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                            arguments, ignored if C{B{LatLon}=None}.
 
-       @return: Closest point (B{C{LatLon}}).
+       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}=None},
+                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}
-                           not installed or not found.
+                           not installed or not found, but only if
+                           C{B{equidistant}=}L{EquidistantKarney}.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
                          or B{C{point2}} or invalid B{C{equidistant}}.
+
+       @raise ValueError: No convergence for the B{C{tol}}.
     '''
-    p = _xellipsoidal(point=point)
-    p1 = p.others(point1=point1)
-    p2 = p.others(point2=point2)
-    E = _Equidistant(equidistant)
-    return _nearestOn(p, p1, p2, within=within, height=height, wrap=wrap,
-                      equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+    return _nearestOn(point, point1, point2, within=within, height=height, wrap=wrap,
+                      equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 @deprecated_function
@@ -782,8 +540,8 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cov
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,
-                      intersections2, ispolar,  # from .points
-                      nearestOn) + _ALL_DOCS(perimeterOf)
+                      intersection3, intersections2, ispolar,  # from .points
+                      nearestOn) + _ALL_DOCS(areaOf, perimeterOf)  # deprecated
 
 # **) MIT License
 #

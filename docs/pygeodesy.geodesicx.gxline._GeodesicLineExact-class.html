@@ -361,7 +361,7 @@ gxbases._GeodesicBase --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#caps" class="summary-name">caps</a><br />
-      Get the capabilities (bit-or'ed Caps).
+      Get the capabilities (bit-or'ed <code>Caps</code>).
     </td>
   </tr>
 <tr>
@@ -685,7 +685,9 @@ gxbases._GeodesicBase --+
   (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">a13(<span class="summary-sig-arg">self</span>)</span>
+        - Get (spherical) arc length from the first to the reference point 
+(<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -694,6 +696,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -714,7 +717,9 @@ gxbases._GeodesicBase --+
   (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">azi0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial azimuth</i>, the azimuth of this geodesic line as it 
+crosses the equator in a northward direction (<code>degrees90</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -723,6 +728,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -737,7 +743,9 @@ gxbases._GeodesicBase --+
   <code>(sin, cos)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">azi0_sincos2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the sine and cosine of the <i>equatorial azimuth</i> (2-tuple 
+<code>(sin, cos)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -746,6 +754,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -759,7 +768,8 @@ gxbases._GeodesicBase --+
   <p>Get the azimuth at the first point (compass <code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">azi1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the azimuth at the first point (compass <code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -768,6 +778,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -782,7 +793,9 @@ gxbases._GeodesicBase --+
   <code>(sin, cos)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">azi1_sincos2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the sine and cosine of the first point's azimuth (2-tuple <code>(sin, 
+cos)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -791,6 +804,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -801,10 +815,11 @@ gxbases._GeodesicBase --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">caps</h3>
-  <p>Get the capabilities (bit-or'ed Caps).</p>
+  <p>Get the capabilities (bit-or'ed <code>Caps</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">caps(<span class="summary-sig-arg">self</span>)</span>
+        - Get the capabilities (bit-or'ed <code>Caps</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -813,6 +828,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -828,7 +844,10 @@ gxbases._GeodesicBase --+
   class="link">GeodesicExact</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>exact</i> geodesic (<a 
+href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+class="link">GeodesicExact</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -837,6 +856,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -850,7 +870,8 @@ gxbases._GeodesicBase --+
   <p>Get the latitude of the first point (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">lat1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude of the first point (<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -859,6 +880,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -872,7 +894,8 @@ gxbases._GeodesicBase --+
   <p>Get the longitude of the first point (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">lon1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude of the first point (<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -881,6 +904,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -894,7 +918,8 @@ gxbases._GeodesicBase --+
   <p>Get the distance from the first to the reference point C({meter}).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">s13(<span class="summary-sig-arg">self</span>)</span>
+        - Get the distance from the first to the reference point C({meter}).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -903,6 +928,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -944,7 +970,7 @@ gxbases._GeodesicBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:42 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

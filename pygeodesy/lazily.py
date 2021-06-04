@@ -156,7 +156,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f', 'n2f_'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
-                         errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
+                         errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError', 'PointsError',
                                  'RangeError', 'SciPyError', 'SciPyWarning', 'TRFError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
@@ -220,7 +220,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                     namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
                                  'Destination2Tuple', 'Destination3Tuple',
                                  'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
-                                 'EasNor2Tuple', 'EasNor3Tuple',
+                                 'EasNor2Tuple', 'EasNor3Tuple', 'Intersection3Tuple',
                                  'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
                                  'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
                                  'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
@@ -265,7 +265,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'intersection3d', 'iscolinearWith', 'parse3d',
+                       vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'parse3d',
                                  'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
@@ -285,7 +285,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.05.28'
+__version__ = '21.06.01'
 
 
 def _ALL_OTHER(*objs):

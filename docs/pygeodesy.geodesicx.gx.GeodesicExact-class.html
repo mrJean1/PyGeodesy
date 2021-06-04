@@ -1287,7 +1287,8 @@ gxbases._GeodesicBase --+
   <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1296,6 +1297,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1310,7 +1312,8 @@ gxbases._GeodesicBase --+
   (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1319,6 +1322,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1333,7 +1337,9 @@ gxbases._GeodesicBase --+
   (<code>meter**2</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">c2x(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
+(<code>meter**2</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1342,6 +1348,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1356,7 +1363,9 @@ gxbases._GeodesicBase --+
   (<code>meter**2</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">c2x(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
+(<code>meter**2</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1365,6 +1374,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1378,14 +1388,17 @@ gxbases._GeodesicBase --+
   <p>Get the series expansion order (<code>int</code>, 24, 27 or 30).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>)</span>
+        - Get the series expansion order (<code>int</code>, 24, 27 or 30).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
+    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">order</span>)</span>
+        - Set the series expansion order.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1400,7 +1413,9 @@ gxbases._GeodesicBase --+
   (<code>float</code>), <i class="math">f * (2 - f)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>(1st) eccentricity squared</i> (<code>float</code>),
+<i class="math">f * (2 - f)</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1409,6 +1424,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1422,7 +1438,8 @@ gxbases._GeodesicBase --+
   <p>Get the ellipsoid (<code>Ellipsoid</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid (<code>Ellipsoid</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1431,6 +1448,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1445,7 +1463,9 @@ gxbases._GeodesicBase --+
   (<code>float</code>), <i class="math">e2 / (1 - e2)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">ep2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>2nd eccentricity squared</i> (<code>float</code>), 
+<i class="math">e2 / (1 - e2)</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1454,6 +1474,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1469,7 +1490,10 @@ gxbases._GeodesicBase --+
   prolate.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>flattening</i> (<code>float</code>), <i 
+class="math">(a - b) / a</i>, <code>0</code> for spherical, negative for 
+prolate.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1478,6 +1502,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1493,7 +1518,10 @@ gxbases._GeodesicBase --+
   prolate.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>flattening</i> (<code>float</code>), <i 
+class="math">(a - b) / a</i>, <code>0</code> for spherical, negative for 
+prolate.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1502,6 +1530,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1517,7 +1546,10 @@ gxbases._GeodesicBase --+
   f</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">f1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's ratio <i>polar</i> over <i>equatorial</i> radius 
+(<code>float</code>), <i class="math">b / a</i> == <i class="math">1 - 
+f</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1526,6 +1558,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1540,7 +1573,9 @@ gxbases._GeodesicBase --+
   class="math">f / (2 - f) == (a - b) / (a + b)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>3rd flattening</i> (<code>float</code>), <i 
+class="math">f / (2 - f) == (a - b) / (a + b)</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1549,6 +1584,7 @@ gxbases._GeodesicBase --+
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1585,7 +1621,7 @@ gxbases._GeodesicBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:42 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

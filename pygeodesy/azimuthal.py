@@ -46,7 +46,7 @@ from pygeodesy.basics import copysign, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
-from pygeodesy.fmath import Fsum
+from pygeodesy.fmath import euclid, Fsum
 from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
                              _azimuth_, _datum_, _lat_, _lon_, \
                              _no_, _scale_, _SPACE_, _x_, _y_, \
@@ -66,7 +66,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.05.22'
+__version__ = '21.06.04'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -79,12 +79,12 @@ class _AzimuthalBase(_NamedBase):
        @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
        html/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>} or the
-       Python versions L{EquidistantKarney} and L{GnomonicKarney}, respectively.
+       Python versions L{EquidistantKarney}, respectively L{GnomonicKarney}.
     '''
     _datum     = _WGS84  # L{Datum}
     _iteration =  None   # iteration number for L{GnomonicKarney}
-    _latlon0   = ()      # lat0, lon0 (L{LatLon2Tuple})
-    _sc0       = ()      # 2-Tuple C{sincos2d(lat0)}
+    _latlon0   =  LatLon2Tuple(_0_0, _0_0)  # lat0, lon0 (L{LatLon2Tuple})
+    _sc0       = (_0_0, _1_0)  # 2-Tuple C{sincos2d(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -105,7 +105,8 @@ class _AzimuthalBase(_NamedBase):
         if name:
             self.name = name
 
-        self.reset(lat0, lon0)
+        if lat0 or lon0:  # often both 0
+            self.reset(lat0, lon0)
 
     @Property_RO
     def datum(self):
@@ -130,6 +131,11 @@ class _AzimuthalBase(_NamedBase):
         '''Get the geodesic's flattening (C{float}).
         '''
         return self.datum.ellipsoid.f
+
+    def forward(self, lat, lon, name=NN):
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        notOverloaded(self, lat, lon, name=name)
 
     def _forward(self, lat, lon, name, _k_t_2):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
@@ -206,6 +212,11 @@ class _AzimuthalBase(_NamedBase):
                                      Lon_(lon0=lon0, Error=AzimuthalError))
         self._sc0     = tuple(sincos2d(self.lat0))
 
+    def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        notOverloaded(self, x, y, name=name, LatLon=LatLon, **LatLon_kwds)
+
     def _reverse(self, x, y, name, LatLon, LatLon_kwds, _c_t, lea):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
         '''
@@ -220,8 +231,10 @@ class _AzimuthalBase(_NamedBase):
             k = c / sc
             z = atan2b(x, y)  # (x, y) for azimuth from true North
 
-            t = (c0 * sc * (y / r)) if r > EPS0 else _0_0
-            lat = degrees(asin1(s0 * cc + t))
+            t = s0 * cc
+            if r > EPS0:
+                t += c0 * sc * (y / r)
+            lat = degrees(asin1(t))
             if lea or abs(c0) > EPS:
                 lon = atan2d(x * sc, c0 * cc * r - s0 * sc * y)
             else:
@@ -235,6 +248,14 @@ class _AzimuthalBase(_NamedBase):
                             name=name or self.name) if LatLon is None else \
             self._toLatLon(lat, lon, LatLon, LatLon_kwds, name)
         return r
+
+    def _reverse2(self, x, y):
+        '''(INTERNAL) See iterating functions .ellipsoidalBaseDI._intersect3,
+           .ellipsoidalBaseDI._intersects2 and .ellipsoidalBaseDI._nearestOne.
+        '''
+        t = self.reverse(x, y)  # LatLon=None
+        d = euclid(t.lat - self.lat0, t.lon - self.lon0)
+        return t, d
 
     def _toLatLon(self, lat, lon, LatLon, LatLon_kwds, name):
         '''(INTERNAL) Check B{C{LatLon}} and return an instance.
@@ -277,11 +298,11 @@ class AzimuthalError(_ValueError):
 
 class Azimuthal7Tuple(_NamedTuple):
     '''7-Tuple C{(x, y, lat, lon, azimuth, scale, datum)}, in C{meter}, C{meter},
-       C{degrees90}, C{degrees180}, C{degrees360}, C{scalar} and C{Datum} where
-       C{(x, y)} is the projected easting and northing of point, C{(lat, lon)}
-       the geodetic location, C{azimuth} the azimuth direction clockwise from
-       true North and C{scale} is the projection scale, either C{1 / reciprocal}
-       or C{1} or C{-1} in the L{Equidistant} case.
+       C{degrees90}, C{degrees180}, compass C{degrees}, C{scalar} and C{Datum}
+       where C{(x, y)} is the easting and northing of a projected point, C{(lat,
+       lon)} the geodetic location, C{azimuth} the azimuth, clockwise from true
+       North and C{scale} is the projection scale, either C{1 / reciprocal} or
+       C{1} or C{-1} in the L{Equidistant} case.
     '''
     _Names_ = (_x_,     _y_,      _lat_, _lon_, _azimuth_, _scale_, _datum_)
     _Units_ = ( Easting, Northing, Lat_,  Lon_,  Bearing,   Scalar, _Pass)
@@ -396,7 +417,7 @@ class _AzimuthalGeodesic(_AzimuthalBase):
     def geodesic(self):
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.toStr)
+        notOverloaded(self)
 
     def _7Tuple(self, x, y, r, M=None, name=NN):
         '''(INTERNAL) Return an C{Azimuthal7Tuple}.
@@ -587,7 +608,7 @@ class EquidistantKarney(_EquidistantBase):
 
 
 _Equidistants = (Equidistant, EquidistantExact, EquidistantGeodSolve,
-                 EquidistantKarney)  # PYCHOK in .ellipsoidalBase
+                 EquidistantKarney)  # PYCHOK in .ellipsoidalBaseDI
 
 
 class Gnomonic(_AzimuthalBase):
@@ -687,7 +708,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         g = self.geodesic
         self._mask = g.ALL  # | g.LONG_UNROLL
 
-    def forward(self, lat, lon, name=NN, raiser=True):
+    def forward(self, lat, lon, name=NN, raiser=True):  # PYCHOK signature
         '''Convert an (ellipsoidal) geodetic location to azimuthal gnomonic east- and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).

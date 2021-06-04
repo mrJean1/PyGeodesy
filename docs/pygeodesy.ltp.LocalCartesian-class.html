@@ -135,7 +135,8 @@
         <span class="summary-sig-arg">latlonh</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <i>geodetic</i> <code>(lat, lon, height)</code> to 
       <i>local</i> cartesian <code>(x, y, z)</code>.</td>
           <td align="right" valign="top">
@@ -178,7 +179,8 @@
         <span class="summary-sig-arg">xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <i>local</i> <code>(x, y, z)</code> to <i>geodetic</i> 
       <code>(lat, lon, height)</code>.</td>
           <td align="right" valign="top">
@@ -398,7 +400,8 @@
         <span class="sig-arg">latlonh</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">M</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -423,6 +426,7 @@
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
@@ -513,7 +517,8 @@
         <span class="sig-arg">xyz</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">M</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -542,7 +547,9 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a> (<code>bool</code>).</li>
+          class="link">EcefMatrix</a>, <i>iff avaialble</i> 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
@@ -623,7 +630,8 @@
   <p>Get the rotation matrix (<code>EcefMatrix</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">M(<span class="summary-sig-arg">self</span>)</span>
+        - Get the rotation matrix (<code>EcefMatrix</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -632,6 +640,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -646,7 +655,9 @@
   href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ECEF converter's datum (<a href="pygeodesy.datums.Datum-class.html"
+class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -655,6 +666,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -669,7 +681,9 @@
   class="link">EcefKarney</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">ecef(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ECEF converter (<a href="pygeodesy.ecef.EcefKarney-class.html" 
+class="link">EcefKarney</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -678,6 +692,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -691,7 +706,8 @@
   <p>Get origin's height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">height0(<span class="summary-sig-arg">self</span>)</span>
+        - Get origin's height (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -700,6 +716,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -713,7 +730,8 @@
   <p>Get origin's latitude (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
+        - Get origin's latitude (<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -722,6 +740,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -735,7 +754,8 @@
   <p>Get origin's longitude (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
+        - Get origin's longitude (<code>degrees</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -744,6 +764,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -780,7 +801,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:44 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,7 +4,7 @@
 # Test LatLon base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '21.06.03'
 
 from base import GeodSolve, TestsBase
 
@@ -86,12 +86,13 @@ if __name__ == '__main__':
         t.testBases(ellipsoidalGeodSolve, ellipsoidalGeodSolve.LatLon)
 
     try:  # (INTERNAL) modules not explicitly exported
-        from pygeodesy import ellipsoidalBase, latlonBase, \
-                              nvectorBase, sphericalBase
+        from pygeodesy import ellipsoidalBase, ellipsoidalBaseDI, \
+                              latlonBase, nvectorBase, sphericalBase
 
+        t.testBases(ellipsoidalBase, ellipsoidalBase.LatLonEllipsoidalBase)
+        t.testBases(ellipsoidalBaseDI, ellipsoidalBaseDI.LatLonEllipsoidalBaseDI)
         t.testBases(latlonBase, latlonBase.LatLonBase)
         t.testBases(nvectorBase, nvectorBase.LatLonNvectorBase)
-        t.testBases(ellipsoidalBase, ellipsoidalBase.LatLonEllipsoidalBase)
         t.testBases(sphericalBase, sphericalBase.LatLonSphericalBase)
     except LazyImportError:
         pass

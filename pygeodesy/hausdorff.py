@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.05.19'
+__version__ = '21.06.01'
 
 
 class HausdorffError(PointsError):
@@ -182,7 +182,7 @@ class Hausdorff(_Named):
     def distance(self, point1, point2):
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.distance, point1, point2)  # PYCHOK no cover
+        notOverloaded(self, point1, point2)  # PYCHOK no cover
 
     def point(self, point):
         '''Convert a C{model} or C{target} point for the C{.distance} method.

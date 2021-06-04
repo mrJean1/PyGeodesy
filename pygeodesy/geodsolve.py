@@ -5,7 +5,7 @@ u'''Wrapper to invoke I{Karney}'s U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb>} utility
 as an (exact) geodesic, but intended I{for testing purposes only}.
 
-Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified path).
+Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
 of the C{GeodSolve} executable.
 '''
 
@@ -16,7 +16,7 @@ from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _GeodesicBase
 from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _SPACE_
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import GDict, GeodesicError, GeodSolve12Tuple
-from pygeodesy.lazily import _ALL_LAZY, printf, _sys
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _sys
 from pygeodesy.lazily import _env  # PYCHOK used!
 from pygeodesy.named import callername
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.05.28'
+__version__ = '21.06.03'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -149,7 +149,7 @@ class _GeodesicSolveBase(_GeodesicBase):
         '''Set the U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
            executable (C{filename}).
 
-           @arg path: Fully qualified path to the C{GeodSolve} executable (C{str}).
+           @arg path: The (fully qualified) path to the C{GeodSolve} executable (C{str}).
 
            @raise GeodesicError: Invalid B{C{path}}, B{C{path}} doesn't exist or
                                  isn't the C{GeodSolve} executable.
@@ -245,9 +245,9 @@ class _GeodesicSolveBase(_GeodesicBase):
 
            @arg prec: Number of decimal digits (C{int}, C{0}..L{DIG}).
 
-           @note: The precision for C{distance=B{prec} - 5} or up to 10
-                  decimal digits for C{nanometer} and for C{area=B{prec}
-                  - 12} or at most C{millimeter} I{squared}.
+           @note: The precision for C{distance = B{prec} - 5} or up to
+                  10 decimal digits for C{nanometer} and for C{area =
+                  B{prec} - 12} or at most C{millimeter} I{squared}.
         '''
         prec = Precision_(prec=prec, high=DIG)
         self._update(prec != self.prec)
@@ -270,12 +270,7 @@ class _GeodesicSolveBase(_GeodesicBase):
     def reverse2(self, reverse2):
         '''Set the direction for C{azi2} (C{bool}).
 
-           @arg reverse2: Azimuth C{azi2} direction (C{bool}), C{True}
-                          for I{reverse}, otherwise default I{forward}.
-
-           @note: The precision for C{distance=B{prec} - 5}, up to 10
-                  decimal digits for C{nanometer} and for C{area=B{prec}
-                  - 12} or at most C{millimeter} I{squared}.
+           @arg reverse2: If C{True} reverse C{azi2} (C{bool}).
         '''
         reverse2 = bool(reverse2)
         self._update(reverse2 != self.reverse2)
@@ -563,7 +558,7 @@ class GeodesicLineSolve(_GeodesicSolveBase):
 
     @Property_RO
     def caps(self):
-        '''Get the capabilities (bit-or'ed L{Caps}).
+        '''Get the capabilities (bit-or'ed C{Caps}).
         '''
         return self._caps
 
@@ -618,6 +613,8 @@ class GeodesicLineSolve(_GeodesicSolveBase):
         '''
         return self._GDictInvoke(self._cmdDistance, True, s12)
 
+
+__all__ += _ALL_DOCS(_GeodesicSolveBase)
 
 if __name__ == '__main__':
 

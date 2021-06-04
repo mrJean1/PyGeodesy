@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Named, I{local tangent plane} (LTP) tuples.
+u'''Named, I{Local Tangent Plane} (LTP) tuples.
 
 Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
 and local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.04.22'
+__version__ = '21.06.04'
 
 _aer_        = 'aer'
 _slantrange_ = 'slantrange'
@@ -353,7 +353,7 @@ class Ned(_NamedBase):
 
     @deprecated_Property_RO
     def bearing(self):
-        '''DEPRECATED, use L{azimuth}.'''
+        '''DEPRECATED, use C{azimuth}.'''
         return self.azimuth
 
     @Property_RO

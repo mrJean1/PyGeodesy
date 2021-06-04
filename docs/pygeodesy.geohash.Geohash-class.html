@@ -1288,6 +1288,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1304,7 +1305,11 @@
   <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude of (the approximate center of) this geohash as a
+<a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
+<code>degrees</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1313,14 +1318,10 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.Geohash(<span class="py-string">'geek'</span>).latlon  <span class="py-comment"># 65.478515625, -17.75390625</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>geohash.decode(<span class="py-string">'geek'</span>)  <span class="py-comment"># '65.48', '-17.75'</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="neighbors"></a>
 <div>
@@ -1335,7 +1336,11 @@
   class="link">Geohash</a>es.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">neighbors(<span class="summary-sig-arg">self</span>)</span>
+        - Get all 8 adjacent cells as a <a 
+href="pygeodesy.geohash.Neighbors8Dict-class.html" 
+class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> of
+<a href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1344,12 +1349,10 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
-<div class="fields">      <p><strong>JS name:</strong>
-        <i>neighbours</i>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="philam"></a>
 <div>
@@ -1363,7 +1366,11 @@
   <code>radians</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude of (the approximate center of) this geohash as a
+<a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code> in 
+<code>radians</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1372,6 +1379,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1385,7 +1393,8 @@
   <p>Get this geohash's precision (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">precision(<span class="summary-sig-arg">self</span>)</span>
+        - Get this geohash's precision (<code>int</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1394,6 +1403,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1410,7 +1420,11 @@
   (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitudinal size of this cell as a <a 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
+(<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1419,6 +1433,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1434,7 +1449,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">N(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1443,6 +1460,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1458,7 +1476,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1467,6 +1487,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1482,7 +1503,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">E(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell East of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1491,6 +1514,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1506,7 +1530,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
+class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1515,6 +1541,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1530,7 +1557,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">NE(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell NorthEast of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1539,6 +1568,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1554,7 +1584,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">NW(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell NorthWest of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1563,6 +1595,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1578,7 +1611,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">SE(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell SouthEast of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1587,6 +1622,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1602,7 +1638,9 @@
   class="link">Geohash</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">SW(<span class="summary-sig-arg">self</span>)</span>
+        - Get the cell SouthWest of this (<a 
+href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1611,6 +1649,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1647,7 +1686,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:42 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

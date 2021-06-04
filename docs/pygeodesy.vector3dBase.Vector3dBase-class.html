@@ -2269,7 +2269,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   <p>Approximate the length (norm, magnitude) of this vector.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">euclid(<span class="summary-sig-arg">self</span>)</span>
+        - Approximate the length (norm, magnitude) of this vector.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2278,6 +2279,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2297,7 +2299,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
+        - Get the length (norm, magnitude) of this vector (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2306,6 +2309,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2326,7 +2330,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   <p>Get the length <i>squared</i> of this vector (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">length2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the length <i>squared</i> of this vector (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2335,6 +2340,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2353,7 +2359,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   <p>Get the X component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
+        - Get the X component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2362,6 +2369,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -2377,7 +2385,10 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   class="link">Vector3Tuple</a><code>(x, y, z)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get the X, Y and Z components (<a 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a><code>(x, y, z)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2386,6 +2397,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -2399,7 +2411,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   <p>Get the Y component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
+        - Get the Y component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2408,6 +2421,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -2421,7 +2435,8 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
   <p>Get the Z component (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">z(<span class="summary-sig-arg">self</span>)</span>
+        - Get the Z component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2430,6 +2445,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -2466,7 +2482,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:47 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:45 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

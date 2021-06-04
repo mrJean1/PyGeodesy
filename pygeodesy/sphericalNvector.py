@@ -37,9 +37,11 @@ from pygeodesy.basics import isscalar, neg, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
-from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, _Nv00_, \
-                             _other_, _point_, _points_, _pole_, _0_0, _0_5
+from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, \
+                             _Nv00_, _other_, _point_, _points_, \
+                             _pole_, _0_0, _0_5, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.named import notImplemented
 from pygeodesy.namedTuples import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
                                   sumOf as _sumOf, _triangulate, _trilaterate
@@ -53,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.04.24'
+__version__ = '21.06.03'
 
 _paths_ = 'paths'
 
@@ -574,7 +576,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @arg point1: Start point of the arc (L{LatLon}).
            @arg point2: End point of the arc (L{LatLon}).
            @kwarg height: Optional height, overriding the mean height
-                          for the point within the arc (C{meter}).
+                          for the point within the arc (C{meter}), or
+                          C{None} to interpolate the height.
            @kwarg within: If C{True} return the closest point between
                           both given points, otherwise the closest
                           point elsewhere on the arc (C{bool}).
@@ -603,8 +606,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{nearestPointOnSegment}.
         '''
         if wrap:  # wrap=True throws C{NotImplementedError} always.
-            from pygeodesy.named import notImplemented
-            notImplemented(self, self.nearestOn, wrap=wrap)
+            notImplemented(self, wrap=wrap)
 
         if self.iswithin(point1, point2) and not point1.isequalTo(point2, EPS):
             # closer to arc than to its endpoints,
@@ -626,10 +628,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                 return point2
 
         p = n.toLatLon(height=height or 0, LatLon=self.classof)
-        if height is None:  # interpolate height within extent
-            d = point1.distanceTo(point2)
-            f = max(0, min(1, point1.distanceTo(p) / d)) if d > EPS0 else _0_5
-            p.height = point1._havg(point2, f=f)
+        if height in (None, False):  # interpolate height within extent
+            d =  point1.distanceTo(point2)
+            f = (point1.distanceTo(p) / d) if d > EPS0 else _0_5
+            p.height = point1._havg(point2, f=max(_0_0, min(f, _1_0)))
         return p
 
     # @deprecated_method

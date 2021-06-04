@@ -21,7 +21,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.05.10'
+__version__ = '21.06.02'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -89,8 +89,9 @@ def atan2b(y, x):
     return d
 
 
-def atan2d(y, x):
-    '''Return C{atan2(B{y}, B{x})} in degrees M{[-180..+180]}.
+def atan2d(y, x, reverse=False):
+    '''Return C{atan2(B{y}, B{x})} in degrees M{[-180..+180]},
+       optionally reversed (for C{azi2}).
 
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}.
@@ -104,8 +105,10 @@ def atan2d(y, x):
         d = copysign(_180_0, y) - degrees(atan2(y, -x))
     elif x > 0:  # q = 0
         d = degrees(atan2(y, x)) if y else _0_0
-    else:
+    else:  # x == 0
         d = -_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
+    if reverse:
+        d += _180_0 if d < 0 else -_180_0
     return d
 
 

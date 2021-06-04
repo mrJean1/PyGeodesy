@@ -9,18 +9,16 @@ see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
 
 from pygeodesy.errors import _or
-from pygeodesy.interns import MIN as _MIN, _not_, \
-                             _0_0, _2_0, _180_0
+from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
 from pygeodesy.karney import GeodesicError, Property, _3sum2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase
 # from pygeodesy.props import Property  # from .karney
-from pygeodesy.utily import atan2d
 
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.05.29'
+__version__ = '21.06.02'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -113,14 +111,6 @@ class _GeodesicBase(_NamedBase):  # in .geodsolve
 
     _debug        = 0  # or Caps._DEBUG_...
 
-    def _atan2d(self, s, c, reverse2):
-        '''(INTERNAL) Angle in C{degrees}, optional reverse C{azi}.
-        '''
-        a = atan2d(s, c)
-        if reverse2:
-            a += _180_0 if a < 0 else -_180_0
-        return a
-
 #   def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
 #       '''Return this C{GeodesicExact*} items string.
 #
@@ -135,7 +125,7 @@ class _GeodesicBase(_NamedBase):  # in .geodsolve
 
     @Property
     def debug(self):
-        '''Get the C{debug} option.
+        '''Get the C{debug} option (C{bool}).
         '''
         return bool(self._debug)
 
@@ -158,7 +148,7 @@ def _all_caps(_caps, caps):  # PYCHOK shared
 
 
 def _coSeries(c4s, sx, cx):  # PYCHOK shared
-    '''(INTERNAL) Cosine series expansion using U{Clenshaw
+    '''(INTERNAL) I{Karney}'s cosine series expansion using U{Clenshaw
        summation<https://WikiPedia.org/wiki/Clenshaw_algorithm>}.
     '''
     ar = _2_0 * (cx - sx) * (cx + sx)  # 2 * cos(2 * x)

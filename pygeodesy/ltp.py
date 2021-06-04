@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Local tangent plane} (LTP) and I{local} cartesian coordinates.
+u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates.
 
 I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian} and L{Ltp},
 L{LocalError} and L{Frustum}.
@@ -31,7 +31,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.04.22'
+__version__ = '21.06.04'
 
 _Xyz_ = 'Xyz'
 
@@ -124,7 +124,7 @@ class LocalCartesian(_NamedBase):
             r = r.toXyz(Xyz=Xyz, **Xyz_kwds)
         return r
 
-    def forward(self, latlonh, lon=None, height=0, M=False):
+    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''Convert I{geodetic} C{(lat, lon, height)} to I{local} cartesian
            C{(x, y, z)}.
 
@@ -135,6 +135,7 @@ class LocalCartesian(_NamedBase):
            @kwarg height: Optional height (C{meter}), vertically above (or below)
                           the surface of the ellipsoid.
            @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg name: Optional name (C{str}).
 
            @return: A L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)}
                     with I{local} C{x}, C{y}, C{z}, I{geodetic} C{(lat}, C{lon},
@@ -150,7 +151,7 @@ class LocalCartesian(_NamedBase):
 
            @see: Note at method L{EcefKarney.forward}.
         '''
-        lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError)
+        lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError, name=name)
         t = self.ecef.forward(lat, lon, h, M=M)
         x, y, z = self.M.rotate(t.xyz, *self._xyz0)
         m = self.M.multiply(t.M) if M else None
@@ -215,22 +216,23 @@ class LocalCartesian(_NamedBase):
         self._update(True)  # force reset
 
         lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0,
-                                        suffix=_0_, Error=LocalError)
-        if name:
-            n = name
+                                        suffix=_0_, Error=LocalError, name=name)
         if n:
             self.rename(n)
-            self.ecef.rename(n)
-        self._t0 = self.ecef.forward(lat0, lon0, height0, M=True)
+        else:
+            n = self.name
+        self._t0 = self.ecef.forward(lat0, lon0, height0, M=True, name=n)
 
-    def reverse(self, xyz, y=None, z=None, M=False):
+    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
         '''Convert I{local} C{(x, y, z)} to I{geodetic} C{(lat, lon, height)}.
 
            @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local9Tuple}) or
                      local C{x} coordinate (C{scalar}).
            @kwarg y: Local C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: Local C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
-           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix} (C{bool}).
+           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
+                     I{iff avaialble} (C{bool}).
+           @kwarg name: Optional name (C{str}).
 
            @return: An L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)} with
                     I{local} C{x}, C{y}, C{z}, I{geodetic} C{lat}, C{lon}, C{height},
@@ -243,7 +245,7 @@ class LocalCartesian(_NamedBase):
 
            @see: Note at method L{EcefKarney.reverse}.
         '''
-        x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError)
+        x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError, name=name)
         c = self.M.unrotate((x, y, z), *self._xyz0)
         t = self.ecef.reverse(*c, M=M)
         m = self.M.multiply(t.M) if M else None

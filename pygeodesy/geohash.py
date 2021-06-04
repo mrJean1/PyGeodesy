@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.05.26'
+__version__ = '21.06.03'
 
 
 class _GH(object):
@@ -364,11 +364,6 @@ class Geohash(Str):
     def latlon(self):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
-
-           @example:
-
-            >>> geohash.Geohash('geek').latlon  # 65.478515625, -17.75390625
-            >>> geohash.decode('geek')  # '65.48', '-17.75'
         '''
         lat, lon = self._latlon or _2center(self.bounds())
         return LatLon2Tuple(lat, lon, name=self.name)
@@ -377,8 +372,6 @@ class Geohash(Str):
     def neighbors(self):
         '''Get all 8 adjacent cells as a L{Neighbors8Dict}C{(N, NE,
            E, SE, S, SW, W, NW)} of L{Geohash}es.
-
-           @JSname: I{neighbours}.
         '''
         return Neighbors8Dict(N=self.N, NE=self.NE, E=self.E, SE=self.SE,
                               S=self.S, SW=self.SW, W=self.W, NW=self.NW,

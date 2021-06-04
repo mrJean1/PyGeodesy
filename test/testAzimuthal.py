@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '21.05.22'
+__version__ = '21.06.03'
 
 from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -67,7 +67,7 @@ class Tests(TestsBase):
         # equidistance projections for distances beyond 10,000 Km
         # (about one quarter of the earth circumference), see
         # <https://WikiPedia.org/wiki/Azimuthal_equidistant_projection>
-        from pygeodesy.ellipsoidalBase import _intersects2 as _ei2
+        from pygeodesy.ellipsoidalBaseDI import _intersects2 as _ei2
         from pygeodesy.sphericalTrigonometry import _intersects2 as _si2
 
         def _100p(p, q, w):

@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.04.22'
+__version__ = '21.06.01'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -163,7 +163,7 @@ class UtmUpsBase(_NamedBase):
         '''
         E = self._Error
         if not E:
-            notOverloaded(self, '_Error')
+            notOverloaded(self, callername='_Error')
 
         self._easting  = Easting(easting,   Error=E)
         self._northing = Northing(northing, Error=E)
@@ -249,7 +249,7 @@ class UtmUpsBase(_NamedBase):
     def falsed2(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.falsed2)
+        notOverloaded(self)
 
     @Property_RO
     def hemisphere(self):

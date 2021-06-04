@@ -114,15 +114,16 @@ Tests
 
 The tests have been run with Python 3.9.5 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50), Python 3.8.6 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
-<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
-(with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
-macOS 11.4 (10.16) Big Sur and in 64-bit (and Intel) only.  The
-tests are run with and without C{lazy import} for Python 3 and with
-C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for
-all Python versions.  The results of those tests are included in
-the distribution files.
+<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with
+U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51
+and U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on macOS 11.4
+(10.16) Big Sur and in 64-bit (and Intel) only.  The tests are run with
+and without C{lazy import} for Python 3 and with C{-W always} and
+environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.
+The results of only those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.5 (with
@@ -159,10 +160,10 @@ Previously, the tests were run with Python 3.9.0-4, 3.8.0-5, 3.7.2-6, 3.7.0,
 Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra,
 macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with
 U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49
-or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10,
-with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3,
-11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on
-Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
+or 1.50 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or
+iPhone10, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3,
+11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14
+on Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -191,17 +192,20 @@ Env vars
 The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
- - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{isLazy}.
- - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{DeprecationWarnings}.
- - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
 
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
  - C{PYGEODESY_FLOAT_STD_REPR} - see method L{pygeodesy.Float}C{.__repr__}.
  - C{PYGEODESY_INT_STD_REPR} - see method L{pygeodesy.Int}C{.__repr__}.
  - C{PYGEODESY_METER_STD_REPR} - see method L{pygeodesy.Meter}C{.__repr__}.
  - C{PYGEODESY_STR_STD_REPR} - see method L{pygeodesy.Str}C{.__repr__}.
+
+plus during development:
+
+ - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
+ - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{DeprecationWarnings}.
+ - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
 
 License
 =======
@@ -508,11 +512,11 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.05.31'
+__version__ = '21.06.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
-# XXX del ellipsoidalBase, sphericalBase, utmupsBase  # PYCHOK expected
+# XXX del ellipsoidalBase, ellipsoidalBaseDI, sphericalBase, utmupsBase  # PYCHOK expected
 del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License

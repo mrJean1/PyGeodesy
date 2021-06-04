@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.04.22'
+__version__ = '21.06.01'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -299,7 +299,7 @@ class _GeoidBase(_HeightBase):
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, self._g2ll2, lat, lon)
+        notOverloaded(self, lat, lon)
 
     def _gyx2g2(self, y, x):
         # convert grid (y, x) indices to grid (lat, lon)
@@ -314,7 +314,7 @@ class _GeoidBase(_HeightBase):
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, self._ll2g2, lat, lon)
+        notOverloaded(self, lat, lon)
 
     def _llh3(self, lat, lon):
         return LatLon3Tuple(lat, lon, self._hGeoid(lat, lon), name=self.name)

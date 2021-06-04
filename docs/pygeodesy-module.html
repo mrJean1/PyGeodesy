@@ -221,15 +221,19 @@
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeodSolve</a> 1.51, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeodSolve</a> 1.51 and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
     all on macOS 11.4 (10.16) Big Sur and in 64-bit (and Intel) only.  The 
     tests are run with and without <code>lazy import</code> for Python 3 
     and with <code>-W always</code> and environment variable 
-    <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
-    results of those tests are included in the distribution files.</p>
+    <code>PYGEODESY_WARNINGS=on</code> for all Python versions. The results
+    of only those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.9.5 (with <a 
@@ -278,8 +282,8 @@
     Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista3.2</a> (with geographiclib 1.49 or 1.50 and 
-    numpy 1.8.0) on iOS 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, 
-    with <a href="https://OMZ-Software.com/pythonista" 
+    numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or 
+    iPhone10, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
     on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 
     10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.</p>
@@ -317,10 +321,6 @@
         class="link">pygeodesy.errors</a>.
       </li>
       <li>
-        <code>PYGEODESY_FOR_DOCS</code> - for extended documentation by 
-        <code>epydoc</code>.
-      </li>
-      <li>
         <code>PYGEODESY_GEODSOLVE</code> - see module <a 
         href="pygeodesy.geodsolve-module.html" 
         class="link">pygeodesy.geodsolve</a>.
@@ -330,20 +330,6 @@
         href="pygeodesy.lazily-module.html" 
         class="link">pygeodesy.lazily</a> and variable <a 
         href="pygeodesy-module.html#isLazy" class="link">isLazy</a>.
-      </li>
-      <li>
-        <code>PYGEODESY_WARNINGS</code> - see module <a 
-        href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
-        and function <a 
-        href="pygeodesy.props-module.html#DeprecationWarnings" 
-        class="link">DeprecationWarnings</a>.
-      </li>
-      <li>
-        <code>PYTHONDEVMODE</code> - see modules <a 
-        href="pygeodesy.errors-module.html" 
-        class="link">pygeodesy.errors</a> and <a 
-        href="pygeodesy.props-module.html" 
-        class="link">pygeodesy.props</a>.
       </li>
       <li>
         <code>PYGEODESY_BOOL_STD_REPR</code> - see method <a 
@@ -371,6 +357,27 @@
         class="link">pygeodesy.Str</a><code>.__repr__</code>.
       </li>
     </ul>
+    <p>plus during development:</p>
+    <ul>
+      <li>
+        <code>PYGEODESY_FOR_DOCS</code> - for extended documentation by 
+        <code>epydoc</code>.
+      </li>
+      <li>
+        <code>PYGEODESY_WARNINGS</code> - see module <a 
+        href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
+        and function <a 
+        href="pygeodesy.props-module.html#DeprecationWarnings" 
+        class="link">DeprecationWarnings</a>.
+      </li>
+      <li>
+        <code>PYTHONDEVMODE</code> - see modules <a 
+        href="pygeodesy.errors-module.html" 
+        class="link">pygeodesy.errors</a> and <a 
+        href="pygeodesy.props-module.html" 
+        class="link">pygeodesy.props</a>.
+      </li>
+    </ul>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
     target="_top">Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights
@@ -396,7 +403,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.05.31
+        21.06.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -433,8 +440,12 @@
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy bases.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact-module.html">pygeodesy.ellipsoidalExact</a></strong>: <em class="summary">Exact ellipsoidal geodesy.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy base classes 
+        <code>CartesianEllipsoidalBase</code> and 
+        <code>LatLonEllipsoidalBase</code>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBaseDI-module.html" onclick="show_private();">pygeodesy.ellipsoidalBaseDI</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal direct/inverse geodesy base class 
+        <code>LatLonEllipsoidalBaseDI</code> and functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact-module.html">pygeodesy.ellipsoidalExact</a></strong>: <em class="summary">Exact ellipsoidal geodesy using <i>Karney</i>'s Exact Geodesic.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve-module.html">pygeodesy.ellipsoidalGeodSolve</a></strong>: <em class="summary">Exact ellipsoidal geodesy, intended <i>for testing purposes 
         only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal, <i>Karney</i>-based geodesy.</em>    </li>
@@ -455,13 +466,13 @@
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>
     <ul>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_24-module.html">pygeodesy.geodesicx._C4_24</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_24-module.html">pygeodesy.geodesicx._C4_24</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_27-module.html">pygeodesy.geodesicx._C4_27</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_27-module.html">pygeodesy.geodesicx._C4_27</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_30-module.html">pygeodesy.geodesicx._C4_30</a></strong>: <em class="summary">A pure Python version of part of <i>Karney</i>'s C++ module <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_30-module.html">pygeodesy.geodesicx._C4_30</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExactC4.html"
         target="_top">GeodesicExactC4</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.__main__-module.html">pygeodesy.geodesicx.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy.geodesicx-module.html" 
@@ -491,7 +502,7 @@
         <code>intern</code>'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>.</em>    </li>
+        target="_top">geographiclib</a>, wrapped.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -501,9 +512,9 @@
         target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
         href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert Conformal Conic (LCC) projection.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local tangent plane</i> (LTP) and <i>local</i> cartesian 
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local Tangent Plane</i> (LTP) and <i>local</i> cartesian 
         coordinates.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Named, <i>local tangent plane</i> (LTP) tuples.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Named, <i>Local Tangent Plane</i> (LTP) tuples.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Nameable class instances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Named tuples.</em>    </li>
@@ -511,7 +522,7 @@
         <code>Nvector</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Utilities for point lists, tuples, etc.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Im-/mutable, caching or memoizing property and deprecation 
+    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Im-/mutable, caching or memoizing properties and deprecation 
         decorators.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Simplify or linearize a path.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical geodesy bases.</em>    </li>
@@ -519,7 +530,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary"><code>Float</code>, <code>int</code> and <code>str</code>ing units.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various <code>Float</code>, <code>Int</code> and 
+        <code>Str</code>ing units.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary"><i>Karney</i>'s Universal Polar Stereographic (UPS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Various utility functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
@@ -789,13 +801,13 @@
         <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" class="summary-name">Azimuthal7Tuple</a><br />
       7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
-        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>degrees180</code>, compass <code>degrees</code>, 
         <code>scalar</code> and <code>Datum</code> where <code>(x, 
-        y)</code> is the projected easting and northing of point, 
+        y)</code> is the easting and northing of a projected point, 
         <code>(lat, lon)</code> the geodetic location, <code>azimuth</code>
-        the azimuth direction clockwise from true North and 
-        <code>scale</code> is the projection scale, either <code>1 / 
-        reciprocal</code> or <code>1</code> or <code>-1</code> in the <a 
+        the azimuth, clockwise from true North and <code>scale</code> is 
+        the projection scale, either <code>1 / reciprocal</code> or 
+        <code>1</code> or <code>-1</code> in the <a 
         href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a> case.
     </td>
@@ -1311,7 +1323,7 @@
       Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
-        target="_top">transformations</a>.
+        target="_top">transformation</a>.
     </td>
   </tr>
 <tr>
@@ -1328,10 +1340,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
-      Ellipsoid with <i>equatorial</i> and <i>polar</i> radius, 
+      Ellipsoid with <i>equatorial</i> and <i>polar</i> radii, 
         <i>flattening</i>, <i>inverse flattening</i> and other, often used,
-        cached attributes, supporting <i>spherical</i> and <i>oblate</i> 
-        and <i>prolate</i> ellipsoidal models.
+        <i>cached</i> attributes, supporting <i>oblate</i> and 
+        <i>prolate</i> ellipsoidal and <i>spherical</i> earth models.
     </td>
   </tr>
 <tr>
@@ -2532,6 +2544,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" class="summary-name">Intersection3Tuple</a><br />
+      3-Tuple <code>(point, outside1, outside2)</code> of an intersection
+        <code>point</code> and <code>outside1</code>, the position of the 
+        <code>point</code>, <code>-1</code> if before the start, 
+        <code>+1</code> if after the end and <code>0</code> if on or 
+        between the stat and end point of the first line.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.errors.IntersectionError-class.html" class="summary-name">IntersectionError</a><br />
       Error raised for path or circle intersection issues.
     </td>
@@ -2960,6 +2984,14 @@
         <a href="pygeodesy.units.Northing-class.html" class="summary-name">Northing</a><br />
       Named <code>float</code> representing a northing, conventionally in
         <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.errors.NumPyError-class.html" class="summary-name">NumPyError</a><br />
+      Error raised for <code>NumPy</code> errors.
     </td>
   </tr>
 <tr>
@@ -4055,9 +4087,11 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#atan2d" class="summary-sig-name">atan2d</a>(<span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">x</span>)</span><br />
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-      class="math">[-180..+180]</i>.</td>
+      class="math">[-180..+180]</i>, optionally reversed (for 
+      <code>azi2</code>).</td>
           <td align="right" valign="top">
             
             
@@ -6526,7 +6560,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed31f0a250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fec473c33d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6854,12 +6888,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersection3d" class="summary-sig-name">intersection3d</a>(<span class="summary-sig-arg">start1</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersection3d3" class="summary-sig-name">intersection3d3</a>(<span class="summary-sig-arg">start1</span>,
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
-        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
@@ -8030,7 +8063,6 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#notImplemented" class="summary-sig-name">notImplemented</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Raise a <code>NotImplementedError</code> for a missing method or 
@@ -8051,7 +8083,6 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#notOverloaded" class="summary-sig-name">notOverloaded</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Raise an <code>AssertionError</code> for a method or property not 
@@ -8786,7 +8817,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -8831,7 +8862,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
@@ -8854,7 +8885,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
@@ -8877,7 +8908,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">pipe</span>,
+        <span class="summary-sig-arg">pipe</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
@@ -8900,7 +8931,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">area</span>,
+        <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
@@ -8923,7 +8954,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">area</span>,
+        <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
@@ -9853,7 +9884,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.5.31'"><code class="variable-quote">'</code><code class="variable-string">21.5.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.6.6'"><code class="variable-quote">'</code><code class="variable-string">21.6.6</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11246,7 +11277,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">atan2d</span>&nbsp;(<span class="sig-arg">y</span>,
-        <span class="sig-arg">x</span>)</span>
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">reverse</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11254,7 +11286,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-  class="math">[-180..+180]</i>.</p>
+  class="math">[-180..+180]</i>, optionally reversed (for 
+  <code>azi2</code>).</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -16174,7 +16207,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed31f0a250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fec473c33d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16865,19 +16898,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
-<a name="intersection3d"></a>
+<a name="intersection3d3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d</span>&nbsp;(<span class="sig-arg">start1</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d3</span>&nbsp;(<span class="sig-arg">start1</span>,
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
-        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Vector_kwds</span>)</span>
@@ -16909,8 +16941,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> the intersection point must be on or between
-          the start and end points (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code> use the Z component, if <code>False</code> 
           force <code>z=0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
@@ -16923,22 +16953,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Intersection point (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <code>Vector</code>).</dd>
+        <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
+          class="link">Intersection3Tuple</a><code>(point, outside1, 
+          outside2)</code> with <code>point</code> a <code>Vector3d</code> 
+          or <b><code>Vector</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines or 
-        the intersection point is outside, not between the start and end 
-        points and <code><b>within</b>=True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Line-line <a 
-        href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
-        target="_top">intersection</a> and <a 
+        <a href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
+        target="_top">Line-line intersection</a> and <a 
         href="https://MathWorld.Wolfram.com/Line-LineDistance.html" 
-        target="_top">distance</a>, <a 
+        target="_top">line-line distance</a>, <a 
         href="https://MathWorld.Wolfram.com/SkewLines.html" 
         target="_top">skew lines</a> and <a 
         href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
@@ -18864,7 +18892,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code><b>LatLon</b>=None</code>, a <a 
           href="pygeodesy.points.NearestOn5Tuple-class.html" 
           class="link">NearestOn5Tuple</a><code>(lat, lon, distance, angle,
-          height)</code> where <code>distance</code> is the <a 
+          height)</code>. The <code>distance</code> is the <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the 
           <code>closest</code> and reference <b><code>point</code></b> in 
@@ -19033,7 +19061,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">notImplemented</span>&nbsp;(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">name</span>,
         <span class="sig-arg">*args</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -19048,8 +19075,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Method, property or name (<code>str</code> or 
-          <code>callable</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
     </ul></dd>
@@ -19064,7 +19089,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">notOverloaded</span>&nbsp;(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">name</span>,
         <span class="sig-arg">*args</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -19079,8 +19103,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Method, property or name (<code>str</code> or 
-          <code>callable</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
     </ul></dd>
@@ -20591,7 +20613,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -20669,7 +20691,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
@@ -20724,7 +20746,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
@@ -20779,7 +20801,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRW</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">pipe</span>,
+        <span class="sig-arg">pipe</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
@@ -20798,7 +20820,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>pipe</code></strong> - Half pipe width (<code>meter</code>, same units as 
+        <li><strong class="pname"><code>pipe</code></strong> - Pipe radius, half-width (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
@@ -20830,7 +20852,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">area</span>,
+        <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
@@ -20844,7 +20866,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <p>Visvalingam-Whyatt (VW) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance (squared).</p>
+  exceeding the given area tolerance <i>squared</i>.</p>
   <p>This <code>VW</code> method exhaustively searches for the single point
   with the smallest triangular area, resulting in worst-case complexity <i 
   class="math">O(n**2)</i> where <i class="math">n</i> is the number of 
@@ -20856,7 +20878,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute save area value (<code>str</code>).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
+          (<code>str</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
@@ -20887,7 +20910,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">area</span>,
+        <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
@@ -20901,7 +20924,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <p>Modified Visvalingam-Whyatt (VWm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance (squared).</p>
+  exceeding the given area tolerance <i>squared</i>.</p>
   <p>This <code>VWm</code> method removes all points with a triangular area
   below the tolerance in each iteration, significantly reducing the run 
   time (but producing results different from the original <code>VW</code> 
@@ -20913,7 +20936,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Optional attribute to save the area value (<code>str</code>).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
+          (<code>str</code>).</li>
         <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
           simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
@@ -22191,8 +22215,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres 
-        or <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -23101,7 +23125,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:36 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

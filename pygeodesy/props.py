@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Im-/mutable, caching or memoizing property and deprecation decorators.
+u'''Im-/mutable, caching or memoizing properties and deprecation decorators.
 
 To enable C{DeprecationWarning}s from C{PyGeodesy}, set environment
 variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
@@ -19,7 +19,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.04.24'
+__version__ =  '21.06.04'  # '21.04.24'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -84,9 +84,13 @@ class _PropertyBase(property):
         property.__init__(self, fget, fset, self._fdel, d or _N_A_)
 
     def _fdel(self, inst):  # deleter
+        '''Zap the I{cached}, I{memoized} C{property} value.
+        '''
         self._update(inst, None)   # PYCHOK no cover
 
     def _fget(self, inst):
+        '''Get and I{cache}, I{memoize} the C{property} value.
+        '''
         try:  # to get the value cached in instance' __dict__
             return inst.__dict__[self.name]
         except KeyError:
@@ -114,7 +118,7 @@ class _PropertyBase(property):
     def _update(self, inst, *unused):
         '''(INTERNAL) Zap the I{cached} C{inst.__dict__[name]} item.
         '''
-        inst.__dict__.pop(self.name, None)
+        inst.__dict__.pop(self.name, None)  # name, NOT _name
 
     def deleter(self, fdel):
         '''Throws an C{AttributeError}, always.
@@ -157,7 +161,8 @@ class Property_RO(_PropertyBase):
                  "Coding a Property Factory", especially Example 19-24 and U{class
                  Property<https://docs.Python.org/3/howto/descriptor.html>}.
         '''
-        _PropertyBase.__init__(self, method, self._fget, self._fset_error)
+        _fget = method if _FOR_DOCS else self._fget  # XXX force method.__doc__ to epydoc
+        _PropertyBase.__init__(self, method, _fget, self._fset_error)
 
     def __get__(self, inst, *unused):  # PYCHOK 2 vs 3 args
         if inst is None:
@@ -191,18 +196,24 @@ class Property(Property_RO):
         if not callable(method):
             _PropertyBase.setter(self, method)  # PYCHOK no cover
 
-        def _fset(inst, val):
-            method(inst, val)
-            self._update(inst)  # un-cache this item
+        if _FOR_DOCS:  # XXX force method.__doc__ into epydoc
+            _PropertyBase.__init__(self, self.method, self.method, method)
+        else:
 
-        # class Property <https://docs.Python.org/3/howto/descriptor.html>
-        _PropertyBase.__init__(self, self.method, self._fget, _fset)
+            def _fset(inst, val):
+                '''Set and I{cache}, I{memoize} the C{property} value.
+                '''
+                method(inst, val)
+                self._update(inst)  # un-cache this item
+
+            # class Property <https://docs.Python.org/3/howto/descriptor.html>
+            _PropertyBase.__init__(self, self.method, self._fget, _fset)
         return self
 
 
 class property_RO(_PropertyBase):
     # No __doc__ on purpose
-    _n = NN
+    _uname = NN
 
     def __init__(self, method, doc=NN):  # PYCHOK expected
         '''New I{immutable}, standard C{property} to be used as C{decorator}.
@@ -216,24 +227,24 @@ class property_RO(_PropertyBase):
            @see: L{Property_RO}.
         '''
         _PropertyBase.__init__(self, method, method, self._fset_error, doc=doc)
-        self._n = NN(_UNDER_, self.name)  # actual attr name
+        self._uname = NN(_UNDER_, self.name)  # actual attr UNDER<name>
 
     def _update(self, inst, *Clas):  # PYCHOK signature
-        '''(INTERNAL) Zap the I{cached} C{inst.__dict__[_name]} item.
+        '''(INTERNAL) Zap the I{cached} C{B{inst}.__dict__[_name]} item.
         '''
-        _n = self._n
-        if _n in inst.__dict__:
-            if Clas:
-                d = Clas[0].__dict__.get(_n, MISSING)
+        uname = self._uname
+        if uname in inst.__dict__:
+            if Clas:  # overrides inst.__class__
+                d = Clas[0].__dict__.get(uname, MISSING)
             else:
-                d = getattr(inst.__class__, _n, MISSING)
+                d = getattr(inst.__class__, uname, MISSING)
 #               if d is MISSING:  # XXX superfluous
 #                   for c in inst.__class__.__mro__[:-1]:
-#                       if _n in c.__dict__:
-#                           d = c.__dict__[_n]
+#                       if uname in c.__dict__:
+#                           d = c.__dict__[uname]
 #                           break
-            if d is None:  # reset inst value to unavailable
-                inst.__dict__.pop(_n)
+            if d is None:  # remove inst value
+                inst.__dict__.pop(uname)
 
 
 def property_doc_(doc):

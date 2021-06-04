@@ -31,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.04.22'
+__version__ = '21.06.04'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -62,7 +62,7 @@ class EcefCartesian(LocalCartesian):
         LocalCartesian.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
 
     @deprecated_method
-    def forward(self, latlonh, lon=None, height=0, M=False):
+    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''DEPRECATED, use method L{LocalCartesian.forward}.
 
            @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
@@ -70,13 +70,13 @@ class EcefCartesian(LocalCartesian):
                     I{geodetic} ones C{(lat, lon, height)}, case C{C=0} always,
                     optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
         '''
-        t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M)
+        t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
         return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
                                           0, t.M, t.ecef.datum,
                                           name=t.name or self.name)
 
     @deprecated_method
-    def reverse(self, xyz, y=None, z=None, M=False):
+    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
         '''DEPRECATED, use method L{LocalCartesian.reverse}.
 
            @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
@@ -84,7 +84,7 @@ class EcefCartesian(LocalCartesian):
                     the given I{local} ones C{(x, y, z)}, case C{C}, optionally
                     I{concatenated} L{EcefMatrix} C{M} and C{datum}.
         '''
-        t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M)
+        t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M, name=name)
         return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
                                           t.ecef.C, t.M, t.ecef.datum,
                                           name=t.name or self.name)

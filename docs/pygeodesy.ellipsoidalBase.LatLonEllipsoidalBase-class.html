@@ -75,7 +75,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.ellipsoidalExact.LatLon-class.html">ellipsoidalExact.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html">ellipsoidalGeodSolve.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">ellipsoidalKarney.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">ellipsoidalNvector.LatLon</a></li><li>, <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">ellipsoidalVincenty.LatLon</a></li>  </ul>
+<li><a href="pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html">ellipsoidalBaseDI.LatLonEllipsoidalBaseDI</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">ellipsoidalNvector.LatLon</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -274,6 +274,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3" class="summary-sig-name">intersection3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">end1</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">end2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
+      Interatively compute the intersection point of two paths, each 
+      defined by a start and end point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">other</span>,
@@ -282,8 +307,8 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Compute the intersection points of two circles each defined by a 
-      center point and a radius.</td>
+      Interatively compute the intersection points of two circles, each 
+      defined by a center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -307,7 +332,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Locate the closest point between two other points.</td>
+      Interatively locate the closest point between two other points.</td>
           <td align="right" valign="top">
             
             
@@ -332,6 +357,23 @@
       Parse a string representing a similar, ellipsoidal 
       <code>LatLon</code> point, consisting of <code>&quot;lat, lon[, 
       height]&quot;</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use method <code>toEcef</code>.</td>
           <td align="right" valign="top">
             
             
@@ -505,23 +547,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use method <code>toEcef</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5" class="summary-sig-name">trilaterate5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance1</span>,
         <span class="summary-sig-arg">point2</span>,
@@ -627,6 +652,18 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#Equidistant" class="summary-name">Equidistant</a><br />
+      Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+      href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+      class="link">EquidistantKarney</a> or <a 
+      href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+      class="link">EquidistantExact</a>).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1108,6 +1145,65 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="intersection3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">end1</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">end2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interatively compute the intersection point of two paths, each defined
+  by a start and end point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>end1</code></strong> - End point of this path (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - Start point of the other path (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>end2</code></strong> - End point of the other path (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection (<code>meter</code>, 
+          conventionally) or <code>None</code> for the mean height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
+          href="pygeodesy.azimuthal-module.html#equidistant" 
+          class="link">equidistant</a>), or <code>None</code> for this 
+          point's preferred <code>.Equidistant</code>.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Tolerance for skew line distance and length and for convergence 
+          (<code>meter</code>, conventionally).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
+          class="link">Intersection3Tuple</a><code>(point, outside1, 
+          outside2)</code> with <code>point</code> a <code>LatLon</code> 
+          instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> not installed or not found, but 
+        only if <code><b>equidistant</b>=</code><a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Skew, colinear, parallel or otherwise non-intersecting paths or no 
+        convergence for the <b><code>tol</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>end1</code></b>, <b><code>other</code></b> or 
+        <b><code>end2</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="intersections2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1129,26 +1225,23 @@
     </td>
   </tr></table>
   
-  <p>Compute the intersection points of two circles each defined by a 
-  center point and a radius.</p>
+  <p>Interatively compute the intersection points of two circles, each 
+  defined by a center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of the this circle (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of this circle (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>other</code></strong> - Center of the other circle (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius2</code></strong> - Radius of the other circle (<code>meter</code>, same units as 
           <b><code>radius1</code></b>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points, overriding the 
-          &quot;radical height&quot; at the &quot;radical line&quot; 
-          between both centers (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
+          conventionally) or <code>None</code> for the <i>&quot;radical 
+          height&quot;</i> at the <i>radical line</i> between both centers.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
-        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection class (<a 
-          href="pygeodesy.azimuthal.Equidistant-class.html" 
-          class="link">Equidistant</a> or <a 
-          href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
-          class="link">EquidistantKarney</a>), function <a 
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
-          class="link">equidistant</a> will be invoked if left unspecified.</li>
+          class="link">equidistant</a>), or <code>None</code> for this 
+          point's preferred <code>.Equidistant</code>.</li>
         <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>, same units as 
           <b><code>radius1</code></b> and <b><code>radius2</code></b>).</li>
     </ul></dd>
@@ -1159,7 +1252,10 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> not installed or not found.</li>
+        target="_top">geographiclib</a> not installed or not found, but 
+        only if <code><b>equidistant</b>=</code><a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
         convergence for <b><code>tol</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> or 
@@ -1202,7 +1298,7 @@
     </td>
   </tr></table>
   
-  <p>Locate the closest point between two other points.</p>
+  <p>Interatively locate the closest point between two other points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1212,26 +1308,32 @@
           <b><code>point1</code></b> and <b><code>point2</code></b>, 
           otherwise the closest point elsewhere on the arc 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>) or 
-          <code>None</code> to interpolate the height.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
+          conventionally) or <code>None</code> or <code>False</code> to 
+          interpolate the height.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
+          conventionally) or <code>None</code> or <code>False</code> for 
+          the interpolated height.  If <code>False</code>, the distance 
+          between points takes height into account.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
-        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection class (<a 
-          href="pygeodesy.azimuthal.Equidistant-class.html" 
-          class="link">Equidistant</a> or <a 
-          href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
-          class="link">EquidistantKarney</a>), function <a 
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
-          class="link">equidistant</a> will be invoked if left unspecified.</li>
-        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>).</li>
+          class="link">equidistant</a>), or <code>None</code> for this 
+          point's preferred <code>.Equidistant</code>.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> not installed or not found.</li>
+        target="_top">geographiclib</a> not installed or not found, but 
+        only if <code><b>equidistant</b>=</code><a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
         <b><code>equidistant</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No convergence for the <b><code>tol</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1279,6 +1381,38 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="to3xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <code>toEcef</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz">latlonBase.LatLonBase.to3xyz</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Overloads <code>LatLonBase.to3xyz</code>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toDatum"></a>
 <div>
@@ -1569,38 +1703,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="to3xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use method <code>toEcef</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
-    <dt>Decorators:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code>@deprecated_method</code></li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz">latlonBase.LatLonBase.to3xyz</a>
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Overloads <code>LatLonBase.to3xyz</code>
-      </p>
-</div></td></tr></table>
-</div>
 <a name="trilaterate5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1701,6 +1803,38 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="Equidistant"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Equidistant</h3>
+  <p>Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+  href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+  class="link">EquidistantKarney</a> or <a 
+  href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+  class="link">EquidistantExact</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Equidistant(<span class="summary-sig-arg">self</span>)</span>
+        - Get the prefered azimuthal equidistant projection <i>class</i> (<a 
+href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+class="link">EquidistantKarney</a> or <a 
+href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+class="link">EquidistantExact</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="convergence"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1727,6 +1861,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1798,6 +1933,7 @@ available/applicable.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1837,7 +1973,11 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
   href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's UTM grid or UPS point scale factor (<code>float</code>) or
+<code>None</code> if not converted from <a 
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1846,6 +1986,7 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1882,7 +2023,7 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:40 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:41 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

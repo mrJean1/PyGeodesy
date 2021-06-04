@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.05.10'
+__version__ = '21.06.03'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -395,7 +395,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _findall(self, point, start_end):  # PYCHOK no cover
         '''(INTERNAL) I{Must be implemented/overloaded}.
         '''
-        notImplemented(self, self._findall, point, start_end)
+        notImplemented(self, point, start_end)
 
     def _getitem(self, index):
         '''(INTERNAL) Return point [index] or return a slice.
@@ -443,7 +443,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
            @arg attrs: Optional arguments.
         '''
-        notOverloaded(self, self.point, *attrs)
+        notOverloaded(self, *attrs)
 
     def _range(self, start=None, end=None, step=1):
         '''(INTERNAL) Return the range.
@@ -697,7 +697,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def _subset(self, indices):  # PYCHOK no cover
         '''(INTERNAL) I{Must be implemented/overloaded}.
         '''
-        notImplemented(self, self._subset, indices)
+        notImplemented(self, indices)
 
     def subset(self, indices):
         '''Return a subset of the C{NumPy} array.
@@ -1558,9 +1558,9 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 {closest} point (B{C{LatLon}}) or if C{B{LatLon}=None}, a
-                L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)} where
-                C{distance} is the L{equirectangular_} distance between the
-                C{closest} and reference B{C{point}} in C{degrees}.  The
+                L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)}.
+                The C{distance} is the L{equirectangular_} distance between
+                the C{closest} and reference B{C{point}} in C{degrees}.  The
                 C{angle} from the reference B{C{point}} to the C{closest} is
                 in compass C{degrees360}, like function L{compassAngle}.
 

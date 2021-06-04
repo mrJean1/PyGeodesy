@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = ()
-__version__ = '21.05.28'
+__version__ = '21.06.02'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -263,9 +263,9 @@ class GeodesicExact(_GeodesicBase):
     def C4Order(self, order):
         '''Set the series expansion order.
 
-           @arg n: New order (C{int}, 24, 27 or 30).
+           @arg order: New order (C{int}, 24, 27 or 30).
 
-           @raise GeodesicError: Invalid B{C{n}}.
+           @raise GeodesicError: Invalid B{C{order}}.
         '''
         _xnC4(C4Order=order)
         if self._nC4 != order:
@@ -655,7 +655,7 @@ class GeodesicExact(_GeodesicBase):
         r.set_(a12=a12)  # in [0, 180]
         if (outmask & Caps.AZIMUTH):
             r.set_(azi1=atan2d(salp1, calp1),
-                   azi2=self._atan2d(salp2, calp2, outmask & Caps.REVERSE2))
+                   azi2=atan2d(salp2, calp2, reverse=outmask & Caps.REVERSE2))
         if (outmask & Caps._SALPs_CALPs):
             r.set_(salp1=salp1, calp1=calp1,
                    salp2=salp2, calp2=calp2)

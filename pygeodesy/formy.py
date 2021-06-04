@@ -29,7 +29,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.05.22'
+__version__ = '21.06.03'
 
 
 def _non0(x):
@@ -1124,7 +1124,7 @@ def philam2n_xyz(phi, lam, name=NN):
     return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
 
 
-def _radical2(d, r1, r2):  # in .ellipsoidalBase, .sphericalTrigonometry, .vector3d
+def _radical2(d, r1, r2):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
     # assert d > EPS0
     r = fsum_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5

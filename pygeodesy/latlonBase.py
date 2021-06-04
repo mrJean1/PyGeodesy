@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.05.19'
+__version__ = '21.06.01'
 
 
 class LatLonBase(_NamedBase):
@@ -260,7 +260,7 @@ class LatLonBase(_NamedBase):
     def datum(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.datum)
+        notOverloaded(self)
 
     def destinationXyz(self, delta, LatLon=None, **LatLon_kwds):
         '''Calculate the destination using a I{local} delta from this point.
@@ -1028,10 +1028,10 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
     '''(INTERNAL) Trilaterate three points by area overlap or by
        perimeter intersection of three circles.
 
-       @note: The B{C{radius}} is only needed for both n-vectorial
-              and the sphericalTrigonometry C{LatLon.distanceTo}
-              methods and silently ignored by ellipsoidalKarney
-              and ellipsoidalVincenty C{LatLon.distanceTo}.
+       @note: The B{C{radius}} is only needed for both n-vectorial and
+              the sphericalTrigonometry C{LatLon.distanceTo} methods and
+              silently ignored by the C{ellipsoidalExact} C{-GeodSolve},
+              C{-Karney} and C{-Vincenty.LatLon.distanceTo} methods.
     '''
     r1 = Distance_(distance1=d1)
     r2 = Distance_(distance2=d2)

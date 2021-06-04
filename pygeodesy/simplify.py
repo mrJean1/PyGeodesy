@@ -78,12 +78,13 @@ from pygeodesy.fmath import sqrt0
 from pygeodesy.formy import equirectangular_
 from pygeodesy.interns import EPS, R_M, _small_, _too_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.units import _1mm
 from pygeodesy.utily import isNumpy2, isTuple2
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.04.24'
+__version__ = '21.06.02'
 
 
 # try:
@@ -372,14 +373,14 @@ class _Sy(object):
         return self.points(r)
 
 
-def simplify1(points, distance, radius=R_M, indices=False, **options):
+def simplify1(points, distance=_1mm, radius=R_M, indices=False, **options):
     '''Basic simplification of a path of C{LatLon} points.
 
        Eliminates any points closer together than the given distance
        tolerance.
 
        @arg points: Path points (C{LatLon}[]).
-       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg indices: Optionally return the simplified point indices
                        instead of the simplified points (C{bool}).
@@ -409,8 +410,8 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
     return S.points(r)
 
 
-def simplifyRDP(points, distance, radius=R_M, shortest=False,
-                                  indices=False, **options):
+def simplifyRDP(points, distance=_1mm, radius=R_M, shortest=False,
+                                       indices=False, **options):
     '''Ramer-Douglas-Peucker (RDP) simplification of a path of
        C{LatLon} points.
 
@@ -422,7 +423,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        M{O(n**2)} where M{n} is the number of points.
 
        @arg points: Path points (C{LatLon}[]).
-       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg shortest: Optional, shortest or perpendicular distance
                         (C{bool}).
@@ -443,8 +444,8 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
     return S.rdp(False)
 
 
-def simplifyRDPm(points, distance, radius=R_M, shortest=False,
-                                   indices=False, **options):
+def simplifyRDPm(points, distance=_1mm, radius=R_M, shortest=False,
+                                        indices=False, **options):
     '''Modified Ramer-Douglas-Peucker (RDPm) simplification of a path
        of C{LatLon} points.
 
@@ -456,7 +457,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        (but producing results different from the original C{RDP} method).
 
        @arg points: Path points (C{LatLon}[]).
-       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg shortest: Optional, shortest or perpendicular distance
                         (C{bool}).
@@ -477,15 +478,16 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
     return S.rdp(True)
 
 
-def simplifyRW(points, pipe, radius=R_M, shortest=False,
-                             indices=False, **options):
+def simplifyRW(points, pipe=_1mm, radius=R_M, shortest=False,
+                                  indices=False, **options):
     '''Reumann-Witkam (RW) simplification of a path of C{LatLon} points.
 
        Eliminates any points too close together or within the given
        pipe tolerance along an edge.
 
        @arg points: Path points (C{LatLon}[]).
-       @arg pipe: Half pipe width (C{meter}, same units as B{C{radius}}).
+       @kwarg pipe: Pipe radius, half-width (C{meter}, same units as
+                    B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg shortest: Optional, shortest or perpendicular distance
                         (C{bool}).
@@ -523,22 +525,23 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
     return S.points(r)
 
 
-def simplifyVW(points, area, radius=R_M, attr=None,
-                             indices=False, **options):
+def simplifyVW(points, area=_1mm, radius=R_M, attr=None,
+                                  indices=False, **options):
     '''Visvalingam-Whyatt (VW) simplification of a path of C{LatLon}
        points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance (squared).
+       area not exceeding the given area tolerance I{squared}.
 
        This C{VW} method exhaustively searches for the single point
        with the smallest triangular area, resulting in worst-case
        complexity M{O(n**2)} where M{n} is the number of points.
 
        @arg points: Path points (C{LatLon}[]).
-       @arg area: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg area: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg attr: Optional, points attribute save area value (C{str}).
+       @kwarg attr: Optional, points attribute to save the area value
+                    (C{str}).
        @kwarg indices: Optionally return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to
@@ -577,13 +580,13 @@ def simplifyVW(points, area, radius=R_M, attr=None,
     return S.vwr(attr)
 
 
-def simplifyVWm(points, area, radius=R_M, attr=None,
-                              indices=False, **options):
+def simplifyVWm(points, area=_1mm, radius=R_M, attr=None,
+                                   indices=False, **options):
     '''Modified Visvalingam-Whyatt (VWm) simplification of a path of
        C{LatLon} points.
 
        Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance (squared).
+       area not exceeding the given area tolerance I{squared}.
 
        This C{VWm} method removes all points with a triangular area
        below the tolerance in each iteration, significantly reducing
@@ -591,9 +594,10 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        original C{VW} method).
 
        @arg points: Path points (C{LatLon}[]).
-       @arg area: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg area: Tolerance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg attr: Optional attribute to save the area value (C{str}).
+       @kwarg attr: Optional, points attribute to save the area value
+                    (C{str}).
        @kwarg indices: Optionally return the simplified point indices
                        instead of the simplified points (C{bool}).
        @kwarg options: Optional keyword arguments passed thru to

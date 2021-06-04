@@ -76,7 +76,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.05.19'
+__version__ = '21.06.01'
 
 
 class HeightError(PointsError):
@@ -191,7 +191,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def __call__(self, *args):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, '__call__', *args)
+        notOverloaded(self, callername='__call__', *args)
 
     @Property_RO
     def adjust(self):
@@ -211,7 +211,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def _ev(self, *args):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self._ev, *args)
+        notOverloaded(self, *args)
 
     def _eval(self, llis):  # XXX single arg, not *args
         _as, xis, yis, _ = self._axyllis4(llis)
@@ -436,7 +436,7 @@ class _HeightIDW(_HeightBase):
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self._distances, x, y)
+        notOverloaded(self, x, y)
 
     def _distances_angular_(self, func_, x, y):
         # return angular distances from func_

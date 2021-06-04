@@ -3,15 +3,15 @@
 
 u'''Extended 3-D vector class L{Vector3d} and functions.
 
-Function L{intersection3d}, L{intersections2}, L{iscolinearWith},
+Function L{intersection3d3}, L{intersections2}, L{iscolinearWith},
 L{nearestOn}, L{parse3d}, L{sumOf}, L{trilaterate2d2} and
 L{trilaterate3d2}.
 '''
 
 from pygeodesy.basics import len2, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
-                             _TypeError, _ValueError, VectorError, \
-                             _xkwds_popitem
+                              NumPyError, _TypeError, _ValueError, \
+                              VectorError, _xError, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot2_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
@@ -22,7 +22,8 @@ from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
                              _0_0, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _xnamed, _xotherError
-from pygeodesy.namedTuples import Vector2Tuple, Vector3Tuple  # Vector4Tuple
+from pygeodesy.namedTuples import Intersection3Tuple, Vector2Tuple, \
+                                  Vector3Tuple  # Vector4Tuple
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Float, Radius, Radius_
 from pygeodesy.vector3dBase import Vector3dBase
@@ -30,10 +31,9 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.05.28'
+__version__ = '21.06.01'
 
-_outside_ = 'outside'
-_raise_   = 'raise'
+_raise_ = 'raise'
 
 
 class Vector3d(Vector3dBase):
@@ -147,15 +147,14 @@ class Vector3d(Vector3dBase):
                                    Radius_(radius, low=eps),
                                    center2, radius2, center3, radius3,
                                    eps=eps, Vector=self.classof)
-        except (AssertionError, FloatingPointError) as x:
-            raise IntersectionError(center=self,     radius=radius,
-                                    center2=center2, radius2=radius2,
-                                    center3=center3, radius3=radius3,
-                                    txt=str(x))
+        except (AssertionError, TypeError, ValueError) as x:
+            raise _xError(x, center=self,     radius=radius,
+                             center2=center2, radius2=radius2,
+                             center3=center3, radius3=radius3)
 
 
-def intersection3d(start1, end1, start2, end2, eps=EPS, within=True, useZ=True,
-                                               Vector=None, **Vector_kwds):
+def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
+                                                Vector=None, **Vector_kwds):
     '''Compute the intersection point of two lines, each defined by
        or through a start and end point.
 
@@ -168,8 +167,6 @@ def intersection3d(start1, end1, start2, end2, eps=EPS, within=True, useZ=True,
        @arg end2: End point of the second line (L{Vector3d},
                   C{Vector3Tuple} or C{Vector4Tuple}).
        @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
-       @kwarg within: If C{True} the intersection point must be on
-                      or between the start and end points (C{bool}).
        @kwarg useZ: If C{True} use the Z component, if C{False} force
                     C{z=0} (C{bool}).
        @kwarg Vector: Class to return intersections (L{Vector3d} or
@@ -177,27 +174,23 @@ def intersection3d(start1, end1, start2, end2, eps=EPS, within=True, useZ=True,
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector}=None}.
 
-       @return: Intersection point (L{Vector3d} or C{Vector}).
+       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with
+                C{point} a C{Vector3d} or B{C{Vector}}.
 
        @raise IntersectionError: Invalid, skew, non-coplanar or otherwise
-                                 non-intersecting lines or the intersection
-                                 point is outside, not between the start
-                                 and end points and C{B{within}=True}.
+                                 non-intersecting lines.
 
-       @see: Line-line U{intersection<https://MathWorld.Wolfram.com/Line-LineIntersection.html>} and
-             U{distance<https://MathWorld.Wolfram.com/Line-LineDistance.html>}, U{skew lines
-             <https://MathWorld.Wolfram.com/SkewLines.html>} and U{point-line distance
-             <https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
+       @see: U{Line-line intersection<https://MathWorld.Wolfram.com/Line-LineIntersection.html>}
+             and U{line-line distance<https://MathWorld.Wolfram.com/Line-LineDistance.html>},
+             U{skew lines<https://MathWorld.Wolfram.com/SkewLines.html>} and U{point-line
+             distance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
     '''
     try:
-        v, i1, i2 = _intersect3d3(start1, end1, start2, end2, eps=eps, useZ=useZ)
-        if within and (i1 or i2):
-            t = _SPACE_.join(('%+d' % (i,)) for i in (i1, i2) if i)
-            raise _ValueError(_outside_, txt=t)
+        v, o1, o2 = _intersect3d3(start1, end1, start2, end2, eps=eps, useZ=useZ)
     except (TypeError, ValueError) as x:
-        raise IntersectionError(start1=start1, end1=end1,
-                                start2=start2, end2=end2, txt=str(x))
-    return _V_n(v, intersection3d.__name__, Vector, Vector_kwds)
+        raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
+    v = _V_n(v, intersection3d3.__name__, Vector, Vector_kwds)
+    return Intersection3Tuple(v, o1, o2)
 
 
 def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
@@ -205,7 +198,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
     # separated to allow callers to embellish any exceptions
 
     def _outside(t, d2):  # -1 before start#, +1 after end#
-        return -1 if t < 0 else (+1 if t > d2 else 0)
+        return -1 if t < 0 else (+1 if t > d2 else 0)  # XXX d2 + eps?
 
     s1 = _otherV3d(useZ=useZ, start1=start1)
     e1 = _otherV3d(useZ=useZ, end1=end1)
@@ -222,7 +215,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
     if d > EPS0 and ab.length > e:
         d = d / ab.length
         if d > e:  # argonic, skew lines distance
-            raise _ValueError(skew_d=d, txt=_no_(_intersection_))
+            raise IntersectionError(skew_d=d, txt=_no_(_intersection_))
 
     # co-planar, non-skew lines
     ab2 = ab.length2
@@ -240,18 +233,18 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
         elif a.length2 < e:  # null (s1, e1), non-null (s2, e2)
             # like _nearestOn(s1, s2, e2, within=False, eps=e)
             t = s1.minus(s2).dot(b)
-            p = s2.plus(b.times(t / b.length2))
-            if s1.minus(p).length < e:
-                i = _outside(t, b.length2)
-                return (p, i, 0) if x else (p, 0, (i * 2))
-        raise _ValueError(length2=ab2, txt=_no_(_intersection_))
+            v = s2.plus(b.times(t / b.length2))
+            if s1.minus(v).length < e:
+                o = _outside(t, b.length2)
+                return (v, o, 0) if x else (v, 0, (o * 2))
+        raise IntersectionError(length2=ab2, txt=_no_(_intersection_))
 
     cb =  c.cross(b)
     t  =  cb.dot(ab)
-    i1 = _outside(t, ab2)
-    p  =  s1.plus(a.times(t / ab2))
-    i2 = _outside(p.minus(s2).dot(b), b.length2) * 2
-    return p, i1, i2
+    o1 = _outside(t, ab2)
+    v  =  s1.plus(a.times(t / ab2))
+    o2 = _outside(v.minus(s2).dot(b), b.length2) * 2
+    return v, o1, o2
 
 
 def intersections2(center1, radius1, center2, radius2, sphere=True,
@@ -299,11 +292,11 @@ def intersections2(center1, radius1, center2, radius2, sphere=True,
                             center2, Radius_(radius2=radius2),
                             sphere=sphere, Vector=Vector, **Vector_kwds)
     except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, radius1=radius1,
-                                center2=center2, radius2=radius2, txt=str(x))
+        raise _xError(x, center1=center1, radius1=radius1,
+                         center2=center2, radius2=radius2)
 
 
-def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBase._intersections2
+def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBaseDI._intersections2
                                            Vector=None, **Vector_kwds):
     # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
@@ -328,7 +321,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     m = c2.minus(c1)
     d = m.length
     if d < max(r2 - r1, EPS):
-        raise ValueError(_near_concentric_)
+        raise IntersectionError(_near_concentric_)
 
     o = fsum_(-d, r1, r2)  # overlap == -(d - (r1 + r2))
     # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
@@ -339,12 +332,12 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2
         elif y < 0:
-            raise ValueError(_invalid_)
+            raise IntersectionError(_invalid_)
         else:  # abutting
             y = _0_0
     elif o < 0:
         t = d if too_d is None else too_d
-        raise ValueError(_too_(Fmt.distant(t)))
+        raise IntersectionError(_too_(Fmt.distant(t)))
     else:  # abutting
         x, y = r1, _0_0
 
@@ -651,7 +644,9 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                            older than version 1.15.
 
        @raise IntersectionError: Near-concentric, colinear, too distant or
-                                 non-intersecting spheres or C{numpy} issue.
+                                 non-intersecting spheres.
+
+       @raise NumPyError: Some C{numpy} issue.
 
        @raise TypeError: Invalid B{C{center1}}, B{C{center2}} or B{C{center3}}.
 
@@ -671,11 +666,10 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                 Radius_(radius1=radius1, low=eps),
                                 center2, radius2, center3, radius3,
                                 eps=eps, Vector=Vector, **Vector_kwds)
-    except (AssertionError, FloatingPointError) as x:
-        raise IntersectionError(center1=center1, radius1=radius1,
-                                center2=center2, radius2=radius2,
-                                center3=center3, radius3=radius3,
-                                txt=str(x))
+    except (AssertionError, NumPyError, TypeError, ValueError) as x:
+        raise _xError(x, center1=center1, radius1=radius1,
+                         center2=center2, radius2=radius2,
+                         center3=center3, radius3=radius3)
 
 
 def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds):
@@ -715,6 +709,8 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
         e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
         Z, _ = _null_space2(np, A, eps)
         A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse
+    except Exception as X:  # mostly FloatingPointError?
+        raise NumPyError(X.__class__.__name__, txt=str(X))
     finally:  # restore numpy error handling
         np.seterr(**e)
     if Z is None:  # coincident, colinear, concentric, etc.
@@ -744,6 +740,8 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
             t = _real_roots(np, x.length2       - X0,  # fdot(X, -_1_0, *x.xyz)
                                 z.dot(x) * _2_0 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
                                 z.length2)             # fdot(Z,  _0_0, *z.xyz)
+        except Exception as X:  # mostly FloatingPointError?
+            raise NumPyError(X.__class__.__name__, txt=str(X))
         finally:  # restore numpy error handling
             np.seterr(**e)
         if t:
@@ -774,7 +772,7 @@ def _trilaterror(c1, r1, c2, r2, c3, r3, eps):
         _txt(c2, r2, c3, r3) or (_colinear_ if
         _iscolinearWith(c1, c2, c3, eps=eps) else
         _no_(_intersection_))
-    return FloatingPointError(t)
+    return IntersectionError(t)
 
 
 def _tri_r2h(r1, r2, h):

@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.05.26'
+__version__ = '21.06.03'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -202,9 +202,9 @@ class Curvature2Tuple(_NamedTuple):
 
 
 class Ellipsoid(_NamedEnumItem):
-    '''Ellipsoid with I{equatorial} and I{polar} radius, I{flattening},
-       I{inverse flattening} and other, often used, cached attributes,
-       supporting I{spherical} and I{oblate} and I{prolate} ellipsoidal models.
+    '''Ellipsoid with I{equatorial} and I{polar} radii, I{flattening}, I{inverse
+       flattening} and other, often used, I{cached} attributes, supporting
+       I{oblate} and I{prolate} ellipsoidal and I{spherical} earth models.
     '''
     _a  = 0  # equatorial radius, semi-axis (C{meter})
     _b  = 0  # polar radius, semi-axis (C{meter}): a * (f - 1) / f
@@ -361,7 +361,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def AlphaKs(self):
-        '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (L{KsOrder}C{-tuple}).
+        '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
         return self._Kseries(  # XXX int/int quotients may require  from __future__ import division
             #   n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
@@ -554,7 +554,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def b2_a(self):
-        '''Get the I{equatorial} meridional radius of curvature (C{meter}), M{b**2 / a}, see L{rocMeridional}C{(0)}.
+        '''Get the I{equatorial} meridional radius of curvature (C{meter}), M{b**2 / a}, see C{rocMeridional}C{(0)}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
@@ -564,7 +564,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def b2_a2(self):
         '''Get the ratio I{polar} over I{equatorial} radius I{squared} (C{float}), M{(b / a)**2}
-           == M{(1 - f)**2} == M{1 - e**2} == L{e12}.
+           == M{(1 - f)**2} == M{1 - e**2} == C{e12}.
         '''
         return Float(b2_a2=self.b_a**2 if self.f else _1_0)
 
@@ -577,7 +577,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def BetaKs(self):
-        '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (L{KsOrder}C{-tuple}).
+        '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
         return self._Kseries(  # XXX int/int quotients may require  from __future__ import division
             #   n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
@@ -592,7 +592,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def c(self):
-        '''DEPRECATED, use property L{R2} or L{Rauthalic}.'''
+        '''DEPRECATED, use property C{R2} or C{Rauthalic}.'''
         return self.R2
 
     @Property_RO
@@ -718,7 +718,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def e(self):
-        '''Get the I{(1st) eccentricity} (C{float}), M{sqrt(1 - (b / a)**2))}, see L{a_b2e}.
+        '''Get the I{(1st) eccentricity} (C{float}), M{sqrt(1 - (b / a)**2))}, see C{a_b2e}.
         '''
         return Float(e=sqrt(self.e2abs) if self.e2 else _0_0)
 
@@ -727,7 +727,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def e2(self):
         '''Get the I{(1st) eccentricity squared} (C{float}), M{f * (2 - f)
-           == 1 - (b / a)**2}, see L{a_b2e2}.
+           == 1 - (b / a)**2}, see C{a_b2e2}.
         '''
         return self._assert(a_b2e2(self.a, self.b), e2=f2e2(self.f))
 
@@ -742,14 +742,14 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def e12(self):
         '''Get 1 less I{(1st) eccentricity squared} (C{float}), M{1 - e**2
-           == (1 - f)**2} == M{b**2 / a**2}, see L{b2_a2}.
+           == (1 - f)**2} == M{b**2 / a**2}, see C{b2_a2}.
         '''
         return self._assert((_1_0 - self.f)**2, e12=_1_0 - self.e2, f0=_1_0)  # 1 - e2
 
     @Property_RO
     def e22(self):
         '''Get the I{2nd eccentricity squared} (C{float}), M{e2 / (1 - e2)
-           == e2 / (1 - f)**2 == (a / b)**2 - 1}, see L{a_b2e22}.
+           == e2 / (1 - f)**2 == (a / b)**2 - 1}, see C{a_b2e22}.
         '''
         return self._assert(a_b2e22(self.a, self.b), e22=f2e22(self.f))
 
@@ -764,7 +764,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def e32(self):
         '''Get the I{3rd eccentricity squared} (C{float}), M{e2 / (2 - e2)
-           == (a**2 - b**2) / (a**2 + b**2)}, see L{a_b2e32}.
+           == (a**2 - b**2) / (a**2 + b**2)}, see C{a_b2e32}.
         '''
         return self._assert(a_b2e32(self.a, self.b), e32=f2e32(self.f))
 
@@ -920,13 +920,13 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def f_(self):
-        '''Get the I{inverse flattening} (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see L{a_b2f_}.
+        '''Get the I{inverse flattening} (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see C{a_b2f_}.
         '''
         return self._f_
 
     @Property_RO
     def f2(self):
-        '''Get the I{2nd flattening} (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical, see L{a_b2f2}.
+        '''Get the I{2nd flattening} (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical, see C{a_b2f2}.
         '''
         return self._assert(self.a_b - _1_0, f2=f2f2(self.f))
 
@@ -1092,7 +1092,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def majoradius(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{a} or L{Requatorial}.'''
+        '''DEPRECATED, use property C{a} or C{Requatorial}.'''
         return self.a
 
     def m2degrees(self, distance, lat=0):
@@ -1130,12 +1130,12 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def minoradius(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{b} or C{Rpolar}.'''
+        '''DEPRECATED, use property C{b} or C{Rpolar}.'''
         return self.b
 
     @Property_RO
     def n(self):
-        '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see L{a_b2n}.
+        '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see C{a_b2n}.
         '''
         return self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
 
@@ -1143,7 +1143,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def quarteradius(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{L} or L{Llat}.'''
+        '''DEPRECATED, use property C{L} or C{Llat}.'''
         return self.L
 
     @Property_RO
@@ -1162,7 +1162,7 @@ class Ellipsoid(_NamedEnumItem):
     def R2(self):
         '''Get the I{authalic} earth radius (C{meter}), M{sqrt(c2)}.
 
-           @see: L{R2x}, L{c2}, L{area} and U{Earth radius
+           @see: C{R2x}, C{c2}, C{area} and U{Earth radius
                  <https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         return Radius(R2=sqrt(self.c2) if self.f else self.a)
@@ -1173,7 +1173,7 @@ class Ellipsoid(_NamedEnumItem):
     def R2x(self):
         '''Get the I{authalic} earth radius (C{meter}), M{sqrt(c2x)}.
 
-           @see: L{R2}, L{c2x} and L{areax}.
+           @see: C{R2}, C{c2x} and C{areax}.
         '''
         return Radius(R2x=sqrt(self.c2x) if self.f else self.a)
 
@@ -1183,7 +1183,7 @@ class Ellipsoid(_NamedEnumItem):
     def R3(self):
         '''Get the I{volumetric} earth radius (C{meter}), M{(a * a * b)**(1/3)}.
 
-           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>} and L{volume}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>} and C{volume}.
         '''
         return Radius(R3=cbrt(self._v3) if self.f else self.a)
 
@@ -1247,7 +1247,7 @@ class Ellipsoid(_NamedEnumItem):
     def Rgeometric(self):
         '''Get the I{geometric} mean earth radius (C{meter}), M{sqrt(a * b)}.
 
-           @see: L{R1}.
+           @see: C{R1}.
         '''
         g = sqrt(self.a * self.b) if self.f else self.a
         return Radius(Rgeometric=g)
@@ -1282,7 +1282,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def Rr(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{Rrectifying}.'''
+        '''DEPRECATED, use property C{Rrectifying}.'''
         return self.Rrectifying
 
     @Property_RO
@@ -1296,7 +1296,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_Property_RO
     def Rs(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{Rgeometric}.'''
+        '''DEPRECATED, use property C{Rgeometric}.'''
         return self.Rgeometric
 
     def roc1_(self, sa, ca=None):
@@ -1509,7 +1509,7 @@ class Ellipsoid(_NamedEnumItem):
     def volume(self):
         '''Get the ellipsoid's I{volume} (C{meter**3}), M{4 / 3 * PI * R3**3}.
 
-           @see: L{R3}.
+           @see: C{R3}.
         '''
         return Meter3(volume=self._v3 * PI4 / 3)
 

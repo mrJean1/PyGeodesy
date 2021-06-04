@@ -62,8 +62,8 @@
 <p>Extended 3-D vector class <a 
   href="pygeodesy.vector3d.Vector3d-class.html" class="link">Vector3d</a> 
   and functions.</p>
-  <p>Function <a href="pygeodesy.vector3d-module.html#intersection3d" 
-  class="link">intersection3d</a>, <a 
+  <p>Function <a href="pygeodesy.vector3d-module.html#intersection3d3" 
+  class="link">intersection3d3</a>, <a 
   href="pygeodesy.vector3d-module.html#intersections2" 
   class="link">intersections2</a>, <a 
   href="pygeodesy.vector3d-module.html#iscolinearWith" 
@@ -79,7 +79,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.05.28
+        21.06.01
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -120,12 +120,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#intersection3d" class="summary-sig-name">intersection3d</a>(<span class="summary-sig-arg">start1</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#intersection3d3" class="summary-sig-name">intersection3d3</a>(<span class="summary-sig-arg">start1</span>,
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
-        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
@@ -301,19 +300,18 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
-<a name="intersection3d"></a>
+<a name="intersection3d3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d</span>&nbsp;(<span class="sig-arg">start1</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection3d3</span>&nbsp;(<span class="sig-arg">start1</span>,
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
-        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Vector_kwds</span>)</span>
@@ -345,8 +343,6 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
-        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> the intersection point must be on or between
-          the start and end points (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code> use the Z component, if <code>False</code> 
           force <code>z=0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
@@ -359,22 +355,20 @@
           arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Intersection point (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <code>Vector</code>).</dd>
+        <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
+          class="link">Intersection3Tuple</a><code>(point, outside1, 
+          outside2)</code> with <code>point</code> a <code>Vector3d</code> 
+          or <b><code>Vector</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines or 
-        the intersection point is outside, not between the start and end 
-        points and <code><b>within</b>=True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Line-line <a 
-        href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
-        target="_top">intersection</a> and <a 
+        <a href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
+        target="_top">Line-line intersection</a> and <a 
         href="https://MathWorld.Wolfram.com/Line-LineDistance.html" 
-        target="_top">distance</a>, <a 
+        target="_top">line-line distance</a>, <a 
         href="https://MathWorld.Wolfram.com/SkewLines.html" 
         target="_top">skew lines</a> and <a 
         href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
@@ -722,8 +716,8 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres 
-        or <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, colinear, too distant or non-intersecting spheres.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -778,7 +772,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:38 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:40 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,11 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Ellipsoidal geodesy bases.
-
-Base classes C{CartesianEllipsoidalBase} and C{LatLonEllipsoidalBase} and
-several ellipsoidal functions, imported by modules L{ellipsoidalKarney},
-L{ellipsoidalNvector} or L{ellipsoidalVincenty}.
+u'''(INTERNAL) Ellipsoidal geodesy base classes C{CartesianEllipsoidalBase}
+and C{LatLonEllipsoidalBase}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -15,33 +12,26 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import issubclassof, _xinstanceof
+from pygeodesy.basics import _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
-                             _IsnotError, RangeError, TRFError, _ValueError, \
-                             _xellipsoidal
-from pygeodesy.fmath import euclid, favg, fmean_, fsum_
-from pygeodesy.formy import _radical2
+from pygeodesy.errors import _incompatible, _IsnotError, RangeError, \
+                              TRFError, _ValueError, _xError
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
-from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, _COMMA_, \
-                             _conversion_, _datum_, _DOT_, _exceed_PI_radians_, \
-                             _N_, _no_, _near_concentric_, _SPACE_, _too_
+from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
+                             _conversion_, _datum_, _DOT_, _N_, _no_, _SPACE_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
-from pygeodesy.namedTuples import _LL4Tuple, Vector3Tuple
+from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
-from pygeodesy.streprs import Fmt
-from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
-from pygeodesy.utily import m2degrees, unroll180
+from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.05.17'
+__version__ = '21.06.03'
 
 _reframe_ = 'reframe'
-_TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -298,6 +288,17 @@ class LatLonEllipsoidalBase(LatLonBase):
         self._epoch = None if epoch is None else Epoch(epoch)
 
     @Property_RO
+    def Equidistant(self):
+        '''Get the prefered azimuthal equidistant projection I{class} (L{EquidistantKarney} or L{EquidistantExact}).
+        '''
+        from pygeodesy.azimuthal import EquidistantKarney, EquidistantExact
+        try:
+            _ = self.datum.ellipsoid.geodesic
+            return EquidistantKarney
+        except ImportError:  # no geographiclib
+            return EquidistantExact  # XXX no longer L{azimuthal.Equidistant}
+
+    @Property_RO
     def _etm(self):
         '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{toEtm8}).
         '''
@@ -339,25 +340,65 @@ class LatLonEllipsoidalBase(LatLonBase):
             LatLonEllipsoidalBase._geoidHeight2._update(self)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
 
+    def intersection3(self, end1, other, end2, height=None, wrap=True,
+                                          equidistant=None, tol=_TOL_M):
+        '''Interatively compute the intersection point of two paths,
+           each defined by a start and end point.
+
+           @arg end1: End point of this path (C{LatLon}).
+           @arg other: Start point of the other path (C{LatLon}).
+           @arg end2: End point of the other path (C{LatLon}).
+           @kwarg height: Optional height at the intersection (C{meter},
+                          conventionally) or C{None} for the mean height.
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                               or function L{equidistant}), or C{None} for
+                               this point's preferred C{.Equidistant}.
+           @kwarg tol: Tolerance for skew line distance and length and for
+                       convergence (C{meter}, conventionally).
+
+           @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
+                    with C{point} a C{LatLon} instance.
+
+           @raise ImportError: Package U{geographiclib
+                               <https://PyPI.org/project/geographiclib>}
+                               not installed or not found, but only if
+                               C{B{equidistant}=}L{EquidistantKarney}.
+
+           @raise IntersectionError: Skew, colinear, parallel or otherwise
+                                     non-intersecting paths or no convergence
+                                     for the B{C{tol}}.
+
+           @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} point
+                             is not C{LatLon}.
+        '''
+        from pygeodesy.ellipsoidalBaseDI import _intersect3
+        try:
+            s2 = self.others(other)
+            return _intersect3(self, end1, s2, end2, height=height, wrap=wrap,
+                                           equidistant=equidistant, tol=tol,
+                                           LatLon=self.classof, datum=self.datum)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, start1=self, end1=end1, other=other, end2=end2)
+
     def intersections2(self, radius1, other, radius2, height=None, wrap=True,
                                                  equidistant=None, tol=_TOL_M):
-        '''Compute the intersection points of two circles each defined
-           by a center point and a radius.
+        '''Interatively compute the intersection points of two circles,
+           each defined by a center point and a radius.
 
-           @arg radius1: Radius of the this circle (C{meter}, conventionally).
+           @arg radius1: Radius of this circle (C{meter}, conventionally).
            @arg other: Center of the other circle (C{LatLon}).
            @arg radius2: Radius of the other circle (C{meter}, same units as
                          B{C{radius1}}).
-           @kwarg height: Optional height for the intersection points,
-                          overriding the "radical height" at the "radical
-                          line" between both centers (C{meter}) or C{None}.
+           @kwarg height: Optional height for the intersection points (C{meter},
+                          conventionally) or C{None} for the I{"radical height"}
+                          at the I{radical line} between both centers.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection class
-                               (L{Equidistant} or L{EquidistantKarney}),
-                               function L{equidistant} will be invoked
-                               if left unspecified.
-           @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
-                       and B{C{radius2}}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                               or function L{equidistant}), or C{None} for
+                               this point's preferred C{.Equidistant}.
+           @kwarg tol: Convergence tolerance (C{meter}, same units as
+                       B{C{radius1}} and B{C{radius2}}).
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
                     instance.  For abutting circles, both intersection
@@ -365,7 +406,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise ImportError: Package U{geographiclib
                                <https://PyPI.org/project/geographiclib>}
-                               not installed or not found.
+                               not installed or not found, but only if
+                               C{B{equidistant}=}L{EquidistantKarney}.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
                                      non-intersecting circles or no
@@ -382,10 +424,14 @@ class LatLonEllipsoidalBase(LatLonBase):
                  U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
                  intersections.
         '''
-        self.others(other)
-        return _intersections2(self, radius1, other, radius2, height=height, wrap=wrap,
-                                     equidistant=equidistant, tol=tol,
-                                     LatLon=self.classof, datum=self.datum)
+        from pygeodesy.ellipsoidalBaseDI import _intersections2
+        try:
+            c2 = self.others(other)
+            return _intersections2(self, radius1, c2, radius2, height=height, wrap=wrap,
+                                                  equidistant=equidistant, tol=tol,
+                                                  LatLon=self.classof, datum=self.datum)
+        except (AssertionError, TypeError, ValueError) as x:
+            raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2)
 
     @property_RO
     def iteration(self):
@@ -403,35 +449,46 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
-        '''Locate the closest point between two other points.
+        '''Interatively locate the closest point between two other points.
 
            @arg point1: Start point (C{LatLon}).
            @arg point2: End point (C{LatLon}).
            @kwarg within: If C{True} return the closest point I{between}
                           B{C{point1}} and B{C{point2}}, otherwise the
                           closest point elsewhere on the arc (C{bool}).
-           @kwarg height: Optional height for the closest point (C{meter})
-                          or C{None} to interpolate the height.
+           @kwarg height: Optional height for the closest point (C{meter},
+                          conventionally) or C{None} or C{False} to
+                          interpolate the height.
+           @kwarg height: Optional height for the closest point (C{meter},
+                          conventionally) or C{None} or C{False} for the
+                          interpolated height.  If C{False}, the distance
+                          between points takes height into account.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection class
-                               (L{Equidistant} or L{EquidistantKarney}),
-                               function L{equidistant} will be invoked
-                               if left unspecified.
-           @kwarg tol: Convergence tolerance (C{meter}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                               or function L{equidistant}), or C{None} for
+                               this point's preferred C{.Equidistant}.
+           @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: Closest point (C{LatLon}).
 
            @raise ImportError: Package U{geographiclib
                                <https://PyPI.org/project/geographiclib>}
-                               not installed or not found.
+                               not installed or not found, but only if
+                               C{B{equidistant}=}L{EquidistantKarney}.
 
-           @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{equidistant}}.
+           @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or
+                             B{C{equidistant}}.
+
+           @raise ValueError: No convergence for the B{C{tol}}.
         '''
-        p1 = self.others(point1=point1)
-        p2 = self.others(point2=point2)
-        return _nearestOn(self, p1, p2, within=within, height=height, wrap=wrap,
-                                equidistant=equidistant, tol=tol,
-                                LatLon=self.classof, datum=self.datum)
+        from pygeodesy.ellipsoidalBaseDI import _nearestOne
+        try:
+            return _nearestOne(self, point1, point2, within=within,
+                                     height=height, wrap=wrap,
+                                     equidistant=equidistant, tol=tol,
+                                     LatLon=self.classof, datum=self.datum)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, point=self, point1=point1, point2=point2)
 
     @Property_RO
     def _osgr(self):
@@ -772,220 +829,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         from pygeodesy.webmercator import toWm
         return toWm(self)
-
-
-def _Equidistant2(equidistant, datum):
-    # (INTERNAL) Get an C{Equidistant} or C{EquidistantKarney} instance
-    import pygeodesy.azimuthal as _az
-
-    if equidistant is None or not callable(equidistant):
-        equidistant = _az.equidistant
-    elif not issubclassof(equidistant, *_az._Equidistants):
-        t = tuple(_.__name__ for _ in _az._Equidistants)
-        raise _IsnotError(*t, equidistant=equidistant)
-    return equidistant(0, 0, datum)
-
-
-def _intermediateTo(p1, p2, fraction, height, wrap):
-    # (INTERNAL) Helper for C{ellipsoidalKarney.LatLon.intermediateTo}
-    # and C{ellipsoidalVincenty.LatLon.intermediateTo}.
-    t = p1.distanceTo3(p2, wrap=wrap)
-    f = Scalar(fraction=fraction)
-    h = p1._havg(p2, f=f) if height is None else Height(height)
-    return p1.destination(t.distance * f, t.initial, height=h)
-
-
-def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
-                    equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Iteratively compute the intersection points of two circles
-    # each defined by an (ellipsoidal) center point and a radius, imported
-    # by .ellipsoidalKarney and -Vincenty
-
-    c1 = _xellipsoidal(center1=center1)
-    c2 = c1.others(center2=center2)
-
-    r1 = Radius_(radius1=radius1)
-    r2 = Radius_(radius2=radius2)
-
-    try:
-        return _intersects2(c1, r1, c2, r2, height=height, wrap=wrap,
-                                       equidistant=equidistant, tol=tol,
-                                            LatLon=LatLon, **LatLon_kwds)
-    except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, radius1=radius1,
-                                center2=center2, radius2=radius2, txt=str(x))
-
-
-def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
-                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
-    # above, separated to allow callers to embellish any exceptions
-
-    from pygeodesy.sphericalTrigonometry import _intersects2 as _si2, LatLon as _LLS
-    from pygeodesy.vector3d import _intersects2 as _vi2
-
-    def _latlon4(t, h, n):
-        r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
-        r._iteration = t.iteration  # ._iteration for tests
-        return r
-
-    if r1 < r2:
-        c1, c2 = c2, c1
-        r1, r2 = r2, r1
-
-    E = c1.ellipsoids(c2)
-    if r1 > (min(E.b, E.a) * PI):
-        raise ValueError(_exceed_PI_radians_)
-
-    if wrap:  # unroll180 == .karney._unroll2
-        c2 = _unrollon(c1, c2)
-
-    # distance between centers and radii are
-    # measured along the ellipsoid's surface
-    m = c1.distanceTo(c2, wrap=False)  # meter
-    if m < max(r1 - r2, EPS):
-        raise ValueError(_near_concentric_)
-    if fsum_(r1, r2, -m) < 0:
-        raise ValueError(_too_(Fmt.distant(m)))
-
-    f = _radical2(m, r1, r2).ratio  # "radical fraction"
-    r = E.rocMean(favg(c1.lat, c2.lat, f=f))
-    e = max(m2degrees(tol, radius=r), EPS)
-
-    # get the azimuthal equidistant projection
-    A = _Equidistant2(equidistant, c1.datum)
-
-    # gu-/estimate initial intersections, spherically ...
-    t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
-                  _LLS(c2.lat, c2.lon, height=c2.height), r2,
-                   radius=r, height=height, wrap=False, too_d=m)
-    h, n = t1.height, t1.name
-
-    # ... and then iterate like Karney suggests to find
-    # tri-points of median lines, @see: references under
-    # method LatLonEllipsoidalBase.intersections2 above
-    ts, ta = [], None
-    for t in ((t1,) if t1 is t2 else (t1, t2)):
-        p = None  # force first d == p to False
-        for i in range(1, _TRIPS):
-            A.reset(t.lat, t.lon)  # gu-/estimate as origin
-            # convert centers to projection space
-            t1 = A.forward(c1.lat, c1.lon)
-            t2 = A.forward(c2.lat, c2.lon)
-            # compute intersections in projection space
-            v1, v2 = _vi2(t1, r1,  # XXX * t1.scale?,
-                          t2, r2,  # XXX * t2.scale?,
-                          sphere=False, too_d=m)
-            # convert intersections back to geodetic
-            t1 = A.reverse(v1.x, v1.y)
-            d1 = euclid(t1.lat - t.lat, t1.lon - t.lon)
-            if v1 is v2:  # abutting
-                t, d = t1, d1
-            else:
-                t2 = A.reverse(v2.x, v2.y)
-                d2 = euclid(t2.lat - t.lat, t2.lon - t.lon)
-                # consider only the closer intersection
-                t, d = (t1, d1) if d1 < d2 else (t2, d2)
-            # break if below tolerance or if unchanged
-            if d < e or d == p:
-                t._iteration = i  # _NamedTuple._iteration
-                ts.append(t)
-                if v1 is v2:  # abutting
-                    ta = t
-                break
-            p = d
-        else:
-            raise ValueError(_no_(Fmt.convergence(tol)))
-
-    if ta:  # abutting circles
-        pass
-    elif len(ts) == 2:
-        return (_latlon4(ts[0], h, n),
-                _latlon4(ts[1], h, n))
-    elif len(ts) == 1:  # PYCHOK no cover
-        ta = ts[0]  # assume abutting
-    else:
-        raise _AssertionError(ts=ts)
-    r = _latlon4(ta, h, n)
-    return r, r
-
-
-def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
-               equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Get closet point, like L{_intersects2} above,
-    # separated to allow callers to embellish any exceptions
-
-    from pygeodesy.sphericalNvector import LatLon as _LLS
-    from pygeodesy.vector3d import _nearestOn as _vnOn, Vector3d
-
-    def _v(t, h):
-        return Vector3d(t.x, t.y, h)
-
-    _ = p.ellipsoids(p1)
-    E = p.ellipsoids(p2)
-
-    if wrap:
-        p1 = _unrollon(p,  p1)
-        p2 = _unrollon(p,  p2)
-        p2 = _unrollon(p1, p2)
-
-    r = E.rocMean(fmean_(p.lat, p1.lat, p2.lat))
-    e = max(m2degrees(tol, radius=r), EPS)
-
-    # get the azimuthal equidistant projection
-    A = _Equidistant2(equidistant, p.datum)
-
-    # gu-/estimate initial nearestOn, spherically ... wrap=False
-    t = _LLS(p.lat,  p.lon,  height=p.height).nearestOn(
-        _LLS(p1.lat, p1.lon, height=p1.height),
-        _LLS(p2.lat, p2.lon, height=p2.height), within=within, height=height)
-    n = t.name
-
-    if height is False:  # use height as Z component
-        h  = t.height
-        h1 = p1.height
-        h2 = p2.height
-    else:
-        h = h1 = h2 = 0
-
-    # ... and then iterate like Karney suggests to find
-    # tri-points of median lines, @see: references under
-    # method LatLonEllipsoidalBase.intersections2 above
-    c = None  # force first d == c to False
-    # closest to origin, .z to interpolate height
-    p = Vector3d(0, 0, h)
-    for i in range(1, _TRIPS):
-        A.reset(t.lat, t.lon)  # gu-/estimate as origin
-        # convert points to projection space
-        t1 = A.forward(p1.lat, p1.lon)
-        t2 = A.forward(p2.lat, p2.lon)
-        # compute nearestOn in projection space
-        v = _vnOn(p, _v(t1, h1), _v(t2, h2), within=within)
-        # convert nearestOn back to geodetic
-        r = A.reverse(v.x, v.y)
-        d = euclid(r.lat - t.lat, r.lon - t.lon)
-        # break if below tolerance or if unchanged
-        t = r
-        if d < e or d == c:
-            t._iteration = i  # _NamedTuple._iteration
-            if height is False:
-                h = v.z  # nearest interpolated
-            break
-        c = d
-    else:
-        raise ValueError(_no_(Fmt.convergence(tol)))
-
-    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
-    r._iteration = t.iteration  # ._iteration for tests
-    return r
-
-
-def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
-    # wrap, unroll and replace longitude if different
-    _, lon = unroll180(p1.lon, p2.lon, wrap=True)
-    if abs(lon - p2.lon) > EPS:
-        p2 = p2.classof(p2.lat, lon, p2.height, datum=p2.datum)
-    return p2
 
 
 __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)

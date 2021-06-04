@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.05.19'
+__version__ = '21.06.01'
 
 
 def _fraction(fraction, n):
@@ -227,7 +227,7 @@ class Frechet(_Named):
     def distance(self, point1, point2):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
-        notOverloaded(self, self.distance, point1, point2)
+        notOverloaded(self, point1, point2)
 
     @property_doc_(''' the index fraction (C{float}).''')
     def fraction(self):

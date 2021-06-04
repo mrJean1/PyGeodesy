@@ -47,7 +47,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, copysign, degrees, floor, hypot, radians
 
 __all__ = ()
-__version__ = '21.05.28'
+__version__ = '21.06.03'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 
@@ -227,7 +227,7 @@ class _GeodesicLineExact(_GeodesicBase):
 
     @Property_RO
     def caps(self):
-        '''Get the capabilities (bit-or'ed L{Caps}).
+        '''Get the capabilities (bit-or'ed C{Caps}).
         '''
         return self._caps
 
@@ -368,7 +368,7 @@ class _GeodesicLineExact(_GeodesicBase):
             r.set_(lat2=atan2d(sbet2, gX.f1 * cbet2))
 
         if (outmask & Caps.AZIMUTH):
-            r.set_(azi2=self._atan2d(salp2, calp2, outmask & Caps.REVERSE2))
+            r.set_(azi2=atan2d(salp2, calp2, reverse=outmask & Caps.REVERSE2))
 
         if (outmask & Caps._REDUCEDLENGTH_GEODESICSCALE):
             dn1 = self._dn1

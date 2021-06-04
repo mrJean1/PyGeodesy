@@ -19,7 +19,8 @@ from __future__ import division
 from pygeodesy.basics import copysign, isscalar, map1
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
-                              IntersectionError, _ValueError, _xkwds, _xkwds_get
+                             _ValueError, IntersectionError, _xError, \
+                             _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, _radical2, vincentys_
@@ -49,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.05.26'
+__version__ = '21.06.02'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
@@ -154,10 +155,10 @@ class LatLon(LatLonSphericalBase):
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance along the great circle path (C{meter},
-                    same units as B{C{radius}} or C{radians} if
-                    B{C{radius}} is C{None}), positive if after the
-                    B{C{start}} toward the B{C{end}} point of the path
-                    or negative if before the B{C{start}} point.
+                    same units as B{C{radius}}) or C{radians} if
+                    C{B{radius}=None}, positive if after the B{C{start}}
+                    toward the B{C{end}} point of the path or negative
+                    if before the B{C{start}} point.
 
            @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
 
@@ -434,7 +435,7 @@ class LatLon(LatLonSphericalBase):
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
-        '''Compute the intersection point of two paths both defined
+        '''Compute the intersection point of two paths, each defined
            by two points or a start point and bearing from North.
 
            @arg end1: End point of this path (L{LatLon}) or the
@@ -452,14 +453,14 @@ class LatLon(LatLonSphericalBase):
                     intersection point might be the L{antipode} to
                     the returned result.
 
-           @raise IntersectionError: Intersection is ambiguous or infinite
-                                     or the paths are coincident, colinear
-                                     or parallel.
+           @raise IntersectionError: Ambiguous or infinite intersection
+                                     or colinear, parallel or otherwise
+                                     non-intersecting paths.
 
-           @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} is
-                             not L{LatLon}.
+           @raise TypeError: If B{C{other}} is not L{LatLon} or B{C{end1}}
+                             or B{C{end2}} not C{scalar} nor L{LatLon}.
 
-           @raise ValueError: Invalid B{C{height}}.
+           @raise ValueError: Invalid B{C{height}} or C{null} path.
 
            @example:
 
@@ -467,13 +468,16 @@ class LatLon(LatLonSphericalBase):
             >>> s = LatLon(49.0034, 2.5735)
             >>> i = p.intersection(108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
         '''
-        return intersection(self, end1, other, end2,
-                                  height=height, wrap=wrap,
-                                  LatLon=self.classof)
+        try:
+            s2 = self.others(other)
+            return _intersect(self, end1, s2, end2, height=height, wrap=wrap,
+                                                    LatLon=self.classof)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, start1=self, end1=end1, other=other, end2=end2)
 
     def intersections2(self, rad1, other, rad2, radius=R_M, eps=_0_0,
-                                              height=None, wrap=True):
-        '''Compute the intersection points of two circles each defined
+                                                height=None, wrap=True):
+        '''Compute the intersection points of two circles, each defined
            by a center point and radius.
 
            @arg rad1: Radius of the this circle (C{meter} or C{radians},
@@ -485,9 +489,9 @@ class LatLon(LatLonSphericalBase):
                           B{C{rad2}} and B{C{eps}} are given in C{radians}).
            @kwarg eps: Required overlap (C{meter} or C{radians}, see
                        B{C{radius}}).
-           @kwarg height: Optional height for the intersection points,
-                          overriding the "radical height" at the "radical
-                          line" between both centers (C{meter}) or C{None}.
+           @kwarg height: Optional height for the intersection points (C{meter},
+                          conventionally) or C{None} for the I{"radical height"}
+                          at the I{radical line} between both centers.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
@@ -502,14 +506,13 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}},
                               B{C{eps}} or B{C{height}}.
         '''
-        c2 = self.others(other)
         try:
+            c2 = self.others(other)
             return _intersects2(self, rad1, c2, rad2, radius=radius, eps=eps,
                                                       height=height, wrap=wrap,
                                                       LatLon=self.classof)
         except (TypeError, ValueError) as x:
-            raise IntersectionError(center=self, rad1=rad1,
-                                    other=other, rad2=rad2, txt=str(x))
+            raise _xError(x, center=self, rad1=rad1, other=other, rad2=rad2)
 
     def isenclosedBy(self, points):
         '''Check whether a (convex) polygon encloses this point.
@@ -662,7 +665,7 @@ class LatLon(LatLonSphericalBase):
         try:  # remove kwarg B{C{within}} if present
             within = options.pop('within')
             if not within:
-                notImplemented(self, self.nearestOn, within=within)
+                notImplemented(self, within=within)
 
 #           # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
 #           wrap = options.get('wrap', False)
@@ -929,13 +932,13 @@ def _i3d2(start, end, wrap, _i_, hs):
     if isscalar(end):  # bearing, make a point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
-        _T00.others(end, name=_end_ + _i_)
+        start.others(end, name=_end_ + _i_)
         hs.append(end.height)
         a2, b2 = end.philam
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
-        raise ValueError(_SPACE_(_path_ + _i_, _null_))
+        raise _ValueError(_SPACE_(_path_ + _i_, _null_))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * _0_5, -(b1 + b2) * _0_5
 
@@ -956,7 +959,7 @@ def _idot(ds, a1, b1, a, b, wrap):
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
                                              LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection point of two paths both defined
+    '''Compute the intersection point of two paths, each defined
        by two points or a start point and bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
@@ -975,18 +978,18 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                            arguments, ignored if C{B{LatLon}=None}.
 
-       @return: The intersection point (B{C{LatLon}}) or a
-                L{LatLon3Tuple}C{(lat, lon, height)} if B{C{LatLon}}
-                is C{None}.  An alternate intersection point might
+       @return: The intersection point as a (B{C{LatLon}}) or a
+                if C{B{LatLon}=None} a L{LatLon3Tuple}C{(lat, lon,
+                height)}.  An alternate intersection point might
                 be the L{antipode} to the returned result.
 
-       @raise IntersectionError: Intersection is ambiguous or infinite
-                                 or the paths are coincident, colinear
-                                 or parallel.
+       @raise IntersectionError: Ambiguous or infinite intersection
+                                 or colinear, parallel or otherwise
+                                 non-intersecting paths.
 
        @raise TypeError: A B{C{start}} or B{C{end}} point not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{height}}.
+       @raise ValueError: Invalid B{C{height}} or C{null} path.
 
        @example:
 
@@ -997,68 +1000,76 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
     _T00.others(start1=start1)
     _T00.others(start2=start2)
 
+    try:
+        return _intersect(start1, end1, start2, end2, heighth=height, wrap=wrap,
+                                                       LatLon=LatLon, **LatLon_kwds)
+    except (TypeError, ValueError) as x:
+        raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
+
+
+def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
+                                           LatLon=None, **LatLon_kwds):
+    # (INTERNAL) Intersect two (spherical) path, see L{intersection}
+    # above, separated to allow callers to embellish any exceptions
+
     hs = [start1.height, start2.height]
 
     a1, b1 = start1.philam
     a2, b2 = start2.philam
-    try:
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
-        r12 = vincentys_(a2, a1, db)
-        if abs(r12) < EPS:  # [nearly] coincident points
-            a, b = favg(a1, a2), favg(b1, b2)
 
-        # see <https://www.EdWilliams.org/avform.htm#Intersection>
-        elif isscalar(end1) and isscalar(end2):  # both bearings
-            sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
+    r12 = vincentys_(a2, a1, db)
+    if abs(r12) < EPS:  # [nearly] coincident points
+        a, b = favg(a1, a2), favg(b1, b2)
 
-            x1, x2 = (sr12 * ca1), (sr12 * ca2)
-            if abs(x1) < EPS0 or abs(x2) < EPS0:
-                raise ValueError(_parallel_)
-            # handle domain error for equivalent longitudes,
-            # see also functions asin_safe and acos_safe at
-            # <https://www.EdWilliams.org/avform.htm#Math>
-            t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
-                                 (sa1 - sa2 * cr12) / x2)
-            if sin(db) > 0:
-                t12, t21 = t1, PI2 - t2
-            else:
-                t12, t21 = PI2 - t1, t2
+    # see <https://www.EdWilliams.org/avform.htm#Intersection>
+    elif isscalar(end1) and isscalar(end2):  # both bearings
+        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
 
-            t13, t23 = map1(radiansPI2, end1, end2)
-            x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
-                                  t21 - t23)  # angle 1-2-3
-            sx1, cx1, sx2, cx2 = sincos2(x1, x2)
-            if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-                raise ValueError(_infinite_)
-            sx3 = sx1 * sx2
-# XXX       if sx3 < 0:
-# XXX           raise ValueError(_ambiguous_)
-            x3  = acos1(cr12 * sx3 - cx2 * cx1)
-            r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+        x1, x2 = (sr12 * ca1), (sr12 * ca2)
+        if abs(x1) < EPS0 or abs(x2) < EPS0:
+            raise IntersectionError(_parallel_)
+        # handle domain error for equivalent longitudes,
+        # see also functions asin_safe and acos_safe at
+        # <https://www.EdWilliams.org/avform.htm#Math>
+        t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
+                             (sa1 - sa2 * cr12) / x2)
+        if sin(db) > 0:
+            t12, t21 = t1, PI2 - t2
+        else:
+            t12, t21 = PI2 - t1, t2
 
-            a, b = _destination2(a1, b1, r13, t13)
-            # choose antipode for opposing bearings
-            if _ib(a1, b1, end1, a, b, wrap) or \
-               _ib(a2, b2, end2, a, b, wrap):
+        t13, t23 = map1(radiansPI2, end1, end2)
+        x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
+                              t21 - t23)  # angle 1-2-3
+        sx1, cx1, sx2, cx2 = sincos2(x1, x2)
+        if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
+            raise IntersectionError(_infinite_)
+        sx3 = sx1 * sx2
+# XXX   if sx3 < 0:
+# XXX       raise ValueError(_ambiguous_)
+        x3  = acos1(cr12 * sx3 - cx2 * cx1)
+        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+
+        a, b = _destination2(a1, b1, r13, t13)
+        # choose antipode for opposing bearings
+        if _ib(a1, b1, end1, a, b, wrap) or \
+           _ib(a2, b2, end2, a, b, wrap):
+            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
+
+    else:  # end point(s) or bearing(s)
+        x1, d1 = _i3d2(start1, end1, wrap, _1_, hs)
+        x2, d2 = _i3d2(start2, end2, wrap, _2_, hs)
+        x = x1.cross(x2)
+        if x.length < EPS:  # [nearly] colinear or parallel paths
+            raise IntersectionError(_colinear_)
+        a, b = x.philam
+        # choose intersection similar to sphericalNvector
+        d1 = _idot(d1, a1, b1, a, b, wrap)
+        if d1:
+            d2 = _idot(d2, a2, b2, a, b, wrap)
+            if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
                 a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
-
-        else:  # end point(s) or bearing(s)
-            x1, d1 = _i3d2(start1, end1, wrap, _1_, hs)
-            x2, d2 = _i3d2(start2, end2, wrap, _2_, hs)
-            x = x1.cross(x2)
-            if x.length < EPS:  # [nearly] colinear or parallel paths
-                raise ValueError(_colinear_)
-            a, b = x.philam
-            # choose intersection similar to sphericalNvector
-            d1 = _idot(d1, a1, b1, a, b, wrap)
-            if d1:
-                d2 = _idot(d2, a2, b2, a, b, wrap)
-                if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
-                    a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
-
-    except ValueError as x:
-        raise IntersectionError(start1=start1, end1=end1,
-                                start2=start2, end2=end2, txt=str(x))
 
     h = fmean(hs) if height is None else Height(height)
     return _latlon3(degrees90(a), degrees180(b), h,
@@ -1081,9 +1092,9 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                       B{C{rad2}} and B{C{eps}} are given in C{radians}).
        @kwarg eps: Required overlap (C{meter} or C{radians}, see
                    B{C{radius}}).
-       @kwarg height: Optional height for the intersection points,
-                      overriding the "radical height" at the "radcal
-                      line" between both centers (C{meter}) or C{None}.
+       @kwarg height: Optional height for the intersection points (C{meter},
+                      conventionally) or C{None} for the I{"radical height"}
+                      at the I{radical line} between both centers.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
@@ -1091,9 +1102,9 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                            arguments, ignored if C{B{LatLon}=None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
-                instance or a L{LatLon3Tuple}C{(lat, lon, height)} if
-                B{C{LatLon}} is C{None}.  For abutting circles, both
-                intersection points are the same instance.
+                instance or if C{B{LatLon}=None} a L{LatLon3Tuple}C{(lat,
+                lon, height)}.  For abutting circles, both intersection
+                points are the same instance.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles.
@@ -1116,11 +1127,10 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                                                 height=height, wrap=wrap,
                                                 LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=str(x))
+        raise _xError(x, center1=center1, rad1=rad1, center2=center2, rad2=rad2)
 
 
-def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBase._intersects2
+def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBaseDI._intersects2
                                      height=None, too_d=None, wrap=True,
                                      LatLon=LatLon, **LatLon_kwds):
     # (INTERNAL) Intersect two spherical circles, see L{intersections2}
@@ -1141,7 +1151,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
-        raise ValueError(_near_concentric_)
+        raise IntersectionError(_near_concentric_)
 
     r = eps if radius is None else (m2radians(
         eps, radius=radius) if eps else _0_0)
@@ -1153,12 +1163,12 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
         sd, cd, sr1, cr1, _, cr2 = sincos2(d, r1, r2)
         x = sd * sr1
         if abs(x) < EPS0:
-            raise ValueError(_invalid_)
+            raise _ValueError(_invalid_)
         x = acos1((cr2 - cd * cr1) / x)  # 0 <= x <= PI
 
     elif x < r:
         t = (d * radius) if too_d is None else too_d
-        raise ValueError(_too_(_Fmt.distant(t)))
+        raise IntersectionError(_too_(_Fmt.distant(t)))
 
     if height is None:  # "radical height"
         f = _radical2(d, r1, r2).ratio

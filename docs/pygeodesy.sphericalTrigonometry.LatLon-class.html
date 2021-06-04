@@ -292,7 +292,7 @@
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the intersection point of two paths both defined by two 
+      Compute the intersection point of two paths, each defined by two 
       points or a start point and bearing from North.</td>
           <td align="right" valign="top">
             
@@ -317,7 +317,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the intersection points of two circles each defined by a 
+      Compute the intersection points of two circles, each defined by a 
       center point and radius.</td>
           <td align="right" valign="top">
             
@@ -697,11 +697,11 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle path (<code>meter</code>, same 
-          units as <b><code>radius</code></b> or <code>radians</code> if 
-          <b><code>radius</code></b> is <code>None</code>), positive if 
-          after the <b><code>start</code></b> toward the 
-          <b><code>end</code></b> point of the path or negative if before 
-          the <b><code>start</code></b> point.</dd>
+          units as <b><code>radius</code></b>) or <code>radians</code> if 
+          <code><b>radius</b>=None</code>, positive if after the 
+          <b><code>start</code></b> toward the <b><code>end</code></b> 
+          point of the path or negative if before the 
+          <b><code>start</code></b> point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>start</code></b> or <b><code>end</code></b> point.</li>
@@ -1106,8 +1106,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the intersection point of two paths both defined by two points
-  or a start point and bearing from North.</p>
+  <p>Compute the intersection point of two paths, each defined by two 
+  points or a start point and bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1135,13 +1135,15 @@
           class="link">antipode</a> to the returned result.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Intersection is ambiguous or infinite or the paths are coincident, 
-        colinear or parallel.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>end1</code></b>, <b><code>other</code></b> or 
-        <b><code>end2</code></b> is not <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Ambiguous or infinite intersection or colinear, parallel or 
+        otherwise non-intersecting paths.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>other</code></b> is not <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a> or <b><code>end1</code></b> or 
+        <b><code>end2</code></b> not <code>scalar</code> nor <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <code>null</code> path.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1173,7 +1175,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the intersection points of two circles each defined by a 
+  <p>Compute the intersection points of two circles, each defined by a 
   center point and radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1190,9 +1192,9 @@
           <b><code>eps</code></b> are given in <code>radians</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Required overlap (<code>meter</code> or <code>radians</code>, see
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points, overriding the 
-          &quot;radical height&quot; at the &quot;radical line&quot; 
-          between both centers (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points (<code>meter</code>, 
+          conventionally) or <code>None</code> for the <i>&quot;radical 
+          height&quot;</i> at the <i>radical line</i> between both centers.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1710,7 +1712,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 30 12:26:45 2021
+    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

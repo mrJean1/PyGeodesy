@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''C{Float}, C{int} and C{str}ing units.
+u'''Various C{Float}, C{Int} and C{Str}ing units.
 
 Sub-classes C{Float}, C{Int} and C{Str} from basic C{float},
 C{int} respectively C{str} to named units as L{Degrees},
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.04.24'
+__version__ = '21.06.04'
 
 
 class _NamedUnit(_Named):
