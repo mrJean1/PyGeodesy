@@ -7,7 +7,7 @@ Base classes C{CartesianSphericalBase} and C{LatLonSphericalBase}
 imported by L{sphericalNvector} or L{sphericalTrigonometry}.
 
 Pure Python implementation of geodetic (lat-/longitude) functions,
-transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
+transcoded in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.04.24'
+__version__ = '21.06.09'
 
 
 def _angular(distance, radius):  # PYCHOK for export

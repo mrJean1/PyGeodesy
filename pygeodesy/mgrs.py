@@ -7,7 +7,7 @@ Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and
 L{MGRSError} and functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM conversion functions using
-an ellipsoidal earth model, transcribed from JavaScript originals by
+an ellipsoidal earth model, transcoded from JavaScript originals by
 I{(C) Chris Veness 2014-2016} published under the same MIT Licence**, see
 U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
 U{Module mgrs<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>}.
@@ -45,7 +45,7 @@ from pygeodesy.utmupsBase import _hemi
 
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.04.24'
+__version__ = '21.06.09'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums

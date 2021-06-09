@@ -9,7 +9,7 @@ L{intersections2}, L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn3} and
 L{perimeterOf}, I{all spherical}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
-spherical trigonometry, transcribed from JavaScript originals by
+spherical trigonometry, transcoded from JavaScript originals by
 I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.06.02'
+__version__ = '21.06.09'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
@@ -534,7 +534,10 @@ class LatLon(LatLonSphericalBase):
             >>> p = LatLon(45,1, 1.1)
             >>> inside = p.isEnclosedBy(b)  # True
         '''
-        Ps = self.PointsIter(points, loop=2)
+        def _signOf(x):
+            return 1 if x > 0 else (-1 if x < 0 else 0)
+
+        Ps = self.PointsIter(points, loop=2, dedup=True)
         n0 = self._N_vector
 
         v2 = Ps[0]._N_vector
@@ -544,50 +547,28 @@ class LatLon(LatLonSphericalBase):
         # polygon edges (to the left or right depending
         # on anti-/clockwise polygon direction)
         t0 = gc1.angleTo(n0) > PI_2
+        s0 = None
         # get great-circle vector for each edge
-        for i, p in Ps.enumerate(closed=False):
+        for i, p in Ps.enumerate(closed=True):
             v2 = p._N_vector
             gc = v1.cross(v2)
             v1 = v2
 
-            ti = gc.angleTo(n0) > PI_2
-            if ti != t0:  # different sides of edge i
+            t = gc.angleTo(n0) > PI_2
+            if t != t0:  # different sides of edge i
                 return False  # outside
 
-            # check for convex polygon, the angle between
+            # check for convex polygon: angle between
             # gc vectors, signed by direction of n0
             # (otherwise the test above is not reliable)
-            if gc1.angleTo(gc, vSign=n0) < 0:
-                t = _Fmt.SQUARE(points=i)
-                raise _ValueError(t, p, txt=_not_(_convex_))
+            s = _signOf(gc1.angleTo(gc, vSign=n0))
+            if s != s0:
+                if s0 is None:
+                    s0 = s
+                else:
+                    t = _Fmt.SQUARE(points=i)
+                    raise _ValueError(t, p, txt=_not_(_convex_))
             gc1 = gc
-
-#       if False:
-#           # get great-circle vector for each edge
-#           gc, v1 = [], points[n-1]._N_vector
-#           for i in range(n):
-#               v2 = points[i]._N_vector
-#               gc.append(v1.cross(v2))
-#               v1 = v2
-#
-#           # check whether this point on same side of all
-#           # polygon edges (to the left or right depending
-#           # on anti-/clockwise polygon direction)
-#           t0 = gc[0].angleTo(n0) > PI_2  # True if on the right
-#           for i in range(1, n):
-#               ti = gc[i].angleTo(n0) > PI_2
-#               if ti != t0:  # different sides of edge i
-#                   return False  # outside
-#
-#           # check for convex polygon (otherwise
-#           # the test above is not reliable)
-#           gc1 = gc[n-1]
-#           for i, gc2 in enumerate(gc):
-#               # angle between gc vectors, signed by direction of n0
-#               if gc1.angleTo(gc2, vSign=n0) < 0:
-#                   ti = _Fmt.SQUARE(points=i)
-#                   raise _ValueError(ti, points[i], txt=_not_(_convex_))
-#               gc1 = gc2
 
         return True  # inside
 

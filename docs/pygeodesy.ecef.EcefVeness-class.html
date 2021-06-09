@@ -72,15 +72,9 @@
                       <strong class="uidshort">EcefVeness</strong>
 </pre>
 
-<dl><dt>Known Subclasses:</dt>
-<dd>
-      <ul class="subclass-list">
-<li><a href="pygeodesy.ecef.EcefFarrell21-class.html">EcefFarrell21</a></li><li>, <a href="pygeodesy.ecef.EcefFarrell22-class.html">EcefFarrell22</a></li><li>, <a href="pygeodesy.ecef.EcefSudano-class.html">EcefSudano</a></li>  </ul>
-</dd></dl>
-
 <hr />
 <p>Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
-  Earth-Fixed</i> (ECEF) coordinates transcribed from <i>Chris Veness</i>' 
+  Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Chris Veness</i>' 
   JavaScript classes <a 
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
   target="_top">LatLonEllipsoidal, Cartesian</a>.</p>
@@ -107,52 +101,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.EcefVeness-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_ellipsoid</span>,
-        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      New <a href="pygeodesy.ecef.EcefVeness-class.html" 
-      class="link">EcefVeness</a>/<a 
-      href="pygeodesy.ecef.EcefSudano-class.html" 
-      class="link">EcefSudano</a> converter.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.EcefVeness-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">latlonh</span>,
-        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert from geodetic <code>(lat, lon, height)</code> to geocentric 
-      <code>(x, y, z)</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef.EcefVeness-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
@@ -160,7 +108,7 @@
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert from geocentric <code>(x, y, z)</code> to geodetic 
-      <code>(lat, lon, height)</code> transcribed from <i>Chris Veness</i>'
+      <code>(lat, lon, height)</code> transcoded from <i>Chris Veness</i>' 
       <a 
       href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
       target="_top">JavaScript</a>.</td>
@@ -176,6 +124,8 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ecef._EcefBase-class.html">_EcefBase</a></code></b>:
+      <code><a href="pygeodesy.ecef._EcefBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.ecef._EcefBase-class.html#forward">forward</a></code>,
       <code><a href="pygeodesy.ecef._EcefBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
@@ -250,127 +200,6 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_ellipsoid</span>,
-        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New <a href="pygeodesy.ecef.EcefVeness-class.html" 
-  class="link">EcefVeness</a>/<a 
-  href="pygeodesy.ecef.EcefSudano-class.html" class="link">EcefSudano</a> 
-  converter.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a_ellipsoid</code></strong> - A (non-prolate) ellipsoid (<a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>) or <code>scalar</code> ellipsoid's 
-          equatorial radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>f</code></strong> - <code>None</code> or the ellipsoid flattening 
-          (<code>scalar</code>), required for <code>scalar</code> 
-          <b><code>a_ellipsoid</code></b>, <code><b>f</b>=0</code> 
-          represents a sphere, negative <b><code>f</code></b> a prolate 
-          ellipsoid.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - If <b><code>a_ellipsoid</code></b> not <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-        class="link">Ellipsoid2</a>, <a 
-        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> or 
-        <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-        class="link">a_f2Tuple</a> or <code>scalar</code> or 
-        <b><code>f</code></b> not <code>scalar</code> or if 
-        <code>scalar</code> <b><code>a_ellipsoid</code></b> not positive or
-        <b><code>f</code></b> not less than 1.0.</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="forward"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">latlonh</span>,
-        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">M</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert from geodetic <code>(lat, lon, height)</code> to geocentric 
-  <code>(x, y, z)</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlonh</code></strong> - Either a <code>LatLon</code>, an <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> or <code>scalar</code> latitude 
-          (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional <code>scalar</code> longitude for <code>scalar</code> 
-          <b><code>latlonh</code></b> (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code>), vertically above (or below)
-          the surface of the ellipsoid.</li>
-        <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
-          href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
-          M, datum)</code> with geocentric <code>(x, y, z)</code> 
-          coordinates for the given geodetic ones <code>(lat, lon, 
-          height)</code>, case <code>C</code> 0, optional <code>M</code> 
-          (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>) and <code>datum</code> if available.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - If <b><code>latlonh</code></b> not <code>LatLon</code>, <a 
-        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-        class="link">Ecef9Tuple</a> or <code>scalar</code> or 
-        <b><code>lon</code></b> not <code>scalar</code> for 
-        <code>scalar</code> <b><code>latlonh</code></b> or 
-        <code>abs(lat)</code> exceeds 90&#176;.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.ecef._EcefBase-class.html#forward">_EcefBase.forward</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="reverse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -391,7 +220,7 @@
   </tr></table>
   
   <p>Convert from geocentric <code>(x, y, z)</code> to geodetic <code>(lat,
-  lon, height)</code> transcribed from <i>Chris Veness</i>' <a 
+  lon, height)</code> transcoded from <i>Chris Veness</i>' <a 
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
   target="_top">JavaScript</a>.</p>
   <p>Uses B. R. Bowring&#8217;s formulation for &#956;m precision in concise form: <a 
@@ -478,7 +307,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:41 2021
+    Generated by Epydoc 3.0.1 on Wed Jun  9 14:24:14 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

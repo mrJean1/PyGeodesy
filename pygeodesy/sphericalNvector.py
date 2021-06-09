@@ -9,7 +9,7 @@ L{meanOf}, L{nearestOn3}, L{perimeterOf}, L{sumOf}, L{triangulate} and
 L{trilaterate}, I{all spherical}.
 
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
-methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
+methods, transcoded from JavaScript originals by I{(C) Chris Veness 2011-2016},
 published under the same MIT Licence**.  See U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} and
 U{Module latlon-nvector-spherical
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.06.03'
+__version__ = '21.06.09'
 
 _paths_ = 'paths'
 

@@ -74,7 +74,8 @@
 
 <hr />
 <p>Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
-  Earth-Fixed</i> (ECEF) coordinates based on <i>Karney</i>'s <a 
+  Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Karney</i>'s C++ <a
+  
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
   target="_top">Geocentric</a> methods.</p>
 
@@ -86,27 +87,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.EcefKarney-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_ellipsoid</span>,
-        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      New <a href="pygeodesy.ecef.EcefKarney-class.html" 
-      class="link">EcefKarney</a> converter.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -156,6 +136,7 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ecef._EcefBase-class.html">_EcefBase</a></code></b>:
+      <code><a href="pygeodesy.ecef._EcefBase-class.html#__init__">__init__</a></code>,
       <code><a href="pygeodesy.ecef._EcefBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
@@ -200,7 +181,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefKarney-class.html#hmax" class="summary-name">hmax</a><br />
-      Get the distance limit (<code>float</code>).
+      Get the distance or height limit (<code>meter</code>, 
+      conventionally).
     </td>
   </tr>
   <tr>
@@ -238,65 +220,6 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_ellipsoid</span>,
-        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New <a href="pygeodesy.ecef.EcefKarney-class.html" 
-  class="link">EcefKarney</a> converter.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a_ellipsoid</code></strong> - A (non-prolate) ellipsoid (<a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a>, <a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
-          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>) or <code>scalar</code> ellipsoid's 
-          equatorial radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>f</code></strong> - <code>None</code> or the ellipsoid flattening 
-          (<code>scalar</code>), required for <code>scalar</code> 
-          <b><code>a_ellipsoid</code></b>, <code><b>f</b>=0</code> 
-          represents a sphere, negative <b><code>f</code></b> a prolate 
-          ellipsoid.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - If <b><code>a_ellipsoid</code></b> not <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-        class="link">Ellipsoid2</a>, <a 
-        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> or 
-        <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-        class="link">a_f2Tuple</a> or <code>scalar</code> or 
-        <b><code>f</code></b> not <code>scalar</code> or if 
-        <code>scalar</code> <b><code>a_ellipsoid</code></b> not positive or
-        <b><code>f</code></b> not less than 1.0.</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="forward"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -434,7 +357,7 @@
         solutions with different longitudes (applies only if <code>x</code>
         = <code>y</code> = 0) then <code>lon</code> = 0 is returned.  The 
         returned <code>height</code> value is not below <i 
-        class="math">&#8722;E.a * (1 &#8722; E.e2) / sqrt(1 &#8722; E.e2 * sin(lat)**2)</i>. 
+        class="math">&#8722;E.a * (1 &#8722; E.e2) / sqrt(1 &#8722; E.e2 * sin(lat)**2)</i>.
         The returned <code>lon</code> is in the range [&#8722;180&#176;, 180&#176;].  Like 
         <code>forward</code> above, <i class="math">v1 = Transpose(M) &#8901; 
         v0</i>.
@@ -457,11 +380,12 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hmax</h3>
-  <p>Get the distance limit (<code>float</code>).</p>
+  <p>Get the distance or height limit (<code>meter</code>, 
+  conventionally).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">hmax(<span class="summary-sig-arg">self</span>)</span>
-        - Get the distance limit (<code>float</code>).
+        - Get the distance or height limit (<code>meter</code>, conventionally).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -470,7 +394,7 @@
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached</i>, <i>memoized</i> <code>property</code> value.
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -507,7 +431,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:41 2021
+    Generated by Epydoc 3.0.1 on Wed Jun  9 14:24:14 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

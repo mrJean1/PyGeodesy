@@ -34,6 +34,13 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
 from os import environ as _env  # in .geodsolve
 from os.path import basename as _basename
 import sys as _sys  # in .geodsolve
+try:
+    from importlib import import_module
+except ImportError:  # no import_module in Python 2.6-
+
+    def import_module(name, package=None):  # PYCHOK
+        raise LazyImportError(name=name, package=package,
+                              txt=_no_(import_module.__name__))
 
 _a_l_l_         = '__all__'
 _FOR_DOCS       = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
@@ -285,7 +292,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.06.01'
+__version__ = '21.06.09'
 
 
 def _ALL_OTHER(*objs):
@@ -379,14 +386,15 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
               and call C{importlib.import_module(<module>.<name>, ...)}
               without causing a C{ModuleNotFoundError}.
 
-       @see: The original U{modutil<https://PyPi.org/project/modutil>} and
-             U{PEP 562<https://www.Python.org/dev/peps/pep-0562>}.
+       @see: The original U{modutil<https://PyPi.org/project/modutil>},
+             U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
+             U{new way<https://Snarky.CA/lazy-importing-in-python-3-7/>}.
     '''
     if _sys.version_info[:2] < (3, 7):  # not supported before 3.7
         t = _no_(_DOT_(_pygeodesy_, _lazy_import2.__name__))
         raise LazyImportError(t, txt=_Python_(_sys))
 
-    import_module, package, parent = _lazy_init3(_pygeodesy_)
+    package, parent = _lazy_init2(_pygeodesy_)
 
     packages = (parent, '__main__', NN) + tuple(
                _DOT_(parent, s) for s in _sub_packages)
@@ -439,7 +447,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
     return package, __getattr__  # _lazy_import2
 
 
-def _lazy_init3(_pygeodesy_):
+def _lazy_init2(_pygeodesy_):
     '''(INTERNAL) Try to initialize lazy import.
 
        @arg _pygeodesy_: The name of the package (C{str}) performing
@@ -472,8 +480,6 @@ def _lazy_init3(_pygeodesy_):
         isLazy += 1
 
     try:  # to initialize in Python 3+
-        from importlib import import_module
-
         package = import_module(_pygeodesy_)
         parent = package.__spec__.parent  # __spec__ only in Python 3.7+
         if parent != _pygeodesy_:  # assert
@@ -482,9 +488,9 @@ def _lazy_init3(_pygeodesy_):
 
     except (AttributeError, ImportError) as x:  # PYCHOK no cover
         isLazy = False  # failed
-        raise LazyImportError(_lazy_init3.__name__, _pygeodesy_, txt=str(x))
+        raise LazyImportError(_lazy_init2.__name__, _pygeodesy_, txt=str(x))
 
-    return import_module, package, parent
+    return package, parent
 
 
 def print_(*args, **nl_nt_prefix_end_file_flush_sep):

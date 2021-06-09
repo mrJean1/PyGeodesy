@@ -3,7 +3,7 @@
 
 u'''I{Karney}'s elliptic functions and integrals.
 
-Class L{Elliptic} transcribed from I{Charles Karney}'s C++ class U{EllipticFunction
+Class L{Elliptic} transcoded from I{Charles Karney}'s C++ class U{EllipticFunction
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
 to pure Python.
 
@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.05.10'
+__version__ = '21.06.09'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)

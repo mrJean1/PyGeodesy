@@ -5,7 +5,7 @@ u'''I{Karney}'s Universal Polar Stereographic (UPS) projection.
 
 Classes L{Ups} and L{UPSError} and functions L{parseUPS5}, L{toUps8} and L{upsZoneBand5}.
 
-A pure Python implementation, partially transcribed from C++ class U{PolarStereographic
+A pure Python implementation, partially transcoded from C++ class U{PolarStereographic
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html>}
 by I{Charles Karney}.
 
@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.05.10'
+__version__ = '21.06.09'
 
 _Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})

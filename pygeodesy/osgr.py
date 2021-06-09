@@ -6,7 +6,7 @@ u'''Ordinance Survey Grid References (OSGR) references.
 Classes L{Osgr} and L{OSGRError} and functions L{parseOSGR} and L{toOsgr}.
 
 Pure Python implementation of OS Grid Reference functions using an
-ellipsoidal earth model, transcribed from JavaScript originals by
+ellipsoidal earth model, transcoded from JavaScript originals by
 I{(C) Chris Veness 2005-2016} published under the same MIT Licence**, see
 U{OS National Grid<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 and U{Module osgridref
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.05.23'
+__version__ = '21.06.09'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

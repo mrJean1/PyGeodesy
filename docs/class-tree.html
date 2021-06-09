@@ -739,7 +739,7 @@
         href="https://dl.ACM.org/citation.cfm?id=368443" 
         target="_top">cubic</a> interpolation and <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache"
-        target="_top">caching</a> in pure Python transcribed from 
+        target="_top">caching</a> in pure Python transcoded from 
         <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp"
         target="_top">C++ class Geoid</a>.</em>
@@ -985,6 +985,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -996,14 +1004,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1043,7 +1043,7 @@
       <em class="summary">Conversion between geodetic <code>(lat, lon, height)</code> and 
         <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
         <i>geodetic</i> origin <code>(lat0, lon0, height0)</code>, 
-        transcribed from <i>Karney</i>'s C++ class <a 
+        transcoded from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.</em>
     <ul>
@@ -1137,19 +1137,19 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1395,19 +1395,6 @@
         class="link">EcefVeness</a> and <a 
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefKarney-class.html">pygeodesy.ecef.EcefKarney</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
-        Earth-Fixed</i> (ECEF) coordinates based on <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
-        target="_top">Geocentric</a> methods.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefVeness-class.html">pygeodesy.ecef.EcefVeness</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
-        Earth-Fixed</i> (ECEF) coordinates transcribed from <i>Chris 
-        Veness</i>' JavaScript classes <a 
-        href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
-        target="_top">LatLonEllipsoidal, Cartesian</a>.</em>
-    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefFarrell21-class.html">pygeodesy.ecef.EcefFarrell21</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
@@ -1420,6 +1407,13 @@
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.2</a>, page 30.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefKarney-class.html">pygeodesy.ecef.EcefKarney</a></strong>:
+      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Karney</i>'s 
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+        target="_top">Geocentric</a> methods.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefSudano-class.html">pygeodesy.ecef.EcefSudano</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
@@ -1427,7 +1421,12 @@
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
         target="_top">paper</a>.</em>
     </li>
-    </ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefVeness-class.html">pygeodesy.ecef.EcefVeness</a></strong>:
+      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Chris 
+        Veness</i>' JavaScript classes <a 
+        href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
+        target="_top">LatLonEllipsoidal, Cartesian</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefYou-class.html">pygeodesy.ecef.EcefYou</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
@@ -3045,7 +3044,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jun  4 13:10:38 2021
+    Generated by Epydoc 3.0.1 on Wed Jun  9 14:24:11 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

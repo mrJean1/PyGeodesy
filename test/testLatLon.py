@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.18'
+__version__ = '21.06.09'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -356,6 +356,13 @@ class Tests(TestsBase):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90)
             for _ in self.testiter():
                 self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')  # PYCHOK test attr?
+
+        if hasattr(LatLon, 'isenclosedBy'):
+            # courtesy Maranov <https://GitHub.com/mrJean1/PyGeodesy/issues/53>
+            b = LatLon(0, 0), LatLon(0, 1), LatLon(0, 1), LatLon(1, 1), LatLon(1, 0)
+            for t in ('CCW', 'CW ', 'CCW'):
+                self.test('isenclosedBy-' + t, LatLon(0.5, 0.5).isenclosedBy(b), True)
+                b = tuple(reversed(b))  # PYCHOK test attr?
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = LHR.initialBearingTo(FRA)

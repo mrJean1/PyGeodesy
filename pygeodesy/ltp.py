@@ -7,7 +7,7 @@ I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian} and L{Lt
 L{LocalError} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
-      and class L{LocalCartesian}, transcribed from I{Charles Karney}'s C++ classU{LocalCartesian
+      and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 
@@ -31,7 +31,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.06.04'
+__version__ = '21.06.09'
 
 _Xyz_ = 'Xyz'
 
@@ -45,7 +45,7 @@ class LocalError(_ValueError):
 class LocalCartesian(_NamedBase):
     '''Conversion between geodetic C{(lat, lon, height)} and I{local cartesian}
        C{(x, y, z)} coordinates with I{geodetic} origin C{(lat0, lon0, height0)},
-       transcribed from I{Karney}'s C++ class U{LocalCartesian
+       transcoded from I{Karney}'s C++ class U{LocalCartesian
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due

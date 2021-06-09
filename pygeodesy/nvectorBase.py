@@ -7,7 +7,7 @@ Classes L{LatLonNvectorBase} for C{n-vectorial} ellipsoidal and spherical
 C{LatLon}s, class L{NvectorBase} for C{Cartesian}s and function L{sumOf}.
 
 Pure Python implementation of C{n-vector}-based geodesy tools for
-ellipsoidal earth models, transcribed from JavaScript originals by
+ellipsoidal earth models, transcoded from JavaScript originals by
 I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
 see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.06.01'
+__version__ = '21.06.09'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

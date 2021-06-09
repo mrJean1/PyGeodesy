@@ -12,7 +12,7 @@ The I{wrapped} class methods return a C{named._NamedDict}-like instance providin
 access to the L{GDict} items by key or by attribute name.
 
 Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
-functions I{transcribed} from I{Karney}'s original C++ U{GeographicLib
+functions I{transcoded} from I{Karney}'s original C++ U{GeographicLib
 <https://GeographicLib.SourceForge.io/html/annotated.html>}:
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
@@ -115,7 +115,7 @@ from math import copysign, fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.06.04'
+__version__ = '21.06.09'
 
 _16th = _1_0 / _16_0
 

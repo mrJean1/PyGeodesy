@@ -3,12 +3,12 @@
 
 u'''I{Geocentric} Earth-Centered, Earth-Fixed (ECEF) coordinates.
 
-Geocentric conversions transcribed from I{Charles Karney}'s C++ class U{Geocentric
+Geocentric conversions transcoded from I{Charles Karney}'s C++ class U{Geocentric
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
 into pure Python class L{EcefKarney}, class L{EcefSudano} based on I{John Sudano}'s
 U{paper<https://www.ResearchGate.net/publication/
 3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>},
-class L{EcefVeness} transcribed from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal,
+class L{EcefVeness} transcoded from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal,
 Cartesian<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}, class L{EcefYou}
 implementing I{Rey-Jer You}'s U{transformations <https://www.ResearchGate.net/publication/240359424>} and
 classes L{EcefFarrell22} and L{EcefFarrell22} from I{Jay A. Farrell}'s U{Table 2.1 and 2.2
@@ -73,7 +73,7 @@ from pygeodesy.interns import EPS, EPS0, EPS1, EPS_2, NN, PI, PI_2, _a_, \
                              _M_, _name_, _no_,  _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_, _0_0, _0_5, \
                              _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.06.04'
+__version__ = '21.06.09'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -155,8 +155,21 @@ class _EcefBase(_NamedBase):
     _datum = None
     _E     = None
 
-    def __init__(self, a_ellipsoid, f, name):
-        '''(INTERNAL) New C{Ecef...}.
+    def __init__(self, a_ellipsoid, f=None, name=NN):
+        '''New C{Ecef*} converter.
+
+           @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
+                             equatorial radius (C{meter}).
+           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
+                     for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
+                     sphere, negative B{C{f}} a prolate ellipsoid.
+           @kwarg name: Optional name (C{str}).
+
+           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
+                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
+                             or B{C{f}} not less than 1.0.
         '''
         if name:
             self.name = name
@@ -210,20 +223,14 @@ class _EcefBase(_NamedBase):
 
     f = flattening
 
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        notOverloaded(self, latlonh, lon=lon, height=height, M=M, name=name)
-
-    def _forward(self, lat, lon, h, name, M=False, You=False):
-        '''(INTERNAL) Common C{EcefKarney.}, C{EcefVeness.},
-           C{EcefSudano.} and C{EcefYou.forward}.
+    def _forward(self, lat, lon, h, name, M=False):
+        '''(INTERNAL) Common for all C{Ecef*}.
         '''
         E = self.ellipsoid
 
         sa, ca, sb, cb = sincos2d(lat, lon)
 
-        n = E.roc1_(sa, ca) if You else E.roc1_(sa)
+        n = E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
         z = (h + n * E.e12) * sa
         x = (h + n) * ca
 
@@ -232,12 +239,42 @@ class _EcefBase(_NamedBase):
                                              0, m, self.datum,
                                              name=name or self.name)
 
+    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
+        '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
+
+           @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
+                         latitude (C{degrees}).
+           @kwarg lon: Optional C{scalar} longitude for C{scalar} B{C{latlonh}}
+                       (C{degrees}).
+           @kwarg height: Optional height (C{meter}), vertically above (or below)
+                          the surface of the ellipsoid.
+           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg name: Optional name (C{str}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    geocentric C{(x, y, z)} coordinates for the given geodetic ones
+                    C{(lat, lon, height)}, case C{C} 0, optional C{M} (L{EcefMatrix})
+                    and C{datum} if available.
+
+           @raise EcefError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple} or
+                             C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
+                             B{C{latlonh}} or C{abs(lat)} exceeds 90°.
+        '''
+        llhn = _llhn4(latlonh, lon, height, name=name)
+        return _EcefBase._forward(self, *llhn, M=M)
+
     @Property_RO
     def _Geocentrics(self):
         '''(INTERNAL) Valid geocentric classes.
         '''
         from pygeodesy.cartesianBase import CartesianBase
         return Ecef9Tuple, CartesianBase
+
+    @Property_RO
+    def _isYou(self):
+        '''(INTERNAL) Is this an C{EcefYou}?.
+        '''
+        return isinstance(self, EcefYou)
 
     def _Matrix(self, sa, ca, sb, cb):
         '''Creation a rotation matrix.
@@ -268,30 +305,10 @@ class _EcefBase(_NamedBase):
 
 class EcefKarney(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates based on I{Karney}'s U{Geocentric
+       Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
        methods.
     '''
-    _hmax = 0  # max height, 12M lightyears
-
-    def __init__(self, a_ellipsoid, f=None, name=NN):
-        '''New L{EcefKarney} converter.
-
-           @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
-                             equatorial radius (C{meter}).
-           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
-                     sphere, negative B{C{f}} a prolate ellipsoid.
-           @kwarg name: Optional name (C{str}).
-
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
-                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
-                             or B{C{f}} not less than 1.0.
-        '''
-        _EcefBase.__init__(self, a_ellipsoid, f, name)
-        self._hmax = self.equatoradius / EPS_2  # self.equatoradius * _2_EPS
 
     def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
@@ -316,19 +333,19 @@ class EcefKarney(_EcefBase):
 
            @note: Let C{v} be a unit vector located at C{(lat, lon, h)}.  We can
                   express C{v} as column vectors in one of two ways, C{v1} in east,
-                  north, up coordinates (where the components are relative
-                  to a local coordinate system at C{C(lat0, lon0, h0)}) or as
-                  C{v0} in geocentric C{x, y, z} coordinates.  Then, M{v0 =
-                  M ⋅ v1} where C{M} is the rotation matrix.
+                  north, up coordinates (where the components are relative to a
+                  local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
+                  in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1}
+                  where C{M} is the rotation matrix.
         '''
         llhn = _llhn4(latlonh, lon, height, name=name)
         return _EcefBase._forward(self, *llhn, M=M)
 
     @Property_RO
     def hmax(self):
-        '''Get the distance limit (C{float}).
+        '''Get the distance or height limit (C{meter}, conventionally).
         '''
-        return self._hmax
+        return self.equatoradius / EPS_2  # self.equatoradius * _2_EPS, 12M lighyears
 
     def reverse(self, xyz, y=None, z=None, M=False, name=NN):
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
@@ -348,25 +365,23 @@ class EcefKarney(_EcefBase):
            @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                              not C{scalar} for C{scalar} B{C{xyz}}.
 
-           @note: In general, there are multiple solutions and the result
-                  which minimizes C{height} is returned, i.e., C{(lat, lon)}
-                  corresponds to the closest point on the ellipsoid.  If
-                  there are still multiple solutions with different latitudes
-                  (applies only if C{z} = 0), then the solution with C{lat} > 0
-                  is returned.  If there are still multiple solutions with
-                  different longitudes (applies only if C{x} = C{y} = 0) then
-                  C{lon} = 0 is returned.  The returned C{height} value is not
-                  below M{−E.a * (1 − E.e2) / sqrt(1 − E.e2 * sin(lat)**2)}.
-                  The returned C{lon} is in the range [−180°, 180°].  Like
-                  C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
+           @note: In general, there are multiple solutions and the result which minimizes
+                  C{height} is returned, i.e., C{(lat, lon)} corresponds to the closest
+                  point on the ellipsoid.  If there are still multiple solutions with
+                  different latitudes (applies only if C{z} = 0), then the solution with
+                  C{lat} > 0 is returned.  If there are still multiple solutions with
+                  different longitudes (applies only if C{x} = C{y} = 0) then C{lon} = 0
+                  is returned.  The returned C{height} value is not below M{−E.a * (1 −
+                  E.e2) / sqrt(1 − E.e2 * sin(lat)**2)}.  The returned C{lon} is in the
+                  range [−180°, 180°].  Like C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
         '''
-        E = self.ellipsoid
-
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
+
+        E = self.ellipsoid
 
         sb, cb, R = _sch3(y, x)
         h = hypot(R, z)  # distance to earth center
-        if h > self._hmax:  # PYCHOK no cover
+        if h > self.hmax:  # PYCHOK no cover
             # We are really far away (> 12M light years).  Treat the earth
             # as a point and h, above as an acceptable approximation to the
             # height.  This avoids overflow, e.g., in the computation of disc
@@ -461,139 +476,11 @@ class EcefKarney(_EcefBase):
                                    name=name or self.name)
 
 
-class EcefVeness(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates transcribed from I{Chris Veness}'
-       JavaScript classes U{LatLonEllipsoidal, Cartesian
-       <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
-
-       @see: U{A Guide to Coordinate Systems in Great Britain
-             <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>},
-             section I{B) Converting between 3D Cartesian and ellipsoidal
-             latitude, longitude and height coordinates}.
-    '''
-
-    def __init__(self, a_ellipsoid, f=None, name=NN):
-        '''New L{EcefVeness}/L{EcefSudano} converter.
-
-           @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
-                             equatorial radius (C{meter}).
-           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_ellipsoid}}, C{B{f}=0} represents a
-                     sphere, negative B{C{f}} a prolate ellipsoid.
-           @kwarg name: Optional name (C{str}).
-
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
-                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
-                             or B{C{f}} not less than 1.0.
-        '''
-        _EcefBase.__init__(self, a_ellipsoid, f, name)
-
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
-        '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
-
-           @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                         latitude (C{degrees}).
-           @kwarg lon: Optional C{scalar} longitude for C{scalar} B{C{latlonh}}
-                       (C{degrees}).
-           @kwarg height: Optional height (C{meter}), vertically above (or below)
-                          the surface of the ellipsoid.
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
-                    geocentric C{(x, y, z)} coordinates for the given geodetic ones
-                    C{(lat, lon, height)}, case C{C} 0, optional C{M} (L{EcefMatrix})
-                    and C{datum} if available.
-
-           @raise EcefError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple} or
-                             C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
-                             B{C{latlonh}} or C{abs(lat)} exceeds 90°.
-        '''
-        llhn = _llhn4(latlonh, lon, height, name=name)
-        return _EcefBase._forward(self, *llhn, M=M)
-
-    def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
-        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
-           transcribed from I{Chris Veness}' U{JavaScript
-           <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
-
-           Uses B. R. Bowring’s formulation for μm precision in concise
-           form: U{'The accuracy of geodetic latitude and height equations'
-           <https://www.ResearchGate.net/publication/
-           233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
-           Survey Review, Vol 28, 218, Oct 1985.
-
-           @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
-                     coordinate (C{meter}).
-           @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
-           @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
-           @kwarg M: I{Ignored}, rotation matrix C{M} not available.
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
-                    geodetic coordinates C{(lat, lon, height)} for the given geocentric
-                    ones C{(x, y, z)}, case C{C}, C{M=None} always and C{datum} if available.
-
-           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
-                             not C{scalar} for C{scalar} B{C{xyz}}.
-
-           @see: Ralph M. Toms U{'An Efficient Algorithm for Geocentric to Geodetic
-                 Coordinate Conversion'<https://www.OSTI.gov/scitech/biblio/110235>},
-                 Sept 1995 and U{'An Improved Algorithm for Geocentric to Geodetic
-                 Coordinate Conversion'<https://www.OSTI.gov/scitech/servlets/purl/231228>},
-                 Apr 1996, both from Lawrence Livermore National Laboratory (LLNL) and
-                 John J. Sudano U{An exact conversion from an Earth-centered coordinate
-                 system to latitude longitude and altitude<https://www.ResearchGate.net/
-                 publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
-        '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
-
-        E = self.ellipsoid
-
-        p = hypot(x, y)  # distance from minor axis
-        r = hypot(p, z)  # polar radius
-        if min(p, r) > EPS0:
-            # parametric latitude (Bowring eqn 17, replaced)
-            t = (E.b * z) / (E.a * p) * (_1_0 + E.e22 * E.b / r)
-            c = _1_0 / hypot1(t)
-            s = t * c
-
-            # geodetic latitude (Bowring eqn 18)
-            a = atan2(z + E.e22 * E.b * s**3,
-                      p - E.e2  * E.a * c**3)
-
-            # height above ellipsoid (Bowring eqn 7)
-            sa, ca = sincos2(a)
-#           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
-#           h = p * ca + z * sa - (E.a * E.a / r)
-            h = fsum_(p * ca, z * sa, -E.a * E.e2s(sa))
-
-            C, lat, lon = 1, degrees90(a), atan2d(y, x)
-
-        # see <https://GIS.StackExchange.com/questions/28446>
-        elif p > EPS:  # lat arbitrarily zero
-            C, lat, lon, h = 2, _0_0, atan2d(y, x), p - E.a
-
-        else:  # polar lat, lon arbitrarily zero
-            C, lat, lon, h = 3, copysign(_90_0, z), _0_0, abs(z) - E.b
-
-        return Ecef9Tuple(x, y, z, lat, lon, h,
-                                   C, None,  # M=None
-                                   self.datum, name=name or self.name)
-
-
-class EcefFarrell21(EcefVeness):
+class EcefFarrell21(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
        Earth-Fixed} (ECEF) coordinates based on I{Jay A. Farrell}'s U{Table
        2.1<https://Books.Google.com/books?id=fW4foWASY6wC>}, page 29.
     '''
-
-    if _FOR_DOCS:
-        __init__ = EcefVeness.__init__
-        forward  = EcefVeness.forward
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
@@ -658,15 +545,11 @@ class EcefFarrell21(EcefVeness):
                                    name=name or self.name)
 
 
-class EcefFarrell22(EcefVeness):
+class EcefFarrell22(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
        Earth-Fixed} (ECEF) coordinates based on I{Jay A. Farrell}'s U{Table
        2.2<https://Books.Google.com/books?id=fW4foWASY6wC>}, page 30.
     '''
-
-    if _FOR_DOCS:
-        __init__ = EcefVeness.__init__
-        forward  = EcefVeness.forward
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
@@ -715,16 +598,12 @@ class EcefFarrell22(EcefVeness):
                                    name=name or self.name)
 
 
-class EcefSudano(EcefVeness):
+class EcefSudano(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
        Earth-Fixed} (ECEF) coordinates based on I{John J. Sudano}'s U{paper
        <https://www.ResearchGate.net/publication/
        3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
     '''
-
-    if _FOR_DOCS:
-        __init__ = EcefVeness.__init__
-        forward  = EcefVeness.forward
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
@@ -794,6 +673,88 @@ class EcefSudano(EcefVeness):
         return r
 
 
+class EcefVeness(_EcefBase):
+    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
+       Earth-Fixed} (ECEF) coordinates transcoded from I{Chris Veness}'
+       JavaScript classes U{LatLonEllipsoidal, Cartesian
+       <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+
+       @see: U{A Guide to Coordinate Systems in Great Britain
+             <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>},
+             section I{B) Converting between 3D Cartesian and ellipsoidal
+             latitude, longitude and height coordinates}.
+    '''
+
+    def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
+        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
+           transcoded from I{Chris Veness}' U{JavaScript
+           <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+
+           Uses B. R. Bowring’s formulation for μm precision in concise
+           form: U{'The accuracy of geodetic latitude and height equations'
+           <https://www.ResearchGate.net/publication/
+           233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
+           Survey Review, Vol 28, 218, Oct 1985.
+
+           @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
+                     coordinate (C{meter}).
+           @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
+           @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
+           @kwarg M: I{Ignored}, rotation matrix C{M} not available.
+           @kwarg name: Optional name (C{str}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    geodetic coordinates C{(lat, lon, height)} for the given geocentric
+                    ones C{(x, y, z)}, case C{C}, C{M=None} always and C{datum} if available.
+
+           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
+                             not C{scalar} for C{scalar} B{C{xyz}}.
+
+           @see: Ralph M. Toms U{'An Efficient Algorithm for Geocentric to Geodetic
+                 Coordinate Conversion'<https://www.OSTI.gov/scitech/biblio/110235>},
+                 Sept 1995 and U{'An Improved Algorithm for Geocentric to Geodetic
+                 Coordinate Conversion'<https://www.OSTI.gov/scitech/servlets/purl/231228>},
+                 Apr 1996, both from Lawrence Livermore National Laboratory (LLNL) and
+                 John J. Sudano U{An exact conversion from an Earth-centered coordinate
+                 system to latitude longitude and altitude<https://www.ResearchGate.net/
+                 publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
+        '''
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
+
+        E = self.ellipsoid
+
+        p = hypot(x, y)  # distance from minor axis
+        r = hypot(p, z)  # polar radius
+        if min(p, r) > EPS0:
+            # parametric latitude (Bowring eqn 17, replaced)
+            t = (E.b * z) / (E.a * p) * (_1_0 + E.e22 * E.b / r)
+            c = _1_0 / hypot1(t)
+            s = t * c
+
+            # geodetic latitude (Bowring eqn 18)
+            a = atan2(z + E.e22 * E.b * s**3,
+                      p - E.e2  * E.a * c**3)
+
+            # height above ellipsoid (Bowring eqn 7)
+            sa, ca = sincos2(a)
+#           r = E.a / E.e2s(sa)  # length of normal terminated by minor axis
+#           h = p * ca + z * sa - (E.a * E.a / r)
+            h = fsum_(p * ca, z * sa, -E.a * E.e2s(sa))
+
+            C, lat, lon = 1, degrees90(a), atan2d(y, x)
+
+        # see <https://GIS.StackExchange.com/questions/28446>
+        elif p > EPS:  # lat arbitrarily zero
+            C, lat, lon, h = 2, _0_0, atan2d(y, x), p - E.a
+
+        else:  # polar lat, lon arbitrarily zero
+            C, lat, lon, h = 3, copysign(_90_0, z), _0_0, abs(z) - E.b
+
+        return Ecef9Tuple(x, y, z, lat, lon, h,
+                                   C, None,  # M=None
+                                   self.datum, name=name or self.name)
+
+
 class EcefYou(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
        Earth-Fixed} (ECEF) coordinates using I{Rey-Jer You}'s U{transformation
@@ -801,54 +762,16 @@ class EcefYou(_EcefBase):
 
        @see: W.E. Featherstone, S.J. (Sten) Claessens U{Closed-form transformation
              between geodetic and ellipsoidal coordinates
-             <https://espace.Curtin.edu.AU/bitstream/handle/20.500.11937/11589/115114_9021_geod2ellip_final.pdf>}
+             <https://Espace.Curtin.edu.AU/bitstream/handle/20.500.11937/11589/115114_9021_geod2ellip_final.pdf>}
              Studia Geophysica et Geodaetica, 2008, 52, 1-18 and U{PyMap3D
              <https://PyPI.org/project/pymap3d>}.
     '''
 
     def __init__(self, a_ellipsoid, f=None, name=NN):
-        '''New L{EcefYou} converter.
-
-           @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple}) or C{scalar} ellipsoid's
-                             equatorial radius (C{meter}).
-           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required for
-                     C{scalar} B{C{a_ellipsoid}}, use C{B{f}=0} to represent a sphere.
-           @kwarg name: Optional name (C{str}).
-
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
-                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
-                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
-                             or B{C{f}} negative or not less than 1.0.
-        '''
-        _EcefBase.__init__(self, a_ellipsoid, f, name)
+        _EcefBase.__init__(self, a_ellipsoid, f=f, name=name)  # inherited documentation
         E = self.ellipsoid
         if E.isProlate or (E.a2 - E.b2) < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
-
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
-        '''Convert geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
-
-           @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                         latitude (C{degrees}).
-           @kwarg lon: Optional C{scalar} longitude for C{scalar} B{C{latlonh}}
-                       (C{degrees}).
-           @kwarg height: Optional height (C{meter}), vertically above (or below)
-                          the surface of the ellipsoid.
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
-                    geocentric C{(x, y, z)} coordinates for the given geodetic ones
-                    C{(lat, lon, height)}, case C{C=0}, optional C{M} (L{EcefMatrix})
-                    and C{datum} if available.
-
-           @raise EcefError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple} or
-                             C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
-                             B{C{latlonh}} or C{abs(lat)} exceeds 90°.
-        '''
-        llhn = _llhn4(latlonh, lon, height, name=name)
-        return _EcefBase._forward(self, *llhn, M=M, You=True)
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}

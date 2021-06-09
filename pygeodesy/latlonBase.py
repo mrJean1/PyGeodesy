@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.06.01'
+__version__ = '21.06.09'
 
 
 class LatLonBase(_NamedBase):
@@ -761,17 +761,18 @@ class LatLonBase(_NamedBase):
         '''
         return points2(points, closed=closed, base=self)
 
-    def PointsIter(self, points, loop=0):
+    def PointsIter(self, points, loop=0, dedup=False):
         '''Return a C{PointsIter} iterator.
 
            @arg points: The path or polygon points (C{LatLon}[])
            @kwarg loop: Number of loop-back points (non-negative C{int}).
+           @kwarg dedup: Skip duplicate points (C{bool}).
 
            @return: A new C{PointsIter} iterator.
 
            @raise PointsError: Insufficient number of B{C{points}}.
         '''
-        return PointsIter(points, base=self, loop=loop)
+        return PointsIter(points, base=self, loop=loop, dedup=dedup)
 
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using

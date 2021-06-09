@@ -21,9 +21,10 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, isNumpy2, isTuple2, wrap90, wrap180
 
 __all__ = _ALL_LAZY.iters
-__version__ = '21.04.24'
+__version__ = '21.06.09'
 
-_items_ = 'items'
+_items_  = 'items'
+_NOTHING =  object()  # unique
 
 
 class _BaseIter(_Named):
@@ -38,7 +39,7 @@ class _BaseIter(_Named):
     _items  =  None
     _loop   = ()
     _name   = _items_
-    _prev   =  object()
+    _prev   = _NOTHING
 
     def __init__(self, items, loop=0, dedup=False, Error=None, name=NN):
         '''New iterator over an iterable of B{C{items}}.
@@ -61,6 +62,8 @@ class _BaseIter(_Named):
 
         if isinstance(items, (list, tuple)):  # range in Python 2
             self._items = items
+# XXX   if hasattr(items, 'next') or hasattr(items, '__length_hint__'):
+# XXX       # handle reversed, iter, etc. items types
         self._iter = iter(items)
         self._indx = -1
         if Int(loop) > 0:
@@ -156,7 +159,7 @@ class _BaseIter(_Named):
 
     @property_RO
     def loop(self):
-        '''Get the B{C{loop}} setting (C{int}), always C{0} in loop-back.
+        '''Get the B{C{loop}} setting (C{int}), C{0} for non-loop-back.
         '''
         return len(self._loop)
 
@@ -187,10 +190,10 @@ class _BaseIter(_Named):
         except StopIteration:
             pass
         if self._closed and self._loop:  # loop back
+            self._dedup = bool(dedup or self._dedup)
+            self._indx  = 0
             self._iter  = iter(self._loop)
             self._loop  = ()
-            self._indx  = 0
-            self._dedup = bool(dedup or self._dedup)
         return next(self._iter)
 
     def _next_dedup(self):
@@ -198,8 +201,9 @@ class _BaseIter(_Named):
         '''
         prev = self._prev
         item = self._next(True)
-        while item == prev:
-            item = self._next(True)
+        if prev is not _NOTHING:
+            while item == prev:
+                item = self._next(True)
         return item
 
 
@@ -209,7 +213,7 @@ class PointsIter(_BaseIter):
     _base  = None
     _Error = PointsError
 
-    def __init__(self, points, loop=0, base=None):
+    def __init__(self, points, loop=0, base=None, dedup=False, name=NN):
         '''New L{PointsIter} iterator.
 
            @arg points: C{Iterable} or C{list}, C{sequence}, C{set}, C{tuple},
@@ -217,12 +221,14 @@ class PointsIter(_BaseIter):
            @kwarg loop: Number of loop-back points, also initial C{enumerate}
                         and C{iterate} index (non-negative C{int}).
            @kwarg base: Optional B{C{points}} instance for type checking (C{any}).
+           @kwarg dedup: Skip duplicate points (C{bool}).
+           @kwarg name: Optional name (C{str}).
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
            @raise TypeError: Some B{C{points}} are not B{C{base}}.
        '''
-        _BaseIter.__init__(self, points, loop=loop, name=_points_)
+        _BaseIter.__init__(self, points, loop=loop, dedup=dedup, name=name or _points_)
 
         if base and not (isNumpy2(points) or isTuple2(points)):
             self._base = base
@@ -275,7 +281,8 @@ class LatLon2PsxyIter(PointsIter):
     _radius = None  # keep degrees
     _wrap   = True
 
-    def __init__(self, points, loop=0, base=None, wrap=True, radius=None):
+    def __init__(self, points, loop=0, base=None, wrap=True, radius=None,
+                                                  dedup=False, name=NN):
         '''New L{LatLon2PsxyIter} iterator.
 
            @note: The C{LatLon} latitude is considered the I{pseudo-y} and
@@ -289,12 +296,14 @@ class LatLon2PsxyIter(PointsIter):
            @kwarg wrap: Wrap lat- and longitudes (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}) for conversion from
                           C{degrees} to C{meter} (or C{radians} if C{B{radius}=1}).
+           @kwarg dedup: Skip duplicate points (C{bool}).
+           @kwarg name: Optional name (C{str}).
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
            @raise TypeError: Some B{C{points}} are not B{C{base}}-compatible.
         '''
-        PointsIter.__init__(self, points, loop=loop, base=base)
+        PointsIter.__init__(self, points, loop=loop, base=base, dedup=dedup, name=name)
         if not wrap:
             self._wrap = False
         if radius:

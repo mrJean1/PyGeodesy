@@ -10,7 +10,7 @@ and I{Universal Polar Stereographic} (U{UPS
 <https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>})
 coordinates.
 
-A pure Python implementation, partially transcribed from C++ class U{UTMUPS
+A pure Python implementation, partially transcoded from C++ class U{UTMUPS
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}.
 '''
@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.04.22'
+__version__ = '21.06.09'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE

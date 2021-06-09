@@ -19,7 +19,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.06.04'  # '21.04.24'
+__version__ =  '21.06.09'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -84,12 +84,12 @@ class _PropertyBase(property):
         property.__init__(self, fget, fset, self._fdel, d or _N_A_)
 
     def _fdel(self, inst):  # deleter
-        '''Zap the I{cached}, I{memoized} C{property} value.
+        '''Zap the I{cached/memoized} C{property} value.
         '''
         self._update(inst, None)   # PYCHOK no cover
 
     def _fget(self, inst):
-        '''Get and I{cache}, I{memoize} the C{property} value.
+        '''Get and I{cache/memoize} the C{property} value.
         '''
         try:  # to get the value cached in instance' __dict__
             return inst.__dict__[self.name]
@@ -116,7 +116,7 @@ class _PropertyBase(property):
         raise _AttributeError(e, txt=name)
 
     def _update(self, inst, *unused):
-        '''(INTERNAL) Zap the I{cached} C{inst.__dict__[name]} item.
+        '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
         '''
         inst.__dict__.pop(self.name, None)  # name, NOT _name
 

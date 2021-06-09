@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.06.01'
+__version__ = '21.06.09'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -806,7 +806,7 @@ class GeoidKarney(_GeoidBase):
        html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
        <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
-       in pure Python transcribed from I{Karney}'s U{C++ class Geoid
+       in pure Python transcoded from I{Karney}'s U{C++ class Geoid
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
 
        Use any of the geoid U{egm84-, egm96- or egm2008-*.pgm

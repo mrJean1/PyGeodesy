@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.03'
+__version__ = '21.06.09'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -245,17 +245,18 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return points2(points, closed=closed, base=base)
 
-    def PointsIter(self, points, loop=0):
+    def PointsIter(self, points, loop=0, dedup=False):
         '''Return a points iterator.
 
            @arg points: The path or polygon points (C{LatLon}[])
            @kwarg loop: Number of loop-back points (non-negative C{int}).
+           @kwarg dedup: Skip duplicate points (C{bool}).
 
            @return: A new C{PointsIter} iterator.
 
            @raise PointsError: Insufficient number of B{C{points}}.
         '''
-        return PointsIter(points, loop=loop, base=self)
+        return PointsIter(points, loop=loop, base=self, dedup=dedup)
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
