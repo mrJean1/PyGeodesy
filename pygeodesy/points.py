@@ -25,8 +25,9 @@ for each 2+tuple in a list, tuple or sequence of such 2+tuples from
 the index for the lat- and longitude index in each 2+tuple.
 '''
 
-from pygeodesy.basics import isclass, isint, isscalar, issequence, map1, \
-                             issubclassof, _Sequence, _xcopy, _xinstanceof
+from pygeodesy.basics import isclass, isint, isnear0, isscalar, \
+                             issequence, issubclassof, map1, \
+                             _Sequence, _xcopy, _xinstanceof
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
@@ -57,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.09'
+__version__ = '21.06.15'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1212,7 +1213,7 @@ def centroidOf(points, wrap=True, LatLon=None):
         x1, y1 = x2, y2
 
     A = A.fsum() * _3_0  # 6.0 / 2.0
-    if abs(A) < EPS:
+    if isnear0(A):
         raise _areaError(pts, near_='near-')
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
@@ -1432,18 +1433,20 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     if wrap:
         x0, y0 = wrap180(x0), wrap90(y0)
 
-        def _dxy(x1, x2, y2, w):
+        def _dxy3(x1, x2, y2, w):
             dx, x2 = unroll180(x1, x2, wrap=w)
             return dx, x2, y2
 
     else:
         x0 = fmod(x0, _360_0)  # not x0 % 360
+        x0_180_ = x0 - _180_0
+        x0_180  = x0 + _180_0
 
-        def _dxy(x1, x, y, unused):  # PYCHOK expected
+        def _dxy3(x1, x, y, unused):  # PYCHOK expected
             x %= _360_0
-            if x < (x0 - _180_0):
+            if x < x0_180_:
                 x += _360_0
-            elif x >= (x0 + _180_0):
+            elif x >= x0_180:
                 x -= _360_0
             return (x - x1), x, y
 
@@ -1452,9 +1455,9 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     e  = m = False
     S  = Fsum()
 
-    _, x1, y1 = _dxy(x0, p.x, p.y, False)
+    _, x1, y1 = _dxy3(x0, p.x, p.y, False)
     for i, p in Ps.enumerate(closed=True):
-        dx, x2, y2 = _dxy(x1, p.x, p.y, (wrap if i else False))
+        dx, x2, y2 = _dxy3(x1, p.x, p.y, (wrap if i else False))
         # ignore duplicate and near-duplicate pts
         if max(abs(dx), abs(y2 - y1)) > EPS:
             # determine if polygon edge (x1, y1)..(x2, y2) straddles

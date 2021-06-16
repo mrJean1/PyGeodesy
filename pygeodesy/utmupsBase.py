@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.06.01'
+__version__ = '21.06.16'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -210,7 +210,7 @@ class UtmUpsBase(_NamedBase):
 
     @Property_RO
     def eastingnorthing(self):
-        '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)}) in C{meter}s.
+        '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)}).
         '''
         return EasNor2Tuple(self.easting, self.northing)
 

@@ -10,9 +10,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, isint
-from pygeodesy.errors import _xkwds_get, _TypeError, _ValueError
-from pygeodesy.interns import EPS, EPS0, INF, MISSING, PI, PI2, PI_2, R_M, \
+from pygeodesy.basics import copysign0, isint, isnear0
+from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
                              _edge_, _radians_, _semi_circular_, _SPACE_, \
                              _0_0, _0_5, _1_0, _90_0, _180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -21,15 +20,13 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.06.02'
+__version__ = '21.06.15'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
 _2__PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
 # sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 # _1sqrt2 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
-
-_iterNumpy2len  =  1  # adjustable for testing purposes
 
 
 def acos1(x):
@@ -102,7 +99,7 @@ def atan2d(y, x, reverse=False):
         else:  # q = 2
             d = _90_0 - degrees(atan2(x, y))
     elif x < 0:  # q = 1
-        d = copysign(_180_0, y) - degrees(atan2(y, -x))
+        d = copysign0(_180_0, y) - degrees(atan2(y, -x))
     elif x > 0:  # q = 0
         d = degrees(atan2(y, x)) if y else _0_0
     else:  # x == 0
@@ -295,79 +292,6 @@ def grades2radians(gon):
        @return: Angle (C{radians}).
     '''
     return gon * PI2 / _400_0
-
-
-def isNumpy2(obj):
-    '''Check for an B{C{Numpy2LatLon}} points wrapper.
-
-       @arg obj: The object (any C{type}).
-
-       @return: C{True} if B{C{obj}} is an B{C{Numpy2LatLon}}
-                instance, C{False} otherwise.
-    '''
-    # isinstance(self, (Numpy2LatLon, ...))
-    return getattr(obj, isNumpy2.__name__, False)
-
-
-def isPoints2(obj):
-    '''Check for an B{C{LatLon2psxy}} points wrapper.
-
-       @arg obj: The object (any C{type}).
-
-       @return: C{True} if B{C{obj}} is an B{C{LatLon2psxy}}
-                instance, C{False} otherwise.
-    '''
-    # isinstance(self, (LatLon2psxy, ...))
-    return getattr(obj, isPoints2.__name__, False)
-
-
-def isTuple2(obj):
-    '''Check for an B{C{Tuple2LatLon}} points wrapper.
-
-       @arg obj: The object (any).
-
-       @return: C{True} if B{C{obj}} is an B{C{Tuple2LatLon}}
-                instance, C{False} otherwise.
-    '''
-    # isinstance(self, (Tuple2LatLon, ...))
-    return getattr(obj, isTuple2.__name__, False)
-
-
-def iterNumpy2(obj):
-    '''Iterate over Numpy2 wrappers or other sequences exceeding
-       the threshold.
-
-       @arg obj: Points array, list, sequence, set, etc. (any).
-
-       @return: C{True} do, C{False} don't iterate.
-    '''
-    try:
-        return isNumpy2(obj) or len(obj) > _iterNumpy2len
-    except TypeError:
-        return False
-
-
-def iterNumpy2over(n=None):
-    '''Get or set the L{iterNumpy2} threshold.
-
-       @kwarg n: Optional, new threshold (C{int}).
-
-       @return: Previous threshold (C{int}).
-
-       @raise ValueError: Invalid B{C{n}}.
-    '''
-    global _iterNumpy2len
-    p = _iterNumpy2len
-    if n is not None:
-        try:
-            i = int(n)
-            if i > 0:
-                _iterNumpy2len = i
-            else:
-                raise ValueError
-        except (TypeError, ValueError):
-            raise _ValueError(n=n)
-    return p
 
 
 def m2degrees(distance, radius=R_M, lat=0):
@@ -604,64 +528,6 @@ def sincos2d(*deg):
         yield c
 
 
-def splice(iterable, n=2, **fill):
-    '''Split an iterable into C{n} slices.
-
-       @arg iterable: Items to be spliced (C{list}, C{tuple}, ...).
-       @kwarg n: Number of slices to generate (C{int}).
-       @kwarg fill: Optional fill value for missing items.
-
-       @return: A generator for each of B{C{n}} slices,
-                M{iterable[i::n] for i=0..n}.
-
-       @raise TypeError: Invalid B{C{n}}.
-
-       @note: Each generated slice is a C{tuple} or a C{list},
-              the latter only if the B{C{iterable}} is a C{list}.
-
-       @example:
-
-        >>> from pygeodesy import splice
-
-        >>> a, b = splice(range(10))
-        >>> a, b
-        ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
-
-        >>> a, b, c = splice(range(10), n=3)
-        >>> a, b, c
-        ((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))
-
-        >>> a, b, c = splice(range(10), n=3, fill=-1)
-        >>> a, b, c
-        ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
-
-        >>> tuple(splice(list(range(9)), n=5))
-        ([0, 5], [1, 6], [2, 7], [3, 8], [4])
-
-        >>> splice(range(9), n=1)
-        <generator object splice at 0x0...>
-    '''
-    if not isint(n):
-        raise _TypeError(n=n)
-
-    t = iterable
-    if not isinstance(t, (list, tuple)):
-        t = tuple(t)  # force tuple, also for PyPy3
-
-    if n > 1:
-        if fill:
-            fill = _xkwds_get(fill, fill=MISSING)
-            if fill is not MISSING:
-                m = len(t) % n
-                if m > 0:  # fill with same type
-                    t += type(t)((fill,)) * (n - m)
-        for i in range(n):
-            # XXX t[i::n] chokes PyChecker
-            yield t[slice(i, None, n)]
-    else:
-        yield t
-
-
 def tan_2(rad, **semi):  # edge=1
     '''Compute the tangent of half angle.
 
@@ -675,7 +541,7 @@ def tan_2(rad, **semi):  # edge=1
                           and B{C{semi}} is given.
     '''
     # .formy.excessKarney_, .sphericalTrigonometry.areaOf
-    if semi and abs(abs(rad) - PI) < EPS0:
+    if semi and isnear0(abs(rad) - PI):
         for n, v in semi.items():
             break
         if isint(v):
@@ -683,6 +549,7 @@ def tan_2(rad, **semi):  # edge=1
             n = _SPACE_(Fmt.SQUARE(**semi), _edge_)
         else:
             n = _SPACE_(n, _radians_)
+        from pygeodesy.errors import _ValueError
         raise _ValueError(n, rad, txt=_semi_circular_)
 
     return tan(rad * _0_5)

@@ -36,7 +36,7 @@ from __future__ import division
 # - a 12 suffix means a difference, e.g., s12 = s2 - s1.
 # - s and c prefixes mean sin and cos
 
-from pygeodesy.basics import _xinstanceof, _xor, unsign0
+from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsign0
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.ellipsoids import Ellipsoid2, Ellipsoids
 from pygeodesy.fmath import cbrt, fsum_, norm2
@@ -58,10 +58,10 @@ from pygeodesy.props import Property, Property_RO
 # from pygeodesy.streprs import pairs  # from .geodesicx.gxline
 from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 
-from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
+from math import atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = ()
-__version__ = '21.06.02'
+__version__ = '21.06.10'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -819,7 +819,7 @@ class GeodesicExact(_GeodesicBase):
             # this depends on the sign being attached to 0 correctly.
             # Following ensures the correct behavior.
             if salp12 == 0 and calp12 < 0:
-                alp12 = copysign(PI, calp1)
+                alp12 = copysign0(PI, calp1)
             else:
                 alp12 = atan2(salp12, calp12)
 
@@ -1277,7 +1277,7 @@ def _Astroid(x, y):
             # pick the sign on the sqrt to maximize abs(T3) to
             # minimize loss of precision due to cancellation.
             if d:
-                T3 += copysign(sqrt(d), T3)  # T3 = (r * t)^3
+                T3 += copysign0(sqrt(d), T3)  # T3 = (r * t)^3
             # cbrt always returns the real root, cbrt(-8) = -2
             u = cbrt(T3)  # T = r * t
             if u:  # T can be zero; but then r2 / T -> 0

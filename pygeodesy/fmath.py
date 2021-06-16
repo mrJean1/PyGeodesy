@@ -6,8 +6,8 @@ u'''Precision floating point functions, classes and utilities.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, isfinite, isint, isscalar, \
-                             len2, _xcopy
+from pygeodesy.basics import copysign0, isfinite, isint, isnear0, \
+                             isscalar, len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
 from pygeodesy.interns import EPS0, EPS1, MISSING, NN, PI, PI_2, PI_4, \
@@ -22,7 +22,7 @@ from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.05.02'
+__version__ = '21.06.10'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -476,7 +476,7 @@ def cbrt(x):
     '''
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    return copysign(pow(abs(x), _1_3rd), x)
+    return copysign0(pow(abs(x), _1_3rd), x)
 
 
 def cbrt2(x):
@@ -713,7 +713,7 @@ def fidw(xs, ds, beta=2):
         if b < 0:
             ds = tuple(d**b for d in ds)
             d  = fsum(ds)
-            if abs(d) < EPS0:
+            if isnear0(d):
                 n = Fmt.PAREN(fsum='ds')
                 raise _ValueError(n, d, txt=_singular_)
             x = fdot(xs, *ds) / d

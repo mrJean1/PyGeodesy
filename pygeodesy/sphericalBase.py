@@ -14,13 +14,13 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import map1
+from pygeodesy.basics import isnear0, isnon0, map1
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fdot
-from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, PI_2, _COMMA_, \
+from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _datum_, _distant_, _exceed_PI_radians_, \
                              _name_, _near_concentric_, _too_, \
                              _1_0, _180_0, _360_0
@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.06.09'
+__version__ = '21.06.10'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -105,7 +105,7 @@ class CartesianSphericalBase(CartesianBase):
         try:
             n, q = x1.cross(x2), x1.dot(x2)
             n2, q1 = n.length2, _1_0 - q**2
-            if n2 < EPS or abs(q1) < EPS0:
+            if n2 < EPS or isnear0(q1):
                 raise ValueError(_near_concentric_)
             c1, c2 = cos(r1), cos(r2)
             x0 = x1.times((c1 - q * c2) / q1).plus(
@@ -423,12 +423,12 @@ class LatLonSphericalBase(LatLonBase):
         b3 = favg(b1, b2)
 
         f1 = tanPI_2_2(a1)
-        if abs(f1) > EPS0:
+        if isnon0(f1):
             f2 = tanPI_2_2(a2)
             f = f2 / f1
-            if abs(f) > EPS0:
+            if isnon0(f):
                 f = log(f)
-                if abs(f) > EPS0:
+                if isnon0(f):
                     f3 = tanPI_2_2(a3)
                     b3 = fdot(map1(log, f1, f2, f3),
                                        -b2, b1, b2 - b1) / f

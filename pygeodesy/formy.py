@@ -6,6 +6,7 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
+from pygeodesy.basics import isnon0 as _non0
 from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
                             _spherical_datum, _WGS84
 from pygeodesy.ellipsoids import Ellipsoid
@@ -29,13 +30,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.06.03'
-
-
-def _non0(x):
-    '''Is C{abs(B{x})} > C{EPS0}?
-    '''
-    return x > EPS0 or (-x) > EPS0
+__version__ = '21.06.10'
 
 
 def antipode(lat, lon):

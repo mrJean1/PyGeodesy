@@ -73,7 +73,7 @@ U{22<https://DLMF.NIST.gov/22>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, map2, neg
+from pygeodesy.basics import copysign0, map2, neg
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.06.09'
+__version__ = '21.06.10'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -543,7 +543,7 @@ class Elliptic(_Named):
             xi = fX(sn, cn, dn)
         else:
             xi = cX
-        return copysign(xi, sn)
+        return copysign0(xi, sn)
 
     @property_RO
     def iteration(self):
@@ -710,7 +710,7 @@ class Elliptic(_Named):
                     c *= dn
                     dn = (n + a) / (m + a)
                     a  = c / m
-                sn = copysign(_1_0 / hypot1(c), sn)
+                sn = copysign0(_1_0 / hypot1(c), sn)
                 cn = c * sn
                 if d:  # PYCHOK no cover
                     cn, dn = dn, cn

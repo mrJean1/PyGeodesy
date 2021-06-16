@@ -33,7 +33,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 <https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006.
 '''
 
-from pygeodesy.basics import len2, map2, neg
+from pygeodesy.basics import len2, map2, neg  # splice
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
@@ -49,7 +49,7 @@ from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
-from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
+from pygeodesy.utily import degrees90, degrees180, sincos2
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
                                  _to4lldn, _to3zBhp, _to3zll, \
                                  _UTM_LAT_MAX, _UTM_LAT_MIN, \
@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.06.09'
+__version__ = '21.06.15'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -400,8 +400,8 @@ class Utm(UtmUpsBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon}=None}.
 
-           @return: This UTM coordinate (B{C{LatLon}}) or if B{C{LatLon}}
-                    is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
+           @return: This UTM as (B{C{LatLon}}) or if B{C{LatLon}} is
+                    C{None}, as L{LatLonDatum5Tuple}C{(lat, lon, datum,
                     convergence, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.

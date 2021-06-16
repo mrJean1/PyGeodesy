@@ -95,7 +95,7 @@ U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} 
 B{14. MARITIME BOUNDARIES}).
 '''
 
-from pygeodesy.basics import _xversion
+from pygeodesy.basics import copysign0, _xversion
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
 from pygeodesy.ellipsoids import Ellipsoid2
 from pygeodesy.errors import _ValueError
@@ -111,11 +111,11 @@ from pygeodesy.units import Degrees as _Deg, Meter as _M, \
                             Meter2 as _M2
 from pygeodesy.utily import atan2d, unroll180, wrap360
 
-from math import copysign, fmod
+from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.06.09'
+__version__ = '21.06.10'
 
 _16th = _1_0 / _16_0
 
@@ -475,7 +475,7 @@ def _around(x):
         y = abs(x)
         if y < _16th:
             y = _16th - y
-            x = copysign(_16th - y, x)
+            x = copysign0(_16th - y, x)
     else:
         x = _0_0  # -0 to 0
     return x

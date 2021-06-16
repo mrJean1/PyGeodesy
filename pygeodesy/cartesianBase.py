@@ -10,7 +10,7 @@ U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}..
 '''
 
-from pygeodesy.basics import _xinstanceof
+from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _IsnotError, \
                              _ValueError, _xkwds
@@ -29,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.04.24'
+__version__ = '21.06.10'
 
 
 class CartesianBase(Vector3d):
@@ -225,28 +225,28 @@ class CartesianBase(Vector3d):
         r = fsum_(p, q, -E.e4) / _6_0
         s = (p * q * E.e4) / (_4_0 * r**3)
         t = cbrt(fsum_(_1_0, s, sqrt(s * (_2_0 + s))))
-        if abs(t) < EPS0:
+        if isnear0(t):
             raise _ValueError(origin=self, txt=Fmt.EPS0(t))
 
         u = r * fsum_(_1_0, t, _1_0 / t)
         v = sqrt(u**2 + E.e4 * q)
         t = v * _2_0
-        if t < EPS0:
+        if t < EPS0:  # isnear0
             raise _ValueError(origin=self, txt=Fmt.EPS0(t))
         w = E.e2 * fsum_(u, v, -q) / t
 
         k = sqrt(fsum_(u, v, w**2)) - w
-        if abs(k) < EPS0:
+        if isnear0(k):
             raise _ValueError(origin=self, txt=Fmt.EPS0(k))
         t = k + E.e2
-        if abs(t) < EPS0:
+        if isnear0(t):
             raise _ValueError(origin=self, txt=Fmt.EPS0(t))
         e = k / t
 #       d = e * hypot(x, y)
 
 #       tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
         t = hypot_(x * e, y * e, z)  # == 1 / tmp
-        if t < EPS0:
+        if t < EPS0:  # isnear0
             raise _ValueError(origin=self, txt=Fmt.EPS0(t))
         h = fsum_(k, E.e2, -_1_0) / k * t
         s = e / t  # == e * tmp

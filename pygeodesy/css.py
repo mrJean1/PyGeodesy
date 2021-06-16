@@ -8,7 +8,7 @@ U{geographiclib <https://PyPI.org/project/geographiclib/>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import copysign, neg, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, neg, _xinstanceof, _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, \
@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.04.24'
+__version__ = '21.06.10'
 
 
 def _CS0(cs0):
@@ -171,8 +171,8 @@ class CassiniSoldner(_NamedBase):
 
         # s, c = M.sincosd(p.EquatorialAzimuth())
         s, c = M.sincosd(M.atan2d(p._salp0, p._calp0))
-        sb1 = copysign(c, lat)  # -c if lat < 0 else c
-        cb1 = copysign(s, 90 - abs(d))  # -abs(s) if abs(d) > 90 else abs(s)
+        sb1 = copysign0(c, lat)  # -c if lat < 0 else c
+        cb1 = copysign0(s, 90 - abs(d))  # -abs(s) if abs(d) > 90 else abs(s)
         d = M.atan2d(sb1 * self._cb0 - cb1 * self._sb0,
                      cb1 * self._cb0 + sb1 * self._sb0)
         n = self._meridian.ArcPosition(d, g.DISTANCE).s12

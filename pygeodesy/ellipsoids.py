@@ -54,7 +54,7 @@ See module L{datums} for more information and other details.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, isfinite, isint, _xinstanceof
+from pygeodesy.basics import copysign0, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.06.03'
+__version__ = '21.06.10'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -573,7 +573,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         s, c = sincos2d(lat)  # like Karney's tand(lat)
         _f_1 = self.a_b if inverse else self.b_a
-        return atan2d(_f_1 * s, c)  # == atand(_f_1 * s / c) if c else copysign(_90_0, lat)
+        return atan2d(_f_1 * s, c)  # == atand(_f_1 * s / c) if c else copysign0(_90_0, lat)
 
     @Property_RO
     def BetaKs(self):
@@ -665,7 +665,7 @@ class Ellipsoid(_NamedEnumItem):
                 r *= self.a
                 z *= self.b
             else:  # near-polar
-                r, z = _0_0, copysign(self.b, lat)
+                r, z = _0_0, copysign0(self.b, lat)
         else:  # equator
             r = self.a
             z = lat = b = _0_0
@@ -838,7 +838,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the I{(1st) eccentricity signed} (C{float}).
         '''
         # note, self.e is always non-negative
-        return Float(es=copysign(self.e, self.f))  # see .ups
+        return Float(es=copysign0(self.e, self.f))  # see .ups
 
     def es_atanh(self, x):
         '''Compute M{es * atanh(es * x)} where I{es} is the I{signed}

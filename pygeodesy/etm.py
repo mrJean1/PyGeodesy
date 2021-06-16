@@ -63,7 +63,7 @@ C{phi = pi/2}.  Such changes are noted in the code.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, neg, neg_, _xinstanceof
+from pygeodesy.basics import copysign0, neg, neg_, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.04.29'
+__version__ = '21.06.10'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -780,7 +780,7 @@ class ExactTransverseMercator(_NamedBase):
         d1 = cnu**2 + self._mv * (snu * snv)**2
         d2 = self._mu * cnu**2 + self._mv * cnv**2
         # Overflow value s.t. atan(overflow) = pi/2
-        t1 = t2 = copysign(_OVERFLOW, snu)
+        t1 = t2 = copysign0(_OVERFLOW, snu)
         if d1 > _EPS0__2:
             t1 = snu * dnv / sqrt(d1)
         lam = _0_0

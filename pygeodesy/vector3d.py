@@ -8,7 +8,7 @@ L{nearestOn}, L{parse3d}, L{sumOf}, L{trilaterate2d2} and
 L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import len2, map2, _xnumpy
+from pygeodesy.basics import isnear0, len2, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
                               NumPyError, _TypeError, _ValueError, \
                               VectorError, _xError, _xkwds_popitem
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.06.01'
+__version__ = '21.06.10'
 
 _raise_ = 'raise'
 
@@ -594,7 +594,7 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
                                      _astr(x1=x1, y1=y1, radius1=r1)), txt=t)
 
     q = _2_0 * (e * a - b * d)
-    if abs(q) < EPS0:
+    if isnear0(q):
         t = _no_(_intersection_)
         raise IntersectionError(_and(_astr(x1=x1, y1=y1, radius1=r1),
                                      _astr(x2=x2, y2=y2, radius2=r2),

@@ -10,7 +10,8 @@ iterated items.
 '''
 
 from pygeodesy.basics import issubclassof, len2, map2
-from pygeodesy.errors import _IndexError, LenError, PointsError
+from pygeodesy.errors import _IndexError, LenError, PointsError, \
+                             _ValueError
 from pygeodesy.interns import NN, _few_, _points_, _too_, _0_, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import _Named
@@ -18,13 +19,14 @@ from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Int, Radius
-from pygeodesy.utily import degrees2m, isNumpy2, isTuple2, wrap90, wrap180
+from pygeodesy.utily import degrees2m, wrap90, wrap180
 
 __all__ = _ALL_LAZY.iters
-__version__ = '21.06.09'
+__version__ = '21.06.15'
 
-_items_  = 'items'
-_NOTHING =  object()  # unique
+_items_        = 'items'
+_iterNumpy2len =  1  # adjustable for testing purposes
+_NOTHING       =  object()  # unique
 
 
 class _BaseIter(_Named):
@@ -375,6 +377,79 @@ def _imdex2(closed, n):  # PYCHOK by .clipy
     '''(INTERNAL) Return first and second index of C{range(B{n})}.
     '''
     return (n-1, 0) if closed else (0, 1)
+
+
+def isNumpy2(obj):
+    '''Check for an B{C{Numpy2LatLon}} points wrapper.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is an B{C{Numpy2LatLon}}
+                instance, C{False} otherwise.
+    '''
+    # isinstance(self, (Numpy2LatLon, ...))
+    return getattr(obj, isNumpy2.__name__, False)
+
+
+def isPoints2(obj):
+    '''Check for an B{C{LatLon2psxy}} points wrapper.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is an B{C{LatLon2psxy}}
+                instance, C{False} otherwise.
+    '''
+    # isinstance(self, (LatLon2psxy, ...))
+    return getattr(obj, isPoints2.__name__, False)
+
+
+def isTuple2(obj):
+    '''Check for an B{C{Tuple2LatLon}} points wrapper.
+
+       @arg obj: The object (any).
+
+       @return: C{True} if B{C{obj}} is an B{C{Tuple2LatLon}}
+                instance, C{False} otherwise.
+    '''
+    # isinstance(self, (Tuple2LatLon, ...))
+    return getattr(obj, isTuple2.__name__, False)
+
+
+def iterNumpy2(obj):
+    '''Iterate over Numpy2 wrappers or other sequences exceeding
+       the threshold.
+
+       @arg obj: Points array, list, sequence, set, etc. (any).
+
+       @return: C{True} do, C{False} don't iterate.
+    '''
+    try:
+        return isNumpy2(obj) or len(obj) > _iterNumpy2len
+    except TypeError:
+        return False
+
+
+def iterNumpy2over(n=None):
+    '''Get or set the L{iterNumpy2} threshold.
+
+       @kwarg n: Optional, new threshold (C{int}).
+
+       @return: Previous threshold (C{int}).
+
+       @raise ValueError: Invalid B{C{n}}.
+    '''
+    global _iterNumpy2len
+    p = _iterNumpy2len
+    if n is not None:
+        try:
+            i = int(n)
+            if i > 0:
+                _iterNumpy2len = i
+            else:
+                raise ValueError
+        except (TypeError, ValueError):
+            raise _ValueError(n=n)
+    return p
 
 
 def points2(points, closed=True, base=None, Error=PointsError):

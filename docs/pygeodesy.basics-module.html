@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.05.18
+        21.06.10
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -132,7 +132,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#copysign" class="summary-sig-name">copysign</a>(<span class="summary-sig-arg">x</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#copysign0" class="summary-sig-name">copysign0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>)</span><br />
       Like <code>math.copysign(x, y)</code> except <code>zero</code>, 
       <i>unsigned</i> .</td>
@@ -275,7 +275,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Check for NEG0, negative <code>0.0</code>.</td>
           <td align="right" valign="top">
             
@@ -453,6 +453,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#splice" class="summary-sig-name">splice</a>(<span class="summary-sig-arg">iterable</span>,
+        <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">**fill</span>)</span><br />
+      Split an iterable into <code>n</code> slices.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">ub</span>)</span><br />
       Convert <code>unicode</code> or <code>bytes</code> to 
       <code>str</code>.</td>
@@ -537,14 +556,14 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="copysign"></a>
+<a name="copysign0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">copysign</span>&nbsp;(<span class="sig-arg">x</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copysign0</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -710,7 +729,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isneg0</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isneg0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -721,10 +740,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is <code>NEG0</code>
+        <dd><code>True</code> if <b><code>x</code></b> is <code>NEG0</code> 
           or <code>-0.0</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
@@ -977,6 +996,67 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="splice"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">splice</span>&nbsp;(<span class="sig-arg">iterable</span>,
+        <span class="sig-arg">n</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">**fill</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Split an iterable into <code>n</code> slices.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Items to be spliced (<code>list</code>, <code>tuple</code>, ...).</li>
+        <li><strong class="pname"><code>n</code></strong> - Number of slices to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>fill</code></strong> - Optional fill value for missing items.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A generator for each of <b><code>n</code></b> slices, <i 
+          class="math">iterable[i::n] for i=0..n</i>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>n</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Each generated slice is a <code>tuple</code> or a 
+        <code>list</code>, the latter only if the 
+        <b><code>iterable</code></b> is a <code>list</code>.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> splice</pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b = splice(range(10))
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b
+<span class="py-output">((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3)
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
+<span class="py-output">((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3, fill=-1)
+<span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
+<span class="py-output">((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>tuple(splice(list(range(9)), n=5))
+<span class="py-output">([0, 5], [1, 6], [2, 7], [3, 8], [4])</span></pre>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>splice(range(9), n=1)
+<span class="py-output">&lt;generator object splice at 0x0...&gt;</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="unsign0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1031,7 +1111,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun  9 14:24:12 2021
+    Generated by Epydoc 3.0.1 on Tue Jun 15 22:16:33 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

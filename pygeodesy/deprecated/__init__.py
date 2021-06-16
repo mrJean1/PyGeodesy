@@ -31,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.06.04'
+__version__ = '21.06.10'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -191,6 +191,14 @@ def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
     '''
     from pygeodesy.basics import clips
     return clips(bstr, limit=limit, white=white)
+
+
+@deprecated_function
+def copysign(x, y):  # PYCHOK no cover
+    '''DEPRECATED, use function L{copysign0}.
+    '''
+    from pygeodesy.basics import copysign0
+    return copysign0(x, y)
 
 
 @deprecated_function

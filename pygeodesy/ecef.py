@@ -60,8 +60,8 @@ providing conversion to and from I{local} cartesian cordinates in a I{local tang
 plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
-from pygeodesy.basics import copysign, isscalar, issubclassof, neg, \
-                             map1, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, \
+                             neg, map1, _xinstanceof, _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, _IndexError, LenError, \
@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.06.09'
+__version__ = '21.06.10'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -420,7 +420,7 @@ class EcefKarney(_EcefBase):
                     # result is unchanged because of the way the t is used
                     # in definition of u.
                     if disc > 0:
-                        t3 += copysign(sqrt(disc), t3)  # t3 = (r * t)^3
+                        t3 += copysign0(sqrt(disc), t3)  # t3 = (r * t)^3
                     # N.B. cbrt always returns the real root, cbrt(-8) = -2.
                     t = cbrt(t3)  # t = r * t
                     # t can be zero; but then r2 / t -> 0.
@@ -661,7 +661,7 @@ class EcefSudano(_EcefBase):
             raise EcefError(t, txt=_no_(_convergence_))
 
         if a is None:
-            a = copysign(asin(sa), z)
+            a = copysign0(asin(sa), z)
         h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
         # since Sudano's Eq (7) doesn't provide the correct height
         # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
@@ -748,7 +748,7 @@ class EcefVeness(_EcefBase):
             C, lat, lon, h = 2, _0_0, atan2d(y, x), p - E.a
 
         else:  # polar lat, lon arbitrarily zero
-            C, lat, lon, h = 3, copysign(_90_0, z), _0_0, abs(z) - E.b
+            C, lat, lon, h = 3, copysign0(_90_0, z), _0_0, abs(z) - E.b
 
         return Ecef9Tuple(x, y, z, lat, lon, h,
                                    C, None,  # M=None
@@ -812,13 +812,13 @@ class EcefYou(_EcefBase):
             if cB and sB:
                 p *= E.a
                 d  = (p / cB - e2 * cB) / sB
-                if abs(d) > EPS0:
+                if isnon0(d):
                     B += fsum_(u * E.b, -p, e2) / d
                     sB, cB = sincos2(B)
         elif u < 0:
             raise EcefError(x=x, y=y, z=z, txt=_singular_)
         else:
-            sB, cB = copysign(_1_0, z), _0_0
+            sB, cB = copysign0(_1_0, z), _0_0
 
         h = hypot(z - E.b * sB, q - E.a * cB)
         if hypot2_(x, y, z * E.a_b) < E.a2:

@@ -10,9 +10,11 @@ if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _IsnotError, _TypesError, _ValueError
-from pygeodesy.interns import NEG0, NN, _by_, _DOT_, _name_, \
-                             _SPACE_, _UNDER_, _utf_8_, _version_, _0_0
+from pygeodesy.errors import _IsnotError, _TypeError, _TypesError, \
+                             _ValueError, _xkwds_get
+from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
+                             _name_, _SPACE_, _UNDER_, _utf_8_, \
+                             _version_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -20,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.05.18'
+__version__ = '21.06.10'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -77,7 +79,7 @@ def clips(bstr, limit=50, white=NN):
     return bstr
 
 
-def copysign(x, y):
+def copysign0(x, y):
     '''Like C{math.copysign(x, y)} except C{zero}, I{unsigned} .
 
        @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else C{0.0}.
@@ -183,16 +185,42 @@ except ImportError:
         return False
 
 
-def isneg0(obj):
+def isnear0(x):
+    '''Is B{C{x}} near zero?
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if C{abs(B{x}) < EPS0},
+                C{False} otherwise.
+
+       @see: Function L{isnon0}.
+    '''
+    return EPS0 > x > -EPS0
+
+
+def isneg0(x):
     '''Check for L{NEG0}, negative C{0.0}.
 
-       @arg obj: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
-       @return: C{True} if B{C{obj}} is C{NEG0} or C{-0.0},
+       @return: C{True} if B{C{x}} is C{NEG0} or C{-0.0},
                 C{False} otherwise.
     '''
-    return obj in (_0_0, NEG0) and _copysign(1, obj) < 0
-#                              and str(obj).startswith('-')
+    return x in (_0_0, NEG0) and _copysign(1, x) < 0
+#                            and str(x).startswith('-')
+
+
+def isnon0(x):
+    '''Is B{C{x}} non-zero?
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if C{abs(B{x}) > EPS0},
+                C{False} otherwise.
+
+       @see: Function L{isnear0}.
+    '''
+    return x > EPS0 or (-x) > EPS0
 
 
 def isscalar(obj):
@@ -301,6 +329,64 @@ def neg_(*xs):
        @return: A C{tuple(neg(x) for x in B{xs})}.
     '''
     return tuple(map(neg, xs))  # see map1
+
+
+def splice(iterable, n=2, **fill):
+    '''Split an iterable into C{n} slices.
+
+       @arg iterable: Items to be spliced (C{list}, C{tuple}, ...).
+       @kwarg n: Number of slices to generate (C{int}).
+       @kwarg fill: Optional fill value for missing items.
+
+       @return: A generator for each of B{C{n}} slices,
+                M{iterable[i::n] for i=0..n}.
+
+       @raise TypeError: Invalid B{C{n}}.
+
+       @note: Each generated slice is a C{tuple} or a C{list},
+              the latter only if the B{C{iterable}} is a C{list}.
+
+       @example:
+
+        >>> from pygeodesy import splice
+
+        >>> a, b = splice(range(10))
+        >>> a, b
+        ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
+
+        >>> a, b, c = splice(range(10), n=3)
+        >>> a, b, c
+        ((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))
+
+        >>> a, b, c = splice(range(10), n=3, fill=-1)
+        >>> a, b, c
+        ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
+
+        >>> tuple(splice(list(range(9)), n=5))
+        ([0, 5], [1, 6], [2, 7], [3, 8], [4])
+
+        >>> splice(range(9), n=1)
+        <generator object splice at 0x0...>
+    '''
+    if not isint(n):
+        raise _TypeError(n=n)
+
+    t = iterable
+    if not isinstance(t, (list, tuple)):
+        t = tuple(t)  # force tuple, also for PyPy3
+
+    if n > 1:
+        if fill:
+            fill = _xkwds_get(fill, fill=MISSING)
+            if fill is not MISSING:
+                m = len(t) % n
+                if m > 0:  # fill with same type
+                    t += type(t)((fill,)) * (n - m)
+        for i in range(n):
+            # XXX t[i::n] chokes PyChecker
+            yield t[slice(i, None, n)]
+    else:
+        yield t
 
 
 def ub2str(ub):

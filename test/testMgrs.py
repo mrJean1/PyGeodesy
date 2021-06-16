@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.05.01'
+__version__ = '20.06.15'
 
 from base import TestsBase
 
@@ -48,9 +48,16 @@ class Tests(TestsBase):
         self.test('Mgrs7', str(m), s)
         self.test('Mgrs7', repr(m), r)
 
+        # courtesy abubelinha <https://github.com/mrJean1/PyGeodesy/issues/54>
+        m = mgrs.parseMGRS('31TDF3182')
+        self.test('Mgrs8', m.toUtm(), '31 N 431000 4582000')  # center=False
+        self.test('Mgrs8', m.toLatLon(center=False), "(41.38657, 2.174726, Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84), -0.54564, 0.999659)")
+        self.test('Mgrs8', m.toUtm(center=True), '31 N 431500 4582500')
+        self.test('Mgrs8', m.toLatLon(), "(41.391116, 2.180649, Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84), -0.541772, 0.999658)")
+
         m = mgrs.parseMGRS('31UDQ 48251 11932')  # coverage
-        self.test('Mgrs8', str(m), s)
-        self.test('Mgrs8', repr(m), r)
+        self.test('Mgrs9', str(m), s)
+        self.test('Mgrs9', repr(m), r)
 
         u = m.toUtm()
         self.test('toUtm1', str(u), '31 N 448251 5411932')

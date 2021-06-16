@@ -77,14 +77,14 @@ from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.fmath import sqrt0
 from pygeodesy.formy import equirectangular_
 from pygeodesy.interns import EPS, R_M, _small_, _too_, _1_0
+from pygeodesy.iters import isNumpy2, isTuple2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import _1mm
-from pygeodesy.utily import isNumpy2, isTuple2
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.06.02'
+__version__ = '21.06.10'
 
 
 # try:

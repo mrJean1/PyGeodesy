@@ -32,7 +32,8 @@ from __future__ import division
 # - a 12 suffix means a difference, e.g., s12 = s2 - s1.
 # - s and c prefixes mean sin and cos
 
-from pygeodesy.fmath import fsum_, norm2
+# from pygeodesy.basics import copysign0  # from .fmath
+from pygeodesy.fmath import copysign0, fsum_, norm2
 from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
                                         _coSeries, _GeodesicBase, \
                                         _sincos12, _TINY
@@ -44,10 +45,10 @@ from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import pairs
 from pygeodesy.utily import atan2d, sincos2, sincos2d
 
-from math import atan2, copysign, degrees, floor, hypot, radians
+from math import atan2, degrees, floor, hypot, radians
 
 __all__ = ()
-__version__ = '21.06.03'
+__version__ = '21.06.10'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 
@@ -350,7 +351,7 @@ class _GeodesicLineExact(_GeodesicBase):
             lam12 = salp0 * self._H0_e2_f1 * fsum_(eF.deltaH(ssig2, csig2, dn2),
                                                   -self._H1, sig12)
             if (outmask & Caps.LONG_UNROLL):
-                E = copysign(_1_0, salp0)  # east-going?
+                E = copysign0(_1_0, salp0)  # east-going?
                 tchi1 = E * schi1
                 tchi2 = E * schi2
                 chi12 = E * fsum_(atan2(ssig1, csig1), -atan2(ssig2, csig2),

@@ -15,7 +15,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, neg
+from pygeodesy.basics import copysign0, neg
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.05.24'
+__version__ = '21.06.10'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -474,7 +474,7 @@ class _AlbersBase(_NamedBase):
         if E.isOblate:
             x = atanh(x * E.e) / E.e
         elif E.isProlate:
-            x = atan2(abs(x) * E.e, copysign(_1_0, x)) / E.e
+            x = atan2(abs(x) * E.e, copysign0(_1_0, x)) / E.e
         return x
 
     def _atanhx1(self, x):

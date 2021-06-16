@@ -8,7 +8,7 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign, map1, neg
+from pygeodesy.basics import copysign0, map1, neg
 from pygeodesy.errors import CrossError, VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
@@ -24,7 +24,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.05.28'
+__version__ = '21.06.10'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -283,7 +283,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
         a = atan2(s, self.dot(other))
         if wrap and abs(a) > PI:
-            a -= copysign(PI2, a)
+            a -= copysign0(PI2, a)
         return a
 
     def cross(self, other, raiser=None):  # raiser=NN

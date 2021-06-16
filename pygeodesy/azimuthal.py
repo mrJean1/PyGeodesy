@@ -42,7 +42,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, _xinstanceof
+from pygeodesy.basics import copysign0, isnon0, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
@@ -66,7 +66,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.06.04'
+__version__ = '21.06.10'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -345,7 +345,7 @@ class Equidistant(_AzimuthalBase):
                 c = acos(c)
                 k = c / sin(c)
             else:
-                k = copysign(_1_0, c)
+                k = copysign0(_1_0, c)
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -1051,7 +1051,7 @@ class Stereographic(_AzimuthalBase):
         '''
         def _k_t(c):
             c = c + _1_0
-            t = abs(c) > EPS0
+            t = isnon0(c)
             k = (_2_0 * self._k0 / c) if t else _1_0
             return k, t
 

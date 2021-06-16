@@ -52,6 +52,7 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
+from pygeodesy.basics import isnear0
 from pygeodesy.datums import _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
@@ -59,7 +60,7 @@ from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _nearestOn
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import EPS0, EPS, NN, _ambiguous_, _convergence_, _no_, \
+from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, \
                              _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Distance3Tuple
@@ -73,7 +74,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.06.09'
+__version__ = '21.06.10'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -305,7 +306,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
             sa = c1c2 * sll / ss
             c2a = _1_0 - sa**2
-            if abs(c2a) < EPS0:
+            if isnear0(c2a):
                 c2a = _0_0  # equatorial line
                 ll = dl + E.f * sa * s
             else:

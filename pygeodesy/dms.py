@@ -11,7 +11,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign, issequence, isstr, map2, neg
+from pygeodesy.basics import copysign0, issequence, isstr, map2, neg
 from pygeodesy.errors import ParseError, _parseX,  RangeError, \
                             _rangerrors, _ValueError
 from pygeodesy.interns import _COMMA_, _NE_, _NSEW_, _NW_, _SE_  # PYCHOK used!
@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.04.24'
+__version__ = '21.06.10'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -188,7 +188,7 @@ def _clipped_(angle, limit, units):
     c = min(limit, max(-limit, angle))
     if c != angle and _rangerrors:
         t = _SPACE_(fstr(angle, prec=6, ints=True),
-                   'beyond', copysign(limit, angle), units)
+                   'beyond', copysign0(limit, angle), units)
         raise RangeError(t, txt=None)
     return c
 
@@ -281,7 +281,7 @@ def compassPoint(bearing, prec=3):
         raise _ValueError(prec=prec)
     # not round(), i.e. half-even rounding in Python 3,
     # but round-away-from-zero as int(b + 0.5) iff b is
-    # non-negative, otherwise int(b + copysign(_0_5, b))
+    # non-negative, otherwise int(b + copysign0(_0_5, b))
     q = int((bearing % _360_0) * m / _360_0 + _0_5) % m
     return _WINDS[q * x]
 

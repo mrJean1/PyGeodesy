@@ -28,7 +28,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.04.24'
+__version__ = '21.06.10'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -546,7 +546,7 @@ class Lcc(_NamedBase):
         e =         self.easting  - c._E0
         n = c._r0 - self.northing + c._N0
 
-        r_ = copysign(hypot(e, n), c._n)
+        r_ = copysign0(hypot(e, n), c._n)
         t_ = pow(r_ / c._aF, c._n_)
 
         x = c._xdef(t_)  # XXX c._lam0

@@ -121,11 +121,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
-                         basics=('clips', 'copysign', 'halfs2',
+                         basics=('clips', 'copysign0', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
                                  'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
-                                 'ub2str', 'unsign0'),
+                                 'splice', 'ub2str', 'unsign0'),
                           clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
@@ -215,7 +215,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                         interns=_interns_a_l_l_,
-                          iters=('LatLon2PsxyIter', 'PointsIter', 'points2'),
+                          iters=('LatLon2PsxyIter', 'PointsIter', 'points2',
+                                 'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
                          karney=('Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
                          lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -262,10 +263,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
                                  'grades', 'grades400', 'grades2degrees', 'grades2radians',
-                                 'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
-                                 'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
+                                 'sincos2', 'sincos2d', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
                                  'yard2m'),
@@ -292,7 +292,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.06.09'
+__version__ = '21.06.15'
 
 
 def _ALL_OTHER(*objs):
