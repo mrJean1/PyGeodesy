@@ -143,6 +143,7 @@ _EQUAL_         = _Join('=')                 # PYCHOK expected
 _EQUALSPACED_   = _Join(' = ')               # PYCHOK expected
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
 _exceeds_     = _Prefix('exceeds')           # PYCHOK expected
+_exists_              = 'exists'             # PYCHOK expected
 _f_                   = 'f'                  # PYCHOK expected
 _feet_                = 'feet'               # PYCHOK expected
 _few_                 = 'few'                # PYCHOK expected
@@ -273,11 +274,17 @@ _STAR_          = _Join('*')                 # PYCHOK expected
 _start_               = 'start'              # PYCHOK expected
 _std_                 = 'std'                # PYCHOK expected
 _supported_           = 'supported'          # PYCHOK expected
+_sx_                  = 'sx'                 # PYCHOK expected
+_sy_                  = 'sy'                 # PYCHOK expected
+_sz_                  = 'sz'                 # PYCHOK expected
 _tbd_                 = 'tbd'                # PYCHOK expected
 _till_                = 'till'               # PYCHOK expected
 _to_                  = 'to'                 # PYCHOK expected
 _too_         = _Prefix('too')               # PYCHOK expected
 _transform_           = 'transform'          # PYCHOK expected
+_tx_                  = 'tx'                 # PYCHOK expected
+_ty_                  = 'ty'                 # PYCHOK expected
+_tz_                  = 'tz'                 # PYCHOK expected
 _UNDER_               = '_'                  # PYCHOK expected
 _units_               = 'units'              # PYCHOK expected
 _up_                  = 'up'                 # PYCHOK expected
@@ -288,7 +295,7 @@ _V_                   = 'V'                  # PYCHOK expected
 _valid_               = 'valid'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
-__vs__                = ' vs '              # PYCHOK expected
+__vs__                = ' vs '               # PYCHOK vs-SPACED
 _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
@@ -376,6 +383,7 @@ _5_0    = _float(   5)      # PYCHOK expected
 _6_0    = _float(   6)      # PYCHOK expected
 _8_0    = _float(   8)      # PYCHOK expected
 _9_0    = _float(   9)      # PYCHOK expected
+_10_0   = _float(  10)      # PYCHOK expected
 _16_0   = _float(  16)      # PYCHOK expected
 _24_0   = _float(  24)      # PYCHOK expected
 _32_0   = _float(  32)      # PYCHOK expected
@@ -442,7 +450,7 @@ __all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.05.22'
+__version__ = '21.06.18'
 
 
 # **) MIT License

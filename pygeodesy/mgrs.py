@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.06.15'
+__version__ = '21.06.19'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -219,7 +219,7 @@ class Mgrs(_NamedBase):
            @raise MGRSError: Invalid B{C{resolution}}.
         '''
         try:
-            if resolution:
+            if resolution and resolution > 0:
                 r = int(log10(resolution))
                 if r > 5:
                     raise ValueError
@@ -237,12 +237,12 @@ class Mgrs(_NamedBase):
                           geodetic point (C{LatLon}) or C{None}.
            @kwarg center: Optionally, return the grid's center or
                           lower left corner C({bool}).
-           @kwarg toLatLon_kwds: Optional, additional L{Utm.toLaton}
+           @kwarg toLatLon_kwds: Optional, additional L{Utm.toLatLon}
                                  and B{C{LatLon}} keyword arguments.
 
-           @return: This Mgrs as (B{C{LatLon}}) or if B{C{LatLon}}
-                    is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon,
-                    datum, convergence, scale)}.
+           @return: A B{C{LatLon}} instance or if C{B{LatLon}=None}
+                    a L{LatLonDatum5Tuple}C{(lat, lon, datum,
+                    convergence, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
@@ -293,29 +293,26 @@ class Mgrs(_NamedBase):
 
            @kwarg Utm: Optional class to return the UTM coordinate
                        (L{Utm}) or C{None}.
-           @kwarg center: Optionally, adjust easting and northing by
+           @kwarg center: Optionally, center easting and northing by
                           the resolution C({bool}).
 
-           @return: This Mgrs as B{C{Utm}} or if B{C{Utm}} is C{None},
-                    as L{UtmUps5Tuple}C{(zone, hemipole, easting,
+           @return: A B{C{Utm}} instance or if C{B{Utm}=None}
+                    a L{UtmUps5Tuple}C{(zone, hemipole, easting,
                     northing, band)}.
-
-           @example:
-
-            >>> m = Mgrs('31U', 'DQ', 448251, 11932)
-            >>> u = m.toUtm()  # 31 N 448251 5411932
-            >>> u = m.toUtm(None)  # 31 N 448251 5411932 U
         '''
         r, u = self._utmups5utm2
         if center:
-            h = self.resolution * _0_5
-            e = r.easting  + h
-            n = r.northing + h
-            r = UtmUps5Tuple(r.zone, r.hemipole, e, n, r.band,
-                             Error=MGRSError, name=r.name)
+            c = self.resolution * _0_5
+            if c:
+                e = r.easting  + c
+                n = r.northing + c
+                r = UtmUps5Tuple(r.zone, r.hemipole, e, n, r.band,
+                                 Error=MGRSError, name=r.name)
+        else:
+            c = 0
         if Utm is None:
             u = r
-        elif center or Utm is not u.__class__:
+        elif c or Utm is not u.__class__:
             u = Utm(r.zone, r.hemipole, r.easting, r.northing,
                     band=r.band, datum=self.datum, name=r.name)
         return u
@@ -340,8 +337,10 @@ class Mgrs(_NamedBase):
         z =  self.zone
         h = _hemi(self.bandLatitude)  # if self.band < _N_
         B =  self.band
-        return (UtmUps5Tuple(z, h, e, n, B, Error=MGRSError, name=self.name),
-                Utm(         z, h, e, n, band=B, datum=self.datum, name=self.name))
+        d =  self.datum
+        s =  self.name
+        return (UtmUps5Tuple(z, h, e, n, B, Error=MGRSError, name=s),
+                Utm(         z, h, e, n, band=B, datum=d, name=s))
 
     @Property_RO
     def zone(self):
@@ -369,7 +368,7 @@ class Mgrs4Tuple(_NamedTuple):
            @arg band: The band to add (C{str} or C{None}).
            @arg datum: The datum to add (L{Datum} or C{None}).
 
-           @return: A L{Mgrs6Tuple}C{(zone, digraph, easting,
+           @return: An L{Mgrs6Tuple}C{(zone, digraph, easting,
                     northing, band, datum)}.
         '''
         return self._xtend(Mgrs6Tuple, band, datum)
@@ -394,9 +393,9 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
                     reference (L{Mgrs}) or C{None}.
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
 
-       @return: The MGRS grid reference (B{C{Mgrs}}) or an
-                L{Mgrs4Tuple}C{(zone, digraph, easting, northing)}
-                if C{B{Mgrs}=None}.
+       @return: The MGRS grid reference as B{C{Mgrs}} or if
+                C{B{Mgrs}=None} as an L{Mgrs4Tuple}C{(zone,
+                digraph, easting, northing)}.
 
        @raise MGRSError: Invalid B{C{strMGRS}}.
 
@@ -458,9 +457,9 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
        @kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
                          arguments, ignored if C{B{Mgrs}=None}.
 
-       @return: The MGRS grid reference (B{C{Mgrs}}) or an
-                L{Mgrs6Tuple}C{(zone, digraph, easting, northing,
-                band, datum)} if C{B{Mgrs}=None}.
+       @return: The MGRS grid reference as B{C{Mgrs}} or if
+                C{B{Mgrs}=None} as an L{Mgrs6Tuple}C{(zone,
+                digraph, easting, northing, band, datum)}.
 
        @raise TypeError: If B{C{utm}} is not L{Utm} nor L{Etm}.
 

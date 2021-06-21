@@ -29,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.06.10'
+__version__ = '21.06.17'
 
 
 class CartesianBase(Vector3d):
@@ -336,16 +336,17 @@ class CartesianBase(Vector3d):
         '''
         return self._ecef9
 
-    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
+    def toLatLon(self, datum=None, height=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
+           @kwarg height: Optional height, overriding the converted height
+                          (C{meter}), iff B{C{LatLon}} is not C{None}.
            @kwarg LatLon: Optional class to return the geodetic point
                           (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                               keyword arguments, ignored if
-                               C{B{LatLon}=None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if C{B{LatLon}=None}.
 
            @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -362,8 +363,9 @@ class CartesianBase(Vector3d):
             r = c.Ecef(d, name=self.name).reverse(c, M=m)
 
         if not m:  # class or .classof
-            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height)
-            r = self._xnamed(LatLon(r.lat, r.lon, **kwds))
+            h = r.height if height is None else Height(height)
+            r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
+                       datum=r.datum, height=h, name=r.name))
         _datum_datum(r.datum, d)
         return r
 

@@ -79,8 +79,9 @@ from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _DOT_, _ellipsoid_, _ellipsoidal_, _float as _F, \
                              _GRS80_, _Intl1924_, _Krassovski1940_, _NAD27_, \
                              _Krassowsky1940_, _NAD83_, _name_, _s_, _Sphere_, \
-                             _spherical_, _transform_, _UNDER_, _WGS72_, \
-                             _WGS84_, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
+                             _spherical_, _sx_, _sy_, _sz_, _transform_, \
+                             _tx_, _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, \
+                             _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy
@@ -92,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.05.26'
+__version__ = '21.06.18'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -117,6 +118,8 @@ def _r_s2(s_):
 
 class Transform(_NamedEnumItem):
     '''Helmert transformation.
+
+       @see: L{Transform7Tuple}.
     '''
     tx = _0_0  # x translation (C{meter})
     ty = _0_0  # y translation (C{meter})
@@ -141,7 +144,7 @@ class Transform(_NamedEnumItem):
            @kwarg tx: Optional X translation (C{meter}).
            @kwarg ty: Optional Y translation (C{meter}).
            @kwarg tz: Optional Z translation (C{meter}).
-           @kwarg s: Optional scale ppm (C{float}).
+           @kwarg s: Optional scale (C{float}), ppm.
            @kwarg sx: Optional X rotation (C{degree seconds}).
            @kwarg sy: Optional Y rotation (C{degree seconds}).
            @kwarg sz: Optional Z rotation (C{degree seconds}).
@@ -202,9 +205,9 @@ class Transform(_NamedEnumItem):
 
            @return: Transform attributes (C{str}).
         '''
-        return self._instr(prec, 'tx', 'ty', 'tz',
+        return self._instr(prec, _tx_, _ty_, _tz_,
                                  'rx', 'ry', 'rz', _s_, 's1',
-                                 'sx', 'sy', 'sz')
+                                 _sx_, _sy_, _sz_)
 
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.

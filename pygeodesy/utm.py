@@ -36,12 +36,13 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 from pygeodesy.basics import len2, map2, neg  # splice
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
-from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
+from pygeodesy.errors import RangeError, _ValueError, \
+                            _xkwds_get, _xkwds_not
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
                              _COMMASPACE_, _float, _NS_, \
                              _outside_, _range_, _S_, _SPACE_, \
-                             _UTM_, _V_, _X_, _zone_, _1_0
+                             _UTM_, _V_, _X_, _zone_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -61,7 +62,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.06.15'
+__version__ = '21.06.21'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -347,11 +348,23 @@ class Utm(UtmUpsBase):
         return EasNor2Tuple(e, n)
 
     @Property_RO
+    def _lowerleft(self):  # by .ellipsoidalBase.LatLon.toUtm
+        '''Get this UTM C{un}-centered (L{Utm}) to its C{lowerleft}.
+        '''
+        return _lowerleft(self, 0)
+
+    @Property_RO
     def _mgrs(self):
         '''(INTERNAL) Cache for L{toMgrs}.
         '''
-        from pygeodesy.mgrs import toMgrs
-        return toMgrs(self, name=self.name)
+        return _toMgrs(self)
+
+    @Property_RO
+    def _mgrs_lowerleft(self):
+        '''(INTERNAL) Cache for L{toMgrs}, I{un}-centered.
+        '''
+        u = self._lowerleft
+        return self._mgrs if u is self else _toMgrs(u)
 
     def parse(self, strUTM, name=NN):
         '''Parse a string to a similar L{Utm} instance.
@@ -481,14 +494,20 @@ class Utm(UtmUpsBase):
         '''
         self._latlon, self._latlon_args = ll, (eps, unfalse)
 
-    def toMgrs(self):
+    def toMgrs(self, center=False):
         '''Convert this UTM coordinate to an MGRS grid reference.
 
-           See function L{toMgrs} in module L{mgrs} for more details.
+           @kwarg center: If C{True}, I{un}-center this UTM
+                          to its C{lowerleft} (C{bool}) or
+                          by C{B{center} meter} (C{scalar}).
 
            @return: The MGRS grid reference (L{Mgrs}).
+
+           @see: Function L{toMgrs} in L{mgrs} for more details.
         '''
-        return self._mgrs
+        return self._mgrs if center in (False, 0, _0_0) else (
+               self._mgrs_lowerleft if center in (True,) else
+              _toMgrs(_lowerleft(self, center)))  # PYCHOK indent
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
@@ -588,6 +607,32 @@ class Utm(UtmUpsBase):
         return self._zone
 
 
+def _lowerleft(utm, center):  # by .ellipsoidalBase.LatLon.toUtm
+    '''(INTERNAL) I{Un}-center a B{C{utm}} to its C{lowerleft} by
+       C{B{center} meter} or by a I{guess} if B{C{center}} is C{0}.
+    '''
+    if center:
+        e = n = -center
+    else:
+        c = 5  # center
+        for _ in range(3):
+            c *= 10  # 50, 500, 5000
+            t  = c * 2
+            e = int(utm.easting  % t)
+            n = int(utm.northing % t)
+            if (e == c and n in (c, c - 1)) or \
+               (n == c and e in (c, c - 1)):
+                break
+        else:
+            return utm  # unchanged
+
+    r = _xkwds_not(None, datum=utm.datum, scale=utm.scale,
+                         convergence=utm.convergence)
+    return utm.classof(utm.zone, utm.hemisphere,
+                       utm.easting - e, utm.northing - n,
+                       band=utm.band, falsed=utm.falsed, **r)
+
+
 def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, name=NN):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
@@ -636,6 +681,13 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
     '''
     r = _parseUTM5(strUTM, datum, Utm, falsed, name=name)
     return r
+
+
+def _toMgrs(utm):
+    '''(INTERNAL) Convert a L{Utm} to an L{Mgrs} instance.
+    '''
+    from pygeodesy.mgrs import toMgrs
+    return toMgrs(utm, datum=utm.datum, name=utm.name)
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,

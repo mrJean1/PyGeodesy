@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.06.10'
+__version__ = '21.06.17'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -139,6 +139,11 @@ class Conic(_NamedEnumItem):
         '''Get the authentication authority (C{str}).
         '''
         return self._auth
+
+    @deprecated_method
+    def convertDatum(self, datum):
+        '''DEPRECATED, use method L{Conic.toDatum}.'''
+        return self.toDatum(datum)
 
     @Property_RO
     def datum(self):
@@ -280,8 +285,6 @@ class Conic(_NamedEnumItem):
             c._SP = sp
 
         return c
-
-    convertDatum = toDatum  # synonymous
 
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this conic as a string.

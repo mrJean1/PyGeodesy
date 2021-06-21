@@ -403,7 +403,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.06.16
+        21.06.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3356,6 +3356,19 @@
     </td><td class="summary">
         <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
       Helmert transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.trf.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
+      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
+        transformation with translations <code>tx</code>, <code>ty</code> 
+        and <code>tz</code> in <code>millimeter</code>, scale 
+        <code>s</code> in <code>ppb</code> and rotations <code>sx</code>, 
+        <code>sy</code> and <code>sz</code> in 
+        <code>milliarcseconds</code>.
     </td>
   </tr>
 <tr>
@@ -6561,7 +6574,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdbfe9d27d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f80264ace50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -9420,6 +9433,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#trfXform" class="summary-sig-name">trfXform</a>(<span class="summary-sig-arg">reframe1</span>,
+        <span class="summary-sig-arg">reframe2</span>,
+        <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">xform</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">rates</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Define a new Terrestrial Reference Frame (TRF) conversion.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#trilaterate2d2" class="summary-sig-name">trilaterate2d2</a>(<span class="summary-sig-arg">x1</span>,
         <span class="summary-sig-arg">y1</span>,
         <span class="summary-sig-arg">radius1</span>,
@@ -9885,7 +9919,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.6.16'"><code class="variable-quote">'</code><code class="variable-string">21.6.16</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.6.21'"><code class="variable-quote">'</code><code class="variable-string">21.6.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -16208,7 +16242,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdbfe9d27d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f80264ace50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19555,10 +19589,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The MGRS grid reference (<b><code>Mgrs</code></b>) or an <a 
+        <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
+          <code><b>Mgrs</b>=None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
           class="link">Mgrs4Tuple</a><code>(zone, digraph, easting, 
-          northing)</code> if <code><b>Mgrs</b>=None</code>.</dd>
+          northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
@@ -21677,10 +21712,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           ignored if <code><b>Mgrs</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The MGRS grid reference (<b><code>Mgrs</code></b>) or an <a 
+        <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
+          <code><b>Mgrs</b>=None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
           class="link">Mgrs6Tuple</a><code>(zone, digraph, easting, 
-          northing, band, datum)</code> if <code><b>Mgrs</b>=None</code>.</dd>
+          northing, band, datum)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>utm</code></b> is not <a 
@@ -22081,6 +22117,45 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <span class="py-prompt">&gt;&gt;&gt; </span>w = toWm(p)  <span class="py-comment"># 377302 1483035</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="trfXform"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trfXform</span>&nbsp;(<span class="sig-arg">reframe1</span>,
+        <span class="sig-arg">reframe2</span>,
+        <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">xform</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">rates</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define a new Terrestrial Reference Frame (TRF) conversion.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>reframe1</code></strong> - Source reframe (<a href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>), converting <i>from</i>.</li>
+        <li><strong class="pname"><code>reframe2</code></strong> - Destination reframe (<a href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a>), converting <i>to</i>.</li>
+        <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional calendar year (<code>scalar</code> or 
+          <code>str</code>) or <code>None</code> for 
+          <code><b>reframe2</b>.epoch</code>.</li>
+        <li><strong class="pname"><code>xform</code></strong> - Helmert transform (<code>Tranform7Tuple</code>).</li>
+        <li><strong class="pname"><code>rates</code></strong> - Helmert transform (<code>Tranform7Tuple</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b> or TRF conversion already exists.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="trilaterate2d2"></a>
 <div>
@@ -23126,7 +23201,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 15 22:16:33 2021
+    Generated by Epydoc 3.0.1 on Mon Jun 21 08:04:27 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

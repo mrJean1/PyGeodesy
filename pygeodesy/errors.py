@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.06.01'
+__version__ = '21.06.18'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -570,6 +570,12 @@ def _xkwds_get(kwds, **name_default):
             return kwds.get(n, d)
 
     raise _xkwds_Error(_xkwds_get, kwds, name_default)
+
+
+def _xkwds_not(*args, **kwds):
+    '''(INTERNAL) Return C{kwds} with a value not in C{args}.
+    '''
+    return dict((n, v) for n, v in kwds.items() if v not in args)
 
 
 def _xkwds_pop(kwds, **name_default):

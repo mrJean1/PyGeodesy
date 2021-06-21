@@ -16,10 +16,11 @@ from pygeodesy.basics import _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, \
-                              TRFError, _ValueError, _xError
+                              TRFError, _ValueError, _xError, _xkwds_not
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
-                             _conversion_, _datum_, _DOT_, _N_, _no_, _SPACE_
+                             _conversion_, _datum_, _DOT_, _N_, _no_, \
+                             _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
@@ -29,7 +30,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.06.09'
+__version__ = '21.06.21'
 
 _reframe_ = 'reframe'
 
@@ -570,26 +571,34 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
-    def toDatum(self, datum2):
+    def toDatum(self, datum2, height=None, name=NN):
         '''Convert this point to an other datum.
 
            @arg datum2: Datum to convert I{to} (L{Datum}).
+           @kwarg height: Optional height, overriding the
+                          converted height (C{meter}).
+           @kwarg name: Optional name (C{str}), iff converted.
 
-           @return: The converted point (ellipsoidal C{LatLon}).
+           @return: The converted point (ellipsoidal C{LatLon})
+                    or a copy of this point if B{C{datum2}}
+                    matches this point's C{datum}.
 
-           @raise TypeError: The B{C{datum2}} invalid.
+           @raise TypeError: Invalid B{C{datum2}}.
 
            @example:
 
             >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
             >>> p.toDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
-        d2 = _ellipsoidal_datum(datum2, name=self.name)
+        n  =  name or self.name
+        d2 = _ellipsoidal_datum(datum2, name=n)
         if self.datum == d2:
-            return self.copy()
+            return self.copy(name=name)
+        r = _xkwds_not(None, epoch=self.epoch, reframe=self.reframe)
 
-        c = self.toCartesian().toDatum(d2)
-        return c.toLatLon(datum=d2, LatLon=self.classof)
+        c =  self.toCartesian().toDatum(d2)
+        return c.toLatLon(datum=d2, height=height,
+                          LatLon=self.classof, name=n, **r)
 
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.
@@ -609,6 +618,19 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._lcc
 
+    def toMgrs(self, center=False):
+        '''Convert this C{LatLon} point to an MGRS coordinate.
+
+           @kwarg center: If C{True}, try to I{un}-center MGRS
+                          to its C{lowerleft} (C{bool}) or by
+                          C{B{center} meter} (C{scalar}).
+
+           @return: The MGRS coordinate (L{Mgrs}).
+
+           @see: Method L{Mgrs.toLatLon} and L{toUtm}.
+        '''
+        return self.toUtm(center=center).toMgrs(center=False)
+
     def toOsgr(self):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
@@ -618,39 +640,45 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._osgr
 
-    def toRefFrame(self, reframe2):
+    def toRefFrame(self, reframe2, height=None, name=NN):
         '''Convert this point to an other reference frame.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
+           @kwarg height: Optional height, overriding the converted
+                          height (C{meter}).
+           @kwarg name: Optional name (C{str}), iff converted.
 
            @return: The converted point (ellipsoidal C{LatLon}) or this
-                    point if conversion is C{nil}.
+                    point if conversion is C{nil}, or a copy of this
+                    point if the B{C{name}} is non-empty.
 
-           @raise TRFError: This B{C{reframe}} not defined or no
-                            conversion available from this B{C{reframe}}
-                            to B{C{reframe2}}.
+           @raise TRFError: This point's C{reframe} is not defined or
+                            conversion from this point's C{reframe} to
+                            B{C{reframe2}} is not available.
 
-           @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
+           @raise TypeError: Invalid B{C{reframe2}}, not a L{RefFrame}.
 
            @example:
 
             >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
             >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
+            >>> p.toRefFrame(RefFrames.ITRF2014, height=0)  # 51.477803°N, 000.001597°W
         '''
-        from pygeodesy.trf import RefFrame, _reframeTransforms2
-        _xinstanceof(RefFrame, reframe2=reframe2)
-
         if not self.reframe:
             t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
             raise TRFError(_no_(_conversion_), txt=t)
 
+        from pygeodesy.trf import RefFrame, _reframeTransforms2
+        _xinstanceof(RefFrame, reframe2=reframe2)
+
         e, xs = _reframeTransforms2(reframe2, self.reframe, self.epoch)
         if xs:
             c = self.toCartesian()._applyHelmerts(*xs)
-            ll = c.toLatLon(datum=self.datum, epoch=e, reframe=reframe2,
-                                              LatLon=self.classof)
+            n = name or self.name
+            ll = c.toLatLon(datum=self.datum, epoch=e, height=height,
+                            LatLon=self.classof, name=n, reframe=reframe2)
         else:
-            ll = self
+            ll = self.copy(name=name) if name else self
         return ll
 
     def toUps(self, pole=_N_, falsed=True):
@@ -672,14 +700,25 @@ class LatLonEllipsoidalBase(LatLonBase):
                               pole=pole, falsed=falsed)
         return u
 
-    def toUtm(self):
+    def toUtm(self, center=False):
         '''Convert this C{LatLon} point to a UTM coordinate.
+
+           @kwarg center: If C{True}, I{un}-center the UTM
+                          to its C{lowerleft} (C{bool}) or
+                          by C{B{center} meter} (C{scalar}).
 
            @return: The UTM coordinate (L{Utm}).
 
-           @see: Function L{toUtm8}.
+           @see: Method L{Mgrs.toUtm} and function L{toUtm8}.
         '''
-        return self._utm
+        if center in (False, 0, _0_0):
+            u = self._utm
+        elif center in (True,):
+            u = self._utm._lowerleft
+        else:
+            from pygeodesy.utm import _lowerleft
+            u = _lowerleft(self._utm, center)
+        return u
 
     def toUtmUps(self, pole=NN):
         '''Convert this C{LatLon} point to a UTM or UPS coordinate.
@@ -700,7 +739,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         else:  # no cover
             from pygeodesy.utmups import toUtmUps8, Utm, Ups
             u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
-                                 pole=pole, name=self.name)
+                                pole=pole, name=self.name)
             if isinstance(u, Utm):
                 self._overwrite(_utm=u)
             elif isinstance(u, Ups):

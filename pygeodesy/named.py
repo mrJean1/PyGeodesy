@@ -21,19 +21,18 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
-                             _EQUAL_, _EQUALSPACED_, _immutable_, _name_, \
-                             _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
+                             _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, \
+                             _name_, _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.06.01'
+__version__ = '21.06.18'
 
 _at_     = 'at'
 _del_    = 'del'
-_exists_ = 'exists'
 _I_      = 'I'
 _item_   = 'item'
 _MRO_    = 'MRO'
@@ -202,15 +201,19 @@ class _Named(object):
         '''
         return _xnamed(self.__class__(*args, **kwds), self.name)
 
-    def copy(self, deep=False):
+    def copy(self, deep=False, name=NN):
         '''Make a shallow or deep copy of this instance.
 
            @kwarg deep: If C{True} make a deep, otherwise
                           a shallow copy (C{bool}).
+           @kwarg name: Optional, non-empty name (C{str}).
 
            @return: The copy (C{This class} or subclass thereof).
         '''
-        return _xcopy(self, deep=deep)
+        c = _xcopy(self, deep=deep)
+        if name:
+            c._name = str(name)  # c.rename(name) updates all
+        return c
 
     def _DOT_(self, *names):
         '''(INTERNAL) Period-join C{self.name} and C{names}.

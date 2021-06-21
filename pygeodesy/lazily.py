@@ -249,7 +249,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
-                            trf=('RefFrame', 'RefFrames', 'date2epoch', 'epoch2date'),
+                            trf=('RefFrame', 'RefFrames', 'Transform7Tuple',
+                                 'date2epoch', 'epoch2date', 'trfXform'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'FIx', 'Float', 'Float_', 'Height', 'Int', 'Int_',
@@ -292,7 +293,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.06.15'
+__version__ = '21.06.18'
 
 
 def _ALL_OTHER(*objs):
