@@ -10,23 +10,25 @@ from __future__ import division
 from pygeodesy.basics import issubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
-                             _ValueError, _xellipsoidal, _xError
+                             _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_, fsum_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
-from pygeodesy.interns import EPS, PI, _exceed_PI_radians_, _no_, \
-                             _near_concentric_, _too_, _0_0
+from pygeodesy.interns import EPS, PI, _datum_, _epoch_, _exceed_PI_radians_, \
+                             _height_, _no_, _near_concentric_, _reframe_, \
+                             _too_, _0_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import notOverloaded
-from pygeodesy.namedTuples import Bearing2Tuple, Intersection3Tuple, _LL4Tuple
+from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
+                           Intersection3Tuple, _LL4Tuple
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height, Radius_, Scalar, _1mm as _TOL_M
-from pygeodesy.utily import m2degrees, unroll180
+from pygeodesy.utily import m2degrees, unroll180, wrap90, wrap180, wrap360
 
 __all__ = ()
-__version__ = '21.06.03'
+__version__ = '21.06.23'
 
-_TRIPS    =  17  # _intersect3, _intersects2, _nearestOn interations, 6 is sufficient
+_TRIPS = 17  # _intersect3, _intersects2, _nearestOn interations, 6 is sufficient
 
 
 class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
@@ -93,6 +95,15 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         r = self._Direct(distance, bearing, self.classof, height)
         return self._xnamed(r)
+
+    def _Destination2Tuple(self, LL, height, r):
+        '''(INTERNAL) Helper for C{._Direct} result L{Destination2Tuple}.
+        '''
+        h = self.height if height is None else height
+        n = self.name
+        d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum, name=n,
+                 **_xkwds_not(None, epoch=self.epoch, reframe=self.reframe))
+        return Destination2Tuple(d, wrap360(r.final), name=n)
 
     def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
         '''Compute the distance between this and an other point
@@ -226,12 +237,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 def _Equidistant00(equidistant, p1):
     '''(INTERNAL) Get an C{Equidistant*(0, 0, ...)} instance.
     '''
-    import pygeodesy.azimuthal as _az
+    from pygeodesy.azimuthal import _Equidistants
 
     if equidistant is None or not callable(equidistant):
         equidistant = p1.Equidistant
-    elif not issubclassof(equidistant, *_az._Equidistants):
-        t = tuple(_.__name__ for _ in _az._Equidistants)
+    elif not issubclassof(equidistant, *_Equidistants):
+        t = tuple(_.__name__ for _ in _Equidistants)
         raise _IsnotError(*t, equidistant=equidistant)
     return equidistant(0, 0, p1.datum)
 
@@ -289,7 +300,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE?
     else:
         raise IntersectionError(_no_(Fmt.convergence(e)))
 
-    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
+    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1, name=n)
     r._iteration = t._iteration  # _NamedTuple._iteration
     return Intersection3Tuple(r, o1, o2)
 
@@ -335,8 +346,8 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
     from pygeodesy.sphericalTrigonometry import _intersects2 as _si2, LatLon as _LLS
     from pygeodesy.vector3d import _intersects2 as _vi2
 
-    def _latlon4(t, h, n):
-        r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
+    def _latlon4(t, h, n, c):
+        r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c, name=n)
         r._iteration = t.iteration  # ._iteration for tests
         return r
 
@@ -412,13 +423,13 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
     if ta:  # abutting circles
         pass
     elif len(ts) == 2:
-        return (_latlon4(ts[0], h, n),
-                _latlon4(ts[1], h, n))
+        return (_latlon4(ts[0], h, n, c1),
+                _latlon4(ts[1], h, n, c2))
     elif len(ts) == 1:  # PYCHOK no cover
         ta = ts[0]  # assume abutting
     else:
         raise _AssertionError(ts=ts)
-    r = _latlon4(ta, h, n)
+    r = _latlon4(ta, h, n, c1)
     return r, r
 
 
@@ -501,7 +512,7 @@ def _nearestOne(p, point1, point2, within=True, height=None, wrap=True,
     else:
         raise _ValueError(_no_(Fmt.convergence(tol)))
 
-    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
+    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p, name=n)
     r._iteration = t.iteration  # ._iteration for tests
     return r
 
@@ -510,7 +521,11 @@ def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
     # wrap, unroll and replace longitude if different
     _, lon = unroll180(p1.lon, p2.lon, wrap=True)
     if abs(lon - p2.lon) > EPS:
-        p2 = p2.classof(p2.lat, lon, p2.height, datum=p2.datum)
+        p2 = p2.classof(p2.lat, lon, **_xkwds_not(None,
+                                   height=getattr(p2, _height_,  None),
+                                    datum=getattr(p2, _datum_,   None),
+                                    epoch=getattr(p2, _epoch_,   None),
+                                  reframe=getattr(p2, _reframe_, None)))
     return p2
 
 

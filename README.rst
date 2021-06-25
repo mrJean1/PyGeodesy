@@ -131,13 +131,13 @@ and with Flake8_ using Python 3.9.5, both in 64-bit on macOS 11.4
 (10.16) Big Sur (Intel).
 
 Classes with a name ending in ``Karney`` and several more are transcribed
-from *Karney*\'s `C++ classes`_ or require *Karney*\'s geographiclib_
+from *Karney*\'s `C++ classes`_ or require *Karney*\'s Python geographiclib_
 package to be installed.  A complete list is in module karney_.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 21, 2021.*
+*Last updated: June 26, 2021.*
 
 License
 =======

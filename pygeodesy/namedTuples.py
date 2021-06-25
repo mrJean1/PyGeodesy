@@ -9,14 +9,14 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 '''
 
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.errors import _xkwds
+from pygeodesy.errors import _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
-                             _easting_, _h_, _height_, _hemipole_, _lam_, \
-                             _lat_, _lon_, _n_, _northing_, _number_, \
-                             _outside_, _phi_, _point_, _points_, \
-                             _precision_, _radius_, _scale_, _x_, _y_, \
-                             _z_, _zone_, _1_, _2_
+                             _easting_, _epoch_, _h_, _height_, _hemipole_, \
+                             _lam_, _lat_, _lon_, _n_, _northing_, _number_, \
+                             _outside_, _phi_, _point_, _points_, _precision_, \
+                             _radius_, _reframe_, _scale_, _x_, _y_, _z_, \
+                             _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass, _xnamed
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
@@ -25,12 +25,12 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.06.01'
+__version__ = '21.06.23'
 
 # __DUNDER gets mangled in class
+_elel_    = 'll'
 _final_   = 'final'
 _initial_ = 'initial'
-_elel_    = 'll'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -194,13 +194,18 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
     _Units_ = ( Lat,   Lon,   Height,  _Pass)
 
 
-def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, name=NN):
+def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
     '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
     '''
     if LatLon is None:
         r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
-        kwds = _xkwds(LatLon_kwds, datum=datum, height=height)
+        if inst is None:
+            r = {}
+        else:
+            r = _xkwds_not(None, epoch=getattr(inst, _epoch_,   None),
+                               reframe=getattr(inst, _reframe_, None))
+        kwds = _xkwds(LatLon_kwds, datum=datum, height=height, **r)
         r = _xnamed(LatLon(lat, lon, **kwds), name)
     return r
 

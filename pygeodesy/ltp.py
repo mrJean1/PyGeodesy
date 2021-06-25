@@ -31,7 +31,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.06.09'
+__version__ = '21.06.25'
 
 _Xyz_ = 'Xyz'
 
@@ -49,7 +49,7 @@ class LocalCartesian(_NamedBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due
-       North.  The plane C{z = -heighth0} is tangent to the ellipsoid.
+       North.  The plane C{z = -height0} is tangent to the ellipsoid.
 
        The conversions all take place via geocentric coordinates using a
        geocentric L{EcefKarney}, by default the WGS84 datum/ellipsoid.

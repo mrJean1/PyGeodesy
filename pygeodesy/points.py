@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.15'
+__version__ = '21.06.25'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -87,7 +87,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
     def __init__(self, lat, lon, name=NN, height=0, datum=None):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
-           without heigth and datum.
+           without height and datum.
 
            @arg lat: Latitude (C{degrees}).
            @arg lon: Longitude (C{degrees}).

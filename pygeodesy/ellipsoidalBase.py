@@ -20,7 +20,7 @@ from pygeodesy.errors import _incompatible, _IsnotError, RangeError, \
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
-                             _SPACE_, _0_0
+                             _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
@@ -30,9 +30,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.06.21'
-
-_reframe_ = 'reframe'
+__version__ = '21.06.24'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -498,7 +496,8 @@ class LatLonEllipsoidalBase(LatLonBase):
         from pygeodesy.osgr import Osgr, toOsgr
         return toOsgr(self, datum=self.datum, Osgr=Osgr, name=self.name)
 
-    def parse(self, strllh, height=0, datum=None, sep=_COMMA_, name=NN):
+    def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
+                                                  sep=_COMMA_, name=NN):
         '''Parse a string representing a similar, ellipsoidal C{LatLon}
            point, consisting of C{"lat, lon[, height]"}.
 
@@ -508,6 +507,10 @@ class LatLonEllipsoidalBase(LatLonBase):
                           C{None}).
            @kwarg datum: Optional datum (L{Datum}), overriding this
                          datum I{without conversion}.
+           @kwarg epoch: Optional datum (L{Epoch}), overriding this
+                         epoch I{without conversion}.
+           @kwarg reframe: Optional datum (L{RefFrame}), overriding
+                           this reframe I{without conversion}.
            @kwarg sep: Optional separator (C{str}).
            @kwarg name: Optional instance name (C{str}), overriding
                         this name.
@@ -521,6 +524,10 @@ class LatLonEllipsoidalBase(LatLonBase):
         r = self.classof(a, b, height=h, datum=self.datum)
         if datum not in (None, self.datum):
             r.datum = datum
+        if epoch not in (None, self.epoch):
+            r.epoch = epoch
+        if reframe not in (None, self.reframe):
+            r.reframe = reframe
         if name:
             r = _xnamed(r, name, force=True)
         return r
@@ -819,10 +826,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                               B{C{distance2}} or B{C{distance3}}.
 
            @note: Ellipsoidal trilateration invokes methods C{LatLon.intersections2}
-                  and C{LatLon.nearestOn}.  Install Karney's Python package
-                  U{geographiclib<https://PyPI.org/project/geographiclib>} to obtain
-                  the most accurate results for both C{ellipsoidalVincenty.LatLon}
-                  and C{ellipsoidalKarney.LatLon} points.
+                  and C{LatLon.nearestOn} based on I{Karney}'s Python U{geographiclib
+                  <https://PyPI.org/project/geographiclib>} if installed, otherwise
+                  based on most accurate (but slower) C{ellipsoidalExact.LatLon}.
         '''
         return _trilaterate5(self, distance1,
                              self.others(point2=point2), distance2,

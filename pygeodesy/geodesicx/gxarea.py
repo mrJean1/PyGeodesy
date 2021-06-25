@@ -16,7 +16,7 @@ see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 # make sure int/int division yields float quotient
 from __future__ import division
 
-from pygeodesy.basics import unsign0
+from pygeodesy.basics import isodd, unsign0
 from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
                              _0_0, _2_0
 from pygeodesy.karney import GeodesicError, _diff182, \
@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '21.05.29'
+__version__ = '21.06.23'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -290,7 +290,7 @@ class GeodesicAreaExact(_NamedBase):
         '''
         a0, a0_2 = self.area0x, self._area0x_2
         a = Area.Remainder(a0)
-        if ((self._xings + xing) & 1):
+        if isodd(self._xings + xing):
             a = Area.Add(a0_2 if a < 0 else -a0_2)
         # area is with the clockwise sense.  If !reverse
         # convert to counter-clockwise convention.
@@ -298,9 +298,10 @@ class GeodesicAreaExact(_NamedBase):
             a = Area.Negate()
         # If sign put area in (-area0x/2, area0x/2],
         # otherwise put area in [0, area0x)
-        if a > (a0 if sign else a0_2):
+        a0_ = a0 if sign else a0_2
+        if a > a0_:
             a = Area.Add(-a0)
-        elif a <= -(a0 if sign else a0_2):
+        elif a <= -a0_:
             a = Area.Add( a0)
         return unsign0(a)
 

@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.06.09'
+__version__ = '21.06.24'
 
 
 class LatLonBase(_NamedBase):
@@ -1082,9 +1082,8 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
         # and largest distance and n=0 for concentric
         return Trilaterate5Tuple(float(r), p, float(m), p, 0)
 
-    f =  max if area else min
-    t = _overlap_ if area else _intersection_
-    t = '%s (%s %.3f)' % (_no_(t), f.__name__, m)
+    n, f = (_overlap_, max) if area else (_intersection_, min)
+    t = '%s (%s %.3f)' % (_no_(n), f.__name__, m)
     raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 

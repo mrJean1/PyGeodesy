@@ -254,6 +254,7 @@ _radius2_             = 'radius2'            # PYCHOK expected
 #_RANGLE_             = '>'                  # PYCHOK expected
 #_RCURLY_             = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
+_reframe_             = 'reframe'            # PYCHOK expected
 _resolution_          = 'resolution'         # PYCHOK expected
 #_RPAREN_             = ')'                  # PYCHOK expected
 #_RSQUARE_            = ']'                  # PYCHOK RBRACK
@@ -450,7 +451,7 @@ __all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.06.18'
+__version__ = '21.06.23'
 
 
 # **) MIT License

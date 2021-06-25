@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.06.10'
+__version__ = '21.06.25'
 
 
 def _CS0(cs0):
@@ -440,7 +440,7 @@ class Css(_NamedBase):
         lat, lon = self.latlon
         h = self.height if height is None else Height(height)
         return _LL4Tuple(lat, lon, h, self.cs0.datum, LatLon, LatLon_kwds,
-                                                      name=self.name)
+                                                      inst=self, name=self.name)
 
     def toRepr(self, prec=6, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
@@ -472,7 +472,7 @@ class Css(_NamedBase):
            @kwarg m: Optional height units, default C{meter} (C{str}).
 
            @return: This position as C{"easting nothing"} C{str} in
-                    C{meter} plus C{" height"} and C{'m'} if heigth
+                    C{meter} plus C{" height"} and C{'m'} if height
                     is non-zero (C{str}).
         '''
         t, _ = _fstrENH2(self, prec, m)

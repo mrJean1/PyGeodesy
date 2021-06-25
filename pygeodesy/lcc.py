@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.06.17'
+__version__ = '21.06.25'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -562,7 +562,7 @@ class Lcc(_NamedBase):
 
         h = self.height if height is None else Height(height)
         return _LL4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds,
-                                               name=self.name)
+                                               inst=self, name=self.name)
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
@@ -590,14 +590,9 @@ class Lcc(_NamedBase):
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg m: Optional height units, default C{meter} (C{str}).
 
-           @return: This Lcc as "easting nothing" C{str} in C{meter} plus
-                    " height" and 'm' if heigth is non-zero (C{str}).
-
-           @example:
-
-            >>> lb = Lcc(448251, 5411932.0001)
-            >>> lb.toStr(4)  # 448251.0 5411932.0001
-            >>> lb.toStr(sep=', ')  # 448251, 5411932
+           @return: This Lcc as I{"easting nothing"} in C{meter} plus
+                    I{" height"} suffixed with B{C{m}} if height is
+                    non-zero (C{str}).
         '''
         t, _ = _fstrENH2(self, prec, m)
         return t if sep is None else sep.join(t)

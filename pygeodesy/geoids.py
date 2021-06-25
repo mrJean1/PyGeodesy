@@ -64,7 +64,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import len2, map1, map2, ub2str
+from pygeodesy.basics import len2, map1, map2, isodd, ub2str
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.06.09'
+__version__ = '21.06.23'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1455,8 +1455,8 @@ class _PGM(_Gpars):
 
         try:  # must be (even) width and (odd) height
             nlon, nlat = map(int, t.split())
-            if nlon < 2 or nlon > (360 * 60) or (nlon & 1) != 0 or \
-               nlat < 2 or nlat > (181 * 60) or (nlat & 1) == 0:
+            if nlon < 2 or nlon > (360 * 60) or isodd(nlon) or \
+               nlat < 2 or nlat > (181 * 60) or not isodd(nlat):
                 raise ValueError
         except (TypeError, ValueError):
             raise self._Errorf(_format_, _SPACE_(_width_, _height_), t)

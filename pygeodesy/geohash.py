@@ -16,7 +16,7 @@ U{PyGeohash<https://PyPI.org/project/pygeohash>} and
 U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 '''
 
-from pygeodesy.basics import isstr, map2
+from pygeodesy.basics import isodd, isstr, map2
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.06.03'
+__version__ = '21.06.23'
 
 
 class _GH(object):
@@ -204,7 +204,7 @@ class Geohash(Str):
         if D not in _GH.Neighbors:
             raise GeohashError(direction=direction)
 
-        e = len(self) & 1  # % 2
+        e = 1 if isodd(len(self)) else 0
 
         c = self[-1:]  # last hash char
         i = _GH.Neighbors[D][e].find(c)

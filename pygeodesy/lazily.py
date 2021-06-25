@@ -123,7 +123,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
-                                 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'isnan', 'isneg0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'splice', 'ub2str', 'unsign0'),
                           clipy=('ClipError',
@@ -293,7 +293,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.06.18'
+__version__ = '21.06.23'
 
 
 def _ALL_OTHER(*objs):

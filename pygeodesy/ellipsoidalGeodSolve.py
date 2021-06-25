@@ -15,17 +15,17 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _intersection3, _intersections2, \
                                        _nearestOn
-# from pygeodesy.errors import _xkwds  # from .props
-from pygeodesy.karney import _polygon
+# from pygeodesy.errors import _xkwds  # from .karney
+from pygeodesy.karney import _polygon, Property_RO, unroll180, \
+                             _TOL_M, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.namedTuples import Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
-from pygeodesy.props import Property_RO, _xkwds
-from pygeodesy.units import _1mm as _TOL_M
-from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
+# from pygeodesy.props import Property_RO  # from .karney
+# from pygeodesy.units import _1mm as _TOL_M  # from .karney
+# from pygeodesy.utily import unroll180  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '21.06.03'
+__version__ = '21.06.23'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -102,9 +102,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
         gS = self.geodesicx
         r = gS.Direct3(self.lat, self.lon, bearing, distance)
         if LL:
-            h = self.height if height is None else height
-            d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum)
-            r = Destination2Tuple(self._xnamed(d), wrap360(r.final))
+            r = self._Destination2Tuple(LL, height, r)
         return r
 
     def _Inverse(self, other, wrap, **unused):  # azis=False

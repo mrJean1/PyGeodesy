@@ -179,7 +179,7 @@ on macOS 11.4 (10.16) Big Sur (Intel).
 
 Classes with a name ending in C{Karney} and several more are transcoded from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
-or require I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+or require I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
 package to be installed.  A complete list is in module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
 
@@ -512,7 +512,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.06.21'
+__version__ = '21.06.26'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

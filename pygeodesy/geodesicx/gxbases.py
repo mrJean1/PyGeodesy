@@ -8,6 +8,7 @@ and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
 
+from pygeodesy.basics import isodd
 from pygeodesy.errors import _or
 from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
 from pygeodesy.karney import GeodesicError, Property, _3sum2
@@ -18,7 +19,7 @@ from pygeodesy.named import _NamedBase
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.06.02'
+__version__ = '21.06.23'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -154,7 +155,7 @@ def _coSeries(c4s, sx, cx):  # PYCHOK shared
     ar = _2_0 * (cx - sx) * (cx + sx)  # 2 * cos(2 * x)
     y0 = y1 = _0_0
     c4s = list(c4s)
-    if len(c4s) & 1:
+    if isodd(len(c4s)):
         y0 = c4s.pop()
     while c4s:
         y1 = ar * y0 - y1 + c4s.pop()

@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.06.10'
+__version__ = '21.06.25'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
@@ -982,8 +982,8 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
     _T00.others(start2=start2)
 
     try:
-        return _intersect(start1, end1, start2, end2, heighth=height, wrap=wrap,
-                                                       LatLon=LatLon, **LatLon_kwds)
+        return _intersect(start1, end1, start2, end2, height=height, wrap=wrap,
+                                                      LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
 

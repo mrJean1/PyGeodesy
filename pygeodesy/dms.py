@@ -11,7 +11,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, issequence, isstr, map2, neg
+from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, neg
 from pygeodesy.errors import ParseError, _parseX,  RangeError, \
                             _rangerrors, _ValueError
 from pygeodesy.interns import _COMMA_, _NE_, _NSEW_, _NW_, _SE_  # PYCHOK used!
@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.06.10'
+__version__ = '21.06.23'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -487,9 +487,9 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
                             (P.isdigit() and s in '-0123456789+'  # PYCHOK indent
                                          and S in ((_NS_, _EW_) + _WINDS))):
                 # check [D]DDMMSS form and compass point
-                X = _EW_ if (d & 1) else _NS_
+                X = _EW_ if isodd(d) else _NS_
                 if not (P in X or (S in X and (P.isdigit() or P == _DOT_))):
-                    t = 'DDDMMSS'[d & 1 ^ 1:d | 1], X[:1], X[1:]
+                    t = 'DDDMMSS'[0 if isodd(d) else 1:d | 1], X[:1], X[1:]
                     raise ParseError('form %s applies %s-%s' % t)
                 f = 0  # fraction
             else:  # try other forms
@@ -504,12 +504,12 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
             d = len(t)
             # bump number of digits to match
             # the given, valid compass point
-            if S in (_NS_ if (d & 1) else _EW_):
+            if S in (_NS_ if isodd(d) else _EW_):
                 t = _0_ + t
                 d += 1
             #   P = S
             # elif d > 1:
-            #   P = (_EW_ if (d & 1) else _NS_)[0]
+            #   P = (_EW_ if isodd(d) else _NS_)[0]
 
         if d < 4:  # [D]DD[.ddd]
             if f:

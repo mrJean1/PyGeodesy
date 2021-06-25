@@ -302,7 +302,7 @@
     <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcoded from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-    target="_top">C++ classes</a> or require <i>Karney</i>'s <a 
+    target="_top">C++ classes</a> or require <i>Karney</i>'s Python <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> package to be installed.  A complete 
     list is in module <a 
@@ -403,7 +403,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.06.21
+        21.06.26
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1816,13 +1816,14 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
       12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
-        M12, M21, S12)</code> with angles <code>lat1</code>, {Clon1}, 
-        <code>azi1</code>, <code>lat2</code>, <code>lon2</code> and 
-        <code>azi2</code> and arc <code>a12</code> all in 
-        <code>degrees</code>, distance <code>s12</code> and reduced length 
-        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
-        <code>meter</code> <i>squared</i> and geodesic scales 
-        <code>M12</code> and <code>M21</code> <code>scalar</code>, see <a 
+        M12, M21, S12)</code> with angles <code>lat1</code>, 
+        <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
+        <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
+        all in <code>degrees</code>, distance <code>s12</code> and reduced 
+        length <code>m12</code> in <code>meter</code>, area 
+        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
+        scales <code>M12</code> and <code>M21</code> <code>scalar</code>, 
+        see <a 
         href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a>.
     </td>
@@ -2567,7 +2568,7 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.Inverse10Tuple-class.html" class="summary-name">Inverse10Tuple</a><br />
       10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
-        M21, S12)</code> with arc lenght <code>1a12</code> in 
+        M21, S12)</code> with arc length <code>1a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
         <code>meter</code> <i>squared</i> and sines and cosines of initial 
@@ -6574,7 +6575,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f80264ace50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff9a2005f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7306,6 +7307,23 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Check for NEG0, negative <code>0.0</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isodd" class="summary-sig-name">isodd</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Is <b><code>x</code></b> odd?</td>
           <td align="right" valign="top">
             
             
@@ -9919,7 +9937,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.6.21'"><code class="variable-quote">'</code><code class="variable-string">21.6.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.6.26'"><code class="variable-quote">'</code><code class="variable-string">21.6.26</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -16242,7 +16260,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f80264ace50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff9a2005f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17639,6 +17657,32 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>x</code></b> is <code>NEG0</code> 
           or <code>-0.0</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isodd"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isodd</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>x</code></b> odd?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>x</code></b> is odd, 
+          <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -23201,7 +23245,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 21 08:04:27 2021
+    Generated by Epydoc 3.0.1 on Fri Jun 25 11:35:09 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

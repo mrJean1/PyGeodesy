@@ -81,13 +81,17 @@ are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>} and ellipsoidal
 functions and methods:
 
-  - L{ellipsoidalExact.areaOf}, L{ellipsoidalExact.intersections2}, L{ellipsoidalExact.isclockwise},
-    L{ellipsoidalExact.nearestOn}, L{ellipsoidalExact.LatLon.intersections2},
-    L{ellipsoidalExact.LatLon.nearestOn}, L{ellipsoidalExact.perimeterOf}
+  - L{ellipsoidalExact.intersection3}, L{ellipsoidalExact.intersections2}, L{ellipsoidalExact.nearestOn},
+    L{ellipsoidalExact.LatLon.intersection3}, L{ellipsoidalExact.LatLon.intersections2},
+    L{ellipsoidalExact.LatLon.nearestOn}, L{ellipsoidalExact.LatLon.trilaterate5}
 
-  - L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.intersections2}, L{ellipsoidalKarney.isclockwise},
-    L{ellipsoidalKarney.nearestOn}, L{ellipsoidalKarney.LatLon.intersections2},
-    L{ellipsoidalKarney.LatLon.nearestOn}, L{ellipsoidalKarney.perimeterOf}
+  - L{ellipsoidalKarney.intersection3}, L{ellipsoidalKarney.intersections2}, L{ellipsoidalKarney.nearestOn},
+    L{ellipsoidalKarney.LatLon.intersection3}, L{ellipsoidalKarney.LatLon.intersections2},
+    L{ellipsoidalKarney.LatLon.nearestOn}, L{ellipsoidalKarney.LatLon.trilaterate5}
+
+  - L{ellipsoidalVincenty.intersection3}, L{ellipsoidalVincenty.intersections2}, L{ellipsoidalVincenty.nearestOn},
+    L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
+    L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
 are implementations of I{Karney}'s post U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and paper
@@ -98,7 +102,7 @@ B{14. MARITIME BOUNDARIES}).
 from pygeodesy.basics import copysign0, _xversion
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
 from pygeodesy.ellipsoids import Ellipsoid2
-from pygeodesy.errors import _ValueError
+from pygeodesy.errors import _ValueError, _xkwds  # PYCHOK shared
 from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, \
                              _lat2_, _lon2_, _0_0, _1_0, _2_0, \
                              _16_0, _180_0, _360_0
@@ -108,14 +112,14 @@ from pygeodesy.named import _Dict, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.units import Degrees as _Deg, Meter as _M, \
-                            Meter2 as _M2
+                            Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
 from pygeodesy.utily import atan2d, unroll180, wrap360
 
 from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.06.10'
+__version__ = '21.06.25'
 
 _16th = _1_0 / _16_0
 
@@ -226,7 +230,7 @@ class GeodesicError(_ValueError):  # PYCHOK exported
 
 class GeodSolve12Tuple(_GTuple):
     '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
-       angles C{lat1}, {Clon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
+       angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
        C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area C{S12} in
        C{meter} I{squared} and geodesic scales C{M12} and C{M21} C{scalar}, see U{GeodSolve
        <https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}.
@@ -238,7 +242,7 @@ class GeodSolve12Tuple(_GTuple):
 
 class Inverse10Tuple(_GTuple):
     '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)}
-       with arc lenght C{1a12} in C{degrees}, distance C{s12} and reduced
+       with arc length C{1a12} in C{degrees}, distance C{s12} and reduced
        length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and
        sines and cosines of initial and final (forward) azimuths.
     '''

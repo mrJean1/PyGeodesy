@@ -249,36 +249,52 @@
   and methods:</p>
   <ul>
     <li>
-      <a href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
-      class="link">ellipsoidalExact.areaOf</a>, <a 
+      <a href="pygeodesy.ellipsoidalExact-module.html#intersection3" 
+      class="link">ellipsoidalExact.intersection3</a>, <a 
       href="pygeodesy.ellipsoidalExact-module.html#intersections2" 
       class="link">ellipsoidalExact.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalExact-module.html#isclockwise" 
-      class="link">ellipsoidalExact.isclockwise</a>, <a 
       href="pygeodesy.ellipsoidalExact-module.html#nearestOn" 
       class="link">ellipsoidalExact.nearestOn</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+      class="link">ellipsoidalExact.LatLon.intersection3</a>, <a 
       href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
       class="link">ellipsoidalExact.LatLon.intersections2</a>, <a 
       href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
       class="link">ellipsoidalExact.LatLon.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalExact-module.html#perimeterOf" 
-      class="link">ellipsoidalExact.perimeterOf</a>
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+      class="link">ellipsoidalExact.LatLon.trilaterate5</a>
     </li>
     <li>
-      <a href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
-      class="link">ellipsoidalKarney.areaOf</a>, <a 
+      <a href="pygeodesy.ellipsoidalKarney-module.html#intersection3" 
+      class="link">ellipsoidalKarney.intersection3</a>, <a 
       href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
       class="link">ellipsoidalKarney.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
-      class="link">ellipsoidalKarney.isclockwise</a>, <a 
       href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
       class="link">ellipsoidalKarney.nearestOn</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+      class="link">ellipsoidalKarney.LatLon.intersection3</a>, <a 
       href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
       class="link">ellipsoidalKarney.LatLon.intersections2</a>, <a 
       href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
       class="link">ellipsoidalKarney.LatLon.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-      class="link">ellipsoidalKarney.perimeterOf</a>
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+      class="link">ellipsoidalKarney.LatLon.trilaterate5</a>
+    </li>
+    <li>
+      <a href="pygeodesy.ellipsoidalVincenty-module.html#intersection3" 
+      class="link">ellipsoidalVincenty.intersection3</a>, <a 
+      href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
+      class="link">ellipsoidalVincenty.intersections2</a>, <a 
+      href="pygeodesy.ellipsoidalVincenty-module.html#nearestOn" 
+      class="link">ellipsoidalVincenty.nearestOn</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+      class="link">ellipsoidalVincenty.LatLon.intersection3</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
+      class="link">ellipsoidalVincenty.LatLon.intersections2</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
+      class="link">ellipsoidalVincenty.LatLon.nearestOn</a>, <a 
+      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+      class="link">ellipsoidalVincenty.LatLon.trilaterate5</a>
     </li>
   </ul>
   <p>are implementations of <i>Karney</i>'s post <a 
@@ -290,7 +306,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.06.10
+        21.06.25
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -337,13 +353,14 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
       12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
-        M12, M21, S12)</code> with angles <code>lat1</code>, {Clon1}, 
-        <code>azi1</code>, <code>lat2</code>, <code>lon2</code> and 
-        <code>azi2</code> and arc <code>a12</code> all in 
-        <code>degrees</code>, distance <code>s12</code> and reduced length 
-        <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
-        <code>meter</code> <i>squared</i> and geodesic scales 
-        <code>M12</code> and <code>M21</code> <code>scalar</code>, see <a 
+        M12, M21, S12)</code> with angles <code>lat1</code>, 
+        <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
+        <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
+        all in <code>degrees</code>, distance <code>s12</code> and reduced 
+        length <code>m12</code> in <code>meter</code>, area 
+        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
+        scales <code>M12</code> and <code>M21</code> <code>scalar</code>, 
+        see <a 
         href="https://geographiclib.sourceforge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a>.
     </td>
@@ -354,7 +371,7 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.Inverse10Tuple-class.html" class="summary-name">Inverse10Tuple</a><br />
       10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
-        M21, S12)</code> with arc lenght <code>1a12</code> in 
+        M21, S12)</code> with arc length <code>1a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
         <code>meter</code> <i>squared</i> and sines and cosines of initial 
@@ -409,7 +426,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 21 08:04:27 2021
+    Generated by Epydoc 3.0.1 on Fri Jun 25 11:35:10 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

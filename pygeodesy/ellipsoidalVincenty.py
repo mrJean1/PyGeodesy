@@ -63,18 +63,18 @@ from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, \
                              _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
-from pygeodesy.namedTuples import Destination2Tuple, Distance3Tuple
+from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
+                                  Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
 from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
-from pygeodesy.utily import atan2b, degrees90, degrees180, \
-                            sincos2, unroll180
+from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 
-from math import atan2, cos, radians, tan
+from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.06.10'
+__version__ = '21.06.23'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -255,16 +255,14 @@ class LatLon(LatLonEllipsoidalBaseDI):
         r = atan2b(sa, -t)
 
         if llr:
-            # destination latitude in [-90, 90)
-            a = degrees90(atan2(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t)))
-            # destination longitude in [-180, 180)
-            t = radians(self.lon) - _dl(E.f, c2a, sa, s, cs, ss, c2sm)
-            b = degrees180(atan2(ss * si, c1 * cs - s1 * ss * ci) + t)
-            h = self.height if height is None else height
-            d = self.classof(a, b, height=h, datum=self.datum)
+            a = atan2d(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t))
+            b = atan2d(ss * si, c1 * cs - s1 * ss * ci) + self.lon \
+              - degrees(_dl(E.f, c2a, sa, s, cs, ss, c2sm))
+            r = self._Destination2Tuple(self.classof, height,
+                      Destination3Tuple(a, b, r))
         else:
-            d = None
-        return Destination2Tuple(d, r, name=self.name)
+            r = Destination2Tuple(None, r, name=self.name)
+        return r
 
     def _Inverse(self, other, wrap, azis=True):  # PYCHOK signature
         '''(INTERNAL) Inverse Vincenty method.

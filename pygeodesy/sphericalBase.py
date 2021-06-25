@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.06.10'
+__version__ = '21.06.24'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -104,7 +104,7 @@ class CartesianSphericalBase(CartesianBase):
             x1, x2 = x2, x1
         try:
             n, q = x1.cross(x2), x1.dot(x2)
-            n2, q1 = n.length2, _1_0 - q**2
+            n2, q1 = n.length2, (_1_0 - q**2)
             if n2 < EPS or isnear0(q1):
                 raise ValueError(_near_concentric_)
             c1, c2 = cos(r1), cos(r2)

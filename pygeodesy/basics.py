@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.06.10'
+__version__ = '21.06.23'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -112,6 +112,17 @@ def isbool(obj):
     '''
     return isinstance(obj, bool)  # and (obj is True
 #                                     or obj is False)
+
+
+def isodd(x):
+    '''Is B{C{x}} odd?
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if B{C{x}} is odd,
+                C{False} otherwise.
+    '''
+    return bool(int(x) & 1)
 
 
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
