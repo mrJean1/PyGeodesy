@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.06.25'
+__version__ = '21.06.27'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
@@ -84,10 +84,8 @@ def _destination2(a, b, r, t):
 def _r2m(r, radius):
     '''(INTERNAL) Angular distance in C{radians} to C{meter}.
     '''
-    if radius is R_M:
-        r *= R_M
-    elif radius is not None:  # not in (None, _0_0)
-        r *= Radius(radius)
+    if radius is not None:  # not in (None, _0_0)
+        r *= R_M if radius is R_M else Radius(radius)
     return r
 
 
@@ -124,20 +122,6 @@ class LatLon(LatLonSphericalBase):
 
         >>> p = LatLon(52.205, 0.119)  # height=0
     '''
-
-    def _trackDistanceTo3(self, start, end, radius, wrap):
-        '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
-        '''
-        self.others(start=start)
-        self.others(end=end)
-
-        r = Radius_(radius)
-        r = start.distanceTo(self, r, wrap=wrap) / r
-
-        b = radians(start.initialBearingTo(self, wrap=wrap))
-        e = radians(start.initialBearingTo(end,  wrap=wrap))
-        x = asin(sin(r) * sin(b - e))
-        return r, x, (e - b)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
         '''Compute the (angular) distance (signed) from the start to
@@ -742,6 +726,20 @@ class LatLon(LatLonSphericalBase):
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
+    def _trackDistanceTo3(self, start, end, radius, wrap):
+        '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
+        '''
+        self.others(start=start)
+        self.others(end=end)
+
+        r = Radius_(radius)
+        r = start.distanceTo(self, r, wrap=wrap) / r
+
+        b = radians(start.initialBearingTo(self, wrap=wrap))
+        e = radians(start.initialBearingTo(end,  wrap=wrap))
+        x = asin(sin(r) * sin(b - e))
+        return r, x, (e - b)
+
     def triangle7(self, otherB, otherC, radius=R_M, wrap=False):
         '''Compute the angles, sides and area of a spherical triangle.
 
@@ -764,7 +762,7 @@ class LatLon(LatLonSphericalBase):
 
         r = self.philam + otherB.philam + otherC.philam
         t = triangle8_(*r, wrap=wrap)
-        return self._xnamed(_t8_7(t, radius))
+        return self._xnamed(_t7Tuple(t, radius))
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):
@@ -1053,8 +1051,8 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
                 a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     h = fmean(hs) if height is None else Height(height)
-    return _latlon3(degrees90(a), degrees180(b), h,
-                    intersection, LatLon, LatLon_kwds)
+    return _LL3Tuple(degrees90(a), degrees180(b), h,
+                     intersection, LatLon, LatLon_kwds)
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
@@ -1119,8 +1117,8 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
 
     def _dest3(bearing, h):
         a, b = _destination2(a1, b1, r1, bearing)
-        return _latlon3(degrees90(a), degrees180(b), h,
-                        intersections2, LatLon, LatLon_kwds)
+        return _LL3Tuple(degrees90(a), degrees180(b), h,
+                         intersections2, LatLon, LatLon_kwds)
 
     r1, r2, f = _rads3(rad1, rad2, radius)
     if f:  # swapped
@@ -1174,15 +1172,16 @@ def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
     return ispolar(points, wrap=wrap)
 
 
-def _latlon3(lat, lon, height, func, LatLon, LatLon_kwds):
+def _LL3Tuple(lat, lon, height, func, LatLon, LatLon_kwds):
     '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanOf}.
     '''
+    n = func.__name__
     if LatLon is None:
-        r = LatLon3Tuple(lat, lon, height)
+        r = LatLon3Tuple(lat, lon, height, name=n)
     else:
-        kwds = _xkwds(LatLon_kwds, height=height)
+        kwds = _xkwds(LatLon_kwds, height=height, name=n)
         r = LatLon(lat, lon, **kwds)
-    return _xnamed(r, func.__name__)
+    return r
 
 
 def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
@@ -1213,7 +1212,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
         h = fmean(p.height for p in _T00.PointsIter(points).iterate(closed=False))
     else:
         h = Height(height)
-    return _latlon3(lat, lon, h, meanOf, LatLon, LatLon_kwds)
+    return _LL3Tuple(lat, lon, h, meanOf, LatLon, LatLon_kwds)
 
 
 @deprecated_function
@@ -1312,19 +1311,6 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     return r if radius is None else (Radius(radius) * r)
 
 
-def _t8_7(t, radius):
-    '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
-    '''
-    if radius:  # not in (None, _0_0)
-        r = radius if isscalar(radius) else \
-           _ellipsoidal_datum(radius).ellipsoid.Rmean
-        A, B, C = map1(degrees, t.A, t.B, t.C)
-        t = Triangle7Tuple(A, (r * t.a),
-                           B, (r * t.b),
-                           C, (r * t.c), t.E * r**2)
-    return t
-
-
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                                                   excess=excessAbc,
                                                     wrap=False):
@@ -1356,7 +1342,7 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                    Phi_(latB=latB), Lam_(lonB=lonB),
                    Phi_(latC=latC), Lam_(lonC=lonC),
                    excess=excess, wrap=wrap)
-    return _t8_7(t, radius)
+    return _t7Tuple(t, radius)
 
 
 def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
@@ -1404,6 +1390,19 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
         excessAbc(*max((A, b, c), (B, c, a), (C, a, b))))
 
     return Triangle8Tuple(A, a, B, b, C, c, D, E)
+
+
+def _t7Tuple(t, radius):
+    '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
+    '''
+    if radius:  # not in (None, _0_0)
+        r = radius if isscalar(radius) else \
+           _ellipsoidal_datum(radius).ellipsoid.Rmean
+        A, B, C = map1(degrees, t.A, t.B, t.C)
+        t = Triangle7Tuple(A, (r * t.a),
+                           B, (r * t.b),
+                           C, (r * t.c), t.E * r**2)
+    return t
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes

@@ -17,7 +17,7 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.05.09'
+__version__ = '21.06.27'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -208,19 +208,20 @@ def anstr(name, OKd=_OKd_, sub=_UNDER_):
     return sub.join(s.strip().split())
 
 
-def attrs(inst, *names, **kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
-    '''Get instance attributes as I{name=value} strings, with C{float}s handled like L{fstr}.
+def attrs(inst, *names, **pairs_kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
+    '''Get instance attributes as I{name=value} strings, with C{float}s
+       formatted by function L{fstr}.
 
        @arg inst: The instance (any C{type}).
        @arg names: The attribute names (C{str}s).
-       @kwarg kwds: Keyword argument for function L{pairs}, except
-                    C{B{Nones}=True} to in-/exclude missing or
-                    attributes with a C{None} I{value}.
+       @kwarg pairs_kwds: Keyword argument for function L{pairs}, except
+                          C{B{Nones}=True} to in- or exclude missing or
+                          or C{None}-valued attributes.
 
        @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values, ...)))}
                 of C{str}s.
     '''
-    Nones = _xkwds_pop(kwds, Nones=True)
+    Nones = _xkwds_pop(pairs_kwds, Nones=True)
 
     def items():
         for n in names:
@@ -228,7 +229,7 @@ def attrs(inst, *names, **kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, s
             if Nones or v is not None:
                 yield n, v
 
-    return pairs(items(), **kwds)
+    return pairs(items(), **pairs_kwds)
 
 
 def enstr2(easting, northing, prec, *extras):

@@ -59,7 +59,7 @@ from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _intersection3, _intersections2, \
                                        _nearestOn
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.fmath import fpolynomial, hypot, hypot1
+from pygeodesy.fmath import fpolynomial, fsum_, hypot, hypot1
 from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, \
                              _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.06.23'
+__version__ = '21.06.27'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -256,10 +256,10 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
         if llr:
             a = atan2d(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t))
-            b = atan2d(ss * si, c1 * cs - s1 * ss * ci) + self.lon \
-              - degrees(_dl(E.f, c2a, sa, s, cs, ss, c2sm))
-            r = self._Destination2Tuple(self.classof, height,
-                      Destination3Tuple(a, b, r))
+            b = atan2d(ss * si, c1 * cs - s1 * ss * ci)
+            d = degrees(_dl(E.f, c2a, sa, s, cs, ss, c2sm))
+            t = Destination3Tuple(a, fsum_(b, self.lon, -d), r)
+            r = self._Direct2Tuple(self.classof, height, t)
         else:
             r = Destination2Tuple(None, r, name=self.name)
         return r

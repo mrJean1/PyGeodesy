@@ -170,6 +170,7 @@ _isclockwise_         = 'isclockwise'        # PYCHOK expected
 _ispolar_             = 'ispolar'            # PYCHOK expected
 _j_                   = 'j'                  # PYCHOK expected
 _k0_                  = 'k0'                 # PYCHOK expected
+_kind_                = 'kind'               # PYCHOK expected
 _knots_               = 'knots'              # PYCHOK expected
 _Krassovski1940_      = 'Krassovski1940'     # PYCHOK expected
 _Krassowsky1940_      = 'Krassowsky1940'     # PYCHOK expected
@@ -192,6 +193,7 @@ _lon2_                = 'lon2'               # PYCHOK expected
 _ltp_                 = 'ltp'                # PYCHOK expected
 _m_                   = 'm'                  # PYCHOK expected
 _M_                   = 'M'                  # PYCHOK expected
+_mean_                = 'mean'               # PYCHOK expected
 _meanOf_              = 'meanOf'             # PYCHOK expected
 _meridional_          = 'meridional'         # PYCHOK expected
 _meter_               = 'meter'              # PYCHOK expected
@@ -274,6 +276,7 @@ _SPACE_         = _Join(' ')                 # PYCHOK expected
 _STAR_          = _Join('*')                 # PYCHOK expected
 _start_               = 'start'              # PYCHOK expected
 _std_                 = 'std'                # PYCHOK expected
+_stdev_               = 'stdev'              # PYCHOK expected
 _supported_           = 'supported'          # PYCHOK expected
 _sx_                  = 'sx'                 # PYCHOK expected
 _sy_                  = 'sy'                 # PYCHOK expected
@@ -300,6 +303,7 @@ __vs__                = ' vs '               # PYCHOK vs-SPACED
 _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
+_width_               = 'width'              # PYCHOK expected
 _x_                   = 'x'                  # PYCHOK expected
 _X_                   = 'X'                  # PYCHOK expected
 _xyz_                 = 'xyz'                # PYCHOK expected
@@ -451,7 +455,7 @@ __all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.06.23'
+__version__ = '21.06.28'
 
 
 # **) MIT License

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.06.09'
+__version__ = '21.06.27'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -134,7 +134,7 @@ class Tests(TestsBase):
 
             # <https://GitHub.com/chrisveness/geodesy/issues/64>
             d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
-            self.test('distanceTo', d, '18013602.92' if Sph or Nv else ('18003740.39' if X or GS else '18012714.66'), fmt='%.2f')
+            self.test('distanceTo', d, '18013602.92' if Sph or Nv else ('18003740.39' if X else '18012714.66'), fmt='%.2f')
             try:
                 d = LatLon(0, 0).distanceTo(LatLon(0, 180))  # antipodal
                 self.test('distanceTo', d, '20015114.35' if Sph else '20003931.46', fmt='%.2f', known=Nv or X or GS)  # PYCHOK 0.0 for Nv ...

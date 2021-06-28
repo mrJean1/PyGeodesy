@@ -8,9 +8,9 @@ the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
 C{LatLon} locations or separate lat-/longitudes using different
 interpolation methods and C{geoid} model files.
 
-L{GeoidKarney} is a transcription of I{Charles Karney}'s C++ class U{Geoid
-<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.  The
-L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
+L{GeoidKarney} is a transcoding of I{Charles Karney}'s C++ class U{Geoid
+<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
+The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
 <https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>} and
 require those packages to be installed.
 
@@ -71,11 +71,11 @@ from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
 from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _E_, _float as _F, _height_, _in_, _knots_, \
-                             _lat_, _linear_, _lon_, _N_, _n_a_, _not_, \
-                             _numpy_, _on_, _outside_, _S_, _scipy_, \
-                             _SPACE_, _supported_, _tbd_, _W_, _4_, \
-                             _0_0, _1_0, _180_0, _360_0
+                             _E_, _float as _F, _height_, _in_, _kind_, \
+                             _knots_, _lat_, _linear_, _lon_, _mean_, _N_, \
+                             _n_a_, _not_, _numpy_, _on_, _outside_, _S_, _s_, \
+                             _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
+                             _W_, _width_, _4_, _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.06.23'
+__version__ = '21.06.28'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -109,8 +109,7 @@ _intCs = {}
 _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
-_non_increasing_ = 'non-increasing'
-_width_ = 'width'
+_non_increasing_ =  'non-increasing'
 
 
 class _GeoidBase(_HeightBase):
@@ -173,8 +172,8 @@ class _GeoidBase(_HeightBase):
             raise GeoidError(shape=hs.shape, txt=_incompatible((p.nlat, p.nlon)))
 
         # both axes and bounding box
-        ys, self._lat_d = self._gaxis2(p.slat, p.dlat, p.nlat, 'lats')
-        xs, self._lon_d = self._gaxis2(p.wlon, p.dlon, p.nlon, 'lons')
+        ys, self._lat_d = self._gaxis2(p.slat, p.dlat, p.nlat, _lat_ + _s_)
+        xs, self._lon_d = self._gaxis2(p.wlon, p.dlon, p.nlon, _lon_ + _s_)
 
         bb = ys[0], ys[-1], xs[0], xs[-1] + p.dlon  # fudge lon_hi
         # geoid grids are typically stored in row-major order, some
@@ -624,8 +623,8 @@ class _GeoidBase(_HeightBase):
                                        (self.lowerleft, self.upperright,
                                         self.center,
                                         self.highest, self.lowest)) + \
-            attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
-            attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
+            attrs( _mean_, _stdev_,           prec=prec, Nones=False) + \
+            attrs((_kind_, 'smooth')[:s],     prec=prec, Nones=False) + \
             attrs( 'cropped', 'dtype', _endian_, 'hits', _knots_, 'nBytes',
                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
@@ -779,9 +778,9 @@ class GeoidG2012B(_GeoidBase):
 class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
     '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       tests with the heights for 3 different EGM grids with C{degrees90}
-       and C{degrees180} degrees (after converting C{lon} from the original
-       C{0.0 <= EasterLon <= 360.0}).
+       tests with the heights for 3 different EGM grids at C{degrees90}
+       and C{degrees180} degrees (after converting C{lon} from original
+       C{0 <= EasterLon <= 360}).
     '''
     _Names_ = (_lat_, _lon_, 'egm84', 'egm96', 'egm2008')
     _Units_ = ( Lat,   Lon,   Height,  Height,  Height)
@@ -806,7 +805,7 @@ class GeoidKarney(_GeoidBase):
        html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
        <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
-       in pure Python transcoded from I{Karney}'s U{C++ class Geoid
+       in pure Python, transcoded from I{Karney}'s U{C++ class Geoid
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
 
        Use any of the geoid U{egm84-, egm96- or egm2008-*.pgm

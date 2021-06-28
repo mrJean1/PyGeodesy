@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.25'
+__version__ = '21.06.27'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1443,7 +1443,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
         x0_180  = x0 + _180_0
 
         def _dxy3(x1, x, y, unused):  # PYCHOK expected
-            x %= _360_0
+            x = float(x) % _360_0
             if x < x0_180_:
                 x += _360_0
             elif x >= x0_180:

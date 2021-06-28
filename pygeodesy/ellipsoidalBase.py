@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.06.24'
+__version__ = '21.06.28'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -828,7 +828,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @note: Ellipsoidal trilateration invokes methods C{LatLon.intersections2}
                   and C{LatLon.nearestOn} based on I{Karney}'s Python U{geographiclib
                   <https://PyPI.org/project/geographiclib>} if installed, otherwise
-                  based on most accurate (but slower) C{ellipsoidalExact.LatLon}.
+                  using the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
         '''
         return _trilaterate5(self, distance1,
                              self.others(point2=point2), distance2,

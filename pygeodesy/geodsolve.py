@@ -9,7 +9,7 @@ Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
 of the C{GeodSolve} executable.
 '''
 
-from pygeodesy.basics import map1, map2, _xinstanceof
+from pygeodesy.basics import map2, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.ellipsoids import Ellipsoids, Ellipsoid2
 from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _GeodesicBase
@@ -23,12 +23,12 @@ from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from pygeodesy.units import Precision_
-from pygeodesy.utily import sincos2d, unroll180
+from pygeodesy.utily import sincos2d, unroll180, wrap360
 
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.06.03'
+__version__ = '21.06.27'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -416,7 +416,7 @@ class GeodesicSolve(_GeodesicSolveBase):
            @return: L{Destination3Tuple}C{(lat, lon, final)}.
         '''
         d = self._GDictInvoke(self._cmdDirect, False, lat1, lon1, azi1, s12)
-        return Destination3Tuple(*map1(float, d.lat2, d.lon2, d.azi2))
+        return Destination3Tuple(float(d.lat2), float(d.lon2), wrap360(d.azi2))
 
     def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, *unused):  # for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
@@ -453,7 +453,7 @@ class GeodesicSolve(_GeodesicSolveBase):
            @return: L{Distance3Tuple}C{(distance, initial, final)}.
         '''
         d = self._GDictInvoke(self._cmdInverse, False, lat1, lon1, lat2, lon2)
-        return Distance3Tuple(*map1(float, d.s12, d.azi1, d.azi2))  # wrap360?
+        return Distance3Tuple(float(d.s12), wrap360(d.azi1), wrap360(d.azi2))
 
     def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
         '''Set up an L{GeodesicLineSolve} to compute several points

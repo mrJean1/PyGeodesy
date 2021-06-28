@@ -8,7 +8,7 @@ C{LatLonEllipsoidalBaseDI} and functions.
 from __future__ import division
 
 from pygeodesy.basics import issubclassof
-from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_, fsum_
@@ -18,15 +18,15 @@ from pygeodesy.interns import EPS, PI, _datum_, _epoch_, _exceed_PI_radians_, \
                              _height_, _no_, _near_concentric_, _reframe_, \
                              _too_, _0_0
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import notOverloaded
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                            Intersection3Tuple, _LL4Tuple
+# from pygeodesy.props import Property_RO  # from .ellipsoidalBase
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180, wrap90, wrap180, wrap360
 
 __all__ = ()
-__version__ = '21.06.23'
+__version__ = '21.06.28'
 
 _TRIPS = 17  # _intersect3, _intersects2, _nearestOn interations, 6 is sufficient
 
@@ -96,14 +96,26 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         r = self._Direct(distance, bearing, self.classof, height)
         return self._xnamed(r)
 
-    def _Destination2Tuple(self, LL, height, r):
+    def _Direct(self, distance, bearing, LL, height):  # overloaded by I{Vincenty}
+        '''(INTERNAL) I{Karney}'s C{Direct} method.
+
+           @return: A L{Destination2Tuple}C{(destination, final)} or
+                    a L{Destination3Tuple}C{(lat, lon, final)} if
+                    B{C{LL}} is C{None}.
+        '''
+        g = self.geodesic
+        r = g.Direct3(self.lat, self.lon, bearing, distance)
+        if LL:
+            r = self._Direct2Tuple(LL, height, r)
+        return r
+
+    def _Direct2Tuple(self, LL, height, r):
         '''(INTERNAL) Helper for C{._Direct} result L{Destination2Tuple}.
         '''
         h = self.height if height is None else height
-        n = self.name
-        d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum, name=n,
+        d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum, name=self.name,
                  **_xkwds_not(None, epoch=self.epoch, reframe=self.reframe))
-        return Destination2Tuple(d, wrap360(r.final), name=n)
+        return Destination2Tuple(d, wrap360(r.final))
 
     def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
         '''Compute the distance between this and an other point
@@ -177,6 +189,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         return self._Inverse(other, wrap).final
 
+    @Property_RO
+    def geodesic(self):  # overloaded by I{Karney}'s, N/A for I{Vincenty}
+        '''N/A, invalid (C{None} I{always}).
+        '''
+        return None  # PYCHOK no cover
+
     def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
@@ -223,15 +241,20 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         h = self._havg(other, f=f) if height is None else Height(height)
         return self.destination(t.distance * f, t.initial, height=h)
 
-    def _Direct(self, distance, bearing, LL, height):
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
-        '''
-        notOverloaded(self, distance, bearing, LL, height)
+    def _Inverse(self, other, wrap, **unused):  # azis=False, overloaded by I{Vincenty}
+        '''(INTERNAL) I{Karney}'s C{Inverse} method.
 
-    def _Inverse(self, other, wrap, **kwds):  # azis=True
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
+
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's
+                              L{Datum} ellipsoids are not compatible.
         '''
-        notOverloaded(self, other, wrap, **kwds)
+        _ = self.ellipsoids(other)
+        g = self.geodesic
+        _, lon = unroll180(self.lon, other.lon, wrap=wrap)
+        return g.Inverse3(self.lat, self.lon, other.lat, lon)
 
 
 def _Equidistant00(equidistant, p1):
@@ -241,7 +264,7 @@ def _Equidistant00(equidistant, p1):
 
     if equidistant is None or not callable(equidistant):
         equidistant = p1.Equidistant
-    elif not issubclassof(equidistant, *_Equidistants):
+    elif not issubclassof(equidistant, *_Equidistants):  # PYCHOK no cover
         t = tuple(_.__name__ for _ in _Equidistants)
         raise _IsnotError(*t, equidistant=equidistant)
     return equidistant(0, 0, p1.datum)
@@ -277,9 +300,8 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE?
             height=height, wrap=False, LatLon=_LLS)  # unrolled already
     h, n = t.height, t.name
 
-    # ... and then iterate like Karney suggests to find
-    # tri-points of median lines, @see: references under
-    # method LatLonEllipsoidalBase.intersections2 above
+    # ... and iterate as Karney describes, @see:
+    # LatLonEllipsoidalBase.LatLon.intersections2
     c = None  # force first d == c to False
     for i in range(1, _TRIPS):
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
@@ -386,9 +408,8 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
                    radius=r, height=height, wrap=False, too_d=m)  # unrolled already
     h, n = t1.height, t1.name
 
-    # ... and then iterate like Karney suggests to find
-    # tri-points of median lines, @see: references under
-    # method LatLonEllipsoidalBase.intersections2 above
+    # ... and iterate as Karney describes, @see:
+    # LatLonEllipsoidalBase.LatLon.intersections2
     ts, ta = [], None
     for t in ((t1,) if t1 is t2 else (t1, t2)):
         c = None  # force first d == c to False
@@ -404,7 +425,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
             # convert intersections back to geodetic
             t1, d1 = A._reverse2(v1.x, v1.y)
             if v1 is v2:  # abutting
-                t, d = t1, d1
+                t, d = t1, d1  # PYCHOK no cover
             else:
                 t2, d2 = A._reverse2(v2.x, v2.y)
                 # consider only the closer intersection
@@ -414,20 +435,20 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
                 t._iteration = i  # _NamedTuple._iteration
                 ts.append(t)
                 if v1 is v2:  # abutting
-                    ta = t
+                    ta = t  # PYCHOK no coves
                 break
             c = d
         else:
             raise IntersectionError(_no_(Fmt.convergence(tol)))
 
     if ta:  # abutting circles
-        pass
+        pass  # PYCHOK no cover
     elif len(ts) == 2:
         return (_latlon4(ts[0], h, n, c1),
                 _latlon4(ts[1], h, n, c2))
     elif len(ts) == 1:  # PYCHOK no cover
         ta = ts[0]  # assume abutting
-    else:
+    else:  # PYCHOK no cover
         raise _AssertionError(ts=ts)
     r = _latlon4(ta, h, n, c1)
     return r, r
@@ -479,17 +500,15 @@ def _nearestOne(p, point1, point2, within=True, height=None, wrap=True,
         _LLS(p1.lat, p1.lon, height=p1.height),
         _LLS(p2.lat, p2.lon, height=p2.height), within=within, height=height)
     n = t.name
-
-    if height is False:  # use height as Z component
-        h  = t.height
+    if height is False:  # PYCHOK no cover
+        h  = t.height  # use heights as Z
         h1 = p1.height
         h2 = p2.height
     else:
         h = h1 = h2 = _0_0
 
-    # ... and then iterate like Karney suggests to find
-    # tri-points of median lines, @see: references under
-    # method LatLonEllipsoidalBase.intersections2 above
+    # ... and iterate as Karney describes, @see:
+    # LatLonEllipsoidalBase.LatLon.intersections2
     c = None  # force first d == c to False
     # closest to origin, .z to interpolate height
     p = Vector3d(0, 0, h)

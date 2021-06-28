@@ -16,16 +16,14 @@ from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _intersection3, _intersections2, \
                                        _nearestOn
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import _polygon, Property_RO, unroll180, \
-                             _TOL_M, _xkwds
+from pygeodesy.karney import _polygon, Property_RO, _TOL_M, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 # from pygeodesy.units import _1mm as _TOL_M  # from .karney
-# from pygeodesy.utily import unroll180  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '21.06.23'
+__version__ = '21.06.27'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -71,7 +69,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
         '''
         return self.datum.ellipsoid.geodsolve
 
-    geodesic = geodesicx  # for convenience
+    geodesic = geodesicx  # for C{._Direct} and C{._Inverse}
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to exact cartesian (ECEF) coordinates.
@@ -91,33 +89,6 @@ class LatLon(LatLonEllipsoidalBaseDI):
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
-
-    def _Direct(self, distance, bearing, LL, height):
-        '''(INTERNAL) C{GeodesicExact.Direct} method.
-
-           @return: A L{Destination2Tuple}C{(destination, final)} or
-                    a L{Destination3Tuple}C{(lat, lon, final)} if
-                    B{C{LL}} is C{None}.
-        '''
-        gS = self.geodesicx
-        r = gS.Direct3(self.lat, self.lon, bearing, distance)
-        if LL:
-            r = self._Destination2Tuple(LL, height, r)
-        return r
-
-    def _Inverse(self, other, wrap, **unused):  # azis=False
-        '''(INTERNAL) C{GeodesicExact.Inverse} method.
-
-           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise ValueError: If this and the B{C{other}} point's
-                              L{Datum} ellipsoids are not compatible.
-        '''
-        gS = self.ellipsoids(other).geodesicx
-        _, lon = unroll180(self.lon, other.lon, wrap=wrap)
-        return gS.Inverse3(self.lat, self.lon, other.lat, lon)
 
 
 def areaOf(points, datum=_WGS84, wrap=True):

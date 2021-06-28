@@ -20,7 +20,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.06.15'
+__version__ = '21.06.27'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -616,9 +616,8 @@ def _wrap(angle, wrap, modulo):
 
        @return: The B{C{angle}}, wrapped (C{degrees}, C{radians} or C{grades}).
     '''
-    if wrap > angle >= (wrap - modulo):
-        angle = float(angle)
-    else:
+    angle = float(angle)
+    if not wrap > angle >= (wrap - modulo):
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
         # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
         angle %= modulo

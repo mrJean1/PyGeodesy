@@ -29,7 +29,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.06.18'
+__version__ = '21.06.27'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -160,15 +160,20 @@ class _Named(object):
         '''
         return self.named2
 
-    def attrs(self, *names, **kwds):
-        '''Join attributes as C{name=value} pairs.
+    def attrs(self, *names, **pairs_kwds):
+        '''Join attributes as I{name=value} strings, with C{float}s
+           formatted by function L{fstr}.
 
            @arg names: The attribute names (C{str}s).
-           @kwarg kwds: Keyword argument for function L{attrs}.
+           @kwarg pairs_kwds: Keyword argument for function L{pairs},
+                              except C{B{Nones}=True} to in- or exclude
+                              missing or C{None}-valued attributes.
 
-           @return: All C{name=value} pairs joined (C{str}).
+           @return: All C{name=value} pairs, joined (C{str}).
+
+           @see: Functions L{pygeodesy.attrs}.
         '''
-        return _COMMASPACE_.join(attrs(self, *names, **kwds))
+        return _COMMASPACE_.join(attrs(self, *names, **pairs_kwds))
 
     @Property_RO
     def classname(self):

@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.06.01'
+__version__ = '21.06.27'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -74,6 +74,11 @@ class Tests(_TestsLL, _TestsV):
             self.test('toUps', p.toUps(),    '00 N 2000000 1555732')
             p.lat = 83
             self.test('toUtm', p.toUtm(),    '31 N 459200 9217519')
+
+            n = getattr(module, 'nearestOn', None)
+            if callable(n):  # function
+                p = n(LatLon(40, 20), LatLon(20, 20), LatLon(40, 40))
+                self.test('nearestOn', p.toStr(form=F_D, prec=2), '32.81°N, 031.42°E')
 
         if Cartesian and Nvector:
             c = Cartesian(3980581, 97, 4966825)
@@ -236,7 +241,7 @@ class Tests(_TestsLL, _TestsV):
         self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)
         self.testKarneyVincentyError(module, LatLon, d, K=False, X=X, GS=GS)
 
-    def testKarneyVincenty(self, module, LatLon, d, X=False, GS=False):
+    def testKarneyVincenty(self, module, LatLon, d, X=False, **unused):  # GS=False
 
         self.subtitle(module, 'KarneyVincenty', datum=d.name)
 
@@ -360,7 +365,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(1, 0, datum=d)
         m = p.distanceTo(q)
-        self.test('distanceToMP', m, '110574.361' if X or GS else '110574.389', fmt='%.3f')
+        self.test('distanceToMP', m, '110574.361' if X else '110574.389', fmt='%.3f')
 
         # <https://PyPI.org/project/pygc> Kyle Wilcox
         p = LatLon(0, 50, datum=d)
@@ -384,7 +389,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo2', m, '54902.390', fmt='%.3f')
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
-    def testKarneyVincentyError(self, module, LatLon, d, K=False, X=False, GS=False):  # MCCABE 21
+    def testKarneyVincentyError(self, module, LatLon, d, K=False, X=False, **unused):  # MCCABE 21, GS=False
 
         self.subtitle(module, 'KarneyVincentyError', datum=d.name)
 
@@ -436,7 +441,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(-90, 0, datum=d)
         m = p.distanceTo(q)
-        self.test(_i('distanceTo/meridional', p), m, '9999551.606' if X or GS else '10001965.729', fmt='%.3f')
+        self.test(_i('distanceTo/meridional', p), m, '9999551.606' if X else '10001965.729', fmt='%.3f')
         b = p.initialBearingTo(q)
         self.test(_i('initialBearingTo/meridional', p), b, 180.0, fmt='%.1f')
 
@@ -679,7 +684,7 @@ if __name__ == '__main__':
     if GeodSolve:
         from pygeodesy import ellipsoidalGeodSolve as GS
         t.testEllipsoidal(GS, GS.Cartesian, None)
-        t.testLatLon(GS, X=True)
+        t.testLatLon(GS, GS=True)
         t.testNOAA(GS)
         t.testIntersection3(GS, GS=True)  # ... 1 micrometer
         t.testIntersections2(GS, EquidistantGeodSolve, GS=True)  # ... 1 micrometer
@@ -688,7 +693,7 @@ if __name__ == '__main__':
         t.testKarney_s(GS)  # X=True
 
     t.testEllipsoidal(X, X.Cartesian, None)
-    t.testLatLon(X, GS=True)
+    t.testLatLon(X, X=True)
     t.testNOAA(X)
     t.testIntersection3(X, X=True)  # ... 1 micrometer
     t.testIntersections2(X, EquidistantExact, X=True)  # ... 1 micrometer
