@@ -23,7 +23,7 @@ Following is a copy of I{Karney}'s U{EllipticFunction.hpp
 <https://GeographicLib.SourceForge.io/html/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2017)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2021)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)

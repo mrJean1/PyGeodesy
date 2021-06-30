@@ -12,7 +12,7 @@ from pygeodesy.basics import isnear0, len2, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
                               NumPyError, _TypeError, _ValueError, \
                               VectorError, _xError, _xkwds_popitem
-from pygeodesy.fmath import fdot, fsum, fsum_, hypot2_
+from pygeodesy.fmath import fdot, fsum, fsum_, hypot, hypot2_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
                              _and_, _colinear_, _COMMA_, _COMMASPACE_, \
@@ -28,10 +28,10 @@ from pygeodesy.streprs import Fmt
 from pygeodesy.units import Float, Radius, Radius_
 from pygeodesy.vector3dBase import Vector3dBase
 
-from math import hypot, sqrt
+from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _raise_ = 'raise'
 

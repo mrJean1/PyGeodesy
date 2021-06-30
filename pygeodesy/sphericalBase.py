@@ -19,7 +19,7 @@ from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
-from pygeodesy.fmath import favg, fdot
+from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _datum_, _distant_, _exceed_PI_radians_, \
                              _name_, _near_concentric_, _too_, \
@@ -33,10 +33,10 @@ from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_
 from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
 
-from math import cos, hypot, log, sin, sqrt
+from math import cos, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.06.24'
+__version__ = '21.06.30'
 
 
 def _angular(distance, radius):  # PYCHOK for export

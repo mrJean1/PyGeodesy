@@ -16,12 +16,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign0, isnear0, isnon0, isscalar, map1
+from pygeodesy.basics import copysign0, isnear0, isnon0, isscalar, map1, signOf
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
                              _xkwds, _xkwds_get
-from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_
+from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_, hypot
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, \
@@ -47,10 +47,10 @@ from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             unrollPI, wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
-from math import asin, atan2, cos, degrees, hypot, radians, sin
+from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.06.27'
+__version__ = '21.06.30'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
@@ -518,9 +518,6 @@ class LatLon(LatLonSphericalBase):
             >>> p = LatLon(45,1, 1.1)
             >>> inside = p.isEnclosedBy(b)  # True
         '''
-        def _signOf(x):
-            return 1 if x > 0 else (-1 if x < 0 else 0)
-
         Ps = self.PointsIter(points, loop=2, dedup=True)
         n0 = self._N_vector
 
@@ -545,7 +542,7 @@ class LatLon(LatLonSphericalBase):
             # check for convex polygon: angle between
             # gc vectors, signed by direction of n0
             # (otherwise the test above is not reliable)
-            s = _signOf(gc1.angleTo(gc, vSign=n0))
+            s = signOf(gc1.angleTo(gc, vSign=n0))
             if s != s0:
                 if s0 is None:
                     s0 = s

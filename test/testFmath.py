@@ -4,14 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.28'
+__version__ = '21.06.30'
 
 from base import coverage, TestsBase
 
 from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan2, fhorner, fmath, fpolynomial, fpowers, \
-                      Fsum, fsum, fsum_, hypot_, hypot2_, norm_, sqrt3
-#                     hypot3  # DEPRECATED
+                      Fsum, fsum, fsum_, hypot, hypot_, hypot2_, norm_, \
+                      signOf, sqrt3  # hypot3  # DEPRECATED
 
 from math import acos, asin, atan, atan2, sqrt
 from random import random, gauss, shuffle
@@ -144,6 +144,15 @@ class Tests(TestsBase):
             self.test('_2sum', fmath._2sum(1e308, 1e803), OverflowError.__name__)
         except OverflowError as x:
             self.test('_2sum', repr(x), repr(x))
+
+        # cffk <https://Bugs.Python.org/issue43088> and
+        # <https://Bugs.Python.org/file49783/hypot_bug.py>
+        x  = 0.6102683302836215
+        y1 = 0.7906090004346522
+        y2 = y1 + 1e-16
+        z1 = hypot(x, y1)
+        z2 = hypot(x, y2)
+        self.test('hypot', signOf(y2 - y1) == signOf(z2 - z1), True, known=True)  # (3, 7) < sys.version_info[:2] < (3, 10))
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot_ ', h, '1.00001250', prec=8)

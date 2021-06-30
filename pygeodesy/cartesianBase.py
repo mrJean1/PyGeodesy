@@ -14,7 +14,7 @@ from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _IsnotError, \
                              _ValueError, _xkwds
-from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
+from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _not_, \
                              _1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
@@ -26,10 +26,10 @@ from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
-from math import sqrt  # hypot
+from math import sqrt
 
 __all__ = ()
-__version__ = '21.06.17'
+__version__ = '21.06.30'
 
 
 class CartesianBase(Vector3d):

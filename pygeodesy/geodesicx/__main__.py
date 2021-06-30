@@ -83,7 +83,6 @@ def _main():  # PYCHOK no cover
 
 _main()
 
-
 # **) MIT License
 #
 # Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
@@ -107,4 +106,4 @@ _main()
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # % python3 -m pygeodesy.geodesicx
-# pygeodesy.geodesicx.version=21.05.15, .C4Order=None, .C4len=5425, .C4set=5107, .C4set100=94, .C4x=465 (Python 3.9.4, 64bit, geographiclib 1.50)
+# pygeodesy.geodesicx.version=21.05.30, .C4Order=None, .C4len=5425, .C4set=5107, .C4set100=94, .C4x=465 (Python 3.9.5, 64bit, geographiclib 1.52)

@@ -4,7 +4,7 @@
 u'''A Python version of I{Karney}'s C++ class U{GeodesicLineExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
 
-Copyright (C) Charles Karney (2012-2019) <Charles@Karney.com>
+Copyright (C) Charles Karney (2012-2021) <Charles@Karney.com>
 and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
@@ -33,7 +33,7 @@ from __future__ import division
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import copysign0  # from .fmath
-from pygeodesy.fmath import copysign0, fsum_, norm2
+from pygeodesy.fmath import copysign0, fsum_, hypot, norm2
 from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
                                         _coSeries, _GeodesicBase, \
                                         _sincos12, _TINY
@@ -45,10 +45,10 @@ from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import pairs
 from pygeodesy.utily import atan2d, sincos2, sincos2d
 
-from math import atan2, degrees, floor, hypot, radians
+from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 

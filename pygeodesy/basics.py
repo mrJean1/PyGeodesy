@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.06.23'
+__version__ = '21.06.30'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -80,11 +80,19 @@ def clips(bstr, limit=50, white=NN):
 
 
 def copysign0(x, y):
-    '''Like C{math.copysign(x, y)} except C{zero}, I{unsigned} .
+    '''Like C{math.copysign(x, y)} except C{zero}, I{unsigned}.
 
-       @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else C{0.0}.
+       @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else C{0}.
     '''
-    return _copysign(x, y) if x else _0_0
+    return _copysign(x, y) if x else copytype(0, x)
+
+
+def copytype(x, y):
+    '''Return the value of B{x} as C{type} of C{y}.
+
+       @return: C{type(B{y})(B{x})}.
+    '''
+    return type(y)(x)
 
 
 def halfs2(str2):
@@ -340,6 +348,14 @@ def neg_(*xs):
        @return: A C{tuple(neg(x) for x in B{xs})}.
     '''
     return tuple(map(neg, xs))  # see map1
+
+
+def signOf(x):
+    '''Return sign of C{x} as C{int}.
+
+       @return: -1, 0 or +1 (C{int}).
+    '''
+    return 1 if x > 0 else (-1 if x < 0 else 0)
 
 
 def splice(iterable, n=2, **fill):

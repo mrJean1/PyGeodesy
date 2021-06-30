@@ -32,6 +32,7 @@ from pygeodesy.basics import copysign0, _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
+from pygeodesy.fmath import hypot
 from pygeodesy.interns import EPS, NN, PI_2, _COMMASPACE_, _ellipsoidal_, \
                              _EPS0__2, _float as _F, _GRS80_, _k0_, _lat0_, \
                              _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, _WGS84_, \
@@ -47,10 +48,10 @@ from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
-from math import atan, hypot, log, radians, sin, sqrt
+from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.06.25'
+__version__ = '21.06.30'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

@@ -9,7 +9,7 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '21.05.11'
+__version__ = '21.06.30'
 
 try:  # MCCABE 16
     from pygeodesy import _isfrozen, isLazy, pygeodesy_abspath, version
@@ -90,8 +90,11 @@ except ImportError:
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# % python -m pygeodesy
-# pygeodesy.version='19.10.9', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=None, ._isfrozen=False (Python 2.7.16, geographiclib 1.50, numpy 1.16.4, scipy 1.2.2)
+# % python2 -m pygeodesy
+# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=None, ._isfrozen=False, ._floats=408 (Python 2.7.18, 64bit, geographiclib 1.50, numpy 1.16.6, scipy 1.2.2)
 
-# % python3 -m pygeodesy
-# pygeodesy.version='19.10.9', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=1, ._isfrozen=False (Python 3.7.4, geographiclib 1.50, numpy 1.17.2, scipy 1.3.1)
+# % python3.8 -m pygeodesy
+# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=53 (Python 3.8.6, 64bit, geographiclib 1.52, numpy 1.19.2, scipy 1.5.2)
+
+# % python3.9 -m pygeodesy
+# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=53 (Python 3.9.5, 64bit, geographiclib 1.52)

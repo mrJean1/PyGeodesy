@@ -33,7 +33,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
 
 from os import environ as _env  # in .geodsolve
 from os.path import basename as _basename
-import sys as _sys  # in .geodsolve
+import sys as _sys  # in .props
 try:
     from importlib import import_module
 except ImportError:  # no import_module in Python 2.6-
@@ -42,14 +42,15 @@ except ImportError:  # no import_module in Python 2.6-
         raise LazyImportError(name=name, package=package,
                               txt=_no_(import_module.__name__))
 
-_a_l_l_         = '__all__'
-_FOR_DOCS       = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
-_imports_       = 'imports'
-_p_a_c_k_a_g_e_ = '__package__'
+_a_l_l_            = '__all__'
+_FOR_DOCS          = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
+_imports_          = 'imports'
+_p_a_c_k_a_g_e_    = '__package__'
 _PYGEODESY_LAZY_IMPORT_  = 'PYGEODESY_LAZY_IMPORT'
-_PYTHON_X_DEV   =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
-                  _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sub_packages   = 'deprecated' , 'geodesicx'
+_PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
+                     _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
+_sub_packages      = 'deprecated' , 'geodesicx'
+_sys_version_info2 = _sys.version_info[:2]  # in .fmath, .geodsolve
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy
@@ -121,11 +122,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
-                         basics=('clips', 'copysign0', 'halfs2',
+                         basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
                                  'isnan', 'isneg0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
-                                 'splice', 'ub2str', 'unsign0'),
+                                 'signOf', 'splice', 'ub2str', 'unsign0'),
                           clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
@@ -174,7 +175,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
-                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'norm2', 'norm_', 'sqrt0', 'sqrt3'),
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
+                                 'norm2', 'norm_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -293,7 +295,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.06.23'
+__version__ = '21.06.30'
 
 
 def _ALL_OTHER(*objs):
@@ -391,7 +393,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
              U{new way<https://Snarky.CA/lazy-importing-in-python-3-7/>}.
     '''
-    if _sys.version_info[:2] < (3, 7):  # not supported before 3.7
+    if _sys_version_info2 < (3, 7):  # not supported before 3.7
         t = _no_(_DOT_(_pygeodesy_, _lazy_import2.__name__))
         raise LazyImportError(t, txt=_Python_(_sys))
 

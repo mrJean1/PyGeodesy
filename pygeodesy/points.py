@@ -33,7 +33,7 @@ from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
                             _xkwds, _xkwds_pop
-from pygeodesy.fmath import favg, fdot, Fsum, fsum
+from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, \
                              _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
@@ -55,10 +55,10 @@ from pygeodesy.units import Degrees, Lat, Lon, Number_, Radius, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
-from math import cos, fmod, hypot, radians, sin
+from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.27'
+__version__ = '21.06.30'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'

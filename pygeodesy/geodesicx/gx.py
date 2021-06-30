@@ -8,7 +8,7 @@ Classes L{GeodesicExact} and L{GeodesicLineExact} follow the naming,
 methods and return values from I{Karney}s' Python classes C{Geodesic}
 and C{GeodesicLine}, respectively.
 
-Copyright (C) Charles Karney (2012-2019) <Charles@Karney.com>
+Copyright (C) Charles Karney (2012-2021) <Charles@Karney.com>
 and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = ()
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -563,8 +563,9 @@ class GeodesicExact(_GeodesicBase):
             # In fact, we will have sig12 > PI/2 for meridional
             # geodesic which is not a shortest path.
             if m12x >= 0 or sig12 < _1_0:
-                # Need at least 2, to handle 90 0 90 180
-                if sig12 < _TINY3:
+                # Need at least 2 to handle 90 0 90 180
+                # Prevent negative s12 or m12 from geographiclib 1.52
+                if sig12 < _TINY3 or (sig12 < _TOL0 and (s12x < 0 or m12x < 0)):
                     sig12 = m12x = s12x = a12 = _0_0
                 else:
                     m12x *= self.b
@@ -1152,6 +1153,7 @@ class GeodesicExact(_GeodesicBase):
             v, sig12, salp2, calp2, \
                domg12, dv = self._Lambda5(salp1, calp1, it < _MAXIT1, p)
 
+            # 2 * _TOL0 is approximately 1 ulp [0, PI]
             # reversed test to allow escape with NaNs
             if tripb or abs(v) < TOLv:
                 break

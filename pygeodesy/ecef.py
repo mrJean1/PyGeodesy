@@ -66,7 +66,7 @@ from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, _IndexError, LenError, \
                              _ValueError, _TypesError, _xkwds
-from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
+from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot, hypot1, hypot2_
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS_2, NN, PI, PI_2, _a_, \
                              _C_, _convergence_, _datum_, _ellipsoid_, \
                              _EPS0__2, _f_, _h_, _height_, _lat_, _lon_, \
@@ -83,10 +83,10 @@ from pygeodesy.streprs import unstr
 from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 
-from math import asin, atan2, cos, degrees, hypot, radians, sqrt
+from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'

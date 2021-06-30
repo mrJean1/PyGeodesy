@@ -9,7 +9,7 @@ exact elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
-and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2020* and
+and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2021* and
 published under the same `MIT License`_.
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
@@ -83,8 +83,8 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.9.5 (with geographiclib_ 1.50),
-Python 3.8.6 (with geographiclib_ 1.50, GeodSolve_ 1.51, numpy_ 1.19.2
+The tests have been run with Python 3.9.6 (with geographiclib_ 1.52),
+Python 3.8.6 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2
 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with GeodSolve_ 1.51 and
 numpy_ 1.16.6), all on macOS 11.4 (10.16) Big Sur and in 64-bit (and
 Intel) only.  The tests are run with and without ``lazy import`` for
@@ -92,18 +92,18 @@ Python 3 and with ``-W always`` and environment variable
 ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of
 only those tests are included in the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.5
-(with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50,
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.6
+(with geographiclib_ 1.52), Python 3.8.6 (with geographiclib_ 1.52,
 GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and macOS\' Python
 2.7.16 (with GeodSolve_ 1.51 and numpy_ 1.16.6).  The complete coverage
 report in HTML and a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and PyPy_
-7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.50 or 1.49) on
-`Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.50 or
-1.49) on `Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5
-and 2.7.17 (all with geographiclib_ 1.50 or 1.49) on `Windows Server
-2012R2`_ in both 64- and 32-bit.
+7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52, 1.50 or 1.49)
+on `Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.52, 1.50
+or 1.49) on `Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5
+and 2.7.17 (all with geographiclib_ 1.52, 1.50 or 1.49) on `Windows
+Server 2012R2`_ in both 64- and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
@@ -127,7 +127,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.9.5, both in 64-bit on macOS 11.4
+and with Flake8_ using Python 3.9.6, both in 64-bit on macOS 11.4
 (10.16) Big Sur (Intel).
 
 Classes with a name ending in ``Karney`` and several more are transcribed
@@ -137,7 +137,7 @@ geographiclib_ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 29, 2021.*
+*Last updated: July 01, 2021.*
 
 License
 =======

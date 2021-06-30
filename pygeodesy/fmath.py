@@ -14,15 +14,15 @@ from pygeodesy.interns import EPS0, EPS1, MISSING, NN, PI, PI_2, PI_4, \
                              _EPS0__2, _finite_, _few_, _h_, _negative_,\
                              _not_, _singular_, _SPACE_, _too_, \
                              _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
 
-from math import hypot, sqrt  # pow
+from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -870,7 +870,7 @@ except ImportError:  # PYCHOK no cover
 
 
 def fsum_(*xs):
-    '''Precision summation of the positional argument vulues.
+    '''Precision summation of all positional arguments.
 
        @arg xs: Values to be added (C{scalar}[]).
 
@@ -917,11 +917,32 @@ except ImportError:  # PYCHOK no cover
         return f.fsum(iterable)
 
 
-try:
-    _ = hypot(1, 2, 3)  # new in Python 3.8+
+if _sys_version_info2 > (3, 9):
+    from math import hypot  # OK in Python 3.10+
     hypot_ = hypot
-    del _
-except TypeError:  # Python 3.7-
+else:
+    # Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
+    # agdhruv <https://GitHub.com/geopy/geopy/issues/466>,
+    # cffk <https://Bugs.Python.org/issue43088> and module
+    # geomath.py <https://PyPI.org/project/geographiclib/1.52>
+    if _sys_version_info2 < (3, 8):
+        from math import hypot  # PYCHOK re-imported?
+    else:
+        def hypot(x, y):
+            '''Compute the norm M{sqrt(x**2 + y**2)}.
+
+               @arg x: Argument (C{scalar}).
+               @arg y: Argument (C{scalar}).
+
+               @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
+            '''
+            if x:
+                h = sqrt(fsum_(_1_0, x**2, y**2, -_1_0)) if y else abs(x)
+            elif y:
+                h = abs(y)
+            else:
+                h = _0_0
+            return h
 
     def hypot_(*xs):
         '''Compute the norm M{sqrt(sum(x**2 for x in xs))}.
@@ -934,17 +955,16 @@ except TypeError:  # Python 3.7-
 
            @raise ValueError: Invalid or no B{C{xs}} value.
 
-           @see: Similar to Python 3.8+ U{math.hypot
+           @see: Similar to Python 3.8+ n-dimension U{math.hypot
                  <https://docs.Python.org/3.8/library/math.html#math.hypot>},
                  but handling of exceptions, C{nan} and C{infinite} values
                  is different.
 
-           @note: The Python 3.8+ U{math.dist
+           @note: The Python 3.8+ Euclidian distance U{math.dist
                   <https://docs.Python.org/3.8/library/math.html#math.dist>}
-                  Euclidian distance between 2 I{n}-dimensional points I{p1}
-                  and I{p2} can be computed as M{hypot_(*((c1 - c2) for c1,
-                  c2 in zip(p1, p2)))}, provided I{p1} and I{p2} have the
-                  same, non-zero length I{n}.
+                  between 2 I{n}-dimensional points I{p1} and I{p2} can be
+                  computed as M{hypot_(*((c1 - c2) for c1, c2 in zip(p1, p2)))},
+                  provided I{p1} and I{p2} have the same, non-zero length I{n}.
         '''
         h, x2 = _h_x2(xs)
         return (h * sqrt(x2)) if x2 else _0_0
@@ -953,19 +973,20 @@ except TypeError:  # Python 3.7-
 def _h_x2(xs):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
+    def _x2h(xs, h):
+        yield  _1_0
+        for x in xs:
+            yield (x / h)**2
+        yield -_1_0
+
     if xs:
         n, xs = len2(xs)
         if n > 0:
             h = float(max(abs(x) for x in xs))
             if h > 0:
-                if n > 1:
-                    X = Fsum(_1_0)
-                    X.fadd((x / h)**2 for x in xs)
-                    x2 = X.fsum_(-_1_0)
-                else:
-                    x2 = _1_0
+                x2 = fsum(_x2h(xs, h)) if n > 1 else _1_0
             else:
-                h = x2 = _0_0
+                x2 = h = _0_0
             return h, x2
     raise _ValueError(xs=xs, txt=_too_(_few_))
 
@@ -988,12 +1009,14 @@ def hypot2(x, y):
 
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
-    x, y = x**2, y**2
-    if x < y:
-        x, y = y, x
-    if y:  # and x
-        x *= _1_0 + y / x
-    return x
+    if x:
+        x *= x
+        h2 = fsum_(_1_0, x, y**2, -_1_0) if y else x
+    elif y:
+        h2 = y**2
+    else:
+        h2 = _0_0
+    return h2
 
 
 def hypot2_(*xs):

@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 u'''Slightly enhanced versions of I{Karney}'s Python classes
-U{PolygonArea<https://GeographicLib.SourceForge.io/1.50/python/
+U{PolygonArea<https://GeographicLib.SourceForge.io/1.52/python/
 code.html#module-geographiclib.polygonarea>} and C{Accumulator}.
 
 Class L{GeodesicAreaExact} is intended to work with instances
 of class L{GeodesicExact} or of I{wrapped} class C{Geodesic}
 I{Karney}'s Python U{geographiclib
-<https://GeographicLib.SourceForge.io/1.50/python/index.html>}
+<https://GeographicLib.SourceForge.io/1.52/python/index.html>}
 
-Copyright (C) Charles Karney (2012-2019) <Charles@Karney.com>
+Copyright (C) Charles Karney (2012-2021) <Charles@Karney.com>
 and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '21.06.23'
+__version__ = '21.06.30'
 
 
 class GeodesicAreaExact(_NamedBase):

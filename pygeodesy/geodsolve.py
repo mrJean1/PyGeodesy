@@ -16,7 +16,7 @@ from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _GeodesicBase
 from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _SPACE_
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import GDict, GeodesicError, GeodSolve12Tuple
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _sys
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _sys_version_info2
 from pygeodesy.lazily import _env  # PYCHOK used!
 from pygeodesy.named import callername
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -55,7 +55,7 @@ class _GeodesicSolveBase(_GeodesicBase):
     _prec       =  Precision_(prec=DIG)
     _reverse2   =  False
     _status     =  None
-    _text_True  =  dict() if _sys.version_info[:2] < (3, 7) else dict(text=True)
+    _text_True  =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
     _unroll     =  False
     _verbose    =  False
 

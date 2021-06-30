@@ -9,7 +9,7 @@ geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian) coordinates.
 Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2019} and several U{C++ classes
 <https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles F.F.
-Karney (C) 2008-2020} and published under the same U{MIT License
+Karney (C) 2008-2021} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney},
@@ -112,9 +112,9 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.9.5 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50), Python 3.8.6 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{GeodSolve
+The tests have been run with Python 3.9.6 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.52), Python 3.8.6 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with
@@ -126,10 +126,10 @@ environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.
 The results of only those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.5 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50), Python
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python
 3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.50, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
+1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The complete
 coverage report in HTML and a PDF summary are included in the
@@ -137,14 +137,14 @@ distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 16.04
-<https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on
-U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in
+<https://PyPI.org/project/geographiclib>} 1.52, 1.50 or 1.49) on U{Ubuntu
+16.04<https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, 1.50 or 1.49)
+on U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in
 64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17 (all with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Windows Server
-2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in both 64- and
-32-bit.
+<https://PyPI.org/project/geographiclib>} 1.52, 1.50 or 1.49) on U{Windows
+Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in both 64-
+and 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
@@ -174,7 +174,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.9.5, both in 64-bit
+<https://PyPI.org/project/flake8>} using Python 3.9.6, both in 64-bit
 on macOS 11.4 (10.16) Big Sur (Intel).
 
 Classes with a name ending in C{Karney} and several more are transcoded from I{Karney}'s
@@ -512,7 +512,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.06.29'
+__version__ = '21.07.01'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

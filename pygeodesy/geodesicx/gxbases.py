@@ -3,7 +3,7 @@
 
 u'''Base L{geodesicx} classes, functions and constants.
 
-Copyright (C) Charles Karney (2012-2019) <Charles@Karney.com>
+Copyright (C) Charles Karney (2012-2021) <Charles@Karney.com>
 and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
@@ -19,7 +19,7 @@ from pygeodesy.named import _NamedBase
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.06.23'
+__version__ = '21.06.30'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

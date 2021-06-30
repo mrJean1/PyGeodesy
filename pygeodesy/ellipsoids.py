@@ -57,7 +57,7 @@ from __future__ import division
 from pygeodesy.basics import copysign0, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
-                            hypot1, hypot2, sqrt3
+                            hypot, hypot1, hypot2, sqrt3
 from pygeodesy.interns import EPS, EPS0, EPS1, INF, NN, PI4, PI_2, R_M, _a_, _A_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
                              _Clarke1880IGN_, _DOT_, _e_, _1_EPS, _EPStol as _TOL, \
@@ -77,8 +77,7 @@ from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat
 from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, m2SM, \
                             m2radians, radians2m, sincos2d
 
-from math import asinh, atan, atanh, cos, degrees, exp, hypot, radians, \
-                 sin, sinh, sqrt, tan
+from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
 R_M  = Radius(R_M =R_M)            # mean (spherical) earth radius (C{meter})
 R_MA = Radius(R_MA=_F(6378137.0))  # equatorial earth radius (C{meter}), WGS84, EPSG:3785
@@ -96,7 +95,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)

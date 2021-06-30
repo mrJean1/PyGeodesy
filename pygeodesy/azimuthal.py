@@ -46,7 +46,7 @@ from pygeodesy.basics import copysign0, isnon0, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
-from pygeodesy.fmath import euclid, Fsum
+from pygeodesy.fmath import euclid, Fsum, hypot
 from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
                              _azimuth_, _datum_, _lat_, _lon_, \
                              _no_, _scale_, _SPACE_, _x_, _y_, \
@@ -63,10 +63,10 @@ from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
                             Northing, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
-from math import acos, atan, atan2, degrees, hypot, sin, sqrt
+from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.06.10'
+__version__ = '21.06.30'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
