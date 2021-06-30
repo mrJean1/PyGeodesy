@@ -113,7 +113,7 @@ Tests
 =====
 
 The tests have been run with Python 3.9.6 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.52), Python 3.8.6 (with
+<https://PyPI.org/project/geographiclib>} 1.52), Python 3.8.10 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
@@ -128,7 +128,7 @@ The results of only those tests are included in the distribution files.
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python
-3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The complete
@@ -150,7 +150,7 @@ A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.9.0-4, 3.8.0-5, 3.7.2-6, 3.7.0,
+Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0,
 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>}
 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0

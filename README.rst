@@ -84,7 +84,7 @@ Tests
 =====
 
 The tests have been run with Python 3.9.6 (with geographiclib_ 1.52),
-Python 3.8.6 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2
+Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2
 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with GeodSolve_ 1.51 and
 numpy_ 1.16.6), all on macOS 11.4 (10.16) Big Sur and in 64-bit (and
 Intel) only.  The tests are run with and without ``lazy import`` for
@@ -93,7 +93,7 @@ Python 3 and with ``-W always`` and environment variable
 only those tests are included in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.6
-(with geographiclib_ 1.52), Python 3.8.6 (with geographiclib_ 1.52,
+(with geographiclib_ 1.52), Python 3.8.10 (with geographiclib_ 1.52,
 GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and macOS\' Python
 2.7.16 (with GeodSolve_ 1.51 and numpy_ 1.16.6).  The complete coverage
 report in HTML and a PDF summary are included in the distribution files.
@@ -109,7 +109,7 @@ A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.9.0-4, 3.8.0-5, 3.7.2-6,
+Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 3.7.2-6,
 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0,
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_
 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13
