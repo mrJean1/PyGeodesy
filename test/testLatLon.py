@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.06.27'
+__version__ = '21.07.02'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -83,10 +83,16 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'initialBearingTo'):
             b = p.initialBearingTo(q)
             self.test('initialBearingTo', b, '156.1666' if Sph else '156.1106', fmt='%.4f')  # 156.2
-            b = p.finalBearingTo(q)
-            self.test('finalBearingTo', b, '157.8904' if Sph else '157.8345', fmt='%.4f')
             b = LAX.initialBearingTo(JFK)
             self.test('initialBearingTo', b, '65.8921' if Sph else '65.9335', fmt='%.4f')  # PYCHOK test attr?
+            # courtesy Inmars Didaitis (bakakaldsas) <https://GitHub.com/mrJean1/PyGeodesy/issues/56>
+            a, b = LatLon(5, 5), LatLon(10, 5)  # same lon
+            self.test('initialBearingTo', a.initialBearingTo(b),   0.0, prec=1)
+            self.test('initialBearingTo', b.initialBearingTo(a), 180.0, prec=1)  # PYCHOK test attr?
+
+        if hasattr(LatLon, 'finalBearingTo'):
+            b = p.finalBearingTo(q)
+            self.test('finalBearingTo', b, '157.8904' if Sph else '157.8345', fmt='%.4f')
             b = LAX.finalBearingTo(JFK)
             self.test('finalBearingTo', b, '93.8581' if Sph else '93.9034', fmt='%.4f')  # PYCHOK test attr?
 

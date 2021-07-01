@@ -1,19 +1,17 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}, wrapped.
+u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}, wrapped C{geodesic}.
 
-Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
-C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix} and
-C{sum} from I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>},
-Python package, provided that package is installed.
+Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and C{Math}
+functions C{AngDiff}, C{AngNormalize}, C{LatFix} and C{sum} from I{Karney}'s Python package
+U{geographiclib<https://PyPI.org/project/geographiclib>}, provided that package is installed.
 
-The I{wrapped} class methods return a C{named._NamedDict}-like instance providing
-access to the L{GDict} items by key or by attribute name.
+The I{wrapped} class methods return a L{GDict} instance providing access to the C{dict} items
+by C{key} or by C{attribute} name.
 
-Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
-functions I{transcoded} from I{Karney}'s original C++ U{GeographicLib
-<https://GeographicLib.SourceForge.io/html/annotated.html>}:
+Following are the U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and functions I{transcoded}
+from I{Karney}'s original C++ U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}:
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
@@ -93,8 +91,8 @@ functions and methods:
     L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
-are implementations of I{Karney}'s post U{The B{ellipsoidal} case
-<https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and paper
+are implementations of I{Karney}'s solution posted under U{The B{ellipsoidal} case
+<https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper
 U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section
 B{14. MARITIME BOUNDARIES}).
 '''
@@ -119,7 +117,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.06.25'
+__version__ = '21.07.02'
 
 _16th = _1_0 / _16_0
 
@@ -152,9 +150,9 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
 
 class Direct9Tuple(_GTuple):
     '''9-Tuple C{(a12, lat2, lon2, azi2, s12, m12, M12, M21, S12)} with arc
-       length C{a12}, C{lat2}, C{lon2} and azimuth C{azi2} in C{degrees},
-       distance C{s12} and reduced length C{m12} in C{meter} and area C{S12}
-       in C{meter} I{squared}.
+       length C{a12}, angles C{lat2}, C{lon2} and azimuth C{azi2} in C{degrees},
+       distance C{s12} and reduced length C{m12} in C{meter} and area C{S12} in
+       C{meter} I{squared}.
     '''
     _Names_ = (_a12_, _lat2_, _lon2_, _azi2_, _s12_, _m12_, _M12_, _M21_, _S12_)
     _Units_ = (_Deg,  _Deg,   _Deg,   _Deg,   _M,    _Pass, _Pass, _Pass, _M2)
@@ -242,7 +240,7 @@ class GeodSolve12Tuple(_GTuple):
 
 class Inverse10Tuple(_GTuple):
     '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)}
-       with arc length C{1a12} in C{degrees}, distance C{s12} and reduced
+       with arc length C{a12} in C{degrees}, distance C{s12} and reduced
        length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and
        sines and cosines of initial and final (forward) azimuths.
     '''

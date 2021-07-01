@@ -60,7 +60,7 @@
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
   and spherical earth models using precision trigonometric, vector-based, 
-  exact elliptic and approximate methods for geodetic (lat-/longitude) and 
+  exact, elliptic and approximate methods for geodetic (lat-/longitude) and
   geocentric (<a href="https://WikiPedia.org/wiki/ECEF" 
   target="_top">ECEF</a> cartesian) coordinates.</p>
   <p>Transcoded from <a href="https://GitHub.com/ChrisVeness/geodesy" 
@@ -125,9 +125,9 @@
   target="_top">Garefs (GARS)</a>.</p>
   <p>Other modules provide <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
-  target="_top">Albers Equal-Area</a> projections, <a 
+  target="_top">Albers equal-area</a> projections, <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
-  target="_top">AzimuthalEquidistant</a> and other <i>azimuthal</i> 
+  target="_top">azimuthal equidistant</a> and other <i>azimuthal</i> 
   projections and Lambert <i>conformal conic</i> projections and positions 
   (from <a href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
   target="_top">John P. Snyder, &quot;Map Projections -- A Working 
@@ -184,26 +184,28 @@
     href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
     class="link">GnomonicKarney</a> and the <a 
     href="pygeodesy.heights.HeightIDWkarney-class.html" 
-    class="link">HeightIDWkarney</a> interpolator.  Both <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> and <a 
-    href="https://PyPI.org/project/scipy" target="_top">scipy</a> must be 
-    installed for most <code>Geoid...</code> and <code>Height...</code> 
-    interpolators, except the <code>HeightIDW...</code> ones.  Function <a 
+    class="link">HeightIDWkarney</a> interpolator.</p>
+    <p>Both <a href="https://PyPI.org/project/numpy" 
+    target="_top">numpy</a> and <a href="https://PyPI.org/project/scipy" 
+    target="_top">scipy</a> must be installed for most 
+    <code>Geoid...</code> and <code>Height...</code> interpolators, except 
+    the <code>HeightIDW...</code> ones.  Function <a 
     href="pygeodesy.vector3d-module.html#trilaterate3d2" 
     class="link">trilaterate3d2</a> and method <a 
     href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2" 
     class="link">Vector3d.trilaterate3d2</a> require <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a>.  Modules
-    <a href="pygeodesy.ellipsoidalGeodSolve-module.html" 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a>.</p>
+    <p>Modules <a href="pygeodesy.ellipsoidalGeodSolve-module.html" 
     class="link">ellipsoidalGeodSolve</a> and <a 
     href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> and 
     <a href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
     classes <a href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
     class="link">EquidistantGeodSolve</a> and <a 
     href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
-    class="link">GnomonicGeodSolve</a> depend on <i>Karney</i>'s <a 
+    class="link">GnomonicGeodSolve</a> depend on <i>Karney</i>'s C++ 
+    utility <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">GeodSolve</a> C++ utility to be executable.</p>
+    target="_top">GeodSolve</a> to be executable.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -218,7 +220,7 @@
   <h1 class="heading">Tests</h1>
     <p>The tests have been run with Python 3.9.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52), Python 3.8.10 (with <a 
+    target="_top">geographiclib</a> 1.52), Python 3.8.10 (with<a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
@@ -231,9 +233,10 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
     all on macOS 11.4 (10.16) Big Sur and in 64-bit (and Intel) only.  The 
     tests are run with and without <code>lazy import</code> for Python 3 
-    and with <code>-W always</code> and environment variable 
-    <code>PYGEODESY_WARNINGS=on</code> for all Python versions. The results
-    of only those tests are included in the distribution files.</p>
+    and with command line option <code>-W always</code> and environment 
+    variable <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  
+    The results of only those tests are included in the distribution 
+    files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.9.6 (with <a 
@@ -250,16 +253,16 @@
     <p>The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 3.6.1 and 
     2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52, 1.50 or 1.49) on <a 
+    target="_top">geographiclib</a> 1.52) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
     16.04</a> and with Python 3.9.1 (and <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52, 1.50 or 1.49) on <a 
+    target="_top">geographiclib</a> 1.52) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
     target="_top">Debian 9</a>, all in 64-bit only and with Python 3.8.0, 
     3.7.5 and 2.7.17 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52, 1.50 or 1.49) on <a 
+    target="_top">geographiclib</a> 1.52) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
     target="_top">Windows Server 2012R2</a> in both 64- and 32-bit.</p>
     <p>A single-File and single-Directory application with 
@@ -281,7 +284,7 @@
     Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El
     Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista3.2</a> (with geographiclib 1.49 or 1.50 and 
+    target="_top">Pythonista3.2</a> (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or 
     iPhone10, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
@@ -308,7 +311,7 @@
     module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
     target="_top">karney</a>.</p>
-    <p>Some function and method names differ from the JavaScript version. 
+    <p>Some function and method names differ from the JavaScript version.  
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
   <h1 class="heading">Env vars</h1>
@@ -403,7 +406,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.07.01
+        21.07.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -502,7 +505,7 @@
         <code>intern</code>'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>, wrapped.</em>    </li>
+        target="_top">geographiclib</a>, wrapped <code>geodesic</code>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -1086,11 +1089,11 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.Direct9Tuple-class.html" class="summary-name">Direct9Tuple</a><br />
       9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
-        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
-        <code>lon2</code> and azimuth <code>azi2</code> in 
-        <code>degrees</code>, distance <code>s12</code> and reduced length 
-        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
-        <code>meter</code> <i>squared</i>.
+        S12)</code> with arc length <code>a12</code>, angles 
+        <code>lat2</code>, <code>lon2</code> and azimuth <code>azi2</code> 
+        in <code>degrees</code>, distance <code>s12</code> and reduced 
+        length <code>m12</code> in <code>meter</code> and area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>.
     </td>
   </tr>
 <tr>
@@ -2568,7 +2571,7 @@
     </td><td class="summary">
         <a href="pygeodesy.karney.Inverse10Tuple-class.html" class="summary-name">Inverse10Tuple</a><br />
       10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
-        M21, S12)</code> with arc length <code>1a12</code> in 
+        M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
         <code>meter</code> <i>squared</i> and sines and cosines of initial 
@@ -6593,7 +6596,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff22e628ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe33565eb50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -9972,7 +9975,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.1'"><code class="variable-quote">'</code><code class="variable-string">21.7.1</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.2'"><code class="variable-quote">'</code><code class="variable-string">21.7.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12186,7 +12189,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         target="_top">Liang-Barsky Line Clipping</a>, <a 
         href="https://www.Skytopia.com/project/articles/compsci/clipping.html"
         target="_top">Liang-Barsky line clipping algorithm</a> and <a 
-        href="https://WikiPedia.org/wiki/Liang&#8211;Barsky_algorithm" 
+        href="https://WikiPedia.org/wiki/Liang-Barsky_algorithm" 
         target="_top">Liang-Barsky algorithm</a>.
       </p>
 </div></td></tr></table>
@@ -16317,7 +16320,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff22e628ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe33565eb50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23323,7 +23326,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 30 14:11:55 2021
+    Generated by Epydoc 3.0.1 on Thu Jul  1 13:26:14 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

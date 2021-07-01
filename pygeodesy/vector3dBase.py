@@ -8,12 +8,12 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, map1, neg
+from pygeodesy.basics import copysign0, map1
 from pygeodesy.errors import CrossError, VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
 from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
-                             _colinear_, _COMMASPACE_, _0_0, _1_0
+                             _colinear_, _COMMASPACE_, _1_0
 from pygeodesy.named import _NamedBase, _xother3
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_
@@ -24,7 +24,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.06.10'
+__version__ = '21.07.02'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -267,7 +267,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                          positive if this->other is clockwise looking
                          along vSign or negative in opposite direction,
                          otherwise angle is unsigned.
-           @kwarg wrap: Wrap/unroll the angle to +/-PI (c{bool}).
+           @kwarg wrap: Wrap/unroll the angle to +/-PI (C{bool}).
 
            @return: Angle (C{radians}).
 
@@ -275,11 +275,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         x = self.cross(other)
         s = x.length
-        if s < EPS0:
-            return _0_0
-        # use vSign as reference to get sign of s
-        if vSign and x.dot(vSign) < 0:
-            s = neg(s)
+        # use vSign as reference to set sign of s
+        if s and vSign and x.dot(vSign) < 0:
+            s = -s
 
         a = atan2(s, self.dot(other))
         if wrap and abs(a) > PI:

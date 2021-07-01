@@ -985,6 +985,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -996,14 +1004,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1988,11 +1988,11 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Direct9Tuple-class.html">pygeodesy.karney.Direct9Tuple</a></strong>:
       <em class="summary">9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
-        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
-        <code>lon2</code> and azimuth <code>azi2</code> in 
-        <code>degrees</code>, distance <code>s12</code> and reduced length 
-        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
-        <code>meter</code> <i>squared</i>.</em>
+        S12)</code> with arc length <code>a12</code>, angles 
+        <code>lat2</code>, <code>lon2</code> and azimuth <code>azi2</code> 
+        in <code>degrees</code>, distance <code>s12</code> and reduced 
+        length <code>m12</code> in <code>meter</code> and area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodSolve12Tuple-class.html">pygeodesy.karney.GeodSolve12Tuple</a></strong>:
       <em class="summary">12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
@@ -2009,7 +2009,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Inverse10Tuple-class.html">pygeodesy.karney.Inverse10Tuple</a></strong>:
       <em class="summary">10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
-        M21, S12)</code> with arc length <code>1a12</code> in 
+        M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
         <code>meter</code> <i>squared</i> and sines and cosines of initial 
@@ -2981,11 +2981,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Direct9Tuple-class.html">pygeodesy.karney.Direct9Tuple</a></strong>:
       <em class="summary">9-Tuple <code>(a12, lat2, lon2, azi2, s12, m12, M12, M21, 
-        S12)</code> with arc length <code>a12</code>, <code>lat2</code>, 
-        <code>lon2</code> and azimuth <code>azi2</code> in 
-        <code>degrees</code>, distance <code>s12</code> and reduced length 
-        <code>m12</code> in <code>meter</code> and area <code>S12</code> in
-        <code>meter</code> <i>squared</i>.</em>
+        S12)</code> with arc length <code>a12</code>, angles 
+        <code>lat2</code>, <code>lon2</code> and azimuth <code>azi2</code> 
+        in <code>degrees</code>, distance <code>s12</code> and reduced 
+        length <code>m12</code> in <code>meter</code> and area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.GeodSolve12Tuple-class.html">pygeodesy.karney.GeodSolve12Tuple</a></strong>:
       <em class="summary">12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
@@ -3002,7 +3002,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney.Inverse10Tuple-class.html">pygeodesy.karney.Inverse10Tuple</a></strong>:
       <em class="summary">10-Tuple <code>(a12, s12, salp1, calp1, salp2, calp2, m12, M12, 
-        M21, S12)</code> with arc length <code>1a12</code> in 
+        M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
         <code>meter</code> <i>squared</i> and sines and cosines of initial 
@@ -3062,7 +3062,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 30 14:11:54 2021
+    Generated by Epydoc 3.0.1 on Thu Jul  1 13:26:12 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

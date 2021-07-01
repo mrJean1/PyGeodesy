@@ -2875,7 +2875,6 @@ pygeodesy.vector3dBase.euclid_	pygeodesy.fmath-module.html#euclid_
 pygeodesy.vector3dBase.hypot_	pygeodesy.fmath-module.html#hypot_
 pygeodesy.vector3dBase.n_xyz2philam	pygeodesy.formy-module.html#n_xyz2philam
 pygeodesy.vector3dBase.sincos2	pygeodesy.utily-module.html#sincos2
-pygeodesy.vector3dBase.neg	pygeodesy.basics-module.html#neg
 pygeodesy.vector3dBase.__package__	pygeodesy.vector3dBase-module.html#__package__
 pygeodesy.vector3dBase._xother3	pygeodesy.named-module.html#_xother3
 pygeodesy.vector3dBase.deprecated_method	pygeodesy.props-module.html#deprecated_method

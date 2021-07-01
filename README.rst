@@ -5,7 +5,7 @@ PyGeodesy
 
 A pure Python implementation of ``geodesy`` tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
-exact elliptic and approximate methods for geodetic (lat-/longitude) and
+exact, elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
@@ -32,7 +32,7 @@ Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide `Albers Equal-Area`_ projections, `AzimuthalEquidistant`_
+Other modules provide `Albers equal-area`_ projections, `azimuthal equidistant`_
 and other *azimuthal* projections and Lambert *conformal conic*
 projections and positions (from `John P. Snyder`_, *Map Projections
 \-\- A Working Manual*, 1987), functions to clip a path or polygon of
@@ -62,14 +62,17 @@ Dependencies
 ============
 
 Installation of *Karney*\'s Python package geographiclib_ is optional,
-but required to use modules *ellipsoidalKarney* and *css*, *azimuthal*
-classes *EquidistantKarney* and *GnomonicKarney* and the *HeightIDWkarney*
-interpolator.  Both numpy_ and scipy_ must be installed for most
-*Geoid\...* and *Height\...* interpolators, except the *HeigthIDW\...*
-ones.  Function *trilaterate3d2* and method *Vector3d.trilaterate3d2*
-require numpy_.  Modules *ellipsoidalGeodSolve* and *geodsolve* and
-*azimuthal* classes *EquidistantGeodSolve* and *GnomonicGeodSolve*
-depend on *Karney*\'s GeodSolve_ C++ utility to be executable.
+but required to use modules ``ellipsoidalKarney`` and ``css``, ``azimuthal``
+classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
+``HeightIDWkarney`` interpolator.
+
+Both numpy_ and scipy_ must be installed for most ``Geoid...`` and
+``Height...`` interpolators, except the ``HeigthIDW...`` ones.  Function
+``trilaterate3d2`` and method ``Vector3d.trilaterate3d2`` require numpy_.
+
+Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
+classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
+on *Karney*\'s C++ utility GeodSolve_ to be executable.
 
 Documentation
 =============
@@ -88,9 +91,9 @@ Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2
 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with GeodSolve_ 1.51 and
 numpy_ 1.16.6), all on macOS 11.4 (10.16) Big Sur and in 64-bit (and
 Intel) only.  The tests are run with and without ``lazy import`` for
-Python 3 and with ``-W always`` and environment variable
-``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of
-only those tests are included in the distribution files.
+Python 3 and with command line option ``-W always`` and environment
+variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results
+of only those tests are included in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.6
 (with geographiclib_ 1.52), Python 3.8.10 (with geographiclib_ 1.52,
@@ -99,11 +102,11 @@ GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and macOS\' Python
 report in HTML and a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and PyPy_
-7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52, 1.50 or 1.49)
-on `Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.52, 1.50
-or 1.49) on `Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5
-and 2.7.17 (all with geographiclib_ 1.52, 1.50 or 1.49) on `Windows
-Server 2012R2`_ in both 64- and 32-bit.
+7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52) on
+`Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.52) on
+`Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17
+(all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in both 64-
+and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
@@ -137,7 +140,7 @@ geographiclib_ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 01, 2021.*
+*Last updated: July 02, 2021.*
 
 License
 =======
@@ -181,8 +184,8 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
   :target: https://PyPI.org/project/PyGeodesy
 
-.. _Albers Equal-Area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
-.. _AzimuthalEquiDistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
+.. _Albers equal-area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
+.. _azimuthal equiDistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
 .. _C++ GeographicLib: https://GeographicLib.SourceForge.io/html/index.html
 .. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html

@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.04.24'
+__version__ = '21.07.02'
 
 _fi_ = 'fi'
 _fj_ = 'fj'
@@ -265,7 +265,7 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
        @see: U{Liang-Barsky Line Clipping<https://www.CS.Helsinki.FI/group/goa/
              viewing/leikkaus/intro.html>}, U{Liang-Barsky line clipping algorithm
              <https://www.Skytopia.com/project/articles/compsci/clipping.html>}
-             and U{Liang-Barsky algorithm<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
+             and U{Liang-Barsky algorithm<https://WikiPedia.org/wiki/Liang-Barsky_algorithm>}.
     '''
     xmin, ymin, \
     xmax, ymax = _box4(lowerleft, upperright, clipLB6.__name__)
