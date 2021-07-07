@@ -3,18 +3,14 @@
 
 u'''Lambert Conformal Conic (LCC) projection.
 
-Lambert conformal conic projection for 1- or 2-Standard Parallels
-classes L{Conic}, L{Conics} registry, L{LCCError} and position class
-L{Lcc}.
+Lambert conformal conic projection for 1- or 2-Standard Parallels classes L{Conic}, L{Conics} registry, L{LCCError}
+and position class L{Lcc}.
 
-See U{LCC<https://WikiPedia.org/wiki/Lambert_conformal_conic_projection>},
-U{Lambert Conformal Conic to Geographic Transformation Formulae
-<https://www.Linz.govt.NZ/data/geodetic-system/coordinate-conversion/
-projection-conversions/lambert-conformal-conic-geographic>},
-U{Lambert Conformal Conic Projection
-<https://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
-and John P. Snyder U{'Map Projections - A Working Manual'
-<https://Pubs.USGS.gov/pp/1395/report.pdf>}, 1987, pp 107-109.
+See U{LCC<https://WikiPedia.org/wiki/Lambert_conformal_conic_projection>}, U{Lambert
+Conformal Conic to Geographic Transformation Formulae
+<https://www.Linz.govt.NZ/data/geodetic-system/coordinate-conversion/projection-conversions/lambert-conformal-conic-geographic>},
+U{Lambert Conformal Conic Projection<https://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
+and John P. Snyder U{'Map Projections - A Working Manual'<https://Pubs.USGS.gov/pp/1395/report.pdf>}, 1987, pp 107-109.
 
 @var Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.8333339, par2=51.1666672, E0=649328, N0=665262, k0=1, SP=2, datum=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
 @var Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
@@ -51,7 +47,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.06.30'
+__version__ = '21.07.05'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -374,24 +370,24 @@ class Conics(_NamedEnum):
 Conics = Conics(Conic)  # PYCHOK singleton
 '''Some pre-defined L{Conic}s, all I{lazily} instantiated.'''
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
-#   AsLb   = _lazy('AsLb',  -14.2666667, 170, _NAD27_, _0_0, _0_0,
-#                            E0=_F(500000), N0=_0_0, auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = _lazy('Be08Lb', 50.7978150, 4.359215833, _GRS80_, _F(49.8333339), _F(51.1666672),
-                             E0=_F(649328.0), N0=_F(665262.0), auth='EPSG:9802'),  # Belgium
-    Be72Lb = _lazy('Be72Lb', _90_0, 4.3674867, _NAD83_, _F(49.8333339), _F(51.1666672),
-                             E0=_F(150000.013), N0=_F(5400088.438), auth='EPSG:31370'),  # Belgium
-    Fr93Lb = _lazy('Fr93Lb', 46.5, 3, _WGS84_, _F(49), _F(44),
-                             E0=_F(700000), N0=_F(6600000), auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = _lazy('MaNLb',  33.3, -5.4, _NTF_, _F(31.73), _F(34.87),
-                             E0=_F(500000), N0=_F(300000)),  # Marocco
-    MxLb   = _lazy('MxLb',   12, -102, _WGS84_, _F(17.5), _F(29.5),
-                             E0=_F(2500000), N0=_0_0, auth='EPSG:2155'),  # Mexico
-    PyT_Lb = _lazy('PyT_Lb', 46.8, 2.33722917, _NTF_, _F(45.89893890000052), _F(47.69601440000037),
-                             E0=_F(600000), N0=_F(200000), auth='Test'),  # France?
-    USA_Lb = _lazy('USA_Lb', 23, -96, _WGS84_, _F(33), _F(45),
-                             E0=_0_0, N0=_0_0),  # Conterminous, contiguous USA?
-    WRF_Lb = _lazy('WRF_Lb', 40, -97, _WGS84_, _F(33), _F(45),
-                             E0=_0_0, N0=_0_0, auth='EPSG:4326')  # World
+#   AsLb   = _lazy('AsLb',   _F(-14.2666667), _F(170), _NAD27_, _0_0, _0_0,
+#                             E0=_F(500000), N0=_0_0, auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = _lazy('Be08Lb', _F(50.7978150), _F(4.359215833), _GRS80_, _F(49.8333339), _F(51.1666672),
+                              E0=_F(649328.0), N0=_F(665262.0), auth='EPSG:9802'),  # Belgium
+    Be72Lb = _lazy('Be72Lb', _90_0, _F(4.3674867), _NAD83_, _F(49.8333339), _F(51.1666672),
+                              E0=_F(150000.013), N0=_F(5400088.438), auth='EPSG:31370'),  # Belgium
+    Fr93Lb = _lazy('Fr93Lb', _F(46.5), _F(3), _WGS84_, _F(49), _F(44),
+                              E0=_F(700000), N0=_F(6600000), auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = _lazy('MaNLb',  _F(33.3), _F(-5.4), _NTF_, _F(31.73), _F(34.87),
+                              E0=_F(500000), N0=_F(300000)),  # Marocco
+    MxLb   = _lazy('MxLb',   _F(12), _F(-102), _WGS84_, _F(17.5), _F(29.5),
+                              E0=_F(2500000), N0=_0_0, auth='EPSG:2155'),  # Mexico
+    PyT_Lb = _lazy('PyT_Lb', _F(46.8), _F(2.33722917), _NTF_, _F(45.89893890000052), _F(47.69601440000037),
+                              E0=_F(600000), N0=_F(200000), auth='Test'),  # France?
+    USA_Lb = _lazy('USA_Lb', _F(23), _F(-96), _WGS84_, _F(33), _F(45),
+                              E0=_0_0, N0=_0_0),  # Conterminous, contiguous USA?
+    WRF_Lb = _lazy('WRF_Lb', _F(40), _F(-97), _WGS84_, _F(33), _F(45),
+                              E0=_0_0, N0=_0_0, auth='EPSG:4326')  # World
 )
 
 

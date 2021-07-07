@@ -140,7 +140,7 @@ geographiclib_ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 02, 2021.*
+*Last updated: July 07, 2021.*
 
 License
 =======

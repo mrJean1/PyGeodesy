@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.06.27'
+__version__ = '21.07.03'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -139,14 +139,14 @@ class _GeodesicSolveBase(_GeodesicBase):
 
     @Property
     def GeodSolve(self):
-        '''Get the U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+        '''Get the U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
            executable (C{filename}).
         '''
         return self._GeodSolve
 
     @GeodSolve.setter  # PYCHOK setter!
     def GeodSolve(self, path):
-        '''Set the U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+        '''Set the U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
            executable (C{filename}).
 
            @arg path: The (fully qualified) path to the C{GeodSolve} executable (C{str}).
@@ -341,7 +341,7 @@ class _GeodesicSolveBase(_GeodesicBase):
 
 
 class GeodesicSolve(_GeodesicSolveBase):
-    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
        as an C{Exact} version of I{Karney}'s Python class U{Geodesic<https://GeographicLib.SourceForge.io/html/
        python/code.html#geographiclib.geodesic.Geodesic>}.
 
@@ -482,7 +482,7 @@ class GeodesicSolve(_GeodesicSolveBase):
 
 
 class GeodesicLineSolve(_GeodesicSolveBase):
-    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
        as an C{Exact} version of I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/html/
        python/code.html#geographiclib.geodesicline.GeodesicLine>}.
 

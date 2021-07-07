@@ -117,7 +117,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.07.02'
+__version__ = '21.07.03'
 
 _16th = _1_0 / _16_0
 
@@ -183,7 +183,7 @@ class GDict(_Dict):
 
     def toGeodSolve12Tuple(self, dflt=NAN):  # PYCHOK 12 args
         '''Convert this L{GDict} result to a 12-Tuple, compatible with
-           I{Karney}'s U{GeodSolve<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}
+           I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
            result.
 
            @return: L{GeodSolve12Tuple}C{(lat1, lon1, azi1, lat2, lon2, azi2,
@@ -231,7 +231,7 @@ class GeodSolve12Tuple(_GTuple):
        angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
        C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area C{S12} in
        C{meter} I{squared} and geodesic scales C{M12} and C{M21} C{scalar}, see U{GeodSolve
-       <https://geographiclib.sourceforge.io/html/GeodSolve.1.html>}.
+       <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}.
     '''
     # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
     _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)

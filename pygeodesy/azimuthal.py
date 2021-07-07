@@ -11,12 +11,12 @@ and L{gnomonic}.
 
 L{EquidistantExact} and L{GnomonicExact} are based on exact geodesic
 L{GeodesicExact} and L{GeodesicLineExact}, Python versions of I{Karney}'s
-C++ original U{GeodesicExact<https://geographiclib.sourceforge.io/html/
+C++ original U{GeodesicExact<https://GeographicLib.SourceForge.io/html/
 classGeographicLib_1_1GeodesicExact.html>}, respectively U{GeodesicLineExact
-<https://geographiclib.sourceforge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
 
 Using L{EquidistantGeodSolve} requires I{Karney}'s utility U{GeodSolve
-<https://geographiclib.sourceforge.io/html/GeodSolve.1.html>} to be
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} to be
 available and set in env variable C{PYGEODESY_GEODSOLVE}, see module
 L{geodsolve} for more details.
 
@@ -66,7 +66,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.06.30'
+__version__ = '21.07.03'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
