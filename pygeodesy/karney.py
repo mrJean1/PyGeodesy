@@ -1,17 +1,19 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}, wrapped C{geodesic}.
+u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
 
-Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and C{Math}
-functions C{AngDiff}, C{AngNormalize}, C{LatFix} and C{sum} from I{Karney}'s Python package
-U{geographiclib<https://PyPI.org/project/geographiclib>}, provided that package is installed.
+Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and several
+C{Math} functions from I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>},
+provided that package is installed.
 
 The I{wrapped} class methods return a L{GDict} instance providing access to the C{dict} items
 by C{key} or by C{attribute} name.
 
-Following are the U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and functions I{transcoded}
-from I{Karney}'s original C++ U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}:
+I{Karney}-based functionality
+=============================
+
+1. The following classes and functions in C{pygeodesy}
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
@@ -60,24 +62,21 @@ from I{Karney}'s original C++ U{GeographicLib<https://GeographicLib.SourceForge.
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1UTMUPS.html>}
 
-  - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
+  - L{atand}, L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
     classGeographicLib_1_1Math.html>}
 
-The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} module, classes and functions are I{wrappers}
-around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} or C++ U{Utility
-programs<https://GeographicLib.SourceForge.io/html/utilities.html>}:
+are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}.
 
-  - L{karney}, L{ellipsoidalGeodSolve}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney},
-    L{geodsolve}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{GnomonicGeodSolve}, L{GnomonicKarney},
-    L{HeightIDWkarney}
+2. These C{pygeodesy} modules and classes
 
-Lastly, spherical functions:
+  - L{ellipsoidalGeodSolve}, L{ellipsoidalKarney}, L{geodsolve}, L{karney}
+  - L{EquidistantKarney}, L{FrechetKarney}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{GnomonicGeodSolve},
+    L{GnomonicKarney}, L{HeightIDWkarney}
 
-  - L{excessKarney_}, L{sphericalTrigonometry.areaOf}
+are I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic} or
+C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>}.
 
-are based on I{Karney}'s post U{Area of a spherical polygon
-<http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>} and ellipsoidal
-functions and methods:
+3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections and trilaterations
 
   - L{ellipsoidalExact.intersection3}, L{ellipsoidalExact.intersections2}, L{ellipsoidalExact.nearestOn},
     L{ellipsoidalExact.LatLon.intersection3}, L{ellipsoidalExact.LatLon.intersections2},
@@ -92,9 +91,15 @@ functions and methods:
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
 are implementations of I{Karney}'s solution posted under U{The B{ellipsoidal} case
-<https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper
-U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section
-B{14. MARITIME BOUNDARIES}).
+<https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
+on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section B{14. MARITIME BOUNDARIES}).
+
+4. Spherical functions
+
+  - L{excessKarney_}, L{sphericalTrigonometry.areaOf}
+
+in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
+<http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 '''
 
 from pygeodesy.basics import copysign0, _xversion
@@ -117,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.07.03'
+__version__ = '21.07.09'
 
 _16th = _1_0 / _16_0
 

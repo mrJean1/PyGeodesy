@@ -1198,13 +1198,14 @@ pygeodesy.formy.euclidean_	pygeodesy.formy-module.html#euclidean_
 pygeodesy.formy.cosineForsytheAndoyerLambert	pygeodesy.formy-module.html#cosineForsytheAndoyerLambert
 pygeodesy.formy.bearing_	pygeodesy.formy-module.html#bearing_
 pygeodesy.formy.acos1	pygeodesy.utily-module.html#acos1
-pygeodesy.formy.atan2b	pygeodesy.utily-module.html#atan2b
+pygeodesy.formy.cosineAndoyerLambert	pygeodesy.formy-module.html#cosineAndoyerLambert
 pygeodesy.formy.heightOf	pygeodesy.formy-module.html#heightOf
 pygeodesy.formy.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.formy._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.formy.excessGirard	pygeodesy.formy-module.html#excessGirard
 pygeodesy.formy.isantipode_	pygeodesy.formy-module.html#isantipode_
 pygeodesy.formy.vincentys	pygeodesy.formy-module.html#vincentys
+pygeodesy.formy._area_or_	pygeodesy.formy-module.html#_area_or_
 pygeodesy.formy.radical2	pygeodesy.formy-module.html#radical2
 pygeodesy.formy.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.formy.euclid	pygeodesy.fmath-module.html#euclid
@@ -1214,7 +1215,7 @@ pygeodesy.formy.__all__	pygeodesy.formy-module.html#__all__
 pygeodesy.formy._ellipsoid	pygeodesy.formy-module.html#_ellipsoid
 pygeodesy.formy.wrap90	pygeodesy.utily-module.html#wrap90
 pygeodesy.formy.fsum_	pygeodesy.fmath-module.html#fsum_
-pygeodesy.formy.cosineAndoyerLambert	pygeodesy.formy-module.html#cosineAndoyerLambert
+pygeodesy.formy.atan2b	pygeodesy.utily-module.html#atan2b
 pygeodesy.formy.wrapPI_2	pygeodesy.utily-module.html#wrapPI_2
 pygeodesy.formy.hubeny_	pygeodesy.formy-module.html#hubeny_
 pygeodesy.formy.flatPolar_	pygeodesy.formy-module.html#flatPolar_
@@ -1240,7 +1241,6 @@ pygeodesy.formy.wrapPI	pygeodesy.utily-module.html#wrapPI
 pygeodesy.formy.sqrt0	pygeodesy.fmath-module.html#sqrt0
 pygeodesy.formy.cosineAndoyerLambert_	pygeodesy.formy-module.html#cosineAndoyerLambert_
 pygeodesy.formy.thomas_	pygeodesy.formy-module.html#thomas_
-pygeodesy.formy._areaOfS	pygeodesy.formy-module.html#_areaOfS
 pygeodesy.formy.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.formy.vincentys_	pygeodesy.formy-module.html#vincentys_
 pygeodesy.formy.n_xyz2latlon	pygeodesy.formy-module.html#n_xyz2latlon

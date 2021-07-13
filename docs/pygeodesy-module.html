@@ -65,7 +65,7 @@
   target="_top">ECEF</a> cartesian) coordinates.</p>
   <p>Transcoded from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
-  2005-2019</i> and several <a 
+  2005-2019</i> and from several <a 
   href="https://GeographicLib.SourceForge.io/html/annotated.html" 
   target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2021</i>
   and published under the same <a 
@@ -302,13 +302,8 @@
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.6, both in 64-bit on macOS 
     11.4 (10.16) Big Sur (Intel).</p>
-    <p>Classes with a name ending in <code>Karney</code> and several more 
-    are transcoded from <i>Karney</i>'s <a 
-    href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-    target="_top">C++ classes</a> or require <i>Karney</i>'s Python package
-    <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> to be installed.  A complete list is in
-    module <a 
+    <p>For a summary of all <i>Karney</i>-based functionality in 
+    <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
     target="_top">karney</a>.</p>
     <p>Some function and method names differ from the JavaScript version.  
@@ -406,7 +401,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.07.07
+        21.07.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -505,7 +500,7 @@
         <code>intern</code>'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>, wrapped <code>geodesic</code>.</em>    </li>
+        target="_top">geographiclib</a> <code>geodesic</code>, wrapped.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -4108,8 +4103,8 @@
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-      class="math">[-180..+180]</i>, optionally reversed (for 
-      <code>azi2</code>).</td>
+      class="math">[-180..+180]</i>, optionally reversed (by 180 degrees 
+      for <code>azi2</code>).</td>
           <td align="right" valign="top">
             
             
@@ -5548,7 +5543,7 @@
       Compute the surface area of a (spherical) quadrilateral bounded by a 
       segment of a great circle, two meridians and the equator using <a 
       href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
-      target="_top">Karney's</a>.</td>
+      target="_top">Karney's</a> method.</td>
           <td align="right" valign="top">
             
             
@@ -6596,7 +6591,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd28fc89c50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f882ce66c50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -9975,7 +9970,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.7'"><code class="variable-quote">'</code><code class="variable-string">21.7.7</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.12'"><code class="variable-quote">'</code><code class="variable-string">21.7.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11377,7 +11372,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-  class="math">[-180..+180]</i>, optionally reversed (for 
+  class="math">[-180..+180]</i>, optionally reversed (by 180 degrees for 
   <code>azi2</code>).</p>
   <dl class="fields">
   </dl>
@@ -14284,7 +14279,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <p>Compute the surface area of a (spherical) quadrilateral bounded by a 
   segment of a great circle, two meridians and the equator using <a 
   href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
-  target="_top">Karney's</a>.</p>
+  target="_top">Karney's</a> method.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -14306,8 +14301,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Returns:</dt>
         <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
           units of <b><code>radius</code></b> <i>squared</i>) or 
-          <code>radians</code> if <b><code>radius</code></b> is 
-          <code>None</code> or <code>0</code>.</dd>
+          <i>spherical excess</i> (<code>radians</code>) if 
+          <b><code>radius</code></b> is <code>None</code> or 
+          <code>0</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -14452,8 +14448,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Returns:</dt>
         <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
           units of <b><code>radius</code></b> <i>squared</i>) or 
-          <code>radians</code> if <b><code>radius</code></b> is 
-          <code>None</code> or <code>0</code>.</dd>
+          <i>spherical excess</i> (<code>radians</code>) if 
+          <b><code>radius</code></b> is <code>None</code> or 
+          <code>0</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -16320,7 +16317,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd28fc89c50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f882ce66c50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19637,7 +19634,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>Etm</code></strong> - Optional class to return the UTM coordinate (<a 
           href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>falsed</code></strong> - Both easting and northing are falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Both easting and northing are <code>falsed</code> 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Etm</code></b> name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -23326,7 +23324,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul  7 14:01:58 2021
+    Generated by Epydoc 3.0.1 on Mon Jul 12 20:18:33 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

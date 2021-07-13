@@ -30,7 +30,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.06.10'
+__version__ = '21.07.09'
 
 
 def antipode(lat, lon):
@@ -61,8 +61,8 @@ def antipode_(phi, lam):
     return PhiLam2Tuple(-wrapPI_2(phi), wrapPI(lam + PI))
 
 
-def _areaOfS(func_, lat1, lat2, radius, d_lon, unused):
-    '''(INTERNAL) Helper for spherical excess and area.
+def _area_or_(func_, lat1, lat2, radius, d_lon, unused):
+    '''(INTERNAL) Helper for area and spherical excess.
     '''
     r = func_(Phi_(lat2=lat2),
               Phi_(lat1=lat1), radians(d_lon))
@@ -587,7 +587,8 @@ def excessLHuilier(a, b, c):
 def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the surface area of a (spherical) quadrilateral bounded by
        a segment of a great circle, two meridians and the equator using U{Karney's
-       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}
+       method.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -598,9 +599,9 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
                       L{Datum} or L{a_f2Tuple}) or C{None}.
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units
-                of B{C{radius}} I{squared}) or C{radians} if B{C{radius}}
-                is C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter}, or units of
+                B{C{radius}} I{squared}) or I{spherical excess} (C{radians})
+                if B{C{radius}} is C{None} or C{0}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -610,8 +611,8 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: Function L{excessKarney_} and L{excessQuad}.
     '''
-    return _areaOfS(excessKarney_, lat1, lat2, radius,
-                                  *unroll180(lon1, lon2, wrap=wrap))
+    return _area_or_(excessKarney_, lat1, lat2, radius,
+                                   *unroll180(lon1, lon2, wrap=wrap))
 
 
 def excessKarney_(phi2, phi1, lam21):
@@ -660,9 +661,9 @@ def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
                       L{Datum} or L{a_f2Tuple}) or C{None}.
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units
-                of B{C{radius}} I{squared}) or C{radians} if B{C{radius}}
-                is C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter}, or units of
+                B{C{radius}} I{squared}) or I{spherical excess} (C{radians})
+                if B{C{radius}} is C{None} or C{0}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -670,8 +671,8 @@ def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: Function L{excessQuad_} and L{excessKarney}.
     '''
-    return _areaOfS(excessQuad_, lat1, lat2, radius,
-                                *unroll180(lon1, lon2, wrap=wrap))
+    return _area_or_(excessQuad_, lat1, lat2, radius,
+                                 *unroll180(lon1, lon2, wrap=wrap))
 
 
 def excessQuad_(phi2, phi1, lam21):

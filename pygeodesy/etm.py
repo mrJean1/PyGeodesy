@@ -3,8 +3,8 @@
 
 u'''I{Karney}'s Exact Transverse Mercator (ETM) projection.
 
-Classes L{ETMError} and L{Etm}, a pure Python transcription of
-I{Charles Karney}'s C++ class U{TransverseMercatorExact
+Classes L{ETMError} and L{Etm}, a pure Python transcoding of I{Karney}'s
+C++ class U{TransverseMercatorExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
 abbreviated as C{TMExact} below.
 
@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.06.30'
+__version__ = '21.07.08'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -112,13 +112,12 @@ class ETMError(UTMError):
 
 
 class Etm(Utm):
-    '''Exact Transverse Mercator (ETM) coordinate, a sub-class of
-       L{Utm}, a Universal Transverse Mercator (UTM) coordinate
-       using the L{ExactTransverseMercator} projection for highest
-       accuracy.
+    '''Exact Transverse Mercator (ETM) coordinate, a sub-class of L{Utm},
+       a Universal Transverse Mercator (UTM) coordinate using the
+       L{ExactTransverseMercator} projection for highest accuracy.
 
-       @note: Conversion of L{Etm} coordinates to and from (geodetic)
-              lat- and longitude is 3-4 times slower than L{Utm}.
+       @note: Conversion of (geodetic) lat- and longitudes to/from L{Etm}
+              coordinates is 3-4 times slower than to/from L{Utm}.
 
        @see: Karney's U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
@@ -142,7 +141,7 @@ class Etm(Utm):
            @kwarg datum: Optional, this coordinate's datum (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
-                          falsed (C{bool}).
+                          C{falsed} (C{bool}).
            @kwarg convergence: Optional meridian convergence, bearing
                                off grid North, clockwise from true North
                                (C{degrees}) or C{None}.
@@ -213,7 +212,7 @@ class Etm(Utm):
            @kwarg LatLon: Optional, ellipsoidal class to return the
                           geodetic point (C{LatLon}) or C{None}.
            @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}} if
-                           falsed (C{bool}).
+                           C{falsed} (C{bool}).
 
            @return: This ETM coordinate as (B{C{LatLon}}) or a
                     L{LatLonDatum5Tuple}C{(lat, lon, datum,
@@ -954,7 +953,7 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
                      L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Etm: Optional class to return the UTM coordinate
                    (L{Etm}) or C{None}.
-       @kwarg falsed: Both easting and northing are falsed (C{bool}).
+       @kwarg falsed: Both easting and northing are C{falsed} (C{bool}).
        @kwarg name: Optional B{C{Etm}} name (C{str}).
 
        @return: The UTM coordinate (B{C{Etm}}) or if B{C{Etm}} is

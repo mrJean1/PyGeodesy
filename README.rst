@@ -9,8 +9,8 @@ exact, elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
-and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2021* and
-published under the same `MIT License`_.
+and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2021*
+and published under the same `MIT License`_.
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
 *-Karney*, *-Vincenty* and *-Nvector* and two for spherical ones,
@@ -133,14 +133,13 @@ PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
 and with Flake8_ using Python 3.9.6, both in 64-bit on macOS 11.4
 (10.16) Big Sur (Intel).
 
-Classes with a name ending in ``Karney`` and several more are transcribed
-from *Karney*\'s `C++ classes`_ or require *Karney*\'s Python package
-geographiclib_ to be installed.  A complete list is in module karney_.
+For a summary of all *Karney*-based functionality in ``pygeodesy``, see
+module karney_.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 07, 2021.*
+*Last updated: July 12, 2021.*
 
 License
 =======

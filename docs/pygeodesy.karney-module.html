@@ -60,252 +60,273 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module karney</h1><p class="nomargin-top"></p>
 <p><i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a>, wrapped <code>geodesic</code>.</p>
+  target="_top">geographiclib</a> <code>geodesic</code>, wrapped.</p>
   <p>Wrapper around <i>Charles Karney</i>'s Python classes 
-  <code>Geodesic</code> and <code>GeodesicLine</code> and <code>Math</code>
-  functions <code>AngDiff</code>, <code>AngNormalize</code>, 
-  <code>LatFix</code> and <code>sum</code> from <i>Karney</i>'s Python 
-  package <a href="https://PyPI.org/project/geographiclib" 
+  <code>Geodesic</code> and <code>GeodesicLine</code> and several 
+  <code>Math</code> functions from <i>Karney</i>'s Python package <a 
+  href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>, provided that package is installed.</p>
   <p>The <i>wrapped</i> class methods return a <a 
   href="pygeodesy.karney.GDict-class.html" class="link">GDict</a> instance 
   providing access to the <code>dict</code> items by <code>key</code> or by
   <code>attribute</code> name.</p>
-  <p>Following are the <a href="https://PyPI.org/project/PyGeodesy" 
-  target="_top">PyGeodesy</a> classes and functions <i>transcoded</i> from 
-  <i>Karney</i>'s original C++ <a 
-  href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-  target="_top">GeographicLib</a>:</p>
-  <ul>
-    <li>
-      <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
-      class="link">AlbersEqualArea</a>, <a 
-      href="pygeodesy.albers.AlbersEqualArea2-class.html" 
-      class="link">AlbersEqualArea2</a>, <a 
-      href="pygeodesy.albers.AlbersEqualArea4-class.html" 
-      class="link">AlbersEqualArea4</a>, <a 
-      href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" 
-      class="link">AlbersEqualAreaCylindrical</a>, <a 
-      href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" 
-      class="link">AlbersEqualAreaNorth</a>, <a 
-      href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" 
-      class="link">AlbersEqualAreaSouth</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
-      target="_top">AlbersEqualArea</a>
-    </li>
-    <li>
-      <a href="pygeodesy.css.CassiniSoldner-class.html" 
-      class="link">CassiniSoldner</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
-      target="_top">CassiniSoldner</a>
-    </li>
-    <li>
-      <a href="pygeodesy.ecef.EcefKarney-class.html" 
-      class="link">EcefKarney</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
-      target="_top">Geocentric</a>
-    </li>
-    <li>
-      <a href="pygeodesy.elliptic.Elliptic-class.html" 
-      class="link">Elliptic</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
-      target="_top">EllipticFunction</a>
-    </li>
-    <li>
-      <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
-      class="link">EquidistantExact</a>, <a 
-      href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
-      class="link">EquidistantGeodSolve</a>, <a 
-      href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
-      class="link">EquidistantKarney</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
-      target="_top">AzimuthalEquidistant</a>
-    </li>
-    <li>
-      <a href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, <a 
-      href="pygeodesy.etm.ExactTransverseMercator-class.html" 
-      class="link">ExactTransverseMercator</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
-      target="_top">TransverseMercatorExact</a>
-    </li>
-    <li>
-      <a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-      class="link">GeodesicAreaExact</a>, <a 
-      href="pygeodesy.geodesicx.gxarea.PolygonArea-class.html" 
-      class="link">PolygonArea</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolygonAreaT.html"
-      target="_top">PolygonArea</a>
-    </li>
-    <li>
-      <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-      class="link">GeodesicExact</a>, <a 
-      href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-      class="link">GeodesicLineExact</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
-      target="_top">GeodesicExact</a>, <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
-      target="_top">GeodesicLineExact</a>
-    </li>
-    <li>
-      <a href="pygeodesy.geoids.GeoidKarney-class.html" 
-      class="link">GeoidKarney</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/geoid.html" 
-      target="_top">Geoid</a>
-    </li>
-    <li>
-      <a href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> --
-      <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
-      target="_top">Georef</a>
-    </li>
-    <li>
-      <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
-      class="link">GnomonicExact</a>, <a 
-      href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
-      class="link">GnomonicGeodSolve</a>, <a 
-      href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
-      class="link">GnomonicKarney</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
-      target="_top">Gnomonic</a>
-    </li>
-    <li>
-      <a href="pygeodesy.ltp.LocalCartesian-class.html" 
-      class="link">LocalCartesian</a>, <a 
-      href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-      target="_top">LocalCartesian</a>
-    </li>
-    <li>
-      <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html"
-      target="_top">PolarStereographic</a>
-    </li>
-    <li>
-      <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html"
-      target="_top">TransverseMercator</a>
-    </li>
-    <li>
-      <a href="pygeodesy.utmups-module.html#UtmUps" 
-      class="link">UtmUps</a>, <a href="pygeodesy.epsg.Epsg-class.html" 
-      class="link">Epsg</a> -- <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
-      target="_top">UTMUPS</a>
-    </li>
-    <li>
-      <a href="pygeodesy.utily-module.html#atan2d" class="link">atan2d</a>,
-      <a href="pygeodesy.utily-module.html#sincos2" 
-      class="link">sincos2</a>, <a 
-      href="pygeodesy.utily-module.html#sincos2d" 
-      class="link">sincos2d</a>-- <a 
-      href="https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html"
-      target="_top">Math</a>
-    </li>
-  </ul>
-  <p>The following <a href="https://PyPI.org/project/PyGeodesy" 
-  target="_top">PyGeodesy</a> module, classes and functions are 
-  <i>wrappers</i> around some of <i>Karney</i>'s Python <a 
-  href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> or C++ <a 
-  href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-  target="_top">Utility programs</a>:</p>
-  <ul>
-    <li>
-      <a href="pygeodesy.karney-module.html" class="link">karney</a>, <a 
-      href="pygeodesy.ellipsoidalGeodSolve-module.html" 
-      class="link">ellipsoidalGeodSolve</a>, <a 
-      href="pygeodesy.ellipsoidalKarney-module.html" 
-      class="link">ellipsoidalKarney</a>, <a 
-      href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
-      class="link">EquidistantKarney</a>, <a 
-      href="pygeodesy.frechet.FrechetKarney-class.html" 
-      class="link">FrechetKarney</a>, <a 
-      href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a>, <a
-      href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
-      class="link">GeodesicSolve</a>, <a 
-      href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
-      class="link">GeodesicLineSolve</a>, <a 
-      href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
-      class="link">GnomonicGeodSolve</a>, <a 
-      href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
-      class="link">GnomonicKarney</a>, <a 
-      href="pygeodesy.heights.HeightIDWkarney-class.html" 
-      class="link">HeightIDWkarney</a>
-    </li>
-  </ul>
-  <p>Lastly, spherical functions:</p>
-  <ul>
-    <li>
-      <a href="pygeodesy.formy-module.html#excessKarney_" 
-      class="link">excessKarney_</a>, <a 
-      href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
-      class="link">sphericalTrigonometry.areaOf</a>
-    </li>
-  </ul>
-  <p>are based on <i>Karney</i>'s post <a 
-  href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
-  target="_top">Area of a spherical polygon</a> and ellipsoidal functions 
-  and methods:</p>
-  <ul>
-    <li>
-      <a href="pygeodesy.ellipsoidalExact-module.html#intersection3" 
-      class="link">ellipsoidalExact.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalExact-module.html#intersections2" 
-      class="link">ellipsoidalExact.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalExact-module.html#nearestOn" 
-      class="link">ellipsoidalExact.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
-      class="link">ellipsoidalExact.LatLon.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
-      class="link">ellipsoidalExact.LatLon.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
-      class="link">ellipsoidalExact.LatLon.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
-      class="link">ellipsoidalExact.LatLon.trilaterate5</a>
-    </li>
-    <li>
-      <a href="pygeodesy.ellipsoidalKarney-module.html#intersection3" 
-      class="link">ellipsoidalKarney.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
-      class="link">ellipsoidalKarney.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
-      class="link">ellipsoidalKarney.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
-      class="link">ellipsoidalKarney.LatLon.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
-      class="link">ellipsoidalKarney.LatLon.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
-      class="link">ellipsoidalKarney.LatLon.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
-      class="link">ellipsoidalKarney.LatLon.trilaterate5</a>
-    </li>
-    <li>
-      <a href="pygeodesy.ellipsoidalVincenty-module.html#intersection3" 
-      class="link">ellipsoidalVincenty.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
-      class="link">ellipsoidalVincenty.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalVincenty-module.html#nearestOn" 
-      class="link">ellipsoidalVincenty.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
-      class="link">ellipsoidalVincenty.LatLon.intersection3</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
-      class="link">ellipsoidalVincenty.LatLon.intersections2</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
-      class="link">ellipsoidalVincenty.LatLon.nearestOn</a>, <a 
-      href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
-      class="link">ellipsoidalVincenty.LatLon.trilaterate5</a>
-    </li>
-  </ul>
-  <p>are implementations of <i>Karney</i>'s solution posted under <a 
-  href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
-  target="_top">The <b>ellipsoidal</b> case</a> and in paper <a 
-  href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Geodesics on an 
-  ellipsoid of revolution</a> (pp 20-21, section <b>14. MARITIME 
-  BOUNDARIES</b>).</p>
+  <h1 class="heading"><i>Karney</i>-based functionality</h1>
+    <ol start="1">
+      <li>
+        The following classes and functions in <code>pygeodesy</code>
+        <ul>
+          <li>
+            <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+            class="link">AlbersEqualArea</a>, <a 
+            href="pygeodesy.albers.AlbersEqualArea2-class.html" 
+            class="link">AlbersEqualArea2</a>, <a 
+            href="pygeodesy.albers.AlbersEqualArea4-class.html" 
+            class="link">AlbersEqualArea4</a>, <a 
+            href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" 
+            class="link">AlbersEqualAreaCylindrical</a>, <a 
+            href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" 
+            class="link">AlbersEqualAreaNorth</a>, <a 
+            href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" 
+            class="link">AlbersEqualAreaSouth</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
+            target="_top">AlbersEqualArea</a>
+          </li>
+          <li>
+            <a href="pygeodesy.css.CassiniSoldner-class.html" 
+            class="link">CassiniSoldner</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
+            target="_top">CassiniSoldner</a>
+          </li>
+          <li>
+            <a href="pygeodesy.ecef.EcefKarney-class.html" 
+            class="link">EcefKarney</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+            target="_top">Geocentric</a>
+          </li>
+          <li>
+            <a href="pygeodesy.elliptic.Elliptic-class.html" 
+            class="link">Elliptic</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
+            target="_top">EllipticFunction</a>
+          </li>
+          <li>
+            <a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+            class="link">EquidistantExact</a>, <a 
+            href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+            class="link">EquidistantGeodSolve</a>, <a 
+            href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+            class="link">EquidistantKarney</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
+            target="_top">AzimuthalEquidistant</a>
+          </li>
+          <li>
+            <a href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, <a
+            href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+            class="link">ExactTransverseMercator</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
+            target="_top">TransverseMercatorExact</a>
+          </li>
+          <li>
+            <a 
+            href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+            class="link">GeodesicAreaExact</a>, <a 
+            href="pygeodesy.geodesicx.gxarea.PolygonArea-class.html" 
+            class="link">PolygonArea</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolygonAreaT.html"
+            target="_top">PolygonArea</a>
+          </li>
+          <li>
+            <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+            class="link">GeodesicExact</a>, <a 
+            href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+            class="link">GeodesicLineExact</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+            target="_top">GeodesicExact</a>, <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
+            target="_top">GeodesicLineExact</a>
+          </li>
+          <li>
+            <a href="pygeodesy.geoids.GeoidKarney-class.html" 
+            class="link">GeoidKarney</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/geoid.html" 
+            target="_top">Geoid</a>
+          </li>
+          <li>
+            <a href="pygeodesy.wgrs.Georef-class.html" 
+            class="link">Georef</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
+            target="_top">Georef</a>
+          </li>
+          <li>
+            <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
+            class="link">GnomonicExact</a>, <a 
+            href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+            class="link">GnomonicGeodSolve</a>, <a 
+            href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+            class="link">GnomonicKarney</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+            target="_top">Gnomonic</a>
+          </li>
+          <li>
+            <a href="pygeodesy.ltp.LocalCartesian-class.html" 
+            class="link">LocalCartesian</a>, <a 
+            href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> -- <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+            target="_top">LocalCartesian</a>
+          </li>
+          <li>
+            <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> -- 
+            <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html"
+            target="_top">PolarStereographic</a>
+          </li>
+          <li>
+            <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> -- 
+            <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html"
+            target="_top">TransverseMercator</a>
+          </li>
+          <li>
+            <a href="pygeodesy.utmups-module.html#UtmUps" 
+            class="link">UtmUps</a>, <a 
+            href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> -- 
+            <a 
+            href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
+            target="_top">UTMUPS</a>
+          </li>
+          <li>
+            <a href="pygeodesy.utily-module.html#atand" 
+            class="link">atand</a>, <a 
+            href="pygeodesy.utily-module.html#atan2d" 
+            class="link">atan2d</a>, <a 
+            href="pygeodesy.utily-module.html#sincos2" 
+            class="link">sincos2</a>, <a 
+            href="pygeodesy.utily-module.html#sincos2d" 
+            class="link">sincos2d</a>-- <a 
+            href="https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html"
+            target="_top">Math</a>
+          </li>
+        </ul>
+        <p>are <i>transcoded</i> from C++ classes in <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/html/annotated.html" 
+        target="_top">GeographicLib</a>.</p>
+      </li>
+      <li>
+        These <code>pygeodesy</code> modules and classes
+        <ul>
+          <li>
+            <a href="pygeodesy.ellipsoidalGeodSolve-module.html" 
+            class="link">ellipsoidalGeodSolve</a>, <a 
+            href="pygeodesy.ellipsoidalKarney-module.html" 
+            class="link">ellipsoidalKarney</a>, <a 
+            href="pygeodesy.geodsolve-module.html" 
+            class="link">geodsolve</a>, <a 
+            href="pygeodesy.karney-module.html" class="link">karney</a>
+          </li>
+          <li>
+            <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+            class="link">EquidistantKarney</a>, <a 
+            href="pygeodesy.frechet.FrechetKarney-class.html" 
+            class="link">FrechetKarney</a>, <a 
+            href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+            class="link">GeodesicSolve</a>, <a 
+            href="pygeodesy.geodsolve.GeodesicLineSolve-class.html" 
+            class="link">GeodesicLineSolve</a>, <a 
+            href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+            class="link">GnomonicGeodSolve</a>, <a 
+            href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+            class="link">GnomonicKarney</a>, <a 
+            href="pygeodesy.heights.HeightIDWkarney-class.html" 
+            class="link">HeightIDWkarney</a>
+          </li>
+        </ul>
+        <p>are <i>wrappers</i> around <i>Karney</i>'s Python <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> <code>geodesic</code> or C++ 
+        utility <a 
+        href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+        target="_top">GeodSolve</a>.</p>
+      </li>
+      <li>
+        All <code>pygeodesy</code> functions and methods to compute 
+        <i>ellipsoidal</i> intersections and trilaterations
+        <ul>
+          <li>
+            <a href="pygeodesy.ellipsoidalExact-module.html#intersection3" 
+            class="link">ellipsoidalExact.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalExact-module.html#intersections2" 
+            class="link">ellipsoidalExact.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalExact-module.html#nearestOn" 
+            class="link">ellipsoidalExact.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+            class="link">ellipsoidalExact.LatLon.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
+            class="link">ellipsoidalExact.LatLon.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
+            class="link">ellipsoidalExact.LatLon.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+            class="link">ellipsoidalExact.LatLon.trilaterate5</a>
+          </li>
+          <li>
+            <a href="pygeodesy.ellipsoidalKarney-module.html#intersection3"
+            class="link">ellipsoidalKarney.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
+            class="link">ellipsoidalKarney.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
+            class="link">ellipsoidalKarney.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+            class="link">ellipsoidalKarney.LatLon.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
+            class="link">ellipsoidalKarney.LatLon.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
+            class="link">ellipsoidalKarney.LatLon.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+            class="link">ellipsoidalKarney.LatLon.trilaterate5</a>
+          </li>
+          <li>
+            <a 
+            href="pygeodesy.ellipsoidalVincenty-module.html#intersection3" 
+            class="link">ellipsoidalVincenty.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalVincenty-module.html#intersections2"
+            class="link">ellipsoidalVincenty.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalVincenty-module.html#nearestOn" 
+            class="link">ellipsoidalVincenty.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
+            class="link">ellipsoidalVincenty.LatLon.intersection3</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersections2"
+            class="link">ellipsoidalVincenty.LatLon.intersections2</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn"
+            class="link">ellipsoidalVincenty.LatLon.nearestOn</a>, <a 
+            href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5"
+            class="link">ellipsoidalVincenty.LatLon.trilaterate5</a>
+          </li>
+        </ul>
+        <p>are implementations of <i>Karney</i>'s solution posted under <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a> and in paper <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Geodesics 
+        on an ellipsoid of revolution</a> (pp 20-21, section <b>14. 
+        MARITIME BOUNDARIES</b>).</p>
+      </li>
+      <li>
+        Spherical functions
+        <ul>
+          <li>
+            <a href="pygeodesy.formy-module.html#excessKarney_" 
+            class="link">excessKarney_</a>, <a 
+            href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
+            class="link">sphericalTrigonometry.areaOf</a>
+          </li>
+        </ul>
+        <p>in <code>pygeodesy</code> are based on <i>Karney</i>'s post <a 
+        href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+        target="_top">Area of a spherical polygon</a>.</p>
+      </li>
+    </ol>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.07.03
+        21.07.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -425,7 +446,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul  7 14:01:58 2021
+    Generated by Epydoc 3.0.1 on Mon Jul 12 20:18:34 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
