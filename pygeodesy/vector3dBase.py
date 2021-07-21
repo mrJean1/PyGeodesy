@@ -24,7 +24,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.07.02'
+__version__ = '21.07.21'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -44,16 +44,16 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     _y      = 0     # Y component
     _z      = 0     # Z component
 
-    def __init__(self, x, y, z, ll=None, name=NN):
+    def __init__(self, x, y, z=0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
-           The vector may be normalised or use x/y/z values
-           for height relative to the surface of the sphere
-           or ellipsoid, distance from earth centre, etc.
+           The vector may be normalised or use x, y, z for
+           position and height relative to the surface of the
+           sphere or ellipsoid, distance from earth centre.
 
            @arg x: X component of vector (C{scalar}).
-           @arg y: Y component of vector (C{scalar}).
-           @arg z: Z component of vector (C{scalar}).
+           @arg y: Y component of vector (C{scalar}), same units as B{C{x}}.
+           @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
            @kwarg ll: Optional latlon reference (C{LatLon}).
            @kwarg name: Optional name (C{str}).
         '''

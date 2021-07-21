@@ -47,6 +47,7 @@ pygeodesy.nearestOn3	pygeodesy-module.html#nearestOn3
 pygeodesy.favg	pygeodesy-module.html#favg
 pygeodesy.a_b2f2	pygeodesy-module.html#a_b2f2
 pygeodesy.asin1	pygeodesy-module.html#asin1
+pygeodesy.meeus2	pygeodesy-module.html#meeus2
 pygeodesy.isodd	pygeodesy-module.html#isodd
 pygeodesy.excessQuad	pygeodesy-module.html#excessQuad
 pygeodesy.fStrzs	pygeodesy-module.html#fStrzs
@@ -796,6 +797,7 @@ pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations.clips	pygeodesy.basics-module.html#clips
 pygeodesy.ellipsoidalBase	pygeodesy.ellipsoidalBase-module.html
 pygeodesy.ellipsoidalBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
+pygeodesy.ellipsoidalBase._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ellipsoidalBase._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.ellipsoidalBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.ellipsoidalBase.__package__	pygeodesy.ellipsoidalBase-module.html#__package__
@@ -1356,6 +1358,7 @@ pygeodesy.geodesicx.gx._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.geodesicx.gx.__package__	pygeodesy.geodesicx.gx-module.html#__package__
 pygeodesy.geodesicx.gx._around	pygeodesy.karney-module.html#_around
 pygeodesy.geodesicx.gx._TOL016	pygeodesy.geodesicx.gx-module.html#_TOL016
+pygeodesy.geodesicx.gx.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.geodesicx.gx._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.geodesicx.gx._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.geodesicx.gx.fsum_	pygeodesy.fmath-module.html#fsum_
@@ -2831,44 +2834,47 @@ pygeodesy.utmupsBase._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.vector3d	pygeodesy.vector3d-module.html
 pygeodesy.vector3d.parse3d	pygeodesy.vector3d-module.html#parse3d
 pygeodesy.vector3d.hypot2_	pygeodesy.fmath-module.html#hypot2_
-pygeodesy.vector3d.fdot	pygeodesy.fmath-module.html#fdot
-pygeodesy.vector3d._xnumpy	pygeodesy.basics-module.html#_xnumpy
-pygeodesy.vector3d.iscolinearWith	pygeodesy.vector3d-module.html#iscolinearWith
-pygeodesy.vector3d._and	pygeodesy.errors-module.html#_and
-pygeodesy.vector3d._intersects2	pygeodesy.vector3d-module.html#_intersects2
-pygeodesy.vector3d._null_space2	pygeodesy.vector3d-module.html#_null_space2
-pygeodesy.vector3d._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
-pygeodesy.vector3d.trilaterate3d2	pygeodesy.vector3d-module.html#trilaterate3d2
-pygeodesy.vector3d._xyzn4	pygeodesy.vector3d-module.html#_xyzn4
+pygeodesy.vector3d._xkwds	pygeodesy.errors-module.html#_xkwds
+pygeodesy.vector3d._meeus2	pygeodesy.vector3d-module.html#_meeus2
+pygeodesy.vector3d._iscolinearWith	pygeodesy.vector3d-module.html#_iscolinearWith
+pygeodesy.vector3d._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.vector3d.nearestOn	pygeodesy.vector3d-module.html#nearestOn
-pygeodesy.vector3d._xError	pygeodesy.errors-module.html#_xError
+pygeodesy.vector3d.sumOf	pygeodesy.vector3d-module.html#sumOf
+pygeodesy.vector3d._and	pygeodesy.errors-module.html#_and
+pygeodesy.vector3d.hypot	pygeodesy.fmath-module.html#hypot
+pygeodesy.vector3d.trilaterate2d2	pygeodesy.vector3d-module.html#trilaterate2d2
+pygeodesy.vector3d.trilaterate3d2	pygeodesy.vector3d-module.html#trilaterate3d2
+pygeodesy.vector3d.__all__	pygeodesy.vector3d-module.html#__all__
+pygeodesy.vector3d.fsum_	pygeodesy.fmath-module.html#fsum_
+pygeodesy.vector3d._tri_r2h	pygeodesy.vector3d-module.html#_tri_r2h
+pygeodesy.vector3d.meeus2	pygeodesy.vector3d-module.html#meeus2
+pygeodesy.vector3d._intersect3d3	pygeodesy.vector3d-module.html#_intersect3d3
+pygeodesy.vector3d.isnear0	pygeodesy.basics-module.html#isnear0
+pygeodesy.vector3d.fsum	pygeodesy.fmath-module.html#fsum
+pygeodesy.vector3d.modulename	pygeodesy.named-module.html#modulename
+pygeodesy.vector3d._intersects2	pygeodesy.vector3d-module.html#_intersects2
+pygeodesy.vector3d._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
+pygeodesy.vector3d.iscolinearWith	pygeodesy.vector3d-module.html#iscolinearWith
+pygeodesy.vector3d._trilaterate3d2	pygeodesy.vector3d-module.html#_trilaterate3d2
+pygeodesy.vector3d._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
+pygeodesy.vector3d._otherV3d	pygeodesy.vector3d-module.html#_otherV3d
+pygeodesy.vector3d._xnumpy	pygeodesy.basics-module.html#_xnumpy
+pygeodesy.vector3d._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
+pygeodesy.vector3d.len2	pygeodesy.basics-module.html#len2
+pygeodesy.vector3d._xyzn4	pygeodesy.vector3d-module.html#_xyzn4
 pygeodesy.vector3d.intersection3d3	pygeodesy.vector3d-module.html#intersection3d3
 pygeodesy.vector3d.__package__	pygeodesy.vector3d-module.html#__package__
-pygeodesy.vector3d._trilaterate3d2	pygeodesy.vector3d-module.html#_trilaterate3d2
+pygeodesy.vector3d._xError	pygeodesy.errors-module.html#_xError
 pygeodesy.vector3d._raise_	pygeodesy.vector3d-module.html#_raise_
 pygeodesy.vector3d.intersections2	pygeodesy.vector3d-module.html#intersections2
-pygeodesy.vector3d.fsum_	pygeodesy.fmath-module.html#fsum_
-pygeodesy.vector3d.sumOf	pygeodesy.vector3d-module.html#sumOf
-pygeodesy.vector3d.len2	pygeodesy.basics-module.html#len2
-pygeodesy.vector3d._intersect3d3	pygeodesy.vector3d-module.html#_intersect3d3
-pygeodesy.vector3d.modulename	pygeodesy.named-module.html#modulename
-pygeodesy.vector3d._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
+pygeodesy.vector3d._nearestOn	pygeodesy.vector3d-module.html#_nearestOn
 pygeodesy.vector3d._V_n	pygeodesy.vector3d-module.html#_V_n
-pygeodesy.vector3d._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
-pygeodesy.vector3d._xnamed	pygeodesy.named-module.html#_xnamed
-pygeodesy.vector3d.trilaterate2d2	pygeodesy.vector3d-module.html#trilaterate2d2
-pygeodesy.vector3d.fsum	pygeodesy.fmath-module.html#fsum
-pygeodesy.vector3d._otherV3d	pygeodesy.vector3d-module.html#_otherV3d
 pygeodesy.vector3d._trilaterror	pygeodesy.vector3d-module.html#_trilaterror
 pygeodesy.vector3d._radical2	pygeodesy.formy-module.html#_radical2
-pygeodesy.vector3d._tri_r2h	pygeodesy.vector3d-module.html#_tri_r2h
-pygeodesy.vector3d.__all__	pygeodesy.vector3d-module.html#__all__
-pygeodesy.vector3d.isnear0	pygeodesy.basics-module.html#isnear0
+pygeodesy.vector3d._null_space2	pygeodesy.vector3d-module.html#_null_space2
 pygeodesy.vector3d.map2	pygeodesy.basics-module.html#map2
-pygeodesy.vector3d.hypot	pygeodesy.fmath-module.html#hypot
-pygeodesy.vector3d._nearestOn	pygeodesy.vector3d-module.html#_nearestOn
+pygeodesy.vector3d.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.vector3d._xotherError	pygeodesy.named-module.html#_xotherError
-pygeodesy.vector3d._iscolinearWith	pygeodesy.vector3d-module.html#_iscolinearWith
 pygeodesy.vector3dBase	pygeodesy.vector3dBase-module.html
 pygeodesy.vector3dBase.hypot2_	pygeodesy.fmath-module.html#hypot2_
 pygeodesy.vector3dBase.euclid_	pygeodesy.fmath-module.html#euclid_
@@ -4135,6 +4141,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -4147,7 +4154,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -4169,6 +4176,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.vector3dBase.Vector3dBase.__radd__	pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -4874,6 +4882,7 @@ pygeodesy.vector3dBase.Vector3dBase.x	pygeodesy.vector3dBase.Vector3dBase-class.
 pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-class.html#cmp
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.nvectorBase.NvectorBase.latlon	pygeodesy.nvectorBase.NvectorBase-class.html#latlon
@@ -4885,7 +4894,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -4906,9 +4915,10 @@ pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBas
 pygeodesy.nvectorBase.NvectorBase.lon	pygeodesy.nvectorBase.NvectorBase-class.html#lon
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.nvectorBase.NvectorBase.xyzh	pygeodesy.nvectorBase.NvectorBase-class.html#xyzh
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.nvectorBase.NvectorBase.Ecef	pygeodesy.nvectorBase.NvectorBase-class.html#Ecef
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -5464,6 +5474,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -5476,7 +5487,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -5499,6 +5510,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame
@@ -5530,7 +5542,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -5541,10 +5553,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html
 pygeodesy.latlonBase.LatLonBase.toCartesian	pygeodesy.latlonBase.LatLonBase-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -5559,7 +5572,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.latlonBase.LatLonBase.isequalTo3	pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
 pygeodesy.latlonBase.LatLonBase._ecef9	pygeodesy.latlonBase.LatLonBase-class.html#_ecef9
@@ -5581,6 +5594,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.reframe	pygeodesy.ellipsoidalBas
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -5590,7 +5604,6 @@ pygeodesy.latlonBase.LatLonBase.thomasTo	pygeodesy.latlonBase.LatLonBase-class.h
 pygeodesy.latlonBase.LatLonBase.latlon	pygeodesy.latlonBase.LatLonBase-class.html#latlon
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.scale	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale
 pygeodesy.latlonBase.LatLonBase.philam	pygeodesy.latlonBase.LatLonBase-class.html#philam
-pygeodesy.latlonBase.LatLonBase.isequalTo3	pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.latlonBase.LatLonBase.chordTo	pygeodesy.latlonBase.LatLonBase-class.html#chordTo
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
@@ -5653,6 +5666,7 @@ pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_ove
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._elevation2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_elevation2
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.latlonBase.LatLonBase.cosineAndoyerLambertTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUps	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame
@@ -5690,6 +5704,7 @@ pygeodesy.latlonBase.LatLonBase._distanceTo_	pygeodesy.latlonBase.LatLonBase-cla
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html
 pygeodesy.latlonBase.LatLonBase.toCartesian	pygeodesy.latlonBase.LatLonBase-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -5705,7 +5720,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.finalBearingOn	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -5731,6 +5746,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -5780,7 +5796,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination
@@ -5803,7 +5819,7 @@ pygeodesy.latlonBase.LatLonBase.__eq__	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination2	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2
 pygeodesy.latlonBase.LatLonBase.latlonheight	pygeodesy.latlonBase.LatLonBase-class.html#latlonheight
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.bounds	pygeodesy.latlonBase.LatLonBase-class.html#bounds
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
@@ -5881,6 +5897,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -5893,7 +5910,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -5916,6 +5933,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame
@@ -5947,7 +5965,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -5958,10 +5976,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalExact.LatLon	pygeodesy.ellipsoidalExact.LatLon-class.html
 pygeodesy.ellipsoidalExact.LatLon.toCartesian	pygeodesy.ellipsoidalExact.LatLon-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -5977,7 +5996,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.finalBearingOn	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -6004,6 +6023,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -6053,7 +6073,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination
@@ -6076,7 +6096,7 @@ pygeodesy.latlonBase.LatLonBase.__eq__	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination2	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2
 pygeodesy.latlonBase.LatLonBase.latlonheight	pygeodesy.latlonBase.LatLonBase-class.html#latlonheight
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.bounds	pygeodesy.latlonBase.LatLonBase-class.html#bounds
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
@@ -6154,6 +6174,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -6166,7 +6187,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -6189,6 +6210,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame
@@ -6220,7 +6242,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -6231,10 +6253,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalGeodSolve.LatLon	pygeodesy.ellipsoidalGeodSolve.LatLon-class.html
 pygeodesy.ellipsoidalGeodSolve.LatLon.toCartesian	pygeodesy.ellipsoidalGeodSolve.LatLon-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -6250,7 +6273,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.finalBearingOn	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -6277,6 +6300,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -6326,7 +6350,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination
@@ -6349,7 +6373,7 @@ pygeodesy.latlonBase.LatLonBase.__eq__	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination2	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2
 pygeodesy.latlonBase.LatLonBase.latlonheight	pygeodesy.latlonBase.LatLonBase-class.html#latlonheight
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.bounds	pygeodesy.latlonBase.LatLonBase-class.html#bounds
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
@@ -6427,6 +6451,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -6439,7 +6464,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -6462,6 +6487,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame
@@ -6493,7 +6519,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -6504,10 +6530,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalKarney.LatLon	pygeodesy.ellipsoidalKarney.LatLon-class.html
 pygeodesy.ellipsoidalKarney.LatLon.toCartesian	pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -6523,7 +6550,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.finalBearingOn	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -6549,6 +6576,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -6598,7 +6626,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination
@@ -6622,7 +6650,7 @@ pygeodesy.latlonBase.LatLonBase.__eq__	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination2	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2
 pygeodesy.latlonBase.LatLonBase.latlonheight	pygeodesy.latlonBase.LatLonBase-class.html#latlonheight
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.bounds	pygeodesy.latlonBase.LatLonBase-class.html#bounds
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._osgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_osgr
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
@@ -6700,6 +6728,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -6712,7 +6741,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -6735,6 +6764,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.ellipsoidalNvector.Cartesian.Ecef	pygeodesy.ellipsoidalNvector.Cartesian-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalNvector.Cartesian.toNvector	pygeodesy.ellipsoidalNvector.Cartesian-class.html#toNvector
@@ -6766,7 +6796,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -6777,10 +6807,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalNvector.LatLon	pygeodesy.ellipsoidalNvector.LatLon-class.html
 pygeodesy.ellipsoidalNvector.LatLon.toCartesian	pygeodesy.ellipsoidalNvector.LatLon-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -6796,7 +6827,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.ellipsoids	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#ellipsoids
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
 pygeodesy.latlonBase.LatLonBase._ecef9	pygeodesy.latlonBase.LatLonBase-class.html#_ecef9
@@ -6821,6 +6852,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalNvector.LatLon._Nv	pygeodesy.ellipsoidalNvector.LatLon-class.html#_Nv
 pygeodesy.ellipsoidalNvector.LatLon.deltaTo	pygeodesy.ellipsoidalNvector.LatLon-class.html#deltaTo
@@ -6870,7 +6902,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.ellipsoidalNvector.LatLon.intermediateTo	pygeodesy.ellipsoidalNvector.LatLon-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.nvectorBase.LatLonNvectorBase.trilaterate5	pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.latlonBase.LatLonBase.lon	pygeodesy.latlonBase.LatLonBase-class.html#lon
@@ -7061,6 +7093,7 @@ pygeodesy.vector3dBase.Vector3dBase.x	pygeodesy.vector3dBase.Vector3dBase-class.
 pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-class.html#cmp
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.nvectorBase.NvectorBase.latlon	pygeodesy.nvectorBase.NvectorBase-class.html#latlon
@@ -7072,7 +7105,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -7093,9 +7126,10 @@ pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBas
 pygeodesy.nvectorBase.NvectorBase.lon	pygeodesy.nvectorBase.NvectorBase-class.html#lon
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.nvectorBase.NvectorBase.xyzh	pygeodesy.nvectorBase.NvectorBase-class.html#xyzh
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.nvectorBase.NvectorBase.Ecef	pygeodesy.nvectorBase.NvectorBase-class.html#Ecef
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -7171,6 +7205,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -7183,7 +7218,7 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -7206,6 +7241,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.ellipsoidalVincenty.Cartesian.Ecef	pygeodesy.ellipsoidalVincenty.Cartesian-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase._applyHelmerts	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#_applyHelmerts
 pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame
@@ -7237,7 +7273,7 @@ pygeodesy.cartesianBase.CartesianBase.destinationXyz	pygeodesy.cartesianBase.Car
 pygeodesy.cartesianBase.CartesianBase._height	pygeodesy.cartesianBase.CartesianBase-class.html#_height
 pygeodesy.vector3dBase.Vector3dBase.isequalTo	pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
+pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
 pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
@@ -7248,10 +7284,11 @@ pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-
 pygeodesy.vector3dBase.Vector3dBase.to2ll	pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll
 pygeodesy.vector3dBase.Vector3dBase.__div__	pygeodesy.vector3dBase.Vector3dBase-class.html#__div__
 pygeodesy.vector3dBase.Vector3dBase.__neg__	pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__
-pygeodesy.vector3dBase.Vector3dBase._fromll	pygeodesy.vector3dBase.Vector3dBase-class.html#_fromll
+pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.dot	pygeodesy.vector3dBase.Vector3dBase-class.html#dot
 pygeodesy.ellipsoidalVincenty.LatLon	pygeodesy.ellipsoidalVincenty.LatLon-class.html
 pygeodesy.ellipsoidalVincenty.LatLon.toCartesian	pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toCss	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCss
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toEtm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm
 pygeodesy.latlonBase.LatLonBase.__str__	pygeodesy.latlonBase.LatLonBase-class.html#__str__
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.datum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum
@@ -7268,7 +7305,7 @@ pygeodesy.latlonBase.LatLonBase.flatLocalTo	pygeodesy.latlonBase.LatLonBase-clas
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.finalBearingOn	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#finalBearingOn
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalVincenty.LatLon.bearingTo	pygeodesy.ellipsoidalVincenty.LatLon-class.html#bearingTo
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -7294,6 +7331,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.latlonBase.LatLonBase.isantipodeTo	pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo
 pygeodesy.latlonBase.LatLonBase.compassAngle	pygeodesy.latlonBase.LatLonBase-class.html#compassAngle
 pygeodesy.latlonBase.LatLonBase.lam	pygeodesy.latlonBase.LatLonBase-class.html#lam
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toDatum
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._wm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_wm
@@ -7343,8 +7381,8 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.ellipsoidalVincenty.LatLon.iterations	pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
-pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.nearestOn	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination
@@ -7369,7 +7407,7 @@ pygeodesy.latlonBase.LatLonBase.__eq__	pygeodesy.latlonBase.LatLonBase-class.htm
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.destination2	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#destination2
 pygeodesy.latlonBase.LatLonBase.latlonheight	pygeodesy.latlonBase.LatLonBase-class.html#latlonheight
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.iteration	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._css	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_css
 pygeodesy.latlonBase.LatLonBase.bounds	pygeodesy.latlonBase.LatLonBase-class.html#bounds
 pygeodesy.ellipsoidalVincenty.LatLon._epsilon	pygeodesy.ellipsoidalVincenty.LatLon-class.html#_epsilon
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
@@ -7403,7 +7441,7 @@ pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.bearingTo2	pygeodesy.ellipso
 pygeodesy.latlonBase.LatLonBase.euclideanTo	pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo
 pygeodesy.latlonBase.LatLonBase.haversineTo	pygeodesy.latlonBase.LatLonBase-class.html#haversineTo
 pygeodesy.latlonBase.LatLonBase.lat	pygeodesy.latlonBase.LatLonBase-class.html#lat
-pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
+pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI.intermediateTo	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#intermediateTo
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toMgrs	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toMgrs
 pygeodesy.latlonBase.LatLonBase._xLtp	pygeodesy.latlonBase.LatLonBase-class.html#_xLtp
 pygeodesy.latlonBase.LatLonBase.toLocal	pygeodesy.latlonBase.LatLonBase-class.html#toLocal
@@ -12580,6 +12618,7 @@ pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ltpTuples.XyzLocal.toRepr	pygeodesy.ltpTuples.XyzLocal-class.html#toRepr
 pygeodesy.ltpTuples.XyzLocal.up	pygeodesy.ltpTuples.XyzLocal-class.html#up
 pygeodesy.ltpTuples.XyzLocal.enu4	pygeodesy.ltpTuples.XyzLocal-class.html#enu4
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.vector3dBase.Vector3dBase._crosserrors	pygeodesy.vector3dBase.Vector3dBase-class.html#_crosserrors
@@ -12592,7 +12631,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.ltpTuples.XyzLocal.ecef	pygeodesy.ltpTuples.XyzLocal-class.html#ecef
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.ltpTuples.XyzLocal.ltp	pygeodesy.ltpTuples.XyzLocal-class.html#ltp
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
@@ -12613,9 +12652,10 @@ pygeodesy.vector3dBase.Vector3dBase.unit	pygeodesy.vector3dBase.Vector3dBase-cla
 pygeodesy.ltpTuples.XyzLocal.toLocal9Tuple	pygeodesy.ltpTuples.XyzLocal-class.html#toLocal9Tuple
 pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBase-class.html#_N_vector
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.ltpTuples.XyzLocal.north	pygeodesy.ltpTuples.XyzLocal-class.html#north
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.ltpTuples.XyzLocal.ecef	pygeodesy.ltpTuples.XyzLocal-class.html#ecef
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -12966,6 +13006,7 @@ pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-clas
 pygeodesy.ltpTuples.XyzLocal.toRepr	pygeodesy.ltpTuples.XyzLocal-class.html#toRepr
 pygeodesy.ltpTuples.XyzLocal.up	pygeodesy.ltpTuples.XyzLocal-class.html#up
 pygeodesy.ltpTuples.XyzLocal.enu4	pygeodesy.ltpTuples.XyzLocal-class.html#enu4
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.vector3dBase.Vector3dBase._crosserrors	pygeodesy.vector3dBase.Vector3dBase-class.html#_crosserrors
@@ -12978,7 +13019,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.ltpTuples.XyzLocal.ecef	pygeodesy.ltpTuples.XyzLocal-class.html#ecef
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.ltpTuples.XyzLocal.ltp	pygeodesy.ltpTuples.XyzLocal-class.html#ltp
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
@@ -12999,9 +13040,10 @@ pygeodesy.vector3dBase.Vector3dBase.unit	pygeodesy.vector3dBase.Vector3dBase-cla
 pygeodesy.ltpTuples.XyzLocal.toLocal9Tuple	pygeodesy.ltpTuples.XyzLocal-class.html#toLocal9Tuple
 pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBase-class.html#_N_vector
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.ltpTuples.XyzLocal.north	pygeodesy.ltpTuples.XyzLocal-class.html#north
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.ltpTuples.XyzLocal.ecef	pygeodesy.ltpTuples.XyzLocal-class.html#ecef
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -14793,6 +14835,7 @@ pygeodesy.vector3dBase.Vector3dBase.x	pygeodesy.vector3dBase.Vector3dBase-class.
 pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-class.html#cmp
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.nvectorBase.NvectorBase.latlon	pygeodesy.nvectorBase.NvectorBase-class.html#latlon
@@ -14804,7 +14847,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -14825,9 +14868,10 @@ pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBas
 pygeodesy.nvectorBase.NvectorBase.lon	pygeodesy.nvectorBase.NvectorBase-class.html#lon
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.nvectorBase.NvectorBase.xyzh	pygeodesy.nvectorBase.NvectorBase-class.html#xyzh
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.nvectorBase.NvectorBase.Ecef	pygeodesy.nvectorBase.NvectorBase-class.html#Ecef
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -15093,6 +15137,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -15105,13 +15150,13 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
 pygeodesy.vector3dBase.Vector3dBase.plus	pygeodesy.vector3dBase.Vector3dBase-class.html#plus
 pygeodesy.vector3dBase.Vector3dBase.__mul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__
-pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
+pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.vector3dBase.Vector3dBase.xyz	pygeodesy.vector3dBase.Vector3dBase-class.html#xyz
@@ -15127,6 +15172,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.vector3dBase.Vector3dBase.__radd__	pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -15160,7 +15206,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
-pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
+pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
 pygeodesy.cartesianBase.CartesianBase._xLtp	pygeodesy.cartesianBase.CartesianBase-class.html#_xLtp
 pygeodesy.cartesianBase.CartesianBase.toLocal	pygeodesy.cartesianBase.CartesianBase-class.html#toLocal
 pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-class.html#length2
@@ -15315,6 +15361,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -15327,13 +15374,13 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
 pygeodesy.vector3dBase.Vector3dBase.plus	pygeodesy.vector3dBase.Vector3dBase-class.html#plus
 pygeodesy.vector3dBase.Vector3dBase.__mul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__
-pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
+pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.vector3dBase.Vector3dBase.xyz	pygeodesy.vector3dBase.Vector3dBase-class.html#xyz
@@ -15349,6 +15396,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.vector3dBase.Vector3dBase.__radd__	pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -15382,7 +15430,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
-pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
+pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
 pygeodesy.cartesianBase.CartesianBase._xLtp	pygeodesy.cartesianBase.CartesianBase-class.html#_xLtp
 pygeodesy.cartesianBase.CartesianBase.toLocal	pygeodesy.cartesianBase.CartesianBase-class.html#toLocal
 pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-class.html#length2
@@ -15562,6 +15610,7 @@ pygeodesy.vector3dBase.Vector3dBase.x	pygeodesy.vector3dBase.Vector3dBase-class.
 pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-class.html#cmp
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.nvectorBase.NvectorBase.latlon	pygeodesy.nvectorBase.NvectorBase-class.html#latlon
@@ -15573,7 +15622,7 @@ pygeodesy.vector3dBase.Vector3dBase.equals	pygeodesy.vector3dBase.Vector3dBase-c
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
@@ -15594,9 +15643,10 @@ pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBas
 pygeodesy.nvectorBase.NvectorBase.lon	pygeodesy.nvectorBase.NvectorBase-class.html#lon
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.nvectorBase.NvectorBase.xyzh	pygeodesy.nvectorBase.NvectorBase-class.html#xyzh
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.nvectorBase.NvectorBase.Ecef	pygeodesy.nvectorBase.NvectorBase-class.html#Ecef
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.nvectorBase.NvectorBase.toVector3d	pygeodesy.nvectorBase.NvectorBase-class.html#toVector3d
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -15673,6 +15723,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.cartesianBase.CartesianBase.toDatum	pygeodesy.cartesianBase.CartesianBase-class.html#toDatum
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
 pygeodesy.cartesianBase.CartesianBase.toLtp	pygeodesy.cartesianBase.CartesianBase-class.html#toLtp
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.cartesianBase.CartesianBase.latlon	pygeodesy.cartesianBase.CartesianBase-class.html#latlon
@@ -15685,13 +15736,13 @@ pygeodesy.cartesianBase.CartesianBase._n_xyzh4	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3dBase.Vector3dBase.others	pygeodesy.vector3dBase.Vector3dBase-class.html#others
 pygeodesy.vector3dBase.Vector3dBase.__rmatmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.vector3dBase.Vector3dBase.times	pygeodesy.vector3dBase.Vector3dBase-class.html#times
 pygeodesy.vector3dBase.Vector3dBase.length	pygeodesy.vector3dBase.Vector3dBase-class.html#length
 pygeodesy.vector3dBase.Vector3dBase.plus	pygeodesy.vector3dBase.Vector3dBase-class.html#plus
 pygeodesy.vector3dBase.Vector3dBase.__mul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__
-pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
+pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.vector3dBase.Vector3dBase.xyz	pygeodesy.vector3dBase.Vector3dBase-class.html#xyz
@@ -15707,6 +15758,7 @@ pygeodesy.cartesianBase.CartesianBase._N_vector	pygeodesy.cartesianBase.Cartesia
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
 pygeodesy.cartesianBase.CartesianBase.Ecef	pygeodesy.cartesianBase.CartesianBase-class.html#Ecef
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.vector3dBase.Vector3dBase.__radd__	pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__
@@ -15740,7 +15792,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.vector3dBase.Vector3dBase.y	pygeodesy.vector3dBase.Vector3dBase-class.html#y
 pygeodesy.vector3dBase.Vector3dBase.__add__	pygeodesy.vector3dBase.Vector3dBase-class.html#__add__
 pygeodesy.cartesianBase.CartesianBase.toVector	pygeodesy.cartesianBase.CartesianBase-class.html#toVector
-pygeodesy.cartesianBase.CartesianBase.convertDatum	pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum
+pygeodesy.vector3dBase.Vector3dBase.__matmul__	pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__
 pygeodesy.cartesianBase.CartesianBase._xLtp	pygeodesy.cartesianBase.CartesianBase-class.html#_xLtp
 pygeodesy.cartesianBase.CartesianBase.toLocal	pygeodesy.cartesianBase.CartesianBase-class.html#toLocal
 pygeodesy.vector3dBase.Vector3dBase.length2	pygeodesy.vector3dBase.Vector3dBase-class.html#length2
@@ -17413,6 +17465,7 @@ pygeodesy.vector3dBase.Vector3dBase.__rsub__	pygeodesy.vector3dBase.Vector3dBase
 pygeodesy.vector3dBase.Vector3dBase.cmp	pygeodesy.vector3dBase.Vector3dBase-class.html#cmp
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.vector3dBase.Vector3dBase.__truediv__	pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__
+pygeodesy.vector3d.Vector3d.trilaterate2d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2
 pygeodesy.vector3dBase.Vector3dBase.euclid	pygeodesy.vector3dBase.Vector3dBase-class.html#euclid
 pygeodesy.vector3d.Vector3d.trilaterate3d2	pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2
 pygeodesy.vector3dBase.Vector3dBase._crosserrors	pygeodesy.vector3dBase.Vector3dBase-class.html#_crosserrors
@@ -17440,6 +17493,7 @@ pygeodesy.vector3dBase.Vector3dBase.unit	pygeodesy.vector3dBase.Vector3dBase-cla
 pygeodesy.vector3dBase.Vector3dBase._N_vector	pygeodesy.vector3dBase.Vector3dBase-class.html#_N_vector
 pygeodesy.vector3d.Vector3d.iscolinearWith	pygeodesy.vector3d.Vector3d-class.html#iscolinearWith
 pygeodesy.vector3dBase.Vector3dBase.dividedBy	pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy
+pygeodesy.vector3d.Vector3d.meeus2	pygeodesy.vector3d.Vector3d-class.html#meeus2
 pygeodesy.vector3dBase.Vector3dBase._united	pygeodesy.vector3dBase.Vector3dBase-class.html#_united
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.vector3dBase.Vector3dBase.__eq__	pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__

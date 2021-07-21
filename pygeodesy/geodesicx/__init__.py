@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError, GeodesicAreaExact,
                                           GeodesicExact, GeodesicLineExact,
                                           PolygonArea)
-__version__ = '21.05.30'
+__version__ = '21.07.15'
 
 # **) MIT License
 #

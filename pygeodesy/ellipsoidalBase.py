@@ -17,20 +17,21 @@ from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, \
                               TRFError, _ValueError, _xError, _xkwds_not
+# from pygeodesy.errors import _xkwds  # from .named
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
                              _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _xnamed
+from pygeodesy.named import _xnamed, _xkwds
 from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.06.28'
+__version__ = '21.07.20'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -155,6 +156,13 @@ class LatLonEllipsoidalBase(LatLonBase):
     def convertRefFrame(self, reframe2):
         '''DEPRECATED, use method L{toRefFrame}.'''
         return self.toRefFrame(reframe2)
+
+    @Property_RO
+    def _css(self):
+        '''(INTERNAL) Get this C{LatLon} point as a Cassini-Soldner location (L{Css}).
+        '''
+        from pygeodesy.css import Css, toCss
+        return toCss(self, h=self.height, Css=Css, name=self.name)
 
     @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
@@ -441,7 +449,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _lcc(self):
-        '''(INTERNAL) Get this C{LatLon} point to a Lambert location (L{Lcc}).
+        '''(INTERNAL) Get this C{LatLon} point as a Lambert location (L{Lcc}).
         '''
         from pygeodesy.lcc import Lcc, toLcc
         return toLcc(self, height=self.height, Lcc=Lcc, name=self.name)
@@ -578,6 +586,22 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
+    def toCss(self, **toCss_kwds):
+        '''Convert this C{LatLon} point to a Cassini-Soldner location.
+
+           @kwarg toCss_kwds: Optional L{toCss} keyword arguments.
+
+           @return: The Cassini-Soldner location (L{Css}).
+
+           @see: Function L{toCss}.
+        '''
+        if toCss_kwds:
+            from pygeodesy.css import toCss
+            r = toCss(self, **_xkwds(toCss_kwds, name=self.name))
+        else:
+            r = self._css
+        return r
+
     def toDatum(self, datum2, height=None, name=NN):
         '''Convert this point to an other datum.
 
@@ -607,23 +631,37 @@ class LatLonEllipsoidalBase(LatLonBase):
         return c.toLatLon(datum=d2, height=height,
                           LatLon=self.classof, name=n, **r)
 
-    def toEtm(self):
+    def toEtm(self, **toEtm_kwds):
         '''Convert this C{LatLon} point to an ETM coordinate.
+
+           @kwarg toEtm_kwds: Optional L{toEtm} keyword arguments.
 
            @return: The ETM coordinate (L{Etm}).
 
            @see: Function L{toEtm8}.
         '''
-        return self._etm
+        if toEtm_kwds:
+            from pygeodesy.etm import toEtm8
+            r = toEtm8(self, **_xkwds(toEtm_kwds, name=self.name))
+        else:
+            r = self._etm
+        return r
 
-    def toLcc(self):
+    def toLcc(self, **toLcc_kwds):
         '''Convert this C{LatLon} point to a Lambert location.
 
-           @see: Function L{toLcc} in module L{lcc}.
+           @kwarg toLcc_kwds: Optional L{toLcc} keyword arguments.
 
            @return: The Lambert location (L{Lcc}).
+
+           @see: Function L{toLcc}.
         '''
-        return self._lcc
+        if toLcc_kwds:
+            from pygeodesy.lcc import toLcc
+            r = toLcc(self, **_xkwds(toLcc_kwds, name=self.name))
+        else:
+            r = self._lcc
+        return r
 
     def toMgrs(self, center=False):
         '''Convert this C{LatLon} point to an MGRS coordinate.
@@ -638,14 +676,21 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self.toUtm(center=center).toMgrs(center=False)
 
-    def toOsgr(self):
+    def toOsgr(self, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
-           @see: Function L{toOsgr} in module L{osgr}.
+           @kwarg toOsgr_kwds: Optional L{toOsgr} keyword arguments.
 
            @return: The OSGR coordinate (L{Osgr}).
+
+           @see: Function L{toOsgr}.
         '''
-        return self._osgr
+        if toOsgr_kwds:
+            from pygeodesy.osgr import toOsgr
+            r = toOsgr(self, **_xkwds(toOsgr_kwds, name=self.name))
+        else:
+            r = self._osgr
+        return r
 
     def toRefFrame(self, reframe2, height=None, name=NN):
         '''Convert this point to an other reference frame.
@@ -755,14 +800,21 @@ class LatLonEllipsoidalBase(LatLonBase):
                 _xinstanceof(Utm, Ups, toUtmUps8=u)
         return u
 
-    def toWm(self):
+    def toWm(self, **toWm_kwds):
         '''Convert this C{LatLon} point to a WM coordinate.
 
-           @see: Function L{toWm} in module L{webmercator}.
+           @kwarg toWm_kwds: Optional L{toWm} keyword arguments.
 
            @return: The WM coordinate (L{Wm}).
+
+           @see: Function L{toWm}.
         '''
-        return self._wm
+        if toWm_kwds:
+            from pygeodesy.webmercator import toWm
+            r = toWm(self, **_xkwds(toWm_kwds, name=self.name))
+        else:
+            r = self._wm
+        return r
 
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover

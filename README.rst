@@ -32,12 +32,11 @@ Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide `Albers equal-area`_ projections, `azimuthal equidistant`_
-and other *azimuthal* projections and Lambert *conformal conic*
-projections and positions (from `John P. Snyder`_, *Map Projections
-\-\- A Working Manual*, 1987), functions to clip a path or polygon of
-*LatLon* points using the `Cohen-Sutherland`_, the `Liang-Barsky`_ and
-the `Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a
+Other modules provide `Albers equal-area`_ projections, equidistant_
+and other *azimuthal* projections, Lambert *conformal conic* projections
+and positions, functions to clip a path or polygon of *LatLon* points
+using the `Cohen-Sutherland`_, the `Liang-Barsky`_ and the
+`Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a
 path of *LatLon* points (or a `numpy array`_), including implementations
 of the `Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the
 `Reumann-Witkam`_ algorithms and modified versions of the former.  Other
@@ -139,7 +138,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 12, 2021.*
+*Last updated: July 21, 2021.*
 
 License
 =======
@@ -184,7 +183,6 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://PyPI.org/project/PyGeodesy
 
 .. _Albers equal-area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
-.. _azimuthal equiDistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
 .. _C++ GeographicLib: https://GeographicLib.SourceForge.io/html/index.html
 .. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html
@@ -199,6 +197,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _ECEF: https://WikiPedia.org/wiki/ECEF
 .. _EPSG: https://www.EPSG-Registry.org
 .. _Epydoc: https://PyPI.org/project/epydoc
+.. _equidistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
 .. _Flake8: https://PyPI.org/project/flake8
 .. _Frechet: https://WikiPedia.org/wiki/Frechet_distance

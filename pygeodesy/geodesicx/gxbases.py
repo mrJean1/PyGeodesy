@@ -19,7 +19,7 @@ from pygeodesy.named import _NamedBase
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.07.15'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -45,14 +45,16 @@ class Caps(object):  # PYCHOK
 
     LONG_UNROLL    =  1 << 15  # unroll C{lon2} in GeodesicExact.Direct
     REVERSE2       =  1 << 16  # reverse C{azi2}
-    _SALPs_CALPs   =  1 << 17  # (INTERNAL) GeodesicExact._GenInverse
 
-    _DEBUG_AREA    =  1 << 18  # (INTERNAL) include Line details
-    _DEBUG_DIRECT  =  1 << 19  # (INTERNAL) include Direct details
-    _DEBUG_INVERSE =  1 << 20  # (INTERNAL) include Inverse details
-    _DEBUG_LINE    =  1 << 21  # (INTERNAL) include Line details
+    _ANGLE_ONLY    =  1 << 17  # angular distance C{a12} only
+    _SALPs_CALPs   =  1 << 18  # (INTERNAL) GeodesicExact._GenInverse
+
+    _DEBUG_AREA    =  1 << 19  # (INTERNAL) include Line details
+    _DEBUG_DIRECT  =  1 << 20  # (INTERNAL) include Direct details
+    _DEBUG_INVERSE =  1 << 21  # (INTERNAL) include Inverse details
+    _DEBUG_LINE    =  1 << 22  # (INTERNAL) include Line details
     _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
-                     _DEBUG_LINE | _SALPs_CALPs
+                     _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
 
     _OUT_ALL       =  ALL
     _OUTMASK       =  ALL | LONG_UNROLL | REVERSE2  | _DEBUG_ALL

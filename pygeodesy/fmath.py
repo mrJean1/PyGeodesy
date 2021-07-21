@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.06.30'
+__version__ = '21.07.21'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -973,20 +973,18 @@ else:
 def _h_x2(xs):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
-    def _x2h(xs, h):
+    def _x2s(xs, h):
         yield  _1_0
         for x in xs:
-            yield (x / h)**2
+            if x:
+                yield (x / h)**2
         yield -_1_0
 
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h = float(max(abs(x) for x in xs))
-            if h > 0:
-                x2 = fsum(_x2h(xs, h)) if n > 1 else _1_0
-            else:
-                x2 = h = _0_0
+            h  = float(max(abs(x) for x in xs))
+            x2 = fsum(_x2s(xs, h)) if h else _0_0
             return h, x2
     raise _ValueError(xs=xs, txt=_too_(_few_))
 

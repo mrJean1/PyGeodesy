@@ -11,7 +11,7 @@ L{trilaterate3d2}.
 from pygeodesy.basics import isnear0, len2, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
                               NumPyError, _TypeError, _ValueError, \
-                              VectorError, _xError, _xkwds_popitem
+                              VectorError, _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot, hypot2_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
@@ -19,7 +19,7 @@ from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _EPSqrt, \
                              _datum_, _h_, _height_, _intersection_, \
                              _invalid_, _name_, _near_concentric_, \
                              _no_, _SPACE_, _too_, _xyz_, _y_, _z_, \
-                             _0_0, _1_0, _2_0
+                             _0_0, _0_5, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, Vector2Tuple, \
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.06.30'
+__version__ = '21.07.21'
 
 _raise_ = 'raise'
 
@@ -68,6 +68,22 @@ class Vector3d(Vector3dBase):
         v = self if self.name else _otherV3d(this=self)
         return _iscolinearWith(v, point1, point2, eps=eps)
 
+    def meeus2(self, point2, point3):
+        '''Return the radius and I{Meeus}' Type of the smallest circle I{containing}
+           this and 2 other points.
+
+           @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg point3: Third point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+
+           @return: 2-Tuple (radius, Type) with C{Type=None} for a I{Meeus}' Type II circle
+                    passing though all 3 points.  Otherwise C{Type} is the center of the
+                    I{Meeus}' Type I circle with 2 points on the diameter and with the 3rd
+                    point (with an obtuse or right interior angle) inside the circle.
+
+           @see: Function L{vector3d.meeus2} for more information.
+        '''
+        return _meeus2(self, point2, point3, True)
+
     def nearestOn(self, other1, other2, within=True):
         '''Locate the point between two points closest to this point.
 
@@ -102,6 +118,48 @@ class Vector3d(Vector3dBase):
         '''
         return parse3d(str3d, sep=sep, Vector=self.classof,
                               name=name or self.name)
+
+    def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS, z=0):
+        '''Trilaterate this and two other circles, each given as a (2-D) center
+           and a radius.
+
+           @arg radius: Radius of this circle (same C{units} as this C{x} and C{y}.
+           @arg center2: Center of the 2nd circle (L{Vector3d}, C{Vector2Tuple},
+                         C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg radius2: Radius of this circle (same C{units} as this C{x} and C{y}.
+           @arg center3: Center of the 3rd circle (L{Vector3d}, C{Vector2Tuple},
+                         C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg radius3: Radius of the 3rd circle (same C{units} as this C{x} and C{y}.
+           @kwarg eps: Check the trilaterated point I{delta} on all 3 circles (C{scalar})
+                       or C{None}.
+           @kwarg z: Optional Z component of the trilaterated point (C{scalar}).
+
+           @return: Trilaterated point as a L{Vector3d}C{(x, y, z=B{z})} instance.
+
+           @raise IntersectionError: No intersection, colinear or near-concentric
+                                     centers, trilateration failed some other way
+                                     or the trilaterated point is off one circle
+                                     by more than B{C{eps}}.
+
+           @raise TypeError: Invalid B{C{center2}} or B{C{center3}}.
+
+           @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
+
+           @see: Function L{trilaterate2d2}.
+        '''
+        def _xyr3(r, **name_v):
+            v = _otherV3d(useZ=False, **name_v)
+            return v.x, v.y, r
+
+        try:
+            return trilaterate2d2(*(_xyr3(radius,  center=self) +
+                                    _xyr3(radius2, center2=center2) +
+                                    _xyr3(radius3, center3=center3)),
+                                     eps=eps, Vector=Vector3d, z=z)
+        except (AssertionError, TypeError, ValueError) as x:
+            raise _xError(x, center=self,     radius=radius,
+                             center2=center2, radius2=radius2,
+                             center3=center3, radius3=radius3)
 
     def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
         '''Trilaterate this and two other spheres, each given as a (3-D) center
@@ -143,10 +201,10 @@ class Vector3d(Vector3dBase):
                  288825016_Trilateration_Matlab_Code>}.
         '''
         try:
-            return _trilaterate3d2(self if self.name else _otherV3d(center=self),
-                                   Radius_(radius, low=eps),
-                                   center2, radius2, center3, radius3,
-                                   eps=eps, Vector=self.classof)
+            return _trilaterate3d2(_otherV3d(center=self, NN_OK=False),
+                                    Radius_(radius, low=eps),
+                                    center2, radius2, center3, radius3,
+                                    eps=eps, Vector=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -388,6 +446,60 @@ def _iscolinearWith(v, p1, p2, eps=EPS):
     return n is v1 or n.minus(v).length2 < eps
 
 
+def meeus2(point1, point2, point3, useZ=True):
+    '''Return the radius and I{Meeus}' Type of the smallest circle I{containing} 3 points.
+
+       @arg point1: First point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
+                    or C{Vector2Tuple} if C{B{useZ}=False}).
+       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
+                    or C{Vector2Tuple} if C{B{useZ}=False}).
+       @arg point3: Third point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
+                    or C{Vector2Tuple} if C{B{useZ}=False}).
+       @kwarg useZ: If C{True}, use the Z components (C{bool}) otherwise use C{z=0}.
+
+       @return: 2-Tuple (radius, Type) with C{Type=None} for a I{Meeus}' Type II circle
+                passing though all 3 points.  Otherwise C{Type} is the center of the
+                I{Meeus}' Type I circle with 2 points on the diameter and with the 3rd
+                point (with an obtuse or right interior angle) inside the circle.
+
+       @note: To obtain the I{Meeus}'s Type II center, use method or function
+              L{trilaterate3d2} if C{B{useZ}=True} else L{trilaterate2d2}.
+
+       @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
+
+       @see: U{Jean Meeus, "Astronomical Algorithms", 2nd Ed. 1998, page 127ff
+             <http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf>},
+             U{Circle<https://GitHub.com/soniakeys/meeus>} and U{Circumcircle
+             <https://MathWorld.Wolfram.com/Circumcircle.html>}.
+    '''
+    return _meeus2(_otherV3d(useZ=useZ, point1=point1), point2, point3, useZ)
+
+
+def _meeus2(A, point2, point3, useZ):
+    # (INTERNAL) Radius and Meeus' Type
+    B = _otherV3d(useZ=useZ, point2=point2)
+    C = _otherV3d(useZ=useZ, point3=point3)
+
+    a = B.minus(C).length2
+    b = C.minus(A).length2
+    c = A.minus(B).length2
+    if a < b:
+        a, b, A, B = b, a, B, A
+    if a < c:
+        a, c, A, C = c, a, C, A
+
+    if 0 < a < (b + c):  # Type II, circumcircle
+        b = sqrt(b / a)
+        c = sqrt(c / a)
+        r = fsum_(_1_0, b, c) * fsum_(_1_0, b, -c) * fsum_(-_1_0, b, c) * fsum_(_1_0, -b, c)
+        r = sqrt(a / r) * b * c
+        T = None
+    else:  # Type I, obtuse or right angle
+        r = sqrt(a) * _0_5
+        T = B.plus(C).times(_0_5)
+    return r, T
+
+
 def nearestOn(point, point1, point2, within=True,
                                      Vector=None, **Vector_kwds):
     '''Locate the point between two points closest to a reference.
@@ -471,14 +583,14 @@ def _null_space2(numpy, A, eps):
     return n, r
 
 
-def _otherV3d(useZ=True, **name_v):
+def _otherV3d(useZ=True, NN_OK=True, **name_v):
     # check B{C{name#}} vector instance, return Vector3d
     if not name_v:
         raise _AssertionError(name_v=MISSING)
 
     name, v = _xkwds_popitem(name_v)
     if useZ and isinstance(v, Vector3dBase):
-        return v
+        return v if NN_OK or v.name else v.copy(name=name)
 
     try:
         return Vector3d(v.x, v.y, v.z if useZ else _0_0, name=name)
@@ -535,8 +647,9 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     return _V_n(v, sumOf.__name__, Vector, Vector_kwds)
 
 
-def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
-    '''Trilaterate three circles, each given as a (2d) center and a radius.
+def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
+                                    eps=None, Vector=None, **Vector_kwds):
+    '''Trilaterate three circles, each given as a (2-D) center and a radius.
 
        @arg x1: Center C{x} coordinate of the 1st circle (C{scalar}).
        @arg y1: Center C{y} coordinate of the 1st circle (C{scalar}).
@@ -549,8 +662,12 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
        @arg radius3: Radius of the 3rd circle (C{scalar}).
        @kwarg eps: Check the trilaterated point I{delta} on all 3
                    circles (C{scalar}) or C{None}.
+       @kwarg Vector: Class to return the trilateration (L{Vector3d}) or C{None}.
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                           ignored if C{B{Vector}=None}.
 
-       @return: Trilaterated point as L{Vector2Tuple}C{(x, y)}.
+       @return: Trilaterated point as C{B{Vector}(x, y, **B{Vector_kwds})}
+                or L{Vector2Tuple}C{(x, y)} if C{B{Vector}=None}..
 
        @raise IntersectionError: No intersection, colinear or near-concentric
                                  centers, trilateration failed some other way
@@ -561,8 +678,7 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
 
        @see: U{Issue #49<https://GitHub.com/mrJean1/PyGeodesy/issues/49>},
              U{Find X location using 3 known (X,Y) location using trilateration
-             <https://math.StackExchange.com/questions/884807>} and
-             L{trilaterate3d2}
+             <https://math.StackExchange.com/questions/884807>} and L{trilaterate3d2}.
     '''
     def _abct4(x1, y1, r1, x2, y2, r2):
         a =  x2 - x1
@@ -611,6 +727,8 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
                          Float(distance=d).toRepr())
                 raise IntersectionError(t, txt=Fmt.exceeds_eps(eps))
 
+    if Vector is not None:
+        t = Vector(t.x, t.y, **_xkwds(Vector_kwds, name=t.name))
     return t
 
 
@@ -662,7 +780,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
              288825016_Trilateration_Matlab_Code>} and L{trilaterate2d2}.
     '''
     try:
-        return _trilaterate3d2(_otherV3d(center1=center1),
+        return _trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
                                 Radius_(radius1=radius1, low=eps),
                                 center2, radius2, center3, radius3,
                                 eps=eps, Vector=Vector, **Vector_kwds)
@@ -697,8 +815,8 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
     if np is None:  # get numpy, once or ImportError
         Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
 
-    c2 = _otherV3d(center2=c2)
-    c3 = _otherV3d(center3=c3)
+    c2 = _otherV3d(center2=c2, NN_OK=False)
+    c3 = _otherV3d(center3=c3, NN_OK=False)
     R  = [r1, Radius_(radius2=r2, low=eps),
               Radius_(radius3=r3, low=eps)]
 

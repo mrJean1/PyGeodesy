@@ -39,7 +39,7 @@ from __future__ import division
 from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsign0
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.ellipsoids import Ellipsoid2, Ellipsoids
-from pygeodesy.fmath import cbrt, fsum_, norm2
+from pygeodesy.fmath import cbrt, fsum_, hypot, norm2
 from pygeodesy.geodesicx.gxbases import _ALL_DOCS, Caps, _coSeries, \
                                         _GeodesicBase, _polynomial, \
                                         _sincos12, _TINY, _xnC4
@@ -58,10 +58,10 @@ from pygeodesy.props import Property, Property_RO
 # from pygeodesy.streprs import pairs  # from .geodesicx.gxline
 from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 
-from math import atan2, cos, degrees, hypot, radians, sqrt
+from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.07.15'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -631,6 +631,10 @@ class GeodesicExact(_GeodesicBase):
         else:  # _meridian is False
             somg12 = comg12 = NAN
 
+        r.set_(a12=a12)  # in [0, 180]
+        if outmask == Caps._ANGLE_ONLY:
+            return r  # for .Inverse1
+
         if (outmask & Caps.DISTANCE):
             r.set_(s12=unsign0(s12x))
 
@@ -653,7 +657,6 @@ class GeodesicExact(_GeodesicBase):
         if _xor(swap_, lat_):
             calp1, calp2 = -calp1, -calp2
 
-        r.set_(a12=a12)  # in [0, 180]
         if (outmask & Caps.AZIMUTH):
             r.set_(azi1=atan2d(salp1, calp1),
                    azi2=atan2d(salp2, calp2, reverse=outmask & Caps.REVERSE2))
@@ -735,7 +738,7 @@ class GeodesicExact(_GeodesicBase):
         # see .FrechetKarney.distance, .HausdorffKarney._distance
         # and .HeightIDWkarney._distances
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
-        return abs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps.STANDARD).a12)
+        return abs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps._ANGLE_ONLY).a12)
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
         '''Return the distance in C{meter} and the forward and

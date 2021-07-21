@@ -3,8 +3,8 @@
 
 u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
 
-Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and several
-C{Math} functions from I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>},
+Wrapper around I{Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and several C{Math}
+functions from I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
 The I{wrapped} class methods return a L{GDict} instance providing access to the C{dict} items
@@ -73,8 +73,8 @@ are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://Geogra
   - L{EquidistantKarney}, L{FrechetKarney}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{GnomonicGeodSolve},
     L{GnomonicKarney}, L{HeightIDWkarney}
 
-are I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic} or
-C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>}.
+are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
+C{geodesic} or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>}.
 
 3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections and trilaterations
 
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.07.09'
+__version__ = '21.07.15'
 
 _16th = _1_0 / _16_0
 
@@ -171,8 +171,8 @@ class GDict(_Dict):
        L{GDict} instance.
     '''
     def toDirect9Tuple(self, dflt=NAN):
-        '''Convert this L{GDict} result to a 9-tuple, compatible
-           with I{Karney}'s C{geographiclib} method C{Direct}.
+        '''Convert this L{GDict} result to a 9-tuple, like I{Karney}'s
+           method C{geographiclib.geodesic.Geodesic._GenDirect}.
 
            @return: L{Direct9Tuple}C{(a12, lat2, lon2, azi2,
                     s12, m12, M12, M21, S12)}
@@ -206,8 +206,8 @@ class GDict(_Dict):
         return _12Tuple(**self)
 
     def toInverse10Tuple(self, dflt=NAN):
-        '''Convert this L{GDict} result to a 10-tuple, compatible
-           with I{Karney}'s C{geographiclib} method C{Indirect}.
+        '''Convert this L{GDict} result to a 10-tuple, like I{Karney}'s
+           method C{geographiclib.geodesic.Geodesic._GenInverse}.
 
            @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1,
                     salp2, calp2, m12, M12, M21, S12)}.

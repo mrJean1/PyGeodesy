@@ -45,17 +45,15 @@ modules to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
 Other modules provide U{Albers equal-area<https://GeographicLib.SourceForge.io/
-html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{azimuthal equidistant
+html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>}
-and other I{azimuthal} projections and Lambert I{conformal conic} projections and
-positions (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987
-<https://Pubs.USGS.gov/pp/1395/report.pdf>}), functions to clip a path or polygon
-of C{LatLon} points using the U{Cohen-Sutherland<https://WikiPedia.org/wiki/
-Cohen-Sutherland_algorithm>}, the U{Liang-Barsky<https://www.CS.Helsinki.FI/
-group/goa/viewing/leikkaus/intro.html>} and the U{Sutherland-Hodgman
-<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions
-to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of
-C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
+and other I{azimuthal} projections, Lambert I{conformal conic} projections and
+positions, functions to clip a path or polygon of C{LatLon} points using the
+U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the
+U{Liang-Barsky<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>}
+and the U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
+methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a
+path of C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
 reference/generated/numpy.array.html>}), including implementations of the
 U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}
 the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
@@ -488,7 +486,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.07.12'
+__version__ = '21.07.21'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

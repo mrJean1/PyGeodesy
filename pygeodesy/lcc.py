@@ -47,7 +47,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.07.05'
+__version__ = '21.07.20'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -627,7 +627,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
     e = c._E0         + r * st
     n = c._N0 + c._r0 - r * ct
 
-    h = latlon.height if height is None else height
+    h = latlon.height if height is None else Height(height)
     r = EasNor3Tuple(e, n, h) if Lcc is None else \
                  Lcc(e, n, h=h, conic=c, **Lcc_kwds)
     return _xnamed(r, name or nameof(latlon))

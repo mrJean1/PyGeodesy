@@ -127,12 +127,9 @@
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
   target="_top">Albers equal-area</a> projections, <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
-  target="_top">azimuthal equidistant</a> and other <i>azimuthal</i> 
-  projections and Lambert <i>conformal conic</i> projections and positions 
-  (from <a href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
-  target="_top">John P. Snyder, &quot;Map Projections -- A Working 
-  Manual&quot;, 1987</a>), functions to clip a path or polygon of 
-  <code>LatLon</code> points using the <a 
+  target="_top">equidistant</a> and other <i>azimuthal</i> projections, 
+  Lambert <i>conformal conic</i> projections and positions, functions to 
+  clip a path or polygon of <code>LatLon</code> points using the <a 
   href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen-Sutherland</a>, the <a 
   href="https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html" 
@@ -401,7 +398,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.07.12
+        21.07.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -6591,7 +6588,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f882ce66c50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa4e97152d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7807,6 +7804,27 @@
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply arguments to a function and return a <code>tuple</code> of 
       results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#meeus2" class="summary-sig-name">meeus2</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Return the radius and <i>Meeus</i>' Type of the smallest circle 
+      <i>containing</i> 3 points.</td>
           <td align="right" valign="top">
             
             
@@ -9514,8 +9532,10 @@
         <span class="summary-sig-arg">x3</span>,
         <span class="summary-sig-arg">y3</span>,
         <span class="summary-sig-arg">radius3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Trilaterate three circles, each given as a (2d) center and a radius.</td>
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Trilaterate three circles, each given as a (2-D) center and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -9970,7 +9990,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.12'"><code class="variable-quote">'</code><code class="variable-string">21.7.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.21'"><code class="variable-quote">'</code><code class="variable-string">21.7.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -16317,7 +16337,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f882ce66c50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa4e97152d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18682,6 +18702,73 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Function results (<code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="meeus2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">meeus2</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and <i>Meeus</i>' Type of the smallest circle 
+  <i>containing</i> 3 points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components (<code>bool</code>) 
+          otherwise use <code>z=0</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (radius, Type) with <code>Type=None</code> for a 
+          <i>Meeus</i>' Type II circle passing though all 3 points.  
+          Otherwise <code>Type</code> is the center of the <i>Meeus</i>' 
+          Type I circle with 2 points on the diameter and with the 3rd 
+          point (with an obtuse or right interior angle) inside the circle.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        To obtain the <i>Meeus</i>'s Type II center, use method or function
+        <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+        class="link">trilaterate3d2</a> if <code><b>useZ</b>=True</code> 
+        else <a href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        class="link">trilaterate2d2</a>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
+        target="_top">Jean Meeus, &quot;Astronomical Algorithms&quot;, 2nd 
+        Ed. 1998, page 127ff</a>, <a 
+        href="https://GitHub.com/soniakeys/meeus" target="_top">Circle</a> 
+        and <a href="https://MathWorld.Wolfram.com/Circumcircle.html" 
+        target="_top">Circumcircle</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="modulename"></a>
 <div>
@@ -22296,14 +22383,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">x3</span>,
         <span class="sig-arg">y3</span>,
         <span class="sig-arg">radius3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Trilaterate three circles, each given as a (2d) center and a 
+  <p>Trilaterate three circles, each given as a (2-D) center and a 
   radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -22325,11 +22414,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (<code>scalar</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Check the trilaterated point <i>delta</i> on all 3 circles 
           (<code>scalar</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return the trilateration (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Trilaterated point as <a 
+        <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
+          **<b>Vector_kwds</b>)</code> or <a 
           href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
-          class="link">Vector2Tuple</a><code>(x, y)</code>.</dd>
+          class="link">Vector2Tuple</a><code>(x, y)</code> if 
+          <code><b>Vector</b>=None</code>..</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers, trilateration
@@ -22346,7 +22442,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         target="_top">Find X location using 3 known (X,Y) location using 
         trilateration</a> and <a 
         href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-        class="link">trilaterate3d2</a>
+        class="link">trilaterate3d2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -23324,7 +23420,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 12 20:18:33 2021
+    Generated by Epydoc 3.0.1 on Wed Jul 21 16:33:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

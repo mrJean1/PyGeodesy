@@ -4,14 +4,14 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.06.01'
+__version__ = '21.07.21'
 
-from base import coverage, GeodSolve, isPyPy, isPython2, \
-                 numpy_version, TestsBase
+from base import coverage, GeodSolve, numpy_version, TestsBase
 
-from pygeodesy import EPS, F_D, fstr, IntersectionError, NEG0, \
-                      sphericalNvector, trilaterate2d2, \
-                      vector3d, VectorError
+from pygeodesy import EPS, F_D, fstr, intersection3d3 as i3d, \
+                      IntersectionError, meeus2, NEG0, \
+                      sphericalNvector, trilaterate2d2, trilaterate3d2, \
+                      vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
 
 
@@ -19,8 +19,6 @@ class Tests(TestsBase):
 
     def testIntersection3d3(self):
 
-        i3d = vector3d.intersection3d3
-        V3d = vector3d.Vector3d
         self.subtitle(vector3d, i3d.__name__)
 
         # <https://www.MathOpenRef.com/coordintersection.html>
@@ -372,15 +370,20 @@ class Tests(TestsBase):
         except ValueError as x:
             self.test(trilaterate2d2.__name__, str(x), str(x))
 
-        t = trilaterate2d2(-500, -200, 450,
-                            100, -100, 694.6221994724903,
+        t = trilaterate2d2(-500, -200,  450,
+                            100, -100,  694.6221994724903,
                             500,  100, 1011.1874208078342)
         self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(-500.0, 250.0)')
+
+        v = V3d(1, 1)
+        r, c = v.meeus2(V3d(2, 4), V3d(5, 3))
+        self.test(meeus2.__name__, fstr((r, c.x, c.y, c.z), prec=1), '2.2, 3.0, 2.0, 0.0')
+        t = v.trilaterate2d2(r, V3d(2, 4), r, V3d(5, 3), r)
+        self.test(meeus2.__name__, t, '(3.0, 2.0, 0)')
 
     def testTrilaterate3d2(self, Vector):
 
         try:  # need numpy
-            trilaterate3d2 = vector3d.trilaterate3d2
             self.subtitle(vector3d, trilaterate3d2.__name__.capitalize())
             n = _DOT_(vector3d.__name__, trilaterate3d2.__name__)
 
@@ -399,8 +402,16 @@ class Tests(TestsBase):
             # by default, perturbation at EPS and qsrt(EPS)
             t = trilaterate3d2(c1, r1, c2, r2, c3, r3)  # eps=EPS
             self.test(n, len(t), 2)
-            self.test(t[0].named3, fstr(t[0].xyz, prec=5), '-500.0, 250.0, -0.00535', known=isPyPy and isPython2)  # -0.00531
-            self.test(t[1].named3, fstr(t[1].xyz, prec=5), '-500.0, 250.0, 0.00535',  known=isPyPy and isPython2)  # 0.00531
+            for v in t:
+                self.test(v.named3, fstr(v.xyz, prec=5), '-500.0, 250.0, 0.0', known=v.z)
+
+            v = V3d(-1, 0)
+            t = meeus2(v, V3d(0, 2), V3d(1, 0))
+            self.test(meeus2.__name__, '%.3f, %s' % t, '1.250, None')
+            r, _ = t
+            t = v.trilaterate3d2(r, V3d(0, 2), r, V3d(1, 0), r)
+            for v in t:
+                self.test(meeus2.__name__, fstr(v.xyz, prec=5), '0.0, 0.75, 0.0', known=v.z)
 
         except ImportError as x:
             self.skip(str(x), n=4)
