@@ -24,7 +24,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.07.21'
+__version__ = '21.07.26'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -120,7 +120,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
+#       self.others(other)
         return self.isequalTo(other)
 
     def __ge__(self, other):
@@ -369,22 +369,49 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return Float(euclid=euclid_(self.x, self.y, self.z))
 
+    def isconjugateTo(self, other, minum=1, eps=EPS):
+        '''Determine whether this and an other vector are conjugates.
+
+           @arg other: The other vector (L{Vector3d}, C{Vector3Tuple} or
+                       C{Vector4Tuple}).
+           @kwarg minum: Minimal number of conjugates (C{int}, 0..3).
+           @kwarg eps: Tolerance for equality and conjugation (C{scalar}),
+                       same units as C{x}, C{y}, and C{z}.
+
+           @return: C{True} if C{x}, C{y} and C{z} have equal an absolute
+                    value and at least C{B{minum}} have opposite signs.
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+
+           @see: Method C{isequalTo}.
+        '''
+        self.others(other)
+
+        n = 0
+        for a, b in zip(self.xyz, other.xyz):
+            if (a * b) < 0 and abs(a + b) < eps:
+                n += 1  # conjugate
+            elif abs(a - b) > eps:
+                return False  # unequal
+        return bool(n >= minum)
+
     def isequalTo(self, other, units=False, eps=EPS):
         '''Check if this and an other vector are equal or equivalent.
 
            @arg other: The other vector (L{Vector3d}).
            @kwarg units: Optionally, compare the normalized, unit
                          version of both vectors.
-           @kwarg eps: Tolerance (C{scalar}), same units as C{x},
-                       C{y}, and C{z}.
+           @kwarg eps: Tolerance for equality (C{scalar}), same units as
+                       C{x}, C{y}, and C{z}.
 
            @return: C{True} if vectors are identical, C{False} otherwise.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
-        '''
-        self.others(other)
 
+           @see: Method C{isconjugateTo}.
+        '''
         if units:
+            self.others(other)
             d = self.unit().minus(other.unit())
         else:
             d = self.minus(other)
@@ -483,17 +510,14 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @JSname: I{rotateAround}.
         '''
+        r = self.others(axis=axis).unit()  # axis being rotated around
+        p = self.unit().xyz  # point being rotated
+
         s, c = sincos2(theta)
 
-        a = self.others(axis=axis).unit()  # axis being rotated around
-        b = a.times(_1_0 - c)
-        s = a.times(s)
-
-        p = self.unit().xyz  # point being rotated
-        # multiply p by a quaternion-derived rotation matrix
-        ax, ay, az = a.x, a.y, a.z
-        bx, by, bz = b.x, b.y, b.z
-        sx, sy, sz = s.x, s.y, s.z
+        ax, ay, az = r.xyz  # quaternion-derived rotation matrix
+        bx, by, bz = r.times(_1_0 - c).xyz
+        sx, sy, sz = r.times(s).xyz
         return self.classof(fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy),
                             fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx),
                             fdot(p, az * bx - sy, az * by + sx, az * bz + c))

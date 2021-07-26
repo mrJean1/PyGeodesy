@@ -58,14 +58,14 @@ from pygeodesy.basics import copysign0, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
                             hypot, hypot1, hypot2, sqrt3
-from pygeodesy.interns import EPS, EPS0, EPS1, INF, NN, PI4, PI_2, R_M, _a_, \
+from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NN, PI4, PI_2, R_M, _a_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
-                             _Clarke1880IGN_, _DOT_, _1_EPS, _EPStol as _TOL, _EPS0__2, \
-                             _f_, _finite_, _float as _F, _floatuple as _T, _GRS80_, \
-                             _height_, _Intl1924_, _Krassovski1940_, _vs_, _Krassowsky1940_, \
-                             _lat_, _meridional_, _negative_, _not_, _prime_vertical_, \
-                             _radius_, _Sphere_, _SPACE_, _WGS72_, _WGS84_, \
-                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
+                             _Clarke1880IGN_, _DOT_, _1_EPS, _EPStol as _TOL, _f_, \
+                             _finite_, _float as _F, _floatuple as _T, _GRS80_, _height_, \
+                             _Intl1924_, _Krassovski1940_, _Krassowsky1940_, _lat_, \
+                             _meridional_, _negative_, _not_, _prime_vertical_, _radius_, \
+                             _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, _0_0, _0_5, \
+                             _1_0, _2_0, _4_0, _90_0
 from pygeodesy.interns import _0_25, _3_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.07.05'
+__version__ = '21.07.22'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -1320,7 +1320,7 @@ class Ellipsoid(_NamedEnumItem):
             n = self.a
         elif ca is None:
             r =  self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
-            n = (self.a / sqrt(r)) if r > _EPS0__2 else _0_0
+            n = (self.a / sqrt(r)) if r > EPS02 else _0_0
         elif ca:  # derived from EcefYou.forward
             h = hypot(ca, self.b_a * sa) if sa else abs(ca)
             n = self.a / h
@@ -1369,7 +1369,7 @@ class Ellipsoid(_NamedEnumItem):
         a = abs(Phi(phi))
         if self.f:
             r = self.e2s2(sin(a))
-            if r > _EPS0__2:
+            if r > EPS02:
                 n = self.a / sqrt(r)
                 m = n * self.e12 / r  # PYCHOK attr
             else:

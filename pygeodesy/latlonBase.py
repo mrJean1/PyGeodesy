@@ -12,33 +12,33 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 from pygeodesy.basics import isstr, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
-from pygeodesy.errors import _datum_datum, IntersectionError, \
-                             _ValueError, _xkwds
+from pygeodesy.errors import _datum_datum, _incompatible, IntersectionError, \
+                             _ValueError, _xError, _xkwds
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz, thomas_, vincentys
-from pygeodesy.interns import EPS, EPS0, EPS1, NN, R_M, _COMMASPACE_, \
+from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
                              _intersection_, _m_, _near_concentric_, \
                              _no_, _overlap_, _0_0, _0_5, _1_0
 from pygeodesy.iters import PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
-from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
-                                  Trilaterate5Tuple, Vector3Tuple
+from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
+                                  PhiLam2Tuple, Trilaterate5Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
-from pygeodesy.vector3d import Vector3d
+from pygeodesy.vector3d import _circum5, Circum3Tuple, Vector3d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.06.24'
+__version__ = '21.07.26'
 
 
 class LatLonBase(_NamedBase):
@@ -155,6 +155,65 @@ class LatLonBase(_NamedBase):
         self.others(other)
         return _v3d(self).minus(_v3d(other)).length
 
+    def circum3(self, point2, point3, circum=True, eps=EPS4):
+        '''Return the radius and center of the smallest circle I{through} or I{containing}
+           this and two other points.
+
+           @arg point2: Second point (C{LatLon}).
+           @arg point3: Third point (C{LatLon}).
+           @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
+                          always, ignoring the I{Meeus}' Type I case (C{bool}).
+           @kwarg eps: Tolerance for function L{trilaterate3d2}.
+
+           @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center} is
+                    I{coplanar} with all three points and C{deltas} is either C{None}
+                    or a L{LatLon3Tuple} representing the C{center} ambiguity.
+
+           @raise ImportError: Package C{numpy} not found, not installed or older than
+                               version 1.15.
+
+           @raise IntersectionError: Near-concentric, coincident or colinear points,
+                                     incompatible C{Ecef} classes or a trilateration
+                                     or C{numpy} issue.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @note: The C{center} is trilaterated in cartesian (ECEF) space and converted
+                  back to geodetic lat-, longitude and height.  The latter, conventionally
+                  in C{meter} indicates whether the C{center} is above, below or on the
+                  surface of the earth model.  If C{deltas} is C{None}, the C{center} is
+                  unambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon, height)}
+                  representing the difference between both L{trilaterate3d2} results and
+                  C{center} is the mean thereof.
+
+           @see: Functions L{circum3} and L{meeus2}.
+        '''
+        def _CartEcef(**name_point):
+            # get cartesian and check Ecef's before and after
+            p = self.others(**name_point)
+            c = p.toCartesian()
+            E = self.Ecef
+            if E:
+                for t in (p, c):
+                    if t.Ecef not in (E, None):
+                        n, _ = name_point.popitem()
+                        raise _ValueError(n, t.Ecef, txt=_incompatible(E.__name__))
+            return c
+
+        try:
+            c  = _CartEcef(point=self)
+            c2 = _CartEcef(point2=point2)
+            c3 = _CartEcef(point3=point3)
+
+            r, c, d, a, b = _circum5(c, c2, c3, circum=circum, eps=eps, useZ=True,  # XXX -3d2
+                                                clas=c.classof, datum=self.datum)  # PYCHOK _circum3
+            c = c.toLatLon()
+            if d is not None:  # redo deltas
+                d = b.toLatLon().deltas(a.toLatLon())
+        except (AssertionError, TypeError, ValueError) as x:
+            raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
+        return Circum3Tuple(r, c, d)
+
     @deprecated_method
     def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{compassAngleTo}.'''
@@ -261,6 +320,20 @@ class LatLonBase(_NamedBase):
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self)
+
+    def deltas(self, other):
+        '''Return the I{absolute} difference between this and an other point.
+
+           @arg other: The other point (C{LatLon}).
+
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} with the I{absolute}
+                    lat-, longitude and height differences.
+
+           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+        '''
+        self.others(other)
+        return LatLon3Tuple(abs(self.lat - other.lat), abs(self.lon - other.lon),
+                            abs(self.height - other.height), name=self.deltas.__name__)
 
     def destinationXyz(self, delta, LatLon=None, **LatLon_kwds):
         '''Calculate the destination using a I{local} delta from this point.

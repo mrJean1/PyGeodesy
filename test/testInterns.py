@@ -5,11 +5,11 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.01.24'
+__version__ = '21.07.24'
 
 from base import TestsBase
 
-from pygeodesy import clips, interns, EPS, EPS1, NN
+from pygeodesy import clips, interns, EPS, EPS2, EPS4, EPS1, EPS0, EPS02, NN
 
 from os import getcwd
 
@@ -18,9 +18,6 @@ _AtoZnoIO_    =  interns._AtoZnoIO_
 _cwd          =  getcwd()
 _DUNDER_      =  interns._DUNDER_
 _DOT_         =  interns._DOT_
-_EPS4         =  interns._EPS4
-_EPS__2       =  interns._EPS__2
-_EPS__4       =  interns._EPS__4
 _EQUALSPACED_ =  interns._EQUALSPACED_
 _UNDER_       =  interns._UNDER_
 _exceptions   = (_0to9_, _AtoZnoIO_,
@@ -53,15 +50,21 @@ class Tests(TestsBase):
                 if isinstance(i, str) and not k:
                     a = a.strip(_UNDER_)
                     self.test(n, i.lower(), a.lower(), known=a.isupper() or i in _exceptions)
-                elif isinstance(i, float) and i not in (_EPS4, _EPS__2, _EPS__4):
+                elif isinstance(i, float):
                     a = a.strip(_UNDER_).replace(_UNDER_, _DOT_)
                     self.test(n, i, a)
 
         self.test('EPS',    EPS > 0, True)
         self.test('EPS+1', (EPS + 1) != 1, True)
 
+        self.test('EPS0',  0 < EPS0  < EPS,  True)
+        self.test('EPS02', 0 < EPS02 < EPS0, True)
+
         self.test('EPS1',    EPS1 < 1, True)
         self.test('EPS1-1', (EPS1 - 1) != 1, True)
+
+        self.test('EPS2', EPS  < EPS2 < EPS4, True)
+        self.test('EPS4', EPS2 < EPS4, True)
 
         self.test('.tillC', _AtoZnoIO_.tillC, 'ABC')
         self.test('.fromX', _AtoZnoIO_.fromX, 'XYZ')

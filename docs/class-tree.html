@@ -985,14 +985,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1004,6 +996,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1135,13 +1135,6 @@
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1150,6 +1143,13 @@
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1591,6 +1591,14 @@
         reduced) auxiliary latitude</i> <code>beta</code>, both in 
         <code>degrees90</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circum3Tuple-class.html">pygeodesy.vector3d.Circum3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(radius, center, deltas)</code> with the 
+        <code>circumradius</code> and trilaterated 
+        <code>circumcenter</code> of the <code>circumcircle</code> through 
+        3 points (aka {Meeus}' Type II circle) or the <code>radius</code> 
+        and <code>center</code> of the smallest <i>Meeus</i>' Type I 
+        circle.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
     </li>
@@ -1814,6 +1822,11 @@
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
         class="link">EcefMatrix</a>) or <code>None</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Meeus2Tuple-class.html">pygeodesy.vector3d.Meeus2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
+        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
+        points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -2584,6 +2597,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         reduced) auxiliary latitude</i> <code>beta</code>, both in 
         <code>degrees90</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circum3Tuple-class.html">pygeodesy.vector3d.Circum3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(radius, center, deltas)</code> with the 
+        <code>circumradius</code> and trilaterated 
+        <code>circumcenter</code> of the <code>circumcircle</code> through 
+        3 points (aka {Meeus}' Type II circle) or the <code>radius</code> 
+        and <code>center</code> of the smallest <i>Meeus</i>' Type I 
+        circle.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
     </li>
@@ -2807,6 +2828,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
         class="link">EcefMatrix</a>) or <code>None</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Meeus2Tuple-class.html">pygeodesy.vector3d.Meeus2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
+        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
+        points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -3062,7 +3088,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul 21 16:33:41 2021
+    Generated by Epydoc 3.0.1 on Mon Jul 26 16:41:03 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

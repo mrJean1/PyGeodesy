@@ -124,7 +124,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
-                                 'isnan', 'isneg0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'isnan', 'isnear0', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signOf', 'splice', 'ub2str', 'unsign0'),
                           clipy=('ClipError',
@@ -174,7 +174,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
-                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
+                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_', 'fsum2',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                  'norm2', 'norm_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
@@ -275,7 +275,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'meeus2', 'parse3d',
+                       vector3d=('Circum3Tuple', 'Meeus2Tuple', 'Vector3d',
+                                 'circum3', 'intersection3d3', 'iscolinearWith', 'meeus2', 'parse3d',
                                  'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
@@ -295,7 +296,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.07.20'
+__version__ = '21.07.27'
 
 
 def _ALL_OTHER(*objs):

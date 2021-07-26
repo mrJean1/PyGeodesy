@@ -24,9 +24,9 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
 from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_, hypot
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, _radical2, vincentys_
-from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, \
-                             _EPS4, _coincident_, _colinear_, _convex_, \
-                             _end_, _invalid_, _LatLon_, _near_concentric_, \
+from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
+                             _coincident_, _colinear_, _convex_, _end_, \
+                             _invalid_, _LatLon_, _near_concentric_, \
                              _not_, _points_, _SPACE_, _too_, _1_, _2_, \
                              _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
@@ -50,16 +50,16 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.06.30'
+__version__ = '21.07.24'
 
 _infinite_ = 'infinite'
 _null_     = 'null'
 _parallel_ = 'parallel'
 _path_     = 'path'
 
-_PI_EPS4 = PI - _EPS4
+_PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
-    raise _AssertionError(EPS4=_EPS4, PI=PI, PI_EPS4=_PI_EPS4)
+    raise _AssertionError(EPS4=EPS4, PI=PI, PI_EPS4=_PI_EPS4)
 
 
 def _destination2(a, b, r, t):
@@ -1153,7 +1153,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
         h = Height(height)
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
-    if x < _EPS4:  # externally ...
+    if x < EPS4:  # externally ...
         r = _dest3(b, h)
     elif x > _PI_EPS4:  # internally ...
         r = _dest3(b + PI, h)

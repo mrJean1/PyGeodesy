@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.06.18'
+__version__ = '21.07.26'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -321,12 +321,12 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     else:
         t = _SPACE_(_name_value_, str(MISSING))
 
-    if txt is None:
-        x = NN
-    else:
-        x =  str(txt) or _invalid_
+    if txt is not None:
         c = _COMMA_ if _COLON_ in t else _COLON_
-        t = _SPACE_(t + c, x)
+        x =  str(txt) or _invalid_
+        t =  NN(t, c, _SPACE_, x)
+#   else:
+#       x = NN  # XXX or t?
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
     _error_chain(inst)  # no Python 3+ exception chaining
@@ -527,7 +527,7 @@ def _xError(x, **kwds):
     except TypeError:  # no keyword arguments
         pass
     # not an C{_Error}, format as C{_Error}
-    return X(str(_ValueError(txt=t, **kwds)))
+    return x if _exception_chaining else X(str(_ValueError(txt=t, **kwds)))
 
 
 try:

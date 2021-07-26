@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.21'
+__version__ = '21.07.25'
 
 from base import coverage, GeodSolve, numpy_version, TestsBase
 
-from pygeodesy import EPS, F_D, fstr, intersection3d3 as i3d, \
-                      IntersectionError, meeus2, NEG0, \
+from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, fstr, \
+                      intersection3d3 as i3d, IntersectionError, meeus2, \
                       sphericalNvector, trilaterate2d2, trilaterate3d2, \
                       vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
@@ -375,11 +375,16 @@ class Tests(TestsBase):
                             500,  100, 1011.1874208078342)
         self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(-500.0, 250.0)')
 
-        v = V3d(1, 1)
-        r, c = v.meeus2(V3d(2, 4), V3d(5, 3))
-        self.test(meeus2.__name__, fstr((r, c.x, c.y, c.z), prec=1), '2.2, 3.0, 2.0, 0.0')
-        t = v.trilaterate2d2(r, V3d(2, 4), r, V3d(5, 3), r)
+        v1, v2, v3 = V3d(1, 1), V3d(2, 4), V3d(5, 3)
+        r, c = v1.meeus2(v2, v3)
+        self.test(meeus2.__name__, fstr((r, c.x, c.y, c.z), prec=3), '2.236, 3.0, 2.0, 0.0')
+        t = v1.trilaterate2d2(r, v2, r, v3, r)
         self.test(meeus2.__name__, t, '(3.0, 2.0, 0)')
+
+        v, c, d = circum3(v1, v2, v3, useZ=False)
+        self.test(circum3.__name__, v, r, prec=4)
+        self.test(circum3.__name__, c, t)
+        self.test(circum3.__name__, d, None, known=d)
 
     def testTrilaterate3d2(self, Vector):
 
@@ -405,16 +410,20 @@ class Tests(TestsBase):
             for v in t:
                 self.test(v.named3, fstr(v.xyz, prec=5), '-500.0, 250.0, 0.0', known=v.z)
 
-            v = V3d(-1, 0)
-            t = meeus2(v, V3d(0, 2), V3d(1, 0))
-            self.test(meeus2.__name__, '%.3f, %s' % t, '1.250, None')
-            r, _ = t
-            t = v.trilaterate3d2(r, V3d(0, 2), r, V3d(1, 0), r)
-            for v in t:
-                self.test(meeus2.__name__, fstr(v.xyz, prec=5), '0.0, 0.75, 0.0', known=v.z)
+            v1, v2, v3 = V3d(-1, 0, -1), V3d(0, 2), V3d(1, 0, 1)
+            r, t = meeus2(v1, v2, v3)
+            self.test(meeus2.__name__, r, 1.5, prec=2)
+            self.test(meeus2.__name__, t, None)
+            for c in v1.trilaterate3d2(r, v2, r, v3, r, eps=EPS4):
+                self.test(meeus2.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
+
+            t, c, d = v1.circum3(v2, v3)  # PYCHOK unpacking eps=EPS4
+            self.test(circum3.__name__, t, r, prec=2)
+            self.test(circum3.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
+            self.test(circum3.__name__, d, None, known=d)
 
         except ImportError as x:
-            self.skip(str(x), n=4)
+            self.skip(str(x), n=11)
 
 
 if __name__ == '__main__':

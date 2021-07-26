@@ -10,10 +10,9 @@ from pygeodesy.basics import copysign0, isfinite, isint, isnear0, \
                              isscalar, len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS0, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _EPS0__2, _finite_, _few_, _h_, _negative_,\
-                             _not_, _singular_, _SPACE_, _too_, \
-                             _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
+from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
+                             _finite_, _few_, _h_, _negative_, _not_, _singular_, \
+                             _SPACE_, _too_, _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -22,7 +21,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.07.21'
+__version__ = '21.07.26'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -917,6 +916,23 @@ except ImportError:  # PYCHOK no cover
         return f.fsum(iterable)
 
 
+def fsum2(x, y):
+    '''Precision summation of 2 positional arguments.
+
+       @arg x: Value to be added (C{scalar}[]).
+       @arg x: Value to be added (C{scalar}[]).
+
+       @return: Accurate L{fsum} (C{float}).
+
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise TypeError: Non-scalar B{C{xs}} value.
+
+       @raise ValueError: Invalid or non-finite B{C{xs}} value.
+    '''
+    return fsum_(_1_0, x, y, -_1_0)
+
+
 if _sys_version_info2 > (3, 9):
     from math import hypot  # OK in Python 3.10+
     hypot_ = hypot
@@ -1077,7 +1093,7 @@ def sqrt0(x):
 
        @return: Square root (C{float}) or C{0.0}.
     '''
-    return sqrt(x) if x > _EPS0__2 else _0_0
+    return sqrt(x) if x > EPS02 else _0_0
 
 
 def sqrt3(x):

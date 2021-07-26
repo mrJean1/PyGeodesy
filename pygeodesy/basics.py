@@ -122,17 +122,6 @@ def isbool(obj):
 #                                     or obj is False)
 
 
-def isodd(x):
-    '''Is B{C{x}} odd?
-
-       @arg x: Value (C{scalar}).
-
-       @return: C{True} if B{C{x}} is odd,
-                C{False} otherwise.
-    '''
-    return bool(int(x) & 1)
-
-
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
     def isclass(obj):
         '''Return C{True} if B{C{obj}} is a C{class}.
@@ -173,6 +162,8 @@ except AttributeError:  # Python 2-
         return True if (obj and obj.replace(_UNDER_, NN).isalnum()
                             and not obj[:1].isdigit()) else False
 
+# from math import isinf
+
 
 def isint(obj, both=False):
     '''Check for C{int} type or an integer C{float} value.
@@ -202,6 +193,8 @@ except ImportError:
         '''Not Implemented.  Return C{False}, always.
         '''
         return False
+
+# from math import isnan
 
 
 def isnear0(x):
@@ -240,6 +233,17 @@ def isnon0(x):
        @see: Function L{isnear0}.
     '''
     return x > EPS0 or (-x) > EPS0
+
+
+def isodd(x):
+    '''Is B{C{x}} odd?
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if B{C{x}} is odd,
+                C{False} otherwise.
+    '''
+    return bool(int(x) & 1)
 
 
 def isscalar(obj):

@@ -19,10 +19,9 @@ from pygeodesy.basics import copysign0, neg
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS0, NN, _EPSqrt as _TOL, _datum_, \
-                             _EPS__2, _EPS__4, _gamma_, _lat_, \
-                             _lat1_, _lat2_, _lon_, _no_, _scale_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, \
+from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
+                             _gamma_, _lat_, _lat1_, _lat2_, _lon_, _no_, \
+                             _scale_, _x_, _y_, _0_0, _0_5, _1_0, _2_0, \
                              _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -37,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.06.10'
+__version__ = '21.07.22'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -149,7 +148,7 @@ class _AlbersBase(_NamedBase):
         c = min(ca1, ca2)
         if c < 0:
             raise AlbersError(clat1=ca1, clat2=ca2)
-        polar = c < _EPS__2  # == 0
+        polar = c < EPS0  # == 0
         # determine hemisphere of tangent latitude
         if sa1 < 0:  # and sa2 < 0:
             self._sign = -1
@@ -161,10 +160,10 @@ class _AlbersBase(_NamedBase):
         if sa1 < 0:  # or sa2 < 0:
             raise AlbersError(slat1=sa1, slat2=sa2)
         # avoid singularities at poles
-        ca1, ca2 = max(_EPS__2, ca1), max(_EPS__2, ca2)
+        ca1, ca2 = max(EPS0, ca1), max(EPS0, ca2)
         ta1, ta2 = sa1 / ca1, sa2 / ca2
 
-        par1 = abs(ta1 - ta2) < _EPS__4  # ta1 == ta2
+        par1 = abs(ta1 - ta2) < EPS02  # ta1 == ta2
         if par1 or polar:
             C, ta0 = _1_0, ta2
         else:
@@ -309,7 +308,7 @@ class _AlbersBase(_NamedBase):
         txi0  = self._txi0
 
         sa, ca = sincos2d(_Lat(lat=lat) * s)
-        ca = max(_EPS__2, ca)
+        ca = max(EPS0, ca)
         ta = sa / ca
 
         _, sxi, txi = self._cstxif3(ta)
@@ -433,7 +432,7 @@ class _AlbersBase(_NamedBase):
         # dsxia = scxi0 * dsxi
         dsxia = -self._scxi0 * (_2_0 * nrho0 + n0 * drho) * drho / self._qZa2
         t = _1_0 - dsxia * (_2_0 * txi0 + dsxia)
-        txi = (txi0 + dsxia) / (sqrt(t) if t > _EPS__4 else _EPS__2)
+        txi = (txi0 + dsxia) / (sqrt(t) if t > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
         lat = atand(ta * self._sign)

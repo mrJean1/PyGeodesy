@@ -68,11 +68,11 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
-from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
+from pygeodesy.interns import EPS, EPS02, _1_EPS, NN, PI_2, PI_4, \
                              _COMMASPACE_, _convergence_, _easting_, \
-                             _EPS0__2, _lat_, _lon_, _no_, _northing_, \
-                             _scale_, _0_0, _0_1, _0_25, _0_5, _1_0, \
-                             _2_0, _3_0, _90_0, _180_0
+                             _lat_, _lon_, _no_, _northing_, _scale_, \
+                             _0_0, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
+                             _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.07.08'
+__version__ = '21.07.22'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -780,12 +780,12 @@ class ExactTransverseMercator(_NamedBase):
         d2 = self._mu * cnu**2 + self._mv * cnv**2
         # Overflow value s.t. atan(overflow) = pi/2
         t1 = t2 = copysign0(_OVERFLOW, snu)
-        if d1 > _EPS0__2:
+        if d1 > EPS02:
             t1 = snu * dnv / sqrt(d1)
         lam = _0_0
-        if d2 > _EPS0__2:
+        if d2 > EPS02:
             t2 = sinh(e * asinh(e * snu / sqrt(d2)))
-            if d1 > _EPS0__2:
+            if d1 > EPS02:
                 lam = atan2(dnu * snv    , cnu * cnv) - \
                       atan2(cnu * snv * e, dnu * cnv) * e
         # psi = asinh(t1) - asinh(t2)

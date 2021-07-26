@@ -418,22 +418,19 @@ except (AttributeError, ImportError):  # PYCHOK no cover
     MIN      = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
 EPS2     = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
+EPS4     = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
 EPS_2    = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
 EPS1     = _float(_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
 EPS1_2   = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
 # _1EPS  = _float(_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
 _1_EPS   = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
 # _2_EPS = _float(_2_0 / EPS)      # PYCHOK = 9007199254740992.0
-_EPS4    = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
-_EPS__2  = _float(EPS**2)          # PYCHOK = 4.930380657631e-32
-_EPS__4  = _float(EPS**4)          # PYCHOK = 2.430865342915e-63
-_EPS0__2 = _EPS__4                 # PYCHOK near-zero square root
-
 _EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
-EPS0     = _EPS__2          # PYCHOK near-zero comparison, or EPS or EPS_2
+EPS0     = _float(EPS**2)   # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2
+EPS02    = _float(EPS**4)   # PYCHOK near-zero squared comparison 2.430865e-63
 INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
 NEG0     =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
@@ -449,13 +446,13 @@ R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
 
-__all__ = ('DIG', _EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
+__all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS02',
            'INF', 'MANT_DIG',
            'MANTIS',  # DEPRECATED
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.06.28'
+__version__ = '21.07.24'
 
 
 # **) MIT License

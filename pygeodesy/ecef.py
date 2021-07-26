@@ -67,12 +67,11 @@ from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, _IndexError, LenError, \
                              _ValueError, _TypesError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot, hypot1, hypot2_
-from pygeodesy.interns import EPS, EPS0, EPS1, EPS_2, NN, PI, PI_2, _a_, \
-                             _C_, _convergence_, _datum_, _ellipsoid_, \
-                             _EPS0__2, _f_, _h_, _height_, _lat_, _lon_, \
-                             _M_, _name_, _no_,  _singular_, _SPACE_, \
-                             _x_, _xyz_, _y_, _z_, _0_0, _0_5, \
-                             _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
+from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
+                             _a_, _C_, _convergence_, _datum_, _ellipsoid_, \
+                             _f_, _h_, _height_, _lat_, _lon_, _M_, _name_, \
+                             _no_,  _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
+                             _0_0, _0_5, _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -86,7 +85,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.06.30'
+__version__ = '21.07.22'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -804,7 +803,7 @@ class EcefYou(_EcefBase):
 
         q = hypot(x, y)
         u = fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z)) * _0_5
-        if u > _EPS0__2:
+        if u > EPS02:
             u = sqrt(u)
             p = hypot(u, e)
             B = atan2(p * z, u * q)  # beta0 = atan(p / u * z / q)

@@ -22,8 +22,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
-from pygeodesy.interns import EPS, NN, _A_, _B_, _COMMASPACE_, _N_, \
-                             _EPS__2, _EPSmin as _Tol90, _inside_, \
+from pygeodesy.interns import EPS, EPS0, NN, _A_, _B_, _COMMASPACE_, \
+                             _EPSmin as _Tol90, _N_, _inside_, \
                              _pole_, _range_, _S_, _SPACE_, _to_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.06.09'
+__version__ = '21.07.22'
 
 _Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -227,7 +227,7 @@ class Ups(UtmUpsBase):
         x, y = self.eastingnorthing2(falsed=not unfalse)
 
         r = hypot(x, y)
-        t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else _EPS__2
+        t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else EPS0
         t = E.es_tauf((1 / t - t) * _0_5)
         if self._pole == _N_:
             a, b, c = atan(t), atan2(x, -y), 1

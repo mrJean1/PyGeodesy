@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.02'
+__version__ = '21.07.26'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -523,6 +523,20 @@ class Tests(TestsBase):
                                                    else ('42.67815375°N, 002.49950041°E' if geographiclib
                                                    else  '42.67811504°N, 002.49959193°E'), known=_known(p))
             self.test(n + 'n', t.n, t.n)
+
+            t = p1.circum3(p2, p3)
+            c = t.center
+            self.test('circum3.radius', t.radius, '57792.067', prec=3, known=Sph)
+            self.test('circum3.center', c, '43.053532°N, 002.943255°E, -261.66m', known=Sph)
+            self.test('circum3.deltas', t.deltas.toStr(prec=3),  '(0.0, 0.0, 11.383)', known=Sph)
+
+            c.height = 0
+            self.test('circum3.dist1', p1.distanceTo(c), '57792.858351', prec=6, known=not X)
+            self.test('circum3.dist2', p2.distanceTo(c), '57792.859237', prec=6, known=not X)
+            self.test('circum3.dist3', p3.distanceTo(c), '57792.859062', prec=6, known=not X)
+
+            self.test('circum3.datum', c.datum, p1.datum)
+            self.test('circum3.Ecef',  c.Ecef,  p1.Ecef)
 
         except (ImportError, IntersectionError) as x:
             self.test(n + 'error', str(x), str(x))  # PYCHOK test attr?
