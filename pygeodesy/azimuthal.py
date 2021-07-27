@@ -21,7 +21,7 @@ available and set in env variable C{PYGEODESY_GEODSOLVE}, see module
 L{geodsolve} for more details.
 
 L{EquidistantKarney} and L{GnomonicKarney} require I{Charles Karney}'s Python
-U{geographiclib<https://PyPI.org/project/geographiclib/>} package to be installed.
+U{geographiclib<https://PyPI.org/project/geographiclib>} package to be installed.
 
 Other azimuthal classes implement only (**) U{Snyder's FORMULAS FOR THE SPHERE
 <https://Pubs.USGS.gov/pp/1395/report.pdf>} and use those for any datum,

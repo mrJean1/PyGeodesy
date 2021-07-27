@@ -4,7 +4,7 @@
 u'''Cassini-Soldner (CSS) projection.
 
 Classes L{CassiniSoldner}, L{Css} and L{CSSError} requiring I{Charles Karney}'s
-U{geographiclib <https://PyPI.org/project/geographiclib/>} Python package to be
+U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 

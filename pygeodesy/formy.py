@@ -943,7 +943,7 @@ def intersections2(lat1, lon1, radius1,
        or if B{C{datum}} is a C{scalar} representing the earth radius, or ...
 
        3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
-       and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib/>}
+       and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
        is installed, or ...
 
        4) L{ellipsoidalExact.intersections2} otherwise provided B{C{datum}}

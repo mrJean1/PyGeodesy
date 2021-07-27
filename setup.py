@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.06.04'
+__version__ = '21.07.27'
 
 
 def _c2(*names):
@@ -48,7 +48,8 @@ def _version():
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'Barsky', 'Barth',
-             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
+             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
+             'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius'
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
@@ -69,7 +70,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LTP', 'lune',
-             'mean', 'memoize', 'Mercator', 'MGRS',
+             'mean', 'memoize', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
