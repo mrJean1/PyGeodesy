@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.07.31'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -442,7 +442,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
                                 keyword arguments, ignored if
-                                C{B{Nvector}=None}.
+                                C{B{Nvector} is None}.
 
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
                     if B{C{Nvector}} is C{None}.

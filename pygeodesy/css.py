@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.06.25'
+__version__ = '21.07.31'
 
 
 def _CS0(cs0):
@@ -251,7 +251,7 @@ class CassiniSoldner(_NamedBase):
            @kwarg LatLon: Optional, ellipsoidal class to return the
                           geodetic location as (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional (C{LatLon}) keyword arguments,
-                               ignored if C{B{LatLon}=None}.
+                               ignored if C{B{LatLon} is None}.
 
            @return: Geodetic location B{C{LatLon}} or if B{C{LatLon}}
                     is C{None}, a L{LatLon2Tuple}C{(lat, lon)}.
@@ -424,7 +424,7 @@ class Css(_NamedBase):
            @kwarg height: Optional height for the point, overriding the
                           default height (C{meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, a L{LatLon4Tuple}C{(lat, lon, height,

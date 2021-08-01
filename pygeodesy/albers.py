@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.07.22'
+__version__ = '21.07.31'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -400,7 +400,7 @@ class _AlbersBase(_NamedBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Albers7Tuple}C{(x, y, lat, lon, gamma, scale, datum)}.

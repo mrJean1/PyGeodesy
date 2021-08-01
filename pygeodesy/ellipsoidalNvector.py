@@ -44,7 +44,7 @@ from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
 from pygeodesy.utily import sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.04.24'
+__version__ = '21.07.31'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -64,7 +64,7 @@ class Cartesian(CartesianEllipsoidalBase):
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{datum}} and other
                                    keyword arguments.  Use C{B{LatLon}=...} to
                                    override this L{LatLon} class or specify
-                                   C{B{LatLon}=None}.
+                                   C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -81,7 +81,7 @@ class Cartesian(CartesianEllipsoidalBase):
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    C{B{Nvector}=None}.
+                                    C{B{Nvector} is None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
@@ -421,7 +421,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} and other
                                       keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian}=None}.
+                                      C{B{Cartesian} is None}.
 
            @return: The geodetic point (L{Cartesian}) or if B{C{Cartesian}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -438,7 +438,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...}
                                     to override this L{Nvector} class or specify
-                                    C{B{Nvector}=None}.
+                                    C{B{Nvector} is None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}.
@@ -546,7 +546,7 @@ class Nvector(NvectorBase):
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{h}}, B{C{datum}} and
                                       other keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian}=None}.
+                                      C{B{Cartesian} is None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -570,7 +570,7 @@ class Nvector(NvectorBase):
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{height}}, B{C{datum}}
                                    and other keyword arguments.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
-                                   C{B{LatLon}=None}.
+                                   C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -611,7 +611,7 @@ def meanOf(points, datum=_WGS84, height=None, LatLon=LatLon,
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                            keyword arguments, ignored if
-                           C{B{LatLon}=None}.
+                           C{B{LatLon} is None}.
 
        @return: Geographic mean point and mean height (B{C{LatLon}})
                 or if B{C{LatLon}} is C{None}, an L{Ecef9Tuple}C{(x,
@@ -635,7 +635,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
        @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if C{B{Vector}=None}.
+                           arguments, ignored if C{B{Vector} is None}.
 
        @return: Vectorial sum (B{C{Vector}}).
 
@@ -665,7 +665,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
        @return: An NED vector equivalent to this B{C{distance}},
                 B{C{bearing}} and B{C{elevation}} (DEPRECATED L{Ned})
                 or a DEPRECATED L{Ned3Tuple}C{(north, east, down)}
-                if C{B{Ned}=None}.
+                if C{B{Ned} is None}.
 
        @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
                           or B{C{elevation}}.

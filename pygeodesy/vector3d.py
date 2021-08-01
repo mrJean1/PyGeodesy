@@ -31,7 +31,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.07.26'
+__version__ = '21.07.31'
 
 _center_ = 'center'
 _deltas_ = 'deltas'
@@ -352,7 +352,7 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
        @kwarg Vector: Class to return intersections (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with
                 C{point} a C{Vector3d} or B{C{Vector}}.
@@ -447,7 +447,7 @@ def intersections2(center1, radius1, center2, radius2, sphere=True,
        @kwarg Vector: Class to return intersections (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: If B{C{sphere}} is C{True}, a 2-Tuple of the C{center} and
                 C{radius} of the intersection of the spheres.  The C{radius}
@@ -649,7 +649,7 @@ def nearestOn(point, point1, point2, within=True,
        @kwarg Vector: Class to return closest point (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if C{B{Vector}=None}.
+                           arguments, ignored if C{B{Vector} is None}.
 
        @return: Closest point (L{Vector3d} or C{Vector}).
 
@@ -715,7 +715,7 @@ def _null_space2(numpy, A, eps):
     return n, r
 
 
-def _otherV3d(useZ=True, NN_OK=True, **name_v):
+def _otherV3d(useZ=True, NN_OK=True, **name_v):  # in .ellipsoids.height4, .formy.hartzell3
     # check B{C{name#}} vector instance, return Vector3d
     if not name_v:
         raise _AssertionError(name_v=MISSING)
@@ -739,7 +739,7 @@ def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
        @kwarg name: Optional instance name (C{str}).
        @kwarg Vector: Optional class (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: New B{C{Vector}} or if B{C{Vector}} is C{None},
                 a L{Vector3Tuple}C{(x, y, z)}.
@@ -762,7 +762,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
        @arg vectors: Vectors to be added (L{Vector3d}[]).
        @kwarg Vector: Optional class for the vectorial sum (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: Vectorial sum as B{C{Vector}} or if B{C{Vector}} is
                 C{None}, a L{Vector3Tuple}C{(x, y, z)}.
@@ -796,10 +796,10 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
                    circles (C{scalar}) or C{None}.
        @kwarg Vector: Class to return the trilateration (L{Vector3d}) or C{None}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: Trilaterated point as C{B{Vector}(x, y, **B{Vector_kwds})}
-                or L{Vector2Tuple}C{(x, y)} if C{B{Vector}=None}..
+                or L{Vector2Tuple}C{(x, y)} if C{B{Vector} is None}..
 
        @raise IntersectionError: No intersection, colinear or near-concentric
                                  centers, trilateration failed some other way
@@ -884,7 +884,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @kwarg Vector: Class to return intersections (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if C{B{Vector}=None}.
+                           ignored if C{B{Vector} is None}.
 
        @return: 2-Tuple with two trilaterated points, each a B{C{Vector}}
                 instance.  Both points are the same instance if all three

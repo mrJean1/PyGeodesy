@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.04.24'
+__version__ = '21.07.31'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -310,7 +310,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
                   (L{Wm}) or C{None}.
        @kwarg name: Optional name (C{str}).
        @kwarg Wm_kwds: Optional, additional B{C{Wm}} keyword
-                       arguments, ignored if C{B{Wm}=None}.
+                       arguments, ignored if C{B{Wm} is None}.
 
        @return: The WM coordinate (B{C{Wm}}) or an
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}

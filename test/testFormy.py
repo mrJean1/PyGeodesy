@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '21.01.23'
+__version__ = '21.07.28'
 
 from base import TestsBase
 
@@ -12,11 +12,11 @@ from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
                       excessAbc, excessGirard, excessLHuilier, excessKarney, \
-                      excessQuad, flatLocal, flatPolar, formy, haversine, \
-                      heightOf, horizon, hubeny, IntersectionError, \
-                      intersections2, isantipode, isantipode_, latlonDMS, \
-                      LimitError, limiterrors, map1, parseDMS, radical2, \
-                      thomas, vincentys
+                      excessQuad, flatLocal, flatPolar, formy, hartzell, \
+                      haversine, heightOf, horizon, hubeny, IntersectionError, \
+                      intersections2, isantipode, isantipode_, LatLon_, \
+                      latlonDMS, LimitError, limiterrors, map1, parseDMS, \
+                      radical2, thomas, Vector3d as V3, vincentys
 
 from math import degrees, radians
 
@@ -103,6 +103,12 @@ class Tests(TestsBase):
         self.test('isantipode4', isantipode_(*map1(radians,  89,  179, -89, -1)), True)
         self.test('isantipode5', isantipode_(*map1(radians, -89, -179,  89,  1)), True)
         self.test('isantipode6', isantipode_(*map1(radians, -89, -179, -89, -1)), False)
+
+        pov, los = V3(1e7, 1e7, 1e7), V3(-0.7274, -0.3637, -0.5819)
+        self.test('hartzell',    hartzell(pov, los).toStr(prec=6),                '(1125440.234789, 5562720.117395, 2900596.195524)')
+        self.test('hartzell',    hartzell(pov, los, LatLon=LatLon_).toStr(prec=6), "27.226919°N, 078.562403°E, -0.00, 'hartzell'")
+        self.test('hartzell',    hartzell(pov).toStr(prec=6),                     '(3678289.79469, 3678289.79469, 3678289.79469)')
+        self.test('hartzell',    hartzell(pov, LatLon=LatLon_).toStr(prec=6),      "35.446011°N, 045.0°E, -0.00, 'hartzell'")
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')

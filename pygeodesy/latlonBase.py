@@ -21,7 +21,7 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz, thomas_, vincentys
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
-                             _intersection_, _m_, _near_concentric_, \
+                             _height_, _intersection_, _m_, _near_concentric_, \
                              _no_, _overlap_, _0_0, _0_5, _1_0
 from pygeodesy.iters import PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import _circum5, Circum3Tuple, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.07.26'
+__version__ = '21.07.31'
 
 
 class LatLonBase(_NamedBase):
@@ -46,7 +46,7 @@ class LatLonBase(_NamedBase):
        ellipsoidal earth models.
     '''
     _datum  = None  # L{Datum}, to be overriden
-    _height = 0     # height (C{meter})
+    _height = 0     # height (C{meter}), default
     _lat    = 0     # latitude (C{degrees})
     _lon    = 0     # longitude (C{degrees})
 
@@ -343,10 +343,10 @@ class LatLonBase(_NamedBase):
            @kwarg LatLon: Optional (geodetic) class to return the destination
                           or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored is C{B{LatLon}=None}.
+                               arguments, ignored is C{B{LatLon} is None}.
 
            @return: Destination as a C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
-                    instance or if C{B{LatLon}=None}, a L{LatLon3Tuple}C{(lat,
+                    instance or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat,
                     lon, height)} respectively L{LatLon4Tuple}C{(lat, lon,
                     height, datum)} depending on whether a C{datum} keyword
                     is un-/specified.
@@ -510,6 +510,40 @@ class LatLonBase(_NamedBase):
         '''
         return self._distanceTo(flatPolar, other, radius, wrap=wrap)
 
+    def hartzell(self, los=None):
+        '''Compute the intersection of a Line-Of-Sight from this Point-Of-View
+           (pov) with this C{datum}'s ellipsoid surface.
+
+           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
+                       C{None} to point to the ellipsoid's center.
+
+           @return: The ellipsoid intersection (C{LatLon}) or this very instance
+                    if this C{pov's height} is C{0}.
+
+           @raise IntersectionError: Null C{pov} or B{C{los}} vector, this
+                                     C{pov's height} is negative or B{C{los}}
+                                     points outside the ellipsoid or in an
+                                     opposite direction.
+
+           @raise TypeError: Invalid B{C{los}}.
+
+           @see: Function C{hartzell} for further details.
+        '''
+        h = self.height
+        if not h:
+            r = self
+        elif h < 0:
+            raise IntersectionError(pov=self, los=los, height=h, txt=_no_(_height_))
+        elif los is None:
+            r = self.copy()
+            r.rename(self.hartzell.__name__)
+            r.height = 0
+        else:
+            from pygeodesy.formy import hartzell
+            c = self.toCartesian()
+            r = hartzell(c, los=los, earth=self.datum, LatLon=self.classof)
+        return r
+
     def haversineTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using the
            U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
@@ -561,6 +595,40 @@ class LatLonBase(_NamedBase):
         h = Height(height)
         self._update(h != self.height)
         self._height = h
+
+    def height4(self, earth=None, normal=True, LatLon=None, **LatLon_kwds):
+        '''Compute the height above or below and the projection on this datum's
+           ellipsoid surface.
+
+           @kwarg earth: A datum, ellipsoid or earth radius I{overriding} this
+                         datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
+                         or C{meter}, conventionally).
+           @kwarg normal: If C{True} the projection is the nearest point on the
+                          ellipsoid's surface, otherwise the intersection of the
+                          radial line to the center and the ellipsoid's surface.
+           @kwarg LatLon: Optional class to return the  height and projection
+                          (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                               ignored if C{B{LatLon} is None}.
+
+           @note: Use keyword argument C{height=0} to override C{B{LatLon}.height}
+                  to {0} or any other C{scalar}, conventionally in C{meter}.
+
+           @return: An instance of B{C{LatLon}} or if C{B{LatLon} is None}, a
+                    L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
+                    and C{z} coordinates and height C{h} in C{meter}, conventionally.
+
+           @raise TypeError: Invalid B{C{earth}}.
+
+           @see: L{Ellipsoid.height4} for more information.
+        '''
+        if LatLon is None:
+            r = self.toCartesian().height4(earth=earth, normal=normal)
+        else:
+            c = self.toCartesian()
+            r = c.height4(earth=earth, normal=normal, Cartesian=c.classof, height=0)
+            r = r.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, height=r.height))
+        return r
 
     def heightStr(self, prec=-2, m=_m_):
         '''Return a string for the height B{C{height}}.
@@ -880,7 +948,7 @@ class LatLonBase(_NamedBase):
                              coordinates (C{Cartesian}) or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
-                                  C{B{Cartesian}=None}.
+                                  C{B{Cartesian} is None}.
 
            @return: A B{C{Cartesian}} or if B{C{Cartesian}} is C{None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
@@ -905,7 +973,7 @@ class LatLonBase(_NamedBase):
                      (C{bool}).
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} 0 and C{M} if available.
+                    C, M, datum)} with C{C=0} and C{M} if available.
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
@@ -926,9 +994,9 @@ class LatLonBase(_NamedBase):
            @kwarg ltp: The I{local tangent plane} (LTP) to use,
                        overriding this point's LTP (L{Ltp}).
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: An B{C{Xyz}} instance or if C{B{Xyz} is None},
                     a L{Local9Tuple}C{(x, y, z, lat, lon, height,
                     ltp, ecef, M)} with C{M=None}, always.
 
@@ -960,7 +1028,7 @@ class LatLonBase(_NamedBase):
                            components (C{Nvector}) or C{None}.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
                                 keyword arguments, ignored if
-                                C{B{Nvector}=None}.
+                                C{B{Nvector} is None}.
 
            @return: A B{C{Nvector}} or an L{Vector4Tuple}C{(x, y, z, h)}
                     if B{C{Nvector}} is C{None}.
@@ -1004,7 +1072,7 @@ class LatLonBase(_NamedBase):
                           components (L{Vector3d}) or C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}}
                                keyword arguments, ignored if
-                               C{B{Vector}=None}.
+                               C{B{Vector} is None}.
 
            @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)}
                     if B{C{Vector}} is C{None}.
@@ -1095,6 +1163,16 @@ class LatLonBase(_NamedBase):
                   geocentric (ECEF) x, y and z coordinates!
         '''
         return self.xyz.to4Tuple(self.height)
+
+
+def _isLatLon(point):
+    '''(INTERNAL) Helper, in .ellipsoids.Ellipsoid.height4.
+    '''
+    if isinstance(point, LatLonBase):
+        return True
+    else:
+        from pygeodesy.points import LatLon_
+        return isinstance(point, LatLon_)
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,

@@ -161,6 +161,47 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the intersection of a Line-Of-Sight from this certesian 
+      Point-Of-View (pov) with this <code>datum</code>'s ellipsoid surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height4" class="summary-sig-name">height4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
+      Compute the height of this cartesian above or below and the 
+      projection on this datum's ellipsoid surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use property <a 
@@ -365,6 +406,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply">apply</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
@@ -380,6 +422,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotateAround">rotateAround</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_">times_</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll">to2ll</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>,
@@ -445,7 +488,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.cartesianBase.CartesianBase-class.html#height" class="summary-name">height</a><br />
-      Property to get and set the height (<code>meter</code>).
+      Get the height (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -540,6 +583,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2">x2y2z2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
@@ -698,12 +742,12 @@
         <li><strong class="pname"><code>Cartesian</code></strong> - Optional (geocentric) class to return the destination or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination as a <code><b>Cartesian</b>(x, y, z, 
           **<b>Cartesian_kwds</b>)</code> instance or if 
-          <code><b>Cartesian</b>=None</code>, an <a 
+          <code><b>Cartesian</b> is None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>M=None</code> always.</dd>
@@ -714,6 +758,111 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="hartzell"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of a Line-Of-Sight from this certesian 
+  Point-Of-View (pov) with this <code>datum</code>'s ellipsoid surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code> to point to the 
+          ellipsoid's center.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The ellipsoid intersection (<code>Cartesian</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null <code>pov</code> or <b><code>los</code></b> vector, this 
+        <code>pov</code> is inside the ellipsoid or <b><code>los</code></b>
+        points outside the ellipsoid or in an opposite direction.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>los</code></b> or no <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <code>hartzell</code> for further details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="height4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Cartesian_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the height of this cartesian above or below and the projection
+  on this datum's ellipsoid surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>earth</code></strong> - A datum, ellipsoid or earth radius <i>overriding</i> this datum 
+          (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the nearest point on the 
+          ellipsoid's surface, otherwise the intersection of the radial 
+          line to the center and the ellipsoid's surface.</li>
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return the height and projection 
+          (<code>Cartesian</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An instance of <b><code>Cartesian</code></b> or if 
+          <code><b>Cartesian</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
+          <i>projection</i> <code>x</code>, <code>y</code> and 
+          <code>z</code> coordinates and height <code>h</code> in 
+          <code>meter</code>, conventionally.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Use keyword argument <code>height=0</code> to override 
+        <code><b>Cartesian</b>.height</code> to {0} or any other 
+        <code>scalar</code>, conventionally in <code>meter</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
+        class="link">Ellipsoid.height4</a> for more information.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="to3llh"></a>
 <div>
@@ -850,7 +999,7 @@
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the geodetic point (<code>LatLon</code>)
           or <code>None</code>.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The geodetic point (<b><code>LatLon</code></b>) or if 
@@ -899,11 +1048,11 @@
           cartesian's LTP (<a href="pygeodesy.ltp.Ltp-class.html" 
           class="link">Ltp</a>).</li>
         <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
-          ignored if <code><b>Xyz</b>=None</code>.</li>
+          ignored if <code><b>Xyz</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <b><code>Xyz</code></b> instance or if 
-          <code><b>Xyz</b>=None</code>, a <a 
+        <dd>An <b><code>Xyz</code></b> instance or if <code><b>Xyz</b> is 
+          None</code>, a <a 
           href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
           ltp, ecef, M)</code> with <code>M=None</code> always.</dd>
@@ -975,7 +1124,7 @@
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) overriding this cartesian's datum.</li>
         <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
-          arguments, ignored if <code><b>Nvector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Nvector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <code>unit, n-vector</code> components 
@@ -1053,7 +1202,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Vector</code></b> or an <a 
@@ -1133,7 +1282,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>Property to get and set the height (<code>meter</code>).</p>
+  <p>Get the height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
@@ -1143,6 +1292,10 @@ class="link">Datum</a>).
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>)</span>
         - Set the height.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -1407,7 +1560,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 26 20:02:13 2021
+    Generated by Epydoc 3.0.1 on Sun Aug  1 14:35:56 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

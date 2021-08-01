@@ -12,17 +12,19 @@ from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
 from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
-from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
+from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
-                             _distant_, _too_, _0_0, _0_125, _0_25, _0_5, \
+                             _DASH_, _distant_, _inside_, _near_, _null_, \
+                             _outside_, _too_, _0_0, _0_125, _0_25, _0_5, \
                              _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedTuple
+from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, Phi_, \
-                            Radians, Radians_, Radius, Radius_, Scalar, _100km
+from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
+                            Phi_, Radians, Radians_, Radius, Radius_, \
+                            Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
                             m2degrees, sincos2, tan_2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
@@ -30,7 +32,9 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.07.09'
+__version__ = '21.07.31'
+
+_opposite_ = 'opposite'
 
 
 def antipode(lat, lon):
@@ -85,10 +89,9 @@ def bearing(lat1, lon1, lat2, lon2, **options):
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
     '''
-    return degrees(bearing_(Phi_(lat1=lat1),
-                            Lam_(lon1=lon1),
-                            Phi_(lat2=lat2),
-                            Lam_(lon2=lon2), **options))
+    r = bearing_(Phi_(lat1=lat1), Lam_(lon1=lon1),
+                 Phi_(lat2=lat2), Lam_(lon2=lon2), **options)
+    return degrees(r)
 
 
 def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
@@ -218,7 +221,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''
     s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
     if _non0(c1) and _non0(c2):
-        E = _ellipsoid(datum, cosineAndoyerLambert_)
+        E = _ellipsoidal(datum, cosineAndoyerLambert_)
         if E.f:  # ellipsoidal
             r2 = atan2(E.b_a * s2, c2)
             r1 = atan2(E.b_a * s1, c1)
@@ -285,7 +288,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
     if r and _non0(c1) and _non0(c2):
-        E = _ellipsoid(datum, cosineForsytheAndoyerLambert_)
+        E = _ellipsoidal(datum, cosineForsytheAndoyerLambert_)
         if E.f:  # ellipsoidal
             sr, cr, s2r, _ = sincos2(r, r * _2_0)
             if _non0(sr) and abs(cr) < EPS1:
@@ -362,7 +365,7 @@ def cosineLaw_(phi2, phi1, lam21):
 def _distanceToE(func_, lat1, lat2, earth, d_lon, unused):
     '''(INTERNAL) Helper for ellipsoidal distances.
     '''
-    E = _ellipsoid(earth, func_)
+    E = _ellipsoidal(earth, func_)
     r =  func_(Phi_(lat2=lat2),
                Phi_(lat1=lat1), radians(d_lon), datum=E)
     return r * E.a
@@ -376,7 +379,7 @@ def _distanceToS(func_, lat1, lat2, earth, d_lon, unused, **adjust):
     return r * _mean_radius(earth, lat1, lat2)
 
 
-def _ellipsoid(earth, where):
+def _ellipsoidal(earth, where):
     '''(INTERNAL) Helper for distances.
     '''
     return earth if isinstance(earth, Ellipsoid) else (
@@ -754,7 +757,7 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
              L{haversine_}, L{thomas_} and L{vincentys_} and U{local, flat
              earth approximation <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
-    E = _ellipsoid(datum, flatLocal_)
+    E = _ellipsoidal(datum, flatLocal_)
     m, n = E.roc2_((phi2 + phi1) * _0_5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
@@ -816,6 +819,82 @@ def flatPolar_(phi2, phi1, lam21):
     return sqrt0(r2)
 
 
+def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
+    '''Compute the intersection of a Line-Of-Sight from a Point-Of-View in
+       space with the surface of the earth.
+
+       @arg pov: Point-Of-View outside the earth (C{Cartesian}, L{Ecef9Tuple}
+                 or L{Vector3d}).
+       @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
+                   C{None} to point to the earth' center.
+       @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                     L{a_f2Tuple} or C{scalar} radius in C{meter}.
+       @kwarg LatLon: Class to convert insection point (C{LatLon}, L{LatLon_}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
+
+       @return: The earth intersection (L{Vector3d}, C{Cartesian type} of
+                B{C{pov}} or B{C{LatLon}}).
+
+       @raise IntersectionError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}}
+                                 is inside the earth or B{C{los}} points outside
+                                 the earth or points in an opposite direction.
+
+       @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
+
+       @see: U{Stephen Hartzell<https://StephenHartzell.medium.com/
+             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+    '''
+    from pygeodesy.vector3d import _otherV3d
+
+    D = earth if isinstance(earth, Datum) else \
+           _spherical_datum(earth, name=hartzell.__name__)
+    E = D.ellipsoid
+
+    a2 = b2 = E.a2  # earth x, y, ...
+    c2 = E.b2  # ... z half-axis squared
+    q2 = E.b2_a2  # == c2 / a2
+    bc = E.a * E.b  # == b * c
+
+    p3 = _otherV3d(pov=pov)
+    u3 = _otherV3d(los=los) if los else p3.negate()
+    u3 =  u3.unit()  # unit vector, opposing signs
+
+    x2, y2, z2 = p3.times_(p3).xyz  # == p3.x2y2z2
+    ux, vy, wz = u3.times_(p3).xyz
+    u2, v2, w2 = u3.times_(u3).xyz  # == u3.x2y2z2
+
+    t = c2, c2, b2  # a2 factored out
+    m = fdot(t, u2, v2, w2)
+    if m < EPS0:  # zero or near-null LOS vector
+        raise IntersectionError(pov=pov, los=los, earth=earth, txt=_DASH_(_near_, _null_))
+
+    # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
+    r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
+              c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
+             -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
+    if r < 0:  # LOS pointing away from or missing the earth
+        t = _opposite_ if max(ux, vy, wz) > 0 else _outside_
+        raise IntersectionError(pov=pov, los=los, earth=earth, txt=t)
+
+    n = fdot(t, ux, vy, wz)
+    s = bc * sqrt(r)
+    d = (n + s) / m  # (n - s) / m for antipode
+    if d > 0:  # POV inside or LOS missing the earth
+        t = _inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_
+        raise IntersectionError(pov=pov, los=los, earth=earth, txt=t)
+
+    if fsum_(x2, y2, z2) < d**2:  # d beyond earth center
+        raise IntersectionError(pov=pov, los=los, earth=earth, txt=_too_(_distant_))
+
+    r = _xnamed(p3.minus(u3.times(d)), hartzell.__name__)
+    if LatLon is not None:
+        from pygeodesy.cartesianBase import CartesianBase as _CB
+        # earth datum is overidden in LatLon if datum is specified in LatLon_kwds
+        r = _CB(r, datum=D, name=r.name).toLatLon(LatLon=LatLon, **LatLon_kwds)
+    return r
+
+
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two (spherical) points using the
        U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
@@ -873,7 +952,7 @@ def haversine_(phi2, phi1, lam21):
 
 
 def heightOf(angle, distance, radius=R_M):
-    '''Determine the height above the (spherical) earth after
+    '''Determine the height above the (spherical) earth' surface after
        traveling along a straight line at a given tilt.
 
        @arg angle: Tilt angle above horizontal (C{degrees}).
@@ -1235,7 +1314,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
     if r and _non0(c1) and _non0(c2):
-        E = _ellipsoid(datum, thomas_)
+        E = _ellipsoidal(datum, thomas_)
         if E.f:
             r1 = atan2(E.b_a * s1, c1)
             r2 = atan2(E.b_a * s2, c2)

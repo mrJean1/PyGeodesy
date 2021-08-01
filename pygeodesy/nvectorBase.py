@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.06.25'
+__version__ = '21.07.31'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -239,10 +239,10 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg datum: Optional datum (C{Datum}), overriding this datum.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
-                                  C{B{Cartesian}=None}.
+                                  C{B{Cartesian} is None}.
 
            @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
-                    if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    if C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y, z,
                     lat, lon, height, C, M, datum)} with C{C} and C{M} if
                     available.
 
@@ -307,9 +307,9 @@ class NvectorBase(Vector3d):  # XXX kept private
                           (C{LatLon}) or C{None}.
            @kwarg datum: Optional, spherical datum (C{Datum}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic point (C{LatLon}) or if C{B{LatLon}=None},
+           @return: The geodetic point (C{LatLon}) or if C{B{LatLon} is None},
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
                     datum)} with C{C} and C{M} if available.
 
@@ -460,7 +460,7 @@ class LatLonNvectorBase(LatLonBase):
            height}.
 
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if C{B{Nvector}=None}.
+                                arguments, ignored if C{B{Nvector} is None}.
 
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
                     B{C{Nvector}} is C{None}.
@@ -576,7 +576,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
                       or C{None}.
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if C{B{Vector}=None}.
+                           arguments, ignored if C{B{Vector} is None}.
 
        @return: Vectorial sum (B{C{Vector}}) or a L{Vector4Tuple}C{(x, y,
                 z, h)} if B{C{Vector}} is C{None}.

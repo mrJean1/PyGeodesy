@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.07.26'
+__version__ = '21.07.31'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -347,7 +347,7 @@ def exception_chaining(error=None):
 
        @kwarg error: An error instance (C{Exception}) or C{None}.
 
-       @return: If C{B{error}=None}, return C{True} if exception
+       @return: If C{B{error} is None}, return C{True} if exception
                 chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
                 B{C{error}} is not C{None}, return the previous,

@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.06.09'
+__version__ = '21.07.31'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -448,7 +448,7 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
                     (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
        @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
-                         arguments, ignored if C{B{Osgr}=None}.
+                         arguments, ignored if C{B{Osgr} is None}.
 
        @return: The OSGR coordinate (B{C{Osgr}}) or an
                 L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}

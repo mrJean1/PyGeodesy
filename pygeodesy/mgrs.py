@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.06.19'
+__version__ = '21.07.31'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -240,7 +240,7 @@ class Mgrs(_NamedBase):
            @kwarg toLatLon_kwds: Optional, additional L{Utm.toLatLon}
                                  and B{C{LatLon}} keyword arguments.
 
-           @return: A B{C{LatLon}} instance or if C{B{LatLon}=None}
+           @return: A B{C{LatLon}} instance or if C{B{LatLon} is None}
                     a L{LatLonDatum5Tuple}C{(lat, lon, datum,
                     convergence, scale)}.
 
@@ -296,7 +296,7 @@ class Mgrs(_NamedBase):
            @kwarg center: Optionally, center easting and northing by
                           the resolution C({bool}).
 
-           @return: A B{C{Utm}} instance or if C{B{Utm}=None}
+           @return: A B{C{Utm}} instance or if C{B{Utm} is None}
                     a L{UtmUps5Tuple}C{(zone, hemipole, easting,
                     northing, band)}.
         '''
@@ -394,7 +394,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
 
        @return: The MGRS grid reference as B{C{Mgrs}} or if
-                C{B{Mgrs}=None} as an L{Mgrs4Tuple}C{(zone,
+                C{B{Mgrs} is None} as an L{Mgrs4Tuple}C{(zone,
                 digraph, easting, northing)}.
 
        @raise MGRSError: Invalid B{C{strMGRS}}.
@@ -455,10 +455,10 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
                     reference (L{Mgrs}) or C{None}.
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
        @kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
-                         arguments, ignored if C{B{Mgrs}=None}.
+                         arguments, ignored if C{B{Mgrs} is None}.
 
        @return: The MGRS grid reference as B{C{Mgrs}} or if
-                C{B{Mgrs}=None} as an L{Mgrs6Tuple}C{(zone,
+                C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
                 digraph, easting, northing, band, datum)}.
 
        @raise TypeError: If B{C{utm}} is not L{Utm} nor L{Etm}.

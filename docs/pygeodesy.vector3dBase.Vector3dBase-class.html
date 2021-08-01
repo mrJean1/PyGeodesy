@@ -515,6 +515,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply" class="summary-sig-name">apply</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">fun2</span>,
+        <span class="summary-sig-arg">other_x</span>,
+        <span class="summary-sig-arg">*y_z</span>,
+        <span class="summary-sig-arg">**fun2_kwds</span>)</span><br />
+      Apply a function component-wise to this and an other vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross" class="summary-sig-name">cross</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -775,6 +796,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_" class="summary-sig-name">times_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other_x</span>,
+        <span class="summary-sig-arg">*y_z</span>)</span><br />
+      Multiply this vector's components by separate scalars.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
       DEPRECATED, use property <code>Nvector.philam</code>.</td>
           <td align="right" valign="top">
@@ -948,6 +988,15 @@
       Get the X, Y and Z components (<a 
       href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
       class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2" class="summary-name">x2y2z2</a><br />
+      Get the X, Y and Z components <i>squared</i> 
+      (<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).
     </td>
   </tr>
 <tr>
@@ -1684,6 +1733,53 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="apply"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">apply</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">fun2</span>,
+        <span class="sig-arg">other_x</span>,
+        <span class="sig-arg">*y_z</span>,
+        <span class="sig-arg">**fun2_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply a function component-wise to this and an other vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fun2</code></strong> - 2-Argument callable (<code>any(scalar, scalar</code>).</li>
+        <li><strong class="pname"><code>other_x</code></strong> - An other vector factors (<a 
+          href="pygeodesy.vector3dBase.Vector3dBase-class.html" 
+          class="link" onclick="show_private();">Vector3dBase</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a> cartesian) or X scale factor 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z scale factors (<code>scalar</code>, <code>scalar</code>).</li>
+        <li><strong class="pname"><code>fun2_kwds</code></strong> - Optional keyword argument for <b><code>fun2</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, applied vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="cross"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2156,6 +2252,49 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="times_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">times_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other_x</span>,
+        <span class="sig-arg">*y_z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Multiply this vector's components by separate scalars.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other_x</code></strong> - An other vector factors (<a 
+          href="pygeodesy.vector3dBase.Vector3dBase-class.html" 
+          class="link" onclick="show_private();">Vector3dBase</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a> cartesian) or X scale factor 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z scale factors (<code>scalar</code>, <code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, scaled vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="to2ab"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2470,6 +2609,32 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="x2y2z2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">x2y2z2</h3>
+  <p>Get the X, Y and Z components <i>squared</i> 
+  (<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">x2y2z2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the X, Y and Z components <i>squared</i> 
+(<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="y"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2550,7 +2715,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 26 20:02:22 2021
+    Generated by Epydoc 3.0.1 on Sun Aug  1 14:36:01 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

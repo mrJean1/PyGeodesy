@@ -228,9 +228,9 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 11.5 (10.16) Big Sur and in 64-bit (and Intel) only.  The 
-    tests are run with and without <code>lazy import</code> for Python 3 
-    and with command line option <code>-W always</code> and environment 
+    all on macOS 11.5.1 (10.16) Big Sur and in 64-bit (and Intel) only.  
+    The tests are run with and without <code>lazy import</code> for Python 
+    3 and with command line option <code>-W always</code> and environment 
     variable <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  
     The results of only those tests are included in the distribution 
     files.</p>
@@ -277,7 +277,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 11.0-4 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
+    on macOS 11.0-5 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
     Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El
     Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
@@ -298,7 +298,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.6, both in 64-bit on macOS 
-    11.5 (10.16) Big Sur (Intel).</p>
+    11.5.1 (10.16) Big Sur (Intel).</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -398,7 +398,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.07.27
+        21.07.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -6645,6 +6645,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
+      space with the surface of the earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hausdorff_" class="summary-sig-name">hausdorff_</a>(<span class="summary-sig-arg">model</span>,
         <span class="summary-sig-arg">target</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>,
@@ -6652,7 +6674,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc2a200aed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe403396050&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6724,8 +6746,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#heightOf" class="summary-sig-name">heightOf</a>(<span class="summary-sig-arg">angle</span>,
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
-      Determine the height above the (spherical) earth after traveling 
-      along a straight line at a given tilt.</td>
+      Determine the height above the (spherical) earth' surface after 
+      traveling along a straight line at a given tilt.</td>
           <td align="right" valign="top">
             
             
@@ -10089,7 +10111,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.27'"><code class="variable-quote">'</code><code class="variable-string">21.7.27</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.7.31'"><code class="variable-quote">'</code><code class="variable-string">21.7.31</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11993,7 +12015,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Centroid (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or a <a 
           href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
-          <code><b>LatLon</b>=None</code>.</dd>
+          <code><b>LatLon</b> is None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
@@ -14363,7 +14385,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>error</code></strong> - An error instance (<code>Exception</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>If <code><b>error</b>=None</code>, return <code>True</code> if 
+        <dd>If <code><b>error</b> is None</code>, return <code>True</code> if
           exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
           available.  If <b><code>error</code></b> is not 
@@ -15906,7 +15928,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <i>fractional</i> point (<code>LatLon</code>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword arguments, ignored of
-          <code><b>LatLon</b>=None</code>.</li>
+          <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> or if <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is 
@@ -16544,6 +16566,75 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="hartzell"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
+  space with the surface of the earth.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the earth (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a> or <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code> to point to the 
+          earth' center.</li>
+        <li><strong class="pname"><code>earth</code></strong> - The earth model (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
+          <code>meter</code>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to convert insection point (<code>LatLon</code>, <a 
+          href="pygeodesy.points.LatLon_-class.html" 
+          class="link">LatLon_</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The earth intersection (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Cartesian type</code> of 
+          <b><code>pov</code></b> or <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, 
+        <b><code>pov</code></b> is inside the earth or 
+        <b><code>los</code></b> points outside the earth or points in an 
+        opposite direction.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pov</code></b>, <b><code>los</code></b> or 
+        <b><code>earth</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://StephenHartzell.medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
+        target="_top">Stephen Hartzell</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="hausdorff_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -16558,7 +16649,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc2a200aed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe403396050&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16772,8 +16863,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Determine the height above the (spherical) earth after traveling along
-  a straight line at a given tilt.</p>
+  <p>Determine the height above the (spherical) earth' surface after 
+  traveling along a straight line at a given tilt.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17301,7 +17392,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
@@ -17374,7 +17465,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>If <b><code>sphere</code></b> is <code>True</code>, a 2-Tuple of 
@@ -19391,8 +19482,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
           class="link">NearestOn3Tuple</a><code>(closest, distance, 
           angle)</code> with the {closest} point 
-          (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or if 
-          <code><b>LatLon</b>=None</code>, a <a 
+          (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or if <code><b>LatLon</b> is 
+          None</code>, a <a 
           href="pygeodesy.points.NearestOn5Tuple-class.html" 
           class="link">NearestOn5Tuple</a><code>(lat, lon, distance, angle,
           height)</code>. The <code>distance</code> is the <a 
@@ -19682,7 +19773,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>Vector</code></strong> - Optional class (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
-          <code><b>Vector</b>=None</code>.</li>
+          <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
@@ -20059,7 +20150,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
-          <code><b>Mgrs</b>=None</code> as an <a 
+          <code><b>Mgrs</b> is None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
           class="link">Mgrs4Tuple</a><code>(zone, digraph, easting, 
           northing)</code>.</dd>
@@ -20996,7 +21087,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>A function to generate random ranges.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Random with <code><b>seed</b>=None</code> seeds from the current 
+        Random with <code><b>seed</b> is None</code> seeds from the current
         time or from a platform-specific randomness source, if available.
       </p>
       <p><strong>Example:</strong>
@@ -22162,7 +22253,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>) or an 
           <a href="pygeodesy.namedTuples.EasNor3Tuple-class.html" 
           class="link">EasNor3Tuple</a><code>(easting, northing, 
-          height)</code> if <code><b>Lcc</b>=None</code>.</dd>
+          height)</code> if <code><b>Lcc</b> is None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal.</li>
@@ -22199,11 +22290,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
-          ignored if <code><b>Mgrs</b>=None</code>.</li>
+          ignored if <code><b>Mgrs</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
-          <code><b>Mgrs</b>=None</code> as an <a 
+          <code><b>Mgrs</b> is None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
           class="link">Mgrs6Tuple</a><code>(zone, digraph, easting, 
           northing, band, datum)</code>.</dd>
@@ -22261,7 +22352,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
         <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
-          ignored if <code><b>Osgr</b>=None</code>.</li>
+          ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
@@ -22582,7 +22673,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           or <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>Wm_kwds</code></strong> - Optional, additional <b><code>Wm</code></b> keyword arguments, 
-          ignored if <code><b>Wm</b>=None</code>.</li>
+          ignored if <code><b>Wm</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The WM coordinate (<b><code>Wm</code></b>) or an <a 
@@ -22698,14 +22789,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
           **<b>Vector_kwds</b>)</code> or <a 
           href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
           class="link">Vector2Tuple</a><code>(x, y)</code> if 
-          <code><b>Vector</b>=None</code>..</dd>
+          <code><b>Vector</b> is None</code>..</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers, trilateration
@@ -22780,7 +22871,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple with two trilaterated points, each a 
@@ -23700,7 +23791,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 26 20:02:11 2021
+    Generated by Epydoc 3.0.1 on Sun Aug  1 14:35:54 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

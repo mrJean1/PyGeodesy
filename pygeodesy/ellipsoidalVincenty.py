@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.06.27'
+__version__ = '21.07.31'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -104,10 +104,10 @@ class Cartesian(CartesianEllipsoidalBase):
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
-                                     C{B{LatLon}=None}.  Use
+                                     C{B{LatLon} is None}.  Use
                                      C{B{LatLon}=...} to override this
                                      L{LatLon} class or specify
-                                     C{B{LatLon}=None}.
+                                     C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
                     C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -196,10 +196,10 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
                                         and other keyword arguments, ignored
-                                        if C{B{Cartesian}=None}.  Use
+                                        if C{B{Cartesian} is None}.  Use
                                         C{B{Cartesian}=...} to override this
                                         L{Cartesian} class or specify
-                                        C{B{Cartesian}=None}.
+                                        C{B{Cartesian} is None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -412,10 +412,10 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
-                with C{point} a B{C{LatLon}} or if C{B{LatLon}=None},
+                with C{point} a B{C{LatLon}} or if C{B{LatLon} is None},
                 a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
        @raise ImportError: Package U{geographiclib
@@ -456,11 +456,11 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if C{B{LatLon}=None}.  For abutting circles, both
+                if C{B{LatLon} is None}.  For abutting circles, both
                 intersection points are the same instance.
 
        @raise ImportError: Package U{geographiclib
@@ -511,10 +511,10 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
-       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}=None},
-                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
+       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}
+                is None}, a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}

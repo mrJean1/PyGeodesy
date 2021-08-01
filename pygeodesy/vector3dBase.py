@@ -9,7 +9,8 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 '''
 
 from pygeodesy.basics import copysign0, map1
-from pygeodesy.errors import CrossError, VectorError
+from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
+                             VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
 from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
@@ -24,7 +25,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.07.26'
+__version__ = '21.07.28'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -284,6 +285,34 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             a -= copysign0(PI2, a)
         return a
 
+    def apply(self, fun2, other_x, *y_z, **fun2_kwds):
+        '''Apply a function component-wise to this and an other vector.
+
+           @arg fun2: 2-Argument callable (C{any(scalar, scalar}).
+           @arg other_x: An other vector factors (L{Vector3dBase},
+                         L{Vector3Tuple}, L{Vector4Tuple},
+                         L{Ecef9Tuple} cartesian) or X scale
+                         factor (C{scalar}).
+           @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}).
+           @kwarg fun2_kwds: Optional keyword argument for B{C{fun2}}.
+
+           @return: New, applied vector (L{Vector3d}).
+
+           @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
+        '''
+        if not callable(fun2):
+            raise _IsnotError(callable.__name__, fun2=fun2)
+
+        if fun2_kwds:
+            def _f2(a, b):
+                return fun2(a, b, **fun2_kwds)
+        else:
+            _f2 = fun2
+
+        xyz = _other_xyz3(other_x, y_z)
+        xyz = (_f2(a, b) for a, b in zip(self.xyz, xyz))
+        return self.classof(*xyz)
+
     def cross(self, other, raiser=None):  # raiser=NN
         '''Compute the cross product of this and an other vector.
 
@@ -536,8 +565,24 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
-        f = Scalar(factor=factor)
-        return self.classof(self.x * f, self.y * f, self.z * f)
+        s = Scalar(factor=factor)
+        return self.classof(self.x * s, self.y * s, self.z * s)
+
+    def times_(self, other_x, *y_z):
+        '''Multiply this vector's components by separate scalars.
+
+           @arg other_x: An other vector factors (L{Vector3dBase},
+                         L{Vector3Tuple}, L{Vector4Tuple},
+                         L{Ecef9Tuple} cartesian) or X scale
+                         factor (C{scalar}).
+           @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}).
+
+           @return: New, scaled vector (L{Vector3d}).
+
+           @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
+        '''
+        x, y, z = _other_xyz3(other_x, y_z)
+        return self.classof(self.x * x, self.y * y, self.z * z)
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
@@ -613,6 +658,12 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return Vector3Tuple(self.x, self.y, self.z, name=self.name)
 
     @Property_RO
+    def x2y2z2(self):
+        '''Get the X, Y and Z components I{squared} (C{Vector3Tuple}C{(x2, y2, z2)}).
+        '''
+        return Vector3Tuple(self.x**2, self.y**2, self.z**2, name=self.name)
+
+    @Property_RO
     def y(self):
         '''Get the Y component (C{float}).
         '''
@@ -623,6 +674,20 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''Get the Z component (C{float}).
         '''
         return self._z
+
+
+def _other_xyz3(other_x, y_z):
+    '''(INTERNAL) Helper.
+    '''
+    try:
+        if y_z:
+            y, z = y_z
+            x = Scalar(x=other_x)
+        else:
+            x, y, z = other_x.x, other_x.y, other_x.z
+    except (AttributeError, TypeError, ValueError) as x:
+        raise _InvalidError(other_x=other_x, y_z=y_z, txt=str(x))
+    return x, y, z
 
 # **) MIT License
 #

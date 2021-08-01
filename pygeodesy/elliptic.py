@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.06.30'
+__version__ = '21.07.31'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -681,7 +681,7 @@ class Elliptic(_Named):
         if mc:  # never negative ...
             if mc < 0:  # PYCHOK no cover
                 d  = _1_0 - mc
-                mc = neg(mc / d)  # /= -d chokes PyChecker
+                mc = neg(mc / d)  # /= d chokes PyChecker
                 d  = sqrt(d)
                 x *= d
             else:

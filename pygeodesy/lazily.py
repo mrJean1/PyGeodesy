@@ -184,7 +184,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'excessAbc', 'excessGirard', 'excessLHuilier',
                                  'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
-                                 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
+                                 'hartzell', 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
                                  'philam2n_xyz', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
@@ -296,7 +296,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.07.27'
+__version__ = '21.07.28'
 
 
 def _ALL_OTHER(*objs):

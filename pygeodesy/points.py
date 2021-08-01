@@ -36,9 +36,9 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
 from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, \
-                             _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
+                             _colinear_, _COMMASPACE_, _DASH_, _DEQUALSPACED_, \
                              _distance_, _ELLIPSIS_, _height_, _lat_, _lon_, \
-                             _not_, _point_, _SPACE_, _UNDER_, _valid_, \
+                             _near_, _not_, _point_, _SPACE_, _UNDER_, _valid_, \
                              _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_LAZY
@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.06.30'
+__version__ = '21.07.31'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -273,7 +273,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @kwarg Nvector: Optional class to return the C{n-vector}
                            components (C{Nvector}) or C{None}.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if C{B{Nvector}=None}.
+                                arguments, ignored if C{B{Nvector} is None}.
 
            @return: The C{n-vector} components B{C{Nvector}} or if
                     B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x,
@@ -1175,7 +1175,7 @@ def centroidOf(points, wrap=True, LatLon=None):
                       or C{None}.
 
        @return: Centroid (B{C{LatLon}}) or a L{LatLon2Tuple}C{(lat, lon)}
-                if C{B{LatLon}=None}.
+                if C{B{LatLon} is None}.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -1214,7 +1214,7 @@ def centroidOf(points, wrap=True, LatLon=None):
 
     A = A.fsum() * _3_0  # 6.0 / 2.0
     if isnear0(A):
-        raise _areaError(pts, near_='near-')
+        raise _areaError(pts, near_=_DASH_(_near_, NN))
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
@@ -1245,7 +1245,7 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the I{intermediate},
                       I{fractional} point (C{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional B{C{LatLon}} keyword arguments,
-                           ignored of C{B{LatLon}=None}.
+                           ignored of C{B{LatLon} is None}.
 
        @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
                 L{LatLon2Tuple}C{(lat, lon)} for C{B{points}[B{fi}]} if
@@ -1561,8 +1561,8 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
        @kwarg options: Other keyword arguments for function L{equirectangular_}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
-                {closest} point (B{C{LatLon}}) or if C{B{LatLon}=None}, a
-                L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)}.
+                {closest} point (B{C{LatLon}}) or if C{B{LatLon} is None},
+                a L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)}.
                 The C{distance} is the L{equirectangular_} distance between
                 the C{closest} and reference B{C{point}} in C{degrees}.  The
                 C{angle} from the reference B{C{point}} to the C{closest} is

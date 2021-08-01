@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.27'
+__version__ = '21.07.31'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
-from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
-                      degrees, fstr, isclockwise, isconvex, \
+from pygeodesy import F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
+                      degrees, fstr, Height, isclockwise, isconvex, \
                       isenclosedBy, ispolar, m2km, m2NM, \
                       IntersectionError, VincentyError  # PYCHOK expected
 from pygeodesy.namedTuples import Bounds2Tuple, \
@@ -295,6 +295,16 @@ class Tests(TestsBase):
         self.test('flatPolarTo', p.flatPolarTo(q), '133663.257', fmt='%.3f')
         self.test('flatPolarTo', q.flatPolarTo(p), '133663.257', fmt='%.3f')
 
+        self.test('hartzell', p.hartzell(), p)  # '53.3206°N, 001.7297°W'
+        c = p.toCartesian()  # pos 1,000 km up, los non-None, height is near 0
+        t = c.toLatLon(height=1e6).hartzell(los=c.negate()).toStr(form=F_D, prec=6, m=None)
+        self.test('hartzell', t, '53.3206°N, 001.7297°W' if Sph else '53.349541°N, 001.7297°W')
+
+        self.test('height4', p.height4().h, float(p.height))
+        self.test('height4', p.height4(earth=R_M).toStr(prec=1), '(3803904.2, -114870.8, 5109488.3, 0.0)' if Sph
+                                                            else '(3820333.9, -115367.0, 5097204.4, -6584.9)')
+        self.test('height4', p.height4(LatLon=LatLon, height=0).toStr(prec=1), '53°19′14.2″N, 001°43′46.9″W')
+
         self.test('haversineTo', p.haversineTo(q), '124801.098', fmt='%.3f')
         self.test('haversineTo', q.haversineTo(p), '124801.098', fmt='%.3f')
 
@@ -421,6 +431,7 @@ class Tests(TestsBase):
         self.testReturnType(p.latlon,               LatLon2Tuple, 'latlon')
         self.testReturnType(p.latlon2(),            LatLon2Tuple, 'latlon2')
         self.testReturnType(p.latlonheight,         LatLon3Tuple, 'latlonheight')
+#       self.testReturnType(p.height4(),            Vector4Tuple, 'height4')
         self.testReturnType(p.isequalTo(p),         bool,         'isequalTo')
         self.testReturnType(p.philam,               PhiLam2Tuple, 'philam')
         self.testReturnType(p.philamheight,         PhiLam3Tuple, 'philamheight')

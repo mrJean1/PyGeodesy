@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.06.23'
+__version__ = '21.07.31'
 
 
 class _GH(object):
@@ -239,7 +239,7 @@ class Geohash(Str):
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                     or a L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} if
-                    C{B{LatLon}=None},
+                    C{B{LatLon} is None},
         '''
         r = self._bounds
         return r if LatLon is None else \
@@ -406,7 +406,7 @@ class Geohash(Str):
            @arg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                                keyword arguments, ignored if
-                               C{B{LatLon}=None}.
+                               C{B{LatLon} is None}.
 
            @return: This geohash location (B{C{LatLon}}) or a
                     L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
@@ -519,7 +519,7 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the bounds (C{LatLon})
                       or C{None}.
        @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                           ignored if C{B{LatLon}=None}.
+                           ignored if C{B{LatLon} is None}.
 
        @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                 or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
@@ -609,10 +609,10 @@ def decode2(geohash, LatLon=None, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the location (C{LatLon})
                       or C{None}.
        @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                           ignored if C{B{LatLon}=None}.
+                           ignored if C{B{LatLon} is None}.
 
        @return: L{LatLon2Tuple}C{(lat, lon)}, both C{degrees} if
-                C{B{LatLon}=None}, otherwise a B{C{LatLon}} instance.
+                C{B{LatLon} is None}, otherwise a B{C{LatLon}} instance.
 
        @raise TypeError: The B{C{geohash}} is not a L{Geohash},
                          C{LatLon} or C{str}.

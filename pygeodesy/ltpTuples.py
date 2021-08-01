@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.06.04'
+__version__ = '21.07.31'
 
 _aer_        = 'aer'
 _slantrange_ = 'slantrange'
@@ -206,9 +206,9 @@ class Aer(_NamedBase):
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
                        L{Ned}, L{Aer}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
 
            @raise TypeError: Invalid B{C{Xyz}}.
@@ -458,9 +458,9 @@ class Ned(_NamedBase):
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
                        L{Ned}, L{Aer}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
 
            @raise TypeError: Invalid B{C{Xyz}}.
@@ -674,9 +674,9 @@ class XyzLocal(Vector3d):
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
            @kwarg Aer_kwds: Optional, additional B{C{Aer}} keyword
-                            arguments, ignored if C{B{Aer}=None}.
+                            arguments, ignored if C{B{Aer} is None}.
 
-           @return: AER as an L{Aer} instance or if C{B{Aer}=None}, an
+           @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
                     L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
 
            @raise TypeError: Invalid B{C{Aer}}.
@@ -691,9 +691,9 @@ class XyzLocal(Vector3d):
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
                        overriding this C{ltp}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian}=None}.
+                                  arguments, ignored if C{B{Cartesian} is None}.
 
-           @return: A B{C{Cartesian}} instance of if C{B{Cartesian}=None}, an
+           @return: A B{C{Cartesian}} instance of if C{B{Cartesian} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{M=None}, always.
 
@@ -713,9 +713,9 @@ class XyzLocal(Vector3d):
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
            @kwarg Enu_kwds: Optional, additional B{C{Enu}} keyword
-                            arguments, ignored if C{B{Enu}=None}.
+                            arguments, ignored if C{B{Enu} is None}.
 
-           @return: ENU as an L{Enu} instance or if C{B{Enu}=None},
+           @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
                     an L{Enu4Tuple}C{(east, north, up, ltp)}.
         '''
         return self.enu4._toEnu(Enu, Enu_kwds)
@@ -728,9 +728,9 @@ class XyzLocal(Vector3d):
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}),
                        overriding this ENU/NED/AER/XYZ's LTP.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: An B{C{LatLon}} instance of if C{B{LatLon}=None}, an
+           @return: An B{C{LatLon}} instance of if C{B{LatLon} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
                     datum)} with C{M=None}, always.
 
@@ -766,9 +766,9 @@ class XyzLocal(Vector3d):
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
            @kwarg Ned_kwds: Optional, additional B{C{Ned}} keyword
-                            arguments, ignored if C{B{Ned}=None}.
+                            arguments, ignored if C{B{Ned} is None}.
 
-           @return: NED as an L{Ned} instance or if C{B{Ned}=None},
+           @return: NED as an L{Ned} instance or if C{B{Ned} is None},
                     an L{Ned4Tuple}C{(north, east, down, ltp)}.
         '''
         return self.ned4._toNed(Ned, Ned_kwds)
@@ -808,9 +808,9 @@ class XyzLocal(Vector3d):
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
                        L{Ned}, L{Aer}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
         '''
         return self.xyz4._toXyz(Xyz, Xyz_kwds)
@@ -1033,7 +1033,7 @@ class Local9Tuple(_NamedTuple):
            @kwarg Aer_kwds: Optional, additional B{L{Aer}} keyword
                             arguments, ignored if B{C{Aer}} is C{None}.
 
-           @return: AER as an L{Aer} instance or if C{B{Aer}=None},
+           @return: AER as an L{Aer} instance or if C{B{Aer} is None},
                     an L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
         '''
         return self.xyzLocal.toAer(Aer=Aer, **Aer_kwds)
@@ -1044,10 +1044,10 @@ class Local9Tuple(_NamedTuple):
            @kwarg Cartesian: Optional class to return C{(x, y, z)} (C{Cartesian})
                              or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian}=None}.
+                                  arguments, ignored if C{B{Cartesian} is None}.
 
            @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance
-                    or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian}=None}.
+                    or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian} is None}.
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
@@ -1058,9 +1058,9 @@ class Local9Tuple(_NamedTuple):
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
            @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
-                            arguments, ignored if C{B{Enu}=None}.
+                            arguments, ignored if C{B{Enu} is None}.
 
-           @return: ENU as an L{Enu} instance or if C{B{Enu}=None},
+           @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
                     an L{Enu4Tuple}C{(east, north, up, ltp)}.
         '''
         return self.xyzLocal.toEnu(Enu=Enu, **Enu_kwds)
@@ -1071,10 +1071,10 @@ class Local9Tuple(_NamedTuple):
            @kwarg LatLon: Optional class to return C{(lat, lon, height)}
                           (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
-                    or if C{B{LatLon}=None}, a L{LatLon3Tuple}C{(lat, lon,
+                    or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
                     datum)} depending on whether C{datum} is un-/specified.
 
@@ -1089,7 +1089,7 @@ class Local9Tuple(_NamedTuple):
            @kwarg Ned_kwds: Optional, additional B{L{Ned}} keyword
                             arguments, ignored if B{C{Ned}} is C{None}.
 
-           @return: NED as an L{Ned} instance or if C{B{Ned}=None},
+           @return: NED as an L{Ned} instance or if C{B{Ned} is None},
                     an L{Ned4Tuple}C{(north, east, down, ltp)}.
         '''
         return self.xyzLocal.toNed(Ned=Ned, **Ned_kwds)
@@ -1099,9 +1099,9 @@ class Local9Tuple(_NamedTuple):
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
         '''
         return self.xyzLocal.toXyz(Xyz=Xyz, **Xyz_kwds)

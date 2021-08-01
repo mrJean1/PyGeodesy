@@ -85,7 +85,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.07.22'
+__version__ = '21.07.31'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1124,10 +1124,10 @@ class Ecef9Tuple(_NamedTuple):
                              L{sphericalNvector.Cartesian} or L{sphericalTrigonometry.Cartesian})
                              or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword arguments, ignored
-                                  if C{B{Cartesian}=None}.
+                                  if C{B{Cartesian} is None}.
 
            @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance or
-                    a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian}=None}.
+                    a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian} is None}.
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
@@ -1195,9 +1195,9 @@ class Ecef9Tuple(_NamedTuple):
            @kwarg Xyz: Optional class to return C{x}, C{y} and C{z}
                        (L{XyzLocal}, L{Enu}, L{Ned}) or C{None}.
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: An B{C{Xyz}} instance or if C{B{Xyz} is None},
                     a L{Local9Tuple}C{(x, y, z, lat, lon, height,
                     ltp, ecef, M)} with C{M=None}, always.
 
@@ -1212,7 +1212,7 @@ class Ecef9Tuple(_NamedTuple):
            @kwarg Vector: Optional vector class to return C{(x, y, z)} or
                           C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                               arguments, ignored if C{B{Vector}=None}.
+                               arguments, ignored if C{B{Vector} is None}.
 
            @return: A C{Vector}C{(x, y, z, **Vector_kwds)} instance or a
                     L{Vector3Tuple}C{(x, y, z)} if B{C{Vector}} is C{None}.

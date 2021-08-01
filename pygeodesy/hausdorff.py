@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.06.01'
+__version__ = '21.07.31'
 
 
 class HausdorffError(PointsError):
@@ -1031,9 +1031,9 @@ def randomrangenerator(seed):
        @arg seed: Initial, internal L{Random} state (C{hashable}
                   or C{None}).
 
-       @note: L{Random} with C{B{seed}=None} seeds from the current
-              time or from a platform-specific randomness source,
-              if available.
+       @note: L{Random} with C{B{seed} is None} seeds from the
+              current time or from a platform-specific randomness
+              source, if available.
 
        @return: A function to generate random ranges.
 

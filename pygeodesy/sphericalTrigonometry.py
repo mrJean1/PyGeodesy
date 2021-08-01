@@ -26,8 +26,8 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                              _coincident_, _colinear_, _convex_, _end_, \
-                             _invalid_, _LatLon_, _near_concentric_, \
-                             _not_, _points_, _SPACE_, _too_, _1_, _2_, \
+                             _invalid_, _LatLon_, _near_concentric_, _not_, \
+                             _null_, _points_, _SPACE_, _too_, _1_, _2_, \
                              _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
@@ -50,10 +50,9 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.07.24'
+__version__ = '21.07.31'
 
 _infinite_ = 'infinite'
-_null_     = 'null'
 _parallel_ = 'parallel'
 _path_     = 'path'
 
@@ -100,10 +99,10 @@ class Cartesian(CartesianSphericalBase):
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
-                                     C{B{LatLon}=None}.  Use
+                                     C{B{LatLon} is None}.  Use
                                      C{B{LatLon}=...} to override this
                                      L{LatLon} class or specify
-                                     C{B{LatLon}=None}.
+                                     C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -140,7 +139,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: Distance along the great circle path (C{meter},
                     same units as B{C{radius}}) or C{radians} if
-                    C{B{radius}=None}, positive if after the B{C{start}}
+                    C{B{radius} is None}, positive if after the B{C{start}}
                     toward the B{C{end}} point of the path or negative
                     if before the B{C{start}} point.
 
@@ -709,10 +708,10 @@ class LatLon(LatLonSphericalBase):
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
                                         and other keyword arguments, ignored
-                                        if C{B{Cartesian}=None}.  Use
+                                        if C{B{Cartesian} is None}.  Use
                                         C{B{Cartesian}=...} to override
                                         this L{Cartesian} class or specify
-                                        C{B{Cartesian}=None}.
+                                        C{B{Cartesian} is None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -952,10 +951,10 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
        @kwarg LatLon: Optional class to return the intersection
                       point (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
-       @return: The intersection point as a (B{C{LatLon}}) or a
-                if C{B{LatLon}=None} a L{LatLon3Tuple}C{(lat, lon,
+       @return: The intersection point as a (B{C{LatLon}}) or if
+                C{B{LatLon} is None} a L{LatLon3Tuple}C{(lat, lon,
                 height)}.  An alternate intersection point might
                 be the L{antipode} to the returned result.
 
@@ -1075,10 +1074,10 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
-                instance or if C{B{LatLon}=None} a L{LatLon3Tuple}C{(lat,
+                instance or if C{B{LatLon} is None} a L{LatLon3Tuple}C{(lat,
                 lon, height)}.  For abutting circles, both intersection
                 points are the same instance.
 
@@ -1191,7 +1190,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                            keyword arguments, ignored if
-                           C{B{LatLon}=None}.
+                           C{B{LatLon} is None}.
 
        @return: Point at geographic mean and height (B{C{LatLon}})
                 or a L{LatLon3Tuple}C{(lat, lon, height)} if

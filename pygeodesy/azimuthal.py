@@ -66,7 +66,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.07.03'
+__version__ = '21.07.31'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -358,7 +358,7 @@ class Equidistant(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -474,7 +474,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -649,7 +649,7 @@ class Gnomonic(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -755,7 +755,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -947,7 +947,7 @@ class LambertEqualArea(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -1004,7 +1004,7 @@ class Orthographic(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
@@ -1078,7 +1078,7 @@ class Stereographic(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.

@@ -31,7 +31,7 @@ from pygeodesy.utily import sincos2d
 from math import radians, tan
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.06.25'
+__version__ = '21.07.31'
 
 _Xyz_ = 'Xyz'
 
@@ -104,10 +104,10 @@ class LocalCartesian(_NamedBase):
 
            @arg ecef: Geocentric (and geodetic) (L{Ecef9Tuple}).
            @arg Xyz: An L{XyzLocal}, L{Enu} or L{Ned} I{class} or C{None}.
-           @arg Xyz_kwds: B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}=None}.
+           @arg Xyz_kwds: B{C{Xyz}} keyword arguments, ignored if C{B{Xyz} is None}.
 
            @return: An C{B{Xyz}(x, y, z, ltp, **B{Xyz_kwds}} instance or if
-                    C{B{Xyz}=None}, an L{Local9Tuple}C{(x, y, z, lat, lon,
+                    C{B{Xyz} is None}, an L{Local9Tuple}C{(x, y, z, lat, lon,
                     height, ltp, ecef, M)} with this C{ltp}, B{C{ecef}}
                     (L{Ecef9Tuple}) converted to this C{datum} and C{M=None},
                     always.

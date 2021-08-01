@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M
 
 __all__ = ()
-__version__ = '21.07.20'
+__version__ = '21.07.31'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -103,7 +103,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg reframe: Optional reference frame (L{RefFrame}).
            @kwarg epoch: Optional epoch to observe for B{C{reframe}}
                          (C{scalar}), a non-zero, fractional calendar
-                         year; silently ignored if C{B{reframe}=None}.
+                         year; silently ignored if C{B{reframe} is None}.
            @kwarg name: Optional name (string).
 
            @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid

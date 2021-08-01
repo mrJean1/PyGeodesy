@@ -57,24 +57,24 @@ from __future__ import division
 from pygeodesy.basics import copysign0, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
-                            hypot, hypot1, hypot2, sqrt3
+                            hypot, hypot_, hypot1, hypot2, sqrt3
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NN, PI4, PI_2, R_M, _a_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
                              _Clarke1880IGN_, _DOT_, _1_EPS, _EPStol as _TOL, _f_, \
                              _finite_, _float as _F, _floatuple as _T, _GRS80_, _height_, \
                              _Intl1924_, _Krassovski1940_, _Krassowsky1940_, _lat_, \
-                             _meridional_, _negative_, _not_, _prime_vertical_, _radius_, \
-                             _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, _0_0, _0_5, \
-                             _1_0, _2_0, _4_0, _90_0
+                             _meridional_, _negative_, _not_, _null_, _prime_vertical_, \
+                             _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, \
+                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
 from pygeodesy.interns import _0_25, _3_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
-from pygeodesy.namedTuples import Distance2Tuple
+from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
-from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, \
-                            Meter, Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
+from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
+                            Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, m2SM, \
                             m2radians, radians2m, sincos2d
 
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.07.22'
+__version__ = '21.07.31'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -973,6 +973,58 @@ class Ellipsoid(_NamedEnumItem):
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         from pygeodesy.geodsolve import GeodesicSolve
         return GeodesicSolve(self, name=self.name)
+
+    def height4(self, xyz, normal=True):
+        '''Compute the height of a cartesian above or below and the projection
+           on this ellipsoid's surface.
+
+           @arg xyz: The cartesian (C{Cartesian}, L{Ecef9Tuple}, L{Vector3d},
+                     L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg normal: If C{True} the projection is the nearest point on the
+                          ellipsoid's surface, otherwise the intersection of the
+                          radial line to the center and the ellipsoid's surface.
+
+           @return: L{Vector4Tuple}C{(x, y, z, h)} with the intersection C{x}, C{y}
+                    and C{z} coordinates and height C{h} in C{meter}, conventionally.
+
+           @raise ValueError: Null B{C{xyz}}.
+
+           @raise TypeError: Non-cartesian B{C{xyz}}.
+
+           @see: U{Distance to<https://StackOverflow.com/questions/22959698/distance-from-given-point-to-given-ellipse>}
+                 and U{intersection with<https://MathWorld.wolfram.com/Ellipse-LineIntersection.html>} an ellipse.
+        '''
+        from pygeodesy.vector3d import _otherV3d
+        v = _otherV3d(xyz=xyz)
+        if self.isSpherical:
+            r = v.length
+            if r < EPS0:  # EPS
+                raise _ValueError(xyz=xyz, txt=_null_)
+            h = r - self.a
+            v = v.times(self.a / r)
+
+        elif not normal:  # radial to center
+            r = hypot_(self.a * v.z, self.b * v.x, self.b * v.y)
+            if r < EPS0:  # EPS
+                raise _ValueError(xyz=xyz, txt=_null_)
+            r = self.a * self.b / r
+            h = v.length * (_1_0 - r)
+            v = v.times(r)
+
+        else:  # normal, perpendicular to ellipsoid
+            x, y = hypot(v.x, v.y), abs(v.z)
+            if x < EPS0:  # polar
+                h = copysign0(self.b, v.z)
+                v = Vector3Tuple(v.x, v.y, h)
+            elif y < EPS0:  # equatorial
+                h = x - self.a
+                v = Vector3Tuple(v.x, v.y, 0)  # force z=0
+            else:  # normal, in 1st quadrant
+                x, y = _normal2(x, y, self)
+                r, v = v, v.times_(x, x, y)
+                h = v.minus(r).length
+
+        return Vector4Tuple(v.x, v.y, v.z, h, name=self.height4.__name__)
 
     def _hubeny2_(self, phi2, phi1, lam21):
         '''(INTERNAL) like function L{flatLocal_}/L{hubeny_} but
@@ -1870,6 +1922,42 @@ def n2e2(n):
     t = (_1_0 + n)**2
     return Float(e2=_0_0 if abs(n) < EPS else
                    (-INF if     t  < EPS else (_4_0 * n / t)))
+
+
+def _normal2(px, py, E):
+    '''(INTERNAL) Nearest point on a 2-D ellipse.
+    '''
+    a, b = E.a, E.b
+    if min(px, py, a, b) < EPS0:
+        raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
+
+    a2 = a - b * E.b_a
+    b2 = b - a * E.a_b
+    tx = ty = 0.70710678118
+    for _ in range(9):  # 4..5 trips max
+        ex = a2 * tx**3
+        ey = b2 * ty**3
+
+        qx = px - ex
+        qy = py - ey
+        q  = hypot(qx, qy)
+        if q < EPS0:
+            break
+        r = hypot(ex - tx * a, ey - ty * b) / q
+
+        sx, tx = tx, min(1, max(0, (ex + qx * r) / a))
+        sy, ty = ty, min(1, max(0, (ey + qy * r) / b))
+        t = hypot(ty, tx)
+        if t < EPS0:
+            break
+        tx = tx / t  # /= t chokes PyChecker
+        ty = ty / t
+        if max(abs(sx - tx), abs(sy - ty)) < EPS:
+            break
+
+    tx *= a / px
+    ty *= b / py
+    return tx, ty  # x and y fraction
 
 
 def n2f(n):

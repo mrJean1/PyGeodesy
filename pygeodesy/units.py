@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.06.04'
+__version__ = '21.07.29'
 
 
 class _NamedUnit(_Named):
@@ -878,8 +878,8 @@ class Meter(Float):
         return self.toRepr(std=self._std_repr)
 
 
+_10um   = Meter(  _10um= 1e-5)   # PYCHOK 10 micrometer in .osgr
 _1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...
-_10um   = Meter(  _10um= 1e-5)   # PYCHOK 0.01 millimeter in .osgr
 _100km  = Meter( _100km= 1e+5)   # PYCHOK 100 kilometer in .formy, .mgrs, .osgr
 _2000km = Meter(_2000km= 2e+6)   # PYCHOK 2,000 kilometer in .mgrs
 

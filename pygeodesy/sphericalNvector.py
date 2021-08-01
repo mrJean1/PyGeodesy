@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.06.09'
+__version__ = '21.07.31'
 
 _paths_ = 'paths'
 
@@ -71,7 +71,7 @@ class Cartesian(CartesianSphericalBase):
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{datum}} and other
                                    keyword arguments.  Use C{B{LatLon}=...} to
                                    override this L{LatLon} class or specify
-                                   C{B{LatLon}=None}.
+                                   C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -88,7 +88,7 @@ class Cartesian(CartesianSphericalBase):
            @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
                                     keyword arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    C{B{Nvector}=None}.
+                                    C{B{Nvector} is None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
@@ -689,7 +689,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} or other
                                       keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian}=None}.
+                                      C{B{Cartesian} is None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -706,7 +706,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @kwarg Nvector_and_kwds: Optional L{Nvector} and other keyword
                                     arguments.  Use C{B{Nvector}=...} to
                                     override this L{Nvector} class or specify
-                                    C{B{Nvector}=None}.
+                                    C{B{Nvector} is None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}} is
                     set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}.
@@ -748,7 +748,7 @@ class Nvector(NvectorBase):
            @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{h}} and other
                                       keyword arguments.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian}=None}.
+                                      C{B{Cartesian} is None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -765,7 +765,7 @@ class Nvector(NvectorBase):
            @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{height}} and other
                                    keyword arguments.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
-                                   C{B{LatLon}=None}.
+                                   C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -875,7 +875,7 @@ def intersection(start1, end1, start2, end2,
        @kwarg LatLon: Optional class to return the intersection
                       point (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: The intersection point (B{C{LatLon}}) or 3-tuple
                 (C{degrees90}, C{degrees180}, height) if B{C{LatLon}}
@@ -956,7 +956,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the mean point
                       (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
@@ -1074,7 +1074,7 @@ def triangulate(point1, bearing1, point2, bearing2,
        @kwarg LatLon: Optional class to return the triangulated point
                       (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: Triangulated point (B{C{LatLon}}).
 
@@ -1113,7 +1113,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
        @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
        @kwarg LatLon: Optional class to return the trilaterated
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
-                           ignored if C{B{LatLon}=None}.
+                           ignored if C{B{LatLon} is None}.
 
        @return: Trilaterated point (B{C{LatLon}}).
 

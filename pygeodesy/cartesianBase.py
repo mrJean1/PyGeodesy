@@ -15,13 +15,14 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _IsnotError, \
                              _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2  # hypot
-from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _not_, \
+from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.named import _xnamed  # from namedTuples
+# from pygeodesy.named import _xnamed  # from .namedTuples
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, _xnamed
-from pygeodesy.props import deprecated_method, Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property, \
+                            Property_RO, property_doc_
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
@@ -29,14 +30,14 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.07.31'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
     _datum  = None  # L{Datum}, to be overriden
-    _height = 0     # height (L{Height})
+    _height = None  # height (L{Height}), set or approximated
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -56,9 +57,9 @@ class CartesianBase(Vector3d):
         '''
         x, y, z, h, d, n = _xyzhdn6(xyz, y, z, None, datum, ll)
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
-        if h:
+        if h is not None:
             self._height = Height(h)
-        if d:
+        if d is not None:
             self.datum = d
 
     def _applyHelmert(self, transform, inverse=False, datum=None):
@@ -116,10 +117,10 @@ class CartesianBase(Vector3d):
            @kwarg Cartesian: Optional (geocentric) class to return the
                              destination or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian}=None}.
+                                  arguments, ignored if C{B{Cartesian} is None}.
 
            @return: Destination as a C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})}
-                    instance or if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y,
+                    instance or if C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y,
                     z, lat, lon, height, C, M, datum)} with C{M=None} always.
 
            @raise TypeError: Invalid B{C{delta}}, B{C{Cartesian}} or
@@ -145,11 +146,32 @@ class CartesianBase(Vector3d):
         '''
         return self.Ecef(self.datum, name=self.name).reverse(self, M=True)
 
-    @property_doc_(''' the height (C{meter}).''')
+    def hartzell(self, los=None):
+        '''Compute the intersection of a Line-Of-Sight from this certesian
+           Point-Of-View (pov) with this C{datum}'s ellipsoid surface.
+
+           @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
+                       C{None} to point to the ellipsoid's center.
+
+           @return: The ellipsoid intersection (C{Cartesian}).
+
+           @raise IntersectionError: Null C{pov} or B{C{los}} vector,
+                                     this C{pov} is inside the ellipsoid or
+                                     B{C{los}} points outside the ellipsoid
+                                     or in an opposite direction.
+
+           @raise TypeError: Invalid B{C{los}} or no B{C{datum}}.
+
+           @see: Function C{hartzell} for further details.
+        '''
+        from pygeodesy.formy import hartzell
+        return hartzell(self, los=los, earth=self.datum)
+
+    @Property
     def height(self):
         '''Get the height (C{meter}).
         '''
-        return self._height
+        return self._height4.h if self._height is None else self._height
 
     @height.setter  # PYCHOK setter!
     def height(self, height):
@@ -164,6 +186,52 @@ class CartesianBase(Vector3d):
         h = Height(height)
         self._update(h != self.height)
         self._height = h
+
+    @Property_RO
+    def _height4(self):
+        '''(INTERNAL) Get this C{height4}-tuple.
+        '''
+        try:
+            r = self.datum.ellipsoid.height4(self, normal=True)
+        except (AttributeError, ValueError):  # no datum, null cartesian,
+            r = Vector4Tuple(self.x, self.y, self.z, 0, name=self.height4.__name__)
+        return r
+
+    def height4(self, earth=None, normal=True, Cartesian=None, **Cartesian_kwds):
+        '''Compute the height of this cartesian above or below and the projection
+           on this datum's ellipsoid surface.
+
+           @kwarg earth: A datum, ellipsoid or earth radius I{overriding} this
+                         datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
+                         or C{meter}, conventionally).
+           @kwarg normal: If C{True} the projection is the nearest point on the
+                          ellipsoid's surface, otherwise the intersection of the
+                          radial line to the center and the ellipsoid's surface.
+           @kwarg Cartesian: Optional class to return the height and projection
+                             (C{Cartesian}) or C{None}.
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
+                                  arguments, ignored if C{B{Cartesian} is None}.
+
+           @note: Use keyword argument C{height=0} to override C{B{Cartesian}.height}
+                  to {0} or any other C{scalar}, conventionally in C{meter}.
+
+           @return: An instance of B{C{Cartesian}} or if C{B{Cartesian} is None}, a
+                    L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
+                    and C{z} coordinates and height C{h} in C{meter}, conventionally.
+
+           @raise TypeError: Invalid B{C{earth}}.
+
+           @see: L{Ellipsoid.height4} for more information.
+        '''
+        r = self._height4 if normal and earth in (None, self.datum) else \
+                       _spherical_datum(earth).ellipsoid.height4(self, normal=normal)
+        if Cartesian is not None:
+            kwds = Cartesian_kwds.copy()
+            h = kwds.pop(_height_, None)
+            r = Cartesian(r, **kwds)
+            if h is not None:
+                r.height = h
+        return r
 
     @Property_RO
     def isEllipsoidal(self):
@@ -346,7 +414,7 @@ class CartesianBase(Vector3d):
            @kwarg LatLon: Optional class to return the geodetic point
                           (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -354,18 +422,17 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
-        m =  LatLon is None
         d = _spherical_datum(datum or self.datum, name=self.name)
         if d == self.datum:
             r = self.toEcef()
         else:
             c = self.toDatum(d)
-            r = c.Ecef(d, name=self.name).reverse(c, M=m)
+            r = c.Ecef(d, name=self.name).reverse(c, M=LatLon is None)
 
-        if not m:  # class or .classof
+        if LatLon:  # class or .classof
             h = r.height if height is None else Height(height)
-            r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
-                       datum=r.datum, height=h, name=r.name))
+            r = LatLon(r.lat, r.lon, datum=r.datum, height=h,
+                            **_xkwds(LatLon_kwds, name=r.name))
         _datum_datum(r.datum, d)
         return r
 
@@ -377,9 +444,9 @@ class CartesianBase(Vector3d):
            @kwarg ltp: The I{local tangent plane} (LTP) to use,
                        overriding this cartesian's LTP (L{Ltp}).
            @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz}=None}.
+                            arguments, ignored if C{B{Xyz} is None}.
 
-           @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
+           @return: An B{C{Xyz}} instance or if C{B{Xyz} is None},
                     a L{Local9Tuple}C{(x, y, z, lat, lon, height,
                     ltp, ecef, M)} with C{M=None} always.
 
@@ -409,7 +476,7 @@ class CartesianBase(Vector3d):
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}) overriding this cartesian's datum.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
-                                arguments, ignored if C{B{Nvector}=None}.
+                                arguments, ignored if C{B{Nvector} is None}.
 
            @return: The C{unit, n-vector} components (B{C{Nvector}}) or a
                     L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}} is C{None}.
@@ -448,7 +515,7 @@ class CartesianBase(Vector3d):
            @kwarg Vector: Optional class to return the C{n-vector}
                           components (L{Vector3d}) or C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                               arguments, ignored if C{B{Vector}=None}.
+                               arguments, ignored if C{B{Vector} is None}.
 
            @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
                     if B{C{Vector}} is C{None}.

@@ -364,6 +364,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#apply">apply</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cmp">cmp</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross">cross</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
@@ -379,6 +380,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#rotateAround">rotateAround</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_">times_</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll">to2ll</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>,
@@ -555,6 +557,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length">length</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2">length2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2">x2y2z2</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#xyz">xyz</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#y">y</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#z">z</a></code>
@@ -718,12 +721,13 @@
         <li><strong class="pname"><code>Aer</code></strong> - Class to return AER (<a href="pygeodesy.ltpTuples.Aer-class.html"
           class="link">Aer</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Aer_kwds</code></strong> - Optional, additional <b><code>Aer</code></b> keyword arguments, 
-          ignored if <code><b>Aer</b>=None</code>.</li>
+          ignored if <code><b>Aer</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>AER as an <a href="pygeodesy.ltpTuples.Aer-class.html" 
-          class="link">Aer</a> instance or if <code><b>Aer</b>=None</code>,
-          an <a href="pygeodesy.ltpTuples.Aer4Tuple-class.html" 
+          class="link">Aer</a> instance or if <code><b>Aer</b> is 
+          None</code>, an <a 
+          href="pygeodesy.ltpTuples.Aer4Tuple-class.html" 
           class="link">Aer4Tuple</a><code>(azimuth, elevation, slantrange, 
           ltp)</code>.</dd>
     <dt>Raises:</dt>
@@ -761,11 +765,11 @@
           href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
           overriding this <code>ltp</code>.</li>
         <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Cartesian</code></b> instance of if 
-          <code><b>Cartesian</b>=None</code>, an <a 
+          <code><b>Cartesian</b> is None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>M=None</code>, always.</dd>
@@ -799,12 +803,13 @@
         <li><strong class="pname"><code>Enu</code></strong> - Class to return ENU (<a href="pygeodesy.ltpTuples.Enu-class.html"
           class="link">Enu</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Enu_kwds</code></strong> - Optional, additional <b><code>Enu</code></b> keyword arguments, 
-          ignored if <code><b>Enu</b>=None</code>.</li>
+          ignored if <code><b>Enu</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>ENU as an <a href="pygeodesy.ltpTuples.Enu-class.html" 
-          class="link">Enu</a> instance or if <code><b>Enu</b>=None</code>,
-          an <a href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
+          class="link">Enu</a> instance or if <code><b>Enu</b> is 
+          None</code>, an <a 
+          href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
           class="link">Enu4Tuple</a><code>(east, north, up, ltp)</code>.</dd>
   </dl>
 </td></tr></table>
@@ -837,12 +842,11 @@
           href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
           overriding this ENU/NED/AER/XYZ's LTP.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <b><code>LatLon</code></b> instance of if 
-          <code><b>LatLon</b>=None</code>, an <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        <dd>An <b><code>LatLon</code></b> instance of if <code><b>LatLon</b> 
+          is None</code>, an <a href="pygeodesy.ecef.Ecef9Tuple-class.html"
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>M=None</code>, always.</dd>
     <dt>Raises:</dt>
@@ -910,12 +914,13 @@
         <li><strong class="pname"><code>Ned</code></strong> - Class to return NED (<a href="pygeodesy.ltpTuples.Ned-class.html"
           class="link">Ned</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Ned_kwds</code></strong> - Optional, additional <b><code>Ned</code></b> keyword arguments, 
-          ignored if <code><b>Ned</b>=None</code>.</li>
+          ignored if <code><b>Ned</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>NED as an <a href="pygeodesy.ltpTuples.Ned-class.html" 
-          class="link">Ned</a> instance or if <code><b>Ned</b>=None</code>,
-          an <a href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+          class="link">Ned</a> instance or if <code><b>Ned</b> is 
+          None</code>, an <a 
+          href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
           class="link">Ned4Tuple</a><code>(north, east, down, ltp)</code>.</dd>
   </dl>
 </td></tr></table>
@@ -1019,11 +1024,11 @@
           href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>) 
           or <code>None</code>.</li>
         <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
-          ignored if <code><b>Xyz</b>=None</code>.</li>
+          ignored if <code><b>Xyz</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>XYZ as an <b><code>Xyz</code></b> instance or if 
-          <code><b>Xyz</b>=None</code>, an <a 
+        <dd>XYZ as an <b><code>Xyz</code></b> instance or if <code><b>Xyz</b>
+          is None</code>, an <a 
           href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
           class="link">Xyz4Tuple</a><code>(x, y, z, ltp)</code>.</dd>
   </dl>
@@ -1462,7 +1467,7 @@ class="link">XyzLocal</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 26 20:02:19 2021
+    Generated by Epydoc 3.0.1 on Sun Aug  1 14:35:59 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

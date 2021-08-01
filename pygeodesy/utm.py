@@ -62,7 +62,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.06.21'
+__version__ = '21.07.31'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -411,7 +411,7 @@ class Utm(UtmUpsBase):
            @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
                            if falsed (C{bool}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon}=None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: This UTM as (B{C{LatLon}}) or if B{C{LatLon}} is
                     C{None}, as L{LatLonDatum5Tuple}C{(lat, lon, datum,
@@ -441,12 +441,11 @@ class Utm(UtmUpsBase):
         A0 = self.scale0 * E.A
         if A0 < EPS0:
             raise self._Error(meridional=A0)
-        x /= A0  # η eta
-        y /= A0  # ξ ksi
-
+        x =  x / A0  # /= chokes PyChecker
+        y =  y / A0
         K = _Kseries(E.BetaKs, x, y)  # Krüger series
-        y = neg(K.ys(-y))  # ξ'
-        x = neg(K.xs(-x))  # η'
+        x =  neg(K.xs(-x))  # η' eta
+        y =  neg(K.ys(-y))  # ξ' ksi
 
         shx = sinh(x)
         sy, cy = sincos2(y)

@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.16'
+__version__ = '21.07.31'
 
 from base import GeodSolve, geographiclib, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, fstr, modulename # PYCHOK expected
+from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
@@ -37,6 +37,12 @@ class Tests(TestsBase):
         self.test('isEllipsoidal', c.isEllipsoidal, not Sph)
         self.test('isSpherical',   c.isSpherical,       Sph)
         self.testCopy(c)
+
+        self.test('height',  c.height, '-5918.380258' if Sph else '0.242887', prec=6)
+        self.test('height4', c.height4().toStr(prec=1), '(3984282.2, 97.1, 4971443.2, -5918.4)' if Sph
+                                                   else '(3980580.8, 97.0, 4966824.8, 0.2)')
+        self.test('height4', c.height4(Cartesian=Cartesian, height=0).toStr(prec=1), '[3984282.2, 97.1, 4971443.2]' if Sph
+                                                                                else '[3980580.8, 97.0, 4966824.8]')
 
         n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         t = n.classname  # Nvector.__name__
@@ -86,6 +92,7 @@ class Tests(TestsBase):
             self.testReturnType(c.latlon,            LatLon2Tuple, 'latlon')
             self.testReturnType(c.latlonheight,      LatLon3Tuple, 'latlonheight')
             self.testReturnType(c.latlonheightdatum, LatLon4Tuple, 'latlonheightdatum')
+            self.testReturnType(c.height4(),         Vector4Tuple,  'height4')
             self.testReturnType(c.isequalTo(c),      bool,         'isequalTo')
             self.testReturnType(c.philam,            PhiLam2Tuple, 'philam')
             self.testReturnType(c.philamheight,      PhiLam3Tuple, 'philamheight')

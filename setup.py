@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.07.27'
+__version__ = '21.07.28'
 
 
 def _c2(*names):
@@ -49,7 +49,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
-             'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius'
+             'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
@@ -62,19 +62,19 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
-             'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
+             'Hartzell', 'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
-             'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize',
-             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LTP', 'lune',
+             'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'LTP', 'lune',
              'mean', 'memoize', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
-             'perimeter', 'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
+             'perimeter', 'Peucker', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',

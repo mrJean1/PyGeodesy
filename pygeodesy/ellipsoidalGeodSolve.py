@@ -23,7 +23,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.units import _1mm as _TOL_M  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '21.06.27'
+__version__ = '21.07.31'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -34,9 +34,9 @@ class Cartesian(CartesianEllipsoidalBase):
         '''Convert this cartesian point to an exact geodetic point.
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
-                  other keyword arguments, ignored if C{B{LatLon}=None}.
+                  other keyword arguments, ignored if C{B{LatLon} is None}.
                   Use C{B{LatLon}=...} to override this L{LatLon} class
-                  or specify C{B{LatLon}=None}.
+                  or specify C{B{LatLon} is None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -75,9 +75,9 @@ class LatLon(LatLonEllipsoidalBaseDI):
         '''Convert this point to exact cartesian (ECEF) coordinates.
 
            @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
-                  and other keyword arguments, ignored if C{B{Cartesian}=None}.
+                  and other keyword arguments, ignored if C{B{Cartesian} is None}.
                   Use C{B{Cartesian}=...} to override this L{Cartesian} class
-                  or set C{B{Cartesian}=None}.
+                  or set C{B{Cartesian} is None}.
 
            @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if
                     B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z,
@@ -135,10 +135,10 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
        @kwarg LatLon: Optional class to return the intersection point
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
-                with C{point} a B{C{LatLon}} or if C{B{LatLon}=None},
+                with C{point} a B{C{LatLon}} or if C{B{LatLon} is None},
                 a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
        @raise IntersectionError: Skew, colinear, parallel or otherwise
@@ -174,11 +174,11 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if C{B{LatLon}=None}.  For abutting circles, both
+                if C{B{LatLon} is None}.  For abutting circles, both
                 intersection points are the same instance.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
@@ -250,10 +250,10 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon}=None}.
+                           arguments, ignored if C{B{LatLon} is None}.
 
-       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}=None},
-                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
+       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}
+                is None}, a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
                          or B{C{point2}} or invalid B{C{equidistant}}.

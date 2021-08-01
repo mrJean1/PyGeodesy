@@ -588,6 +588,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the intersection of a Line-Of-Sight from this Point-Of-View 
+      (pov) with this <code>datum</code>'s ellipsoid surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
@@ -595,6 +614,28 @@
       Compute the distance between this and an other point using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
       target="_top">Haversine</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#height4" class="summary-sig-name">height4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Compute the height above or below and the projection on this datum's 
+      ellipsoid surface.</td>
           <td align="right" valign="top">
             
             
@@ -1918,12 +1959,12 @@
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (geodetic) class to return the destination or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored is <code><b>LatLon</b>=None</code>.</li>
+          arguments, ignored is <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Destination as a <code><b>LatLon</b>(lat, lon, 
-          **<b>LatLon_kwds</b>)</code> instance or if 
-          <code><b>LatLon</b>=None</code>, a <a 
+          **<b>LatLon_kwds</b>)</code> instance or if <code><b>LatLon</b> 
+          is None</code>, a <a 
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           respectively <a 
@@ -2209,6 +2250,47 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="hartzell"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of a Line-Of-Sight from this Point-Of-View 
+  (pov) with this <code>datum</code>'s ellipsoid surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to earth (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code> to point to the 
+          ellipsoid's center.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The ellipsoid intersection (<code>LatLon</code>) or this very 
+          instance if this <code>pov's height</code> is <code>0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Null <code>pov</code> or <b><code>los</code></b> vector, this 
+        <code>pov's height</code> is negative or <b><code>los</code></b> 
+        points outside the ellipsoid or in an opposite direction.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>los</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <code>hartzell</code> for further details.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="haversineTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2256,6 +2338,71 @@
         <code>flatLocalTo</code>/<code>hubenyTo</code>, 
         <code>flatPolarTo</code>, <code>thomasTo</code> and 
         <code>vincentysTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="height4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the height above or below and the projection on this datum's 
+  ellipsoid surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>earth</code></strong> - A datum, ellipsoid or earth radius <i>overriding</i> this datum 
+          (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the projection is the nearest point on the 
+          ellipsoid's surface, otherwise the intersection of the radial 
+          line to the center and the ellipsoid's surface.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the  height and projection 
+          (<code>LatLon</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An instance of <b><code>LatLon</code></b> or if 
+          <code><b>LatLon</b> is None</code>, a <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
+          <i>projection</i> <code>x</code>, <code>y</code> and 
+          <code>z</code> coordinates and height <code>h</code> in 
+          <code>meter</code>, conventionally.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Use keyword argument <code>height=0</code> to override 
+        <code><b>LatLon</b>.height</code> to {0} or any other 
+        <code>scalar</code>, conventionally in <code>meter</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
+        class="link">Ellipsoid.height4</a> for more information.
       </p>
 </div></td></tr></table>
 </div>
@@ -2832,7 +2979,7 @@
         <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return the geocentric coordinates 
           (<code>Cartesian</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
+          arguments, ignored if <code><b>Cartesian</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Cartesian</code></b> or if 
@@ -2880,7 +3027,7 @@
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
-          M, datum)</code> with <code>C</code> 0 and <code>M</code> if 
+          M, datum)</code> with <code>C=0</code> and <code>M</code> if 
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2921,11 +3068,11 @@
           point's LTP (<a href="pygeodesy.ltp.Ltp-class.html" 
           class="link">Ltp</a>).</li>
         <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
-          ignored if <code><b>Xyz</b>=None</code>.</li>
+          ignored if <code><b>Xyz</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <b><code>Xyz</code></b> instance or if 
-          <code><b>Xyz</b>=None</code>, a <a 
+        <dd>An <b><code>Xyz</code></b> instance or if <code><b>Xyz</b> is 
+          None</code>, a <a 
           href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
           ltp, ecef, M)</code> with <code>M=None</code>, always.</dd>
@@ -2992,7 +3139,7 @@
         <li><strong class="pname"><code>Nvector</code></strong> - Optional class to return the <code>n-vector</code> components 
           (<code>Nvector</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
-          arguments, ignored if <code><b>Nvector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Nvector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Nvector</code></b> or an <a 
@@ -3076,7 +3223,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Vector</code></b> or a <a 
@@ -3602,7 +3749,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 26 20:02:18 2021
+    Generated by Epydoc 3.0.1 on Sun Aug  1 14:35:59 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
