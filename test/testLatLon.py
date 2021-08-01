@@ -300,7 +300,8 @@ class Tests(TestsBase):
         t = c.toLatLon(height=1e6).hartzell(los=c.negate()).toStr(form=F_D, prec=6, m=None)
         self.test('hartzell', t, '53.3206°N, 001.7297°W' if Sph else '53.349541°N, 001.7297°W')
 
-        self.test('height4', p.height4().h, float(p.height))
+        h = p.height4().h
+        self.test('height4', h, float(p.height), known=abs(h) < 2e-9)
         self.test('height4', p.height4(earth=R_M).toStr(prec=1), '(3803904.2, -114870.8, 5109488.3, 0.0)' if Sph
                                                             else '(3820333.9, -115367.0, 5097204.4, -6584.9)')
         self.test('height4', p.height4(LatLon=LatLon, height=0).toStr(prec=1), '53°19′14.2″N, 001°43′46.9″W')
