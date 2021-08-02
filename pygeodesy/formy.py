@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.07.31'
+__version__ = '21.08.02'
 
 _opposite_ = 'opposite'
 
@@ -873,13 +873,14 @@ def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
     r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
               c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
              -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
-    if r < 0:  # LOS pointing away from or missing the earth
+    if r > 0:
+        r = bc * sqrt(r)
+    elif r < 0:  # LOS pointing away from or missing the earth
         t = _opposite_ if max(ux, vy, wz) > 0 else _outside_
         raise IntersectionError(pov=pov, los=los, earth=earth, txt=t)
 
     n = fdot(t, ux, vy, wz)
-    s = bc * sqrt(r)
-    d = (n + s) / m  # (n - s) / m for antipode
+    d = (n + r) / m  # (n - r) / m for antipode
     if d > 0:  # POV inside or LOS missing the earth
         t = _inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_
         raise IntersectionError(pov=pov, los=los, earth=earth, txt=t)

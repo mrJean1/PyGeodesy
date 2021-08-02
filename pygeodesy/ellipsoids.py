@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.07.31'
+__version__ = '21.08.02'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -996,33 +996,37 @@ class Ellipsoid(_NamedEnumItem):
         '''
         from pygeodesy.vector3d import _otherV3d
         v = _otherV3d(xyz=xyz)
+        r =  v.length
+        if r < EPS0:  # EPS
+            raise _ValueError(xyz=xyz, txt=_null_)
+
+        a, b = self.a, self.b
         if self.isSpherical:
-            r = v.length
-            if r < EPS0:  # EPS
-                raise _ValueError(xyz=xyz, txt=_null_)
-            h = r - self.a
-            v = v.times(self.a / r)
+            v = v.times(a / r)
+            h = r - a
 
-        elif not normal:  # radial to center
-            r = hypot_(self.a * v.z, self.b * v.x, self.b * v.y)
-            if r < EPS0:  # EPS
-                raise _ValueError(xyz=xyz, txt=_null_)
-            r = self.a * self.b / r
-            h = v.length * (_1_0 - r)
-            v = v.times(r)
-
-        else:  # normal, perpendicular to ellipsoid
+        elif normal:  # perpendicular to ellipsoid
             x, y = hypot(v.x, v.y), abs(v.z)
             if x < EPS0:  # polar
-                h = copysign0(self.b, v.z)
-                v = Vector3Tuple(v.x, v.y, h)
+                z = copysign0(b, v.z)
+                v = Vector3Tuple(v.x, v.y, z)
+                h = y - b
             elif y < EPS0:  # equatorial
-                h = x - self.a
-                v = Vector3Tuple(v.x, v.y, 0)  # force z=0
-            else:  # normal, in 1st quadrant
+                t = a / r
+                v = v.times_(t, t, 0)  # force z=0
+                h = x - a
+            else:  # normal in 1st quadrant
                 x, y = _normal2(x, y, self)
-                r, v = v, v.times_(x, x, y)
-                h = v.minus(r).length
+                t, v = v, v.times_(x, x, y)
+                h = t.minus(v).length
+
+        else:  # radial to ellipsoid center
+            t = hypot_(a * v.z, b * v.x, b * v.y)
+            if t < EPS0:  # EPS
+                raise _ValueError(xyz=xyz, txt=_null_)
+            t = a * b / t
+            v = v.times(t)
+            h = r * (_1_0 - t)
 
         return Vector4Tuple(v.x, v.y, v.z, h, name=self.height4.__name__)
 
@@ -1945,8 +1949,8 @@ def _normal2(px, py, E):
             break
         r = hypot(ex - tx * a, ey - ty * b) / q
 
-        sx, tx = tx, min(1, max(0, (ex + qx * r) / a))
-        sy, ty = ty, min(1, max(0, (ey + qy * r) / b))
+        sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
+        sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
         t = hypot(ty, tx)
         if t < EPS0:
             break
@@ -1957,7 +1961,7 @@ def _normal2(px, py, E):
 
     tx *= a / px
     ty *= b / py
-    return tx, ty  # x and y fraction
+    return tx, ty  # x and y as fractions
 
 
 def n2f(n):

@@ -230,7 +230,7 @@ class CartesianBase(Vector3d):
             h = kwds.pop(_height_, None)
             r = Cartesian(r, **kwds)
             if h is not None:
-                r.height = h
+                r.height = Height(height=h)
         return r
 
     @Property_RO
