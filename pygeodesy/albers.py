@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -64,7 +64,7 @@ def _Dsn(x, y, sx, sy):
              <https://GeographicLib.sourceforge.io/html/AlbersEqualArea_8hpp_source.html>}.
     '''
     # sx = x / hypot1(x)
-    d, t = _1_0, x * y
+    d, t = _1_0, (x * y)
     if t > 0:
         s = sx + sy
         if s:

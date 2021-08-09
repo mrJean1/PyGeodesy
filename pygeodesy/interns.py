@@ -97,6 +97,7 @@ _Bessel1841_          = 'Bessel1841'         # PYCHOK expected
 _by_                  = 'by'                 # PYCHOK expected
 _C_                   = 'C'                  # PYCHOK expected
 _Cartesian_           = 'Cartesian'          # PYCHOK expected
+_center_              = 'center'             # PYCHOK expected
 _Clarke1866_          = 'Clarke1866'         # PYCHOK expected
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK expected
 _coincident_          = 'coincident'         # PYCHOK expected
@@ -382,6 +383,7 @@ _0_25   = _float(   0.25)   # PYCHOK expected
 _0_26   = _float(   0.26)   # PYCHOK expected
 _0_5    = _float(   0.5)    # PYCHOK expected
 _1_0    = _float(   1)      # PYCHOK expected
+_1_0_T  = _1_0,             # PYCHOK 1-tuple
 _1_5    = _float(   1.5)    # PYCHOK expected
 _2_0    = _float(   2)      # PYCHOK expected
 _3_0    = _float(   3)      # PYCHOK expected
@@ -454,7 +456,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.07.24'
+__version__ = '21.08.06'
 
 
 # **) MIT License

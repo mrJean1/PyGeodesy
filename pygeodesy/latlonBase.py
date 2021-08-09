@@ -18,7 +18,7 @@ from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
-                            flatPolar, haversine, isantipode, \
+                            flatPolar, hartzell, haversine, isantipode, \
                             latlon2n_xyz, thomas_, vincentys
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
                              _height_, _intersection_, _m_, _near_concentric_, \
@@ -33,12 +33,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
-from pygeodesy.vector3d import _circum5, Circum3Tuple, Vector3d
+from pygeodesy.vector3d import _circum5, Circum3Tuple, Jekel4Tuple, jekel4_, Vector3d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.07.31'
+__version__ = '21.08.08'
 
 
 class LatLonBase(_NamedBase):
@@ -186,29 +186,17 @@ class LatLonBase(_NamedBase):
                   representing the difference between both L{trilaterate3d2} results and
                   C{center} is the mean thereof.
 
-           @see: Functions L{circum3} and L{meeus2}.
+           @see: Functions C{circum3} and method L{jekel4_}.
         '''
-        def _CartEcef(**name_point):
-            # get cartesian and check Ecef's before and after
-            p = self.others(**name_point)
-            c = p.toCartesian()
-            E = self.Ecef
-            if E:
-                for t in (p, c):
-                    if t.Ecef not in (E, None):
-                        n, _ = name_point.popitem()
-                        raise _ValueError(n, t.Ecef, txt=_incompatible(E.__name__))
-            return c
-
         try:
-            c  = _CartEcef(point=self)
-            c2 = _CartEcef(point2=point2)
-            c3 = _CartEcef(point3=point3)
+            c  = self._toCartesianEcef(point=self)
+            c2 = self._toCartesianEcef(point2=point2)
+            c3 = self._toCartesianEcef(point3=point3)
 
             r, c, d, a, b = _circum5(c, c2, c3, circum=circum, eps=eps, useZ=True,  # XXX -3d2
                                                 clas=c.classof, datum=self.datum)  # PYCHOK _circum3
             c = c.toLatLon()
-            if d is not None:  # redo deltas
+            if d is not None:  # redo deltas as (lat, lon, height)
                 d = b.toLatLon().deltas(a.toLatLon())
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
@@ -539,7 +527,6 @@ class LatLonBase(_NamedBase):
             r.rename(self.hartzell.__name__)
             r.height = 0
         else:
-            from pygeodesy.formy import hartzell
             c = self.toCartesian()
             r = hartzell(c, los=los, earth=self.datum, LatLon=self.classof)
         return r
@@ -724,6 +711,31 @@ class LatLonBase(_NamedBase):
         '''Check whether this point is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self._datum else None
+
+    def jekel4_(self, *points):
+        '''Best-fit a sphere through this and one or more other points.
+
+           @arg points: The other points (each a C{LatLon}).
+
+           @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center}
+                    an instance of this (sub-)class.
+
+           @raise ImportError: Package C{numpy} not found, not installed or older than
+                               version 1.10.
+
+           @raise NumPyError: Some C{numpy} issue.
+
+           @raise TypeError: One of the B{C{points}} invalid.
+
+           @raise ValueError: Too few B{C{points}}.
+
+           @see: Function C{jekel4_} and method L{circum3}.
+        '''
+        C = self._toCartesianEcef
+        c = C(point=self)
+        t = jekel4_(c, Vector=c.classof, *(C(i=i, points=p) for i, p in enumerate(points)))
+        c = t.center.toLatLon(LatLon=self.classof, name=t.name)
+        return Jekel4Tuple(t.radius, c, t.rank, t.residuals, name=c.name)
 
     @Property_RO
     def lam(self):
@@ -961,6 +973,22 @@ class LatLonBase(_NamedBase):
             r = self._xnamed(Cartesian(r, **Cartesian_kwds))
         _datum_datum(r.datum, self.datum)
         return r
+
+    def _toCartesianEcef(self, i=None, **name_point):
+        '''(INTERNAL) Convert to cartesian and check Ecef's before and after.
+        '''
+        p = self.others(**name_point)
+        c = p.toCartesian()
+        E = self.Ecef
+        if E:
+            for p in (p, c):
+                e = getattr(p, LatLonBase.Ecef.name, None)
+                if e not in (E, None):
+                    n, _ = name_point.popitem()
+                    if i is not None:
+                        NN(n, Fmt.SQUARE(i))
+                    raise _ValueError(n, e, txt=_incompatible(E.__name__))
+        return c
 
     def toEcef(self, height=None, M=False):
         '''Convert this point to I{geocentric} coordinates,

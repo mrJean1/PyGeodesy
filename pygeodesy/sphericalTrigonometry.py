@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.07.31'
+__version__ = '21.08.07'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -479,7 +479,7 @@ class LatLon(LatLonSphericalBase):
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
                     instance.  For abutting circles, both intersection
-                    points are the same instance.
+                    points are the same instance, aka I{radical center}.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
                                      non-intersecting circles.
@@ -1079,7 +1079,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or if C{B{LatLon} is None} a L{LatLon3Tuple}C{(lat,
                 lon, height)}.  For abutting circles, both intersection
-                points are the same instance.
+                points are the same instance, aka I{radical center}.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles.

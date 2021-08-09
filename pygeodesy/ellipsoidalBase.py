@@ -28,10 +28,10 @@ from pygeodesy.named import _xnamed, _xkwds
 from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
-from pygeodesy.units import Epoch, _1mm as _TOL_M
+from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.07.31'
+__version__ = '21.08.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -51,6 +51,53 @@ class CartesianEllipsoidalBase(CartesianBase):
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''DEPRECATED, use method L{toRefFrame}.'''
         return self.toRefFrame(reframe2, reframe, epoch=epoch)
+
+    def intersections2(self, radius, center2, radius2, sphere=True,
+                                                       Vector=None, **Vector_kwds):
+        '''Compute the intersection of two spheres or circles, each defined by a
+           cartesian center point and a radius.
+
+           @arg radius: Radius of this sphere or circle (same units as this point's
+                        coordinates).
+           @arg center2: Center of the second sphere or circle (C{Cartesian}, L{Vector3d},
+                         C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg radius2: Radius of the second sphere or circle (same units as this and
+                         the B{C{other}} point's coordinates).
+           @kwarg sphere: If C{True} compute the center and radius of the intersection
+                          of two I{spheres}.  If C{False}, ignore the C{z}-component and
+                          compute the intersection of two I{circles} (C{bool}).
+           @kwarg Vector: Class to return intersections (C{Cartesian}, L{Vector3d} or
+                          C{Vector3Tuple}) or C{None} for an instance of this (sub-)class.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                               ignored if C{B{Vector} is None}.
+
+           @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
+                    of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
+                    abutting spheres (and the C{center} is aka I{radical center}).
+
+                    If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
+                    points of the I{circles}.  For abutting circles, both points are
+                    the same instance, aka I{radical center}.
+
+           @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
+
+           @raise TypeError: Invalid B{C{center2}}.
+
+           @raise UnitError: Invalid B{C{radius}} or B{C{radius2}}.
+
+           @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>},
+                 U{Circle-Circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
+                 Intersection and function L{radical2}.
+        '''
+        from pygeodesy.vector3d import _intersects2, _otherV3d
+        try:
+            return _intersects2(_otherV3d(useZ=sphere, center=self),
+                                 Radius_(radius=radius),
+                                 center2, Radius_(radius2=radius2),
+                                 sphere=sphere, clas=self.classof,
+                                 Vector=Vector, **Vector_kwds)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, center=self, radius=radius, center2=center2, radius2=radius2)
 
     def toRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
@@ -409,7 +456,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
                     instance.  For abutting circles, both intersection
-                    points are the same instance.
+                    points are the same instance, aka I{radical center}.
 
            @raise ImportError: Package U{geographiclib
                                <https://PyPI.org/project/geographiclib>}

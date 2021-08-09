@@ -32,9 +32,11 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.08.02'
+__version__ = '21.08.07'
 
 _opposite_ = 'opposite'
+_ratio_    = 'ratio'
+_xline_    = 'xline'
 
 
 def antipode(lat, lon):
@@ -1043,7 +1045,7 @@ def intersections2(lat1, lon1, radius1,
 
        @return: 2-Tuple of the intersection points, each a
                 L{LatLon2Tuple}C{(lat, lon)}.  For abutting circles,
-                the intersection points are the same instance.
+                the points are the same instance, aka I{radical center}.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles or no
@@ -1227,6 +1229,9 @@ def radical2(distance, radius1, radius2):
 
        @raise UnitError: Invalid B{C{distance}}, B{C{radius1}} or
                          B{C{radius2}}.
+
+       @see: U{Circle-Circle Intersection
+             <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}.
     '''
     d  = Distance_(distance, low=_0_0)
     r1 = Radius_(radius1=radius1)
@@ -1242,7 +1247,7 @@ class Radical2Tuple(_NamedTuple):
     '''2-Tuple C{(ratio, xline)} of the I{radical} C{ratio} and
        I{radical} C{xline}, both C{scalar} and C{0.0 <= ratio <= 1.0}
     '''
-    _Names_ = ('ratio', 'xline')
+    _Names_ = (_ratio_, _xline_)
     _Units_ = ( Scalar,  Scalar)
 
 

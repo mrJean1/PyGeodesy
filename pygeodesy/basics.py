@@ -10,8 +10,8 @@ if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _IsnotError, _TypeError, _TypesError, \
-                             _ValueError, _xkwds_get
+from pygeodesy.errors import _ImportError, _IsnotError, _TypeError, \
+                             _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
                              _name_, _SPACE_, _UNDER_, _utf_8_, \
                              _version_, _0_0
@@ -22,7 +22,9 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.06.30'
+__version__ = '21.08.04'
+
+_required_ = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -448,6 +450,13 @@ def _xcopy(inst, deep=False):
     return _deepcopy(inst) if deep else _copy(inst)
 
 
+def _xImportError(x, where, **name):
+    '''(INTERNAL) Embellish an C{ImportError}.
+    '''
+    t = _SPACE_(_required_, _by_, _xwhere(where, **name))
+    return _ImportError(str(x), txt=t)
+
+
 def _xinstanceof(*Types, **name_value_pairs):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
@@ -466,7 +475,10 @@ def _xinstanceof(*Types, **name_value_pairs):
 def _xnumpy(where, *required):
     '''(INTERNAL) Import C{numpy} and check required version
     '''
-    import numpy
+    try:
+        import numpy
+    except ImportError as x:
+        raise _xImportError(x, where)
     return _xversion(numpy, where, *required)
 
 
@@ -481,7 +493,10 @@ def _xor(x, *xs):
 def _xscipy(where, *required):
     '''(INTERNAL) Import C{scipy} and check required version
     '''
-    import scipy
+    try:
+        import scipy
+    except ImportError as x:
+        raise _xImportError(x, where)
     return _xversion(scipy, where, *required)
 
 
@@ -505,16 +520,23 @@ def _xversion(package, where, *required, **name):  # in .karney
     '''
     t = map2(int, package.__version__.split(_DOT_)[:2])
     if t < required:
-        from pygeodesy.named import modulename
-        m = modulename(where, prefixed=True)
-        n = name.get(_name_, NN)
-        if n:
-            m = _DOT_(m, n)
         t = _SPACE_(package.__name__, _version_, _DOT_.join_(*t),
                    'below', _DOT_.join_(*required),
-                   'required', _by_, m)
+                   _required_, _by_, _xwhere(where, **name))
         raise ImportError(t)
     return package
+
+
+def _xwhere(where, **name):
+    '''(INTERNAL) Get the fully qualified name.
+    '''
+    from pygeodesy.named import modulename
+    m = modulename(where, prefixed=True)
+    n = name.get(_name_, NN)
+    if n:
+        m = _DOT_(m, n)
+    return m
+
 
 # **) MIT License
 #

@@ -20,13 +20,16 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
+_default_     = 'default'
+_kwargs_      = 'kwargs'
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
 _name_value_  =  repr('name=value')
 _rangerrors   =  True  # imported by .dms
 _specified_   = 'specified'
+_value_       = 'value'
 
 try:
     _exception_chaining = None  # not available
@@ -76,6 +79,13 @@ class _AttributeError(AttributeError):
     '''
     def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(AttributeError, self, name_value, **txt_name_values)
+
+
+class _ImportError(ImportError):
+    '''(INTERNAL) Format an C{ImportError} without exception chaining.
+    '''
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
+        _error_init(ImportError, self, name_value, **txt_name_values)
 
 
 class _IndexError(IndexError):
@@ -514,7 +524,7 @@ def _xellipsoidal(**name_value):
     raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
 
 
-def _xError(x, **kwds):
+def _xError(x, *name_value, **kwds):
     '''(INTERNAL) Embellish an exception.
 
        @arg x: The exception instance (usually, C{_Error}).
@@ -523,11 +533,12 @@ def _xError(x, **kwds):
     X = x.__class__
     t = str(x)
     try:  # C{_Error} style
-        return X(txt=t, **kwds)
+        return X(txt=t, *name_value, **kwds)
     except TypeError:  # no keyword arguments
         pass
     # not an C{_Error}, format as C{_Error}
-    return x if _exception_chaining else X(str(_ValueError(txt=t, **kwds)))
+    t = str(_ValueError(txt=t, *name_value, **kwds))
+    return x if _exception_chaining else X(t)
 
 
 try:
@@ -552,13 +563,13 @@ except AttributeError:
         return d
 
 
-def _xkwds_Error(_xkwds_func, kwds, name_txt, txt='default'):
-    # Helper for _xkwds_get and _xkwds_pop below
+def _xkwds_Error(where, kwds, name_txt, txt=_default_):
+    # Helper for _xkwds_get, _xkwds_pop and _xkwds_popitem below
     from pygeodesy.streprs import Fmt, pairs
     f = _COMMASPACE_.join(pairs(kwds) + pairs(name_txt))
-    f =  Fmt.PAREN(_xkwds_func.__name__, f)
+    f =  Fmt.PAREN(where.__name__, f)
     t = _multiple_ if name_txt else _no_
-    t = _SPACE_(t, _EQUAL_(_name_, txt), 'kwargs')
+    t = _SPACE_(t, _EQUAL_(_name_, txt), _kwargs_)
     return _AssertionError(f, txt=t)
 
 
@@ -590,11 +601,10 @@ def _xkwds_pop(kwds, **name_default):
 def _xkwds_popitem(name_value):
     '''(INTERNAL) Return exactly one C{(name, value)} item.
     '''
-    t = name_value.popitem()  # XXX AttributeError, KeyError
-    if not name_value:  # must be empty
-        return t
+    if len(name_value) == 1:  # XXX TypeError
+        return name_value.popitem()  # XXX AttributeError
 
-    raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='value')
+    raise _xkwds_Error(_xkwds_popitem, (), name_value, txt=_value_)
 
 # **) MIT License
 #

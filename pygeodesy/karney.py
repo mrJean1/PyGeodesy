@@ -102,7 +102,7 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 '''
 
-from pygeodesy.basics import copysign0, _xversion
+from pygeodesy.basics import copysign0, _xImportError, _xversion
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
 from pygeodesy.ellipsoids import Ellipsoid2
 from pygeodesy.errors import _ValueError, _xkwds  # PYCHOK shared
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.07.15'
+__version__ = '21.08.04'
 
 _16th = _1_0 / _16_0
 
@@ -462,7 +462,10 @@ class _Wrapped(object):
         '''(INTERNAL) Import C{geographiclib}.
         '''
         if self._geographiclib is None:
-            import geographiclib as g
+            try:
+                import geographiclib as g
+            except ImportError as x:
+                raise _xImportError(x, where)
             self._geographiclib = _xversion(g, _Wrapped, 1, 49, name=where.name)
         return self._geographiclib
 

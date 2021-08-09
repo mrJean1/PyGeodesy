@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.07.31'
+__version__ = '21.08.07'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -84,7 +84,7 @@ class CartesianSphericalBase(CartesianBase):
 
            @return: 2-Tuple of the intersection points, each C{Cartesian}.
                     The intersection points are the same C{Cartesian}
-                    instance for abutting circles.
+                    instance for abutting circles, aka I{radical center}.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
                                      non-intersecting circles.

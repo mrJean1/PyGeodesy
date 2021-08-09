@@ -66,8 +66,9 @@ classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 ``HeightIDWkarney`` interpolator.
 
 Both numpy_ and scipy_ must be installed for most ``Geoid...`` and
-``Height...`` interpolators, except the ``HeigthIDW...`` ones.  Function
-``trilaterate3d2`` and method ``Vector3d.trilaterate3d2`` require numpy_.
+``Height...`` interpolators, except the ``HeigthIDW...`` ones.  Functions
+``circum3``, ``jekel4_`` and ``trilaterate3d2`` and the corresponding
+``Cartesian``, `Nvector`` and ``Vector3d`` methods require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
@@ -138,7 +139,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 03, 2021.*
+*Last updated: Aug 08, 2021.*
 
 License
 =======

@@ -8,17 +8,19 @@ L{nearestOn}, L{parse3d}, L{sumOf}, L{trilaterate2d2} and
 L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import isnear0, len2, map2, _xnumpy
+from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
                               NumPyError, _TypeError, _ValueError, \
                               VectorError, _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot, hypot2_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS4, MISSING, NN, \
-                             _EPSqrt, _and_, _coincident_, _colinear_, _COMMA_, \
-                             _COMMASPACE_, _datum_, _h_, _height_, _intersection_, \
-                             _invalid_, _name_, _near_concentric_, _no_, _radius_, \
-                             _SPACE_, _too_, _xyz_, _y_, _z_, _0_0, _0_5, _1_0, _2_0
+                             _EPSqrt, _and_, _center_, _coincident_, \
+                             _colinear_, _COMMA_, _COMMASPACE_, _datum_, \
+                             _few_, _h_, _height_, _intersection_, \
+                             _invalid_, _name_, _near_concentric_, \
+                             _negative_, _no_, _radius_, _SPACE_, _too_, \
+                             _xyz_, _y_, _z_, _0_0, _0_5, _1_0, _1_0_T, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass, _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, Vector2Tuple, \
@@ -31,12 +33,13 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.07.31'
+__version__ = '21.08.08'
 
-_center_ = 'center'
-_deltas_ = 'deltas'
-_raise_  = 'raise'
-_Type_   = 'Type'
+_deltas_    = 'deltas'
+_raise_     = 'raise'  # PYCHOK used!
+_rank_      = 'rank'
+_residuals_ = 'residuals'
+_Type_      = 'Type'
 
 
 class Circum3Tuple(_NamedTuple):  # in .latlonBase
@@ -48,6 +51,16 @@ class Circum3Tuple(_NamedTuple):  # in .latlonBase
     '''
     _Names_ = (_radius_, _center_, _deltas_)
     _Units_ = ( Radius,  _Pass,    _Pass)
+
+
+class Jekel4Tuple(_NamedTuple):
+    '''4-Tuple C{(radius, center, rank, residuals)} with C{radius} and C{center}
+       of a sphere fitted through given points and the C{rank} and C{residuals}
+       -if any- from U{numpy.linalg.lstsq
+       <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>}.
+    '''
+    _Names_ = (_radius_, _center_, _rank_, _residuals_)
+    _Units_ = ( Radius,  _Pass,    _Pass,  _Pass)
 
 
 class Meeus2Tuple(_NamedTuple):
@@ -71,30 +84,32 @@ class Vector3d(Vector3dBase):
         - motion vector on earth's surface
         - etc.
     '''
-    _numpy = None  # module numpy iff imported by trilaterate3d2 below
+    _numpy = None  # module numpy imported once by function _numpy below
 
     def circum3(self, point2, point3, circum=True, eps=EPS4):
-        '''Return the radius and center of the smallest circle I{through} or I{containing}
-           this and two other points.
+        '''Return the radius and center of the smallest circle I{through} or
+           I{containing} this and two other (3-D) points.
 
-           @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
-           @arg point3: Third point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+           @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
            @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
            @kwarg eps: Tolerance passed to function L{trilaterate3d2}.
 
-           @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center} is
-                    coplanar with all three points.
+           @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
+                    instance of this (sub-)class, is coplanar with all three points.
 
            @raise ImportError: Package C{numpy} not found, not installed or older than
-                               version 1.15.
+                               version 1.10.
 
            @raise IntersectionError: Near-concentric, coincident or colinear points or
                                      a trilateration or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @see: Method C{meeus2} and functions L{circum3} and L{meeus2}.
+           @see: Function C{circum3} and methods C{jekel4_} and C{meeus2}.
         '''
         try:
             r, c, d, _, _ = _circum5(self, point2, point3, circum=circum, eps=eps,
@@ -104,31 +119,55 @@ class Vector3d(Vector3dBase):
         return Circum3Tuple(r, c, d)
 
     def iscolinearWith(self, point1, point2, eps=EPS):
-        '''Check whether this and two other points are colinear.
+        '''Check whether this and two other (3-D) points are colinear.
 
-           @arg point1: One point (L{Vector3d}, C{Vector3Tuple}
-                                   or C{Vector4Tuple}).
-           @arg point2: Another point (L{Vector3d}, C{Vector3Tuple}
-                                       or C{Vector4Tuple}).
+           @arg point1: One point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+           @arg point2: An other point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
            @kwarg eps: Tolerance (C{scalar}), same units as C{x},
                        C{y}, and C{z}.
 
-           @return: C{True} if this point is colinear with B{C{point1}}
-                    and B{C{point2}}, C{False} otherwise.
+           @return: C{True} if this point is colinear with B{C{point1}} and
+                    B{C{point2}}, C{False} otherwise.
 
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
            @see: Method L{nearestOn}.
         '''
-        v = self if self.name else _otherV3d(this=self)
+        v = self if self.name else _otherV3d(NN_OK=False, this=self)
         return _iscolinearWith(v, point1, point2, eps=eps)
 
-    def meeus2(self, point2, point3, circum=False):
-        '''Return the radius and I{Meeus}' Type of the smallest I{containing} or
-           I{through} this and two other points.
+    def jekel4_(self, *points):
+        '''Best-fit a sphere through this and one or more other (3-D) points.
 
-           @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
-           @arg point3: Third point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg points: Other points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+
+           @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center}
+                    an instance if this (sub-)class.
+
+           @raise ImportError: Package C{numpy} not found, not installed or
+                               older than version 1.10.
+
+           @raise NumPyError: Some C{numpy} issue.
+
+           @raise TypeError: One of the B{C{points}} invalid.
+
+           @raise ValueError: Too few B{C{points}}.
+
+           @see: Function C{jekel4_} and methods L{circum3} and L{meeus2}.
+        '''
+        return jekel4_(self, *points, Vector=self.classof)
+
+    def meeus2(self, point2, point3, circum=False):
+        '''Return the radius and I{Meeus}' Type of the smallest circle
+           I{containing} or I{through} this and two other (3-D) points.
+
+           @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+           @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
            @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
 
@@ -138,7 +177,7 @@ class Vector3d(Vector3dBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @see: Method C{circum3} and functions L{circum3} and L{meeus2}.
+           @see: Function C{meeus2} and methods C{circum3} and C{jekel4_}.
         '''
         try:
             r, t, _, _ = _meeus4(self, point2, point3, circum=circum, clas=self.classof)
@@ -146,26 +185,28 @@ class Vector3d(Vector3dBase):
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
         return r, t
 
-    def nearestOn(self, other1, other2, within=True):
+    def nearestOn(self, point1, point2, within=True):
         '''Locate the point between two points closest to this point.
 
-           @arg other1: Start point (L{Vector3d}).
-           @arg other2: End point (L{Vector3d}).
+           @arg point1: Start point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+           @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
            @kwarg within: If C{True} return the closest point between
                           the given points, otherwise the closest
                           point on the extended line through both
                           points (C{bool}).
 
-           @return: Closest point (L{Vector3d}).
+           @return: Closest point, either B{C{point1}} or B{C{point2}} or an
+                    instance of this (sub-)class.
 
-           @raise TypeError: Invalid B{C{other1}} or B{C{other2}}.
+           @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
            @see: Method L{sphericalTrigonometry.LatLon.nearestOn3} and
                  U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
                  Point-LineDistance3-Dimensional.html>}.
         '''
-        return _nearestOn(self, _otherV3d(other1=other1),
-                                _otherV3d(other2=other2), within=within)
+        return nearestOn(self, point1, point2, within=within)
 
     def parse(self, str3d, sep=_COMMA_, name=NN):
         '''Parse an C{"x, y, z"} string to a L{Vector3d} instance.
@@ -185,17 +226,17 @@ class Vector3d(Vector3dBase):
            and a radius.
 
            @arg radius: Radius of this circle (same C{units} as this C{x} and C{y}.
-           @arg center2: Center of the 2nd circle (L{Vector3d}, C{Vector2Tuple},
-                         C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg center2: Center of the 2nd circle (C{Cartesian}, L{Vector3d},
+                         C{Vector2Tuple}, C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius2: Radius of this circle (same C{units} as this C{x} and C{y}.
-           @arg center3: Center of the 3rd circle (L{Vector3d}, C{Vector2Tuple},
-                         C{Vector3Tuple} or C{Vector4Tuple}).
+           @arg center3: Center of the 3rd circle (C{Cartesian}, L{Vector3d},
+                         C{Vector2Tuple}, C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius3: Radius of the 3rd circle (same C{units} as this C{x} and C{y}.
            @kwarg eps: Check the trilaterated point I{delta} on all 3 circles (C{scalar})
                        or C{None}.
            @kwarg z: Optional Z component of the trilaterated point (C{scalar}).
 
-           @return: Trilaterated point as a L{Vector3d}C{(x, y, z=B{z})} instance.
+           @return: Trilaterated point, an instance of this (sub-)class with C{z=B{z}}.
 
            @raise IntersectionError: No intersection, colinear or near-concentric
                                      centers, trilateration failed some other way
@@ -216,7 +257,7 @@ class Vector3d(Vector3dBase):
             return trilaterate2d2(*(_xyr3(radius,  center=self) +
                                     _xyr3(radius2, center2=center2) +
                                     _xyr3(radius3, center3=center3)),
-                                     eps=eps, Vector=Vector3d, z=z)
+                                     eps=eps, Vector=self.classof, z=z)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -228,22 +269,22 @@ class Vector3d(Vector3dBase):
 
            @arg radius: Radius of this sphere (same C{units} as this C{x}, C{y}
                         and C{z}).
-           @arg center2: Center of the 2nd sphere (L{Vector3d}, C{Vector3Tuple}
-                         or C{Vector4Tuple}).
+           @arg center2: Center of the 2nd sphere (C{Cartesian}, L{Vector3d},
+                         C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius2: Radius of this sphere (same C{units} as this C{x}, C{y}
                          and C{z}).
-           @arg center3: Center of the 3rd sphere (L{Vector3d}, C{Vector3Tuple}
-                         or C{Vector4Tuple}).
+           @arg center3: Center of the 3rd sphere (C{Cartesian}, , L{Vector3d},
+                         C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius3: Radius of the 3rd sphere (same C{units} as this C{x}, C{y}
                          and C{z}).
            @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
 
            @return: 2-Tuple with two trilaterated points, each an instance of this
-                    L{Vector3d} (sub-)class.  Both points are the same instance if
-                    all three spheres intersect or abut in a single point.
+                    (sub-)class.  Both points are the same instance if all three
+                    spheres intersect or abut in a single point.
 
            @raise ImportError: Package C{numpy} not found, not installed or
-                               older than version 1.15.
+                               older than version 1.10.
 
            @raise IntersectionError: Near-concentric, colinear, too distant or
                                      non-intersecting spheres or C{numpy} issue.
@@ -253,7 +294,7 @@ class Vector3d(Vector3dBase):
            @raise UnitError: Invalid B{C{radius}}, B{C{radius2}} or B{C{radius3}}.
 
            @note: Package U{numpy<https://pypi.org/project/numpy>} is required,
-                  version 1.15 or later.
+                  version 1.10 or later.
 
            @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
                  Problem}<https://www.ResearchGate.net/publication/
@@ -265,7 +306,7 @@ class Vector3d(Vector3dBase):
             return _trilaterate3d2(_otherV3d(center=self, NN_OK=False),
                                     Radius_(radius, low=eps),
                                     center2, radius2, center3, radius3,
-                                    eps=eps, Vector=self.classof)
+                                    eps=eps, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -274,21 +315,24 @@ class Vector3d(Vector3dBase):
 
 def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
     '''Return the radius and center of the smallest circle I{through} or I{containing}
-       three points.
+       three (3-D) points.
 
-       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg point3: Third point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
+                    C{Vector4Tuple}).
+       @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
+                    C{Vector4Tuple}).
        @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
                       always, ignoring the I{Meeus}' Type I case (C{bool}).
        @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ}=True} else
                    L{trilaterate2d2}.
        @kwarg useZ: If C{True}, use the Z components, otherwise use C{z=0} (C{bool}).
 
-       @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center} is
-                coplanar with the three given points.
+       @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
+                instance of B{C{point1}}'s (sub-)class, is coplanar with the
+                three given points.
 
        @raise ImportError: Package C{numpy} not found, not installed or older than
-                           version 1.15 and C{B{useZ}=True}.
+                           version 1.10 and C{B{useZ}=True}.
 
        @raise IntersectionError: Near-concentric, coincident or colinear points or
                                  a trilateration or C{numpy} issue.
@@ -328,7 +372,7 @@ def _circum5(p1, point2, point3, circum=True, eps=EPS4, useZ=True,
         else:
             c = a = b = trilaterate2d2(p1.x, p1.y, r, p2.x, p2.y, r,
                                                       p3.x, p3.y, r, **kwds)
-    else:  # Meeus' Type I, s.name=meeus2
+    else:  # Meeus' Type I
         c = a = b = d
         d = None
     return r, c, d, a, b
@@ -336,26 +380,26 @@ def _circum5(p1, point2, point3, circum=True, eps=EPS4, useZ=True,
 
 def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
                                                 Vector=None, **Vector_kwds):
-    '''Compute the intersection point of two lines, each defined by
-       or through a start and end point.
+    '''Compute the intersection point of two lines, each defined by or
+       through a start and end point (3-D).
 
-       @arg start1: Start point of the first line (L{Vector3d},
+       @arg start1: Start point of the first line (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg end1: End point of the first line (L{Vector3d},
+       @arg end1: End point of the first line (C{Cartesian}, L{Vector3d},
                   C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg start2: Start point of the second line (L{Vector3d},
+       @arg start2: Start point of the second line (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg end2: End point of the second line (L{Vector3d},
+       @arg end2: End point of the second line (C{Cartesian}, L{Vector3d},
                   C{Vector3Tuple} or C{Vector4Tuple}).
        @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
        @kwarg useZ: If C{True}, use the Z components, otherwise use C{z=0} (C{bool}).
-       @kwarg Vector: Class to return intersections (L{Vector3d} or
+       @kwarg Vector: Class to return intersections (C{Cartesian}, L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with
-                C{point} a C{Vector3d} or B{C{Vector}}.
+                C{point} an instance of B{C{Vector}} or B{C{start1}}'s (sub-)class.
 
        @raise IntersectionError: Invalid, skew, non-coplanar or otherwise
                                  non-intersecting lines.
@@ -369,7 +413,8 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
         v, o1, o2 = _intersect3d3(start1, end1, start2, end2, eps=eps, useZ=useZ)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
-    v = _V_n(v, intersection3d3.__name__, Vector, Vector_kwds)
+    v = _nVc(v, start1.classof, **_xkwds(Vector_kwds, name=intersection3d3.__name__,
+                                         Vector=Vector))
     return Intersection3Tuple(v, o1, o2)
 
 
@@ -429,67 +474,66 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
 
 def intersections2(center1, radius1, center2, radius2, sphere=True,
                                                        Vector=None, **Vector_kwds):
-    '''Compute the intersection of two spheres or circles, each defined
-       by a center point and a radius.
+    '''Compute the intersection of two spheres or circles, each defined by a
+       (3-D) center point and a radius.
 
-       @arg center1: Center of the first sphere or circle (L{Vector3d},
+       @arg center1: Center of the first sphere or circle (C{Cartesian}, L{Vector3d},
                      C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg radius1: Radius of the first sphere or circle (same units as
-                     the B{C{center1}} coordinates).
-       @arg center2: Center of the second sphere or circle (L{Vector3d},
+       @arg radius1: Radius of the first sphere or circle (same units as the
+                     B{C{center1}} coordinates).
+       @arg center2: Center of the second sphere or circle (C{Cartesian}, L{Vector3d},
                      C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg radius2: Radius of the second sphere or circle (same units as
-                     the B{C{center1}} and B{C{center2}} coordinates).
-       @kwarg sphere: If C{True} compute the center and radius of the
-                      intersection of two spheres.  If C{False}, ignore the
-                      C{z}-component and compute the intersection of two
-                      circles (C{bool}).
-       @kwarg Vector: Class to return intersections (L{Vector3d} or
-                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @arg radius2: Radius of the second sphere or circle (same units as the
+                     B{C{center1}} and B{C{center2}} coordinates).
+       @kwarg sphere: If C{True} compute the center and radius of the intersection of
+                      two spheres.  If C{False}, ignore the C{z}-component and compute
+                      the intersection of two circles (C{bool}).
+       @kwarg Vector: Class to return intersections (C{Cartesian}, L{Vector3d} or
+                      C{Vector3Tuple}) or C{None} for an instance of B{C{center1}}'s
+                      (sub-)class.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
-       @return: If B{C{sphere}} is C{True}, a 2-Tuple of the C{center} and
-                C{radius} of the intersection of the spheres.  The C{radius}
-                is C{0.0} for abutting spheres.
+       @return: If B{C{sphere}} is C{True}, a 2-tuple of the C{center} and C{radius}
+                of the intersection of the I{spheres}.  The C{radius} is C{0.0} for
+                abutting spheres (and the C{center} is aka I{radical center}).
 
-                If B{C{sphere}} is C{False}, a 2-tuple of the intersection
-                points of two circles.  For abutting circles, both points
-                are the same B{C{Vector}} instance.
+                If B{C{sphere}} is C{False}, a 2-tuple with the two intersection
+                points of the I{circles}.  For abutting circles, both points are
+                the same instance, aka I{radical center}.
 
-       @raise IntersectionError: Concentric, invalid or non-intersecting
-                                 spheres or circles.
+       @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
+
+       @raise TypeError: Invalid B{C{center1}} or B{C{center2}}.
 
        @raise UnitError: Invalid B{C{radius1}} or B{C{radius2}}.
 
-       @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-
-             SphereIntersection.html>} and U{circle-circle
-             <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
-             intersections.
+       @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>} and
+             U{Circle-Circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
+             Intersection.
     '''
     try:
         return _intersects2(center1, Radius_(radius1=radius1),
                             center2, Radius_(radius2=radius2),
-                            sphere=sphere, Vector=Vector, **Vector_kwds)
+                            sphere=sphere, clas=center1.classof,
+                            Vector=Vector, **Vector_kwds)
     except (TypeError, ValueError) as x:
-        raise _xError(x, center1=center1, radius1=radius1,
-                         center2=center2, radius2=radius2)
+        raise _xError(x, center1=center1, radius1=radius1, center2=center2, radius2=radius2)
 
 
-def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBaseDI._intersections2
-                                           Vector=None, **Vector_kwds):
+def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in CartesianEllipsoidalBase.intersections2,
+                                           clas=None, **Vector_Vector_kwds):  # .ellipsoidalBaseDI._intersections2
     # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 
-    def _V3(x, y, z):
-        v = Vector3d(x, y, z)
-        n = intersections2.__name__
-        return _V_n(v, n, Vector, Vector_kwds)
+    def _nV3(x, y, z):
+        kwds = _xkwds(Vector_Vector_kwds, name=intersections2.__name__)
+        return _nVc(Vector3d(x, y, z), clas, **kwds)
 
     def _xV3(c1, u, x, y):
         xy1 = x, y, _1_0  # transform to original space
-        return _V3(fdot(xy1, u.x, -u.y, c1.x),
-                   fdot(xy1, u.y,  u.x, c1.y), _0_0)
+        return _nV3(fdot(xy1, u.x, -u.y, c1.x),
+                    fdot(xy1, u.y,  u.x, c1.y), _0_0)
 
     c1 = _otherV3d(useZ=sphere, center1=center1)
     c2 = _otherV3d(useZ=sphere, center2=center2)
@@ -512,7 +556,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2
         elif y < 0:
-            raise IntersectionError(_invalid_)
+            raise IntersectionError(_negative_)
         else:  # abutting
             y = _0_0
     elif o < 0:
@@ -525,7 +569,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     if sphere:  # sphere center and radius
         c = c1 if x < EPS  else (
             c2 if x > EPS1 else c1.plus(u.times(x)))
-        t = _V3(c.x, c.y, c.z), Radius(y)
+        t = _nV3(c.x, c.y, c.z), Radius(y)
 
     elif y > 0:  # intersecting circles
         t = _xV3(c1, u, x, y), _xV3(c1, u, x, -y)
@@ -536,7 +580,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
 
 
 def iscolinearWith(point, point1, point2, eps=EPS):
-    '''Check whether a point is colinear with two other points.
+    '''Check whether a point is colinear with two other (3-D) points.
 
        @arg point: The point (L{Vector3d}, C{Vector3Tuple} or
                               C{Vector4Tuple}).
@@ -568,18 +612,70 @@ def _iscolinearWith(v, p1, p2, eps=EPS):
     return n is v1 or n.minus(v).length2 < eps
 
 
+def jekel4_(*points, **Vector_Vector_kwds):
+    '''Best-fit a sphere through two or more (3-D) points.
+
+       @arg points: The points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                    or C{Vector4Tuple}).
+       @kwarg Vector_Vector_kwds: Optional class C{B{Vector}=None} to return the center
+                                  and additional B{C{Vector}} keyword arguments.
+
+       @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center} an
+                instance of C{B{points}[0]}' (sub-)class or B{C{Vector}} if specified.
+
+       @raise ImportError: Package C{numpy} not found, not installed or older than
+                           version 1.10.
+
+       @raise NumPyError: Some C{numpy} issue.
+
+       @raise TypeError: One of the B{C{points}} is invalid.
+
+       @raise ValueError: Too few B{C{points}}.
+
+       @see: Charles F. Jekel, U{"Least Squares Sphere Fit", Sep 13, 2015
+             <https://Jekel.me/2015/Least-Squares-Sphere-Fit/>} and U{Appendix A
+             <https://hdl.handle.net/10019.1/98627>}, U{numpy.linalg.lstsq
+             <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>},
+             U{Eberly 6<https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf>}
+             and function C{circum3}.
+    '''
+    n, ps = len2(points)
+    if n < 2:
+        raise _ValueError(points=n, txt=_too_(_few_))
+
+    A, b = [], []
+    for p in ps:
+        v = _otherV3d(useZ=True, points=p)
+        A.append(v.times(_2_0).xyz + _1_0_T)
+        b.append(v.length2)
+
+    with _numpy(n, jekel4_) as np:
+        A = np.array(A).reshape((n, 4))
+        b = np.array(b).reshape((n, 1))
+        C, R, rk, _ = np.linalg.lstsq(A, b, rcond=None)  # to silence warning
+        C = map1(float, *C)
+        R = map1(float, *R)  # empty if rk < 4 or n <= 4
+
+    n = jekel4_.__name__
+    c = Vector3d(*C[:3], name=n)
+    r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
+
+    c = _nVc(c, points[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
+    return Jekel4Tuple(r, c, rk, R)
+
+
 def meeus2(point1, point2, point3, circum=False, useZ=True):
     '''Return the radius and I{Meeus}' Type of the smallest circle I{containing}
-       or I{through} three points.
+       or I{through} three (3-D) points.
 
-       @arg point1: First point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
-                    or C{Vector2Tuple} if C{B{useZ}=False}).
-       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
-                    or C{Vector2Tuple} if C{B{useZ}=False}).
-       @arg point3: Third point (L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple}
-                    or C{Vector2Tuple} if C{B{useZ}=False}).
-       @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
-                      always, ignoring the I{Meeus}' Type I case (C{bool}).
+       @arg point1: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                    C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+       @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                    C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+       @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                    C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+       @kwarg circum: If C{True} return the non-zero C{circumradius} always,
+                      ignoring the I{Meeus}' Type I case (C{bool}).
        @kwarg useZ: If C{True}, use the Z components, otherwise use C{z=0} (C{bool}).
 
        @return: L{Meeus2Tuple}C{(radius, Type)}.
@@ -596,7 +692,7 @@ def meeus2(point1, point2, point3, circum=False, useZ=True):
     '''
     try:
         A = _otherV3d(useZ=useZ, point1=point1)
-        r, t, _, _ = _meeus4(A, point2, point3, circum=circum, useZ=useZ, classof=point1.classof)
+        r, t, _, _ = _meeus4(A, point2, point3, circum=circum, useZ=useZ, clas=point1.classof)
     except (TypeError, ValueError) as x:
         raise _xError(x, point1=point1, point2=point2, point3=point3, circum=circum)
     return Meeus2Tuple(r, t)
@@ -625,7 +721,7 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
         r = sqrt(a / r) * b * c
         t = None  # Meeus' Type II
     else:  # obtuse or right angle
-        r = sqrt(a) * _0_5
+        r = 0 if a < EPS02 else sqrt(a) * _0_5
         t = B.plus(C).times(_0_5)  # Meeus' Type I
         if clas is not None:
             t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=meeus2.__name__))
@@ -634,36 +730,45 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
 
 def nearestOn(point, point1, point2, within=True,
                                      Vector=None, **Vector_kwds):
-    '''Locate the point between two points closest to a reference.
+    '''Locate the point between two points closest to a reference (3-D).
 
-       @arg point: Reference point (L{Vector3d}, C{Vector3Tuple}
+       @arg point: Reference point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                                     or C{Vector4Tuple}).
-       @arg point1: Start point (L{Vector3d}, C{Vector3Tuple} or
+       @arg point1: Start point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
                                  C{Vector4Tuple}).
-       @arg point2: End point (L{Vector3d}, C{Vector3Tuple} or
+       @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
                                C{Vector4Tuple}).
-       @kwarg within: If C{True} return the closest point between
-                      both given points, otherwise the closest
-                      point on the extended line through both
-                      points (C{bool}).
-       @kwarg Vector: Class to return closest point (L{Vector3d} or
-                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @kwarg within: If C{True} return the closest point between both given
+                      points, otherwise the closest point on the extended line
+                      through both points (C{bool}).
+       @kwarg Vector: Class to return closest point (C{Cartesian}, L{Vector3d}
+                      or C{Vector3Tuple}) or C{None}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
                            arguments, ignored if C{B{Vector} is None}.
 
-       @return: Closest point (L{Vector3d} or C{Vector}).
+       @return: Closest point, either B{C{point1}} or B{C{point2}} or an instance
+                of the B{C{point}}'s (sub-)class or B{C{Vector}} if not C{None}.
 
-       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}..
+       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
 
        @see: Methods L{sphericalTrigonometry.LatLon.nearestOn3} and
-             L{sphericalTrigonometry.LatLon.nearestOn3}
-             U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
-             Point-LineDistance3-Dimensional.html>}.
+             L{sphericalTrigonometry.LatLon.nearestOn3} and U{3-D Point-Line
+             distance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
     '''
-    v = _nearestOn(_otherV3d(point =point),
-                   _otherV3d(point1=point1),
-                   _otherV3d(point2=point2), within=within)
-    return _V_n(v, nearestOn.__name__, Vector, Vector_kwds)
+    p0 = _otherV3d(point =point)
+    p1 = _otherV3d(point1=point1)
+    p2 = _otherV3d(point2=point2)
+
+    p = _nearestOn(p0, p1, p2, within=within)
+    if Vector is not None:
+        p = Vector(p.x, p.y, p.z, **_xkwds(Vector_kwds, name=nearestOn.__name__))
+    elif p is p1:
+        p = point1
+    elif p is p2:
+        p = point2
+    else:  # ignore Vector_kwds
+        p = point.classof(p.x, p.y, p.z, name=nearestOn.__name__)
+    return p
 
 
 def _nearestOn(p0, p1, p2, within=True, eps=EPS):
@@ -672,7 +777,7 @@ def _nearestOn(p0, p1, p2, within=True, eps=EPS):
     p21 = p2.minus(p1)
     d2 = p21.length2
     if d2 < eps:  # coincident
-        p = p1  # ... or p2
+        p = p1  # ... or point2
     else:
         t = p0.minus(p1).dot(p21) / d2
         p = p1 if (within and t < eps) else (
@@ -715,34 +820,53 @@ def _null_space2(numpy, A, eps):
     return n, r
 
 
-def _otherV3d(useZ=True, NN_OK=True, **name_v):  # in .ellipsoids.height4, .formy.hartzell3
-    # check B{C{name#}} vector instance, return Vector3d
-    if not name_v:
-        raise _AssertionError(name_v=MISSING)
+@contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
+def _numpy(arg, where):
+    # get numpy with any errors raised as NumPyError
+    np = Vector3d._numpy
+    if np is None:  # get numpy, once or ImportError
+        Vector3d._numpy = np = _xnumpy(where, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
+    try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
+        e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
+        yield np
+    except Exception as x:  # mostly FloatingPointError?
+        raise NumPyError(x.__class__.__name__, arg, txt=str(x))
+    finally:  # restore numpy error handling
+        np.seterr(**e)
 
+
+def _nVc(v, clas, name=NN, Vector=None, **Vector_kwds):
+    # return a named C{Vector} or C{clas} instance
+    if Vector is not None:
+        v = Vector(v.x, v.y, v.z, **Vector_kwds)
+    elif clas is not None:
+        v = clas(v.x, v.y, v.z)  # ignore Vector_kwds
+    return _xnamed(v, name) if name else v
+
+
+def _otherV3d(useZ=True, NN_OK=True, **name_v):  # in .CartesianEllipsoidalBase.intersections2, .Ellipsoid.height4, .formy.hartzell
+    # check B{C{name#}} vector instance, return Vector3d
     name, v = _xkwds_popitem(name_v)
     if useZ and isinstance(v, Vector3dBase):
         return v if NN_OK or v.name else v.copy(name=name)
-
     try:
-        return Vector3d(v.x, v.y, v.z if useZ else _0_0, name=name)
+        return Vector3d(v.x, v.y, (v.z if useZ else _0_0), name=name)
     except AttributeError:  # no _x_ or _y_ attr
         pass
     raise _xotherError(Vector3d(0, 0, 0), v, name=name, up=2)
 
 
-def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
+def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
     '''Parse an C{"x, y, z"} string.
 
        @arg str3d: X, y and z values (C{str}).
        @kwarg sep: Optional separator (C{str}).
-       @kwarg name: Optional instance name (C{str}).
        @kwarg Vector: Optional class (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
        @return: New B{C{Vector}} or if B{C{Vector}} is C{None},
-                a L{Vector3Tuple}C{(x, y, z)}.
+                a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: Invalid B{C{str3d}}.
     '''
@@ -753,7 +877,8 @@ def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
             raise _ValueError(len=n)
     except (TypeError, ValueError) as x:
         raise VectorError(str3d=str3d, txt=str(x))
-    return _V_n(Vector3Tuple(*v), name, Vector, Vector_kwds)
+    return _xnamed((Vector3Tuple(*v) if Vector is None else
+                    Vector(*v, **Vector_kwds)), parse3d.__name__)
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
@@ -765,7 +890,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
                            ignored if C{B{Vector} is None}.
 
        @return: Vectorial sum as B{C{Vector}} or if B{C{Vector}} is
-                C{None}, a L{Vector3Tuple}C{(x, y, z)}.
+                C{None}, a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: No B{C{vectors}}.
     '''
@@ -776,7 +901,8 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     v = Vector3Tuple(fsum(v.x for v in vectors),
                      fsum(v.y for v in vectors),
                      fsum(v.z for v in vectors))
-    return _V_n(v, sumOf.__name__, Vector, Vector_kwds)
+    return _xnamed((v if Vector is None else
+                         Vector(*v, **Vector_kwds)), sumOf.__name__)
 
 
 def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
@@ -868,21 +994,22 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, Vector=None, **Vector_kwds):
     '''Trilaterate three spheres, each given as a (3-D) center and a radius.
 
-       @arg center1: Center of the 1st sphere (L{Vector3d}, C{Vector3Tuple}
-                     or C{Vector4Tuple}).
+       @arg center1: Center of the 1st sphere (C{Cartesian}, L{Vector3d},
+                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg radius1: Radius of the 1st sphere (same C{units} as C{x}, C{y}
                      and C{z}).
-       @arg center2: Center of the 2nd sphere (L{Vector3d}, C{Vector3Tuple}
-                     or C{Vector4Tuple}).
+       @arg center2: Center of the 2nd sphere (C{Cartesian}, L{Vector3d},
+                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg radius2: Radius of this sphere (same C{units} as C{x}, C{y}
                      and C{z}).
-       @arg center3: Center of the 3rd sphere (L{Vector3d}, C{Vector3Tuple}
-                     or C{Vector4Tuple}).
+       @arg center3: Center of the 3rd sphere (C{Cartesian}, L{Vector3d},
+                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg radius3: Radius of the 3rd sphere (same C{units} as C{x}, C{y}
                      and C{z}).
        @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
-       @kwarg Vector: Class to return intersections (L{Vector3d} or
-                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @kwarg Vector: Class to return intersections (C{Cartesian}, L{Vector3d}
+                      or C{Vector3Tuple}) or C{None} for B{C{center1}}'s
+                      (sub-)class.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
@@ -891,7 +1018,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                 spheres abut/intersect in a single point.
 
        @raise ImportError: Package C{numpy} not found, not installed or
-                           older than version 1.15.
+                           older than version 1.10.
 
        @raise IntersectionError: Near-concentric, colinear, too distant or
                                  non-intersecting spheres.
@@ -901,9 +1028,6 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @raise TypeError: Invalid B{C{center1}}, B{C{center2}} or B{C{center3}}.
 
        @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
-
-       @note: Package U{numpy<https://pypi.org/project/numpy>} is required,
-              version 1.15 or later.
 
        @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
              Problem}<https://www.ResearchGate.net/publication/
@@ -915,14 +1039,15 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
         return _trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
                                 Radius_(radius1=radius1, low=eps),
                                 center2, radius2, center3, radius3,
-                                eps=eps, Vector=Vector, **Vector_kwds)
+                                eps=eps, clas=center1.classof,
+                                Vector=Vector, **Vector_kwds)
     except (AssertionError, NumPyError, TypeError, ValueError) as x:
         raise _xError(x, center1=center1, radius1=radius1,
                          center2=center2, radius2=radius2,
                          center3=center3, radius3=radius3)
 
 
-def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds):  # MCCABE 13
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_kwds):  # MCCABE 13
     # (INTERNAL) Intersect three spheres or circles, see L{trilaterate3d2}
     # above, separated to allow callers to embellish any exceptions, like
     # C{FloatingPointError}s from C{numpy}
@@ -936,21 +1061,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
         # compute x, y and z and return as Vector
         v = x.plus(z.times(t01))
         n = trilaterate3d2.__name__
-        return _V_n(v, n, Vector, Vector_kwds)
-
-    @contextmanager  # <https://www.python.org/dev/peps/pep-0343/> Examples
-    def _numpy(p):
-        # get numpy with any errors raised as NumPyError
-        np = Vector3d._numpy
-        if np is None:  # get numpy, once or ImportError
-            Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
-        try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
-            e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
-            yield np
-        except Exception as x:  # mostly FloatingPointError?
-            raise NumPyError(x.__class__.__name__, p, txt=str(x))
-        finally:  # restore numpy error handling
-            np.seterr(**e)
+        return _nVc(v, clas, **_xkwds(Vector_Vector_kwds, name=n))
 
     def _roots(numpy, *coeffs):
         # only real, non-complex roots of a polynomial, if any
@@ -959,31 +1070,30 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
 
     c2 = _otherV3d(center2=c2, NN_OK=False)
     c3 = _otherV3d(center3=c3, NN_OK=False)
-    R  = [r1, Radius_(radius2=r2, low=eps),
+    rs = [r1, Radius_(radius2=r2, low=eps),
               Radius_(radius3=r3, low=eps)]
 
     # get null_space Z, pseudo-inverse A and vector B, once
-    t = -_2_0
-    A = [(_1_0, t * c.x, t * c.y, t * c.z) for c in (c1, c2, c3)]  # 3 x 4
-    with _numpy(None) as np:
+    A = [(_1_0_T + c.times(-_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
+    with _numpy(None, trilaterate3d2) as np:
         Z, _ = _null_space2(np, A, eps)
         A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse
     if Z is None:  # coincident, colinear, concentric, etc.
         raise _trilaterror(c1, r1, c2, r2, c3, r3, eps)
-    B = [c.length2 for c in (c1, c2, c3)]
+    bs = [c.length2 for c in (c1, c2, c3)]
 
     # perturbe radii to handle corner cases like this
     # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
-    P = (_0_0,)
+    ps = (_0_0,)
     if eps and eps > 0:
-        p1 = max(eps,  EPS)
-        p2 = max(eps, _EPSqrt)
-        P += p1, -p1
+        p1  = max(eps,  EPS)
+        p2  = max(eps, _EPSqrt)
+        ps += p1, -p1
         if p2 > p1:
-            P += p2, -p2
-    for p in P:
-        b = [((r + p)**2 - b) for r, b in zip(R, B)]  # 1 x 3 or 3 x 1
-        with _numpy(p) as np:
+            ps += p2, -p2
+    for p in ps:
+        b = [((r + p)**2 - b) for r, b in zip(rs, bs)]  # 1 x 3 or 3 x 1
+        with _numpy(p, trilaterate3d2) as np:
             X = np.dot(A, b)
             X0, x = _0f3d(X)
             Z0, z = _0f3d(Z)
@@ -1026,13 +1136,6 @@ def _tri_r2h(r1, r2, h):
     # check for near-concentric or too distant spheres/circles
     return _too_(Fmt.distant(h)) if h > (r1 + r2) else (
            _near_concentric_ if h < abs(r1 - r2) else NN)
-
-
-def _V_n(v, name, Vector, Vector_kwds={}):
-    # return a named Vector instance
-    if Vector is not None:
-        v = Vector(v.x, v.y, v.z, **Vector_kwds)
-    return _xnamed(v, name)
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef

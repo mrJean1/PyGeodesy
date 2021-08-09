@@ -4,13 +4,14 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.25'
+__version__ = '21.08.08'
 
 from base import coverage, GeodSolve, numpy_version, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, fstr, \
-                      intersection3d3 as i3d, IntersectionError, meeus2, \
-                      sphericalNvector, trilaterate2d2, trilaterate3d2, \
+                      intersection3d3 as i3d, IntersectionError, \
+                      isnear0, jekel4_, meeus2, sphericalNvector, \
+                      trilaterate2d2, trilaterate3d2, \
                       vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
 
@@ -386,6 +387,15 @@ class Tests(TestsBase):
         self.test(circum3.__name__, c, t)
         self.test(circum3.__name__, d, None, known=d)
 
+        try:  # need numpy
+            v, c, k, s = jekel4_(v1, v2, v3)
+            self.test(jekel4_.__name__, v, r, prec=4)
+            self.test(jekel4_.__name__, c, t, known=isnear0(c.z))
+            self.test(jekel4_.__name__, k, 3, known=True)
+            self.test(jekel4_.__name__, s, (), known=True)
+        except ImportError as x:
+            self.skip(str(x), n=4)
+
     def testTrilaterate3d2(self, Vector):
 
         try:  # need numpy
@@ -422,8 +432,14 @@ class Tests(TestsBase):
             self.test(circum3.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
             self.test(circum3.__name__, d, None, known=d)
 
+            t, c, k, s = v1.jekel4_(v2, v3)
+            self.test(jekel4_.__name__, t, r, prec=2)
+            self.test(jekel4_.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
+            self.test(jekel4_.__name__, k, 3, known=True)
+            self.test(jekel4_.__name__, s, (), known=True)
+
         except ImportError as x:
-            self.skip(str(x), n=11)
+            self.skip(str(x), n=15)
 
 
 if __name__ == '__main__':

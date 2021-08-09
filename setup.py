@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.07.28'
+__version__ = '21.08.06'
 
 
 def _c2(*names):
@@ -66,17 +66,18 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'IDW', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
-             'Karney', 'Krueger', 'Krüger',
-             'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
+             'Jekel', 'Karney', 'Krueger', 'Krüger',
+             'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
-             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'LTP', 'lune',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS',
+             'lstsq', 'LTP', 'lune',
              'mean', 'memoize', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
-             'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
+             'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',

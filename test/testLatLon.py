@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.31'
+__version__ = '21.08.08'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -551,10 +551,31 @@ class Tests(TestsBase):
             self.test('circum3.datum', c.datum, p1.datum)
             self.test('circum3.Ecef',  c.Ecef,  p1.Ecef)
 
-        except (ImportError, IntersectionError) as x:
+        except ImportError as x:
+            self.skip(str(x), n=27)  # PYCHOK test attr?
+        except IntersectionError as x:
             self.test(n + 'error', str(x), str(x))  # PYCHOK test attr?
         except NotImplementedError as x:
             self.test(n + 'error', str(x), str(x) if Nv else NotImplementedError.__name__)  # PYCHOK test attr?
+
+        try:  # need numpy
+            k = (isPyPy and isPython2) or not X
+            t = p1.jekel4_(p2, p3)
+            c = t.center
+            self.test('jekel4_.radius', t.radius, '3184256.748', prec=3, known=Sph or k)
+            self.test('jekel4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=Sph or k)
+            self.test('jekel4_.rank', t.rank, 3, known=k)
+            self.test('jekel4_.residuals', t.residuals, (), known=k)
+
+            c.height = 0
+            self.test('jekel4_.dist1', p1.distanceTo(c), '57818.033068', prec=6, known=k)
+            self.test('jekel4_.dist2', p2.distanceTo(c), '57834.176069', prec=6, known=k)
+            self.test('jekel4_.dist3', p3.distanceTo(c), '57830.992161', prec=6, known=k)
+
+            self.test('jekel4_.datum', c.datum, p1.datum)
+            self.test('jekel4_.Ecef',  c.Ecef,  p1.Ecef)
+        except ImportError as x:
+            self.skip(str(x), n=9)  # PYCHOK test attr?
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

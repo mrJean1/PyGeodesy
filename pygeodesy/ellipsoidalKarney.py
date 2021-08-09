@@ -42,7 +42,7 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from pygeodesy.units import _1mm as _TOL_M  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.07.31'
+__version__ = '21.08.07'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -224,7 +224,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
                 if C{B{LatLon} is None}.  For abutting circles, both
-                intersection points are the same instance.
+                points are the same instance, aka I{radical center}.
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}

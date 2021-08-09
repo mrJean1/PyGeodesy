@@ -71,7 +71,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
                              _a_, _C_, _convergence_, _datum_, _ellipsoid_, \
                              _f_, _h_, _height_, _lat_, _lon_, _M_, _name_, \
                              _no_,  _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
-                             _0_0, _0_5, _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
+                             _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -85,7 +85,7 @@ from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -464,7 +464,7 @@ class EcefKarney(_EcefBase):
         else:  # E.e4 == 0, spherical case
             # Dealing with underflow in the general case with E.e2 = 0 is
             # difficult.  Origin maps to North pole, same as with ellipsoid.
-            sa, ca, _ = _sch3(z if h else _1_0, R)
+            sa, ca, _ = _sch3((z if h else _1_0), R)
             h -= E.a
             C  = 4
 
@@ -982,7 +982,7 @@ class EcefMatrix(_NamedTuple):
             if len(xyz0) != len(xyz):
                 raise LenError(self.unrotate, xyz0=len(xyz0), xyz=len(xyz))
 
-            _xyz = (_1_0,) + xyz
+            _xyz = _1_0_T + xyz
             # x' = x0 + M[0] * x + M[1] * y + M[2] * z
             # y' = y0 + M[3] * x + M[4] * y + M[5] * z
             # z' = z0 + M[6] * x + M[7] * y + M[8] * z

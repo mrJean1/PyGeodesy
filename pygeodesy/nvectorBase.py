@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -53,7 +53,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''New n-vector normal to the earth's surface.
 
            @arg x: An C{Nvector}, L{Vector3Tuple}, L{Vector4Tuple} or
-                     the C{X} coordinate (C{scalar}).
+                   the C{X} coordinate (C{scalar}).
            @arg y: The C{Y} coordinate (C{scalar}) if B{C{x}} C{scalar}.
            @arg z: The C{Z} coordinate (C{scalar}) if B{C{x}} C{scalar}.
            @kwarg h: Optional height above surface (C{meter}).

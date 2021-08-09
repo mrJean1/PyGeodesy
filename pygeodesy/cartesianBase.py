@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
 
 class CartesianBase(Vector3d):

@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.31'
+__version__ = '21.08.06'
 
 from base import GeodSolve, geographiclib, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename # PYCHOK expected
+from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename  # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
@@ -108,24 +108,31 @@ class Tests(TestsBase):
             # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
             c = Cartesian(-0.00323306, -0.7915, 0.61116)
             n = classname(c, prefixed=True) + '.intersections2'
-            self.test(n, c.toLatLon(height=0), '37.673442°N, 090.234036°W')
+            self.test(n, c.toLatLon(height=0), '37.673442°N, 090.234036°W' if Sph
+                                          else '89.998941°N, 090.234036°W')  # XXX?
             d = Cartesian(-0.0134464, -0.807775, 0.589337)
-            self.test(n, d.toLatLon(height=0), '36.109987°N, 090.95367°W')
-            x, y = c.intersections2(0.0312705, d, 0.0421788, radius=None)  # radii in radians
-            self.test(n, x.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
-            self.test(n, x.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
-            if y is not x:
-                self.test(n, y.toStr(prec=6), '[0.025768, -0.798347, 0.601646]')  # 0.0257661, -0.798332, 0.601666
-                self.test(n, y.toLatLon(height=0), '36.987868°N, 088.151309°W')  # 36.98931°N, 088.151425°W
-
-            try:
-                from pygeodesy import trilaterate3d2  # with earth ... equivalent to Cartesian.intersections2?
-                n = modulename(trilaterate3d2, prefixed=True)
-                i, j = trilaterate3d2(c, 0.0312705, d, 0.0421788, Cartesian(0, 0, 0), 1)  # radians
-                self.test(n, i.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]', known=x.minus(i).length < 5e-5)
-                self.test(n, j.toStr(prec=6), '[0.025768, -0.798347, 0.601646]', known=y.minus(j).length < 5e-5)
-            except ImportError as x:
-                self.skip(str(x), n=2)
+            self.test(n, d.toLatLon(height=0), '36.109987°N, 090.95367°W' if Sph
+                                          else '89.99892°N, 090.95367°W')  # XXX?
+            if Sph:
+                x, y = c.intersections2(0.0312705, d, 0.0421788, radius=None)  # radii in radians
+                self.test(n, x.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
+                self.test(n, x.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
+                if y is not x:
+                    self.test(n, y.toStr(prec=6), '[0.025768, -0.798347, 0.601646]')  # 0.0257661, -0.798332, 0.601666
+                    self.test(n, y.toLatLon(height=0), '36.987868°N, 088.151309°W')  # 36.98931°N, 088.151425°W
+                try:
+                    from pygeodesy import trilaterate3d2  # with earth ... equivalent to Cartesian.intersections2?
+                    n = modulename(trilaterate3d2, prefixed=True)
+                    i, j = trilaterate3d2(c, 0.0312705, d, 0.0421788, Cartesian(0, 0, 0), 1)  # radians
+                    self.test(n, i.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]', known=x.minus(i).length < 5e-5)
+                    self.test(n, j.toStr(prec=6), '[0.025768, -0.798347, 0.601646]', known=y.minus(j).length < 5e-5)
+                except ImportError as x:
+                    self.skip(str(x), n=2)
+            else:
+                x, y = c.intersections2(0.0312705, d, 0.0421788, sphere=True)
+                self.test(n, x.toStr(prec=6), '[-0.0035, -0.791926, 0.610589]')
+                self.test(n, x.toLatLon(height=0), '89.998941°N, 090.253237°W')
+                self.test(n, y.toStr(prec=6), '0.0312613')  # radius
 
         try:
             from pygeodesy.vector3d import intersections2
