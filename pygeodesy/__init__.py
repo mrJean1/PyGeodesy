@@ -86,8 +86,8 @@ L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolat
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
 installed for most C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
-Functions L{circum3}, L{jekel4_} and L{trilaterate3d2} and the corresponding C{Cartesian},
-C{Nvector} and L{Vector3d} methods require U{numpy<https://PyPI.org/project/numpy>}.
+Functions L{circum3}, L{jekel4_} and L{trilaterate3d2}C{/-5} and the corresponding C{Cartesian},
+C{LatLon}, C{Nvector} and L{Vector3d} methods require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve} and
 L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve

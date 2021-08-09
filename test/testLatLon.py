@@ -559,18 +559,18 @@ class Tests(TestsBase):
             self.test(n + 'error', str(x), str(x) if Nv else NotImplementedError.__name__)  # PYCHOK test attr?
 
         try:  # need numpy
-            k = (isPyPy and isPython2) or not X
+            k = (isPyPy and isPython2) or Sph or not X
             t = p1.jekel4_(p2, p3)
             c = t.center
-            self.test('jekel4_.radius', t.radius, '3184256.748', prec=3, known=Sph or k)
-            self.test('jekel4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=Sph or k)
+            self.test('jekel4_.radius', t.radius, '3184256.748', prec=3, known=k)
+            self.test('jekel4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=k)
             self.test('jekel4_.rank', t.rank, 3, known=k)
             self.test('jekel4_.residuals', t.residuals, (), known=k)
 
             c.height = 0
-            self.test('jekel4_.dist1', p1.distanceTo(c), '57818.033068', prec=6, known=k)
-            self.test('jekel4_.dist2', p2.distanceTo(c), '57834.176069', prec=6, known=k)
-            self.test('jekel4_.dist3', p3.distanceTo(c), '57830.992161', prec=6, known=k)
+            self.test('jekel4_.dist1', p1.distanceTo(c), '57818.033', prec=3, known=k)
+            self.test('jekel4_.dist2', p2.distanceTo(c), '57834.176', prec=3, known=k)
+            self.test('jekel4_.dist3', p3.distanceTo(c), '57830.992', prec=3, known=k)
 
             self.test('jekel4_.datum', c.datum, p1.datum)
             self.test('jekel4_.Ecef',  c.Ecef,  p1.Ecef)
