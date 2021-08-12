@@ -10,7 +10,7 @@ L{trilaterate3d2}.
 
 from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, \
-                              NumPyError, _TypeError, _ValueError, \
+                              NumPyError, PointsError, _TypeError, _ValueError, \
                               VectorError, _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot, hypot2_
 from pygeodesy.formy import _radical2
@@ -26,14 +26,14 @@ from pygeodesy.named import _NamedTuple, _Pass, _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, Vector2Tuple, \
                                   Vector3Tuple  # Vector4Tuple
 from pygeodesy.streprs import Fmt
-from pygeodesy.units import Float, Radius, Radius_
+from pygeodesy.units import Float, Int, Radius, Radius_
 from pygeodesy.vector3dBase import Vector3dBase
 
 from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.08.08'
+__version__ = '21.08.12'
 
 _deltas_    = 'deltas'
 _raise_     = 'raise'  # PYCHOK used!
@@ -53,18 +53,18 @@ class Circum3Tuple(_NamedTuple):  # in .latlonBase
     _Units_ = ( Radius,  _Pass,    _Pass)
 
 
-class Jekel4Tuple(_NamedTuple):
+class Circum4Tuple(_NamedTuple):
     '''4-Tuple C{(radius, center, rank, residuals)} with C{radius} and C{center}
-       of a sphere fitted through given points and the C{rank} and C{residuals}
-       -if any- from U{numpy.linalg.lstsq
+       of a sphere I{least-squares} fitted through given points and the C{rank}
+       and C{residuals} -if any- from U{numpy.linalg.lstsq
        <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>}.
     '''
     _Names_ = (_radius_, _center_, _rank_, _residuals_)
-    _Units_ = ( Radius,  _Pass,    _Pass,  _Pass)
+    _Units_ = ( Radius,  _Pass,     Int,   _Pass)
 
 
 class Meeus2Tuple(_NamedTuple):
-    '''2-Tuple C{(radius, Type)} with C{radius} and I{Meeus}' {Type} of the smallest
+    '''2-Tuple C{(radius, Type)} with C{radius} and I{Meeus}' C{Type} of the smallest
        circle I{containing} 3 points.  C{Type} is C{None} for a I{Meeus}' Type II
        C{circumcircle} passing though all 3 points.  Otherwise C{Type} is the center
        of a I{Meeus}' Type I circle with 2 points on (a diameter of) and 1 point
@@ -109,7 +109,7 @@ class Vector3d(Vector3dBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @see: Function C{circum3} and methods C{jekel4_} and C{meeus2}.
+           @see: Function L{pygeodesy.circum3} and methods L{circum4_} and L{meeus2}.
         '''
         try:
             r, c, d, _, _ = _circum5(self, point2, point3, circum=circum, eps=eps,
@@ -117,6 +117,28 @@ class Vector3d(Vector3dBase):
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
         return Circum3Tuple(r, c, d)
+
+    def circum4_(self, *points):
+        '''Best-fit a sphere through this and two or more other (3-D) points.
+
+           @arg points: Other points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                        or C{Vector4Tuple}).
+
+           @return: L{Circum4Tuple}C{(radius, center, rank, residuals)} with C{center}
+                    an instance if this (sub-)class.
+
+           @raise ImportError: Package C{numpy} not found, not installed or
+                               older than version 1.10.
+
+           @raise NumPyError: Some C{numpy} issue.
+
+           @raise PointsError: Too few B{C{points}}.
+
+           @raise TypeError: One of the B{C{points}} invalid.
+
+           @see: Function L{pygeodesy.circum4_} and methods L{circum3} and L{meeus2}.
+        '''
+        return circum4_(self, *points, Vector=self.classof)
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other (3-D) points are colinear.
@@ -138,31 +160,9 @@ class Vector3d(Vector3dBase):
         v = self if self.name else _otherV3d(NN_OK=False, this=self)
         return _iscolinearWith(v, point1, point2, eps=eps)
 
-    def jekel4_(self, *points):
-        '''Best-fit a sphere through this and one or more other (3-D) points.
-
-           @arg points: Other points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
-                        or C{Vector4Tuple}).
-
-           @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center}
-                    an instance if this (sub-)class.
-
-           @raise ImportError: Package C{numpy} not found, not installed or
-                               older than version 1.10.
-
-           @raise NumPyError: Some C{numpy} issue.
-
-           @raise TypeError: One of the B{C{points}} invalid.
-
-           @raise ValueError: Too few B{C{points}}.
-
-           @see: Function C{jekel4_} and methods L{circum3} and L{meeus2}.
-        '''
-        return jekel4_(self, *points, Vector=self.classof)
-
     def meeus2(self, point2, point3, circum=False):
         '''Return the radius and I{Meeus}' Type of the smallest circle
-           I{containing} or I{through} this and two other (3-D) points.
+           I{through} or I{containing} this and two other (3-D) points.
 
            @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                         or C{Vector4Tuple}).
@@ -177,13 +177,13 @@ class Vector3d(Vector3dBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @see: Function C{meeus2} and methods C{circum3} and C{jekel4_}.
+           @see: Function L{pygeodesy.meeus2} and methods L{circum3} and L{circum4_}.
         '''
         try:
             r, t, _, _ = _meeus4(self, point2, point3, circum=circum, clas=self.classof)
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
-        return r, t
+        return Meeus2Tuple(r, t)
 
     def nearestOn(self, point1, point2, within=True):
         '''Locate the point between two points closest to this point.
@@ -247,7 +247,7 @@ class Vector3d(Vector3dBase):
 
            @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
 
-           @see: Function L{trilaterate2d2}.
+           @see: Function L{pygeodesy.trilaterate2d2}.
         '''
         def _xyr3(r, **name_v):
             v = _otherV3d(useZ=False, **name_v)
@@ -342,8 +342,8 @@ def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
        @see: U{Jean Meeus, "Astronomical Algorithms", 2nd Ed. 1998, page 127ff
              <http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf>},
              U{circumradius<https://MathWorld.Wolfram.com/Circumradius.html>},
-             U{circumcircle<https://MathWorld.Wolfram.com/Circumcircle.html>}, function
-             L{meeus2} and methods C{circum3} and C{meeus2}.
+             U{circumcircle<https://MathWorld.Wolfram.com/Circumcircle.html>} and
+             functions L{pygeodesy.circum4_} and L{pygeodesy.meeus2}.
     '''
     try:
         p1 = _otherV3d(useZ=useZ, point1=point1)
@@ -352,6 +352,58 @@ def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
     except (AssertionError, TypeError, ValueError) as x:
         raise _xError(x, point1=point1, point2=point2, point3=point3, circum=circum)
     return Circum3Tuple(r, c, d)
+
+
+def circum4_(*points, **Vector_Vector_kwds):
+    '''Best-fit a sphere through three or more (3-D) points.
+
+       @arg points: The points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                    or C{Vector4Tuple}).
+       @kwarg Vector_Vector_kwds: Optional class C{B{Vector}=None} to return the center
+                                  and additional B{C{Vector}} keyword arguments.
+
+       @return: L{Circum4Tuple}C{(radius, center, rank, residuals)} with C{center} an
+                instance of C{B{points}[0]}' (sub-)class or B{C{Vector}} if specified.
+
+       @raise ImportError: Package C{numpy} not found, not installed or older than
+                           version 1.10.
+
+       @raise NumPyError: Some C{numpy} issue.
+
+       @raise PointsError: Too few B{C{points}}.
+
+       @raise TypeError: One of the B{C{points}} is invalid.
+
+       @see: U{Charles F. Jekel, "Least Squares Sphere Fit", Sep 13, 2015
+             <https://Jekel.me/2015/Least-Squares-Sphere-Fit/>} and U{Appendix A
+             <https://hdl.handle.net/10019.1/98627>}, U{numpy.linalg.lstsq
+             <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>},
+             U{Eberly 6<https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf>}
+             and functions L{pygeodesy.circum3} and L{pygeodesy.meeus2}.
+    '''
+    n, ps = len2(points)
+    if n < 3:
+        raise PointsError(points=n, txt=_too_(_few_))
+
+    A, b = [], []
+    for i, p in enumerate(ps):
+        v = _otherV3d(useZ=True, i=i, points=p)
+        A.append(v.times(_2_0).xyz + _1_0_T)
+        b.append(v.length2)
+
+    with _numpy(n, circum4_) as np:
+        A = np.array(A).reshape((n, 4))
+        b = np.array(b).reshape((n, 1))
+        C, R, rk, _ = np.linalg.lstsq(A, b, rcond=None)  # to silence warning
+        C = map1(float, *C)
+        R = map1(float, *R)  # empty if rk < 4 or n <= 4
+
+    n = circum4_.__name__
+    c = Vector3d(*C[:3], name=n)
+    r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
+
+    c = _nVc(c, points[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
+    return Circum4Tuple(r, c, rk, R)
 
 
 def _circum5(p1, point2, point3, circum=True, eps=EPS4, useZ=True,
@@ -597,7 +649,7 @@ def iscolinearWith(point, point1, point2, eps=EPS):
        @raise TypeError: Invalid B{C{point}}, B{C{point1}} or
                          B{C{point2}}.
 
-       @see: Function L{nearestOn}.
+       @see: Function L{vector3d.nearestOn}.
     '''
     return _iscolinearWith(_otherV3d(point=point),
                             point1, point2, eps=eps)
@@ -612,61 +664,9 @@ def _iscolinearWith(v, p1, p2, eps=EPS):
     return n is v1 or n.minus(v).length2 < eps
 
 
-def jekel4_(*points, **Vector_Vector_kwds):
-    '''Best-fit a sphere through two or more (3-D) points.
-
-       @arg points: The points (each a C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
-                    or C{Vector4Tuple}).
-       @kwarg Vector_Vector_kwds: Optional class C{B{Vector}=None} to return the center
-                                  and additional B{C{Vector}} keyword arguments.
-
-       @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center} an
-                instance of C{B{points}[0]}' (sub-)class or B{C{Vector}} if specified.
-
-       @raise ImportError: Package C{numpy} not found, not installed or older than
-                           version 1.10.
-
-       @raise NumPyError: Some C{numpy} issue.
-
-       @raise TypeError: One of the B{C{points}} is invalid.
-
-       @raise ValueError: Too few B{C{points}}.
-
-       @see: Charles F. Jekel, U{"Least Squares Sphere Fit", Sep 13, 2015
-             <https://Jekel.me/2015/Least-Squares-Sphere-Fit/>} and U{Appendix A
-             <https://hdl.handle.net/10019.1/98627>}, U{numpy.linalg.lstsq
-             <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>},
-             U{Eberly 6<https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf>}
-             and function C{circum3}.
-    '''
-    n, ps = len2(points)
-    if n < 2:
-        raise _ValueError(points=n, txt=_too_(_few_))
-
-    A, b = [], []
-    for p in ps:
-        v = _otherV3d(useZ=True, points=p)
-        A.append(v.times(_2_0).xyz + _1_0_T)
-        b.append(v.length2)
-
-    with _numpy(n, jekel4_) as np:
-        A = np.array(A).reshape((n, 4))
-        b = np.array(b).reshape((n, 1))
-        C, R, rk, _ = np.linalg.lstsq(A, b, rcond=None)  # to silence warning
-        C = map1(float, *C)
-        R = map1(float, *R)  # empty if rk < 4 or n <= 4
-
-    n = jekel4_.__name__
-    c = Vector3d(*C[:3], name=n)
-    r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
-
-    c = _nVc(c, points[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
-    return Jekel4Tuple(r, c, rk, R)
-
-
 def meeus2(point1, point2, point3, circum=False, useZ=True):
-    '''Return the radius and I{Meeus}' Type of the smallest circle I{containing}
-       or I{through} three (3-D) points.
+    '''Return the radius and I{Meeus}' Type of the smallest circle I{through}
+       or I{containing} three (3-D) points.
 
        @arg point1: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
@@ -687,8 +687,8 @@ def meeus2(point1, point2, point3, circum=False, useZ=True):
        @see: U{Jean Meeus, "Astronomical Algorithms", 2nd Ed. 1998, page 127ff
              <http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf>},
              U{circumradius<https://MathWorld.Wolfram.com/Circumradius.html>},
-             U{circumcircle<https://MathWorld.Wolfram.com/Circumcircle.html>}, function
-             L{circum3} and methods C{circum3} and C{meeus2}.
+             U{circumcircle<https://MathWorld.Wolfram.com/Circumcircle.html>} and
+             functions L{pygeodesy.circum3} and L{pygeodesy.circum4_}.
     '''
     try:
         A = _otherV3d(useZ=useZ, point1=point1)
@@ -751,9 +751,9 @@ def nearestOn(point, point1, point2, within=True,
 
        @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
 
-       @see: Methods L{sphericalTrigonometry.LatLon.nearestOn3} and
-             L{sphericalTrigonometry.LatLon.nearestOn3} and U{3-D Point-Line
-             distance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
+       @see: U{3-D Point-Linedistance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>},
+             C{Cartesian} and C{LatLon} methods C{nearestOn}, method L{sphericalTrigonometry.LatLon.nearestOn3}
+             and function L{sphericalTrigonometry.nearestOn3}.
     '''
     p0 = _otherV3d(point =point)
     p1 = _otherV3d(point1=point1)
@@ -844,16 +844,19 @@ def _nVc(v, clas, name=NN, Vector=None, **Vector_kwds):
     return _xnamed(v, name) if name else v
 
 
-def _otherV3d(useZ=True, NN_OK=True, **name_v):  # in .CartesianEllipsoidalBase.intersections2, .Ellipsoid.height4, .formy.hartzell
-    # check B{C{name#}} vector instance, return Vector3d
+def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):  # in .CartesianEllipsoidalBase.intersections2, .Ellipsoid.height4, .formy.hartzell
+    # check named vector instance, return Vector3d
+    def _name_i(name, i):
+        return name if i is None else Fmt.SQUARE(name, i)
+
     name, v = _xkwds_popitem(name_v)
     if useZ and isinstance(v, Vector3dBase):
-        return v if NN_OK or v.name else v.copy(name=name)
+        return v if NN_OK or v.name else v.copy(name=_name_i(name, i))
     try:
-        return Vector3d(v.x, v.y, (v.z if useZ else _0_0), name=name)
+        return Vector3d(v.x, v.y, (v.z if useZ else _0_0), name=_name_i(name, i))
     except AttributeError:  # no _x_ or _y_ attr
         pass
-    raise _xotherError(Vector3d(0, 0, 0), v, name=name, up=2)
+    raise _xotherError(Vector3d(0, 0, 0), v, name=_name_i(name, i), up=2)
 
 
 def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):

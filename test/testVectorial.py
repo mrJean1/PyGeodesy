@@ -4,13 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.08'
+__version__ = '21.08.12'
 
 from base import coverage, GeodSolve, numpy_version, TestsBase
 
-from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, fstr, \
+from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, circum4_, fstr, \
                       intersection3d3 as i3d, IntersectionError, \
-                      isnear0, jekel4_, meeus2, sphericalNvector, \
+                      isnear0, meeus2, sphericalNvector, \
                       trilaterate2d2, trilaterate3d2, \
                       vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
@@ -266,7 +266,7 @@ class Tests(TestsBase):
             self.test('triangulate', isinstance(t, LatLon), True)  # PYCHOK test attr?
 
         if hasattr(LatLon, 'trilaterate'):
-            # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
+            # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
             p = LatLon(37.418436, -121.963477)
             t = p.trilaterate(265.710701754, LatLon(37.417243, -121.961889), 234.592423446,
                                              LatLon(37.418692, -121.960194), 54.8954278262)
@@ -377,7 +377,7 @@ class Tests(TestsBase):
         self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(-500.0, 250.0)')
 
         v1, v2, v3 = V3d(1, 1), V3d(2, 4), V3d(5, 3)
-        r, c = v1.meeus2(v2, v3)
+        r, c = v1.meeus2(v2, v3)  # PYCHOK Meeus2Tuple
         self.test(meeus2.__name__, fstr((r, c.x, c.y, c.z), prec=3), '2.236, 3.0, 2.0, 0.0')
         t = v1.trilaterate2d2(r, v2, r, v3, r)
         self.test(meeus2.__name__, t, '(3.0, 2.0, 0)')
@@ -388,11 +388,11 @@ class Tests(TestsBase):
         self.test(circum3.__name__, d, None, known=d)
 
         try:  # need numpy
-            v, c, k, s = jekel4_(v1, v2, v3)
-            self.test(jekel4_.__name__, v, r, prec=4)
-            self.test(jekel4_.__name__, c, t, known=isnear0(c.z))
-            self.test(jekel4_.__name__, k, 3, known=True)
-            self.test(jekel4_.__name__, s, (), known=True)
+            v, c, k, s = circum4_(v1, v2, v3)
+            self.test(circum4_.__name__, v, r, prec=4)
+            self.test(circum4_.__name__, c, t, known=isnear0(c.z))
+            self.test(circum4_.__name__, k, 3, known=True)
+            self.test(circum4_.__name__, s, (), known=True)
         except ImportError as x:
             self.skip(str(x), n=4)
 
@@ -432,11 +432,11 @@ class Tests(TestsBase):
             self.test(circum3.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
             self.test(circum3.__name__, d, None, known=d)
 
-            t, c, k, s = v1.jekel4_(v2, v3)
-            self.test(jekel4_.__name__, t, r, prec=2)
-            self.test(jekel4_.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
-            self.test(jekel4_.__name__, k, 3, known=True)
-            self.test(jekel4_.__name__, s, (), known=True)
+            t, c, k, s = v1.circum4_(v2, v3)
+            self.test(circum4_.__name__, t, r, prec=2)
+            self.test(circum4_.__name__, fstr(c.xyz, prec=9), '0.0, 0.5, 0.0', known=c.z)
+            self.test(circum4_.__name__, k, 3, known=True)
+            self.test(circum4_.__name__, s, (), known=True)
 
         except ImportError as x:
             self.skip(str(x), n=15)

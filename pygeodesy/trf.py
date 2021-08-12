@@ -6,12 +6,12 @@ u'''I{Veness}' Terrestrial Reference Frames (TRF).
 Classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
 Transcoded from I{Chris Veness'} (C) 2006-2019 JavaScript originals
-U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/blob/master/
+U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/ChrisVeness/geodesy/blob/master/
 latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
-<https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
+<https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
 
 Following is a copy of the comments in I{Veness}' U{latlon-ellipsoidal-referenceframe.js
-<https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>}.
+<https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>}.
 
 Modern geodetic reference frames: a latitude/longitude point defines a geographic location on,
 above or below the earth’s surface, measured in degrees from the equator and the U{International
@@ -66,7 +66,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.06.18'
+__version__ = '21.08.12'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -157,7 +157,7 @@ class RefFrames(_NamedEnum):
 
 RefFrames = RefFrames(RefFrame)  # PYCHOK singleton
 '''Some pre-defined L{RefFrame}s, all I{lazily} instantiated.'''
-# <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
+# <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
     ETRF2000   = _lazy(_ETRF2000_,   _F(2005), _GRS80_),  # ETRF2000(R08)
     GDA2020    = _lazy(_GDA2020_,    _F(2020), _GRS80_),  # Australia

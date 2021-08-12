@@ -86,7 +86,7 @@ L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolat
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
 installed for most C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
-Functions L{circum3}, L{jekel4_} and L{trilaterate3d2}C{/-5} and the corresponding C{Cartesian},
+Functions L{circum3}, L{circum4_} and L{trilaterate3d2}C{/-5} and the corresponding C{Cartesian},
 C{LatLon}, C{Nvector} and L{Vector3d} methods require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve} and
@@ -489,7 +489,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.08.08'
+__version__ = '21.08.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

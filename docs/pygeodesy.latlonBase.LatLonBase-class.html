@@ -309,6 +309,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*points</span>)</span><br />
+      Best-fit a sphere through this and two or more other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle" class="summary-sig-name">compassAngle</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
@@ -403,25 +421,6 @@
       Compute the distance between this and an other point using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">spherical Law of Cosines</a> formula.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#deltas" class="summary-sig-name">deltas</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Return the <i>absolute</i> difference between this and an other 
-      point.</td>
           <td align="right" valign="top">
             
             
@@ -654,7 +653,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#heightStr" class="summary-sig-name">heightStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">-2</span>,
         <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>)</span><br />
-      Return a string for the height <b><code>height</code></b>.</td>
+      Return this <b><code>height</code></b> as <code>str</code>ing.</td>
           <td align="right" valign="top">
             
             
@@ -758,24 +757,6 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compare this point with an other point, <i>including</i> height.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#jekel4_" class="summary-sig-name">jekel4_</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*points</span>)</span><br />
-      Best-fit a sphere through this and one or more other points.</td>
           <td align="right" valign="top">
             
             
@@ -1683,9 +1664,53 @@
         the mean thereof.
       </p>
       <p><strong>See Also:</strong>
-        Functions <code>circum3</code> and method <a 
-        href="pygeodesy.latlonBase.LatLonBase-class.html#jekel4_" 
-        class="link">jekel4_</a>.
+        Function <a href="pygeodesy.vector3d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#circum4_" 
+        class="link">circum4_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum4_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*points</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a sphere through this and two or more other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The other points (each a <code>LatLon</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Circum4Tuple-class.html" 
+          class="link">Circum4Tuple</a><code>(radius, center, rank, 
+          residuals)</code> with <code>center</code> an instance of this 
+          (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector3d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a> and method <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#circum3" 
+        class="link">circum3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1909,39 +1934,6 @@
         <code>thomasTo</code> and <code>vincentysTo</code>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="deltas"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">deltas</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the <i>absolute</i> difference between this and an other 
-  point.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> with
-          the <i>absolute</i> lat-, longitude and height differences.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="destinationXyz"></a>
 <div>
@@ -2438,7 +2430,7 @@
     </td>
   </tr></table>
   
-  <p>Return a string for the height <b><code>height</code></b>.</p>
+  <p>Return this <b><code>height</code></b> as <code>str</code>ing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2655,48 +2647,6 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119, 42)
 <span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(52.205, 0.119)
 <span class="py-prompt">&gt;&gt;&gt; </span>e = p.isequalTo3(q)  <span class="py-comment"># False</span></pre>
-      </p>
-</div></td></tr></table>
-</div>
-<a name="jekel4_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">jekel4_</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*points</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Best-fit a sphere through this and one or more other points.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The other points (each a <code>LatLon</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.vector3d.Jekel4Tuple-class.html" 
-          class="link">Jekel4Tuple</a><code>(radius, center, rank, 
-          residuals)</code> with <code>center</code> an instance of this 
-          (sub-)class.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
-        version 1.10.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> invalid.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <b><code>points</code></b>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <code>jekel4_</code> and method <a 
-        href="pygeodesy.latlonBase.LatLonBase-class.html#circum3" 
-        class="link">circum3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3807,7 +3757,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  9 10:57:06 2021
+    Generated by Epydoc 3.0.1 on Thu Aug 12 11:35:34 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

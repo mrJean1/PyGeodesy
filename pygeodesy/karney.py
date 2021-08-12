@@ -62,7 +62,7 @@ I{Karney}-based functionality
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1UTMUPS.html>}
 
-  - L{atand}, L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
+  - L{atand}, L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}.
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.08.04'
+__version__ = '21.08.12'
 
 _16th = _1_0 / _16_0
 
@@ -673,7 +673,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 def _3sum2(s, t, x):
     '''Accumulate B{C{x}} into C{_sum2(s, t)}.
 
-       @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.sourceforge.io/
+       @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
              html/Accumulator_8hpp_source.html>} comments for more details.
     '''
     if x:

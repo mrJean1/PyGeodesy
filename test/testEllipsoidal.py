@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.06.27'
+__version__ = '21.08.12'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -265,7 +265,7 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingOn', t, '307.1736°, 307°10′25.07″NW')
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (UK), using WGS-84
         p = LatLon(50.06632, -5.71475, datum=d)
         q = LatLon(58.64402, -3.07009, datum=d)
@@ -396,7 +396,7 @@ class Tests(_TestsLL, _TestsV):
         def _i(name, ll):
             return '%s (%s)' % (name, ll.iteration)
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (antipodal), using WGS-84
         p = LatLon(0, 0, datum=d)
         q = LatLon(0.5, 179.5, datum=d)
@@ -445,7 +445,7 @@ class Tests(_TestsLL, _TestsV):
         b = p.initialBearingTo(q)
         self.test(_i('initialBearingTo/meridional', p), b, 180.0, fmt='%.1f')
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (coincident), using WGS-84
         p = LatLon(50.06632, -5.71475, datum=d)
         m = p.distanceTo(p)
@@ -466,14 +466,14 @@ class Tests(_TestsLL, _TestsV):
             q, t = str(x), 'no convergence: ...'
         self.test(_i('destination/coincident', p), q, t, known=True)
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (crossing anti-meridian), using WGS-84
         p = LatLon(30,  120, datum=d)
         q = LatLon(30, -120, datum=d)
         m = p.distanceTo(q)
         self.test(_i('distanceTo/anti-meridian', p), m, '10825924.1', fmt='%.1f')
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (quadrants), using WGS-84
         for t in (( 30, 30,  60, 60),
                   ( 60, 60,  30, 30),

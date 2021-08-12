@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.06.23'
+__version__ = '21.08.12'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -258,7 +258,7 @@ def compassPoint(bearing, prec=3):
        @raise ValueError: Invalid B{C{prec}}.
 
        @see: U{Dms.compassPoint
-             <https://GitHub.com/chrisveness/geodesy/blob/master/dms.js>}
+             <https://GitHub.com/ChrisVeness/geodesy/blob/master/dms.js>}
              and U{Compass rose<https://WikiPedia.org/wiki/Compass_rose>}.
 
        @example:

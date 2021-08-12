@@ -4,13 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.08'
+__version__ = '21.08.12'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
                       degrees, fstr, Height, isclockwise, isconvex, \
-                      isenclosedBy, ispolar, m2km, m2NM, \
+                      isenclosedBy, isnear0, ispolar, m2km, m2NM, \
                       IntersectionError, VincentyError  # PYCHOK expected
 from pygeodesy.namedTuples import Bounds2Tuple, \
                                   LatLon2Tuple, LatLon3Tuple, \
@@ -138,7 +138,7 @@ class Tests(TestsBase):
                 d = BJS.distanceTo(SFO, wrap=True)
                 self.test('distanceTo unrolled', d, '9491735' if Sph else '9513998', fmt='%.0f')  # PYCHOK test attr?
 
-            # <https://GitHub.com/chrisveness/geodesy/issues/64>
+            # <https://GitHub.com/ChrisVeness/geodesy/issues/64>
             d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
             self.test('distanceTo', d, '18013602.92' if Sph or Nv else ('18003740.39' if X else '18012714.66'), fmt='%.2f')
             try:
@@ -536,12 +536,13 @@ class Tests(TestsBase):
                                                    else  '42.67811504°N, 002.49959193°E'), known=_known(p))
             self.test(n + 'n', t.n, t.n)
 
-            k = (isPyPy and isPython2) or not X
+            k = (isPyPy and isPython2) or Sph or not X
             t = p1.circum3(p2, p3)
             c = t.center
-            self.test('circum3.radius', t.radius, '57792.067', prec=3, known=Sph or k)
-            self.test('circum3.center', c, '43.053532°N, 002.943255°E, -261.66m', known=Sph or k)
-            self.test('circum3.deltas', t.deltas.toStr(prec=3),  '(0.0, 0.0, 11.383)', known=Sph or k)
+            self.test('circum3.radius', t.radius, '57792.067', prec=3, known=k)
+            self.test('circum3.center', c, '43.053532°N, 002.943255°E, -261.66m', known=k)
+            d = t.deltas
+            self.test('circum3.deltas', d.toStr(prec=3),  '(0.0, 0.0, 11.383)', known=k or isnear0(d.lat, 1e-8) or isnear0(d.lon, 1e-8))
 
             c.height = 0
             self.test('circum3.dist1', p1.distanceTo(c), '57792.858351', prec=6, known=k)
@@ -560,20 +561,20 @@ class Tests(TestsBase):
 
         try:  # need numpy
             k = (isPyPy and isPython2) or Sph or not X
-            t = p1.jekel4_(p2, p3)
+            t = p1.circum4_(p2, p3)
             c = t.center
-            self.test('jekel4_.radius', t.radius, '3184256.748', prec=3, known=k)
-            self.test('jekel4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=k)
-            self.test('jekel4_.rank', t.rank, 3, known=k)
-            self.test('jekel4_.residuals', t.residuals, (), known=k)
+            self.test('circum4_.radius', t.radius, '3184256.748', prec=3, known=k)
+            self.test('circum4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=k)
+            self.test('circum4_.rank', t.rank, 3, known=k)
+            self.test('circum4_.residuals', t.residuals, (), known=k)
 
             c.height = 0
-            self.test('jekel4_.dist1', p1.distanceTo(c), '57818.033', prec=3, known=k)
-            self.test('jekel4_.dist2', p2.distanceTo(c), '57834.176', prec=3, known=k)
-            self.test('jekel4_.dist3', p3.distanceTo(c), '57830.992', prec=3, known=k)
+            self.test('circum4_.dist1', p1.distanceTo(c), '57818.033', prec=3, known=k)
+            self.test('circum4_.dist2', p2.distanceTo(c), '57834.176', prec=3, known=k)
+            self.test('circum4_.dist3', p3.distanceTo(c), '57830.992', prec=3, known=k)
 
-            self.test('jekel4_.datum', c.datum, p1.datum)
-            self.test('jekel4_.Ecef',  c.Ecef,  p1.Ecef)
+            self.test('circum4_.datum', c.datum, p1.datum)
+            self.test('circum4_.Ecef',  c.Ecef,  p1.Ecef)
         except ImportError as x:
             self.skip(str(x), n=9)  # PYCHOK test attr?
 

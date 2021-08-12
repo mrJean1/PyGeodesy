@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '21.05.17'
+__version__ = '21.08.12'
 
 if __name__ == '__main__':
 
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     c = b.crossTrackDistanceTo(a1, a2)
     t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f')  # 11,118 m == 11.12 km
 
-# <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-nvector-ellipsoidal.js>
+# <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-nvector-ellipsoidal.js>
     d = ellipsoidalNvector.toNed(116809.178, 222.493, -0.5416)
     TestsBase.test(t, 'toNed', d.toStr(prec=1), '[-78901.1, -86126.6, 1104.1]')  # [N:-86126.6, E:-78901.1, D:1104.1]'
     TestsBase.test(t, 'bearing',   d.bearing, '227.507',  fmt='%.3f')  # '222.493'

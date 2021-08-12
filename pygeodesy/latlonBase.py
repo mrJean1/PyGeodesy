@@ -33,12 +33,14 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
-from pygeodesy.vector3d import _circum5, Circum3Tuple, Jekel4Tuple, jekel4_, Vector3d
+from pygeodesy.vector3d import Circum3Tuple, Circum4Tuple, circum4_, _circum5, Vector3d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.08.08'
+__version__ = '21.08.12'
+
+_deltas_ = 'deltas'
 
 
 class LatLonBase(_NamedBase):
@@ -186,7 +188,7 @@ class LatLonBase(_NamedBase):
                   representing the difference between both L{trilaterate3d2} results and
                   C{center} is the mean thereof.
 
-           @see: Functions C{circum3} and method L{jekel4_}.
+           @see: Function L{pygeodesy.circum3} and method L{circum4_}.
         '''
         try:
             c  = self._toCartesianEcef(point=self)
@@ -197,10 +199,37 @@ class LatLonBase(_NamedBase):
                                                 clas=c.classof, datum=self.datum)  # PYCHOK _circum3
             c = c.toLatLon()
             if d is not None:  # redo deltas as (lat, lon, height)
-                d = b.toLatLon().deltas(a.toLatLon())
+                a = a.toLatLon()
+                b = b.toLatLon()
+                d = LatLon3Tuple(b.lat - a.lat, b.lon - a.lon, b.height - a.height, name=_deltas_)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
         return Circum3Tuple(r, c, d)
+
+    def circum4_(self, *points):
+        '''Best-fit a sphere through this and two or more other points.
+
+           @arg points: The other points (each a C{LatLon}).
+
+           @return: L{Circum4Tuple}C{(radius, center, rank, residuals)} with C{center}
+                    an instance of this (sub-)class.
+
+           @raise ImportError: Package C{numpy} not found, not installed or older than
+                               version 1.10.
+
+           @raise NumPyError: Some C{numpy} issue.
+
+           @raise TypeError: One of the B{C{points}} invalid.
+
+           @raise ValueError: Too few B{C{points}}.
+
+           @see: Function L{pygeodesy.circum4_} and method L{circum3}.
+        '''
+        C = self._toCartesianEcef
+        c = C(point=self)
+        t = circum4_(c, Vector=c.classof, *(C(i=i, points=p) for i, p in enumerate(points)))
+        c = t.center.toLatLon(LatLon=self.classof, name=t.name)
+        return Circum4Tuple(t.radius, c, t.rank, t.residuals, name=c.name)
 
     @deprecated_method
     def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover
@@ -308,20 +337,6 @@ class LatLonBase(_NamedBase):
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self)
-
-    def deltas(self, other):
-        '''Return the I{absolute} difference between this and an other point.
-
-           @arg other: The other point (C{LatLon}).
-
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} with the I{absolute}
-                    lat-, longitude and height differences.
-
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
-        '''
-        self.others(other)
-        return LatLon3Tuple(abs(self.lat - other.lat), abs(self.lon - other.lon),
-                            abs(self.height - other.height), name=self.deltas.__name__)
 
     def destinationXyz(self, delta, LatLon=None, **LatLon_kwds):
         '''Calculate the destination using a I{local} delta from this point.
@@ -618,7 +633,7 @@ class LatLonBase(_NamedBase):
         return r
 
     def heightStr(self, prec=-2, m=_m_):
-        '''Return a string for the height B{C{height}}.
+        '''Return this B{C{height}} as C{str}ing.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg m: Optional unit of the height (C{str}).
@@ -712,31 +727,6 @@ class LatLonBase(_NamedBase):
         '''
         return self.datum.isSpherical if self._datum else None
 
-    def jekel4_(self, *points):
-        '''Best-fit a sphere through this and one or more other points.
-
-           @arg points: The other points (each a C{LatLon}).
-
-           @return: L{Jekel4Tuple}C{(radius, center, rank, residuals)} with C{center}
-                    an instance of this (sub-)class.
-
-           @raise ImportError: Package C{numpy} not found, not installed or older than
-                               version 1.10.
-
-           @raise NumPyError: Some C{numpy} issue.
-
-           @raise TypeError: One of the B{C{points}} invalid.
-
-           @raise ValueError: Too few B{C{points}}.
-
-           @see: Function C{jekel4_} and method L{circum3}.
-        '''
-        C = self._toCartesianEcef
-        c = C(point=self)
-        t = jekel4_(c, Vector=c.classof, *(C(i=i, points=p) for i, p in enumerate(points)))
-        c = t.center.toLatLon(LatLon=self.classof, name=t.name)
-        return Jekel4Tuple(t.radius, c, t.rank, t.residuals, name=c.name)
-
     @Property_RO
     def lam(self):
         '''Get the longitude (B{C{radians}}).
@@ -780,8 +770,8 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{latlonh}} or M{len(latlonh)}.
 
-           @see: Function L{parse3llh} to parse a B{C{latlonh}} string
-                 into a 3-tuple (lat, lon, h).
+           @see: Function L{pygeodesy.parse3llh} to parse a B{C{latlonh}}
+                 string into a 3-tuple (lat, lon, h).
         '''
         if isstr(latlonh):
             latlonh = parse3llh(latlonh, height=self.height)

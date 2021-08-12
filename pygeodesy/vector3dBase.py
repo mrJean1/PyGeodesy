@@ -25,7 +25,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.07.28'
+__version__ = '21.08.12'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -136,6 +136,11 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         self.others(other)
         return self.length >= other.length
 
+#   def __getitem__(self, key):
+#       '''Return C{item} at index or slice C{[B{key}]}.
+#       '''
+#       return self.xyz[key]
+
     def __gt__(self, other):
         '''Is this vector longer than an other vector?
 
@@ -159,6 +164,11 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         self.others(other)
         return self.length <= other.length
+
+#   def __len__(self):
+#       '''Return C{3}, always.
+#       '''
+#       return len(self.xyz)
 
     def __lt__(self, other):  # Python 3+
         '''Is this vector shorter than an other vector?

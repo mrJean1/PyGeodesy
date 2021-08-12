@@ -5,7 +5,7 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.05.19'
+__version__ = '21.08.12'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -88,7 +88,7 @@ class Tests(TestsBase):
 
     def testGeodCalc(self, module, X=False):
         self.subtitle(module, 'GeodCalc')
-        # <https://GeographicLib.sourceforge.io/scripts/geod-calc.html#area>
+        # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html#area>
         p = [LatLon_(*t) for t in ((-63.1,  -58),
                                    (-72.9,  -74),
                                    (-71.9, -102),

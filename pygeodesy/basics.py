@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.08.04'
+__version__ = '21.08.10'
 
 _required_ = 'required'
 
@@ -199,17 +199,18 @@ except ImportError:
 # from math import isnan
 
 
-def isnear0(x):
+def isnear0(x, eps0=EPS0):
     '''Is B{C{x}} near zero?
 
        @arg x: Value (C{scalar}).
+       @kwarg eps0: Near-zero (C{EPS0}).
 
-       @return: C{True} if C{abs(B{x}) < EPS0},
+       @return: C{True} if C{abs(B{x}) < B{eps0}},
                 C{False} otherwise.
 
        @see: Function L{isnon0}.
     '''
-    return EPS0 > x > -EPS0
+    return eps0 > x > -eps0
 
 
 def isneg0(x):
@@ -224,17 +225,18 @@ def isneg0(x):
 #                            and str(x).startswith('-')
 
 
-def isnon0(x):
+def isnon0(x, eps0=EPS0):
     '''Is B{C{x}} non-zero?
 
        @arg x: Value (C{scalar}).
+       @kwarg eps0: Near-zero (C{EPS0}).
 
-       @return: C{True} if C{abs(B{x}) > EPS0},
+       @return: C{True} if C{abs(B{x}) > B{eps0}},
                 C{False} otherwise.
 
        @see: Function L{isnear0}.
     '''
-    return x > EPS0 or (-x) > EPS0
+    return x > eps0 or (-x) > eps0
 
 
 def isodd(x):

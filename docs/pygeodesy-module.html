@@ -188,8 +188,8 @@
     <code>Geoid...</code> and <code>Height...</code> interpolators, except 
     the <code>HeightIDW...</code> ones. Functions <a 
     href="pygeodesy.vector3d-module.html#circum3" class="link">circum3</a>,
-    <a href="pygeodesy.vector3d-module.html#jekel4_" 
-    class="link">jekel4_</a> and <a 
+    <a href="pygeodesy.vector3d-module.html#circum4_" 
+    class="link">circum4_</a> and <a 
     href="pygeodesy.vector3d-module.html#trilaterate3d2" 
     class="link">trilaterate3d2</a><code>/-5</code> and the corresponding 
     <code>Cartesian</code>, <code>LatLon</code>, <code>Nvector</code> and 
@@ -402,7 +402,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.08.08
+        21.08.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -941,6 +941,19 @@
         3 points (aka {Meeus}' Type II circle) or the <code>radius</code> 
         and <code>center</code> of the smallest <i>Meeus</i>' Type I 
         circle.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Circum4Tuple-class.html" class="summary-name">Circum4Tuple</a><br />
+      4-Tuple <code>(radius, center, rank, residuals)</code> with 
+        <code>radius</code> and <code>center</code> of a sphere 
+        <i>least-squares</i> fitted through given points and the 
+        <code>rank</code> and <code>residuals</code> -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.
     </td>
   </tr>
 <tr>
@@ -2591,19 +2604,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.vector3d.Jekel4Tuple-class.html" class="summary-name">Jekel4Tuple</a><br />
-      4-Tuple <code>(radius, center, rank, residuals)</code> with 
-        <code>radius</code> and <code>center</code> of a sphere fitted 
-        through given points and the <code>rank</code> and 
-        <code>residuals</code> -if any- from <a 
-        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.lcc.LCCError-class.html" class="summary-name">LCCError</a><br />
       Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.
@@ -2899,8 +2899,8 @@
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Meeus2Tuple-class.html" class="summary-name">Meeus2Tuple</a><br />
       2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
-        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
-        points.
+        <i>Meeus</i>' <code>Type</code> of the smallest circle 
+        <i>containing</i> 3 points.
     </td>
   </tr>
 <tr>
@@ -4454,6 +4454,24 @@
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the smallest circle <i>through</i> or
       <i>containing</i> three (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
+        <span class="summary-sig-arg">**Vector_Vector_kwds</span>)</span><br />
+      Best-fit a sphere through three or more (3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -6691,7 +6709,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa244e1ea50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f91f9e188d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7421,7 +7439,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear0" class="summary-sig-name">isnear0</a>(<span class="summary-sig-arg">x</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear0" class="summary-sig-name">isnear0</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
       Is <b><code>x</code></b> near zero?</td>
           <td align="right" valign="top">
             
@@ -7455,7 +7474,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
       Is <b><code>x</code></b> non-zero?</td>
           <td align="right" valign="top">
             
@@ -7598,24 +7618,6 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iterNumpy2over" class="summary-sig-name">iterNumpy2over</a>(<span class="summary-sig-arg">n</span>=<span class="summary-sig-default">None</span>)</span><br />
       Get or set the <a href="pygeodesy.iters-module.html#iterNumpy2" 
       class="link">iterNumpy2</a> threshold.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#jekel4_" class="summary-sig-name">jekel4_</a>(<span class="summary-sig-arg">*points</span>,
-        <span class="summary-sig-arg">**Vector_Vector_kwds</span>)</span><br />
-      Best-fit a sphere through two or more (3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -7980,7 +7982,7 @@
         <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and <i>Meeus</i>' Type of the smallest circle 
-      <i>containing</i> or <i>through</i> three (3-D) points.</td>
+      <i>through</i> or <i>containing</i> three (3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -10145,7 +10147,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.8.8'"><code class="variable-quote">'</code><code class="variable-string">21.8.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.8.12'"><code class="variable-quote">'</code><code class="variable-string">21.8.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12205,10 +12207,70 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         href="https://MathWorld.Wolfram.com/Circumradius.html" 
         target="_top">circumradius</a>, <a 
         href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a>, function <a 
+        target="_top">circumcircle</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a> and <a 
         href="pygeodesy.vector3d-module.html#meeus2" 
-        class="link">meeus2</a> and methods <code>circum3</code> and 
-        <code>meeus2</code>.
+        class="link">pygeodesy.meeus2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum4_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
+        <span class="sig-arg">**Vector_Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a sphere through three or more (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>Vector_Vector_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          center and additional <b><code>Vector</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Circum4Tuple-class.html" 
+          class="link">Circum4Tuple</a><code>(radius, center, rank, 
+          residuals)</code> with <code>center</code> an instance of 
+          <code><b>points</b>[0]</code>' (sub-)class or 
+          <b><code>Vector</code></b> if specified.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Too few <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
+        target="_top">Charles F. Jekel, &quot;Least Squares Sphere 
+        Fit&quot;, Sep 13, 2015</a> and <a 
+        href="https://hdl.handle.net/10019.1/98627" target="_top">Appendix 
+        A</a>, <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>, <a 
+        href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
+        target="_top">Eberly 6</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector3d-module.html#meeus2" 
+        class="link">pygeodesy.meeus2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -12782,7 +12844,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://GitHub.com/chrisveness/geodesy/blob/master/dms.js"
+        <a href="https://GitHub.com/ChrisVeness/geodesy/blob/master/dms.js"
         target="_top">Dms.compassPoint</a> and <a 
         href="https://WikiPedia.org/wiki/Compass_rose" 
         target="_top">Compass rose</a>.
@@ -16686,7 +16748,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa244e1ea50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f91f9e188d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17828,7 +17890,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector3d-module.html#nearestOn" 
-        class="link" onclick="show_private();">nearestOn</a>.
+        class="link" onclick="show_private();">vector3d.nearestOn</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -18070,7 +18132,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear0</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">eps0</span>=<span class="sig-default">4.93038065763e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18082,9 +18145,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-zero (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <code>abs(<b>x</b>) &lt; EPS0</code>, 
+        <dd><code>True</code> if <code>abs(<b>x</b>) &lt; <b>eps0</b></code>,
           <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18126,7 +18190,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnon0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnon0</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">eps0</span>=<span class="sig-default">4.93038065763e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18138,9 +18203,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-zero (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <code>abs(<b>x</b>) &gt; EPS0</code>, 
+        <dd><code>True</code> if <code>abs(<b>x</b>) &gt; <b>eps0</b></code>,
           <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -18378,61 +18444,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 </td></tr></table>
-</div>
-<a name="jekel4_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">jekel4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**Vector_Vector_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Best-fit a sphere through two or more (3-D) points.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>Vector_Vector_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center and additional <b><code>Vector</code></b> keyword 
-          arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.vector3d.Jekel4Tuple-class.html" 
-          class="link">Jekel4Tuple</a><code>(radius, center, rank, 
-          residuals)</code> with <code>center</code> an instance of 
-          <code><b>points</b>[0]</code>' (sub-)class or 
-          <b><code>Vector</code></b> if specified.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
-        version 1.10.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> is invalid.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <b><code>points</code></b>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Charles F. Jekel, <a 
-        href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
-        target="_top">&quot;Least Squares Sphere Fit&quot;, Sep 13, 
-        2015</a> and <a href="https://hdl.handle.net/10019.1/98627" 
-        target="_top">Appendix A</a>, <a 
-        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>, <a 
-        href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
-        target="_top">Eberly 6</a> and function <code>circum3</code>.
-      </p>
-</div></td></tr></table>
 </div>
 <a name="joined"></a>
 <div>
@@ -19189,7 +19200,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return the radius and <i>Meeus</i>' Type of the smallest circle 
-  <i>containing</i> or <i>through</i> three (3-D) points.</p>
+  <i>through</i> or <i>containing</i> three (3-D) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19232,10 +19243,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         href="https://MathWorld.Wolfram.com/Circumradius.html" 
         target="_top">circumradius</a>, <a 
         href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a>, function <a 
+        target="_top">circumcircle</a> and functions <a 
         href="pygeodesy.vector3d-module.html#circum3" 
-        class="link">circum3</a> and methods <code>circum3</code> and 
-        <code>meeus2</code>.
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector3d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -23886,7 +23898,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  9 10:57:00 2021
+    Generated by Epydoc 3.0.1 on Thu Aug 12 11:35:28 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

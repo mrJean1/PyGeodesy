@@ -79,7 +79,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.08.08
+        21.08.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -114,11 +114,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.vector3d.Jekel4Tuple-class.html" class="summary-name">Jekel4Tuple</a><br />
+        <a href="pygeodesy.vector3d.Circum4Tuple-class.html" class="summary-name">Circum4Tuple</a><br />
       4-Tuple <code>(radius, center, rank, residuals)</code> with 
-        <code>radius</code> and <code>center</code> of a sphere fitted 
-        through given points and the <code>rank</code> and 
-        <code>residuals</code> -if any- from <a 
+        <code>radius</code> and <code>center</code> of a sphere 
+        <i>least-squares</i> fitted through given points and the 
+        <code>rank</code> and <code>residuals</code> -if any- from <a 
         href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
         target="_top">numpy.linalg.lstsq</a>.
     </td>
@@ -129,8 +129,8 @@
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Meeus2Tuple-class.html" class="summary-name">Meeus2Tuple</a><br />
       2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
-        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
-        points.
+        <i>Meeus</i>' <code>Type</code> of the smallest circle 
+        <i>containing</i> 3 points.
     </td>
   </tr>
 <tr>
@@ -164,6 +164,24 @@
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the smallest circle <i>through</i> or
       <i>containing</i> three (3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
+        <span class="summary-sig-arg">**Vector_Vector_kwds</span>)</span><br />
+      Best-fit a sphere through three or more (3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -248,31 +266,13 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#jekel4_" class="summary-sig-name">jekel4_</a>(<span class="summary-sig-arg">*points</span>,
-        <span class="summary-sig-arg">**Vector_Vector_kwds</span>)</span><br />
-      Best-fit a sphere through two or more (3-D) points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#meeus2" class="summary-sig-name">meeus2</a>(<span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and <i>Meeus</i>' Type of the smallest circle 
-      <i>containing</i> or <i>through</i> three (3-D) points.</td>
+      <i>through</i> or <i>containing</i> three (3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -466,10 +466,70 @@
         href="https://MathWorld.Wolfram.com/Circumradius.html" 
         target="_top">circumradius</a>, <a 
         href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a>, function <a 
+        target="_top">circumcircle</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a> and <a 
         href="pygeodesy.vector3d-module.html#meeus2" 
-        class="link">meeus2</a> and methods <code>circum3</code> and 
-        <code>meeus2</code>.
+        class="link">pygeodesy.meeus2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="circum4_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
+        <span class="sig-arg">**Vector_Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Best-fit a sphere through three or more (3-D) points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>Vector_Vector_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          center and additional <b><code>Vector</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Circum4Tuple-class.html" 
+          class="link">Circum4Tuple</a><code>(radius, center, rank, 
+          residuals)</code> with <code>center</code> an instance of 
+          <code><b>points</b>[0]</code>' (sub-)class or 
+          <b><code>Vector</code></b> if specified.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Too few <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
+        target="_top">Charles F. Jekel, &quot;Least Squares Sphere 
+        Fit&quot;, Sep 13, 2015</a> and <a 
+        href="https://hdl.handle.net/10019.1/98627" target="_top">Appendix 
+        A</a>, <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>, <a 
+        href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
+        target="_top">Eberly 6</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector3d-module.html#meeus2" 
+        class="link">pygeodesy.meeus2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -671,62 +731,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector3d-module.html#nearestOn" 
-        class="link" onclick="show_private();">nearestOn</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="jekel4_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">jekel4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**Vector_Vector_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Best-fit a sphere through two or more (3-D) points.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (each a <code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
-          <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>Vector_Vector_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center and additional <b><code>Vector</code></b> keyword 
-          arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.vector3d.Jekel4Tuple-class.html" 
-          class="link">Jekel4Tuple</a><code>(radius, center, rank, 
-          residuals)</code> with <code>center</code> an instance of 
-          <code><b>points</b>[0]</code>' (sub-)class or 
-          <b><code>Vector</code></b> if specified.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
-        version 1.10.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.NumPyError-class.html">NumPyError</a></strong></code> - Some <code>numpy</code> issue.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - One of the <b><code>points</code></b> is invalid.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Too few <b><code>points</code></b>.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Charles F. Jekel, <a 
-        href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
-        target="_top">&quot;Least Squares Sphere Fit&quot;, Sep 13, 
-        2015</a> and <a href="https://hdl.handle.net/10019.1/98627" 
-        target="_top">Appendix A</a>, <a 
-        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>, <a 
-        href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
-        target="_top">Eberly 6</a> and function <code>circum3</code>.
+        class="link" onclick="show_private();">vector3d.nearestOn</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -749,7 +754,7 @@
   </tr></table>
   
   <p>Return the radius and <i>Meeus</i>' Type of the smallest circle 
-  <i>containing</i> or <i>through</i> three (3-D) points.</p>
+  <i>through</i> or <i>containing</i> three (3-D) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -792,10 +797,11 @@
         href="https://MathWorld.Wolfram.com/Circumradius.html" 
         target="_top">circumradius</a>, <a 
         href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a>, function <a 
+        target="_top">circumcircle</a> and functions <a 
         href="pygeodesy.vector3d-module.html#circum3" 
-        class="link">circum3</a> and methods <code>circum3</code> and 
-        <code>meeus2</code>.
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector3d-module.html#circum4_" 
+        class="link">pygeodesy.circum4_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1073,7 +1079,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  9 10:57:01 2021
+    Generated by Epydoc 3.0.1 on Thu Aug 12 11:35:29 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

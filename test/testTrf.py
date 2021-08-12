@@ -5,11 +5,11 @@ u'''Test Terrestrial Reference Frame (TRF) implementation.
 
 All tests transcoded from Chris Veness (C) 2006-2019 U{Geodesy tools for conversions between
 reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} JavaScript original
-<https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
+<https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.06.09'
+__version__ = '21.08.12'
 
 from base import GeodSolve, TestsBase
 

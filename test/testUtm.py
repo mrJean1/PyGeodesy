@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'  # '19.10.31'
+__version__ = '21.08.12'
 
 from base import TestsBase
 
@@ -140,7 +140,7 @@ class Tests(TestsBase):
             ll = fstr(u.toLatLon(eps=eps)[:2], prec=8)
             self.test('Utm111.toLatLon(eps=%.4e)' % (eps,), ll, '70.54298527, 40.28205459')
 
-        # <https://GitHub.com/chrisveness/geodesy/issues/86>
+        # <https://GitHub.com/ChrisVeness/geodesy/issues/86>
         u = Utm(1, 'N', 100000, 0)  # XXX easting exceeds limit?
         self.test('CV#86', u.toRepr(cs=6), '[Z:01, H:N, E:100000, N:0, C:n/a, S:n/a]')
         ll = u.toLatLon(LatLon=LL)

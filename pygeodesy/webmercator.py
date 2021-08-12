@@ -28,7 +28,7 @@ from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
                              _radius_, _SPACE_
 from pygeodesy.interns import _x_, _y_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.07.31'
+__version__ = '21.08.10'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -293,7 +293,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
         x, y, r = map(float, w)
 
         return EasNorRadius3Tuple(x, y, r, name=name) if Wm is None else \
-                       _xnamed(Wm(x, y, radius=r), name)
+                               Wm(x, y, radius=r, name=name)
 
     return _parseX(_WM_, strWM, radius, Wm, name,
                          strWM=strWM, Error=WebMercatorError)
@@ -348,7 +348,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
     e = r * radians(lon)
     n = r * y
     r = EasNorRadius3Tuple(e, n, r, name=name) if Wm is None else \
-                _xnamed(Wm(e, n, **_xkwds(Wm_kwds, radius=r)), name)
+                        Wm(e, n, **_xkwds(Wm_kwds, radius=r, name=name))
     return r
 
 # **) MIT License

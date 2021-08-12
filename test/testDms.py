@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '20.05.12'
+__version__ = '21.08.12'
 
 from base import TestsBase
 
@@ -144,7 +144,7 @@ class Tests(TestsBase):
             self.test(t, toDMS( 45.76260, F, prec=p), '+' + x)
             self.test(t, toDMS(-45.76260, F, prec=p), '-' + x)
 
-        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/dms-tests.js>
+        # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/dms-tests.js>
         for a, x in (((1,),   'N'),
                      ((0,),   'N'),
                      ((-1,),  'N'),

@@ -1599,6 +1599,14 @@
         and <code>center</code> of the smallest <i>Meeus</i>' Type I 
         circle.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circum4Tuple-class.html">pygeodesy.vector3d.Circum4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, center, rank, residuals)</code> with 
+        <code>radius</code> and <code>center</code> of a sphere 
+        <i>least-squares</i> fitted through given points and the 
+        <code>rank</code> and <code>residuals</code> -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
     </li>
@@ -1762,14 +1770,6 @@
         <code>+1</code> if after the end and <code>0</code> if on or 
         between the stat and end point of the first line.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Jekel4Tuple-class.html">pygeodesy.vector3d.Jekel4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radius, center, rank, residuals)</code> with 
-        <code>radius</code> and <code>center</code> of a sphere fitted 
-        through given points and the <code>rank</code> and 
-        <code>residuals</code> -if any- from <a 
-        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
         <code>degrees180</code>.</em>
@@ -1833,8 +1833,8 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Meeus2Tuple-class.html">pygeodesy.vector3d.Meeus2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
-        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
-        points.</em>
+        <i>Meeus</i>' <code>Type</code> of the smallest circle 
+        <i>containing</i> 3 points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -2613,6 +2613,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         and <code>center</code> of the smallest <i>Meeus</i>' Type I 
         circle.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circum4Tuple-class.html">pygeodesy.vector3d.Circum4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, center, rank, residuals)</code> with 
+        <code>radius</code> and <code>center</code> of a sphere 
+        <i>least-squares</i> fitted through given points and the 
+        <code>rank</code> and <code>residuals</code> -if any- from <a 
+        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
+        target="_top">numpy.linalg.lstsq</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
     </li>
@@ -2776,14 +2784,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>+1</code> if after the end and <code>0</code> if on or 
         between the stat and end point of the first line.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Jekel4Tuple-class.html">pygeodesy.vector3d.Jekel4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radius, center, rank, residuals)</code> with 
-        <code>radius</code> and <code>center</code> of a sphere fitted 
-        through given points and the <code>rank</code> and 
-        <code>residuals</code> -if any- from <a 
-        href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
         <code>degrees180</code>.</em>
@@ -2847,8 +2847,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Meeus2Tuple-class.html">pygeodesy.vector3d.Meeus2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
-        <i>Meeus</i>' {Type} of the smallest circle <i>containing</i> 3 
-        points.</em>
+        <i>Meeus</i>' <code>Type</code> of the smallest circle 
+        <i>containing</i> 3 points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs4Tuple-class.html">pygeodesy.mgrs.Mgrs4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
@@ -3104,7 +3104,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  9 10:56:59 2021
+    Generated by Epydoc 3.0.1 on Thu Aug 12 11:35:27 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
