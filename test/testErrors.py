@@ -12,7 +12,7 @@ from pygeodesy import crosserrors, exception_chaining, LenError, \
                       LimitError, limiterrors, \
                       RangeError, rangerrors
 
-from os import environ
+from os import getenv
 
 
 class Tests(TestsBase):
@@ -66,7 +66,7 @@ class Tests(TestsBase):
         self.test(rangerrors.__name__,  rangerrors(False),  True)
         self.test(rangerrors.__name__,  rangerrors(True),  False)
 
-        x = True if environ.get('PYGEODESY_EXCEPTION_CHAINING', None) else False
+        x = True if getenv('PYGEODESY_EXCEPTION_CHAINING', None) else False
         self.test(exception_chaining.__name__, exception_chaining(), x if isPython3 else None)
         self.test(exception_chaining.__name__, exception_chaining(RangeError()), None)
         self.test(exception_chaining.__name__, exception_chaining(TypeError()), None)

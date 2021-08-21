@@ -292,7 +292,7 @@ _transform_           = 'transform'          # PYCHOK expected
 _tx_                  = 'tx'                 # PYCHOK expected
 _ty_                  = 'ty'                 # PYCHOK expected
 _tz_                  = 'tz'                 # PYCHOK expected
-_UNDER_               = '_'                  # PYCHOK expected
+_UNDER_         = _Join('_')                 # PYCHOK expected
 _units_               = 'units'              # PYCHOK expected
 _up_                  = 'up'                 # PYCHOK expected
 _UPS_                 = 'UPS'                # PYCHOK expected
@@ -455,9 +455,92 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'MANTIS',  # DEPRECATED
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.08.06'
+           'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
+           'machine')  # imported by .lazily
+__version__ = '21.08.18'
 
+
+def _load_lib(name):  # must startwith('lib')
+    # macOS 11 (aka 10.16) no longer provides direct loading of
+    # system libraries, instead it installs the library after a
+    # low-level dlopen(name) call with the library base name,
+    # as a result, ctypes.util.find_library may not find any
+    # library not previously dlopen'ed in Python 3.8-
+    from ctypes import CDLL, _dlopen
+    from ctypes.util import find_library
+    from sys import platform, version_info
+
+    ns = find_library(name), name
+    if version_info[:2] < (3, 9) and platform[:6] == 'darwin':
+        from os.path import join
+        ns += (_DOT_(name, 'dylib'),
+               _DOT_(name, 'framework'), join(
+               _DOT_(name, 'framework'), name))
+    for n in ns:
+        try:
+            if n and _dlopen(n):  # handle
+                lib = CDLL(n)  # == ctypes.cdll.LoadLibrary(n)
+                if lib._name:  # has a qualified name
+                    return lib
+        except (AttributeError, OSError):
+            pass
+    return None  # raise OSError
+
+
+def machine():
+    '''Return the C{platform.machine} string, distinguishing Intel from
+       I{emulating} Intel on Apple Silicon (on macOS).
+
+       @return: Machine C{'arm64'} for Apple Silicon, C{"arm64_x86_64""} for
+                Intel I{emulated}, C{'x86_64'} for Intel, etc. (C{str} with
+                any C{comma}s by C{underscore}).
+    '''
+    return _platform2()[1]
+
+
+def _platform2(sep=NN):
+    # get platform architecture and machine as C{2-list} or C{str}
+    import platform
+    m = platform.machine().replace(_COMMA_, _UNDER_)  # arm64, x86_64, iPhone13_2, etc.
+    if m == 'x86_64':  # only on Intel or Rosetta2 ...
+        v = platform.mac_ver()  # ... and only macOS
+        if v and _version2(v[0]) > (10, 15):  # macOS 11 Big Sur is 10.16 before Python 3.9.6
+            # <https://Developer.Apple.com/forums/thread/659846>
+            if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
+#              _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
+                m = _UNDER_('arm64', m)  # Apple Silicon emulating Intel x86-64
+    el = [platform.architecture()[0],  # bits
+          m]  # arm64, arm64_x86_64, x86_64, etc.
+    return sep.join(el) if sep else el  # list
+
+
+def _pythonarchine(sep=NN):  # in test/base.py versions
+    # get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}
+    from sys import version  # XXX shadows?
+    el = [_SPACE_(_Python_, version.split(None, 1)[0])] + _platform2()
+    if '[PyPy ' in version:  # see test/base.py
+        el.insert(0, _SPACE_('PyPy', version.split('[PyPy ')[1].split()[0]))
+    return sep.join(el) if sep else el  # list
+
+
+def _sysctl_uint(name):
+    # get an unsigned int sysctl item by name, use on macOS ONLY!
+    libc = _load_lib('libc')
+    if libc:  # <https://StackOverflow.com/questions/759892/python-ctypes-and-sysctl>
+        from ctypes import byref, c_char_p, c_size_t, c_uint, sizeof  # get_errno
+        n = name if str is bytes else bytes(name, _utf_8_)  # PYCHOK isPython2 = str is bytes
+        u = c_uint(0)
+        z = c_size_t(sizeof(u))
+        r = libc.sysctlbyname(c_char_p(n), byref(u), byref(z), None, c_size_t(0))
+    else:  # could find or load 'libc'
+        r = -2
+    return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
+
+
+def _version2(version, n=2):
+    # split C{B{version} str} into 1-, 2- or 3-tuple of C{int}s
+    t = (tuple(map(int, version.split(_DOT_)[:n])) if version else ()) + (0, 0, 0)
+    return t[:n]
 
 # **) MIT License
 #

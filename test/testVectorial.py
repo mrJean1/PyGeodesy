@@ -4,9 +4,9 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.08.16'
 
-from base import coverage, GeodSolve, numpy_version, TestsBase
+from base import coverage, GeodSolve, numpy, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, circum4_, fstr, \
                       intersection3d3 as i3d, IntersectionError, \
@@ -313,7 +313,7 @@ class Tests(TestsBase):
             c2, r2 = Vector(100.0,  50.0, 11.0), 84.623
             c3, r3 = Vector(200.0, 120.0, 12.0), 82.608
             t = c1.trilaterate3d2(r1, c2, r2, c3, r3)
-            k = numpy_version < 1.12  # numpy too old?
+            k = float(numpy.__version__.rsplit('.', 1)[0]) < 1.12  # numpy too old?
 
             n = _DOT_(c1.named3, Vector.trilaterate3d2.__name__)
             self.test(n, len(t), 2)

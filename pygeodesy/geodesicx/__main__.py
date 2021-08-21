@@ -4,12 +4,8 @@
 u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
-import os
-import os.path as os_path
-import sys
-
 __all__ = ()
-__version__ = '21.05.20'
+__version__ = '21.08.14'
 
 
 def _C4stats(nC4=None):  # PYCHOK no cover
@@ -27,10 +23,12 @@ def _C4stats(nC4=None):  # PYCHOK no cover
 
 def _main():  # PYCHOK no cover
 
+    import os.path as os_path
+
     try:
         from pygeodesy import geodesicx as _gx, GeodesicError, \
                               GeodesicSolve, pygeodesy_abspath
-        from pygeodesy.interns import _COMMASPACE_, _DOT_, _Python_, \
+        from pygeodesy.interns import _COMMASPACE_, _DOT_, _pythonarchine, \
                                       _SPACE_, _version_
         from pygeodesy.streprs import Fmt
         from pygeodesy.lazily import printf
@@ -44,16 +42,7 @@ def _main():  # PYCHOK no cover
         def _name_version(pkg):
             return _SPACE_(pkg.__name__, pkg.__version__)
 
-        v = []
-
-        if '[PyPy ' in sys.version:  # see test/base.py
-            v.append(_SPACE_('PyPy', sys.version.split('[PyPy ')[1].split()[0]))
-        v.append(_SPACE_(_Python_, sys.version.split(None, 1)[0]))
-        try:
-            import platform
-            v.append(platform.architecture()[0])  # bits
-        except ImportError:
-            pass
+        v = _pythonarchine()
         try:
             import geographiclib
             v.append(_name_version(geographiclib))
@@ -72,12 +61,12 @@ def _main():  # PYCHOK no cover
         printf('%s%s (%s)', g, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
 
     except ImportError:
+        import os, sys  # PYCHOK imports
+
         m = os_path.dirname(__file__).replace(os.getcwd(), '...').strip()
         if len(m.split()) > 1:
             m = '"%s"' % (m,)  # no Fmt.QUOTE2(m)
         v = sys.version_info[0]
-        if v < 3:
-            v = ''  # no NN
         printf('usage: python%s -m %s', v, m)
 
 

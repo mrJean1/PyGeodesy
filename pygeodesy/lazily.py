@@ -31,7 +31,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _Python_, _pygeodesy_abspath_, _sep_, \
                              _SPACE_, _UNDER_, _version_
 
-from os import environ as _env  # in .geodsolve
+from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
 import sys as _sys  # in .props
 try:
@@ -43,12 +43,12 @@ except ImportError:  # no import_module in Python 2.6-
                               txt=_no_(import_module.__name__))
 
 _a_l_l_            = '__all__'
-_FOR_DOCS          = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
+_FOR_DOCS          = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _imports_          = 'imports'
 _p_a_c_k_a_g_e_    = '__package__'
 _PYGEODESY_LAZY_IMPORT_  = 'PYGEODESY_LAZY_IMPORT'
 _PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
-                     _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
+                     _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
 _sub_packages      = 'deprecated' , 'geodesicx'
 _sys_version_info2 = _sys.version_info[:2]  # in .fmath, .geodsolve
 
@@ -296,7 +296,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.08.12'
+__version__ = '21.08.14'
 
 
 def _ALL_OTHER(*objs):
@@ -472,7 +472,7 @@ def _lazy_init2(_pygeodesy_):
     '''
     global isLazy
 
-    z = _env.get(_PYGEODESY_LAZY_IMPORT_, None)
+    z = _getenv(_PYGEODESY_LAZY_IMPORT_, None)
     if z is None:  # _PYGEODESY_LAZY_IMPORT_ not set
         isLazy = 1  # ... but on by default on 3.7
     else:
@@ -480,7 +480,7 @@ def _lazy_init2(_pygeodesy_):
         isLazy = int(z) if z.isdigit() else (1 if z else 0)
     if isLazy < 1:  # not enabled
         raise LazyImportError(_PYGEODESY_LAZY_IMPORT_, repr(z), txt=_not_(_enabled_))
-    if _env.get('PYTHONVERBOSE', None):  # PYCHOK no cover
+    if _getenv('PYTHONVERBOSE', None):  # PYCHOK no cover
         isLazy += 1
 
     try:  # to initialize in Python 3+

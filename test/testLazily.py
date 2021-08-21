@@ -24,7 +24,7 @@ elif isWindows:  # XXX UNTESTED
 else:
     _env_cmd = None
 
-_HOME = os.environ.get('HOME', '')
+_HOME = os.getenv('HOME', '')
 if _HOME and _cmd.startswith(_HOME):
     _cmd = '~' + _cmd[len(_HOME):]
 del _HOME

@@ -5,7 +5,7 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.07.24'
+__version__ = '21.08.16'
 
 from base import TestsBase
 
@@ -19,6 +19,8 @@ _cwd          =  getcwd()
 _DUNDER_      =  interns._DUNDER_
 _DOT_         =  interns._DOT_
 _EQUALSPACED_ =  interns._EQUALSPACED_
+_functions    = (interns._platform2,
+                 interns._version2)
 _UNDER_       =  interns._UNDER_
 _exceptions   = (_0to9_, _AtoZnoIO_,
                  interns._doesn_t_exist_,
@@ -45,7 +47,7 @@ class Tests(TestsBase):
                 if k:  # hide home dir
                     n = n.replace(_cwd, _DOT_)
                 n = _EQUALSPACED_(a, clips(n))
-                self.test(n, isinstance(i, (float, str)), True, known=k)
+                self.test(n, isinstance(i, (float, str)) or i in _functions, True, known=k)
                 # check the naming conventions
                 if isinstance(i, str) and not k:
                     a = a.strip(_UNDER_)

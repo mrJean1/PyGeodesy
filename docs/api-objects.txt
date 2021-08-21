@@ -84,6 +84,7 @@ pygeodesy.EPS0	pygeodesy-module.html#EPS0
 pygeodesy.EPS1	pygeodesy-module.html#EPS1
 pygeodesy.degrees360	pygeodesy-module.html#degrees360
 pygeodesy.R_SM	pygeodesy-module.html#R_SM
+pygeodesy.machine	pygeodesy-module.html#machine
 pygeodesy.inStr	pygeodesy-module.html#inStr
 pygeodesy.fStr	pygeodesy-module.html#fStr
 pygeodesy.isneg0	pygeodesy-module.html#isneg0
@@ -405,15 +406,8 @@ pygeodesy.isNumpy2	pygeodesy-module.html#isNumpy2
 pygeodesy.normDMS	pygeodesy-module.html#normDMS
 pygeodesy.freduce	pygeodesy-module.html#freduce
 pygeodesy.__main__	pygeodesy.__main__-module.html
-pygeodesy.__main__.printf	pygeodesy.lazily-module.html#printf
-pygeodesy.__main__._dot_attr	pygeodesy.__main__-module.html#_dot_attr
-pygeodesy.__main__.t	pygeodesy.__main__-module.html#t
-pygeodesy.__main__.m	pygeodesy.__main__-module.html#m
-pygeodesy.__main__.p	pygeodesy.__main__-module.html#p
-pygeodesy.__main__._name_version	pygeodesy.__main__-module.html#_name_version
+pygeodesy.__main__._main	pygeodesy.__main__-module.html#_main
 pygeodesy.__main__.__package__	pygeodesy.__main__-module.html#__package__
-pygeodesy.__main__.v	pygeodesy.__main__-module.html#v
-pygeodesy.__main__.x	pygeodesy.__main__-module.html#x
 pygeodesy.albers	pygeodesy.albers-module.html
 pygeodesy.albers._Dsn	pygeodesy.albers-module.html#_Dsn
 pygeodesy.albers._diff182	pygeodesy.karney-module.html#_diff182
@@ -1089,13 +1083,13 @@ pygeodesy.errors.exception_chaining	pygeodesy.errors-module.html#exception_chain
 pygeodesy.errors._rangerrors	pygeodesy.errors-module.html#_rangerrors
 pygeodesy.errors._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.errors._and	pygeodesy.errors-module.html#_and
+pygeodesy.errors.__all__	pygeodesy.errors-module.html#__all__
 pygeodesy.errors._specified_	pygeodesy.errors-module.html#_specified_
 pygeodesy.errors._error_under	pygeodesy.errors-module.html#_error_under
 pygeodesy.errors._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.errors._exception_chaining	pygeodesy.errors-module.html#_exception_chaining
 pygeodesy.errors._SciPyIssue	pygeodesy.errors-module.html#_SciPyIssue
 pygeodesy.errors._xError	pygeodesy.errors-module.html#_xError
-pygeodesy.errors._xkwds_Error	pygeodesy.errors-module.html#_xkwds_Error
 pygeodesy.errors._error_init	pygeodesy.errors-module.html#_error_init
 pygeodesy.errors.crosserrors	pygeodesy.errors-module.html#crosserrors
 pygeodesy.errors._xkwds	pygeodesy.errors-module.html#_xkwds
@@ -1111,7 +1105,7 @@ pygeodesy.errors._kwargs_	pygeodesy.errors-module.html#_kwargs_
 pygeodesy.errors._	pygeodesy.errors-module.html#_
 pygeodesy.errors._limiterrors	pygeodesy.errors-module.html#_limiterrors
 pygeodesy.errors._name_value_	pygeodesy.errors-module.html#_name_value_
-pygeodesy.errors.__all__	pygeodesy.errors-module.html#__all__
+pygeodesy.errors._xkwds_Error	pygeodesy.errors-module.html#_xkwds_Error
 pygeodesy.errors._multiple_	pygeodesy.errors-module.html#_multiple_
 pygeodesy.errors.rangerrors	pygeodesy.errors-module.html#rangerrors
 pygeodesy.errors._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
@@ -1373,8 +1367,8 @@ pygeodesy.geodesicx._C4_30._f2	pygeodesy.geodesicx.gxbases-module.html#_f2
 pygeodesy.geodesicx._C4_30.__package__	pygeodesy.geodesicx._C4_30-module.html#__package__
 pygeodesy.geodesicx.__main__	pygeodesy.geodesicx.__main__-module.html
 pygeodesy.geodesicx.__main__._main	pygeodesy.geodesicx.__main__-module.html#_main
-pygeodesy.geodesicx.__main__.__package__	pygeodesy.geodesicx.__main__-module.html#__package__
 pygeodesy.geodesicx.__main__._C4stats	pygeodesy.geodesicx.__main__-module.html#_C4stats
+pygeodesy.geodesicx.__main__.__package__	pygeodesy.geodesicx.__main__-module.html#__package__
 pygeodesy.geodesicx.gx	pygeodesy.geodesicx.gx-module.html
 pygeodesy.geodesicx.gx._polynomial	pygeodesy.geodesicx.gxbases-module.html#_polynomial
 pygeodesy.geodesicx.gx.unroll180	pygeodesy.utily-module.html#unroll180
@@ -1644,6 +1638,7 @@ pygeodesy.interns._reframe_	pygeodesy.interns-module.html#_reframe_
 pygeodesy.interns._E_	pygeodesy.interns-module.html#_E_
 pygeodesy.interns._1_	pygeodesy.interns-module.html#_1_
 pygeodesy.interns._down_	pygeodesy.interns-module.html#_down_
+pygeodesy.interns._load_lib	pygeodesy.interns-module.html#_load_lib
 pygeodesy.interns._meter2_	pygeodesy.interns-module.html#_meter2_
 pygeodesy.interns._0_01	pygeodesy.interns-module.html#_0_01
 pygeodesy.interns._UNDER_	pygeodesy.interns-module.html#_UNDER_
@@ -1656,6 +1651,7 @@ pygeodesy.interns._NL_var_	pygeodesy.interns-module.html#_NL_var_
 pygeodesy.interns._colinear_	pygeodesy.interns-module.html#_colinear_
 pygeodesy.interns._Krassovski1940_	pygeodesy.interns-module.html#_Krassovski1940_
 pygeodesy.interns.MANT_DIG	pygeodesy.interns-module.html#MANT_DIG
+pygeodesy.interns._sysctl_uint	pygeodesy.interns-module.html#_sysctl_uint
 pygeodesy.interns._in_	pygeodesy.interns-module.html#_in_
 pygeodesy.interns._9_0	pygeodesy.interns-module.html#_9_0
 pygeodesy.interns._Clarke1880IGN_	pygeodesy.interns-module.html#_Clarke1880IGN_
@@ -1703,6 +1699,7 @@ pygeodesy.interns._M_	pygeodesy.interns-module.html#_M_
 pygeodesy.interns._GRS80_	pygeodesy.interns-module.html#_GRS80_
 pygeodesy.interns._azi2_	pygeodesy.interns-module.html#_azi2_
 pygeodesy.interns._to_	pygeodesy.interns-module.html#_to_
+pygeodesy.interns._pythonarchine	pygeodesy.interns-module.html#_pythonarchine
 pygeodesy.interns._ispolar_	pygeodesy.interns-module.html#_ispolar_
 pygeodesy.interns._angle_	pygeodesy.interns-module.html#_angle_
 pygeodesy.interns._degrees2_	pygeodesy.interns-module.html#_degrees2_
@@ -1764,6 +1761,7 @@ pygeodesy.interns._0_	pygeodesy.interns-module.html#_0_
 pygeodesy.interns.EPS1_2	pygeodesy.interns-module.html#EPS1_2
 pygeodesy.interns._null_	pygeodesy.interns-module.html#_null_
 pygeodesy.interns._QUOTE2_	pygeodesy.interns-module.html#_QUOTE2_
+pygeodesy.interns._platform2	pygeodesy.interns-module.html#_platform2
 pygeodesy.interns._PERCENTDOTSTAR_	pygeodesy.interns-module.html#_PERCENTDOTSTAR_
 pygeodesy.interns._epoch_	pygeodesy.interns-module.html#_epoch_
 pygeodesy.interns._valid_	pygeodesy.interns-module.html#_valid_
@@ -1893,7 +1891,9 @@ pygeodesy.interns.NEG0	pygeodesy.interns-module.html#NEG0
 pygeodesy.interns._negative_	pygeodesy.interns-module.html#_negative_
 pygeodesy.interns.PI_4	pygeodesy.interns-module.html#PI_4
 pygeodesy.interns.__package__	pygeodesy.interns-module.html#__package__
+pygeodesy.interns.machine	pygeodesy.interns-module.html#machine
 pygeodesy.interns._point_	pygeodesy.interns-module.html#_point_
+pygeodesy.interns._version2	pygeodesy.interns-module.html#_version2
 pygeodesy.interns._Airy1830_	pygeodesy.interns-module.html#_Airy1830_
 pygeodesy.interns._hemipole_	pygeodesy.interns-module.html#_hemipole_
 pygeodesy.interns._e_	pygeodesy.interns-module.html#_e_
@@ -2046,7 +2046,7 @@ pygeodesy.lazily._EQUALSPACED_	pygeodesy.lazily-module.html#_EQUALSPACED_
 pygeodesy.lazily._imports_	pygeodesy.lazily-module.html#_imports_
 pygeodesy.lazily._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_DOCS
 pygeodesy.lazily._UNDER_	pygeodesy.lazily-module.html#_UNDER_
-pygeodesy.lazily._env	pygeodesy.lazily-module.html#_env
+pygeodesy.lazily._sub_packages	pygeodesy.lazily-module.html#_sub_packages
 pygeodesy.lazily._module_	pygeodesy.lazily-module.html#_module_
 pygeodesy.lazily._ALL_INIT	pygeodesy.lazily-module.html#_ALL_INIT
 pygeodesy.lazily._PYGEODESY_LAZY_IMPORT_	pygeodesy.lazily-module.html#_PYGEODESY_LAZY_IMPORT_
@@ -2072,7 +2072,6 @@ pygeodesy.lazily._all_imports	pygeodesy.lazily-module.html#_all_imports
 pygeodesy.lazily._attribute_	pygeodesy.lazily-module.html#_attribute_
 pygeodesy.lazily.MISSING	pygeodesy.lazily-module.html#MISSING
 pygeodesy.lazily._PYTHON_X_DEV	pygeodesy.lazily-module.html#_PYTHON_X_DEV
-pygeodesy.lazily._sub_packages	pygeodesy.lazily-module.html#_sub_packages
 pygeodesy.lazily._doesn_t_exist_	pygeodesy.lazily-module.html#_doesn_t_exist_
 pygeodesy.lazily._a_l_l_	pygeodesy.lazily-module.html#_a_l_l_
 pygeodesy.lazily._ALL_OTHER	pygeodesy.lazily-module.html#_ALL_OTHER

@@ -11,7 +11,7 @@ function L{DeprecationWarnings} below.
 from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
                              _invalid_, MISSING, _N_A_, _SPACE_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _env, _FOR_DOCS, \
+from pygeodesy.lazily import _ALL_LAZY, _getenv, _FOR_DOCS, \
                              _PYTHON_X_DEV, _sys
 from pygeodesy.streprs import Fmt
 
@@ -19,14 +19,14 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.06.09'
+__version__ =  '21.08.14'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
 _has_been_   = 'has been'
 _Warnings    =  0
 _W_DEV       = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
-                and _env.get('PYGEODESY_WARNINGS', NN)
+                and _getenv('PYGEODESY_WARNINGS', NN)
 
 
 def _hasProperty(inst, name, *Classes):

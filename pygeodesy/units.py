@@ -24,7 +24,7 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, PI2, _band_, \
                              _scalar_, _SPACE_, _UNDER_, _units_, \
                              _W_, _zone_, _0_0, _0_001
 from pygeodesy.interns import _std_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _env  # PYCHOK used!
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _getenv  # PYCHOK used!
 from pygeodesy.named import modulename, _Named
 from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr
@@ -1078,7 +1078,7 @@ def _std_repr(*classes):
     for C in classes:
         if hasattr(C, _std_repr.__name__):  # PYCHOK del _std_repr
             env = 'PYGEODESY_%s_STD_REPR' % (C.__name__.upper(),)
-            if _env.get(env, _std_).lower() != _std_:
+            if _getenv(env, _std_).lower() != _std_:
                 C._std_repr = False
 
 _std_repr(Bool, Float, Int, Meter, Str)  # PYCHOK expected

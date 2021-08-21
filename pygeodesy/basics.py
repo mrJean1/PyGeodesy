@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.08.10'
+__version__ = '21.08.16'
 
 _required_ = 'required'
 
@@ -520,12 +520,14 @@ def _xsubclassof(Class, **name_value_pairs):
 def _xversion(package, where, *required, **name):  # in .karney
     '''(INTERNAL) Check the C{package} version vs B{C{required}}.
     '''
-    t = map2(int, package.__version__.split(_DOT_)[:2])
-    if t < required:
-        t = _SPACE_(package.__name__, _version_, _DOT_.join_(*t),
-                   'below', _DOT_.join_(*required),
-                   _required_, _by_, _xwhere(where, **name))
-        raise ImportError(t)
+    n = len(required)
+    if n:
+        t = map2(int, package.__version__.split(_DOT_))
+        if t[:n] < required:
+            t = _SPACE_(package.__name__, _version_, _DOT_(*t),
+                       'below', _DOT_(*required),
+                       _required_, _by_, _xwhere(where, **name))
+            raise ImportError(t)
     return package
 
 

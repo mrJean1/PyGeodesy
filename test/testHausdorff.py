@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the Hausdorff distances.
+# Test the Hausdorff distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '21.08.14'
 
 from base import GeodSolve, geographiclib, isPython3, isWindows, \
                  TestsBase

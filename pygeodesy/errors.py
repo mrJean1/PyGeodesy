@@ -17,10 +17,10 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _datum_, _ellipsoidal_, _EQUAL_, \
                              _invalid_, _len_, _name_, _no_, \
                              _not_, _or_, _SPACE_, _UNDER_, __vs__
-from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
+from pygeodesy.lazily import _ALL_LAZY, _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.08.06'
+__version__ = '21.08.14'
 
 _default_     = 'default'
 _kwargs_      = 'kwargs'
@@ -35,7 +35,7 @@ try:
     _exception_chaining = None  # not available
     _ = Exception().__cause__   # Python 3+ exception chaining
 
-    if _PYTHON_X_DEV or _env.get('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
+    if _PYTHON_X_DEV or _getenv('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError  # allow exception chaining
 

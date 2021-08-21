@@ -72,7 +72,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         timeout = float(sys.argv[1])
     else:
-        timeout = float(os.environ.get('PYGEODESY_COVERAGE', '0'))
+        timeout = float(os.getenv('PYGEODESY_COVERAGE', '0'))
 
     if timeout > 4:
         from pygeodesy import ellipsoidalVincenty

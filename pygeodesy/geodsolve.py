@@ -17,7 +17,7 @@ from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _SPACE_
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import GDict, GeodesicError, GeodSolve12Tuple
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _sys_version_info2
-from pygeodesy.lazily import _env  # PYCHOK used!
+from pygeodesy.lazily import _getenv  # PYCHOK used!
 from pygeodesy.named import callername
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.07.03'
+__version__ = '21.08.14'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -50,7 +50,7 @@ class _GeodesicSolveBase(_GeodesicBase):
     '''
     _E          =  Ellipsoids.WGS84
     _Exact      =  True
-    _GeodSolve  = _env.get(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
+    _GeodSolve  = _getenv(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
     _invokation =  0
     _prec       =  Precision_(prec=DIG)
     _reverse2   =  False

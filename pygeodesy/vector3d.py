@@ -33,7 +33,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.08.12'
+__version__ = '21.08.14'
 
 _deltas_    = 'deltas'
 _raise_     = 'raise'  # PYCHOK used!
@@ -402,7 +402,7 @@ def circum4_(*points, **Vector_Vector_kwds):
     c = Vector3d(*C[:3], name=n)
     r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
 
-    c = _nVc(c, points[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
+    c = _nVc(c, ps[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
     return Circum4Tuple(r, c, rk, R)
 
 
@@ -1055,16 +1055,29 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_
     # above, separated to allow callers to embellish any exceptions, like
     # C{FloatingPointError}s from C{numpy}
 
-    def _0f3d(F):
-        # map numpy 4-vector to floats and split
-        F0, x, y, z = map(float, F)
-        return F0, Vector3d(x, y, z)
+    def _F3d2(F):
+        # map numpy 4-vector to floats tuple and Vector3d
+        T = map2(float, F)
+        return T, Vector3d(*T[1:])
 
     def _N3(t01, x, z):
         # compute x, y and z and return as Vector
         v = x.plus(z.times(t01))
         n = trilaterate3d2.__name__
         return _nVc(v, clas, **_xkwds(Vector_Vector_kwds, name=n))
+
+    def _perturbe5(eps):
+        # perturbe radii to handle corner cases like this
+        # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+        yield _0_0
+        if eps and eps > 0:
+            p = max(eps,  EPS)
+            yield  p
+            yield -p
+            q = max(eps, _EPSqrt)
+            if q > p:
+                yield  q
+                yield -q
 
     def _roots(numpy, *coeffs):
         # only real, non-complex roots of a polynomial, if any
@@ -1083,27 +1096,17 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_
         A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse
     if Z is None:  # coincident, colinear, concentric, etc.
         raise _trilaterror(c1, r1, c2, r2, c3, r3, eps)
+    Z, z = _F3d2(Z)
+    z2 =  z.length2
     bs = [c.length2 for c in (c1, c2, c3)]
 
-    # perturbe radii to handle corner cases like this
-    # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
-    ps = (_0_0,)
-    if eps and eps > 0:
-        p1  = max(eps,  EPS)
-        p2  = max(eps, _EPSqrt)
-        ps += p1, -p1
-        if p2 > p1:
-            ps += p2, -p2
-    for p in ps:
+    for p in _perturbe5(eps):
         b = [((r + p)**2 - b) for r, b in zip(rs, bs)]  # 1 x 3 or 3 x 1
         with _numpy(p, trilaterate3d2) as np:
-            X = np.dot(A, b)
-            X0, x = _0f3d(X)
-            Z0, z = _0f3d(Z)
+            X, x = _F3d2(np.dot(A, b))
             # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
-            t = _roots(np, x.length2       - X0,  # fdot(X, -_1_0, *x.xyz)
-                           z.dot(x) * _2_0 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
-                           z.length2)             # fdot(Z,  _0_0, *z.xyz)
+            t = _roots(np, fdot(X, -_1_0, *x.xyz),
+                          (fdot(Z, -_0_5, *x.xyz) * _2_0), z2)
             if t:
                 break
     else:  # coincident, concentric, colinear, too distant, no intersection, etc.

@@ -105,19 +105,22 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests have been run with Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52), Python 3.8.10 (withU{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{numpy<https://PyPI.org/project/numpy>}
+The tests have been run with Python 3.10.0rc1 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+1.52), Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy
+<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{numpy<https://PyPI.org/project/numpy>}
 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{numpy<https://PyPI.org/project/numpy>}
-1.16.6), all on macOS 11.5.1 (10.16) Big Sur and in 64-bit (and Intel) only.  The tests are run with and
-without C{lazy import} for Python 3 and with command line option C{-W always} and environment variable
-C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only those tests are included in the
-distribution files.
+1.16.6), all on macOS 11.5.2 Big Sur (aka 10.16) and in 64-bit only.  The tests are run with and without C{lazy import}
+for Python 3 and with command line option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all
+Python versions.  The results of only those tests are included in the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python
-3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python 3.8.10 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
+Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions run
+on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{machine}).
+
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>} 1.21.2),
+Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with U{numpy
 <https://PyPI.org/project/numpy>} 1.16.6).  The complete coverage report in HTML and a PDF summary are
 included in the distribution files.
@@ -138,12 +141,12 @@ Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6
 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>}
 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and
 U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-5 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS
-10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X
-10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.50
-or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with U{Pythonista
-3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit
-only and with 32-bit Python 2.7.14 on Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-5.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7
+Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan
+and/or MacOS X 10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib
+1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with
+U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all
+in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -153,7 +156,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.9.6, both in 64-bit on macOS 11.5.1 (10.16) Big Sur (Intel).
+using Python 3.10.0rc1, both in 64-bit on macOS 11.5.2 Big Sur (aka 10.16).
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -489,7 +492,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.08.12'
+__version__ = '21.08.18'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

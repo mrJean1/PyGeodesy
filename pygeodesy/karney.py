@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
+u'''I{Charles F.F. Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
 
 Wrapper around I{Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and several C{Math}
 functions from I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>},
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.08.12'
+__version__ = '21.08.13'
 
 _16th = _1_0 / _16_0
 

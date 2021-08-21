@@ -17,13 +17,12 @@ import sys
 from time import time
 
 try:
-    import coverage
-except ImportError:
+    if float(getenv('PYGEODESY_COVERAGE', '0')) > 0:
+        import coverage
+    else:
+        coverage = None  # ignore coverage
+except (ImportError, TypeError, ValueError):
     coverage = None
-try:
-    import geographiclib
-except ImportError:
-    geographiclib = None
 
 test_dir = dirname(abspath(__file__))
 PyGeodesy_dir = dirname(test_dir)
@@ -38,29 +37,29 @@ from pygeodesy import anstr, clips, DeprecationWarnings, isLazy, \
                       version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
-           'numpy', 'numpy_version',
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
-           'PyGeodesy_dir', 'PythonX', 'scipy', 'scipy_version',
+           'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
-           'ios_ver', 'secs2str',  # functions
-           'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '21.05.17'
+           'ios_ver', 'nix_ver', 'secs2str',  # functions
+           'tilde', 'type2str', 'versions')
+__version__ = '21.08.16'
 
-# don't test with numpy and/or scypi older than 1.9 resp. 1.0
+try:
+    import geographiclib
+except ImportError:
+    geographiclib = None
+
+# don't test with numpy and scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
 try:
-    numpy         = basics._xnumpy(basics, 1, 9)
-    numpy_version = float(numpy.__version__.rsplit('.', 1)[0])
+    numpy = basics._xnumpy(basics, 1, 9)
 except ImportError:
-    numpy         = None
-    numpy_version = 0.0
+    numpy = None
 try:
-    scipy          = basics._xscipy(basics, 1, 0)
-    nscipy_version = float(scipy.__version__.rsplit('.', 1)[0])
+    scipy = basics._xscipy(basics, 1, 0)
 except ImportError:
-    scipy         = None
-    scipy_version = 0.0
+    scipy = None
 del basics
 
 try:
@@ -90,7 +89,7 @@ isPyPy     = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyP
 isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
 isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
-isWindows  = sys.platform.startswith('win')
+isWindows  = sys.platform[:3] == 'win'
 
 GeodSolve  = getenv('PYGEODESY_GEODSOLVE', None)
 
@@ -478,45 +477,48 @@ def type2str(obj, attr):
 
 
 def versions():
-    '''Get pygeodesy, Python versions, size, OS name and release.
+    '''Get pygeodesy, Python versions, bits, machine, OS name and release.
     '''
-    vs = 'PyGeodesy', PyGeodesy_version
-    if isPyPy:
-        vs += 'PyPy', sys.version.split('[PyPy ')[1].split()[0]
-    vs += 'Python', sys.version.split()[0], _os_bitstr
-    for t in (coverage, geographiclib, numpy, scipy):
-        if t:
-            vs += t.__name__, t.__version__
+    if not TestsBase._versions:
 
-    # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
-    #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
-    # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
-    # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
-    #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
-    # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
-    #   'win32' on Windows and 'cygwin' on Windows/Gygwin
-    # - distro.id() and .name() return 'Darwin' on macOS
-    for t, r in (('iOS',     ios_ver),
-                 ('macOS',   mac_ver),
-                 ('Windows', win32_ver),
-                 (_Nix,      nix_ver),
-                 ('Java',    java_ver),
-                 ('uname',   uname)):
-        r = r()[0]
-        if r:
-            vs += t, r
-            break
+        from pygeodesy.interns import _pythonarchine
 
-    if isinstance(isLazy, int):
-        vs += 'isLazy', str(isLazy)
+        vs = 'PyGeodesy', PyGeodesy_version, _pythonarchine(sep=_SPACE_)
+        for t in (coverage, geographiclib, numpy, scipy):
+            if t:
+                vs += t.__name__, t.__version__
 
-    if getenv('PYTHONDONTWRITEBYTECODE', None):
-        vs += '-B',
+        # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
+        #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
+        # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
+        # - platform() returns 'Darwin-16.6.0-x86_64-i386-64bit'
+        #   on macOS and 'Darwin-16.6.0-iPad4,2-64bit' on iOS
+        # - sys.platform is 'darwin' on macOS, 'ios' on iOS,
+        #   'win32' on Windows and 'cygwin' on Windows/Gygwin
+        # - distro.id() and .name() return 'Darwin' on macOS
+        for t, r in (('iOS',     ios_ver),
+                     ('macOS',   mac_ver),
+                     ('Windows', win32_ver),
+                     (_Nix,      nix_ver),
+                     ('Java',    java_ver),
+                     ('uname',   uname)):
+            r = r()[0]
+            if r:
+                vs += t, r
+                break
 
-    if _W_opts:
-        vs += _W_opts,
+        if isinstance(isLazy, int):
+            vs += 'isLazy', str(isLazy)
 
-    return _SPACE_.join(vs)
+        if getenv('PYTHONDONTWRITEBYTECODE', None):
+            vs += '-B',
+
+        if _W_opts:
+            vs += _W_opts,
+
+        TestsBase._versions = _SPACE_.join(vs)
+
+    return TestsBase._versions
 
 
 if __name__ == '__main__':

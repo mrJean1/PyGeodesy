@@ -15,7 +15,7 @@ from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '21.05.25'
+__version__ = '21.08.14'
 
 if isiOS:  # MCCABE 14
 
@@ -80,7 +80,7 @@ else:  # non-iOS
     if _W_opts:  # include -W options
         PythonX_O += ' ' + _W_opts
         pythonC_  +=      (_W_opts,)
-    if coverage and environ.get('PYGEODESY_COVERAGE', ''):
+    if coverage:
         pythonC_ += tuple('-m coverage run -a'.split())
 
     def run2(test, *opts):  # PYCHOK expected
