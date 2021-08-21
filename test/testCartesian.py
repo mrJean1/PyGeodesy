@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.06'
+__version__ = '21.08.21'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -115,6 +115,8 @@ class Tests(TestsBase):
                                           else '89.99892°N, 090.95367°W')  # XXX?
             if Sph:
                 x, y = c.intersections2(0.0312705, d, 0.0421788, radius=None)  # radii in radians
+                if x.x > 0 and y.x < 0:
+                    x, y = y, x
                 self.test(n, x.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
                 self.test(n, x.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
                 if y is not x:
