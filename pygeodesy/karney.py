@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.08.13'
+__version__ = '21.08.21'
 
 _16th = _1_0 / _16_0
 
@@ -465,7 +465,7 @@ class _Wrapped(object):
             try:
                 import geographiclib as g
             except ImportError as x:
-                raise _xImportError(x, where)
+                raise _xImportError(x, _Wrapped, name=where.name)
             self._geographiclib = _xversion(g, _Wrapped, 1, 49, name=where.name)
         return self._geographiclib
 

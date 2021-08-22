@@ -33,7 +33,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.08.14'
+__version__ = '21.08.21'
 
 _deltas_    = 'deltas'
 _raise_     = 'raise'  # PYCHOK used!
@@ -402,13 +402,13 @@ def circum4_(*points, **Vector_Vector_kwds):
     c = Vector3d(*C[:3], name=n)
     r = Radius(sqrt(fsum_(C[3], *c.x2y2z2)), name=n)
 
-    c = _nVc(c, ps[0].classof, **_xkwds(Vector_Vector_kwds, name=n))
+    c = _nVc(c, **_xkwds(Vector_Vector_kwds, clas=ps[0].classof, name=n))
     return Circum4Tuple(r, c, rk, R)
 
 
 def _circum5(p1, point2, point3, circum=True, eps=EPS4, useZ=True,
                                  clas=Vector3d, **clas_kwds):  # in .latlonBase
-    # (INTERNAL) Radius, center and deltas
+    # (INTERNAL) Radius, center, deltas, both trilaterate3d2 results
     r, d, p2, p3 = _meeus4(p1, point2, point3, circum=circum, useZ=useZ,
                                                clas=clas, **clas_kwds)
     if d is None:  # Meeus' Type II or circum=True
@@ -465,8 +465,8 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
         v, o1, o2 = _intersect3d3(start1, end1, start2, end2, eps=eps, useZ=useZ)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
-    v = _nVc(v, start1.classof, **_xkwds(Vector_kwds, name=intersection3d3.__name__,
-                                         Vector=Vector))
+    v = _nVc(v, **_xkwds(Vector_kwds, clas=start1.classof, Vector=Vector,
+                                      name=intersection3d3.__name__))
     return Intersection3Tuple(v, o1, o2)
 
 
@@ -574,13 +574,14 @@ def intersections2(center1, radius1, center2, radius2, sphere=True,
 
 
 def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in CartesianEllipsoidalBase.intersections2,
-                                           clas=None, **Vector_Vector_kwds):  # .ellipsoidalBaseDI._intersections2
+                                         **clas_Vector_Vector_kwds):  # .ellipsoidalBaseDI._intersections2
     # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 
     def _nV3(x, y, z):
-        kwds = _xkwds(Vector_Vector_kwds, name=intersections2.__name__)
-        return _nVc(Vector3d(x, y, z), clas, **kwds)
+        v = Vector3d(x, y, z)
+        n = intersections2.__name__
+        return _nVc(v, **_xkwds(clas_Vector_Vector_kwds, name=n))
 
     def _xV3(c1, u, x, y):
         xy1 = x, y, _1_0  # transform to original space
@@ -835,7 +836,7 @@ def _numpy(arg, where):
         np.seterr(**e)
 
 
-def _nVc(v, clas, name=NN, Vector=None, **Vector_kwds):
+def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):
     # return a named C{Vector} or C{clas} instance
     if Vector is not None:
         v = Vector(v.x, v.y, v.z, **Vector_kwds)
@@ -1050,7 +1051,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                          center3=center3, radius3=radius3)
 
 
-def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_kwds):  # MCCABE 13
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, **clas_Vector_Vector_kwds):  # MCCABE 13
     # (INTERNAL) Intersect three spheres or circles, see L{trilaterate3d2}
     # above, separated to allow callers to embellish any exceptions, like
     # C{FloatingPointError}s from C{numpy}
@@ -1064,7 +1065,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_
         # compute x, y and z and return as Vector
         v = x.plus(z.times(t01))
         n = trilaterate3d2.__name__
-        return _nVc(v, clas, **_xkwds(Vector_Vector_kwds, name=n))
+        return _nVc(v, **_xkwds(clas_Vector_Vector_kwds, name=n))
 
     def _perturbe5(eps):
         # perturbe radii to handle corner cases like this
@@ -1119,7 +1120,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, clas=None, **Vector_Vector_
         t = v, v
     else:  # "lowest" intersection first (to avoid test failures)
         u = _N3(t[1], x, z)
-        t = (u, v) if u < v else (v, u)
+        t = (u, v) if u.x < v.x else (v, u)
     return t
 
 

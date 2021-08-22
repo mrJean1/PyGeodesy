@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.08.21'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -39,41 +39,50 @@ class Tests(_TestsLL, _TestsV):
         self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
 
         if coverage:  # coverage
+            n = 'test'
             self.test('parse',   p.parse(d.toStr(F_D__)), d)
             p.reframe = None
             self.test('reframe', p.reframe, None)
             c = p.toCartesian()
             self.test('toCartesian', c, '[3980581.21, -111.159, 4966824.522]')
+            if geographiclib:
+                self.test('toCss', p.toCss(), '-111.158797 5705242.333679')
+                self.test('toCss', p.toCss(name=n), '-111.158797 5705242.333679')
             t = fstr(c.toEcef()[:3], 3)
             self.test('toEcef',   t,  '3980581.21, -111.159, 4966824.522')
             self.test('toEtm',    p.toEtm(), '30 N 916396 5720041')
+            self.test('toEtm',    p.toEtm(name=n), '30 N 916396 5720041')
             self.test('toLcc',    p.toLcc(), '5639901 4612638')
+            self.test('toLcc',    p.toLcc(name=n), '5639901 4612638')
             self.test('toOsgr',   p.toOsgr(), 'TQ 38876 77320')
+            self.test('toOsgr',   p.toOsgr(name=n), 'TQ 38876 77320')
+#           self.test('toUps',    p.toUps(), '00 N 2000000 1333272')
+#           self.test('toUps',    p.toUps(falsed=False), '00 N 2000000 1333272')
             self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')
-            self.test('toUtm',    p.toUtm(),    '30 N 708207 5707224')
+            self.test('toUtm',    p.toUtm(), '30 N 708207 5707224')
+            self.test('toUtm',    p.toUtm(center=True), '30 N 708207 5707224')
             self.test('toWm',     p.toWm(), '-178.111 6672799.209')
+            self.test('toWm',     p.toWm(name=n), '-178.111 6672799.209')
 
             self.test('elevation2',   p.elevation2(  timeout=0.1)[0], None)
             self.test('geoidHeight2', p.geoidHeight2(timeout=0.1)[0], None)
 
             p._update(True)  # zap cached attrs
             self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')
-            self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')
             p = p.copy()
-            self.test('toUtm', p.toUtm(),    '30 N 708207 5707224')
-            self.test('toUtm', p.toUtm(),    '30 N 708207 5707224')
+            self.test('toUtm', p.toUtm(), '30 N 708207 5707224')
+            self.test('toUtm', p.toUtm(center=True), '30 N 708207 5707224')
 
             p = LatLon(84, 0)
             self.test('toUtmUps', p.toUtmUps(), '00 N 2000000 1333272')
-            self.test('toUtmUps', p.toUtmUps(), '00 N 2000000 1333272')
             p = p.copy()
-            self.test('toUps', p.toUps(),    '00 N 2000000 1333272')
-            self.test('toUps', p.toUps(),    '00 N 2000000 1333272')
+            self.test('toUps', p.toUps(), '00 N 2000000 1333272')
+            self.test('toUps', p.toUps(falsed=False), '00 N 0 -666728')
 
             p.lat = 86
-            self.test('toUps', p.toUps(),    '00 N 2000000 1555732')
+            self.test('toUps', p.toUps(), '00 N 2000000 1555732')
             p.lat = 83
-            self.test('toUtm', p.toUtm(),    '31 N 459200 9217519')
+            self.test('toUtm', p.toUtm(), '31 N 459200 9217519')
 
             n = getattr(module, 'nearestOn', None)
             if callable(n):  # function

@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.08.07'
+__version__ = '21.08.21'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -209,7 +209,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as a Cassini-Soldner location (L{Css}).
         '''
         from pygeodesy.css import Css, toCss
-        return toCss(self, h=self.height, Css=Css, name=self.name)
+        return toCss(self, height=self.height, Css=Css, name=self.name)
 
     @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
@@ -678,18 +678,18 @@ class LatLonEllipsoidalBase(LatLonBase):
         return c.toLatLon(datum=d2, height=height,
                           LatLon=self.classof, name=n, **r)
 
-    def toEtm(self, **toEtm_kwds):
+    def toEtm(self, **toEtm8_kwds):
         '''Convert this C{LatLon} point to an ETM coordinate.
 
-           @kwarg toEtm_kwds: Optional L{toEtm} keyword arguments.
+           @kwarg toEtm8_kwds: Optional L{toEtm8} keyword arguments.
 
            @return: The ETM coordinate (L{Etm}).
 
            @see: Function L{toEtm8}.
         '''
-        if toEtm_kwds:
+        if toEtm8_kwds:
             from pygeodesy.etm import toEtm8
-            r = toEtm8(self, **_xkwds(toEtm_kwds, name=self.name))
+            r = toEtm8(self, **_xkwds(toEtm8_kwds, name=self.name))
         else:
             r = self._etm
         return r

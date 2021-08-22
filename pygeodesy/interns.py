@@ -457,25 +457,30 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.08.18'
+__version__ = '21.08.21'
 
 
 def _load_lib(name):  # must startwith('lib')
-    # macOS 11 (aka 10.16) no longer provides direct loading of
-    # system libraries, instead it installs the library after a
-    # low-level dlopen(name) call with the library base name,
-    # as a result, ctypes.util.find_library may not find any
-    # library not previously dlopen'ed in Python 3.8-
-    from ctypes import CDLL, _dlopen
+    # macOS 11 (aka 10.16) no longer provides direct loading
+    # of system libraries, instead it installs the library
+    # after a low-level dlopen(name) call with the library
+    # base name.  As a result, ctypes.util.find_library
+    # can not find any library not previously dlopen'ed.
+    from ctypes import CDLL
     from ctypes.util import find_library
-    from sys import platform, version_info
+    from sys import platform
 
     ns = find_library(name), name
-    if version_info[:2] < (3, 9) and platform[:6] == 'darwin':
+    if platform[:6] == 'darwin':  # and os.name == 'posix'
+        from ctypes import _dlopen
         from os.path import join
         ns += (_DOT_(name, 'dylib'),
                _DOT_(name, 'framework'), join(
                _DOT_(name, 'framework'), name))
+    else:  # non-macOS
+        def _dlopen(unused):
+            return True
+
     for n in ns:
         try:
             if n and _dlopen(n):  # handle
@@ -484,6 +489,7 @@ def _load_lib(name):  # must startwith('lib')
                     return lib
         except (AttributeError, OSError):
             pass
+
     return None  # raise OSError
 
 
@@ -493,7 +499,7 @@ def machine():
 
        @return: Machine C{'arm64'} for Apple Silicon, C{"arm64_x86_64""} for
                 Intel I{emulated}, C{'x86_64'} for Intel, etc. (C{str} with
-                any C{comma}s by C{underscore}).
+                any C{comma}s replaced with C{underscore}s).
     '''
     return _platform2()[1]
 
@@ -504,7 +510,7 @@ def _platform2(sep=NN):
     m = platform.machine().replace(_COMMA_, _UNDER_)  # arm64, x86_64, iPhone13_2, etc.
     if m == 'x86_64':  # only on Intel or Rosetta2 ...
         v = platform.mac_ver()  # ... and only macOS
-        if v and _version2(v[0]) > (10, 15):  # macOS 11 Big Sur is 10.16 before Python 3.9.6
+        if v and _version2(v[0]) > (10, 15):  # macOS 11 Big Sur aka 10.16
             # <https://Developer.Apple.com/forums/thread/659846>
             if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
 #              _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent

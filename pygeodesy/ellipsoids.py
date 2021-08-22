@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.08.02'
+__version__ = '21.08.21'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -942,8 +942,9 @@ class Ellipsoid(_NamedEnumItem):
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         from pygeodesy.karney import _wrapped
+        g = _wrapped.Geodesic(self)
         Ellipsoid._Math = _wrapped.Math  # hold
-        return _wrapped.Geodesic(self)
+        return g
 
     @Property_RO
     def _geodesic_Math2(self):

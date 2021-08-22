@@ -115,8 +115,6 @@ class Tests(TestsBase):
                                           else '89.99892°N, 090.95367°W')  # XXX?
             if Sph:
                 x, y = c.intersections2(0.0312705, d, 0.0421788, radius=None)  # radii in radians
-                if x.x > 0 and y.x < 0:
-                    x, y = y, x
                 self.test(n, x.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
                 self.test(n, x.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
                 if y is not x:
@@ -126,8 +124,8 @@ class Tests(TestsBase):
                     from pygeodesy import trilaterate3d2  # with earth ... equivalent to Cartesian.intersections2?
                     n = modulename(trilaterate3d2, prefixed=True)
                     i, j = trilaterate3d2(c, 0.0312705, d, 0.0421788, Cartesian(0, 0, 0), 1)  # radians
-                    self.test(n, i.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]', known=x.minus(i).length < 5e-5)
-                    self.test(n, j.toStr(prec=6), '[0.025768, -0.798347, 0.601646]', known=y.minus(j).length < 5e-5)
+                    self.test(n, i.toStr(prec=6), '[-0.032761, -0.784757, 0.618937]', known=x.minus(i).length < 5e-5)
+                    self.test(n, j.toStr(prec=6),  '[0.025768, -0.798331, 0.601668]', known=y.minus(j).length < 5e-5)
                 except ImportError as x:
                     self.skip(str(x), n=2)
             else:

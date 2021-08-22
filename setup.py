@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.08.06'
+__version__ = '21.08.21'
 
 
 def _c2(*names):
@@ -136,6 +136,7 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '3.7'),
                    _c2('Programming Language', 'Python', '3.8'),
                    _c2('Programming Language', 'Python', '3.9'),
+                   _c2('Programming Language', 'Python', '3.10'),
                    _c2('Topic', 'Software Development'),
                    _c2('Topic', 'Scientific/Engineering', 'GIS'),
       ],  # PYCHOK indent
