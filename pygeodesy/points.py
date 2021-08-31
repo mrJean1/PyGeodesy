@@ -36,7 +36,7 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
 from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, \
-                             _colinear_, _COMMASPACE_, _DASH_, _DEQUALSPACED_, \
+                             _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
                              _distance_, _ELLIPSIS_, _height_, _lat_, _lon_, \
                              _near_, _not_, _point_, _SPACE_, _UNDER_, _valid_, \
                              _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.07.31'
+__version__ = '21.08.28'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -279,7 +279,8 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
                     B{C{Nvector}} is C{None}, a L{Vector4Tuple}C{(x,
                     y, z, h)}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}
+                             argument.
         '''
         x, y, z = latlon2n_xyz(self.lat, self.lon)
         r = Vector4Tuple(x, y, z, self.height if h is None else h)
@@ -1214,7 +1215,7 @@ def centroidOf(points, wrap=True, LatLon=None):
 
     A = A.fsum() * _3_0  # 6.0 / 2.0
     if isnear0(A):
-        raise _areaError(pts, near_=_DASH_(_near_, NN))
+        raise _areaError(pts, near_=_near_)
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
@@ -1244,8 +1245,8 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
        @arg fi: The fractional index (L{FIx}, C{float} or C{int}).
        @kwarg LatLon: Optional class to return the I{intermediate},
                       I{fractional} point (C{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional B{C{LatLon}} keyword arguments,
-                           ignored of C{B{LatLon} is None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored of C{B{LatLon} is None}.
 
        @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
                 L{LatLon2Tuple}C{(lat, lon)} for C{B{points}[B{fi}]} if
@@ -1257,6 +1258,9 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
        @raise IndexError: Fractional index B{C{fi}} invalid or
                           B{C{points}} not subscriptable or not
                           closed.
+
+       @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
+                         argument.
 
        @see: Class L{FIx} and method L{FIx.fractional}.
     '''

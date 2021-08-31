@@ -174,7 +174,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
-                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_', 'fsum2',
+                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_', 'fsum1_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                  'norm2', 'norm_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
@@ -262,22 +262,22 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
-                                 'chain2m', 'circle4',
+                                 'chain2m', 'circle4', 'cotd', 'cotd_',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
                                  'grades', 'grades400', 'grades2degrees', 'grades2radians',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
-                                 'sincos2', 'sincos2d', 'tan_2', 'tanPI_2_2',
+                                 'sincos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'tand', 'tand_', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
                                  'yard2m'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Vector3d',
-                                 'circum3', 'circum4_', 'intersection3d3', 'iscolinearWith', 'meeus2', 'parse3d',
-                                 'trilaterate2d2', 'trilaterate3d2'),
+                       vector3d=('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple', 'Vector3d',
+                                 'circin6', 'circum3', 'circum4_', 'intersection3d3', 'iscolinearWith', 'meeus2', 'parse3d', 'radii11',
+                                 'soddy4', 'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -296,7 +296,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.08.14'
+__version__ = '21.08.30'
 
 
 def _ALL_OTHER(*objs):

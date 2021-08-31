@@ -4,14 +4,14 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.16'
+__version__ = '21.08.28'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
-from pygeodesy import EPS, EPS4, F_D, NEG0, circum3, circum4_, fstr, \
-                      intersection3d3 as i3d, IntersectionError, \
-                      isnear0, meeus2, sphericalNvector, \
-                      trilaterate2d2, trilaterate3d2, \
+from pygeodesy import EPS, EPS4, F_D, NEG0, circin6, circum3, circum4_, \
+                      fstr, intersection3d3 as i3d, IntersectionError, \
+                      isnear0, meeus2, radii11, sphericalNvector, \
+                      soddy4, trilaterate2d2, trilaterate3d2, \
                       vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
 
@@ -382,7 +382,7 @@ class Tests(TestsBase):
         t = v1.trilaterate2d2(r, v2, r, v3, r)
         self.test(meeus2.__name__, t, '(3.0, 2.0, 0)')
 
-        v, c, d = circum3(v1, v2, v3, useZ=False)
+        v, c, d = circum3(v1, v2, v3, useZ=False, eps=1e-14)
         self.test(circum3.__name__, v, r, prec=4)
         self.test(circum3.__name__, c, t)
         self.test(circum3.__name__, d, None, known=d)
@@ -393,8 +393,16 @@ class Tests(TestsBase):
             self.test(circum4_.__name__, c, t, known=isnear0(c.z))
             self.test(circum4_.__name__, k, 3, known=True)
             self.test(circum4_.__name__, s, (), known=True)
+
+            # v1, v2, v3 = V3d(0, 0), V3d(100, 0), V3d(0, 100)
+            t = radii11(v1, v2, v3).toRepr()
+            self.test(radii11.__name__, t, t)  # XXX
+            t = circin6(v1, v2, v3, eps=1e-14).toRepr()
+            self.test(circin6.__name__, t, t)  # XXX
+            t = soddy4(v1, v2, v3, eps=1e-14).toRepr()
+            self.test(soddy4.__name__, t, t)  # XXX
         except ImportError as x:
-            self.skip(str(x), n=4)
+            self.skip(str(x), n=7)
 
     def testTrilaterate3d2(self, Vector):
 
@@ -438,8 +446,19 @@ class Tests(TestsBase):
             self.test(circum4_.__name__, k, 3, known=True)
             self.test(circum4_.__name__, s, (), known=True)
 
+            # v1, v2, v3 = V3d(3, 3), V3d(6, 6), V3d(10, -4)  # (5.835, (8, 1), None)
+            # t = v1.circum3(v2, v3, eps=1e-14).toRepr()
+            # self.test(circum3.__name__, t, t)
+
+            # v1, v2, v3 = V3d(0, 0), V3d(100, 0), V3d(0, 100)
+            t = v1.radii11(v2, v3).toRepr()
+            self.test(radii11.__name__, t, t)  # XXX
+            t = v1.circin6(v2, v3, eps=1e-14).toRepr()
+            self.test(circin6.__name__, t, t)  # XXX
+            t = v1.soddy4(v2, v3, eps=1e-14).toRepr()
+            self.test(soddy4.__name__, t, t)  # XXX
         except ImportError as x:
-            self.skip(str(x), n=15)
+            self.skip(str(x), n=18)
 
 
 if __name__ == '__main__':

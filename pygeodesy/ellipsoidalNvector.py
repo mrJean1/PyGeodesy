@@ -41,10 +41,10 @@ from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
 from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
-from pygeodesy.utily import sincos2d
+from pygeodesy.utily import sincos2d_
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.07.31'
+__version__ = '21.08.29'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -337,7 +337,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         a, b, _ = self.philamheight
 #         t = radians(bearing)
 #
-#         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
+#         sa, ca, sb, cb, st, ct = sincos2_(a, b, t)
 #         return self._xnamed(Nvector(sb * ct - sa * cb * st,
 #                                    -cb * ct - sa * sb * st,
 #                                     ca * st)
@@ -677,7 +677,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
     else:  # DEPRECATED
         d = Distance(distance)
 
-        sb, cb, se, ce = sincos2d(Bearing(bearing),
+        sb, cb, se, ce = sincos2d_(Bearing(bearing),
                                    Height(elevation=elevation))
         n  = cb * d * ce
         e  = sb * d * ce

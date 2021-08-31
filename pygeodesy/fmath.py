@@ -21,7 +21,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.08.04'
+__version__ = '21.08.27'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -464,30 +464,31 @@ class Fpolynomial(Fsum):
                 self.fadd_(xp * c)
 
 
-def cbrt(x):
-    '''Compute the cubic root M{x**(1/3)}.
+def cbrt(x3):
+    '''Compute the cube root M{x3**(1/3)}.
 
-       @arg x: Value (C{scalar}).
+       @arg x3: Value (C{scalar}).
 
        @return: Cubic root (C{float}).
 
        @see: Functions L{cbrt2} and L{sqrt3}.
     '''
+    # <https://archive.lib.MSU.edu/crcmath/math/math/r/r021.htm>
     # simpler and more accurate than Ken Turkowski's CubeRoot, see
     # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    return copysign0(pow(abs(x), _1_3rd), x)
+    return copysign0(pow(abs(x3), _1_3rd), x3)
 
 
-def cbrt2(x):
-    '''Compute the cubic root squared M{x**(2/3)}.
+def cbrt2(x3):
+    '''Compute the cube root I{squared} M{x3**(2/3)}.
 
-       @arg x: Value (C{scalar}).
+       @arg x3: Value (C{scalar}).
 
-       @return: Cubic root squared (C{float}).
+       @return: Cube root I{squared} (C{float}).
 
        @see: Functions L{cbrt} and L{sqrt3}.
     '''
-    return pow(abs(x), _2_3rd)  # XXX pow(abs(x), _1_3rd)**2
+    return pow(abs(x3), _2_3rd)  # XXX pow(abs(x3), _1_3rd)**2
 
 
 def euclid(x, y):
@@ -504,7 +505,7 @@ def euclid(x, y):
     x, y = abs(x), abs(y)
     if y > x:
         x, y = y, x
-    return x + y * _0_4142  # XXX _0_5 before 20.10.02
+    return x + y * _0_4142  # XXX * _0_5 before 20.10.02
 
 
 def euclid_(*xs):
@@ -518,11 +519,12 @@ def euclid_(*xs):
        @see: Function L{euclid}.
     '''
     e = _0_0
-    for x in sorted(map(abs, xs)):
+    for x in sorted(map(abs, xs)):  # XXX not reverse=True
         # e = euclid(x, e)
         if x > e:
             e, x = x, e
-        e += x * _0_4142
+        if x:
+            e += x * _0_4142
     return e
 
 
@@ -868,28 +870,12 @@ except ImportError:  # PYCHOK no cover
             return r
 
 
-def fsum_(*xs):
-    '''Precision summation of all positional arguments.
-
-       @arg xs: Values to be added (C{scalar}[]).
-
-       @return: Accurate L{fsum} (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{xs}} value.
-
-       @raise ValueError: Invalid or non-finite B{C{xs}} value.
-    '''
-    return fsum(map(float, xs))
-
-
 try:
     from math import fsum  # precision IEEE-754 sum, Python 2.6+
 
     # make sure fsum works as expected (XXX check
     # float.__getformat__('float')[:4] == 'IEEE'?)
-    if fsum_(1, 1e101, 1, -1e101) != 2:
+    if fsum((1, 1e101, 1, -1e101)) != 2:
         del fsum  # nope, remove fsum ...
         raise ImportError  # ... use fsum below
 
@@ -916,11 +902,10 @@ except ImportError:  # PYCHOK no cover
         return f.fsum(iterable)
 
 
-def fsum2(x, y):
-    '''Precision summation of 2 positional arguments.
+def fsum_(*xs):
+    '''Precision summation of all positional arguments.
 
-       @arg x: Value to be added (C{scalar}[]).
-       @arg x: Value to be added (C{scalar}[]).
+       @arg xs: Values to be added (C{scalar}s).
 
        @return: Accurate L{fsum} (C{float}).
 
@@ -930,14 +915,36 @@ def fsum2(x, y):
 
        @raise ValueError: Invalid or non-finite B{C{xs}} value.
     '''
-    return fsum_(_1_0, x, y, -_1_0)
+    return fsum(map(float, xs))
+
+
+def fsum1_(*xs):
+    '''Precision summation of a few arguments, primed with C{1.0}.
+
+       @arg xs: Values to be added (C{scalar}s).
+
+       @return: Accurate L{fsum} (C{float}).
+
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise TypeError: Non-scalar B{C{xs}} value.
+
+       @raise ValueError: Invalid or non-finite B{C{xs}} value.
+    '''
+    def _xs(xs):
+        yield  _1_0
+        for x in xs:
+            yield x
+        yield -_1_0
+
+    return fsum(_xs(xs))
 
 
 if _sys_version_info2 > (3, 9):
     from math import hypot  # OK in Python 3.10+
     hypot_ = hypot
 else:
-    # Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
+    # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
     # agdhruv <https://GitHub.com/geopy/geopy/issues/466>,
     # cffk <https://Bugs.Python.org/issue43088> and module
     # geomath.py <https://PyPI.org/project/geographiclib/1.52>
@@ -953,7 +960,7 @@ else:
                @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
             '''
             if x:
-                h = sqrt(fsum_(_1_0, x**2, y**2, -_1_0)) if y else abs(x)
+                h = sqrt(fsum1_(x**2, y**2)) if y else abs(x)
             elif y:
                 h = abs(y)
             else:
@@ -969,7 +976,7 @@ else:
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise ValueError: Invalid or no B{C{xs}} value.
+           @raise ValueError: Invalid or no B{C{xs}} values.
 
            @see: Similar to Python 3.8+ n-dimension U{math.hypot
                  <https://docs.Python.org/3.8/library/math.html#math.hypot>},
@@ -999,9 +1006,10 @@ def _h_x2(xs):
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h  = float(max(abs(x) for x in xs))
+            h  = float(max(map(abs, xs)))
             x2 = fsum(_x2s(xs, h)) if h else _0_0
             return h, x2
+
     raise _ValueError(xs=xs, txt=_too_(_few_))
 
 
@@ -1025,7 +1033,7 @@ def hypot2(x, y):
     '''
     if x:
         x *= x
-        h2 = fsum_(_1_0, x, y**2, -_1_0) if y else x
+        h2 = fsum1_(x, y**2) if y else x
     elif y:
         h2 = y**2
     else:
@@ -1086,30 +1094,33 @@ def norm_(*xs):
         raise _ValueError(Fmt.SQUARE(xs=i), x, _h_, h, txt=str(X))
 
 
-def sqrt0(x):
-    '''Compute the square root iff C{B{x} > EPS0**2}.
+def sqrt0(x2):
+    '''Compute the square root iff C{B{x2} >} L{EPS02}.
 
-       @arg x: Value (C{scalar}).
+       @arg x2: Value (C{scalar}).
 
        @return: Square root (C{float}) or C{0.0}.
+
+       @note: Any C{B{x2} <} L{EPS02} I{including} C{B{x2} < 0}
+              returns C{0.0}.
     '''
-    return sqrt(x) if x > EPS02 else _0_0
+    return sqrt(x2) if x2 > EPS02 else (_0_0 if x2 < EPS02 else EPS0)
 
 
-def sqrt3(x):
-    '''Compute the square root, cubed M{sqrt(x)**3} or M{sqrt(x**3)}.
+def sqrt3(x2):
+    '''Compute the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
 
-       @arg x: Value (C{scalar}).
+       @arg x2: Value (C{scalar}).
 
        @return: Cubed square root (C{float}).
 
-       @raise ValueError: Negative B{C{x}}.
+       @raise ValueError: Negative B{C{x2}}.
 
        @see: Functions L{cbrt} and L{cbrt2}.
     '''
-    if x < 0:
-        raise _ValueError(x=x)
-    return pow(x, _3_2nd) if x else _0_0
+    if x2 < 0:
+        raise _ValueError(x2=x2)
+    return pow(x2, _3_2nd) if x2 else _0_0
 
 # **) MIT License
 #

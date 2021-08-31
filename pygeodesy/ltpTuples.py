@@ -27,13 +27,13 @@ from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, \
                             Lon, Meter, Meter_
-from pygeodesy.utily import atan2d, atan2b, sincos2d
+from pygeodesy.utily import atan2d, atan2b, sincos2d_
 from pygeodesy.vector3d import Vector3d
 
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.07.31'
+__version__ = '21.08.29'
 
 _aer_        = 'aer'
 _slantrange_ = 'slantrange'
@@ -244,7 +244,7 @@ class Aer(_NamedBase):
     def xyz4(self):
         '''Get the C{(x, y, z, ltp)} components (L{Xyz4Tuple}).
         '''
-        sA, cA, sE, cE = sincos2d(self._azimuth, self._elevation)
+        sA, cA, sE, cE = sincos2d_(self._azimuth, self._elevation)
         R = self._slantrange
         r = cE * R  # ground range
         return Xyz4Tuple(sA * r, cA * r, sE * R, self.ltp, name=self.name)
@@ -697,7 +697,8 @@ class XyzLocal(Vector3d):
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
                     with C{M=None}, always.
 
-           @raise TypeError: Invalid B{C{ltp}}.
+           @raise TypeError: Invalid B{C{ltp}}, B{C{Cartesian}} or
+                             B{C{Cartesian_kwds}} argument.
         '''
         ltp = self._xLtp(self.ltp if ltp is None else ltp)
         if Cartesian is None:
@@ -734,7 +735,8 @@ class XyzLocal(Vector3d):
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
                     datum)} with C{M=None}, always.
 
-           @raise TypeError: Invalid B{C{ltp}}.
+           @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or
+                             B{C{LatLon_kwds}} argument.
         '''
         ltp = self._xLtp(self.ltp if ltp is None else ltp)
         r = ltp._local2ecef(self, nine=True)
@@ -1049,7 +1051,8 @@ class Local9Tuple(_NamedTuple):
            @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance
                     or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian} is None}.
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}
+                             argument.
         '''
         return self.ecef.toCartesian(Cartesian=Cartesian, **Cartesian_kwds)  # PYCHOK _Tuple
 
@@ -1078,7 +1081,8 @@ class Local9Tuple(_NamedTuple):
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
                     datum)} depending on whether C{datum} is un-/specified.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
+                             argument.
         '''
         return self.ecef.toLatLon(LatLon=LatLon, **LatLon_kwds)  # PYCHOK _Tuple
 

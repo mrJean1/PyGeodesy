@@ -21,26 +21,25 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             flatPolar, hartzell, haversine, isantipode, \
                             latlon2n_xyz, thomas_, vincentys
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
-                             _height_, _intersection_, _m_, _near_concentric_, \
-                             _no_, _overlap_, _0_0, _0_5, _1_0
+                             _concentric_, _height_, _intersection_, _m_, \
+                             _no_, _overlap_, _point_, _0_0, _0_5, _1_0
 from pygeodesy.iters import PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
-from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
-                                  PhiLam2Tuple, Trilaterate5Tuple, Vector3Tuple
+from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
+                                  Trilaterate5Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
-from pygeodesy.vector3d import Circum3Tuple, Circum4Tuple, circum4_, _circum5, Vector3d
+from pygeodesy.vector3d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, \
+                                circum4_, Circum4Tuple, _radii11ABC, Vector3d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.08.12'
-
-_deltas_ = 'deltas'
+__version__ = '21.08.28'
 
 
 class LatLonBase(_NamedBase):
@@ -157,6 +156,47 @@ class LatLonBase(_NamedBase):
         self.others(other)
         return _v3d(self).minus(_v3d(other)).length
 
+    def circin6(self, point2, point3, eps=EPS4):
+        '''Return the radius and center of the I{inscribed} aka I{In- circle}
+           of the (planar) triangle formed by this and two other points.
+
+           @arg point2: Second point (C{LatLon}).
+           @arg point3: Third point (C{LatLon}).
+           @kwarg eps: Tolerance for function L{trilaterate3d2}.
+
+           @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
+                    C{center} and contact points C{cA}, C{cB} and C{cC}, each an
+                    instance of this (sub-)class, are co-planar with this and the
+                    two given points.
+
+           @raise ImportError: Package C{numpy} not found, not installed or older
+                               than version 1.10.
+
+           @raise IntersectionError: Near-coincident or colinear points or
+                                     a trilateration or C{numpy} issue.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @note: The C{center} is trilaterated in cartesian (ECEF) space and converted
+                  back to geodetic lat-, longitude and height.  The latter, conventionally
+                  in C{meter} indicates whether the C{center} is above, below or on the
+                  surface of the earth model.  If C{deltas} is C{None}, the C{center} is
+                  I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon,
+                  height)} representing the difference between both L{trilaterate3d2}
+                  results and C{center} is the mean thereof.
+
+           @see: Function L{pygeodesy.circin6}, method L{circum3}, U{Incircle
+                 <https://MathWorld.Wolfram.com/Incircle.html>} and U{Contact Triangle
+                 <https://MathWorld.Wolfram.com/ContactTriangle.html>}.
+        '''
+        try:
+            cs = self._toCartesian3(point2, point3)
+            r, c, d, cA, cB, cC = _circin6(*cs, eps=eps, useZ=True, dLL3=True,
+                                                datum=self.datum)  # PYCHOK unpack
+            return Circin6Tuple(r, c.toLatLon(), d, cA.toLatLon(), cB.toLatLon(), cC.toLatLon())
+        except (AssertionError, TypeError, ValueError) as x:
+            raise _xError(x, point=self, point2=point2, point3=point3)
+
     def circum3(self, point2, point3, circum=True, eps=EPS4):
         '''Return the radius and center of the smallest circle I{through} or I{containing}
            this and two other points.
@@ -167,12 +207,15 @@ class LatLonBase(_NamedBase):
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
            @kwarg eps: Tolerance for function L{trilaterate3d2}.
 
-           @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center} is
-                    I{coplanar} with all three points and C{deltas} is either C{None}
-                    or a L{LatLon3Tuple} representing the C{center} ambiguity.
+           @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
+                    instance of this (sub-)class, is co-planar with this and the two
+                    given points.  If C{deltas} is C{None}, the C{center} is
+                    I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat,
+                    lon, height)} representing the difference between both
+                    L{trilaterate3d2} results and C{center} is the mean thereof.
 
            @raise ImportError: Package C{numpy} not found, not installed or older than
-                               version 1.15.
+                               version 1.10.
 
            @raise IntersectionError: Near-concentric, coincident or colinear points,
                                      incompatible C{Ecef} classes or a trilateration
@@ -184,27 +227,19 @@ class LatLonBase(_NamedBase):
                   back to geodetic lat-, longitude and height.  The latter, conventionally
                   in C{meter} indicates whether the C{center} is above, below or on the
                   surface of the earth model.  If C{deltas} is C{None}, the C{center} is
-                  unambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon, height)}
-                  representing the difference between both L{trilaterate3d2} results and
-                  C{center} is the mean thereof.
+                  I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon,
+                  height)} representing the difference between both L{trilaterate3d2}
+                  results and C{center} is the mean thereof.
 
-           @see: Function L{pygeodesy.circum3} and method L{circum4_}.
+           @see: Function L{pygeodesy.circum3} and methods L{circin6} and L{circum4_}.
         '''
         try:
-            c  = self._toCartesianEcef(point=self)
-            c2 = self._toCartesianEcef(point2=point2)
-            c3 = self._toCartesianEcef(point3=point3)
-
-            r, c, d, a, b = _circum5(c, c2, c3, circum=circum, eps=eps, useZ=True,  # XXX -3d2
-                                                clas=c.classof, datum=self.datum)  # PYCHOK _circum3
-            c = c.toLatLon()
-            if d is not None:  # redo deltas as (lat, lon, height)
-                a = a.toLatLon()
-                b = b.toLatLon()
-                d = LatLon3Tuple(b.lat - a.lat, b.lon - a.lon, b.height - a.height, name=_deltas_)
+            cs = self._toCartesian3(point2, point3)
+            r, c, d = _circum3(*cs, circum=circum, eps=eps, useZ=True, dLL3=True,  # XXX -3d2
+                                    clas=cs[0].classof, datum=self.datum)  # PYCHOK unpack
+            return Circum3Tuple(r, c.toLatLon(), d)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
-        return Circum3Tuple(r, c, d)
 
     def circum4_(self, *points):
         '''Best-fit a sphere through this and two or more other points.
@@ -346,7 +381,7 @@ class LatLonBase(_NamedBase):
            @kwarg LatLon: Optional (geodetic) class to return the destination
                           or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored is C{B{LatLon} is None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: Destination as a C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
                     instance or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat,
@@ -917,6 +952,30 @@ class LatLonBase(_NamedBase):
         '''
         return PointsIter(points, base=self, loop=loop, dedup=dedup)
 
+    def radii11(self, point2, point3):
+        '''Return the radii of the C{Circum-}, C{In-}, I{Soddy} and C{Tangent}
+           circles of a (planar) triangle formed by this and two other points.
+
+           @arg point2: Second point (C{LatLon}).
+           @arg point3: Third point (C{LatLon}).
+
+           @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
+
+           @raise IntersectionError: Near-coincident or colinear points.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @see: Function L{pygeodesy.radii11}, U{Incircle
+                 <https://MathWorld.Wolfram.com/Incircle.html>}, U{Soddy Circles
+                 <https://MathWorld.Wolfram.com/SoddyCircles.html>} and U{Tangent
+                 Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
+        '''
+        try:
+            cs = self._toCartesian3(point2, point3)
+            return _radii11ABC(*cs, useZ=True)[0]
+        except (TypeError, ValueError) as x:
+            raise _xError(x, point=self, point2=point2, point3=point3)
+
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
            U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
@@ -964,10 +1023,17 @@ class LatLonBase(_NamedBase):
         _datum_datum(r.datum, self.datum)
         return r
 
-    def _toCartesianEcef(self, i=None, **name_point):
+    def _toCartesian3(self, point2, point3):
+        '''(INTERNAL) Convert this and 2 other points.
+        '''
+        return (self. toCartesian().copy(name=_point_),  # copy to rename
+                self._toCartesianEcef(up=3, point2=point2),
+                self._toCartesianEcef(up=3, point3=point3))
+
+    def _toCartesianEcef(self, i=None, up=2, **name_point):
         '''(INTERNAL) Convert to cartesian and check Ecef's before and after.
         '''
-        p = self.others(**name_point)
+        p = self.others(up=up, **name_point)
         c = p.toCartesian()
         E = self.Ecef
         if E:
@@ -1232,7 +1298,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
                     m = min(m, d)
 
         except IntersectionError as x:
-            if _near_concentric_ in str(x):  # XXX ConcentricError?
+            if _concentric_ in str(x):  # XXX ConcentricError?
                 pc += 1
 
         p1, r1, p2, r2, p3, r3 = p2, r2, p3, r3, p1, r1  # rotate

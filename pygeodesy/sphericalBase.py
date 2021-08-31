@@ -21,9 +21,9 @@ from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
-                             _datum_, _distant_, _exceed_PI_radians_, \
-                             _name_, _near_concentric_, _too_, \
-                             _1_0, _180_0, _360_0
+                             _concentric_, _datum_, _distant_, \
+                             _exceed_PI_radians_, _name_, _near_, \
+                             _too_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import Bearing2Tuple
@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.08.07'
+__version__ = '21.08.28'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -106,7 +106,7 @@ class CartesianSphericalBase(CartesianBase):
             n, q = x1.cross(x2), x1.dot(x2)
             n2, q1 = n.length2, (_1_0 - q**2)
             if n2 < EPS or isnear0(q1):
-                raise ValueError(_near_concentric_)
+                raise ValueError(_near_(_concentric_))
             c1, c2 = cos(r1), cos(r2)
             x0 = x1.times((c1 - q * c2) / q1).plus(
                  x2.times((c2 - q * c1) / q1))

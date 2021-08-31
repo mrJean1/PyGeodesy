@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.07.29'
+__version__ = '21.08.24'
 
 
 class _NamedUnit(_Named):
@@ -759,16 +759,15 @@ class FIx(Float_):
         '''
         return self._fin
 
-    def fractional(self, points, **LatLon_LatLon_kwds):
+    def fractional(self, points, **LatLon_and_kwds):
         '''Return the point at this I{Fractional Index}.
 
            @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg LatLon_LatLon_kwds: Optional class to return the
-                                      I{intermediate}, I{fractional}
-                                      point (C{LatLon}) or C{None}
-                                      and optional B{C{LatLon}} keyword
-                                      arguments thereof.
+           @kwarg LatLon_and_kwds: Optional class to return the I{intermediate},
+                                   I{fractional} point (C{LatLon}) or C{None}
+                                   and optional B{C{LatLon}} keyword arguments
+                                   thereof.
 
            @return: See function L{pygeodesy.fractional}.
 
@@ -778,7 +777,7 @@ class FIx(Float_):
         '''
         from pygeodesy.points import fractional
         # fi = 0 if self == self.fin else self
-        return fractional(points, self, **LatLon_LatLon_kwds)
+        return fractional(points, self, **LatLon_and_kwds)
 
 
 class Height(Float):  # here to avoid circular import

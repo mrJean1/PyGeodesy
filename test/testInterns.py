@@ -5,7 +5,7 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.08.16'
+__version__ = '21.08.31'
 
 from base import TestsBase
 
@@ -26,7 +26,6 @@ _exceptions   = (_0to9_, _AtoZnoIO_,
                  interns._doesn_t_exist_,
                  interns._exceed_PI_radians_,
                  interns._n_a_,
-                 interns._near_concentric_,
                  interns._NL_hash_,
                  interns._NL_var_,
                  interns._OKd_,
@@ -54,7 +53,7 @@ class Tests(TestsBase):
                     self.test(n, i.lower(), a.lower(), known=a.isupper() or i in _exceptions)
                 elif isinstance(i, float):
                     a = a.strip(_UNDER_).replace(_UNDER_, _DOT_)
-                    self.test(n, i, a)
+                    self.test(n, i, a, known=n.startswith(_UNDER_))
 
         self.test('EPS',    EPS > 0, True)
         self.test('EPS+1', (EPS + 1) != 1, True)

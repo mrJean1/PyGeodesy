@@ -26,14 +26,144 @@ from pygeodesy.ltpTuples import Footprint5Tuple, Local9Tuple, \
 from pygeodesy.named import _NamedBase
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.units import Degrees, Meter
-from pygeodesy.utily import sincos2d
-
-from math import radians, tan
+from pygeodesy.utily import cotd, sincos2d, tand, tand_
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.07.31'
+__version__ = '21.08.30'
 
 _Xyz_ = 'Xyz'
+
+
+class Frustum(_NamedBase):
+    '''A rectangular pyramid, typically representing a camera's I{field of view}
+       (fov) and the intersection with (or projection to) a I{local tangent plane}.
+
+       @see: U{Viewing frustum<https://WikiPedia.org/wiki/Viewing_frustum>}.
+    '''
+    _h_2     = _0_0   # half hfov
+    _ltp     =  None  # local tangent plane
+    _tan_h_2 = _0_0   # tan(_h_2)
+    _v_2     = _0_0   # half vfov
+
+    def __init__(self, hfov, vfov, ltp=None):
+        '''New L{Frustum}.
+
+           @arg hfov: Horizontal field of view (C{degrees180}).
+           @arg vfov: Vertical field of view (C{degrees180}).
+           @kwarg ltp: Optional I{local tangent plane} (L{Ltp}).
+
+           @raise UnitError: Invalid B{C{hfov}} or B{C{vfov}}.
+
+           @raise ValueError: Invalid B{C{hfov}} or B{C{vfov}}.
+        '''
+        self._h_2 = h = _fov(hfov=hfov)
+        self._v_2 =     _fov(vfov=vfov)
+
+        self._tan_h_2 = tand(h, fov_2=h)
+
+        if ltp:
+            self._ltp = _xLtp(ltp)
+
+    def footprint5(self, altitude, tilt, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
+        '''Compute the center and corners of the intersection with (or projection
+           to) the I{local tangent plane} (LTP).
+
+           @arg altitude: Altitude (C{meter}) above I{local tangent plane}.
+           @arg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down.
+           @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North.
+           @kwarg roll: Roll, bank (C{degrees}), positive to the right and down.
+           kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
+           @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
+                       frustum's C{ltp}.
+
+           @return: A L{Footprint5Tuple}C{(center, upperleft, upperight, loweright,
+                    lowerleft)} with the C{center} and 4 corners each an L{Xyz4Tuple}.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+
+           @raise UnitError: Invalid B{C{altitude}}, B{C{tilt}}, B{C{roll}} or B{C{z}}.
+
+           @raise ValueError: If B{C{altitude}} too low, B{C{z}} too high or B{C{tilt}}
+                              or B{C{roll}} -including B{C{vfov}} respectively B{C{hfov}}-
+                              over the horizon.
+
+           @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>}.
+        '''
+        def _xy2(a, t, h_2, tan_h_2, r):
+            # left and right corners, or swapped
+            if r < EPS:  # no roll
+                r =  a * tan_h_2
+                l = -r  # PYCHOK l is ell
+            else:  # roll
+                r, l = tand_(r - h_2, r + h_2, roll_hfov=r)  # PYCHOK l is ell
+                r *= -a  # negate right positive
+                l *= -a  # PYCHOK l is ell
+            y = a * cotd(t, tilt_vfov=t)
+            return (l, y), (r, y)
+
+        def _xys(b, *xys):
+            # rotate (x, y)'s by bearing, clockwise
+            s, c = sincos2d(b)
+            for x, y in xys:
+                yield (x * c + y * s), (y * c - x * s)
+
+        a = Meter(altitude=altitude)
+        if a < EPS:  # too low
+            raise _ValueError(altitude=altitude)
+        if z:
+            z  = Meter(z=z)
+            a -= z
+            if a < EPS:  # z above a
+                raise _ValueError(altitude_z=a)
+        else:
+            z = _0_0
+
+        b =  Degrees(yaw=yaw) % _360_0
+        t = -Degrees(tilt=tilt)
+        if not EPS < t < _180_0:
+            raise _ValueError(tilt=tilt)
+        if t > _90_0:
+            t =  _180_0 - t
+            b = (_180_0 + b) % _360_0
+
+        r = Degrees(roll=roll) % _360_0  # roll center
+        x = (-a * tand(r, roll=r)) if r else _0_0
+        y =   a * cotd(t, tilt=tilt)  # ground range
+        if abs(y) < EPS:
+            y = _0_0
+
+        # center and corners, clockwise from upperleft, rolled
+        xy5 = ((x, y),) + _xy2(a, t - self._v_2,  self._h_2,  self._tan_h_2, r) \
+                        + _xy2(a, t + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
+        # turn center and corners by yaw, clockwise
+        p = self.ltp if ltp is None else _xLtp(ltp)
+        return Footprint5Tuple(*(Xyz4Tuple(x, y, z, p) for
+                                           x, y in _xys(b, *xy5)))
+
+    @Property_RO
+    def hfov(self):
+        '''Get the horizontal C{fov} (C{degrees}).
+        '''
+        return Degrees(hfov=self._h_2 * _2_0)
+
+    @Property_RO
+    def ltp(self):
+        '''Get the I{local tangent plane} (L{Ltp}) or C{None}.
+        '''
+        return self._ltp
+
+    @Property_RO
+    def vfov(self):
+        '''Get the vertical C{fov} (C{degrees}).
+        '''
+        return Degrees(vfov=self._v_2 * _2_0)
+
+
+def _fov(**fov):
+    f = Degrees(**fov) * _0_5
+    if EPS < f < _90_0:
+        return f
+    raise _ValueError(**fov)
 
 
 class LocalError(_ValueError):
@@ -323,153 +453,6 @@ class Ltp(LocalCartesian):
         if ecef != self._ecef:
             self._ecef = ecef
             self.reset(self._t0)
-
-
-class Frustum(_NamedBase):
-    '''A rectangular pyramid, typically representing a camera's I{field of view}
-       (fov) and the intersection with (or projection to) a I{local tangent plane}.
-
-       @see: U{Viewing frustum<https://WikiPedia.org/wiki/Viewing_frustum>}.
-    '''
-    _h_2     = _0_0   # half hfov
-    _ltp     =  None  # local tangent plane
-    _tan_h_2 = _0_0   # tan(_h_2)
-    _v_2     = _0_0   # half vfov
-
-    def __init__(self, hfov, vfov, ltp=None):
-        '''New L{Frustum}.
-
-           @arg hfov: Horizontal field of view (C{degrees180}).
-           @arg vfov: Vertical field of view (C{degrees180}).
-           @kwarg ltp: Optional I{local tangent plane} (L{Ltp}).
-
-           @raise UnitError: Invalid B{C{hfov}} or B{C{vfov}}.
-
-           @raise ValueError: Invalid B{C{hfov}} or B{C{vfov}}.
-        '''
-        self._h_2 = h = Degrees(hfov=hfov) * _0_5
-        if not EPS < h < _90_0:
-            raise _ValueError(hfov=hfov)
-
-        self._v_2 = v = Degrees(vfov=vfov) * _0_5
-        if not EPS < v < _90_0:
-            raise _ValueError(vfov=vfov)
-
-        self._tan_h_2 = t = tan(radians(h))
-        if t < EPS:
-            raise _ValueError(hfov=hfov)
-
-        if ltp:
-            self._ltp = _xLtp(ltp)
-
-    @Property_RO
-    def hfov(self):
-        '''Get the horizontal C{fov} (C{degrees}).
-        '''
-        return Degrees(hfov=self._h_2 * _2_0)
-
-    def footprint5(self, altitude, tilt, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
-        '''Compute the center and corners of the intersection with (or projection
-           to) the I{local tangent plane} (LTP).
-
-           @arg altitude: Altitude (C{meter}) above I{local tangent plane}.
-           @arg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down.
-           @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North.
-           @kwarg roll: Roll, bank (C{degrees}), positive to the right and down.
-           kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
-           @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
-                       frustum's C{ltp}.
-
-           @return: A L{Footprint5Tuple}C{(center, upperleft, upperight, loweright,
-                    lowerleft)} with the C{center} and 4 corners each an L{Xyz4Tuple}.
-
-           @raise TypeError: Invalid B{C{ltp}}.
-
-           @raise UnitError: Invalid B{C{altitude}}, B{C{tilt}}, B{C{roll}} or B{C{z}}.
-
-           @raise ValueError: If B{C{altitude}} too low, B{C{z}} too high or B{C{tilt}}
-                              or B{C{roll}} -including B{C{vfov}} respectively B{C{hfov}}-
-                              over the horizon.
-
-           @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>}.
-        '''
-        def _xy2(a, t, h_2, tan_h_2, r):
-            # left and right corners, or swapped
-            if r < EPS:  # no roll
-                r = a * tan_h_2
-                l = -r  # PYCHOK l is ell
-            else:  # roll
-                sl, cl, sr, cr = sincos2d(r + h_2, r - h_2)
-                if cl < EPS or cr < EPS:
-                    raise _ValueError(roll_hfov=r)
-                r = -a * sr / cr  # negate right positive
-                l = -a * sl / cl  # PYCHOK l is ell
-            s, c = sincos2d(t)
-            if abs(s) < EPS:
-                raise _ValueError(tilt_vfov=t)
-            y = a * c / s
-            return (l, y), (r, y)
-
-        def _xys(b, *xys):
-            # rotate (x, y)'s by bearing, clockwise
-            s, c = sincos2d(b)
-            for x, y in xys:
-                yield (x * c + y * s), (y * c - x * s)
-
-        a = Meter(altitude=altitude)
-        if a < EPS:  # too low
-            raise _ValueError(altitude=altitude)
-        if z:
-            z  = Meter(z=z)
-            a -= z
-            if a < EPS:  # z above a
-                raise _ValueError(altitude_z=a)
-        else:
-            z = _0_0
-
-        b =  Degrees(yaw=yaw) % _360_0
-        t = -Degrees(tilt=tilt)
-        if not EPS < t < _180_0:
-            raise _ValueError(tilt=tilt)
-        if t > _90_0:
-            t =  _180_0 - t
-            b = (_180_0 + b) % _360_0
-
-        r = Degrees(roll=roll) % _360_0  # center
-        if r:  # roll center
-            s, c = sincos2d(r)
-            if c < EPS:
-                raise _ValueError(roll=r)
-            x = -a * s / c
-        else:
-            x = _0_0
-        # ground range
-        s, c = sincos2d(t)
-        if s < EPS:
-            raise _ValueError(tilt=tilt)
-        y = a * c / s
-        if abs(y) < EPS:
-            y = _0_0
-
-        # center and corners, clockwise from upperleft, rolled
-        xy5 = ((x, y),) + _xy2(a, t - self._v_2,  self._h_2,  self._tan_h_2, r) \
-                        + _xy2(a, t + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
-        # turn center and corners by yaw, clockwise
-        p = self.ltp if ltp is None else _xLtp(ltp)
-        return Footprint5Tuple(*(Xyz4Tuple(x, y, z, p) for
-                                           x, y in _xys(b, *xy5)))
-
-    @Property_RO
-    def ltp(self):
-        '''Get the I{local tangent plane} (L{Ltp}) or C{None}.
-        '''
-        return self._ltp
-
-    @Property_RO
-    def vfov(self):
-        '''Get the vertical C{fov} (C{degrees}).
-        '''
-        return Degrees(vfov=self._v_2 * _2_0)
 
 
 def _xLtp(ltp):

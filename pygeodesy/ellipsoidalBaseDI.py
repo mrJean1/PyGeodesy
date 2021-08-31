@@ -14,9 +14,9 @@ from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
 from pygeodesy.fmath import favg, fmean_, fsum_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
-from pygeodesy.interns import EPS, PI, _datum_, _epoch_, _exceed_PI_radians_, \
-                             _height_, _no_, _near_concentric_, _reframe_, \
-                             _too_, _0_0
+from pygeodesy.interns import EPS, PI, _concentric_, _datum_, _epoch_, \
+                             _exceed_PI_radians_, _height_, _no_, _near_, \
+                             _reframe_, _too_, _0_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                            Intersection3Tuple, _LL4Tuple
@@ -394,7 +394,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
     # measured along the ellipsoid's surface
     m = c1.distanceTo(c2, wrap=False)  # meter
     if m < max(r1 - r2, EPS):
-        raise IntersectionError(_near_concentric_)
+        raise IntersectionError(_near_(_concentric_))
     if fsum_(r1, r2, -m) < 0:
         raise IntersectionError(_too_(Fmt.distant(m)))
 

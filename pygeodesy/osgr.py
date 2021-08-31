@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.07.31'
+__version__ = '21.08.24'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -457,7 +457,8 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
        @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
 
        @raise TypeError: Non-ellipsoidal B{C{latlon}} or invalid
-                         B{C{datum}} or conversion failed.
+                         B{C{datum}}, B{C{Osgr}}, B{C{Osgr_kwds}}
+                         argument or conversion failed.
 
        @example:
 

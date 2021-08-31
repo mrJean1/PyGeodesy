@@ -25,7 +25,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.08.12'
+__version__ = '21.08.26'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -304,7 +304,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                          L{Ecef9Tuple} cartesian) or X scale
                          factor (C{scalar}).
            @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}).
-           @kwarg fun2_kwds: Optional keyword argument for B{C{fun2}}.
+           @kwarg fun2_kwds: Optional keyword arguments for B{C{fun2}}.
 
            @return: New, applied vector (L{Vector3d}).
 
@@ -407,6 +407,21 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @see: Function L{euclid_} and properties C{length} and C{length2}.
         '''
         return Float(euclid=euclid_(self.x, self.y, self.z))
+
+    def intermediateTo(self, other, fraction):
+        '''Locate the vector at a given fraction between this and an
+           other vector.
+
+           @arg other: The other vector (L{Vector3d}).
+           @arg fraction: Fraction between both vector (C{float}, between
+                          0.0 for this and 1.0 for the other vector).
+
+           @return: Intermediate vector (L{Vector3d}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        d = self.others(other).minus(self)
+        return self.plus(d.times(Scalar(fraction=fraction)))
 
     def isconjugateTo(self, other, minum=1, eps=EPS):
         '''Determine whether this and an other vector are conjugates.

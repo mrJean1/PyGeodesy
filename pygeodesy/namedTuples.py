@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.06.23'
+__version__ = '21.08.24'
 
 # __DUNDER gets mangled in class
 _elel_    = 'll'
@@ -200,11 +200,9 @@ def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
     if LatLon is None:
         r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
-        if inst is None:
-            r = {}
-        else:
-            r = _xkwds_not(None, epoch=getattr(inst, _epoch_,   None),
-                               reframe=getattr(inst, _reframe_, None))
+        r = {} if inst is None else _xkwds_not(None,
+                                     epoch=  getattr(inst, _epoch_,   None),
+                                     reframe=getattr(inst, _reframe_, None))
         kwds = _xkwds(LatLon_kwds, datum=datum, height=height, **r)
         r = _xnamed(LatLon(lat, lon, **kwds), name)
     return r

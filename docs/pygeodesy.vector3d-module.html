@@ -79,7 +79,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.08.21
+        21.08.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -95,6 +95,17 @@
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html" class="summary-name">Vector3dBase</a><br />
       (INTERNAL) Generic 3-D vector base class.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Circin6Tuple-class.html" class="summary-name">Circin6Tuple</a><br />
+      6-Tuple <code>(radius, center, deltas, cA, cB, cC)</code> with the 
+        <code>radius</code>, the trilaterated <code>center</code> and 
+        contact points of the <i>inscribed</i> aka <i>In- circle</i> of a 
+        triangle.
     </td>
   </tr>
 <tr>
@@ -137,6 +148,33 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.vector3d.Radii11Tuple-class.html" class="summary-name">Radii11Tuple</a><br />
+      11-Tuple <code>(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)</code> 
+        with the <code>Tangent</code> circle radii <code>rA</code>, 
+        <code>rB</code> and <code>rC</code>, the <code>circumradius</code> 
+        <code>cR</code>, the <code>Incircle</code> radius <code>rIn</code> 
+        aka <code>inradius</code>, the inner and outer <i>Soddy</i> circle 
+        radii <code>riS</code> and <code>roS</code> and the sides 
+        <code>a</code>, <code>b</code> and <code>c</code> and 
+        semi-perimeter <code>s</code> of a triangle, all in 
+        <code>meter</code> conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Soddy4Tuple-class.html" class="summary-name">Soddy4Tuple</a><br />
+      4-Tuple <code>(radius, center, deltas, outer)</code> with 
+        <code>radius</code> and trilaterated <code>center</code> of the 
+        <i>inner</i> <i>Soddy</i> circle and the radius of the 
+        <code>outer</code> <i>Soddy</i> circle.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html" class="summary-name">Vector3d</a><br />
       Extended 3-D vector.
     </td>
@@ -156,6 +194,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#circin6" class="summary-sig-name">circin6</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Return the radius and center of the <i>inscribed</i> aka <i>In- 
+      circle</i> of a (2- or 3-D) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#circum3" class="summary-sig-name">circum3</a>(<span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
@@ -163,7 +223,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the smallest circle <i>through</i> or
-      <i>containing</i> three (3-D) points.</td>
+      <i>containing</i> three (2- or 3-D) points.</td>
           <td align="right" valign="top">
             
             
@@ -180,7 +240,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
-        <span class="summary-sig-arg">**Vector_Vector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Best-fit a sphere through three or more (3-D) points.</td>
           <td align="right" valign="top">
             
@@ -203,8 +263,7 @@
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection point of two lines, each defined by or 
       through a start and end point (3-D).</td>
           <td align="right" valign="top">
@@ -227,8 +286,7 @@
         <span class="summary-sig-arg">center2</span>,
         <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection of two spheres or circles, each defined by a
       (3-D) center point and a radius.</td>
           <td align="right" valign="top">
@@ -308,6 +366,49 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#radii11" class="summary-sig-name">radii11</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Return the radii of the <code>In-</code>, <i>Soddy</i> and 
+      <code>Tangent</code> circles of a (2- or 3-D) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#soddy4" class="summary-sig-name">soddy4</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Return the radius and center of the <code>inner</code> <i>Soddy</i> 
+      circle of a (2- or 3-D) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">vectors</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
@@ -337,8 +438,7 @@
         <span class="summary-sig-arg">y3</span>,
         <span class="summary-sig-arg">radius3</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Trilaterate three circles, each given as a (2-D) center and a radius.</td>
           <td align="right" valign="top">
             
@@ -362,8 +462,7 @@
         <span class="summary-sig-arg">center3</span>,
         <span class="summary-sig-arg">radius3</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Trilaterate three spheres, each given as a (3-D) center and a radius.</td>
           <td align="right" valign="top">
             
@@ -400,6 +499,82 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="circin6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circin6</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197e-16</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and center of the <i>inscribed</i> aka <i>In- 
+  circle</i> of a (2- or 3-D) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
+          href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+          class="link">trilaterate3d2</a> if <code><b>useZ</b> is 
+          True</code> else <a 
+          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          class="link">trilaterate2d2</a>.</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Circin6Tuple-class.html" 
+          class="link">Circin6Tuple</a><code>(radius, center, deltas, cA, 
+          cB, cC)</code>.  The <code>center</code> and contact points 
+          <code>cA</code>, <code>cB</code> and <code>cC</code>, each an 
+          instance of <b><code>point1</code></b>'s (sub-)class, are 
+          co-planar with the three given points.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10 and <code><b>useZ</b> is True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or colinear points or a trilateration or 
+        <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.vector3d-module.html#radii11" 
+        class="link">radii11</a> and <a 
+        href="pygeodesy.vector3d-module.html#circum3" 
+        class="link">circum3</a>, <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a> and <a 
+        href="https://MathWorld.Wolfram.com/ContactTriangle.html" 
+        target="_top">Contact Triangle</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="circum3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -420,10 +595,14 @@
   </tr></table>
   
   <p>Return the radius and center of the smallest circle <i>through</i> or 
-  <i>containing</i> three (3-D) points.</p>
+  <i>containing</i> three (2- or 3-D) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
@@ -437,25 +616,27 @@
           I case (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-          class="link">trilaterate3d2</a> if <code><b>useZ</b>=True</code> 
-          else <a href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          class="link">trilaterate3d2</a> if <code><b>useZ</b> is 
+          True</code> else <a 
+          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
           class="link">trilaterate2d2</a>.</li>
-        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise use 
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.vector3d.Circum3Tuple-class.html" 
           class="link">Circum3Tuple</a><code>(radius, center, 
           deltas)</code>.  The <code>center</code>, an instance of 
-          <b><code>point1</code></b>'s (sub-)class, is coplanar with the 
+          <b><code>point1</code></b>'s (sub-)class, is co-planar with the 
           three given points.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
-        version 1.10 and <code><b>useZ</b>=True</code>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-concentric, coincident or colinear points or a trilateration 
-        or <code>numpy</code> issue.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+        version 1.10 and <code><b>useZ</b> is True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or colinear points or a trilateration or 
+        <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -482,7 +663,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**Vector_Vector_kwds</span>)</span>
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -497,9 +678,10 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>Vector_Vector_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center and additional <b><code>Vector</code></b> keyword 
-          arguments.</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          center and optional, additional <b><code>Vector</code></b> 
+          keyword arguments, otherwise the first 
+          <b><code>points</code></b>' (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector3d.Circum4Tuple-class.html" 
@@ -546,8 +728,7 @@
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -576,16 +757,12 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
-        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise use 
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
-          <code>None</code> for <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>.</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          intersection points and optional, additional 
+          <b><code>Vector</code></b> keyword arguments, otherwise 
+          <b><code>start1</code></b>'s (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
@@ -595,7 +772,7 @@
           (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-coplanar or otherwise non-intersecting lines.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-co-planar or otherwise non-intersecting lines.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -622,8 +799,7 @@
         <span class="sig-arg">center2</span>,
         <span class="sig-arg">radius2</span>,
         <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -652,13 +828,10 @@
           intersection of two spheres.  If <code>False</code>, ignore the 
           <code>z</code>-component and compute the intersection of two 
           circles (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
-          <code>None</code> for an instance of 
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          intersection points and optional, additional 
+          <b><code>Vector</code></b> keyword arguments, otherwise 
           <b><code>center1</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>If <b><code>sphere</code></b> is <code>True</code>, a 2-tuple of 
@@ -776,7 +949,7 @@
         <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the non-zero 
           <code>circumradius</code> always, ignoring the <i>Meeus</i>' Type
           I case (<code>bool</code>).</li>
-        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise use 
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -784,7 +957,8 @@
           class="link">Meeus2Tuple</a><code>(radius, Type)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Coincident or linear points, iff <code><b>circum</b>=True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or colinear points, iff 
+        <code><b>circum</b>=True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
         <b><code>point3</code></b>.</li>
     </ul></dd>
@@ -845,6 +1019,140 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="radii11"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radii11</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radii of the <code>In-</code>, <i>Soddy</i> and 
+  <code>Tangent</code> circles of a (2- or 3-D) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Radii11Tuple-class.html" 
+          class="link">Radii11Tuple</a><code>(rA, rB, rC, cR, rIn, riS, 
+          roS, a, b, c, s)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or colinear points.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://MathWorld.Wolfram.com/Circumradius.html" 
+        target="_top">Circumradius</a>, <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a>, <a 
+        href="https://MathWorld.Wolfram.com/SoddyCircles.html" 
+        target="_top">Soddy Circles</a> and <a 
+        href="https://MathWorld.Wolfram.com/TangentCircles.html" 
+        target="_top">Tangent Circles</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="soddy4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">soddy4</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197e-16</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the radius and center of the <code>inner</code> <i>Soddy</i> 
+  circle of a (2- or 3-D) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
+          href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+          class="link">trilaterate3d2</a> if <code><b>useZ</b> is 
+          True</code> else <a 
+          href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+          class="link">trilaterate2d2</a>.</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.vector3d.Soddy4Tuple-class.html" 
+          class="link">Soddy4Tuple</a><code>(radius, center, deltas, 
+          outer)</code>.  The <code>center</code>, an instance of 
+          <b><code>point1</code></b>'s (sub-)class, is co-planar with the 
+          three given points.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
+        version 1.10 and <code><b>useZ</b> is True</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or colinear points or a trilateration or 
+        <code>numpy</code> issue.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.vector3d-module.html#radii11" 
+        class="link">radii11</a> and <a 
+        href="pygeodesy.vector3d-module.html#circum3" 
+        class="link">circum3</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="sumOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -903,8 +1211,7 @@
         <span class="sig-arg">y3</span>,
         <span class="sig-arg">radius3</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -933,11 +1240,11 @@
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (<code>scalar</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Check the trilaterated point <i>delta</i> on all 3 circles 
           (<code>scalar</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Class to return the trilateration (<a 
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          trilateration and optional, additional <b><code>Vector</code></b>
+          keyword arguments, otherwise (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+          class="link">Vector3d</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
@@ -979,8 +1286,7 @@
         <span class="sig-arg">center3</span>,
         <span class="sig-arg">radius3</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Vector_kwds</span>)</span>
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1012,12 +1318,10 @@
           <code>x</code>, <code>y</code> and <code>z</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
           <code>y</code>, and <code>z</code>.</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
-          <code>None</code> for <b><code>center1</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          trilateration and optional, additional <b><code>Vector</code></b>
+          keyword arguments, otherwise <b><code>center1</code></b>'s 
+          (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple with two trilaterated points, each a 
@@ -1079,7 +1383,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 22 12:44:04 2021
+    Generated by Epydoc 3.0.1 on Tue Aug 31 16:46:52 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

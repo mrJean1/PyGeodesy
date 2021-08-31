@@ -61,12 +61,13 @@ from pygeodesy.props import deprecated_Property_RO, Property_RO, \
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
                             Northing, Scalar, Scalar_
-from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
+from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
+                            sincos2d, sincos2d_
 
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.07.31'
+__version__ = '21.08.30'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -84,7 +85,7 @@ class _AzimuthalBase(_NamedBase):
     _datum     = _WGS84  # L{Datum}
     _iteration =  None   # iteration number for L{GnomonicKarney}
     _latlon0   =  LatLon2Tuple(_0_0, _0_0)  # lat0, lon0 (L{LatLon2Tuple})
-    _sc0       = (_0_0, _1_0)  # 2-Tuple C{sincos2d(lat0)}
+    _sc0       = _0_0, _1_0  # 2-Tuple C{sincos2d(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -141,7 +142,7 @@ class _AzimuthalBase(_NamedBase):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
         '''
         lat, lon = Lat_(lat), Lon_(lon)
-        sa, ca, sb, cb = sincos2d(lat, lon - self.lon0)
+        sa, ca, sb, cb = sincos2d_(lat, lon - self.lon0)
         s0, c0 = self._sc0
 
         k, t = _k_t_2(s0 * sa + c0 * ca * cb)
@@ -210,7 +211,7 @@ class _AzimuthalBase(_NamedBase):
         self._update(True)  # force reset
         self._latlon0 = LatLon2Tuple(Lat_(lat0=lat0, Error=AzimuthalError),
                                      Lon_(lon0=lon0, Error=AzimuthalError))
-        self._sc0     = tuple(sincos2d(self.lat0))
+        self._sc0     = sincos2d(self.lat0)
 
     def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.

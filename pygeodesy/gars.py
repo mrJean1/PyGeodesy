@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.05.26'
+__version__ = '21.08.24'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -43,9 +43,8 @@ _MaxPrec =    2
 _MinLen = _LonLen + _LatLen
 _MaxLen = _MinLen + _MaxPrec
 
-_M1 = 2
-_M2 = 2
-_M3 = 3
+_M1 = _M2 = 2
+_M3 =  3
 _M_ = _M1 * _M2 * _M3
 
 _LatOrig_M_ = _LatOrig * _M_
@@ -189,7 +188,8 @@ class Garef(Str):
            of the supplied C{LatLon} class.
 
            @arg LatLon: Class to use (C{LatLon}).
-           @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                               keyword arguments.
 
            @return: This garef location (B{C{LatLon}}).
 

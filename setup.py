@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.08.21'
+__version__ = '21.08.26'
 
 
 def _c2(*names):
@@ -50,7 +50,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'bearing', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
-             'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
+             'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic', 'contact-triangle',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
@@ -63,7 +63,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
              'Hartzell', 'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
-             'IDW', 'intermediate', 'interpolate',
+             'incenter', 'incirle', 'inradius', 'IDW', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Jekel', 'Karney', 'Krueger', 'Krüger',
@@ -79,10 +79,10 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soldner',
+             'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
-             'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
+             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'triangle', 'triangulate', 'trigonometry',
              'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',

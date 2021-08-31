@@ -25,10 +25,10 @@ from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_, hypot
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
-                             _coincident_, _colinear_, _convex_, _end_, \
-                             _invalid_, _LatLon_, _near_concentric_, _not_, \
-                             _null_, _points_, _SPACE_, _too_, _1_, _2_, \
-                             _0_0, _0_5, _1_0, _2_0, _90_0
+                             _coincident_, _colinear_, _concentric_, _convex_, \
+                             _end_, _invalid_, _LatLon_, _near_, _not_, _null_, \
+                             _points_, _SPACE_, _too_, _1_, _2_, _0_0, _0_5, \
+                             _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -43,14 +43,14 @@ from pygeodesy.streprs import Fmt as _Fmt  # XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
                             Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            m2radians, radiansPI2, sincos2, tan_2, \
+                            m2radians, radiansPI2, sincos2_, tan_2, \
                             unrollPI, wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.08.07'
+__version__ = '21.08.29'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -72,7 +72,7 @@ def _destination2(a, b, r, t):
        @return: 2-Tuple (phi, lam) of (C{radians}, C{radiansPI}).
     '''
     # see <https://www.EdWilliams.org/avform.htm#LL>
-    sa, ca, sr, cr, st, ct = sincos2(a, r, t)
+    sa, ca, sr, cr, st, ct = sincos2_(a, r, t)
 
     a = asin1(ct * sr * ca + cr * sa)
     d = atan2(st * sr * ca, cr - sa * sin(a))
@@ -93,24 +93,20 @@ class Cartesian(CartesianSphericalBase):
        spherical, geodetic L{LatLon}.
     '''
 
-    def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon
-        '''Convert this cartesian point to an C{Nvector}-based
-           geodetic point.
+    def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon
+        '''Convert this cartesian point to a C{spherical} geodetic point.
 
-           @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
-                                     other keyword arguments, ignored if
-                                     C{B{LatLon} is None}.  Use
-                                     C{B{LatLon}=...} to override this
-                                     L{LatLon} class or specify
-                                     C{B{LatLon} is None}.
+           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
+                                   arguments.  Use C{B{LatLon}=...} to override
+                                   this L{LatLon} class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
-                    height, C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon_datum_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
         '''
-        kwds = _xkwds(LatLon_datum_kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
 
 
@@ -186,7 +182,7 @@ class LatLon(LatLonSphericalBase):
         db, b2 = unrollPI(b1, b2, wrap=wrap)
 
         sa,  ca,  sa1, ca1, \
-        sa2, ca2, sdb, cdb = sincos2(a, a1, a2, db)
+        sa2, ca2, sdb, cdb = sincos2_(a, a1, a2, db)
 
         x = sa1 * ca2 * ca * sdb
         y = sa1 * ca2 * ca * cdb - ca1 * sa2 * ca
@@ -318,7 +314,7 @@ class LatLon(LatLonSphericalBase):
         a, b = self.philam
 
         t = Bearing_(bearing)
-        sa, ca, sb, cb, st, ct = sincos2(a, b, t)
+        sa, ca, sb, cb, st, ct = sincos2_(a, b, t)
 
         return Vector3d(sb * ct - cb * sa * st,
                        -cb * ct - sb * sa * st,
@@ -398,7 +394,7 @@ class LatLon(LatLonSphericalBase):
         sr = sin(r)
         if isnon0(sr):
             sa1, ca1, sa2, ca2, \
-            sb1, cb1, sb2, cb2 = sincos2(a1, a2, b1, b2)
+            sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
 
             A = sin((_1_0 - f) * r) / sr
             B = sin(        f  * r) / sr
@@ -585,7 +581,7 @@ class LatLon(LatLonSphericalBase):
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
 
-        sa1, ca1, sa2, ca2, sdb, cdb = sincos2(a1, a2, db)
+        sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(a1, a2, db)
 
         x = ca2 * cdb + ca1
         y = ca2 * sdb
@@ -711,13 +707,13 @@ class LatLon(LatLonSphericalBase):
                                         if C{B{Cartesian} is None}.  Use
                                         C{B{Cartesian}=...} to override
                                         this L{Cartesian} class or specify
-                                        C{B{Cartesian} is None}.
+                                        C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian_datum_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian_datum_kwds}} argument.
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
@@ -825,9 +821,9 @@ def areaOf(points, radius=R_M, wrap=True):
        joined by great circle arcs).
 
        @arg points: The polygon points (L{LatLon}[]).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
+                      or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Polygon area (C{meter} I{quared}, same units as
@@ -918,7 +914,7 @@ def _i3d2(start, end, wrap, _i_, hs):
     b21, b12 = db * _0_5, -(b1 + b2) * _0_5
 
     sb21, cb21, sb12, cb12, \
-    sa21,    _, sa12,    _ = sincos2(b21, b12, a1 - a2, a1 + a2)
+    sa21,    _, sa12,    _ = sincos2_(b21, b12, a1 - a2, a1 + a2)
 
     x = _Nvector(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
                  sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
@@ -999,7 +995,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 
     # see <https://www.EdWilliams.org/avform.htm#Intersection>
     elif isscalar(end1) and isscalar(end2):  # both bearings
-        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
+        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2_(a1, a2, r12)
 
         x1, x2 = (sr12 * ca1), (sr12 * ca2)
         if isnear0(x1) or isnear0(x2):
@@ -1017,7 +1013,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
         t13, t23 = map1(radiansPI2, end1, end2)
         x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
                               t21 - t23)  # angle 1-2-3
-        sx1, cx1, sx2, cx2 = sincos2(x1, x2)
+        sx1, cx1, sx2, cx2 = sincos2_(x1, x2)
         if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
             raise IntersectionError(_infinite_)
         sx3 = sx1 * sx2
@@ -1126,7 +1122,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
-        raise IntersectionError(_near_concentric_)
+        raise IntersectionError(_near_(_concentric_))
 
     r = eps if radius is None else (m2radians(
         eps, radius=radius) if eps else _0_0)
@@ -1135,7 +1131,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
 
     x = fsum_(r1, r2, -d)  # overlap
     if x > max(r, EPS):
-        sd, cd, sr1, cr1, _, cr2 = sincos2(d, r1, r2)
+        sd, cd, sr1, cr1, _, cr2 = sincos2_(d, r1, r2)
         x = sd * sr1
         if isnear0(x):
             raise _ValueError(_invalid_)
@@ -1184,17 +1180,16 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
     '''Compute the geographic mean of several points.
 
        @arg points: Points to be averaged (L{LatLon}[]).
-       @kwarg height: Optional height at mean point, overriding
-                      the mean height (C{meter}).
-       @kwarg LatLon: Optional class to return the mean point
-                      (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                           keyword arguments, ignored if
-                           C{B{LatLon} is None}.
+       @kwarg height: Optional height at mean point, overriding the mean
+                      height (C{meter}).
+       @kwarg LatLon: Optional class to return the mean point (L{LatLon})
+                      or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
 
-       @return: Point at geographic mean and height (B{C{LatLon}})
-                or a L{LatLon3Tuple}C{(lat, lon, height)} if
-                B{C{LatLon}} is C{None}.
+       @return: The geographic mean and height (B{C{LatLon}}) or a
+                L{LatLon3Tuple}C{(lat, lon, height)} if B{C{LatLon}}
+                is C{None}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
@@ -1376,7 +1371,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
     b, r = _a_r(wrap, *r)
     c, _ = _a_r(wrap, *r)
 
-    A, r = _A_r(a, *sincos2(a, b, c))
+    A, r = _A_r(a, *sincos2_(a, b, c))
     B, r = _A_r(b, *r)
     C, _ = _A_r(c, *r)
 

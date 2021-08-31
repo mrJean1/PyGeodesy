@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.08.06'
+__version__ = '21.08.27'
 
 
 class CartesianBase(Vector3d):
@@ -283,7 +283,9 @@ class CartesianBase(Vector3d):
         '''
         _xinstanceof(Datum, datum=datum)
         # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
-        #        latlon-nvector-ellipsoidal.js.html#line309>
+        #        latlon-nvector-ellipsoidal.js.html#line309>,
+        # <https://GitHub.com/pbrod/nvector>/src/nvector/core.py>
+        # _equation23 and <https://www.NavLab.net/nvector>
         E = datum.ellipsoid
         x, y, z = self.xyz
 

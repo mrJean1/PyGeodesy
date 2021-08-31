@@ -14,9 +14,9 @@ from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
-                             _DASH_, _distant_, _inside_, _near_, _null_, \
-                             _outside_, _too_, _0_0, _0_125, _0_25, _0_5, \
-                             _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
+                             _distant_, _inside_, _near_, _null_, _outside_, \
+                             _too_, _0_0, _0_125, _0_25, _0_5, _1_0, \
+                             _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -26,13 +26,13 @@ from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
                             Phi_, Radians, Radians_, Radius, Radius_, \
                             Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
-                            m2degrees, sincos2, tan_2, unroll180, unrollPI, \
-                            wrap90, wrap180, wrapPI, wrapPI_2
+                            m2degrees, sincos2, sincos2_, tan_2, unroll180, \
+                            unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
 
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.08.07'
+__version__ = '21.08.29'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -118,7 +118,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
         r = PI2
 
     db, _ = unrollPI(lam1, lam2, wrap=wrap)
-    sa1, ca1, sa2, ca2, sdb, cdb = sincos2(phi1, phi2, db)
+    sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(phi1, phi2, db)
 
     # see <https://MathForum.org/library/drmath/view/55417.html>
     x = ca1 * sa2 - sa1 * ca2 * cdb
@@ -227,10 +227,10 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
         if E.f:  # ellipsoidal
             r2 = atan2(E.b_a * s2, c2)
             r1 = atan2(E.b_a * s1, c1)
-            s2, c2, s1, c1 = sincos2(r2, r1)
+            s2, c2, s1, c1 = sincos2_(r2, r1)
             r = acos1(s1 * s2 + c1 * c2 * c21)
             if r:
-                sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
+                sr, _, sr_2, cr_2 = sincos2_(r, r * _0_5)
                 if _non0(sr_2) and _non0(cr_2):
                     s  = (sr + r) * ((s1 - s2) / sr_2)**2
                     c  = (sr - r) * ((s1 + s2) / cr_2)**2
@@ -292,7 +292,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     if r and _non0(c1) and _non0(c2):
         E = _ellipsoidal(datum, cosineForsytheAndoyerLambert_)
         if E.f:  # ellipsoidal
-            sr, cr, s2r, _ = sincos2(r, r * _2_0)
+            sr, cr, s2r, _ = sincos2_(r, r * _2_0)
             if _non0(sr) and abs(cr) < EPS1:
                 s = (s1 + s2)**2 / (1 + cr)
                 t = (s1 - s2)**2 / (1 - cr)
@@ -538,8 +538,8 @@ def excessAbc(A, b, c):
        @see: Function L{excessGirard}, L{excessLHuilier}, U{Spherical
              trigonometry<https://WikiPedia.org/wiki/Spherical_trigonometry>}.
     '''
-    sA, cA, sb, cb, sc, cc = sincos2(Radians_(A=A), Radians_(b=b) * _0_5,
-                                                    Radians_(c=c) * _0_5)
+    sA, cA, sb, cb, sc, cc = sincos2_(Radians_(A=A), Radians_(b=b) * _0_5,
+                                                     Radians_(c=c) * _0_5)
     return atan2(sA * sb * sc, cb * cc + cA * sb * sc) * _2_0
 
 
@@ -869,7 +869,7 @@ def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
     t = c2, c2, b2  # a2 factored out
     m = fdot(t, u2, v2, w2)
     if m < EPS0:  # zero or near-null LOS vector
-        raise IntersectionError(pov=pov, los=los, earth=earth, txt=_DASH_(_near_, _null_))
+        raise IntersectionError(pov=pov, los=los, earth=earth, txt=_near_(_null_))
 
     # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
     r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
@@ -1198,7 +1198,7 @@ def philam2n_xyz(phi, lam, name=NN):
     '''
     # Kenneth Gade eqn 3, but using right-handed
     # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-    sa, ca, sb, cb = sincos2(phi, lam)
+    sa, ca, sb, cb = sincos2_(phi, lam)
     return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
 
 
@@ -1266,7 +1266,7 @@ def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
 def _sincosa6(phi2, phi1, lam21):
     '''(INTERNAL) C{sin}es, C{cos}ines and C{acos}ine.
     '''
-    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    s2, c2, s1, c1, _, c21 = sincos2_(phi2, phi1, lam21)
     return s2, c2, s1, c1, acos1(s1 * s2 + c1 * c2 * c21), c21
 
 
@@ -1327,7 +1327,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
 
             j = (r2 + r1) * _0_5
             k = (r2 - r1) * _0_5
-            sj, cj, sk, ck, h, _ = sincos2(j, k, lam21 * _0_5)
+            sj, cj, sk, ck, h, _ = sincos2_(j, k, lam21 * _0_5)
 
             h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
             u = _1_0 - h
@@ -1406,7 +1406,7 @@ def vincentys_(phi2, phi1, lam21):
               (M{2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 1 add}) and
               L{cosineLaw_} (M{3 cos, 3 sin, 1 acos, 3 mul, 1 add}).
     '''
-    s1, c1, s2, c2, s21, c21 = sincos2(phi1, phi2, lam21)
+    s1, c1, s2, c2, s21, c21 = sincos2_(phi1, phi2, lam21)
 
     c = c2 * c21
     x = s1 * s2 + c1 * c

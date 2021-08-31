@@ -50,12 +50,12 @@ from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
 from pygeodesy.units import Bearing, Bearing_, Height, Radius, Scalar
-from pygeodesy.utily import degrees360, sincos2, sincos2d
+from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.07.31'
+__version__ = '21.08.29'
 
 _paths_ = 'paths'
 
@@ -68,16 +68,16 @@ class Cartesian(CartesianSphericalBase):
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
-           @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{datum}} and other
-                                   keyword arguments.  Use C{B{LatLon}=...} to
-                                   override this L{LatLon} class or specify
-                                   C{B{LatLon} is None}.
+           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
+                                   arguments, like C{datum}.  Use C{B{LatLon}=...}
+                                   to override this L{LatLon} class or specify
+                                   C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon_and_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
         '''
         kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
@@ -85,15 +85,15 @@ class Cartesian(CartesianSphericalBase):
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to L{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector}, B{C{datum}} and other
-                                    keyword arguments.  Use C{B{Nvector}=...} to
-                                    override this L{Nvector} class or specify
-                                    C{B{Nvector} is None}.
+           @kwarg Nvector_and_kwds: Optional L{Nvector} and L{Nvector} keyword
+                                    arguments, like C{datum}.  Use C{B{Nvector}=...}
+                                    to override this L{Nvector} class or specify
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}}
                     is set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)}
 
-           @raise TypeError: Invalid B{C{Nvector_and_kwds}}.
+           @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
         '''
         # ll = CartesianBase.toLatLon(self, LatLon=LatLon,
         #                                    datum=datum or self.datum)
@@ -226,7 +226,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{destinationPoint}.
         '''
         a = _angular(distance, radius)
-        sa, ca, sb, cb = sincos2(a, Bearing_(bearing))
+        sa, ca, sb, cb = sincos2_(a, Bearing_(bearing))
 
         p = self.toNvector()
         e = NorthPole.cross(p, raiser=_pole_).unit()  # east vector at p
@@ -293,7 +293,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a, b = self.philam
         t = Bearing_(bearing)
 
-        sa, ca, sb, cb, st, ct = sincos2(a, b, t)
+        sa, ca, sb, cb, st, ct = sincos2_(a, b, t)
         return Nvector(sb * ct - sa * cb * st,
                       -cb * ct - sa * sb * st,
                        ca * st, name=self.name)  # XXX .unit()
@@ -397,7 +397,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            other point.
 
            @arg other: The other point (L{LatLon}).
-           @arg fraction: Fraction between both points (float, between
+           @arg fraction: Fraction between both points (C{float}, between
                           0.0 for this and 1.0 for the other point).
            @kwarg height: Optional height at the intermediate point,
                           overriding the fractional height (C{meter}).
@@ -686,16 +686,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def toCartesian(self, **Cartesian_and_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Nvector}-based cartesian (ECEF) coordinates.
 
-           @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{datum}} or other
-                                      keyword arguments.  Use C{B{Cartesian}=...}
+           @kwarg Cartesian_and_kwds: Optional L{Cartesian} and L{Cartesian} keyword
+                                      arguments, like C{datum}.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian} is None}.
+                                      C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian_and_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian_and_kwds}} argument.
         '''
         kwds = _xkwds(Cartesian_and_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
@@ -703,15 +703,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def toNvector(self, **Nvector_and_kwds):  # PYCHOK signature
         '''Convert this point to L{Nvector} components, I{including height}.
 
-           @kwarg Nvector_and_kwds: Optional L{Nvector} and other keyword
-                                    arguments.  Use C{B{Nvector}=...} to
-                                    override this L{Nvector} class or specify
-                                    C{B{Nvector} is None}.
+           @kwarg Nvector_and_kwds: Optional L{Nvector} and L{Nvector} keyword
+                                    arguments.  Use C{B{Nvector}=...} to override
+                                    this L{Nvector} class or specify
+                                    C{B{Nvector}=None}.
 
            @return: The C{n-vector} components (L{Nvector}) or if B{C{Nvector}} is
                     set to C{None}, a L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}.
 
-           @raise TypeError: Invalid B{C{Nvector_and_kwds}}.
+           @raise TypeError: Invalid B{C{Nvector_and_kwds}} argument.
 
            @example:
 
@@ -745,16 +745,16 @@ class Nvector(NvectorBase):
         '''Convert this n-vector to C{Nvector}-based cartesian
            (ECEF) coordinates.
 
-           @kwarg Cartesian_and_kwds: Optional L{Cartesian}, B{C{h}} and other
-                                      keyword arguments.  Use C{B{Cartesian}=...}
+           @kwarg Cartesian_and_kwds: Optional L{Cartesian} and L{Cartesian} keyword
+                                      arguments, like C{h}.  Use C{B{Cartesian}=...}
                                       to override this L{Cartesian} class or specify
-                                      C{B{Cartesian} is None}.
+                                      C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}} is
                     set to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian_and_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian_and_kwds}} argument.
         '''
         kwds = _xkwds(Cartesian_and_kwds, h=self.h, Cartesian=Cartesian)
         return NvectorBase.toCartesian(self, **kwds)  # class or .classof
@@ -762,16 +762,16 @@ class Nvector(NvectorBase):
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK height=None, LatLon=LatLon
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
-           @kwarg LatLon_and_kwds: Optional L{LatLon}, B{C{height}} and other
-                                   keyword arguments.  Use C{B{LatLon}=...}
+           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
+                                   arguments, like C{height}.  Use C{B{LatLon}=...}
                                    to override this L{LatLon} class or specify
-                                   C{B{LatLon} is None}.
+                                   C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is set
                     to C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon_and_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
 
            @raise ValueError: Invalid B{C{height}}.
         '''

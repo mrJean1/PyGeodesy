@@ -5,6 +5,15 @@ u'''Single-instance C{float}s and C{str}ings, C{intern}'ed across modules.
 from math import pi as PI, sqrt
 
 
+class _Dash(str):
+    '''(INTERNAL) Extended C{str} for prefix_DASH_.
+    '''
+    def __call__(self, *args):
+        '''Join C{self} plus all B{C{args}} like C{str.join((self,) + B{args})}.
+        '''
+        return _DASH_(self, *args)  # re-callable
+
+
 class _Join(str):
     '''(INTERNAL) Extended, callable C{str}.
     '''
@@ -84,6 +93,7 @@ _ambiguous_           = 'ambiguous'          # PYCHOK expected
 # _AMPERSAND_   = _Join('&')                 # PYCHOK expected
 # _AND_               = _AMPERSAND_          # PYCHOK expected
 _and_                 = 'and'                # PYCHOK expected
+_at_                  = 'at'                 # PYCHOK expected
 _AT_            = _Join('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
@@ -106,6 +116,7 @@ _COLON_         = _Join(':')                 # PYCHOK expected
 _COLONSPACE_    = _Join(': ')                # PYCHOK expected
 _COMMA_         = _Join(',')                 # PYCHOK expected
 _COMMASPACE_    = _Join(', ')                # PYCHOK expected
+_concentric_          = 'concentric'         # PYCHOK expected
 _convergence_ = _Prefix('convergence')       # PYCHOK expected
 _conversion_          = 'conversion'         # PYCHOK expected
 _convex_              = 'convex'             # PYCHOK expected
@@ -160,6 +171,7 @@ _height_              = 'height'             # PYCHOK expected
 _hemipole_            = 'hemipole'           # PYCHOK expected
 _immutable_           = 'immutable'          # PYCHOK expected
 _i_                   = 'i'                  # PYCHOK expected
+_I_                   = 'I'                  # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
 _initial_             = 'initial'            # PYCHOK expected
@@ -200,7 +212,7 @@ _meridional_          = 'meridional'         # PYCHOK expected
 _meter_               = 'meter'              # PYCHOK expected
 _meter2_              = 'meter2'             # PYCHOK SQUARED
 _MGRS_                = 'MGRS'               # PYCHOK expected
-_MINUS_               = _DASH_
+_MINUS_               = _DASH_               # PYCHOK expected
 _module_              = 'module'             # PYCHOK expected
 _n_                   = 'n'                  # PYCHOK expected
 _N_                   = 'N'                  # PYCHOK expected
@@ -210,8 +222,7 @@ _NAD27_               = 'NAD27'              # PYCHOK expected
 _NAD83_               = 'NAD83'              # PYCHOK expected
 _name_                = 'name'               # PYCHOK expected
 _NAN_                 = 'NAN'                # PYCHOK expected
-_near_                = 'near'               # PYCHOK expected
-_near_concentric_     = 'near-concentric'    # PYCHOK expected
+_near_          = _Dash('near')              # PYCHOK expected
 _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
 _NL_            = _Join('\n')                # PYCHOK expected
@@ -227,6 +238,7 @@ _null_                = 'null'               # PYCHOK expected
 _number_              = 'number'             # PYCHOK expected
 _numpy_               = 'numpy'              # PYCHOK expected
 _Nv00_                = 'Nv00'               # PYCHOK expected
+_O_                   = 'O'                  # PYCHOK expected
 _OKd_                 = '._-'                # PYCHOK expected
 _on_                  = 'on'                 # PYCHOK expected
 _or_                  = 'or'                 # PYCHOK expected
@@ -429,12 +441,13 @@ EPS1_2   = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
 # _1EPS  = _float(_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
 _1_EPS   = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
 # _2_EPS = _float(_2_0 / EPS)      # PYCHOK = 9007199254740992.0
+_EPS4e8  = _float(EPS4 * 1e8)      # PYCHOK ≈ 8.881784197001e-08
 _EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
 EPS0     = _float(EPS**2)   # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2
-EPS02    = _float(EPS**4)   # PYCHOK near-zero squared comparison 2.430865e-63
+EPS02    = _float(EPS**4)   # PYCHOK near-zero-squared comparison 2.430865e-63
 INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
 NEG0     =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
@@ -457,7 +470,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.08.21'
+__version__ = '21.08.31'
 
 
 def _load_lib(name):  # must startwith('lib')

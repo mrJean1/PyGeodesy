@@ -169,12 +169,15 @@
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#unit">unit</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#circin6">circin6</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum3">circum3</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum4_">circum4_</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith">iscolinearWith</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#meeus2">meeus2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn">nearestOn</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#soddy4">soddy4</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
@@ -205,6 +208,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
@@ -332,12 +336,14 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Cartesian_and_kwds</code></strong> - Optional <a 
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
-          class="link">Cartesian</a>, <b><code>h</code></b> and other 
-          keyword arguments.  Use <code><b>Cartesian</b>=...</code> to 
+          class="link">Cartesian</a> and <a 
+          href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+          class="link">Cartesian</a> keyword arguments, like 
+          <code>h</code>.  Use <code><b>Cartesian</b>=...</code> to 
           override this <a 
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
           class="link">Cartesian</a> class or specify 
-          <code><b>Cartesian</b> is None</code>.</li>
+          <code><b>Cartesian</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The cartesian point (<a 
@@ -350,7 +356,7 @@
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian_and_kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian_and_kwds</code></b> argument.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#toCartesian">nvectorBase.NvectorBase.toCartesian</a>
@@ -379,12 +385,14 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>, <b><code>height</code></b> and other 
-          keyword arguments.  Use <code><b>LatLon</b>=...</code> to 
+          class="link">LatLon</a> and <a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a> keyword arguments, like 
+          <code>height</code>.  Use <code><b>LatLon</b>=...</code> to 
           override this <a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a> class or specify <code><b>LatLon</b> is 
-          None</code>.</li>
+          class="link">LatLon</a> class or specify 
+          <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The geodetic point (<a 
@@ -397,7 +405,7 @@
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon_and_kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon_and_kwds</code></b> argument.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -477,7 +485,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 22 12:44:08 2021
+    Generated by Epydoc 3.0.1 on Tue Aug 31 16:46:54 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

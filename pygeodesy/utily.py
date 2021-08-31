@@ -20,7 +20,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.07.09'
+__version__ = '21.08.30'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -143,6 +143,37 @@ def circle4(earth, lat):
     from pygeodesy.datums import _spherical_datum
     E = _spherical_datum(earth).ellipsoid
     return E.circle4(lat)
+
+
+def cotd(deg, **error_kwds):
+    '''Return the C{cotangent} of an angle in C{degrees}.
+
+       @arg deg: Angle (C{degrees}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: C{cot(B{deg})}.
+
+       @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{deg})}.
+    '''
+    s, c = sincos2d(deg)
+    if isnear0(s):
+        from pygeodesy.errors import _ValueError, _xkwds
+        raise _ValueError(**_xkwds(error_kwds, cotd=deg))
+    return c / s
+
+
+def cotd_(*degs, **error_kwds):
+    '''Return the C{cotangent} of angle(s) in C{degrees}.
+
+       @arg degs: One or more angles (C{degrees}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: Yield the C{cot(B{deg})} for each angle.
+
+       @raise ValueError: See L{pygeodesy.cotd}.
+    '''
+    for d in degs:
+        yield cotd(d, **error_kwds)
 
 
 def degrees90(rad):
@@ -471,7 +502,7 @@ def radians2m(rad, radius=R_M, lat=0):
 def _sincos2(q, r):
     '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant M{0 <= q <= 3}.
     '''
-    if r < EPS:
+    if r < EPS:  # XXX EPS0
         s, c = _0_0, _1_0
     elif r < PI_2:
         s, c = sin(r), cos(r)
@@ -482,12 +513,12 @@ def _sincos2(q, r):
     return t[q], t[q + 1]
 
 
-def sincos2(*rad):
-    '''Return the C{sine} and C{cosine} of angle(s).
+def sincos2(rad):
+    '''Return the C{sine} and C{cosine} of an angle in C{radians}.
 
-       @arg rad: One or more angles (C{radians}).
+       @arg rad: Angle (C{radians}).
 
-       @return: The C{sin(rad)} and C{cos(rad)} for each angle.
+       @return: 2-Tuple (C{sin(B{rad})}, C{cos(B{rad})}).
 
        @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
@@ -496,21 +527,33 @@ def sincos2(*rad):
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
-    for r in rad:
-        q = int(r * _2__PI)  # int(math.floor)
-        if r < 0:
-            q -= 1
-        s, c = _sincos2(q & 3, r - q * PI_2)
+    q = int(rad * _2__PI)  # int(math.floor)
+    if rad < 0:
+        q -= 1
+    return _sincos2(q & 3, rad - q * PI_2)
+
+
+def sincos2_(*rads):
+    '''Return the C{sine} and C{cosine} of angle(s) in {Cradians}.
+
+       @arg rads: One or more angles (C{radians}).
+
+       @return: Yield the C{sin(B{rad})} and C{cos(B{rad})} for each angle.
+
+       @see: function L{sincos2}.
+    '''
+    for r in rads:
+        s, c = sincos2(r)
         yield s
         yield c
 
 
-def sincos2d(*deg):
-    '''Return the C{sine} and C{cosine} of angle(s) in C{degrees}.
+def sincos2d(deg):
+    '''Return the C{sine} and C{cosine} of an angle in C{degrees}.
 
-       @arg deg: One or more angles (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
-       @return: The C{sin(deg)} and C{cos(deg)} for each angle.
+       @return: 2-Tuple (C{sin(B{deg})}, C{cos(B{deg})}).
 
        @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
@@ -519,11 +562,23 @@ def sincos2d(*deg):
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
-    for d in deg:
-        q = int(d * _1__90)  # int(math.floor)
-        if d < 0:
-            q -= 1
-        s, c = _sincos2(q & 3, radians(d - q * _90_0))
+    q = int(deg * _1__90)  # int(math.floor)
+    if deg < 0:
+        q -= 1
+    return _sincos2(q & 3, radians(deg - q * _90_0))
+
+
+def sincos2d_(*degs):
+    '''Return the C{sine} and C{cosine} of angle(s) in C{degrees}.
+
+       @arg degs: One or more angles (C{degrees}).
+
+       @return: Yield the C{sin(B{deg})} and C{cos(B{deg})} for each angle.
+
+       @see: Function L{sincos2d}.
+    '''
+    for d in degs:
+        s, c = sincos2d(d)
         yield s
         yield c
 
@@ -553,6 +608,37 @@ def tan_2(rad, **semi):  # edge=1
         raise _ValueError(n, rad, txt=_semi_circular_)
 
     return tan(rad * _0_5)
+
+
+def tand(deg, **error_kwds):
+    '''Return the C{tangent} of an angle in C{degrees}.
+
+       @arg deg: Angle (C{degrees}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: C{tan(B{deg})}.
+
+       @raise ValueError: If L{pygeodesy.isnear0}C{(cos(B{deg})}.
+    '''
+    s, c = sincos2d(deg)
+    if isnear0(c):
+        from pygeodesy.errors import _ValueError, _xkwds
+        raise _ValueError(**_xkwds(error_kwds, tand=deg))
+    return s / c
+
+
+def tand_(*degs, **error_kwds):
+    '''Return the C{tangent} of angle(s) in C{degrees}.
+
+       @arg degs: One or more angles (C{degrees}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: Yield the C{tan(B{deg})} for each angle.
+
+       @raise ValueError: See L{pygeodesy.tand}.
+    '''
+    for d in degs:
+        yield tand(d, **error_kwds)
 
 
 def tanPI_2_2(rad):

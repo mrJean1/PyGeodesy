@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.07.31'
+__version__ = '21.08.24'
 
 
 class _GH(object):
@@ -234,8 +234,8 @@ class Geohash(Str):
 
            @kwarg LatLon: Optional class to return I{bounds} (C{LatLon})
                           or C{None}.
-           @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                               ignored if B{C{LatLon}} is C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon}} is C{None}.
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                     or a L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} if
@@ -518,8 +518,8 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
        @arg geohash: To be bound (L{Geohash}).
        @kwarg LatLon: Optional class to return the bounds (C{LatLon})
                       or C{None}.
-       @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                           ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                 or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
@@ -608,8 +608,8 @@ def decode2(geohash, LatLon=None, **LatLon_kwds):
        @arg geohash: To be decoded (L{Geohash}).
        @kwarg LatLon: Optional class to return the location (C{LatLon})
                       or C{None}.
-       @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                           ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_kwds: Optional, addtional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
 
        @return: L{LatLon2Tuple}C{(lat, lon)}, both C{degrees} if
                 C{B{LatLon} is None}, otherwise a B{C{LatLon}} instance.

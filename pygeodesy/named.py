@@ -19,30 +19,28 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
-from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
+from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
-                             _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, \
-                             _name_, _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
+                             _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
+                             _name_, _O_, _other_, _s_, _SPACE_, _UNDER_, \
+                             _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.06.27'
+__version__ = '21.08.27'
 
-_at_     = 'at'
-_del_    = 'del'
-_I_      = 'I'
-_item_   = 'item'
-_MRO_    = 'MRO'
-_O_      = 'O'
+_COMMASPACEDOT_ = ', .'
+_del_           = 'del'
+_item_          = 'item'
+_MRO_           = 'MRO'
 # __DUNDER gets mangled in class
-_name        = '_name'
-_Names_      = '_Names_'
-_registered_ = 'registered'  # PYCHOK used!
-_Units_      = '_Units_'
-_use_        = 'use'  # PYCHOK used!
+_name           = '_name'
+_Names_         = '_Names_'
+_registered_    = 'registered'  # PYCHOK used!
+_Units_         = '_Units_'
 
 
 def _xjoined_(prefix, name):
@@ -210,10 +208,10 @@ class _Named(object):
         '''Make a shallow or deep copy of this instance.
 
            @kwarg deep: If C{True} make a deep, otherwise
-                          a shallow copy (C{bool}).
+                        a shallow copy (C{bool}).
            @kwarg name: Optional, non-empty name (C{str}).
 
-           @return: The copy (C{This class} or subclass thereof).
+           @return: The copy (C{This class} or sub-class thereof).
         '''
         c = _xcopy(self, deep=deep)
         if name:
@@ -246,12 +244,12 @@ class _Named(object):
             n =  repr(n)
             c =  self.classname
             t = _DOT_(c,  Fmt.PAREN(self.rename.__name__, n))
-            t = _COMMASPACE_(repr(m), _SPACE_(_use_, t))
+            t = 'to overwrite %r, use %s' % (m, t)
             n = _DOT_(c, _EQUALSPACED_(_name_, n))
             raise _NameError(n, txt=t)
         # to set the name from a sub-class, use
-        # self.name = name or
-        # _Named.name.fset(self, name), but not
+        #  self.name = name or
+        # _Named.name.fset(self, name), but NOT
         # _Named(self).name = name
 
     @Property_RO
@@ -378,7 +376,7 @@ class _NamedBase(_Named):
         other, name, up = _xother3(self, other, **name_other_up)
         if isinstance(self, other.__class__) or \
            isinstance(other, self.__class__):
-            return other
+            return _xnamed(other, name)
 
         raise _xotherError(self, other, name=name, up=up + 1)
 
@@ -675,7 +673,7 @@ class _NamedEnum(_NamedDict):
     def toStr(self, *unused, **all):  # PYCHOK _NamedDict
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        return self._DOT_(', .'.join(sorted(self.keys(**all))))
+        return self._DOT_(_COMMASPACEDOT_.join(sorted(self.keys(**all))))
 
     def values(self, all=False):
         '''Yield the value of all or only the I{registered} items.

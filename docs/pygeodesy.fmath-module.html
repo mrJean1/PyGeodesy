@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.08.04
+        21.08.27
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -121,8 +121,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cubic root <i class="math">x**(1/3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x3</span>)</span><br />
+      Compute the cube root <i class="math">x3**(1/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -138,8 +138,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the cubic root squared <i class="math">x**(2/3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x3</span>)</span><br />
+      Compute the cube root <i>squared</i> <i class="math">x3**(2/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -515,23 +515,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision summation of all positional arguments.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
       Return an accurate floating point sum of values in the iterable.</td>
           <td align="right" valign="top">
@@ -549,9 +532,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum2" class="summary-sig-name">fsum2</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>)</span><br />
-      Precision summation of 2 positional arguments.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision summation of all positional arguments.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision summation of a few arguments, primed with <code>1.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -690,8 +689,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the square root iff <code><b>x</b> &gt; EPS0**2</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x2</span>)</span><br />
+      Compute the square root iff <code><b>x2</b> &gt;</code> EPS02.</td>
           <td align="right" valign="top">
             
             
@@ -707,9 +706,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Compute the square root, cubed <i class="math">sqrt(x)**3</i> or <i 
-      class="math">sqrt(x**3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x2</span>)</span><br />
+      Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
+      or <i class="math">sqrt(x**3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -752,18 +751,18 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>&nbsp;(<span class="sig-arg">x3</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the cubic root <i class="math">x**(1/3)</i>.</p>
+  <p>Compute the cube root <i class="math">x3**(1/3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x3</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root (<code>float</code>).</dd>
@@ -782,21 +781,22 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>&nbsp;(<span class="sig-arg">x3</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the cubic root squared <i class="math">x**(2/3)</i>.</p>
+  <p>Compute the cube root <i>squared</i> <i 
+  class="math">x3**(2/3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x3</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubic root squared (<code>float</code>).</dd>
+        <dd>Cube root <i>squared</i> (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.fmath-module.html#cbrt" 
@@ -1394,38 +1394,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="fsum_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Precision summation of all positional arguments.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>[]).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="fsum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1446,27 +1414,58 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="fsum2"></a>
+<a name="fsum_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum2</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Precision summation of 2 positional arguments.</p>
+  <p>Precision summation of all positional arguments.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value to be added (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>x</code></strong> - Value to be added (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+          class="link">fsum</a> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fsum1_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Precision summation of a few arguments, primed with 
+  <code>1.0</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
@@ -1505,7 +1504,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> values.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1680,23 +1679,27 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the square root iff <code><b>x</b> &gt; EPS0**2</code>.</p>
+  <p>Compute the square root iff <code><b>x2</b> &gt;</code> EPS02.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x2</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Square root (<code>float</code>) or <code>0.0</code>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        Any <code><b>x2</b> &lt;</code> EPS02 <i>including</i> 
+        <code><b>x2</b> &lt; 0</code> returns <code>0.0</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="sqrt3"></a>
 <div>
@@ -1705,25 +1708,25 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>&nbsp;(<span class="sig-arg">x2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the square root, cubed <i class="math">sqrt(x)**3</i> or <i 
-  class="math">sqrt(x**3)</i>.</p>
+  <p>Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
+  or <i class="math">sqrt(x**3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x2</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubed square root (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x2</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1765,7 +1768,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 22 12:44:03 2021
+    Generated by Epydoc 3.0.1 on Tue Aug 31 16:46:52 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

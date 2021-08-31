@@ -22,29 +22,28 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.units import _1mm as _TOL_M  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '21.08.07'
+__version__ = '21.08.24'
 
 
 class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert exact L{Cartesian} to exact L{LatLon} points.
     '''
 
-    def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
+    def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to an exact geodetic point.
 
-           @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
-                  other keyword arguments, ignored if C{B{LatLon} is None}.
-                  Use C{B{LatLon}=...} to override this L{LatLon} class
-                  or specify C{B{LatLon} is None}.
+           @kwarg LatLon_and_kwds: Optional L{LatLon} and L{LatLon} keyword
+                                   arguments as C{datum}.  Use C{B{LatLon}=...,
+                                   B{datum}=...} to override this L{LatLon}
+                                   class or specify C{B{LatLon}=None}.
 
-           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
-                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
-                    height, C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is C{None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}} or other
-                             B{C{LatLon_datum_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon_and_kwds}} argument.
         '''
-        kwds = _xkwds(LatLon_datum_kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 

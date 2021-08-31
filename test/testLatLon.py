@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.08.31'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -537,20 +537,24 @@ class Tests(TestsBase):
             self.test(n + 'n', t.n, t.n)
 
             k = (isPyPy and isPython2) or Sph or not X
+            t = repr(p1.radii11(p2, p3))
+            self.test('radii11', t, t, known=k)
+
+            n = 'circum3 (%s) .' % (LatLon.__module__,)
             t = p1.circum3(p2, p3)
             c = t.center
-            self.test('circum3.radius', t.radius, '57792.067', prec=3, known=k)
-            self.test('circum3.center', c, '43.053532°N, 002.943255°E, -261.66m', known=k)
+            self.test(n + 'radius', t.radius, '57792.067', prec=3, known=k)
+            self.test(n + 'center', c, '43.053532°N, 002.943255°E, -261.66m', known=k)
             d = t.deltas
-            self.test('circum3.deltas', d.toStr(prec=3),  '(0.0, 0.0, 11.383)', known=k or isnear0(d.lat, 1e-8) or isnear0(d.lon, 1e-8))
+            self.test(n + 'deltas', d.toStr(prec=3), '(0.0, 0.0, 11.383)', known=k or isnear0(d.lat, 1e-8) or isnear0(d.lon, 1e-8))
 
             c.height = 0
-            self.test('circum3.dist1', p1.distanceTo(c), '57792.858351', prec=6, known=k)
-            self.test('circum3.dist2', p2.distanceTo(c), '57792.859237', prec=6, known=k)
-            self.test('circum3.dist3', p3.distanceTo(c), '57792.859062', prec=6, known=k)
+            self.test(n + 'd1', p1.distanceTo(c), '57792.858', prec=3, known=k)
+            self.test(n + 'd2', p2.distanceTo(c), '57792.859', prec=3, known=k)
+            self.test(n + 'd3', p3.distanceTo(c), '57792.859', prec=3, known=k)
 
-            self.test('circum3.datum', c.datum, p1.datum)
-            self.test('circum3.Ecef',  c.Ecef,  p1.Ecef)
+            self.test(n + 'datum', c.datum, p1.datum)
+            self.test(n + 'Ecef',  c.Ecef,  p1.Ecef)
 
         except ImportError as x:
             self.skip(str(x), n=27)  # PYCHOK test attr?
@@ -561,22 +565,50 @@ class Tests(TestsBase):
 
         try:  # need numpy
             k = (isPyPy and isPython2) or Sph or not X
+            t = repr(p1.radii11(p2, p3))
+            self.test('radii11', t, t, known=k)
+
+            n = 'circum4 (%s) .' % (LatLon.__module__,)
             t = p1.circum4_(p2, p3)
             c = t.center
-            self.test('circum4_.radius', t.radius, '3184256.748', prec=3, known=k)
-            self.test('circum4_.center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=k)
-            self.test('circum4_.rank', t.rank, 3, known=k)
-            self.test('circum4_.residuals', t.residuals, (), known=k)
+            self.test(n + 'radius', t.radius, '3184256.748', prec=3, known=k)
+            self.test(n + 'center', c, '43.054367°N, 002.942573°E, -3183993.92m', known=k)
+            self.test(n + 'rank', t.rank, 3, known=k)
+            self.test(n + 'residuals', t.residuals, (), known=k)
 
             c.height = 0
-            self.test('circum4_.dist1', p1.distanceTo(c), '57818.033', prec=3, known=k)
-            self.test('circum4_.dist2', p2.distanceTo(c), '57834.176', prec=3, known=k)
-            self.test('circum4_.dist3', p3.distanceTo(c), '57830.992', prec=3, known=k)
+            self.test(n + 'd1', p1.distanceTo(c), '57818.033', prec=3, known=k)
+            self.test(n + 'd2', p2.distanceTo(c), '57834.176', prec=3, known=k)
+            self.test(n + 'd3', p3.distanceTo(c), '57830.992', prec=3, known=k)
 
-            self.test('circum4_.datum', c.datum, p1.datum)
-            self.test('circum4_.Ecef',  c.Ecef,  p1.Ecef)
+            self.test(n + 'datum', c.datum, p1.datum)
+            self.test(n + 'Ecef',  c.Ecef,  p1.Ecef)
+
+            n = 'circin6 (%s) .' % (LatLon.__module__,)
+            t = LatLon(0, 0).radii11(LatLon(10, 0), LatLon(0, 10))
+            r = t.toRepr()
+            self.test('radii11', r, r, known=k)
+            self.test(n + 'rB+rC', t.rB + t.rC, t.a, known=k, prec=3)
+            self.test(n + 'rC+pA', t.rC + t.rA, t.b, known=k, prec=3)
+            self.test(n + 'rA+rB', t.rA + t.rB, t.c, known=k, prec=3)
+
+            t = LatLon(0, 0).circin6(LatLon(10, 0), LatLon(0, 10))  # XXX no intersection
+            c = t.center
+            self.test(n + 'radius', t.radius, '325058.721', prec=3, known=k)
+            self.test(n + 'center', c, '02.948531°N, 002.932537°E, -40041.19m', known=k)
+            self.test(n + 'deltas', t.deltas, '(0.0, 0.0, 0.090491)', known=True)  # XXX
+
+            self.test(n + 'cA', t.cA, '05.04314°N, 005.014578°E, -48104.09m', known=k)
+            self.test(n + 'cB', t.cB, '00.0°N, 002.941713°E, -20168.62m', known=k)
+            self.test(n + 'cC', t.cC, '02.961566°N, 000.0°E, -20113.46m', known=k)
+
+            # c.height = 0
+            self.test(n + 'dA', c.distanceTo(t.cA), '327263.596', prec=3, known=k)
+            self.test(n + 'dB', c.distanceTo(t.cB), '326036.153', prec=3, known=k)
+            self.test(n + 'dC', c.distanceTo(t.cC), '326020.432', prec=3, known=k)
+
         except ImportError as x:
-            self.skip(str(x), n=9)  # PYCHOK test attr?
+            self.skip(str(x), n=22)  # PYCHOK test attr?
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

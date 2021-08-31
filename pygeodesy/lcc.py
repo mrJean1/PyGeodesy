@@ -46,7 +46,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.07.31'
+__version__ = '21.08.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -526,7 +526,7 @@ class Lcc(_NamedBase):
            @kwarg height: Optional height for the point, overriding
                           the default height (C{meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, unused if C{B{LatLon} is None}.
+                               arguments, ignored if C{B{LatLon} is None}.
 
            @return: The point (B{C{LatLon}}) or a
                     L{LatLon4Tuple}C{(lat, lon, height, datum)}

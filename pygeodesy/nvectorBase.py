@@ -39,7 +39,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.08.06'
+__version__ = '21.08.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -237,16 +237,16 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg Cartesian: Optional class to return the (ECEF) coordinates
                              (C{Cartesian}).
            @kwarg datum: Optional datum (C{Datum}), overriding this datum.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
-                                  keyword arguments, ignored if
-                                  C{B{Cartesian} is None}.
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
+                                  arguments, ignored if C{B{Cartesian} is None}.
 
            @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
                     if C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y, z,
                     lat, lon, height, C, M, datum)} with C{C} and C{M} if
                     available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}
+                             argument.
 
            @raise ValueError: Invalid B{C{h}}.
 
@@ -261,7 +261,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         h =  self.h if h is None else Height(h=h)
 
         x, y, z = self.x, self.y, self.z
-        # Kenneth Gade eqn (22)
+        # Kenneth Gade eqn 22
         n = E.b / hypot_(x * E.a_b, y * E.a_b, z)
         r = h + n * E.a2_b2
 
@@ -313,7 +313,8 @@ class NvectorBase(Vector3d):  # XXX kept private
                     an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
                     datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
+                             argument.
 
            @raise ValueError: Invalid B{C{height}}.
 
@@ -465,7 +466,8 @@ class LatLonNvectorBase(LatLonBase):
            @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
                     B{C{Nvector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}
+                             argument.
         '''
         return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
 
@@ -593,7 +595,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     if Vector is None:
         r = _sumOf(nvectors, Vector=Vector3Tuple).to4Tuple(h)
     else:
-        r = _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
+        r = _sumOf(nvectors, Vector=Vector, **_xkwds(Vector_kwds, h=h))
     return r
 
 

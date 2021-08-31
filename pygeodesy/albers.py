@@ -31,12 +31,13 @@ from pygeodesy.props import deprecated_Property_RO, Property_RO, \
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
-from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
+from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
+                            sincos2d, sincos2d_
 
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.08.12'
+__version__ = '21.08.29'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -642,7 +643,7 @@ class AlbersEqualArea2(_AlbersBase):
                                or no convergence.
         '''
         self._lat1, self._lat2 = lats = _Lat(lat1=lat1), _Lat(lat2=lat2)
-        args = tuple(sincos2d(*lats)) + (_Ks(k1=k1), datum, name)
+        args = tuple(sincos2d_(*lats)) + (_Ks(k1=k1), datum, name)
         _AlbersBase.__init__(self, *args)
 
 

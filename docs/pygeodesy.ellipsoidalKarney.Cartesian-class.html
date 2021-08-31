@@ -100,7 +100,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**LatLon_datum_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Convert this cartesian point to a <code>Karney</code>-based geodetic 
       point.</td>
           <td align="right" valign="top">
@@ -135,12 +135,15 @@
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector">toVector</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#circin6">circin6</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum3">circum3</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#circum4_">circum4_</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#iscolinearWith">iscolinearWith</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#meeus2">meeus2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn">nearestOn</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#parse">parse</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.vector3d.Vector3d-class.html#soddy4">soddy4</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate2d2">trilaterate2d2</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#trilaterate3d2">trilaterate3d2</a></code>
       </p>
@@ -171,6 +174,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus">minus</a></code>,
@@ -281,7 +285,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**LatLon_datum_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -293,13 +297,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon_datum_kwds</code></strong> - Optional <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>, <b><code>datum</code></b> and other 
-          keyword arguments, ignored if <code><b>LatLon</b> is None</code>.
-          Use <code><b>LatLon</b>=...</code> to override this <a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+          class="link">LatLon</a> and <a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a> class or specify <code><b>LatLon</b> is 
-          None</code>.</li>
+          class="link">LatLon</a> keyword arguments as <code>datum</code>.
+          Use <code><b>LatLon</b>=..., <b>datum</b>=...</code> to override 
+          this <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+          class="link">LatLon</a> class or specify 
+          <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The geodetic point (<a 
@@ -312,8 +317,7 @@
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b>, <b><code>datum</code></b> or 
-        other <b><code>LatLon_datum_kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon_and_kwds</code></b> argument.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon">cartesianBase.CartesianBase.toLatLon</a>
@@ -353,7 +357,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 22 12:44:04 2021
+    Generated by Epydoc 3.0.1 on Tue Aug 31 16:46:52 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1583,6 +1583,12 @@
         lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
         lonE)</code> corner lat- and longitudes.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circin6Tuple-class.html">pygeodesy.vector3d.Circin6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(radius, center, deltas, cA, cB, cC)</code> with the 
+        <code>radius</code>, the trilaterated <code>center</code> and 
+        contact points of the <i>inscribed</i> aka <i>In- circle</i> of a 
+        triangle.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Circle4Tuple-class.html">pygeodesy.ellipsoids.Circle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> of the 
         <code>radius</code> and <code>height</code>, both conventionally in
@@ -1903,6 +1909,17 @@
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
         <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code></em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Radii11Tuple-class.html">pygeodesy.vector3d.Radii11Tuple</a></strong>:
+      <em class="summary">11-Tuple <code>(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)</code> 
+        with the <code>Tangent</code> circle radii <code>rA</code>, 
+        <code>rB</code> and <code>rC</code>, the <code>circumradius</code> 
+        <code>cR</code>, the <code>Incircle</code> radius <code>rIn</code> 
+        aka <code>inradius</code>, the inner and outer <i>Soddy</i> circle 
+        radii <code>riS</code> and <code>roS</code> and the sides 
+        <code>a</code>, <code>b</code> and <code>c</code> and 
+        semi-perimeter <code>s</code> of a triangle, all in 
+        <code>meter</code> conventionally.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
         <i>(longitudinal)</i> and secondary <i>(latitudinal)</i> 
@@ -1911,6 +1928,12 @@
     <li> <strong class="uidlink"><a href="pygeodesy.points.Shape2Tuple-class.html">pygeodesy.points.Shape2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Soddy4Tuple-class.html">pygeodesy.vector3d.Soddy4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, center, deltas, outer)</code> with 
+        <code>radius</code> and trilaterated <code>center</code> of the 
+        <i>inner</i> <i>Soddy</i> circle and the radius of the 
+        <code>outer</code> <i>Soddy</i> circle.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
@@ -2597,6 +2620,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
         lonE)</code> corner lat- and longitudes.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Circin6Tuple-class.html">pygeodesy.vector3d.Circin6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(radius, center, deltas, cA, cB, cC)</code> with the 
+        <code>radius</code>, the trilaterated <code>center</code> and 
+        contact points of the <i>inscribed</i> aka <i>In- circle</i> of a 
+        triangle.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Circle4Tuple-class.html">pygeodesy.ellipsoids.Circle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> of the 
         <code>radius</code> and <code>height</code>, both conventionally in
@@ -2917,6 +2946,17 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
         <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code></em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Radii11Tuple-class.html">pygeodesy.vector3d.Radii11Tuple</a></strong>:
+      <em class="summary">11-Tuple <code>(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)</code> 
+        with the <code>Tangent</code> circle radii <code>rA</code>, 
+        <code>rB</code> and <code>rC</code>, the <code>circumradius</code> 
+        <code>cR</code>, the <code>Incircle</code> radius <code>rIn</code> 
+        aka <code>inradius</code>, the inner and outer <i>Soddy</i> circle 
+        radii <code>riS</code> and <code>roS</code> and the sides 
+        <code>a</code>, <code>b</code> and <code>c</code> and 
+        semi-perimeter <code>s</code> of a triangle, all in 
+        <code>meter</code> conventionally.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
         <i>(longitudinal)</i> and secondary <i>(latitudinal)</i> 
@@ -2925,6 +2965,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.points.Shape2Tuple-class.html">pygeodesy.points.Shape2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Soddy4Tuple-class.html">pygeodesy.vector3d.Soddy4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, center, deltas, outer)</code> with 
+        <code>radius</code> and trilaterated <code>center</code> of the 
+        <i>inner</i> <i>Soddy</i> circle and the radius of the 
+        <code>outer</code> <i>Soddy</i> circle.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
@@ -3104,7 +3150,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug 22 12:44:01 2021
+    Generated by Epydoc 3.0.1 on Tue Aug 31 16:46:51 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

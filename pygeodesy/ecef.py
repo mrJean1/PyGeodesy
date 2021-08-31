@@ -80,12 +80,12 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Scalar
-from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
+from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d_
 
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.08.06'
+__version__ = '21.08.29'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -199,7 +199,7 @@ class _EcefBase(_NamedBase):
         '''
         return self._E.a
 
-    equatorialRadius = a = equatoradius  # Karney property
+    a = equatorialRadius = equatoradius  # Karney property
 
     @Property_RO
     def datum(self):
@@ -227,7 +227,7 @@ class _EcefBase(_NamedBase):
         '''
         E = self.ellipsoid
 
-        sa, ca, sb, cb = sincos2d(lat, lon)
+        sa, ca, sb, cb = sincos2d_(lat, lon)
 
         n = E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
         z = (h + n * E.e12) * sa
