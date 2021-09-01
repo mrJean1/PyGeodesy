@@ -67,9 +67,9 @@ classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 
 Both numpy_ and scipy_ must be installed for most ``Geoid...`` and
 ``Height...`` interpolators, except the ``HeigthIDW...`` ones.  Functions
-``circum3``, ``jekel4_`` and ``trilaterate3d2/-5`` and the corresponding
-``Cartesian``, ``LatLon``, ``Nvector`` and ``Vector3d`` methods require
-numpy_.
+``circin6``, ``circum3``, ``jekel4_``, ``soddy4`` and ``trilaterate3d2/-5``
+and the corresponding ``Cartesian``, ``LatLon``, ``Nvector`` and ``Vector3d``
+methods require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
