@@ -65,10 +65,10 @@ but required to use modules ``ellipsoidalKarney`` and ``css``, ``azimuthal``
 classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 ``HeightIDWkarney`` interpolator.
 
-Both numpy_ and scipy_ must be installed for most ``Geoid...`` and
-``Height...`` interpolators, except the ``HeigthIDW...`` ones.  Functions
-``circin6``, ``circum3``, ``jekel4_``, ``soddy4`` and ``trilaterate3d2/-5``
-and the corresponding ``Cartesian``, ``LatLon``, ``Nvector`` and ``Vector3d``
+Both numpy_ and scipy_ must be installed for ``Geoid...`` and ``Height...``
+interpolators, except the ``HeigthIDW...`` ones.  Functions ``circin6``,
+``circum3``, ``circum4_``, ``soddy4`` and ``trilaterate3d2/-5`` and the
+corresponding ``Cartesian``, ``LatLon``, ``Nvector`` and ``Vector3d``
 methods require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
@@ -90,12 +90,11 @@ Tests
 The tests have been run with Python 3.10.0rc1 (with geographiclib_ 1.52),
 Python 3.9.6 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS\' Python 2.7.16 (with GeodSolve_ 1.51 and numpy_ 1.16.6), all on
-macOS 11.5.2 Big Sur (aka 10.16) and in 64-bit only.  The tests are run
-with and without ``lazy import`` for Python 3 and with command line option
-``-W always`` and environment variable ``PYGEODESY_WARNINGS=on`` for all
-Python versions.  The results of only those tests are included in the
-distribution files.
+and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.5.2 Big
+Sur (aka 10.16) and in 64-bit only.  The tests are run with and without
+``lazy import`` for Python 3 and with command line option ``-W always``
+and environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
+The results of only those tests are included in the distribution files.
 
 Python 3.10.0rc1, 3.9.6 and macOS\' Python 2.7.16 run on Apple Silicon
 (arm64), all other Python versions run on Intel (x86_64) or emulated
@@ -104,9 +103,8 @@ Intel (\"arm64_x86_64\", see function ``machine``).
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.6
 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10 (with
 geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
-macOS\' Python 2.7.16 (with GeodSolve_ 1.51 and numpy_ 1.16.6).  The
-complete coverage report in HTML and a PDF summary are included in the
-distribution files.
+macOS\' Python 2.7.16 (with GeodSolve_ 1.51).  The complete coverage report
+in HTML and a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and PyPy_
 7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52) on
@@ -146,7 +144,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 31, 2021.*
+*Last updated: Sep 06, 2021.*
 
 License
 =======
@@ -179,7 +177,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
   :target: https://Travis-CI.com/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/badge/coverage-95%25-brightgreen
+.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy

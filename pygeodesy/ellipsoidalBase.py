@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.08.21'
+__version__ = '21.09.02'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

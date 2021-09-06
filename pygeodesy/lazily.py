@@ -275,9 +275,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple', 'Vector3d',
-                                 'circin6', 'circum3', 'circum4_', 'intersection3d3', 'iscolinearWith', 'meeus2', 'parse3d', 'radii11',
-                                 'soddy4', 'trilaterate2d2', 'trilaterate3d2'),
+                       vector2d=('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple',
+                                 'circin6', 'circum3', 'circum4_', 'meeus2', 'radii11', 'soddy4'),
+                       vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'parse3d', 'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -296,7 +296,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.08.30'
+__version__ = '21.09.06'
 
 
 def _ALL_OTHER(*objs):

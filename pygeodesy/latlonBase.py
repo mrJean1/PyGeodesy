@@ -33,13 +33,14 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
-from pygeodesy.vector3d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, \
+from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, \
                                 circum4_, Circum4Tuple, _radii11ABC, Vector3d
+# from pygeodesy.vector3d import Vector3d  # from .vector2d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.08.28'
+__version__ = '21.09.02'
 
 
 class LatLonBase(_NamedBase):

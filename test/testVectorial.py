@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.28'
+__version__ = '21.09.05'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
@@ -12,7 +12,7 @@ from pygeodesy import EPS, EPS4, F_D, NEG0, circin6, circum3, circum4_, \
                       fstr, intersection3d3 as i3d, IntersectionError, \
                       isnear0, meeus2, radii11, sphericalNvector, \
                       soddy4, trilaterate2d2, trilaterate3d2, \
-                      vector3d, Vector3d as V3d, VectorError
+                      vector2d, vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
 
 
@@ -110,18 +110,30 @@ class Tests(TestsBase):
             self.test('intersections2', t[0], t[1])  # abutting
 
             p1, p2 = Nvector(-100, -100, -100), Nvector(100, 100, 100)
-            t = vector3d.nearestOn(Nvector(0, 0, 0), p1, p2)
-            self.test('nearestOn', t, Nvector(0, 0, 0))
-            t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
+            t = vector2d.nearestOn(Nvector(0, 0, 0), p1, p2)
+            self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
+            t = vector2d.nearestOn(Nvector(-200, -200, 0), p1, p2)
             self.test('nearestOn', t is p1, True)
-            t = vector3d.nearestOn(Nvector(200, 200, 0), p1, p2)
+            t = vector2d.nearestOn(Nvector(200, 200, 0), p1, p2)
             self.test('nearestOn', t, p2)
             self.test('nearestOn', t is p2, True)
-            t = vector3d.iscolinearWith(Nvector(200, 200, 0), p1, p2)
+            t = vector2d.iscolinearWith(Nvector(200, 200, 0), p1, p2)
             self.test('iscolinearWith', t, False)
-            t = vector3d.iscolinearWith(Nvector(0, 0, 0), p1, p2)
+            t = vector2d.iscolinearWith(Nvector(0, 0, 0), p1, p2)
             self.test('iscolinearWith', t, True)
 
+            p1, p2 = V3d(-100, -100, -100), V3d(100, 100, 100)
+            t = V3d(0, 0, 0).nearestOn(p1, p2)
+            self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
+            t = V3d(-200, -200, 0).nearestOn(p1, p2)
+            self.test('nearestOn', t is p1, True)
+            t = V3d(200, 200, 0).nearestOn(p1, p2)
+            self.test('nearestOn', t, p2)
+            self.test('nearestOn', t is p2, True)
+            t = V3d(200, 200, 0).iscolinearWith(p1, p2)
+            self.test('iscolinearWith', t, False)
+            t = V3d(0, 0, 0).iscolinearWith(p1, p2)
+            self.test('iscolinearWith', t, True)
 
     def testVectorial(self, module):  # MCCABE 14
 
@@ -361,7 +373,7 @@ class Tests(TestsBase):
 
     def testTrilaterate2d2(self):
 
-        self.subtitle(vector3d, trilaterate2d2.__name__.capitalize())
+        self.subtitle(vector2d, trilaterate2d2.__name__.capitalize())
         # courtesy MartinManganiello <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
         t = trilaterate2d2(2, 2, 1, 3, 3, 1, 1, 4, 1.4142)
         self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(2.0, 3.0)')  # XXX ?
@@ -407,8 +419,8 @@ class Tests(TestsBase):
     def testTrilaterate3d2(self, Vector):
 
         try:  # need numpy
-            self.subtitle(vector3d, trilaterate3d2.__name__.capitalize())
-            n = _DOT_(vector3d.__name__, trilaterate3d2.__name__)
+            self.subtitle(vector2d, trilaterate3d2.__name__.capitalize())
+            n = _DOT_(vector2d.__name__, trilaterate3d2.__name__)
 
             # coutesy Martin Manganiello <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
             c1, r1 = Vector(-500, -200, 0),  450.0
@@ -489,7 +501,7 @@ if __name__ == '__main__':
 
     t.testTrilaterate3d(cartesianBase,         cartesianBase.CartesianBase)
     t.testTrilaterate3d(nvectorBase,           nvectorBase.NvectorBase)
-    t.testTrilaterate3d(vector3d,              vector3d.Vector3d)
+    t.testTrilaterate3d(vector2d,              vector3d.Vector3d)
 
     t.testTrilaterate2d2()
     t.testTrilaterate3d2(vector3d.Vector3d)

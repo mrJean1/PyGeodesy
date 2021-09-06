@@ -26,7 +26,7 @@ from pygeodesy.units import Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180, wrap90, wrap180, wrap360
 
 __all__ = ()
-__version__ = '21.06.28'
+__version__ = '21.09.02'
 
 _TRIPS = 17  # _intersect3, _intersects2, _nearestOn interations, 6 is sufficient
 
@@ -473,7 +473,7 @@ def _nearestOne(p, point1, point2, within=True, height=None, wrap=True,
        separated to allow callers to embellish any exceptions.
     '''
     from pygeodesy.sphericalNvector import LatLon as _LLS
-    from pygeodesy.vector3d import _nearestOn as _vnOn, Vector3d
+    from pygeodesy.vector2d import _nearestOn as _vnOn, Vector3d
 
     def _v(t, h):
         return Vector3d(t.x, t.y, h)

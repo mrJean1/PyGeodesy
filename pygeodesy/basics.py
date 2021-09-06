@@ -13,7 +13,7 @@ del division
 from pygeodesy.errors import _ImportError, _IsnotError, _TypeError, \
                              _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
-                             _name_, _SPACE_, _UNDER_, _utf_8_, \
+                             _N_A_, _name_, _SPACE_, _UNDER_, _utf_8_, \
                              _version_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.08.16'
+__version__ = '21.09.05'
 
 _required_ = 'required'
 
@@ -59,9 +59,22 @@ except ImportError:  # PYCHOK no cover
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     _Strs  = basestring, str
+
+    def _Xstr(x):  # XXX invoke only with caught import exception B{C{x}}: ...
+        t = str(x)  # 'cannot import name _distributor_init' (only for numpy, ...
+        if '_distributor_init' in t:  # ... scipy on arm64 macOS' Python 2.7.16?)
+            from sys import exc_info
+            from traceback import extract_tb
+            tb = exc_info()[2]  # 3-tuple (type, value, traceback)
+            t4 = extract_tb(tb, 1)[0]  # 4-tuple (file, line, name, 'import ...')
+            t = _SPACE_('cannot', t4[3] or _N_A_)
+            del tb, t4
+        return t
+
 except NameError:  # Python 3+
     _Bytes = bytes, bytearray
     _Strs  = str,
+    _Xstr  = str
 
 
 def clips(bstr, limit=50, white=NN):
@@ -456,7 +469,7 @@ def _xImportError(x, where, **name):
     '''(INTERNAL) Embellish an C{ImportError}.
     '''
     t = _SPACE_(_required_, _by_, _xwhere(where, **name))
-    return _ImportError(str(x), txt=t)
+    return _ImportError(_Xstr(x), txt=t)
 
 
 def _xinstanceof(*Types, **name_value_pairs):

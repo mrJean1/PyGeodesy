@@ -85,7 +85,7 @@ is optional, but required to use modules L{ellipsoidalKarney} and L{css}, L{azim
 L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
-installed for most C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
+installed for C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
 Functions L{circin6}, L{circum3}, L{circum4_}, L{soddy4} and L{trilaterate3d2}C{/-5} and the
 corresponding C{Cartesian}, C{LatLon}, C{Nvector} and L{Vector3d} methods require U{numpy
 <https://PyPI.org/project/numpy>}.
@@ -111,10 +111,10 @@ The tests have been run with Python 3.10.0rc1 (with U{geographiclib<https://PyPI
 <https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{numpy<https://PyPI.org/project/numpy>}
 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{numpy<https://PyPI.org/project/numpy>}
-1.16.6), all on macOS 11.5.2 Big Sur (aka 10.16) and in 64-bit only.  The tests are run with and without C{lazy import}
-for Python 3 and with command line option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all
-Python versions.  The results of only those tests are included in the distribution files.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, all on macOS 11.5.2 Big Sur (aka 10.16) and
+in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line option
+C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only
+those tests are included in the distribution files.
 
 Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions run
 on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{machine}).
@@ -122,9 +122,9 @@ on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{mac
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>} 1.21.2),
 Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
-1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with U{numpy
-<https://PyPI.org/project/numpy>} 1.16.6).  The complete coverage report in HTML and a PDF summary are
-included in the distribution files.
+1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>}).  The complete coverage report in HTML and a PDF
+summary are included in the distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 3.6.1 and 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Ubuntu 16.04
@@ -390,6 +390,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.utily                 as utily                  # PYCHOK exported
     import pygeodesy.utm                   as utm                    # PYCHOK exported
     import pygeodesy.utmups                as utmups                 # PYCHOK exported
+    import pygeodesy.vector2d              as vector2d               # PYCHOK exported
     import pygeodesy.vector3d              as vector3d               # PYCHOK exported
     import pygeodesy.webmercator           as webmercator            # PYCHOK exported
     import pygeodesy.wgrs                  as wgrs                   # PYCHOK exported
@@ -453,6 +454,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
+    from pygeodesy.vector2d              import *  # PYCHOK __all__
     from pygeodesy.vector3d              import *  # PYCHOK __all__
     from pygeodesy.webmercator           import *  # PYCHOK __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
@@ -493,7 +495,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.08.31'
+__version__ = '21.09.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

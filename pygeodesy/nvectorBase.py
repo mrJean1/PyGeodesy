@@ -15,7 +15,7 @@ see U{Vector-based geodesy
 
 from pygeodesy.basics import len2, map1
 from pygeodesy.datums import _spherical_datum
-from pygeodesy.errors import IntersectionError, _ValueError, \
+from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
@@ -33,13 +33,12 @@ from pygeodesy.props import deprecated_method, property_doc_, Property_RO
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
-from pygeodesy.vector3d import Vector3d, VectorError, \
-                               sumOf as _sumOf, _xyzhdn6
+from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn6
 
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.08.24'
+__version__ = '21.09.06'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -601,8 +600,8 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
 
 def _triangulate(point1, bearing1, point2, bearing2, height=None,
                                  **LatLon_LatLon_kwds):
-    # (INTERNAL)Locate a point given two known points and initial
-    # bearings from those points, see LatLon.triangulate above
+    # (INTERNAL) Locate a point given two known points and initial
+    # bearings from those points, see C{LatLon.triangulate} above
 
     def _gc(p, b, _i_):
         n = p.toNvector()

@@ -1,12 +1,13 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '20.06.24'
+# __version__ = '21.09.03'
 
 [report]
 exclude_lines =
     pragma: no cover
     no cover
     PYCHOK no cover
+    \sexcept\s
     \sraise\s
     \._notOverloaded\(
     if False:
