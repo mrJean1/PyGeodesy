@@ -208,7 +208,7 @@
     href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
     class="link">GnomonicGeodSolve</a> depend on <i>Karney</i>'s C++ 
     utility <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a> to be executable.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
@@ -230,12 +230,12 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
     Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a> 1.51, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a> 1.51, all on macOS 11.5.2 Big Sur (aka 
     10.16) and in 64-bit only.  The tests are run with and without 
     <code>lazy import</code> for Python 3 and with command line option 
@@ -259,7 +259,7 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (<a 
-    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a>).  The complete coverage report in HTML and
     a PDF summary are included in the distribution files.</p>
     <p>The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and <a 
@@ -413,7 +413,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.09.06
+        21.09.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -501,7 +501,7 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodsolve-module.html">pygeodesy.geodsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb" 
+        href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a> utility as an (exact) geodesic, but 
         intended <i>for testing purposes only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary">Geohash en-/decoding.</em>    </li>
@@ -1856,9 +1856,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.Frustum-class.html" class="summary-name">Frustum</a><br />
-      A rectangular pyramid, typically representing a camera's <i>field 
-        of view</i> (fov) and the intersection with (or projection to) a 
-        <i>local tangent plane</i>.
+      A rectangular pyramid, typically representing a camera's 
+        <i>field-of-view</i> (fov) and the intersection with (or projection
+        to) a <i>local tangent plane</i>.
     </td>
   </tr>
 <tr>
@@ -2620,7 +2620,7 @@
         <code>point</code> and <code>outside1</code>, the position of the 
         <code>point</code>, <code>-1</code> if before the start, 
         <code>+1</code> if after the end and <code>0</code> if on or 
-        between the stat and end point of the first line.
+        between the start and end point of the first line.
     </td>
   </tr>
 <tr>
@@ -6839,10 +6839,10 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f95b8246dd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fba089ef3d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
-      target="_top">Hausdorff distance</a> between 2 sets of points with or
+      target="_top">Hausdorff</a> distance between 2 sets of points with or
       without <a href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf"
       target="_top">early breaking</a> and <a 
       href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
@@ -10408,7 +10408,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.6'"><code class="variable-quote">'</code><code class="variable-string">21.9.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.12'"><code class="variable-quote">'</code><code class="variable-string">21.9.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -17160,7 +17160,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f95b8246dd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fba089ef3d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17169,7 +17169,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Compute the <code>directed</code> or <code>symmetric</code> <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
-  target="_top">Hausdorff distance</a> between 2 sets of points with or 
+  target="_top">Hausdorff</a> distance between 2 sets of points with or 
   without <a href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
   target="_top">early breaking</a> and <a 
   href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
@@ -24596,7 +24596,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Sep  6 14:04:22 2021
+    Generated by Epydoc 3.0.1 on Sun Sep 12 14:37:05 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

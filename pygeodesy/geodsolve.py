@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Wrapper to invoke I{Karney}'s U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.htmlb>} utility
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} utility
 as an (exact) geodesic, but intended I{for testing purposes only}.
 
 Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.08.14'
+__version__ = '21.09.07'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 

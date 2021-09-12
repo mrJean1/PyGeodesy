@@ -74,7 +74,7 @@ are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://Geogra
     L{GnomonicKarney}, L{HeightIDWkarney}
 
 are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
-C{geodesic} or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>}.
+C{geodesic} or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}.
 
 3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections and trilaterations
 
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.08.21'
+__version__ = '21.09.07'
 
 _16th = _1_0 / _16_0
 

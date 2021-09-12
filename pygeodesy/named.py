@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.08.27'
+__version__ = '21.09.09'
 
 _COMMASPACEDOT_ = ', .'
 _del_           = 'del'
@@ -868,7 +868,7 @@ class _NamedTuple(tuple, _Named):
             return tuple.__getattribute__(self, name)
 
     def __getitem__(self, item):  # index, slice, etc.
-        '''Get the value of an item by B{C{name}}.
+        '''Get the value of an item by B{C{index}}.
         '''
         return tuple.__getitem__(self, item)
 
@@ -892,6 +892,21 @@ class _NamedTuple(tuple, _Named):
         '''
         return self.toStr()
 
+#   def duplicate(self, name=NN, **items):
+#       '''Duplicate this tuple replacing one or more items.
+#
+#          @return: This tuple with B{C{items}} replaced.
+#
+#          @raise NameError: Invalid B{C{item}}.
+#       '''
+#       t = list(self)
+#       try:
+#           for n, v in items.items():
+#               t[self._Names.index(n)] = v
+#       except ValueError:  # not in list
+#           raise _NameError(_DOT_(self.classname, n), v)
+#       return self.classof(*t, name=name or self.name)
+
     def items(self):
         '''Yield the items, each as a C{(name, value)} pair (C{2-tuple}).
 
@@ -907,17 +922,6 @@ class _NamedTuple(tuple, _Named):
         '''Get the iteration number (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
-
-    def _xtend(self, xTuple, *items):
-        '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
-        '''
-        if (issubclassof(xTuple, _NamedTuple) and
-            (len(self._Names_) + len(items)) == len(xTuple._Names_) and
-                 self._Names_ == xTuple._Names_[:len(self)]):
-            return self._xnamed(xTuple(*(self + items)))
-        c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
-        x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
-        raise TypeError(_SPACE_(c, _vs_, x))
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).
@@ -1000,6 +1004,17 @@ class _NamedTuple(tuple, _Named):
                 raise _TypeError(_DOT_(self.classname, t), u)
 
         self.__class__._validated = True
+
+    def _xtend(self, xTuple, *items):
+        '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
+        '''
+        if (issubclassof(xTuple, _NamedTuple) and
+            (len(self._Names_) + len(items)) == len(xTuple._Names_) and
+                 self._Names_ == xTuple._Names_[:len(self)]):
+            return self._xnamed(xTuple(*(self + items)))
+        c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
+        x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
+        raise TypeError(_SPACE_(c, _vs_, x))
 
 
 def callername(up=1, dflt=NN, source=False):

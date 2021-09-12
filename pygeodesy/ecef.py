@@ -79,13 +79,14 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Scalar
-from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d_
+from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, Scalar
+from pygeodesy.utily import atan2d, degrees90, degrees180, \
+                            sincos2, sincos2_, sincos2d_
 
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.08.29'
+__version__ = '21.09.09'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -98,7 +99,7 @@ class EcefError(_ValueError):
     pass
 
 
-def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .ltp
+def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .ltp.LocalCartesian.forward and -.reset
     '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
@@ -108,6 +109,7 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .lt
         n = getattr(latlonh, _name_, NN)
     except AttributeError:
         lat, h, n = latlonh, height, NN
+
     try:
         llhn = Lat(lat), Lon(lon), Height(h), (name or n)
     except (TypeError, ValueError) as x:
@@ -222,12 +224,17 @@ class _EcefBase(_NamedBase):
 
     f = flattening
 
-    def _forward(self, lat, lon, h, name, M=False):
+    def _forward(self, lat, lon, h, name, M=False, _philam=False):  # in .ltp.LocalCartesian.forward and -.reset
         '''(INTERNAL) Common for all C{Ecef*}.
         '''
         E = self.ellipsoid
 
-        sa, ca, sb, cb = sincos2d_(lat, lon)
+        if _philam:
+            sa, ca, sb, cb = sincos2_(lat, lon)
+            lat = Lat(degrees90( lat))
+            lon = Lon(degrees180(lon))
+        else:
+            sa, ca, sb, cb = sincos2d_(lat, lon)
 
         n = E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
         z = (h + n * E.e12) * sa
@@ -237,6 +244,29 @@ class _EcefBase(_NamedBase):
         return Ecef9Tuple(x * cb, x * sb, z, lat, lon, h,
                                              0, m, self.datum,
                                              name=name or self.name)
+
+    def forwar_(self, phi, lam, height=0, M=False, name=NN):
+        '''Like method C{.forward} except with geodetic lat- and longitude given
+           in I{radians}.
+
+           @arg phi: Latitude in I{radians} (C{scalar}).
+           @arg lam: Longitude in I{radians} (C{scalar}).
+           @kwarg height: Optional height (C{meter}), vertically above (or below)
+                          the surface of the ellipsoid.
+           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg name: Optional name (C{str}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{lat} set to C{degrees90(B{phi})} and C{lon} to
+                    C{degrees180(B{lam})}.
+
+           @raise EcefError: If B{C{phi}} or B{C{lam}} invalid or not C{scalar}.
+        '''
+        try:  # like function C{_llhn4} above
+            plhn = Phi(phi), Lam(lam), Height(height), name
+        except (TypeError, ValueError) as x:
+            raise EcefError(phi=phi, lam=lam, height=height, txt=str(x))
+        return self._forward(*plhn, M=M, _philam=True)
 
     def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
@@ -258,6 +288,9 @@ class _EcefBase(_NamedBase):
            @raise EcefError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple} or
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
+
+           @note: Use method C{.forwar_} to specify C{lat} and C{lon} in C{radians}
+                  and avoid double conversions.
         '''
         llhn = _llhn4(latlonh, lon, height, name=name)
         return _EcefBase._forward(self, *llhn, M=M)
@@ -307,38 +340,14 @@ class EcefKarney(_EcefBase):
        Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
        methods.
+
+       @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
+              at C{(lat, lon, h)}.  We can express C{v} as column vectors in one of two
+              ways, C{v1} in east, north, up coordinates (where the components are
+              relative to a local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
+              in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1} where C{M} is
+              the rotation matrix.
     '''
-
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
-        '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
-
-           @arg latlonh: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
-                         latitude (C{degrees}).
-           @kwarg lon: Optional C{scalar} longitude for C{scalar} B{C{latlonh}}
-                       (C{degrees}).
-           @kwarg height: Optional height (C{meter}), vertically above (or below)
-                          the surface of the ellipsoid.
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with geocentric C{(x, y, z)} coordinates for the given
-                    geodetic ones C{(lat, lon, height)}, case C{C} 0, optional
-                    C{M} (L{EcefMatrix}) and C{datum} if available.
-
-           @raise EcefError: If B{C{latlonh}} not C{LatLon}, L{Ecef9Tuple} or
-                             C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
-                             B{C{latlonh}} or C{abs(lat)} exceeds 90°.
-
-           @note: Let C{v} be a unit vector located at C{(lat, lon, h)}.  We can
-                  express C{v} as column vectors in one of two ways, C{v1} in east,
-                  north, up coordinates (where the components are relative to a
-                  local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
-                  in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1}
-                  where C{M} is the rotation matrix.
-        '''
-        llhn = _llhn4(latlonh, lon, height, name=name)
-        return _EcefBase._forward(self, *llhn, M=M)
 
     @Property_RO
     def hmax(self):

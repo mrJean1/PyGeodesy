@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.09.02'
+__version__ = '21.09.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -396,12 +396,15 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def intersection3(self, end1, other, end2, height=None, wrap=True,
                                           equidistant=None, tol=_TOL_M):
-        '''Interatively compute the intersection point of two paths,
-           each defined by a start and end point.
+        '''Interatively compute the intersection point of two paths, each
+           defined by two points or a start point and bearing from North.
 
-           @arg end1: End point of this path (C{LatLon}).
+           @arg end1: End point of this path (C{LatLon}) or the initial
+                      bearing at this point (compass C{degrees360}).
            @arg other: Start point of the other path (C{LatLon}).
-           @arg end2: End point of the other path (C{LatLon}).
+           @arg end2: End point of the other path (C{LatLon}) or the
+                      initial bearing at the other point (compass
+                      C{degrees360}).
            @kwarg height: Optional height at the intersection (C{meter},
                           conventionally) or C{None} for the mean height.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
@@ -425,6 +428,12 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} point
                              is not C{LatLon}.
+
+           @note: For each path specified with an initial bearing, a pseudo-end
+                  point is computed as the C{destination} along that bearing at
+                  about 1.5 times the distance from the start point to an initial
+                  gu-/estimate of the intersection point (and between 1/8 and 3/8
+                  of the authalic earth perimeter).
         '''
         from pygeodesy.ellipsoidalBaseDI import _intersect3
         try:

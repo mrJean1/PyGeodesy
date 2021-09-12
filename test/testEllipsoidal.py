@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.08.21'
+__version__ = '21.09.12'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -538,19 +538,27 @@ class Tests(_TestsLL, _TestsV):
         t = p.distanceTo3(q)
         self.test('NOAAexample4', _dfr(*t), '145239.0603, 114 29 26.9586, 295 21 32.6566')  # Ell Dist, FAZ, BAZ
 
-    def testIntersection3(self, m, GS=False, K=False, X=False, V=False):  # PYCHOK unused
+    def testIntersection3(self, m, GS=False, K=False, X=False, V=False):
+
+        def _b(s, e):
+            return s.initialBearingTo(e)
 
         self.subtitle(m, 'Intersection3')
 
         # same as testVectorial for now
+        k = GS or K or V or not X
+
         # <https://www.MathOpenRef.com/coordintersection.html>
         s1, e1 = m.LatLon(15, 10), m.LatLon(49, 25)
         s2, e2 = m.LatLon(29, 5),  m.LatLon(32, 32)
-        self.test('(30, 17)', s1.intersection3(e1, s2, e2), '(LatLon(30°52′03.1″N, 015°30′38.43″E), 0, 0)')
+        self.test('(30, 17)', s1.intersection3(e1, s2, e2),         '(LatLon(30°52′03.1″N, 015°30′38.43″E), 0, 0)')
+        self.test('(30, 17)', s1.intersection3(_b(s1, e1), s2, e2), '(LatLon(30°52′03.22″N, 015°30′39.3″E), -1, 0)', known=k)
         s2 = m.LatLon(7, 10)
-        self.test('(-1,  3)', s1.intersection3(e1, s2, e2), '(LatLon(01°34′52.51″N, 006°00′51.85″E), -1, -2)')
+        self.test('(-1,  3)', s1.intersection3(e1, s2, e2),         '(LatLon(01°34′52.51″N, 006°00′51.85″E), -1, -2)')
+        self.test('(-1,  3)', s1.intersection3(e1, s2, _b(s2, e2)), '(LatLon(01°34′52.87″N, 006°00′51.94″E), -1, 2)', known=k)
         s2 = m.LatLon(62, 32)
-        self.test('(65, 32)', s1.intersection3(e1, s2, e2), '(LatLon(56°58′26.57″N, 032°00′00.0″E), 1, 0)')  # 1, -2?
+        self.test('(65, 32)', s1.intersection3(e1, s2, e2),                 '(LatLon(56°58′26.57″N, 032°00′00.0″E), 1, 0)')  # 1, -2?
+        self.test('(65, 32)', s1.intersection3(_b(s1, e1), s2, _b(s2, e2)), '(LatLon(56°58′26.46″N, 032°00′00.0″E), 1, 2)', known=k)
         try:
             s2 = m.LatLon(32 - (49 - 15), 32 - (25 - 10))
             self.test('(-2, 17)', m.intersection3(s1, e1, s2, e2), IntersectionError.__name__)

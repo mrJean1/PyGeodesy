@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.09.02'
+__version__ = '21.09.09'
 
 # __DUNDER gets mangled in class
 _elel_    = 'll'
@@ -125,9 +125,14 @@ class Intersection3Tuple(_NamedTuple):  # .css.py, .lcc.py
     '''3-Tuple C{(point, outside1, outside2)} of an intersection
        C{point} and C{outside1}, the position of the C{point},
        C{-1} if before the start, C{+1} if after the end and C{0}
-       if on or between the stat and end point of the first line.
+       if on or between the start and end point of the first line.
        Similarly, C{outside2} is C{-2}, C{+2} or C{0} to indicate
-       the position of C{point} on the secodne line or path.
+       the position of C{point} on the second line or path.  If a
+       path was specified with an initial bearing instead of an
+       end point, C{outside1} and/or C{outside2} will be C{0} if
+       the intersection C{point} is on the start point or C{+1}
+       respectively C{+2} if the intersection C{point} is after
+       the start point, in the direction of the bearing.
     '''
     _Names_ = (_point_, _outside_ + _1_, _outside_ + _2_)
     _Units_ = (_Pass,    Int,             Int)

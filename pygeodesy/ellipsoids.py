@@ -96,12 +96,12 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.08.21'
+__version__ = '21.09.09'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
 # like U{WGS84_f()<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Constants.html>}
-_f_WGS84 = Float(f = 1 / (1000000000 / 298257223563))
+_f_WGS84 = Float(f = 1 / (1000000000 / 298257223563))  # 10000000000 / 2982572235629
 
 
 def _aux(lat, inverse, auxLat, clip=90):

@@ -25,7 +25,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.09.06'
+__version__ = '21.09.07'
 
 
 class Vector3d(Vector3dBase):
@@ -194,7 +194,7 @@ class Vector3d(Vector3dBase):
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
            @see: Method L{sphericalTrigonometry.LatLon.nearestOn3} and
-                 U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
+                 U{3-D Point-Line Distance<https://MathWorld.Wolfram.com/
                  Point-LineDistance3-Dimensional.html>}.
         '''
         from pygeodesy.vector2d import _nearestOn
@@ -611,7 +611,7 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
 
        @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
 
-       @see: U{3-D Point-Linedistance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>},
+       @see: U{3-D Point-Line Distance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>},
              C{Cartesian} and C{LatLon} methods C{nearestOn}, method L{sphericalTrigonometry.LatLon.nearestOn3}
              and function L{sphericalTrigonometry.nearestOn3}.
     '''

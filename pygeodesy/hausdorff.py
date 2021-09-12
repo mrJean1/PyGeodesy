@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.07.31'
+__version__ = '21.09.07'
 
 
 class HausdorffError(PointsError):
@@ -957,9 +957,9 @@ def _point(p):
 
 def hausdorff_(model, target, both=False, early=True, seed=None, units=NN,
                               distance=None, point=_point):
-    '''Compute the C{directed} or C{symmetric} U{Hausdorff distance<https://
-       WikiPedia.org/wiki/Hausdorff_distance>} between 2 sets of points with or
-       without U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+    '''Compute the C{directed} or C{symmetric} U{Hausdorff
+       <https://WikiPedia.org/wiki/Hausdorff_distance>} distance between 2 sets of points
+       with or without U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
        and U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
 
        @arg model: First set of points (C{LatLon}[], C{Numpy2LatLon}[],

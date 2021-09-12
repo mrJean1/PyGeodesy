@@ -37,9 +37,9 @@ U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 and Universal Transverse Mercator) and U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
 (Pseudo-Mercator) coordinates, U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and U{OSGR
-<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British Ordinance Survery Grid
-Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames) and
-modules to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
+<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British Ordinance Survery
+Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames)
+and modules to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and U{Garefs (GARS)
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
@@ -92,7 +92,7 @@ corresponding C{Cartesian}, C{LatLon}, C{Nvector} and L{Vector3d} methods requir
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve} and
 L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} to be executable.
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} to be executable.
 
 Documentation
 =============
@@ -109,22 +109,22 @@ Tests
 The tests have been run with Python 3.10.0rc1 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52), Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy
 <https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{numpy<https://PyPI.org/project/numpy>}
-1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (with U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, all on macOS 11.5.2 Big Sur (aka 10.16) and
-in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line option
-C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only
-those tests are included in the distribution files.
+1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy
+<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS'
+Python 2.7.16 (with U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all
+on macOS 11.5.2 Big Sur (aka 10.16) and in 64-bit only.  The tests are run with and without C{lazy import}
+for Python 3 and with command line option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on}
+for all Python versions.  The results of only those tests are included in the distribution files.
 
-Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions run
-on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{machine}).
+Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions
+run on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{machine}).
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>} 1.21.2),
-Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
-1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16 (U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>}).  The complete coverage report in HTML and a PDF
-summary are included in the distribution files.
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6
+(with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>}
+1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy
+<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python
+2.7.16 (U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage
+report in HTML and a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 3.6.1 and 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Ubuntu 16.04
@@ -495,7 +495,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.09.06'
+__version__ = '21.09.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

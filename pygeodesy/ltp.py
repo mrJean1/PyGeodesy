@@ -29,35 +29,43 @@ from pygeodesy.units import Degrees, Meter
 from pygeodesy.utily import cotd, sincos2d, tand, tand_
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.08.30'
+__version__ = '21.09.09'
 
 _Xyz_ = 'Xyz'
 
 
+def _fov_2(**fov):
+    # Half a field-of-view in degrees
+    f = Degrees(**fov) * _0_5
+    if EPS < f < _90_0:
+        return f
+    raise _ValueError(**fov)
+
+
 class Frustum(_NamedBase):
-    '''A rectangular pyramid, typically representing a camera's I{field of view}
+    '''A rectangular pyramid, typically representing a camera's I{field-of-view}
        (fov) and the intersection with (or projection to) a I{local tangent plane}.
 
        @see: U{Viewing frustum<https://WikiPedia.org/wiki/Viewing_frustum>}.
     '''
-    _h_2     = _0_0   # half hfov
+    _h_2     = _0_0   # half hfov in degrees
     _ltp     =  None  # local tangent plane
     _tan_h_2 = _0_0   # tan(_h_2)
-    _v_2     = _0_0   # half vfov
+    _v_2     = _0_0   # half vfov in degrees
 
     def __init__(self, hfov, vfov, ltp=None):
         '''New L{Frustum}.
 
-           @arg hfov: Horizontal field of view (C{degrees180}).
-           @arg vfov: Vertical field of view (C{degrees180}).
+           @arg hfov: Horizontal field-of-view (C{degrees180}).
+           @arg vfov: Vertical field-of-view (C{degrees180}).
            @kwarg ltp: Optional I{local tangent plane} (L{Ltp}).
 
            @raise UnitError: Invalid B{C{hfov}} or B{C{vfov}}.
 
            @raise ValueError: Invalid B{C{hfov}} or B{C{vfov}}.
         '''
-        self._h_2 = h = _fov(hfov=hfov)
-        self._v_2 =     _fov(vfov=vfov)
+        self._h_2 = h = _fov_2(hfov=hfov)
+        self._v_2 =     _fov_2(vfov=vfov)
 
         self._tan_h_2 = tand(h, fov_2=h)
 
@@ -157,13 +165,6 @@ class Frustum(_NamedBase):
         '''Get the vertical C{fov} (C{degrees}).
         '''
         return Degrees(vfov=self._v_2 * _2_0)
-
-
-def _fov(**fov):
-    f = Degrees(**fov) * _0_5
-    if EPS < f < _90_0:
-        return f
-    raise _ValueError(**fov)
 
 
 class LocalError(_ValueError):
@@ -278,11 +279,9 @@ class LocalCartesian(_NamedBase):
                               L{Ecef9Tuple} or invalid or if B{C{lon}} not
                               C{scalar} for C{scalar} B{C{latlonh}} or invalid
                               or if B{C{height}} invalid.
-
-           @see: Note at method L{EcefKarney.forward}.
         '''
         lat, lon, h, n = _llhn4(latlonh, lon, height, Error=LocalError, name=name)
-        t = self.ecef.forward(lat, lon, h, M=M)
+        t = self.ecef._forward(lat, lon, h, n, M=M)
         x, y, z = self.M.rotate(t.xyz, *self._xyz0)
         m = self.M.multiply(t.M) if M else None
         return Local9Tuple(x, y, z, lat, lon, h, self, t, m, name=n or self.name)
@@ -351,7 +350,7 @@ class LocalCartesian(_NamedBase):
             self.rename(n)
         else:
             n = self.name
-        self._t0 = self.ecef.forward(lat0, lon0, height0, M=True, name=n)
+        self._t0 = self.ecef._forward(lat0, lon0, height0, n, M=True)
 
     def reverse(self, xyz, y=None, z=None, M=False, name=NN):
         '''Convert I{local} C{(x, y, z)} to I{geodetic} C{(lat, lon, height)}.
@@ -372,8 +371,6 @@ class LocalCartesian(_NamedBase):
 
            @raise LocalError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                               not C{scalar} for C{scalar} B{C{xyz}}.
-
-           @see: Note at method L{EcefKarney.reverse}.
         '''
         x, y, z, n = _xyzn4(xyz, y, z, _XyzLocals5, Error=LocalError, name=name)
         c = self.M.unrotate((x, y, z), *self._xyz0)

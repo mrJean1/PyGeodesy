@@ -42,7 +42,7 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from pygeodesy.units import _1mm as _TOL_M  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.08.24'
+__version__ = '21.09.12'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -155,41 +155,45 @@ def areaOf(points, datum=_WGS84, wrap=True):
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Interatively compute the intersection point of two paths,
-       each defined by an (ellipsoidal) start and end point.
+    '''Interatively compute the intersection point of two paths, each defined
+       by two (ellipsoidal) points or by an (ellipsoidal) start point and a
+       bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
-       @arg end1: End point of the first path (L{LatLon}).
+       @arg end1: End point of the first path (L{LatLon}) or the initial bearing
+                  at the first point (compass C{degrees360}).
        @arg start2: Start point of the second path (L{LatLon}).
-       @arg end2: End point of the second path (L{LatLon}).
-       @kwarg height: Optional height at the intersection (C{meter},
-                      conventionally) or C{None} for the mean height.
+       @arg end2: End point of the second path (L{LatLon}) or the initial bearing
+                  at the second point (compass C{degrees360}).
+       @kwarg height: Optional height at the intersection (C{meter}, conventionally)
+                      or C{None} for the mean height.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                           or function L{equidistant}) or C{None} for
-                           the preferred C{B{start1}.Equidistant}.
-       @kwarg tol: Tolerance for skew line distance and length and for
-                   convergence (C{meter}, conventionally).
-       @kwarg LatLon: Optional class to return the intersection point
-                      (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
+                           L{equidistant}) or C{None} for the preferred
+                           C{B{start1}.Equidistant}.
+       @kwarg tol: Tolerance for convergence and for skew line distance and length
+                   (C{meter}, conventionally).
+       @kwarg LatLon: Optional class to return the intersection points (L{LatLon})
+                      or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                           ignored if C{B{LatLon} is None}.
 
-       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
-                with C{point} a B{C{LatLon}} or if C{B{LatLon} is None},
-                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
-
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
-                           not installed or not found, but only if
-                           C{B{equidistant}=}L{EquidistantKarney}.
+       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with C{point}
+                a B{C{LatLon}} or if C{B{LatLon} is None}, a L{LatLon4Tuple}C{(lat,
+                lon, height, datum)}.
 
        @raise IntersectionError: Skew, colinear, parallel or otherwise
                                  non-intersecting paths or no convergence
-                                 for the B{C{tol}}.
+                                 for the given B{C{tol}}.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{start1}}, B{C{end1}},
-                         B{C{start2}} or B{C{end2}} or invalide B{C{equidistant}}.
+                         B{C{start2}} or B{C{end2}} or invalid B{C{equidistant}}.
+
+       @note: For each path specified with an initial bearing, a pseudo-end point
+              is computed as the C{destination} along that bearing at about 1.5
+              times the distance from the start point to an initial gu-/estimate
+              of the intersection point (and between 1/8 and 3/8 of the authalic
+              earth perimeter).
     '''
     return _intersection3(start1, end1, start2, end2, height=height, wrap=wrap,
                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
@@ -197,8 +201,8 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
 
 def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively compute the intersection points of two circles,
-       each defined by an (ellipsoidal) center point and a radius.
+    '''Iteratively compute the intersection points of two circles, each defined
+       by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
        @arg radius1: Radius of the first circle (C{meter}, conventionally).
@@ -209,28 +213,23 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       conventionally) or C{None} for the I{"radical height"}
                       at the I{radical line} between both centers.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                           or function L{equidistant}) or C{None} for
-                           the preferred C{B{center1}.Equidistant}.
-       @kwarg tol: Convergence tolerance (C{meter}, same units as
-                   B{C{radius1}} and B{C{radius2}}).
-       @kwarg LatLon: Optional class to return the intersection points
-                      (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg equidistant: An azimuthal equidistant projection (I{class} or
+                           function L{equidistant}) or C{None} for the preferred
+                           C{B{center1}.Equidistant}.
+       @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
+                   and B{C{radius2}}).
+       @kwarg LatLon: Optional class to return the intersection points (L{LatLon})
+                      or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                           ignored if C{B{LatLon} is None}.
 
-       @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
-                instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if C{B{LatLon} is None}.  For abutting circles, both
-                points are the same instance, aka I{radical center}.
+       @return: 2-Tuple of the intersection points, each a B{C{LatLon}} instance
+                or L{LatLon4Tuple}C{(lat, lon, height, datum)} if C{B{LatLon} is
+                None}.  For abutting circles, both points are the same instance,
+                aka the I{radical center}.
 
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
-                           not installed or not found.
-
-       @raise IntersectionError: Concentric, antipodal, invalid or
-                                 non-intersecting circles or no
-                                 convergence for the B{C{tol}}.
+       @raise IntersectionError: Concentric, antipodal, invalid or non-intersecting
+                                 circles or no convergence for the B{C{tol}}.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{center1}} or B{C{center2}}
                          or invalid B{C{equidistant}}.

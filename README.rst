@@ -144,7 +144,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 06, 2021.*
+*Last updated: Sep 12, 2021.*
 
 License
 =======

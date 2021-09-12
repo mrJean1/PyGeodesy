@@ -40,7 +40,7 @@ from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.09.02'
+__version__ = '21.09.09'
 
 
 class LatLonBase(_NamedBase):
@@ -444,7 +444,7 @@ class LatLonBase(_NamedBase):
     def equirectangularTo(self, other, radius=None, **options):
         '''Compute the distance between this and an other point
            using the U{Equirectangular Approximation / Projection
-           <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+           <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
            Suitable only for short, non-near-polar distances up to a
            few hundred Km or Miles.  Use method C{haversineTo} or
@@ -718,21 +718,11 @@ class LatLonBase(_NamedBase):
            @raise UnitError: Invalid B{C{eps}}.
 
            @see: Method L{isequalTo3}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119)
-            >>> q = LatLon(52.205, 0.119)
-            >>> e = p.isequalTo(q)  # True
         '''
         self.others(other)
 
-        if eps:
-            return max(abs(self.lat - other.lat),
-                       abs(self.lon - other.lon)) < Scalar_(eps=eps)
-        else:
-            return self.lat == other.lat and \
-                   self.lon == other.lon
+        return _isequalTo(self, other, eps=Scalar_(eps=eps)) if eps else \
+                         (self.lat == other.lat and self.lon == other.lon)
 
     def isequalTo3(self, other, eps=None):
         '''Compare this point with an other point, I{including} height.
@@ -748,12 +738,6 @@ class LatLonBase(_NamedBase):
                              this C{class} or C{type}.
 
            @see: Method L{isequalTo}.
-
-           @example:
-
-            >>> p = LatLon(52.205, 0.119, 42)
-            >>> q = LatLon(52.205, 0.119)
-            >>> e = p.isequalTo3(q)  # False
         '''
         return self.height == other.height and self.isequalTo(other, eps=eps)
 
@@ -1248,6 +1232,13 @@ class LatLonBase(_NamedBase):
                   geocentric (ECEF) x, y and z coordinates!
         '''
         return self.xyz.to4Tuple(self.height)
+
+
+def _isequalTo(point1, point2, eps=EPS):  # in .ellipsoidalBaseDI._intersect3._on
+    '''(INTERNAL) Compare point lat-/lon without type.
+    '''
+    return max(abs(point1.lat - point2.lat),
+               abs(point1.lon - point2.lon)) < eps
 
 
 def _isLatLon(point):

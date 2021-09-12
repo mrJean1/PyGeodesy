@@ -50,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.08.29'
+__version__ = '21.09.09'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -934,7 +934,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
        by two points or a start point and bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
-       @arg end1: End point ofthe first path (L{LatLon}) or
+       @arg end1: End point of the first path (L{LatLon}) or
                   the initial bearing at the first start point
                   (compass C{degrees360}).
        @arg start2: Start point of the second path (L{LatLon}).
