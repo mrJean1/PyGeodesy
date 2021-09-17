@@ -236,10 +236,10 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 11.5.2 Big Sur (aka 
-    10.16) and in 64-bit only.  The tests are run with and without 
-    <code>lazy import</code> for Python 3 and with command line option 
-    <code>-W always</code> and environment variable 
+    target="_top">GeodSolve</a> 1.51, all on macOS 11.6 Big Sur (aka 10.16)
+    and in 64-bit only.  The tests are run with and without <code>lazy 
+    import</code> for Python 3 and with command line option <code>-W 
+    always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of only those tests are included in the distribution files.</p>
     <p>Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple 
@@ -292,7 +292,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 11.0-5.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 
+    on macOS 11.0-5.2 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 
     macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, 
     MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
@@ -313,7 +313,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.0rc1, both in 64-bit on 
-    macOS 11.5.2 Big Sur (aka 10.16).</p>
+    macOS 11.6 Big Sur (aka 10.16).</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -413,7 +413,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.09.12
+        21.09.16
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -6839,7 +6839,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fba089ef3d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7faf28b4da50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8458,6 +8458,44 @@
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Raise an <code>AssertionError</code> for a method or property not 
       overloaded.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#opposing" class="summary-sig-name">opposing</a>(<span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare the direction of two bearings given in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#opposing_" class="summary-sig-name">opposing_</a>(<span class="summary-sig-arg">radians1</span>,
+        <span class="summary-sig-arg">radians2</span>,
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare the direction of two bearings given in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -10408,7 +10446,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.12'"><code class="variable-quote">'</code><code class="variable-string">21.9.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.16'"><code class="variable-quote">'</code><code class="variable-string">21.9.16</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -17160,7 +17198,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fba089ef3d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7faf28b4da50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20246,6 +20284,80 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="opposing"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing</span>&nbsp;(<span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare the direction of two bearings given in 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing1</code></strong> - First bearing (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Second bearing (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>degrees</code>), default 
+          <code>90</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both bearings point in opposite, 
+          <code>False</code> if in similar or <code>None</code> if in 
+          perpendicular directions.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#opposing_" 
+        class="link">opposing_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="opposing_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing_</span>&nbsp;(<span class="sig-arg">radians1</span>,
+        <span class="sig-arg">radians2</span>,
+        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare the direction of two bearings given in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radians1</code></strong> - First bearing (<code>radians</code>).</li>
+        <li><strong class="pname"><code>radians2</code></strong> - Second bearing (<code>radians</code>).</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>radians</code>), default 
+          <code>PI_2</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both bearings point in opposite, 
+          <code>False</code> if in similar or <code>None</code> if in 
+          perpendicular directions.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#opposing" 
+        class="link">opposing</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="pairs"></a>
 <div>
@@ -24596,7 +24708,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 12 14:37:05 2021
+    Generated by Epydoc 3.0.1 on Fri Sep 17 13:13:17 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -12,10 +12,10 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_, fsum_
-from pygeodesy.formy import _radical2
+from pygeodesy.formy import opposing, _radical2
 from pygeodesy.interns import EPS, PI, PI_4, _concentric_, _datum_, _epoch_, \
                              _exceed_PI_radians_, _height_, _no_, _near_, \
-                             _reframe_, _too_, _0_0, _1_5, _3_0, _90_0
+                             _reframe_, _too_, _0_0, _1_5, _3_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                            Intersection3Tuple, _LL4Tuple
@@ -25,9 +25,9 @@ from pygeodesy.units import Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180, wrap90, wrap180, wrap360
 
 __all__ = ()
-__version__ = '21.09.12'
+__version__ = '21.09.16'
 
-_b2end = _1_5  # _intersect3 bearing to end point
+_B2END = _1_5  # _intersect3 bearing to end point
 _TRIPS = 17    # _intersect3, _intersects2, _nearestOn interations, 6 is sufficient
 
 
@@ -39,7 +39,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse
            azimuth) from this to an other point, using this C{Inverse}
-           method.  See methods L{initialBearingTo} and  L{finalBearingTo}
+           method.  See methods L{initialBearingTo} and L{finalBearingTo}
            for more details.
 
            @arg other: The other point (C{LatLon}).
@@ -270,7 +270,7 @@ def _Equidistant00(equidistant, p1):
     return equidistant(0, 0, p1.datum)
 
 
-def _intersect3(s1, end1, s2, end2, height=None, wrap=True,
+def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) path, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
@@ -278,15 +278,22 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,
     from pygeodesy.sphericalTrigonometry import _intersect as _si, LatLon as _LLS
     from pygeodesy.vector3d import _intersect3d3 as _vi3
 
+    def _b_d(s, e, w, t, h=_0_0):
+        # compute opposing and distance
+        t = s.classof(t.lat, t.lon, height=h, name=t.name)
+        t = s.distanceTo3(t, wrap=w)  # Distance3Tuple
+        b = opposing(e, t.initial)  # "before" start
+        return b, t.distance
+
     def _b_e(s, e, w, t):
         # compute an end point along the initial bearing
-        # about 1.5 times the distance to the gu-/estimate,
-        # at least 1/8 and at most 3/8 of the earth perimeter
-        # like PI_4 radians in .sphericalTrigonometry._i3d2
-        t = s.classof(t.lat, t.lon, height=t.height, name=t.name)
-        b = abs(s.initialBearingTo(t, wrap=w) - e) > _90_0  # before
-        r = s.ellipsoid().R2x * PI_4  # authalic exact
-        d = min(max(s.distanceTo(t) * _b2end, r), r * _3_0)
+        # about 1.5 times the distance to the gu-/estimate, at
+        # least 1/8 and at most 3/8 of the earth perimeter like
+        # radians in .sphericalTrigonometry._int3d2 and bearing
+        # comparison in .sphericalTrigonometry._intb
+        b, d = _b_d(s, e, w, t, h=t.height)
+        m = s.ellipsoid().R2x * PI_4  # authalic exact
+        d = min(max(d * _B2END, m), m * _3_0)
         e = s.destination(d, e)
         return b, (_unrollon(s, e) if w else e)
 
@@ -299,10 +306,13 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,
                 e = _unrollon(s, e)
         return e, ll
 
-    def _on(b, n, s, t, eps):
+    def _o(o, b, n, s, t, eps):
         # determine C{o}utside before, on or after start point
-        from pygeodesy.latlonBase import _isequalTo
-        return 0 if _isequalTo(s, t, eps=eps) else (-n if b else n)
+        if not o:  # intersection may be on start
+            from pygeodesy.latlonBase import _isequalTo
+            if _isequalTo(s, t, eps=eps):
+                return o
+        return -n if b else n
 
     # E = s1.ellipsoids(s2)
     # assert E == s1.ellispoids(e1) == s1.ellipsoids(e2)
@@ -329,7 +339,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,
 
     # ... and iterate as Karney describes, @see:
     # LatLonEllipsoidalBase.LatLon.intersections2
-    c = None  # force first d == c to False
+    c = m = None  # force first d == c to False
     for i in range(1, _TRIPS):
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
         # convert start and end points to projection
@@ -345,14 +355,25 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,
         if d < e or d == c:
             t._iteration = i
             break
+        if m is None or m > d:
+            m = d
         c = d
     else:
-        raise IntersectionError(_no_(Fmt.convergence(e)))
+        raise IntersectionError(_no_(Fmt.convergence(m)))
+
+    # like .sphericalTrigonometry._intersect, if this intersection
+    # is "before" the first point, use the antipodal intersection
+    if not (ll1 or ll2):  # end1 and end2 are an initial bearing
+        b1, _ = _b_d(s1, end1, wrap, t)
+        if b1:
+            t  = t.antipodal()
+            b1 = not b1
+        b2, _ = _b_d(s2, end2, wrap, t)
 
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1, name=n)
     r._iteration = t._iteration  # _NamedTuple._iteration
-    return Intersection3Tuple(r, (o1 if ll1 else _on(b1, 1, s1, t, e)),
-                                 (o2 if ll2 else _on(b2, 2, s2, t, e)))
+    return Intersection3Tuple(r, (o1 if ll1 else _o(o1, b1, 1, s1, t, e)),
+                                 (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))
 
 
 def _intersection3(start1, end1, start2, end2, height=None, wrap=True,
@@ -387,7 +408,7 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                          center2=center2, radius2=radius2)
 
 
-def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
+def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
                  equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
        above, separated to allow callers to embellish any exceptions.
@@ -439,7 +460,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
     # LatLonEllipsoidalBase.LatLon.intersections2
     ts, ta = [], None
     for t in ((t1,) if t1 is t2 else (t1, t2)):
-        c = None  # force first d == c to False
+        c = m = None  # force first d == c to False
         for i in range(1, _TRIPS):
             A.reset(t.lat, t.lon)  # gu-/estimate as origin
             # convert centers to projection space
@@ -465,8 +486,10 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 15
                     ta = t  # PYCHOK no coves
                 break
             c = d
+            if m is None or m > d:
+                m = d
         else:
-            raise IntersectionError(_no_(Fmt.convergence(tol)))
+            raise IntersectionError(_no_(Fmt.convergence(m)))
 
     if ta:  # abutting circles
         pass  # PYCHOK no cover
@@ -536,7 +559,7 @@ def _nearestOne(p, point1, point2, within=True, height=None, wrap=True,
 
     # ... and iterate as Karney describes, @see:
     # LatLonEllipsoidalBase.LatLon.intersections2
-    c = None  # force first d == c to False
+    c = m = None  # force first d == c to False
     # closest to origin, .z to interpolate height
     p = Vector3d(0, 0, h)
     for i in range(1, _TRIPS):
@@ -555,8 +578,10 @@ def _nearestOne(p, point1, point2, within=True, height=None, wrap=True,
                 h = v.z  # nearest interpolated
             break
         c = d
+        if m is None or m > d:
+            m = d
     else:
-        raise _ValueError(_no_(Fmt.convergence(tol)))
+        raise _ValueError(_no_(Fmt.convergence(m)))
 
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p, name=n)
     r._iteration = t.iteration  # ._iteration for tests
@@ -567,11 +592,11 @@ def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
     # wrap, unroll and replace longitude if different
     _, lon = unroll180(p1.lon, p2.lon, wrap=True)
     if abs(lon - p2.lon) > EPS:
-        p2 = p2.classof(p2.lat, lon, **_xkwds_not(None,
-                    height=getattr(p2, _height_,  None),
-                     datum=getattr(p2, _datum_,   None),
-                     epoch=getattr(p2, _epoch_,   None),
-                   reframe=getattr(p2, _reframe_, None)))  # PYCHOK indent
+        p2 = p2.classof(p2.lat, wrap180(lon), **_xkwds_not(None,
+                             height=getattr(p2, _height_,  None),
+                              datum=getattr(p2, _datum_,   None),
+                              epoch=getattr(p2, _epoch_,   None),
+                            reframe=getattr(p2, _reframe_, None)))  # PYCHOK indent
     return p2
 
 

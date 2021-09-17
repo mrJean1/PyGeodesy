@@ -33,7 +33,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 # make sure int/int division yields float quosient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import isscalar, neg, _xinstanceof
+from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.08.29'
+__version__ = '21.09.16'
 
 _paths_ = 'paths'
 
@@ -935,10 +935,14 @@ def intersection(start1, end1, start2, end2,
         elif d1 < 0 and d2 < 0:
             d = -1  # both point to i2
         else:  # d1, d2 opposite signs
-            # intersection is at further-away intersection
-            # point, take opposite intersection from mid-
-            # point of v1 and v2 [is this always true?]
-            d = neg(s1.plus(s2).dot(i1))
+            # intersection is at further-away intersection point,
+            # take opposite intersection from mid- point of v1
+            # and v2 [is this always true?] XXX changed to always
+            # get intersection p1 bearing points to, aka being
+            # located "after" p1 along the bearing at p1, like
+            # function .sphericalTrigonometry._intersect and
+            # .ellipsoidalBaseDI._intersect3
+            d = d1  # neg(s1.plus(s2).dot(i1))
 
     i = i1 if d > 0 else gc2.cross(gc1, raiser=_paths_)
 

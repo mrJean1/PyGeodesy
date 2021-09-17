@@ -23,18 +23,18 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_, hypot
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
-                            excessGirard, excessLHuilier, _radical2, vincentys_
+                            excessGirard, excessLHuilier, opposing_, _radical2, \
+                            vincentys_
 from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                              _coincident_, _colinear_, _concentric_, _convex_, \
-                             _end_, _invalid_, _LatLon_, _near_, _not_, _null_, \
-                             _points_, _SPACE_, _too_, _1_, _2_, _0_0, _0_5, \
-                             _1_0, _2_0, _90_0
+                             _end_, _invalid_, _LatLon_, _near_, _not_, \
+                             _null_, _points_, _SPACE_, _too_, _1_, _2_, \
+                             _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple, Triangle7Tuple, \
                                   Triangle8Tuple
-from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
@@ -43,14 +43,14 @@ from pygeodesy.streprs import Fmt as _Fmt  # XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
                             Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            m2radians, radiansPI2, sincos2_, tan_2, \
-                            unrollPI, wrap180, wrapPI
+                            m2radians, radiansPI2, sincos2_, tan_2, unrollPI, \
+                            wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.09.09'
+__version__ = '21.09.16'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -870,15 +870,15 @@ def areaOf(points, radius=R_M, wrap=True):
         a2, b2 = p2.philam
         db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
         ta2 = tan_2(a2)
+        A += a2
         E += atan2(tan_2(db, points=i) * (ta1 + ta2), _1_0 + ta1 * ta2)
         ta1, b1 = ta2, b2
 
-        if not p2.isequalTo(p1, EPS):
+        if not p2.isequalTo(p1, eps=EPS):
             z, z2 = _bearingTo2(p1, p2, wrap=wrap)
             D.fadd_(wrap180(z - z1),  # (z - z1 + 540) % 360 - 180
                     wrap180(z2 - z))  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
-        A += a2
 
     r = abs(E.fsum()) * _2_0
     if abs(D.fsum()) < _90_0:  # ispolar(points)
@@ -889,18 +889,12 @@ def areaOf(points, radius=R_M, wrap=True):
     return r
 
 
-def _ib(a1, b1, end, a, b, wrap):
-    # difference between the bearing to (a, b) and the given
-    # bearing is negative if both are in opposite directions
-    r = bearing_(a1, b1, a, b, wrap=wrap)
-    return abs(wrapPI(r - radians(end))) > PI_2
-
-
-def _i3d2(start, end, wrap, _i_, hs):
+def _int3d2(start, end, wrap, _i_, Vector, hs):
     # see <https://www.EdWilliams.org/intersect.htm> (5) ff
+    # and similar logic in .ellipsoidalBaseDI._intersect3
     a1, b1 = start.philam
 
-    if isscalar(end):  # bearing, make a point
+    if isscalar(end):  # bearing, get pseudo-end point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
         start.others(end, name=_end_ + _i_)
@@ -916,16 +910,83 @@ def _i3d2(start, end, wrap, _i_, hs):
     sb21, cb21, sb12, cb12, \
     sa21,    _, sa12,    _ = sincos2_(b21, b12, a1 - a2, a1 + a2)
 
-    x = _Nvector(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
-                 sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
-                 cos(a1) * cos(a2) * sin(db))  # ll=start
+    x = Vector(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
+               sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
+               cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
 
 
-def _idot(ds, a1, b1, a, b, wrap):
-    # compute dot product d . (-b + b1, a - a1)
+def _intdot(ds, a1, b1, a, b, wrap):
+    # compute dot product ds . (-b + b1, a - a1)
     db, _ = unrollPI(b1, b, wrap=wrap)
     return fdot(ds, db, a - a1)
+
+
+def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
+                                           LatLon=None, **LatLon_kwds):
+    # (INTERNAL) Intersect two (spherical) path, see L{intersection}
+    # above, separated to allow callers to embellish any exceptions
+
+    hs = [start1.height, start2.height]
+
+    a1, b1 = start1.philam
+    a2, b2 = start2.philam
+
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
+    r12 = vincentys_(a2, a1, db)
+    if abs(r12) < EPS:  # [nearly] coincident points
+        a, b = favg(a1, a2), favg(b1, b2)
+
+    # see <https://www.EdWilliams.org/avform.htm#Intersection>
+    elif isscalar(end1) and isscalar(end2):  # both bearings
+        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2_(a1, a2, r12)
+
+        x1, x2 = (sr12 * ca1), (sr12 * ca2)
+        if isnear0(x1) or isnear0(x2):
+            raise IntersectionError(_parallel_)
+        # handle domain error for equivalent longitudes,
+        # see also functions asin_safe and acos_safe at
+        # <https://www.EdWilliams.org/avform.htm#Math>
+        t1, t2 = acos1((sa2 - sa1 * cr12) / x1), \
+                 acos1((sa1 - sa2 * cr12) / x2)
+        if sin(db) > 0:
+            t12, t21 = t1, PI2 - t2
+        else:
+            t12, t21 = PI2 - t1, t2
+        t13, t23 = radiansPI2(end1), radiansPI2(end2)
+        sx1, cx1, sx2, cx2 = sincos2_(wrapPI(t13 - t12),  # angle 2-1-3
+                                      wrapPI(t21 - t23))  # angle 1-2-3)
+        if isnear0(sx1) and isnear0(sx2):
+            raise IntersectionError(_infinite_)
+        sx3 = sx1 * sx2
+# XXX   if sx3 < 0:
+# XXX       raise ValueError(_ambiguous_)
+        x3  = acos1(cr12 * sx3 - cx2 * cx1)
+        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
+
+        a, b = _destination2(a1, b1, r13, t13)
+        # like .ellipsoidalBaseDI,_intersect3, if this intersection
+        # is "before" the first point, use the antipodal intersection
+        if opposing_(t13, bearing_(a1, b1, a, b, wrap=wrap)):
+            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
+
+    else:  # end point(s) or bearing(s)
+        from pygeodesy.nvectorBase import _N_vector_
+
+        x1, d1 = _int3d2(start1, end1, wrap, _1_, _N_vector_, hs)
+        x2, d2 = _int3d2(start2, end2, wrap, _2_, _N_vector_, hs)
+        x = x1.cross(x2)
+        if x.length < EPS:  # [nearly] colinear or parallel paths
+            raise IntersectionError(_colinear_)
+        a, b = x.philam
+        # choose intersection similar to sphericalNvector
+        if not (_intdot(d1, a1, b1, a, b, wrap) *
+                _intdot(d2, a2, b2, a, b, wrap)) > 0:
+            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
+
+    h = fmean(hs) if height is None else Height(height)
+    return _LL3Tuple(degrees90(a), degrees180(b), h,
+                     intersection, LatLon, LatLon_kwds)
 
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
@@ -970,81 +1031,11 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
     '''
     _T00.others(start1=start1)
     _T00.others(start2=start2)
-
     try:
         return _intersect(start1, end1, start2, end2, height=height, wrap=wrap,
                                                       LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
-
-
-def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
-                                           LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Intersect two (spherical) path, see L{intersection}
-    # above, separated to allow callers to embellish any exceptions
-
-    hs = [start1.height, start2.height]
-
-    a1, b1 = start1.philam
-    a2, b2 = start2.philam
-
-    db, b2 = unrollPI(b1, b2, wrap=wrap)
-    r12 = vincentys_(a2, a1, db)
-    if abs(r12) < EPS:  # [nearly] coincident points
-        a, b = favg(a1, a2), favg(b1, b2)
-
-    # see <https://www.EdWilliams.org/avform.htm#Intersection>
-    elif isscalar(end1) and isscalar(end2):  # both bearings
-        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2_(a1, a2, r12)
-
-        x1, x2 = (sr12 * ca1), (sr12 * ca2)
-        if isnear0(x1) or isnear0(x2):
-            raise IntersectionError(_parallel_)
-        # handle domain error for equivalent longitudes,
-        # see also functions asin_safe and acos_safe at
-        # <https://www.EdWilliams.org/avform.htm#Math>
-        t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
-                             (sa1 - sa2 * cr12) / x2)
-        if sin(db) > 0:
-            t12, t21 = t1, PI2 - t2
-        else:
-            t12, t21 = PI2 - t1, t2
-
-        t13, t23 = map1(radiansPI2, end1, end2)
-        x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
-                              t21 - t23)  # angle 1-2-3
-        sx1, cx1, sx2, cx2 = sincos2_(x1, x2)
-        if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-            raise IntersectionError(_infinite_)
-        sx3 = sx1 * sx2
-# XXX   if sx3 < 0:
-# XXX       raise ValueError(_ambiguous_)
-        x3  = acos1(cr12 * sx3 - cx2 * cx1)
-        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
-
-        a, b = _destination2(a1, b1, r13, t13)
-        # choose antipode for opposing bearings
-        if _ib(a1, b1, end1, a, b, wrap) or \
-           _ib(a2, b2, end2, a, b, wrap):
-            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
-
-    else:  # end point(s) or bearing(s)
-        x1, d1 = _i3d2(start1, end1, wrap, _1_, hs)
-        x2, d2 = _i3d2(start2, end2, wrap, _2_, hs)
-        x = x1.cross(x2)
-        if x.length < EPS:  # [nearly] colinear or parallel paths
-            raise IntersectionError(_colinear_)
-        a, b = x.philam
-        # choose intersection similar to sphericalNvector
-        d1 = _idot(d1, a1, b1, a, b, wrap)
-        if d1:
-            d2 = _idot(d2, a2, b2, a, b, wrap)
-            if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
-                a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
-
-    h = fmean(hs) if height is None else Height(height)
-    return _LL3Tuple(degrees90(a), degrees180(b), h,
-                     intersection, LatLon, LatLon_kwds)
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,

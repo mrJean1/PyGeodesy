@@ -22,8 +22,8 @@ from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
-                            Phi_, Radians, Radians_, Radius, Radius_, \
+from pygeodesy.units import Degrees_, Distance, Distance_, Height, Lam_, Lat, \
+                            Lon, Phi_, Radians, Radians_, Radius, Radius_, \
                             Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
                             m2degrees, sincos2, sincos2_, tan_2, unroll180, \
@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.08.29'
+__version__ = '21.09.14'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -111,7 +111,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
        @return: Initial or final bearing (compass C{radiansPI2}) or
                 zero if start and end point coincide.
     '''
-    if final:
+    if final:  # swap plus PI
         phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
         r = PI3
     else:
@@ -129,7 +129,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
 def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometry.areaOf
     '''(INTERNAL) Compute initial and final bearing.
     '''
-    try:  # for LatLon_ and ellipsoidalNvector.LatLon
+    try:  # for LatLon_ and ellipsoidal LatLon
         return p1.bearingTo2(p2, wrap=wrap)
     except AttributeError:
         pass
@@ -137,7 +137,8 @@ def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometr
     a1, b1 = p1.philam
     a2, b2 = p2.philam
     return Bearing2Tuple(degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap)),
-                         degrees(bearing_(a1, b1, a2, b2, final=True, wrap=wrap)))
+                         degrees(bearing_(a1, b1, a2, b2, final=True,  wrap=wrap)),
+                         name=_bearingTo2.__name__)
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
@@ -1179,6 +1180,44 @@ def n_xyz2philam(x, y, z, name=NN):
        @see: Function L{n_xyz2latlon}.
     '''
     return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), name=name)
+
+
+def opposing(bearing1, bearing2, margin=None):
+    '''Compare the direction of two bearings given in C{degrees}.
+
+       @arg bearing1: First bearing (compass C{degrees}).
+       @arg bearing2: Second bearing (compass C{degrees}).
+       @kwarg margin: Optional, interior angle bracket (C{degrees}),
+                      default C{90}.
+
+       @return: C{True} if both bearings point in opposite, C{False} if
+                in similar or C{None} if in perpendicular directions.
+
+       @see: Function L{opposing_}.
+    '''
+    m =  Degrees_(margin=margin, low=EPS0, high=_90_0) if margin else _90_0
+    d = (bearing2 - bearing1) % _360_0  # note -20 % 360 == 340
+    return False if      d < m or d > (_360_0 - m) else (
+           True if (_180_0 - m) < d < (_180_0 + m) else None)
+
+
+def opposing_(radians1, radians2, margin=None):
+    '''Compare the direction of two bearings given in C{radians}.
+
+       @arg radians1: First bearing (C{radians}).
+       @arg radians2: Second bearing (C{radians}).
+       @kwarg margin: Optional, interior angle bracket (C{radians}),
+                      default C{PI_2}.
+
+       @return: C{True} if both bearings point in opposite, C{False} if
+                in similar or C{None} if in perpendicular directions.
+
+       @see: Function L{opposing}.
+    '''
+    m =  Radians_(margin=margin, low=EPS0, high=PI_2) if margin else PI_2
+    r = (radians2 - radians1) % PI2  # note -1 % PI2 == PI2 - 1
+    return False if  r < m or r > (PI2 - m) else (
+           True if (PI - m) < r < (PI  + m) else None)
 
 
 def philam2n_xyz(phi, lam, name=NN):

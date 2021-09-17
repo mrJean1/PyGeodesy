@@ -27,7 +27,7 @@ from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '21.04.24'
+__version__ = '21.09.14'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -43,7 +43,7 @@ _XML_  = 'XML'
 
 try:
     from json import loads as _json
-except ImportError:  # PYCHOK no cover
+except ImportError:
 
     from pygeodesy.interns import _COMMA_, _QUOTE2_
 

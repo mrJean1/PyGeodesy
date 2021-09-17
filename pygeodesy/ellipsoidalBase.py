@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.09.12'
+__version__ = '21.09.14'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -315,7 +315,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         E = self.ellipsoid()
         try:  # other may be Sphere, etc.
             e = other.ellipsoid()
-        except AttributeError:  # PYCHOK no cover
+        except AttributeError:
             try:  # no ellipsoid method, try datum
                 e = other.datum.ellipsoid
             except AttributeError:

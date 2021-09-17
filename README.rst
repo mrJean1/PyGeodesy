@@ -90,7 +90,7 @@ Tests
 The tests have been run with Python 3.10.0rc1 (with geographiclib_ 1.52),
 Python 3.9.6 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.5.2 Big
+and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.6 Big
 Sur (aka 10.16) and in 64-bit only.  The tests are run with and without
 ``lazy import`` for Python 3 and with command line option ``-W always``
 and environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
@@ -121,7 +121,7 @@ Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 3.7.2-6,
 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0,
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_
 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13
-and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 11.0-5.1
+and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 11.0-5.2
 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave,
 macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan
 and/or MacOS X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib
@@ -135,7 +135,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.0rc1, both in 64-bit on macOS 11.5.2
+and with Flake8_ using Python 3.10.0rc1, both in 64-bit on macOS 11.6
 Big Sur (aka 10.16).
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
@@ -144,7 +144,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 12, 2021.*
+*Last updated: Sep 16, 2021.*
 
 License
 =======

@@ -412,6 +412,7 @@ _60_0   = _float(  60)      # PYCHOK expected
 _90_0   = _float(  90)      # PYCHOK expected
 _120_0  = _float( 120)      # PYCHOK expected
 _180_0  = _float( 180)      # PYCHOK expected
+_270_0  = _float( 270)      # PYCHOK expected
 _360_0  = _float( 360)      # PYCHOK expected
 _400_0  = _float( 400)      # PYCHOK expected
 _720_0  = _float( 720)      # PYCHOK expected
@@ -470,7 +471,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.08.31'
+__version__ = '21.09.14'
 
 
 def _load_lib(name):  # must startwith('lib')

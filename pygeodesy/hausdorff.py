@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.09.07'
+__version__ = '21.09.14'
 
 
 class HausdorffError(PointsError):
@@ -292,7 +292,7 @@ class HausdorffRadians(Hausdorff):
         '''
         try:
             return point.philam
-        except AttributeError:  # PYCHOK no cover
+        except AttributeError:
             return PhiLam2Tuple(radians(point.lat), radians(point.lon))
 
 

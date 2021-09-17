@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.06.28'
+__version__ = '21.09.14'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -258,7 +258,7 @@ class _GeoidBase(_HeightBase):
             t = 'lli' if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, txt=str(x))
-        except Exception as x:  # PYCHOK no cover
+        except Exception as x:
             if scipy and self.scipy:
                 raise _SciPyIssue(x)
             else:
@@ -369,7 +369,7 @@ class _GeoidBase(_HeightBase):
                 if -90 <= s <= (n - _1_0) <=  89 and \
                   -180 <= w <= (e - _1_0) <= 179:
                     return s, w, n, e
-        except (IndexError, TypeError, ValueError):  # PYCHOK no cover
+        except (IndexError, TypeError, ValueError):
             pass
         raise GeoidError(crop=crop)
 
@@ -757,7 +757,7 @@ class GeoidG2012B(_GeoidBase):
             p.wlon -= _360_0  # western-most East longitude to earth (..., lon)
             _GeoidBase.__init__(self, hs, p)
 
-        except Exception as x:  # PYCHOK no cover
+        except Exception as x:
             raise _SciPyIssue(x, _in_, repr(g2012b_bin))
         finally:
             g.close()

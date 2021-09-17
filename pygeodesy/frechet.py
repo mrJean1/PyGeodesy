@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.06.01'
+__version__ = '21.09.14'
 
 
 def _fraction(fraction, n):
@@ -338,7 +338,7 @@ class FrechetRadians(Frechet):
         '''
         try:
             return point.philam
-        except AttributeError:  # PYCHOK no cover
+        except AttributeError:
             return PhiLam2Tuple(radians(point.lat), radians(point.lon))
 
 

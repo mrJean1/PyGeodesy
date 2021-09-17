@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.09.12'
+__version__ = '21.09.14'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -139,7 +139,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
     @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method L{initialBearingTo}.
+        '''DEPRECATED, use method L{initialBearingTo} or L{bearingTo2}.
         '''
         return self.initialBearingTo(other, wrap=wrap)
 

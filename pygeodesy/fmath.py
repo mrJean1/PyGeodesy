@@ -21,7 +21,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.08.27'
+__version__ = '21.09.14'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -851,7 +851,7 @@ def frange(start, number, step=1):
 
 try:
     from functools import reduce as freduce
-except ImportError:  # PYCHOK no cover
+except ImportError:
     try:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
@@ -879,7 +879,7 @@ try:
         del fsum  # nope, remove fsum ...
         raise ImportError  # ... use fsum below
 
-except ImportError:  # PYCHOK no cover
+except ImportError:
 
     def fsum(iterable):
         '''Precision summation similar to standard Python function C{math.fsum}.

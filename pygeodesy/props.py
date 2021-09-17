@@ -19,7 +19,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.08.14'
+__version__ =  '21.09.14'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -401,7 +401,7 @@ def _docof(obj):
     try:
         d = obj.__doc__.strip()
         i = d.find(_DEPRECATED_)
-    except AttributeError:  # PYCHOK no cover
+    except AttributeError:
         i = -1
     return _DOT_(_DEPRECATED_, NN) if i < 0 else d[i:]
 

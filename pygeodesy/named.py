@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.09.09'
+__version__ = '21.09.15'
 
 _COMMASPACEDOT_ = ', .'
 _del_           = 'del'
@@ -633,7 +633,7 @@ class _NamedEnum(_NamedDict):
             n = item.name
             if not (n and isstr(n) and isidentifier(n)):
                 raise ValueError
-        except (AttributeError, ValueError, TypeError) as x:  # PYCHOK no cover
+        except (AttributeError, ValueError, TypeError) as x:
             raise _NameError(_DOT_(_item_, _name_), item, txt=str(x))
         if n in self:
             raise _NameError(self._DOT_(n), item, txt=_exists_)
@@ -658,7 +658,7 @@ class _NamedEnum(_NamedDict):
             name = self.find(name_or_item)
         try:
             item = _Dict.pop(self, name)
-        except KeyError:  # PYCHOK no cover
+        except KeyError:
             raise _NameError(item=self._DOT_(name), txt=_doesn_t_exist_)
         return self._zapitem(name, item)
 
@@ -892,20 +892,25 @@ class _NamedTuple(tuple, _Named):
         '''
         return self.toStr()
 
-#   def duplicate(self, name=NN, **items):
-#       '''Duplicate this tuple replacing one or more items.
-#
-#          @return: This tuple with B{C{items}} replaced.
-#
-#          @raise NameError: Invalid B{C{item}}.
-#       '''
-#       t = list(self)
-#       try:
-#           for n, v in items.items():
-#               t[self._Names.index(n)] = v
-#       except ValueError:  # not in list
-#           raise _NameError(_DOT_(self.classname, n), v)
-#       return self.classof(*t, name=name or self.name)
+    def dup(self, name=NN, **items):
+        '''Duplicate this tuple replacing one or more items.
+
+           @kwarg items: Items to be replaced (C{name=value} pairs), if any.
+           @kwarg name: Optional new name (C{str}).
+
+           @return: A copy of this tuple with B{C{items}}.
+
+           @raise NameError: Invalid B{C{item}}.
+        '''
+        tl = list(self)
+        if items:
+            ix = self._Names_.index
+            try:
+                for n, v in items.items():
+                    tl[ix(n)] = v
+            except ValueError:  # not in list
+                raise _NameError(_DOT_(self.classname, n), v)
+        return self.classof(*tl, name=name or self.name)
 
     def items(self):
         '''Yield the items, each as a C{(name, value)} pair (C{2-tuple}).
@@ -1036,7 +1041,7 @@ def callername(up=1, dflt=NN, source=False):
                 if source:
                     n = NN(n, _AT_, f, _COLON_, str(s))
                 return n
-    except (AttributeError, ValueError):  # PYCHOK no cover
+    except (AttributeError, ValueError):
         pass
     return dflt
 
@@ -1092,7 +1097,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     '''
     try:
         n = clas.__name__
-    except AttributeError:  # PYCHOK no cover
+    except AttributeError:
         n = '__name__'  # _DUNDER_(NN, _name_, NN)
     if prefixed or (classnaming() if prefixed is None else False):
         try:

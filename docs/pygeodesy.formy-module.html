@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.08.29
+        21.09.14
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -972,6 +972,44 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#opposing" class="summary-sig-name">opposing</a>(<span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare the direction of two bearings given in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#opposing_" class="summary-sig-name">opposing_</a>(<span class="summary-sig-arg">radians1</span>,
+        <span class="summary-sig-arg">radians2</span>,
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare the direction of two bearings given in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -3412,6 +3450,80 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="opposing"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing</span>&nbsp;(<span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare the direction of two bearings given in 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing1</code></strong> - First bearing (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Second bearing (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>degrees</code>), default 
+          <code>90</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both bearings point in opposite, 
+          <code>False</code> if in similar or <code>None</code> if in 
+          perpendicular directions.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#opposing_" 
+        class="link">opposing_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="opposing_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing_</span>&nbsp;(<span class="sig-arg">radians1</span>,
+        <span class="sig-arg">radians2</span>,
+        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare the direction of two bearings given in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radians1</code></strong> - First bearing (<code>radians</code>).</li>
+        <li><strong class="pname"><code>radians2</code></strong> - Second bearing (<code>radians</code>).</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>radians</code>), default 
+          <code>PI_2</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both bearings point in opposite, 
+          <code>False</code> if in similar or <code>None</code> if in 
+          perpendicular directions.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#opposing" 
+        class="link">opposing</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="philam2n_xyz"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3836,7 +3948,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 12 14:37:05 2021
+    Generated by Epydoc 3.0.1 on Fri Sep 17 13:13:17 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

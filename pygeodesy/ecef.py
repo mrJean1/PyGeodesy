@@ -86,7 +86,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.09.09'
+__version__ = '21.09.14'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -245,29 +245,6 @@ class _EcefBase(_NamedBase):
                                              0, m, self.datum,
                                              name=name or self.name)
 
-    def forwar_(self, phi, lam, height=0, M=False, name=NN):
-        '''Like method C{.forward} except with geodetic lat- and longitude given
-           in I{radians}.
-
-           @arg phi: Latitude in I{radians} (C{scalar}).
-           @arg lam: Longitude in I{radians} (C{scalar}).
-           @kwarg height: Optional height (C{meter}), vertically above (or below)
-                          the surface of the ellipsoid.
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
-                    with C{lat} set to C{degrees90(B{phi})} and C{lon} to
-                    C{degrees180(B{lam})}.
-
-           @raise EcefError: If B{C{phi}} or B{C{lam}} invalid or not C{scalar}.
-        '''
-        try:  # like function C{_llhn4} above
-            plhn = Phi(phi), Lam(lam), Height(height), name
-        except (TypeError, ValueError) as x:
-            raise EcefError(phi=phi, lam=lam, height=height, txt=str(x))
-        return self._forward(*plhn, M=M, _philam=True)
-
     def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
 
@@ -289,11 +266,34 @@ class _EcefBase(_NamedBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
 
-           @note: Use method C{.forwar_} to specify C{lat} and C{lon} in C{radians}
-                  and avoid double conversions.
+           @note: Use method C{.forward_} to specify C{lat} and C{lon} in C{radians}
+                  and avoid double angle conversions.
         '''
         llhn = _llhn4(latlonh, lon, height, name=name)
         return _EcefBase._forward(self, *llhn, M=M)
+
+    def forward_(self, phi, lam, height=0, M=False, name=NN):
+        '''Like method C{.forward} except with geodetic lat- and longitude given
+           in I{radians}.
+
+           @arg phi: Latitude in I{radians} (C{scalar}).
+           @arg lam: Longitude in I{radians} (C{scalar}).
+           @kwarg height: Optional height (C{meter}), vertically above (or below)
+                          the surface of the ellipsoid.
+           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg name: Optional name (C{str}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{lat} set to C{degrees90(B{phi})} and C{lon} to
+                    C{degrees180(B{lam})}.
+
+           @raise EcefError: If B{C{phi}} or B{C{lam}} invalid or not C{scalar}.
+        '''
+        try:  # like function C{_llhn4} above
+            plhn = Phi(phi), Lam(lam), Height(height), name
+        except (TypeError, ValueError) as x:
+            raise EcefError(phi=phi, lam=lam, height=height, txt=str(x))
+        return self._forward(*plhn, M=M, _philam=True)
 
     @Property_RO
     def _Geocentrics(self):

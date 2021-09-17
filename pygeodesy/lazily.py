@@ -95,7 +95,7 @@ class _NamedEnum_RO(dict):
     def __getattr__(self, attr):
         try:
             return self[attr]
-        except KeyError:  # PYCHOK no cover
+        except KeyError:
             from pygeodesy.errors import _AttributeError
             raise _AttributeError(self._DOT_(attr), txt=_doesn_t_exist_)
 
@@ -187,7 +187,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'hartzell', 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
-                                 'philam2n_xyz', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
+                                 'opposing', 'opposing_', 'philam2n_xyz',
+                                 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
                                  'Radical2Tuple'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
@@ -296,7 +297,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.09.06'
+__version__ = '21.09.14'
 
 
 def _ALL_OTHER(*objs):
@@ -442,7 +443,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
                 try:  # see C{_caller3}
                     _, f, s = _caller3(2)
                     z = '%s by %s line %d' % (z, f, s)
-                except ValueError:  # PYCHOK no cover
+                except ValueError:
                     pass
             printf('# lazily imported %s%s', _DOT_(parent, name), z)
 
@@ -490,7 +491,7 @@ def _lazy_init2(_pygeodesy_):
             t = _COMMASPACE_(parent, _not_(_pygeodesy_))
             raise AttributeError(_EQUALSPACED_('parent', t))
 
-    except (AttributeError, ImportError) as x:  # PYCHOK no cover
+    except (AttributeError, ImportError) as x:
         isLazy = False  # failed
         raise LazyImportError(_lazy_init2.__name__, _pygeodesy_, txt=str(x))
 

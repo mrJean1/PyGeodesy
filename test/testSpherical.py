@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '21.09.15'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -92,19 +92,25 @@ class Tests(_TestsLL, _TestsV):
         i = STN.intersection(108.547, CDG, 32.435)
         self.test('intersection6', i, '50.907809°N, 004.50841°E')  # 50.9078°N, 004.5084°E
 
+        # courtesy sbonaime <https://GitHub.com/mrJean1/PyGeodesy/issues/58>
+        s1, s2 = LatLon(8, 0), LatLon(0, 8.4)
+        self.test('intersection7', s1.intersection(150.06, s2, 55.61).toStr(), '''01°52′46.41″S, 005°39′06.87″E''')  # 01°52′46.41″N, 174°20′53.13″W
+        s1, s2 = LatLon(80, 0), LatLon(0, 84)
+        self.test('intersection8', s1.intersection(150.06, s2, 55.61).toStr(), '''28°15′40.35″S, 032°14′33.2″E''')  # 28°15′40.35″N, 147°45′26.8″W
+
         # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
         # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-spherical-tests.js>
         N, E, S, W, p, q = 0, 90, 180, 270, LatLon(0, 1), LatLon(1, 0)
         self.test('toward 1,1 N,E nearest',        p.intersection(N, q, E), '00.999848°N, 001.0°E')
         self.test('toward 1,1 E,N nearest',        q.intersection(E, p, N), '00.999848°N, 001.0°E')
         self.test('toward 1,1 N,E antipodal',      LatLon(2, 1).intersection(N, q, E), '00.999848°S, 179.0°W')
-        self.test('toward/away 1,1 N,W antipodal', p.intersection(N, q, W), '00.999848°S, 179.0°W', known=Sph)
+        self.test('toward/away 1,1 N,W antipodal', p.intersection(N, q, W), '00.999848°N, 001.0°E')
         self.test('toward/away 1,1 W,N antipodal', q.intersection(W, p, N), '00.999848°S, 179.0°W')
         self.test('toward/away 1,1 S,E antipodal', p.intersection(S, q, E), '00.999848°S, 179.0°W')
-        self.test('toward/away 1,1 E,S antipodal', q.intersection(E, p, S), '00.999848°S, 179.0°W', known=Sph)
+        self.test('toward/away 1,1 E,S antipodal', q.intersection(E, p, S), '00.999848°N, 001.0°E')
         self.test('away 1,1 S,W antipodal',        p.intersection(S, q, W), '00.999848°S, 179.0°W')
         self.test('away 1,1 W,S antipodal',        q.intersection(W, p, S), '00.999848°S, 179.0°W')
-        self.test('1E/90E N,E antipodal',          p.intersection(N, LatLon(1, 90), E), '00.017454°S, 179.0°W', known=Sph)
+        self.test('1E/90E N,E antipodal',          p.intersection(N, LatLon(1, 90), E), '00.017454°N, 001.0°E')
         self.test('1E/90E N,E nearest',            p.intersection(N, LatLon(1, 92), E), '00.017454°N, 179.0°W')
 
         # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
@@ -241,14 +247,14 @@ class Tests(_TestsLL, _TestsV):
                 t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=1000)  # no intersection in 1000 meter
                 self.test(n + 'inter', t.minPoint, IntersectionError.__name__)
             except IntersectionError as x:
-                self.test(n + 'inter', str(x), str(x))
+                self.test(n + 'inter', str(x), str(x))  # PYCHOK test attr?
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)
 
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isenclosedBy', p.isenclosedBy(b), True)
+                self.test('isenclosedBy', p.isenclosedBy(b), True)  # PYCHOK test attr?
 
             b = LatLon(45, 1), LatLon(45, 3), LatLon(46, 2), LatLon(47, 3), LatLon(47, 1)
             for _ in self.testiter():
@@ -256,7 +262,7 @@ class Tests(_TestsLL, _TestsV):
                     self.test('isenclosedBy', p.isenclosedBy(b), True)  # Nvector
                 except ValueError as x:
                     t = str(x).replace(',)', ')')
-                    self.test('isenclosedBy', t, 'points[3] (%s(47°00′00.0″N, 003°00′00.0″E)): not convex' % (classname(p),))
+                    self.test('isenclosedBy', t, 'points[3] (%s(47°00′00.0″N, 003°00′00.0″E)): not convex' % (classname(p),))  # PYCHOK test attr?
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)

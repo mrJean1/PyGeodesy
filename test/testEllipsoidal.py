@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.09.12'
+__version__ = '21.09.16'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -564,7 +564,13 @@ class Tests(_TestsLL, _TestsV):
             self.test('(-2, 17)', m.intersection3(s1, e1, s2, e2), IntersectionError.__name__)
         except Exception as x:
             self.test('(-2, 17)', x.__class__, IntersectionError)
-        self.test('(49, 25)', m.intersection3(s1, e1, e1, e2), '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=True)  # =not X
+        self.test('(49, 25)', m.intersection3(s1, e1, e1, e2), '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=k)
+
+        # courtesy sbonaime <https://GitHub.com/mrJean1/PyGeodesy/issues/58>
+        s1, s2 = m.LatLon(8, 0), m.LatLon(0, 8.4)
+        self.test('#58', s1.intersection3(150.06, s2, 55.61), '(LatLon(01°54′25.65″S, 005°37′48.76″E), 1, -2)', known=k)  # 01°54′25.28″N, 174°22′10.76″W, -1, 2
+        s1, s2 = m.LatLon(80, 0), m.LatLon(0, 84)
+        self.test('#58', s1.intersection3(150.06, s2, 55.61, tol=0.6), '(LatLon(28°40′59.75″S, 032°16′05.3″E), 1, -2)', known=k)  # 28°40′59.75″N, 147°43′54.7″W, -1, 2
 
     def testIntersections2(self, m, Eq, GS=False, K=False, X=False, V=False, d_m=1e-6):
 

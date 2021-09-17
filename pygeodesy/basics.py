@@ -22,13 +22,13 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.09.05'
+__version__ = '21.09.14'
 
 _required_ = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
-except ImportError:  # PYCHOK no cover
+except ImportError:
     try:
         _Ints = int, long  # int objects (C{tuple})
     except NameError:  # Python 3+
@@ -36,7 +36,7 @@ except ImportError:  # PYCHOK no cover
 
 try:  # similarly ...
     from numbers import Real as _Scalars  # scalar objects
-except ImportError:  # PYCHOK no cover
+except ImportError:
     try:
         _Scalars = int, long, float  # scalar objects (C{tuple})
     except NameError:
@@ -52,7 +52,7 @@ try:
         _Seqs = _Sequence
     else:
         raise ImportError  # _AssertionError
-except ImportError:  # PYCHOK no cover
+except ImportError:
     _Sequence = tuple  # immutable for .points._Basequence
     _Seqs     = list, _Sequence  # , range for function len2 below
 
@@ -195,7 +195,7 @@ def isint(obj, both=False):
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
             return obj.is_integer()
-        except AttributeError:  # PYCHOK no cover
+        except AttributeError:
             return False  # XXX float(int(obj)) == obj?
     return isinstance(obj, _Ints) and not isbool(obj)
 

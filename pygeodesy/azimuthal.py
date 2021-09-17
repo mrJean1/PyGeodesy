@@ -47,12 +47,13 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import euclid, Fsum, hypot
+# from pygeodesy.formy import antipode  # from latlonBase
 from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
                              _azimuth_, _datum_, _lat_, _lon_, \
                              _no_, _scale_, _SPACE_, _x_, _y_, \
                              _0_0, _0_1, _0_5, _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
-from pygeodesy.latlonBase import LatLonBase as _LLB
+from pygeodesy.latlonBase import antipode, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
@@ -67,7 +68,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.08.30'
+__version__ = '21.09.15'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -307,6 +308,13 @@ class Azimuthal7Tuple(_NamedTuple):
     '''
     _Names_ = (_x_,     _y_,      _lat_, _lon_, _azimuth_, _scale_, _datum_)
     _Units_ = ( Easting, Northing, Lat_,  Lon_,  Bearing,   Scalar, _Pass)
+
+    def antipodal(self):
+        '''Return the antipodal C{lat} and C{lon} of this tuple.
+        '''
+        a = antipode(self.lat, self.lon)  # PYCHOK named
+#       b = wrap360(self.azimuth + _180_0)
+        return _NamedTuple.dup(self, lat=a.lat, lon=a.lon)  # azimuth=b
 
 
 class Equidistant(_AzimuthalBase):
