@@ -70,8 +70,10 @@ from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot, hypot1, hypot2_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
                              _a_, _C_, _convergence_, _datum_, _ellipsoid_, \
                              _f_, _h_, _height_, _lat_, _lon_, _M_, _name_, \
-                             _no_,  _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
-                             _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, _6_0, _90_0
+                             _no_, _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
+                             _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, \
+                             _6_0, _90_0
+from pygeodesy.interns import _N_2_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -86,7 +88,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.09.14'
+__version__ = '21.09.19'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1042,9 +1044,9 @@ class Ecef9Tuple(_NamedTuple):
         '''
         x, y = self.x, self.y
         if y > EPS0:
-            r = -_2_0 * atan2(x, hypot(y, x) + y) + PI_2
+            r = _N_2_0 * atan2(x, hypot(y, x) + y) + PI_2
         elif y < -EPS0:
-            r =  _2_0 * atan2(x, hypot(y, x) - y) - PI_2
+            r = _2_0   * atan2(x, hypot(y, x) - y) - PI_2
         else:  # y == 0
             r = PI if x < 0 else _0_0
         return Lam(Vermeille=r)

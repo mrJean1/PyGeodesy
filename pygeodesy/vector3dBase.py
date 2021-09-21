@@ -8,7 +8,7 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, map1
+from pygeodesy.basics import copysign0, isscalar, map1
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
                              VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
@@ -25,7 +25,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.08.26'
+__version__ = '21.09.21'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -45,22 +45,31 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     _y      = 0     # Y component
     _z      = 0     # Z component
 
-    def __init__(self, x, y, z=0, ll=None, name=NN):
+    def __init__(self, x_xyz, y=0, z=0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
-           The vector may be normalised or use x, y, z for
-           position and height relative to the surface of the
-           sphere or ellipsoid, distance from earth centre.
+           The vector may be normalised or use x, y, z for position
+           and height relative to the surface of the earth' sphere
+           or ellipsoid, distance from earth centre.
 
-           @arg x: X component of vector (C{scalar}).
-           @arg y: Y component of vector (C{scalar}), same units as B{C{x}}.
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
+                       (C{Cartesian}, L{Vector3d} or L{Vector3Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), same units as B{C{x}}.
            @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
            @kwarg ll: Optional latlon reference (C{LatLon}).
            @kwarg name: Optional name (C{str}).
+
+           @raise VectorError: Invalid B{C{x_xyz}}.
         '''
-        self._x = x
-        self._y = y
-        self._z = z
+        if isscalar(x_xyz):
+            self._x = x_xyz
+            self._y = y
+            self._z = z
+        else:
+            try:
+                self._x, self._y, self._z = x_xyz.xyz
+            except AttributeError:
+                raise VectorError(x=x_xyz, y=y, z=z)
         if ll:
             self._fromll = ll
         if name:

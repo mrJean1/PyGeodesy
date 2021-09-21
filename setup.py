@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.08.26'
+__version__ = '21.09.19'
 
 
 def _c2(*names):
@@ -45,9 +45,9 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
+_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
-             'bearing', 'Barsky', 'Barth',
+             'bearing', 'bank', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic', 'contact-triangle',
@@ -62,7 +62,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
-             'Hartzell', 'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
+             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'incenter', 'incirle', 'inradius', 'IDW', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
@@ -75,21 +75,21 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
-             'perimeter', 'Peucker', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
+             'perimeter', 'Peucker', 'pitch', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
-             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
+             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'tilt', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'triangle', 'triangulate', 'trigonometry',
              'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'volume', ' volumetric',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam',
-             'XYZ', 'You')
+             'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',
       packages=['pygeodesy', 'pygeodesy.deprecated', 'pygeodesy.geodesicx'],

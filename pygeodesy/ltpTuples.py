@@ -18,7 +18,7 @@ from pygeodesy.interns import NN, _4_, _azimuth_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, \
                              _height_, _lat_, _lon_, _ltp_, _M_, \
                              _name_, _north_, _up_, _x_, _xyz_, \
-                             _y_, _z_, _0_0, _90_0
+                             _y_, _z_, _0_0, _90_0, _N_90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
@@ -33,10 +33,14 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.08.29'
+__version__ = '21.09.21'
 
 _aer_        = 'aer'
+_alt_        = 'alt'
+_roll_       = 'roll'
 _slantrange_ = 'slantrange'
+_tilt_       = 'tilt'
+_yaw_        = 'yaw'
 
 
 def _er2gr(e, r):
@@ -109,7 +113,7 @@ class Aer(_NamedBase):
             n = getattr(aer, _name_, name)
         except AttributeError:
             self._azimuth    = Bearing(azimuth=aer)
-            self._elevation  = Degrees_(elevation=elevation, low=-_90_0, high=_90_0)
+            self._elevation  = Degrees_(elevation=elevation, low=_N_90_0, high=_90_0)
             self._slantrange = Meter_(slantrange=slantrange)
             p, n = ltp, name
 
@@ -294,6 +298,28 @@ class Aer4Tuple(_NamedTuple):
         '''Get this L{Aer4Tuple} as an L{XyzLocal}.
         '''
         return Aer(self).xyzLocal
+
+
+class Attitude4Tuple(_NamedTuple):
+    '''4-Tuple C{(alt, tilt, yaw, roll)} with C{altitude} in (positive)
+       C{meter} and C{tilt}, C{yaw} and C{roll} in C{degrees} representing
+       the attitude of a plane or camera.
+    '''
+    _Names_ = (_alt_, _tilt_,  _yaw_,   _roll_)
+    _Units_ = ( Meter, Bearing, Degrees, Degrees)
+
+    @Property_RO
+    def atyr(self):
+        '''Return this attitude (L{Attitude4Tuple}).
+        '''
+        return self
+
+    @Property_RO
+    def tyr3d(self):
+        '''Get this attitude's (3-D) directional vector (L{Vector3d}).
+        '''
+        from pygeodesy.ltp import Attitude
+        return Attitude(self).tyr3d
 
 
 class Ned(_NamedBase):

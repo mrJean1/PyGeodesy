@@ -4,34 +4,39 @@
 u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates.
 
 I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian} and L{Ltp},
-L{LocalError} and L{Frustum}.
+L{LocalError} and L{Attitude} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 
-# from pygeodesy.basics import issubclassof  # from ecef
+# from pygeodesy.basics import isscalar, issubclassof, map1  # from ecef
 from pygeodesy.datums import _WGS84, _xinstanceof
-from pygeodesy.ecef import _EcefBase, EcefKarney, issubclassof, \
-                           _llhn4, _xyzn4
-from pygeodesy.errors import _TypesError, _ValueError
-from pygeodesy.interns import EPS, NN, _ltp_, _M_, _lat0_, \
-                             _lon0_, _name_, _0_, _0_0, _0_5, \
-                             _2_0, _90_0, _180_0, _360_0
+from pygeodesy.ecef import _EcefBase, EcefKarney, isscalar, issubclassof, \
+                           _llhn4, map1, _xyzn4
+from pygeodesy.errors import _TypesError, _ValueError, _xkwds
+from pygeodesy.fmath import fdot, fsum_, fsum1_
+from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, \
+                             _M_, _name_, _0_, _0_0, _0_5, _N_1_0, _2_0, \
+                             _90_0, _180_0, _360_0
 from pygeodesy.interns import _ecef_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.ltpTuples import Footprint5Tuple, Local9Tuple, \
-                               _XyzLocals4, _XyzLocals5, Xyz4Tuple
-from pygeodesy.named import _NamedBase
-from pygeodesy.props import Property, Property_RO
-from pygeodesy.units import Degrees, Meter
-from pygeodesy.utily import cotd, sincos2d, tand, tand_
+from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
+                               _NamedBase, _XyzLocals4, _XyzLocals5, Xyz4Tuple
+# from pygeodesy.named import _NamedBase  # from .ltpTuples
+# from pygeodesy.namedTuples import Vector3Tuple  # from .vector3d
+from pygeodesy.props import Property, property_doc_, Property_RO
+from pygeodesy.streprs import Fmt, strs
+from pygeodesy.units import Bearing, Degrees, Meter
+from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
+                            wrap180, wrap360
+from pygeodesy.vector3d import Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.09.09'
+__version__ = '21.09.21'
 
-_Xyz_ = 'Xyz'
+_Xyz_  = 'Xyz'
 
 
 def _fov_2(**fov):
@@ -40,6 +45,184 @@ def _fov_2(**fov):
     if EPS < f < _90_0:
         return f
     raise _ValueError(**fov)
+
+
+class Attitude(_NamedBase):
+    '''The orientation of a plane or camera in space.
+    '''
+    _alt  = Meter(  alt =_0_0)
+    _roll = Degrees(roll=_0_0)
+    _tilt = Degrees(tilt=_0_0)
+    _yaw  = Bearing(yaw =_0_0)
+
+    def __init__(self, alt_attitude=0, tilt=0, yaw=0, roll=0, name=NN):
+        '''New L{Attitude}.
+
+           @kwarg alt_attitude: An altitude (C{meter}) above earth or an attitude
+                                (L{Attitude} or L{Attitude4Tuple}) with the
+                                C{B{alt}itude}, B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
+           @kwarg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down
+                        (clockwise rotation along and around the x- or East axis).
+           @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North
+                       (counter-clockwise rotation along and around the z- or Up axis).
+           @kwarg roll: Roll, bank (C{degrees180}), positive to the right and down
+                        (clockwise rotation along and around the y- or North axis).
+           @kwarg name: Optional name C{str}).
+
+           @raise AttitudeError: Invalid B{C{alt_attitude}}, B{C{tilt}}, B{C{yaw}} or
+                                 B{C{roll}}.
+
+           @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>} and
+                 U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+        '''
+        if isscalar(alt_attitude):
+            t = Attitude4Tuple(alt_attitude, tilt, yaw, roll)
+        else:
+            try:
+                t = alt_attitude.atyr
+            except AttributeError:
+                raise AttitudeError(alt=alt_attitude, tilt=tilt, yaw=yaw, rol=roll)
+        for n, v in t.items():
+            if v:
+                setattr(self, n, v)
+        n = name or t.name
+        if n:
+            self.name = n
+
+    @property_doc_(' altitude above earth in C{meter}.')
+    def alt(self):
+        return self._alt
+
+    @alt.setter  # PYCHOK setter!
+    def alt(self, alt):
+        a = Meter(alt=alt, Error=AttitudeError)
+        self._update(a != self.alt)
+        self._alt = a
+
+    altitude = alt
+
+    @Property_RO
+    def atyr(self):
+        '''Return this attitude's alt[itude], tilt, yaw and roll as an L{Attitude4Tuple}.
+        '''
+        return Attitude4Tuple(self.alt, self.tilt, self.yaw, self.roll, name=self.name)
+
+    @Property_RO
+    def matrix(self):
+        '''Get the 3x3 rotation matrix C{R(yaw)·R(tilt)·R(roll)}, aka I{ZYX} (C{float}, row-order).
+
+           @see: The matrix M of case 10 in U{Appendix A
+                 <https://ntrs.NASA.gov/api/citations/19770019231/downloads/19770019231.pdf>}.
+        '''
+        def _5to3(x, y, _y, z, _z):
+            return x, fsum1_(y, _y), fsum1_(z, _z)
+
+        r0, r1, r2 = self._rows3
+        return _5to3(*r0), _5to3(*r1), r2
+
+    @property_doc_(' roll/bank in C{degrees180}, positive to the right and down.')
+    def roll(self):
+        return self._roll
+
+    @roll.setter  # PYCHOK setter!
+    def roll(self, roll):
+        r = Degrees(roll=roll, wrap=wrap180, Error=AttitudeError)
+        self._update(r != self.roll)
+        self._roll = r
+
+    bank = roll
+
+    @Property_RO
+    def _rows3(self):
+        # to follow the definitions of rotation angles alpha, beta and gamma:
+        # negate yaw since yaw is counter-clockwise around the z-axis, swap
+        # tilt and roll since tilt is around the x- and roll around the y-axis
+        sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)
+        return ((ca * cb,  ca * sb * sg, -sa * cg,  ca * sb * cg,  sa * sg),
+                (sa * cb,  sa * sb * sg,  ca * cg,  sa * sb * cg, -ca * sg),
+                (    -sb,  cb * sg,                 cb * cg))
+
+    def rotate(self, x_xyz, y=None, z=None, Vector=None, **Vector_kwds):
+        '''Transform a (local) cartesian by this attitude's matrix.
+
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
+                       (C{Cartesian}, L{Vector3d} or L{Vector3Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), same units as B{C{x}}.
+           @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
+           @kwarg Vector: Class to return transformed point (C{Cartesian},
+                          L{Vector3d} or C{Vector3Tuple}) or C{None}.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                               ignored if C{B{Vector} is None}.
+
+           @return: A B{C{Vector}} instance or a L{Vector3Tuple}C{(x, y, z)} if
+                    C{B{Vector}=None}.
+
+           @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+        '''
+        try:
+            x, y, z = map( float, x_xyz.xyz)
+        except AttributeError:
+            x, y, z = map1(float, x_xyz, y, z)
+
+        r0, r1, r2 = self._rows3
+        X = fdot(r0, x, y, y, z, z)
+        Y = fdot(r1, x, y, y, z, z)
+        Z = fdot(r2, x, y, z)
+        return Vector3Tuple(X, Y, Z, name=self.name) if Vector is None else \
+                     Vector(X, Y, Z, **_xkwds(Vector_kwds, name=self.name))
+
+    @property_doc_(' tilt/pitch/elevation from horizontal in C{degrees180}, negative down.')
+    def tilt(self):
+        return self._tilt
+
+    @tilt.setter  # PYCHOK setter!
+    def tilt(self, tilt):
+        t = Degrees(tilt=tilt, wrap=wrap180, Error=AttitudeError)
+        self._update(t != self.tilt)
+        self._tilt = t
+
+    elevation = pitch = tilt
+
+    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+        '''Format this attitude as string.
+
+           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                        Trailing zero decimals are stripped for B{C{prec}} values
+                        of 1 and above, but kept for negative B{C{prec}} values.
+           @kwarg sep: Optional separator to join (C{str}).
+
+           @return: This attitude (C{str}).
+        '''
+        return self.atyr.toStr(prec=prec, sep=sep)
+
+    @Property_RO
+    def tyr3d(self):
+        '''Get this attitude's (3-D) directional vector (L{Vector3d}).
+
+           @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+        '''
+        def _r2d(r):
+            return fsum_(_N_1_0, *r)
+
+        return Vector3d(*map1(_r2d, *self._rows3), name=tyr3d.__name__)
+
+    @property_doc_(' yaw/bearing/heading in compass C{degrees360}, clockwise from North.')
+    def yaw(self):
+        return self._yaw
+
+    @yaw.setter  # PYCHOK setter!
+    def yaw(self, yaw):
+        y = Bearing(yaw=yaw, Error=AttitudeError)
+        self._update(y == self.yaw)
+        self._yaw = y
+
+    bearing = heading = yaw
+
+
+class AttitudeError(_ValueError):
+    '''An L{Attitude} or L{Attitude4Tuple} issue.
+    '''
+    pass
 
 
 class Frustum(_NamedBase):
@@ -72,15 +255,20 @@ class Frustum(_NamedBase):
         if ltp:
             self._ltp = _xLtp(ltp)
 
-    def footprint5(self, altitude, tilt, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
+    def footprint5(self, alt_attitude, tilt=0, yaw=0, roll=0, z=_0_0, ltp=None):  # MCCABE 15
         '''Compute the center and corners of the intersection with (or projection
            to) the I{local tangent plane} (LTP).
 
-           @arg altitude: Altitude (C{meter}) above I{local tangent plane}.
-           @arg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down.
-           @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North.
-           @kwarg roll: Roll, bank (C{degrees}), positive to the right and down.
-           kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
+           @arg alt_attitude: An altitude (C{meter}) above I{local tangent plane} or
+                              an attitude (L{Attitude} or L{Attitude4Tuple}) with the
+                              C{B{alt}itude}, B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
+           @kwarg tilt: Pitch, elevation from horizontal (C{degrees}), negative down
+                        (clockwise rotation along and around the x- or East axis).
+           @kwarg yaw: Bearing, heading (compass C{degrees}), clockwise from North
+                       (counter-clockwise rotation along and around the z- or Up axis).
+           @kwarg roll: Roll, bank (C{degrees}), positive to the right and down
+                        (clockwise rotation along and around the y- or North axis).
+           @kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        frustum's C{ltp}.
 
@@ -97,7 +285,7 @@ class Frustum(_NamedBase):
 
            @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>}.
         '''
-        def _xy2(a, t, h_2, tan_h_2, r):
+        def _xy2(a, e, h_2, tan_h_2, r):
             # left and right corners, or swapped
             if r < EPS:  # no roll
                 r =  a * tan_h_2
@@ -106,18 +294,24 @@ class Frustum(_NamedBase):
                 r, l = tand_(r - h_2, r + h_2, roll_hfov=r)  # PYCHOK l is ell
                 r *= -a  # negate right positive
                 l *= -a  # PYCHOK l is ell
-            y = a * cotd(t, tilt_vfov=t)
+            y = a * cotd(e, tilt_vfov=e)
             return (l, y), (r, y)
 
-        def _xys(b, *xys):
+        def _xyz5(b, xy5, z, ltp):
             # rotate (x, y)'s by bearing, clockwise
             s, c = sincos2d(b)
-            for x, y in xys:
-                yield (x * c + y * s), (y * c - x * s)
+            for x, y in xy5:
+                yield Xyz4Tuple(fsum1_(x * c,  y * s),
+                                fsum1_(y * c, -x * s), z, ltp)
 
-        a = Meter(altitude=altitude)
+        try:
+            a, t, y, r = alt_attitude.atyr
+        except AttributeError:
+            a, t, y, r = alt_attitude, tilt, yaw, roll
+
+        a = Meter(altitude=a)
         if a < EPS:  # too low
-            raise _ValueError(altitude=altitude)
+            raise _ValueError(altitude=a)
         if z:
             z  = Meter(z=z)
             a -= z
@@ -126,27 +320,26 @@ class Frustum(_NamedBase):
         else:
             z = _0_0
 
-        b =  Degrees(yaw=yaw) % _360_0
-        t = -Degrees(tilt=tilt)
-        if not EPS < t < _180_0:
-            raise _ValueError(tilt=tilt)
-        if t > _90_0:
-            t =  _180_0 - t
+        b =  Degrees(yaw=y, wrap=wrap360)  # bearing
+        e = -Degrees(tilt=t, wrap=wrap180)  # elevation, pitch
+        if not EPS < e < _180_0:
+            raise _ValueError(tilt=t)
+        if e > _90_0:
+            e =  _180_0 - e
             b = (_180_0 + b) % _360_0
 
-        r = Degrees(roll=roll) % _360_0  # roll center
+        r = Degrees(roll=r, wrap=wrap180)  # roll center
         x = (-a * tand(r, roll=r)) if r else _0_0
-        y =   a * cotd(t, tilt=tilt)  # ground range
+        y =   a * cotd(e, tilt=t)  # ground range
         if abs(y) < EPS:
             y = _0_0
 
         # center and corners, clockwise from upperleft, rolled
-        xy5 = ((x, y),) + _xy2(a, t - self._v_2,  self._h_2,  self._tan_h_2, r) \
-                        + _xy2(a, t + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
+        xy5 = ((x, y),) + _xy2(a, e - self._v_2,  self._h_2,  self._tan_h_2, r) \
+                        + _xy2(a, e + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
         # turn center and corners by yaw, clockwise
         p = self.ltp if ltp is None else _xLtp(ltp)
-        return Footprint5Tuple(*(Xyz4Tuple(x, y, z, p) for
-                                           x, y in _xys(b, *xy5)))
+        return Footprint5Tuple(*_xyz5(b, xy5, z, p))
 
     @Property_RO
     def hfov(self):
@@ -159,6 +352,21 @@ class Frustum(_NamedBase):
         '''Get the I{local tangent plane} (L{Ltp}) or C{None}.
         '''
         return self._ltp
+
+    def toStr(self, prec=3, fmt=Fmt.F, sep=_COMMASPACE_):  # PYCHOK signature
+        '''Convert this frustum to a "hfov, vfov, ltp" string.
+
+           @kwarg prec: Optional number of decimal digits (0..8 or C{None}).
+           @kwarg fmt: Optional, C{float} format (C{str}).
+           @kwarg sep: Optional separator to join (C{str}).
+
+           @return: Frustum in the specified form (C{str}).
+        '''
+        t = self.hfov, self.vfov
+        if self.ltp:
+            t += self.ltp,
+        t = strs(t, prec=prec, fmt=fmt)
+        return sep.join(t) if sep else t
 
     @Property_RO
     def vfov(self):
@@ -450,6 +658,28 @@ class Ltp(LocalCartesian):
         if ecef != self._ecef:
             self._ecef = ecef
             self.reset(self._t0)
+
+
+def tyr3d(tilt=0, yaw=0, roll=0, Vector=Vector3d, **Vector_kwds):
+    '''Convert an attitude oriention into a (3-D) direction vector.
+
+       @kwarg tilt: Pitch, elevation from horizontal (C{degrees}), negative down
+                    (clockwise rotation along and around the x-axis).
+       @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North
+                   (counter-clockwise rotation along and around the z-axis).
+       @kwarg roll: Roll, bank (C{degrees}), positive to the right and down
+                    (clockwise rotation along and around the y-axis).
+
+       @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
+                a named L{Vector3Tuple}C{(x, y, z)}.
+
+       @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}
+             and function L{pygeodesy.hartzell} argument C{los}.
+    '''
+    d = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
+    return d if Vector is Vector3d else (
+           Vector3Tuple(d.x, d.y, d.z, name=d.name) if Vector is None else
+                 Vector(d.x, d.y, d.z, **_xkwds(Vector_kwds, name=d.name)))  # PYCHOK indent
 
 
 def _xLtp(ltp):

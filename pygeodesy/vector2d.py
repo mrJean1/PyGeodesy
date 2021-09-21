@@ -13,8 +13,8 @@ from pygeodesy.fmath import fdot, fsum_, fsum1_, hypot, hypot2_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, NN, \
                              _EPS4e8, _and_, _center_, _coincident_, _colinear_, \
                              _concentric_, _COMMASPACE_, _few_, _intersection_, \
-                             _invalid_, _near_, _no_, _radius_, _s_, _SPACE_, \
-                             _too_, _0_0, _0_5, _1_0, _1_0_T, _2_0, _4_0
+                             _invalid_, _near_, _no_, _radius_, _s_, _SPACE_, _too_, \
+                             _0_0, _0_5, _1_0, _N_1_0, _1_0_T, _2_0, _N_2_0, _4_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Fmt, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
@@ -27,7 +27,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.09.06'
+__version__ = '21.09.19'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -345,7 +345,7 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
     if a > EPS02 and (circum or a < (b + c)):  # circumradius
         b = sqrt(b / a)
         c = sqrt(c / a)
-        r = fsum1_(_1_0, b, c) * fsum1_(_1_0, b, -c) * fsum1_(-_1_0, b, c) * fsum1_(_1_0, -b, c)
+        r = fsum1_(_1_0, b, c) * fsum1_(_1_0, b, -c) * fsum1_(_N_1_0, b, c) * fsum1_(_1_0, -b, c)
         if r < EPS02:
             raise IntersectionError(_coincident_ if b < EPS0 or c < EPS0 else (
                                     _colinear_ if _iscolinearWith(A, B, C) else _invalid_))
@@ -664,7 +664,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
               Radius_(radius3=r3, low=eps)]
 
     # get null_space Z, pseudo-inverse A and vector B, once
-    A = [(_1_0_T + c.times(-_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
+    A = [(_1_0_T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
     with _numpy(None, trilaterate3d2) as np:
         Z, _ = _null_space2(np, A, eps)
         A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse
@@ -679,7 +679,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
         with _numpy(p, trilaterate3d2) as np:
             X, x = _F3d2(np.dot(A, b))
             # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
-            t = _roots(np, fdot(X, -_1_0, *x.xyz),
+            t = _roots(np, fdot(X, _N_1_0, *x.xyz),
                           (fdot(Z, -_0_5, *x.xyz) * _2_0), z2)
             if t:
                 break

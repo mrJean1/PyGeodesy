@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.08.24'
+__version__ = '21.09.21'
 
 
 class _NamedUnit(_Named):
@@ -425,11 +425,11 @@ class Degrees(Float):
     _suf_ = S_NUL, S_NUL, S_NUL
     _sep_ = S_SEP
 
-    def __new__(cls, arg=None, name=_degrees_, Error=UnitError, suffix=_NSEW_, clip=0, **name_arg):
+    def __new__(cls, arg=None, name=_degrees_, Error=UnitError, suffix=_NSEW_, clip=0, wrap=None, **name_arg):
         '''New named C{Degrees} instance.
 
            @arg cls: This class (C{Degrees} or sub-class).
-           @kwarg arg: The value (any C{type} convertable to C{float} or
+           @kwarg arg: The value (any scalar C{type} convertable to C{float} or
                        parsable by L{parseDMS}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
@@ -437,8 +437,10 @@ class Degrees(Float):
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}}
                         (C{degrees} or C{0} or C{None} for unclipped).
-           @kwarg name_arg: Optional C{name=arg} keyword argument,
-                            inlieu of B{C{name}} and B{C{arg}}.
+           @kwarg wrap: Optionally C{warp90-}, C{warp180-} or C{warp360(B{arg})}
+                        to adjust to B{C{arg}} value.
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of
+                            B{C{name}} and B{C{arg}}.
 
            @returns: A C{Degrees} instance.
 
@@ -448,8 +450,13 @@ class Degrees(Float):
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
         try:
-            return Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
-                                      name=name, Error=Error)
+            d = Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
+                                   name=name, Error=Error)
+            if wrap:
+                w = wrap(d)
+                if w != d:
+                    d = Float.__new__(cls, arg=w, name=name, Error=Error)
+            return d
         except RangeError as x:
             t, E = str(x), type(x)
         except (TypeError, ValueError) as x:
@@ -611,7 +618,7 @@ class Bearing(Degrees):
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
         d = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
-        b = d % 360
+        b = d % 360  # == wrap360(d)
         return d if b == d else Degrees.__new__(cls, arg=b, name=name, Error=Error)
 
 
@@ -1080,7 +1087,7 @@ def _std_repr(*classes):
             if _getenv(env, _std_).lower() != _std_:
                 C._std_repr = False
 
-_std_repr(Bool, Float, Int, Meter, Str)  # PYCHOK expected
+_std_repr(Bearing, Bool, Degrees, Float, Int, Meter, Str)  # PYCHOK expected
 del _std_repr
 
 __all__ += _ALL_DOCS(_NamedUnit)

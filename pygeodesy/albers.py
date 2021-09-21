@@ -21,8 +21,8 @@ from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
 from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
                              _gamma_, _lat_, _lat1_, _lat2_, _lon_, _no_, \
-                             _scale_, _x_, _y_, _0_0, _0_5, _1_0, _2_0, \
-                             _3_0, _90_0
+                             _scale_, _x_, _y_, _0_0, _0_5, _1_0, _N_1_0, \
+                             _2_0, _N_2_0, _3_0, _90_0, _N_90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.08.29'
+__version__ = '21.09.19'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -429,7 +429,7 @@ class _AlbersBase(_NamedBase):
 
         drho = den = nrho0 + hypot(nx, y1)  # 0 implies origin with polar aspect
         if den:
-            drho = fsum_(x * nx, -_2_0 * y_ * nrho0, y_ * ny) * k0 / den
+            drho = fsum_(x * nx, _N_2_0 * y_ * nrho0, y_ * ny) * k0 / den
         # dsxia = scxi0 * dsxi
         dsxia = -self._scxi0 * (_2_0 * nrho0 + n0 * drho) * drho / self._qZa2
         t = _1_0 - dsxia * (_2_0 * txi0 + dsxia)
@@ -715,7 +715,7 @@ class AlbersEqualAreaSouth(_AlbersBase):
     '''An azimuthal L{AlbersEqualArea} projection at C{lat=-90} and C{k0=1}
        degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
-    _lat1 = _lat2 = _Lat(lat1=-_90_0)
+    _lat1 = _lat2 = _Lat(lat1=_N_90_0)
 
     def __init__(self, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
@@ -724,7 +724,7 @@ class AlbersEqualAreaSouth(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, -_1_0, _0_0, -_1_0, _0_0, _1_0, datum, name)
+        _AlbersBase.__init__(self, _N_1_0, _0_0, _N_1_0, _0_0, _1_0, datum, name)
 
 
 class Albers7Tuple(_NamedTuple):

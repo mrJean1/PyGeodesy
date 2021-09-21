@@ -37,9 +37,10 @@ from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, \
                              _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
-                             _distance_, _ELLIPSIS_, _height_, _lat_, _lon_, \
-                             _near_, _not_, _point_, _SPACE_, _UNDER_, _valid_, \
-                             _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
+                             _distance_, _ELLIPSIS_, _height_, _lat_, \
+                             _lon_, _near_, _not_, _point_, _SPACE_, \
+                             _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
+                             _90_0, _N_90_0, _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -58,7 +59,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.08.28'
+__version__ = '21.09.19'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1536,10 +1537,10 @@ def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
        @see: U{Latitude-longitude quadrangle
              <https://www.MathWorks.com/help/map/ref/areaquad.html>}.
     '''
-    t = (LatLon(  _0_0, lon1, **LatLon_kwds),
-         LatLon( _90_0, lon1, **LatLon_kwds),
-         LatLon(  _0_0, lon2, **LatLon_kwds),
-         LatLon(-_90_0, lon2, **LatLon_kwds))
+    t = (LatLon(   _0_0, lon1, **LatLon_kwds),
+         LatLon(  _90_0, lon1, **LatLon_kwds),
+         LatLon(   _0_0, lon2, **LatLon_kwds),
+         LatLon(_N_90_0, lon2, **LatLon_kwds))
     if closed:
         t += t[:1]
     return t

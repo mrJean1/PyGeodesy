@@ -5,14 +5,15 @@ u'''Test I{local tangent plane} (LTP) classes .
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.04.17'
+__version__ = '21.09.21'
 
 from base import TestsBase
 
-from pygeodesy import Aer, EcefFarrell21, EcefFarrell22, EcefKarney, \
-                      EcefVeness, EcefSudano, Ecef9Tuple, EcefYou, Enu, \
-                      Frustum, fstr, LatLon_, LocalCartesian, Local9Tuple, \
-                      Ltp, Ned, XyzLocal, EcefCartesian  # DEPRECATED, use L{LocalCartesian}
+from pygeodesy import Aer, Attitude, EcefFarrell21, EcefFarrell22, \
+                      EcefKarney, EcefVeness, EcefSudano, Ecef9Tuple, \
+                      EcefYou, Enu, Frustum, fstr, LatLon_, LocalCartesian, \
+                      Local9Tuple, Ltp, Ned, tyr3d, XyzLocal, \
+                      EcefCartesian  # DEPRECATED, use L{LocalCartesian}
 
 
 class Tests(TestsBase):
@@ -60,7 +61,7 @@ class Tests(TestsBase):
 
         # <https://www.MathWorks.com/help/map/ref/enu2geodetic.html>
         Z = Ltp(46.017, 7.750, 1673, name='Zermatt', **kwds)
-        self.test('Zermatt', Z.toStr(), c.classname, known=True)
+        self.test('Zermatt', Z.toStr(), c.classname, known=True, nl=1)
         Sudano = Z.ecef.__class__ is EcefSudano
         M = XyzLocal(-7134.8, -4556.3, 2852.4)  # Matterhorn XYZ
         t = Z.reverse(M).toLatLon(datum=None)  # Matterhorn Xyz to LatLon
@@ -91,6 +92,7 @@ class Tests(TestsBase):
         self.test('Ned', t.toStr(prec=3), '[-4556.3, -7134.8, -2852.4]', known=Sudano)
 
         f = Frustum(90, 90)  # ltp=None
+        self.test(Frustum.__name__, f, '90.0, 90.0', nl=1)
         self.test('hfov', f.hfov, 90.0)
         self.test('vfov', f.vfov, 90.0)
 
@@ -105,6 +107,24 @@ class Tests(TestsBase):
         f = Frustum(45, 45)  # ltp=None
         t = f.footprint5(1000, -179, 0, 22.5).toStr()
         self.test('footprint', t, t)
+
+        a = Attitude(tilt=350, roll=340, yaw=-30, name='test')
+        self.test(Attitude.__name__, a, '(0.0, -10.0, 330.0, -20.0)', nl=1)
+        self.test('tilt', a.tilt, '-10.0')
+        self.test('roll', a.roll, '-20.0')
+        self.test('yaw',  a.yaw,  '330.0')
+        self.test('matrix', a.matrix, '((0.8137976813493737, -0.4409696105298823, -0.3785223063697926),'
+                                      ' (0.4698463103929541, 0.8825641192593856, -0.01802831123629725),'
+                                      ' (0.3420201433256688, -0.16317591116653488, 0.9254165783983233))', known=True)
+        self.test('rotate', a.rotate(1, 1, 1), '(-0.005694, 1.334382, 1.104261)')
+        d = tyr3d(tilt=0, yaw=0, roll=0)
+        self.test(tyr3d.__name__, d, '(0.0, 0.0, 0.0)')
+        d = tyr3d(tilt=90, yaw=0, roll=0)
+        self.test(tyr3d.__name__, d, '(0.0, -2.0, 0.0)')
+        d = tyr3d(tilt=0, yaw=90, roll=0)
+        self.test(tyr3d.__name__, d, '(0.0, -2.0, 0.0)')
+        d = tyr3d(tilt=0, yaw=0, roll=90)
+        self.test(tyr3d.__name__, d, '(0.0, 0.0, -2.0)')
 
 
 if __name__ == '__main__':

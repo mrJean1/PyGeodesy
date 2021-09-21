@@ -13,14 +13,15 @@ from __future__ import division
 from pygeodesy.basics import copysign0, isint, isnear0
 from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
                              _edge_, _radians_, _semi_circular_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _90_0, _180_0, _360_0, _400_0
+                             _0_0, _0_5, _1_0, _90_0, _N_90_0, _180_0, \
+                             _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.08.30'
+__version__ = '21.09.19'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -103,9 +104,9 @@ def atan2d(y, x, reverse=False):
     elif x > 0:  # q = 0
         d = degrees(atan2(y, x)) if y else _0_0
     else:  # x == 0
-        d = -_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
+        d = _N_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
     if reverse:
-        d += _180_0 if d < 0 else -_180_0
+        d += _180_0 if d < 0 else _N_180_0
     return d
 
 

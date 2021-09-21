@@ -23,9 +23,9 @@ from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular_ as _equirectangular_, \
                             equirectangular, euclidean, haversine, vincentys
 from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _DOT_, _E_, \
-                             _floatuple, _N_, _NE_, _NW_, _S_, _SE_, \
-                             _SW_, _W_, _0_0, _0_5, _180_0, _360_0
-from pygeodesy.interns import _90_0  # PYCHOK used!
+                             _floatuple, _N_, _NE_, _NW_, _S_, _SE_, _SW_, \
+                             _W_, _0_0, _0_5, _180_0, _360_0
+from pygeodesy.interns import _90_0, _N_90_0, _N_180_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.08.24'
+__version__ = '21.09.19'
 
 
 class _GH(object):
@@ -53,7 +53,7 @@ class _GH(object):
     def Borders(self):
         return self._4d('prxz', 'bcfguvyz', '028b', '0145hjnp')
 
-    Bounds4 = (-_90_0, -_180_0, _90_0, _180_0)
+    Bounds4 = (_N_90_0, _N_180_0, _90_0, _180_0)
 
     @Property_RO
     def DecodedBase32(self):  # inverse GeohashBase32 map

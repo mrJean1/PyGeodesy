@@ -47,9 +47,9 @@ from pygeodesy.geodesicx.gxline import _GeodesicLineExact, pairs, \
                                        _update_glXs
 from pygeodesy.interns import EPS, MANT_DIG, NAN, NN, PI, PI_2, \
                              _COMMASPACE_, _convergence_, _EPSqrt, \
-                             _no_, _0_0, _0_01, _0_5, _1_0, _2_0, \
-                             _3_0, _4_0, _6_0, _8_0, _16_0, _90_0, \
-                             _180_0, _1000_0
+                             _no_, _0_0, _0_01, _0_5, _1_0, _N_1_0, \
+                             _2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
+                             _90_0, _180_0, _1000_0
 from pygeodesy.interns import _0_001, _0_1  # PYCHOK used!
 from pygeodesy.karney import _around, GDict, GeodesicError, \
                              _diff182, _fix90, _norm180
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.07.15'
+__version__ = '21.09.19'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -897,7 +897,7 @@ class GeodesicExact(_GeodesicBase):
 
             if y > -_TOL1 and x > -_THR1:  # strip near cut
                 if self.f < 0:
-                    calp1 = max((_0_0 if x > -_TOL1 else -_1_0), x)
+                    calp1 = max((_0_0 if x > -_TOL1 else _N_1_0), x)
                     salp1 = sqrt(_1_0 - calp1**2)
                 else:
                     salp1 =  min(_1_0, -x)
@@ -1129,7 +1129,7 @@ class GeodesicExact(_GeodesicBase):
         # new estimate of alp1 lies outside (0,PI); in this case, the new
         # starting guess is taken to be (alp1a + alp1b) / 2.
         salp1a = salp1b = _TINY
-        calp1a,  calp1b = _1_0,  -_1_0
+        calp1a,  calp1b = _1_0, _N_1_0
         tripb,   TOLv   =  False, _TOL0
         for it in range(_MAXIT2):
             # 1/4 meridian = 10e6 meter and random input,

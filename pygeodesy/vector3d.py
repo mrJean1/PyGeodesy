@@ -25,7 +25,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.09.07'
+__version__ = '21.09.20'
 
 
 class Vector3d(Vector3dBase):
@@ -665,7 +665,7 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
                            ignored if C{B{Vector} is None}.
 
-       @return: New B{C{Vector}} or if B{C{Vector}} is C{None},
+       @return: A B{C{Vector}} instance or if B{C{Vector}} is C{None},
                 a named L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: Invalid B{C{str3d}}.

@@ -16,7 +16,7 @@ from pygeodesy.errors import _datum_datum, _IsnotError, \
                              _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
-                             _1_0, _2_0, _4_0, _6_0
+                             _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 # from pygeodesy.named import _xnamed  # from .namedTuples
@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.08.27'
+__version__ = '21.09.19'
 
 
 class CartesianBase(Vector3d):
@@ -318,7 +318,7 @@ class CartesianBase(Vector3d):
         t = hypot_(x * e, y * e, z)  # == 1 / tmp
         if t < EPS0:  # isnear0
             raise _ValueError(origin=self, txt=Fmt.EPS0(t))
-        h = fsum_(k, E.e2, -_1_0) / k * t
+        h = fsum_(k, E.e2, _N_1_0) / k * t
         s = e / t  # == e * tmp
         return Vector4Tuple(x * s, y * s, z / t, h, name=self.name)
 

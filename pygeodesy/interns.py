@@ -419,6 +419,11 @@ _720_0  = _float( 720)      # PYCHOK expected
 _1000_0 = _float(1000)      # PYCHOK expected
 _3600_0 = _float(3600)      # PYCHOK expected
 
+_N_1_0    = _float(  -1)    # PYCHOK expected
+_N_2_0    = _float(  -2)    # PYCHOK expected
+_N_90_0   = _float( -90)    # PYCHOK expected
+_N_180_0  = _float(-180)    # PYCHOK expected
+
 try:
     from sys import float_info as _float_info
 
@@ -471,7 +476,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.09.14'
+__version__ = '21.09.19'
 
 
 def _load_lib(name):  # must startwith('lib')

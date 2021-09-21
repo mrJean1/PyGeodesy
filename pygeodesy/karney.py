@@ -108,7 +108,7 @@ from pygeodesy.ellipsoids import Ellipsoid2
 from pygeodesy.errors import _ValueError, _xkwds  # PYCHOK shared
 from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, \
                              _lat2_, _lon2_, _0_0, _1_0, _2_0, \
-                             _16_0, _180_0, _360_0
+                             _16_0, _180_0, _N_180_0, _360_0
 from pygeodesy.iters import PointsIter
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Dict, _NamedTuple, _Pass
@@ -122,7 +122,7 @@ from math import fmod
 
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.09.07'
+__version__ = '21.09.19'
 
 _16th = _1_0 / _16_0
 
@@ -503,7 +503,7 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
     d, t = _sum2(_norm180(-deg0), _norm180(deg))
     d = _norm180(d)
     if t > 0 and d == _180_0:
-        d = -_180_0
+        d = _N_180_0
     return _sum2(d, t)
 
 
@@ -589,8 +589,8 @@ def _norm180(deg):  # mimick Math.AngNormalize
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
     # in the C++ library, Math::sincosd has a similar fix.
     d = (fmod(deg, _360_0) if _isfinite(deg) else NAN) if deg else deg
-    return (d + _360_0) if d < -_180_0 else (d  # XXX was <= twice
-                        if d <  _180_0 else (d - _360_0))
+    return (d + _360_0) if d < _N_180_0 else (d  # XXX was <= twice
+                        if d <   _180_0 else (d - _360_0))
 
 
 def _polygon(geodesic, points, closed, line, wrap):

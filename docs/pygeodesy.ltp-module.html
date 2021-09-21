@@ -66,6 +66,7 @@
   class="link">LocalCartesian</a> and <a 
   href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
   href="pygeodesy.ltp.LocalError-class.html" class="link">LocalError</a> 
+  and <a href="pygeodesy.ltp.Attitude-class.html" class="link">Attitude</a>
   and <a href="pygeodesy.ltp.Frustum-class.html" 
   class="link">Frustum</a>.</p>
 
@@ -81,7 +82,7 @@
         target="_top">LocalCartesian</a>.
       </p>
       <p><strong>Version:</strong>
-        21.09.09
+        21.09.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -91,6 +92,25 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Attitude-class.html" class="summary-name">Attitude</a><br />
+      The orientation of a plane or camera in space.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.AttitudeError-class.html" class="summary-name">AttitudeError</a><br />
+      An <a href="pygeodesy.ltp.Attitude-class.html" 
+        class="link">Attitude</a> or <a 
+        href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" 
+        class="link">Attitude4Tuple</a> issue.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -136,6 +156,36 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ltp-module.html#tyr3d" class="summary-sig-name">tyr3d</a>(<span class="summary-sig-arg">tilt</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">yaw</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">roll</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Convert an attitude oriention into a (3-D) direction vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -152,6 +202,60 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="tyr3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tyr3d</span>&nbsp;(<span class="sig-arg">tilt</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">yaw</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">roll</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an attitude oriention into a (3-D) direction vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>tilt</code></strong> - Pitch, elevation from horizontal (<code>degrees</code>), negative
+          down (clockwise rotation along and around the x-axis).</li>
+        <li><strong class="pname"><code>yaw</code></strong> - Bearing, heading (compass <code>degrees360</code>), clockwise 
+          from North (counter-clockwise rotation along and around the 
+          z-axis).</li>
+        <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and down
+          (clockwise rotation along and around the y-axis).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A named <b><code>Vector</code></b> instance or if 
+          <b><code>Vector</code></b> is <code>None</code>, a named <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://Planning.CS.UIUC.edu/node102.html" 
+        target="_top">Yaw, pitch, and roll rotations</a> and function <a 
+        href="pygeodesy.formy-module.html#hartzell" 
+        class="link">pygeodesy.hartzell</a> argument <code>los</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -183,7 +287,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 17 13:13:17 2021
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:00 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -223,9 +223,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          karney=('Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
                          lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
-                            ltp=('Frustum', 'LocalCartesian', 'LocalError', 'Ltp'),
-                      ltpTuples=('Aer', 'Aer4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
-                                 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
+                            ltp=('Attitude', 'AttitudeError', 'Frustum', 'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
+                      ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple',
+                                 'Local9Tuple', 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
@@ -278,7 +278,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
                        vector2d=('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple',
                                  'circin6', 'circum3', 'circum4_', 'meeus2', 'radii11', 'soddy4'),
-                       vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'parse3d', 'trilaterate2d2', 'trilaterate3d2'),
+                       vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'parse3d',
+                                 'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -297,7 +298,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.09.14'
+__version__ = '21.09.21'
 
 
 def _ALL_OTHER(*objs):

@@ -116,8 +116,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltp.Frustum-class.html#footprint5" class="summary-sig-name">footprint5</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">altitude</span>,
-        <span class="summary-sig-arg">tilt</span>,
+        <span class="summary-sig-arg">alt_attitude</span>,
+        <span class="summary-sig-arg">tilt</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">yaw</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">roll</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">0.0</span>,
@@ -133,14 +133,33 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ltp.Frustum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
+      Convert this frustum to a &quot;hfov, vfov, ltp&quot; string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
@@ -272,8 +291,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">footprint5</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">altitude</span>,
-        <span class="sig-arg">tilt</span>,
+        <span class="sig-arg">alt_attitude</span>,
+        <span class="sig-arg">tilt</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">yaw</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">roll</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">0.0</span>,
@@ -289,14 +308,22 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>altitude</code></strong> - Altitude (<code>meter</code>) above <i>local tangent plane</i>.</li>
-        <li><strong class="pname"><code>tilt</code></strong> - Pitch, elevation from horizontal (<code>degrees180</code>), 
-          negative down.</li>
-        <li><strong class="pname"><code>yaw</code></strong> - Bearing, heading (compass <code>degrees360</code>), clockwise 
-          from North.</li>
-        <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and 
-          down. kwarg z: Optional height of the footprint 
-          (<code>meter</code>) above <i>local tangent plane</i>.</li>
+        <li><strong class="pname"><code>alt_attitude</code></strong> - An altitude (<code>meter</code>) above <i>local tangent plane</i>
+          or an attitude (<a href="pygeodesy.ltp.Attitude-class.html" 
+          class="link">Attitude</a> or <a 
+          href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" 
+          class="link">Attitude4Tuple</a>) with the 
+          <code><b>alt</b>itude</code>, <b><code>tilt</code></b>, 
+          <b><code>yaw</code></b> and <b><code>roll</code></b>.</li>
+        <li><strong class="pname"><code>tilt</code></strong> - Pitch, elevation from horizontal (<code>degrees</code>), negative
+          down (clockwise rotation along and around the x- or East axis).</li>
+        <li><strong class="pname"><code>yaw</code></strong> - Bearing, heading (compass <code>degrees</code>), clockwise from 
+          North (counter-clockwise rotation along and around the z- or Up 
+          axis).</li>
+        <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and down
+          (clockwise rotation along and around the y- or North axis).</li>
+        <li><strong class="pname"><code>z</code></strong> - Optional height of the footprint (<code>meter</code>) above 
+          <i>local tangent plane</i>.</li>
         <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (<a 
           href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
           overriding this frustum's <code>ltp</code>.</li>
@@ -324,6 +351,39 @@
         target="_top">Principal axes</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">3</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this frustum to a &quot;hfov, vfov, ltp&quot; string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or <code>None</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Frustum in the specified form (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -442,7 +502,7 @@ class="link">Ltp</a>) or <code>None</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 17 13:13:18 2021
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:01 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

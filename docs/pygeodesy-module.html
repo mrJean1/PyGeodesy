@@ -413,7 +413,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.09.16
+        21.09.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -824,6 +824,37 @@
         class="link">AlbersEqualAreaSouth</a> or <a 
         href="pygeodesy.albers.Albers7Tuple-class.html" 
         class="link">Albers7Tuple</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Attitude-class.html" class="summary-name">Attitude</a><br />
+      The orientation of a plane or camera in space.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" class="summary-name">Attitude4Tuple</a><br />
+      4-Tuple <code>(alt, tilt, yaw, roll)</code> with 
+        <code>altitude</code> in (positive) <code>meter</code> and 
+        <code>tilt</code>, <code>yaw</code> and <code>roll</code> in 
+        <code>degrees</code> representing the attitude of a plane or 
+        camera.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.AttitudeError-class.html" class="summary-name">AttitudeError</a><br />
+      An <a href="pygeodesy.ltp.Attitude-class.html" 
+        class="link">Attitude</a> or <a 
+        href="pygeodesy.ltpTuples.Attitude4Tuple-class.html" 
+        class="link">Attitude4Tuple</a> issue.
     </td>
   </tr>
 <tr>
@@ -6839,7 +6870,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7faf28b4da50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f83e017b2d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10032,6 +10063,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#tyr3d" class="summary-sig-name">tyr3d</a>(<span class="summary-sig-arg">tilt</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">yaw</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">roll</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Convert an attitude oriention into a (3-D) direction vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">ub</span>)</span><br />
       Convert <code>unicode</code> or <code>bytes</code> to 
       <code>str</code>.</td>
@@ -10446,7 +10498,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.16'"><code class="variable-quote">'</code><code class="variable-string">21.9.16</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.9.21'"><code class="variable-quote">'</code><code class="variable-string">21.9.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -17180,7 +17232,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
         href="https://StephenHartzell.medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
-        target="_top">Stephen Hartzell</a>.
+        target="_top">Stephen Hartzell</a> and function <a 
+        href="pygeodesy.ltp-module.html#tyr3d" 
+        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b>.
       </p>
 </div></td></tr></table>
 </div>
@@ -17198,7 +17252,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7faf28b4da50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f83e017b2d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20430,8 +20484,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
-          is <code>None</code>, a named <a 
+        <dd>A <b><code>Vector</code></b> instance or if 
+          <b><code>Vector</code></b> is <code>None</code>, a named <a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Raises:</dt>
@@ -23822,6 +23876,50 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="tyr3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tyr3d</span>&nbsp;(<span class="sig-arg">tilt</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">yaw</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">roll</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an attitude oriention into a (3-D) direction vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>tilt</code></strong> - Pitch, elevation from horizontal (<code>degrees</code>), negative
+          down (clockwise rotation along and around the x-axis).</li>
+        <li><strong class="pname"><code>yaw</code></strong> - Bearing, heading (compass <code>degrees360</code>), clockwise 
+          from North (counter-clockwise rotation along and around the 
+          z-axis).</li>
+        <li><strong class="pname"><code>roll</code></strong> - Roll, bank (<code>degrees</code>), positive to the right and down
+          (clockwise rotation along and around the y-axis).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A named <b><code>Vector</code></b> instance or if 
+          <b><code>Vector</code></b> is <code>None</code>, a named <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="http://Planning.CS.UIUC.edu/node102.html" 
+        target="_top">Yaw, pitch, and roll rotations</a> and function <a 
+        href="pygeodesy.formy-module.html#hartzell" 
+        class="link">pygeodesy.hartzell</a> argument <code>los</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="unStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -24708,7 +24806,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep 17 13:13:17 2021
+    Generated by Epydoc 3.0.1 on Tue Sep 21 14:30:59 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

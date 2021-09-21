@@ -846,7 +846,8 @@ def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
        @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
 
        @see: U{Stephen Hartzell<https://StephenHartzell.medium.com/
-             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}
+             and function L{pygeodesy.tyr3d} for B{C{los}}.
     '''
     from pygeodesy.vector3d import _otherV3d
 

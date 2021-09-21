@@ -11,8 +11,9 @@ from pygeodesy.basics import copysign0, isfinite, isint, isnear0, \
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _finite_, _few_, _h_, _negative_, _not_, _singular_, \
-                             _SPACE_, _too_, _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
+                             _finite_, _few_, _h_, _negative_, _not_, \
+                             _singular_, _SPACE_, _too_, _0_0, _1_0, _N_1_0, \
+                             _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -21,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.09.14'
+__version__ = '21.09.19'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -222,18 +223,19 @@ class Fsum(object):
         if isscalar(xs):  # for backward compatibility
             xs = (xs,)
 
-        ps = self._ps
+        ps, n = self._ps, -1
         for n, x in enumerate(map(float, xs)):  # _iter()
-            if not isfinite(x):
-                n = Fmt.SQUARE(xs=n)
-                raise _ValueError(n, x, txt=_not_(_finite_))
-            i = 0
-            for p in ps:
-                x, p = _2sum(x, p)
-                if p:
-                    ps[i] = p
-                    i += 1
-            ps[i:] = [x]
+            if x:
+                if not isfinite(x):
+                    n = Fmt.SQUARE(xs=n)
+                    raise _ValueError(n, x, txt=_not_(_finite_))
+                i = 0
+                for p in ps:
+                    x, p = _2sum(x, p)
+                    if p:
+                        ps[i] = p
+                        i += 1
+                ps[i:] = [x]
         # assert self._ps is ps
         self._n += n + 1
         self._fsum2_ = None
@@ -391,11 +393,8 @@ class Fdot(Fsum):
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
-        if len(a) != len(b):
-            raise LenError(Fdot, a=len(a), b=len(b))
-
         Fsum.__init__(self)
-        self.fadd(map(_mul, a, b))
+        self.fadd(_mulab(a, b))
 
 
 class Fhorner(Fsum):
@@ -630,10 +629,7 @@ def fdot(a, *b):
 
        @see: Class L{Fdot}.
     '''
-    if len(a) != len(b):
-        raise LenError(fdot, a=len(a), b=len(b))
-
-    return fsum(map(_mul, a, b))
+    return fsum(_mulab(a, b))
 
 
 def fdot3(a, b, c, start=0):
@@ -932,10 +928,10 @@ def fsum1_(*xs):
        @raise ValueError: Invalid or non-finite B{C{xs}} value.
     '''
     def _xs(xs):
-        yield  _1_0
+        yield _1_0
         for x in xs:
             yield x
-        yield -_1_0
+        yield _N_1_0
 
     return fsum(_xs(xs))
 
@@ -997,11 +993,11 @@ def _h_x2(xs):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
     def _x2s(xs, h):
-        yield  _1_0
+        yield _1_0
         for x in xs:
             if x:
                 yield (x / h)**2
-        yield -_1_0
+        yield _N_1_0
 
     if xs:
         n, xs = len2(xs)
@@ -1056,6 +1052,25 @@ def hypot2_(*xs):
     '''
     h, x2 = _h_x2(xs)
     return (h**2 * x2) if x2 else _0_0
+
+
+def _mulab(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}.
+    '''
+    n = len(b)
+    if len(a) != n:
+        raise LenError(fdot, a=len(a), b=n)
+    return map(_mul, a, b) if n > 3 else _mulab1(a, b)
+
+
+def _mulab1(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}, primed with C{1.0}.
+    '''
+    yield _1_0
+    for ab in map(_mul, a, b):
+        if ab:
+            yield ab
+    yield _N_1_0
 
 
 def norm2(x, y):
