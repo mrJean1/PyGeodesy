@@ -25,7 +25,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 from __future__ import division
 
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84
+from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
                                       LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _xkwds
@@ -40,11 +40,11 @@ from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
-from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
+from pygeodesy.units import Bearing, Distance, Height, Meter
 from pygeodesy.utily import sincos2d_
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.09.23'
+__version__ = '21.09.29'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -256,10 +256,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
     def distanceTo(self, other, radius=None, wrap=False):
-        '''Approximate the distance from this to an other point.
+        '''I{Approximate} the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}), overriding the
+                          mean radius C{R1} of this point's datum..
            @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -277,8 +280,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         self.others(other)
 
         a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
-        r = self.datum.ellipsoid.R1 if radius is None else Radius(radius)
-        return abs(a) * r
+        d = self.datum if radius is None else _spherical_datum(radius)
+        return abs(a) * d.ellipsoid.R1  # see .utily.radians2m
 
     @Property_RO
     def Ecef(self):

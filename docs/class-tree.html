@@ -1137,13 +1137,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1158,6 +1151,13 @@
         href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1892,18 +1892,17 @@
         <code>degrees</code>, except <code>height</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html">pygeodesy.namedTuples.NearestOn6Tuple</a></strong>:
-      <em class="summary">6-Tuple <code>(closest, distance, index, fraction, start, 
-        end)</code> with the <code>closest</code> point and the 
-        <code>distance</code> in <code>meter</code>, conventionally and the
-        <code>start</code> and <code>end</code> points of the path or 
-        polygon edge.</em>
+      <em class="summary">6-Tuple <code>(closest, distance, fi, j, start, end)</code> with 
+        the <code>closest</code> point, the <code>distance</code> in 
+        <code>meter</code>, conventionally and the <code>start</code> and 
+        <code>end</code> point of the path or polygon edge.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html">pygeodesy.namedTuples.NearestOn8Tuple</a></strong>:
-      <em class="summary">8-Tuple <code>(closest, distance, index, fraction, start, end, 
-        initial, final)</code>, like <a 
+      <em class="summary">8-Tuple <code>(closest, distance, fi, j, start, end, initial, 
+        final)</code>, like <a 
         href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
-        class="link">NearestOn6Tuple</a> extended with the 
-        <code>initial</code> and <code>final</code> bearing at the 
+        class="link">NearestOn6Tuple</a> but extended with the 
+        <code>initial</code> and the <code>final</code> bearing at the 
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
@@ -2957,18 +2956,17 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>degrees</code>, except <code>height</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html">pygeodesy.namedTuples.NearestOn6Tuple</a></strong>:
-      <em class="summary">6-Tuple <code>(closest, distance, index, fraction, start, 
-        end)</code> with the <code>closest</code> point and the 
-        <code>distance</code> in <code>meter</code>, conventionally and the
-        <code>start</code> and <code>end</code> points of the path or 
-        polygon edge.</em>
+      <em class="summary">6-Tuple <code>(closest, distance, fi, j, start, end)</code> with 
+        the <code>closest</code> point, the <code>distance</code> in 
+        <code>meter</code>, conventionally and the <code>start</code> and 
+        <code>end</code> point of the path or polygon edge.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html">pygeodesy.namedTuples.NearestOn8Tuple</a></strong>:
-      <em class="summary">8-Tuple <code>(closest, distance, index, fraction, start, end, 
-        initial, final)</code>, like <a 
+      <em class="summary">8-Tuple <code>(closest, distance, fi, j, start, end, initial, 
+        final)</code>, like <a 
         href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
-        class="link">NearestOn6Tuple</a> extended with the 
-        <code>initial</code> and <code>final</code> bearing at the 
+        class="link">NearestOn6Tuple</a> but extended with the 
+        <code>initial</code> and the <code>final</code> bearing at the 
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
@@ -3215,7 +3213,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:41 2021
+    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

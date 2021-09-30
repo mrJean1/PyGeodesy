@@ -12,28 +12,27 @@ from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
-                             _easting_, _end_, _epoch_, _h_, _height_, \
-                             _hemipole_, _lam_, _lat_, _lon_, _n_, \
-                             _northing_, _number_, _outside_, _phi_, \
+                             _easting_, _end_, _epoch_, _fi_, _j_, _h_, \
+                             _height_, _hemipole_, _lam_, _lat_, _lon_, \
+                             _n_, _northing_, _number_, _outside_, _phi_, \
                              _point_, _points_, _precision_, _radius_, \
                              _reframe_, _scale_, _start_, _x_, _y_, _z_, \
                              _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
-                            Height, Int, Lam, Lat, Lon, Meter, Meter2, \
-                            Northing, Number_, Phi, Precision_, \
+                            FIx, Height, Int, Lam, Lat, Lon, Meter, \
+                            Meter2, Northing, Number_, Phi, Precision_, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.09.27'
+__version__ = '21.09.29'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
 _elel_     = 'll'
 _final_    = 'final'
 _fraction_ = 'fraction'
-_index_    = 'index'
 _initial_  = 'initial'
 
 
@@ -301,27 +300,27 @@ class NearestOn5Tuple(_NamedTuple):
 
 
 class NearestOn6Tuple(_NamedTuple):  # .latlonBase.py, .vector3d.py
-    '''6-Tuple C{(closest, distance, index, fraction, start, end)} with
-       the C{closest} point and the C{distance} in C{meter}, conventionally
-       and the C{start} and C{end} points of the path or polygon edge.  If
-       C{fraction} is C{None}, the C{closest} point was path or polygon
-       C{points[index]}, otherwise C{closest} point is on the path polygon
-       edge between/from C{point[index]} or C{start} and/to C{points[index
-       + 1]}] or C{end}.  The C{start} and C{end} may differ from the path
-       or polygon points if the latter were unrolled (C{wrap} is C{True}).
-       The C{start} and/or C{end} point may be the same instance as the
-       C{closest} point, for example when the very first path or polygon
-       C{points[0]} is the nearest.
+    '''6-Tuple C{(closest, distance, fi, j, start, end)} with the
+       C{closest} point, the C{distance} in C{meter}, conventionally
+       and the C{start} and C{end} point of the path or polygon edge.
+       Fractional index C{fi} (an L{FIx} instance) and index C{j}
+       indicate the path or polygon edge and the fraction along that
+       edge with the C{closest} point.  The C{start} and C{end}
+       points may differ from the given path or polygon points at
+       indices C{fi} respectively C{j}, when unrolled (C{wrap} is
+       C{True}).  Also, the C{start} and/or C{end} point may be the
+       same instance as the C{closest} point, for example when the
+       very first path or polygon point is the nearest.
     '''
-    _Names_ = (_closest_, _distance_, _index_,  _fraction_, _start_, _end_)
-    _Units_ = (_Pass,      Meter,      Number_, _Pass,      _Pass  , _Pass)
+    _Names_ = (_closest_, _distance_, _fi_, _j_,      _start_, _end_)
+    _Units_ = (_Pass,      Meter,      FIx,  Number_, _Pass  , _Pass)
 
 
 class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
-    '''8-Tuple C{(closest, distance, index, fraction, start, end, initial,
-       final)}, like L{NearestOn6Tuple} extended with the C{initial} and
-       C{final} bearing at the reference respectively the C{closest} point,
-       both in compass C{degrees}.
+    '''8-Tuple C{(closest, distance, fi, j, start, end, initial, final)},
+       like L{NearestOn6Tuple} but extended with the C{initial} and the
+       C{final} bearing at the reference respectively the C{closest}
+       point, both in compass C{degrees}.
     '''
     _Names_ = NearestOn6Tuple._Names_ + Distance3Tuple._Names_[-2:]
     _Units_ = NearestOn6Tuple._Units_ + Distance3Tuple._Units_[-2:]

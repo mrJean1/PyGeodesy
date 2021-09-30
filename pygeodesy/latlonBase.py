@@ -13,7 +13,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from pygeodesy.basics import isstr, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _datum_datum, _incompatible, IntersectionError, \
-                             _ValueError, _xError, _xkwds
+                             _ValueError, _xError, _xkwds, _xkwds_not
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
@@ -876,11 +876,11 @@ class LatLonBase(_NamedBase):
                           into account for distances.
            @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
-           @return: A L{NearestOn6Tuple}C{(closest, distance, index,
-                    fraction, start, end)} with the {closest}, the
-                    C{start} and C{end} points each an instance of
-                    this C{LatLon} and C{distance} in C{meter},
-                    same units as the cartesian axes.
+           @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j,
+                    start, end)} with the {closest}, the C{start} and
+                    C{end} points each an instance of this C{LatLon}
+                    and C{distance} in C{meter}, same units as the
+                    cartesian axes.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -891,28 +891,24 @@ class LatLonBase(_NamedBase):
 
            @see: Function L{nearestOn6}.
         '''
-        def _cs(P, h, w, C):
-            p = P[0]
-            yield C(height=h, i=0, up=3, points=p)
-            for i, q in P.enumerate():
-                if w and i:
+        def _cs(Ps, h, w, C):
+            p = None  # not used
+            for i, q in Ps.enumerate():
+                if w and i != 0:
                     q = _unrollon(p, q)
                 yield C(height=h, i=i, up=3, points=q)
                 p = q
 
-        C = self._toCartesianEcef  # to verify datum and Ecef
-        P = self.PointsIter(points)
+        C  = self._toCartesianEcef  # to verify datum and Ecef
+        Ps = self.PointsIter(points)
 
         c = C(height=height, this=self)  # this Cartesian
-        t = nearestOn6(c, _cs(P, height, wrap, C), closed=closed)
-
-        r = self.Ecef(self.datum).reverse
-
-        LL_height = dict(LatLon=self.classof)  # this LatLon
-        if height is not None:  # force height
-            LL_height.update(height=height)
-
+        t = nearestOn6(c, _cs(Ps, height, wrap, C), closed=closed)
         c, s, e = t.closest, t.start, t.end
+
+        LL_height = _xkwds_not(None, LatLon=self.classof,  # this LatLon
+                                     height=height)
+        r = self.Ecef(self.datum).reverse
         p = r(c).toLatLon(**LL_height)
         s = r(s).toLatLon(**LL_height) if s is not c else p
         e = r(e).toLatLon(**LL_height) if e is not c else p

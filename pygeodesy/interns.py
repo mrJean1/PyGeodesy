@@ -160,6 +160,7 @@ _exists_              = 'exists'             # PYCHOK expected
 _f_                   = 'f'                  # PYCHOK expected
 _feet_                = 'feet'               # PYCHOK expected
 _few_                 = 'few'                # PYCHOK expected
+_fi_                  = 'fi'                 # PYCHOK expected
 _finite_              = 'finite'             # PYCHOK expected
 _from_                = 'from'               # PYCHOK expected
 _g_                   = 'g'                  # PYCHOK expected
@@ -476,7 +477,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.09.28'
+__version__ = '21.09.29'
 
 
 def _load_lib(name):  # must startwith('lib')

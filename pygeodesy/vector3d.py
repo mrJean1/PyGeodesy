@@ -21,7 +21,7 @@ from pygeodesy.named import _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
 # from pygeodesy.streprs import Fmt  # from .iters
-from pygeodesy.units import _fraction3, Radius, Radius_
+from pygeodesy.units import _fi_j2, Radius, Radius_
 from pygeodesy.vector3dBase import Vector3dBase
 
 from math import sqrt
@@ -212,9 +212,9 @@ class Vector3d(Vector3dBase):
            @kwarg closed: Optionally, close the path or polygon (C{bool}).
            @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
-           @return: A L{NearestOn6Tuple}C{(closest, distance, index, fraction,
-                    start, end)} with {closest}, C{start} and C{end} each an
-                    instance of this point's (sub-)class.
+           @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start,
+                    end)} with {closest}, C{start} and C{end} each an instance
+                    of this point's (sub-)class.
 
            @raise PointsError: Insufficient number of B{C{points}}
 
@@ -694,10 +694,10 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
                                closest point and optional, additional B{C{Vector}}
                                keyword arguments, otherwise B{C{point}}'s (sub-)class.
 
-       @return: A L{NearestOn6Tuple}C{(closest, distance, index, fraction, start, end)}
-                with the {closest}, C{start} and C{end} points each an instance of
-                B{C{Vector}} or if B{C{Vector}} is not specified or C{B{Vector}=None},
-                an instance of B{C{point}}'s (sub-)class.
+       @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)} with
+                the {closest}, C{start} and C{end} points each an instance of
+                B{C{Vector}} of if {B{Vector}=None}, an instance of B{C{point}}'s
+                (sub-)class.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -723,13 +723,13 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
             c2, c, s, e, f = d2, p, p1, p2, (i + t)
         p1, i = p2, j
 
-    i, f, _ = _fraction3(f, len(Ps))  # like .ellipsoidalBaseDI._nearestOn2_
+    f, j = _fi_j2(f, len(Ps))  # like .ellipsoidalBaseDI._nearestOn2_
 
     kwds = _xkwds(Vector_and_kwds, clas=point.classof, name=Ps.name)
     v = _nVc(c, **kwds)
     s = _nVc(s, **kwds) if s is not c else v
     e = _nVc(e, **kwds) if e is not c else v
-    return NearestOn6Tuple(v, sqrt(c2), i, f, s, e)
+    return NearestOn6Tuple(v, sqrt(c2), f, j, s, e)
 
 
 def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):  # in .vector2d

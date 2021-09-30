@@ -136,10 +136,10 @@ class Tests(_TestsLL, _TestsV):
         if hasattr(LatLon, 'nearestOn8'):
             b = LatLon(45, 1), LatLon(45, 20), LatLon(46, 20), LatLon(46, 1)
             t = LatLon(1, 1).nearestOn8(b, height=0)   # ellipsoidalVincenty: 4874369.989421, -Karney: 4874369.98942, degrees2m(44) == 4892583.508323744, degrees2m(44, lat=23) == 4503646.865333374
-            self.test('neareston8', t, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4874278.515478, 0, None, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E), 0.0, 0.0)', known=not X)
+            self.test('neareston8', t, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4874278.515478, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E), 0.0, 0.0)', known=not X)
             self.test('iteration', t.iteration, 0)
             t = LatLon(45.5, 20.5).nearestOn8(b, height=0)
-            self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1, 0.501069, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)', known=not X)
+            self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1.501069, 2, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)', known=not X)
             self.test('iteration', t.iteration, t.iteration)
 
     def testKarney(self, module, datum, X=False, GS=False):

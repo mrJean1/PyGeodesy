@@ -75,12 +75,13 @@
 </pre>
 
 <hr />
-<p>8-Tuple <code>(closest, distance, index, fraction, start, end, 
-  initial, final)</code>, like <a 
+<p>8-Tuple <code>(closest, distance, fi, j, start, end, initial, 
+  final)</code>, like <a 
   href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
-  class="link">NearestOn6Tuple</a> extended with the <code>initial</code> 
-  and <code>final</code> bearing at the reference respectively the 
-  <code>closest</code> point, both in compass <code>degrees</code>.</p>
+  class="link">NearestOn6Tuple</a> but extended with the 
+  <code>initial</code> and the <code>final</code> bearing at the reference 
+  respectively the <code>closest</code> point, both in compass 
+  <code>degrees</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -175,14 +176,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('closest',
- 'distance',
- 'index',
- 'fraction',
- 'start',
- 'end',
- 'initial',
- 'final')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">index</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fraction</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy.namedTuples.NearestOn8Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('closest', 'distance', 'fi', 'j', 'start', 'end', 'initial', 'final')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">j</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
       Tuple specifying the <code>name</code> of each 
       <code>Named-Tuple</code> item.
     </td>
@@ -250,14 +244,7 @@
 </div>  <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">index</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">fraction</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">initial</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">final</code><code class="variable-quote">'</code><code class="variable-group">)</code>
+<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">j</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">initial</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">final</code><code class="variable-quote">'</code><code class="variable-group">)</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -317,7 +304,7 @@ NearestOn6Tuple._Units_+ Distance3Tuple._Units_ [-2:]
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:44 2021
+    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:47 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

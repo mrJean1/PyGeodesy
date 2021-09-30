@@ -23,7 +23,7 @@ from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
 # from pygeodesy.props import Property_RO, property_RO  # from .ellipsoidalBase
 # from pygeodesy.streprs import Fmt  # from .fmath
-from pygeodesy.units import _fraction3, Height, Radius_, Scalar
+from pygeodesy.units import _fi_j2, Height, Radius_, Scalar
 from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 
 from math import degrees, radians
@@ -275,10 +275,10 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                           B{C{height}} is C{None}, the height of each point
                           is taken into account for distances.
 
-           @return: A L{NearestOn8Tuple}C{(closest, distance, index, fraction,
-                    start, end, initial, final)} with C{distance} in C{meter},
-                    conventionally with the {closest}, {start} and {end} point
-                    each an instance of this C{LatLon}.
+           @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start,
+                    end, initial, final)} with C{distance} in C{meter},
+                    conventionally and with the {closest}, {start} and
+                    {end} point each an instance of this C{LatLon}.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -311,7 +311,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                     LatLon=p.classof, datum=p.datum, epoch=p.epoch, reframe=p.reframe)
         try:
             for j, p2 in Ps.enumerate(closed=closed):
-                if wrap and j:
+                if wrap and j != 0:
                     p2 = _unrollon(p1, p2)
                 # check whether edge (p1..p2) overlaps bounding box
                 if j < 4 or b.overlaps(p1.lat, p1.lon, p2.lat, p2.lon):
@@ -328,7 +328,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                              Fmt.SQUARE(points=j), p2, this=p, closed=closed,
                              height=height, wrap=wrap, tol=tol)
 
-        i, f, _ = _fraction3(f, len(Ps))  # like .vector3d.nearestOn6
+        f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
         n = self.nearestOn8.__name__
         c.rename(n)
@@ -336,7 +336,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             s = s.copy(name=n)
         if e is not c:
             e = e.copy(name=n)
-        r = NearestOn8Tuple(c, c3.distance, i, f, s, e, c3.initial, c3.final)
+        r = NearestOn8Tuple(c, c3.distance, f, j, s, e, c3.initial, c3.final)
         r._iteration = m  # ._iteration for tests
         return r
 

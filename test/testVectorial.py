@@ -270,11 +270,11 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'nearestOn6'):
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             p = LatLon(1, 1).nearestOn6(b, height=0)
-            self.test('neareston6', p, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4773243.784965, 0, None, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))' if Sph
-                                  else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0, None, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))')
+            self.test('neareston6', p, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4773243.784965, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))' if Sph
+                                  else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))')
             p = LatLon(45.5, 2.5).nearestOn6(b, height=0)
-            self.test('neareston6', p, '(LatLon(45°30′03.93″N, 002°00′00.0″E), 38968.531578, 2, 0.501091, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))' if Sph
-                                  else '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 2, 0.501072, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))')  # PYCHOK test attr?
+            self.test('neareston6', p, '(LatLon(45°30′03.93″N, 002°00′00.0″E), 38968.531578, 1.501091, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))' if Sph
+                                  else '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))')  # PYCHOK test attr?
 
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017

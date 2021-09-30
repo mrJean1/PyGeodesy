@@ -75,20 +75,20 @@
 </pre>
 
 <hr />
-<p>6-Tuple <code>(closest, distance, index, fraction, start, end)</code> 
-  with the <code>closest</code> point and the <code>distance</code> in 
+<p>6-Tuple <code>(closest, distance, fi, j, start, end)</code> with the 
+  <code>closest</code> point, the <code>distance</code> in 
   <code>meter</code>, conventionally and the <code>start</code> and 
-  <code>end</code> points of the path or polygon edge.  If 
-  <code>fraction</code> is <code>None</code>, the <code>closest</code> 
-  point was path or polygon <code>points[index]</code>, otherwise 
-  <code>closest</code> point is on the path polygon edge between/from 
-  <code>point[index]</code> or <code>start</code> and/to <code>points[index
-  + 1]</code>] or <code>end</code>.  The <code>start</code> and 
-  <code>end</code> may differ from the path or polygon points if the latter
-  were unrolled (<code>wrap</code> is <code>True</code>). The 
-  <code>start</code> and/or <code>end</code> point may be the same instance
-  as the <code>closest</code> point, for example when the very first path 
-  or polygon <code>points[0]</code> is the nearest.</p>
+  <code>end</code> point of the path or polygon edge. Fractional index 
+  <code>fi</code> (an <a href="pygeodesy.units.FIx-class.html" 
+  class="link">FIx</a> instance) and index <code>j</code> indicate the path
+  or polygon edge and the fraction along that edge with the 
+  <code>closest</code> point.  The <code>start</code> and <code>end</code> 
+  points may differ from the given path or polygon points at indices 
+  <code>fi</code> respectively <code>j</code>, when unrolled 
+  (<code>wrap</code> is <code>True</code>).  Also, the <code>start</code> 
+  and/or <code>end</code> point may be the same instance as the 
+  <code>closest</code> point, for example when the very first path or 
+  polygon point is the nearest.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -183,7 +183,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('closest', 'distance', 'index', 'fraction', 'start', 'end')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">index</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fraction</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('closest', 'distance', 'fi', 'j', 'start', 'end')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">j</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-group">)</code></code><br />
       Tuple specifying the <code>name</code> of each 
       <code>Named-Tuple</code> item.
     </td>
@@ -192,7 +192,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="_Pass, Meter, Number_, _Pass, _Pass, _Pass">_Pass, Meter, Number_, _Pass, _Pass, _Pass</code><br />
+        <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="_Pass, Meter, FIx, Number_, _Pass, _Pass">_Pass, Meter, FIx, Number_, _Pass, _Pass</code><br />
       Tuple defining the <code>units</code> of the value of each 
       <code>Named-Tuple</code> item.
     </td>
@@ -251,7 +251,7 @@
 </div>  <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">index</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fraction</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-group">)</code>
+<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">closest</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">distance</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">j</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">start</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">end</code><code class="variable-quote">'</code><code class="variable-group">)</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -273,7 +273,7 @@
 </div>  <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-_Pass, Meter, Number_, _Pass, _Pass, _Pass
+_Pass, Meter, FIx, Number_, _Pass, _Pass
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -311,7 +311,7 @@ _Pass, Meter, Number_, _Pass, _Pass, _Pass
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:44 2021
+    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:47 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
