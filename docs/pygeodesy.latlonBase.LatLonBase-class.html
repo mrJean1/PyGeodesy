@@ -853,6 +853,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6" class="summary-sig-name">nearestOn6</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Locate the point on a path or polygon closest to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2" class="summary-sig-name">philam2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return this point's lat- and longitude in <code>radians</code>, 
@@ -1022,6 +1043,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
       Convert this point to cartesian, <i>geocentric</i> coordinates, also 
@@ -2845,6 +2867,60 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="nearestOn6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn6</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a path or polygon closest to this point.</p>
+  <p>Points are converted to and distances are computed in 
+  <i>geocentric</i>, cartesian space.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the height of this and all other 
+          points (<code>meter</code>). If <code>None</code>, take the 
+          height of points into account for distances.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
+          class="link">NearestOn6Tuple</a><code>(closest, distance, index, 
+          fraction, start, end)</code> with the {closest}, the 
+          <code>start</code> and <code>end</code> points each an instance 
+          of this <code>LatLon</code> and <code>distance</code> in 
+          <code>meter</code>, same units as the cartesian axes.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> or some <b><code>points</code></b>'
+        <code>Ecef</code> invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b>' <code>Ecef</code> is incompatible.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6" 
+        class="link">nearestOn6</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="philam2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3128,6 +3204,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Cartesian_kwds</span>)</span>
   </h3>
@@ -3141,6 +3218,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding this point's height 
+          (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return the geocentric coordinates 
           (<code>Cartesian</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
@@ -3184,7 +3263,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding this point's height 
-          (<code>meter</code>).</li>
+          (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>M</code></strong> - Optionally, include the rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a> (<code>bool</code>).</li>
@@ -3914,7 +3993,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:01 2021
+    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

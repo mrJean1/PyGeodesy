@@ -12,8 +12,8 @@ from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
                              _finite_, _few_, _h_, _negative_, _not_, \
-                             _singular_, _SPACE_, _too_, _0_0, _1_0, _N_1_0, \
-                             _1_5 as _3_2nd, _2_0, _3_0
+                             _singular_, _SPACE_, _too_, _0_0, _0_5, \
+                             _1_0, _N_1_0, _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.09.19'
+__version__ = '21.09.27'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -600,7 +600,7 @@ def fatan2(y, x):
     return -r if y < 0 else r
 
 
-def favg(v1, v2, f=0.5):
+def favg(v1, v2, f=_0_5):
     '''Return the average of two values.
 
        @arg v1: One value (C{scalar}).
@@ -613,7 +613,8 @@ def favg(v1, v2, f=0.5):
 #   '''
 #   if not 0 <= f <= 1:  # XXX restrict fraction?
 #       raise _ValueError(fraction=f)
-    return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
+    # v1 + f * (v2 - v1) == v1 * (1 - f) + v2 * f
+    return fsum1_(v1, -f * v1, f * v2)
 
 
 def fdot(a, *b):

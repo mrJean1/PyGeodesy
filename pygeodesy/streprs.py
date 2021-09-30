@@ -17,9 +17,15 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.06.27'
+__version__ = '21.09.28'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
+
+
+def _pct(fmt):
+    '''(INTERNAL) Prefix C{%} if needed.
+    '''
+    return fmt if _PERCENT_ in fmt else NN(_PERCENT_, fmt)
 
 
 def _0wd(*w_i):  # in .osgr, .wgrs
@@ -69,7 +75,7 @@ class Fstr(str):
     def __call__(self, flt, prec=None, ints=False):
         '''Format the B{C{flt}} like function L{fstr}.
         '''
-        return str.__mod__(self, flt) if prec is None else \
+        return str.__mod__(_pct(self), flt) if prec is None else \
                next(_streprs(prec, (flt,), self, ints, True, None))
                # PYCHOK see function C{fstr} if isscalar case below
 

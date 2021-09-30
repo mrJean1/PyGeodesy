@@ -11,10 +11,10 @@ L{Feet}, L{Meter}, L{Radians}, etc.
 from pygeodesy.basics import isstr, issubclassof
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
-                              UnitError, _xkwds_popitem
-from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, PI2, _band_, \
-                             _bearing_, _degrees_, _degrees2_, \
+from pygeodesy.errors import _AssertionError, _IsnotError, RangeError, \
+                              TRFError, UnitError, _xkwds_popitem
+from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI_2, PI2, \
+                             _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, \
                              _EW_, _feet_, _height_, _invalid_, _N_, \
                              _lam_, _lat_, _LatLon_, _lon_, _meter_, \
@@ -22,7 +22,7 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, PI2, _band_, \
                              _number_, _PERCENT_, _phi_, _precision_, \
                              _radians_, _radians2_, _radius_, _S_, \
                              _scalar_, _SPACE_, _UNDER_, _units_, \
-                             _W_, _zone_, _0_0, _0_001
+                             _W_, _zone_, _0_0, _0_001, _1_0
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _getenv  # PYCHOK used!
 from pygeodesy.named import modulename, _Named
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.09.21'
+__version__ = '21.09.29'
 
 
 class _NamedUnit(_Named):
@@ -785,6 +785,17 @@ class FIx(Float_):
         from pygeodesy.points import fractional
         # fi = 0 if self == self.fin else self
         return fractional(points, self, **LatLon_and_kwds)
+
+
+def _fraction3(f, n):  # PYCHOK in .ellipsoidalBaseDI, .vector3d
+    # Get 2-tuple C{(index, fraction)}
+    i = int(f)  # like L{FIx}
+    if not 0 <= i < n:
+        raise _AssertionError(i=i, n=n)
+    f -= float(i)  # fraction along points[i]..[(i + 1) % n]
+    if not EPS0 < f < _1_0:
+        f = None  # points[i] is closest
+    return i, f, (i + 1) % n
 
 
 class Height(Float):  # here to avoid circular import

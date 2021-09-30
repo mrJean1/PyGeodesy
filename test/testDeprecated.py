@@ -14,8 +14,7 @@ from pygeodesy import R_MA, map2, \
                       HeightIDWhaversine, \
                       anStr, areaof, bounds, clipStr, decodeEPSG2, encodeEPSG, \
                       equirectangular3, fStr, hypot3, isenclosedby, \
-                      nearestOn3, nearestOn4, \
-                      parseUTM, perimeterof, polygon,\
+                      nearestOn3, nearestOn4, parseUTM, perimeterof, polygon,\
                       simplify2, toUtm, utmZoneBand2
 from testRoutes import RdpFFI
 

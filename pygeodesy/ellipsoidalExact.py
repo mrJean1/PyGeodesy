@@ -10,19 +10,17 @@ L{GeodesicExact}, L{GeodesicAreaExact} and L{GeodesicLineExact}.
 '''
 
 from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase
-from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
-                                       _intersection3, _intersections2, \
-                                       _nearestOn
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
+from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
+                                       _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import _polygon, Property_RO, _TOL_M, _xkwds
+from pygeodesy.karney import _polygon, Property_RO, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
-# from pygeodesy.units import _1mm as _TOL_M  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '21.09.12'
+__version__ = '21.09.23'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -155,6 +153,11 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
               times the distance from the start point to an initial gu-/estimate
               of the intersection point (and between 1/8 and 3/8 of the authalic
               earth perimeter).
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>} and U{Karney's paper
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+             BOUNDARIES} for more details about the iteration algorithm.
     '''
     return _intersection3(start1, end1, start2, end2, height=height, wrap=wrap,
                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
@@ -236,8 +239,8 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the arc between two
-       other (ellispoidal) points.
+    '''Iteratively locate the closest point on the geodesic between
+       two other (ellispoidal) points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the arc (C{LatLon}).
@@ -247,8 +250,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       closest point elsewhere on the arc (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},
                       conventionally) or C{None} or C{False} for the
-                      interpolated height.  If C{False}, the distance
-                      between points takes height into account.
+                      interpolated height.  If C{False}, the closest
+                      takes the heights of the points into account.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
                            or function L{equidistant}) or C{None} for
@@ -266,6 +269,11 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                          or B{C{point2}} or invalid B{C{equidistant}}.
 
        @raise ValueError: No convergence for the B{C{tol}}.
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>} and U{Karney's paper
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+             BOUNDARIES} for more details about the iteration algorithm.
     '''
     return _nearestOn(point, point1, point2, within=within, height=height, wrap=wrap,
                       equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)

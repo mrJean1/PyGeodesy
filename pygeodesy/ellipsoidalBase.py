@@ -15,8 +15,8 @@ from __future__ import division
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import _incompatible, _IsnotError, RangeError, \
-                              TRFError, _ValueError, _xError, _xkwds_not
+from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
+                             _ValueError, _xellipsoidal, _xError, _xkwds_not
 # from pygeodesy.errors import _xkwds  # from .named
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.09.14'
+__version__ = '21.09.27'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -424,7 +424,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise IntersectionError: Skew, colinear, parallel or otherwise
                                      non-intersecting paths or no convergence
-                                     for the B{C{tol}}.
+                                     for the given B{C{tol}}.
 
            @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} point
                              is not C{LatLon}.
@@ -434,6 +434,11 @@ class LatLonEllipsoidalBase(LatLonBase):
                   about 1.5 times the distance from the start point to an initial
                   gu-/estimate of the intersection point (and between 1/8 and 3/8
                   of the authalic earth perimeter).
+
+           @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+                 calculating-intersection-of-two-circles>} and U{Karney's paper
+                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+                 BOUNDARIES} for more details about the iteration algorithm.
         '''
         from pygeodesy.ellipsoidalBaseDI import _intersect3
         try:
@@ -442,7 +447,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                                            equidistant=equidistant, tol=tol,
                                            LatLon=self.classof, datum=self.datum)
         except (TypeError, ValueError) as x:
-            raise _xError(x, start1=self, end1=end1, other=other, end2=end2)
+            raise _xError(x, start1=self, end1=end1, other=other, end2=end2,
+                                          height=height, wrap=wrap, tol=tol)
 
     def intersections2(self, radius1, other, radius2, height=None, wrap=True,
                                                  equidistant=None, tol=_TOL_M):
@@ -474,7 +480,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise IntersectionError: Concentric, antipodal, invalid or
                                      non-intersecting circles or no
-                                     convergence for B{C{tol}}.
+                                     convergence for the given B{C{tol}}.
 
            @raise TypeError: Invalid B{C{other}} or B{C{equidistant}}.
 
@@ -494,7 +500,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                                                   equidistant=equidistant, tol=tol,
                                                   LatLon=self.classof, datum=self.datum)
         except (AssertionError, TypeError, ValueError) as x:
-            raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2)
+            raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2,
+                                          height=height, wrap=wrap, tol=tol)
 
     @property_RO
     def iteration(self):
@@ -512,7 +519,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
-        '''Interatively locate the closest point between two other points.
+        '''Interatively locate the closest point on the geodesic between
+           two other (ellipsoidal) points.
 
            @arg point1: Start point (C{LatLon}).
            @arg point2: End point (C{LatLon}).
@@ -520,12 +528,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                           B{C{point1}} and B{C{point2}}, otherwise the
                           closest point elsewhere on the arc (C{bool}).
            @kwarg height: Optional height for the closest point (C{meter},
-                          conventionally) or C{None} or C{False} to
-                          interpolate the height.
-           @kwarg height: Optional height for the closest point (C{meter},
                           conventionally) or C{None} or C{False} for the
-                          interpolated height.  If C{False}, the distance
-                          between points takes height into account.
+                          interpolated height.  If C{False}, the closest
+                          takes the heights of the points into account.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class}
                                or function L{equidistant}), or C{None} for
@@ -542,16 +547,23 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or
                              B{C{equidistant}}.
 
-           @raise ValueError: No convergence for the B{C{tol}}.
+           @raise ValueError: Datum or ellipsoid of B{C{point1}} or B{C{point2}} is
+                              incompatible or no convergence for the given B{C{tol}}.
+
+           @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+                 calculating-intersection-of-two-circles>} and U{Karney's paper
+                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+                 BOUNDARIES} for more details about the iteration algorithm.
         '''
-        from pygeodesy.ellipsoidalBaseDI import _nearestOne
+        from pygeodesy.ellipsoidalBaseDI import _nearestOn2
         try:
-            return _nearestOne(self, point1, point2, within=within,
+            return _nearestOn2(self, point1, point2, within=within,
                                      height=height, wrap=wrap,
                                      equidistant=equidistant, tol=tol,
-                                     LatLon=self.classof, datum=self.datum)
+                                     LatLon=self.classof).closest
         except (TypeError, ValueError) as x:
-            raise _xError(x, point=self, point1=point1, point2=point2)
+            raise _xError(x, point=self, point1=point1, point2=point2, within=within,
+                                         height=height, wrap=wrap, tol=tol)
 
     @Property_RO
     def _osgr(self):
@@ -982,6 +994,21 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         from pygeodesy.webmercator import toWm
         return toWm(self)
+
+
+def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
+               equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+    '''(INTERNAL) Get closest point, imported by .ellipsoidalExact,
+       -GeodSolve, -Karney and -Vincenty to embellish exceptions.
+    '''
+    from pygeodesy.ellipsoidalBaseDI import _nearestOn2
+    try:
+        p = _xellipsoidal(point=point)
+        return _nearestOn2(p, point1, point2, within=within, height=height,
+                                      wrap=wrap, equidistant=equidistant, tol=tol,
+                                      LatLon=LatLon, **LatLon_kwds).closest
+    except (TypeError, ValueError) as x:
+        raise _xError(x, point=point, point1=point1, point2=point2)
 
 
 __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)

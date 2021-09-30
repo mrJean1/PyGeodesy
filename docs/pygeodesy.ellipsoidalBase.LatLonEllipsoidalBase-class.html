@@ -332,7 +332,8 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
-      Interatively locate the closest point between two other points.</td>
+      Interatively locate the closest point on the geodesic between two 
+      other (ellipsoidal) points.</td>
           <td align="right" valign="top">
             
             
@@ -652,6 +653,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2">latlon2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6">nearestOn6</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
@@ -1252,7 +1254,7 @@
         href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
         class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Skew, colinear, parallel or otherwise non-intersecting paths or no 
-        convergence for the <b><code>tol</code></b>.</li>
+        convergence for the given <b><code>tol</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>end1</code></b>, <b><code>other</code></b> or 
         <b><code>end2</code></b> point is not <code>LatLon</code>.</li>
     </ul></dd>
@@ -1263,6 +1265,14 @@
         about 1.5 times the distance from the start point to an initial 
         gu-/estimate of the intersection point (and between 1/8 and 3/8 of 
         the authalic earth perimeter).
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a> and <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Karney's 
+        paper</a>, pp 20-21, section <b>14. MARITIME BOUNDARIES</b> for 
+        more details about the iteration algorithm.
       </p>
 </div></td></tr></table>
 </div>
@@ -1319,7 +1329,7 @@
         href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
         class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
-        convergence for <b><code>tol</code></b>.</li>
+        convergence for the given <b><code>tol</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> or 
         <b><code>equidistant</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -1360,7 +1370,8 @@
     </td>
   </tr></table>
   
-  <p>Interatively locate the closest point between two other points.</p>
+  <p>Interatively locate the closest point on the geodesic between two 
+  other (ellipsoidal) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1371,12 +1382,9 @@
           otherwise the closest point elsewhere on the arc 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
-          conventionally) or <code>None</code> or <code>False</code> to 
-          interpolate the height.</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
           conventionally) or <code>None</code> or <code>False</code> for 
-          the interpolated height.  If <code>False</code>, the distance 
-          between points takes height into account.</li>
+          the interpolated height.  If <code>False</code>, the closest 
+          takes the heights of the points into account.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
@@ -1395,10 +1403,20 @@
         class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
         <b><code>equidistant</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - No convergence for the <b><code>tol</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Datum or ellipsoid of <b><code>point1</code></b> or 
+        <b><code>point2</code></b> is incompatible or no convergence for 
+        the given <b><code>tol</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles"
+        target="_top">The <b>ellipsoidal</b> case</a> and <a 
+        href="https://ArXiv.org/pdf/1102.1215.pdf" target="_top">Karney's 
+        paper</a>, pp 20-21, section <b>14. MARITIME BOUNDARIES</b> for 
+        more details about the iteration algorithm.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="parse"></a>
 <div>
@@ -2207,7 +2225,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:00 2021
+    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

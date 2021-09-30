@@ -14,15 +14,15 @@ from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _ValueError
 from pygeodesy.interns import NN, _few_, _points_, _too_, _0_, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _Named
+from pygeodesy.named import Fmt, _Named, property_RO
 from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
-from pygeodesy.props import property_RO
-from pygeodesy.streprs import Fmt
+# from pygeodesy.props import property_RO  # from .named
+# from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, wrap90, wrap180
 
 __all__ = _ALL_LAZY.iters
-__version__ = '21.06.15'
+__version__ = '21.09.26'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -39,6 +39,7 @@ class _BaseIter(_Named):
     _dedup  =  False
     _Error  =  LenError
     _items  =  None
+    _len    =  0
     _loop   = ()
     _name   = _items_
     _prev   = _NOTHING
@@ -159,6 +160,11 @@ class _BaseIter(_Named):
             except StopIteration:
                 self._iter = ()  # del self._iter, prevent re-iterate
 
+    def __len__(self):
+        '''Get the number of items seen so far.
+        '''
+        return self._len
+
     @property_RO
     def loop(self):
         '''Get the B{C{loop}} setting (C{int}), C{0} for non-loop-back.
@@ -187,6 +193,7 @@ class _BaseIter(_Named):
         '''
         try:
             self._indx += 1
+            self._len   = self._indx  # max(_len, _indx)
             self._prev  = item = next(self._iter)
             return item
         except StopIteration:

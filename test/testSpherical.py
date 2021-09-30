@@ -384,7 +384,7 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__)
 
     t.testLatLon(Nv, Sph=True, Nv=True)
-    t.testVectorial(Nv)
+    t.testVectorial(Nv, Sph=True)  # special case
     t.testSpherical(Nv, Sph=False, Nv=True)
 
     t.testLatLon(Trig, Sph=True)

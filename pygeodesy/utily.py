@@ -11,8 +11,10 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 from __future__ import division
 
 from pygeodesy.basics import copysign0, isint, isnear0
+from pygeodesy.errors import _xkwds_not
 from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
-                             _edge_, _radians_, _semi_circular_, _SPACE_, \
+                             _datum_, _edge_, _epoch_, _height_, _radians_, \
+                             _reframe_, _semi_circular_, _SPACE_, \
                              _0_0, _0_5, _1_0, _90_0, _N_90_0, _180_0, \
                              _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -21,7 +23,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.09.19'
+__version__ = '21.09.26'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -671,6 +673,19 @@ def unroll180(lon1, lon2, wrap=True):
         if u != d:
             return u, lon1 + u
     return d, lon2
+
+
+def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
+    '''(INTERNAL) Wrap, unroll and replace longitude if different.
+    '''
+    _, lon = unroll180(p1.lon, p2.lon, wrap=True)
+    if abs(lon - p2.lon) > EPS:
+        p2 = p2.classof(p2.lat, wrap180(lon), **_xkwds_not(None,
+                             height=getattr(p2, _height_,  None),
+                              datum=getattr(p2, _datum_,   None),
+                              epoch=getattr(p2, _epoch_,   None),
+                            reframe=getattr(p2, _reframe_, None)))  # PYCHOK indent
+    return p2
 
 
 def unrollPI(rad1, rad2, wrap=True):

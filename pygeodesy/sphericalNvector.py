@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.09.16'
+__version__ = '21.09.25'
 
 _paths_ = 'paths'
 
@@ -646,14 +646,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return r.closest, r.distance
 
     def nearestOn3(self, points, closed=False, radius=R_M, height=None):
-        '''Locate the point on a polygon (with great circle arcs
-           joining consecutive points) closest to this point.
+        '''Locate the point on a path or polygon (with great circle
+           arcs joining consecutive points) closest to this point.
 
-           If this point is within the extent of any great circle
-           arc, the closest point is on that arc.  Otherwise,
-           the closest is the nearest of the arc's end points.
+           The closest point is either on within the extent of any great
+           circle arc or the nearest of the arc's end points.
 
-           @arg points: The polygon points (L{LatLon}[]).
+           @arg points: The path or polygon points (L{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg height: Optional height, overriding the mean height
@@ -672,11 +671,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         Ps = self.PointsIter(points, loop=1)
 
+        R = self.distanceTo
+        N = self.nearestOn
+
         c = p1 = Ps[0]
-        r = self.distanceTo(c, radius=None)  # radians
+        r = R(c, radius=None)  # radians
         for p2 in Ps.iterate(closed=closed):
-            p = self.nearestOn(p1, p2, height=height)
-            d = self.distanceTo(p, radius=None)  # radians
+            p = N(p1, p2, height=height)
+            d = R(p, radius=None)  # radians
             if d < r:
                 c, r = p, d
             p1 = p2
@@ -1141,7 +1143,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes
                       areaOf,  # functions
                       intersection, ispolar,
                       meanOf,
-                      nearestOn2,
+                      nearestOn2, nearestOn3,
                       perimeterOf,
                       sumOf,
                       triangulate, trilaterate)

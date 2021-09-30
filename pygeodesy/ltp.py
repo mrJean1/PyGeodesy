@@ -34,7 +34,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
 from pygeodesy.vector3d import Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.09.21'
+__version__ = '21.09.27'
 
 _Xyz_  = 'Xyz'
 

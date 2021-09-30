@@ -11,21 +11,23 @@ from pygeodesy.errors import IntersectionError, _TypeError, _ValueError, \
                              VectorError, _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum1_
 from pygeodesy.formy import _radical2
-from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, MISSING, NN, _COMMA_, \
-                             _concentric_, _datum_, _h_, _height_, \
+from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, MISSING, NN, \
+                             _COMMA_, _concentric_, _datum_, _h_, _height_, \
                              _intersection_, _name_, _near_, _negative_, \
                              _no_, _too_, _xyz_, _y_, _z_, _0_0, _1_0
+from pygeodesy.iters import Fmt, PointsIter
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _xnamed, _xotherError
-from pygeodesy.namedTuples import Intersection3Tuple, Vector3Tuple  # Vector4Tuple
-from pygeodesy.streprs import Fmt
-from pygeodesy.units import Radius, Radius_
+from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
+                                  NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
+# from pygeodesy.streprs import Fmt  # from .iters
+from pygeodesy.units import _fraction3, Radius, Radius_
 from pygeodesy.vector3dBase import Vector3dBase
 
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.09.20'
+__version__ = '21.09.29'
 
 
 class Vector3d(Vector3dBase):
@@ -197,8 +199,32 @@ class Vector3d(Vector3dBase):
                  U{3-D Point-Line Distance<https://MathWorld.Wolfram.com/
                  Point-LineDistance3-Dimensional.html>}.
         '''
-        from pygeodesy.vector2d import _nearestOn
-        return _nearestOn(self, point1, point2, within=within)
+        return _nearestOn2(self, point1, point2, within=within).closest
+
+    def nearestOn6(self, points, closed=False, useZ=True):  # eps=EPS
+        '''Locate the point on a path or polygon closest to this point.
+
+           The closest point is either on and within the extent of a polygon
+           edge or the nearest of that edge's end points.
+
+           @arg points: The path or polygon points (C{Cartesian}, L{Vector3d},
+                        C{Vector3Tuple} or C{Vector4Tuple}[]).
+           @kwarg closed: Optionally, close the path or polygon (C{bool}).
+           @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+
+           @return: A L{NearestOn6Tuple}C{(closest, distance, index, fraction,
+                    start, end)} with {closest}, C{start} and C{end} each an
+                    instance of this point's (sub-)class.
+
+           @raise PointsError: Insufficient number of B{C{points}}
+
+           @raise TypeError: Non-cartesian B{C{points}}.
+
+           @note: Distances measured with method L{Vector3d.equirectangular}.
+
+           @see: Function L{nearestOn6}.
+        '''
+        return nearestOn6(self, points, closed=closed, useZ=useZ)  # Vector=self.classof
 
     def parse(self, str3d, sep=_COMMA_, name=NN):
         '''Parse an C{"x, y, z"} string to a L{Vector3d} instance.
@@ -400,7 +426,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
             elif e2.minus(e1).length < e:
                 return e1, 0, 0
         elif a.length2 < e:  # null (s1, e1), non-null (s2, e2)
-            # like _nearestOn(s1, s2, e2, within=False, eps=e)
+            # like _nearestOn2(s1, s2, e2, within=False, eps=e)
             t = s1.minus(s2).dot(b)
             v = s2.plus(b.times(t / b.length2))
             if s1.minus(v).length < e:
@@ -619,8 +645,7 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
     p1 = _otherV3d(useZ=useZ, point1=point1)
     p2 = _otherV3d(useZ=useZ, point2=point2)
 
-    from pygeodesy.vector2d import _nearestOn
-    p = _nearestOn(p0, p1, p2, within=within)
+    p, _ = _nearestOn2(p0, p1, p2, within=within)
     if Vector is not None:
         p = Vector(p.x, p.y, **_xkwds(Vector_kwds, z=p.z, name=nearestOn.__name__))
     elif p is p1:
@@ -630,6 +655,81 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
     else:  # ignore Vector_kwds
         p = point.classof(p.x, p.y, Vector_kwds.get(_z_, p.z), name=nearestOn.__name__)
     return p
+
+
+def _nearestOn2(p0, p1, p2, within=True, eps=EPS):
+    # (INTERNAL) Closest point and fraction, see L{nearestOn} above,
+    # separated to allow callers to embellish any exceptions
+    p21 = p2.minus(p1)
+    d2 = p21.length2
+    if d2 < eps:  # coincident
+        p = p1  # ~= p2
+        t = 0
+    else:  # see comments in .points.nearestOn5
+        t = p0.minus(p1).dot(p21) / d2
+        if within and t < eps:
+            p = p1
+            t = 0
+        elif within and t > (_1_0 - eps):
+            p = p2
+            t = 1
+        else:
+            p = p1.plus(p21.times(t))
+    return NearestOn2Tuple(p, t)
+
+
+def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # eps=EPS
+    '''Locate the point on a path or polygon closest to a reference point.
+
+       The closest point is either on and within the extent of a polygon edge or
+       the nearest of that edge's end points.
+
+       @arg point: Reference point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
+                                    or C{Vector4Tuple}).
+       @arg points: The path or polygon points (C{Cartesian}, L{Vector3d},
+                    C{Vector3Tuple} or C{Vector4Tuple}[]).
+       @kwarg closed: Optionally, close the path or polygon (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
+                               closest point and optional, additional B{C{Vector}}
+                               keyword arguments, otherwise B{C{point}}'s (sub-)class.
+
+       @return: A L{NearestOn6Tuple}C{(closest, distance, index, fraction, start, end)}
+                with the {closest}, C{start} and C{end} points each an instance of
+                B{C{Vector}} or if B{C{Vector}} is not specified or C{B{Vector}=None},
+                an instance of B{C{point}}'s (sub-)class.
+
+       @raise PointsError: Insufficient number of B{C{points}}
+
+       @raise TypeError: Non-cartesian B{C{point}} and B{C{points}}.
+
+       @note: Distances measured with method L{Vector3d.equirectangular}.
+
+       @see: Method C{LatLon.nearestOn6} or function L{nearestOn5} for geodetic points.
+    '''
+    r  = _otherV3d(useZ=useZ, point=point)
+    D2 = r.equirectangular  # distance squared
+
+    Ps = PointsIter(points, loop=1, name=nearestOn6.__name__)
+    p1 = c = s = e = _otherV3d(useZ=useZ, i=0, points=Ps[0])
+    c2 = D2(c)  # == r.minus(c).length2
+
+    f = i = 0  # p1..p2 == points[i]..[j]
+    for j, p2 in Ps.enumerate(closed=closed):
+        p2 = _otherV3d(useZ=useZ, i=j, points=p2)
+        p, t = _nearestOn2(r, p1, p2)  # within=True, eps=EPS
+        d2 = D2(p)  # == r.minus(p).length2
+        if d2 < c2:
+            c2, c, s, e, f = d2, p, p1, p2, (i + t)
+        p1, i = p2, j
+
+    i, f, _ = _fraction3(f, len(Ps))  # like .ellipsoidalBaseDI._nearestOn2_
+
+    kwds = _xkwds(Vector_and_kwds, clas=point.classof, name=Ps.name)
+    v = _nVc(c, **kwds)
+    s = _nVc(s, **kwds) if s is not c else v
+    e = _nVc(e, **kwds) if e is not c else v
+    return NearestOn6Tuple(v, sqrt(c2), i, f, s, e)
 
 
 def _nVc(v, clas=None, name=NN, Vector=None, **Vector_kwds):  # in .vector2d

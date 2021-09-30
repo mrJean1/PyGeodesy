@@ -32,15 +32,15 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
-from pygeodesy.utily import unrollPI
+from pygeodesy.utily import _unrollon, unrollPI
 from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, \
-                                circum4_, Circum4Tuple, _radii11ABC, Vector3d
-# from pygeodesy.vector3d import Vector3d  # from .vector2d
+                                circum4_, Circum4Tuple, _radii11ABC
+from pygeodesy.vector3d import nearestOn6, Vector3d
 
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.09.09'
+__version__ = '21.09.27'
 
 
 class LatLonBase(_NamedBase):
@@ -862,6 +862,62 @@ class LatLonBase(_NamedBase):
         from pygeodesy.ltp import Ltp
         return Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
 
+    def nearestOn6(self, points, closed=False, height=None, wrap=False):
+        '''Locate the point on a path or polygon closest to this point.
+
+           Points are converted to and distances are computed in
+           I{geocentric}, cartesian space.
+
+           @arg points: The path or polygon points (C{LatLon}[]).
+           @kwarg closed: Optionally, close the polygon (C{bool}).
+           @kwarg height: Optional height, overriding the height
+                          of this and all other points (C{meter}).
+                          If C{None}, take the height of points
+                          into account for distances.
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+           @return: A L{NearestOn6Tuple}C{(closest, distance, index,
+                    fraction, start, end)} with the {closest}, the
+                    C{start} and C{end} points each an instance of
+                    this C{LatLon} and C{distance} in C{meter},
+                    same units as the cartesian axes.
+
+           @raise PointsError: Insufficient number of B{C{points}}.
+
+           @raise TypeError: Some B{C{points}} or some B{C{points}}'
+                             C{Ecef} invalid.
+
+           @raise ValueError: Some B{C{points}}' C{Ecef} is incompatible.
+
+           @see: Function L{nearestOn6}.
+        '''
+        def _cs(P, h, w, C):
+            p = P[0]
+            yield C(height=h, i=0, up=3, points=p)
+            for i, q in P.enumerate():
+                if w and i:
+                    q = _unrollon(p, q)
+                yield C(height=h, i=i, up=3, points=q)
+                p = q
+
+        C = self._toCartesianEcef  # to verify datum and Ecef
+        P = self.PointsIter(points)
+
+        c = C(height=height, this=self)  # this Cartesian
+        t = nearestOn6(c, _cs(P, height, wrap, C), closed=closed)
+
+        r = self.Ecef(self.datum).reverse
+
+        LL_height = dict(LatLon=self.classof)  # this LatLon
+        if height is not None:  # force height
+            LL_height.update(height=height)
+
+        c, s, e = t.closest, t.start, t.end
+        p = r(c).toLatLon(**LL_height)
+        s = r(s).toLatLon(**LL_height) if s is not c else p
+        e = r(e).toLatLon(**LL_height) if e is not c else p
+        return t.dup(closest=p, start=s, end=e)
+
     @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
@@ -986,10 +1042,12 @@ class LatLonBase(_NamedBase):
         '''DEPRECATED, use property L{philam}.'''
         return self.philam
 
-    def toCartesian(self, Cartesian=None, **Cartesian_kwds):
+    def toCartesian(self, height=None, Cartesian=None, **Cartesian_kwds):
         '''Convert this point to cartesian, I{geocentric} coordinates,
            also known as I{Earth-Centered, Earth-Fixed} (ECEF).
 
+           @kwarg height: Optional height, overriding this point's height
+                          (C{meter}, conventionally).
            @kwarg Cartesian: Optional class to return the geocentric
                              coordinates (C{Cartesian}) or C{None}.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
@@ -1002,7 +1060,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
-        r = self._ecef9
+        r = self._ecef9 if height is None else self.toEcef(height=height)
         if Cartesian is not None:  # class or .classof
             r = self._xnamed(Cartesian(r, **Cartesian_kwds))
         _datum_datum(r.datum, self.datum)
@@ -1015,34 +1073,32 @@ class LatLonBase(_NamedBase):
                 self._toCartesianEcef(up=3, point2=point2),
                 self._toCartesianEcef(up=3, point3=point3))
 
-    def _toCartesianEcef(self, i=None, up=2, **name_point):
+    def _toCartesianEcef(self, height=None, i=None, up=2, **name_point):
         '''(INTERNAL) Convert to cartesian and check Ecef's before and after.
         '''
         p = self.others(up=up, **name_point)
-        c = p.toCartesian()
+        c = p.toCartesian(height=height)
         E = self.Ecef
         if E:
             for p in (p, c):
                 e = getattr(p, LatLonBase.Ecef.name, None)
-                if e not in (E, None):
+                if e not in (None, E):
                     n, _ = name_point.popitem()
                     if i is not None:
-                        NN(n, Fmt.SQUARE(i))
+                        Fmt.SQUARE(n, i)
                     raise _ValueError(n, e, txt=_incompatible(E.__name__))
         return c
 
     def toEcef(self, height=None, M=False):
-        '''Convert this point to I{geocentric} coordinates,
-           also known as I{Earth-Centered, Earth-Fixed}
-           (U{ECEF<https://WikiPedia.org/wiki/ECEF>}).
+        '''Convert this point to I{geocentric} coordinates, also known as
+           I{Earth-Centered, Earth-Fixed} (U{ECEF<https://WikiPedia.org/wiki/ECEF>}).
 
-           @kwarg height: Optional height, overriding this point's
-                          height (C{meter}).
-           @kwarg M: Optionally, include the rotation L{EcefMatrix}
-                     (C{bool}).
+           @kwarg height: Optional height, overriding this point's height
+                          (C{meter}, conventionally).
+           @kwarg M: Optionally, include the rotation L{EcefMatrix} (C{bool}).
 
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C=0} and C{M} if available.
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C=0} and C{M} if available.
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''

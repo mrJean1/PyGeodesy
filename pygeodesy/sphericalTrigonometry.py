@@ -31,15 +31,16 @@ from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                              _null_, _points_, _SPACE_, _too_, _1_, _2_, \
                              _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import notImplemented, _xnamed
+# from pygeodesy.named import notImplemented  # from .points
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple, Triangle7Tuple, \
                                   Triangle8Tuple
-from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5
+from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
+                             notImplemented, Fmt as _Fmt  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
-from pygeodesy.streprs import Fmt as _Fmt  # XXX shadowed
+# from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
                             Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
@@ -50,7 +51,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.09.16'
+__version__ = '21.09.23'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -1207,7 +1208,7 @@ def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cove
                 C{closest} is a B{C{LatLon}} or a L{LatLon2Tuple}C{(lat,
                 lon)} if B{C{LatLon}} is C{None} ...
     '''
-    ll, d, _ = nearestOn3(point, points, **closed_radius_LatLon_options)
+    ll, d, _ = nearestOn3(point, points, **closed_radius_LatLon_options)  # PYCHOK 3-tuple
     if _xkwds_get(closed_radius_LatLon_options, LatLon=LatLon) is None:
         ll = LatLon2Tuple(ll.lat, ll.lon)
     return ll, d
@@ -1215,13 +1216,13 @@ def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cove
 
 def nearestOn3(point, points, closed=False, radius=R_M,
                               LatLon=LatLon, **options):
-    '''Locate the point on a polygon closest to an other, reference point.
+    '''Locate the point on a path or polygon closest to a reference point.
 
-       Distances are approximated by function L{equirectangular_},
+       Distances are I{approximated} using function L{equirectangular_},
        subject to the supplied B{C{options}}.
 
-       @arg point: The other, reference point (L{LatLon}).
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg point: The reference point (L{LatLon}).
+       @arg points: The path or polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
@@ -1252,10 +1253,11 @@ def nearestOn3(point, points, closed=False, radius=R_M,
     '''
     lat, lon, d, c, h = _nearestOn5(point, points, closed=closed,
                                                    LatLon=None, **options)
-    r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
-              LatLon(lat, lon, height=h)
-    r = NearestOn3Tuple(r, degrees2m(d, radius=radius), c)
-    return _xnamed(r, nearestOn3.__name__)
+    d = degrees2m(d, radius=radius)
+    n = nearestOn3.__name__
+    r = LatLon3Tuple(lat, lon, h, name=n) if LatLon is None else \
+              LatLon(lat, lon, height=h, name=n)
+    return NearestOn3Tuple(r, d, c, name=n)
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):

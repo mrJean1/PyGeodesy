@@ -4,14 +4,15 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '21.09.28'
 
 from base import GeodSolve, geographiclib, isPython37, TestsBase
 
 from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
                       Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \
-                      centroidOf, classname, fstr, isclockwise, \
-                      isconvex, luneOf, perimeterOf, points, quadOf
+                      centroidOf, classname, fstr, \
+                      isclockwise, isconvex, luneOf, nearestOn5, \
+                      perimeterOf, points, quadOf
 
 try:
     if isPython37:
@@ -99,7 +100,7 @@ class Tests(TestsBase):
         _test('isPoints2', pts.isPoints2, pts.__class__ is LatLon2psxy)
         _test('isTuple2',  pts.isTuple2,  pts.__class__ is Tuple2LatLon)
 
-    def test3(self, LatLon):
+    def test3(self, LatLon, X=False):
         self.subtitle(points, LatLon=LatLon)
 
         p = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
@@ -158,6 +159,7 @@ class Tests(TestsBase):
         self.test('isclockwise', isclockwise(p), True)  # XXX False
         self.test('isconvex', isconvex(p), False)
         self.test('points2', p[0].points2(p)[0], len(p))
+        self.test('nearestOn5', nearestOn5(LatLon(-80, 0), p, limit=0), '(-77.455114, -16.67063, 4.134666, 307.988253, 0)', known=not X)
 
         if LatLon is LatLon_:
             b = boundsOf(p)
@@ -251,7 +253,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test3(ellipsoidalNvector.LatLon)
     t.test3(ellipsoidalVincenty.LatLon)
     t.test3(ellipsoidalKarney.LatLon)
-    t.test3(ellipsoidalExact.LatLon)
+    t.test3(ellipsoidalExact.LatLon, X=True)
 
     if geographiclib:
         t.testArea(ellipsoidalKarney, Ellipsoids.WGS84.area)

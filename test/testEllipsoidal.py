@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.09.16'
+__version__ = '21.09.29'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -19,7 +19,7 @@ from math import radians
 
 class Tests(_TestsLL, _TestsV):
 
-    def testEllipsoidal(self, module, Cartesian, Nvector):
+    def testEllipsoidal(self, module, Cartesian, Nvector, X=False):
         # ellipsoidal modules tests
 
         self.subtitle(module, 'Ellipsoidal')
@@ -132,6 +132,15 @@ class Tests(_TestsLL, _TestsV):
         d = d.distanceTo(s)
         x ='3806542.943647' if Nvector else ('3817991.074015' if module is V else '3802238.504989')
         self.test('distance', d, x, known=abs(float(x) - d) < 5e-6)
+
+        if hasattr(LatLon, 'nearestOn8'):
+            b = LatLon(45, 1), LatLon(45, 20), LatLon(46, 20), LatLon(46, 1)
+            t = LatLon(1, 1).nearestOn8(b, height=0)   # ellipsoidalVincenty: 4874369.989421, -Karney: 4874369.98942, degrees2m(44) == 4892583.508323744, degrees2m(44, lat=23) == 4503646.865333374
+            self.test('neareston8', t, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4874278.515478, 0, None, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E), 0.0, 0.0)', known=not X)
+            self.test('iteration', t.iteration, 0)
+            t = LatLon(45.5, 20.5).nearestOn8(b, height=0)
+            self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1, 0.501069, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)', known=not X)
+            self.test('iteration', t.iteration, t.iteration)
 
     def testKarney(self, module, datum, X=False, GS=False):
 
@@ -551,14 +560,14 @@ class Tests(_TestsLL, _TestsV):
         # <https://www.MathOpenRef.com/coordintersection.html>
         s1, e1 = m.LatLon(15, 10), m.LatLon(49, 25)
         s2, e2 = m.LatLon(29, 5),  m.LatLon(32, 32)
-        self.test('(30, 17)', s1.intersection3(e1, s2, e2),         '(LatLon(30°52′03.1″N, 015°30′38.43″E), 0, 0)')
-        self.test('(30, 17)', s1.intersection3(_b(s1, e1), s2, e2), '(LatLon(30°52′03.22″N, 015°30′39.3″E), -1, 0)', known=k)
+        self.test('(30, 17)', s1.intersection3(e1, s2, e2),         '(LatLon(30°52′03.1″N, 015°30′38.41″E), 0, 0)')
+        self.test('(30, 17)', s1.intersection3(_b(s1, e1), s2, e2), '(LatLon(30°52′03.1″N, 015°30′38.41″E), -1, 0)')
         s2 = m.LatLon(7, 10)
-        self.test('(-1,  3)', s1.intersection3(e1, s2, e2),         '(LatLon(01°34′52.51″N, 006°00′51.85″E), -1, -2)')
-        self.test('(-1,  3)', s1.intersection3(e1, s2, _b(s2, e2)), '(LatLon(01°34′52.87″N, 006°00′51.94″E), -1, 2)', known=k)
+        self.test('(-1,  3)', s1.intersection3(e1, s2, e2),         '(LatLon(01°34′52.49″N, 006°00′51.83″E), -1, -2)')
+        self.test('(-1,  3)', s1.intersection3(e1, s2, _b(s2, e2)), '(LatLon(01°34′52.49″N, 006°00′51.83″E), -1, 2)')
         s2 = m.LatLon(62, 32)
-        self.test('(65, 32)', s1.intersection3(e1, s2, e2),                 '(LatLon(56°58′26.57″N, 032°00′00.0″E), 1, 0)')  # 1, -2?
-        self.test('(65, 32)', s1.intersection3(_b(s1, e1), s2, _b(s2, e2)), '(LatLon(56°58′26.46″N, 032°00′00.0″E), 1, 2)', known=k)
+        self.test('(65, 32)', s1.intersection3(e1, s2, e2),                 '(LatLon(56°58′26.51″N, 032°00′00.0″E), 1, 0)')
+        self.test('(65, 32)', s1.intersection3(_b(s1, e1), s2, _b(s2, e2)), '(LatLon(56°58′26.51″N, 032°00′00.0″E), 1, 2)')
         try:
             s2 = m.LatLon(32 - (49 - 15), 32 - (25 - 10))
             self.test('(-2, 17)', m.intersection3(s1, e1, s2, e2), IntersectionError.__name__)
@@ -569,8 +578,11 @@ class Tests(_TestsLL, _TestsV):
         # courtesy sbonaime <https://GitHub.com/mrJean1/PyGeodesy/issues/58>
         s1, s2 = m.LatLon(8, 0), m.LatLon(0, 8.4)
         self.test('#58', s1.intersection3(150.06, s2, 55.61), '(LatLon(01°54′25.65″S, 005°37′48.76″E), 1, -2)', known=k)  # 01°54′25.28″N, 174°22′10.76″W, -1, 2
-        s1, s2 = m.LatLon(80, 0), m.LatLon(0, 84)
-        self.test('#58', s1.intersection3(150.06, s2, 55.61, tol=0.6), '(LatLon(28°40′59.75″S, 032°16′05.3″E), 1, -2)', known=k)  # 28°40′59.75″N, 147°43′54.7″W, -1, 2
+        try:
+            s1, s2 = m.LatLon(80, 0), m.LatLon(0, 84)
+            self.test('#58', s1.intersection3(150.06, s2, 55.61), IntersectionError, knonw=True)
+        except Exception as x:
+            self.test('#58', x.__class__, IntersectionError)  # ...: no convergence (7660.82): tolerance (0.001) too low, near-polar?
 
     def testIntersections2(self, m, Eq, GS=False, K=False, X=False, V=False, d_m=1e-6):
 
@@ -715,7 +727,7 @@ if __name__ == '__main__':
             t.testKarney(GS, d, GS=True)
         t.testKarney_s(GS)  # X=True
 
-    t.testEllipsoidal(X, X.Cartesian, None)
+    t.testEllipsoidal(X, X.Cartesian, None, X=True)
     t.testLatLon(X, X=True)
     t.testNOAA(X)
     t.testIntersection3(X, X=True)  # ... 1 micrometer

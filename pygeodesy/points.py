@@ -35,31 +35,32 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
-from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, \
+from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
                              _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
-                             _distance_, _ELLIPSIS_, _height_, _lat_, \
-                             _lon_, _near_, _not_, _point_, _SPACE_, \
-                             _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
-                             _90_0, _N_90_0, _180_0, _360_0
+                             _ELLIPSIS_, _height_, _lat_, _lon_, _near_, \
+                             _not_, _point_, _SPACE_, _UNDER_, _valid_, \
+                             _0_0, _0_5, _1_0, _3_0, _90_0, _N_90_0, \
+                             _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
                            _NamedTuple, _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
-                                  PhiLam2Tuple, Point3Tuple, Vector4Tuple
+                                  NearestOn5Tuple, PhiLam2Tuple, \
+                                  Point3Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
                             property_RO
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
-from pygeodesy.units import Degrees, Lat, Lon, Number_, Radius, Scalar_
+from pygeodesy.units import Number_, Radius, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.09.19'
+__version__ = '21.09.26'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -326,6 +327,13 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         return self.toRepr(**kwds)
 
 
+def _isLatLon(inst):
+    '''(INTERNAL) for a C{LatLon} or C{LatLon_} instance.
+    '''
+    from pygeodesy.latlonBase import LatLonBase
+    return isinstance(inst, (LatLon_, LatLonBase))
+
+
 try:
     _LatLon_attrs = LatLon_.__slots__  # PYCHOK no __slots__
 except AttributeError:
@@ -333,7 +341,7 @@ except AttributeError:
 
 
 def _isLatLon_(LL):
-    '''(INTERANL) Check attributes of class C{LL}.
+    '''(INTERNAL) Check attributes of class C{LL}.
     '''
     return issubclassof(LL, LatLon_) or (isclass(LL) and
                                      all(hasattr(LL, a) for a in _LatLon_attrs))
@@ -439,8 +447,9 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _iter(self):
         '''(INTERNAL) Yield all points.
         '''
+        _array, point = self._array, self.point
         for i in range(len(self)):
-            yield self.point(self._array[i])
+            yield point(_array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
@@ -478,8 +487,9 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _reversed(self):  # PYCHOK false
         '''(INTERNAL) Yield all points in reverse order.
         '''
+        _array, point = self._array, self.point
         for i in range(len(self) - 1, -1, -1):
-            yield self.point(self._array[i])
+            yield point(_array[i])
 
     def _rfind(self, point, start_end):
         '''(INTERNAL) Find the last matching point index.
@@ -614,10 +624,12 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             except (TypeError, ValueError):
                 raise _IsnotError(_valid_, latlon=latlon)
 
+        _ilat,  _ilon  = self._ilat,  self._ilon
+        _array, _zeros = self._array, self._zeros
         for i in self._range(*start_end):
-            row = self._array[i]
-            if self._zeros(row[self._ilat] - lat,
-                           row[self._ilon] - lon):
+            row = _array[i]
+            if _zeros(row[_ilat] - lat,
+                      row[_ilon] - lon):
                 yield i
 
     def findall(self, latlon, *start_end):
@@ -839,7 +851,7 @@ class LatLon2psxy(_Basequence):
         try:
             x, y = xy.lon, xy.lat
 
-            def _3xyll(ll):  # match LatLon
+            def _x_y_ll3(ll):  # match LatLon
                 return ll.lon, ll.lat, ll
 
         except AttributeError:
@@ -848,12 +860,12 @@ class LatLon2psxy(_Basequence):
             except (IndexError, TypeError, ValueError):
                 raise _IsnotError(_valid_, xy=xy)
 
-            def _3xyll(ll):  # PYCHOK expected
-                return self.point(ll)
+            _x_y_ll3 = self.point  # PYCHOK expected
 
+        _array, _zeros = self._array, self._zeros
         for i in self._range(*start_end):
-            xi, yi, _ = _3xyll(self._array[i])
-            if self._zeros(xi - x, yi - y):
+            xi, yi, _ = _x_y_ll3(_array[i])
+            if _zeros(xi - x, yi - y):
                 yield i
 
     def findall(self, xy, *start_end):
@@ -899,9 +911,10 @@ class LatLon2psxy(_Basequence):
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
         if self._wrap:
             x, y = wrap180(x), wrap90(y)
-        if self._deg2m:  # convert degrees to meter (or radians)
-            x *= self._deg2m
-            y *= self._deg2m
+        d = self._deg2m
+        if d:  # convert degrees to meter (or radians)
+            x *= d
+            y *= d
         return Point3Tuple(x, y, ll)
 
     def rfind(self, xy, *start_end):
@@ -921,19 +934,6 @@ class LatLon2psxy(_Basequence):
         '''(INTERNAL) Slice kwds.
         '''
         return dict(closed=self._closed, radius=self._radius, wrap=self._wrap)
-
-
-class NearestOn5Tuple(_NamedTuple):
-    '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
-       except C{height}.  The C{distance} is the L{equirectangular_}
-       distance between the closest and the reference B{C{point}} in
-       C{degrees}.  The C{angle} from the reference B{C{point}} to
-       the closest point is in compass C{degrees360}, see function
-       L{compassAngle}.  The C{height} is the (interpolated) height
-       at the closest point in C{meter} or C{0}.
-    '''
-    _Names_ = (_lat_, _lon_, _distance_, _angle_, _height_)
-    _Units_ = ( Lat,   Lon,   Degrees,    Degrees, Degrees)
 
 
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
@@ -1547,16 +1547,12 @@ def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
 
 
 def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
-    '''Locate the point on a path or polygon closest to an other point.
+    '''Locate the point on a path or polygon closest to a reference point.
 
-       If the given point is within the extent of a polygon edge,
-       the closest point is on that edge, otherwise the closest
-       point is the nearest of that edge's end points.
+       The closest point is either on and within the extent of a polygon edge or
+       the nearest of that edge's end points.
 
-       Distances are approximated by function L{equirectangular_},
-       subject to the supplied B{C{options}}.
-
-       @arg point: The other, reference point (C{LatLon}).
+       @arg point: Reference point (C{LatLon}).
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg wrap: Wrap and L{unroll180} longitudes and longitudinal
@@ -1580,7 +1576,12 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
+       @note: Distances are I{approximated} using function L{equirectangular_},
+              subject to the supplied B{C{options}}.  Method C{LatLon.nearestOn6}
+              measures distances more accurately.
+
+       @see: Function L{nearestOn6} for cartesian points.  Use function
+             L{degrees2m} to convert C{degrees} to C{meter}.
     '''
     def _d2yx(p2, p1, u, w):
         # w = wrap if (not closed or w < (n - 1)) else False
@@ -1594,6 +1595,8 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     def _h(p):  # get height or default 0
         return getattr(p, _height_, 0) or 0
 
+    # 3-D version used in .vector3d._nearestOn2
+    #
     # point (x, y) on axis rotated ccw by angle a:
     #   x' = y * sin(a) + x * cos(a)
     #   y' = y * cos(a) - x * sin(a)
@@ -1613,6 +1616,8 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     #   f = w / hypot(dx, dy)
     # or
     #   f = (y * dy + x * dx) / hypot2(dx, dy)
+    #
+    # i.e. no need for sqrt or hypot
 
     Ps = PointsIter(points, loop=1)
     p1 = c = Ps[0]
@@ -1640,7 +1645,7 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
                     else:  # p2 is closest
                         p1, u1 = p2, u2
                     d2, y01, x01, _ = _d2yx(point, p1, u1, closed)
-            if d2 < d:  # p1 is closer, y01 and x01 inverted
+            if d2 < d:  # p1 is closer, y01 and x01 negated
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
         p1, u1 = p2, u2
 

@@ -12,7 +12,7 @@ from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
 from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
-from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0
+from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0, unstr
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
                              _distant_, _inside_, _near_, _null_, _outside_, \
                              _too_, _0_0, _0_125, _0_25, _0_5, _1_0, \
@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
-from pygeodesy.streprs import unstr
+# from pygeodesy.streprs import unstr  # from .fmath
 from pygeodesy.units import Degrees_, Distance, Distance_, Height, Lam_, Lat, \
                             Lon, Phi_, Radians, Radians_, Radius, Radius_, \
                             Scalar, _100km
@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.09.14'
+__version__ = '21.09.25'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'

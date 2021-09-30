@@ -610,6 +610,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular" class="summary-sig-name">equirectangular</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Approximate the different between this and an other vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">fraction</span>)</span><br />
@@ -973,7 +991,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid" class="summary-name">euclid</a><br />
-      Approximate the length (norm, magnitude) of this vector.
+      Approximate the length (norm, magnitude) of this vector 
+      (<code>Float</code>).
     </td>
   </tr>
 <tr>
@@ -981,7 +1000,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length" class="summary-name">length</a><br />
-      Get the length (norm, magnitude) of this vector (<code>float</code>).
+      Get the length (norm, magnitude) of this vector (<code>Float</code>).
     </td>
   </tr>
 <tr>
@@ -989,7 +1008,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#length2" class="summary-name">length2</a><br />
-      Get the length <i>squared</i> of this vector (<code>float</code>).
+      Get the length <i>squared</i> of this vector (<code>Float</code>).
     </td>
   </tr>
 <tr>
@@ -1939,6 +1958,39 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="equirectangular"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangular</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the different between this and an other vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - Vector to subtract (<code>Vector3dBase</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The lenght <i>squared</i> of the difference (<code>Float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>length2</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="intermediateTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2008,7 +2060,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>x</code>, <code>y</code> and 
-          <code>z</code> have equal an absolute value and at least 
+          <code>z</code> of this match the other vector's or at least 
           <code><b>minum</b></code> have opposite signs.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2540,11 +2592,13 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">euclid</h3>
-  <p>Approximate the length (norm, magnitude) of this vector.</p>
+  <p>Approximate the length (norm, magnitude) of this vector 
+  (<code>Float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">euclid(<span class="summary-sig-arg">self</span>)</span>
-        - Approximate the length (norm, magnitude) of this vector.
+        - Approximate the length (norm, magnitude) of this vector 
+(<code>Float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2570,11 +2624,11 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
 <tr><td>
   <h3 class="epydoc">length</h3>
   <p>Get the length (norm, magnitude) of this vector 
-  (<code>float</code>).</p>
+  (<code>Float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
-        - Get the length (norm, magnitude) of this vector (<code>float</code>).
+        - Get the length (norm, magnitude) of this vector (<code>Float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2601,11 +2655,11 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length2</h3>
-  <p>Get the length <i>squared</i> of this vector (<code>float</code>).</p>
+  <p>Get the length <i>squared</i> of this vector (<code>Float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">length2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the length <i>squared</i> of this vector (<code>float</code>).
+        - Get the length <i>squared</i> of this vector (<code>Float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2620,7 +2674,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
 <div class="fields">      <p><strong>See Also:</strong>
         Property <a 
         href="pygeodesy.vector3dBase.Vector3dBase-class.html#length" 
-        class="link">length</a>.
+        class="link">length</a> and method <code>equirectangular</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2782,7 +2836,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:02 2021
+    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:45 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

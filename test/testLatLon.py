@@ -20,7 +20,7 @@ from pygeodesy.namedTuples import Bounds2Tuple, \
 
 class Tests(TestsBase):
 
-    def testLatLon(self, module, Sph=False, Nv=False, X=False, GS=False):  # MCCABE 45
+    def testLatLon(self, module, Sph=False, Nv=False, X=False, GS=False):  # MCCABE 108
 
         self.subtitle(module, 'LatLon')
 
@@ -227,8 +227,8 @@ class Tests(TestsBase):
             e = LatLon(53.1887, 0.1334)
             p = LatLon(53.2611, -0.7972)
             try:
-                d = p.alongTrackDistanceTo(s, 96, TypeError.__name__, known=True)
-                self.test('alongTrackDistanceTo', d, '62331.59', fmt='%.2f')  # 62331
+                d = p.alongTrackDistanceTo(s, 96, TypeError.__name__)
+                self.test('alongTrackDistanceTo', d, '62331.59', fmt='%.2f', known=True)  # 62331
             except TypeError as x:
                 self.test('alongTrackDistanceTo', str(x), 'incompatible ...', known=True)  # PYCHOK test attr?
             d = p.alongTrackDistanceTo(s, e)
@@ -269,6 +269,13 @@ class Tests(TestsBase):
             p = LatLon(53.3206, -1.7297)
             gc = p.greatCircle(96.0)
             self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')  # PYCHOK test attr?
+
+        if hasattr(LatLon, 'nearestOn6'):
+            b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
+            p = LatLon(1, 1).nearestOn6(b, height=0)
+            self.test('neareston6', p, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0, None, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))', known=not X)
+            p = LatLon(45.5, 2.5).nearestOn6(b, height=0)
+            self.test('neareston6', p, '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 2, 0.501072, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))', known=not X)  # PYCHOK test attr?
 
         p = LatLon(53.3206, -1.7297)
         q = LatLon(53.1887, 0.1334)

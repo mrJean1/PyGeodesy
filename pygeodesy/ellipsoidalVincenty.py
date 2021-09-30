@@ -54,30 +54,30 @@ from __future__ import division
 
 from pygeodesy.basics import isnear0
 from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase
-from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
-                                       _intersection3, _intersections2, \
-                                       _nearestOn
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
+from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
+                                       _intersection3, _intersections2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import fpolynomial, fsum_, hypot, hypot1
-from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, \
-                             _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
+from pygeodesy.interns import EPS, NN, _ambiguous_, _antipodal_, \
+                             _convergence_, _no_, _SPACE_, _to_, \
+                             _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
-from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
+from pygeodesy.units import Number_, Scalar_
 from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.09.14'
+__version__ = '21.09.28'
 
-_antipodal_ = 'antipodal '  # trailing _SPACE_
-_limit_     = 'limit'  # PYCHOK used!
+_antipodal__ = _antipodal_ + _SPACE_
+_limit_      = 'limit'  # PYCHOK used!
 
 
 class VincentyError(_ValueError):
@@ -290,7 +290,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
                 if self.isantipodeTo(other, eps=self._epsilon):
-                    t = '%r %s%s %r' % (self, _antipodal_, _to_, other)
+                    t = '%r %s%s %r' % (self, _antipodal__, _to_, other)
                     raise VincentyError(_ambiguous_, txt=t)
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(_0_0, 0, 0)
@@ -314,9 +314,9 @@ class LatLon(LatLonEllipsoidalBaseDI):
 #           # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
-#                                  _antipodal_, other))
+#                                  _antipodal__, other))
         else:
-            t = _antipodal_ if self.isantipodeTo(other, eps=self._epsilon) else NN
+            t = _antipodal__ if self.isantipodeTo(other, eps=self._epsilon) else NN
             t = '%r %s%s %r' % (self, t, _to_, other)
             raise VincentyError(_no_(_convergence_), txt=t)
 
@@ -429,6 +429,11 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
               times the distance from the start point to an initial gu-/estimate
               of the intersection point (and between 1/8 and 3/8 of the authalic
               earth perimeter).
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>} and U{Karney's paper
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+             BOUNDARIES} for more details about the iteration algorithm.
     '''
     return _intersection3(start1, end1, start2, end2, height=height, wrap=wrap,
                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
@@ -484,8 +489,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Iteratively locate the closest point on the arc between two
-       other (ellipsoidal) points.
+    '''Iteratively locate the closest point on the geodesic between
+       two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the arc (C{LatLon}).
@@ -495,8 +500,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       closest point elsewhere on the arc (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},
                       conventionally) or C{None} or C{False} for the
-                      interpolated height.  If C{False}, the distance
-                      between points takes height into account.
+                      interpolated height.  If C{False}, the closest
+                      takes the heights of the points into account.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
                            or function L{equidistant}) or C{None} for
@@ -519,6 +524,11 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                          or B{C{point2}} or invalid B{C{equidistant}}.
 
        @raise ValueError: No convergence for the B{C{tol}}.
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>} and U{Karney's paper
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+             BOUNDARIES} for more details about the iteration algorithm.
     '''
     return _nearestOn(point, point1, point2, within=within, height=height, wrap=wrap,
                       equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)

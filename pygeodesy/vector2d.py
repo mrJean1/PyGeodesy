@@ -20,14 +20,14 @@ from pygeodesy.named import Fmt, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Float, Int, Meter, Radius, Radius_
-from pygeodesy.vector3d import iscolinearWith, nearestOn, _nVc, _otherV3d, \
+from pygeodesy.vector3d import iscolinearWith, nearestOn, _nearestOn2, _nVc, _otherV3d, \
                                trilaterate2d2, trilaterate3d2, Vector3d  # PYCHOK unused
 
 from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.09.19'
+__version__ = '21.09.25'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -290,7 +290,7 @@ def _iscolinearWith(p, point1, point2, eps=EPS, useZ=True):
     # separated to allow callers to embellish any exceptions
     p1 = _otherV3d(useZ=useZ, point1=point1)
     p2 = _otherV3d(useZ=useZ, point2=point2)
-    n  = _nearestOn(p, p1, p2, within=False, eps=eps)
+    n, _ = _nearestOn2(p, p1, p2, within=False, eps=eps)
     return n is p1 or n.minus(p).length2 < eps
 
 
@@ -357,21 +357,6 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
         if clas is not None:
             t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=meeus2.__name__))
     return r, t, p2, p3
-
-
-def _nearestOn(p0, p1, p2, within=True, eps=EPS):
-    # (INTERNAL) Get closest point, see L{nearestOn} above,
-    # separated to allow callers to embellish any exceptions
-    p21 = p2.minus(p1)
-    d2 = p21.length2
-    if d2 < eps:  # coincident
-        p = p1  # ~= p2
-    else:
-        t = p0.minus(p1).dot(p21) / d2
-        p = p1 if (within and t < eps) else (
-            p2 if (within and t > (_1_0 - eps)) else
-            p1.plus(p21.times(t)))
-    return p
 
 
 def _null_space2(numpy, A, eps):

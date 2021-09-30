@@ -411,11 +411,25 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     @Property_RO
     def euclid(self):
-        '''Approximate the length (norm, magnitude) of this vector.
+        '''Approximate the length (norm, magnitude) of this vector (C{Float}).
 
            @see: Function L{euclid_} and properties C{length} and C{length2}.
         '''
         return Float(euclid=euclid_(self.x, self.y, self.z))
+
+    def equirectangular(self, other):
+        '''Approximate the different between this and an other vector.
+
+           @arg other: Vector to subtract (C{Vector3dBase}).
+
+           @return: The lenght I{squared} of the difference (C{Float}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+
+           @see: Property C{length2}.
+        '''
+        d = self.minus(other)
+        return Float(equirectangular=hypot2_(d.x, d.y, d.z))
 
     def intermediateTo(self, other, fraction):
         '''Locate the vector at a given fraction between this and an
@@ -429,8 +443,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
+        f = Scalar(fraction=fraction)
         d = self.others(other).minus(self)
-        return self.plus(d.times(Scalar(fraction=fraction)))
+        return self.plus(d.times(f))
 
     def isconjugateTo(self, other, minum=1, eps=EPS):
         '''Determine whether this and an other vector are conjugates.
@@ -441,8 +456,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @kwarg eps: Tolerance for equality and conjugation (C{scalar}),
                        same units as C{x}, C{y}, and C{z}.
 
-           @return: C{True} if C{x}, C{y} and C{z} have equal an absolute
-                    value and at least C{B{minum}} have opposite signs.
+           @return: C{True} if C{x}, C{y} and C{z} of this match the other
+                    vector's or at least C{B{minum}} have opposite signs.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
 
@@ -452,7 +467,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
         n = 0
         for a, b in zip(self.xyz, other.xyz):
-            if (a * b) < 0 and abs(a + b) < eps:
+            if abs(a + b) < eps and (a * b) < 0:
                 n += 1  # conjugate
             elif abs(a - b) > eps:
                 return False  # unequal
@@ -482,7 +497,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     @Property_RO
     def length(self):  # __dict__ value overwritten by Property_RO C{_united}
-        '''Get the length (norm, magnitude) of this vector (C{float}).
+        '''Get the length (norm, magnitude) of this vector (C{Float}).
 
            @see: Properties L{length2} and L{euclid}.
         '''
@@ -490,9 +505,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     @Property_RO
     def length2(self):  # __dict__ value overwritten by Property_RO C{_united}
-        '''Get the length I{squared} of this vector (C{float}).
+        '''Get the length I{squared} of this vector (C{Float}).
 
-           @see: Property L{length}.
+           @see: Property L{length} and method C{equirectangular}.
         '''
         return Float(length2=hypot2_(self.x, self.y, self.z))
 

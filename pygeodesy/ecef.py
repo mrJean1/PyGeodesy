@@ -88,7 +88,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.09.19'
+__version__ = '21.09.27'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -196,6 +196,16 @@ class _EcefBase(_NamedBase):
 
         self._datum = d
         self._E = E
+
+    def __eq__(self, other):
+        '''Compare this and an other Ecef.
+
+           @arg other: The other ecef (C{Ecef*}).
+
+           @return: C{True} if equal, C{False} otherwise.
+        '''
+        return other is self or (isinstance(other, _EcefBase) and
+                                 other.ellipsoid == self.ellipsoid)
 
     @Property_RO
     def equatoradius(self):

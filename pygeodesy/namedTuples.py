@@ -12,25 +12,29 @@ from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
-                             _easting_, _epoch_, _h_, _height_, _hemipole_, \
-                             _lam_, _lat_, _lon_, _n_, _northing_, _number_, \
-                             _outside_, _phi_, _point_, _points_, _precision_, \
-                             _radius_, _reframe_, _scale_, _x_, _y_, _z_, \
+                             _easting_, _end_, _epoch_, _h_, _height_, \
+                             _hemipole_, _lam_, _lat_, _lon_, _n_, \
+                             _northing_, _number_, _outside_, _phi_, \
+                             _point_, _points_, _precision_, _radius_, \
+                             _reframe_, _scale_, _start_, _x_, _y_, _z_, \
                              _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.09.09'
+__version__ = '21.09.27'
 
 # __DUNDER gets mangled in class
-_elel_    = 'll'
-_final_   = 'final'
-_initial_ = 'initial'
+_closest_  = 'closest'
+_elel_     = 'll'
+_final_    = 'final'
+_fraction_ = 'fraction'
+_index_    = 'index'
+_initial_  = 'initial'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -202,14 +206,15 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
 def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
     '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
     '''
-    if LatLon is None:
+    if LatLon is None:  # ignore LatLon_kwds
         r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
-        r = {} if inst is None else _xkwds_not(None,
-                                     epoch=  getattr(inst, _epoch_,   None),
-                                     reframe=getattr(inst, _reframe_, None))
-        kwds = _xkwds(LatLon_kwds, datum=datum, height=height, **r)
-        r = _xnamed(LatLon(lat, lon, **kwds), name)
+        kwds = {} if inst is None else _xkwds_not(None,
+#                            datum=getattr(inst, _datum_,   None),
+                             epoch=getattr(inst, _epoch_,   None),
+                           reframe=getattr(inst, _reframe_, None))  # PYCHOK indent
+        r = LatLon(lat, lon, **_xkwds(LatLon_kwds, datum=datum, height=height,
+                                                    name=name, **kwds))
     return r
 
 
@@ -258,6 +263,19 @@ class LatLonPrec5Tuple(_NamedTuple):  # .wgrs.py
     _Units_ = ( Lat,   Lon,   Precision_,  Height,   Radius)
 
 
+class NearestOn2Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
+    '''2-Tuple C{(closest, fraction)} of the C{closest} point
+       on and C{fraction} along a line (segment) between two
+       points.  The C{fraction} is C{0} if the closest point
+       is the first or C{1} the second of the two points.
+       Negative C{fraction}s indicate the closest point is
+       C{before} the first point.  For C{fraction > 1.0}
+       the closest point is after the second point.
+    '''
+    _Names_ = (_closest_, _fraction_)
+    _Units_ = (_Pass,     _Pass)
+
+
 class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
     '''3-Tuple C{(closest, distance, angle)} of the C{closest}
        point on the polygon, either a C{LatLon} instance or a
@@ -265,8 +283,48 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
        and C{angle} to the C{closest} point are in C{meter}
        respectively compass C{degrees360}.
     '''
-    _Names_ = ('closest', _distance_, _angle_)
+    _Names_ = (_closest_, _distance_, _angle_)
     _Units_ = (_Pass,      Meter,      Degrees)
+
+
+class NearestOn5Tuple(_NamedTuple):
+    '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
+       except C{height}.  The C{distance} is the L{equirectangular_}
+       distance between the closest and the reference B{C{point}} in
+       C{degrees}.  The C{angle} from the reference B{C{point}} to
+       the closest point is in compass C{degrees360}, see function
+       L{compassAngle}.  The C{height} is the (interpolated) height
+       at the closest point in C{meter} or C{0}.
+    '''
+    _Names_ = (_lat_, _lon_, _distance_, _angle_, _height_)
+    _Units_ = ( Lat,   Lon,   Degrees,    Degrees, Meter)
+
+
+class NearestOn6Tuple(_NamedTuple):  # .latlonBase.py, .vector3d.py
+    '''6-Tuple C{(closest, distance, index, fraction, start, end)} with
+       the C{closest} point and the C{distance} in C{meter}, conventionally
+       and the C{start} and C{end} points of the path or polygon edge.  If
+       C{fraction} is C{None}, the C{closest} point was path or polygon
+       C{points[index]}, otherwise C{closest} point is on the path polygon
+       edge between/from C{point[index]} or C{start} and/to C{points[index
+       + 1]}] or C{end}.  The C{start} and C{end} may differ from the path
+       or polygon points if the latter were unrolled (C{wrap} is C{True}).
+       The C{start} and/or C{end} point may be the same instance as the
+       C{closest} point, for example when the very first path or polygon
+       C{points[0]} is the nearest.
+    '''
+    _Names_ = (_closest_, _distance_, _index_,  _fraction_, _start_, _end_)
+    _Units_ = (_Pass,      Meter,      Number_, _Pass,      _Pass  , _Pass)
+
+
+class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py
+    '''8-Tuple C{(closest, distance, index, fraction, start, end, initial,
+       final)}, like L{NearestOn6Tuple} extended with the C{initial} and
+       C{final} bearing at the reference respectively the C{closest} point,
+       both in compass C{degrees}.
+    '''
+    _Names_ = NearestOn6Tuple._Names_ + Distance3Tuple._Names_[-2:]
+    _Units_ = NearestOn6Tuple._Units_ + Distance3Tuple._Units_[-2:]
 
 
 class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, .points.py, .vector3d.py

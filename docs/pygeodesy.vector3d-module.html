@@ -72,7 +72,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.09.20
+        21.09.29
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -166,6 +166,51 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Check whether a point is colinear with two other (2- or 3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Locate the point between two points closest to a reference (2- or 
+      3-D).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#nearestOn6" class="summary-sig-name">nearestOn6</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
+      Locate the point on a path or polygon closest to a reference point.</td>
           <td align="right" valign="top">
             
             
@@ -484,7 +529,148 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector3d-module.html#nearestOn" 
-        class="link" onclick="show_private();">vector2d.nearestOn</a>.
+        class="link">vector2d.nearestOn</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">point</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point between two points closest to a reference (2- or 
+  3-D).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - Reference point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point1</code></strong> - Start point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between both given 
+          points, otherwise the closest point on the extended line through 
+          both points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return closest point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point, either <b><code>point1</code></b> or 
+          <b><code>point2</code></b> or an instance of the 
+          <b><code>point</code></b>'s (sub-)class or 
+          <b><code>Vector</code></b> if not <code>None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point</code></b>, <b><code>point1</code></b> or 
+        <b><code>point2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
+        target="_top">3-D Point-Line Distance</a>, <code>Cartesian</code> 
+        and <code>LatLon</code> methods <code>nearestOn</code>, method <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn3"
+        class="link">sphericalTrigonometry.LatLon.nearestOn3</a> and 
+        function <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
+        class="link">sphericalTrigonometry.nearestOn3</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="nearestOn6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn6</span>&nbsp;(<span class="sig-arg">point</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**Vector_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a path or polygon closest to a reference 
+  point.</p>
+  <p>The closest point is either on and within the extent of a polygon edge
+  or the nearest of that edge's end points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - Reference point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
+          closest point and optional, additional <b><code>Vector</code></b>
+          keyword arguments, otherwise <b><code>point</code></b>'s 
+          (sub-)class.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
+          class="link">NearestOn6Tuple</a><code>(closest, distance, index, 
+          fraction, start, end)</code> with the {closest}, 
+          <code>start</code> and <code>end</code> points each an instance 
+          of <b><code>Vector</code></b> or if <b><code>Vector</code></b> is
+          not specified or <code><b>Vector</b>=None</code>, an instance of 
+          <b><code>point</code></b>'s (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-cartesian <b><code>point</code></b> and 
+        <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Distances measured with method <a 
+        href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
+        class="link">Vector3d.equirectangular</a>.
+      </p>
+      <p><strong>See Also:</strong>
+        Method <code>LatLon.nearestOn6</code> or function <a 
+        href="pygeodesy.points-module.html#nearestOn5" 
+        class="link">nearestOn5</a> for geodetic points.
       </p>
 </div></td></tr></table>
 </div>
@@ -758,7 +944,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:00 2021
+    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

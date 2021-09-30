@@ -235,6 +235,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn6" class="summary-sig-name">nearestOn6</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Locate the point on a path or polygon closest to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">str3d</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
@@ -371,6 +391,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy">dividedBy</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dot">dot</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular">equirectangular</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#intermediateTo">intermediateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isconjugateTo">isconjugateTo</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#isequalTo">isequalTo</a></code>,
@@ -787,6 +808,61 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="nearestOn6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn6</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point on a path or polygon closest to this point.</p>
+  <p>The closest point is either on and within the extent of a polygon edge
+  or the nearest of that edge's end points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>[]).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
+          <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
+          class="link">NearestOn6Tuple</a><code>(closest, distance, index, 
+          fraction, start, end)</code> with {closest}, <code>start</code> 
+          and <code>end</code> each an instance of this point's 
+          (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-cartesian <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Distances measured with method <a 
+        href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular"
+        class="link">Vector3d.equirectangular</a>.
+      </p>
+      <p><strong>See Also:</strong>
+        Function <a 
+        href="pygeodesy.vector3d.Vector3d-class.html#nearestOn6" 
+        class="link">nearestOn6</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="parse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1107,7 +1183,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 21 14:31:02 2021
+    Generated by Epydoc 3.0.1 on Wed Sep 29 18:16:45 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

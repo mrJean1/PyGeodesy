@@ -14,23 +14,23 @@ from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _IsnotError, \
                              _ValueError, _xkwds
-from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2  # hypot
+from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.named import _xnamed  # from .namedTuples
-from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, _xnamed
+# from pygeodesy.named import _xnamed  # from .vector3d
+from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property, \
                             Property_RO, property_doc_
-from pygeodesy.streprs import Fmt
-from pygeodesy.units import Height
-from pygeodesy.vector3d import Vector3d, _xyzhdn6
+# from pygeodesy.streprs import Fmt  # from .fmath
+# from pygeodesy.units import Height  # from .namedTuples
+from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
 
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.09.19'
+__version__ = '21.09.25'
 
 
 class CartesianBase(Vector3d):

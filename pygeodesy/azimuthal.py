@@ -256,7 +256,7 @@ class _AzimuthalBase(_NamedBase):
            .ellipsoidalBaseDI._intersects2 and .ellipsoidalBaseDI._nearestOne.
         '''
         t = self.reverse(x, y)  # LatLon=None
-        d = euclid(t.lat - self.lat0, t.lon - self.lon0)
+        d = euclid(t.lat - self.lat0, t.lon - self.lon0)  # degrees
         return t, d
 
     def _toLatLon(self, lat, lon, LatLon, LatLon_kwds, name):

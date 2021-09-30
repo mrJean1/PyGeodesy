@@ -26,8 +26,8 @@ from __future__ import division
 
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                      LatLonEllipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
+                                      LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
@@ -44,7 +44,7 @@ from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
 from pygeodesy.utily import sincos2d_
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.08.29'
+__version__ = '21.09.23'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -626,6 +626,52 @@ def meanOf(points, datum=_WGS84, height=None, LatLon=LatLon,
     kwds = _xkwds(LatLon_kwds, height=height, datum=datum,
                                LatLon=LatLon, name=meanOf.__name__)
     return m.toLatLon(**kwds)
+
+
+def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
+              equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+    '''Iteratively locate the closest point on the geodesic between
+       two other (ellipsoidal) points.
+
+       @arg point: Reference point (C{LatLon}).
+       @arg point1: Start point of the arc (C{LatLon}).
+       @arg point2: End point of the arc (C{LatLon}).
+       @kwarg within: If C{True} return the closest point I{between}
+                      B{C{point1}} and B{C{point2}}, otherwise the
+                      closest point elsewhere on the arc (C{bool}).
+       @kwarg height: Optional height for the closest point (C{meter},
+                      conventionally) or C{None} or C{False} for the
+                      interpolated height.  If C{False}, the closest
+                      takes the heights of the points into account.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg equidistant: An azimuthal equidistant projection (I{class}
+                           or function L{equidistant}) or C{None} for
+                           the preferred C{B{point}.Equidistant}.
+       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg LatLon: Optional class to return the closest point
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if C{B{LatLon} is None}.
+
+       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}
+                is None}, a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
+
+       @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
+                         or B{C{point2}} or invalid B{C{equidistant}}.
+
+       @raise ValueError: No convergence for the B{C{tol}}.
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>} and U{Karney's paper
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
+             BOUNDARIES} for more details about the iteration algorithm.
+    '''
+    return _nearestOn(point, point1, point2, within=within, height=height, wrap=wrap,
+                      equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):

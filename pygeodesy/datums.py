@@ -71,9 +71,9 @@ from __future__ import division
 
 from pygeodesy.basics import isscalar, neg_, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
-                                 Ellipsoid2, Ellipsoids
-from pygeodesy.errors import _IsnotError
-from pygeodesy.fmath import fdot, fmean
+                                 Ellipsoid2, Ellipsoids, Vector3Tuple
+# from pygeodesy.errors import _IsnotError  # from .fmath
+from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
 from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, \
                              _DOT_, _ellipsoid_, _ellipsoidal_, _float as _F, \
@@ -84,16 +84,16 @@ from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
-                                    _lazyNamedEnumItem as _lazy
-from pygeodesy.namedTuples import Vector3Tuple
-from pygeodesy.props import Property_RO
-from pygeodesy.streprs import Fmt
+                                    _lazyNamedEnumItem as _lazy, Property_RO
+# from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
+# from pygeodesy.props import Property_RO  # from .named
+# from pygeodesy.streprs import Fmt  # from .fmath
 from pygeodesy.units import Radius_
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.06.18'
+__version__ = '21.09.25'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'

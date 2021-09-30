@@ -88,6 +88,7 @@ _Airy1830_            = 'Airy1830'           # PYCHOK expected
 _AiryModified_        = 'AiryModified'       # PYCHOK expected
 _an_                  = 'an'                 # PYCHOK expected
 _angle_               = 'angle'              # PYCHOK expected
+_antipodal_           = 'antipodal'          # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
 _ambiguous_           = 'ambiguous'          # PYCHOK expected
 # _AMPERSAND_   = _Join('&')                 # PYCHOK expected
@@ -160,7 +161,6 @@ _f_                   = 'f'                  # PYCHOK expected
 _feet_                = 'feet'               # PYCHOK expected
 _few_                 = 'few'                # PYCHOK expected
 _finite_              = 'finite'             # PYCHOK expected
-_fraction_            = 'fraction'           # PYCHOK expected
 _from_                = 'from'               # PYCHOK expected
 _g_                   = 'g'                  # PYCHOK expected
 _gamma_               = 'gamma'              # PYCHOK expected
@@ -169,9 +169,9 @@ _h_                   = 'h'                  # PYCHOK expected
 _H_                   = 'H'                  # PYCHOK expected
 _height_              = 'height'             # PYCHOK expected
 _hemipole_            = 'hemipole'           # PYCHOK expected
-_immutable_           = 'immutable'          # PYCHOK expected
 _i_                   = 'i'                  # PYCHOK expected
 _I_                   = 'I'                  # PYCHOK expected
+_immutable_           = 'immutable'          # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
 _initial_             = 'initial'            # PYCHOK expected
@@ -476,7 +476,7 @@ __all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.09.19'
+__version__ = '21.09.28'
 
 
 def _load_lib(name):  # must startwith('lib')
