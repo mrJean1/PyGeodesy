@@ -66,7 +66,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.08.12'
+__version__ = '21.10.05'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -107,7 +107,7 @@ class RefFrame(_NamedEnumItem):
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar} or C{str}).
            @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
-                           L{datum} or L{a_f2Tuple}).
+                           L{Datum} or L{a_f2Tuple}).
            @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: A L{RefFrame} with that B{C{name}}

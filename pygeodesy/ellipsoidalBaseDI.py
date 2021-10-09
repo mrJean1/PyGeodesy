@@ -7,7 +7,7 @@ C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import isscalar, issubclassof
+from pygeodesy.basics import isnear0, isnear1, isscalar, issubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
                                       property_RO, _TOL_M
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
@@ -29,7 +29,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = ()
-__version__ = '21.09.29'
+__version__ = '21.10.06'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
@@ -226,8 +226,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            methods.
 
            @arg other: The other point (C{LatLon}).
-           @arg fraction: Fraction between both points ranging from
-                          0, meaning this to 1, the other point (C{float}).
+           @arg fraction: Fraction between both points (C{scalar},
+                          0.0 at this and 1.0 at the other point.
            @kwarg height: Optional height, overriding the fractional
                           height (C{meter}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
@@ -243,10 +243,16 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @see: Methods L{distanceTo3} and L{destination}.
         '''
-        t = self.distanceTo3(other, wrap=wrap)
         f = Scalar(fraction=fraction)
-        h = self._havg(other, f=f) if height is None else Height(height)
-        return self.destination(t.distance * f, t.initial, height=h)
+        if isnear0(f):
+            r = self
+        elif isnear1(f) and not wrap:
+            r = self.others(other)
+        else:  # negative fraction OK
+            t = self.distanceTo3(other, wrap=wrap)
+            h = self._havg(other, f=f) if height is None else Height(height)
+            r = self.destination(t.distance * f, t.initial, height=h)
+        return r
 
     def _Inverse(self, other, wrap, **unused):  # azis=False, overloaded by I{Vincenty}
         '''(INTERNAL) I{Karney}'s C{Inverse} method.
@@ -277,8 +283,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start,
                     end, initial, final)} with C{distance} in C{meter},
-                    conventionally and with the {closest}, {start} and
-                    {end} point each an instance of this C{LatLon}.
+                    conventionally and with the C{closest}, the C{start}
+                    the C{end} point each an instance of this C{LatLon}.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -287,20 +293,19 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @raise ValueError: Some B{C{points}}' datum or ellipsoid incompatible
                               or no convergence for the given B{C{tol}}.
 
-           @see: Function L{nearestOn6} and method C{nearestOn6}.
+           @see: Function L{pygeodesy.nearestOn6} and method C{nearestOn6}.
         '''
-        p  = self
         D3 = self.distanceTo3  # Distance3Tuple
 
         try:
-            Ps = p.PointsIter(points, loop=1)
+            Ps = self.PointsIter(points, loop=1)
             p1 = c = s = e = Ps[0]
-            _  = p.ellipsoids(p1)
-            c3 = D3(c, wrap=wrap)
+            _  = self.ellipsoids(p1)
+            c3 = D3(c, wrap=wrap)  # XXX wrap=False?
 
         except (TypeError, ValueError) as x:
-            raise _xError(x, Fmt.SQUARE(points=0), p1, this=p, closed=closed,
-                             height=height, wrap=wrap, tol=tol)
+            raise _xError(x, Fmt.SQUARE(points=0), p1, this=self, tol=tol,
+                             closed=closed, height=height, wrap=wrap)
 
         # get the azimuthal equidistant projection, once
         A = _Equidistant00(equidistant, c)
@@ -308,25 +313,26 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         m = f = i = 0  # p1..p2 == points[i]..[j]
 
         kwds = dict(within=True, height=height, tol=tol,
-                    LatLon=p.classof, datum=p.datum, epoch=p.epoch, reframe=p.reframe)
+                    LatLon=self.classof,  # this LatLon
+                    datum=self.datum, epoch=self.epoch, reframe=self.reframe)
         try:
             for j, p2 in Ps.enumerate(closed=closed):
                 if wrap and j != 0:
                     p2 = _unrollon(p1, p2)
-                # check whether edge (p1..p2) overlaps bounding box
+                # skip edge if no overlap with box around closest
                 if j < 4 or b.overlaps(p1.lat, p1.lon, p2.lat, p2.lon):
-                    r, t = _nearestOn2_(p, p1, p2, A, **kwds)
-                    d3 = D3(r, wrap=False)
+                    p, t, _ = _nearestOn3_(self, p1, p2, A, **kwds)
+                    d3 = D3(p, wrap=False)  # already unrolled
                     if d3.distance < c3.distance:
-                        c3, c, s, e, f = d3, r, p1, p2, (i + t)
+                        c3, c, s, e, f = d3, p, p1, p2, (i + t)
                         b = _Box(c, c3.distance)
-                        m =  max(m, r.iteration)
+                        m =  max(m, c.iteration)
                 p1, i = p2, j
 
         except (TypeError, ValueError) as x:
             raise _xError(x, Fmt.SQUARE(points=i), p1,
-                             Fmt.SQUARE(points=j), p2, this=p, closed=closed,
-                             height=height, wrap=wrap, tol=tol)
+                             Fmt.SQUARE(points=j), p2, this=self, tol=tol,
+                             closed=closed, height=height, wrap=wrap)
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
@@ -343,6 +349,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
 class _Box(object):
     '''Bounding box around a C{LatLon} point.
+
+       @see: Function C{_box4} in .clipy.py.
     '''
     def __init__(self, center, distance):
         '''New L{_Box} around point.
@@ -704,18 +712,18 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
     A = _Equidistant00(equidistant, p)
 
     if wrap:
-        p1 = _unrollon(p,  p1)
-        p2 = _unrollon(p,  p2)
+        p1 = _unrollon(p,  p1)  # XXX do not unroll?
+        p2 = _unrollon(p,  p2)  # XXX do not unroll?
         p2 = _unrollon(p1, p2)
 
-    r, f = _nearestOn2_(p, p1, p2, A, within=within, height=height,
-                                      tol=tol, **LatLon_and_kwds)
+    r, f, e = _nearestOn3_(p, p1, p2, A, within=within, height=height,
+                                         tol=tol, **LatLon_and_kwds)
     return NearestOn2Tuple(r, f)
 
 
-def _nearestOn2_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
+def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
                                LatLon=None, **LatLon_kwds):
-    # (INTERNAL) See function C{_nearestOn2} and method C{nearestOn8} above
+    # Only function C{_nearestOn2} and method C{nearestOn8} above
     from pygeodesy.sphericalNvector import LatLon as _LLS
     from pygeodesy.vector3d import _nearestOn2 as _vnOn2, Vector3d
 
@@ -768,7 +776,7 @@ def _nearestOn2_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
         h = height
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p, name=n)
     r._iteration = t.iteration  # for tests
-    return r, f  # fraction or None
+    return r, f, e  # fraction or None
 
 
 __all__ += _ALL_DOCS(LatLonEllipsoidalBaseDI)

@@ -62,7 +62,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.07.31'
+__version__ = '21.10.05'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -211,7 +211,7 @@ def _to3zBll(lat, lon, cmoff=True):
 
 def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
     '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
-        falsed, name) for L{toEtm8} and L{toUtm8}.
+        falsed, name) for methods L{toEtm8} and L{toUtm8}.
     '''
     f = falsed and _xkwds_get(cmoff, cmoff=True)  # DEPRECATED
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
@@ -331,7 +331,7 @@ class Utm(UtmUpsBase):
 
     @Property_RO
     def _etm(self):
-        '''(INTERNAL) Cache for L{toEtm}.
+        '''(INTERNAL) Cache for method L{toEtm}.
         '''
         from pygeodesy.etm import Etm
         return self._xcopy2(Etm)
@@ -355,13 +355,13 @@ class Utm(UtmUpsBase):
 
     @Property_RO
     def _mgrs(self):
-        '''(INTERNAL) Cache for L{toMgrs}.
+        '''(INTERNAL) Cache for method L{toMgrs}.
         '''
         return _toMgrs(self)
 
     @Property_RO
     def _mgrs_lowerleft(self):
-        '''(INTERNAL) Cache for L{toMgrs}, I{un}-centered.
+        '''(INTERNAL) Cache for method L{toMgrs}, I{un}-centered.
         '''
         u = self._lowerleft
         return self._mgrs if u is self else _toMgrs(u)
@@ -378,7 +378,7 @@ class Utm(UtmUpsBase):
 
            @raise UTMError: Invalid B{C{strUTM}}.
 
-           @see: Function L{parseUPS5} and L{parseUTMUPS5}.
+           @see: Functions L{pygeodesy.parseUPS5} and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseUTM5(strUTM, datum=self.datum, Utm=self.classof,
                                  name=name or self.name)
@@ -502,7 +502,7 @@ class Utm(UtmUpsBase):
 
            @return: The MGRS grid reference (L{Mgrs}).
 
-           @see: Function L{toMgrs} in L{mgrs} for more details.
+           @see: Function L{pygeodesy.toMgrs} in module L{mgrs} for more details.
         '''
         return self._mgrs if center in (False, 0, _0_0) else (
                self._mgrs_lowerleft if center in (True,) else
@@ -635,7 +635,7 @@ def _lowerleft(utm, center):  # by .ellipsoidalBase.LatLon.toUtm
 def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, name=NN):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
-       see L{parseETM5} and L{parseUTM5}.
+       see L{pygeodesy.parseETM5} and L{parseUTM5}.
     '''
     z, h, e, n, B = _parseUTMUPS5(strUTM, None, Error=Error)
     if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX or (B and B not in _Bands):
@@ -712,9 +712,9 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
                 hemipole, easting, northing, band, datum, convergence,
                 scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM bands or
-                          if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{rangerrors} set to C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
+                          B{C{lat}} or B{C{lon}} outside the valid range
+                          and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{datum}} or B{C{latlon}} not ellipsoidal.
 
@@ -774,7 +774,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
 
 def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
                  name, latlon, eps, Error=UTMError):
-    '''(INTERNAL) Helper for L{toEtm8} and L{toUtm8}.
+    '''(INTERNAL) Helper for methods L{toEtm8} and L{toUtm8}.
     '''
     h = _hemi(lat)
     if f:
@@ -805,10 +805,9 @@ def utmZoneBand5(lat, lon, cmoff=False, name=NN):
                 lat, lon)} where C{hemipole} is the C{'N'|'S'}
                 UTM hemisphere.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM bands
-                          or if B{C{lat}} or B{C{lon}} outside the
-                          valid range and L{rangerrors} set to
-                          C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
+                          B{C{lat}} or B{C{lon}} outside the valid range
+                          and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''

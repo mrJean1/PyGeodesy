@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.09.30'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -74,7 +74,7 @@ class Tests(TestsBase):
             n = interpolator.__class__.__name__
             for a in ('adjust', 'kmin', 'wrap') + attrs:
                 t = getattr(interpolator, a)
-                self.test(_DOT_(n, a), t, t)  # PYCHOK test attr
+                self.test(_DOT_(n, a), t, t)
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)

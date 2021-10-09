@@ -8,7 +8,7 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isscalar, map1
+from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
                              VectorError
 from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
@@ -17,7 +17,8 @@ from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
                              _colinear_, _COMMASPACE_, _1_0
 from pygeodesy.named import _NamedBase, _xother3
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
 # from pygeodesy.utily import sincos2  # from .formy
@@ -25,7 +26,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.09.21'
+__version__ = '21.10.08'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -48,14 +49,16 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __init__(self, x_xyz, y=0, z=0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
-           The vector may be normalised or use x, y, z for position
-           and height relative to the surface of the earth' sphere
-           or ellipsoid, distance from earth centre.
+           The vector may be normalised or use x, y, z for position and height
+           relative to the surface of the earth' sphere or ellipsoid, distance
+           from earth centre.
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
-                       (C{Cartesian}, L{Vector3d} or L{Vector3Tuple}).
-           @kwarg y: Y component of vector (C{scalar}), same units as B{C{x}}.
-           @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
+                       (C{Cartesian}, C{Nvector}, L{Vector3d} or L{Vector3Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg ll: Optional latlon reference (C{LatLon}).
            @kwarg name: Optional name (C{str}).
 
@@ -341,7 +344,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @return: Cross product (L{Vector3d}).
 
            @raise CrossError: Zero or near-zero cross product and both
-                              B{C{raiser}} and L{crosserrors} set.
+                              B{C{raiser}} and L{pygeodesy.crosserrors} set.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
@@ -413,7 +416,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def euclid(self):
         '''Approximate the length (norm, magnitude) of this vector (C{Float}).
 
-           @see: Function L{euclid_} and properties C{length} and C{length2}.
+           @see: Properties C{length} and C{length2} and function
+                 L{pygeodesy.euclid_}.
         '''
         return Float(euclid=euclid_(self.x, self.y, self.z))
 
@@ -431,12 +435,12 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         d = self.minus(other)
         return Float(equirectangular=hypot2_(d.x, d.y, d.z))
 
-    def intermediateTo(self, other, fraction):
-        '''Locate the vector at a given fraction between this and an
-           other vector.
+    def intermediateTo(self, other, fraction, **unused):  # height=None, wrap=False
+        '''Locate the vector at a given fraction between (or along) this
+           and an other vector.
 
            @arg other: The other vector (L{Vector3d}).
-           @arg fraction: Fraction between both vector (C{float}, between
+           @arg fraction: Fraction between both vectors (C{scalar},
                           0.0 for this and 1.0 for the other vector).
 
            @return: Intermediate vector (L{Vector3d}).
@@ -444,8 +448,14 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         f = Scalar(fraction=fraction)
-        d = self.others(other).minus(self)
-        return self.plus(d.times(f))
+        if isnear0(f):
+            r = self
+        elif isnear1(f):
+            r = self.others(other)
+        else:
+            d = self.others(other).minus(self)
+            r = self.plus(d.times(f))
+        return r
 
     def isconjugateTo(self, other, minum=1, eps=EPS):
         '''Determine whether this and an other vector are conjugates.
@@ -624,7 +634,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                          L{Vector3Tuple}, L{Vector4Tuple},
                          L{Ecef9Tuple} cartesian) or X scale
                          factor (C{scalar}).
-           @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}).
+           @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}),
+                     ignored if B{C{other_x}} is not C{scalar}.
 
            @return: New, scaled vector (L{Vector3d}).
 
@@ -694,11 +705,19 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             u._fromll = self._fromll
         return u
 
-    @Property_RO
+    @Property
     def x(self):
         '''Get the X component (C{float}).
         '''
         return self._x
+
+    @x.setter  # PYCHOK setter!
+    def x(self, x):
+        '''Set the X component, if different (C{float}).
+        '''
+        if self.x != x:
+            self._update(True)
+            self._x = x
 
     @Property_RO
     def xyz(self):
@@ -712,17 +731,33 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return Vector3Tuple(self.x**2, self.y**2, self.z**2, name=self.name)
 
-    @Property_RO
+    @Property
     def y(self):
         '''Get the Y component (C{float}).
         '''
         return self._y
 
-    @Property_RO
+    @y.setter  # PYCHOK setter!
+    def y(self, y):
+        '''Set the Y component, if different (C{float}).
+        '''
+        if self.y != y:
+            self._update(True)
+            self._y = y
+
+    @Property
     def z(self):
         '''Get the Z component (C{float}).
         '''
         return self._z
+
+    @z.setter  # PYCHOK setter!
+    def z(self, z):
+        '''Set the Z component, if different (C{float}).
+        '''
+        if self.z != z:
+            self._update(True)
+            self._z = z
 
 
 def _other_xyz3(other_x, y_z):

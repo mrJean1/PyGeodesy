@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.09.15'
+__version__ = '21.09.30'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -247,14 +247,14 @@ class Tests(_TestsLL, _TestsV):
                 t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=1000)  # no intersection in 1000 meter
                 self.test(n + 'inter', t.minPoint, IntersectionError.__name__)
             except IntersectionError as x:
-                self.test(n + 'inter', str(x), str(x))  # PYCHOK test attr?
+                self.test(n + 'inter', str(x), str(x))
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)
 
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isenclosedBy', p.isenclosedBy(b), True)  # PYCHOK test attr?
+                self.test('isenclosedBy', p.isenclosedBy(b), True)
 
             b = LatLon(45, 1), LatLon(45, 3), LatLon(46, 2), LatLon(47, 3), LatLon(47, 1)
             for _ in self.testiter():
@@ -262,7 +262,7 @@ class Tests(_TestsLL, _TestsV):
                     self.test('isenclosedBy', p.isenclosedBy(b), True)  # Nvector
                 except ValueError as x:
                     t = str(x).replace(',)', ')')
-                    self.test('isenclosedBy', t, 'points[3] (%s(47°00′00.0″N, 003°00′00.0″E)): not convex' % (classname(p),))  # PYCHOK test attr?
+                    self.test('isenclosedBy', t, 'points[3] (%s(47°00′00.0″N, 003°00′00.0″E)): not convex' % (classname(p),))
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)
@@ -328,7 +328,7 @@ class Tests(_TestsLL, _TestsV):
             # TrigTrue vs Nvector closests
             p = LatLon(45.330691, 001.318551)
             d = p.distanceTo(LatLon(45.331319, 001.331319))
-            self.test('difference', d, '1000.53', fmt='%.2f')  # PYCHOK test attr?
+            self.test('difference', d, '1000.53', fmt='%.2f')
 
             if Sph:  # check nearestOn2/3 with closest on the segment
                 b = LatLon(0, 1), LatLon(2, 3), LatLon(4, 5), LatLon(6, 7), LatLon(8, 9)
@@ -350,30 +350,30 @@ class Tests(_TestsLL, _TestsV):
         if hasattr(module, 'ispolar'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('ispolar', module.ispolar(p), 'True')  # PYCHOK test attr?
+                self.test('ispolar', module.ispolar(p), 'True')
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('ispolar', module.ispolar(p), 'True', known=True)  # PYCHOK test attr?
-            p = [LatLon(*ll) for ll in Antarctica]  # PYCHOK test attr?
+                self.test('ispolar', module.ispolar(p), 'True', known=True)
+            p = [LatLon(*ll) for ll in Antarctica]
             for _ in self.testiter():
-                self.test('ispolar', module.ispolar(p), 'True', known=Nv)  # PYCHOK test attr?
+                self.test('ispolar', module.ispolar(p), 'True', known=Nv)
 
         if hasattr(LatLon, 'triangle7'):
             t = LatLon(10, 10).triangle7(LatLon(70, -20), LatLon(70, 40))  # radius=R_M
             self.test('triangle7', t.toStr(prec=6), '(22.142114, 2189776.256122, 84.91384, 6998970.168483, 84.91384, 6998970.168483, 8479698853790.72168)', known=isPython2 and isWindows)
             t = LatLon(10, 10).triangle7(LatLon(70, -20), LatLon(70, 40), radius=None)
-            self.test('triangle7', t.toRepr(prec=5), 'Triangle8Tuple(A=0.38645, a=0.34371, B=1.48203, b=1.09857, C=1.48203, c=1.09857, D=3.74234, E=0.20891)')  # PYCHOK test
+            self.test('triangle7', t.toRepr(prec=5), 'Triangle8Tuple(A=0.38645, a=0.34371, B=1.48203, b=1.09857, C=1.48203, c=1.09857, D=3.74234, E=0.20891)')
 
         if hasattr(LatLon, 'nearestOn'):
             # <https://GitHub.com/mrJean1/PyGeodesy/issues/25>
             a = LatLon(1, 1, height=100)
             b = LatLon(2, 2, height=200)
             t = LatLon(1, 2).nearestOn(a, b).toStr(form=F_D, prec=1)
-            self.test('nearestOn', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
+            self.test('nearestOn', t, '01.5°N, 001.5°E, +149.99m')
             t = LatLon(1, 2).nearestOn3([a, b])[0].toStr(form=F_D, prec=1)
-            self.test('nearestOn3', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
+            self.test('nearestOn3', t, '01.5°N, 001.5°E, +149.99m')
             t = a.midpointTo(b).toStr(form=F_D, prec=1)
-            self.test('midpointTo', t, '01.5°N, 001.5°E, +150.00m')  # PYCHOK test attr?
+            self.test('midpointTo', t, '01.5°N, 001.5°E, +150.00m')
 
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ u'''Test L{iters} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.02.07'
+__version__ = '21.09.30'
 
 from base import TestsBase
 
@@ -48,7 +48,7 @@ class Tests(TestsBase):
         t  = tuple(range(8))
         Ps = PointsIter(t)
         for p in Ps.iterate(copies=True):
-            pass  # PYCHOK test attr?
+            pass
         cs = Ps.copies
         self.test('copies', cs is t, True)  # original
         self.test('copies', cs, t)

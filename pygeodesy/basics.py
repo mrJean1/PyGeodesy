@@ -10,11 +10,11 @@ if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _ImportError, _IsnotError, _TypeError, \
-                             _TypesError, _ValueError, _xkwds_get
+from pygeodesy.errors import _AttributeError, _ImportError, _IsnotError, \
+                             _TypeError, _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
-                             _N_A_, _name_, _SPACE_, _UNDER_, _utf_8_, \
-                             _version_, _0_0
+                             _invalid_, _N_A_, _name_, _SPACE_, _UNDER_, \
+                             _utf_8_, _version_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.09.14'
+__version__ = '21.10.04'
 
 _required_ = 'required'
 
@@ -224,6 +224,19 @@ def isnear0(x, eps0=EPS0):
        @see: Function L{isnon0}.
     '''
     return eps0 > x > -eps0
+
+
+def isnear1(x, eps0=EPS0):
+    '''Is B{C{x}} near one?
+
+       @arg x: Value (C{scalar}).
+       @kwarg eps0: Near-zero (C{EPS0}).
+
+       @return: C{isnear0(B{x} - 1)}.
+
+       @see: Function L{isnear0}.
+    '''
+    return isnear0(x - _1_0, eps0=eps0)
 
 
 def isneg0(x):
@@ -463,6 +476,26 @@ def _xcopy(inst, deep=False):
        @return: The copy of B{C{inst}}.
     '''
     return _deepcopy(inst) if deep else _copy(inst)
+
+
+def _xdup(inst, **items):
+    '''(INTERNAL) Duplicate an object, replacing some items.
+
+       @arg inst: The object to copy (any C{type}).
+       @kwarg items: Attributes to be changed (C{any}).
+
+       @return: The duplicate if B{C{inst}}.
+
+       @raise AttributeError: Some B{C{items}} invalid.
+    '''
+    d = _xcopy(deep=False)
+    for n, v in items.items():
+        if not hasattr(d, n):
+            from pygeodesy.named import classname
+            t = _SPACE_(_DOT_(classname(inst), n), _invalid_)
+            raise _AttributeError(txt=t, this=inst, **items)
+        setattr(d, n, v)
+    return d
 
 
 def _xImportError(x, where, **name):

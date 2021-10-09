@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.07.31'
+__version__ = '21.10.05'
 
 _Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -165,7 +165,7 @@ class Ups(UtmUpsBase):
 
            @raise UTMError: Invalid B{C{strUPS}}.
 
-           @see: Function L{parseUTM5} and L{parseUTMUPS5}.
+           @see: Functions L{parseUTM5} and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseUPS5(strUPS, datum=self.datum, Ups=self.classof,
                                  name=name or self.name)
@@ -187,8 +187,8 @@ class Ups(UtmUpsBase):
            @arg lat: Northern latitude (C{degrees}).
            @arg scale0: UPS k0 scale at B{C{lat}} latitude (C{scalar}).
 
-           @raise RangeError: If B{C{lat}} outside the valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: If B{C{lat}} outside the valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise UPSError: Invalid B{C{scale}}.
         '''
@@ -415,10 +415,10 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
                 C{None}.  The C{hemipole} is the C{'N'|'S'} pole,
                 the UPS projection top/center.
 
-       @raise RangeError: If B{C{strict}} and B{C{lat}} outside the
-                          valid UPS bands or if B{C{lat}} or B{C{lon}}
-                          outside the valid range and L{rangerrors}
-                          set to C{True}.
+       @raise RangeError: If B{C{strict}} and B{C{lat}} outside the valid
+                          UPS bands or if B{C{lat}} or B{C{lon}} outside
+                          the valid range and L{pygeodesy.rangerrors} set
+                          to C{True}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal or
                          B{C{datum}} invalid.
@@ -494,7 +494,7 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
        @raise RangeError: If B{C{strict}} and B{C{lat}} in the UTM
                           and not the UPS range or if B{C{lat}} or
                           B{C{lon}} outside the valid range and
-                          L{rangerrors} set to C{True}.
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''

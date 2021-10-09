@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.09.27'
+__version__ = '21.10.05'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -528,7 +528,7 @@ def euclid_(*xs):
 
 
 def facos1(x):
-    '''Fast approximation of L{acos1}C{(B{x})}.
+    '''Fast approximation of L{pygeodesy.acos1}C{(B{x})}.
 
        @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
              ShaderFastLibs/blob/master/ShaderFastMathLib.h>}.
@@ -545,7 +545,7 @@ def facos1(x):
 
 
 def fasin1(x):  # PYCHOK no cover
-    '''Fast approximation of L{asin1}C{(B{x})}.
+    '''Fast approximation of L{pygeodesy.asin1}C{(B{x})}.
 
        @see: L{facos1}.
     '''

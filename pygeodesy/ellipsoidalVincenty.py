@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.09.28'
+__version__ = '21.10.05'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -404,7 +404,7 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                       or C{None} for the mean height.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
-                           L{equidistant}) or C{None} for the preferred
+                           L{pygeodesy.equidistant}) or C{None} for the preferred
                            C{B{start1}.Equidistant}.
        @kwarg tol: Tolerance for convergence and for skew line distance and length
                    (C{meter}, conventionally).
@@ -454,8 +454,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       at the I{radical line} between both centers.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or
-                           function L{equidistant}) or C{None} for the preferred
-                           C{B{center1}.Equidistant}.
+                           function L{pygeodesy.equidistant}) or C{None} for
+                           the preferred C{B{center1}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                    and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points (L{LatLon})
@@ -504,8 +504,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       takes the heights of the points into account.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                           or function L{equidistant}) or C{None} for
-                           the preferred C{B{point}.Equidistant}.
+                           or function L{pygeodesy.equidistant}) or C{None}
+                           for the preferred C{B{point}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.

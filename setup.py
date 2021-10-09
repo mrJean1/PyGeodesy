@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.09.19'
+__version__ = '21.10.08'
 
 
 def _c2(*names):
@@ -132,7 +132,7 @@ setup(name='PyGeodesy',
 #                  _c2('Programming Language', 'Python', '2.6'),
                    _c2('Programming Language', 'Python', '2.7'),
 #                  _c2('Programming Language', 'Python', '3.5'),
-                   _c2('Programming Language', 'Python', '3.6'),
+#                  _c2('Programming Language', 'Python', '3.6'),
                    _c2('Programming Language', 'Python', '3.7'),
                    _c2('Programming Language', 'Python', '3.8'),
                    _c2('Programming Language', 'Python', '3.9'),

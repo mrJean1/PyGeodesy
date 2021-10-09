@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.09.25'
+__version__ = '21.10.05'
 
 _paths_ = 'paths'
 
@@ -338,7 +338,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise Crosserror: This point coincides with the B{C{other}}
                               point or the C{NorthPole}, provided
-                              L{crosserrors} is C{True}.
+                              L{pygeodesy.crosserrors} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -392,7 +392,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         h = self._havg(other, f=f) if height is None else Height(height)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
-    def intermediateTo(self, other, fraction, height=None):
+    def intermediateTo(self, other, fraction, height=None, **unused):  # wrap=False
         '''Locate the point at a given fraction between this and an
            other point.
 
@@ -826,8 +826,8 @@ def areaOf(points, radius=R_M):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @see: L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf} and
-             L{ellipsoidalKarney.areaOf}.
+       @see: Functions L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf}
+             and L{ellipsoidalKarney.areaOf}.
 
        @example:
 
@@ -1037,7 +1037,7 @@ def perimeterOf(points, closed=False, radius=R_M):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @see: L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
+       @see: Functions L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
     def _rads(Ps, closed):  # angular edge lengths in radians

@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.09.14'
+__version__ = '21.10.05'
 
 
 def _fraction(fraction, n):
@@ -283,7 +283,7 @@ class Frechet(_Named):
 
            @return: The interpolated, converted, intermediate B{C{points[fi]}}.
         '''
-        return self.point(_fractional(points, fi))
+        return self.point(_fractional(points, fi, None))  # wrap=None?
 
     @property_doc_(''' the distance units (C{Unit} or C{str}).''')
     def units(self):
@@ -344,7 +344,7 @@ class FrechetRadians(Frechet):
 
 class FrechetCosineAndoyerLambert(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians} from function L{cosineAndoyerLambert_}.
+       in C{radians} from function L{pygeodesy.cosineAndoyerLambert_}.
 
        @see: L{FrechetCosineForsytheAndoyerLambert}, L{FrechetDistanceTo},
              L{FrechetExact}, L{FrechetFlatLocal}, L{FrechetHubeny},
@@ -360,11 +360,11 @@ class FrechetCosineAndoyerLambert(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -380,7 +380,7 @@ class FrechetCosineAndoyerLambert(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{cosineAndoyerLambert_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineAndoyerLambert_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineAndoyerLambert_(p2.phi, p1.phi, r, datum=self._datum)
@@ -388,7 +388,7 @@ class FrechetCosineAndoyerLambert(FrechetRadians):
 
 class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians} from function L{cosineForsytheAndoyerLambert_}.
+       in C{radians} from function L{pygeodesy.cosineForsytheAndoyerLambert_}.
 
        @see: L{FrechetCosineAndoyerLambert}, L{FrechetDistanceTo},
              L{FrechetExact}, L{FrechetFlatLocal}, L{FrechetHubeny},
@@ -404,11 +404,11 @@ class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -424,7 +424,7 @@ class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{cosineForsytheAndoyerLambert_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineForsytheAndoyerLambert_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineForsytheAndoyerLambert_(p2.phi, p1.phi, r, datum=self._datum)
@@ -432,13 +432,13 @@ class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
 
 class FrechetCosineLaw(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians} from function L{cosineLaw_}.
+       in C{radians} from function L{pygeodesy.cosineLaw_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetEuclidean},
              L{FrechetExact}, L{FrechetFlatPolar}, L{FrechetHaversine}
              and L{FrechetVincentys}.
 
-       @note: See note at function L{vincentys_}.
+       @note: See note at function L{pygeodesy.vincentys_}.
     '''
     _wrap = False
 
@@ -447,11 +447,11 @@ class FrechetCosineLaw(FrechetRadians):
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no I{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -464,7 +464,7 @@ class FrechetCosineLaw(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{cosineLaw_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineLaw_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineLaw_(p2.phi, p1.phi, r)
@@ -486,9 +486,9 @@ class FrechetDistanceTo(Frechet):
 
            @arg points: First set of points (C{LatLon}[]).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no I{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
            @kwarg distanceTo_kwds: Optional keyword arguments for the
                                    B{C{points}}' C{LatLon.distanceTo}
@@ -528,8 +528,8 @@ class FrechetDistanceTo(Frechet):
 
 
 class FrechetEquirectangular(FrechetRadians):
-    '''Compute the C{Frechet} distance based on the C{equirectangular}
-       distance in C{radians squared} like function L{equirectangular_}.
+    '''Compute the C{Frechet} distance based on the I{equirectangular}
+       distance in C{radians squared} like function L{pygeodesy.equirectangular_}.
 
        @see: L{FrechetCosineLaw}, L{FrechetEuclidean}, L{FrechetExact},
              L{FrechetFlatPolar}, L{FrechetHaversine} and L{FrechetVincentys}.
@@ -545,11 +545,11 @@ class FrechetEquirectangular(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude (C{bool}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -562,7 +562,7 @@ class FrechetEquirectangular(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{equirectangular_} distance in C{radians squared}.
+        '''Return the L{pygeodesy.equirectangular_} distance in C{radians squared}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
@@ -571,8 +571,8 @@ class FrechetEquirectangular(FrechetRadians):
 
 
 class FrechetEuclidean(FrechetRadians):
-    '''Compute the C{Frechet} distance based on the C{Euclidean}
-       distance in C{radians} from function L{euclidean_}.
+    '''Compute the C{Frechet} distance based on the I{Euclidean}
+       distance in C{radians} from function L{pygeodesy.euclidean_}.
 
        @see: L{FrechetCosineLaw}, L{FrechetEquirectangular},
              L{FrechetExact}, L{FrechetFlatPolar}, L{FrechetHaversine}
@@ -589,9 +589,9 @@ class FrechetEuclidean(FrechetRadians):
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -604,7 +604,7 @@ class FrechetEuclidean(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{euclidean_} distance in C{radians}.
+        '''Return the L{pygeodesy.euclidean_} distance in C{radians}.
         '''
         return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self._adjust)
 
@@ -628,11 +628,11 @@ class FrechetExact(FrechetDegrees):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -655,8 +655,8 @@ class FrechetExact(FrechetDegrees):
 
 
 class FrechetFlatLocal(FrechetRadians):
-    '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians squared} like function L{flatLocal_}/L{hubeny_}.
+    '''Compute the C{Frechet} distance based on the I{angular} distance in
+       C{radians squared} like function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
 
        @see: L{FrechetCosineAndoyerLambert}, L{FrechetCosineForsytheAndoyerLambert},
              L{FrechetDistanceTo}, L{FrechetExact}, L{FrechetHubeny},
@@ -674,11 +674,11 @@ class FrechetFlatLocal(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -695,7 +695,8 @@ class FrechetFlatLocal(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{flatLocal_}/L{hubeny_} distance in C{radians squared}.
+        '''Return the L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_} distance
+           in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return self._hubeny2_(p2.phi, p1.phi, d)
@@ -716,11 +717,11 @@ class FrechetFlatPolar(FrechetRadians):
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no I{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -741,13 +742,13 @@ class FrechetFlatPolar(FrechetRadians):
 
 class FrechetHaversine(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular}
-       distance in C{radians} from function L{haversine_}.
+       distance in C{radians} from function L{pygeodesy.haversine_}.
 
        @see: L{FrechetCosineLaw}, L{FrechetEquirectangular},
              L{FrechetEuclidean}, L{FrechetExact}, L{FrechetFlatPolar}
              and L{FrechetVincentys}.
 
-       @note: See note at function L{vincentys_}.
+       @note: See note at function L{pygeodesy.vincentys_}.
     '''
     _wrap = False
 
@@ -756,11 +757,11 @@ class FrechetHaversine(FrechetRadians):
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no I{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -773,7 +774,7 @@ class FrechetHaversine(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{haversine_} distance in C{radians}.
+        '''Return the L{pygeodesy.haversine_} distance in C{radians}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return haversine_(p2.phi, p1.phi, d)
@@ -805,11 +806,11 @@ class FrechetKarney(FrechetExact):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -828,7 +829,7 @@ class FrechetKarney(FrechetExact):
 
 class FrechetThomas(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians} from function L{thomas_}.
+       in C{radians} from function L{pygeodesy.thomas_}.
 
        @see: L{FrechetCosineAndoyerLambert}, L{FrechetCosineForsytheAndoyerLambert},
              L{FrechetDistanceTo}, L{FrechetExact}, L{FrechetFlatLocal},
@@ -844,11 +845,11 @@ class FrechetThomas(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no L{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -864,7 +865,7 @@ class FrechetThomas(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{thomas_} distance in C{radians}.
+        '''Return the L{pygeodesy.thomas_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return thomas_(p2.phi, p1.phi, r, datum=self._datum)
@@ -872,13 +873,13 @@ class FrechetThomas(FrechetRadians):
 
 class FrechetVincentys(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular}
-       distance in C{radians} from function L{vincentys_}.
+       distance in C{radians} from function L{pygeodesy.vincentys_}.
 
        @see: L{FrechetCosineLaw}, L{FrechetEquirectangular},
              L{FrechetEuclidean}, L{FrechetExact}, L{FrechetFlatPolar}
              and L{FrechetHaversine}.
 
-       @note: See note at function L{vincentys_}.
+       @note: See note at function L{pygeodesy.vincentys_}.
     '''
     _wrap = False
 
@@ -887,11 +888,11 @@ class FrechetVincentys(FrechetRadians):
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or use
-                            C{None}, C{0} or C{1} for no intermediate
-                            B{C{points}} and no I{fractional} indices.
+                            interpolate intermediate B{C{points}} or use C{0},
+                            C{1} or C{None} to avoid intermediate B{C{points}}
+                            and L{pygeodesy.fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
@@ -904,7 +905,7 @@ class FrechetVincentys(FrechetRadians):
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
-        '''Return the L{vincentys_} distance in C{radians}.
+        '''Return the L{pygeodesy.vincentys_} distance in C{radians}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return vincentys_(p2.phi, p1.phi, d)

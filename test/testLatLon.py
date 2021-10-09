@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.31'
+__version__ = '21.09.30'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -84,24 +84,24 @@ class Tests(TestsBase):
             b = p.initialBearingTo(q)
             self.test('initialBearingTo', b, '156.1666' if Sph else '156.1106', fmt='%.4f')  # 156.2
             b = LAX.initialBearingTo(JFK)
-            self.test('initialBearingTo', b, '65.8921' if Sph else '65.9335', fmt='%.4f')  # PYCHOK test attr?
+            self.test('initialBearingTo', b, '65.8921' if Sph else '65.9335', fmt='%.4f')
             # courtesy Inmars Didaitis (bakakaldsas) <https://GitHub.com/mrJean1/PyGeodesy/issues/56>
             a, b = LatLon(5, 5), LatLon(10, 5)  # same lon
             self.test('initialBearingTo', a.initialBearingTo(b),   0.0, prec=1)
-            self.test('initialBearingTo', b.initialBearingTo(a), 180.0, prec=1)  # PYCHOK test attr?
+            self.test('initialBearingTo', b.initialBearingTo(a), 180.0, prec=1)
 
         if hasattr(LatLon, 'finalBearingTo'):
             b = p.finalBearingTo(q)
             self.test('finalBearingTo', b, '157.8904' if Sph else '157.8345', fmt='%.4f')
             b = LAX.finalBearingTo(JFK)
-            self.test('finalBearingTo', b, '93.8581' if Sph else '93.9034', fmt='%.4f')  # PYCHOK test attr?
+            self.test('finalBearingTo', b, '93.8581' if Sph else '93.9034', fmt='%.4f')
 
         if hasattr(LatLon, 'bearingTo2'):
             b = p.bearingTo2(q)
             self.test('bearingTo2', fstr(b, prec=4), '156.1666, 157.8904' if Sph else '156.1106, 157.8345')  # 156.2
             # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             b = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
-            self.test('ispolar', ispolar(b), True)  # PYCHOK test attr?
+            self.test('ispolar', ispolar(b), True)
 
         c = p.copy()
         self.test('copy', p.isequalTo(c), True)
@@ -117,26 +117,26 @@ class Tests(TestsBase):
             d = q.distanceTo(p)
             self.test('distanceTo', d, '404279.720589' if Sph else ('404279.720589' if Nv else '404607.805988'), fmt='%.6f')  # 404300
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
-            self.test('distanceTo', d, 2145 if Sph else (3972863 if Nv else 3981601), fmt='%.0f')  # PYCHOK test attr?
+            self.test('distanceTo', d, 2145 if Sph else (3972863 if Nv else 3981601), fmt='%.0f')
             if not Nv:  # <https://GeographicLib.SourceForge.io/html/python/examples.html>
                 self.test('antipodal', WNZ.isantipodeTo(SAL, eps=0.1), False)
                 try:
                     d = WNZ.distanceTo(SAL, wrap=False)
-                    self.test('distanceTo dateline', d, '19119590.551' if Sph else '19959679.267', fmt='%.3f', known=True)  # PYCHOK test attr?
+                    self.test('distanceTo dateline', d, '19119590.551' if Sph else '19959679.267', fmt='%.3f', known=True)
                 except VincentyError as x:
                     x = str(x)
                     self.test('distanceTo dateline', x, 'no convergence ...', known=True)
                 try:
                     d = WNZ.distanceTo(SAL, wrap=True)
-                    self.test('distanceTo unrolled', d, '19119590.551' if Sph else '19959679.267', fmt='%.3f', known=True)  # PYCHOK test attr?
+                    self.test('distanceTo unrolled', d, '19119590.551' if Sph else '19959679.267', fmt='%.3f', known=True)
                 except VincentyError as x:
                     x = str(x)
                     self.test('distanceTo unrolled', x, 'no convergence ...', known=True)
                 self.test('antipodal', BJS.isantipodeTo(SFO, eps=0.1), False)
                 d = BJS.distanceTo(SFO, wrap=False)
-                self.test('distanceTo dateline', d, '9491735' if Sph else '9513998', fmt='%.0f')  # PYCHOK test attr?
+                self.test('distanceTo dateline', d, '9491735' if Sph else '9513998', fmt='%.0f')
                 d = BJS.distanceTo(SFO, wrap=True)
-                self.test('distanceTo unrolled', d, '9491735' if Sph else '9513998', fmt='%.0f')  # PYCHOK test attr?
+                self.test('distanceTo unrolled', d, '9491735' if Sph else '9513998', fmt='%.0f')
 
             # <https://GitHub.com/ChrisVeness/geodesy/issues/64>
             d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
@@ -152,12 +152,12 @@ class Tests(TestsBase):
             for w in (False, True):
                 try:
                     d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
-                    self.test('distanceTo3 dateline', fstr(d, prec=4), '19959679.2674, 161.0677, 18.8252', known=True)  # PYCHOK test attr?
+                    self.test('distanceTo3 dateline', fstr(d, prec=4), '19959679.2674, 161.0677, 18.8252', known=True)
                 except VincentyError as x:
                     x = str(x)
                     self.test('distanceTo3 dateline', x, 'no convergence ...', known=True)
                 d = BJS.distanceTo3(SFO, wrap=w)
-                self.test('distanceTo3 dateline', fstr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK test attr?
+                self.test('distanceTo3 dateline', fstr(d, prec=4), '9513997.9901, 42.9164, 138.8903')
 
         if hasattr(LatLon, 'intermediateTo'):
             i = p.intermediateTo(q, 0.25)
@@ -169,38 +169,38 @@ class Tests(TestsBase):
             if hasattr(p, 'distanceTo'):
                 d = p.distanceTo(q)
                 self.test('intermediateTo', d, '404279.721' if Sph or Nv
-                                          else '404607.806', prec=3)  # PYCHOK test attr?
+                                          else '404607.806', prec=3)
 
             i = p.intermediateTo(q, 5)
             self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E' if Sph
                                        else ('35.560239°N, 008.833512°E' if Nv
                                        else  '35.139582°N, 008.994368°E'))
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo+5', p.distanceTo(i) / d, '4.885' if Nv and not Sph else '5.000', prec=3)  # PYCHOK test attr?
+                self.test('intermediateTo+5', p.distanceTo(i) / d, '4.885' if Nv and not Sph else '5.000', prec=3)
 
             i = p.intermediateTo(q, -4)
             self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W' if Sph
                                        else ('64.570387°N, 013.156352°W' if Nv
                                        else  '64.894124°N, 013.705689°W'))
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', prec=3)  # PYCHOK test attr?
+                self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', prec=3)
 
             # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateTo(LatLon(48, 2, 200), 0.25)
-            self.test('intermediateTo-h', i.height, '125.000', prec=3)  # PYCHOK test attr?
+            self.test('intermediateTo-h', i.height, '125.000', prec=3)
 
         if hasattr(LatLon, 'intermediateChordTo'):
             i = p.intermediateChordTo(q, 0.25)
             self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
-            self.test('intermediateChordTo', isinstance(i, LatLon), True)  # PYCHOK test attr?
+            self.test('intermediateChordTo', isinstance(i, LatLon), True)
 
             # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateChordTo(LatLon(48, 2, 200), 0.25)
-            self.test('intermediateChordTo-h', i.height, '125.000', fmt='%.3f')  # PYCHOK test attr?
+            self.test('intermediateChordTo-h', i.height, '125.000', fmt='%.3f')
 
         if hasattr(LatLon, 'midpointTo'):
             m = p.midpointTo(q)
-            self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # PYCHOK test attr? # 50.5363°N, 001.2746°E
+            self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # 50.5363°N, 001.2746°E
 
         if hasattr(LatLon, 'destination'):
             p = LatLon(51.4778, -0.0015)
@@ -220,7 +220,7 @@ class Tests(TestsBase):
             # <https://GeographicLib.SourceForge.io/html/python/examples.html>
             d = LatLon(-32.06, -115.74).destination(20e6, 225).toStr(F_D, prec=8)
             self.test('destination', d, '31.96383509°N, 064.37329146°E' if Sph
-                                   else '32.11195529°N, 063.95925278°E', known=True)  # PYCHOK test attr?
+                                   else '32.11195529°N, 063.95925278°E', known=True)
 
         if hasattr(LatLon, 'alongTrackDistanceTo'):
             s = LatLon(53.3206, -1.7297)
@@ -230,7 +230,7 @@ class Tests(TestsBase):
                 d = p.alongTrackDistanceTo(s, 96, TypeError.__name__)
                 self.test('alongTrackDistanceTo', d, '62331.59', fmt='%.2f', known=True)  # 62331
             except TypeError as x:
-                self.test('alongTrackDistanceTo', str(x), 'incompatible ...', known=True)  # PYCHOK test attr?
+                self.test('alongTrackDistanceTo', str(x), 'incompatible ...', known=True)
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, '62331.58', fmt='%.2f')
 
@@ -246,7 +246,7 @@ class Tests(TestsBase):
 
             p = LatLon(53.35423, -1.60881)
             d = p.alongTrackDistanceTo(s, e)
-            self.test('alongTrackDistanceTo', d, '7587.6', fmt='%.1f')  # PYCHOK test attr?
+            self.test('alongTrackDistanceTo', d, '7587.6', fmt='%.1f')
 
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             s = LatLon(53.3206, -1.7297)
@@ -256,26 +256,26 @@ class Tests(TestsBase):
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, TypeError.__name__, known=True)
             except TypeError as x:
-                self.test('crossTrackDistanceTo', str(x), 'incompatible ...', known=True)  # PYCHOK test attr?
+                self.test('crossTrackDistanceTo', str(x), 'incompatible ...', known=True)
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, '-307.55', fmt='%.2f')  # -307.5
 
             # <https://www.EdWilliams.org/avform.htm#XTE>
             p = LatLon(34.5, -116.5)  # 34:30N, 116:30W
             d = p.crossTrackDistanceTo(LAX, JFK, radius=Rav)
-            self.test('crossTrackDistanceTo', d, '7.4524', fmt='%.4f')  # PYCHOK test attr? # XXX 7.4512 NM
+            self.test('crossTrackDistanceTo', d, '7.4524', fmt='%.4f')  # XXX 7.4512 NM
 
         if hasattr(LatLon, 'greatCircle'):
             p = LatLon(53.3206, -1.7297)
             gc = p.greatCircle(96.0)
-            self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')  # PYCHOK test attr?
+            self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')
 
         if hasattr(LatLon, 'nearestOn6'):
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             p = LatLon(1, 1).nearestOn6(b, height=0)
             self.test('neareston6', p, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))', known=not X)
             p = LatLon(45.5, 2.5).nearestOn6(b, height=0)
-            self.test('neareston6', p, '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))', known=not X)  # PYCHOK test attr?
+            self.test('neareston6', p, '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))', known=not X)
 
         p = LatLon(53.3206, -1.7297)
         q = LatLon(53.1887, 0.1334)
@@ -327,70 +327,70 @@ class Tests(TestsBase):
 
         if hasattr(LatLon, 'greatCircleTo'):
             gc = p.greatCircleTo(q)
-            self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')  # PYCHOK test attr?
+            self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')
 
         if isclockwise:
             f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
             for _ in self.testiter():
-                self.test('isclockwise', isclockwise(f), False)  # PYCHOK test attr?
+                self.test('isclockwise', isclockwise(f), False)
             t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
             for _ in self.testiter():
-                self.test('isclockwise', isclockwise(t), True)  # PYCHOK test attr?
+                self.test('isclockwise', isclockwise(t), True)
             for _ in self.testiter():
                 try:
                     self.test('isclockwise', isclockwise(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isclockwise', str(x), 'points (2): too few', known=True)  # PYCHOK test attr?
+                    self.test('isclockwise', str(x), 'points (2): too few', known=True)
             # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             p = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             for _ in self.testiter():
                 try:
-                    self.test('isclockwise', isclockwise(p), ValueError.__name__)  # PYCHOK test attr?
+                    self.test('isclockwise', isclockwise(p), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isclockwise', str(x), 'zero or polar area', known=True)  # PYCHOK test attr?
+                    self.test('isclockwise', str(x), 'zero or polar area', known=True)
 
         if isconvex:
             f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
             for _ in self.testiter():
-                self.test('isconvex', isconvex(f), False)  # PYCHOK test attr?
+                self.test('isconvex', isconvex(f), False)
             t = LatLon(45,1), LatLon(46,1), LatLon(46,2), LatLon(45,1)
             for _ in self.testiter():
-                self.test('isconvex', isconvex(t), True)  # PYCHOK test attr?
+                self.test('isconvex', isconvex(t), True)
             for _ in self.testiter():
                 try:
                     self.test('isconvex', isconvex(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isconvex', str(x), 'points (2): too few', known=True)  # PYCHOK test attr?
+                    self.test('isconvex', str(x), 'points (2): too few', known=True)
 
         if isenclosedBy:
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isenclosedBy1', isenclosedBy(LatLon(45.5, 1.5), b), True)  # PYCHOK test attr?
+                self.test('isenclosedBy1', isenclosedBy(LatLon(45.5, 1.5), b), True)
             for _ in self.testiter():  # on polygon point is outside
-                self.test('isenclosedBy2', isenclosedBy((46, 2), b), False)  # PYCHOK test attr?
+                self.test('isenclosedBy2', isenclosedBy((46, 2), b), False)
             for _ in self.testiter():  # on polygon point is outside
-                self.test('isenclosedBy3', isenclosedBy((46, 1), b), False)  # PYCHOK test attr?
+                self.test('isenclosedBy3', isenclosedBy((46, 1), b), False)
             for _ in self.testiter():  # on polygon edge is outside
-                self.test('isenclosedBy4', isenclosedBy((46, 1.5), b), False)  # PYCHOK test attr?
+                self.test('isenclosedBy4', isenclosedBy((46, 1.5), b), False)
             for _ in self.testiter():  # on polygon is False
-                self.test('isenclosedBy5', isenclosedBy((45.5, 1), b), False)  # PYCHOK test attr?
+                self.test('isenclosedBy5', isenclosedBy((45.5, 1), b), False)
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)
             for _ in self.testiter():
-                self.test('isenclosedBy6', isenclosedBy((90, 0), p), 'True')  # PYCHOK test attr?
+                self.test('isenclosedBy6', isenclosedBy((90, 0), p), 'True')
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90)
             for _ in self.testiter():
-                self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')  # PYCHOK test attr?
+                self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')
 
         if hasattr(LatLon, 'isenclosedBy'):
             # courtesy Maranov <https://GitHub.com/mrJean1/PyGeodesy/issues/53>
             b = LatLon(0, 0), LatLon(0, 1), LatLon(0, 1), LatLon(1, 1), LatLon(1, 0)
             for t in ('CCW', 'CW ', 'CCW'):
                 self.test('isenclosedBy-' + t, LatLon(0.5, 0.5).isenclosedBy(b), True)
-                b = tuple(reversed(b))  # PYCHOK test attr?
+                b = tuple(reversed(b))
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = LHR.initialBearingTo(FRA)
-            self.test('initialBearingTo', b, '102.432182' if Sph else '102.392291', fmt='%.6f')  # PYCHOK test attr?
+            self.test('initialBearingTo', b, '102.432182' if Sph else '102.392291', fmt='%.6f')
         a = LHR.compassAngleTo(FRA, adjust=False)
         self.test('compassAngleTo', a, '100.017', fmt='%.3f')
         a = LHR.compassAngleTo(FRA)  # adjust=True
@@ -398,7 +398,7 @@ class Tests(TestsBase):
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = FRA.initialBearingTo(LHR)
-            self.test('initialBearingTo', b, '288.715918' if Sph else '288.676039', fmt='%.6f')  # PYCHOK test attr?
+            self.test('initialBearingTo', b, '288.715918' if Sph else '288.676039', fmt='%.6f')
         a = FRA.compassAngleTo(LHR, adjust=False)
         self.test('compassAngleTo', a, '280.017', fmt='%.3f')
         a = FRA.compassAngleTo(LHR)  # adjust=True
@@ -408,7 +408,7 @@ class Tests(TestsBase):
         self.test('equirectangularTo', m2km(d), '592.185', fmt='%.3f')
         if hasattr(LatLon, 'distanceTo'):
             d = LHR.distanceTo(FRA)
-            self.test('distanceTo', m2km(d), '591.831' if Sph else ('591.831' if Nv else '593.571'), fmt='%.3f')  # PYCHOK test attr?
+            self.test('distanceTo', m2km(d), '591.831' if Sph else ('591.831' if Nv else '593.571'), fmt='%.3f')
 
         p = LatLon(0, 0)
         for a, b, d in ((1, 0, 0.0), ( 1, 1,  45.0), ( 0,  1,  90.0),
@@ -461,7 +461,7 @@ class Tests(TestsBase):
         if not Nv:
             # XXX prec=5 for NvectorBase.toStr vs prec=6 for Vector3Tuple.toStr
             self.test('toNvector', p.toNvector(), '(0.61566, 0.0, 0.78801)' if Sph
-                                             else '(0.615661, 0.0, 0.788011)')  # PYCHOK test attr?
+                                             else '(0.615661, 0.0, 0.788011)')
         self.test('toVector',   p.toVector(), '(0.615661, 0.0, 0.788011)')
         self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)')
 
@@ -536,7 +536,7 @@ class Tests(TestsBase):
                                                    else  '42.69124153°N, 002.50124031°E'), known=_known(p))
             self.test(n + 'max', t.max, '1499.220' if Sph
                                   else ('1445.554' if geographiclib
-                                  else  '1450.709'), prec=3, known=1420 < t.max < 1520)  # PYCHOK test attr?
+                                  else  '1450.709'), prec=3, known=1420 < t.max < 1520)
             p = t.maxPoint
             self.test(n + 'point', p.toStr(F_D, prec=8), '42.64295864°N, 002.44242391°E' if Sph
                                                    else ('42.67815375°N, 002.49950041°E' if geographiclib
@@ -564,11 +564,11 @@ class Tests(TestsBase):
             self.test(n + 'Ecef',  c.Ecef,  p1.Ecef)
 
         except ImportError as x:
-            self.skip(str(x), n=27)  # PYCHOK test attr?
+            self.skip(str(x), n=27)
         except IntersectionError as x:
-            self.test(n + 'error', str(x), str(x))  # PYCHOK test attr?
+            self.test(n + 'error', str(x), str(x))
         except NotImplementedError as x:
-            self.test(n + 'error', str(x), str(x) if Nv else NotImplementedError.__name__)  # PYCHOK test attr?
+            self.test(n + 'error', str(x), str(x) if Nv else NotImplementedError.__name__)
 
         try:  # need numpy
             k = (isPyPy and isPython2) or Sph or not X
@@ -615,7 +615,7 @@ class Tests(TestsBase):
             self.test(n + 'dC', c.distanceTo(t.cC), '326020.432', prec=3, known=k)
 
         except ImportError as x:
-            self.skip(str(x), n=22)  # PYCHOK test attr?
+            self.skip(str(x), n=22)
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

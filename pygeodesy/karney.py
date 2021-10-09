@@ -3,11 +3,11 @@
 
 u'''I{Charles F.F. Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>} C{geodesic}, wrapped.
 
-Wrapper around I{Karney}'s Python classes C{Geodesic} and C{GeodesicLine} and several C{Math}
-functions from I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>},
-provided that package is installed.
+Wrapper around Python classes C{Geodesic} and C{GeodesicLine} and several C{Math} functions from
+I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>}, provided
+that package is installed.
 
-The I{wrapped} class methods return a L{GDict} instance providing access to the C{dict} items
+The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items either
 by C{key} or by C{attribute} name.
 
 I{Karney}-based functionality
@@ -62,8 +62,8 @@ I{Karney}-based functionality
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1UTMUPS.html>}
 
-  - L{atand}, L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1Math.html>}
+  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d} -- U{
+    Math<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}.
 
@@ -96,7 +96,7 @@ on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, s
 
 4. Spherical functions
 
-  - L{excessKarney_}, L{sphericalTrigonometry.areaOf}
+  - L{pygeodesy.excessKarney_}, L{sphericalTrigonometry.areaOf}
 
 in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
@@ -120,9 +120,8 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 
 from math import fmod
 
-
 __all__ = _ALL_LAZY.karney
-__version__ = '21.09.19'
+__version__ = '21.10.08'
 
 _16th = _1_0 / _16_0
 
@@ -277,7 +276,7 @@ class _Wrapped(object):
                 '''New C{Geodesic} instance.
 
                    @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum
-                                     (L{datum}) or the equatorial radius
+                                     (L{Datum}) or the equatorial radius
                                      of the ellipsoid (C{meter}).
                    @arg f: The flattening of the ellipsoid (C{scalar}) if
                            B{C{a_ellipsoid}) is specified as C{meter}.

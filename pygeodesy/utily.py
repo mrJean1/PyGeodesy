@@ -11,19 +11,17 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 from __future__ import division
 
 from pygeodesy.basics import copysign0, isint, isnear0
-from pygeodesy.errors import _xkwds_not
 from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
-                             _datum_, _edge_, _epoch_, _height_, _radians_, \
-                             _reframe_, _semi_circular_, _SPACE_, \
+                             _edge_, _radians_, _semi_circular_, _SPACE_, \
                              _0_0, _0_5, _1_0, _90_0, _N_90_0, _180_0, \
                              _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
+from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.09.26'
+__version__ = '21.10.05'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -73,7 +71,7 @@ def asin1(x):
 def atand(y_x):
     '''Return C{atan(B{y_x})} angle in C{degrees}.
 
-       @see: Function L{atan2d}.
+       @see: Function L{pygeodesy.atan2d}.
     '''
     return atan2d(y_x, _1_0)
 
@@ -81,7 +79,7 @@ def atand(y_x):
 def atan2b(y, x):
     '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360]}.
 
-       @see: Function L{atan2d}.
+       @see: Function L{pygeodesy.atan2d}.
     '''
     d = atan2d(y, x)
     if d < 0:
@@ -136,8 +134,8 @@ def circle4(earth, lat):
        @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}
                 instance.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range
-                          and L{rangerrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{earth}}.
 
@@ -216,7 +214,7 @@ def degrees2grades(deg):
 
        @return: Angle (C{grades}).
     '''
-    return deg * _400_0 / _360_0
+    return Degrees(deg) * _400_0 / _360_0
 
 
 def degrees2m(deg, radius=R_M, lat=0):
@@ -233,8 +231,8 @@ def degrees2m(deg, radius=R_M, lat=0):
                 or ellipsoidal and polar radii) or C{0} for
                 near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range
-                          and L{rangerrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -256,7 +254,7 @@ def fathom2m(fathoms):
        @raise ValueError: Invalid B{C{fathoms}}.
     '''
     # 1.8288 == 2 * yard2m(1)
-    return Float(fathoms) * 1.8288
+    return Float(fathoms=fathoms) * 1.8288
 
 
 def ft2m(feet, usurvey=False):
@@ -276,7 +274,7 @@ def ft2m(feet, usurvey=False):
 
 
 def furlong2m(furlongs):
-    '''Convert a I{UK} furlong to meter.
+    '''Convert a furlong to meter.
 
        @arg furlongs: Value in furlongs (C{scalar}).
 
@@ -285,7 +283,7 @@ def furlong2m(furlongs):
        @raise ValueError: Invalid B{C{furlongs}}.
     '''
     # 201.168 = 220 * yard2m(1)
-    return Float(furlongs) * 201.168
+    return Float(furlongs=furlongs) * 201.168
 
 
 def grades(rad):
@@ -295,7 +293,7 @@ def grades(rad):
 
        @return: Angle (C{grades}).
     '''
-    return rad * _400_0 / PI2
+    return float(rad) * _400_0 / PI2
 
 
 def grades400(rad):
@@ -315,7 +313,7 @@ def grades2degrees(gon):
 
        @return: Angle (C{degrees}).
     '''
-    return gon * _360_0 / _400_0
+    return float(gon) * _360_0 / _400_0
 
 
 def grades2radians(gon):
@@ -325,7 +323,7 @@ def grades2radians(gon):
 
        @return: Angle (C{radians}).
     '''
-    return gon * PI2 / _400_0
+    return float(gon) * PI2 / _400_0
 
 
 def m2degrees(distance, radius=R_M, lat=0):
@@ -340,8 +338,8 @@ def m2degrees(distance, radius=R_M, lat=0):
 
        @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range
-                          and L{rangerrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -351,6 +349,18 @@ def m2degrees(distance, radius=R_M, lat=0):
        @see: Function L{m2radians} and L{degrees2m}.
     '''
     return degrees(m2radians(distance, radius=radius, lat=lat))
+
+
+def m2fathom(meter):
+    '''Convert meter to I{UK} fathoms.
+
+       @arg meter: Value in meter (C{scalar}).
+
+       @return: Value in C{fathoms} (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
+    '''
+    return Meter(meter) * 0.546806649  # == 1 / 1.8288
 
 
 def m2ft(meter, usurvey=False):
@@ -367,6 +377,18 @@ def m2ft(meter, usurvey=False):
     # US Survey == 3937 / 1200  == 3.2808333333333333
     # Int'l 10_000 / (254 * 12) == 3.2808398950131235
     return Meter(meter) * (3.280833333 if usurvey else 3.280839895)
+
+
+def m2furlong(meter):
+    '''Convert meter to furlongs.
+
+       @arg meter: Value in meter (C{scalar}).
+
+       @return: Value in C{furlongs} (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
+    '''
+    return Meter(meter) * 0.00497096954  # == 1 / 201.168
 
 
 def m2km(meter):
@@ -390,7 +412,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 5.39956804e-4  # == * _1_0 / 1852
+    return Meter(meter) * 5.39956804e-4  # == 1 / 1852
 
 
 def m2radians(distance, radius=R_M, lat=0):
@@ -405,8 +427,8 @@ def m2radians(distance, radius=R_M, lat=0):
 
        @return: Angle (C{radians}) or C{INF} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range
-                          and L{rangerrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -416,7 +438,7 @@ def m2radians(distance, radius=R_M, lat=0):
        @see: Function L{m2degrees} and L{radians2m}.
     '''
     m = circle4(radius, lat).radius
-    return INF if m < EPS0 else (Float(distance) / m)
+    return INF if m < EPS0 else (Float(distance=distance) / m)
 
 
 def m2SM(meter):
@@ -488,8 +510,8 @@ def radians2m(rad, radius=R_M, lat=0):
                 or ellipsoidal and polar radii) or C{0} for
                 near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range
-                          and L{rangerrors} set to C{True}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -680,11 +702,7 @@ def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
     '''
     _, lon = unroll180(p1.lon, p2.lon, wrap=True)
     if abs(lon - p2.lon) > EPS:
-        p2 = p2.classof(p2.lat, wrap180(lon), **_xkwds_not(None,
-                             height=getattr(p2, _height_,  None),
-                              datum=getattr(p2, _datum_,   None),
-                              epoch=getattr(p2, _epoch_,   None),
-                            reframe=getattr(p2, _reframe_, None)))  # PYCHOK indent
+        p2 = p2.dup(lon=wrap180(lon))
     return p2
 
 
@@ -798,7 +816,7 @@ def yard2m(yards):
        @raise ValueError: Invalid B{C{yards}}.
     '''
     # 0.9144 == 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
-    return Float(yards) * 0.9144
+    return Float(yards=yards) * 0.9144
 
 # **) MIT License
 #

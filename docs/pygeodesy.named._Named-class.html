@@ -146,7 +146,8 @@ object --+
         <span class="summary-sig-arg">**pairs_kwds</span>)</span><br />
       Join attributes as <i>name=value</i> strings, with 
       <code>float</code>s formatted by function <a 
-      href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
+      href="pygeodesy.streprs-module.html#fstr" 
+      class="link">pygeodesy.fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -185,6 +186,25 @@ object --+
         <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Make a shallow or deep copy of this instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._Named-class.html#dup" class="summary-sig-name">dup</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**items</span>)</span><br />
+      Duplicate this instance, replacing some items.</td>
           <td align="right" valign="top">
             
             
@@ -256,7 +276,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._Named-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      DEPRECATED, used method <code>toRepr</code>.</td>
+      DEPRECATED, use method <code>toRepr</code>.</td>
           <td align="right" valign="top">
             
             
@@ -435,22 +455,25 @@ object --+
   
   <p>Join attributes as <i>name=value</i> strings, with <code>float</code>s
   formatted by function <a href="pygeodesy.streprs-module.html#fstr" 
-  class="link">fstr</a>.</p>
+  class="link">pygeodesy.fstr</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>names</code></strong> - The attribute names (<code>str</code>s).</li>
         <li><strong class="pname"><code>pairs_kwds</code></strong> - Keyword argument for function <a 
           href="pygeodesy.streprs-module.html#pairs" 
-          class="link">pairs</a>, except <code><b>Nones</b>=True</code> to 
-          in- or exclude missing or <code>None</code>-valued attributes.</li>
+          class="link">pygeodesy.pairs</a>, except 
+          <code><b>Nones</b>=True</code> to in- or exclude missing or 
+          <code>None</code>-valued attributes.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>All <code>name=value</code> pairs, joined (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.streprs-module.html#attrs" 
-        class="link">pygeodesy.attrs</a>.
+        class="link">pygeodesy.attrs</a> and <a 
+        href="pygeodesy.streprs-module.html#pairs" 
+        class="link">pygeodesy.pairs</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -511,6 +534,38 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="dup"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">dup</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**items</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Duplicate this instance, replacing some items.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional new name (<code>str</code>).</li>
+        <li><strong class="pname"><code>items</code></strong> - Attributes to be changed (<code>any</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The duplicate (<code>This class</code> or sub-class thereof).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - Some <b><code>items</code></b> invalid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="rename"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -552,7 +607,7 @@ object --+
     </td>
   </tr></table>
   
-  <p>DEPRECATED, used method <code>toRepr</code>.</p>
+  <p>DEPRECATED, use method <code>toRepr</code>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -775,7 +830,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:47 2021
+    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:26 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

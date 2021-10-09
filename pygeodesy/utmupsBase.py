@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.06.16'
+__version__ = '21.10.05'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -234,7 +234,7 @@ class UtmUpsBase(_NamedBase):
 
     @Property_RO
     def _epsg(self):
-        '''(INTERNAL) Cache for L{toEpsg}.
+        '''(INTERNAL) Cache for method L{toEpsg}.
         '''
         from pygeodesy.epsg import Epsg
         return Epsg(self)

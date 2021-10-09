@@ -40,11 +40,11 @@ from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
-from pygeodesy.units import Bearing, Distance, Height, Meter
+from pygeodesy.units import Bearing, Distance, Height, Meter, Scalar
 from pygeodesy.utily import sincos2d_
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.09.29'
+__version__ = '21.10.05'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -374,13 +374,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         # bearing is (signed) angle between gc1 & gc2
 #         return degrees360(gc1.angleTo(gc2, vSign=v1))
 
-    def intermediateTo(self, other, fraction, height=None):
+    def intermediateTo(self, other, fraction, height=None, **unused):  # wrap=False
         '''Return the point at given fraction between this and
            an other point.
 
            @arg other: The other point (L{LatLon}).
-           @arg fraction: Fraction between both points ranging from
-                          0, meaning this to 1, the other point (C{float}).
+           @arg fraction: Fraction between both points (C{scalar},
+                          0.0 at this to 1.0 at the other point.
            @kwarg height: Optional height, overriding the fractional
                           height (C{meter}).
 
@@ -398,13 +398,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         self.others(other)
 
-        i = other.toNvector().times(fraction).plus(
-             self.toNvector().times(1 - fraction))
+        f = Scalar(fraction=fraction)
+        i = self.toNvector().intermediateTo(other.toNvector(), f)
 
-        if height is None:
-            h = self._havg(other, f=fraction)
-        else:
-            h = height
+        h = self._havg(other, f=f) if height is None else Height(height)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     @Property_RO
@@ -512,12 +509,16 @@ class Nvector(NvectorBase):
     '''
     _datum = _WGS84  # default datum (L{Datum})
 
-    def __init__(self, x, y, z, h=0, datum=None, ll=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, h=0, datum=None, ll=None, name=NN):
         '''New n-vector normal to the earth's surface.
 
-           @arg x: X component (C{meter}).
-           @arg y: Y component (C{meter}).
-           @arg z: Z component (C{meter}).
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
+                       (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or
+                       L{Vector4Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg h: Optional height above model surface (C{meter}).
            @kwarg datum: Optional datum this n-vector is defined in
                          (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
@@ -533,7 +534,7 @@ class Nvector(NvectorBase):
             >>> v = Nvector(0.5, 0.5, 0.7071, 1)
             >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        NvectorBase.__init__(self, x, y, z, h=h, ll=ll, name=name)
+        NvectorBase.__init__(self, x_xyz, y=y, z=z, h=h, ll=ll, name=name)
         if datum not in (None, self._datum):
             self._datum = _ellipsoidal_datum(datum, name=name)
 
@@ -648,8 +649,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       takes the heights of the points into account.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                           or function L{equidistant}) or C{None} for
-                           the preferred C{B{point}.Equidistant}.
+                           or function L{pygeodesy.equidistant}) or C{None}
+                           for the preferred C{B{point}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.

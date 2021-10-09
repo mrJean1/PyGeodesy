@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.09.14'
+__version__ = '21.10.05'
 
 
 class HausdorffError(PointsError):
@@ -297,8 +297,8 @@ class HausdorffRadians(Hausdorff):
 
 
 class HausdorffCosineAndoyerLambert(HausdorffRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{cosineAndoyerLambert_}.
+    '''Compute the C{Hausdorff} distance based on the I{angular} distance
+       in C{radians} from function L{pygeodesy.cosineAndoyerLambert_}.
 
        @see: L{HausdorffCosineForsytheAndoyerLambert}, L{HausdorffDistanceTo},
              L{HausdorffExact}, L{HausdorffFlatLocal}, L{HausdorffHubeny},
@@ -316,7 +316,8 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                        (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -336,15 +337,15 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{cosineAndoyerLambert_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineAndoyerLambert_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineAndoyerLambert_(p2.phi, p1.phi, r, datum=self._datum)
 
 
 class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{cosineForsytheAndoyerLambert_}.
+    '''Compute the C{Hausdorff} distance based on the I{angular} distance
+       in C{radians} from function L{pygeodesy.cosineForsytheAndoyerLambert_}.
 
        @see: L{HausdorffCosineAndoyerLambert}, L{HausdorffDistanceTo},
              L{HausdorffExact}, L{HausdorffFlatLocal}, L{HausdorffHubeny},
@@ -362,7 +363,8 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                        (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -382,7 +384,7 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{cosineForsytheAndoyerLambert_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineForsytheAndoyerLambert_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineForsytheAndoyerLambert_(p2.phi, p1.phi, r, datum=self._datum)
@@ -390,9 +392,9 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
 
 class HausdorffCosineLaw(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{cosineLaw_}.
+       distance in C{radians} from function L{pygeodesy.cosineLaw_}.
 
-       @note: See note at function L{vincentys_}.
+       @note: See note at function L{pygeodesy.vincentys_}.
 
        @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
              L{HausdorffExact}, L{HausdorffFlatLocal}, L{HausdorffHubeny},
@@ -407,7 +409,8 @@ class HausdorffCosineLaw(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI}
+                        longitudes (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -424,7 +427,7 @@ class HausdorffCosineLaw(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{cosineLaw_} distance in C{radians}.
+        '''Return the L{pygeodesy.cosineLaw_} distance in C{radians}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return cosineLaw_(p2.phi, p1.phi, d)
@@ -492,8 +495,8 @@ class HausdorffDistanceTo(Hausdorff):
 
 
 class HausdorffEquirectangular(HausdorffRadians):
-    '''Compute the C{Hausdorff} distance based on the C{equirectangular}
-       distance in C{radians squared} like function L{equirectangular_}.
+    '''Compute the C{Hausdorff} distance based on the C{equirectangular} distance
+       in C{radians squared} like function L{pygeodesy.equirectangular_}.
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEuclidean}
              L{HausdorffExact}, L{HausdorffFlatPolar},
@@ -511,7 +514,8 @@ class HausdorffEquirectangular(HausdorffRadians):
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude (C{bool}).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                        (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -528,7 +532,7 @@ class HausdorffEquirectangular(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{equirectangular_} distance in C{radians squared}.
+        '''Return the L{pygeodesy.equirectangular_} distance in C{radians squared}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
@@ -538,7 +542,7 @@ class HausdorffEquirectangular(HausdorffRadians):
 
 class HausdorffEuclidean(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the C{Euclidean}
-       distance in C{radians} from function L{euclidean_}.
+       distance in C{radians} from function L{pygeodesy.euclidean_}.
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffExact}, L{HausdorffFlatPolar},
@@ -573,7 +577,7 @@ class HausdorffEuclidean(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{euclidean_} distance in C{radians}.
+        '''Return the L{pygeodesy.euclidean_} distance in C{radians}.
         '''
         return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self._adjust)
 
@@ -602,7 +606,8 @@ class HausdorffExact(HausdorffDegrees):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unroll180} longitudes
+                        (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -632,8 +637,8 @@ class HausdorffExact(HausdorffDegrees):
 
 
 class HausdorffFlatLocal(HausdorffRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular} distance
-       in C{radians squared} like function L{flatLocal_}/L{hubeny_}.
+    '''Compute the C{Hausdorff} distance based on the I{angular} distance in
+       C{radians squared} like function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
 
        @see: L{HausdorffCosineAndoyerLambert},
              L{HausdorffCosineForsytheAndoyerLambert},
@@ -655,7 +660,8 @@ class HausdorffFlatLocal(HausdorffRadians):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                        (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -676,7 +682,8 @@ class HausdorffFlatLocal(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{flatLocal_}/L{hubeny_} distance in C{radians squared}.
+        '''Return the L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_} distance
+           in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return self._hubeny2_(p2.phi, p1.phi, d)
@@ -684,7 +691,7 @@ class HausdorffFlatLocal(HausdorffRadians):
 
 class HausdorffFlatPolar(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{flatPolar_}.
+       distance in C{radians} from function L{pygeodesy.flatPolar_}.
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffEuclidean}, L{HausdorffExact},
@@ -698,7 +705,8 @@ class HausdorffFlatPolar(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                        (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -715,7 +723,7 @@ class HausdorffFlatPolar(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{flatPolar_} distance in C{radians}.
+        '''Return the L{pygeodesy.flatPolar_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return flatPolar_(p2.phi, p1.phi, r)
@@ -723,7 +731,7 @@ class HausdorffFlatPolar(HausdorffRadians):
 
 class HausdorffHaversine(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{haversine_}.
+       distance in C{radians} from function L{pygeodesy.haversine_}.
 
        @note: See note under L{HausdorffVincentys}.
 
@@ -739,7 +747,8 @@ class HausdorffHaversine(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI}
+                        longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -756,7 +765,7 @@ class HausdorffHaversine(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{haversine_} distance in C{radians}.
+        '''Return the L{pygeodesy.haversine_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return haversine_(p2.phi, p1.phi, r)
@@ -793,7 +802,8 @@ class HausdorffKarney(HausdorffExact):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unroll180} longitudes
+                        (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -815,7 +825,7 @@ class HausdorffKarney(HausdorffExact):
 
 class HausdorffThomas(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{thomas_}.
+       distance in C{radians} from function L{pygeodesy.thomas_}.
 
        @see: L{HausdorffCosineAndoyerLambert},
              L{HausdorffCosineForsytheAndoyerLambert},
@@ -835,7 +845,8 @@ class HausdorffThomas(HausdorffRadians):
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI} longitudes
+                       (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -855,7 +866,7 @@ class HausdorffThomas(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{thomas_} distance in C{radians}.
+        '''Return the L{pygeodesy.thomas_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return thomas_(p2.phi, p1.phi, r, datum=self._datum)
@@ -863,9 +874,9 @@ class HausdorffThomas(HausdorffRadians):
 
 class HausdorffVincentys(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{vincentys_}.
+       distance in C{radians} from function L{pygeodesy.vincentys_}.
 
-       @note: See note at function L{vincentys_}.
+       @note: See note at function L{pygeodesy.vincentys_}.
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffEuclidean}, L{HausdorffExact},
@@ -879,7 +890,8 @@ class HausdorffVincentys(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{pygeodesy.unrollPI}
+                        longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
@@ -896,15 +908,15 @@ class HausdorffVincentys(HausdorffRadians):
         symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
-        '''Return the L{vincentys_} distance in C{radians}.
+        '''Return the L{pygeodesy.vincentys_} distance in C{radians}.
         '''
         r, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return vincentys_(p2.phi, p1.phi, r)
 
 
 def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
-    '''(INTERNAL) Core of function L{hausdorff.hausdorff_} and methods
-       C{directed} and C{symmetric} of classes C{hausdorff.Hausdorff...}.
+    '''(INTERNAL) Core of function L{hausdorff_} and methods C{directed}
+       and C{symmetric} of classes C{hausdorff.Hausdorff...}.
     '''
     # shuffling the points generally increases the
     # chance of an early break in the inner j loop

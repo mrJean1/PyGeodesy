@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.07.22'
+__version__ = '21.10.05'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -195,7 +195,8 @@ class Etm(Utm):
 
            @raise ETMError: Invalid B{C{strETM}}.
 
-           @see: Function L{parseUPS5}, L{parseUTM5} and L{parseUTMUPS5}.
+           @see: Function L{pygeodesy.parseUPS5}, L{pygeodesy.parseUTM5}
+                 and L{pygeodesy.parseUTMUPS5}.
         '''
         return parseETM5(strETM, datum=self.datum, Etm=self.classof,
                                  name=name or self.name)
@@ -1006,7 +1007,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or
                           if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{rangerrors} set to C{True}.
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: Invalid B{C{datum}} or B{C{latlon}} not
                          ellipsoidal.

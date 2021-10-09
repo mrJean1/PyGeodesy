@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.06.09'
+__version__ = '21.10.05'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -91,7 +91,7 @@ def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
 
        @raise UTMUPSError: Invalid B{C{strUTMUPS}}.
 
-       @see: Functions L{parseUTM5} and L{parseUPS5}.
+       @see: Functions L{pygeodesy.parseUTM5} and L{pygeodesy.parseUPS5}.
     '''
     try:
         try:
@@ -131,7 +131,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
        @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
                           or if B{C{lat}} or B{C{lon}} outside the valid
-                          range and L{rangerrors} set to C{True}.
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal or B{C{lon}}
                          value is missing of B{C{datum}} is invalid.
@@ -140,7 +140,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @see: Functions L{toUtm8} and L{toUps8}.
+       @see: Functions L{pygeodesy.toUtm8} and L{pygeodesy.toUps8}.
     '''
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = utmupsZoneBand5(lat, lon)
@@ -282,14 +282,13 @@ def utmupsZoneBand5(lat, lon, cmoff=False, name=NN):
                 UTM hemisphere or UPS pole, the UPS projection
                 top/center.
 
-       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS
-                          bands or if B{C{lat}} or B{C{lon}} outside
-                          the valid range and L{rangerrors} set to
-                          C{True}.
+       @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
+                          or if B{C{lat}} or B{C{lon}} outside the valid
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
 
-       @see: Functions L{utmZoneBand5} and L{upsZoneBand5}.
+       @see: Functions L{pygeodesy.utmZoneBand5} and L{pygeodesy.upsZoneBand5}.
     '''
     try:
         return utmZoneBand5(lat, lon, cmoff=cmoff, name=name)

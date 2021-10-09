@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.09.09'
+__version__ = '21.10.05'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -378,7 +378,7 @@ class Ellipsoid(_NamedEnumItem):
     def area(self):
         '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2}.
 
-           @see: L{areax}, L{c2} and L{R2}.
+           @see: Properties L{areax}, L{c2} and L{R2}.
         '''
         return Meter2(area=self.c2 * PI4)
 
@@ -387,7 +387,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2x},
            more accurate for very I{oblate} ellipsoids.
 
-           @see: L{area}, L{c2x}, L{R2x} and L{GeodesicExact}.
+           @see: Properties L{area}, L{c2x}, L{R2x} and class L{GeodesicExact}.
         '''
         return Meter2(areax=self.c2x * PI4)
 
@@ -600,7 +600,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the I{authalic} earth radius I{squared} (C{meter**2}).
 
 
-           @see: L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation 60
+           @see: Properties L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation 60
                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area()
                  <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>},
                  U{Authalic radius<https://WikiPedia.org/wiki/Earth_radius#Authalic_radius>}, U{Surface area
@@ -614,7 +614,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the I{authalic} earth radius I{squared} (C{meter**2}), more accurate for very I{oblate}
            ellipsoids.
 
-           @see: L{c2}, L{areax}, L{R2x}, L{Rauthalicx}, L{GeodesicExact} and I{Karney}'s comments at C++
+           @see: Properties L{c2}, L{areax}, L{R2x}, L{Rauthalicx}, class L{GeodesicExact} and I{Karney}'s comments at C++
                  attribute U{GeodesicExact._c2<https://GeographicLib.SourceForge.io/html/GeodesicExact_8cpp_source.html>}.
         '''
         return self._c2f(True)
@@ -643,8 +643,8 @@ class Ellipsoid(_NamedEnumItem):
            @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}
                     instance.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise TypeError: Invalid B{C{lat}}.
 
@@ -681,8 +681,8 @@ class Ellipsoid(_NamedEnumItem):
            @return: Distance (C{meter}, same units as the equatorial
                     and polar radii) or C{0} for near-polar B{C{lat}}.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise ValueError: Invalid B{C{deg}} or B{C{lat}}.
         '''
@@ -708,7 +708,7 @@ class Ellipsoid(_NamedEnumItem):
            @note: The meridional and prime_vertical radii of curvature are
                   taken and scaled I{at the initial latitude}, see C{roc2}.
 
-           @see: Function L{flatLocal}/L{hubeny}.
+           @see: Function L{pygeodesy.flatLocal}/L{pygeodesy.hubeny}.
         '''
         phi0 = Phi_(lat0=lat0)
         m, n = self.roc2_(phi0, scaled=True)
@@ -1032,8 +1032,8 @@ class Ellipsoid(_NamedEnumItem):
         return Vector4Tuple(v.x, v.y, v.z, h, name=self.height4.__name__)
 
     def _hubeny2_(self, phi2, phi1, lam21):
-        '''(INTERNAL) like function L{flatLocal_}/L{hubeny_} but
-           returning the I{angular} distance in C{radians squared}.
+        '''(INTERNAL) like function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}
+           but returning the I{angular} distance in C{radians squared}.
         '''
         m, n = self.roc2_((phi2 + phi1) * _0_5, scaled=True)
         return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
@@ -1161,8 +1161,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise ValueError: Invalid B{C{distance}} or B{C{lat}}.
        '''
@@ -1177,8 +1177,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Angle (C{radians}) or C{INF} for near-polar B{C{lat}}.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise ValueError: Invalid B{C{distance}} or B{C{lat}}.
         '''
@@ -1257,8 +1257,8 @@ class Ellipsoid(_NamedEnumItem):
            @return: Distance (C{meter}, same units as the equatorial
                     and polar radii) or C{0} for near-polar B{C{lat}}.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise ValueError: Invalid B{C{rad}} or B{C{lat}}.
         '''
@@ -1319,8 +1319,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Approximate earth radius (C{meter}).
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise TypeError: Invalid B{C{lat}}.
 
@@ -1447,8 +1447,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Directional radius of curvature (C{meter}).
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range
-                              and L{rangerrors} set to C{True}.
+           @raise RangeError: Latitude B{C{lat}} outside valid range and
+                              L{pygeodesy.rangerrors} set to C{True}.
 
            @raise ValueError: Invalid B{C{lat}} or B{C{bearing}}.
 

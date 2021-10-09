@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.09.19'
+__version__ = '21.10.05'
 
 
 class _GH(object):
@@ -294,7 +294,7 @@ class Geohash(Str):
 
     def equirectangularTo(self, other, radius=R_M, adjust=False, wrap=False):
         '''Approximate the distance between this and an other geohash
-           using the L{equirectangular} function.
+           using function L{pygeodesy.equirectangular}.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius, ellipsoid or datum
@@ -322,7 +322,7 @@ class Geohash(Str):
 
     def euclideanTo(self, other, radius=R_M, adjust=False, wrap=False):
         '''Approximate the distance between this and an other geohash
-           using the L{euclidean} function.
+           using function L{pygeodesy.euclidean}.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius, ellipsoid or datum
@@ -344,7 +344,7 @@ class Geohash(Str):
 
     def haversineTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance between this and an other geohash using
-           the L{haversine} formula.
+           the L{pygeodesy.haversine} formula.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius, ellipsoid or datum
@@ -426,7 +426,7 @@ class Geohash(Str):
 
     def vincentysTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance between this and an other geohash using
-           the L{vincentys} formula.
+           the L{pygeodesy.vincentys} formula.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius, ellipsoid or datum
@@ -758,7 +758,7 @@ def encode(lat, lon, precision=None):
 
 def equirectangular_(geohash1, geohash2, radius=R_M):
     '''Approximate the distance between two geohashes using the
-       L{equirectangular} formula.
+       L{pygeodesy.equirectangular} formula.
 
        @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
        @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
@@ -779,7 +779,7 @@ def equirectangular_(geohash1, geohash2, radius=R_M):
 
 def haversine_(geohash1, geohash2, radius=R_M):
     '''Compute the great-circle distance between two geohashes
-       using the L{haversine} formula.
+       using the L{pygeodesy.haversine} formula.
 
        @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
        @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).

@@ -4,8 +4,8 @@
 u'''Utilities for point lists, tuples, etc.
 
 Functions to handle collections and sequences of C{LatLon} points
-specified as 2-d U{NumPy<https://www.NumPy.org>}, C{arrays} or tuples as
-C{LatLon} or as C{pseudo-x/-y} pairs.
+specified as 2-d U{NumPy<https://www.NumPy.org>}, C{arrays} or tuples
+as C{LatLon} or as C{pseudo-x/-y} pairs.
 
 C{NumPy} arrays are assumed to contain rows of points with a lat-, a
 longitude -and possibly other- values in different columns.  While
@@ -13,21 +13,21 @@ iterating over the array rows, create an instance of a given C{LatLon}
 class "on-the-fly" for each row with the row's lat- and longitude.
 
 The original C{NumPy} array is read-accessed only and never duplicated,
-except to create a I{subset} of the original array.
+except to create a I{subset} of the original array to be returned.
 
 For example, to process a C{NumPy} array, wrap the array by instantiating
 class L{Numpy2LatLon} and specifying the column index for the lat- and
 longitude in each row.  Then, pass the L{Numpy2LatLon} instance to any
 L{pygeodesy} function or method accepting a I{points} argument.
 
-Similarly, class L{Tuple2LatLon} is used to instantiate a C{LatLon}
-for each 2+tuple in a list, tuple or sequence of such 2+tuples from
-the index for the lat- and longitude index in each 2+tuple.
+Similarly, class L{Tuple2LatLon} is used to instantiate a C{LatLon} from
+each 2+tuple in a sequence of such 2+tuples using the C{ilat} lat- and
+C{ilon} longitude index in each 2+tuple.
 '''
 
-from pygeodesy.basics import isclass, isint, isnear0, isscalar, \
-                             issequence, issubclassof, map1, \
-                             _Sequence, _xcopy, _xinstanceof
+from pygeodesy.basics import isclass, isint, isnear0, isnear1, isscalar, \
+                             issequence, issubclassof, map1, _Sequence, \
+                             _xcopy, _xdup, _xinstanceof
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
@@ -37,10 +37,10 @@ from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
                              _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
-                             _ELLIPSIS_, _height_, _lat_, _lon_, _near_, \
-                             _not_, _point_, _SPACE_, _UNDER_, _valid_, \
-                             _0_0, _0_5, _1_0, _3_0, _90_0, _N_90_0, \
-                             _180_0, _360_0
+                             _ELLIPSIS_, _height_, _immutable_, _lat_, \
+                             _lon_, _near_, _not_, _point_, _SPACE_, \
+                             _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
+                             _90_0, _N_90_0, _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -48,19 +48,19 @@ from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   NearestOn5Tuple, PhiLam2Tuple, \
-                                  Point3Tuple, Vector4Tuple
+                                  Point3Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
                             property_RO
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
-from pygeodesy.units import Number_, Radius, Scalar_
+from pygeodesy.units import Number_, Radius, Scalar, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.09.26'
+__version__ = '21.10.05'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -69,7 +69,7 @@ _ncols_ = 'ncols'
 _nrows_ = 'nrows'
 
 
-class LatLon_(object):  # XXX imported by heights._HeightBase.height
+class LatLon_(object):  # XXX in heights._HeightBase.height
     '''Low-overhead C{LatLon} class for L{Numpy2LatLon} and L{Tuple2LatLon}.
     '''
     # __slots__ efficiency is voided if the __slots__ class attribute
@@ -85,7 +85,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     # Property_RO = property_RO  # no __dict__ with __slots__
     #
     # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
-    # and only 48-64 bytes without in Python 2.7.18+ and Python 3+.
+    # but only 48-64 bytes without in Python 2.7.18+ and Python 3+.
+
+    _ATTRS_ = None  # see function _isLatLon_ below
 
     def __init__(self, lat, lon, name=NN, height=0, datum=None):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
@@ -143,18 +145,59 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @kwarg deep: If C{True} make a deep, otherwise a
                         shallow copy (C{bool}).
 
-           @return: The copy (C{This class} or subclass thereof).
+           @return: The copy (C{This} (sub-)class).
         '''
         return _xcopy(self, deep=deep)
+
+    def dup(self, **items):
+        '''Duplicate this instance, replacing some items.
+
+           @kwarg items: Attributes to be changed (C{any}).
+
+           @return: The duplicate (C{This} (sub-)class).
+
+           @raise AttributeError: Some B{C{items}} invalid.
+        '''
+        return _xdup(self, **items)
 
     def heightStr(self, prec=-2):
         '''Return a string for the height B{C{height}}.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
 
-           @see: Function L{hstr}.
+           @see: Function L{pygeodesy.hstr}.
         '''
         return hstr(self.height, prec=prec)
+
+    def intermediateTo(self, other, fraction, height=None, wrap=False):
+        '''Locate the point at a given fraction between (or along) this
+           and an other point.
+
+           @arg other: The other point (C{LatLon}).
+           @arg fraction: Fraction between both points (C{float},
+                          0.0 for this and 1.0 for the other point).
+           @kwarg height: Optional height (C{meter}), overriding the
+                          intermediate height.
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Intermediate point (this C{LatLon}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        f = Scalar(fraction=fraction)
+        if isnear0(f):
+            r = self
+        elif isnear1(f) and not wrap:
+            r = self.others(other)
+        else:
+            r = self.others(other)
+            h = favg(self.height, r.height, f=f) if height is None else height
+            _, lon = unroll180(self.lon, r.lon, wrap=wrap)
+            r = self.classof(favg(self.lat, r.lat, f=f),
+                             favg(self.lon,   lon, f=f),
+                             height=h, datum=self.datum,
+                             name=self.intermediateTo.__name__)
+        return r
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point, I{ignoring} height.
@@ -328,23 +371,20 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
 
 def _isLatLon(inst):
-    '''(INTERNAL) for a C{LatLon} or C{LatLon_} instance.
+    '''(INTERNAL) Check a C{LatLon} or C{LatLon_} instance.
     '''
     from pygeodesy.latlonBase import LatLonBase
     return isinstance(inst, (LatLon_, LatLonBase))
 
 
-try:
-    _LatLon_attrs = LatLon_.__slots__  # PYCHOK no __slots__
-except AttributeError:
-    _LatLon_attrs = tuple(LatLon_(0, 0).__dict__.keys())
-
-
 def _isLatLon_(LL):
-    '''(INTERNAL) Check attributes of class C{LL}.
+    '''(INTERNAL) Check a (sub-)class of C{LatLon_}.
     '''
+    if LatLon_._ATTRS_ is None:  # cached pseudo-__slots__
+        LatLon_._ATTRS_ = tuple(LatLon_(0, 0).__dict__.keys())
+
     return issubclassof(LL, LatLon_) or (isclass(LL) and
-                                     all(hasattr(LL, a) for a in _LatLon_attrs))
+            all(hasattr(LL, a) for a in LatLon_._ATTRS_))
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -357,9 +397,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _contains(self, point):
         '''(INTERNAL) Check for a matching point.
         '''
-        for _ in self._findall(point, ()):
-            return True
-        return False
+        return any(self._findall(point, ()))
 
     def copy(self, deep=False):
         '''Make a shallow or deep copy of this instance.
@@ -374,10 +412,21 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _count(self, point):
         '''(INTERNAL) Count the number of matching points.
         '''
-        n = 0
-        for _ in self._findall(point, ()):
-            n += 1
-        return n
+        return sum(1 for _ in self._findall(point, ()))  # NOT len()!
+
+    def dup(self, **items):
+        '''Duplicate this instance, I{without replacing items}.
+
+           @kwarg items: No attributes (C{none}).
+
+           @return: The duplicate (C{This} (sub-)class).
+
+           @raise _TypeError: Any B{C{items}} invalid.
+        '''
+        if items:
+            t = _SPACE_(classname(self), _immutable_)
+            raise _TypeError(txt=t, this=self, **items)
+        return _xdup(self)
 
     @property_doc_(''' the equality tolerance (C{float}).''')
     def epsilon(self):
@@ -401,8 +450,10 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Find the first matching point index.
         '''
         for i in self._findall(point, start_end):
-            return i
-        return -1
+            break
+        else:
+            i = -1
+        return i
 
     def _findall(self, point, start_end):  # PYCHOK no cover
         '''(INTERNAL) I{Must be implemented/overloaded}.
@@ -1221,59 +1272,111 @@ def centroidOf(points, wrap=True, LatLon=None):
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
 
-def _fractional(points, fi, fin=None):  # wrap [n] to [0]
-    '''(INTERNAL) Compute point at L{fractional} index.
-    '''
-    i = int(fi)
-    p = points[i]
-    r = fi - float(i)
-    if r > EPS:
-        i += 1
-        q  = points[0 if i == fin else i]
-        if r < EPS1:
-            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
-                             favg(p.lon, q.lon, f=r))
-        else:
-            p = q
-    return p
-
-
-def fractional(points, fi, LatLon=None, **LatLon_kwds):
+def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
     '''Return the point at a given I{fractional} index.
 
        @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
-                    L{Tuple2LatLon}[] or C{other}[]).
+                    L{Tuple2LatLon}[], C{Cartesian}[], C{Vector3d}[],
+                    L{Vector3Tuple}[]).
        @arg fi: The fractional index (L{FIx}, C{float} or C{int}).
+       @kwarg j: Optionally, index of the other point (C{int}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}) or C{None} for
+                    backward compatible L{LatLon2Tuple} or B{C{LatLon}}
+                    with averaged lat- and longitudes.  Use C{True} or
+                    C{False} to get the I{fractional} point computed
+                    method C{points[fi].intermediateTo}.
        @kwarg LatLon: Optional class to return the I{intermediate},
                       I{fractional} point (C{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored of C{B{LatLon} is None}.
+       @kwarg Vector: Optional class to return the I{intermediate},
+                      I{fractional} point (C{Cartesian}, C{Vector3d})
+                      or C{None}.
+       @kwarg kwds: Optional, additional B{C{LatLon}} I{or} B{C{Vector}}
+                    keyword arguments, ignored if both C{B{LatLon}} and
+                    C{B{Vector}} are C{None}.
 
-       @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
-                L{LatLon2Tuple}C{(lat, lon)} for C{B{points}[B{fi}]} if
-                I{fractional} index B{C{fi}} is C{int}, otherwise the
-                intermediate point between C{B{points}[int(B{fi})]} and
-                C{B{points}[int(B{fi}) + 1]} for C{float} I{fractional}
-                index B{C{fi}}.
+       @return: A L{LatLon2Tuple}C{(lat, lon)} if B{C{wrap}}, B{C{LatLon}}
+                and B{C{Vector}} all are C{None}, the defaults.
 
-       @raise IndexError: Fractional index B{C{fi}} invalid or
-                          B{C{points}} not subscriptable or not
-                          closed.
+                An instance of B{C{LatLon}} if not C{None} I{or} an instance
+                of B{C{Vector}} if not C{None}.
 
-       @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
+                Otherwise with B{C{wrap}} either C{True} or C{False} and
+                B{C{LatLon}} and B{C{Vector}} both C{None}, an instance of
+                B{C{points}}' (sub-)class C{intermediateTo} I{fractional}.
+
+                Summarized as follows:
+
+                  >>>  wrap  | LatLon | Vector | returned type/value
+                  #   -------+--------+--------+--------------+------
+                  #          |        |        | LatLon2Tuple | favg
+                  #    None  |  None  |  None  |   or**       |
+                  #          |        |        | Vector3Tuple | favg
+                  #    None  | LatLon |  None  | LatLon       | favg
+                  #    None  |  None  | Vector | Vector       | favg
+                  #   -------+--------+--------+--------------+------
+                  #    True  |  None  |  None  | points'      | .iTo
+                  #    True  | LatLon |  None  | LatLon       | .iTo
+                  #    True  |  None  | Vector | Vector       | .iTo
+                  #   -------+--------+--------+--------------+------
+                  #    False |  None  |  None  | points'      | .iTo
+                  #    False | LatLon |  None  | LatLon       | .iTo
+                  #    False |  None  | Vector | Vector       | .iTo
+                  # _____
+                  # favg) averaged lat, lon or x, y, z values
+                  # .iTo) value from points[fi].intermediateTo
+                  # **) depends on base class of points[fi]
+
+       @raise IndexError: Fractional index B{C{fi}} invalid or B{C{points}}
+                          not subscriptable or not closed.
+
+       @raise TypeError: Invalid B{C{LatLon}}, B{C{Vector}} or B{C{kwds}}
                          argument.
 
        @see: Class L{FIx} and method L{FIx.fractional}.
     '''
+    if LatLon and Vector:
+        kwds = _xkwds(kwds, fi=fi, LatLon=LatLon, Vector=Vector)
+        raise _TypeError(txt=fractional.__name__, **kwds)
     try:
         if not isscalar(fi) or fi < 0:
             raise IndexError
-        p = _fractional(points, fi, fin=getattr(fi, _fin_, 0))  # see .units.FIx
+        n =  getattr(fi, _fin_, 0)
+        w =  wrap if Vector is None else False  # intermediateTo
+        p = _fractional(points, fi, j, fin=n, wrap=w)  # see .units.FIx
+        if LatLon:
+            p = LatLon(p.lat, p.lon, **kwds)
+        elif Vector:
+            p = Vector(p.x, p.y, p.z, **kwds)
     except (IndexError, TypeError):
-        raise _IndexError(fractional.__name__, fi)
+        raise _IndexError(fi=fi, points=points, wrap=wrap, txt=fractional.__name__)
+    return p
 
-    if LatLon and isinstance(p, LatLon2Tuple):
-        p = LatLon(*p, **LatLon_kwds)
+
+def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
+    '''(INTERNAL) Compute point at L{fractional} index C{fi} and C{j}.
+    '''
+    i = int(fi)
+    p = points[i]
+    r = fi - float(i)
+    if r > EPS:  # EPS0?
+        if j is None:
+            j = i + 1
+            if fin:
+                j %= fin
+        q = points[j]
+        if r >= EPS1:
+            p = q
+        elif wrap is not None:  # in (True, False)
+            p = p.intermediateTo(q, r, wrap=wrap)
+        elif _isLatLon(p):  # backward compatible default
+            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
+                             favg(p.lon, q.lon, f=r),
+                             name=fractional.__name__)
+        else:  # assume p and q are cartesian or vectorial
+            z = p.z if p.z is q.z else favg(p.z, q.z, f=r)
+            p = Vector3Tuple(favg(p.x, q.x, f=r),
+                             favg(p.y, q.y, f=r), z,
+                             name=fractional.__name__)
     return p
 
 
@@ -1360,9 +1463,9 @@ def isconvex_(points, adjust=False, wrap=True):
         >>> f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
         >>> isconvex_(f)  # 0
     '''
-    def _unroll_adjust(x1, y1, x2, y2, w):
+    def _unroll2(x1, y1, x2, y2, a, w):
         x21, x2 = unroll180(x1, x2, wrap=w)
-        if adjust:
+        if a:
             y = radians(y1 + y2) * _0_5
             x21 *= cos(y) if abs(y) < PI_2 else _0_0
         return x21, x2
@@ -1372,11 +1475,11 @@ def isconvex_(points, adjust=False, wrap=True):
     Ps = LatLon2PsxyIter(points, wrap=wrap, loop=2)
     x1, y1, _ = Ps[0]
     x2, y2, _ = Ps[1]
-    x21, x2 = _unroll_adjust(x1, y1, x2, y2, False)
+    x21, x2 = _unroll2(x1, y1, x2, y2, adjust, False)
 
     for i, p in Ps.enumerate(closed=True):
         x3, y3, ll = p
-        x32, x3 = _unroll_adjust(x2, y2, x3, y3, (wrap if i > 1 else False))
+        x32, x3 = _unroll2(x2, y2, x3, y3, adjust, (wrap if i > 1 else False))
 
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
@@ -1555,33 +1658,35 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
        @arg point: Reference point (C{LatLon}).
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes and longitudinal
-                    delta (C{bool}) in function L{equirectangular_}.
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes and longitudinal
+                    delta (C{bool}) in function L{pygeodesy.equirectangular_}.
        @kwarg LatLon: Optional class to return the closest point (C{LatLon})
                       or C{None}.
-       @kwarg options: Other keyword arguments for function L{equirectangular_}.
+       @kwarg options: Other keyword arguments for function
+                       L{pygeodesy.equirectangular_}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 {closest} point (B{C{LatLon}}) or if C{B{LatLon} is None},
                 a L{NearestOn5Tuple}C{(lat, lon, distance, angle, height)}.
-                The C{distance} is the L{equirectangular_} distance between
-                the C{closest} and reference B{C{point}} in C{degrees}.  The
-                C{angle} from the reference B{C{point}} to the C{closest} is
-                in compass C{degrees360}, like function L{compassAngle}.
+                The C{distance} is the L{pygeodesy.equirectangular} distance
+                between the C{closest} and reference B{C{point}} in C{degrees}.
+                The C{angle} from the reference B{C{point}} to the C{closest}
+                is in compass C{degrees360}, like function
+                L{pygeodesy.compassAngle}.
 
-       @raise LimitError: Lat- and/or longitudinal delta exceeds the
-                          B{C{limit}}, see function L{equirectangular_}.
+       @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
+                          see function L{pygeodesy.equirectangular_}.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @note: Distances are I{approximated} using function L{equirectangular_},
+       @note: Distances are I{approximated} using function L{pygeodesy.equirectangular_},
               subject to the supplied B{C{options}}.  Method C{LatLon.nearestOn6}
               measures distances more accurately.
 
-       @see: Function L{nearestOn6} for cartesian points.  Use function
-             L{degrees2m} to convert C{degrees} to C{meter}.
+       @see: Function L{pygeodesy.nearestOn6} for cartesian points.  Use function
+             L{pygeodesy.degrees2m} to convert C{degrees} to C{meter}.
     '''
     def _d2yx(p2, p1, u, w):
         # w = wrap if (not closed or w < (n - 1)) else False
@@ -1677,12 +1782,11 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @note: This perimeter is based on the L{equirectangular_}
-              distance approximation and is ill-suited for regions
-              exceeding several hundred Km or Miles or with
-              near-polar latitudes.
+       @note: This perimeter is based on the L{pygeodesy.equirectangular_}
+              distance approximation and is ill-suited for regions exceeding
+              several hundred Km or Miles or with near-polar latitudes.
 
-       @see: L{sphericalTrigonometry.perimeterOf} and
+       @see: Functions L{sphericalTrigonometry.perimeterOf} and
              L{ellipsoidalKarney.perimeterOf}.
     '''
     def _degs(points, closed, wrap):  # angular edge lengths in degrees

@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.09.25'
+__version__ = '21.10.05'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -423,7 +423,7 @@ def _En2(earth, name):
 
 
 def _ellipsoid(earth, name=NN):  # in .trf
-    '''(INTERNAL) Create an L{Ellipsoid} or L{Ellipsoid2} from L{datum} or C{a_f2Tuple}.
+    '''(INTERNAL) Create an L{Ellipsoid} or L{Ellipsoid2} from L{Datum} or C{a_f2Tuple}.
     '''
     E, _ = _En2(earth, name)
     if not E:

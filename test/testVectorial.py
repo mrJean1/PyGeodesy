@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.09.29'
+__version__ = '21.10.08'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
@@ -173,6 +173,14 @@ class Tests(TestsBase):
         self.test('meanOf', s, '44.995674°N, 045.0°E')
         self.test('meanOf', s.__class__.__name__, LatLon.__name__)
 
+        t = v.apply(max, v)
+        self.test('apply', t, v)
+        t.x += v.x  # coverage
+        t.y += v.y
+        t.z += v.z
+        t = v.classof(v)
+        self.test('init', t, v)
+
         class Nv(Nvector):
             pass
         v = Nvector(52.205, 0.119, 0.0)
@@ -265,7 +273,7 @@ class Tests(TestsBase):
             p = LatLon(1, 1).nearestOn(LatLon(2, 2), LatLon(2, 2))
             self.test('nearestOn', p, '02.0°N, 002.0°E')
             p = LatLon(2, 2).nearestOn(LatLon(2, 2), LatLon(2, 2))
-            self.test('nearestOn', p, '02.0°N, 002.0°E')  # PYCHOK test attr?
+            self.test('nearestOn', p, '02.0°N, 002.0°E')
 
         if hasattr(LatLon, 'nearestOn6'):
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
@@ -274,7 +282,7 @@ class Tests(TestsBase):
                                   else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))')
             p = LatLon(45.5, 2.5).nearestOn6(b, height=0)
             self.test('neareston6', p, '(LatLon(45°30′03.93″N, 002°00′00.0″E), 38968.531578, 1.501091, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))' if Sph
-                                  else '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))')  # PYCHOK test attr?
+                                  else '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))')
 
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017
@@ -284,7 +292,7 @@ class Tests(TestsBase):
             self.test('BasseH', s, '47.311067°N, 002.528617°W')
             t = p.triangulate(7, s, 295)
             self.test('triangulate', t, '47.323667°N, 002.568501°W')
-            self.test('triangulate', isinstance(t, LatLon), True)  # PYCHOK test attr?
+            self.test('triangulate', isinstance(t, LatLon), True)
 
         if hasattr(LatLon, 'trilaterate'):
             # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
@@ -319,7 +327,7 @@ class Tests(TestsBase):
                 t = p1.trilaterate(d, p2, d, LatLon(42.64540, 2.504811), d)
                 self.test('trilaterate', t.toStr(F_D, prec=8), IntersectionError.__name__)
             except IntersectionError as x:
-                self.test('trilaterate', str(x), str(x))  # PYCHOK test attr?
+                self.test('trilaterate', str(x), str(x))
 
         self.testNvectorBase(module)
 

@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.09.19'
+__version__ = '21.10.07'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -113,11 +113,11 @@ class GeodesicExact(_GeodesicBase):
     def __init__(self, a_ellipsoid=Ellipsoids.WGS84, f=None, name=NN, C4Order=None):
         '''New L{GeodesicExact} instance.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{datum})
-                             the equatorial radius of the ellipsoid (C{meter}),
-                             see B{C{f}}.
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
+                             the equatorial radius of the ellipsoid (C{scalar},
+                             conventionally in C{meter}), see B{C{f}}.
            @arg f: The flattening of the ellipsoid (C{scalar}) if B{C{a_ellipsoid}}
-                   is specified as C{meter}.
+                   is specified as C{scalar}.
            @kwarg name: Optional name (C{str}).
            @kwarg C4Order: Optional series expansion order (C{int}), see property
                            L{C4Order}, default C{30}.
@@ -277,7 +277,7 @@ class GeodesicExact(_GeodesicBase):
     def _C4x(self):
         '''Get this ellipsoid's C{C4} coefficients, I{cached} tuple.
 
-           @see: Property L{nC4}.
+           @see: Property L{C4Order}.
         '''
         # see C4coeff() in GeographicLib.src.GeodesicExactC4.cpp
         def _C4(nC4, coeffs, _p_n, n):

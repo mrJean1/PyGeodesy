@@ -353,7 +353,9 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, use method <code>compassAngleTo</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo" 
+      class="link">compassAngleTo</a>.</td>
           <td align="right" valign="top">
             
             
@@ -593,7 +595,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other point using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula"
-      target="_top">polar coordinate flat-Earth</a> formula.</td>
+      target="_top">polar coordinate flat-Earth</a>formula.</td>
           <td align="right" valign="top">
             
             
@@ -1232,6 +1234,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -1690,7 +1693,7 @@
         <li><strong class="pname"><code>point3</code></strong> - Third point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-          class="link">trilaterate3d2</a>.</li>
+          class="link">pygeodesy.trilaterate3d2</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circin6Tuple-class.html" 
@@ -1718,10 +1721,10 @@
         <code>deltas</code> is a <a 
         href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
         class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
-        representing the difference between both <a 
+        representing the difference between both results from <a 
         href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-        class="link">trilaterate3d2</a> results and <code>center</code> is 
-        the mean thereof.
+        class="link">pygeodesy.trilaterate3d2</a> and <code>center</code> 
+        is the mean thereof.
       </p>
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector2d-module.html#circin6" 
@@ -1765,7 +1768,7 @@
           Type I case (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-          class="link">trilaterate3d2</a>.</li>
+          class="link">pygeodesy.trilaterate3d2</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.vector2d.Circum3Tuple-class.html" 
@@ -1776,9 +1779,9 @@
           is <i>un</i>ambigous.  Otherwise <code>deltas</code> is a <a 
           href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
-          representing the difference between both <a 
+          representing the difference between both results from <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-          class="link">trilaterate3d2</a> results and <code>center</code> 
+          class="link">pygeodesy.trilaterate3d2</a> and <code>center</code>
           is the mean thereof.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -1800,10 +1803,10 @@
         <code>deltas</code> is a <a 
         href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
         class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
-        representing the difference between both <a 
+        representing the difference between both results from <a 
         href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-        class="link">trilaterate3d2</a> results and <code>center</code> is 
-        the mean thereof.
+        class="link">pygeodesy.trilaterate3d2</a> and <code>center</code> 
+        is the mean thereof.
       </p>
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector2d-module.html#circum3" 
@@ -1852,7 +1855,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector2d-module.html#circum4_" 
-        class="link">pygeodesy.circum4_</a> and method <a 
+        class="link">pygeodesy.circum4_</a> and <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html#circum3" 
         class="link">circum3</a>.
       </p>
@@ -1875,7 +1878,9 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use method <code>compassAngleTo</code>.</p>
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo" 
+  class="link">compassAngleTo</a>.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -1913,8 +1918,8 @@
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes and longitudinal delta 
-          (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes and longitudinal 
+          delta (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass angle from North (<code>degrees360</code>).</dd>
@@ -1958,7 +1963,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -1970,13 +1976,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#cosineAndoyerLambert"
-        class="link">cosineAndoyerLambert</a> and methods 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code>.
+        class="link">pygeodesy.cosineAndoyerLambert</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2006,7 +2026,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -2019,13 +2040,28 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a 
         href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
-        class="link">cosineForsytheAndoyerLambert</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, <code>cosineLawTo</code>, 
-        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
-        <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code>.
+        class="link">pygeodesy.cosineForsytheAndoyerLambert</a> and methods
+        <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2056,7 +2092,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2068,14 +2105,28 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#cosineLaw" 
-        class="link">cosineLaw</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
-        <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code>.
+        class="link">pygeodesy.cosineLaw</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, 
+        <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2207,11 +2258,13 @@
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>Suitable only for short, non-near-polar distances up to a few hundred 
-  Km or Miles.  Use method <code>haversineTo</code> or 
-  <code>distanceTo*</code> for more accurate and/or larger distances.</p>
+  Km or Miles.  Use method <a 
+  href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+  class="link">haversineTo</a> or <code>distanceTo*</code> for more 
+  accurate and/or larger distances.</p>
   <p>See function <a href="pygeodesy.formy-module.html#equirectangular_" 
-  class="link">equirectangular_</a> for more details, the available 
-  <b><code>options</code></b> and errors raised.</p>
+  class="link">pygeodesy.equirectangular_</a> for more details, the 
+  available <b><code>options</code></b> and errors raised.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2220,7 +2273,7 @@
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#equirectangular" 
-          class="link">equirectangular</a>.</li>
+          class="link">pygeodesy.equirectangular</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2232,14 +2285,26 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">equirectangular</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code>.
+        class="link">pygeodesy.equirectangular</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, 
+        <code>euclideanTo</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2263,7 +2328,7 @@
   <p>Approximate the <code>Euclidian</code> distance between this and an 
   other point.</p>
   <p>See function <a href="pygeodesy.formy-module.html#euclidean" 
-  class="link">euclidean</a> for the available 
+  class="link">pygeodesy.euclidean</a> for the available 
   <b><code>options</code></b>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -2273,7 +2338,7 @@
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#euclidean" 
-          class="link">euclidean</a>.</li>
+          class="link">pygeodesy.euclidean</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2285,14 +2350,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#euclidean" 
-        class="link">euclidean</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code>.
+        class="link">pygeodesy.euclidean</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2325,7 +2403,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the major radius of this point's datum/ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2338,15 +2417,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>/<a 
+        class="link">pygeodesy.flatLocal</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">hubeny</a>, methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code> and <a 
+        class="link">pygeodesy.hubeny</a>, methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a> and <a 
         href="https://www.edwilliams.org/avform.htm#flat" 
         target="_top">local, flat Earth approximation</a>.
       </p>
@@ -2371,7 +2462,7 @@
   
   <p>Compute the distance between this and an other point using the <a 
   href="https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula"
-  target="_top">polar coordinate flat-Earth</a> formula.</p>
+  target="_top">polar coordinate flat-Earth</a>formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2379,7 +2470,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2391,14 +2483,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#flatPolar" 
-        class="link">flatPolar</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>haversineTo</code>, <code>thomasTo</code> and 
-        <code>vincentysTo</code>.
+        class="link">pygeodesy.flatPolar</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2470,7 +2575,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2482,14 +2588,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>thomasTo</code> and 
-        <code>vincentysTo</code>.
+        class="link">pygeodesy.haversine</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2584,7 +2703,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.streprs-module.html#hstr" 
-        class="link">hstr</a>.
+        class="link">pygeodesy.hstr</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2617,7 +2736,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the major radius of this point's datum/ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -2630,15 +2750,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>/<a 
+        class="link">pygeodesy.flatLocal</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">hubeny</a>, methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, 
-        <code>thomasTo</code> and <code>vincentysTo</code> and <a 
+        class="link">pygeodesy.hubeny</a>, methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a> and <a 
         href="https://www.edwilliams.org/avform.htm#flat" 
         target="_top">local, flat Earth approximation</a>.
       </p>
@@ -2894,17 +3026,18 @@
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the height of this and all other 
-          points (<code>meter</code>). If <code>None</code>, take the 
+          points (<code>meter</code>).  If <code>None</code>, take the 
           height of points into account for distances.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
           class="link">NearestOn6Tuple</a><code>(closest, distance, fi, j, 
-          start, end)</code> with the {closest}, the <code>start</code> and
-          <code>end</code> points each an instance of this 
-          <code>LatLon</code> and <code>distance</code> in 
+          start, end)</code> with the <code>closest</code>, the 
+          <code>start</code> and the <code>end</code> point each an 
+          instance of this <code>LatLon</code> and <code>distance</code> in
           <code>meter</code>, same units as the cartesian axes.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2915,9 +3048,8 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a 
-        href="pygeodesy.latlonBase.LatLonBase-class.html#nearestOn6" 
-        class="link">nearestOn6</a>.
+        Function <a href="pygeodesy.vector3d-module.html#nearestOn6" 
+        class="link">pygeodesy.nearestOn6</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3088,7 +3220,8 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
-          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unrollPI</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the axes of this 
@@ -3100,14 +3233,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#thomas" 
-        class="link">thomas</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code> and 
-        <code>vincentysTo</code>.
+        class="link">pygeodesy.thomas</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" 
+        class="link">vincentysTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3539,7 +3685,8 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
           the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+          class="link">pygeodesy.unroll180</a> longitudes 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
@@ -3551,14 +3698,27 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#vincentys" 
-        class="link">vincentys</a> and methods 
-        <code>cosineAndoyerLambertTo</code>, 
-        <code>cosineForsytheAndoyerLambertTo</code>, 
-        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>/<code>hubenyTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code> and 
-        <code>thomasTo</code>.
+        class="link">pygeodesy.vincentys</a> and methods <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo"
+        class="link">cosineAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo"
+        class="link">cosineForsytheAndoyerLambertTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" 
+        class="link">cosineLawTo</a>, <code>distanceTo*</code>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo"
+        class="link">equirectangularTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" 
+        class="link">euclideanTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">flatLocalTo</a>/<a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" 
+        class="link">hubenyTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo" 
+        class="link">flatPolarTo</a>, <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" 
+        class="link">haversineTo</a> and <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" 
+        class="link">thomasTo</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3993,7 +4153,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:46 2021
+    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:26 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

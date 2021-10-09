@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '20.07.03'
+__version__ = '20.09.30'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -42,7 +42,7 @@ class Tests(TestsBase):
             m, x = p.elevation2(datum=datum, timeout=timeout)
             self.testApprox('elevation2', m, e, x)
             m, x = p.geoidHeight2(datum=datum, timeout=timeout)
-            self.testApprox('geodHeight2', m, h, x)  # PYCHOK test attr?
+            self.testApprox('geodHeight2', m, h, x)
 
         m, x = elevation2(0, 0, timeout=timeout)
         self.testError('elevation2', m, x, 'non-CONUS -1000000.00')

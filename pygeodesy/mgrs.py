@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.07.31'
+__version__ = '21.10.05'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -319,7 +319,7 @@ class Mgrs(_NamedBase):
 
     @Property_RO
     def _utmups5utm2(self):
-        '''(INTERNAL) Cache for L{toUtm}.
+        '''(INTERNAL) Cache for L{pygeodesy.toUtm}.
         '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square

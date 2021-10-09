@@ -9,7 +9,7 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 '''
 
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.errors import _xkwds, _xkwds_not
+from pygeodesy.errors import _xkwds_not  # _xkwds
 from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
                              _easting_, _end_, _epoch_, _fi_, _j_, _h_, \
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.09.29'
+__version__ = '21.10.05'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -100,9 +100,9 @@ class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
        longitudinal C{delta_lon = B{lon2} - B{lon1}} and C{unroll_lon2},
        the unrolled or original B{C{lon2}}.
 
-       @note: Use Function L{degrees2m} to convert C{degrees squared}
-              to C{meter} as M{degrees2m(sqrt(distance2), ...)} or
-              M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
+       @note: Use Function L{pygeodesy.degrees2m} to convert C{degrees
+              squared} to C{meter} as M{degrees2m(sqrt(distance2), ...)}
+              or M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
     '''
     _Names_ = ('distance2', 'delta_lat', 'delta_lon', 'unroll_lon2')
     _Units_ = ( Degrees2,    Degrees,     Degrees,     Degrees)
@@ -209,11 +209,13 @@ def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
         r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
         kwds = {} if inst is None else _xkwds_not(None,
-#                            datum=getattr(inst, _datum_,   None),
-                             epoch=getattr(inst, _epoch_,   None),
-                           reframe=getattr(inst, _reframe_, None))  # PYCHOK indent
-        r = LatLon(lat, lon, **_xkwds(LatLon_kwds, datum=datum, height=height,
-                                                    name=name, **kwds))
+#                  datum=getattr(inst, _datum_,   None),
+                   epoch=getattr(inst, _epoch_,   None),
+                 reframe=getattr(inst, _reframe_, None))  # PYCHOK indent
+        kwds.update(datum=datum, height=height, name=name)
+        if LatLon_kwds:
+            kwds.update(LatLon_kwds)
+        r = LatLon(lat, lon, **kwds)
     return r
 
 
@@ -288,29 +290,28 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
 
 class NearestOn5Tuple(_NamedTuple):
     '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
-       except C{height}.  The C{distance} is the L{equirectangular_}
-       distance between the closest and the reference B{C{point}} in
-       C{degrees}.  The C{angle} from the reference B{C{point}} to
-       the closest point is in compass C{degrees360}, see function
-       L{compassAngle}.  The C{height} is the (interpolated) height
-       at the closest point in C{meter} or C{0}.
+       except C{height}.  The C{distance} is the L{pygeodesy.equirectangular}
+       distance between the closest and the reference B{C{point}} in C{degrees}.
+       The C{angle} from the reference B{C{point}} to the closest point is in
+       compass C{degrees360}, see function L{pygeodesy.compassAngle}.  The
+       C{height} is the (interpolated) height at the closest point in C{meter}
+       or C{0}.
     '''
     _Names_ = (_lat_, _lon_, _distance_, _angle_, _height_)
     _Units_ = ( Lat,   Lon,   Degrees,    Degrees, Meter)
 
 
 class NearestOn6Tuple(_NamedTuple):  # .latlonBase.py, .vector3d.py
-    '''6-Tuple C{(closest, distance, fi, j, start, end)} with the
-       C{closest} point, the C{distance} in C{meter}, conventionally
-       and the C{start} and C{end} point of the path or polygon edge.
-       Fractional index C{fi} (an L{FIx} instance) and index C{j}
-       indicate the path or polygon edge and the fraction along that
-       edge with the C{closest} point.  The C{start} and C{end}
-       points may differ from the given path or polygon points at
-       indices C{fi} respectively C{j}, when unrolled (C{wrap} is
-       C{True}).  Also, the C{start} and/or C{end} point may be the
-       same instance as the C{closest} point, for example when the
-       very first path or polygon point is the nearest.
+    '''6-Tuple C{(closest, distance, fi, j, start, end)} with the C{closest}
+       point, the C{distance} in C{meter}, conventionally and the C{start}
+       and C{end} point of the path or polygon edge.  Fractional index C{fi}
+       (an L{FIx} instance) and index C{j} indicate the path or polygon edge
+       and the fraction along that edge with the C{closest} point.  The
+       C{start} and C{end} points may differ from the given path or polygon
+       points at indices C{fi} respectively C{j}, when unrolled (C{wrap} is
+       C{True}).  Also, the C{start} and/or C{end} point may be the same
+       instance as the C{closest} point, for example when the very first
+       path or polygon point is the nearest.
     '''
     _Names_ = (_closest_, _distance_, _fi_, _j_,      _start_, _end_)
     _Units_ = (_Pass,      Meter,      FIx,  Number_, _Pass  , _Pass)

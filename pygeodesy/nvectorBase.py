@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn6
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.09.06'
+__version__ = '21.10.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -48,13 +48,16 @@ class NvectorBase(Vector3d):  # XXX kept private
     _h     = 0     # height (C{meter})
     _H     = NN    # height prefix (C{str}), '↑' in JS version
 
-    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
 
-           @arg x: An C{Nvector}, L{Vector3Tuple}, L{Vector4Tuple} or
-                   the C{X} coordinate (C{scalar}).
-           @arg y: The C{Y} coordinate (C{scalar}) if B{C{x}} C{scalar}.
-           @arg z: The C{Z} coordinate (C{scalar}) if B{C{x}} C{scalar}.
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
+                       (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or
+                       L{Vector4Tuple}).
+           @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg h: Optional height above surface (C{meter}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg datum: Optional, I{pass-thru} datum (L{Datum}).
@@ -71,8 +74,8 @@ class NvectorBase(Vector3d):  # XXX kept private
             >>> v = Nvector(0.5, 0.5, 0.7071, 1)
             >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        x, y, z, h, d, n = _xyzhdn6(x, y, z, h, datum, ll)
-        Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
+        x, y, z, h, d, n = _xyzhdn6(x_xyz, y, z, h, datum, ll)
+        Vector3d.__init__(self, x, y=y, z=z, ll=ll, name=name or n)
         if h:
             self.h = h
         if d:
@@ -131,7 +134,7 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg m: Optional unit of the height (C{str}).
 
-           @see: Function L{hstr}.
+           @see: Function L{pygeodesy.hstr}.
         '''
         return NN(self.H, hstr(self.h, prec=prec, m=m))
 
@@ -217,7 +220,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @deprecated_method
     def to3abh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use method L{philamheight} or C{philam.to3Tuple(B{height})}.
+        '''DEPRECATED, use property L{philamheight} or C{philam.to3Tuple(B{height})}.
 
            @kwarg height: Optional height, overriding this
                           n-vector's height (C{meter}).

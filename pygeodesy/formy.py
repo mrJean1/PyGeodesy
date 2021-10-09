@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.09.25'
+__version__ = '21.10.05'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -86,7 +86,7 @@ def bearing(lat1, lon1, lat2, lon2, **options):
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
        @kwarg options: Optional keyword arguments for function
-                       L{bearing_}.
+                       L{pygeodesy.bearing_}.
 
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
@@ -97,19 +97,18 @@ def bearing(lat1, lon1, lat2, lon2, **options):
 
 
 def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
-    '''Compute the initial or final bearing (forward or reverse
-       azimuth) between a (spherical) start and end point.
+    '''Compute the initial or final bearing (forward or reverse azimuth)
+       between a (spherical) start and end point.
 
        @arg phi1: Start latitude (C{radians}).
        @arg lam1: Start longitude (C{radians}).
        @arg phi2: End latitude (C{radians}).
        @arg lam2: End longitude (C{radians}).
-       @kwarg final: Return final bearing if C{True}, initial
-                     otherwise (C{bool}).
-       @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+       @kwarg final: Return final bearing if C{True}, initial otherwise (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
 
-       @return: Initial or final bearing (compass C{radiansPI2}) or
-                zero if start and end point coincide.
+       @return: Initial or final bearing (compass C{radiansPI2}) or zero if start
+                and end point coincide.
     '''
     if final:  # swap plus PI
         phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
@@ -145,17 +144,16 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     '''Return the angle from North for the direction vector
        M{(lon2 - lon1, lat2 - lat1)} between two points.
 
-       Suitable only for short, not near-polar vectors up to a few
-       hundred Km or Miles.  Use function L{bearing} for longer
-       vectors.
+       Suitable only for short, not near-polar vectors up to a few hundred
+       Km or Miles.  Use function L{pygeodesy.bearing} for longer vectors.
 
        @arg lat1: From latitude (C{degrees}).
        @arg lon1: From longitude (C{degrees}).
        @arg lat2: To latitude (C{degrees}).
        @arg lon2: To longitude (C{degrees}).
-       @kwarg adjust: Adjust the longitudinal delta by the
-                      cosine of the mean latitude (C{bool}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg adjust: Adjust the longitudinal delta by the cosine of the
+                      mean latitude (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Compass angle from North (C{degrees360}).
 
@@ -183,7 +181,7 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @arg lon2: End longitude (C{degrees}).
        @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes or C{radians} if B{C{datum}} is C{None}).
@@ -251,7 +249,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
        @arg lon2: End longitude (C{degrees}).
        @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes or C{radians} if B{C{datum}} is C{None}).
@@ -322,13 +320,12 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}} or
-                the ellipsoid or datum axes).
+       @return: Distance (C{meter}, same units as B{C{radius}} or the
+                ellipsoid or datum axes).
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -438,13 +435,13 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                       by the cosine of the mean latitude (C{bool}).
        @kwarg limit: Optional limit for lat- and longitudinal deltas
                      (C{degrees}) or C{None} or C{0} for unlimited.
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon,
                 unroll_lon2)}.
 
-       @raise LimitError: If the lat- and/or longitudinal delta exceeds
-                          the B{C{-limit..+limit}} range and L{limiterrors}
+       @raise LimitError: If the lat- and/or longitudinal delta exceeds the
+                          B{C{-limit..+limit}} range and L{pygeodesy.limiterrors}
                           set to C{True}.
 
        @see: U{Local, flat earth approximation
@@ -478,15 +475,14 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg adjust: Adjust the longitudinal delta by the cosine
-                      of the mean latitude (C{bool}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
+       @kwarg adjust: Adjust the longitudinal delta by the cosine of the
+                      mean latitude (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}} or
-                the ellipsoid or datum axes).
+       @return: Distance (C{meter}, same units as B{C{radius}} or the
+                ellipsoid or datum axes).
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -600,14 +596,13 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}) or C{None}.
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter}, L{Ellipsoid},
+                      L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units of
-                B{C{radius}} I{squared}) or I{spherical excess} (C{radians})
-                if B{C{radius}} is C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter}, or units of B{C{radius}}
+                I{squared}) or I{spherical excess} (C{radians}) if B{C{radius}} is
+                C{None} or C{0}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -655,21 +650,20 @@ def excessKarney_(phi2, phi1, lam21):
 
 
 def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
-    '''Compute the surface area of a (spherical) quadrilateral bounded
-       by a segment of a great circle, two meridians and the equator.
+    '''Compute the surface area of a (spherical) quadrilateral bounded by a segment
+       of a great circle, two meridians and the equator.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}) or C{None}.
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Surface area, I{signed} (I{square} C{meter}, or units of
-                B{C{radius}} I{squared}) or I{spherical excess} (C{radians})
-                if B{C{radius}} is C{None} or C{0}.
+       @return: Surface area, I{signed} (I{square} C{meter}, or units of B{C{radius}}
+                I{squared}) or I{spherical excess} (C{radians}) if B{C{radius}} is
+                C{None} or C{0}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -711,7 +705,7 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @arg lon2: End longitude (C{degrees}).
        @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes).
@@ -778,13 +772,12 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}} or
-                the ellipsoid or datum axes).
+       @return: Distance (C{meter}, same units as B{C{radius}} or the
+                ellipsoid or datum axes).
 
        @raise TypeError: Invalid B{C{radius}}.
 
@@ -909,10 +902,9 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -1321,7 +1313,7 @@ def thomas(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @arg lon2: End longitude (C{degrees}).
        @kwarg datum: Datum or ellipsoid to use (L{Datum}, L{Ellipsoid},
                      L{Ellipsoid2} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
                 ellipsoid axes).
@@ -1402,10 +1394,9 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 

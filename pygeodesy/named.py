@@ -3,18 +3,18 @@
 
 u'''(INTERNAL) Nameable class instances.
 
-Classes C{_Named}, C{_NamedDict} and C{_NamedTuple} and several
-subclasses thereof, all with nameable instances.
+Classes C{_Named}, C{_NamedDict}, C{_NamedEnum}, C{_NamedEnumItem} and
+C{_NamedTuple} and several subclasses thereof, all with nameable instances.
 
-In addition, the items in a C{_NamedDict} are accessable as attributes
-and the items in a C{_NamedTuple} can be named to be accessable as
-attributes, similar to standard Python C{namedtuple}s.
+The items in a C{_NamedDict} are accessable as attributes and the items
+in a C{_NamedTuple} are named to be accessable as attributes, similar to
+standard Python C{namedtuple}s.
 
-@see: Module L{pygeodesy.namedTuples} for the C{Named-Tuples}.
+@see: Module L{pygeodesy.namedTuples} for (most of) the C{Named-Tuples}.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, _xcopy
+                             issubclassof, _xcopy, _xdup
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -22,7 +22,7 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
-                             _name_, _O_, _other_, _s_, _SPACE_, _UNDER_, \
+                             _name_, _not_, _O_, _other_, _s_, _SPACE_, _UNDER_, \
                              _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
@@ -30,9 +30,9 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.09.15'
+__version__ = '21.10.05'
 
-_COMMASPACEDOT_ = ', .'
+_COMMASPACEDOT_ = _COMMASPACE_ + _DOT_
 _del_           = 'del'
 _item_          = 'item'
 _MRO_           = 'MRO'
@@ -160,16 +160,16 @@ class _Named(object):
 
     def attrs(self, *names, **pairs_kwds):
         '''Join attributes as I{name=value} strings, with C{float}s
-           formatted by function L{fstr}.
+           formatted by function L{pygeodesy.fstr}.
 
            @arg names: The attribute names (C{str}s).
-           @kwarg pairs_kwds: Keyword argument for function L{pairs},
+           @kwarg pairs_kwds: Keyword argument for function L{pygeodesy.pairs},
                               except C{B{Nones}=True} to in- or exclude
                               missing or C{None}-valued attributes.
 
            @return: All C{name=value} pairs, joined (C{str}).
 
-           @see: Functions L{pygeodesy.attrs}.
+           @see: Functions L{pygeodesy.attrs} and L{pygeodesy.pairs}.
         '''
         return _COMMASPACE_.join(attrs(self, *names, **pairs_kwds))
 
@@ -215,13 +215,25 @@ class _Named(object):
         '''
         c = _xcopy(self, deep=deep)
         if name:
-            c._name = str(name)  # c.rename(name) updates all
+            c._name = name  # # c.rename(name) _update_all!
         return c
 
     def _DOT_(self, *names):
         '''(INTERNAL) Period-join C{self.name} and C{names}.
         '''
         return _DOT_(self.name, *names)
+
+    def dup(self, name=NN, **items):
+        '''Duplicate this instance, replacing some items.
+
+           @kwarg name: Optional new name (C{str}).
+           @kwarg items: Attributes to be changed (C{any}).
+
+           @return: The duplicate (C{This class} or sub-class thereof).
+
+           @raise AttributeError: Some B{C{items}} invalid.
+        '''
+        return _xdup(self, name=name, **items)
 
     @property_doc_(''' the name (C{str}).''')
     def name(self):
@@ -235,7 +247,7 @@ class _Named(object):
 
            @arg name: New name (C{str}).
 
-           @raise NameError: Can't rename, use L{rename}.
+           @raise NameError: Can't rename, use method L{rename}.
         '''
         m, n = self._name, str(name)
         if not m:
@@ -243,10 +255,11 @@ class _Named(object):
         elif n != m:
             n =  repr(n)
             c =  self.classname
-            t = _DOT_(c,  Fmt.PAREN(self.rename.__name__, n))
-            t = 'to overwrite %r, use %s' % (m, t)
+            t = _DOT_(c, Fmt.PAREN(self.rename.__name__, n))
+            m =  Fmt.PAREN(_SPACE_('was', repr(m)))
             n = _DOT_(c, _EQUALSPACED_(_name_, n))
-            raise _NameError(n, txt=t)
+            n = _SPACE_(n, m)
+            raise _NameError(_SPACE_('use', t), txt=_not_(n))
         # to set the name from a sub-class, use
         #  self.name = name or
         # _Named.name.fset(self, name), but NOT
@@ -301,7 +314,7 @@ class _Named(object):
 
     @deprecated_method
     def toStr2(self, **kwds):  # PYCHOK no cover
-        '''DEPRECATED, used method C{toRepr}.'''
+        '''DEPRECATED, use method C{toRepr}.'''
         return self.toRepr(**kwds)
 
     def _xnamed(self, inst, name=NN, force=False):
@@ -895,21 +908,21 @@ class _NamedTuple(tuple, _Named):
     def dup(self, name=NN, **items):
         '''Duplicate this tuple replacing one or more items.
 
-           @kwarg items: Items to be replaced (C{name=value} pairs), if any.
            @kwarg name: Optional new name (C{str}).
+           @kwarg items: Items to be replaced (C{name=value} pairs), if any.
 
            @return: A copy of this tuple with B{C{items}}.
 
-           @raise NameError: Invalid B{C{item}}.
+           @raise NameError: Some B{C{items}} invalid.
         '''
         tl = list(self)
         if items:
-            ix = self._Names_.index
+            _ix = self._Names_.index
             try:
                 for n, v in items.items():
-                    tl[ix(n)] = v
-            except ValueError:  # not in list
-                raise _NameError(_DOT_(self.classname, n), v)
+                    tl[_ix(n)] = v
+            except ValueError:  # bad item name
+                raise _NameError(_DOT_(self.classname, n), v, this=self)
         return self.classof(*tl, name=name or self.name)
 
     def items(self):

@@ -16,7 +16,8 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign0, isnear0, isnon0, isscalar, map1, signOf
+from pygeodesy.basics import copysign0, isnear0, isnear1, isnon0, isscalar, \
+                             map1, signOf
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
@@ -51,7 +52,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.09.23'
+__version__ = '21.10.05'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -335,7 +336,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise CrossError: If this and the B{C{other}} point coincide,
                               provided both B{C{raiser}} is C{True} and
-                              L{crosserrors} is C{True}.
+                              L{pygeodesy.crosserrors} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -359,13 +360,13 @@ class LatLon(LatLonSphericalBase):
         return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
-        '''Locate the point at given fraction between this and an
-           other point.
+        '''Locate the point at given fraction between (or along) this
+           and an other point.
 
            @arg other: The other point (L{LatLon}).
-           @arg fraction: Fraction between both points (float, between
-                          0.0 for this and 1.0 for the other point).
-           @kwarg height: Optional height, overriding the fractional
+           @arg fraction: Fraction between both points (C{scalar},
+                          0.0 at this and 1.0 at the other point).
+           @kwarg height: Optional height, overriding the intermediate
                           height (C{meter}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
@@ -383,36 +384,40 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{intermediatePointTo}.
         '''
-        self.others(other)
-
         f = Scalar(fraction=fraction)  # not high=_1_0
+        if isnear0(f):
+            r = self
+        elif isnear1(f) and not wrap:
+            r = self.others(other)
+        else:
+            a1, b1 = self.philam
+            a2, b2 = self.others(other).philam
 
-        a1, b1 = self.philam
-        a2, b2 = other.philam
+            db, b2 = unrollPI(b1, b2, wrap=wrap)
+            r = vincentys_(a2, a1, db)
+            sr = sin(r)
+            if isnon0(sr):
+                sa1, ca1, sa2, ca2, \
+                sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
-        r = vincentys_(a2, a1, db)
-        sr = sin(r)
-        if isnon0(sr):
-            sa1, ca1, sa2, ca2, \
-            sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
+                t = f * r
+                A = sin(r - t) / sr
+                B = sin(    t) / sr
 
-            A = sin((_1_0 - f) * r) / sr
-            B = sin(        f  * r) / sr
+                x = A * ca1 * cb1 + B * ca2 * cb2
+                y = A * ca1 * sb1 + B * ca2 * sb2
+                z = A * sa1       + B * sa2
 
-            x = A * ca1 * cb1 + B * ca2 * cb2
-            y = A * ca1 * sb1 + B * ca2 * sb2
-            z = A * sa1       + B * sa2
+                a = atan2(z, hypot(x, y))
+                b = atan2(y, x)
 
-            a = atan2(z, hypot(x, y))
-            b = atan2(y, x)
+            else:  # points too close
+                a = favg(a1, a2, f=f)
+                b = favg(b1, b2, f=f)
 
-        else:  # points too close
-            a = favg(a1, a2, f=f)
-            b = favg(b1, b2, f=f)
-
-        h = self._havg(other, f=f) if height is None else Height(height)
-        return self.classof(degrees90(a), degrees180(b), height=h)
+            h = self._havg(other, f=f) if height is None else Height(height)
+            r = self.classof(degrees90(a), degrees180(b), height=h)
+        return r
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
         '''Compute the intersection point of two paths, each defined
@@ -596,19 +601,19 @@ class LatLon(LatLonSphericalBase):
     def nearestOn(self, point1, point2, radius=R_M, **options):
         '''Locate the point between two points closest to this point.
 
-           Distances are approximated by function L{equirectangular_},
+           Distances are approximated by function L{pygeodesy.equirectangular_},
            subject to the supplied B{C{options}}.
 
            @arg point1: Start point (L{LatLon}).
            @arg point2: End point (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg options: Optional keyword arguments for function
-                           L{equirectangular_}.
+                           L{pygeodesy.equirectangular_}.
 
            @return: Closest point on the great circle path (L{LatLon}).
 
-           @raise LimitError: Lat- and/or longitudinal delta exceeds
-                              B{C{limit}}, see function L{equirectangular_}.
+           @raise LimitError: Lat- and/or longitudinal delta exceeds B{C{limit}},
+                              see function L{pygeodesy.equirectangular_}.
 
            @raise NotImplementedError: Keyword argument C{B{within}=False}
                                        is not (yet) supported.
@@ -617,8 +622,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
-           @see: Functions L{equirectangular_} and L{nearestOn5} and
-                 method L{sphericalTrigonometry.LatLon.nearestOn3}.
+           @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}
+                 and method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
         try:  # remove kwarg B{C{within}} if present
             within = options.pop('within')
@@ -664,24 +669,24 @@ class LatLon(LatLonSphericalBase):
     def nearestOn3(self, points, closed=False, radius=R_M, **options):
         '''Locate the point on a polygon closest to this point.
 
-           Distances are approximated by function L{equirectangular_},
+           Distances are approximated by function L{pygeodesy.equirectangular_},
            subject to the supplied B{C{options}}.
 
            @arg points: The polygon points (L{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg options: Optional keyword arguments for function
-                           L{equirectangular_}.
+                           L{pygeodesy.equirectangular_}.
 
-           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
-                    the C{closest} point (L{LatLon}), the L{equirectangular_}
-                    C{distance} between this and the C{closest} point in
-                    C{meter}, same units as B{C{radius}}.  The C{angle}
-                    from this to the C{closest} point is in compass
-                    C{degrees360}, like function L{compassAngle}.
+           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of the
+                    C{closest} point (L{LatLon}), the L{pygeodesy.equirectangular_}
+                    C{distance} between this and the C{closest} point converted to
+                    C{meter}, same units as B{C{radius}}.  The C{angle} from this
+                    to the C{closest} point is in compass C{degrees360}, like
+                    function L{pygeodesy.compassAngle}.
 
-           @raise LimitError: Lat- and/or longitudinal delta exceeds
-                              B{C{limit}}, see function L{equirectangular_}.
+           @raise LimitError: Lat- and/or longitudinal delta exceeds B{C{limit}},
+                              see function L{pygeodesy.equirectangular_}.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -689,8 +694,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
-           @see: Functions L{compassAngle}, L{equirectangular_} and
-                 L{nearestOn5}.
+           @see: Functions L{pygeodesy.compassAngle}, L{pygeodesy.equirectangular_}
+                 and L{pygeodesy.nearestOn5}.
         '''
         if _LatLon_ in options:
             raise _ValueError(**options)
@@ -841,8 +846,8 @@ def areaOf(points, radius=R_M, wrap=True):
               polygon'<https://OSGeo-org.1560.x6.nabble.com/
               Area-of-a-spherical-polygon-td3841625.html>}.
 
-       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
-             L{ellipsoidalKarney.areaOf} and L{excessKarney}.
+       @see: Funxtions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
+             L{ellipsoidalKarney.areaOf} and L{pygeodesy.excessKarney}.
 
        @example:
 
@@ -857,7 +862,7 @@ def areaOf(points, radius=R_M, wrap=True):
 
     A = Fsum()  # mean phi
 
-    E = Fsum()  # see L{excessKarney_}
+    E = Fsum()  # see L{pygeodesy.excessKarney_}
     a1, b1 = p1.philam
     ta1 = tan_2(a1)
 
@@ -1151,7 +1156,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
 
 @deprecated_function
 def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
-    '''DEPRECATED, use function L{ispolar}.
+    '''DEPRECATED, use function L{pygeodesy.ispolar}.
     '''
     return ispolar(points, wrap=wrap)
 
@@ -1218,30 +1223,30 @@ def nearestOn3(point, points, closed=False, radius=R_M,
                               LatLon=LatLon, **options):
     '''Locate the point on a path or polygon closest to a reference point.
 
-       Distances are I{approximated} using function L{equirectangular_},
+       Distances are I{approximated} using function L{pygeodesy.equirectangular_},
        subject to the supplied B{C{options}}.
 
        @arg point: The reference point (L{LatLon}).
        @arg points: The path or polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg LatLon: Optional class to return the closest point
-                      (L{LatLon}) or C{None}.
+       @kwarg LatLon: Optional class to return the closest point (L{LatLon})
+                      or C{None}.
        @kwarg options: Optional keyword arguments for function
-                       L{equirectangular_}.
+                       L{pygeodesy.equirectangular_}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
                 C{closest} point as B{C{LatLon}} or L{LatLon3Tuple}C{(lat,
                 lon, height)} if B{C{LatLon}} is C{None}.  The C{distance}
-                is the L{equirectangular_} distance between the C{closest}
-                and the given B{C{point}} in C{meter}, same units as
-                B{C{radius}}.  The C{angle} from the given B{C{point}}
-                to the C{closest} is in compass C{degrees360}, like function
-                L{compassAngle}.  The C{height} is the (interpolated) height
-                at the C{closest} point.
+                is the L{pygeodesy.equirectangular_} distance between the
+                C{closest} and the given B{C{point}} converted to C{meter},
+                same units as B{C{radius}}.  The C{angle} from the given
+                B{C{point}} to the C{closest} is in compass C{degrees360},
+                like function L{pygeodesy.compassAngle}.  The C{height} is
+                the (interpolated) height at the C{closest} point.
 
-       @raise LimitError: Lat- and/or longitudinal delta exceeds the
-                          B{C{limit}}, see function L{equirectangular_}.
+       @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
+                          see function L{pygeodesy.equirectangular_}.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1249,7 +1254,7 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @see: Functions L{equirectangular_} and L{nearestOn5}.
+       @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}.
     '''
     lat, lon, d, c, h = _nearestOn5(point, points, closed=closed,
                                                    LatLon=None, **options)
@@ -1278,9 +1283,9 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @note: This perimeter is based on the L{haversine} formula.
+       @note: This perimeter is based on the L{pygeodesy.haversine} formula.
 
-       @see: L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
+       @see: Functions L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
     def _rads(Ps, closed, wrap):  # angular edge lengths in radians
@@ -1306,12 +1311,12 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
        @arg lonB: Second corner longitude (C{degrees}).
        @arg latC: Third corner latitude (C{degrees}).
        @arg lonC: Third corner longitude (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
+                      or C{None}.
        @kwarg excess: I{Spherical excess} callable (L{excessAbc},
                       L{excessGirard} or L{excessLHuilier}).
-       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
        @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides
@@ -1331,8 +1336,8 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
 
 def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
                                                      wrap=False):
-    '''Compute the angles, sides, I{spherical deficit} and
-       I{spherical excess} of a (spherical) triangle.
+    '''Compute the angles, sides, I{spherical deficit} and I{spherical
+       excess} of a (spherical) triangle.
 
        @arg phiA: First corner latitude (C{radians}).
        @arg lamA: First corner longitude (C{radians}).
@@ -1342,7 +1347,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
        @arg lamC: Third corner longitude (C{radians}).
        @kwarg excess: I{Spherical excess} callable (L{excessAbc},
                       L{excessGirard} or L{excessLHuilier}).
-       @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+       @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
 
        @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides

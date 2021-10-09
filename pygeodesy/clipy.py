@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.09.29'
+__version__ = '21.10.06'
 
 _fj_ = 'fj'
 
@@ -45,6 +45,8 @@ class ClipError(_ValueError):
 
 def _box4(lowerleft, upperright, name):
     '''(INTERNAL) Get the clip box edges.
+
+       @see: Class C{_Box} in .ellipsoidalBaseDI.py.
     '''
     try:
         ymin, ymax = lowerleft.lat, upperright.lat
@@ -229,15 +231,15 @@ def clipCS4(points, lowerleft, upperright, closed=False, inull=False):
 
 
 class ClipLB6Tuple(_NamedTuple):
-    '''6-Tuple C{(start, end, i, fi, fj, j)} for each edge of
-       the I{clipped} path with the C{start} and C{end} points
-       (C{LatLon}) of the portion of the edge inside or on the
-       clip box, indices C{i} and C{j} (C{int}) of the original
-       path edge start and end points and I{fractional} indices
-       C{fi} and C{fj} (L{FIx}) of the C{start} and C{end} points
-       along the edge of the original path.
+    '''6-Tuple C{(start, end, i, fi, fj, j)} for each edge of the
+       I{clipped} path with the C{start} and C{end} points (C{LatLon})
+       of the portion of the edge inside or on the clip box, indices
+       C{i} and C{j} (both C{int}) of the original path edge start
+       and end points and I{fractional} indices C{fi} and C{fj}
+       (both L{FIx}) of the C{start} and C{end} points along the
+       edge of the original path.
 
-       @see: Class L{FIx} and function L{fractional}.
+       @see: Class L{FIx} and function L{pygeodesy.fractional}.
     '''
     _Names_ = (_start_, _end_, _i_,      _fi_,  _fj_, _j_)
     _Units_ = (_Pass,   _Pass,  Number_, _Pass, _Pass, Number_)

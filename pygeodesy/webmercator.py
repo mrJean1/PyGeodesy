@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.08.24'
+__version__ = '21.10.24'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -316,10 +316,10 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}
                 if B{C{Wm}} is C{None}.
 
-       @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}}
-                          is not scalar, if B{C{latlon}} is beyond the
-                          valid WM range and L{rangerrors} is set
-                          to C{True} or if B{C{radius}} is invalid.
+       @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}} is not
+                          scalar, if B{C{latlon}} is beyond the valid WM range
+                          and L{pygeodesy.rangerrors} is set to C{True} or if
+                          B{C{radius}} is invalid.
 
        @example:
 

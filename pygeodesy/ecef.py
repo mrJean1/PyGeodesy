@@ -88,7 +88,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.09.27'
+__version__ = '21.10.05'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1034,7 +1034,7 @@ class Ecef9Tuple(_NamedTuple):
 
     @deprecated_method
     def convertDatum(self, datum2):  # for backward compatibility
-        '''DEPRECATED, use L{toDatum}.'''
+        '''DEPRECATED, use method L{toDatum}.'''
         return self.toDatum(datum2)
 
     @Property_RO

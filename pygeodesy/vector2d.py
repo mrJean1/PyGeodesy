@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''2- or 3-D vectorial functions L{circin6}, L{circum3}, L{circum4_},
-L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11}, L{soddy4}, \
-L{trilaterate2d2} and L{trilaterate3d2}.
+L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11} and L{soddy4}.
 '''
 
 from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
@@ -27,7 +26,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.09.25'
+__version__ = '21.10.05'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -48,8 +47,8 @@ class Circin6Tuple(_NamedTuple):
        trilaterated C{center} and contact points of the I{inscribed} aka I{In-
        circle} of a triangle.  The C{center} is I{un}ambiguous if C{deltas} is
        C{None}, otherwise C{center} is the mean and C{deltas} the differences of
-       the L{trilaterate3d2} results.  Contact points C{cA}, C{cB} and C{cC} are
-       the points of tangency, aka the corners of the U{Contact Triangle
+       the L{pygeodesy.trilaterate3d2} results.  Contact points C{cA}, C{cB} and
+       C{cC} are the points of tangency, aka the corners of the U{Contact Triangle
        <https://MathWorld.Wolfram.com/ContactTriangle.html>}.
     '''
     _Names_ = (_radius_, _center_, _deltas_, _cA_,  _cB_,  _cC_)
@@ -61,7 +60,8 @@ class Circum3Tuple(_NamedTuple):  # in .latlonBase
        C{circumcenter} of the C{circumcircle} through 3 points (aka {Meeus}' Type II
        circle) or the C{radius} and C{center} of the smallest I{Meeus}' Type I circle.
        The C{center} is I{un}ambiguous if C{deltas} is C{None}, otherwise C{center}
-       is the mean and C{deltas} the differences of the L{trilaterate3d2} results.
+       is the mean and C{deltas} the differences of the L{pygeodesy.trilaterate3d2}
+       results.
     '''
     _Names_ = (_radius_, _center_, _deltas_)
     _Units_ = ( Radius,  _Pass,    _Pass)
@@ -106,7 +106,7 @@ class Soddy4Tuple(_NamedTuple):
        C{center} of the I{inner} I{Soddy} circle and the radius of the C{outer}
        I{Soddy} circle.  The C{center} is I{un}ambiguous if C{deltas} is C{None},
        otherwise C{center} is the mean and C{deltas} the differences of the
-       L{trilaterate3d2} results.
+       L{pygeodesy.trilaterate3d2} results.
 
        @note: The outer I{Soddy} radius C{outer} may be C{INF}.
     '''
@@ -124,8 +124,8 @@ def circin6(point1, point2, point3, eps=EPS4, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-       @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ} is True}
-                   else L{trilaterate2d2}.
+       @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
+                   C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
        @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
@@ -189,8 +189,8 @@ def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
                     C{Vector4Tuple}).
        @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
                       always, ignoring the I{Meeus}' Type I case (C{bool}).
-       @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ} is True}
-                   else L{trilaterate2d2}.
+       @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if C{B{useZ}
+                   is True} otherwise L{pygeodesy.trilaterate2d2}.
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
        @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
@@ -494,8 +494,8 @@ def soddy4(point1, point2, point3, eps=EPS4, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-       @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ} is True}
-                   else L{trilaterate2d2}.
+       @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
+                   C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
        @return: L{Soddy4Tuple}C{(radius, center, deltas, outer)}.  The C{center},
@@ -552,7 +552,7 @@ def _tricenter3d2(p1, r1, p2, r2, p3, r3, eps=EPS4, useZ=True, dLL3=False, **kwd
 def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
                                              coin=False, eps=None,
                                              Vector=None, **Vector_kwds):
-    # (INTERNAL) Trilaterate three circles, see L{trilaterate2d2} above
+    # (INTERNAL) Trilaterate three circles, see L{pygeodesy.trilaterate2d2}
 
     def _abct4(x1, y1, r1, x2, y2, r2):
         a =  x2 - x1
@@ -608,8 +608,8 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
 
 def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
                                           **clas_Vector_and_kwds):
-    # (INTERNAL) Intersect three spheres or circles, see L{trilaterate3d2}
-    # above, separated to allow callers to embellish any exceptions, like
+    # (INTERNAL) Intersect three spheres or circles, see L{pygeodesy.trilaterate3d2},
+    # separated to allow callers to embellish any exceptions, like
     # C{FloatingPointError}s from C{numpy}
 
     def _F3d2(F):

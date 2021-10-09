@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.09.29'
+__version__ = '21.10.05'
 
 
 class _NamedUnit(_Named):
@@ -131,7 +131,7 @@ class Float(float, _NamedUnit):
            @kwarg std: Use the standard C{repr} or the named
                        representation (C{bool}).
 
-           @see: Function L{fstr} for more documentation.
+           @see: Function L{pygeodesy.fstr} for more documentation.
         '''
         # XXX must use super(Float, self)... since
         # super()... only works for Python 3+
@@ -141,7 +141,7 @@ class Float(float, _NamedUnit):
     def toStr(self, prec=12, fmt=Fmt.g, ints=False):  # PYCHOK prec=8, ...
         '''Format this C{Float} as C{str}.
 
-           @see: Function L{fstr} for more documentation.
+           @see: Function L{pygeodesy.fstr} for more documentation.
         '''
         return fstr(self, prec=prec, fmt=fmt, ints=ints)
 
@@ -394,7 +394,7 @@ class Str(str, _NamedUnit):
         return r if std else self._toRepr(r)
 
     def toStr(self, **unused):  # PYCHOK **unused
-        '''Return this C{Str} as standard C{str}.
+        '''Return this C{Str} as C{str}.
         '''
         # must use super(Str, self)... since
         # super()... only works for Python 3+ and
@@ -430,22 +430,22 @@ class Degrees(Float):
 
            @arg cls: This class (C{Degrees} or sub-class).
            @kwarg arg: The value (any scalar C{type} convertable to C{float} or
-                       parsable by L{parseDMS}).
+                       parsable by L{pygeodesy.parseDMS}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}}
                         (C{degrees} or C{0} or C{None} for unclipped).
-           @kwarg wrap: Optionally C{warp90-}, C{warp180-} or C{warp360(B{arg})}
-                        to adjust to B{C{arg}} value.
+           @kwarg wrap: Optionally adjust the B{C{arg}} value (L{pygeodesy.wrap90},
+                        L{pygeodesy.wrap180} or L{pygeodesy.wrap360}).
            @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of
                             B{C{name}} and B{C{arg}}.
 
            @returns: A C{Degrees} instance.
 
-           @raise Error: Invalid B{C{arg}} or B{C{abs(arg)}} outside the
-                         B{C{clip}} range and L{rangerrors} set to C{True}.
+           @raise Error: Invalid B{C{arg}} or B{C{abs(arg)}} outside the B{C{clip}}
+                         range and L{pygeodesy.rangerrors} set to C{True}.
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
@@ -485,7 +485,7 @@ class Degrees_(Degrees):
 
            @arg cls: This class (C{Degrees_} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float} or
-                       parsable by L{parseDMS}).
+                       parsable by L{pygeodesy.parseDMS}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
@@ -529,7 +529,7 @@ class Radians(Float):
 
            @arg cls: This class (C{Radians} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float} or
-                       parsable by L{parseRad}).
+                       parsable by L{pygeodesy.parseRad}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
@@ -570,7 +570,7 @@ class Radians_(Radians):
 
            @arg cls: This class (C{Radians_} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float} or
-                       parsable by L{parseRad}).
+                       parsable by L{pygeodesy.parseRad}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
@@ -582,8 +582,8 @@ class Radians_(Radians):
 
            @returns: A C{Radians_} instance.
 
-           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
-                         B{C{clip}} range and L{rangerrors} set to C{True}.
+           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the B{C{clip}}
+                         range and L{pygeodesy.rangerrors} set to C{True}.
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
@@ -700,14 +700,14 @@ class Epoch(Float_):  # by .ellipsoidalBase
            @kwarg std: Use the standard C{repr} or the named
                        representation (C{bool}).
 
-           @see: Function L{fstr} for more documentation.
+           @see: Function L{pygeodesy.fstr} for more documentation.
         '''
         return Float_.toRepr(self, prec=-3, fmt=Fmt.F, ints=True, std=std)
 
     def toStr(self, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
         '''Format this C{Epoch} as C{str}.
 
-           @see: Function L{fstr} for more documentation.
+           @see: Function L{pygeodesy.fstr} for more documentation.
         '''
         return Float_.toStr(self, prec=-3, fmt=Fmt.F, ints=True)
 
@@ -766,25 +766,36 @@ class FIx(Float_):
         '''
         return self._fin
 
-    def fractional(self, points, **LatLon_and_kwds):
+    def fractional(self, points, wrap=None, LatLon=None, Vector=None, **kwds):
         '''Return the point at this I{Fractional Index}.
 
            @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
-           @kwarg LatLon_and_kwds: Optional class to return the I{intermediate},
-                                   I{fractional} point (C{LatLon}) or C{None}
-                                   and optional B{C{LatLon}} keyword arguments
-                                   thereof.
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}) or C{None} for
+                        backward compatible L{LatLon2Tuple} or B{C{LatLon}}
+                        with averaged lat- and longitudes.
+           @kwarg LatLon: Optional class to return the I{intermediate},
+                          I{fractional} point (C{LatLon}) or C{None}.
+           @kwarg Vector: Optional class to return the I{intermediate},
+                          I{fractional} point (C{Cartesian}, C{Vector3d})
+                          or C{None}.
+           @kwarg kwds: Optional, additional B{C{LatLon}} I{or} B{C{Vector}}
+                        keyword arguments, ignored if both C{B{LatLon}} and
+                        C{B{Vector}} are C{None}.
 
            @return: See function L{pygeodesy.fractional}.
 
-           @raise IndexError: Fractional index invalid for B{C{points}}
-                              or B{C{points}} not subscriptable or not
-                              closed.
+           @raise IndexError: This fractional index invalid or B{C{points}}
+                              not subscriptable or not closed.
+
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{Vector}} or B{C{kwds}}
+                             argument.
+
+           @see: Function L{pygeodesy.fractional}.
         '''
         from pygeodesy.points import fractional
         # fi = 0 if self == self.fin else self
-        return fractional(points, self, **LatLon_and_kwds)
+        return fractional(points, self, wrap=wrap, LatLon=LatLon, Vector=Vector, **kwds)
 
 
 def _fi_j2(f, n):  # PYCHOK in .ellipsoidalBaseDI, .vector3d

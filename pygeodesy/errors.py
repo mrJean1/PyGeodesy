@@ -180,9 +180,9 @@ class LenError(_ValueError):
 
 class LimitError(_ValueError):
     '''Error raised for lat- or longitudinal deltas exceeding
-       the B{C{limit}} in functions L{equirectangular} and
-       L{equirectangular_} and C{nearestOn*} and C{simplify*}
-       functions or methods.
+       the B{C{limit}} in functions L{pygeodesy.equirectangular} and
+       L{pygeodesy.equirectangular_} and several C{nearestOn*} and
+       C{simplify*} functions or methods.
     '''
     pass
 
@@ -206,12 +206,12 @@ class PointsError(_ValueError):
 
 
 class RangeError(_ValueError):
-    '''Error raised for lat- or longitude values outside the B{C{clip}},
-       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function
-       L{clipDegrees}, L{clipRadians}, L{parse3llh}, L{parseDMS},
-       L{parseDMS2} or L{parseRad}.
+    '''Error raised for lat- or longitude values outside the B{C{clip}}, B{C{clipLat}},
+       B{C{clipLon}} or B{C{limit}} range in function L{pygeodesy.clipDegrees},
+       L{pygeodesy.clipRadians}, L{pygeodesy.parse3llh}, L{pygeodesy.parseDMS},
+       L{pygeodesy.parseDMS2} or L{pygeodesy.parseRad}.
 
-       @see: Function L{rangerrors}.
+       @see: Function L{pygeodesy.rangerrors}.
     '''
     pass
 

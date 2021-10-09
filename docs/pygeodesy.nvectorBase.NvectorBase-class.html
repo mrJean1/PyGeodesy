@@ -98,7 +98,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
@@ -180,7 +180,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to3abh" class="summary-sig-name">to3abh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <a 
+      DEPRECATED, use property <a 
       href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheight" 
       class="link">philamheight</a> or 
       <code>philam.to3Tuple(<b>height</b>)</code>.</td>
@@ -400,6 +400,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -631,7 +632,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
+        <span class="sig-arg">x_xyz</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
@@ -649,16 +650,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - An <code>Nvector</code>, <a 
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component of vector (<code>scalar</code>) or (3-D) vector 
+          (<code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a>, <a 
+          class="link">Vector3Tuple</a> or <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a> or the <code>X</code> coordinate 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - The <code>Y</code> coordinate (<code>scalar</code>) if 
-          <b><code>x</code></b> <code>scalar</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - The <code>Z</code> coordinate (<code>scalar</code>) if 
-          <b><code>x</code></b> <code>scalar</code>.</li>
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component of vector (<code>scalar</code>), ignored if 
+          <b><code>x_xyz</code></b> is not <code>scalar</code>, otherwise 
+          same units as <b><code>x_xyz</code></b>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component of vector (<code>scalar</code>), ignored if 
+          <b><code>x_xyz</code></b> is not <code>scalar</code>, otherwise 
+          same units as <b><code>x_xyz</code></b>.</li>
         <li><strong class="pname"><code>h</code></strong> - Optional height above surface (<code>meter</code>).</li>
         <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, <i>pass-thru</i> datum (<a 
@@ -713,7 +718,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.streprs-module.html#hstr" 
-        class="link">hstr</a>.
+        class="link">pygeodesy.hstr</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -794,7 +799,7 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use method <a 
+  <p>DEPRECATED, use property <a 
   href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheight" 
   class="link">philamheight</a> or 
   <code>philam.to3Tuple(<b>height</b>)</code>.</p>
@@ -1566,7 +1571,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:47 2021
+    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:26 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

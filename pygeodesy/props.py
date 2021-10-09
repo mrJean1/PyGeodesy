@@ -19,7 +19,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.09.14'
+__version__ =  '21.10.05'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -382,14 +382,14 @@ def _deprecated_RO(method, _RO):
 
 
 def DeprecationWarnings():
-    '''Get the C{DeprecationWarning}s reported or raised.
+    '''Get smy C{DeprecationWarning}s reported or raised.
 
-       @return: The number of C{DeprecationWarning}s (C{int}) or
-                C{None} if not enabled.
+       @return: The number of C{DeprecationWarning}s (C{int}) so far
+                or C{None} if not enabled.
 
-       @note: To get C{DeprecationWarning}s if any, run C{python}
-              with environment variable C{PYGEODESY_WARNINGS} set
-              to a non-empty string AND use C{python} command line
+       @note: To get C{DeprecationWarning}s if any, run C{python} with
+              environment variable C{PYGEODESY_WARNINGS} set to a
+              non-empty string I{AND} use C{python[3]} command line
               option C{-X dev}, C{-W always}, or C{-W error}, etc.
     '''
     return _Warnings if _W_DEV else None

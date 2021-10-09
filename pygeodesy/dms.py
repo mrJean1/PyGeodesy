@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.08.12'
+__version__ = '21.10.05'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -202,7 +202,7 @@ def clipDegrees(deg, limit):
        @return: Clipped value (C{degrees}).
 
        @raise RangeError: If B{C{abs(deg)}} beyond B{C{limit}} and
-                          L{rangerrors} set to C{True}.
+                          L{pygeodesy.rangerrors} set to C{True}.
     '''
     return _clipped_(deg, limit, _degrees_) if limit and limit > 0 else deg
 
@@ -216,7 +216,7 @@ def clipRadians(rad, limit):
        @return: Clipped value (C{radians}).
 
        @raise RangeError: If B{C{abs(rad)}} beyond B{C{limit}} and
-                          L{rangerrors} set to C{True}.
+                          L{pygeodesy.rangerrors} set to C{True}.
     '''
     return _clipped_(rad, limit, _radians_) if limit and limit > 0 else rad
 
@@ -450,7 +450,7 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
                           suffixed or B{C{suffix}} compass point.
 
        @raise RangeError: Value of B{C{strDDDMMSS}} outside the valid
-                          range and L{rangerrors} set to C{True}.
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @note: Type C{str} values "[D]DD", "[D]DDMM" and "[D]DDMMSS" for
               B{C{strDDDMMSS}} are parsed properly only if I{either}
@@ -586,7 +586,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0):  # MCCABE 14
        @raise ParseError: Invalid B{C{strDMS}} or B{C{clip}}.
 
        @raise RangeError: Value of B{C{strDMS}} outside the valid range
-                          and L{rangerrors} set to C{True}.
+                          and L{pygeodesy.rangerrors} set to C{True}.
 
        @note: Inlike function L{parseDDDMMSS}, type C{float}, C{int}
               and other non-C{str} B{C{strDMS}} values are considered
@@ -612,8 +612,8 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
 
        @raise ParseError: Invalid B{C{strLat}} or B{C{strLon}}.
 
-       @raise RangeError: Value of B{C{strLat}} or B{C{strLon}} outside the
-                          valid range and L{rangerrors} set to C{True}.
+       @raise RangeError: Value of B{C{strLat}} or B{C{strLon}} outside the valid
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @note: See the B{Notes} at function L{parseDMS}.
 
@@ -645,8 +645,8 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180):
        @return: A L{LatLon3Tuple}C{(lat, lon, height)} in C{degrees},
                 C{degrees} and C{float}.
 
-       @raise RangeError: Lat- or longitude value of B{C{strllh}} outside
-                          valid range and L{rangerrors} set to C{True}.
+       @raise RangeError: Lat- or longitude value of B{C{strllh}} outside valid
+                          range and L{pygeodesy.rangerrors} set to C{True}.
 
        @raise ValueError: Invalid B{C{strllh}} or B{C{height}}.
 
@@ -691,7 +691,7 @@ def parseRad(strRad, suffix=_NSEW_, clip=0):
        @raise ParseError: Invalid B{C{strRad}} or B{C{clip}}.
 
        @raise RangeError: Value of B{C{strRad}} outside the valid range
-                          and L{rangerrors} set to C{True}.
+                          and L{pygeodesy.rangerrors} set to C{True}.
     '''
     def _Rad_(strRad, suffix, clip):
         try:

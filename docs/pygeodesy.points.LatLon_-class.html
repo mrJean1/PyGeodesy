@@ -242,9 +242,49 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#dup" class="summary-sig-name">dup</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**items</span>)</span><br />
+      Duplicate this instance, replacing some items.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#heightStr" class="summary-sig-name">heightStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">-2</span>)</span><br />
       Return a string for the height <b><code>height</code></b>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#intermediateTo" class="summary-sig-name">intermediateTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Locate the point at a given fraction between (or along) this and an 
+      other point.</td>
           <td align="right" valign="top">
             
             
@@ -449,6 +489,23 @@ object --+
       <code>__sizeof__</code>,
       <code>__subclasshook__</code>
       </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_ATTRS_"></a><span class="summary-name">_ATTRS_</span> = <code title="None">None</code><br />
+      hash(x)
     </td>
   </tr>
 </table>
@@ -704,7 +761,37 @@ object --+
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The copy (<code>This class</code> or subclass thereof).</dd>
+        <dd>The copy (<code>This</code> (sub-)class).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="dup"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">dup</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**items</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Duplicate this instance, replacing some items.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>items</code></strong> - Attributes to be changed (<code>any</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The duplicate (<code>This</code> (sub-)class).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - Some <b><code>items</code></b> invalid.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -732,9 +819,48 @@ object --+
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.streprs-module.html#hstr" 
-        class="link">hstr</a>.
+        class="link">pygeodesy.hstr</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="intermediateTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">fraction</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point at a given fraction between (or along) this and an 
+  other point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (<code>float</code>, 0.0 for this 
+          and 1.0 for the other point).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code>), overriding the intermediate
+          height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Intermediate point (this <code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="isequalTo"></a>
 <div>
@@ -1178,7 +1304,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:47 2021
+    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:26 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

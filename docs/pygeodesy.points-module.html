@@ -70,7 +70,8 @@
   <code>LatLon</code> class &quot;on-the-fly&quot; for each row with the 
   row's lat- and longitude.</p>
   <p>The original <code>NumPy</code> array is read-accessed only and never 
-  duplicated, except to create a <i>subset</i> of the original array.</p>
+  duplicated, except to create a <i>subset</i> of the original array to be 
+  returned.</p>
   <p>For example, to process a <code>NumPy</code> array, wrap the array by 
   instantiating class <a href="pygeodesy.points.Numpy2LatLon-class.html" 
   class="link">Numpy2LatLon</a> and specifying the column index for the 
@@ -81,13 +82,13 @@
   method accepting a <i>points</i> argument.</p>
   <p>Similarly, class <a href="pygeodesy.points.Tuple2LatLon-class.html" 
   class="link">Tuple2LatLon</a> is used to instantiate a 
-  <code>LatLon</code> for each 2+tuple in a list, tuple or sequence of such
-  2+tuples from the index for the lat- and longitude index in each 
-  2+tuple.</p>
+  <code>LatLon</code> from each 2+tuple in a sequence of such 2+tuples 
+  using the <code>ilat</code> lat- and <code>ilon</code> longitude index in
+  each 2+tuple.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.09.26
+        21.10.05
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -221,8 +222,11 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#fractional" class="summary-sig-name">fractional</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">fi</span>,
+        <span class="summary-sig-arg">j</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the point at a given <i>fractional</i> index.</td>
           <td align="right" valign="top">
             
@@ -602,8 +606,11 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fractional</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">fi</span>,
+        <span class="sig-arg">j</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -618,33 +625,72 @@
           href="pygeodesy.points.Numpy2LatLon-class.html" 
           class="link">Numpy2LatLon</a>[], <a 
           href="pygeodesy.points.Tuple2LatLon-class.html" 
-          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
+          class="link">Tuple2LatLon</a>[], <code>Cartesian</code>[], 
+          <code>Vector3d</code>[], <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>[]).</li>
         <li><strong class="pname"><code>fi</code></strong> - The fractional index (<a href="pygeodesy.units.FIx-class.html" 
           class="link">FIx</a>, <code>float</code> or <code>int</code>).</li>
+        <li><strong class="pname"><code>j</code></strong> - Optionally, index of the other point (<code>int</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>) or 
+          <code>None</code> for backward compatible <a 
+          href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a> or <b><code>LatLon</code></b> with 
+          averaged lat- and longitudes.  Use <code>True</code> or 
+          <code>False</code> to get the <i>fractional</i> point computed 
+          method <code>points[fi].intermediateTo</code>.</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <i>intermediate</i>, 
           <i>fractional</i> point (<code>LatLon</code>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored of <code><b>LatLon</b> is None</code>.</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class to return the <i>intermediate</i>, 
+          <i>fractional</i> point (<code>Cartesian</code>, 
+          <code>Vector3d</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> <i>or</i> 
+          <b><code>Vector</code></b> keyword arguments, ignored if both 
+          <code><b>LatLon</b></code> and <code><b>Vector</b></code> are 
+          <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <b><code>LatLon</code></b> or if <b><code>LatLon</code></b> is 
-          <code>None</code>, a <a 
-          href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code> for 
-          <code><b>points</b>[<b>fi</b>]</code> if <i>fractional</i> index 
-          <b><code>fi</code></b> is <code>int</code>, otherwise the 
-          intermediate point between 
-          <code><b>points</b>[int(<b>fi</b>)]</code> and 
-          <code><b>points</b>[int(<b>fi</b>) + 1]</code> for 
-          <code>float</code> <i>fractional</i> index 
-          <b><code>fi</code></b>.</dd>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
+          <b><code>wrap</code></b>, <b><code>LatLon</code></b> and 
+          <b><code>Vector</code></b> all are <code>None</code>, the 
+          defaults.
+          <p>An instance of <b><code>LatLon</code></b> if not 
+          <code>None</code> <i>or</i> an instance of 
+          <b><code>Vector</code></b> if not <code>None</code>.</p>
+          <p>Otherwise with <b><code>wrap</code></b> either 
+          <code>True</code> or <code>False</code> and 
+          <b><code>LatLon</code></b> and <b><code>Vector</code></b> both 
+          <code>None</code>, an instance of <b><code>points</code></b>' 
+          (sub-)class <code>intermediateTo</code> <i>fractional</i>.</p>
+          <p>Summarized as follows:</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span> wrap  | LatLon | Vector | returned type/value
+<span class="py-output">#   -------+--------+--------+--------------+------</span>
+<span class="py-output">#          |        |        | LatLon2Tuple | favg</span>
+<span class="py-output">#    None  |  None  |  None  |   or**       |</span>
+<span class="py-output">#          |        |        | Vector3Tuple | favg</span>
+<span class="py-output">#    None  | LatLon |  None  | LatLon       | favg</span>
+<span class="py-output">#    None  |  None  | Vector | Vector       | favg</span>
+<span class="py-output">#   -------+--------+--------+--------------+------</span>
+<span class="py-output">#    True  |  None  |  None  | points'      | .iTo</span>
+<span class="py-output">#    True  | LatLon |  None  | LatLon       | .iTo</span>
+<span class="py-output">#    True  |  None  | Vector | Vector       | .iTo</span>
+<span class="py-output">#   -------+--------+--------+--------------+------</span>
+<span class="py-output">#    False |  None  |  None  | points'      | .iTo</span>
+<span class="py-output">#    False | LatLon |  None  | LatLon       | .iTo</span>
+<span class="py-output">#    False |  None  | Vector | Vector       | .iTo</span>
+<span class="py-output"># _____</span>
+<span class="py-output"># favg) averaged lat, lon or x, y, z values</span>
+<span class="py-output"># .iTo) value from points[fi].intermediateTo</span>
+<span class="py-output"># **) depends on base class of points[fi]</span></pre></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>IndexError</strong></code> - Fractional index <b><code>fi</code></b> invalid or 
         <b><code>points</code></b> not subscriptable or not closed.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b> or 
-        <b><code>LatLon_kwds</code></b> argument.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b>, <b><code>Vector</code></b> or 
+        <b><code>kwds</code></b> argument.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -944,15 +990,15 @@
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
-          class="link">unroll180</a> longitudes and longitudinal delta 
-          (<code>bool</code>) in function <a 
+          class="link">pygeodesy.unroll180</a> longitudes and longitudinal 
+          delta (<code>bool</code>) in function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
+          class="link">pygeodesy.equirectangular_</a>.</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the closest point (<code>LatLon</code>) 
           or <code>None</code>.</li>
         <li><strong class="pname"><code>options</code></strong> - Other keyword arguments for function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a>.</li>
+          class="link">pygeodesy.equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -963,20 +1009,20 @@
           href="pygeodesy.namedTuples.NearestOn5Tuple-class.html" 
           class="link">NearestOn5Tuple</a><code>(lat, lon, distance, angle,
           height)</code>. The <code>distance</code> is the <a 
-          href="pygeodesy.formy-module.html#equirectangular_" 
-          class="link">equirectangular_</a> distance between the 
+          href="pygeodesy.formy-module.html#equirectangular" 
+          class="link">pygeodesy.equirectangular</a> distance between the 
           <code>closest</code> and reference <b><code>point</code></b> in 
-          <code>degrees</code>.  The <code>angle</code> from the reference 
+          <code>degrees</code>. The <code>angle</code> from the reference 
           <b><code>point</code></b> to the <code>closest</code> is in 
           compass <code>degrees360</code>, like function <a 
           href="pygeodesy.formy-module.html#compassAngle" 
-          class="link">compassAngle</a>.</dd>
+          class="link">pygeodesy.compassAngle</a>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.</li>
+        class="link">pygeodesy.equirectangular_</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
@@ -984,16 +1030,16 @@
 <div class="fields">      <p><strong>Note:</strong>
         Distances are <i>approximated</i> using function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>, subject to the supplied 
-        <b><code>options</code></b>.  Method <code>LatLon.nearestOn6</code>
-        measures distances more accurately.
+        class="link">pygeodesy.equirectangular_</a>, subject to the 
+        supplied <b><code>options</code></b>.  Method 
+        <code>LatLon.nearestOn6</code> measures distances more accurately.
       </p>
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector3d-module.html#nearestOn6" 
-        class="link">nearestOn6</a> for cartesian points.  Use function <a 
-        href="pygeodesy.utily-module.html#degrees2m" 
-        class="link">degrees2m</a> to convert <code>degrees</code> to 
-        <code>meter</code>.
+        class="link">pygeodesy.nearestOn6</a> for cartesian points.  Use 
+        function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">pygeodesy.degrees2m</a> to convert 
+        <code>degrees</code> to <code>meter</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1039,12 +1085,13 @@
 <div class="fields">      <p><strong>Note:</strong>
         This perimeter is based on the <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a> distance approximation and is 
-        ill-suited for regions exceeding several hundred Km or Miles or 
-        with near-polar latitudes.
+        class="link">pygeodesy.equirectangular_</a> distance approximation 
+        and is ill-suited for regions exceeding several hundred Km or Miles
+        or with near-polar latitudes.
       </p>
       <p><strong>See Also:</strong>
-        <a href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
+        Functions <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">sphericalTrigonometry.perimeterOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
         class="link">ellipsoidalKarney.perimeterOf</a>.
@@ -1127,7 +1174,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 30 12:33:45 2021
+    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:22 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

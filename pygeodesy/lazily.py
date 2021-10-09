@@ -124,7 +124,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
-                                 'isnan', 'isnear0', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signOf', 'splice', 'ub2str', 'unsign0'),
                           clipy=('ClipError',
@@ -149,8 +149,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'degDMS', 'latDMS', 'latlonDMS', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
                            ecef=('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
-                     elevations=('elevation2', 'geoidHeight2',
-                                 'Elevation2Tuple', 'GeoidHeight2Tuple'),
+                     elevations=('Elevation2Tuple', 'GeoidHeight2Tuple',
+                                 'elevation2', 'geoidHeight2'),
                ellipsoidalExact=(),  # module only
            ellipsoidalGeodSolve=(),  # module only
               ellipsoidalKarney=(),  # module only
@@ -267,7 +267,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
                                  'grades', 'grades400', 'grades2degrees', 'grades2radians',
-                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
+                                 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
                                  'sincos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'tand', 'tand_', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
@@ -298,7 +298,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.09.26'
+__version__ = '21.10.05'
 
 
 def _ALL_OTHER(*objs):

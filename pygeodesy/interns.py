@@ -453,7 +453,7 @@ _EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
-EPS0     = _float(EPS**2)   # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2
+EPS0     = _float(EPS**2)   # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2, see function L{isnear0}
 EPS02    = _float(EPS**4)   # PYCHOK near-zero-squared comparison 2.430865e-63
 INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
@@ -470,14 +470,16 @@ R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
 
-__all__ = ('DIG', _EPS_, 'EPS2', 'EPS4', 'EPS1', 'EPS1_2', 'EPS_2', _EPS0_, 'EPS02',
+__all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EPS4',
            'INF', 'MANT_DIG',
            'MANTIS',  # DEPRECATED
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
+           'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.09.29'
+__version__ = '21.10.03'
+
+_Py2T = _Py3T = None  # cached _platform2 and _pythonarchine tuples
 
 
 def _load_lib(name):  # must startwith('lib')
@@ -526,27 +528,31 @@ def machine():
 
 def _platform2(sep=NN):
     # get platform architecture and machine as C{2-list} or C{str}
-    import platform
-    m = platform.machine().replace(_COMMA_, _UNDER_)  # arm64, x86_64, iPhone13_2, etc.
-    if m == 'x86_64':  # only on Intel or Rosetta2 ...
-        v = platform.mac_ver()  # ... and only macOS
-        if v and _version2(v[0]) > (10, 15):  # macOS 11 Big Sur aka 10.16
-            # <https://Developer.Apple.com/forums/thread/659846>
-            if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
-#              _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
-                m = _UNDER_('arm64', m)  # Apple Silicon emulating Intel x86-64
-    el = [platform.architecture()[0],  # bits
-          m]  # arm64, arm64_x86_64, x86_64, etc.
-    return sep.join(el) if sep else el  # list
+    global _Py2T
+    if _Py2T is None:
+        import platform
+        m = platform.machine().replace(_COMMA_, _UNDER_)  # arm64, x86_64, iPhone13_2, etc.
+        if m == 'x86_64':  # only on Intel or Rosetta2 ...
+            v = platform.mac_ver()  # ... and only macOS
+            if v and _version2(v[0]) > (10, 15):  # macOS 11 Big Sur aka 10.16
+                # <https://Developer.Apple.com/forums/thread/659846>
+                if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
+#                  _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
+                    m = _UNDER_('arm64', m)  # Apple Silicon emulating Intel x86-64
+        _Py2T = [platform.architecture()[0],  # bits
+                 m]  # arm64, arm64_x86_64, x86_64, etc.
+    return sep.join(_Py2T) if sep else _Py2T  # list
 
 
 def _pythonarchine(sep=NN):  # in test/base.py versions
     # get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}
-    from sys import version  # XXX shadows?
-    el = [_SPACE_(_Python_, version.split(None, 1)[0])] + _platform2()
-    if '[PyPy ' in version:  # see test/base.py
-        el.insert(0, _SPACE_('PyPy', version.split('[PyPy ')[1].split()[0]))
-    return sep.join(el) if sep else el  # list
+    global _Py3T
+    if _Py3T is None:
+        from sys import version  # XXX shadows?
+        _Py3T = [_SPACE_(_Python_, version.split(None, 1)[0])] + _platform2()
+        if '[PyPy ' in version:  # see test/base.py
+            _Py3T = [_SPACE_('PyPy', version.split('[PyPy ')[1].split()[0])] + _Py3T
+    return sep.join(_Py3T) if sep else _Py3T  # list
 
 
 def _sysctl_uint(name):

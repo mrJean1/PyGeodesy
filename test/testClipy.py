@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.12.05'
+__version__ = '21.10.02'
 
 from base import TestsBase
 

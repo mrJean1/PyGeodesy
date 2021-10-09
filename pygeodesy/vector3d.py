@@ -3,7 +3,8 @@
 
 u'''Extended 3-D vector class L{Vector3d} and functions.
 
-Function L{intersection3d3}, L{intersections2}, L{parse3d} and L{sumOf}.
+Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
+L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
 from pygeodesy.basics import len2, map2
@@ -27,7 +28,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.09.29'
+__version__ = '21.10.05'
 
 
 class Vector3d(Vector3dBase):
@@ -49,8 +50,8 @@ class Vector3d(Vector3dBase):
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-           @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ} is True}
-                       else L{trilaterate2d2}.
+           @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
+                       C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
 
            @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
                     C{center} and contact points C{cA}, C{cB} and C{cC}, each an
@@ -85,7 +86,7 @@ class Vector3d(Vector3dBase):
                         or C{Vector4Tuple}).
            @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
-           @kwarg eps: Tolerance passed to function L{trilaterate3d2}.
+           @kwarg eps: Tolerance passed to function L{pygeodesy.trilaterate3d2}.
 
            @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
                     instance of this (sub-)class, is co-planar with this and the two
@@ -212,9 +213,9 @@ class Vector3d(Vector3dBase):
            @kwarg closed: Optionally, close the path or polygon (C{bool}).
            @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
-           @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start,
-                    end)} with {closest}, C{start} and C{end} each an instance
-                    of this point's (sub-)class.
+           @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)}
+                    with the C{closest}, the C{start} and the C{end} point each
+                    an instance of this point's (sub-)class.
 
            @raise PointsError: Insufficient number of B{C{points}}
 
@@ -273,8 +274,8 @@ class Vector3d(Vector3dBase):
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-           @kwarg eps: Tolerance for function L{trilaterate3d2} if C{B{useZ} is True}
-                       else L{trilaterate2d2}.
+           @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
+                       C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
 
            @return: L{Soddy4Tuple}C{(radius, center, deltas, outer)}.  The C{center},
                     an instance of B{C{point1}}'s (sub-)class, is co-planar with the
@@ -589,24 +590,18 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
 def iscolinearWith(point, point1, point2, eps=EPS, useZ=True):
     '''Check whether a point is colinear with two other (2- or 3-D) points.
 
-       @arg point: The point (L{Vector3d}, C{Vector3Tuple} or
-                              C{Vector4Tuple}).
-       @arg point1: First point (L{Vector3d}, C{Vector3Tuple}
-                                 or C{Vector4Tuple}).
-       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple}
-                                  or C{Vector4Tuple}).
-       @kwarg eps: Tolerance (C{scalar}), same units as C{x},
-                   C{y} and C{z}.
-       @kwarg useZ: If C{True}, use the Z components, otherwise
-                    force C{z=0} (C{bool}).
+       @arg point: The point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg point1: First point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+       @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y} and C{z}.
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
 
-       @return: C{True} if B{C{point}} is colinear B{C{point1}}
-                and B{C{point2}}, C{False} otherwise.
+       @return: C{True} if B{C{point}} is colinear B{C{point1}} and B{C{point2}},
+                        C{False} otherwise.
 
-       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or
-                         B{C{point2}}.
+       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
 
-       @see: Function L{vector2d.nearestOn}.
+       @see: Function L{nearestOn}.
     '''
     p = _otherV3d(useZ=useZ, point=point)
 
@@ -695,9 +690,9 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
                                keyword arguments, otherwise B{C{point}}'s (sub-)class.
 
        @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)} with
-                the {closest}, C{start} and C{end} points each an instance of
-                B{C{Vector}} of if {B{Vector}=None}, an instance of B{C{point}}'s
-                (sub-)class.
+                the C{closest}, the C{start} and the C{end} point each an instance
+                of the B{C{Vector}} keyword argument of if {B{Vector}=None} or not
+                specified, an instance of the B{C{point}}'s (sub-)class.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -836,7 +831,8 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
 
        @see: U{Issue #49<https://GitHub.com/mrJean1/PyGeodesy/issues/49>},
              U{Find X location using 3 known (X,Y) location using trilateration
-             <https://math.StackExchange.com/questions/884807>} and L{trilaterate3d2}.
+             <https://math.StackExchange.com/questions/884807>} and function
+             L{pygeodesy.trilaterate3d2}.
     '''
     from pygeodesy.vector2d import _trilaterate2d2
     return _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
@@ -885,7 +881,8 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
              Problem}<https://www.ResearchGate.net/publication/
              275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>},
              the U{I{implementation}<https://www.ResearchGate.net/publication/
-             288825016_Trilateration_Matlab_Code>} and L{trilaterate2d2}.
+             288825016_Trilateration_Matlab_Code>} and function
+             L{pygeodesy.trilaterate2d2}.
     '''
     from pygeodesy.vector2d import _trilaterate3d2
     try:

@@ -264,7 +264,7 @@ class LatLonSphericalBase(LatLonBase):
            point, consisting of C{"lat, lon[, height]"}.
 
            @arg strllh: Lat, lon and optional height (C{str}),
-                        see function L{parse3llh}.
+                        see function L{pygeodesy.parse3llh}.
            @kwarg height: Optional, default height (C{meter}).
            @kwarg sep: Optional separator (C{str}).
            @kwarg name: Optional instance name (C{str}),
@@ -458,7 +458,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @return: The WM coordinate (L{Wm}).
 
-           @see: Function L{toWm} in module L{webmercator} for details.
+           @see: Function L{pygeodesy.toWm} in module L{webmercator} for details.
         '''
         from pygeodesy.webmercator import toWm
         return toWm(self, radius=radius)

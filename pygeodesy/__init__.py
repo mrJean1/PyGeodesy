@@ -86,12 +86,13 @@ L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolat
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
 installed for C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
-Functions L{circin6}, L{circum3}, L{circum4_}, L{soddy4} and L{trilaterate3d2}C{/-5} and the
-corresponding C{Cartesian}, C{LatLon}, C{Nvector} and L{Vector3d} methods require U{numpy
-<https://PyPI.org/project/numpy>}.
 
-Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve} and
-L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
+Functions L{pygeodesy.circin6}, L{pygeodesy.circum3}, L{pygeodesy.circum4_}, L{pygeodesy.soddy4}
+and L{pygeodesy.trilaterate3d2}C{/-5} and the corresponding C{Cartesian}, C{LatLon}, C{Nvector}
+and L{Vector3d} methods require U{numpy<https://PyPI.org/project/numpy>}.
+
+Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
+and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} to be executable.
 
 Documentation
@@ -106,7 +107,7 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests have been run with Python 3.10.0rc1 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+The tests have been run with Python 3.10.0 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52), Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy
 <https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy
@@ -116,8 +117,8 @@ on macOS 11.6 Big Sur (aka 10.16) and in 64-bit only.  The tests are run with an
 for Python 3 and with command line option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on}
 for all Python versions.  The results of only those tests are included in the distribution files.
 
-Python 3.10.0rc1, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions
-run on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{machine}).
+Python 3.10.0, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions
+run on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6
 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>}
@@ -126,8 +127,8 @@ Test coverage has been measured with U{coverage<https://PyPI.org/project/coverag
 2.7.16 (U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage
 report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy<https://PyPy.org>} 7.1.1 (Python
-3.6.1 and 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Ubuntu 16.04
+The tests also ran with Python 3.9, 3.8.0, 3.7.1, 2.7.15 and U{PyPy<https://PyPy.org>} 7.1.1 (Python 3.6.1
+and 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Ubuntu 16.04
 <https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52) on U{Debian 9
 <https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in 64-bit only and with Python 3.8.0, 3.7.5
@@ -157,7 +158,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.0rc1, both in 64-bit on macOS 11.6 Big Sur (aka 10.16).
+using Python 3.10.0, both in 64-bit on macOS 11.6 Big Sur (aka 10.16).
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -172,9 +173,11 @@ The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
- - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{isLazy}.
+ - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
 
+ - C{PYGEODESY_BEARING_STD_REPR} - see method L{pygeodesy.Bearing}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
+ - C{PYGEODESY_DEGREES_STD_REPR} - see method L{pygeodesy.Degrees}C{.__repr__}.
  - C{PYGEODESY_FLOAT_STD_REPR} - see method L{pygeodesy.Float}C{.__repr__}.
  - C{PYGEODESY_INT_STD_REPR} - see method L{pygeodesy.Int}C{.__repr__}.
  - C{PYGEODESY_METER_STD_REPR} - see method L{pygeodesy.Meter}C{.__repr__}.
@@ -183,7 +186,7 @@ The following environment variables are observed by C{PyGeodesy}:
 plus during development:
 
  - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
- - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{DeprecationWarnings}.
+ - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{pygeodesy.DeprecationWarnings}.
  - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
 
 License
@@ -256,13 +259,13 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
 @var DIG:      System's M{float decimal digits} = 15 (C{int}).
-@var INF:      Infinity (C{float}), see function L{isinf}, L{isfinite}.
+@var INF:      Infinity (C{float}), see function L{pygeodesy.isinf}, L{pygeodesy.isfinite}.
 @var MANT_DIG: System's M{float mantissa bits} = 53 (C{int}).
 @var MANTIS:   DEPRECATED, use C{MANT_DIG}.
 @var MAX:      System's M{float max} ≈ 1.798e+308 (C{float}).
 @var MIN:      System's M{float min} ≈ 2.225e-308 (C{float}).
-@var NAN:      Not-A-Number (C{float}), see function L{isnan}.
-@var NEG0:     Negative 0.0 (C{float}), see function L{isneg0}.
+@var NAN:      Not-A-Number (C{float}), see function L{pygeodesy.isnan}.
+@var NEG0:     Negative 0.0 (C{float}), see function L{pygeodesy.isneg0}.
 @var NN:       Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
 
 @var PI:    Constant M{math.pi} (C{float}).
@@ -495,7 +498,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.09.29'
+__version__ = '21.10.10'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

@@ -40,7 +40,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.09.27'
+__version__ = '21.10.05'
 
 
 class LatLonBase(_NamedBase):
@@ -163,7 +163,7 @@ class LatLonBase(_NamedBase):
 
            @arg point2: Second point (C{LatLon}).
            @arg point3: Third point (C{LatLon}).
-           @kwarg eps: Tolerance for function L{trilaterate3d2}.
+           @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2}.
 
            @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
                     C{center} and contact points C{cA}, C{cB} and C{cC}, each an
@@ -183,8 +183,8 @@ class LatLonBase(_NamedBase):
                   in C{meter} indicates whether the C{center} is above, below or on the
                   surface of the earth model.  If C{deltas} is C{None}, the C{center} is
                   I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon,
-                  height)} representing the difference between both L{trilaterate3d2}
-                  results and C{center} is the mean thereof.
+                  height)} representing the difference between both results from
+                  L{pygeodesy.trilaterate3d2} and C{center} is the mean thereof.
 
            @see: Function L{pygeodesy.circin6}, method L{circum3}, U{Incircle
                  <https://MathWorld.Wolfram.com/Incircle.html>} and U{Contact Triangle
@@ -206,14 +206,14 @@ class LatLonBase(_NamedBase):
            @arg point3: Third point (C{LatLon}).
            @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter},
                           always, ignoring the I{Meeus}' Type I case (C{bool}).
-           @kwarg eps: Tolerance for function L{trilaterate3d2}.
+           @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2}.
 
            @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
                     instance of this (sub-)class, is co-planar with this and the two
                     given points.  If C{deltas} is C{None}, the C{center} is
                     I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat,
-                    lon, height)} representing the difference between both
-                    L{trilaterate3d2} results and C{center} is the mean thereof.
+                    lon, height)} representing the difference between both results
+                    from L{pygeodesy.trilaterate3d2} and C{center} is the mean thereof.
 
            @raise ImportError: Package C{numpy} not found, not installed or older than
                                version 1.10.
@@ -229,8 +229,8 @@ class LatLonBase(_NamedBase):
                   in C{meter} indicates whether the C{center} is above, below or on the
                   surface of the earth model.  If C{deltas} is C{None}, the C{center} is
                   I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon,
-                  height)} representing the difference between both L{trilaterate3d2}
-                  results and C{center} is the mean thereof.
+                  height)} representing the difference between both results from
+                  L{pygeodesy.trilaterate3d2} and C{center} is the mean thereof.
 
            @see: Function L{pygeodesy.circum3} and methods L{circin6} and L{circum4_}.
         '''
@@ -259,7 +259,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Too few B{C{points}}.
 
-           @see: Function L{pygeodesy.circum4_} and method L{circum3}.
+           @see: Function L{pygeodesy.circum4_} and L{circum3}.
         '''
         C = self._toCartesianEcef
         c = C(point=self)
@@ -269,7 +269,7 @@ class LatLonBase(_NamedBase):
 
     @deprecated_method
     def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{compassAngleTo}.'''
+        '''DEPRECATED, use method L{compassAngleTo}.'''
         return self.compassAngleTo(other, adjust=adjust, wrap=wrap)
 
     def compassAngleTo(self, other, adjust=True, wrap=False):
@@ -283,8 +283,8 @@ class LatLonBase(_NamedBase):
            @arg other: The other point (C{LatLon}).
            @kwarg adjust: Adjust the longitudinal delta by the
                           cosine of the mean latitude (C{bool}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes and longitudinal
-                       delta (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes and
+                        longitudinal delta (C{bool}).
 
            @return: Compass angle from North (C{degrees360}).
 
@@ -307,18 +307,18 @@ class LatLonBase(_NamedBase):
            formula.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as the axes of
                     this point's datum ellipsoid).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{cosineAndoyerLambert} and methods
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{flatPolarTo},
-                 C{haversineTo}, C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.cosineAndoyerLambert} and methods
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo},
+                 C{distanceTo*}, L{equirectangularTo}, L{euclideanTo},
+                 L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo}, L{haversineTo},
+                 L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo_(cosineAndoyerLambert_, other, wrap=wrap)
 
@@ -330,18 +330,17 @@ class LatLonBase(_NamedBase):
            formula.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as the axes of
                     this point's datum ellipsoid).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{cosineForsytheAndoyerLambert} and methods
-                 C{cosineAndoyerLambertTo}, C{cosineLawTo}, C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{flatPolarTo},
-                 C{haversineTo}, C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.cosineForsytheAndoyerLambert} and methods
+                 L{cosineAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
+                 L{flatPolarTo}, L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo_(cosineForsytheAndoyerLambert_, other, wrap=wrap)
 
@@ -355,16 +354,16 @@ class LatLonBase(_NamedBase):
            @kwarg radius: Mean earth radius (C{meter}) or C{None}
                           for the mean radius of this point's datum
                           ellipsoid.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{cosineLaw} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo}/C{hubenyTo},
-                 C{flatPolarTo}, C{haversineTo}, C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.cosineLaw} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, C{distanceTo*}, L{equirectangularTo},
+                 L{euclideanTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
+                 L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo(cosineLaw, other, radius, wrap=wrap)
 
@@ -447,26 +446,26 @@ class LatLonBase(_NamedBase):
            <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
            Suitable only for short, non-near-polar distances up to a
-           few hundred Km or Miles.  Use method C{haversineTo} or
+           few hundred Km or Miles.  Use method L{haversineTo} or
            C{distanceTo*} for more accurate and/or larger distances.
 
-           See function L{equirectangular_} for more details, the
-           available B{C{options}} and errors raised.
+           See function L{pygeodesy.equirectangular_} for more details,
+           the available B{C{options}} and errors raised.
 
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} for
                           the mean radius of this point's datum ellipsoid.
            @kwarg options: Optional keyword arguments for function
-                           L{equirectangular}.
+                           L{pygeodesy.equirectangular}.
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{equirectangular} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{euclideanTo}, C{flatLocalTo}/C{hubenyTo},
-                 C{flatPolarTo}, C{haversineTo}, C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.equirectangular} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 C{euclideanTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
+                 L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo(equirectangular, other, radius, **options)
 
@@ -474,23 +473,22 @@ class LatLonBase(_NamedBase):
         '''Approximate the C{Euclidian} distance between this and
            an other point.
 
-           See function L{euclidean} for the available B{C{options}}.
+           See function L{pygeodesy.euclidean} for the available B{C{options}}.
 
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} for
                           the mean radius of this point's datum ellipsoid.
            @kwarg options: Optional keyword arguments for function
-                             L{euclidean}.
+                           L{pygeodesy.euclidean}.
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{euclidean} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{flatPolarTo},
-                 C{haversineTo}, C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.euclidean} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{flatLocalTo}/L{hubenyTo}, L{flatPolarTo},
+                 L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo(euclidean, other, radius, **options)
 
@@ -503,7 +501,7 @@ class LatLonBase(_NamedBase):
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} for the
                           major radius of this point's datum/ellipsoid.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -511,12 +509,11 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{radius}}.
 
-           @see: Function L{flatLocal}/L{hubeny}, methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
-                 C{flatPolarTo}, C{haversineTo}, C{thomasTo} and
-                 C{vincentysTo} and U{local, flat Earth approximation
-                 <https://www.edwilliams.org/avform.htm#flat>}.
+           @see: Function L{pygeodesy.flatLocal}/L{pygeodesy.hubeny}, methods
+                 L{cosineAndoyerLambertTo}, L{cosineForsytheAndoyerLambertTo},
+                 L{cosineLawTo}, C{distanceTo*}, L{equirectangularTo}, L{euclideanTo},
+                 L{flatPolarTo}, L{haversineTo}, L{thomasTo} and L{vincentysTo} and
+                 U{local, flat Earth approximation<https://www.edwilliams.org/avform.htm#flat>}.
         '''
         E = self.datum.ellipsoid
         r = self._distanceTo_(flatLocal_, other, wrap=wrap) * E.a2_
@@ -527,25 +524,23 @@ class LatLonBase(_NamedBase):
 
     def flatPolarTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using
-           the U{polar coordinate flat-Earth
-           <https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula>}
-           formula.
+           the U{polar coordinate flat-Earth<https://WikiPedia.org/wiki/
+           Geographical_distance#Polar_coordinate_flat-Earth_formula>}formula.
 
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}
                           for the mean radius of this point's datum
                           ellipsoid.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{flatPolar} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{haversineTo},
-                 C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.flatPolar} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
+                 L{haversineTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo(flatPolar, other, radius, wrap=wrap)
 
@@ -590,17 +585,16 @@ class LatLonBase(_NamedBase):
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} for
                           the mean radius of this point's datum ellipsoid.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{haversine} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{flatPolarTo},
-                 C{thomasTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.haversine} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
+                 L{flatPolarTo}, L{thomasTo} and L{vincentysTo}.
         '''
         return self._distanceTo(haversine, other, radius, wrap=wrap)
 
@@ -674,7 +668,7 @@ class LatLonBase(_NamedBase):
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg m: Optional unit of the height (C{str}).
 
-           @see: Function L{hstr}.
+           @see: Function L{pygeodesy.hstr}.
         '''
         return hstr(self.height, prec=prec, m=m)
 
@@ -870,17 +864,18 @@ class LatLonBase(_NamedBase):
 
            @arg points: The path or polygon points (C{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
-           @kwarg height: Optional height, overriding the height
-                          of this and all other points (C{meter}).
-                          If C{None}, take the height of points
-                          into account for distances.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg height: Optional height, overriding the height of
+                          this and all other points (C{meter}).  If
+                          C{None}, take the height of points into
+                          account for distances.
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes
+                        (C{bool}).
 
            @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j,
-                    start, end)} with the {closest}, the C{start} and
-                    C{end} points each an instance of this C{LatLon}
-                    and C{distance} in C{meter}, same units as the
-                    cartesian axes.
+                    start, end)} with the C{closest}, the C{start}
+                    and the C{end} point each an instance of this
+                    C{LatLon} and C{distance} in C{meter}, same
+                    units as the cartesian axes.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -889,7 +884,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Some B{C{points}}' C{Ecef} is incompatible.
 
-           @see: Function L{nearestOn6}.
+           @see: Function L{pygeodesy.nearestOn6}.
         '''
         def _cs(Ps, h, w, C):
             p = None  # not used
@@ -906,12 +901,12 @@ class LatLonBase(_NamedBase):
         t = nearestOn6(c, _cs(Ps, height, wrap, C), closed=closed)
         c, s, e = t.closest, t.start, t.end
 
-        LL_height = _xkwds_not(None, LatLon=self.classof,  # this LatLon
-                                     height=height)
+        kwds = _xkwds_not(None, LatLon=self.classof,  # this LatLon
+                                height=height)
         r = self.Ecef(self.datum).reverse
-        p = r(c).toLatLon(**LL_height)
-        s = r(s).toLatLon(**LL_height) if s is not c else p
-        e = r(e).toLatLon(**LL_height) if e is not c else p
+        p = r(c).toLatLon(**kwds)
+        s = r(s).toLatLon(**kwds) if s is not c else p
+        e = r(e).toLatLon(**kwds) if e is not c else p
         return t.dup(closest=p, start=s, end=e)
 
     @Property_RO
@@ -1019,17 +1014,17 @@ class LatLonBase(_NamedBase):
            formula.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unrollPI} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as the axes of
                     this point's datum ellipsoid).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{thomas} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo}, C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo}/C{hubenyTo},
-                 C{flatPolarTo}, C{haversineTo} and C{vincentysTo}.
+           @see: Function L{pygeodesy.thomas} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
+                 L{flatPolarTo}, L{haversineTo} and L{vincentysTo}.
         '''
         return self._distanceTo_(thomas_, other, wrap=wrap)
 
@@ -1246,17 +1241,16 @@ class LatLonBase(_NamedBase):
            @kwarg radius: Mean earth radius (C{meter}) or C{None}
                           for the mean radius of this point's datum
                           ellipsoid.
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{vincentys} and methods C{cosineAndoyerLambertTo},
-                 C{cosineForsytheAndoyerLambertTo}, C{cosineLawTo},
-                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
-                 C{flatLocalTo}/C{hubenyTo}, C{flatPolarTo},
-                 C{haversineTo} and C{thomasTo}.
+           @see: Function L{pygeodesy.vincentys} and methods L{cosineAndoyerLambertTo},
+                 L{cosineForsytheAndoyerLambertTo}, L{cosineLawTo}, C{distanceTo*},
+                 L{equirectangularTo}, L{euclideanTo}, L{flatLocalTo}/L{hubenyTo},
+                 L{flatPolarTo}, L{haversineTo} and L{thomasTo}.
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
 
@@ -1291,16 +1285,6 @@ def _isequalTo(point1, point2, eps=EPS):  # in .ellipsoidalBaseDI._intersect3._o
     '''
     return max(abs(point1.lat - point2.lat),
                abs(point1.lon - point2.lon)) < eps
-
-
-def _isLatLon(point):
-    '''(INTERNAL) Helper, in .ellipsoids.Ellipsoid.height4.
-    '''
-    if isinstance(point, LatLonBase):
-        return True
-    else:
-        from pygeodesy.points import LatLon_
-        return isinstance(point, LatLon_)
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,

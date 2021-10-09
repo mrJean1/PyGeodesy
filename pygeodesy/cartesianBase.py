@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.09.25'
+__version__ = '21.10.08'
 
 
 class CartesianBase(Vector3d):
@@ -39,23 +39,25 @@ class CartesianBase(Vector3d):
     _datum  = None  # L{Datum}, to be overriden
     _height = None  # height (L{Height}), set or approximated
 
-    def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
+    def __init__(self, x_xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
 
-           @arg xyz: An L{Ecef9Tuple}, L{Vector3Tuple}, L{Vector4Tuple}
-                     or the C{X} coordinate (C{scalar}).
-           @arg y: The C{Y} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
-           @arg z: The C{Z} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
+           @arg x_xyz: Cartesian X coordinate (C{scalar}) or a C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3Tuple} or L{Vector4Tuple}.
+           @kwarg y: Cartesian Y coordinate (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
+           @kwarg z: Cartesian Z coordinate (C{scalar}), ignored if B{C{x_xyz}}
+                     is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg name: Optional name (C{str}).
 
-           @raise TypeError: Non-scalar B{C{xyz}}, B{C{y}} or B{C{z}}
-                             coordinate or B{C{xyz}} not an L{Ecef9Tuple},
+           @raise TypeError: Non-scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}
+                             coordinate or B{C{x_xyz}} not an L{Ecef9Tuple},
                              L{Vector3Tuple} or L{Vector4Tuple}.
         '''
-        x, y, z, h, d, n = _xyzhdn6(xyz, y, z, None, datum, ll)
+        x, y, z, h, d, n = _xyzhdn6(x_xyz, y, z, None, datum, ll)
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
         if h is not None:
             self._height = Height(h)

@@ -31,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.06.10'
+__version__ = '21.10.05'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -40,7 +40,7 @@ _WGS84  = _UTM = object()
 
 # DEPRECATED classes, for export only
 class ClipCS3Tuple(_NamedTuple):  # PYCHOK no cover
-    '''3-Tuple C{(start, end, index)}.  DEPRECATED, see function L{clipCS3}.
+    '''3-Tuple C{(start, end, index)}.  DEPRECATED, see function L{pygeodesy.clipCS3}.
     '''
     _Names_ = (_start_, _end_, 'index')
     _Units_ = (_Pass,   _Pass,  Number_)
@@ -138,7 +138,7 @@ class UtmUps4Tuple(_NamedTuple):  # PYCHOK no cover
 
 @deprecated_function
 def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
-    '''DEPRECATED, use function L{anstr}.
+    '''DEPRECATED, use function L{pygeodesy.anstr}.
     '''
     from pygeodesy.streprs import anstr
     return anstr(name, OKd=OKd, sub=sub)
@@ -146,7 +146,7 @@ def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
 
 @deprecated_function
 def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function L{areaOf}.
+    '''DEPRECATED, use function L{pygeodesy.areaOf}.
     '''
     from pygeodesy.points import areaOf
     return areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
@@ -154,7 +154,7 @@ def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
 
 @deprecated_function
 def bounds(points, wrap=True, LatLon=None):  # PYCHOK no cover
-    '''DEPRECATED, use function L{boundsOf}.
+    '''DEPRECATED, use function L{pygeodesy.boundsOf}.
 
        @return: 2-Tuple C{(latlonSW, latlonNE)} as B{C{LatLon}}
                 or 4-Tuple C{(latS, lonW, latN, lonE)} if
@@ -166,7 +166,7 @@ def bounds(points, wrap=True, LatLon=None):  # PYCHOK no cover
 
 @deprecated_function
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # PYCHOK no cover
-    '''DEPRECATED, use function L{clipCS4}.
+    '''DEPRECATED, use function L{pygeodesy.clipCS4}.
 
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the I{clipped} path.
@@ -179,7 +179,7 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # PYCHOK
 
 @deprecated_function
 def clipDMS(deg, limit):  # PYCHOK no cover
-    '''DEPRECATED, use function L{clipDegrees}.
+    '''DEPRECATED, use function L{pygeodesy.clipDegrees}.
     '''
     from pygeodesy.dms import clipDegrees
     return clipDegrees(deg, limit)
@@ -187,7 +187,7 @@ def clipDMS(deg, limit):  # PYCHOK no cover
 
 @deprecated_function
 def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
-    '''DEPRECATED, use function L{clips}.
+    '''DEPRECATED, use function L{pygeodesy.clips}.
     '''
     from pygeodesy.basics import clips
     return clips(bstr, limit=limit, white=white)
@@ -195,7 +195,7 @@ def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
 
 @deprecated_function
 def copysign(x, y):  # PYCHOK no cover
-    '''DEPRECATED, use function L{copysign0}.
+    '''DEPRECATED, use function L{pygeodesy.copysign0}.
     '''
     from pygeodesy.basics import copysign0
     return copysign0(x, y)
@@ -223,7 +223,7 @@ def encodeEPSG(zone, hemipole=NN, band=NN):  # PYCHOK no cover
 
 @deprecated_function
 def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
-    '''DEPRECATED, use function L{enstr2}.
+    '''DEPRECATED, use function L{pygeodesy.enstr2}.
     '''
     from pygeodesy.streprs import enstr2
     return enstr2(easting, northing, prec, *extras)
@@ -285,7 +285,7 @@ def fStr(floats, prec=6, fmt=_Fmt.f, ints=False, sep=_COMMASPACE_):  # PYCHOK no
 
 @deprecated_function
 def fStrzs(floatstr):  # PYCHOK no cover
-    '''DEPRECATED, use function L{fstrzs}.
+    '''DEPRECATED, use function L{pygeodesy.fstrzs}.
     '''
     from pygeodesy.streprs import fstrzs
     return fstrzs(floatstr)
@@ -293,7 +293,7 @@ def fStrzs(floatstr):  # PYCHOK no cover
 
 @deprecated_function
 def hypot3(x, y, z):  # PYCHOK no cover
-    '''DEPRECATED, use function L{hypot_}.
+    '''DEPRECATED, use function L{pygeodesy.hypot_}.
     '''
     from pygeodesy.fmath import hypot_
     return hypot_(x, y, z)
@@ -301,7 +301,7 @@ def hypot3(x, y, z):  # PYCHOK no cover
 
 @deprecated_function
 def inStr(inst, *args, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use function L{instr}.
+    '''DEPRECATED, use function L{pygeodesy.instr}.
     '''
     from pygeodesy.streprs import instr
     return instr(inst, *args, **kwds)
@@ -309,7 +309,7 @@ def inStr(inst, *args, **kwds):  # PYCHOK no cover
 
 @deprecated_function
 def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
-    '''DEPRECATED, use function L{isenclosedBy}.
+    '''DEPRECATED, use function L{pygeodesy.isenclosedBy}.
     '''
     from pygeodesy.points import isenclosedBy
     return isenclosedBy(point, points, wrap=wrap)
@@ -331,7 +331,7 @@ def joined_(*words, **sep):  # PYCHOK no cover
 
 @deprecated_function
 def nearestOn3(point, points, closed=False, wrap=False, **options):  # PYCHOK no cover
-    '''DEPRECATED, use function L{nearestOn5}.
+    '''DEPRECATED, use function L{pygeodesy.nearestOn5}.
 
        @return: 3-Tuple C{(lat, lon, distance)}
     '''
@@ -341,7 +341,7 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):  # PYCHOK no
 
 @deprecated_function
 def nearestOn4(point, points, closed=False, wrap=False, **options):  # PYCHOK no cover
-    '''DEPRECATED, use function L{nearestOn5}.
+    '''DEPRECATED, use function L{pygeodesy.nearestOn5}.
 
        @return: 4-Tuple C{(lat, lon, distance, angle)}
     '''
@@ -397,7 +397,7 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 
 @deprecated_function
 def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options):  # PYCHOK no cover
-    '''DEPRECATED, use function L{simplifyRW}.
+    '''DEPRECATED, use function L{pygeodesy.simplifyRW}.
     '''
     from pygeodesy.simplify import simplifyRW
     return simplifyRW(points, pipe, radius=radius, shortest=shortest, indices=indices, **options)
@@ -405,7 +405,7 @@ def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options
 
 @deprecated_function
 def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHOK no cover
-    '''DEPRECATED, use function L{toUtm8}.
+    '''DEPRECATED, use function L{pygeodesy.toUtm8}.
 
        @return: The UTM coordinate (B{C{Utm}}) or a 6-tuple C{(zone,
                 easting, northing, band, convergence, scale)} if
@@ -422,7 +422,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 
 @deprecated_function
 def unStr(name, *args, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use function L{unstr}.
+    '''DEPRECATED, use function L{pygeodesy.unstr}.
     '''
     from pygeodesy.streprs import unstr
     return unstr(name, *args, **kwds)
@@ -430,7 +430,7 @@ def unStr(name, *args, **kwds):  # PYCHOK no cover
 
 @deprecated_function
 def utmZoneBand2(lat, lon):  # PYCHOK no cover
-    '''DEPRECATED, use function L{utmZoneBand5}.
+    '''DEPRECATED, use function L{pygeodesy.utmZoneBand5}.
 
        @return: 2-Tuple C{(zone, band)}.
     '''

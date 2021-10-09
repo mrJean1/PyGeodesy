@@ -97,7 +97,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.09.14'
+__version__ = '21.10.05'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -375,7 +375,7 @@ class _GeoidBase(_HeightBase):
 
     @Property_RO
     def _center(self):
-        ''' Cache for L{center}.
+        ''' Cache for method L{center}.
         '''
         return self._llh3(favg(self._lat_lo, self._lat_hi),
                           favg(self._lon_lo, self._lon_hi))
@@ -439,7 +439,7 @@ class _GeoidBase(_HeightBase):
 
     @Property_RO
     def _highest(self):
-        '''(INTERNAL) Cache for L{highest}.
+        '''(INTERNAL) Cache for L{highest} method.
         '''
         return self._llh3minmax(True)
 
@@ -631,7 +631,7 @@ class _GeoidBase(_HeightBase):
 
     @Property_RO
     def _upperleft(self):
-        '''(INTERNAL) Cache for L{upperleft}.
+        '''(INTERNAL) Cache for method L{upperleft}.
         '''
         return self._llh3(self._lat_hi, self._lon_lo)
 
@@ -650,7 +650,7 @@ class _GeoidBase(_HeightBase):
 
     @Property_RO
     def _upperright(self):
-        '''(INTERNAL) Cache for L{upperright}.
+        '''(INTERNAL) Cache for method L{upperright}.
         '''
         return self._llh3(self._lat_hi, self._lon_hi)
 
@@ -1160,7 +1160,7 @@ class GeoidKarney(_GeoidBase):
 
     @Property_RO
     def _highest_ltd(self):
-        '''(INTERNAL) Cache for L{highest}.
+        '''(INTERNAL) Cache for L{highest} mesthod.
         '''
         return self._llh3minmax(True, -12, -4)
 

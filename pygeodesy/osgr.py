@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.08.24'
+__version__ = '21.10.05'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -165,10 +165,8 @@ class Osgr(_NamedBase):
     def parse(self, strOSGR, name=NN):
         '''Parse a string to a similar L{Osgr} instance.
 
-           @arg strOSGR: The OSGR reference (C{str}),
-                         see function L{parseOSGR}.
-           @kwarg name: Optional instance name (C{str}),
-                        overriding this name.
+           @arg strOSGR: The OSGR reference (C{str}), see function L{parseOSGR}.
+           @kwarg name: Optional instance name (C{str}), overriding this name.
 
            @return: The similar instance (L{Osgr})
 

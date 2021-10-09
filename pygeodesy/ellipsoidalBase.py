@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.09.27'
+__version__ = '21.10.05'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -87,7 +87,7 @@ class CartesianEllipsoidalBase(CartesianBase):
 
            @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>},
                  U{Circle-Circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
-                 Intersection and function L{radical2}.
+                 Intersection and function L{pygeodesy.radical2}.
         '''
         from pygeodesy.vector3d import _intersects2, _otherV3d
         try:
@@ -156,7 +156,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid
                               range and C{rangerrors} set to C{True}.
 
-           @raise TypeError: B{C{datum}} is not a L{datum}, B{C{reframe}}
+           @raise TypeError: B{C{datum}} is not a L{Datum}, B{C{reframe}}
                              is not a L{RefFrame} or B{C{epoch}} is not
                              C{scalar} non-zero.
 
@@ -354,7 +354,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _etm(self):
-        '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{toEtm8}).
+        '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{pygeodesy.toEtm8}).
         '''
         from pygeodesy.etm import toEtm8, Etm
         return toEtm8(self, datum=self.datum, Etm=Etm)
@@ -408,9 +408,9 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg height: Optional height at the intersection (C{meter},
                           conventionally) or C{None} for the mean height.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                               or function L{equidistant}), or C{None} for
-                               this point's preferred C{.Equidistant}.
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or
+                               function L{pygeodesy.equidistant}), or C{None}
+                               for this point's preferred C{.Equidistant}.
            @kwarg tol: Tolerance for skew line distance and length and for
                        convergence (C{meter}, conventionally).
 
@@ -463,9 +463,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                           conventionally) or C{None} for the I{"radical height"}
                           at the I{radical line} between both centers.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                               or function L{equidistant}), or C{None} for
-                               this point's preferred C{.Equidistant}.
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or
+                               function L{pygeodesy.equidistant}), or C{None}
+                               for this point's preferred C{.Equidistant}.
            @kwarg tol: Convergence tolerance (C{meter}, same units as
                        B{C{radius1}} and B{C{radius2}}).
 
@@ -532,9 +532,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                           interpolated height.  If C{False}, the closest
                           takes the heights of the points into account.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection (I{class}
-                               or function L{equidistant}), or C{None} for
-                               this point's preferred C{.Equidistant}.
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or
+                               function L{pygeodesy.equidistant}), or C{None}
+                               for this point's preferred C{.Equidistant}.
            @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: Closest point (C{LatLon}).
@@ -578,7 +578,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            point, consisting of C{"lat, lon[, height]"}.
 
            @arg strllh: Lat, lon and optional height (C{str}),
-                        see function L{parse3llh}.
+                        see function L{pygeodesy.parse3llh}.
            @kwarg height: Optional, default height (C{meter} or
                           C{None}).
            @kwarg datum: Optional datum (L{Datum}), overriding this
@@ -657,11 +657,11 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toCss(self, **toCss_kwds):
         '''Convert this C{LatLon} point to a Cassini-Soldner location.
 
-           @kwarg toCss_kwds: Optional L{toCss} keyword arguments.
+           @kwarg toCss_kwds: Optional L{pygeodesy.toCss} keyword arguments.
 
            @return: The Cassini-Soldner location (L{Css}).
 
-           @see: Function L{toCss}.
+           @see: Function L{pygeodesy.toCss}.
         '''
         if toCss_kwds:
             from pygeodesy.css import toCss
@@ -692,21 +692,22 @@ class LatLonEllipsoidalBase(LatLonBase):
         n  =  name or self.name
         d2 = _ellipsoidal_datum(datum2, name=n)
         if self.datum == d2:
-            return self.copy(name=name)
-        r = _xkwds_not(None, epoch=self.epoch, reframe=self.reframe)
-
-        c =  self.toCartesian().toDatum(d2)
-        return c.toLatLon(datum=d2, height=height,
-                          LatLon=self.classof, name=n, **r)
+            r = self.copy(name=name)
+        else:
+            kwds = _xkwds_not(None, LatLon=self.classof, name=n,
+                                    epoch=self.epoch, reframe=self.reframe)
+            c = self.toCartesian().toDatum(d2)
+            r = c.toLatLon(datum=d2, height=height, **kwds)
+        return r
 
     def toEtm(self, **toEtm8_kwds):
         '''Convert this C{LatLon} point to an ETM coordinate.
 
-           @kwarg toEtm8_kwds: Optional L{toEtm8} keyword arguments.
+           @kwarg toEtm8_kwds: Optional L{pygeodesy.toEtm8} keyword arguments.
 
            @return: The ETM coordinate (L{Etm}).
 
-           @see: Function L{toEtm8}.
+           @see: Function L{pygeodesy.toEtm8}.
         '''
         if toEtm8_kwds:
             from pygeodesy.etm import toEtm8
@@ -718,11 +719,11 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toLcc(self, **toLcc_kwds):
         '''Convert this C{LatLon} point to a Lambert location.
 
-           @kwarg toLcc_kwds: Optional L{toLcc} keyword arguments.
+           @kwarg toLcc_kwds: Optional L{pygeodesy.toLcc} keyword arguments.
 
            @return: The Lambert location (L{Lcc}).
 
-           @see: Function L{toLcc}.
+           @see: Function L{pygeodesy.toLcc}.
         '''
         if toLcc_kwds:
             from pygeodesy.lcc import toLcc
@@ -740,18 +741,18 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The MGRS coordinate (L{Mgrs}).
 
-           @see: Method L{Mgrs.toLatLon} and L{toUtm}.
+           @see: Method L{toUtm} and L{Mgrs.toLatLon}.
         '''
         return self.toUtm(center=center).toMgrs(center=False)
 
     def toOsgr(self, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
-           @kwarg toOsgr_kwds: Optional L{toOsgr} keyword arguments.
+           @kwarg toOsgr_kwds: Optional L{pygeodesy.toOsgr} keyword arguments.
 
            @return: The OSGR coordinate (L{Osgr}).
 
-           @see: Function L{toOsgr}.
+           @see: Function L{pygeodesy.toOsgr}.
         '''
         if toOsgr_kwds:
             from pygeodesy.osgr import toOsgr
@@ -810,7 +811,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The UPS coordinate (L{Ups}).
 
-           @see: Function L{toUps8}.
+           @see: Function L{pygeodesy.toUps8}.
         '''
         if self._upsOK(pole, falsed):
             u = self._ups
@@ -829,7 +830,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The UTM coordinate (L{Utm}).
 
-           @see: Method L{Mgrs.toUtm} and function L{toUtm8}.
+           @see: Method L{Mgrs.toUtm} and function L{pygeodesy.toUtm8}.
         '''
         if center in (False, 0, _0_0):
             u = self._utm
@@ -850,7 +851,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: Result in L{Utm} or L{Ups}.
 
-           @see: Function L{toUtmUps}.
+           @see: Function L{pygeodesy.toUtmUps8}.
         '''
         if self._utmOK():
             u = self._utm
@@ -871,11 +872,11 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toWm(self, **toWm_kwds):
         '''Convert this C{LatLon} point to a WM coordinate.
 
-           @kwarg toWm_kwds: Optional L{toWm} keyword arguments.
+           @kwarg toWm_kwds: Optional L{pygeodesy.toWm} keyword arguments.
 
            @return: The WM coordinate (L{Wm}).
 
-           @see: Function L{toWm}.
+           @see: Function L{pygeodesy.toWm}.
         '''
         if toWm_kwds:
             from pygeodesy.webmercator import toWm
@@ -957,7 +958,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _ups(self):  # __dict__ value overwritten by method C{toUtmUps}
-        '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}), see L{toUps8}.
+        '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}),
+           see L{pygeodesy.toUps8}.
         '''
         from pygeodesy.ups import toUps8, Ups
         return toUps8(self, datum=self.datum, Ups=Ups,
@@ -974,7 +976,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _utm(self):  # __dict__ value overwritten by method C{toUtmUps}
-        '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}), see L{toUtm8}.
+        '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}),
+           see L{pygeodesy.toUtm8}.
         '''
         from pygeodesy.utm import toUtm8, Utm
         return toUtm8(self, datum=self.datum, Utm=Utm, name=self.name)

@@ -87,7 +87,7 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.10.0rc1 (with geographiclib_ 1.52),
+The tests have been run with Python 3.10.0 (with geographiclib_ 1.52),
 Python 3.9.6 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
 and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.6 Big
@@ -96,7 +96,7 @@ Sur (aka 10.16) and in 64-bit only.  The tests are run with and without
 and environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
 The results of only those tests are included in the distribution files.
 
-Python 3.10.0rc1, 3.9.6 and macOS\' Python 2.7.16 run on Apple Silicon
+Python 3.10.0, 3.9.6 and macOS\' Python 2.7.16 run on Apple Silicon
 (arm64), all other Python versions run on Intel (x86_64) or emulated
 Intel (\"arm64_x86_64\", see function ``machine``).
 
@@ -106,7 +106,7 @@ geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
 macOS\' Python 2.7.16 (with GeodSolve_ 1.51).  The complete coverage report
 in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and PyPy_
+The tests also ran with Python 3.9, 3.8.0, 3.7.1, 2.7.15 and PyPy_
 7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52) on
 `Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.52) on
 `Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17
@@ -135,8 +135,8 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.0rc1, both in 64-bit on macOS 11.6
-Big Sur (aka 10.16).
+and with Flake8_ using Python 3.10.0, both in 64-bit on macOS 11.6 Big
+Sur (aka 10.16).
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
@@ -144,7 +144,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 29, 2021.*
+*Last updated: Oct 10, 2021.*
 
 License
 =======

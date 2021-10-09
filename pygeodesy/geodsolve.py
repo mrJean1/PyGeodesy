@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.09.07'
+__version__ = '21.10.07'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -184,7 +184,7 @@ class _GeodesicSolveBase(_GeodesicBase):
            @raise GeodesicError: On any error, including a non-zero return
                                  code from C{GeodSolve}.
 
-           @note: The C{GeodSolve} return code is in L{status}.
+           @note: The C{GeodSolve} return code is in property L{status}.
         '''
         c = (self.GeodSolve,) + map2(str, options)
         i = stdin.get(_stdin_, None)
@@ -354,10 +354,11 @@ class GeodesicSolve(_GeodesicSolveBase):
     def __init__(self, a_ellipsoid=Ellipsoids.WGS84, f=None, name=NN):
         '''New L{GeodesicSolve} instance.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{datum}), or
-                             the equatorial radius of the ellipsoid (C{meter}).
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
+                             the equatorial radius of the ellipsoid (C{scalar},
+                             conventionally in C{meter}), see B{C{f}}.
            @arg f: The flattening of the ellipsoid (C{scalar}) if B{C{a_ellipsoid}}
-                   is specified as C{meter}.
+                   is specified as C{scalar}.
            @kwarg name: Optional name (C{str}).
         '''
         if a_ellipsoid in (GeodesicSolve._E, None):
