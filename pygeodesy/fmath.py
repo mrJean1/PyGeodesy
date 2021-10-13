@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.10.05'
+__version__ = '21.10.12'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -899,6 +899,28 @@ except ImportError:
         return f.fsum(iterable)
 
 
+def fsum1(iterable):
+    '''Precision summation, primed with C{1.0}.
+
+       @arg iterable: Values to be added (C{scalar}[]).
+
+       @return: Accurate L{fsum} (C{float}).
+
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise TypeError: Non-scalar B{C{iterable}} value.
+
+       @raise ValueError: Invalid or non-finite B{C{iterable}} value.
+    '''
+    def _xs(iterable):
+        yield _1_0
+        for x in iterable:
+            yield x
+        yield _N_1_0
+
+    return fsum(_xs(iterable))
+
+
 def fsum_(*xs):
     '''Precision summation of all positional arguments.
 
@@ -928,13 +950,7 @@ def fsum1_(*xs):
 
        @raise ValueError: Invalid or non-finite B{C{xs}} value.
     '''
-    def _xs(xs):
-        yield _1_0
-        for x in xs:
-            yield x
-        yield _N_1_0
-
-    return fsum(_xs(xs))
+    return fsum1(xs)
 
 
 if _sys_version_info2 > (3, 9):

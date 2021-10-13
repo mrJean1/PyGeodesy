@@ -40,7 +40,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.10.05'
+__version__ = '21.10.12'
 
 
 class LatLonBase(_NamedBase):
@@ -1292,8 +1292,8 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
     '''(INTERNAL) Trilaterate three points by area overlap or by
        perimeter intersection of three circles.
 
-       @note: The B{C{radius}} is only needed for both n-vectorial and
-              the sphericalTrigonometry C{LatLon.distanceTo} methods and
+       @note: The B{C{radius}} is only needed for both the n-vectorial
+              and sphericalTrigonometry C{LatLon.distanceTo} methods and
               silently ignored by the C{ellipsoidalExact} C{-GeodSolve},
               C{-Karney} and C{-Vincenty.LatLon.distanceTo} methods.
     '''

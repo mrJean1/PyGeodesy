@@ -187,21 +187,16 @@
     target="_top">scipy</a> must be installed for <code>Geoid...</code> and
     <code>Height...</code> interpolators, except the 
     <code>HeightIDW...</code> ones.</p>
-    <p>Functions <a href="pygeodesy.vector2d-module.html#circin6" 
-    class="link">pygeodesy.circin6</a>, <a 
-    href="pygeodesy.vector2d-module.html#circum3" 
-    class="link">pygeodesy.circum3</a>, <a 
+    <p>Functions and methods <a 
+    href="pygeodesy.vector2d-module.html#circin6" class="link">circin6</a>,
+    <a href="pygeodesy.vector2d-module.html#circum3" 
+    class="link">circum3</a>, <a 
     href="pygeodesy.vector2d-module.html#circum4_" 
-    class="link">pygeodesy.circum4_</a>, <a 
-    href="pygeodesy.vector2d-module.html#soddy4" 
-    class="link">pygeodesy.soddy4</a> and <a 
-    href="pygeodesy.vector3d-module.html#trilaterate3d2" 
-    class="link">pygeodesy.trilaterate3d2</a><code>/-5</code> and the 
-    corresponding <code>Cartesian</code>, <code>LatLon</code>, 
-    <code>Nvector</code> and <a 
-    href="pygeodesy.vector3d.Vector3d-class.html" class="link">Vector3d</a>
-    methods require <a href="https://PyPI.org/project/numpy" 
-    target="_top">numpy</a>.</p>
+    class="link">circum4_</a>, <a 
+    href="pygeodesy.vector2d-module.html#soddy4" class="link">soddy4</a>, 
+    <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+    class="link">trilaterate3d2</a> and <code>trilaterate5</code> require 
+    <a href="https://PyPI.org/project/numpy" target="_top">numpy</a>.</p>
     <p>Modules <a href="pygeodesy.ellipsoidalGeodSolve-module.html" 
     class="link">ellipsoidalGeodSolve</a> and <a 
     href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> and 
@@ -265,16 +260,19 @@
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a>).  The complete coverage report in HTML and
     a PDF summary are included in the distribution files.</p>
-    <p>The tests also ran with Python 3.9, 3.8.0, 3.7.1, 2.7.15 and <a 
-    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 3.6.1 and 
-    2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52) on <a 
+    <p>The tests also ran with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15 and <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 7.3.1 (Python 3.6.9) and
+    <a href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13)
+    (and <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.52 and <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
+    1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
-    16.04</a> and with Python 3.9.1 (and <a 
+    16.04</a> and with Python 3.10.0 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 9</a>, all in 64-bit only and with Python 3.8.0, 
+    target="_top">Debian 11</a>, all in 64-bit only and with Python 3.8.0, 
     3.7.5 and 2.7.17 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
@@ -427,7 +425,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.10.10
+        21.10.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -5148,6 +5146,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cot" class="summary-sig-name">cot</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+      Return the <code>cotangent</code> of an angle in 
+      <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cot_" class="summary-sig-name">cot_</a>(<span class="summary-sig-arg">*rads</span>,
+        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+      Return the <code>cotangent</code> of angle(s) in 
+      <code>radiansresection</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#cotd" class="summary-sig-name">cotd</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">**error_kwds</span>)</span><br />
       Return the <code>cotangent</code> of an angle in 
@@ -5298,8 +5334,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2grades" class="summary-sig-name">degrees2grades</a>(<span class="summary-sig-arg">deg</span>)</span><br />
-      Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
-      <i>gons</i>).</td>
+      Convert degrees to <i>grades</i> (aka <i>gons</i> or 
+      <i>gradians</i>).</td>
           <td align="right" valign="top">
             
             
@@ -6687,6 +6723,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
+      Precision summation, primed with <code>1.0</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Precision summation of a few arguments, primed with <code>1.0</code>.</td>
           <td align="right" valign="top">
@@ -6807,8 +6860,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#grades" class="summary-sig-name">grades</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to <i>grades</i> (aka <i>gradians</i> or 
-      <i>gons</i>).</td>
+      Convert radians to <i>grades</i> (aka <i>gons</i> or 
+      <i>gradians</i>).</td>
           <td align="right" valign="top">
             
             
@@ -6825,7 +6878,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#grades2degrees" class="summary-sig-name">grades2degrees</a>(<span class="summary-sig-arg">gon</span>)</span><br />
-      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      Convert <i>grades</i> (aka <i>gons</i> or <i>gradians</i>) to 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -6843,7 +6896,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#grades2radians" class="summary-sig-name">grades2radians</a>(<span class="summary-sig-arg">gon</span>)</span><br />
-      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      Convert <i>grades</i> (aka <i>gons</i> or <i>gradians</i>) to 
       <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -6861,7 +6914,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#grades400" class="summary-sig-name">grades400</a>(<span class="summary-sig-arg">rad</span>)</span><br />
-      Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>)
+      Convert radians to <i>grades</i> (aka <i>gons</i> or <i>gradians</i>)
       and wrap <i class="math">[0..+400)</i>.</td>
           <td align="right" valign="top">
             
@@ -6924,7 +6977,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff2b0085d50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa090b7d450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8078,6 +8131,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2chain" class="summary-sig-name">m2chain</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to <i>UK</i> chains.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
@@ -8173,6 +8243,24 @@
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert a distance to an angle along the equator or along the 
       parallel at an other (geodetic) latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2toise" class="summary-sig-name">m2toise</a>(<span class="summary-sig-arg">meter</span>)</span><br />
+      Convert meter to French <a href="https://WikiPedia.org/wiki/Toise" 
+      target="_top">toises</a>.</td>
           <td align="right" valign="top">
             
             
@@ -10143,6 +10231,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toise2m" class="summary-sig-name">toise2m</a>(<span class="summary-sig-arg">toises</span>)</span><br />
+      Convert French <a href="https://WikiPedia.org/wiki/Toise" 
+      target="_top">toises</a> to meter.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#trfXform" class="summary-sig-name">trfXform</a>(<span class="summary-sig-arg">reframe1</span>,
         <span class="summary-sig-arg">reframe2</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>,
@@ -10651,7 +10757,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.10.10'"><code class="variable-quote">'</code><code class="variable-string">21.10.10</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.10.12'"><code class="variable-quote">'</code><code class="variable-string">21.10.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13955,6 +14061,72 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="cot"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cot</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">**error_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>cotangent</code> of an angle in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>cot(<b>rad</b>)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.basics-module.html#isnear0" 
+        class="link">pygeodesy.isnear0</a><code>(sin(<b>rad</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="cot_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cot_</span>&nbsp;(<span class="sig-arg">*rads</span>,
+        <span class="sig-arg">**error_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>cotangent</code> of angle(s) in 
+  <code>radiansresection</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rads</code></strong> - One or more angles (<code>radians</code>).</li>
+        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield the <code>cot(<b>rad</b>)</code> for each angle.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - See <a href="pygeodesy.utily-module.html#cot" 
+        class="link">pygeodesy.cot</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="cotd"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -14201,8 +14373,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
-  <i>gons</i>).</p>
+  <p>Convert degrees to <i>grades</i> (aka <i>gons</i> or 
+  <i>gradians</i>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -16011,7 +16183,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>fathoms</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#toise2m" 
+        class="link">toise2m</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="favg"></a>
 <div>
@@ -16990,6 +17166,38 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="fsum1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">iterable</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Precision summation, primed with <code>1.0</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Values to be added (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+          class="link">fsum</a> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="fsum1_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -17259,8 +17467,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or 
-  <i>gons</i>).</p>
+  <p>Convert radians to <i>grades</i> (aka <i>gons</i> or 
+  <i>gradians</i>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17285,7 +17493,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <p>Convert <i>grades</i> (aka <i>gons</i> or <i>gradians</i>) to 
   <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -17311,7 +17519,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <p>Convert <i>grades</i> (aka <i>gons</i> or <i>gradians</i>) to 
   <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -17337,7 +17545,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) 
+  <p>Convert radians to <i>grades</i> (aka <i>gons</i> or <i>gradians</i>) 
   and wrap <i class="math">[0..+400)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -17463,7 +17671,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff2b0085d50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa090b7d450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19627,7 +19835,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in NM (<code>float</code>).</dd>
+        <dd>Value in <code>NM</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -19656,7 +19864,36 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in SM (<code>float</code>).</dd>
+        <dd>Value in <code>SM</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2chain"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2chain</span>&nbsp;(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to <i>UK</i> chains.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in <code>chains</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -19745,7 +19982,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#m2toise" 
+        class="link">m2toise</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="m2ft"></a>
 <div>
@@ -19892,6 +20133,40 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="m2toise"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2toise</span>&nbsp;(<span class="sig-arg">meter</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert meter to French <a href="https://WikiPedia.org/wiki/Toise" 
+  target="_top">toises</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in <code>toises</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#m2fathom" 
+        class="link">m2fathom</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="m2yard"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -19913,7 +20188,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in yards (<code>float</code>).</dd>
+        <dd>Value in <code>yards</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -24131,6 +24406,40 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="toise2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toise2m</span>&nbsp;(<span class="sig-arg">toises</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert French <a href="https://WikiPedia.org/wiki/Toise" 
+  target="_top">toises</a> to meter.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>toises</code></strong> - Value in toises (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>toises</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#fathom2m" 
+        class="link">fathom2m</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="trfXform"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -25258,7 +25567,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct  8 20:47:22 2021
+    Generated by Epydoc 3.0.1 on Wed Oct 13 12:38:34 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

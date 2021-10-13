@@ -17,10 +17,9 @@ from pygeodesy.ecef import _EcefBase, EcefKarney, isscalar, issubclassof, \
                            _llhn4, map1, _xyzn4
 from pygeodesy.errors import _TypesError, _ValueError, _xkwds
 from pygeodesy.fmath import fdot, fsum_, fsum1_
-from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, \
-                             _M_, _name_, _0_, _0_0, _0_5, _N_1_0, _2_0, \
-                             _90_0, _180_0, _360_0
-from pygeodesy.interns import _ecef_  # PYCHOK used!
+from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, _M_, \
+                             _name_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0, _360_0
+from pygeodesy.interns import _ecef_, _N_1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
                                _NamedBase, _XyzLocals4, _XyzLocals5, Xyz4Tuple
@@ -34,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
 from pygeodesy.vector3d import Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.09.27'
+__version__ = '21.10.12'
 
 _Xyz_  = 'Xyz'
 

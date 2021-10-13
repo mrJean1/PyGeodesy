@@ -87,9 +87,8 @@ L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolat
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
 installed for C{Geoid...} and C{Height...} interpolators, except the C{HeightIDW...} ones.
 
-Functions L{pygeodesy.circin6}, L{pygeodesy.circum3}, L{pygeodesy.circum4_}, L{pygeodesy.soddy4}
-and L{pygeodesy.trilaterate3d2}C{/-5} and the corresponding C{Cartesian}, C{LatLon}, C{Nvector}
-and L{Vector3d} methods require U{numpy<https://PyPI.org/project/numpy>}.
+Functions and methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} and
+C{trilaterate5} require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
@@ -127,10 +126,11 @@ Test coverage has been measured with U{coverage<https://PyPI.org/project/coverag
 2.7.16 (U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage
 report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.9, 3.8.0, 3.7.1, 2.7.15 and U{PyPy<https://PyPy.org>} 7.1.1 (Python 3.6.1
-and 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Ubuntu 16.04
-<https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.52) on U{Debian 9
+The tests also ran with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15 and U{PyPy<https://PyPy.org>} 7.3.1 (Python 3.6.9)
+and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>}
+1.52 and U{numpy<https://PyPI.org/project/numpy>} 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on U{Ubuntu
+16.04<https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.10.0 (and U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.52) on U{Debian 11
 <https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in 64-bit only and with Python 3.8.0, 3.7.5
 and 2.7.17 (all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows Server
 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in both 64- and 32-bit.
@@ -498,7 +498,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.10.10'
+__version__ = '21.10.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

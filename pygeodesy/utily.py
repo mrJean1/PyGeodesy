@@ -21,7 +21,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.10.05'
+__version__ = '21.10.11'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -119,8 +119,7 @@ def chain2m(chains):
 
        @raise ValueError: Invalid B{C{chains}}.
     '''
-    # 20.1168 = 22 * yard2m(1)
-    return Float(chains) * 20.1168
+    return Float(chains=chains) * 20.1168  # == 22 * yard2m(1)
 
 
 def circle4(earth, lat):
@@ -144,6 +143,37 @@ def circle4(earth, lat):
     from pygeodesy.datums import _spherical_datum
     E = _spherical_datum(earth).ellipsoid
     return E.circle4(lat)
+
+
+def cot(rad, **error_kwds):
+    '''Return the C{cotangent} of an angle in C{radians}.
+
+       @arg rad: Angle (C{radians}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: C{cot(B{rad})}.
+
+       @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{rad})}.
+    '''
+    s, c = sincos2(rad)
+    if isnear0(s):
+        from pygeodesy.errors import _ValueError, _xkwds
+        raise _ValueError(**_xkwds(error_kwds, cot=rad))
+    return c / s
+
+
+def cot_(*rads, **error_kwds):
+    '''Return the C{cotangent} of angle(s) in C{radiansresection}.
+
+       @arg rads: One or more angles (C{radians}).
+       @kwarg error_kwds: Error to raise (C{ValueError}).
+
+       @return: Yield the C{cot(B{rad})} for each angle.
+
+       @raise ValueError: See L{pygeodesy.cot}.
+    '''
+    for r in rads:
+        yield cot(r, **error_kwds)
 
 
 def cotd(deg, **error_kwds):
@@ -208,7 +238,7 @@ def degrees360(rad):
 
 
 def degrees2grades(deg):
-    '''Convert degrees to I{grades} (aka I{gradians} or I{gons}).
+    '''Convert degrees to I{grades} (aka I{gons} or I{gradians}).
 
        @arg deg: Angle (C{degrees}).
 
@@ -252,6 +282,8 @@ def fathom2m(fathoms):
        @return: Value in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{fathoms}}.
+
+       @see: Function L{toise2m}.
     '''
     # 1.8288 == 2 * yard2m(1)
     return Float(fathoms=fathoms) * 1.8288
@@ -287,17 +319,17 @@ def furlong2m(furlongs):
 
 
 def grades(rad):
-    '''Convert radians to I{grades} (aka I{gradians} or I{gons}).
+    '''Convert radians to I{grades} (aka I{gons} or I{gradians}).
 
        @arg rad: Angle (C{radians}).
 
        @return: Angle (C{grades}).
     '''
-    return float(rad) * _400_0 / PI2
+    return Float(rad=rad) * _400_0 / PI2
 
 
 def grades400(rad):
-    '''Convert radians to I{grades} (aka I{gradians} or I{gons}) and wrap M{[0..+400)}.
+    '''Convert radians to I{grades} (aka I{gons} or I{gradians}) and wrap M{[0..+400)}.
 
        @arg rad: Angle (C{radians}).
 
@@ -307,23 +339,35 @@ def grades400(rad):
 
 
 def grades2degrees(gon):
-    '''Convert I{grades} (aka I{gradians} or I{gons}) to C{degrees}.
+    '''Convert I{grades} (aka I{gons} or I{gradians}) to C{degrees}.
 
        @arg gon: Angle (C{grades}).
 
        @return: Angle (C{degrees}).
     '''
-    return float(gon) * _360_0 / _400_0
+    return Float(gon=gon) * _360_0 / _400_0
 
 
 def grades2radians(gon):
-    '''Convert I{grades} (aka I{gradians} or I{gons}) to C{radians}.
+    '''Convert I{grades} (aka I{gons} or I{gradians}) to C{radians}.
 
        @arg gon: Angle (C{grades}).
 
        @return: Angle (C{radians}).
     '''
-    return float(gon) * PI2 / _400_0
+    return Float(gon=gon) * PI2 / _400_0
+
+
+def m2chain(meter):
+    '''Convert meter to I{UK} chains.
+
+       @arg meter: Value in meter (C{scalar}).
+
+       @return: Value in C{chains} (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
+    '''
+    return Meter(meter) * 0.049709695378986715  # == 1 / 20.1168
 
 
 def m2degrees(distance, radius=R_M, lat=0):
@@ -359,6 +403,8 @@ def m2fathom(meter):
        @return: Value in C{fathoms} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
+
+       @see: Function L{m2toise}.
     '''
     return Meter(meter) * 0.546806649  # == 1 / 1.8288
 
@@ -408,7 +454,7 @@ def m2NM(meter):
 
        @arg meter: Value in meter (C{scalar}).
 
-       @return: Value in NM (C{float}).
+       @return: Value in C{NM} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -446,11 +492,25 @@ def m2SM(meter):
 
        @arg meter: Value in meter (C{scalar}).
 
-       @return: Value in SM (C{float}).
+       @return: Value in C{SM} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
     return Meter(meter) * 6.21369949e-4  # == _1_0 / 1609.344
+
+
+def m2toise(meter):
+    '''Convert meter to French U{toises<https://WikiPedia.org/wiki/Toise>}.
+
+       @arg meter: Value in meter (C{scalar}).
+
+       @return: Value in C{toises} (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
+
+       @see: Function L{m2fathom}.
+    '''
+    return Meter(meter) * 0.513083632632119  # == 1 / 1.949
 
 
 def m2yard(meter):
@@ -458,12 +518,11 @@ def m2yard(meter):
 
        @arg meter: Value in meter (C{scalar}).
 
-       @return: Value in yards (C{float}).
+       @return: Value in C{yards} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    # 1.0936132983377078 == 10_000 / (254 * 12 * 3)
-    return Meter(meter) * 1.09361329833771
+    return Meter(meter) * 1.0936132983377078  # == 10_000 / (254 * 12 * 3)
 
 
 def radiansPI(deg):
@@ -647,8 +706,8 @@ def tand(deg, **error_kwds):
     '''
     s, c = sincos2d(deg)
     if isnear0(c):
-        from pygeodesy.errors import _ValueError, _xkwds
-        raise _ValueError(**_xkwds(error_kwds, tand=deg))
+        from pygeodesy.errors import _ValueError
+        raise _ValueError(tand.__name__, deg, **error_kwds)
     return s / c
 
 
@@ -674,6 +733,20 @@ def tanPI_2_2(rad):
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
     return tan((rad + PI_2) * _0_5)
+
+
+def toise2m(toises):
+    '''Convert French U{toises<https://WikiPedia.org/wiki/Toise>} to meter.
+
+       @arg toises: Value in toises (C{scalar}).
+
+       @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{toises}}.
+
+       @see: Function L{fathom2m}.
+    '''
+    return Float(toises=toises) * 1.949
 
 
 def unroll180(lon1, lon2, wrap=True):

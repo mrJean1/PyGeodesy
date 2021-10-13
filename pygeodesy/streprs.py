@@ -17,7 +17,7 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.09.28'
+__version__ = '21.10.12'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -134,6 +134,7 @@ class Fmt(object):
     limit       = _Fmt(' %s limit')  # .units
     LOPEN       = _Fmt('(%s]')  # left-open range (L, R]
     PAREN       = _Fmt('(%s)')
+    PARENSPACED = _Fmt(' (%s)')
     QUOTE2      = _Fmt('"%s"')
     ROPEN       = _Fmt('[%s)')  # right-open range [L, R)
 #   SPACE       = _Fmt(' %s')   # == _SPACE_(n, v)

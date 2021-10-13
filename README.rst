@@ -66,10 +66,10 @@ classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 ``HeightIDWkarney`` interpolator.
 
 Both numpy_ and scipy_ must be installed for ``Geoid...`` and ``Height...``
-interpolators, except the ``HeigthIDW...`` ones.  Functions ``circin6``,
-``circum3``, ``circum4_``, ``soddy4`` and ``trilaterate3d2/-5`` and the
-corresponding ``Cartesian``, ``LatLon``, ``Nvector`` and ``Vector3d``
-methods require numpy_.
+interpolators, except the ``HeigthIDW...`` ones.
+
+Functions and methods ``circin6``, ``circum3``, ``circum4_``, ``soddy4``,
+``trilaterate3d2`` and ``trilaterate5`` require numpy_.
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
@@ -106,12 +106,12 @@ geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
 macOS\' Python 2.7.16 (with GeodSolve_ 1.51).  The complete coverage report
 in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.9, 3.8.0, 3.7.1, 2.7.15 and PyPy_
-7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.52) on
-`Ubuntu 16.04`_ and with Python 3.9.1 (and geographiclib_ 1.52) on
-`Debian 9`_, all in 64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17
-(all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in both 64-
-and 32-bit.
+The tests also ran with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_ 7.3.1
+(Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52 and
+numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on `Ubuntu 16.04`_
+and with Python 3.10.0 (and geographiclib_ 1.52) on `Debian 11`_, all in
+64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17 (all with geographiclib_
+1.52) on `Windows Server 2012R2`_ in both 64- and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
@@ -144,7 +144,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 10, 2021.*
+*Last updated: Oct 12, 2021.*
 
 License
 =======
@@ -196,7 +196,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
 .. _coverage: https://PyPI.org/project/coverage
-.. _Debian 9: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
+.. _Debian 11: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _distribution files: https://GitHub.com/mrJean1/PyGeodesy/tree/master/dist
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: https://mrJean1.GitHub.io/PyGeodesy
