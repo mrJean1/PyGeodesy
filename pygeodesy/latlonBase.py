@@ -40,7 +40,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.10.12'
+__version__ = '21.10.19'
 
 
 class LatLonBase(_NamedBase):
@@ -173,7 +173,7 @@ class LatLonBase(_NamedBase):
            @raise ImportError: Package C{numpy} not found, not installed or older
                                than version 1.10.
 
-           @raise IntersectionError: Near-coincident or colinear points or
+           @raise IntersectionError: Near-coincident or -colinear points or
                                      a trilateration or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
@@ -218,7 +218,7 @@ class LatLonBase(_NamedBase):
            @raise ImportError: Package C{numpy} not found, not installed or older than
                                version 1.10.
 
-           @raise IntersectionError: Near-concentric, coincident or colinear points,
+           @raise IntersectionError: Near-concentric, -coincident or -colinear points,
                                      incompatible C{Ecef} classes or a trilateration
                                      or C{numpy} issue.
 
@@ -993,7 +993,7 @@ class LatLonBase(_NamedBase):
 
            @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
-           @raise IntersectionError: Near-coincident or colinear points.
+           @raise IntersectionError: Near-coincident or -colinear points.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 

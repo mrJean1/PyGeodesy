@@ -26,7 +26,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.10.08'
+__version__ = '21.10.19'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?

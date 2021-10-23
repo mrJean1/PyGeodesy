@@ -8,7 +8,7 @@ are all instances of some C{Named...Tuple} class, all sub-classes
 of C{_NamedTuple} defined in C{pygeodesy.named}.
 '''
 
-from pygeodesy.basics import _xinstanceof
+from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.errors import _xkwds_not  # _xkwds
 from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _convergence_, _datum_, _distance_, _E_, \
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.10.05'
+__version__ = '21.10.22'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -58,6 +58,22 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
     '''
     _Names_ = ('latS', 'lonW', 'latN', 'lonE')
     _Units_ = ( Lat,    Lon,    Lat,    Lon)
+
+    def overlap(self, S_other, *W_N_E):
+        '''Intersect this with an other L{Bounds4Tuple}.
+
+           @arg S_other: Lower C{latS} (C{scalar}) or an other
+                         L{Bounds4Tuple} instance.
+           @arg W_N_E: Left C{lonW}, top C{latN} and right C{lonE},
+                       each a (C{scalar}) iff C{scalar B{S_other}}.
+
+           @return: C{None} if the bounds do not overlap, otherwise
+                    the intersection of both as a L{Bounds4Tuple}.
+        '''
+        s, w, n, e = self
+        S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
+        return None if s > N or n < S or w > E or e < W else \
+               Bounds4Tuple(max(s, S), max(w, W), min(n, N), min(e, E))
 
 
 class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py

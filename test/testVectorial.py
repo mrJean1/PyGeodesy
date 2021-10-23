@@ -4,11 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.08'
+__version__ = '21.10.21'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
-from pygeodesy import EPS, EPS4, F_D, NEG0, circin6, circum3, circum4_, \
+from pygeodesy import EPS, EPS4, F_D, NEG0, \
+                      circin6, circum3, circum4_, \
                       fstr, intersection3d3 as i3d, IntersectionError, \
                       isnear0, meeus2, radii11, sphericalNvector, \
                       soddy4, trilaterate2d2, trilaterate3d2, \
@@ -20,7 +21,7 @@ class Tests(TestsBase):
 
     def testIntersection3d3(self):
 
-        self.subtitle(vector3d, i3d.__name__)
+        self.subtitle(vector3d, i3d.__name__.capitalize())
 
         # <https://www.MathOpenRef.com/coordintersection.html>
         s1, e1 = V3d(15, 10, 1), V3d(49, 25, 2)

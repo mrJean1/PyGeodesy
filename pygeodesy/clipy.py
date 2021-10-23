@@ -11,8 +11,8 @@ from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
-                             _fi_, _i_, _j_, _not_, _SPACE_, _start_, \
-                             _too_, _0_0, _1_0
+                             _fi_, _i_, _j_, _near_, _not_, _SPACE_, \
+                             _start_, _too_, _0_0, _1_0
 from pygeodesy.iters import _imdex2, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.10.06'
+__version__ = '21.10.23'
 
 _fj_ = 'fj'
 
@@ -72,7 +72,7 @@ def _neq(p1, p2):
 
 
 def _pts2(points, closed, inull):
-    '''(INTERNAL) Get the points to clip.
+    '''(INTERNAL) Get the points to clip as a list.
     '''
     if closed and inull:
         n, pts = len2(points)
@@ -399,17 +399,17 @@ class _SH(_Named):
             if not self._cw:
                 raise ValueError(_not_(_convex_))
             if areaOf(cs, adjust=True, radius=1, wrap=True) < EPS:
-                raise ValueError('near-zero area')
+                raise ValueError(NN(_near_, 'zero area'))
         except (PointsError, TypeError, ValueError) as x:
             raise ClipError(name, n, cs, txt=str(x))
         self.name = name
 
-    def clip2(self, points, closed, inull):  # MCCABE 17, clip points
+    def clip2(self, points, closed, inull):  # MCCABE 14, clip points
         np, pts = _pts2(points, closed, inull)
         pcs = _List(inull)  # clipped points
+        pca = pcs.append
 
         ne = 0  # number of non-null clip edges
-        no = ni = True  # all out- and inside?
         for e in self.clipedges():
             ne += 1  # non-null clip edge
 
@@ -419,41 +419,29 @@ class _SH(_Named):
                 d1, p1 = d2, p2
                 d2, p2 = self.dot2(pts[i])
                 if d1 < 0:  # p1 inside, ...
-                    # pcs.append(p1)
+                    # pca(p1)
                     if d2 < 0:  # ... p2 inside
                         p = p2
                     else:  # ... p2 outside
                         p = self.intersect(p1, p2, e)
-                        if d2 > 0:
-                            no = False
-                    pcs.append(p)
+                    pca(p)
                 elif d2 < 0:  # p1 out-, p2 inside
                     p = self.intersect(p1, p2, e)
-                    pcs.append(p)
-                    pcs.append(p2)
-                    if d1 > 0:
-                        no = ni = False
-                elif d1 > 0:  # both out
-                    ni = False
+                    pca(p)
+                    pca(p2)
+#               elif d1 > 0:  # both outside
+#                   pass
+            # replace points, in-place
+            pts[:] = pcs
+            pcs[:] = []
+            np = len(pts)
+            if not np:  # all out
+                break
+        else:
+            if ne < 3:
+                raise ClipError(self.name, ne, self._cs, txt=_too_(_few_))
 
-            if pcs:  # replace points
-                pts[:] = pcs
-                pcs[:] = []
-                np = len(pts)
-
-        if ne < 3:
-            raise ClipError(self.name, ne, self._cs, txt=_too_(_few_))
-
-        # ni is True iff all points are on or on the
-        # right side (i.e. inside) of all clip edges,
-        # no is True iff all points are on or at one
-        # side (left or right) of each clip edge: if
-        # none are inside (ni is False) and if all
-        # are on the same side (no is True), then all
-        # must be outside
-        if no and not ni:
-            np, pts = 0, []
-        elif np > 1:
+        if np > 1:
             p = pts[0]
             if closed:  # close clipped pts
                 if _neq(pts[np - 1], p):
@@ -463,7 +451,6 @@ class _SH(_Named):
                 while np > 0 and _eq(pts[np - 1], p):
                     pts.pop()
                     np -= 1
-
         # assert len(pts) == np
         return np, pts
 
@@ -525,9 +512,8 @@ class ClipSH3Tuple(_NamedTuple):
 
 
 def clipSH(points, corners, closed=False, inull=False):
-    '''Clip a polygon against a clip region or box using the
-       U{Sutherland-Hodgman
-       <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
+    '''Clip a polygon against a clip region or box using the U{Sutherland-Hodgman
+       <https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} algorithm.
 
        @arg points: The polygon points (C{LatLon}[]).
        @arg corners: Three or more points defining a convex clip
@@ -551,9 +537,8 @@ def clipSH(points, corners, closed=False, inull=False):
 
 
 def clipSH3(points, corners, closed=False, inull=False):
-    '''Clip a polygon against a clip region or box using the
-       U{Sutherland-Hodgman
-       <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
+    '''Clip a polygon against a clip region or box using the U{Sutherland-Hodgman
+       <https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} algorithm.
 
        @arg points: The polygon points (C{LatLon}[]).
        @arg corners: Three or more points defining a convex clip

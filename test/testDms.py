@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.10.18'
 
 from base import TestsBase
 
@@ -65,6 +65,9 @@ class Tests(TestsBase):
         t = 5430.0
         self.test('parseDDDMMSS(%r, NS)' % (t,), fstr(parseDDDMMSS(t, suffix='NS'), prec=3), '54.5')
         self.test('parseDDDMMSS(%r, EW)' % (t,), fstr(parseDDDMMSS(t, suffix='EW'), prec=3), '54.5')
+        t = 76.5432
+        self.test('parseDDDMMSS(%r, sexagecimal=False)' % (t,), fstr(parseDDDMMSS(t, sexagecimal=False), prec=4), '76.5432')
+        self.test('parseDDDMMSS(%r, sexagecimal=True)'  % (t,), fstr(parseDDDMMSS(t, sexagecimal=True),  prec=4), '76.9089')
 
         for t, x in (('12E', '12.0'),
                      ('012.3S', '-12.3'),

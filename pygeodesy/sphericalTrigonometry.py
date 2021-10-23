@@ -52,7 +52,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.10.05'
+__version__ = '21.10.19'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'

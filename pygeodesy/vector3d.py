@@ -28,7 +28,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.10.05'
+__version__ = '21.10.19'
 
 
 class Vector3d(Vector3dBase):
@@ -61,7 +61,7 @@ class Vector3d(Vector3dBase):
            @raise ImportError: Package C{numpy} not found, not installed or older
                                than version 1.10.
 
-           @raise IntersectionError: Near-coincident or colinear points or
+           @raise IntersectionError: Near-coincident or -colinear points or
                                      a trilateration or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
@@ -95,8 +95,8 @@ class Vector3d(Vector3dBase):
            @raise ImportError: Package C{numpy} not found, not installed or older than
                                version 1.10.
 
-           @raise IntersectionError: Near-concentric, coincident or colinear points or
-                                     a trilateration or C{numpy} issue.
+           @raise IntersectionError: Near-concentric, -coincident or -colinear points
+                                     or a trilateration or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
@@ -251,7 +251,7 @@ class Vector3d(Vector3dBase):
 
            @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
-           @raise IntersectionError: Near-coincident or colinear points.
+           @raise IntersectionError: Near-coincident or -colinear points.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
@@ -284,7 +284,7 @@ class Vector3d(Vector3dBase):
            @raise ImportError: Package C{numpy} not found, not installed or older
                                than version 1.10.
 
-           @raise IntersectionError: Near-coincident or colinear points or
+           @raise IntersectionError: Near-coincident or -colinear points or
                                      a trilateration or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
@@ -311,7 +311,7 @@ class Vector3d(Vector3dBase):
 
            @return: Trilaterated point, an instance of this (sub-)class with C{z=B{z}}.
 
-           @raise IntersectionError: No intersection, colinear or near-concentric
+           @raise IntersectionError: No intersection, near-concentric or -colinear
                                      centers, trilateration failed some other way
                                      or the trilaterated point is off one circle
                                      by more than B{C{eps}}.
@@ -361,7 +361,7 @@ class Vector3d(Vector3dBase):
            @raise ImportError: Package C{numpy} not found, not installed or
                                older than version 1.10.
 
-           @raise IntersectionError: Near-concentric, colinear, too distant or
+           @raise IntersectionError: Near-concentric, -colinear, too distant or
                                      non-intersecting spheres or C{numpy} issue.
 
            @raise TypeError: Invalid B{C{center2}} or B{C{center3}}.
@@ -822,7 +822,7 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
        @return: Trilaterated point as C{B{Vector}(x, y, **B{Vector_kwds})}
                 or L{Vector2Tuple}C{(x, y)} if C{B{Vector} is None}..
 
-       @raise IntersectionError: No intersection, colinear or near-concentric
+       @raise IntersectionError: No intersection, near-concentric or -colinear
                                  centers, trilateration failed some other way
                                  or the trilaterated point is off one circle
                                  by more than B{C{eps}}.
@@ -868,7 +868,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @raise ImportError: Package C{numpy} not found, not installed or
                            older than version 1.10.
 
-       @raise IntersectionError: Near-concentric, colinear, too distant or
+       @raise IntersectionError: Near-concentric, -colinear, too distant or
                                  non-intersecting spheres.
 
        @raise NumPyError: Some C{numpy} issue.

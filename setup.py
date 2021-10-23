@@ -5,7 +5,7 @@
 
 # Tested with 64-bit Python 2.7.13-18, 3.6.1-2, 3.7.0-6 and 3.8.0-5
 # (using setuptools 28.8.0), but only on macOS 10.12.3-6 Sierra,
-# 10.13.0-6 High Sierra, 10.15.5-7 Catalina and 11.0.1 (10.16) Big Sur
+# 10.13.0-6 High Sierra, 10.15.5-7 Catalina and 11.0-6 (10.16) Big Sur
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.10.08'
+__version__ = '21.10.23'
 
 
 def _c2(*names):
@@ -50,7 +50,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'bearing', 'bank', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
-             'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic', 'contact-triangle',
+             'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'conformal', 'conic', 'contact-triangle',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
@@ -78,13 +78,13 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'perimeter', 'Peucker', 'pitch', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
-             'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
+             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
-             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'tilt', 'TMcoords', 'TMExact',
-             'Transverse', 'TransverseMercatorExact', 'TRF', 'triangle', 'triangulate', 'trigonometry',
-             'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
+             'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
+             'tilt', 'TMcoords', 'TMExact', 'toise', 'Transverse', 'TransverseMercatorExact', 'TRF',
+             'triangle', 'triangulate', 'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'volume', ' volumetric',

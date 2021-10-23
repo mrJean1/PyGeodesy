@@ -61,7 +61,8 @@
 <h1 class="epydoc">Module dms</h1><p class="nomargin-top"></p>
 <p>Parsers and formatters of degrees, minutes and seconds.</p>
   <p>Functions to parse and format bearing, compass, lat- and longitudes in
-  various forms of degrees, minutes and seconds.</p>
+  various forms of degrees, minutes and seconds, including parsing both 
+  <code>decimal</code> and <code>sexagecimal</code> degrees.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
@@ -71,7 +72,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.10.05
+        21.10.18
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -303,7 +304,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseDDDMMSS" class="summary-sig-name">parseDDDMMSS</a>(<span class="summary-sig-arg">strDDDMMSS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">sexagecimal</span>=<span class="summary-sig-default">False</span>)</span><br />
       Parse a lat- or longitude represention form [D]DDMMSS in degrees.</td>
           <td align="right" valign="top">
             
@@ -324,8 +326,7 @@
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Parse a lat- or longitude representation <code>&quot;lat, 
-      lon&quot;</code> in <code>degrees</code>.</td>
+      Parse a lat- or longitude representation in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -346,7 +347,8 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
-      Parse a lat- and a longitude representions in <code>degrees</code>.</td>
+      Parse a lat- and a longitude representions <code>&quot;lat, 
+      lon&quot;</code> in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1292,7 +1294,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDDDMMSS</span>&nbsp;(<span class="sig-arg">strDDDMMSS</span>,
         <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">clip</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">clip</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">sexagecimal</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1310,6 +1313,8 @@
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot; and 
           &quot;SS&quot; ('').</li>
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>float(D.MMSS)</code> 
+          <code>base-60</code> &quot;MM&quot; and &quot;SS&quot; digits.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (<code>float</code>).</dd>
@@ -1343,10 +1348,13 @@
         <code>int</code> and other non-<code>str</code> 
         <b><code>strDDDMMSS</code></b> values are interpreted form 
         [D]DDMMSS.  For example, <code>int(1230)</code> is returned as 12.5
-        <i>and not 1230.0</i> degrees.  However, <code>int(345)</code> is 
+        and <i>not 1230.0</i> degrees.  However, <code>int(345)</code> is 
         considered form &quot;DDD&quot; 345 <i>and not &quot;DDMM&quot; 
         0345</i>, unless <b><code>suffix</code></b> specifies compass point
-        <b>'NS'</b>.
+        <b>'NS'</b>.  Also, <code>float(15.0523)</code> is returned as 
+        15.0523 decimal degrees and <i>not 15&#176;5&#8242;23&#8243; sexagecimal</i>.  To 
+        consider the latter, use <code>float(15.0523)</code> and 
+        <code><b>sexagecimal</b>=True</code>.
         </li>
       </ul>
       <p><strong>See Also:</strong>
@@ -1376,8 +1384,7 @@
     </td>
   </tr></table>
   
-  <p>Parse a lat- or longitude representation <code>&quot;lat, 
-  lon&quot;</code> in <code>degrees</code>.</p>
+  <p>Parse a lat- or longitude representation in <code>degrees</code>.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
   a cardinal compass point.</p>
@@ -1404,7 +1411,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Inlike function <a href="pygeodesy.dms-module.html#parseDDDMMSS" 
+        Unlike function <a href="pygeodesy.dms-module.html#parseDDDMMSS" 
         class="link">parseDDDMMSS</a>, type <code>float</code>, 
         <code>int</code> and other non-<code>str</code> 
         <b><code>strDMS</code></b> values are considered as decimal 
@@ -1440,8 +1447,8 @@
     </td>
   </tr></table>
   
-  <p>Parse a lat- and a longitude representions in 
-  <code>degrees</code>.</p>
+  <p>Parse a lat- and a longitude representions <code>&quot;lat, 
+  lon&quot;</code> in <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1747,7 +1754,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 13 12:38:34 2021
+    Generated by Epydoc 3.0.1 on Sat Oct 23 14:04:02 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

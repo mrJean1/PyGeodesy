@@ -3,8 +3,9 @@
 
 u'''Parsers and formatters of degrees, minutes and seconds.
 
-Functions to parse and format bearing, compass, lat- and longitudes
-in various forms of degrees, minutes and seconds.
+Functions to parse and format bearing, compass, lat- and longitudes in various
+forms of degrees, minutes and seconds, including parsing both C{decimal} and
+C{sexagecimal} degrees.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
@@ -30,7 +31,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.10.05'
+__version__ = '21.10.18'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -87,6 +88,8 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  # normalized DMS
            "'": S_MIN, '’': S_MIN, '′': S_MIN,
            '"': S_SEC, '″': S_SEC, '”': S_SEC}
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  # alternates
+
+_SEXAGECIMUL = 1e4  # decimal C{D.MMSS} into sexagecimal C{DMMSS}
 
 
 def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 15 by .units.py
@@ -434,7 +437,7 @@ def normDMS(strDMS, norm=NN):
     return strDMS
 
 
-def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
+def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False):
     '''Parse a lat- or longitude represention form [D]DDMMSS in degrees.
 
        @arg strDDDMMSS: Degrees in any of several forms (C{str}) and
@@ -442,6 +445,8 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
        @kwarg suffix: Optional, valid compass points (C{str}, C{tuple}).
        @kwarg sep: Optional separator between "[D]DD", "MM" and "SS" (%r).
        @kwarg clip: Optionally, limit value to -clip..+clip (C{degrees}).
+       @kwarg sexagecimal: If C{True}, convert C{float(D.MMSS)} C{base-60}
+                           "MM" and "SS" digits.
 
        @return: Degrees (C{float}).
 
@@ -462,9 +467,12 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
        @note: Unlike function L{parseDMS}, type C{float}, C{int} and
               other non-C{str} B{C{strDDDMMSS}} values are interpreted
               form [D]DDMMSS.  For example, C{int(1230)} is returned as
-              12.5 I{and not 1230.0} degrees.  However, C{int(345)} is
+              12.5 and I{not 1230.0} degrees.  However, C{int(345)} is
               considered form "DDD" 345 I{and not "DDMM" 0345}, unless
-              B{C{suffix}} specifies compass point B{%r}.
+              B{C{suffix}} specifies compass point B{%r}.  Also,
+              C{float(15.0523)} is returned as 15.0523 decimal degrees
+              and I{not 15°5′23″ sexagecimal}.  To consider the latter,
+              use C{float(15.0523)} and C{B{sexagecimal}=True}.
 
        @see: Functions L{parseDMS}, L{parseDMS2} and L{parse3llh}.
     '''
@@ -497,6 +505,8 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0):
 
         else:  # float or int to [D]DDMMSS[.fff]
             f = float(strDDDMMSS)
+            if sexagecimal:
+                f *= _SEXAGECIMUL
             s = _MINUS_ if f < 0 else NN
             P = _0_  # anything except _SW_
             f, i = modf(abs(f))
@@ -534,7 +544,7 @@ if __debug__:  # no __doc__ at -O and -OO
 
 
 def _dms2deg(s, P, deg, min, sec):
-    '''(INTERNAL) Helper for C{parseDDDMMSS} and C{parseDMS}.
+    '''(INTERNAL) Helper for C{parseDDDMMSS} and C{_DMS2deg}.
     '''
     deg += (min + (sec / _60_0)) / _60_0
     if s == _MINUS_ or P in _SW_:
@@ -566,7 +576,7 @@ def _DMS2deg(strDMS, suffix, sep, clip):
 
 
 def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0):  # MCCABE 14
-    '''Parse a lat- or longitude representation C{"lat, lon"} in C{degrees}.
+    '''Parse a lat- or longitude representation in C{degrees}.
 
        This is very flexible on formats, allowing signed decimal
        degrees, degrees and minutes or degrees minutes and seconds
@@ -588,7 +598,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0):  # MCCABE 14
        @raise RangeError: Value of B{C{strDMS}} outside the valid range
                           and L{pygeodesy.rangerrors} set to C{True}.
 
-       @note: Inlike function L{parseDDDMMSS}, type C{float}, C{int}
+       @note: Unlike function L{parseDDDMMSS}, type C{float}, C{int}
               and other non-C{str} B{C{strDMS}} values are considered
               as decimal degrees.  For example, C{int(1230)} is returned
               as 1230.0 I{and not as 12.5} degrees and C{float(345)} as
@@ -600,7 +610,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0):  # MCCABE 14
 
 
 def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
-    '''Parse a lat- and a longitude representions in C{degrees}.
+    '''Parse a lat- and a longitude representions C{"lat, lon"} in C{degrees}.
 
        @arg strLat: Latitude in any of several forms (C{str} or C{degrees}).
        @arg strLon: Longitude in any of several forms (C{str} or C{degrees}).

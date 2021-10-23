@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.10.05'
+__version__ = '21.10.19'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!

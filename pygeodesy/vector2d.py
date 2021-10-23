@@ -26,7 +26,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.10.05'
+__version__ = '21.10.21'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -136,7 +136,7 @@ def circin6(point1, point2, point3, eps=EPS4, useZ=True):
        @raise ImportError: Package C{numpy} not found, not installed or older
                            than version 1.10 and C{B{useZ} is True}.
 
-       @raise IntersectionError: Near-coincident or colinear points or
+       @raise IntersectionError: Near-coincident or -colinear points or
                                  a trilateration or C{numpy} issue.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
@@ -200,7 +200,7 @@ def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
        @raise ImportError: Package C{numpy} not found, not installed or older
                            than version 1.10 and C{B{useZ} is True}.
 
-       @raise IntersectionError: Near-coincident or colinear points or
+       @raise IntersectionError: Near-coincident or -colinear points or
                                  a trilateration or C{numpy} issue.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
@@ -310,7 +310,7 @@ def meeus2(point1, point2, point3, circum=False, useZ=True):
 
        @return: L{Meeus2Tuple}C{(radius, Type)}.
 
-       @raise IntersectionError: Near-coincident or colinear points, iff C{B{circum}=True}.
+       @raise IntersectionError: Near-coincident or -colinear points, iff C{B{circum}=True}.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
@@ -424,7 +424,7 @@ def radii11(point1, point2, point3, useZ=True):
 
        @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
-       @raise IntersectionError: Near-coincident or colinear points.
+       @raise IntersectionError: Near-coincident or -colinear points.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
@@ -505,7 +505,7 @@ def soddy4(point1, point2, point3, eps=EPS4, useZ=True):
        @raise ImportError: Package C{numpy} not found, not installed or older
                            than version 1.10 and C{B{useZ} is True}.
 
-       @raise IntersectionError: Near-coincident or colinear points or
+       @raise IntersectionError: Near-coincident or -colinear points or
                                  a trilateration or C{numpy} issue.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.

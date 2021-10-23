@@ -436,10 +436,12 @@ try:
 except (AttributeError, ImportError):  # PYCHOK no cover
     DIG      =  15  # PYCHOK system's float decimal digits
     EPS      = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
-    MAN_DIG  =  53  # PYCHOK float mantissa bits ≈ 53 (C{int})
+    MANT_DIG =  53  # PYCHOK float mantissa bits ≈ 53 (C{int})
     MAX      = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
     MIN      = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
+EPS0     = _float(EPS**2)          # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2, see function L{isnear0}
+EPS02    = _float(EPS**4)          # PYCHOK near-zero-squared comparison 2.430865e-63
 EPS2     = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
 EPS4     = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
 EPS_2    = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
@@ -453,11 +455,9 @@ _EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
-EPS0     = _float(EPS**2)   # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2, see function L{isnear0}
-EPS02    = _float(EPS**4)   # PYCHOK near-zero-squared comparison 2.430865e-63
-INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
-NEG0     =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
+INF   = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+NAN   = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
+NEG0  =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
 
 PI2   = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
 PI3   = _float(PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
@@ -471,13 +471,12 @@ R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
 
 __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EPS4',
-           'INF', 'MANT_DIG',
-           'MANTIS',  # DEPRECATED
+           'INF', 'MANT_DIG', 'MANTIS',  # DEPRECATED
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.10.03'
+__version__ = '21.10.19'
 
 _Py2T = _Py3T = None  # cached _platform2 and _pythonarchine tuples
 

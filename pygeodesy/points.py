@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.10.05'
+__version__ = '21.10.19'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'

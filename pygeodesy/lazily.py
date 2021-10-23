@@ -188,7 +188,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
                                  'opposing', 'opposing_', 'philam2n_xyz',
-                                 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
+                                 'radical2', 'thomas', 'thomas_', 'triAngle', 'vincentys', 'vincentys_',
                                  'Radical2Tuple'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
@@ -248,6 +248,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           props=('Property', 'Property_RO', 'property_RO', 'property_doc_',
                                  'deprecated_class', 'deprecated_function', 'deprecated_method',
                                  'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
+                     resections=('Collins5Tuple', 'ResectionError', 'Tienstra7Tuple',
+                                 'cassini', 'collins', 'tienstra'),
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
@@ -302,7 +304,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.10.12'
+__version__ = '21.10.23'
 
 
 def _ALL_OTHER(*objs):

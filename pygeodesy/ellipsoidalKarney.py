@@ -40,7 +40,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_method, Property_RO
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.10.05'
+__version__ = '21.10.19'
 
 
 class Cartesian(CartesianEllipsoidalBase):

@@ -6,7 +6,7 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import isnon0 as _non0
+from pygeodesy.basics import isnon0 as _non0, map1
 from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
                             _spherical_datum, _WGS84
 from pygeodesy.ellipsoids import Ellipsoid
@@ -14,9 +14,9 @@ from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0, unstr
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
-                             _distant_, _inside_, _near_, _null_, _outside_, \
-                             _too_, _0_0, _0_125, _0_25, _0_5, _1_0, \
-                             _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
+                             _distant_, _inside_, _near_, _null_, _outside_, _too_, \
+                             _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
+                             _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.10.05'
+__version__ = '21.10.23'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -1383,6 +1383,32 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
                     t  = fsum_(a * x, -b * y, c * x**2, -d * y**2, e * x * y)
                     r -= fsum_(s * x, -y, -t * f * _0_25) * f * sr
     return r
+
+
+def triAngle(a, b, c):
+    '''Compute an interior angle of a triangle.
+
+       @arg a: Adjacent triangle side length C({scalar}, non-negative).
+       @arg b: Adjacent triangle side length C({scalar}, non-negative).
+       @arg c: Opposite triangle side length C({scalar}, non-negative).
+
+       @return: Angle at triangle corner C{C}, opposite triangle side
+                B{C{c}} (C{radians}).
+
+       @raise ValueError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
+    '''
+    try:
+        a, b, c = map1(float, a, b, c)
+        if a < b:
+            a, b = b, a
+        if a < EPS0 or c < 0:
+            raise ValueError
+        b_a = b / a
+        if b_a < EPS0:
+            raise ValueError
+    except (TypeError, ValueError):
+        raise _ValueError(a=a, b=b, c=c)
+    return acos1(fsum_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0))
 
 
 def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):

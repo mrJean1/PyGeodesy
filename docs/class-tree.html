@@ -249,6 +249,9 @@
         href="pygeodesy.dms-module.html#parseRad" 
         class="link">pygeodesy.parseRad</a>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.ResectionError-class.html">pygeodesy.resections.ResectionError</a></strong>:
+      <em class="summary">Error raised for resection issues.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.TRFError-class.html">pygeodesy.errors.TRFError</a></strong>:
       <em class="summary">Terrestrial Reference Frame (TRF), <a 
         href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, <a 
@@ -995,6 +998,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1006,14 +1017,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1138,6 +1141,13 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1152,13 +1162,6 @@
         href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1660,6 +1663,13 @@
         edge is part of the original polygon or part of the clip region 
         (<code>bool</code>).</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Collins5Tuple-class.html">pygeodesy.resections.Collins5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(pointP, pointH, a, b, c)</code> with survey 
+        <code>pointP</code>, auxiliary <code>pointH</code>, each an 
+        instance of <b><code>pointA</code></b>'s (sub-)class and triangle 
+        sides <code>a</code>, <code>b</code> and <code>c</code> in 
+        <code>meter</code>, conventionally.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html">pygeodesy.ellipsoids.Curvature2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
         curvature, both in <code>meter</code>, conventionally.</em>
@@ -1971,6 +1981,13 @@
         <code>radius</code> and trilaterated <code>center</code> of the 
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
+        <code>pointP</code>, interior triangle angles <code>A</code>, 
+        <code>B</code> and <code>C</code> in <code>degrees</code> and 
+        triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
+        <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
@@ -2724,6 +2741,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         edge is part of the original polygon or part of the clip region 
         (<code>bool</code>).</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Collins5Tuple-class.html">pygeodesy.resections.Collins5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(pointP, pointH, a, b, c)</code> with survey 
+        <code>pointP</code>, auxiliary <code>pointH</code>, each an 
+        instance of <b><code>pointA</code></b>'s (sub-)class and triangle 
+        sides <code>a</code>, <code>b</code> and <code>c</code> in 
+        <code>meter</code>, conventionally.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html">pygeodesy.ellipsoids.Curvature2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
         curvature, both in <code>meter</code>, conventionally.</em>
@@ -3036,6 +3060,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
+        <code>pointP</code>, interior triangle angles <code>A</code>, 
+        <code>B</code> and <code>C</code> in <code>degrees</code> and 
+        triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
+        <code>meter</code>, conventionally.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
         transformation with translations <code>tx</code>, <code>ty</code> 
@@ -3214,7 +3245,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 13 12:38:33 2021
+    Generated by Epydoc 3.0.1 on Sat Oct 23 14:04:01 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

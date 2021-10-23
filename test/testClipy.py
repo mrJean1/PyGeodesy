@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.02'
+__version__ = '21.10.22'
 
 from base import TestsBase
 
-from pygeodesy import F_D, clipCS4, ClipError, clipLB6, clipSH, clipSH3
+from pygeodesy import F_D, F__F_, clipCS4, ClipError, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -169,6 +169,33 @@ class Tests(TestsBase):
                 t = sh = str(x)  # .split(':')[0]
             self.test('clipSH3.warped' + r, sh, t)
             cs = tuple(reversed(cs))
+
+        i = 3  # <https://GitHub.com/mdabdk/sutherland-hodgman>
+        for ps, cs, x in (([(-1,  1), ( 1, 1), (1, -1), (-1, -1)], [(0, 0), (0, 2), (2, 2), (2, 0)],
+                                                                   '0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0'),
+                          ([(-1, -1), (-1, 1), (1,  1), ( 1, -1)], [(2, 0), (0, 0), (0, 2), (2, 2)],
+                                                                   '0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0'),
+                          ([(0, 0), (2, 1), (2, 0)],               [(1, 0.5), (3, 1.5), (3, 0.5)],
+                                                                   '1.0, 0.5, 2.0, 1.0, 2.0, 0.5'),
+                          ([(0, 3), (0.5, 0.5), (3, 0), (0.5, -0.5), (0, -3), (-0.5, -0.5), (-3, 0), (-0.5, 0.5)],
+                                                                   [(-2, -2), (-2, 2), (2, 2), (2, -2)],
+                                                                   '-0.2, 2.0, 0.2, 2.0, 0.5, 0.5, 2.0, 0.2, 2.0, -0.2, 0.5, -0.5, 0.2, -2.0, -0.2, -2.0, -0.5, -0.5, -2.0, -0.2, -2.0, 0.2, -0.5, 0.5'),
+                          ([(0, 3), (0.5, 0.5), (3, 0), (0.5, -0.5), (0, -3), (-0.5, -0.5), (-3, 0), (-0.5, 0.5)],
+                                                                   [(0, 2), (2, -2), (-2, -2)],
+                                                                   '-0.33, 1.33, 0.0, 2.0, 0.33, 1.33, 0.5, 0.5, 0.78, 0.44, 1.18, -0.36, 0.5, -0.5, 0.2, -2.0, -0.2, -2.0, -0.5, -0.5, -1.18, -0.36, -0.78, 0.44, -0.5, 0.5'),
+                          ([(86, -174), (86, -173), (75, -82), (73, -65), (77, -30)],
+                                                                   [(28, -95), (28, -94), (29, -94), (29, -95)],  # CCW
+                                                                   None),  # courtesy christophelebrun <https://GitHub.com/mrJean1/PyGeodesy/issues/61>
+                          ([(86, -174), (86, -173), (75, -82), (73, -65), (77, -30)],
+                                                                   [(29, -95), (29, -94), (28, -94), (28, -95)],  # CW
+                                                                   None),  # courtesy christophelebrun <https://GitHub.com/mrJean1/PyGeodesy/issues/61>
+                          ([(28, -95), (28, -94), (29, -94)],      [(30, -94), (29, -95), (30, -95)], None),
+                          ([(30, -94), (29, -95), (30, -95)],      [(28, -95), (28, -94), (29, -94)], None)):
+            sh = clipSH((LatLon(*ll) for ll in ps),
+                        (LatLon(*ll) for ll in cs))
+            sh = ', '.join(ll.toStr(form=F__F_, prec=2) for ll in sh) or None
+            i += 1
+            self.test('clipSH' + str(i), sh, x)
 
     def testClipSH_(self, text, sh, lls):
         self.test(text + 'len', len(sh), len(lls))
