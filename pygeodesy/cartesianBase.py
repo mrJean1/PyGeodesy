@@ -12,8 +12,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
-from pygeodesy.errors import _datum_datum, _IsnotError, \
-                             _ValueError, _xkwds
+from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _N_1_0, _2_0, _4_0, _6_0
@@ -30,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.10.08'
+__version__ = '21.10.27'
 
 
 class CartesianBase(Vector3d):
@@ -86,6 +85,69 @@ class CartesianBase(Vector3d):
 
         xyz = transform.transform(*self.xyz, inverse=inverse)
         return self.classof(xyz, datum=d)
+
+    def cassini(self, pointB, pointC, alpha, beta, useZ=False):
+        '''3-Point resection between this and 2 other points using U{Cassini
+           <https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}'s method.
+
+           @arg pointB: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg pointC: Center point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg alpha: Angle subtended by triangle side C{b} from B{C{pointA}} to
+                       B{C{pointC}} (C{degrees}, non-negative).
+           @arg beta: Angle subtended by triangle side C{a} from B{C{pointB}} to
+                      B{C{pointC}} (C{degrees}, non-negative).
+           @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
+                        force C{z=0} (C{bool}).
+
+           @note: Typically, B{C{pointC}} is between this and B{C{pointB}}.
+
+           @return: The survey point, an instance of this (sub-)class.
+
+           @raise ResectionError: Near-coincident, -colinear or -concyclic points
+                                  or negative or invalid B{C{alpha}} or B{C{beta}}.
+
+           @raise TypeError: Invalid B{C{pointA}}, B{C{pointB}} or B{C{pointM}}.
+
+           @see: U{Three Point Resection Problem<https://Dokumen.tips/documents/
+                 three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}
+                 and function L{pygeodesy.cassini}.
+        '''
+        from pygeodesy.resections import cassini
+        return cassini(self, pointB, pointC, alpha, beta, useZ=useZ, datum=self.datum)
+
+    def collins(self, pointB, pointC, alpha, beta, useZ=False):
+        '''3-Point resection between this and 2 other points using U{Collins<https://Dokumen.tips/
+           documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}' method.
+
+           @arg pointB: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg pointC: Center point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg alpha: Angle subtended by triangle side C{b} from B{C{pointA}} to
+                       B{C{pointC}} (C{degrees}, non-negative).
+           @arg beta: Angle subtended by triangle side C{a} from B{C{pointB}} to
+                      B{C{pointC}} (C{degrees}, non-negative).
+           @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
+                        force C{z=0} (C{bool}).
+
+           @note: Typically, B{C{pointC}} is between this and B{C{pointB}}.
+
+           @return: L{Collins5Tuple}C{(pointP, pointH, a, b, c)} with survey C{pointP},
+                    auxiliary C{pointH}, each an instance of this (sub-)class and
+                    triangle sides C{a}, C{b} and C{c}.
+
+           @raise ResectionError: Near-coincident, -colinear or -concyclic points
+                                  or negative or invalid B{C{alpha}} or B{C{beta}}.
+
+           @raise TypeError: Invalid B{C{pointB}} or B{C{pointM}}.
+
+           @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
+                 and function L{pygeodesy.collins}.
+        '''
+        from pygeodesy.resections import collins
+        return collins(self, pointB, pointC, alpha, beta, useZ=useZ, datum=self.datum)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -341,6 +403,77 @@ class CartesianBase(Vector3d):
         '''Get this cartesian's (geodetic) lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
         '''
         return self.toEcef().philamheightdatum
+
+    def pierlot(self, point2, point3, alpha12, alpha23, useZ=False):
+        '''3-Point resection between this and two other points using U{Pierlot
+           <http://www.Telecom.ULg.ac.BE/triangulation>}'s method C{ToTal}.
+
+           @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
+                        C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg alpha12: Angle subtended from this point to B{C{point2}} (C{degrees}).
+           @arg alpha23: Angle subtended from B{C{point2}} to B{C{point3}} (C{degrees}).
+           @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=0}
+                        (C{bool}).
+
+           @note: This point, B{C{point2}} and B{C{point3}} are ordered counter-clockwise.
+
+           @return: The survey (or robot) point, an instance of this (sub-)class.
+
+           @raise ResectionError: Near-coincident, -colinear or -concyclic points
+                                  or invalid B{C{alpha12}} or B{C{alpha23}}.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @see: U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation
+                 Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.BE/
+                 bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{18 Triangulation
+                 Algorithms for 2D Positioning (also known as the Resection Problem)
+                 <http://Telecom.ULg.ac.BE/triangulation>} and functions
+                 L{pygeodesy.pierlot}.
+        '''
+        from pygeodesy.resections import pierlot
+        return pierlot(self, point2, point3, alpha12, alpha23, useZ=useZ, datum=self.datum)
+
+    def tienstra(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):
+        '''3-Point resection between this and two other points using U{Tienstra
+           <https://WikiPedia.org/wiki/Tienstra_formula>}'s formula.
+
+           @arg pointB: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple} or
+                        C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg pointC: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple} or
+                        C{Vector2Tuple} if C{B{useZ}=False}).
+           @arg alpha: Angle subtended by triangle side C{a} from B{C{pointB}} to B{C{pointC}} (C{degrees},
+                       non-negative).
+           @kwarg beta: Angle subtended by triangle side C{b} from this to B{C{pointC}} (C{degrees},
+                        non-negative) or C{None} if C{B{gamma} is not None}.
+           @kwarg gamma: Angle subtended by triangle side C{c} from this to B{C{pointB}} (C{degrees},
+                         non-negative) or C{None} if C{B{beta} is not None}.
+           @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=0}
+                        (C{bool}).
+
+           @note: This point, B{C{pointB}} and B{C{pointC}} are ordered clockwise.
+
+           @return: L{Tienstra7Tuple}C{(pointP, A, B, C, a, b, c)} with survey C{pointP},
+                    an instance of this (sub-)class and triangle angle C{A} at this point,
+                    C{B} at B{C{pointB}} and C{C} at B{C{pointC}} in C{degrees} and
+                    triangle sides C{a}, C{b} and C{c}.
+
+           @raise ResectionError: Near-coincident, -colinear or -concyclic points or sum of
+                                  B{C{alpha}}, B{C{beta}} and B{C{gamma}} not C{360} or
+                                  negative B{C{alpha}}, B{C{beta}} or B{C{gamma}}.
+
+           @raise TypeError: Invalid B{C{pointB}} or B{C{pointC}}.
+
+           @see: U{3-Point Resection Solver<http://MesaMike.org/geocache/GC1B0Q9/tienstra/>},
+                 U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
+                 <http://Telecom.ULG.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/>},
+                 U{18 Triangulation Algorithms...<http://Telecom.ULG.ac.BE/triangulation/>} and
+                 function L{pygeodesy.tienstra}.
+        '''
+        from pygeodesy.resections import tienstra
+        return tienstra(self, pointB, pointC, alpha, beta, gamma, useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover

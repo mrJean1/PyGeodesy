@@ -7,13 +7,14 @@ L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11} and L{soddy4}.
 
 from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
-                              PointsError, _xError, _xkwds
+                              PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fdot, fsum_, fsum1_, hypot, hypot2_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, NN, \
-                             _EPS4e8, _and_, _center_, _coincident_, _colinear_, \
-                             _concentric_, _COMMASPACE_, _few_, _intersection_, \
-                             _invalid_, _near_, _no_, _radius_, _s_, _SPACE_, _too_, \
-                             _0_0, _0_5, _1_0, _N_1_0, _1_0_T, _2_0, _N_2_0, _4_0
+                             _EPS4e8, _a_, _and_, _b_, _c_, _center_, _coincident_, \
+                             _colinear_, _concentric_, _COMMASPACE_, _few_, \
+                             _intersection_, _invalid_, _near_, _no_, _radius_, \
+                             _rIn_, _s_, _SPACE_, _too_, _0_0, _0_5, \
+                             _1_0, _N_1_0, _1_0_T, _2_0, _N_2_0, _4_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Fmt, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
@@ -26,7 +27,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.10.21'
+__version__ = '21.10.25'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -97,7 +98,7 @@ class Radii11Tuple(_NamedTuple):
 
        @note: C{Circumradius} C{cR} and outer I{Soddy} radius C{roS} may be C{INF}.
     '''
-    _Names_ = ('rA', 'rB', 'rC', 'cR', 'rIn', 'riS', 'roS', 'a', 'b', 'c', _s_)
+    _Names_ = ('rA', 'rB', 'rC', 'cR', _rIn_, 'riS', 'roS', _a_, _b_, _c_, _s_)
     _Units_ = ( Meter,) * len(_Names_)
 
 
@@ -424,7 +425,7 @@ def radii11(point1, point2, point3, useZ=True):
 
        @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
-       @raise IntersectionError: Near-coincident or -colinear points.
+       @raise TriangleError: Near-coincident or -colinear points.
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
@@ -480,8 +481,8 @@ def _radii11ABC(point1, point2, point3, useZ=True):
                 t = Radii11Tuple(r1, r2, r3, co, ci, si, so, a, b, c, s)
                 return t, A, B, C
 
-    raise IntersectionError(_near_(_coincident_) if min(a, b, c) < EPS0 else (
-                            _colinear_ if _iscolinearWith(A, B, C) else _invalid_))
+    raise TriangleError(_near_(_coincident_) if min(a, b, c) < EPS0 else (
+                        _colinear_ if _iscolinearWith(A, B, C) else _invalid_))
 
 
 def soddy4(point1, point2, point3, eps=EPS4, useZ=True):

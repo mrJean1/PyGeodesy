@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.10.22'
+__version__ = '21.10.29'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -59,13 +59,30 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
     _Names_ = ('latS', 'lonW', 'latN', 'lonE')
     _Units_ = ( Lat,    Lon,    Lat,    Lon)
 
+    def enclosures(self, S_other, *W_N_E):
+        '''Get the enclosures of this around an other L{Bounds4Tuple}.
+
+           @arg S_other: Bottom C{latS} (C{scalar}) or an other
+                         L{Bounds4Tuple} instance.
+           @arg W_N_E: Left C{lonW}, top C{latN} and right C{lonE},
+                       each a (C{scalar}) for C{scalar B{S_other}}.
+
+           @return: A L{Bounds4Tuple} with the I{margin} at each of
+                    the 4 sides, positive if this side I{encloses}
+                    (is on the I{outside} of) the other, negative
+                    if not or zero if abutting.
+        '''
+        s, w, n, e = self
+        S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
+        return Bounds4Tuple(*map1(float, S - s, W - w, n - N, e - E))
+
     def overlap(self, S_other, *W_N_E):
         '''Intersect this with an other L{Bounds4Tuple}.
 
-           @arg S_other: Lower C{latS} (C{scalar}) or an other
+           @arg S_other: Bottom C{latS} (C{scalar}) or an other
                          L{Bounds4Tuple} instance.
            @arg W_N_E: Left C{lonW}, top C{latN} and right C{lonE},
-                       each a (C{scalar}) iff C{scalar B{S_other}}.
+                       each a (C{scalar}) for C{scalar B{S_other}}.
 
            @return: C{None} if the bounds do not overlap, otherwise
                     the intersection of both as a L{Bounds4Tuple}.

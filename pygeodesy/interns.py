@@ -100,12 +100,14 @@ _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs
 _attribute_           = 'attribute'          # PYCHOK expected
 _azi2_                = 'azi2'               # PYCHOK expected
 _azimuth_             = 'azimuth'            # PYCHOK expected
+_b_                   = 'b'                  # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
 _BAR_           = _Join('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
 _Bessel1841_          = 'Bessel1841'         # PYCHOK expected
 _by_                  = 'by'                 # PYCHOK expected
+_c_                   = 'c'                  # PYCHOK expected
 _C_                   = 'C'                  # PYCHOK expected
 _Cartesian_           = 'Cartesian'          # PYCHOK expected
 _center_              = 'center'             # PYCHOK expected
@@ -274,6 +276,7 @@ _radius2_             = 'radius2'            # PYCHOK expected
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
 _reframe_             = 'reframe'            # PYCHOK expected
 _resolution_          = 'resolution'         # PYCHOK expected
+_rIn_                 = 'rIn'                # PYCHOK expected
 #_RPAREN_             = ')'                  # PYCHOK expected
 #_RSQUARE_            = ']'                  # PYCHOK RBRACK
 _s_                   = 's'                  # PYCHOK expected
@@ -476,7 +479,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.10.19'
+__version__ = '21.10.24'
 
 _Py2T = _Py3T = None  # cached _platform2 and _pythonarchine tuples
 

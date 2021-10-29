@@ -59,15 +59,38 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module resections</h1><p class="nomargin-top"></p>
-<p>#-Point resection functions <code class="link">ciassini</code>, <a 
-  href="pygeodesy.resections-module.html#collins" class="link">collins</a>,
-  <code class="link">pierot</code> and <a 
-  href="pygeodesy.resections-module.html#tienstra" 
-  class="link">tienstra</a>.</p>
+<p>3-Point resection functions <a 
+  href="pygeodesy.resections-module.html#cassini" class="link">cassini</a>,
+  <a href="pygeodesy.resections-module.html#collins" 
+  class="link">collins</a>, <a 
+  href="pygeodesy.resections-module.html#pierlot" class="link">pierlot</a> 
+  and <a href="pygeodesy.resections-module.html#tienstra" 
+  class="link">tienstra</a>, survey functions <a 
+  href="pygeodesy.resections-module.html#snellius3" 
+  class="link">snellius3</a> and <a 
+  href="pygeodesy.resections-module.html#wildberger3" 
+  class="link">wildberger3</a> and triangle functions <a 
+  href="pygeodesy.resections-module.html#triAngle" 
+  class="link">triAngle</a>, <a 
+  href="pygeodesy.resections-module.html#triAngle4" 
+  class="link">triAngle4</a>, <a 
+  href="pygeodesy.resections-module.html#triSide" class="link">triSide</a>,
+  <a href="pygeodesy.resections-module.html#triSide2" 
+  class="link">triSide2</a> and <a 
+  href="pygeodesy.resections-module.html#triSide4" 
+  class="link">triSide4</a>.</p>
 
 <hr />
-<div class="fields">      <p><strong>Version:</strong>
-        21.10.23
+<div class="fields">      <p><strong>Note:</strong>
+        Function <a href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pierlot</a> transcoded with permission from <a 
+        href="http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c.html"
+        target="_top">triangulationPierlot</a> and <a 
+        href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+        target="_top">Pierlot</a>.
+      </p>
+      <p><strong>Version:</strong>
+        21.10.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -93,20 +116,45 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.resections.ResectionError-class.html" class="summary-name">ResectionError</a><br />
-      Error raised for resection issues.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.resections.Tienstra7Tuple-class.html" class="summary-name">Tienstra7Tuple</a><br />
       7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
         <code>pointP</code>, interior triangle angles <code>A</code>, 
         <code>B</code> and <code>C</code> in <code>degrees</code> and 
         triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
         <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
+      4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
+        angles at triangle corner <code>A</code>, <code>B</code> and 
+        <code>C</code> and the <code>InCircle</code> radius 
+        <code>rIn</code> aka <code>inradius</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.TriSide2Tuple-class.html" class="summary-name">TriSide2Tuple</a><br />
+      2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> 
+        (<code>meter</code> conventionally) and the opposite triangle angle
+        <code>radA</code> (<code>radians</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.TriSide4Tuple-class.html" class="summary-name">TriSide4Tuple</a><br />
+      4-Tuple <code>(a, b, radC, d)</code> with the length of triangle 
+        sides <code>a</code> and <code>b</code>, the interior angle 
+        <code>radC</code> at triangle corner <code>radC</code> 
+        (<code>radians</code>) and triangle height <code>d</code>, 
+        perpendicular to triangle side <code>c</code>.
     </td>
   </tr>
 </table>
@@ -129,7 +177,9 @@
         <span class="summary-sig-arg">pointC</span>,
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
       target="_top">Cassini</a>'s method.</td>
@@ -153,10 +203,61 @@
         <span class="summary-sig-arg">pointC</span>,
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
       target="_top">Collins</a>' method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#pierlot" class="summary-sig-name">pierlot</a>(<span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">alpha12</span>,
+        <span class="summary-sig-arg">alpha23</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
+      3-Point resection using <a 
+      href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+      target="_top">Pierlot</a>'s method <code>ToTal</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#snellius3" class="summary-sig-name">snellius3</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">degC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>)</span><br />
+      Snellius' surveying using <a 
+      href="https://WikiPedia.org/wiki/Snellius&#8211;Pothenot_problem" 
+      target="_top">Snellius Pothenot</a>.</td>
           <td align="right" valign="top">
             
             
@@ -178,10 +279,131 @@
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
       3-Point resection using <a 
       href="https://WikiPedia.org/wiki/Tienstra_formula" 
       target="_top">Tienstra</a>'s formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triAngle" class="summary-sig-name">triAngle</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute an interior angle of a triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the angles of a triangle side.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide" class="summary-sig-name">triSide</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">radC</span>)</span><br />
+      Compute the length of a triangle side.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide2" class="summary-sig-name">triSide2</a>(<span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>,
+        <span class="summary-sig-arg">radB</span>)</span><br />
+      Compute the length of a triangle side and the angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide4" class="summary-sig-name">triSide4</a>(<span class="summary-sig-arg">radA</span>,
+        <span class="summary-sig-arg">radB</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the length of two triangle sides and the triangle height.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#wildberger3" class="summary-sig-name">wildberger3</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>,
+        <span class="summary-sig-arg">R3</span>=<span class="summary-sig-default">&lt;built-in function min&gt;</span>)</span><br />
+      Snellius' surveying using <a 
+      href="https://WikiPedia.org/wiki/Snellius&#8211;Pothenot_problem" 
+      target="_top">Rational Trigonometry</a>.</td>
           <td align="right" valign="top">
             
             
@@ -229,7 +451,9 @@
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
         <span class="sig-arg">beta</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Clas_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -263,28 +487,35 @@
           <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey and auxiliary point or 
+          <code>None</code> for <b><code>pointA</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey and auxiliary
+          point instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Survey point, an instance of <b><code>pointA</code></b>'s 
+        <dd>The survey point, an instance of <b><code>Clas</code></b> or if 
+          <code><b>Clas</b> is None</code> of <b><code>pointA</code></b>'s 
           (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
         <b><code>pointM</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        <b><code>PointC</code></b> is between <b><code>pointA</code></b> 
-        and <b><code>pointB</code></b>, typically.
+        Typically, <b><code>pointC</code></b> is between 
+        <b><code>pointA</code></b> and <b><code>pointB</code></b>.
       </p>
       <p><strong>See Also:</strong>
         <a 
         href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
         target="_top">Three Point Resection Problem</a> and functions <a 
         href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a> and <a 
+        class="link">pygeodesy.collins</a>, <a 
+        href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a> and <a 
         href="pygeodesy.resections-module.html#tienstra" 
         class="link">pygeodesy.tienstra</a>.
       </p>
@@ -302,7 +533,9 @@
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
         <span class="sig-arg">beta</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Clas_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -330,39 +563,192 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>pointA</code></b> to 
-          <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
-        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>pointB</code></b> to 
-          <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <code>b</code> from 
+          <b><code>pointA</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <code>a</code> from 
+          <b><code>pointB</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
+          for <b><code>pointA</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey point 
+          instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
           class="link">Collins5Tuple</a><code>(pointP, pointH, a, b, 
           c)</code> with survey <code>pointP</code>, auxiliary 
-          <code>pointH</code>, each an instance of 
+          <code>pointH</code>, each an instance of <b><code>Clas</code></b>
+          or if <code><b>Clas</b> is None</code> of 
           <b><code>pointA</code></b>'s (sub-)class and triangle sides 
           <code>a</code>, <code>b</code> and <code>c</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
         <b><code>pointM</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        <b><code>PointC</code></b> is between <b><code>pointA</code></b> 
-        and <b><code>pointB</code></b>, typically.
+        Typically, <b><code>pointC</code></b> is between 
+        <b><code>pointA</code></b> and <b><code>pointB</code></b>.
       </p>
       <p><strong>See Also:</strong>
         <a href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
         target="_top">Collins' methode</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a> and <a 
+        class="link">pygeodesy.cassini</a>, <a 
+        href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a> and <a 
         href="pygeodesy.resections-module.html#tienstra" 
         class="link">pygeodesy.tienstra</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="pierlot"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pierlot</span>&nbsp;(<span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">alpha12</span>,
+        <span class="sig-arg">alpha23</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Clas_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection using <a 
+  href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+  target="_top">Pierlot</a>'s method <code>ToTal</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - First point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha12</code></strong> - Angle subtended from <b><code>point1</code></b> to 
+          <b><code>point2</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>alpha23</code></strong> - Angle subtended from <b><code>point2</code></b> to 
+          <b><code>point3</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the Z component, otherwise use 
+          <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
+          for <b><code>point1</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword arguments for the survey point 
+          instance.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The survey (or robot) point, an instance of 
+          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
+          of <b><code>point1</code></b>'s (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <b><code>alpha12</code></b> or <b><code>alpha23</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Points <b><code>point1</code></b>, <b><code>point2</code></b> and 
+        <b><code>point3</code></b> are ordered counter-clockwise.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
+        target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
+        Object Triangulation Algorithm for Mobile Robot 
+        Positioning&quot;</a>, <a 
+        href="http://www.Telecom.ULg.ac.BE/triangulation" 
+        target="_top">Vincent Pierlot, Marc Van Droogenbroeck, &quot;18 
+        Triangulation Algorithms for 2D Positioning (also known as the 
+        Resection Problem)&quot;</a> and functions <a 
+        href="pygeodesy.resections-module.html#cassini" 
+        class="link">pygeodesy.cassini</a>, <a 
+        href="pygeodesy.resections-module.html#collins" 
+        class="link">pygeodesy.collins</a> and <a 
+        href="pygeodesy.resections-module.html#tienstra" 
+        class="link">pygeodesy.tienstra</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="snellius3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">snellius3</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">degC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Snellius' surveying using <a 
+  href="https://WikiPedia.org/wiki/Snellius&#8211;Pothenot_problem" 
+  target="_top">Snellius Pothenot</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
+          corner <code>A</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
+          corner <code>B</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>degC</code></strong> - Angle at triangle corner <code>C</code>, opposite triangle side 
+          <code>c</code> (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>b</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>a</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Snellius3Tuple<code>(PA, PB, PC)</code> with distance from survey
+          point <code>P</code> to each of the triangle corners 
+          <code>A</code>, <code>B</code> and <code>C</code> (same units as 
+          <b><code>a</code></b>, <b><code>b</code></b> and 
+          <b><code>c</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>degC</code></b> or negative <b><code>alpha</code></b> or 
+        <b><code>beta</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.resections-module.html#wildberger3" 
+        class="link">pygeodesy.wildberger3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -379,7 +765,9 @@
         <span class="sig-arg">alpha</span>,
         <span class="sig-arg">beta</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">Clas</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Clas_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -407,28 +795,37 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>pointB</code></b> to 
-          <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
-        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>pointA</code></b> to 
-          <b><code>pointC</code></b> (<code>degrees</code>, non-negative) 
-          or <code>None</code> if <code><b>gamma</b> is not None</code>.</li>
-        <li><strong class="pname"><code>gamma</code></strong> - Angle subtended by triangle side <b><code>pointA</code></b> to 
-          <b><code>pointB</code></b> (<code>degrees</code>, non-negative) 
-          or <code>None</code> if <code><b>beta</b> is not None</code>.</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <code>a</code> from 
+          <b><code>pointB</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <code>b</code> from 
+          <b><code>pointA</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative) or <code>None</code> if 
+          <code><b>gamma</b> is not None</code>.</li>
+        <li><strong class="pname"><code>gamma</code></strong> - Angle subtended by triangle side <code>c</code> from 
+          <b><code>pointA</code></b> to <b><code>pointB</code></b> 
+          (<code>degrees</code>, non-negative) or <code>None</code> if 
+          <code><b>beta</b> is not None</code>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=0</code> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
+          for <b><code>pointA</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword arguments for the survey point 
+          instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Tienstra7Tuple-class.html" 
           class="link">Tienstra7Tuple</a><code>(pointP, A, B, C, a, b, 
           c)</code> with survey <code>pointP</code>, an instance of 
-          <b><code>pointA</code></b>'s (sub-)class and triangle angles 
-          <code>A</code>, <code>B</code> and <code>C</code> in 
-          <code>degrees</code> and triangle sides <code>a</code>, 
-          <code>b</code> and <code>c</code>.</dd>
+          <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
+          of <b><code>pointA</code></b>'s (sub-)class and triangle angle 
+          <code>A</code> at <b><code>pointA</code></b>, <code>B</code> at 
+          <b><code>pointB</code></b> and <code>C</code> at 
+          <b><code>pointC</code></b> in <code>degrees</code> and triangle 
+          sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
         <b><code>alpha</code></b>, <b><code>beta</code></b> and 
         <b><code>gamma</code></b> not <code>360</code> or negative 
         <b><code>alpha</code></b>, <b><code>beta</code></b> or 
@@ -444,15 +841,305 @@
       <p><strong>See Also:</strong>
         <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
         target="_top">3-Point Resection Solver</a>, <a 
-        href="http://Telecom.ULG.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/"
+        href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation...&quot;</a>, <a 
-        href="http://Telecom.ULG.ac.BE/triangulation/" target="_top">18 
+        href="http://www.Telecom.ULg.ac.BE/triangulation/" target="_top">18
         Triangulation Algorithms...</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
-        class="link">pygeodesy.cassini</a> and <a 
+        class="link">pygeodesy.cassini</a>, <a 
         href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a>.
+        class="link">pygeodesy.collins</a> and <a 
+        href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="triAngle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triAngle</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute an interior angle of a triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Opposite triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle at triangle corner <code>C</code>, opposite triangle side 
+          <b><code>c</code></b> (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.resections-module.html#triSide" 
+        class="link">pygeodesy.triSide</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="triAngle4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triAngle4</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the angles of a triangle side.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
+          corner <code>A</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
+          corner <code>B</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of triangle side <code>AB</code>, opposite of triangle 
+          corner <code>C</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.resections.TriAngle4Tuple-class.html" 
+          class="link">TriAngle4Tuple</a><code>(radA, radB, radC, 
+          rIn)</code> with the triangle angles at corner <code>A</code>, 
+          <code>B</code> and <code>C</code> (each in radians) and the 
+          <code>InCircle</code> radius <code>rIn</code> aka 
+          <code>inradius</code> (same units and triangle sides 
+          <b><code>a</code></b>, <b><code>b</code></b> and 
+          <b><code>c</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>b</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triSide"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triSide</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">radC</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the length of a triangle side.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>radC</code></strong> - Angle included by sides <b><code>a</code></b> and 
+          <b><code>b</code></b>, opposite triangle side <code>c</code> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Length of triangle side <code>c</code>, opposite angle 
+          <b><code>rC</code></b> (same units as <b><code>a</code></b> and 
+          <b><code>b</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b> or <b><code>b</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triSide2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triSide2</span>&nbsp;(<span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>,
+        <span class="sig-arg">radB</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the length of a triangle side and the angle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>radB</code></strong> - Angle included by sides <b><code>a</code></b> and 
+          <b><code>c</code></b>, opposite triangle side <code>b</code> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.resections.TriSide2Tuple-class.html" 
+          class="link">TriSide2Tuple</a><code>(a, radA)</code> with 
+          triangle angle <code>radA</code> (radians) and the length of the 
+          opposite triangle side <code>a</code> (same units as 
+          <b><code>b</code></b> and <b><code>c</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>b</code></b> or <b><code>c</code></b> or either 
+        <b><code>b</code></b> or <b><code>radB</code></b> near zero and not
+        both.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="triSide4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triSide4</span>&nbsp;(<span class="sig-arg">radA</span>,
+        <span class="sig-arg">radB</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the length of two triangle sides and the triangle height.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>radA</code></strong> - Angle at triangle corner <code>A</code>, opposite triangle side 
+          <code>a</code> (<code>scalar</code>, non-negative).</li>
+        <li><strong class="pname"><code>radB</code></strong> - Angle at triangle corner <code>B</code>, opposite triangle side 
+          <code>b</code> (<code>scalar</code>, non-negative).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of triangle side between corners <code>A</code> and 
+          <code>B</code>, (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.resections.TriSide4Tuple-class.html" 
+          class="link">TriSide4Tuple</a><code>(a, b, radC, d)</code> with 
+          triangle sides <code>a</code> and <code>b</code> and triangle 
+          height <code>d</code> perpendicular to triangle side 
+          <b><code>c</code></b> (all in same units as 
+          <b><code>c</code></b>) and the interior angle at triangle corner 
+          <code>C</code> (<code>radians</code>), opposite of triangle side 
+          <b><code>c</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b> or <b><code>b</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.resections-module.html#triSide" 
+        class="link">pygeodesy.triSide</a> and <a 
+        href="https://WikiPedia.org/wiki/Triangulation_(surveying)" 
+        target="_top">Triangulation, Surveying</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="wildberger3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">wildberger3</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>,
+        <span class="sig-arg">R3</span>=<span class="sig-default">&lt;built-in function min&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Snellius' surveying using <a 
+  href="https://WikiPedia.org/wiki/Snellius&#8211;Pothenot_problem" 
+  target="_top">Rational Trigonometry</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
+          corner <code>A</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
+          corner <code>B</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of triangle side <code>AB</code>, opposite of triangle 
+          corner <code>C</code> (<code>scalar</code>, non-negative 
+          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>b</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>a</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>R3</code></strong> - Callable to determine <code>R3</code> from <code>(R3 - C)**2 = 
+          D</code>, typically standard function <code>min</code> or 
+          <code>max</code>, invoked with 2 arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Snellius3Tuple<code>(PA, PB, PC)</code> with distance from survey
+          point <code>P</code> to each of the triangle corners 
+          <code>A</code>, <code>B</code> and <code>C</code> (same units as 
+          <b><code>a</code></b>, <b><code>b</code></b> and 
+          <b><code>c</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b> or negative <b><code>alpha</code></b> or 
+        <b><code>beta</code></b> or <b><code>R3</code></b> not 
+        <code>callable</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://math.sc.chula.ac.th/cjm/content/survey-article-greek-geometry-rational-trigonometry-and-snellius-&#8211;-pothenot-surveying"
+        target="_top">Wildberger, Norman J.</a>, <a 
+        href="http://www.ms.LT/derlius/WildbergerDivineProportions.pdf" 
+        target="_top">Devine Proportions, page 252</a> and function <a 
+        href="pygeodesy.resections-module.html#snellius3" 
+        class="link">pygeodesy.snellius3</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -488,7 +1175,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 23 14:04:02 2021
+    Generated by Epydoc 3.0.1 on Fri Oct 29 16:12:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

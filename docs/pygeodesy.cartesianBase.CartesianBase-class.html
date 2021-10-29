@@ -121,6 +121,54 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#cassini" class="summary-sig-name">cassini</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pointB</span>,
+        <span class="summary-sig-arg">pointC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      3-Point resection between this and 2 other points using <a 
+      href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
+      target="_top">Cassini</a>'s method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#collins" class="summary-sig-name">collins</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pointB</span>,
+        <span class="summary-sig-arg">pointC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      3-Point resection between this and 2 other points using <a 
+      href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
+      target="_top">Collins</a>' method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -187,6 +235,55 @@
         <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
       Compute the height of this cartesian above or below and the 
       projection on this datum's ellipsoid surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#pierlot" class="summary-sig-name">pierlot</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">alpha12</span>,
+        <span class="summary-sig-arg">alpha23</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      3-Point resection between this and two other points using <a 
+      href="http://www.Telecom.ULg.ac.BE/triangulation" 
+      target="_top">Pierlot</a>'s method <code>ToTal</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra" class="summary-sig-name">tienstra</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pointB</span>,
+        <span class="summary-sig-arg">pointC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      3-Point resection between this and two other points using <a 
+      href="https://WikiPedia.org/wiki/Tienstra_formula" 
+      target="_top">Tienstra</a>'s formula.</td>
           <td align="right" valign="top">
             
             
@@ -687,6 +784,142 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="cassini"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cassini</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pointB</span>,
+        <span class="sig-arg">pointC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection between this and 2 other points using <a 
+  href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
+  target="_top">Cassini</a>'s method.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pointB</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>pointC</code></strong> - Center point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <code>b</code> from 
+          <b><code>pointA</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <code>a</code> from 
+          <b><code>pointB</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
+          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The survey point, an instance of this (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
+        <b><code>pointM</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Typically, <b><code>pointC</code></b> is between this and 
+        <b><code>pointB</code></b>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
+        target="_top">Three Point Resection Problem</a> and function <a 
+        href="pygeodesy.resections-module.html#cassini" 
+        class="link">pygeodesy.cassini</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="collins"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">collins</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pointB</span>,
+        <span class="sig-arg">pointC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection between this and 2 other points using <a 
+  href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
+  target="_top">Collins</a>' method.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pointB</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>pointC</code></strong> - Center point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <code>b</code> from 
+          <b><code>pointA</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <code>a</code> from 
+          <b><code>pointB</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
+          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
+          class="link">Collins5Tuple</a><code>(pointP, pointH, a, b, 
+          c)</code> with survey <code>pointP</code>, auxiliary 
+          <code>pointH</code>, each an instance of this (sub-)class and 
+          triangle sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointB</code></b> or <b><code>pointM</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Typically, <b><code>pointC</code></b> is between this and 
+        <b><code>pointB</code></b>.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
+        target="_top">Collins' methode</a> and function <a 
+        href="pygeodesy.resections-module.html#collins" 
+        class="link">pygeodesy.collins</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="convertDatum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -872,6 +1105,158 @@
       <p><strong>See Also:</strong>
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
         class="link">Ellipsoid.height4</a> for more information.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="pierlot"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pierlot</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">alpha12</span>,
+        <span class="sig-arg">alpha23</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection between this and two other points using <a 
+  href="http://www.Telecom.ULg.ac.BE/triangulation" 
+  target="_top">Pierlot</a>'s method <code>ToTal</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha12</code></strong> - Angle subtended from this point to <b><code>point2</code></b> 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>alpha23</code></strong> - Angle subtended from <b><code>point2</code></b> to 
+          <b><code>point3</code></b> (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the Z component, otherwise use 
+          <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The survey (or robot) point, an instance of this (sub-)class.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <b><code>alpha12</code></b> or <b><code>alpha23</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This point, <b><code>point2</code></b> and 
+        <b><code>point3</code></b> are ordered counter-clockwise.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
+        target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
+        Object Triangulation Algorithm for Mobile Robot 
+        Positioning&quot;</a>, <a 
+        href="http://Telecom.ULg.ac.BE/triangulation" target="_top">18 
+        Triangulation Algorithms for 2D Positioning (also known as the 
+        Resection Problem)</a> and functions <a 
+        href="pygeodesy.resections-module.html#pierlot" 
+        class="link">pygeodesy.pierlot</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="tienstra"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tienstra</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pointB</span>,
+        <span class="sig-arg">pointC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>3-Point resection between this and two other points using <a 
+  href="https://WikiPedia.org/wiki/Tienstra_formula" 
+  target="_top">Tienstra</a>'s formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pointB</code></strong> - Second point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>pointC</code></strong> - Third point (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
+          <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
+          <code><b>useZ</b>=False</code>).</li>
+        <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <code>a</code> from 
+          <b><code>pointB</code></b> to <b><code>pointC</code></b> 
+          (<code>degrees</code>, non-negative).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <code>b</code> from this to 
+          <b><code>pointC</code></b> (<code>degrees</code>, non-negative) 
+          or <code>None</code> if <code><b>gamma</b> is not None</code>.</li>
+        <li><strong class="pname"><code>gamma</code></strong> - Angle subtended by triangle side <code>c</code> from this to 
+          <b><code>pointB</code></b> (<code>degrees</code>, non-negative) 
+          or <code>None</code> if <code><b>beta</b> is not None</code>.</li>
+        <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
+          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.resections.Tienstra7Tuple-class.html" 
+          class="link">Tienstra7Tuple</a><code>(pointP, A, B, C, a, b, 
+          c)</code> with survey <code>pointP</code>, an instance of this 
+          (sub-)class and triangle angle <code>A</code> at this point, 
+          <code>B</code> at <b><code>pointB</code></b> and <code>C</code> 
+          at <b><code>pointC</code></b> in <code>degrees</code> and 
+          triangle sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
+        <b><code>alpha</code></b>, <b><code>beta</code></b> and 
+        <b><code>gamma</code></b> not <code>360</code> or negative 
+        <b><code>alpha</code></b>, <b><code>beta</code></b> or 
+        <b><code>gamma</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointB</code></b> or <b><code>pointC</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        This point, <b><code>pointB</code></b> and 
+        <b><code>pointC</code></b> are ordered clockwise.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
+        target="_top">3-Point Resection Solver</a>, <a 
+        href="http://Telecom.ULG.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/"
+        target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
+        Object Triangulation...&quot;</a>, <a 
+        href="http://Telecom.ULG.ac.BE/triangulation/" target="_top">18 
+        Triangulation Algorithms...</a> and function <a 
+        href="pygeodesy.resections-module.html#tienstra" 
+        class="link">pygeodesy.tienstra</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1571,7 +1956,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 23 14:04:02 2021
+    Generated by Epydoc 3.0.1 on Fri Oct 29 16:12:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

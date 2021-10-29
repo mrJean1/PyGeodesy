@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.08.14'
+__version__ = '21.10.27'
 
 _default_     = 'default'
 _kwargs_      = 'kwargs'
@@ -212,6 +212,18 @@ class RangeError(_ValueError):
        L{pygeodesy.parseDMS2} or L{pygeodesy.parseRad}.
 
        @see: Function L{pygeodesy.rangerrors}.
+    '''
+    pass
+
+
+class ResectionError(_ValueError):
+    '''Error raised for resection issues.
+    '''
+    pass
+
+
+class TriangleError(_ValueError):
+    '''Error raised for triangle, inter- or resection issues.
     '''
     pass
 

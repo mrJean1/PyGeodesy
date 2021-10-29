@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.10.23'
+__version__ = '21.10.26'
 
 
 def _c2(*names):
@@ -75,11 +75,13 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
-             'perimeter', 'Peucker', 'pitch', 'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
+             'perimeter', 'Peucker', 'Pierlot', 'pitch',
+             'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
+             'scipy', 'semi-perimeter', 'simplify', 'Snellius', 'Snellius-Pothenot', 'Snyder',
+             'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
@@ -88,7 +90,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'volume', ' volumetric',
-             'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam',
+             'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
              'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',

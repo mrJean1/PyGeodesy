@@ -4,11 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.22'
+__version__ = '21.10.29'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F__F_, clipCS4, ClipError, clipLB6, clipSH, clipSH3
+from pygeodesy import F_D, F__F_, boundsOf, \
+               clipCS4, ClipError, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -169,6 +170,13 @@ class Tests(TestsBase):
                 t = sh = str(x)  # .split(':')[0]
             self.test('clipSH3.warped' + r, sh, t)
             cs = tuple(reversed(cs))
+
+        cs = boundsOf(cs)
+        ps = boundsOf(ps)
+        self.test(boundsOf.__name__, cs, '(10.0, 10.0, 20.0, 20.0)')
+        self.test(boundsOf.__name__, ps, '(15.0, 10.0, 25.0, 30.0)')
+        self.test('enclosures', cs.enclosures(ps), '(5.0, 0.0, -5.0, -10.0)')
+        self.test('overlap', cs.overlap(ps), '(15.0, 10.0, 20.0, 20.0)')
 
         i = 3  # <https://GitHub.com/mdabdk/sutherland-hodgman>
         for ps, cs, x in (([(-1,  1), ( 1, 1), (1, -1), (-1, -1)], [(0, 0), (0, 2), (2, 2), (2, 0)],

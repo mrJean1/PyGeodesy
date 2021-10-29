@@ -28,7 +28,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.10.19'
+__version__ = '21.10.25'
 
 
 class Vector3d(Vector3dBase):
@@ -251,7 +251,7 @@ class Vector3d(Vector3dBase):
 
            @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
-           @raise IntersectionError: Near-coincident or -colinear points.
+           @raise TriangleError: Near-coincident or -colinear points.
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 

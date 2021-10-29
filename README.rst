@@ -91,7 +91,7 @@ Tests
 The tests have been run with Python 3.10.0 (with geographiclib_ 1.52),
 Python 3.9.6 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.6 Big
+and macOS\' Python 2.7.16 (with GeodSolve_ 1.51), all on macOS 11.6.1 Big
 Sur (aka 10.16) and in 64-bit only.  The tests are run with and without
 ``lazy import`` for Python 3 and with command line option ``-W always``
 and environment variable ``PYGEODESY_WARNINGS=on`` for all Python versions.
@@ -136,7 +136,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.0, both in 64-bit on macOS 11.6 Big
+and with Flake8_ using Python 3.10.0, both in 64-bit on macOS 11.6.1 Big
 Sur (aka 10.16).
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
@@ -145,7 +145,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 23, 2021.*
+*Last updated: Oct 31, 2021.*
 
 License
 =======
