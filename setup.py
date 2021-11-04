@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.10.26'
+__version__ = '21.11.04'
 
 
 def _c2(*names):
@@ -80,8 +80,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'semi-perimeter', 'simplify', 'Snellius', 'Snellius-Pothenot', 'Snyder',
-             'Soddy', 'Soddy-circles', 'Soldner',
+             'scipy', 'semi-perimeter', 'sexagecimal', 'simplify',
+             'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
