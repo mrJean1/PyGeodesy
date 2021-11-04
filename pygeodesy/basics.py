@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.10.04'
+__version__ = '21.11.04'
 
 _required_ = 'required'
 
@@ -60,9 +60,15 @@ try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     _Strs  = basestring, str
 
-    def _Xstr(x):  # XXX invoke only with caught import exception B{C{x}}: ...
-        t = str(x)  # 'cannot import name _distributor_init' (only for numpy, ...
-        if '_distributor_init' in t:  # ... scipy on arm64 macOS' Python 2.7.16?)
+    def _Xstr(exc):  # PYCHOK no cover
+        '''I{Invoke only with caught import exception} B{C{exc}}.
+
+           C{... "cannot import name _distributor_init" ...}
+
+           only for numpy, scipy on arm64 macOS' Python 2.7.16?
+        '''
+        t = str(exc)
+        if '_distributor_init' in t:
             from sys import exc_info
             from traceback import extract_tb
             tb = exc_info()[2]  # 3-tuple (type, value, traceback)
@@ -479,16 +485,17 @@ def _xcopy(inst, deep=False):
 
 
 def _xdup(inst, **items):
-    '''(INTERNAL) Duplicate an object, replacing some items.
+    '''(INTERNAL) Duplicate an object, replacing some attributes.
 
        @arg inst: The object to copy (any C{type}).
        @kwarg items: Attributes to be changed (C{any}).
 
-       @return: The duplicate if B{C{inst}}.
+       @return: Shallow duplicate of B{C{inst}} with modified
+                attributes, if any B{C{items}}.
 
        @raise AttributeError: Some B{C{items}} invalid.
     '''
-    d = _xcopy(deep=False)
+    d = _xcopy(inst, deep=False)
     for n, v in items.items():
         if not hasattr(d, n):
             from pygeodesy.named import classname

@@ -107,24 +107,24 @@ Tests
 =====
 
 The tests have been run with Python 3.10.0 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52), Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy
-<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy
-<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS'
-Python 2.7.16 (with U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all
-on macOS 11.6.1 Big Sur (aka 10.16) and in 64-bit only.  The tests are run with and without C{lazy import}
-for Python 3 and with command line option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on}
-for all Python versions.  The results of only those tests are included in the distribution files.
+1.52), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy <https://PyPI.org/project/numpy>}
+1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all on macOS 12.0.1 Monterey and
+in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line
+option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The
+results of only those tests are included in the distribution files.
 
-Python 3.10.0, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon (C{arm64}), all other Python versions
-run on Intel (C{x86_64}) or I{emulated} Intel (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
+Python 3.10.0 and 3.9.6 run on Apple Silicon (C{arm64} I{natively}), all other Python versions run on Intel
+(C{x86_64}) or Intel I{emulation} (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.6
-(with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>}
-1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy
-<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python
-2.7.16 (U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage
-report in HTML and a PDF summary are included in the distribution files.
+(with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and
+U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage report in HTML and
+a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15 and U{PyPy<https://PyPy.org>} 7.3.1 (Python 3.6.9)
 and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib<https://PyPI.org/project/geographiclib>}
@@ -143,7 +143,7 @@ Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6
 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>}
 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and
 U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-5.2 Big Sur (aka 10.16), 10.15.3, 10.15.5-7
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7
 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan
 and/or MacOS X 10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib
 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with
@@ -158,7 +158,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.0, both in 64-bit on macOS 11.6.1 Big Sur (aka 10.16).
+using Python 3.10.0, both in 64-bit on macOS 12.0.1 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -231,6 +231,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG: Format degrees as unsigned "[D]DD" plus suffix without symbol (C{str}).
 @var F_MIN: Format degrees as unsigned "[D]DDMM" plus suffix without symbols (C{str}).
 @var F_SEC: Format degrees as unsigned "[D]DDMMSS" plus suffix without symbols (C{str}).
+@var F_D60: Format degrees as unsigned "[D]DD.MMSS" plus suffix without symbols (C{str}).
 @var F__E:  Format degrees as unsigned "%E" plus suffix without symbol (C{str}).
 @var F__F:  Format degrees as unsigned "%F" plus suffix without symbol (C{str}).
 @var F__G:  Format degrees as unsigned "%G" plus suffix without symbol (C{str}).
@@ -242,9 +243,10 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG_: Format degrees as signed "-/[D]DD" without suffix and symbol (C{str}).
 @var F_MIN_: Format degrees as signed "-/[D]DDMM" without suffix and symbols (C{str}).
 @var F_SEC_: Format degrees as signed "-/[D]DDMMSS" without suffix and symbols (C{str}).
-@var F__E_:  Format degrees as signed "-%E" without suffix and symbol (C{str}).
-@var F__F_:  Format degrees as signed "-%F" without suffix and symbol (C{str}).
-@var F__G_:  Format degrees as signed "-%G" without suffix and symbol (C{str}).
+@var F_D60_: Format degrees as signed "-/[D]DD.MMSS" without suffix and symbols (C{str}).
+@var F__E_:  Format degrees as signed "-/%E" without suffix and symbol (C{str}).
+@var F__F_:  Format degrees as signed "-/%F" without suffix and symbol (C{str}).
+@var F__G_:  Format degrees as signed "-/%G" without suffix and symbol (C{str}).
 @var F_RAD_: Convert degrees to radians and format as signed "-/RR" without suffix (C{str}).
 
 @var F_D__:   Format degrees as signed "-/+deg°" without suffix (C{str}).
@@ -253,6 +255,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG__: Format degrees as signed "-/+[D]DD" without suffix and symbol (C{str}).
 @var F_MIN__: Format degrees as signed "-/+[D]DDMM" without suffix and symbols (C{str}).
 @var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without suffix and symbols (C{str}).
+@var F_D60__: Format degrees as signed "-/+[D]DD.MMSS" without suffix and symbols (C{str}).
 @var F__E__:  Format degrees as signed "-/+%E" without suffix and symbol (C{str}).
 @var F__F__:  Format degrees as signed "-/+%F" without suffix and symbol (C{str}).
 @var F__G__:  Format degrees as signed "-/+%G" without suffix and symbol (C{str}).
@@ -500,7 +503,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.10.31'
+__version__ = '21.11.04'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

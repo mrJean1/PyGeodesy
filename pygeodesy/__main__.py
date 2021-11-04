@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '21.08.14'
+__version__ = '21.11.01'
 
 
 def _main():  # PYCHOK no cover
@@ -16,17 +16,18 @@ def _main():  # PYCHOK no cover
         from pygeodesy import _isfrozen, isLazy, pygeodesy_abspath, version
         from pygeodesy.interns import _COMMASPACE_, _floats, _pygeodesy_abspath_, \
                                       _pythonarchine, _SPACE_, _version_
-        from pygeodesy.lazily import printf
+        from pygeodesy.lazily import _a_l_l_, _all_imports, printf
         from pygeodesy.streprs import Fmt
 
         def _dot_attr(name, value):
             return Fmt.DOT(Fmt.EQUAL(name, value))
 
-        p = [_dot_attr(*t) for t in ((_version_,           version),
-                                     (_pygeodesy_abspath_, pygeodesy_abspath),
-                                     ('isLazy',            isLazy),
-                                     ('_isfrozen',        _isfrozen),
-                                     ('_floats',      len(_floats)))]
+        p = [_dot_attr(*t) for t in ((_version_,            version),
+                                     (_pygeodesy_abspath_,  pygeodesy_abspath),
+                                     ('isLazy',             isLazy),
+                                     ('_isfrozen',       _isfrozen),
+                                     ('_floats',      len(_floats)),
+                                     (_a_l_l_, len(_all_imports())))]
 
         def _name_version(pkg):
             return _SPACE_(pkg.__name__, pkg.__version__)

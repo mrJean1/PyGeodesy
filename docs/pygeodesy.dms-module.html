@@ -59,10 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module dms</h1><p class="nomargin-top"></p>
-<p>Parsers and formatters of degrees, minutes and seconds.</p>
+<p>Parsers and formatters of angles in degrees, minutes and seconds.</p>
   <p>Functions to parse and format bearing, compass, lat- and longitudes in
-  various forms of degrees, minutes and seconds, including parsing both 
-  <code>decimal</code> and <code>sexagecimal</code> degrees.</p>
+  various forms of degrees, minutes and seconds with and without symbols 
+  and suffix, including parsing of <code>decimal</code> and 
+  <code>sexagecimal</code> degrees.</p>
   <p>After <i>(C) Chris Veness 2011-2015</i> published under the same MIT 
   Licence**, see <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
@@ -72,7 +73,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.10.18
+        21.11.01
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -283,9 +284,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
-        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Normalize all degree &#730;, minute ' and second &quot; symbols in a 
-      string to the default symbols %s, %s and %s.</td>
+        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Normalize all degree, minute and second DMS symbols in a string to 
+      the default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and 
+      '\xe2\x80\xb3'.</td>
           <td align="right" valign="top">
             
             
@@ -461,216 +463,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'"><code class="variable-quote">'</code><code class="variable-string">-d</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'"><code class="variable-quote">'</code><code class="variable-string">-dm</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'"><code class="variable-quote">'</code><code class="variable-string">-dms</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'"><code class="variable-quote">'</code><code class="variable-string">-deg</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'"><code class="variable-quote">'</code><code class="variable-string">-min</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'"><code class="variable-quote">'</code><code class="variable-string">-sec</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'"><code class="variable-quote">'</code><code class="variable-string">-e</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'"><code class="variable-quote">'</code><code class="variable-string">-f</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'"><code class="variable-quote">'</code><code class="variable-string">-g</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'"><code class="variable-quote">'</code><code class="variable-string">-rad</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'"><code class="variable-quote">'</code><code class="variable-string">+d</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'"><code class="variable-quote">'</code><code class="variable-string">+dm</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'"><code class="variable-quote">'</code><code class="variable-string">+dms</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'"><code class="variable-quote">'</code><code class="variable-string">+deg</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'"><code class="variable-quote">'</code><code class="variable-string">+min</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'"><code class="variable-quote">'</code><code class="variable-string">+sec</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'"><code class="variable-quote">'</code><code class="variable-string">+e</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'"><code class="variable-quote">'</code><code class="variable-string">+f</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'"><code class="variable-quote">'</code><code class="variable-string">+g</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'"><code class="variable-quote">'</code><code class="variable-string">+rad</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
@@ -700,6 +492,237 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''">''</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D60"></a><span class="summary-name">F_D60</span> = <code title="'d60'"><code class="variable-quote">'</code><code class="variable-string">d60</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D60_"></a><span class="summary-name">F_D60_</span> = <code title="'-d60'">'-d60'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D60__"></a><span class="summary-name">F_D60__</span> = <code title="'+d60'">'+d60'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'">'-deg'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'">'+deg'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'">'-dms'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'">'+dms'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'">'-dm'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'">'+dm'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'">'-d'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'">'+d'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'">'-min'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'">'+min'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'">'-rad'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'">'+rad'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'">'-sec'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'">'+sec'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'">'-e'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'">'+e'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'">'-f'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'">'+f'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'">'-g'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'">'+g'</code>
     </td>
   </tr>
 </table>
@@ -741,6 +764,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -753,14 +777,15 @@
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -768,6 +793,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -778,7 +805,8 @@
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -809,15 +837,15 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Valid <b><code>-limit..+limit</code></b> range 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>abs(deg)</code></b> beyond <b><code>limit</code></b> 
-        and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>deg</code></b> outside the valid 
+        <code>-/+<b>limit</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -843,15 +871,15 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Unclipped lat- or longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Valid <b><code>-limit..+limit</code></b> range 
-          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (<code>radians</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>abs(rad)</code></b> beyond <b><code>limit</code></b> 
-        and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>rad</code></b> outside the valid 
+        <code>-/+<b>limit</b></code> range and  <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -886,6 +914,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -898,14 +927,15 @@
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -913,6 +943,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -923,7 +955,8 @@
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -1056,27 +1089,28 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
           href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
           href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
           href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
           href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
           <a href="pygeodesy.dms-module.html#F_DEG_" 
           class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a> 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -1084,6 +1118,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -1094,7 +1130,8 @@
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1133,6 +1170,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -1145,14 +1183,15 @@
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -1160,6 +1199,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -1208,6 +1249,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -1220,14 +1262,15 @@
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -1235,6 +1278,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -1245,7 +1290,8 @@
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1263,21 +1309,23 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>&nbsp;(<span class="sig-arg">strDMS</span>,
-        <span class="sig-arg">norm</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">norm</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Normalize all degree &#730;, minute ' and second &quot; symbols in a string
-  to the default symbols %s, %s and %s.</p>
+  <p>Normalize all degree, minute and second DMS symbols in a string to the
+  default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and '\xe2\x80\xb3'.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - DMS (<code>str</code>).</li>
-        <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol, default symbol otherwise 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol (<code>str</code>) or 
+          <code>None</code> for the default DMS symbols.  Use 
+          <code><b>norm</b>=&quot;&quot;</code> or 
+          <code><b>norm</b>=pygeodesy.NN</code> to remove all DMS symbols.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
@@ -1312,8 +1360,9 @@
           <code>tuple</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot; and 
           &quot;SS&quot; ('').</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>float(D.MMSS)</code> 
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>float(D.MMSS)</code> to 
           <code>base-60</code> &quot;MM&quot; and &quot;SS&quot; digits.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1323,8 +1372,9 @@
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
         or the <b><code>strDDDMMSS</code></b> form is incompatible with the
         suffixed or <b><code>suffix</code></b> compass point.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid range and
-        <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -1397,15 +1447,17 @@
           (<code>float</code>, <code>int</code>, other).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (&quot;''&quot;).</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -1456,10 +1508,10 @@
           <code>degrees</code>).</li>
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (<code>str</code> or 
           <code>degrees</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> range 
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1470,7 +1522,8 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strLat</code></b> or <b><code>strLon</code></b> 
-        outside the valid range and <a 
+        outside the valid <code>-/+<b>clipLat</b></code> or 
+        <code>-/+<b>clipLon</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -1521,10 +1574,11 @@
         <li><strong class="pname"><code>strllh</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> 
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between <code>&quot;lat lon [h]&quot;</code> 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1534,8 +1588,10 @@
           <code>float</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strllh</code></b> outside valid
-        range and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strllh</code></b> outside the 
+        valid <code>-/+<b>clipLat</b></code> or 
+        <code>-/+<b>clipLon</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strllh</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
@@ -1583,14 +1639,16 @@
           <code>radians</code>).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>radians</code>).</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Radians (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -1622,6 +1680,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a> or <a
@@ -1633,11 +1692,12 @@
           negative <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous precision (<code>int</code>).</dd>
+        <dd>Previous precision for the <b><code>form</code></b> 
+          (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
-        <b><code>prec</code></b> outside valid range.</li>
+        <b><code>prec</code></b> outside the valid range <code>-/+9</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1675,6 +1735,7 @@
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -1687,14 +1748,15 @@
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -1702,6 +1764,8 @@
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -1712,10 +1776,11 @@
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes and seconds 
+          (<code>str</code>).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
-        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees ('').</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees (<code>'-'</code>).</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees (<code>''</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1754,7 +1819,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 29 16:12:39 2021
+    Generated by Epydoc 3.0.1 on Thu Nov  4 15:41:04 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

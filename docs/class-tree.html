@@ -1001,6 +1001,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1012,14 +1020,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1144,12 +1144,12 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1160,12 +1160,12 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1984,6 +1984,11 @@
         <code>radius</code> and trilaterated <code>center</code> of the 
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Survey3Tuple-class.html">pygeodesy.resections.Survey3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
+        <code>P</code> to each of the triangle corners <code>A</code>, 
+        <code>B</code> and <code>C</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
@@ -3081,6 +3086,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.resections.Survey3Tuple-class.html">pygeodesy.resections.Survey3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
+        <code>P</code> to each of the triangle corners <code>A</code>, 
+        <code>B</code> and <code>C</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
         <code>pointP</code>, interior triangle angles <code>A</code>, 
@@ -3284,7 +3294,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 29 16:12:38 2021
+    Generated by Epydoc 3.0.1 on Thu Nov  4 15:41:03 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

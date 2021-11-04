@@ -4,16 +4,20 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '20.05.05'
+__version__ = '21.11.04'
 
 from base import TestsBase
 
 from pygeodesy import INF, NAN, NEG0, clips, halfs2, \
                       isint, isfinite, isneg0, isscalar, \
                       map1, property_RO, splice
+from pygeodesy.basics import _xdup
 
 
 class C(object):
+    a = None
+    b = None
+
     @property_RO
     def r_o(self):
         return True
@@ -58,6 +62,11 @@ class Tests(TestsBase):
             self.test('c.r_o = False', str(x), str(x))
         except Exception as x:
             self.test('c.r_o = False', repr(x), AttributeError.__name__)
+
+        self.test('c.a, c.b', (c.a, c.b), '(None, None)')
+        d = _xdup(c, a=True, b=False)
+        self.test('d.a, d.b', (d.a, d.b), '(True, False)')
+        self.test('c.a, c.b', (c.a, c.b), '(None, None)')
 
         a, b = splice(range(10))  # PYCHOK False
         self.test('splice', (a, b), map1(type(a), (0, 2, 4, 6, 8), (1, 3, 5, 7, 9)))

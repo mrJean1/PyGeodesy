@@ -124,10 +124,12 @@ _convergence_ = _Prefix('convergence')       # PYCHOK expected
 _conversion_          = 'conversion'         # PYCHOK expected
 _convex_              = 'convex'             # PYCHOK expected
 _cubic_               = 'cubic'              # PYCHOK expected
+_d_                   = 'd'                  # PYCHOK expected
 _DASH_          = _Join('-')                 # PYCHOK == _MINUS_
 _datum_               = 'datum'              # PYCHOK expected
 _decode3_             = 'decode3'            # PYCHOK expected
 _deg_                 = 'deg'                # PYCHOK expected
+_DEGREE_              = '°'                  # PYCHOK DMS symbol
 _degrees_             = 'degrees'            # PYCHOK expected
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
 _DEQUALSPACED_  = _Join(' == ')              # PYCHOK expected
@@ -216,6 +218,7 @@ _meter_               = 'meter'              # PYCHOK expected
 _meter2_              = 'meter2'             # PYCHOK SQUARED
 _MGRS_                = 'MGRS'               # PYCHOK expected
 _MINUS_               = _DASH_               # PYCHOK expected
+_MINUTE_              = '′'                  # PYCHOK DMS symbol
 _module_              = 'module'             # PYCHOK expected
 _n_                   = 'n'                  # PYCHOK expected
 _N_                   = 'N'                  # PYCHOK expected
@@ -261,7 +264,7 @@ _precision_           = 'precision'          # PYCHOK expected
 _prime_vertical_      = 'prime_vertical'     # PYCHOK expected
 _pygeodesy_abspath_   = 'pygeodesy_abspath'  # PYCHOK expected
 _Python_     = _Python_('Python')            # PYCHOK singleton
-# _QUOTE1_            = "'"                  # PYCHOK expected
+_QUOTE1_              = "'"                  # PYCHOK expected
 _QUOTE2_              = '"'                  # PYCHOK expected
 # _QUOTE3_            = "'''"                # PYCHOK expected
 # _QUOTE6_            = '"""'                # PYCHOK expected
@@ -284,6 +287,7 @@ _S_                   = 'S'                  # PYCHOK expected
 _scalar_              = 'scalar'             # PYCHOK expected
 _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
+_SECOND_              = '″'                  # PYCHOK DMS symbol
 _semi_circular_       = 'semi-circular'      # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
 _singular_            = 'singular'           # PYCHOK expected
@@ -479,7 +483,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.10.24'
+__version__ = '21.11.01'
 
 _Py2T = _Py3T = None  # cached _platform2 and _pythonarchine tuples
 

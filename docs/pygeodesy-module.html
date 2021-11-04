@@ -224,8 +224,6 @@
     <p>The tests have been run with Python 3.10.0 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52), Python 3.9.6 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52 and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
     Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
@@ -233,31 +231,29 @@
     target="_top">GeodSolve</a> 1.51, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.5.2) and macOS' Python 2.7.16 (with <a 
+    1.5.2) and Python 2.7.18 (with <a 
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 11.6.1 Big Sur (aka 
-    10.16) and in 64-bit only.  The tests are run with and without 
-    <code>lazy import</code> for Python 3 and with command line option 
-    <code>-W always</code> and environment variable 
+    target="_top">GeodSolve</a> 1.51, all on macOS 12.0.1 Monterey and in 
+    64-bit only.  The tests are run with and without <code>lazy 
+    import</code> for Python 3 and with command line option <code>-W 
+    always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of only those tests are included in the distribution files.</p>
-    <p>Python 3.10.0, 3.9.6 and macOS' Python 2.7.16 run on Apple Silicon 
-    (<code>arm64</code>), all other Python versions run on Intel 
-    (<code>x86_64</code>) or <i>emulated</i> Intel 
+    <p>Python 3.10.0 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
+    <i>natively</i>), all other Python versions run on Intel 
+    (<code>x86_64</code>) or Intel <i>emulation</i> 
     (<code>&quot;arm64_x86_64&quot;</code>, see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.9.6 (with <a 
+    4.5.4 using Python 3.9.6 (with <a href="https://PyPI.org/project/numpy"
+    target="_top">numpy</a> 1.21.2), Python 3.8.10 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52 and <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
-    Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.5.2) and macOS' Python 2.7.16 (<a 
+    1.5.2) and Python 2.7.18 (<a 
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
     target="_top">GeodSolve</a>).  The complete coverage report in HTML and
     a PDF summary are included in the distribution files.</p>
@@ -294,7 +290,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 11.0-5.2 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 
+    on macOS 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina,
     macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, 
     MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
@@ -315,7 +311,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.0, both in 64-bit on macOS 
-    11.6.1 Big Sur (aka 10.16).</p>
+    12.0.1 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -426,7 +422,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.10.31
+        21.11.04
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -460,7 +456,7 @@
         class="link" onclick="show_private();">nvectorBase</a> instead.</em>    </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of degrees, minutes and seconds.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of angles in degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy base classes 
@@ -3562,6 +3558,16 @@
     </td><td class="summary">
         <a href="pygeodesy.units.Str-class.html" class="summary-name">Str</a><br />
       Named <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.Survey3Tuple-class.html" class="summary-name">Survey3Tuple</a><br />
+      3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
+        <code>P</code> to each of the triangle corners <code>A</code>, 
+        <code>B</code> and <code>C</code>.
     </td>
   </tr>
 <tr>
@@ -7126,7 +7132,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f86b0afba50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe6a88adb50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8818,9 +8824,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
-        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Normalize all degree &#730;, minute ' and second &quot; symbols in a 
-      string to the default symbols %s, %s and %s.</td>
+        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Normalize all degree, minute and second DMS symbols in a string to 
+      the default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and 
+      '\xe2\x80\xb3'.</td>
           <td align="right" valign="top">
             
             
@@ -11102,7 +11109,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.10.31'"><code class="variable-quote">'</code><code class="variable-string">21.10.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.11.4'"><code class="variable-quote">'</code><code class="variable-string">21.11.4</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11245,6 +11252,33 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="F_D60"></a><span class="summary-name">F_D60</span> = <code title="'d60'"><code class="variable-quote">'</code><code class="variable-string">d60</code><code class="variable-quote">'</code></code><br />
+      Format degrees as unsigned &quot;[D]DD.MMSS&quot; plus suffix without
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D60_"></a><span class="summary-name">F_D60_</span> = <code title="'-d60'">'-d60'</code><br />
+      Format degrees as signed &quot;-/[D]DD.MMSS&quot; without suffix and 
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D60__"></a><span class="summary-name">F_D60__</span> = <code title="'+d60'">'+d60'</code><br />
+      Format degrees as signed &quot;-/+[D]DD.MMSS&quot; without suffix and
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
       Format degrees as unsigned &quot;[D]DD&quot; plus suffix without 
       symbol (<code>str</code>).
@@ -11254,7 +11288,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'"><code class="variable-quote">'</code><code class="variable-string">-deg</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'">'-deg'</code><br />
       Format degrees as signed &quot;-/[D]DD&quot; without suffix and 
       symbol (<code>str</code>).
     </td>
@@ -11263,7 +11297,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'"><code class="variable-quote">'</code><code class="variable-string">+deg</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'">'+deg'</code><br />
       Format degrees as signed &quot;-/+[D]DD&quot; without suffix and 
       symbol (<code>str</code>).
     </td>
@@ -11290,7 +11324,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'"><code class="variable-quote">'</code><code class="variable-string">-dms</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'">'-dms'</code><br />
       Format degrees as signed &quot;-/deg&#176;min&#8242;sec&#8243;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11299,7 +11333,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'"><code class="variable-quote">'</code><code class="variable-string">+dms</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'">'+dms'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;sec&#8243;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11308,7 +11342,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'"><code class="variable-quote">'</code><code class="variable-string">-dm</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'">'-dm'</code><br />
       Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11317,7 +11351,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'"><code class="variable-quote">'</code><code class="variable-string">+dm</code><code class="variable-quote">'</code></code><br />
+        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'">'+dm'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11326,7 +11360,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'"><code class="variable-quote">'</code><code class="variable-string">-d</code><code class="variable-quote">'</code></code><br />
+        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'">'-d'</code><br />
       Format degrees as signed &quot;-/deg&#176;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11335,7 +11369,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'"><code class="variable-quote">'</code><code class="variable-string">+d</code><code class="variable-quote">'</code></code><br />
+        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'">'+d'</code><br />
       Format degrees as signed &quot;-/+deg&#176;&quot; without suffix 
       (<code>str</code>).
     </td>
@@ -11353,7 +11387,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'"><code class="variable-quote">'</code><code class="variable-string">-min</code><code class="variable-quote">'</code></code><br />
+        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'">'-min'</code><br />
       Format degrees as signed &quot;-/[D]DDMM&quot; without suffix and 
       symbols (<code>str</code>).
     </td>
@@ -11362,7 +11396,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'"><code class="variable-quote">'</code><code class="variable-string">+min</code><code class="variable-quote">'</code></code><br />
+        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'">'+min'</code><br />
       Format degrees as signed &quot;-/+[D]DDMM&quot; without suffix and 
       symbols (<code>str</code>).
     </td>
@@ -11380,7 +11414,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'"><code class="variable-quote">'</code><code class="variable-string">-rad</code><code class="variable-quote">'</code></code><br />
+        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'">'-rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/RR&quot; 
       without suffix (<code>str</code>).
     </td>
@@ -11389,7 +11423,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'"><code class="variable-quote">'</code><code class="variable-string">+rad</code><code class="variable-quote">'</code></code><br />
+        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'">'+rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/+RR&quot; 
       without suffix (<code>str</code>).
     </td>
@@ -11407,7 +11441,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'"><code class="variable-quote">'</code><code class="variable-string">-sec</code><code class="variable-quote">'</code></code><br />
+        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'">'-sec'</code><br />
       Format degrees as signed &quot;-/[D]DDMMSS&quot; without suffix and 
       symbols (<code>str</code>).
     </td>
@@ -11416,7 +11450,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'"><code class="variable-quote">'</code><code class="variable-string">+sec</code><code class="variable-quote">'</code></code><br />
+        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'">'+sec'</code><br />
       Format degrees as signed &quot;-/+[D]DDMMSS&quot; without suffix and 
       symbols (<code>str</code>).
     </td>
@@ -11434,8 +11468,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'"><code class="variable-quote">'</code><code class="variable-string">-e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%E&quot; without suffix and symbol 
+        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'">'-e'</code><br />
+      Format degrees as signed &quot;-/%E&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
   </tr>
@@ -11443,7 +11477,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'"><code class="variable-quote">'</code><code class="variable-string">+e</code><code class="variable-quote">'</code></code><br />
+        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'">'+e'</code><br />
       Format degrees as signed &quot;-/+%E&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
@@ -11461,8 +11495,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'"><code class="variable-quote">'</code><code class="variable-string">-f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%F&quot; without suffix and symbol 
+        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'">'-f'</code><br />
+      Format degrees as signed &quot;-/%F&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
   </tr>
@@ -11470,7 +11504,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'"><code class="variable-quote">'</code><code class="variable-string">+f</code><code class="variable-quote">'</code></code><br />
+        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'">'+f'</code><br />
       Format degrees as signed &quot;-/+%F&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
@@ -11488,8 +11522,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'"><code class="variable-quote">'</code><code class="variable-string">-g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%G&quot; without suffix and symbol 
+        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'">'-g'</code><br />
+      Format degrees as signed &quot;-/%G&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
   </tr>
@@ -11497,7 +11531,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'"><code class="variable-quote">'</code><code class="variable-string">+g</code><code class="variable-quote">'</code></code><br />
+        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'">'+g'</code><br />
       Format degrees as signed &quot;-/+%G&quot; without suffix and symbol 
       (<code>str</code>).
     </td>
@@ -12720,6 +12754,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -12732,14 +12767,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -12747,6 +12783,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -12757,7 +12795,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -13576,15 +13615,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Valid <b><code>-limit..+limit</code></b> range 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>abs(deg)</code></b> beyond <b><code>limit</code></b> 
-        and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>deg</code></b> outside the valid 
+        <code>-/+<b>limit</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -13662,15 +13701,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Unclipped lat- or longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>limit</code></strong> - Valid <b><code>-limit..+limit</code></b> range 
-          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Clipped value (<code>radians</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>abs(rad)</code></b> beyond <b><code>limit</code></b> 
-        and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>rad</code></b> outside the valid 
+        <code>-/+<b>limit</b></code> range and  <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -13980,6 +14019,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -13992,14 +14032,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -14007,6 +14048,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -14017,7 +14060,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -18185,7 +18229,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f86b0afba50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe6a88adb50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19989,27 +20033,28 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
           href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
           href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
           href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
           href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
           <a href="pygeodesy.dms-module.html#F_DEG_" 
           class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a> 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -20017,6 +20062,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -20027,7 +20074,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -20105,6 +20153,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -20117,14 +20166,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -20132,6 +20182,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -20239,6 +20291,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -20251,14 +20304,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -20266,6 +20320,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -20276,7 +20332,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -21470,21 +21527,23 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>&nbsp;(<span class="sig-arg">strDMS</span>,
-        <span class="sig-arg">norm</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">norm</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Normalize all degree &#730;, minute ' and second &quot; symbols in a string
-  to the default symbols %s, %s and %s.</p>
+  <p>Normalize all degree, minute and second DMS symbols in a string to the
+  default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and '\xe2\x80\xb3'.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strDMS</code></strong> - DMS (<code>str</code>).</li>
-        <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol, default symbol otherwise 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol (<code>str</code>) or 
+          <code>None</code> for the default DMS symbols.  Use 
+          <code><b>norm</b>=&quot;&quot;</code> or 
+          <code><b>norm</b>=pygeodesy.NN</code> to remove all DMS symbols.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
@@ -21764,10 +21823,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>strllh</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
         <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Optional, default height (<code>meter</code>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> 
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between <code>&quot;lat lon [h]&quot;</code> 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21777,8 +21837,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>float</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strllh</code></b> outside valid
-        range and <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strllh</code></b> outside the 
+        valid <code>-/+<b>clipLat</b></code> or 
+        <code>-/+<b>clipLon</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strllh</code></b> or <b><a href=pygeodesy.heights-module.html><code>height</code></a></b>.</li>
     </ul></dd>
@@ -21830,8 +21892,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>tuple</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot; and 
           &quot;SS&quot; ('').</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>float(D.MMSS)</code> 
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>float(D.MMSS)</code> to 
           <code>base-60</code> &quot;MM&quot; and &quot;SS&quot; digits.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21841,8 +21904,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
         or the <b><code>strDDDMMSS</code></b> form is incompatible with the
         suffixed or <b><code>suffix</code></b> compass point.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid range and
-        <a href="pygeodesy.errors-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -21915,15 +21979,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>float</code>, <code>int</code>, other).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (&quot;''&quot;).</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -21974,10 +22040,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>degrees</code>).</li>
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (<code>str</code> or 
           <code>degrees</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; ('').</li>
-        <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> range 
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>clipLon</code></strong> - Keep longitude in <b><code>-clipLon..+clipLon</code></b> range 
+        <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -21988,7 +22054,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strLat</code></b> or <b><code>strLon</code></b> 
-        outside the valid range and <a 
+        outside the valid <code>-/+<b>clipLat</b></code> or 
+        <code>-/+<b>clipLon</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -22201,14 +22268,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>radians</code>).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to -clip..+clip (<code>radians</code>).</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
+          (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Radians (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid 
+        <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
@@ -22649,7 +22718,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Points <b><code>point1</code></b>, <b><code>point2</code></b> and 
-        <b><code>point3</code></b> are ordered counter-clockwise.
+        <b><code>point3</code></b> are ordered counter-clockwise, 
+        typically.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -22763,6 +22833,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a> or <a
@@ -22774,11 +22845,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           negative <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Previous precision (<code>int</code>).</dd>
+        <dd>Previous precision for the <b><code>form</code></b> 
+          (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>form</code></b> or <b><code>prec</code></b> or 
-        <b><code>prec</code></b> outside valid range.</li>
+        <b><code>prec</code></b> outside the valid range <code>-/+9</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -23856,10 +23928,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>degrees</code>, non-negative).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Snellius3Tuple<code>(PA, PB, PC)</code> with distance from survey
-          point <code>P</code> to each of the triangle corners 
-          <code>A</code>, <code>B</code> and <code>C</code> (same units as 
-          <b><code>a</code></b>, <b><code>b</code></b> and 
+        <dd><a href="pygeodesy.resections.Survey3Tuple-class.html" 
+          class="link">Survey3Tuple</a><code>(PA, PB, PC)</code> with 
+          distance from survey point <code>P</code> to each of the triangle
+          corners <code>A</code>, <code>B</code> and <code>C</code> (same 
+          units as <b><code>a</code></b>, <b><code>b</code></b> and 
           <b><code>c</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -24566,6 +24639,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
           href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
           href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
           href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
           href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
@@ -24578,14 +24652,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
           <a href="pygeodesy.dms-module.html#F_SEC_" 
           class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
-          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
-          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
-          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
-          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
-          <a href="pygeodesy.dms-module.html#F_DM__" 
-          class="link">F_DM__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS__" 
+          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
+          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
+          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
+          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
+          <a href="pygeodesy.dms-module.html#F_RAD_" 
+          class="link">F_RAD_</a>, <a 
+          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
+          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
+          <a href="pygeodesy.dms-module.html#F_DMS__" 
           class="link">F_DMS__</a>, <a 
           href="pygeodesy.dms-module.html#F_DEG__" 
           class="link">F_DEG__</a>, <a 
@@ -24593,6 +24668,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">F_MIN__</a>, <a 
           href="pygeodesy.dms-module.html#F_SEC__" 
           class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F_D60__" 
+          class="link">F_D60__</a>, <a 
           href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
           <a href="pygeodesy.dms-module.html#F__F__" 
           class="link">F__F__</a>, <a 
@@ -24603,10 +24680,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
           negative <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between degrees, minutes and seconds 
+          (<code>str</code>).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
-        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
-        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees ('').</li>
+        <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees (<code>'-'</code>).</li>
+        <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive degrees (<code>''</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -25368,7 +25446,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>b</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b> or <b><code>b</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>radC</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -26268,10 +26347,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>max</code>, invoked with 2 arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Snellius3Tuple<code>(PA, PB, PC)</code> with distance from survey
-          point <code>P</code> to each of the triangle corners 
-          <code>A</code>, <code>B</code> and <code>C</code> (same units as 
-          <b><code>a</code></b>, <b><code>b</code></b> and 
+        <dd><a href="pygeodesy.resections.Survey3Tuple-class.html" 
+          class="link">Survey3Tuple</a><code>(PA, PB, PC)</code> with 
+          distance from survey point <code>P</code> to each of the triangle
+          corners <code>A</code>, <code>B</code> and <code>C</code> (same 
+          units as <b><code>a</code></b>, <b><code>b</code></b> and 
           <b><code>c</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -26622,7 +26702,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 29 16:12:39 2021
+    Generated by Epydoc 3.0.1 on Thu Nov  4 15:41:04 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

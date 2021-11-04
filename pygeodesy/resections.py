@@ -15,7 +15,7 @@ from pygeodesy.errors import _and, _or, ResectionError, TriangleError, _xkwds
 from pygeodesy.fmath import favg, fdot, fidw, fmean, fsum, fsum_, fsum1, fsum1_, \
                             hypot, hypot2_
 from pygeodesy.interns import EPS, EPS0, EPS02, PI, PI2, PI_2, PI_4, _a_, _A_, \
-                             _b_, _B_, _c_, _C_, _coincident_, _colinear_, \
+                             _b_, _B_, _c_, _C_, _coincident_, _colinear_, _d_, \
                              _invalid_, _negative_, _not_, _rIn_, _SPACE_, \
                              _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -28,9 +28,8 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '21.10.28'
+__version__ = '21.11.01'
 
-_d_         = 'd'
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
 _PB_        = 'PB'
@@ -52,7 +51,7 @@ class Collins5Tuple(_NamedTuple):
     _Units_ = (_Pass,    _Pass,     Distance, Distance, Distance)
 
 
-class Snellius3Tuple(_NamedTuple):
+class Survey3Tuple(_NamedTuple):
     '''3-Tuple C{(PA, PB, PC)} with distance from survey point C{P} to each
        of the triangle corners C{A}, C{B} and C{C}.
     '''
@@ -169,8 +168,8 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         y = fdot(t, H1.y,  C.y, C.x, H1.x) / N
         z = _zidw(A, B, C, x, y) if useZ else 0
 
-        C = Clas or pointA.classof
-        return C(x, y, z, **_xkwds(Clas_kwds, name=cassini.__name__))
+        clas = Clas or pointA.classof
+        return clas(x, y, z, **_xkwds(Clas_kwds, name=cassini.__name__))
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
@@ -242,7 +241,7 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         if isnear0(sra) or isnear0(srH):
             raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
 
-        Clas =  Clas or pointA.classof
+        clas =  Clas or pointA.classof
         kwds = _xkwds(Clas_kwds, name=collins.__name__)
 
 #       za, a = _azi_len2(C, B, PI2)
@@ -259,9 +258,9 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 #       d = a * sin(za - zh) / sin(rb)  # B.minus(P).length
         d = b * sin(zb - zh) / sra  # A.minus(P).length
         r = zh - ra  # zb - PI + (PI - ra - (zb - zh))
-        P = _cV3(d, r, A, B, C, useZ, Clas, **kwds)
+        P = _cV3(d, r, A, B, C, useZ, clas, **kwds)
 
-        H = Clas(H.x, H.y, H.z, **kwds)
+        H = clas(H.x, H.y, H.z, **kwds)
         a = B.minus(C).length
         return Collins5Tuple(P, H, a, b, c)
 
@@ -290,7 +289,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
                          point instance.
 
        @note: Points B{C{point1}}, B{C{point2}} and B{C{point3}} are ordered
-              counter-clockwise.
+              counter-clockwise, typically.
 
        @return: The survey (or robot) point, an instance of B{C{Clas}} or if
                 C{B{Clas} is None} of B{C{point1}}'s (sub-)class.
@@ -346,8 +345,8 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
         y = B2.y - k * x12_23
         z = _zidw(B1, B2, B3, x, y) if useZ else 0
 
-        C = Clas or point1.classof
-        return C(x, y, z, **_xkwds(Clas_kwds, name=pierlot.__name__))
+        clas = Clas or point1.classof
+        return clas(x, y, z, **_xkwds(Clas_kwds, name=pierlot.__name__))
 
     except (TypeError, ValueError) as x:
         raise ResectionError(point1=point1, point2=point2, point3=point3,
@@ -366,7 +365,7 @@ def snellius3(a, b, degC, alpha, beta):
        @arg alpha: Angle subtended by triangle side B{C{b}} (C{degrees}, non-negative).
        @kwarg beta: Angle subtended by triangle side B{C{a}} (C{degrees}, non-negative).
 
-       @return: L{Snellius3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
+       @return: L{Survey3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
                 each of the triangle corners C{A}, C{B} and C{C} (same units as B{C{a}},
                 B{C{b}} and B{C{c}}).
 
@@ -375,10 +374,6 @@ def snellius3(a, b, degC, alpha, beta):
 
        @see: Function L{pygeodesy.wildberger3}.
     '''
-    def _pab(b, pc, ra, x):
-        r = fsum_(PI, -ra, -x)
-        return _0_0 if isnear0(r) else triSide(b, pc, r)
-
     try:
         a, b, degC, alpha, beta = map1(float, a, b, degC, alpha, beta)
         ra, rb, rC = map1(radians, alpha, beta, degC)
@@ -390,7 +385,7 @@ def snellius3(a, b, degC, alpha, beta):
         if min(k, r) < 0:
             raise ValueError(_or(_coincident_, _colinear_))
 
-        sa, sb = sin(ra), sin(rb)
+        sa, _, sb, _ = sincos2_(ra, rb)
         p = atan2(a * sa, b * sb)
         sp, cp, sr, cr = sincos2_(PI_4 - p, r)
         w = atan2(sp * sr, cp * cr)
@@ -399,9 +394,9 @@ def snellius3(a, b, degC, alpha, beta):
 
         pc = abs((a * sin(y) / sb) if abs(sb) > abs(sa) else
                  (b * sin(x) / sa))
-        pa = _pab(b, pc, ra, x)
-        pb = _pab(a, pc, rb, y)
-        return Snellius3Tuple(pa, pb, pc)
+        pa = _triSide(b, pc, fsum_(PI, -ra, -x))
+        pb = _triSide(a, pc, fsum_(PI, -rb, -y))
+        return Survey3Tuple(pa, pb, pc)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, degC=degC, alpha=alpha, beta=beta, txt=str(x))
@@ -488,9 +483,9 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         c = A.minus(B).length
 
         ks = []  # 3 Ks and triangle angles
-        aA = _deg_ks(triAngle(b, c, a), sa, ks, _A_)
-        aB = _deg_ks(triAngle(a, c, b), sb, ks, _B_)
-        aC = _deg_ks(triAngle(a, b, c), sc, ks, _C_)
+        dA = _deg_ks(_triAngle(b, c, a), sa, ks, _A_)
+        dB = _deg_ks(_triAngle(a, c, b), sb, ks, _B_)
+        dC = _deg_ks(_triAngle(a, b, c), sc, ks, _C_)
 
         k = fsum1(ks)
         if isnear0(k):
@@ -499,9 +494,9 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         y = fdot(ks, A.y, B.y, C.y) / k
         z = _zidw(A, B, C, x, y) if useZ else 0
 
-        C = Clas or pointA.classof
-        P = C(x, y, z, **_xkwds(Clas_kwds, name=tienstra.__name__))
-        return Tienstra7Tuple(P, aA, aB, aC, a, b, c)
+        clas = Clas or pointA.classof
+        P = clas(x, y, z, **_xkwds(Clas_kwds, name=tienstra.__name__))
+        return Tienstra7Tuple(P, dA, dB, dC, a, b, c)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
@@ -526,18 +521,24 @@ def triAngle(a, b, c):
        @see: Function L{pygeodesy.triSide}.
     '''
     try:
-        a, b, c = map1(float, a, b, c)
-        if a < b:
-            a, b = b, a
-        if a < EPS0 or c < 0:
-            raise ValueError
-        b_a = b / a
-        if b_a < EPS0:
-            raise ValueError
-        return acos1(fsum_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0))
+        return _triAngle(a, b, c)
+    except (TypeError, ValueError) as x:
+        raise TriangleError(a=a, b=b, c=c, tx=str(x))
 
-    except (TypeError, ValueError):
-        raise TriangleError(a=a, b=b, c=c)
+
+def _triAngle(a, b, c):
+    # (INTERNAL) To allow callers to embellish errors
+    a, b, c = map1(float, a, b, c)
+    if a < b:
+        a, b = b, a
+    if b < 0 or c < 0:
+        raise ValueError(_negative_)
+    if a < EPS0:
+        raise ValueError(_coincident_)
+    b_a = b / a
+    if b_a < EPS0:
+        raise ValueError(_coincident_)
+    return acos1(fsum_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0))
 
 
 def triAngle4(a, b, c):
@@ -566,10 +567,10 @@ def triAngle4(a, b, c):
         if bc:
             b, c = c, b
 
-        s = fsum_(a, b, c) * _0_5
-        if s < EPS0 or c < 0:  # c = min(a, b, c)
-            raise ValueError(_negative_)
-        if c > EPS0:
+        if c > EPS0:  # c = min(a, b, c)
+            s = fsum_(a, b, c) * _0_5
+            if s < EPS0:
+                raise ValueError(_negative_)
             sa, sb, sc = (s - a), (s - b), (s - c)
             r = sa * sb * sc / s
             if r < EPS02:
@@ -580,9 +581,11 @@ def triAngle4(a, b, c):
             rC = fsum_(PI, -rA, -rB)
             if min(rA, rB, rC) < 0:
                 raise ValueError(_colinear_)
-        else:  # c null
+        elif c < 0:
+            raise ValueError(_negative_)
+        else:  # 0 <= c <= EPS0
             rA = rB = PI_2
-            rC = _0_0
+            rC = r  = _0_0
 
         if bc:
             rB, rC = rC, rB
@@ -590,8 +593,8 @@ def triAngle4(a, b, c):
             rA, rB = rB, rA
         return TriAngle4Tuple(rA, rB, rC, r)
 
-    except (TypeError, ValueError):
-        raise TriangleError(a=a, b=b, c=c)
+    except (TypeError, ValueError) as x:
+        raise TriangleError(a=a, b=b, c=c, txt=str(x))
 
 
 def triSide(a, b, radC):
@@ -607,20 +610,34 @@ def triSide(a, b, radC):
        @return: Length of triangle side C{c}, opposite angle B{C{rC}}
                 (same units as B{C{a}} and B{C{b}}).
 
-       @raise TriangleError: Invalid B{C{a}} or B{C{b}}.
+       @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{radC}}.
     '''
     try:
-        a, b, r = map1(float, a, b, radC)
-        c2 = _N_2_0 * a * b * cos(r)
-        if abs(c2) < EPS02:
-            return hypot(a, b)
-        c2 = fsum_(a**2, b**2, c2)
-        if min(a, b, c2) < 0:
-            raise ValueError
-        return sqrt(c2) if c2 else _0_0
+        return _triSide(a, b, radC)
+    except (TypeError, ValueError) as x:
+        raise TriangleError(a=a, b=b, radC=radC, txt=str(x))
 
-    except (TypeError, ValueError):
-        raise TriangleError(a=a, b=b, radC=radC)
+
+def _triSide(a, b, radC):
+    # (INTERNAL) To allow callers to embellish errors
+    a, b, r = map1(float, a, b, radC)
+    if min(a, b, r) < 0:
+        raise ValueError(_negative_)
+
+    if isnear0(r):
+        return abs(a - b)
+    ab = _N_2_0 * a * b * cos(r)
+    if abs(ab) < EPS02:
+        return hypot(a, b)
+
+    c2 = fsum_(a**2, b**2, ab)
+    if abs(c2) < EPS02:
+        c = _0_0
+    elif c2 < 0:
+        raise ValueError(_invalid_)
+    else:
+        c = sqrt(c2)
+    return c
 
 
 def triSide2(b, c, radB):
@@ -642,26 +659,30 @@ def triSide2(b, c, radB):
                              not both.
     '''
     try:
-        b, c, rB = map1(float, b, c, radB)
-        if min(b, c, rB) < 0:
-            raise ValueError(_negative_)
-        sB = sin(rB)
-        if isnear0(sB):
-            if not isnear0(b):
-                raise ValueError(_invalid_)
-            if cos(rB) < 0:
-                a, rA = (b + c), PI
-            else:
-                a, rA = abs(b - c), _0_0
-        elif isnear0(b):
-            raise ValueError(_invalid_)
-        else:
-            rA = fsum1_(PI, -rB, -asin1(c * sB / b))
-            a = sin(rA) * b / sB
-        return TriSide2Tuple(a, rA)
-
+        return _triSide2(b, c, radB)
     except (TypeError, ValueError) as x:
         raise TriangleError(b=b, c=c, radB=radB, txt=str(x))
+
+
+def _triSide2(b, c, radB):
+    # (INTERNAL) To allow callers to embellish errors
+    b, c, rB = map1(float, b, c, radB)
+    if min(b, c, rB) < 0:
+        raise ValueError(_negative_)
+    sB, cB = sincos2(rB)
+    if isnear0(sB):
+        if not isnear0(b):
+            raise ValueError(_invalid_)
+        if cB < 0:
+            a, rA = (b + c), PI
+        else:
+            a, rA = abs(b - c), _0_0
+    elif isnear0(b):
+        raise ValueError(_invalid_)
+    else:
+        rA = fsum1_(PI, -rB, -asin1(c * sB / b))
+        a = sin(rA) * b / sB
+    return TriSide2Tuple(a, rA)
 
 
 def triSide4(radA, radB, c):
@@ -689,16 +710,16 @@ def triSide4(radA, radB, c):
         rA, rB, c = map1(float, radA, radB, c)
         rC = fsum_(PI, -rA, -rB)
         if min(rC, rA, rB, c) < 0:
-            raise ValueError
+            raise ValueError(_negative_)
         sa, ca, sb, cb = sincos2_(rA, rB)
         sc = fsum1_(sa * cb, sb * ca)
-        if sc < EPS0:
-            raise ValueError
+        if sc < EPS0 or min(sa, sb) < 0:
+            raise ValueError(_invalid_)
         sc = c / sc
         return TriSide4Tuple((sa * sc), (sb * sc), rC, (sa * sb * sc))
 
-    except (TypeError, ValueError):
-        raise TriangleError(radA=radA, radB=radB, c=c)
+    except (TypeError, ValueError) as x:
+        raise TriangleError(radA=radA, radB=radB, c=c, txt=str(x))
 
 
 def wildberger3(a, b, c, alpha, beta, R3=min):
@@ -715,7 +736,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
        @kwarg R3: Callable to determine C{R3} from C{(R3 - C)**2 = D}, typically standard
                   function C{min} or C{max}, invoked with 2 arguments.
 
-       @return: L{Snellius3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
+       @return: L{Survey3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
                 each of the triangle corners C{A}, C{B} and C{C} (same units as B{C{a}},
                 B{C{b}} and B{C{c}}).
 
@@ -730,7 +751,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
     def _s(x):
         return sin(x)**2
 
-    def _vpab(r1, r3, q2, q3_r3):
+    def _vpa(r1, r3, q2, q3_r3):
         r = r1 * r3 * _4_0
         n = r - fsum_(r1, r3, -q2)**2
         if n < 0 or isnear0(r):
@@ -744,18 +765,18 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
 
         ra, rb = radians(da), radians(db)
         s1, s2, s3 = s = map1(_s, rb, ra, ra + rb)  # rb, ra!
-        if min(s1, s2, s3) < EPS02:
+        if min(s) < EPS02:
             raise ValueError(_or(_coincident_, _colinear_))
 
         q1, q2, q3 = q = a**2, b**2, c**2
-        if min(q1, q2, q3) < EPS02:
+        if min(q) < EPS02:
             raise ValueError(_coincident_)
         q3_s3 = q3 / s3
 
         r1 = s2 * q3_s3  # s2!
         r2 = s1 * q3_s3  # s1!
-        qs = fsum(q)
-        ss = fsum(s)
+        qs = fsum(q)  # == hypot2_(a, b, c)
+        ss = fsum1(s)
         s += (qs * _0_5),
         c0 = -fdot(s, q1, q2, q3, -ss) / s3
         d0 = (qs**2 - hypot2_(*q) * _2_0) * s1 * s2 / s3
@@ -769,11 +790,11 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         else:  # isnear0(sqrt(d0))
             r3 = c0
 
-        pa = _vpab(r1, r3, q2, q3_s3)
-        pb = _vpab(r2, r3, q1, q3_s3)
-        pc = favg(triSide2(b, pa, ra).a,
-                  triSide2(a, pb, rb).a)
-        return Snellius3Tuple(pa, pb, pc)
+        pa = _vpa(r1, r3, q2, q3_s3)
+        pb = _vpa(r2, r3, q1, q3_s3)
+        pc = favg(_triSide2(b, pa, ra).a,
+                  _triSide2(a, pb, rb).a)
+        return Survey3Tuple(pa, pb, pc)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, c=c, alpha=alpha, beta=beta, R3=R3, txt=str(x))

@@ -4,13 +4,13 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '21.10.18'
+__version__ = '21.11.01'
 
 from base import TestsBase
 
-from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD, \
-                      F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_, \
-                      F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, \
+from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD,   F_D60, \
+                      F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_,  F_D60_, \
+                      F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, F_D60__, \
                       compassPoint, degDMS, fstr, parseDDDMMSS, parseDMS, \
                       ParseError, parse3llh, RangeError, rangerrors, toDMS
 
@@ -106,6 +106,7 @@ class Tests(TestsBase):
         self.test(t, toDMS(45.99999, F_DMS, prec=1), '46°00′00.0″')
         self.test(t, toDMS(45.99999, F_DMS, prec=2), '45°59′59.96″')
         self.test(t, toDMS(45.99999, F_DMS, prec=3), '45°59′59.964″')
+        self.test(t, toDMS(45.99999, F_D60, prec=3), '45.5959964')
 
         self.test(t, toDMS(45.76260),   '45°45′45.36″')
 
@@ -116,6 +117,7 @@ class Tests(TestsBase):
                         (F_MIN, None,   '4545.756'),
                         (F_SEC, None,   '454545.36'),
                         (F_RAD, None,   '0.79871'),
+                        (F_D60, None,   '45.4545'),  # prec=0
 
                         (F_D,    6,   '45.7626°'),
                         (F_DM,  -4,   "45°45.7560'"),
@@ -124,6 +126,7 @@ class Tests(TestsBase):
                         (F_MIN, -5,   '4545.75600'),
                         (F_SEC, -3,   '454545.360'),
                         (F_RAD, -6,   '0.798708'),
+                        (F_D60, -3,   '45.4545360'),
 
                         (F_D_,    6,   '45.7626°'),
                         (F_DM_,  -4,   "45°45.7560'"),
@@ -131,7 +134,9 @@ class Tests(TestsBase):
                         (F_DEG_, -6,   '45.762600'),
                         (F_MIN_, -5,   '4545.75600'),
                         (F_SEC_, -3,   '454545.360'),
-                        (F_RAD_, -6,   '0.798708')):
+                        (F_RAD_, -6,   '0.798708'),
+                        (F_D60_, -4,   '45.45453600')):
+
             t = 'toDMS(%s)' % (F,)
             self.test(t, toDMS( 45.76260, F, prec=p),       x)
             self.test(t, toDMS(-45.76260, F, prec=p), '-' + x)
@@ -142,7 +147,8 @@ class Tests(TestsBase):
                         (F_DEG__, -6,   '45.762600'),
                         (F_MIN__, -5,   '4545.75600'),
                         (F_SEC__, -3,   '454545.360'),
-                        (F_RAD__, -6,   '0.798708')):
+                        (F_RAD__, -6,   '0.798708'),
+                        (F_D60__, -2,   '45.454536')):
             t = 'toDMS(%s)' % (F,)
             self.test(t, toDMS( 45.76260, F, prec=p), '+' + x)
             self.test(t, toDMS(-45.76260, F, prec=p), '-' + x)
