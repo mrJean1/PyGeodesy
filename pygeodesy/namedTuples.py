@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.10.29'
+__version__ = '21.11.08'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -501,11 +501,10 @@ class UtmUps2Tuple(_NamedTuple):  # .epsg.py
 
 class UtmUps5Tuple(_NamedTuple):  # .mgrs.py, .ups.py, .utm.py, .utmups.py
     '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
-       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
-       is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
-       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
-       (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
-       band C{'A'|'B'|'Y'|'Z'}.
+       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone} is
+       C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is the UTM
+       hemisphere or the UPS pole and C{band} is C{""} or the I{longitudinal}
+       UTM band C{'C'|'D'|..|'W'|'X'} or I{polar} UPS band C{'A'|'B'|'Y'|'Z'}.
     '''
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_, _band_)
     _Units_ = ( Number_, Str,        Easting,   Northing,   Band)
@@ -523,8 +522,8 @@ class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
        C{band} letter, C{Datum}, C{degrees} and C{scalar}, where
        C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
-       is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
+       is C{""} or the I{longitudinal} UTM band C{'C'|'D'|..|'W'|'X'}
+       or I{polar} UPS band C{'A'|'B'|'Y'|'Z'}.
     '''
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
                _band_,  _datum_, _convergence_, _scale_)
@@ -544,8 +543,8 @@ class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
     '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
        C{str}, C{str}, C{degrees90} and C{degrees180}, where
        C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
-       C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
+       C{""} or the I{longitudinal} UTM band C{'C'|'D'|..|'W'|'X'}
+       or I{polar} UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole.
     '''
     _Names_ = (_zone_,  _band_, _hemipole_, _lat_, _lon_)
@@ -605,7 +604,7 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

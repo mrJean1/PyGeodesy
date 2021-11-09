@@ -3,8 +3,8 @@
 
 u'''I{Veness}' Universal Transverse Mercator (UTM) projection.
 
-Classes L{Utm} and L{UTMError} and functions L{parseUTM5}, L{toUtm8}
-and L{utmZoneBand5}.
+Classes L{Utm} and L{UTMError} and functions L{parseUTM5}, L{toUtm8} and
+L{utmZoneBand5}.
 
 Pure Python implementation of UTM / WGS-84 conversion functions using
 an ellipsoidal earth model, transcoded from JavaScript originals by
@@ -23,8 +23,8 @@ This module includes some of I{Charles Karney}'s U{'Transverse Mercator with an
 accuracy of a few nanometers'<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
 (building on Krüger's U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
-U{TransverseMercator
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html>}.
+U{TransverseMercator<https://GeographicLib.SourceForge.io/html/
+classGeographicLib_1_1TransverseMercator.html>}.
 
 Some other references are U{Universal Transverse Mercator coordinate system
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>},
@@ -40,36 +40,37 @@ from pygeodesy.errors import RangeError, _ValueError, \
                             _xkwds_get, _xkwds_not
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
-                             _COMMASPACE_, _float, _NS_, \
-                             _outside_, _range_, _S_, _SPACE_, \
-                             _UTM_, _V_, _X_, _zone_, _0_0, _1_0
+                             _COMMASPACE_, _NS_, _outside_, \
+                             _range_, _S_, _SPACE_, _UTM_, \
+                             _V_, _X_, _zone_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _xnamed
+# from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import deprecated_method, Property_RO
-from pygeodesy.streprs import Fmt
-from pygeodesy.units import Band, Int, Lat, Lon, Zone
+from pygeodesy.props import deprecated_method, property_doc_, \
+                            Property_RO
+# from pygeodesy.streprs import Fmt  # from .utmupsBase
+from pygeodesy.units import Band, Int, Lat, Lon, Scalar, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2
-from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
-                                 _to4lldn, _to3zBhp, _to3zll, \
-                                 _UTM_LAT_MAX, _UTM_LAT_MIN, \
-                                 _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                                 _UTM_ZONE_OFF_MAX, UtmUpsBase
+from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, \
+                                _to4lldn, _to3zBhp, _to3zll, \
+                                _UTM_LAT_MAX, _UTM_LAT_MIN, \
+                                _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                                _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.10.05'
+__version__ = '21.11.08'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
-_FalseEasting  = _float(  500e3)  # falsed offset (C{meter})
-_FalseNorthing = _float(10000e3)  # falsed offset (C{meter})
-_K0_UTM        = _float(0.9996)   # UTM scale, central meridian
+_FalseEasting  = Scalar(  500e3)  # falsed offset (C{meter})
+_FalseNorthing = Scalar(10000e3)  # falsed offset (C{meter})
+_K0_UTM        = Scalar(0.9996)   # UTM scale, central meridian
 
 
 class UTMError(_ValueError):
@@ -149,6 +150,16 @@ def _false2(e, n, h):
     return e, n
 
 
+def _toBand(lat):
+    '''(INTERNAL) Get the I{latitudinal} Band letter.
+    '''
+    if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
+        r = _range_(_UTM_LAT_MIN, _UTM_LAT_MAX, ropen=True)
+        t = _SPACE_(_outside_, _UTM_, _range_, r)
+        raise RangeError(lat=degDMS(lat), txt=t)
+    return _Bands[int(lat + 80) >> 3]
+
+
 def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
@@ -186,17 +197,12 @@ def _to3zBll(lat, lon, cmoff=True):
     '''
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
-    if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
-        r = _range_(_UTM_LAT_MIN, _UTM_LAT_MAX, ropen=True)
-        t = _SPACE_(_outside_, _UTM_, _range_, r)
-        raise RangeError(lat=degDMS(lat), txt=t)
-    B = _Bands[int(lat + 80) >> 3]
-
     x = lon - _cmlon(z)  # z before Norway/Svaldbard
     if abs(x) > _UTM_ZONE_OFF_MAX:
         t = _SPACE_(_outside_, _UTM_, _zone_, str(z), _by_, degDMS(x, prec=6))
         raise RangeError(lon=degDMS(lon), txt=t)
 
+    B = _toBand(lat)
     if B == _X_:  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1
         x = {32: 9, 34: 21, 36: 33}.get(z, None)
         if x:  # Svalbard
@@ -230,7 +236,8 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-#   _band        =  NN        # latitude band letter ('C..X')
+#   _band        =  NN        # latitude band letter ('C'|..|'X')
+    _Bands       = _Bands     # latitudinal Band letters (tuple)
     _Error       =  UTMError  # or etm.ETMError
     _latlon_args = ()         # (eps, unfalse) from _latlon (C{float}, C{bool})
 #   _scale       =  None      # grid scale factor (C{scalar}) or C{None}
@@ -242,21 +249,19 @@ class Utm(UtmUpsBase):
                              convergence=None, scale=None, name=NN):
         '''New L{Utm} UTM coordinate.
 
-           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
-                      with/-out (latitudinal) Band letter (C{str},
-                      '01C'..'60X').
-           @arg hemisphere: Northern or southern hemisphere (C{str},
-                            C{'N[orth]'} or C{'S[outh]'}).
+           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone with/-out
+                      I{latitudinal} Band letter (C{str}, '01C'|..|'60X').
+           @arg hemisphere: Northern or southern hemisphere (C{str}, C{'N[orth]'}
+                            or C{'S[outh]'}).
            @arg easting: Easting, see B{C{falsed}} (C{meter}).
            @arg northing: Northing, see B{C{falsed}} (C{meter}).
-           @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum},
-                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
+           @kwarg band: Optional, I{latitudinal} band (C{str}, 'C'|..|'X').
+           @kwarg datum: Optional, this coordinate's datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
-           @kwarg convergence: Optional meridian convergence, bearing
-                               off grid North, clockwise from true North
-                               (C{degrees}) or C{None}.
+           @kwarg convergence: Optional meridian convergence, bearing off grid North,
+                               clockwise from true North (C{degrees}) or C{None}.
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
            @kwarg name: Optional name (C{str}).
 
@@ -323,11 +328,26 @@ class Utm(UtmUpsBase):
                    convergence=self.convergence,
                    name=name or self.name)
 
-    @Property_RO
+    @property_doc_(''' the I{latitudinal} band.''')
     def band(self):
-        '''Get the (latitudinal) band (C{str}, 'C'..'X' or '').
+        '''Get the I{latitudinal} band (C{'C'|..|'X'}).
         '''
+        if not self._band:
+            self.toLatLon(unfalse=True)
         return self._band
+
+    @band.setter  # PYCHOK setter!
+    def band(self, band):
+        '''Set or reset the I{latitudinal} band.
+
+           @arg band: The I{latitudinal} band letter (C{'C'|..|'X'})
+                      or C{None} or C{""} to reset.
+
+           @raise TypeError: Invalid B{C{band}}.
+
+           @raise ValueError: Invalid B{C{band}}.
+        '''
+        self._band1(band)
 
     @Property_RO
     def _etm(self):
@@ -346,6 +366,11 @@ class Utm(UtmUpsBase):
             if self.hemisphere == _S_:  # relative to equator
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
+
+    def _latlon_to(self, ll, eps, unfalse):
+        '''(INTERNAL) See C{.toLatLon}, C{toUtm8}, C{_toXtm8}.
+        '''
+        self._latlon, self._latlon_args = ll, (eps, unfalse)
 
     @Property_RO
     def _lowerleft(self):  # by .ellipsoidalBase.LatLon.toUtm
@@ -404,10 +429,9 @@ class Utm(UtmUpsBase):
     def toLatLon(self, LatLon=None, eps=EPS, unfalse=True, **LatLon_kwds):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @kwarg LatLon: Optional, ellipsoidal class to return the
-                          geodetic point (C{LatLon}) or C{None}.
-           @kwarg eps: Optional convergence limit, L{EPS} or above
-                       (C{float}).
+           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic
+                          point (C{LatLon}) or C{None}.
+           @kwarg eps: Optional convergence limit, L{EPS} or above (C{float}).
            @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
                            if falsed (C{bool}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -417,7 +441,7 @@ class Utm(UtmUpsBase):
                     C{None}, as L{LatLonDatum5Tuple}C{(lat, lon, datum,
                     convergence, scale)}.
 
-           @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
+           @raise TypeError: Invalid B{C{datum}} or B{C{LatLon}} is not ellipsoidal.
 
            @raise UTMError: Invalid meridional radius or H-value.
 
@@ -433,7 +457,7 @@ class Utm(UtmUpsBase):
         if self._latlon and self._latlon_args == (eps, unfalse):
             return self._latlon5(LatLon)
 
-        E = self.datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
+        E = self.datum.ellipsoid
 
         x, y = self.eastingnorthing2(falsed=not unfalse)
 
@@ -476,6 +500,8 @@ class Utm(UtmUpsBase):
         if unfalse and self.falsed:
             b += radians(_cmlon(self.zone))
         ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
+        if not self._band:
+            self._band = _toBand(ll.lat)
 
         # convergence: Karney 2011 Eq 26, 27
         p = neg(K.ps(-1))
@@ -488,11 +514,6 @@ class Utm(UtmUpsBase):
         self._latlon_to(ll, eps, unfalse)
         return self._latlon5(LatLon, **LatLon_kwds)
 
-    def _latlon_to(self, ll, eps, unfalse):
-        '''(INTERNAL) See C{.toLatLon}, C{toUtm8}, C{_toXtm8}.
-        '''
-        self._latlon, self._latlon_args = ll, (eps, unfalse)
-
     def toMgrs(self, center=False):
         '''Convert this UTM coordinate to an MGRS grid reference.
 
@@ -503,6 +524,9 @@ class Utm(UtmUpsBase):
            @return: The MGRS grid reference (L{Mgrs}).
 
            @see: Function L{pygeodesy.toMgrs} in module L{mgrs} for more details.
+
+           @note: If not specified, the I{latitudinal} C{band} is computed from
+                  the (geodetic) latitude and the C{datum}.
         '''
         return self._mgrs if center in (False, 0, _0_0) else (
                self._mgrs_lowerleft if center in (True,) else
@@ -817,7 +841,7 @@ def utmZoneBand5(lat, lon, cmoff=False, name=NN):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

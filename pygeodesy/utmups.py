@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.10.05'
+__version__ = '21.11.08'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -157,16 +157,14 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
                                               falsed=True, name=NN):
     '''Class-like function to create a UTM/UPS coordinate.
 
-       @kwarg zone: The UTM (longitudinal) zone with/-out Band letter
-                    for UTM or for UPS zone C{"00"} or C{0} (C{str} or
-                    C{int}).
+       @kwarg zone: The UTM zone with/-out I{longitudinal} Band or UPS zone C{0}
+                    or C{"00"} with/-out I{polar} Band (C{str} or C{int}).
        @kwarg hemipole: UTM hemisphere or UPS top/center of projection
                         (C{str}, C{'N[orth]'} or C{'S[outh]'}).
        @arg easting: Easting, see B{C{falsed}} (C{meter}).
        @arg northing: Northing, see B{C{falsed}} (C{meter}).
-       @kwarg band: Optional, UTM (latitudinal) Band letter
-                    C{'C'|'D'..'W'|'X'} or UPS (polar) Band letter
-                    C{'A'|'B'|'Y'|'Z'} (C{str}).
+       @kwarg band: Optional, UTM I{latitudinal} C{'C'|'D'|..|'W'|'X'} or UPS
+                    I{polar} Band letter C{'A'|'B'|'Y'|'Z'} Band letter (C{str}).
        @kwarg datum: Optional, the coordinate's datum (L{Datum}).
        @kwarg falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
        @kwarg name: Optional name (C{str}).
@@ -297,7 +295,7 @@ def utmupsZoneBand5(lat, lon, cmoff=False, name=NN):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

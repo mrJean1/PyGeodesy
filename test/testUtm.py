@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.11.08'
 
 from base import TestsBase
 
@@ -147,6 +147,15 @@ class Tests(TestsBase):
         self.test('CV#86', ll, '00.0°N, 179.407673°E')
         u = ll.toUtm()
         self.test('CV#86', u.toRepr(cs=6), '[Z:01, H:N, E:100000, N:0, ...]', known=True)  # [Z:60N, H:N, E:767993, N:0]
+
+        # courtesy of CaipiDE <https://GitHub.com/mrJean1/PyGeodesy/issues/63> (with
+        # results from <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>)
+        u = Utm(32, 'N', 280000.0, 5653000.0)
+        self.test('issue63', u, '32 N 280000 5653000')
+        m = u.toMgrs()
+        self.test('toMgrs', m, '32U KB 80000 53000')
+        t = u.toLatLon()
+        self.test('toLatLon', t, "(50.986484, 5.865326, Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84), -2.436605, 1.000194)")
 
 
 if __name__ == '__main__':

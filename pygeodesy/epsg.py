@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '21.06.09'
+__version__ = '21.11.08'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -99,7 +99,8 @@ class Epsg(Int):
 
     @Property_RO
     def band(self):
-        '''Get the (latitudinal) UTM/UPS Band (C{'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'} or C{""}).
+        '''Get the I{latitudinal} UTM or I{polar} UPS Band
+           (C{'A'|'B'|'C'|'D'|..|'W'|'X'|'Y'|'Z'} or C{""}).
         '''
         return self._band
 
@@ -181,13 +182,13 @@ def encode(zone, hemipole=NN, band=NN):
        a given UTM/UPS zone number, hemisphere/pole and/or Band.
 
        @arg zone: The (longitudinal) UTM zone (C{int}, 1..60) or UPS
-                  zone (C{int}, 0) or UTM zone with/-out (latitudinal)
+                  zone (C{int}, 0) or UTM zone with/-out I{latitudinal}
                   Band letter (C{str}, '01C'..'60X') or UPS zone
-                  with/-out (polar) Band letter (C{str}, '00A', '00B',
+                  with/-out I{polar} Band letter (C{str}, '00A', '00B',
                   '00Y' or '00Z').
        @kwarg hemipole: UTM/UPS hemisphere or UPS projection top/center
                         pole (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @kwarg band: Optional (latitudinal) UTM or (polar) UPS Band
+       @kwarg band: Optional I{latitudinal} UTM or I{polar} UPS Band
                     letter (C{str}).
 
        @return: C{EPSG} code (L{Epsg}).
@@ -198,7 +199,7 @@ def encode(zone, hemipole=NN, band=NN):
               <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
     try:
-        z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .ellipsoidalBase
+        z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .utmupsBase
         if hp not in _NS_:
             raise ValueError
     except (TypeError, ValueError) as x:
@@ -221,7 +222,7 @@ __all__ += _ALL_OTHER(decode2, encode)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

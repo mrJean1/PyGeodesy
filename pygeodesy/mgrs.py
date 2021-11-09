@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.10.05'
+__version__ = '21.11.08'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -97,7 +97,8 @@ class Mgrs(_NamedBase):
            @arg en100k: Two-letter EN digraph (C{str}), 100 km grid square.
            @arg easting: Easting (C{meter}), within 100 km grid square.
            @arg northing: Northing (C{meter}), within 100 km grid square.
-           @kwarg band: Optional 8° latitudinal band (C{str}), C..X covering 80°S..84°N.
+           @kwarg band: Optional, 8° I{latitudinal} band (C{str}), 'C'|..|'X'
+                        covering 80°S..84°N (without 'I' and 'O').
            @kwarg datum: Optional this reference's datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg resolution: Optional resolution, cell size (C{meter}) or C{0}.
@@ -147,7 +148,7 @@ class Mgrs(_NamedBase):
 
     @Property_RO
     def band(self):
-        '''Get the latitudinal band (C{str, 'A'|'B'..'Y'|'Z'}).
+        '''Get the I{latitudinal} band (C{str, 'A'|'B'|..|'W'|'X'}).
         '''
         return self._band
 
@@ -495,7 +496,7 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

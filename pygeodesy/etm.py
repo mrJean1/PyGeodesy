@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.10.05'
+__version__ = '21.11.09'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -130,26 +130,23 @@ class Etm(Utm):
                              convergence=None, scale=None, name=NN):
         '''New L{Etm} coordinate.
 
-           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
-                      with/-out (latitudinal) Band letter (C{str},
-                      '01C'..'60X').
-           @arg hemisphere: Northern or southern hemisphere (C{str},
-                            C{'N[orth]'} or C{'S[outh]'}).
+           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone with/-out
+                      I{latitudinal} Band letter (C{str}, '01C'|..|'60X').
+           @arg hemisphere: Northern or southern hemisphere (C{str}, C{'N[orth]'}
+                            or C{'S[outh]'}).
            @arg easting: Easting, see B{C{falsed}} (C{meter}).
            @arg northing: Northing, see B{C{falsed}} (C{meter}).
-           @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum},
-                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
+           @kwarg band: Optional, I{latitudinal} band (C{str}, 'C'|..|'X').
+           @kwarg datum: Optional, this coordinate's datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
                           C{falsed} (C{bool}).
-           @kwarg convergence: Optional meridian convergence, bearing
-                               off grid North, clockwise from true North
-                               (C{degrees}) or C{None}.
+           @kwarg convergence: Optional meridian convergence, bearing off grid North,
+                               clockwise from true North (C{degrees}) or C{None}.
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
            @kwarg name: Optional name (C{str}).
 
-           @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or
-                            B{C{band}}.
+           @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or B{C{band}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
@@ -173,6 +170,9 @@ class Etm(Utm):
     @exactTM.setter  # PYCHOK setter!
     def exactTM(self, exactTM):
         '''Set the ETM projection (L{ExactTransverseMercator}).
+
+           @raise ETMError: Ellipsoid of B{C{exacTM}} incompatible
+                            with this coordinate's C{datum}.
         '''
         _xinstanceof(ExactTransverseMercator, exactTM=exactTM)
 
@@ -220,6 +220,9 @@ class Etm(Utm):
                     convergence, scale)} if B{C{LatLon}} is C{None}.
 
            @raise EllipticError: No convergence.
+
+           @raise ETMError: Ellipsoid of this coordinate's C{exacTM}
+                            and C{datum} incompatible.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
@@ -1026,7 +1029,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

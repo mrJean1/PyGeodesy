@@ -192,7 +192,7 @@ plus during development:
 License
 =======
 
-**) U{Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+**) U{Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -503,7 +503,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.11.04'
+__version__ = '21.11.10'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
@@ -512,7 +512,7 @@ del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

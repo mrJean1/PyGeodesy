@@ -48,7 +48,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.11.05'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 
@@ -177,7 +177,7 @@ class _GeodesicLineExact(_GeodesicBase):
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and arc length C{a12} always included,
                     except when C{a12=NAN}.
@@ -276,7 +276,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def _GDictPosition(self, arcmode, s12_a12, outmask):  # MCCABE 17
         '''(INTERNAL) Generate a new position along the geodesic.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and arc length C{a12} always included,
                     except when C{a12=NAN}.
@@ -485,7 +485,7 @@ class _GeodesicLineExact(_GeodesicBase):
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and arc length C{a12} always included,
                     except when C{a12=NAN}.
@@ -565,7 +565,7 @@ __all__ += _ALL_DOCS(_GeodesicLineExact)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.10.07'
+__version__ = '21.11.05'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -152,7 +152,7 @@ class GeodesicExact(_GeodesicBase):
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and arc length C{a12} always included.
 
@@ -163,7 +163,7 @@ class GeodesicExact(_GeodesicBase):
         return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask)
 
     def ArcDirectLine(self, lat1, lon1, azi1, a12, caps):
-        '''Define an L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as arc length.
+        '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as arc length.
 
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
@@ -189,7 +189,7 @@ class GeodesicExact(_GeodesicBase):
         return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps)
 
     def Area(self, polyline=False, name=NN):
-        '''Set up an L{GeodesicAreaExact} to compute area and
+        '''Set up a L{GeodesicAreaExact} to compute area and
            perimeter of a polygon.
 
            @kwarg polyline: If C{True} perimeter only, otherwise
@@ -318,7 +318,7 @@ class GeodesicExact(_GeodesicBase):
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and distance C{s12} always included.
 
@@ -338,7 +338,7 @@ class GeodesicExact(_GeodesicBase):
         return Destination3Tuple(r.lat2, r.lon2, r.azi2)
 
     def DirectLine(self, lat1, lon1, azi1, s12, caps=Caps.STANDARD):
-        '''Define a {GeodesicLineExact} in terms of the I{direct} geodesic problem and as distance.
+        '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as distance.
 
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
@@ -461,9 +461,9 @@ class GeodesicExact(_GeodesicBase):
         return self.f * _180_0
 
     def _GDictDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask=Caps.STANDARD):
-        '''(INTERNAL) As C{_GenDirect}, but returning a C{dict}.
+        '''(INTERNAL) As C{_GenDirect}, but returning a L{GDict}.
 
-           @return: A C{dict} ...
+           @return: A L{GDict} ...
         '''
         if not arcmode:  # supply DISTANCE_IN
             outmask |= Caps.DISTANCE_IN
@@ -471,9 +471,9 @@ class GeodesicExact(_GeodesicBase):
         return glX._GDictPosition(arcmode, s12_a12, outmask)
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):  # MCCABE 32, 41 vars
-        '''(INTERNAL) As C{_GenInverse}, but returning a C{dict}.
+        '''(INTERNAL) As C{_GenInverse}, but returning a L{GDict}.
 
-           @return: A C{dict} ...
+           @return: A L{GDict} ...
         '''
         if self.debug:  # PYCHOK no cover
             outmask |= Caps._DEBUG_INVERSE & self._debug
@@ -717,7 +717,7 @@ class GeodesicExact(_GeodesicBase):
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
-           @return: A C{dict} with up to 12 items C{lat1, lon1, azi1, lat2,
+           @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
                     C{lon1}, C{azi1} and distance C{s12} always included.
 
@@ -750,7 +750,7 @@ class GeodesicExact(_GeodesicBase):
         return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2))
 
     def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD):
-        '''Define a {GeodesicLineExact} in terms of the I{Inverse} geodesic problem.
+        '''Define a L{GeodesicLineExact} in terms of the I{Inverse} geodesic problem.
 
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
@@ -1062,7 +1062,7 @@ class GeodesicExact(_GeodesicBase):
         return s12b, m12b, m0, M12, M21
 
     def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
-        '''Set up an L{GeodesicLineExact} to compute several points
+        '''Set up a L{GeodesicLineExact} to compute several points
            on a single geodesic.
 
            @arg lat1: Latitude of the first point (C{degrees}).
@@ -1308,7 +1308,7 @@ __all__ += _ALL_DOCS(GeodesicExact, GeodesicLineExact)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

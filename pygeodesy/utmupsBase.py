@@ -11,21 +11,21 @@ from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import ParseError, _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, \
-                             _N_, _n_a_, _NS_, _PLUS_, _SPACE_, \
+from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, _xkwds
+from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, _N_, \
+                             _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
                              _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _NamedBase, nameof, \
-                             notOverloaded, _xnamed
+from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_RO
+from pygeodesy.props import deprecated_method, property_doc_, \
+                            Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.10.05'
+__version__ = '21.11.09'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -82,7 +82,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
     '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
 
        @arg zone: Zone with/-out Band (C{scalar} or C{str}).
-       @kwarg band: Optional (longitudinal/polar) Band letter (C{str}).
+       @kwarg band: Optional I{longitudinal/polar} Band letter (C{str}).
        @kwarg hemipole: Optional hemisphere/pole letter (C{str}).
        @kwarg Error: Optional error to raise, overriding the default
                      C{ValueError}.
@@ -143,6 +143,7 @@ class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
     _band        =  NN     # latitude band letter ('A..Z')
+    _Bands       =  NN     # valid Band letters, see L{Utm} and L{Ups}
     _convergence =  None   # meridian conversion (C{degrees})
     _datum       = _WGS84  # L{Datum}
     _easting     = _0_0    # Easting, see B{C{falsed}} (C{meter})
@@ -169,11 +170,10 @@ class UtmUpsBase(_NamedBase):
         self._northing = Northing(northing, Error=E)
 
         if band:
-            _xinstanceof(str, band=band)
-            self._band = band
+            self._band1(band)
 
         if datum not in (None, self._datum):
-            self._datum = _ellipsoidal_datum(datum)  # XXX name=band
+            self._datum = _ellipsoidal_datum(datum)  # raiser=True, name=band
 
         if not falsed:
             self._falsed = False
@@ -189,6 +189,20 @@ class UtmUpsBase(_NamedBase):
     def __str__(self):
         return self.toStr()
 
+    def _band1(self, band):
+        '''(INTERNAL) Re/set the latitudinal or polar band.
+        '''
+        if band:
+            _xinstanceof(str, band=band)
+#           if not self._Bands:
+#               notOverloaded(self, callername='_Bands')
+            if band not in self._Bands:
+                t = _or(*sorted(set(map1(repr, self._Bands))))
+                raise self._Error(band=band, txt=_not_(t))
+            self._band = band
+        elif self._band:  # reset
+            self._band = NN
+
     @property_RO
     def convergence(self):
         '''Get the meridian convergence (C{degrees}) or C{None}
@@ -196,11 +210,20 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._convergence
 
-    @Property_RO
+    @property_doc_(''' the (ellipsoidal) datum of this coordinate.''')
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
+
+    @datum.setter  # PYCHOK setter!
+    def datum(self, datum):
+        '''Set the (ellipsoidal) datum L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+        '''
+        d = _ellipsoidal_datum(datum)
+        if d != self.datum:
+            self._update(True)
+            self._datum = d
 
     @Property_RO
     def easting(self):
@@ -217,10 +240,10 @@ class UtmUpsBase(_NamedBase):
     def eastingnorthing2(self, falsed=True):
         '''Return easting and northing, falsed or unfalsed.
 
-           @kwarg falsed: Return easting and northing falsed
+           @kwarg falsed: If C{True} return easting and northing falsed
                           (C{bool}), otherwise unfalsed.
 
-           @return: An L{EasNor2Tuple}C{(easting, northing)} in C{meter}s.
+           @return: An L{EasNor2Tuple}C{(easting, northing)} in C{meter}.
         '''
         e, n = self.falsed2
         if self.falsed and not falsed:
@@ -375,7 +398,7 @@ __all__ += _ALL_DOCS(UtmUpsBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

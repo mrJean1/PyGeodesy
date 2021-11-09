@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A Python version of I{Karney}'s C++ classes U{GeodesicExact
+u'''A pure Python version of I{Karney}'s C++ classes U{GeodesicExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html>}
 and U{GeodesicLineExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
@@ -11,8 +11,9 @@ documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/
 and the background information on the page U{Geodesics on an ellipsoid of revolution
 <https://GeographicLib.SourceForge.io/html/geodesic.html#geodseries>}.
 
-Also, compare to I{standard} classes C{Geodesic} and C{GeodesicLine} from U{geographiclib
-<https://GeographicLib.SourceForge.io/html/other.html#python>}, I{Karney}'s Python implementation.
+Also, compare C{GeodesicExact} and C{GeodesicLineExact} to I{standard} classes C{Geodesic}
+respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographiclib
+<https://GeographicLib.SourceForge.io/html/other.html#python>}.
 '''
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
 from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # PYCHOK exported
@@ -26,11 +27,11 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError, GeodesicAreaExact,
                                           GeodesicExact, GeodesicLineExact,
                                           PolygonArea)
-__version__ = '21.07.15'
+__version__ = '21.11.05'
 
 # **) MIT License
 #
-# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
