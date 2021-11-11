@@ -63,14 +63,14 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.11.08'
+__version__ = '21.11.11'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
-_FalseEasting  = Scalar(  500e3)  # falsed offset (C{meter})
-_FalseNorthing = Scalar(10000e3)  # falsed offset (C{meter})
-_K0_UTM        = Scalar(0.9996)   # UTM scale, central meridian
+_FalseEasting  =  Scalar(  500e3)  # falsed offset (C{meter})
+_FalseNorthing =  Scalar(10000e3)  # falsed offset (C{meter})
+_K0_UTM        =  Scalar(0.9996)   # UTM scale, central meridian
 
 
 class UTMError(_ValueError):
@@ -150,7 +150,7 @@ def _false2(e, n, h):
     return e, n
 
 
-def _toBand(lat):
+def _toBand(lat, *unused):  # see ups._toBand
     '''(INTERNAL) Get the I{latitudinal} Band letter.
     '''
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
@@ -239,7 +239,6 @@ class Utm(UtmUpsBase):
 #   _band        =  NN        # latitude band letter ('C'|..|'X')
     _Bands       = _Bands     # latitudinal Band letters (tuple)
     _Error       =  UTMError  # or etm.ETMError
-    _latlon_args = ()         # (eps, unfalse) from _latlon (C{float}, C{bool})
 #   _scale       =  None      # grid scale factor (C{scalar}) or C{None}
     _scale0      = _K0_UTM    # central scale factor (C{scalar})
     _zone        =  0         # longitudinal zone (C{int} 1..60)
@@ -333,7 +332,7 @@ class Utm(UtmUpsBase):
         '''Get the I{latitudinal} band (C{'C'|..|'X'}).
         '''
         if not self._band:
-            self.toLatLon(unfalse=True)
+            self._toLLEB()
         return self._band
 
     @band.setter  # PYCHOK setter!
@@ -366,11 +365,6 @@ class Utm(UtmUpsBase):
             if self.hemisphere == _S_:  # relative to equator
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
-
-    def _latlon_to(self, ll, eps, unfalse):
-        '''(INTERNAL) See C{.toLatLon}, C{toUtm8}, C{_toXtm8}.
-        '''
-        self._latlon, self._latlon_args = ll, (eps, unfalse)
 
     @Property_RO
     def _lowerleft(self):  # by .ellipsoidalBase.LatLon.toUtm
@@ -454,9 +448,15 @@ class Utm(UtmUpsBase):
         if eps < EPS:
             eps = EPS  # less doesn't converge
 
-        if self._latlon and self._latlon_args == (eps, unfalse):
+        if self._latlon and self._latlon._toLLEB_args == (unfalse, eps):
             return self._latlon5(LatLon)
+        else:
+            self._toLLEB(unfalse=unfalse, eps=eps)
+            return self._latlon5(LatLon, **LatLon_kwds)
 
+    def _toLLEB(self, unfalse=True, eps=EPS):  # PYCHOK signature
+        '''(INTERNAL) Compute (ellipsoidal) lat- and longitude.
+        '''
         E = self.datum.ellipsoid
 
         x, y = self.eastingnorthing2(falsed=not unfalse)
@@ -500,8 +500,6 @@ class Utm(UtmUpsBase):
         if unfalse and self.falsed:
             b += radians(_cmlon(self.zone))
         ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
-        if not self._band:
-            self._band = _toBand(ll.lat)
 
         # convergence: Karney 2011 Eq 26, 27
         p = neg(K.ps(-1))
@@ -510,9 +508,7 @@ class Utm(UtmUpsBase):
 
         # scale: Karney 2011 Eq 28
         ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
-
-        self._latlon_to(ll, eps, unfalse)
-        return self._latlon5(LatLon, **LatLon_kwds)
+        self._latlon5args(ll, _toBand, unfalse, eps)
 
     def toMgrs(self, center=False):
         '''Convert this UTM coordinate to an MGRS grid reference.
@@ -808,10 +804,12 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
     else:
         r = _xnamed(Xtm(z, h, x, y, band=B, datum=d, falsed=f,
                                     convergence=c, scale=k), name)
-        if isinstance(latlon, _LLEB) and d is latlon.datum:
-            r._latlon_to(latlon, eps, f)  # XXX weakref(latlon)?
+        if isinstance(latlon, _LLEB) and d is latlon.datum:  # see ups.toUtm8
+            r._latlon5args(latlon, _toBand, f, eps)  # XXX weakref(latlon)?
             latlon._convergence = c
             latlon._scale = k
+        elif not r._band:
+            r._band = _toBand(lat)
     return r
 
 

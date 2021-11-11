@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.11.08'
+__version__ = '21.11.11'
 
 from base import TestsBase
 
-from pygeodesy import EPS, F_DEG, F_DMS, fstr, parseUTM5, toUtm8, Utm
+from pygeodesy import Ellipsoids, EPS, F_DEG, F_DMS, fstr, parseUTM5, toUtm8, Utm
 
 
 class Tests(TestsBase):
@@ -151,11 +151,26 @@ class Tests(TestsBase):
         # courtesy of CaipiDE <https://GitHub.com/mrJean1/PyGeodesy/issues/63> (with
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>)
         u = Utm(32, 'N', 280000.0, 5653000.0)
-        self.test('issue63', u, '32 N 280000 5653000')
+        self.test('#63', u, '32 N 280000 5653000')
         m = u.toMgrs()
         self.test('toMgrs', m, '32U KB 80000 53000')
         t = u.toLatLon()
         self.test('toLatLon', t, "(50.986484, 5.865326, Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84), -2.436605, 1.000194)")
+
+        u.band = None  # coverage
+        self.test('band', u.band, 'U')
+        try:
+            x = Exception.__name__
+            u.band = t = '?'
+        except Exception as X:
+            x = t = str(X)
+        self.test('band', t, x)
+
+        u.datum = Ellipsoids.Sphere  # coverage
+        self.test('datum', u.datum.toRepr(), 'same', known=True)
+
+        self.test('repr', repr(u), '[Z:32U, H:N, E:280000, N:5653000]')
+        self.test('E.N.', u.eastingnorthing2(), '(280000.0, 5653000.0)')
 
 
 if __name__ == '__main__':

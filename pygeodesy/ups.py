@@ -22,10 +22,9 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
-from pygeodesy.interns import EPS, EPS0, NN, _A_, _B_, _COMMASPACE_, \
-                             _EPSmin as _Tol90, _N_, _inside_, _pole_, \
-                             _range_, _S_, _SPACE_, _to_, _UTM_, \
-                             _0_0, _0_5, _1_0, _2_0, _90_0
+from pygeodesy.interns import EPS, EPS0, NN, _COMMASPACE_, _EPSmin as _Tol90, \
+                             _N_, _inside_, _pole_, _range_, _S_, _SPACE_, \
+                             _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -35,20 +34,19 @@ from pygeodesy.props import deprecated_method, property_doc_, \
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
-from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, \
-                                _to4lldn, _to3zBhp, _to3zll, \
+from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
+                                _to3zBhp, _to3zll, _UPS_BANDS as _Bands, \
                                 _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                 _UPS_ZONE_STR, UtmUpsBase
 
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.11.09'
+__version__ = '21.11.11'
 
-_Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
-_Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
-_K0_UPS  =  Scalar(0.994)  # central UPS scale factor
-_K1_UPS  =  Scalar(_1_0)   # rescale point scale factor
+_Falsing = Meter(2000e3)  # false easting and northing (C{meter})
+_K0_UPS  = Scalar(0.994)  # central UPS scale factor
+_K1_UPS  = Scalar(_1_0)   # rescale point scale factor
 
 
 def _scale(E, rho, tau):
@@ -57,7 +55,7 @@ def _scale(E, rho, tau):
     return Scalar((rho / E.a) * t * sqrt0(E.e12 + E.e2 / t**2))
 
 
-def _toBand(a_lat, b_lon):
+def _toBand(a_lat, b_lon):  # see utm._toBand
     '''(INTERNAL) Get the I{polar} Band letter from
        the signs of (phi, lam) or (lat, lon).
     '''
@@ -76,7 +74,6 @@ class Ups(UtmUpsBase):
 #   _band        =  NN        # polar band ('A', 'B', 'Y' or 'Z')
     _Bands       = _Bands     # polar Band letters (tuple)
     _Error       =  UPSError  # Error class
-    _latlon_args =  True      # unfalse from _latlon (C{bool})
     _pole        =  NN        # UPS projection top/center ('N' or 'S')
 #   _scale       =  None      # point scale factor (C{scalar})
     _scale0      = _K0_UPS    # central scale factor (C{scalar})
@@ -135,7 +132,7 @@ class Ups(UtmUpsBase):
         '''Get the I{polar} band (C{'A'|'B'|'Y'|'Z'}).
         '''
         if not self._band:
-            self.toLatLon(unfalse=True)
+            self._toLLEB()
         return self._band
 
     @band.setter  # PYCHOK setter!
@@ -157,13 +154,6 @@ class Ups(UtmUpsBase):
         '''
         f = _Falsing if self.falsed else 0
         return EasNor2Tuple(f, f)
-
-    @Property_RO
-    def hemisphere(self):
-        '''Get the hemisphere (C{'N'|'S'}).
-        '''
-        self.toLatLon(unfalse=True)
-        return self._hemisphere
 
     @Property_RO
     def _mgrs(self):
@@ -237,9 +227,15 @@ class Ups(UtmUpsBase):
 
            @raise UPSError: Invalid meridional radius or H-value.
         '''
-        if self._latlon and self._latlon_args == unfalse:
+        if self._latlon and self._latlon._toLLEB_args == (unfalse,):
             return self._latlon5(LatLon)
+        else:
+            self._toLLEB(unfalse=unfalse)
+            return self._latlon5(LatLon, **LatLon_kwds)
 
+    def _toLLEB(self, unfalse=True):  # PYCHOK signature
+        '''(INTERNAL) Compute (ellipsoidal) lat- and longitude.
+        '''
         E = self.datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
 
         x, y = self.eastingnorthing2(falsed=not unfalse)
@@ -247,28 +243,16 @@ class Ups(UtmUpsBase):
         r = hypot(x, y)
         t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else EPS0
         t = E.es_tauf((1 / t - t) * _0_5)
+        a = atan(t)
         if self._pole == _N_:
-            a, b, c = atan(t), atan2(x, -y), 1
+            b, c = atan2(x, -y), 1
         else:
-            a, b, c = neg(atan(t)), atan2(x, y), -1
+            a, b, c = neg(a), atan2(x, y), -1
+        ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
 
-        a, b = degrees90(a), degrees180(b)
-        if not self._band:
-            self._band = _toBand(a, b)
-        if not self._hemisphere:
-            self._hemisphere = _hemi(a)
-
-        ll = _LLEB(a, b, datum=self._datum, name=self.name)
         ll._convergence = b * c  # gamma
         ll._scale = _scale(E, r, t) if r > 0 else self.scale0
-
-        self._latlon_to(ll, unfalse)
-        return self._latlon5(LatLon, **LatLon_kwds)
-
-    def _latlon_to(self, ll, unfalse):
-        '''(INTERNAL) See method C{.toLatLon}, function C{toUps8}.
-        '''
-        self._latlon, self._latlon_args = ll, unfalse
+        self._latlon5args(ll, _toBand, unfalse)
 
     def toMgrs(self):
         '''Convert this UPS coordinate to an MGRS grid reference.
@@ -493,9 +477,14 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
             z = _UPS_ZONE  # ignore UTM zone
         r = _xnamed(Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
                                             convergence=c, scale=k), n)
-        r._hemisphere = _hemi(lat)
-        if isinstance(latlon, _LLEB) and d is latlon.datum:
-            r._latlon_to(latlon, falsed)  # XXX weakref(latlon)?
+        if isinstance(latlon, _LLEB) and d is latlon.datum:  # see utm._toXtm8
+            r._latlon5args(latlon, _toBand, falsed)  # XXX weakref(latlon)?
+            latlon._convergence = c
+            latlon._scale = k
+        else:
+            r._hemisphere = _hemi(lat)
+            if not r._band:
+                r._band = _toBand(lat, lon)
     return r
 
 

@@ -1192,26 +1192,27 @@ pygeodesy.etm.__all__	pygeodesy.etm-module.html#__all__
 pygeodesy.etm.neg	pygeodesy.basics-module.html#neg
 pygeodesy.etm.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.etm.atan2d	pygeodesy.utily-module.html#atan2d
-pygeodesy.etm.hypot1	pygeodesy.fmath-module.html#hypot1
+pygeodesy.etm.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.etm._to7zBlldfn	pygeodesy.utm-module.html#_to7zBlldfn
 pygeodesy.etm.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.etm.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.etm._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.etm.parseETM5	pygeodesy.etm-module.html#parseETM5
 pygeodesy.etm.toEtm8	pygeodesy.etm-module.html#toEtm8
-pygeodesy.etm.copysign0	pygeodesy.basics-module.html#copysign0
+pygeodesy.etm.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.etm.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.etm._toXtm8	pygeodesy.utm-module.html#_toXtm8
 pygeodesy.etm._cmlon	pygeodesy.utm-module.html#_cmlon
 pygeodesy.etm._incompatible	pygeodesy.errors-module.html#_incompatible
+pygeodesy.etm._toBand	pygeodesy.utm-module.html#_toBand
 pygeodesy.etm.atand	pygeodesy.utily-module.html#atand
 pygeodesy.etm._OVERFLOW	pygeodesy.etm-module.html#_OVERFLOW
 pygeodesy.etm.__package__	pygeodesy.etm-module.html#__package__
+pygeodesy.etm.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.etm.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.etm.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.etm.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.etm._norm180	pygeodesy.karney-module.html#_norm180
-pygeodesy.etm.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.fmath	pygeodesy.fmath-module.html
 pygeodesy.fmath._0_4142	pygeodesy.fmath-module.html#_0_4142
 pygeodesy.fmath._2sum	pygeodesy.fmath-module.html#_2sum
@@ -1811,11 +1812,11 @@ pygeodesy.interns._N_	pygeodesy.interns-module.html#_N_
 pygeodesy.interns._1_0_T	pygeodesy.interns-module.html#_1_0_T
 pygeodesy.interns._AtoZnoIO_	pygeodesy.interns-module.html#_AtoZnoIO_
 pygeodesy.interns._nearestOn2_	pygeodesy.interns-module.html#_nearestOn2_
-pygeodesy.interns._Py3T	pygeodesy.interns-module.html#_Py3T
 pygeodesy.interns._NSEW_	pygeodesy.interns-module.html#_NSEW_
 pygeodesy.interns._exceed_PI_radians_	pygeodesy.interns-module.html#_exceed_PI_radians_
 pygeodesy.interns._QUOTE1_	pygeodesy.interns-module.html#_QUOTE1_
 pygeodesy.interns._6_0	pygeodesy.interns-module.html#_6_0
+pygeodesy.interns._Py3L	pygeodesy.interns-module.html#_Py3L
 pygeodesy.interns._phi_	pygeodesy.interns-module.html#_phi_
 pygeodesy.interns._d_	pygeodesy.interns-module.html#_d_
 pygeodesy.interns._utf_8_	pygeodesy.interns-module.html#_utf_8_
@@ -1850,13 +1851,13 @@ pygeodesy.interns._PERCENTDOTSTAR_	pygeodesy.interns-module.html#_PERCENTDOTSTAR
 pygeodesy.interns._epoch_	pygeodesy.interns-module.html#_epoch_
 pygeodesy.interns._valid_	pygeodesy.interns-module.html#_valid_
 pygeodesy.interns._DUNDER_	pygeodesy.interns-module.html#_DUNDER_
-pygeodesy.interns._Py2T	pygeodesy.interns-module.html#_Py2T
+pygeodesy.interns._azimuth_	pygeodesy.interns-module.html#_azimuth_
 pygeodesy.interns._O_	pygeodesy.interns-module.html#_O_
 pygeodesy.interns._ecef_	pygeodesy.interns-module.html#_ecef_
 pygeodesy.interns._k0_	pygeodesy.interns-module.html#_k0_
 pygeodesy.interns._16_0	pygeodesy.interns-module.html#_16_0
 pygeodesy.interns._deg_	pygeodesy.interns-module.html#_deg_
-pygeodesy.interns._encode_	pygeodesy.interns-module.html#_encode_
+pygeodesy.interns._Py2L	pygeodesy.interns-module.html#_Py2L
 pygeodesy.interns._lon0_	pygeodesy.interns-module.html#_lon0_
 pygeodesy.interns._WGS84_	pygeodesy.interns-module.html#_WGS84_
 pygeodesy.interns.R_M	pygeodesy.interns-module.html#R_M
@@ -1868,7 +1869,6 @@ pygeodesy.interns._ELLIPSIS_	pygeodesy.interns-module.html#_ELLIPSIS_
 pygeodesy.interns._10_0	pygeodesy.interns-module.html#_10_0
 pygeodesy.interns._1000_0	pygeodesy.interns-module.html#_1000_0
 pygeodesy.interns._std_	pygeodesy.interns-module.html#_std_
-pygeodesy.interns._transform_	pygeodesy.interns-module.html#_transform_
 pygeodesy.interns._NorthPole_	pygeodesy.interns-module.html#_NorthPole_
 pygeodesy.interns._NL_	pygeodesy.interns-module.html#_NL_
 pygeodesy.interns._EPSqrt	pygeodesy.interns-module.html#_EPSqrt
@@ -1901,7 +1901,7 @@ pygeodesy.interns._meridional_	pygeodesy.interns-module.html#_meridional_
 pygeodesy.interns._y_	pygeodesy.interns-module.html#_y_
 pygeodesy.interns._immutable_	pygeodesy.interns-module.html#_immutable_
 pygeodesy.interns._radians_	pygeodesy.interns-module.html#_radians_
-pygeodesy.interns._or_	pygeodesy.interns-module.html#_or_
+pygeodesy.interns._transform_	pygeodesy.interns-module.html#_transform_
 pygeodesy.interns._ellipsoidal_	pygeodesy.interns-module.html#_ellipsoidal_
 pygeodesy.interns._sx_	pygeodesy.interns-module.html#_sx_
 pygeodesy.interns._east_	pygeodesy.interns-module.html#_east_
@@ -1943,7 +1943,7 @@ pygeodesy.interns._STAR_	pygeodesy.interns-module.html#_STAR_
 pygeodesy.interns._NAN_	pygeodesy.interns-module.html#_NAN_
 pygeodesy.interns._g_	pygeodesy.interns-module.html#_g_
 pygeodesy.interns._3600_0	pygeodesy.interns-module.html#_3600_0
-pygeodesy.interns._azimuth_	pygeodesy.interns-module.html#_azimuth_
+pygeodesy.interns._or_	pygeodesy.interns-module.html#_or_
 pygeodesy.interns._0_125	pygeodesy.interns-module.html#_0_125
 pygeodesy.interns.EPS02	pygeodesy.interns-module.html#EPS02
 pygeodesy.interns._outside_	pygeodesy.interns-module.html#_outside_
@@ -1958,6 +1958,7 @@ pygeodesy.interns._sy_	pygeodesy.interns-module.html#_sy_
 pygeodesy.interns._floats	pygeodesy.interns-module.html#_floats
 pygeodesy.interns.DIG	pygeodesy.interns-module.html#DIG
 pygeodesy.interns._kind_	pygeodesy.interns-module.html#_kind_
+pygeodesy.interns._encode_	pygeodesy.interns-module.html#_encode_
 pygeodesy.interns._Cartesian_	pygeodesy.interns-module.html#_Cartesian_
 pygeodesy.interns._floatuple	pygeodesy.interns-module.html#_floatuple
 pygeodesy.interns._DASH_	pygeodesy.interns-module.html#_DASH_
@@ -2830,7 +2831,6 @@ pygeodesy.ups	pygeodesy.ups-module.html
 pygeodesy.ups.degDMS	pygeodesy.dms-module.html#degDMS
 pygeodesy.ups._scale	pygeodesy.ups-module.html#_scale
 pygeodesy.ups._to4lldn	pygeodesy.utmupsBase-module.html#_to4lldn
-pygeodesy.ups._Bands	pygeodesy.ups-module.html#_Bands
 pygeodesy.ups._to3zBhp	pygeodesy.utmupsBase-module.html#_to3zBhp
 pygeodesy.ups.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ups.upsZoneBand5	pygeodesy.ups-module.html#upsZoneBand5
@@ -3006,6 +3006,7 @@ pygeodesy.utmups._UPS_S_MIN	pygeodesy.utmups-module.html#_UPS_S_MIN
 pygeodesy.utmupsBase	pygeodesy.utmupsBase-module.html
 pygeodesy.utmupsBase._UTM_ZONE_MAX	pygeodesy.utmupsBase-module.html#_UTM_ZONE_MAX
 pygeodesy.utmupsBase._UTMUPS_ZONE_INVALID	pygeodesy.utmupsBase-module.html#_UTMUPS_ZONE_INVALID
+pygeodesy.utmupsBase._to4lldn	pygeodesy.utmupsBase-module.html#_to4lldn
 pygeodesy.utmupsBase._MGRS_TILE	pygeodesy.utmupsBase-module.html#_MGRS_TILE
 pygeodesy.utmupsBase.degDMS	pygeodesy.dms-module.html#degDMS
 pygeodesy.utmupsBase._UTM_ZONE_OFF_MAX	pygeodesy.utmupsBase-module.html#_UTM_ZONE_OFF_MAX
@@ -3037,7 +3038,7 @@ pygeodesy.utmupsBase.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.utmupsBase._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.utmupsBase._UTMUPS_ZONE_MAX	pygeodesy.utmupsBase-module.html#_UTMUPS_ZONE_MAX
 pygeodesy.utmupsBase.wrap90	pygeodesy.utily-module.html#wrap90
-pygeodesy.utmupsBase._to4lldn	pygeodesy.utmupsBase-module.html#_to4lldn
+pygeodesy.utmupsBase._parseUTMUPS5	pygeodesy.utmupsBase-module.html#_parseUTMUPS5
 pygeodesy.utmupsBase.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.utmupsBase._hemi	pygeodesy.utmupsBase-module.html#_hemi
 pygeodesy.utmupsBase._or	pygeodesy.errors-module.html#_or
@@ -3047,7 +3048,7 @@ pygeodesy.utmupsBase.isstr	pygeodesy.basics-module.html#isstr
 pygeodesy.utmupsBase._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.utmupsBase.__package__	pygeodesy.utmupsBase-module.html#__package__
 pygeodesy.utmupsBase._xzipairs	pygeodesy.streprs-module.html#_xzipairs
-pygeodesy.utmupsBase._parseUTMUPS5	pygeodesy.utmupsBase-module.html#_parseUTMUPS5
+pygeodesy.utmupsBase._UPS_BANDS	pygeodesy.utmupsBase-module.html#_UPS_BANDS
 pygeodesy.utmupsBase._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.vector2d	pygeodesy.vector2d-module.html
 pygeodesy.vector2d.hypot2_	pygeodesy.fmath-module.html#hypot2_
@@ -6035,6 +6036,7 @@ pygeodesy.latlonBase.LatLonBase.heightStr	pygeodesy.latlonBase.LatLonBase-class.
 pygeodesy.latlonBase.LatLonBase.Ecef	pygeodesy.latlonBase.LatLonBase-class.html#Ecef
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.latlonBase.LatLonBase.circum3	pygeodesy.latlonBase.LatLonBase-class.html#circum3
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -6206,6 +6208,7 @@ pygeodesy.latlonBase.LatLonBase.Ecef	pygeodesy.latlonBase.LatLonBase-class.html#
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI._Direct	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#_Direct
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -6514,6 +6517,7 @@ pygeodesy.latlonBase.LatLonBase.Ecef	pygeodesy.latlonBase.LatLonBase-class.html#
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI._Direct	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#_Direct
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -6822,6 +6826,7 @@ pygeodesy.latlonBase.LatLonBase.Ecef	pygeodesy.latlonBase.LatLonBase-class.html#
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI._Direct	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#_Direct
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -7130,6 +7135,7 @@ pygeodesy.latlonBase.LatLonBase.Ecef	pygeodesy.latlonBase.LatLonBase-class.html#
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI._Direct	pygeodesy.ellipsoidalBaseDI.LatLonEllipsoidalBaseDI-class.html#_Direct
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -7431,6 +7437,7 @@ pygeodesy.latlonBase.LatLonBase.heightStr	pygeodesy.latlonBase.LatLonBase-class.
 pygeodesy.ellipsoidalNvector.LatLon.Ecef	pygeodesy.ellipsoidalNvector.LatLon-class.html#Ecef
 pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.html#latlon2
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toRefFrame
@@ -7962,6 +7969,7 @@ pygeodesy.latlonBase.LatLonBase.latlon2	pygeodesy.latlonBase.LatLonBase-class.ht
 pygeodesy.ellipsoidalVincenty.LatLon.epsilon	pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon
 pygeodesy.ellipsoidalVincenty.LatLon._Direct	pygeodesy.ellipsoidalVincenty.LatLon-class.html#_Direct
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._utm	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_utm
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._toLLEB_args	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_toLLEB_args
 pygeodesy.latlonBase.LatLonBase._vector3d	pygeodesy.latlonBase.LatLonBase-class.html#_vector3d
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convergence	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence
 pygeodesy.latlonBase.LatLonBase.toNvector	pygeodesy.latlonBase.LatLonBase-class.html#toNvector
@@ -8680,7 +8688,6 @@ pygeodesy.etm.Etm.parseETM	pygeodesy.etm.Etm-class.html#parseETM
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.utm.Utm._mgrs	pygeodesy.utm.Utm-class.html#_mgrs
 pygeodesy.utmupsBase.UtmUpsBase._easting	pygeodesy.utmupsBase.UtmUpsBase-class.html#_easting
-pygeodesy.etm.Etm._latlon_to	pygeodesy.etm.Etm-class.html#_latlon_to
 pygeodesy.utm.Utm.toStr	pygeodesy.utm.Utm-class.html#toStr
 pygeodesy.utmupsBase.UtmUpsBase._datum	pygeodesy.utmupsBase.UtmUpsBase-class.html#_datum
 pygeodesy.utmupsBase.UtmUpsBase._band	pygeodesy.utmupsBase.UtmUpsBase-class.html#_band
@@ -8708,6 +8715,7 @@ pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.utmupsBase.UtmUpsBase.toEpsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.utm.Utm.__repr__	pygeodesy.utm.Utm-class.html#__repr__
+pygeodesy.etm.Etm._toLLEB	pygeodesy.etm.Etm-class.html#_toLLEB
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.utmupsBase.UtmUpsBase._scale	pygeodesy.utmupsBase.UtmUpsBase-class.html#_scale
@@ -8715,6 +8723,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.utm.Utm.pole	pygeodesy.utm.Utm-class.html#pole
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.utmupsBase.UtmUpsBase.northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#northing
+pygeodesy.utmupsBase.UtmUpsBase._latlon5args	pygeodesy.utmupsBase.UtmUpsBase-class.html#_latlon5args
 pygeodesy.utm.Utm._xcopy2	pygeodesy.utm.Utm-class.html#_xcopy2
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.utmupsBase.UtmUpsBase.scale0	pygeodesy.utmupsBase.UtmUpsBase-class.html#scale0
@@ -8736,7 +8745,6 @@ pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.utm.Utm.toUps	pygeodesy.utm.Utm-class.html#toUps
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
 pygeodesy.etm.Etm.parse	pygeodesy.etm.Etm-class.html#parse
-pygeodesy.utm.Utm._latlon_args	pygeodesy.utm.Utm-class.html#_latlon_args
 pygeodesy.etm.Etm.__init__	pygeodesy.etm.Etm-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
@@ -18635,7 +18643,7 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.ups.Ups.rescale0	pygeodesy.ups.Ups-class.html#rescale0
 pygeodesy.utmupsBase.UtmUpsBase.easting	pygeodesy.utmupsBase.UtmUpsBase-class.html#easting
 pygeodesy.ups.Ups.toUtm	pygeodesy.ups.Ups-class.html#toUtm
-pygeodesy.ups.Ups._latlon_args	pygeodesy.ups.Ups-class.html#_latlon_args
+pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.ups.Ups.__init__	pygeodesy.ups.Ups-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.utmupsBase.UtmUpsBase.falsed	pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed
@@ -18643,7 +18651,6 @@ pygeodesy.utmupsBase.UtmUpsBase.scale	pygeodesy.utmupsBase.UtmUpsBase-class.html
 pygeodesy.ups.Ups.zone	pygeodesy.ups.Ups-class.html#zone
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.ups.Ups.__eq__	pygeodesy.ups.Ups-class.html#__eq__
-pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.utmupsBase.UtmUpsBase._datum	pygeodesy.utmupsBase.UtmUpsBase-class.html#_datum
 pygeodesy.ups.Ups._mgrs	pygeodesy.ups.Ups-class.html#_mgrs
@@ -18655,7 +18662,6 @@ pygeodesy.ups.Ups.toMgrs	pygeodesy.ups.Ups-class.html#toMgrs
 pygeodesy.utmupsBase.UtmUpsBase.__str__	pygeodesy.utmupsBase.UtmUpsBase-class.html#__str__
 pygeodesy.utmupsBase.UtmUpsBase._convergence	pygeodesy.utmupsBase.UtmUpsBase-class.html#_convergence
 pygeodesy.utmupsBase.UtmUpsBase.__repr__	pygeodesy.utmupsBase.UtmUpsBase-class.html#__repr__
-pygeodesy.ups.Ups._latlon_to	pygeodesy.ups.Ups-class.html#_latlon_to
 pygeodesy.utmupsBase.UtmUpsBase._toRepr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toRepr
 pygeodesy.utmupsBase.UtmUpsBase.scale0	pygeodesy.utmupsBase.UtmUpsBase-class.html#scale0
 pygeodesy.ups.Ups._Error	pygeodesy.ups.UPSError-class.html
@@ -18667,8 +18673,8 @@ pygeodesy.utmupsBase.UtmUpsBase._utm	pygeodesy.utmupsBase.UtmUpsBase-class.html#
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.utmupsBase.UtmUpsBase._band	pygeodesy.utmupsBase.UtmUpsBase-class.html#_band
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
-pygeodesy.ups.Ups.parseUPS	pygeodesy.ups.Ups-class.html#parseUPS
-pygeodesy.ups.Ups.hemisphere	pygeodesy.ups.Ups-class.html#hemisphere
+pygeodesy.ups.Ups.band	pygeodesy.ups.Ups-class.html#band
+pygeodesy.utmupsBase.UtmUpsBase.hemisphere	pygeodesy.utmupsBase.UtmUpsBase-class.html#hemisphere
 pygeodesy.utmupsBase.UtmUpsBase._falsed	pygeodesy.utmupsBase.UtmUpsBase-class.html#_falsed
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.utmupsBase.UtmUpsBase.convergence	pygeodesy.utmupsBase.UtmUpsBase-class.html#convergence
@@ -18678,7 +18684,7 @@ pygeodesy.ups.Ups._pole	pygeodesy.ups.Ups-class.html#_pole
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
-pygeodesy.ups.Ups.band	pygeodesy.ups.Ups-class.html#band
+pygeodesy.ups.Ups.parseUPS	pygeodesy.ups.Ups-class.html#parseUPS
 pygeodesy.utmupsBase.UtmUpsBase._band1	pygeodesy.utmupsBase.UtmUpsBase-class.html#_band1
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -18687,6 +18693,8 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
 pygeodesy.utmupsBase.UtmUpsBase.eastingnorthing	pygeodesy.utmupsBase.UtmUpsBase-class.html#eastingnorthing
+pygeodesy.ups.Ups._toLLEB	pygeodesy.ups.Ups-class.html#_toLLEB
+pygeodesy.utmupsBase.UtmUpsBase._latlon5args	pygeodesy.utmupsBase.UtmUpsBase-class.html#_latlon5args
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.utmupsBase.UtmUpsBase.toEpsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg
 pygeodesy.ups.Ups._scale0	pygeodesy.ups.Ups-class.html#_scale0
@@ -18705,7 +18713,6 @@ pygeodesy.utm.Utm.zone	pygeodesy.utm.Utm-class.html#zone
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.utm.Utm._mgrs	pygeodesy.utm.Utm-class.html#_mgrs
 pygeodesy.utmupsBase.UtmUpsBase._easting	pygeodesy.utmupsBase.UtmUpsBase-class.html#_easting
-pygeodesy.utm.Utm._latlon_to	pygeodesy.utm.Utm-class.html#_latlon_to
 pygeodesy.utm.Utm.toStr	pygeodesy.utm.Utm-class.html#toStr
 pygeodesy.utmupsBase.UtmUpsBase._datum	pygeodesy.utmupsBase.UtmUpsBase-class.html#_datum
 pygeodesy.utmupsBase.UtmUpsBase._band	pygeodesy.utmupsBase.UtmUpsBase-class.html#_band
@@ -18732,6 +18739,7 @@ pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.utmupsBase.UtmUpsBase.toEpsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.utm.Utm.__repr__	pygeodesy.utm.Utm-class.html#__repr__
+pygeodesy.utm.Utm._toLLEB	pygeodesy.utm.Utm-class.html#_toLLEB
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.utmupsBase.UtmUpsBase._scale	pygeodesy.utmupsBase.UtmUpsBase-class.html#_scale
@@ -18739,6 +18747,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.utm.Utm.pole	pygeodesy.utm.Utm-class.html#pole
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.utmupsBase.UtmUpsBase.northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#northing
+pygeodesy.utmupsBase.UtmUpsBase._latlon5args	pygeodesy.utmupsBase.UtmUpsBase-class.html#_latlon5args
 pygeodesy.utm.Utm._xcopy2	pygeodesy.utm.Utm-class.html#_xcopy2
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.utmupsBase.UtmUpsBase.scale0	pygeodesy.utmupsBase.UtmUpsBase-class.html#scale0
@@ -18759,7 +18768,6 @@ pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.utm.Utm.toUps	pygeodesy.utm.Utm-class.html#toUps
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
 pygeodesy.utm.Utm.parse	pygeodesy.utm.Utm-class.html#parse
-pygeodesy.utm.Utm._latlon_args	pygeodesy.utm.Utm-class.html#_latlon_args
 pygeodesy.utm.Utm.__init__	pygeodesy.utm.Utm-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
@@ -18787,12 +18795,12 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.utmupsBase.UtmUpsBase.easting	pygeodesy.utmupsBase.UtmUpsBase-class.html#easting
 pygeodesy.utmupsBase.UtmUpsBase.toEpsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg
-pygeodesy.utmupsBase.UtmUpsBase._latlon_args	pygeodesy.utmupsBase.UtmUpsBase-class.html#_latlon_args
+pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.utmupsBase.UtmUpsBase.__init__	pygeodesy.utmupsBase.UtmUpsBase-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.utmupsBase.UtmUpsBase.falsed	pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed
 pygeodesy.utmupsBase.UtmUpsBase.scale	pygeodesy.utmupsBase.UtmUpsBase-class.html#scale
-pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
+pygeodesy.utmupsBase.UtmUpsBase._latlon5args	pygeodesy.utmupsBase.UtmUpsBase-class.html#_latlon5args
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
@@ -18828,6 +18836,7 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
 pygeodesy.utmupsBase.UtmUpsBase.__repr__	pygeodesy.utmupsBase.UtmUpsBase-class.html#__repr__
+pygeodesy.utmupsBase.UtmUpsBase._toLLEB	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toLLEB
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.utmupsBase.UtmUpsBase._hemisphere	pygeodesy.utmupsBase.UtmUpsBase-class.html#_hemisphere
 pygeodesy.vector2d.Circin6Tuple	pygeodesy.vector2d.Circin6Tuple-class.html

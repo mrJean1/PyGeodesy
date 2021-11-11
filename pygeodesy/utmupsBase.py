@@ -12,8 +12,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, _N_, \
-                             _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
+from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _float, _invalid_, \
+                             _N_, _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
                              _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
@@ -25,9 +25,10 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.11.09'
+__version__ = '21.11.11'
 
-_MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
+_MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
+_UPS_BANDS = _A_, _B_, 'Y', 'Z'  # UPS polar bands
 
 _UTM_LAT_MAX  = _float( 84)          # PYCHOK for export (C{degrees})
 _UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
@@ -53,14 +54,15 @@ _UTMUPS_ZONE_MIN     = _UPS_ZONE      # PYCHOK for export too, by .units.py
 # _UTM                  = -2
 
 
-def _hemi(lat):  # imported by .ups, .utm
+def _hemi(lat, N=0):  # imported by .ups, .utm
     '''Return the hemisphere letter.
 
        @arg lat: Latitude (C{degrees} or C{radians}).
+       @kwarg N: Minimal North latitude, C{0} or C{_N_}.
 
        @return: C{'N'|'S'} for north-/southern hemisphere.
     '''
-    return _NS_[int(lat < 0)]
+    return _NS_[int(lat < N)]
 
 
 def _to4lldn(latlon, lon, datum, name):
@@ -87,10 +89,10 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
        @kwarg Error: Optional error to raise, overriding the default
                      C{ValueError}.
 
-       @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int,
-                str, 'N'|'S'}) where C{zone} is C{0} for UPS or
-                C{1..60} for UTM and C{Band} is C{'A'..'Z'} I{NOT}
-                checked for valid UTM/UPS bands.
+       @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int, str,
+                'N'|'S'}) where C{zone} is C{0} for UPS or C{1..60} for
+                UTM and C{Band} is C{'A'..'Z'} I{NOT} checked for valid
+                UTM/UPS bands.
 
        @raise ValueError: Invalid B{C{zone}}, B{C{band}} or B{C{hemipole}}.
     '''
@@ -104,7 +106,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
             elif len(zone) > 1:
                 B = zone[-1:]
                 z = int(zone[:-1])
-            elif zone in 'AaBbYyZz':  # single letter
+            elif zone.upper() in _UPS_BANDS:  # single letter
                 B = zone
                 z = _UPS_ZONE
 
@@ -114,7 +116,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
                 z = Zone(z)
                 B = Band(B.upper())
                 if B.isalpha():
-                    return z, B, (hp or _NS_[B < _N_])
+                    return z, B, (hp or _hemi(B, _N_))
                 elif not B:
                     return z, B, hp
 
@@ -149,9 +151,8 @@ class UtmUpsBase(_NamedBase):
     _easting     = _0_0    # Easting, see B{C{falsed}} (C{meter})
     _Error       =  None   # I{Must be overloaded}, see function C{notOverloaded}
     _falsed      =  True   # falsed easting and northing (C{bool})
-    _hemisphere  =  NN     # hemisphere ('N' or 'S'), different from pole
-    _latlon      =  None   # cached toLatLon (C{LatLon})
-    _latlon_args =  None   # toLatLon args (varies)
+    _hemisphere  =  NN     # hemisphere ('N' or 'S'), different from UPS pole
+    _latlon      =  None   # cached toLatLon (C{LatLon} or C{._toLLEB})
     _northing    = _0_0    # Northing, see B{C{falsed}} (C{meter})
     _scale       =  None   # grid or point scale factor (C{scalar}) or C{None}
 #   _scale0      = _K0     # central scale factor (C{scalar})
@@ -197,7 +198,7 @@ class UtmUpsBase(_NamedBase):
 #           if not self._Bands:
 #               notOverloaded(self, callername='_Bands')
             if band not in self._Bands:
-                t = _or(*sorted(set(map1(repr, self._Bands))))
+                t = _or(*sorted(set(map(repr, self._Bands))))
                 raise self._Error(band=band, txt=_not_(t))
             self._band = band
         elif self._band:  # reset
@@ -274,14 +275,16 @@ class UtmUpsBase(_NamedBase):
         '''
         notOverloaded(self)
 
-    @Property_RO
+    @property_RO
     def hemisphere(self):
         '''Get the hemisphere (C{str}, 'N'|'S').
         '''
+        if not self._hemisphere:
+            self._toLLEB()
         return self._hemisphere
 
     def _latlon5(self, LatLon, **LatLon_kwds):
-        '''(INTERNAL) Convert cached LatLon
+        '''(INTERNAL) Get cached C{._toLLEB} as B{C{LatLon}} instance.
         '''
         ll = self._latlon
         if LatLon is None:
@@ -293,6 +296,17 @@ class UtmUpsBase(_NamedBase):
             r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
                                ll, '_convergence', '_scale')
         return _xnamed(r, ll.name)
+
+    def _latlon5args(self, ll, _toBand, unfalse, *other):
+        '''(INTERNAL) See C{._toLLEB} methods, functions C{ups.toUps8} and C{utm._toXtm8}
+        '''
+        ll._toLLEB_args = (unfalse,) + other
+        if unfalse:
+            if not self._band:
+                self._band = _toBand(ll.lat, ll.lon)
+            if not self._hemisphere:
+                self._hemisphere = _hemi(ll.lat)
+        self._latlon = ll
 
     @Property_RO
     def northing(self):
@@ -328,6 +342,11 @@ class UtmUpsBase(_NamedBase):
            @raise EPSGError: See L{Epsg}.
         '''
         return self._epsg
+
+    def _toLLEB(self, **kwds):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}.
+        '''
+        notOverloaded(self, **kwds)
 
     def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected
         '''(INTERNAL) Return a representation for this ETM/UTM/UPS coordinate.

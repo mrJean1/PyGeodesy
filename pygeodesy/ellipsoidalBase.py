@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.10.19'
+__version__ = '21.11.11'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -134,6 +134,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     _iteration      =  None   # iteration number (C{int} or C{None})
     _reframe        =  None   # reference frame (L{RefFrame})
     _scale          =  None   # UTM/UPS scale factor (C{float})
+    _toLLEB_args    = ()      # Etm/Utm/Ups._toLLEB arguments
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=NN):

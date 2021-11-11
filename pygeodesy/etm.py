@@ -83,13 +83,13 @@ from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
-from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
-                           Utm, UTMError, _toXtm8, _to7zBlldfn
+from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, \
+                          _toXtm8, _to7zBlldfn, Utm, UTMError
 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.11.09'
+__version__ = '21.11.11'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -216,8 +216,8 @@ class Etm(Utm):
                            C{falsed} (C{bool}).
 
            @return: This ETM coordinate as (B{C{LatLon}}) or a
-                    L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)} if B{C{LatLon}} is C{None}.
+                    L{LatLonDatum5Tuple}C{(lat, lon, datum, convergence,
+                    scale)} if B{C{LatLon}} is C{None}.
 
            @raise EllipticError: No convergence.
 
@@ -232,14 +232,18 @@ class Etm(Utm):
             >>> u = Etm(31, 'N', 448251.795, 5411932.678)
             >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
+        if not self._latlon or self._latlon._toLLEB_args != (unfalse, self.exactTM):
+            self._toLLEB(unfalse=unfalse)
+        return self._latlon5(LatLon)
+
+    def _toLLEB(self, unfalse=True, **unused):  # PYCHOK signature
+        '''(INTERNAL) Compute (ellipsoidal) lat- and longitude.
+        '''
         xTM, d = self.exactTM, self.datum
         # double check that this and exactTM's ellipsoids stil match
         if xTM._E != d.ellipsoid:
             t = repr(d.ellipsoid)
             raise ETMError(repr(xTM._E), txt=_incompatible(t))
-
-        if self._latlon and self._latlon_args == (xTM, unfalse):
-            return self._latlon5(LatLon)
 
         f = not unfalse
         e, n = self.eastingnorthing2(falsed=f)
@@ -255,14 +259,7 @@ class Etm(Utm):
         ll = _LLEB(lat, lon, datum=d, name=self.name)
         ll._convergence = g
         ll._scale = k
-
-        self._latlon_to(ll, xTM, unfalse)
-        return self._latlon5(LatLon)
-
-    def _latlon_to(self, ll, xTM, unfalse):
-        '''(INTERNAL) See C{.toLatLon}, C{toEtm8}, C{_toXtm8}.
-        '''
-        self._latlon, self._latlon_args = ll, (xTM, unfalse)
+        self._latlon5args(ll, _toBand, unfalse, xTM)
 
     def toUtm(self):  # PYCHOK signature
         '''Copy this ETM to a UTM coordinate.

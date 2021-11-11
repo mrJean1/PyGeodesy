@@ -97,9 +97,9 @@ command line option ``-W always`` and environment variable
 ``PYGEODESY_WARNINGS=on`` for all Python versions. The results of only
 those tests are included in the distribution files.
 
-Python 3.10.0 and 3.9.6 run on Apple Silicon (``arm64`` *natively*), all
+Python 3.10.0 and 3.9.6 run on Apple Silicon (arm64 *natively*), all
 other Python versions run on Intel (x86_64) or Intel *emulation*
-(\"arm64_x86_64\", see function ``machine``).
+(\"arm64_x86_64\", see function ``pygeodesy.machine``).
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.6
 (with numpy_ 1.21.2), Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_
@@ -145,7 +145,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Nov 10, 2021.*
+*Last updated: Nov 11, 2021.*
 
 License
 =======
