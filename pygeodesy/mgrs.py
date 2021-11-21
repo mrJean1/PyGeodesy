@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.11.08'
+__version__ = '21.11.18'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -422,7 +422,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         m = g + '00000'
         return float(m[:5])
 
-    def _MGRS_(strMGRS, datum, Mgrs, name):
+    def _MGRS(strMGRS, datum, Mgrs, name):
         m = tuple(strMGRS.replace(',', ' ').strip().split())
         if len(m) == 1:  # 01ABC1234512345'
             m = _mg(_RE.MGRS, m[0])
@@ -444,8 +444,8 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
             r = Mgrs(z, EN, e, n, datum=datum, resolution=m, name=name)
         return r
 
-    return _parseX(_MGRS_, strMGRS, datum, Mgrs, name,
-                           strMGRS=strMGRS, Error=MGRSError)
+    return _parseX(_MGRS, strMGRS, datum, Mgrs, name,
+                          strMGRS=strMGRS, Error=MGRSError)
 
 
 def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):

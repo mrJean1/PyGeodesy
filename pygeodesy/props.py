@@ -10,16 +10,15 @@ function L{DeprecationWarnings} below.
 '''
 from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, MISSING, _N_A_, _SPACE_, _UNDER_
+                             _invalid_, MISSING, _N_A_, _NLNL_, \
+                             _SPACE_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _FOR_DOCS, \
                              _PYTHON_X_DEV, _sys
-from pygeodesy.streprs import Fmt
 
 from functools import wraps as _wraps
-from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.10.05'
+__version__ =  '21.11.20'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -382,15 +381,15 @@ def _deprecated_RO(method, _RO):
 
 
 def DeprecationWarnings():
-    '''Get smy C{DeprecationWarning}s reported or raised.
+    '''Have any C{DeprecationWarning}s been reported or raised?
 
-       @return: The number of C{DeprecationWarning}s (C{int}) so far
-                or C{None} if not enabled.
+       @return: The number of C{DeprecationWarning}s (C{int}) so
+                far or C{None} if not enabled.
 
-       @note: To get C{DeprecationWarning}s if any, run C{python} with
-              environment variable C{PYGEODESY_WARNINGS} set to a
-              non-empty string I{AND} use C{python[3]} command line
-              option C{-X dev}, C{-W always}, or C{-W error}, etc.
+       @note: To get C{DeprecationWarning}s if any, run C{python}
+              with environment variable C{PYGEODESY_WARNINGS} set
+              to a non-empty string I{AND} use C{python[3]} command
+              line option C{-X dev}, C{-W always} or C{-W error}, etc.
     '''
     return _Warnings if _W_DEV else None
 
@@ -418,11 +417,14 @@ def _qualified(inst, name):
 def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''(INTERNAL) Report or raise a C{DeprecationWarning}.
     '''
-    line =  doc.split('\n\n', 1)[0].split()
+    from pygeodesy.streprs import Fmt
+    from warnings import warn
+
+    line =  doc.split(_NLNL_, 1)[0].split()
     text = _SPACE_(kind, Fmt.CURLY(L=name), _has_been_, *line)
     kwds = _xkwds(stacklevel, stacklevel=3)
-    # XXX _warn or raise DeprecationWarning(text)
-    _warn(text, category=DeprecationWarning, **kwds)
+    # XXX invoke warn or raise DeprecationWarning(text)
+    warn(text, category=DeprecationWarning, **kwds)
 
     global _Warnings
     _Warnings += 1

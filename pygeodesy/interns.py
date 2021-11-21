@@ -163,6 +163,7 @@ _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
 _exceeds_     = _Prefix('exceeds')           # PYCHOK expected
 _exists_              = 'exists'             # PYCHOK expected
 _f_                   = 'f'                  # PYCHOK expected
+_F_                   = 'F'                  # PYCHOK expected
 _feet_                = 'feet'               # PYCHOK expected
 _few_                 = 'few'                # PYCHOK expected
 _fi_                  = 'fi'                 # PYCHOK expected
@@ -235,6 +236,7 @@ _negative_            = 'negative'           # PYCHOK expected
 _NL_            = _Join('\n')                # PYCHOK expected
 _NL_hash_       = _Join(_NL_ + '# ')         # PYCHOK expected
 _NL_var_        = _Join(_NL_ + '@var ')      # PYCHOK expected
+_NLNL_          = _Join(_NL_)                # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
@@ -484,7 +486,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.11.11'
+__version__ = '21.11.20'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

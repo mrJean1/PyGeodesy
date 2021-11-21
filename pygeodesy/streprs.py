@@ -8,16 +8,16 @@ u'''Floating point and other formatting utilities.
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError, _xkwds_pop
-from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
-                             _E_, _EQUAL_, _H_, _N_, _name_, _not_, \
-                             _PERCENT_, _OKd_, _scalar_, _SPACE_, _STAR_, \
-                             _UNDER_, _0_, _0_0, _0_001, _0_01, _0_1, _1_0
+from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
+                             _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
+                             _OKd_, _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
+                             _0_0, _0_001, _0_01, _0_1, _1_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
-                              _EQUALSPACED_, _exceeds_, _f_, _g_  # PYCHOK used!
+                              _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.10.12'
+__version__ = '21.11.15'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -75,9 +75,10 @@ class Fstr(str):
     def __call__(self, flt, prec=None, ints=False):
         '''Format the B{C{flt}} like function L{fstr}.
         '''
-        return str.__mod__(_pct(self), flt) if prec is None else \
-               next(_streprs(prec, (flt,), self, ints, True, None))
-               # PYCHOK see function C{fstr} if isscalar case below
+        # see also function C{fstr} if isscalar case below
+        t = str.__mod__(_pct(self), flt) if prec is None else next(
+           _streprs(prec, (flt,), self, ints, True, None))
+        return t
 
     def __mod__(self, arg, **unused):
         '''Regular C{%} operator.
@@ -127,7 +128,7 @@ class Fmt(object):
     EQUALSPACED = _Fmt(_EQUALSPACED_(NN, '%s'))
     exceeds_eps = _Fmt(_exceeds_('eps', '(%g)'))
     f           = Fstr(_f_)
-    F           = Fstr('F')
+    F           = Fstr(_F_)
     g           = Fstr(_g_)
     G           = Fstr('G')
     h           = Fstr('%+.*f')  # height, .streprs.hstr

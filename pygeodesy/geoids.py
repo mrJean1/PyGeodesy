@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Geoid models and interpolations.
+u'''Geoid models and geoid height interpolations.
 
-Classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM} to interpolate
-the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
-C{LatLon} locations or separate lat-/longitudes using different
-interpolation methods and C{geoid} model files.
+Classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM} to interpolate the
+height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at C{LatLon}
+locations or separate lat-/longitudes using different interpolation methods
+and C{geoid} model files.
 
 L{GeoidKarney} is a transcoding of I{Charles Karney}'s C++ class U{Geoid
 <https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
@@ -14,16 +14,24 @@ The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
 <https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>} and
 require those packages to be installed.
 
-In addition, each geoid interpolator needs C{grid knots} (down)loaded
-from a C{geoid} model file, specific to the interpolator, more details
-below.  For each interpolator, there are several interpolation choices,
-for example I{linear}, I{cubic}, etc.
+In addition, each geoid interpolator needs C{grid knots} (down)loaded from
+a C{geoid} model file, I{specific to the interpolator}, more details below
+and in the documentation of the interpolator class.  For each interpolator,
+there are several interpolation choices, like I{linear}, I{cubic}, etc.
 
-B{Typical usage} is as follows.  First, create an interpolator from a
-C{geoid} model file, containing locations with known heights also
-referred to as the C{grid knots}.
+B{Typical usage} is one of the following.
 
-C{>>> ginterpolator = GeoidXyz(geoid_file, **options)}
+First, choose one of the interpolator classes L{GeoidG2012B}, L{GeoidKarney}
+or L{GeoidPGM} and download a C{geoid} model file, containing locations with
+known heights also referred to as the C{grid knots}.  See the documentation
+of interpolator class for references to available C{grid} models.
+
+C{>>> from pygeodesy import GeoidG2012B  # or -Karney or -PGM as GeoidXyz}
+
+Next, instantiate an interpolator with the C{geoid} model file and use keyword
+arguments to select different interpolation options.
+
+C{>>> ginterpolator = GeoidXyz(geoid_model_file, **options)}
 
 Then, get the interpolated geoid height of one or several C{LatLon}
 location(s) with
@@ -46,9 +54,14 @@ or as
 
 C{>>> h0, h1, h2, ... = ginterpolator.height(lats, lons)  # lists, tuples, ...}
 
-Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
-C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
-C{warnings} are filtered accordingly, see L{SciPyWarning}.
+For an actual example, see U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>}.
+
+@note: Classes L{GeoidG2012B} and L{GeoidPGM} require both packages U{numpy
+       <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}.
+
+@note: Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
+       C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
+       C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 @see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/
       html/index.html>}, U{Geoid height<https://GeographicLib.SourceForge.io/
@@ -64,14 +77,14 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import len2, map1, map2, isodd, ub2str
+from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
 from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _E_, _float as _F, _height_, _in_, _kind_, \
+                             _DOT_, _E_, _float as _F, _height_, _in_, _kind_, \
                              _knots_, _lat_, _linear_, _lon_, _mean_, _N_, \
                              _n_a_, _not_, _numpy_, _on_, _outside_, _S_, _s_, \
                              _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
@@ -90,14 +103,13 @@ from struct import calcsize as _calcsize, unpack as _unpack
 
 try:
     from StringIO import StringIO as _BytesIO  # reads bytes
-    _ub2str = str  # convert bytes to str
+    _ub2str = str  # PYCHOK convert bytes to str for egm*.pgm text
 
 except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
-    _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.10.05'
+__version__ = '21.11.20'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -109,7 +121,9 @@ _intCs = {}
 _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
-_non_increasing_ =  'non-increasing'
+_lli_             = 'lli'
+_non_increasing_  = 'non-increasing'
+_rb_              = 'rb'
 
 
 class _GeoidBase(_HeightBase):
@@ -164,6 +178,7 @@ class _GeoidBase(_HeightBase):
                                 C{-.RectBivariateSpline} warning as
                                 exception.
         '''
+        spi = self.scipy_interpolate
         # for 2d scipy.interpolate.interp2d(xs, ys, hs, ...) and
         # scipy.interpolate.RectBivariateSpline(ys, xs, hs, ...)
         # require the shape of hs to be (len(ys), len(xs)), note
@@ -179,13 +194,12 @@ class _GeoidBase(_HeightBase):
         # geoid grids are typically stored in row-major order, some
         # with rows (90..-90) reversed and columns (0..360) wrapped
         # to Easten longitude, 0 <= east < 180 and 180 <= west < 0
-        k = self._kind
+        k = self.kind
         if k in _interp2d_ks:
-            self._interp2d = self._spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
+            self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
         elif 1 <= k <= 5:
-            self._ev = self._spi.RectBivariateSpline(ys, xs, hs, bbox=bb,
-                                                                 ky=k, kx=k,
-                                                                 s=self._smooth).ev
+            self._ev = spi.RectBivariateSpline(ys, xs, hs, bbox=bb, ky=k, kx=k,
+                                                           s=self._smooth).ev
         else:
             raise GeoidError(kind=k)
 
@@ -255,7 +269,7 @@ class _GeoidBase(_HeightBase):
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
-            t = 'lli' if _as is _ascalar else Fmt.SQUARE(llis=i)
+            t = _lli_ if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, txt=str(x))
         except Exception as x:
@@ -263,115 +277,6 @@ class _GeoidBase(_HeightBase):
                 raise _SciPyIssue(x)
             else:
                 raise
-
-    def close(self):
-        '''Close the C{egm*.pgm} geoid file if open (and applicable).
-        '''
-        if not self.closed:
-            self._egm.close()
-            self._egm = None
-
-    @property_RO
-    def closed(self):
-        '''Get the C{egm*.pgm} geoid file status.
-        '''
-        return self._egm is None
-
-    def _ev(self, y, x):  # PYCHOK expected
-        # only used for .interpolate.interp2d, but
-        # overwritten for .RectBivariateSpline,
-        # note (y, x) must be flipped!
-        return self._interp2d(x, y)
-
-    def _gaxis2(self, lo, d, n, name):
-        # build grid axis, hi = lo + (n - 1) * d
-        m, a = len2(frange(lo, n, d))
-        if m != n:
-            raise LenError(self.__class__, grid=m, **{name: n})
-        if d < 0:
-            d, a = -d, list(reversed(a))
-        for i in range(1, m):
-            e = a[i] - a[i-1]
-            if e < EPS:  # non-increasing axis
-                i = Fmt.SQUARE(name, i)
-                raise GeoidError(i, e, txt=_non_increasing_)
-        return self._np.array(a), d
-
-    def _g2ll2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, lat, lon)
-
-    def _gyx2g2(self, y, x):
-        # convert grid (y, x) indices to grid (lat, lon)
-        return ((self._lat_lo                + self._lat_d * y),
-                (self._lon_lo + self._lon_of + self._lon_d * x))
-
-    def _hGeoid(self, lat, lon):
-        out = self.outside(lat, lon)
-        if out:
-            lli = fstr((lat, lon), strepr=repr)
-            raise RangeError(lli=lli, txt=_SPACE_(_outside_, _on_, out))
-        return float(self._ev(*self._ll2g2(lat, lon)))
-
-    def _ll2g2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, lat, lon)
-
-    def _llh3(self, lat, lon):
-        return LatLon3Tuple(lat, lon, self._hGeoid(lat, lon), name=self.name)
-
-    def _llh3LL(self, llh, LatLon):
-        return llh if LatLon is None else self._xnamed(LatLon(*llh))
-
-    def _llh3minmax(self, highest=True, *unused):
-        hs, np = self._hs_y_x, self._np
-        # <https://docs.SciPy.org/doc/numpy/reference/generated/
-        #         numpy.argmin.html#numpy.argmin>
-        arg = self._np.argmax if highest else self._np.argmin
-        y, x = np.unravel_index(arg(hs, axis=None), hs.shape)
-        return self._g2ll2(*self._gyx2g2(y, x)) + (float(hs[y, x]),)
-
-    def _load(self, g, dtype, n, offset=0):
-        # numpy.fromfile, like .frombuffer
-        g.seek(offset, _SEEK_SET)
-        return self._np.fromfile(g, dtype, n)
-
-    def _open(self, geoid, datum, kind, name, smooth):
-        # open the geoid file
-        try:
-            self._geoid = _os_path.basename(geoid)
-            self._sizeB = _os_path.getsize(geoid)
-            g = open(geoid, 'rb')
-        except (IOError, OSError) as x:
-            raise GeoidError(geoid=geoid, txt=str(x))
-
-        if datum not in (None, self._datum):
-            self._datum = _ellipsoidal_datum(datum, name=name)
-        self._kind = int(kind)
-        if name:
-            _HeightBase.name.fset(self, name)  # rename
-        if smooth:
-            self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
-
-        return g
-
-    def _swne(self, crop):
-        # crop box to 4-tuple (s, w, n, e)
-        try:
-            if len(crop) == 2:
-                try:  # sw, ne LatLons
-                    swne = (crop[0].lat, crop[0].lon,
-                            crop[1].lat, crop[1].lon)
-                except AttributeError:  # (s, w), (n, e)
-                    swne = tuple(crop[0]) + tuple(crop[1])
-            else:  # (s, w, n, e)
-                swne = crop
-            if len(swne) == 4:
-                s, w, n, e = map(float, swne)
-                if -90 <= s <= (n - _1_0) <=  89 and \
-                  -180 <= w <= (e - _1_0) <= 179:
-                    return s, w, n, e
-        except (IndexError, TypeError, ValueError):
-            pass
-        raise GeoidError(crop=crop)
 
     @Property_RO
     def _center(self):
@@ -393,6 +298,19 @@ class _GeoidBase(_HeightBase):
         '''
         return self._llh3LL(self._center, LatLon)
 
+    def close(self):
+        '''Close the C{egm*.pgm} geoid file if open (and applicable).
+        '''
+        if not self.closed:
+            self._egm.close()
+            self._egm = None
+
+    @property_RO
+    def closed(self):
+        '''Get the C{egm*.pgm} geoid file status.
+        '''
+        return self._egm is None
+
     @Property_RO
     def cropped(self):
         '''Is geoid cropped (C{bool} or C{None} if crop not supported).
@@ -412,6 +330,34 @@ class _GeoidBase(_HeightBase):
            doc/numpy/reference/generated/numpy.dtype.html>} (C{str}).
         '''
         return self._endian
+
+    def _ev(self, y, x):  # PYCHOK expected
+        # only used for .interpolate.interp2d, but
+        # overwritten for .RectBivariateSpline,
+        # note (y, x) must be flipped!
+        return self._interp2d(x, y)
+
+    def _gaxis2(self, lo, d, n, name):
+        # build grid axis, hi = lo + (n - 1) * d
+        m, a = len2(frange(lo, n, d))
+        if m != n:
+            raise LenError(self.__class__, grid=m, **{name: n})
+        if d < 0:
+            d, a = -d, list(reversed(a))
+        for i in range(1, m):
+            e = a[i] - a[i-1]
+            if e < EPS:  # non-increasing axis
+                i = Fmt.SQUARE(name, i)
+                raise GeoidError(i, e, txt=_non_increasing_)
+        return self.numpy.array(a), d
+
+    def _g2ll2(self, lat, lon):  # PYCHOK no cover
+        notOverloaded(self, lat, lon)
+
+    def _gyx2g2(self, y, x):
+        # convert grid (y, x) indices to grid (lat, lon)
+        return ((self._lat_lo                + self._lat_d * y),
+                (self._lon_lo + self._lon_of + self._lon_d * x))
 
     def height(self, lats, lons):
         '''Interpolate the geoid height for one or several lat-/longitudes.
@@ -436,6 +382,13 @@ class _GeoidBase(_HeightBase):
                                 exception.
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
+
+    def _hGeoid(self, lat, lon):
+        out = self.outside(lat, lon)
+        if out:
+            lli = fstr((lat, lon), strepr=repr)
+            raise RangeError(lli=lli, txt=_SPACE_(_outside_, _on_, out))
+        return float(self._ev(*self._ll2g2(lat, lon)))
 
     @Property_RO
     def _highest(self):
@@ -473,6 +426,28 @@ class _GeoidBase(_HeightBase):
         '''Get the number of grid knots (C{int}).
         '''
         return self._knots
+
+    def _ll2g2(self, lat, lon):  # PYCHOK no cover
+        notOverloaded(self, lat, lon)
+
+    def _llh3(self, lat, lon):
+        return LatLon3Tuple(lat, lon, self._hGeoid(lat, lon), name=self.name)
+
+    def _llh3LL(self, llh, LatLon):
+        return llh if LatLon is None else self._xnamed(LatLon(*llh))
+
+    def _llh3minmax(self, highest=True, *unused):
+        hs, np = self._hs_y_x, self.numpy
+        # <https://docs.SciPy.org/doc/numpy/reference/generated/
+        #         numpy.argmin.html#numpy.argmin>
+        arg  = np.argmax if highest else np.argmin
+        y, x = np.unravel_index(arg(hs, axis=None), hs.shape)
+        return self._g2ll2(*self._gyx2g2(y, x)) + (float(hs[y, x]),)
+
+    def _load(self, g, dtype, n, offset=0):
+        # numpy.fromfile, like .frombuffer
+        g.seek(offset, _SEEK_SET)
+        return self.numpy.fromfile(g, dtype, n)
 
     @Property_RO
     def _lowerleft(self):
@@ -539,7 +514,7 @@ class _GeoidBase(_HeightBase):
         '''Get the mean of this geoid's heights (C{float}).
         '''
         if self._mean is None:  # see GeoidKarney
-            self._mean = float(self._np.mean(self._hs_y_x))
+            self._mean = float(self.numpy.mean(self._hs_y_x))
         return self._mean
 
     @property_RO
@@ -554,11 +529,24 @@ class _GeoidBase(_HeightBase):
         '''
         return self._nBytes
 
-    @Property_RO
-    def numpy(self):
-        '''Get the imported C{numpy} version (C{str}).
-        '''
-        return self._np_v
+    def _open(self, geoid, datum, kind, name, smooth):
+        # open the geoid file
+        try:
+            self._geoid = _os_path.basename(geoid)
+            self._sizeB = _os_path.getsize(geoid)
+            g = open(geoid, _rb_)
+        except (IOError, OSError) as x:
+            raise GeoidError(geoid=geoid, txt=str(x))
+
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)
+        self._kind = int(kind)
+        if name:
+            _HeightBase.name.fset(self, name)  # rename
+        if smooth:
+            self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
+
+        return g
 
     def outside(self, lat, lon):
         '''Check whether a location is outside this geoid's
@@ -582,12 +570,6 @@ class _GeoidBase(_HeightBase):
         return self._pgm
 
     @Property_RO
-    def scipy(self):
-        '''Get the imported C{scipy} version (C{str}).
-        '''
-        return self._sp_v
-
-    @Property_RO
     def sizeB(self):
         '''Get the geoid grid file size in bytes (C{int}).
         '''
@@ -604,8 +586,28 @@ class _GeoidBase(_HeightBase):
         '''Get the standard deviation of this geoid's heights (C{float}) or C{None}.
         '''
         if self._stdev is None:  # see GeoidKarney
-            self._stdev = float(self._np.std(self._hs_y_x))
+            self._stdev = float(self.numpy.std(self._hs_y_x))
         return self._stdev
+
+    def _swne(self, crop):
+        # crop box to 4-tuple (s, w, n, e)
+        try:
+            if len(crop) == 2:
+                try:  # sw, ne LatLons
+                    swne = (crop[0].lat, crop[0].lon,
+                            crop[1].lat, crop[1].lon)
+                except AttributeError:  # (s, w), (n, e)
+                    swne = tuple(crop[0]) + tuple(crop[1])
+            else:  # (s, w, n, e)
+                swne = crop
+            if len(swne) == 4:
+                s, w, n, e = map(float, swne)
+                if -90 <= s <= (n - _1_0) <=  89 and \
+                  -180 <= w <= (e - _1_0) <= 179:
+                    return s, w, n, e
+        except (IndexError, TypeError, ValueError):
+            pass
+        raise GeoidError(crop=crop)
 
     def toStr(self, prec=3, sep=_COMMASPACE_):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
@@ -731,11 +733,12 @@ class GeoidG2012B(_GeoidBase):
         if crop is not None:
             raise GeoidError(crop=crop, txt=_not_(_supported_))
 
-        np, _ = self._NumSciPy()
         g = self._open(g2012b_bin, datum, kind, name, smooth)
+        _ = self.numpy  # import numpy
+
         try:
             p = _Gpars()
-            n = self.sizeB // 4 - 11  # number of f4 heights
+            n = (self.sizeB // 4) - 11  # number of f4 heights
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
             for en_ in ('<', '>'):
@@ -989,6 +992,12 @@ class GeoidKarney(_GeoidBase):
 
         return GeoidKarney._C0[j], GeoidKarney._C3[j], v
 
+    @Property_RO
+    def dtype(self):
+        '''Get the geoid's grid data type (C{str}).
+        '''
+        return 'ushort'
+
     def _ev(self, lat, lon):  # PYCHOK expected
         # interpolate the geoid height at grid (lat, lon)
         fy, fx = self._g2yx2(lat, lon)
@@ -1055,6 +1064,45 @@ class GeoidKarney(_GeoidBase):
         p = self._pgm
         return (p.slat + p.dlat * y), (p.wlon + p.dlon * x)
 
+    def height(self, lats, lons):
+        '''Interpolate the geoid height for one or several lat-/longitudes.
+
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+
+           @return: A single interpolated geoid height (C{float}) or a
+                    list of interpolated geoid heights (C{float}s).
+
+           @raise GeoidError: Insufficient or non-matching number of
+                              B{C{lats}} and B{C{lons}} or the C{egm*.pgm}
+                              geoid file is closed.
+
+           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
+                              geoid's lat- or longitude range.
+        '''
+        return _HeightBase._height(self, lats, lons, Error=GeoidError)
+
+    @Property_RO
+    def _highest_ltd(self):
+        '''(INTERNAL) Cache for L{highest} mesthod.
+        '''
+        return self._llh3minmax(True, -12, -4)
+
+    def highest(self, LatLon=None, full=False):  # PYCHOK full
+        '''Return the location and largest height of this geoid.
+
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
+           @kwarg full: Search the full or limited latitude range (C{bool}).
+
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the highest
+                    grid location.
+        '''
+        llh = self._highest if full or self.cropped else self._highest_ltd
+        return self._llh3LL(llh, LatLon)
+
     def _lat2y2(self, lat2):
         # convert earth lat(s) to min and max grid y indices
         ys, m = [], self._pgm.nlat - 1
@@ -1087,6 +1135,27 @@ class GeoidKarney(_GeoidBase):
         h *= self._pgm.Scale
         h += self._pgm.Offset
         return self._g2ll2(*self._gyx2g2(y, x)) + (h,)
+
+    @Property_RO
+    def _lowest_ltd(self):
+        '''(INTERNAL) Cache for L{lowest}.
+        '''
+        return self._llh3minmax(False, 0, 8)
+
+    def lowest(self, LatLon=None, full=False):  # PYCHOK full
+        '''Return the location and lowest height of this geoid.
+
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
+           @kwarg full: Search the full or limited latitude range (C{bool}).
+
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the lowest
+                    grid location.
+        '''
+        llh = self._lowest if full or self.cropped else self._lowest_ltd
+        return self._llh3LL(llh, LatLon)
 
     def _raw(self, y, x):
         # get the ushort geoid height at geoid index (y, x),
@@ -1133,72 +1202,6 @@ class GeoidKarney(_GeoidBase):
             g.seek(b, _SEEK_SET)
             return b  # position
         raise GeoidError('closed file: %r' % (p.egm,))  # IOError
-
-    @Property_RO
-    def dtype(self):
-        '''Get the geoid's grid data type (C{str}).
-        '''
-        return 'ushort'
-
-    def height(self, lats, lons):
-        '''Interpolate the geoid height for one or several lat-/longitudes.
-
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-
-           @return: A single interpolated geoid height (C{float}) or a
-                    list of interpolated geoid heights (C{float}s).
-
-           @raise GeoidError: Insufficient or non-matching number of
-                              B{C{lats}} and B{C{lons}} or the C{egm*.pgm}
-                              geoid file is closed.
-
-           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
-                              geoid's lat- or longitude range.
-        '''
-        return _HeightBase._height(self, lats, lons, Error=GeoidError)
-
-    @Property_RO
-    def _highest_ltd(self):
-        '''(INTERNAL) Cache for L{highest} mesthod.
-        '''
-        return self._llh3minmax(True, -12, -4)
-
-    def highest(self, LatLon=None, full=False):  # PYCHOK full
-        '''Return the location and largest height of this geoid.
-
-           @kwarg LatLon: Optional class to return the location and height
-                          (C{LatLon}) or C{None}.
-           @kwarg full: Search the full or limited latitude range (C{bool}).
-
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the highest
-                    grid location.
-        '''
-        llh = self._highest if full or self.cropped else self._highest_ltd
-        return self._llh3LL(llh, LatLon)
-
-    @Property_RO
-    def _lowest_ltd(self):
-        '''(INTERNAL) Cache for L{lowest}.
-        '''
-        return self._llh3minmax(False, 0, 8)
-
-    def lowest(self, LatLon=None, full=False):  # PYCHOK full
-        '''Return the location and lowest height of this geoid.
-
-           @kwarg LatLon: Optional class to return the location and height
-                          (C{LatLon}) or C{None}.
-           @kwarg full: Search the full or limited latitude range (C{bool}).
-
-           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
-                    lon, height)} otherwise a B{C{LatLon}} instance
-                    with the lat-, longitude and height of the lowest
-                    grid location.
-        '''
-        llh = self._lowest if full or self.cropped else self._lowest_ltd
-        return self._llh3LL(llh, LatLon)
 
     @Property_RO
     def u2B(self):
@@ -1259,8 +1262,7 @@ class GeoidPGM(_GeoidBase):
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
                               B{C{kind}} or B{C{smooth}}.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not installed.
 
            @raise LenError: EGM dataset B{C{egm_pgm}} axis mismatch.
 
@@ -1284,7 +1286,7 @@ class GeoidPGM(_GeoidBase):
 
            @see: Class L{GeoidKarney} and function L{egmGeoidHeights}.
         '''
-        np, _ = self._NumSciPy()
+        np = self.numpy
         self._u2B = np.dtype(self.endian).itemsize
 
         g = self._open(egm_pgm, datum, kind, name, smooth)
@@ -1293,8 +1295,8 @@ class GeoidPGM(_GeoidBase):
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))
             self._g2ll2 = self._g2ll2_cropped
             self._ll2g2 = self._ll2g2_cropped
-            if map2(int, self.numpy.split('.')[:2]) < (1, 9):
-                g = open(g.name, 'rb')  # reopen tempfile for numpy 1.8.0-
+            if map2(int, np.__version__.split(_DOT_)[:2]) < (1, 9):
+                g = open(g.name, _rb_)  # reopen tempfile for numpy 1.8.0-
             self._cropped = True
         else:
             self._cropped = False
@@ -1581,7 +1583,7 @@ class _PGM(_Gpars):
         self.skip  = 0  # no header lines in c
 
         c.seek(0, _SEEK_SET)
-        # c = open(c.name, 'rb')  # reopen for numpy 1.8.0-
+        # c = open(c.name, _rb_)  # reopen for numpy 1.8.0-
         return c
 
     def _Errorf(self, fmt, *args):  # PYCHOK no cover

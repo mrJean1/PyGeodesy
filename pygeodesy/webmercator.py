@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.10.24'
+__version__ = '21.11.18'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -283,7 +283,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
         >>> u = parseWM('448251 5411932')
         >>> u.toRepr()  # [E:448251, N:5411932]
     '''
-    def _WM_(strWM, radius, Wm, name):
+    def _WM(strWM, radius, Wm, name):
         w = strWM.replace(_COMMA_, _SPACE_).strip().split()
 
         if len(w) == 2:
@@ -295,8 +295,8 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
         return EasNorRadius3Tuple(x, y, r, name=name) if Wm is None else \
                                Wm(x, y, radius=r, name=name)
 
-    return _parseX(_WM_, strWM, radius, Wm, name,
-                         strWM=strWM, Error=WebMercatorError)
+    return _parseX(_WM, strWM, radius, Wm, name,
+                        strWM=strWM, Error=WebMercatorError)
 
 
 def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):

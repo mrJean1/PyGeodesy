@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.09.29'
+__version__ = '21.11.16'
 
 from base import coverage, GeodSolve, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -12,7 +12,8 @@ from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
                       Datums, ellipsoidalVincenty as V, fstr, IntersectionError, \
-                      latlonDMS, m2SM, normDMS, PI, PI_4, R_M, VincentyError, wrap360
+                      latlonDMS, latlonDMS_, m2SM, normDMS, PI, PI_4, R_M, \
+                      VincentyError, wrap360
 
 from math import radians
 
@@ -675,7 +676,7 @@ class Tests(_TestsLL, _TestsV):
                 d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                 if d2 < d:
                     d, i1, i2 = d2, i2, i1
-                s = latlonDMS((i1, i2), form=F_D, sep=', ')
+                s = latlonDMS_(i1, i2, form=F_D, sep=', ')
                 s = '%s  d %g meter (iteration %d)' % (s, d, i1.iteration)
                 self.test(n, s, s)
                 if d > d_m:  # Equidistant >> EquidistantKarney, see .testAzimuthal

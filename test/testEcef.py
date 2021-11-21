@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.05.16'
+__version__ = '21.11.18'
 
 from base import GeodSolve, TestsBase
 
@@ -93,6 +93,11 @@ class Tests(TestsBase):
         self.test('Vermeille', t.lonVermeille,      '-168.919', fmt='%.3f')
         t = g.reverse(-2577.1e3, -498.1e3, 5793.9e3)
         self.test('Vermeille', t.lonVermeille + 360, '190.939', fmt='%.3f')
+        # coverage
+        t = t.dup(y=-t.y)
+        self.test('Vermeille', t.latlonVermeille, '(65.772506, 169.060801)', known=not Karney)
+        t = t.dup(y=0)
+        self.test('Vermeille', t.philamVermeille, '(1.147947, 3.141593)', known=not Karney)
 
         # Rey-Jer You <https://www.ResearchGate.net/publication/240359424>
         for i, (x, y, z, h) in enumerate(((-2259148.993, 3912960.837, 4488055.516, 1e3),
@@ -124,7 +129,7 @@ class Tests(TestsBase):
         g = Ecef(Ellipsoids.GRS80, name='OS-UK')
         self.test('name', g.name, 'OS-UK')
 
-        t = g.forward(parse3llh('''53°36′43.1653"N, 001°39′51.9920"W, 299.800'''))
+        t = g.forward(parse3llh('''53°36'43.1653"N, 001°39'51.9920"W, 299.800'''))
         self.test('forward', fstr(t[3:6], prec=8), '53.61199036, -1.66444222, 299.8')
         self.test('forward', fstr(t[0:3], prec=2), '3790644.9, -110149.21, 5111482.97')
 
@@ -143,6 +148,9 @@ class Tests(TestsBase):
         self.test('reverse', fstr(t[3:6], prec=6), '34.0, -117.333569, 251.702', known=not Karney)
 
         # coverage
+        t = g.forward_(radians(34.0), radians(-117.333569), 251.702)
+        self.test(g.forward_.__name__, fstr(t[:6], prec=6), '-2430601.812953, -4702442.744488, 3546587.313654, 34.0, -117.333569, 251.702', known=not Karney)
+
         self.test(EcefError.__name__, g.reverse(0, 0, 0), '(0.0, 0.0, ...)', known=True)
         try:
             self.test(EcefError.__name__, g.forward(None, None, None), EcefError.__name__)
@@ -176,6 +184,9 @@ class Tests(TestsBase):
         self.test('multiply', fstr(t, prec=0), '1, 0, 0, 0, 1, 0, 0, 0, 1')
 
         self.testCopy(I)
+
+        t = I.unrotate((1, 1, 1))  # coverage
+        self.test(I.unrotate.__name__, t, '(1.0, 1.0, 1.0)')
 
     def testLatLonEcef(self, module, Ecef):
 

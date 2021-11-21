@@ -5,7 +5,7 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '21.05.25'
+__version__ = '21.11.18'
 
 from base import geographiclib, GeodSolve, TestsBase
 
@@ -176,21 +176,27 @@ class Tests(TestsBase):
         p = g.Polygon()  # GeodesicAreaExact(g)
 
         p.AddPoint( 0,    0)
+        self.test('Compute', _t3(p.Compute()), '(1, 0, 0)')  # coverage
         p.AddEdge( 90, 1000)
         p.AddEdge(  0, 1000)
         p.AddEdge(-90, 1000)
-        self.test('AddEdges',  _t3(p.Compute()),           (4, 4000, 1000000), known=K)
-        self.test('TestEdge',  _t3(p.TestEdge(180, 1000)), (5, 4000, 1000000), known=K)
+        self.test('AddEdges',  _t3(p.Compute()),           '(4, 4000, 1000000)', known=K)
+        self.test('TestEdge',  _t3(p.TestEdge(180, 1000)), '(5, 4000, 1000000)', known=K)
 
         n = p.Clear()  # .Reset()
         self.test('Clear', n, 0, known=n is None)
+        self.test('TestPoint', _t3(p.TestPoint(52, 0)), '(1, 0, 0)')  # coverage
 
         p.AddPoint( 52,   0)  # London
         p.AddPoint( 41, -74)  # New York
         p.AddPoint(-23, -43)  # Rio de Janeiro
         p.AddPoint(-26,  28)  # Johannesburg
-        self.test('AddPoints',  _t3(p.Compute()),        (4, 29506941, 65690027591346))
-        self.test('TestPoint',  _t3(p.TestPoint(52, 0)), (5, 29506941, 65690027591346))
+        self.test('AddPoints',  _t3(p.Compute()),        '(4, 29506941, 65690027591346)')
+        self.test('TestPoint',  _t3(p.TestPoint(52, 0)), '(5, 29506941, 65690027591346)')
+
+        if not K:  # coverage, but not for pygeodesy.karney.PolygonArea
+            t = p.toStr()
+            self.test(p.toStr.__name__, t, t)
 
 
 if __name__ == '__main__':

@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.10.05'
+__version__ = '21.11.18'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -395,7 +395,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
         m = g + '00000'  # std to meter
         return int(str(G) + m[:5])
 
-    def _OSGR_(strOSGR, Osgr, name):
+    def _OSGR(strOSGR, Osgr, name):
         s = strOSGR.strip()
         g = s.split(_COMMA_)
         if len(g) == 2:  # "easting,northing"
@@ -428,8 +428,8 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
         return EasNor2Tuple(e, n, name=name) if Osgr is None else \
                _xnamed(Osgr(e, n), name)
 
-    return _parseX(_OSGR_, strOSGR, Osgr, name,
-                           strOSGR=strOSGR, Error=OSGRError)
+    return _parseX(_OSGR, strOSGR, Osgr, name,
+                          strOSGR=strOSGR, Error=OSGRError)
 
 
 def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,

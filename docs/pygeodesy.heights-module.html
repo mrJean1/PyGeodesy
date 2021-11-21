@@ -59,7 +59,7 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module heights</h1><p class="nomargin-top"></p>
-<p>Height interpolation methods.</p>
+<p>Height interpolations of <code>LatLon</code> points.</p>
   <p>Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
   class="link">HeightCubic</a>, <a 
   href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" 
@@ -95,28 +95,17 @@
   href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
   class="link">HeightSmoothBiSpline</a> to interpolate the height of 
   <code>LatLon</code> locations or separate lat-/longitudes from a set of 
-  <code>LatLon</code> points with <code>known</code> heights.</p>
-  <p>Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
-  class="link">HeightCubic</a> and <a 
-  href="pygeodesy.heights.HeightLinear-class.html" 
-  class="link">HeightLinear</a> require package <a 
-  href="https://PyPI.org/project/numpy" target="_top">numpy</a>, classes <a
-  href="pygeodesy.heights.HeightLSQBiSpline-class.html" 
-  class="link">HeightLSQBiSpline</a> and <a 
-  href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
-  class="link">HeightSmoothBiSpline</a> require package <a 
-  href="https://SciPy.org" target="_top">scipy</a>. Classes <a 
-  href="pygeodesy.heights.HeightIDWkarney-class.html" 
-  class="link">HeightIDWkarney</a> and <a 
-  href="pygeodesy.heights.HeightIDWdistanceTo-class.html" 
-  class="link">HeightIDWdistanceTo</a> -iff used with <a 
-  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-  class="link">ellipsoidalKarney.LatLon</a> points- require <i>Karney</i>'s
-  <a href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> to be installed.</p>
-  <p><b>Typical usage</b> is as follows.  First, create an interpolator 
-  from a given set of <code>LatLon</code> points with <code>known</code> 
-  heights, called <code>knots</code>.</p>
+  <code>LatLon</code> points with <i>known heights</i>.</p>
+  <p><b>Typical usage</b> is one of the following.</p>
+  <p>First, get or create a set of <code>LatLon</code> points with <i>known
+  heights</i>, called <code>knots</code>.  The <code>knots</code> do not 
+  need to be ordered in any particular way.</p>
+  <p>Select one of the <code>Height</code> classes for height 
+  interpolation.</p>
+  <p><code>&gt;&gt;&gt; from pygeodesy import HeightCubic  # or other as 
+  HeightXyz</code></p>
+  <p>Next, instantiate a height interpolator with the 
+  <code>knots</code>.</p>
   <p><code>&gt;&gt;&gt; hinterpolator = HeightXyz(knots, 
   **options)</code></p>
   <p>Then, get the interpolated height of other <code>LatLon</code> 
@@ -134,25 +123,49 @@
   <p>or</p>
   <p><code>&gt;&gt;&gt; h0, h1, h2, ... = hinterpolator.height(lats, lons)
   # lists, tuples, ...</code></p>
-  <p>The <code>knots</code> do not need to be ordered for any of the height
-  interpolators.</p>
-  <p>Errors from <code>scipy</code> as raised as <a 
-  href="pygeodesy.errors.SciPyError-class.html" 
-  class="link">SciPyError</a>s.  Warnings issued by <code>scipy</code> can 
-  be thrown as <a href="pygeodesy.errors.SciPyWarning-class.html" 
-  class="link">SciPyWarning</a> exceptions, provided Python 
-  <code>warnings</code> are filtered accordingly, see <a 
-  href="pygeodesy.errors.SciPyWarning-class.html" 
-  class="link">SciPyWarning</a>.</p>
 
 <hr />
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
+        class="link">HeightCubic</a> and <a 
+        href="pygeodesy.heights.HeightLinear-class.html" 
+        class="link">HeightLinear</a> require package <a 
+        href="https://PyPI.org/project/numpy" target="_top">numpy</a>, 
+        classes <a href="pygeodesy.heights.HeightLSQBiSpline-class.html" 
+        class="link">HeightLSQBiSpline</a> and <a 
+        href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
+        class="link">HeightSmoothBiSpline</a> require package <a 
+        href="https://SciPy.org" target="_top">scipy</a>. Classes <a 
+        href="pygeodesy.heights.HeightIDWkarney-class.html" 
+        class="link">HeightIDWkarney</a> and <a 
+        href="pygeodesy.heights.HeightIDWdistanceTo-class.html" 
+        class="link">HeightIDWdistanceTo</a> -if used with <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">ellipsoidalKarney.LatLon</a> points- require 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.
+        </li>
+        <li>
+        Errors from <code>scipy</code> are raised as <a 
+        href="pygeodesy.errors.SciPyError-class.html" 
+        class="link">SciPyError</a>s.  Warnings issued by 
+        <code>scipy</code> can be thrown as <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a> exceptions, provided Python 
+        <code>warnings</code> are filtered accordingly, see <a 
+        href="pygeodesy.errors.SciPyWarning-class.html" 
+        class="link">SciPyWarning</a>.
+        </li>
+      </ul>
+      <p><strong>See Also:</strong>
         <a 
         href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
-        target="_top">SciPy</a>.
+        target="_top">SciPy</a> Interpolation.
       </p>
       <p><strong>Version:</strong>
-        21.10.05
+        21.11.20
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -440,7 +453,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov 11 13:59:33 2021
+    Generated by Epydoc 3.0.1 on Sat Nov 20 17:48:21 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

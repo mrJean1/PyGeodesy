@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '21.04.06'
+__version__ = '21.11.20'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -311,7 +311,7 @@ class Tests(TestsBase):
                     for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
                         t = fstr(getattr(g, a)(), prec=3)
                         self.test('%s.%s()' % (g, a), t, t, known=True)
-                    for p in ('dtype', 'knots', 'mean', 'nBytes', 'scipy', 'smooth', 'stdev'):  # , 'pgm'
+                    for p in ('dtype', 'knots', 'mean', 'nBytes', 'smooth', 'stdev'):  # , 'pgm', 'scipy'
                         t = ''.join(reprs((getattr(g, p),), prec=3))
                         self.test('%s.%s' % (g, p), t, t, known=True)
                     for a in ('_g2ll2', '_ll2g2'):

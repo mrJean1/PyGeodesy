@@ -200,8 +200,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="close"></a><span class="summary-sig-name">close</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Close the <code>egm*.pgm</code> geoid file if open (and applicable).</td>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#center" class="summary-sig-name">center</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the center location and height of this geoid.</td>
           <td align="right" valign="top">
             
             
@@ -217,9 +218,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#center" class="summary-sig-name">center</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the center location and height of this geoid.</td>
+          <td><span class="summary-sig"><a name="close"></a><span class="summary-sig-name">close</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Close the <code>egm*.pgm</code> geoid file if open (and applicable).</td>
           <td align="right" valign="top">
             
             
@@ -539,25 +539,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geoids._GeoidBase-class.html#numpy" class="summary-name">numpy</a><br />
-      Get the imported <code>numpy</code> version (<code>str</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#pgm" class="summary-name">pgm</a><br />
       Get the PGM attributes (<code>_PGM</code> or <code>None</code> if not
       available/applicable).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.geoids._GeoidBase-class.html#scipy" class="summary-name">scipy</a><br />
-      Get the imported <code>scipy</code> version (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -592,6 +576,9 @@
       <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#numpy">numpy</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy">scipy</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate">scipy_interpolate</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -1368,30 +1355,6 @@ target="_top">dtype</a> (<code>str</code>).
   </dl>
 </td></tr></table>
 </div>
-<a name="numpy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">numpy</h3>
-  <p>Get the imported <code>numpy</code> version (<code>str</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">numpy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the imported <code>numpy</code> version (<code>str</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="pgm"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1405,30 +1368,6 @@ target="_top">dtype</a> (<code>str</code>).
     <dd class="value"><span class="summary-sig">pgm(<span class="summary-sig-arg">self</span>)</span>
         - Get the PGM attributes (<code>_PGM</code> or <code>None</code> if not 
 available/applicable).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="scipy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">scipy</h3>
-  <p>Get the imported <code>scipy</code> version (<code>str</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">scipy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the imported <code>scipy</code> version (<code>str</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1549,7 +1488,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov 11 13:59:35 2021
+    Generated by Epydoc 3.0.1 on Sat Nov 20 17:48:22 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

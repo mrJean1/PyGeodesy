@@ -88,7 +88,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.10.05'
+__version__ = '21.11.18'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -910,15 +910,15 @@ class EcefMatrix(_NamedTuple):
 
     @Property_RO
     def _column_0(self):
-        return self[0::3]
+        return self.column(0)
 
     @Property_RO
     def _column_1(self):
-        return self[1::3]
+        return self.column(1)
 
     @Property_RO
     def _column_2(self):
-        return self[2::3]
+        return self.column(2)
 
     def copy(self, **unused):  # PYCHOK signature
         '''Make a shallow or deep copy of this instance.
@@ -979,15 +979,15 @@ class EcefMatrix(_NamedTuple):
 
     @Property_RO
     def _row_0(self):
-        return self[0:3]
+        return self.row(0)
 
     @Property_RO
     def _row_1(self):
-        return self[3:6]
+        return self.row(1)
 
     @Property_RO
     def _row_2(self):
-        return self[6:9]
+        return self.row(2)
 
     def unrotate(self, xyz, *xyz0):
         '''Inverse rotation M{[x0, y0, z0] + M0 ⋅ [x,y,z]'}.

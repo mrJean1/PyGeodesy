@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.11.11'
+__version__ = '21.11.18'
 
 _MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
 _UPS_BANDS = _A_, _B_, 'Y', 'Z'  # UPS polar bands
@@ -382,7 +382,7 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
 
        @raise ParseError: Invalid B{C{strUTMUPS}}.
     '''
-    def _UTMUPS5_(strUTMUPS, UPS, band, sep):
+    def _UTMUPS5(strUTMUPS, UPS, band, sep):
         u = strUTMUPS.lstrip()
         if UPS and not u.startswith(_UPS_ZONE_STR):
             raise ValueError
@@ -409,8 +409,8 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
         e, n = map(float, u[2:4])
         return z, h.upper(), e, n, B.upper()
 
-    return _parseX(_UTMUPS5_, strUTMUPS, UPS, band, sep,
-                              strUTMUPS=strUTMUPS, Error=Error)
+    return _parseX(_UTMUPS5, strUTMUPS, UPS, band, sep,
+                             strUTMUPS=strUTMUPS, Error=Error)
 
 
 __all__ += _ALL_DOCS(UtmUpsBase)

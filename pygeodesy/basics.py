@@ -22,7 +22,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.11.04'
+__version__ = '21.11.19'
 
 _required_ = 'required'
 
@@ -79,7 +79,7 @@ try:
 
 except NameError:  # Python 3+
     _Bytes = bytes, bytearray
-    _Strs  = str,
+    _Strs  = str,  # tuple
     _Xstr  = str
 
 

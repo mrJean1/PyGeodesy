@@ -41,7 +41,7 @@ using the `Cohen-Sutherland`_, the `Liang-Barsky`_ and the
 path of *LatLon* points (or a `numpy array`_), including implementations
 of the `Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the
 `Reumann-Witkam`_ algorithms and modified versions of the former.  Other
-classes interpolate_ the *height* of *LatLon* points and *Geoid* models
+classes interpolate_ the Height_ of *LatLon* points and Geoid_ models
 or compute various Frechet_ or Hausdorff_ distances.
 
 Installation
@@ -66,8 +66,8 @@ but required to use modules ``ellipsoidalKarney`` and ``css``, ``azimuthal``
 classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 ``HeightIDWkarney`` interpolator.
 
-Both numpy_ and scipy_ must be installed for ``Geoid...`` and ``Height...``
-interpolators, except the ``HeigthIDW...`` ones.
+Both numpy_ and scipy_ must be installed for Geoid_ and Height_ interpolators,
+except the ``HeigthIDW...`` ones.
 
 Functions and methods ``circin6``, ``circum3``, ``circum4_``, ``soddy4``,
 ``trilaterate3d2`` and ``trilaterate5`` require numpy_.
@@ -145,7 +145,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Nov 11, 2021.*
+*Last updated: Nov 21, 2021.*
 
 License
 =======
@@ -212,9 +212,11 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _GeodSolve: https://GeographicLib.SourceForge.io/html/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
+.. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System
 .. _GitHub: https://GitHub.com/mrJean1/PyGeodesy
 .. _Hausdorff: https://WikiPedia.org/wiki/Hausdorff_distance
+.. _Height: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.heights-module.html
 .. _Intel-Python: https://software.Intel.com/en-us/distribution-for-python
 .. _interpolate: https://docs.SciPy.org/doc/scipy/reference/interpolate.html
 .. _JavaScript originals: https://GitHub.com/ChrisVeness/geodesy

@@ -146,9 +146,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
                                  'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP', 'ParseError',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
-                                 'degDMS', 'latDMS', 'latlonDMS', 'lonDMS', 'normDMS',
+                                 'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
+                           ecef=('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix',
+                                 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
                      elevations=('Elevation2Tuple', 'GeoidHeight2Tuple',
                                  'elevation2', 'geoidHeight2'),
                ellipsoidalExact=(),  # module only
@@ -165,7 +166,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError', 'PointsError',
-                                 'RangeError', 'ResectionError', 'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
+                                 'RangeError', 'ResectionError', 'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError',
+                                 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'EasNorExact4Tuple', 'LatLonExact4Tuple',
@@ -307,7 +309,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.11.01'
+__version__ = '21.11.17'
 
 
 def _ALL_OTHER(*objs):

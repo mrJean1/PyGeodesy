@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Height interpolation methods.
+u'''Height interpolations of C{LatLon} points.
 
 Classes L{HeightCubic}, L{HeightIDWcosineAndoyerLambert},
 L{HeightIDWcosineForsytheAndoyerLambert}, L{HeightIDWcosineLaw},
@@ -10,17 +10,19 @@ L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
 L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWthomas}, L{HeightIDWvincentys},
 L{HeightLinear}, L{HeightLSQBiSpline} and L{HeightSmoothBiSpline}
 to interpolate the height of C{LatLon} locations or separate
-lat-/longitudes from a set of C{LatLon} points with C{known} heights.
+lat-/longitudes from a set of C{LatLon} points with I{known heights}.
 
-Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
-<https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
-L{HeightSmoothBiSpline} require package U{scipy<https://SciPy.org>}.
-Classes L{HeightIDWkarney} and L{HeightIDWdistanceTo} -iff used with
-L{ellipsoidalKarney.LatLon} points- require I{Karney}'s U{geographiclib
-<https://PyPI.org/project/geographiclib>} to be installed.
+B{Typical usage} is one of the following.
 
-B{Typical usage} is as follows.  First, create an interpolator from a
-given set of C{LatLon} points with C{known} heights, called C{knots}.
+First, get or create a set of C{LatLon} points with I{known heights},
+called C{knots}.  The C{knots} do not need to be ordered in any
+particular way.
+
+Select one of the C{Height} classes for height interpolation.
+
+C{>>> from pygeodesy import HeightCubic  # or other as HeightXyz}
+
+Next, instantiate a height interpolator with the C{knots}.
 
 C{>>> hinterpolator = HeightXyz(knots, **options)}
 
@@ -44,15 +46,19 @@ or
 
 C{>>> h0, h1, h2, ... = hinterpolator.height(lats, lons)  # lists, tuples, ...}
 
+@note: Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
+       <https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
+       L{HeightSmoothBiSpline} require package U{scipy<https://SciPy.org>}.
+       Classes L{HeightIDWkarney} and L{HeightIDWdistanceTo} -if used with
+       L{ellipsoidalKarney.LatLon} points- require I{Karney}'s U{geographiclib
+       <https://PyPI.org/project/geographiclib>} to be installed.
 
-The C{knots} do not need to be ordered for any of the height
-interpolators.
+@note: Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued
+       by C{scipy} can be thrown as L{SciPyWarning} exceptions, provided
+       Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
-Errors from C{scipy} as raised as L{SciPyError}s.  Warnings issued
-by C{scipy} can be thrown as L{SciPyWarning} exceptions, provided
-Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
-
-@see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
+@see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
+      Interpolation.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -64,9 +70,9 @@ from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
-                             _distanceTo_, _knots_, _len_, _linear_, _scipy_, \
-                             _0_0
+from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMASPACE_, _cubic_, \
+                             _datum_, _distanceTo_, _knots_, _len_, _linear_, \
+                             _scipy_, _0_0, _90_0, _180_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -76,7 +82,11 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.10.05'
+__version__ = '21.11.20'
+
+_error_        = 'error'
+_insufficient_ = 'insufficient'
+_llis_         = 'llis'
 
 
 class HeightError(PointsError):
@@ -93,7 +103,7 @@ def _alist(ais):
 def _allis2(llis, m=1, Error=HeightError):  # imported by .geoids
     # dtermine return type and convert lli C{LatLon}s to list
     if not isinstance(llis, tuple):  # llis are *args
-        raise _AssertionError('type(%s): %r' % ('*llis', llis))
+        raise _AssertionError('%s(%s): %r' % ('type_', '*llis', llis))
 
     n = len(llis)
     if n == 1:  # convert single lli to 1-item list
@@ -135,21 +145,22 @@ def _axyllis4(atype, llis, m=1, off=True):
 
 def _insufficientError(need, Error=HeightError, **name_value):
     # create an insufficient Error instance
-    t = 'insufficient, need %s' % (need,)
+    t = _COMMASPACE_(_insufficient_, str(need))
     return Error(txt=t, **name_value)
 
 
 def _ordedup(ts, lo=EPS, hi=PI2-EPS):
     # clip, order and remove duplicates
-    p, ks = 0, []
-    for k in sorted(max(lo, min(hi, t)) for t in ts):
-        if k > p:
-            ks.append(k)
-            p = k
-    return ks
+    # p, ks = 0, []
+    # for k in sorted(max(lo, min(hi, t)) for t in ts):
+    #     if k > p:
+    #         ks.append(k)
+    #         p = k
+    # return ks
+    return sorted(set(max(lo, min(hi, t)) for t in ts))  # list
 
 
-def _xyhs(lls, off=True, name='llis'):
+def _xyhs(lls, off=True, name=_llis_):
     # map (lat, lon, h) to (x, y, h) in radians, offset as
     # x: 0 <= lon <= PI2, y: 0 <= lat <= PI if off is True
     # else x: -PI <= lon <= PI, y: -PI_2 <= lat <= PI_2
@@ -159,8 +170,8 @@ def _xyhs(lls, off=True, name='llis'):
         xf, yf = PI, PI_2
     try:
         for i, ll in enumerate(lls):
-            yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
-                  (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
+            yield (max(_0_0, radiansPI2(ll.lon + _180_0)) - xf), \
+                  (max(_0_0, radiansPI( ll.lat +  _90_0)) - yf), ll.height
     except AttributeError as x:
         i = Fmt.SQUARE(name, i)
         raise HeightError(i, ll, txt=str(x))
@@ -182,10 +193,7 @@ class _HeightBase(_Named):  # imported by .geoids
     _datum  = None     # ._height datum
     _kmin   = 2        # min number of knots
     _LLis   = LatLon_  # ._height class
-    _np     = None     # numpy
-    _np_v   = None     # version
-    _spi    = None     # scipy.interpolate
-    _sp_v   = None     # version
+    _np_sp  = None     # (numpy, scipy)
     _wrap   = None     # not applicable
 
     def __call__(self, *args):  # PYCHOK no cover
@@ -200,7 +208,7 @@ class _HeightBase(_Named):  # imported by .geoids
         return self._adjust
 
     def _axyllis4(self, llis):
-        return _axyllis4(self._np.array, llis)
+        return _axyllis4(self.numpy.array, llis)
 
     @Property_RO
     def datum(self):
@@ -240,33 +248,49 @@ class _HeightBase(_Named):  # imported by .geoids
         '''
         return self._kmin
 
-    def _NumSciPy(self, throwarnings=False):
+    def _np_sp2(self, throwarnings=False):
         '''(INTERNAL) Import C{numpy} and C{scipy}, once.
         '''
-        if throwarnings:  # raise SciPyWarnings, but ...
-            # ... not if scipy has been imported already
-            import sys
-            if _scipy_ not in sys.modules:
-                import warnings
-                warnings.filterwarnings('error')
-
-        np  = _HeightBase._np
-        spi = _HeightBase._spi
-        if None in (np, spi):
+        t = _HeightBase._np_sp
+        if not t:
+            # raise SciPyWarnings, but not if
+            # scipy has been imported already
+            if throwarnings:
+                import sys
+                if _scipy_ not in sys.modules:
+                    import warnings
+                    warnings.filterwarnings(_error_)
 
             sp = _xscipy(self.__class__, 1, 2)
-            import scipy.interpolate as spi
             np = _xnumpy(self.__class__, 1, 9)
 
-            _HeightBase._np   = np
-            _HeightBase._np_v = np.__version__
-            _HeightBase._spi  = spi
-            _HeightBase._sp_v = sp.__version__
+            _HeightBase._np_sp = t = np, sp
+        return t
 
-        return np, spi  # XXX spi not sp!
+    @Property_RO
+    def numpy(self):
+        '''Get the C{numpy} module or C{None}.
+        '''
+        np, _ = self._np_sp2()
+        return np
+
+    @Property_RO
+    def scipy(self):
+        '''Get the C{scipy} module or C{None}.
+        '''
+        _, sp = self._np_sp2()
+        return sp
+
+    @Property_RO
+    def scipy_interpolate(self):
+        '''Get the C{scipy.interpolate} module or C{None}.
+        '''
+        _ = self.scipy
+        import scipy.interpolate as spi
+        return spi
 
     def _xyhs3(self, knots):
-        return _xyhs3(self._np.array, self._kmin, knots)
+        return _xyhs3(self.numpy.array, self._kmin, knots)
 
     @Property_RO
     def wrap(self):
@@ -301,7 +325,7 @@ class HeightCubic(_HeightBase):
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
         '''
-        _, spi = self._NumSciPy()
+        spi = self.scipy_interpolate
 
         xs, ys, hs = self._xyhs3(knots)
         try:  # SciPy.interpolate.interp2d kind 'linear' or 'cubic'
@@ -1107,7 +1131,8 @@ class HeightLSQBiSpline(_HeightBase):
            @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
                                 as exception.
         '''
-        np, spi = self._NumSciPy()
+        np  = self.numpy
+        spi = self.scipy_interpolate
 
         xs, ys, hs = self._xyhs3(knots)
         n = len(hs)
@@ -1203,7 +1228,7 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
                                 as exception.
         '''
-        _, spi = self._NumSciPy()
+        spi = self.scipy_interpolate
 
         s = Int_(s, name='smoothing', Error=HeightError, low=4)
 

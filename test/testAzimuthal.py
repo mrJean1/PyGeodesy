@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '21.06.03'
+__version__ = '21.11.16'
 
 from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -14,7 +14,7 @@ from pygeodesy import Equidistant, EquidistantExact, EquidistantGeodSolve, \
                       Orthographic, Stereographic, ellipsoidalExact, \
                       ellipsoidalKarney, ellipsoidalNvector, \
                       ellipsoidalVincenty, F_D, fstr, hypot, \
-                      IntersectionError, latlonDMS, vincentys
+                      IntersectionError, latlonDMS, latlonDMS_, vincentys
 
 
 class Tests(TestsBase):
@@ -101,7 +101,7 @@ class Tests(TestsBase):
                         d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                         if d2 < d:
                             d, i1, i2 = d2, i2, i1
-                        s = latlonDMS((i1, i2), form=F_D, prec=-6, sep=', ')
+                        s = latlonDMS_(i1, i2, form=F_D, prec=-6, sep=', ')
                         s = '%s  d %g meter  %s' % (s, d, a)
                         self.test(n, s, s)
                         if E is not None:
