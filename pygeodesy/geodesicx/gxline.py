@@ -33,6 +33,7 @@ from __future__ import division
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import copysign0  # from .fmath
+# from pygeodesy.errors import _AssertionError  # from .karney
 from pygeodesy.fmath import copysign0, fsum_, hypot, norm2
 from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
                                         _coSeries, _GeodesicBase, \
@@ -40,7 +41,7 @@ from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
 from pygeodesy.interns import NAN, NN, PI_2, _COMMASPACE_, \
                              _name_, _0_0, _1_0, _90_0, _180_0
 # from pygeodesy.lazily import _ALL_DOCS  # from .geodesicx.bases
-from pygeodesy.karney import _around, _fix90, GDict, _norm180
+from pygeodesy.karney import _around, _AssertionError, _fix90, GDict, _norm180
 from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import pairs
 from pygeodesy.utily import atan2d, sincos2, sincos2d
@@ -48,19 +49,22 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.11.21'
+__version__ = '21.11.22'
 
-_glXs = []  # instances of C{[_]GeodesicLineExact}
+_append_ = 'append'
+_glXs    = []  # instances of C{[_]GeodesicLineExact}
 
 
-def _update_glXs(gX_glX):  # see .C4Order, ._ef_reset, .GdistDirect
-    '''(INTERNAL) Zap cached/memoized C{Property}s or append.
+def _update_glXs(gX):  # see .C4Order, ._ef_reset, .GdistDirect
+    '''(INTERNAL) Zap cached/memoized C{Property}s of all
+       L{GeodesicLineExact} instances tied to the given
+       L{GeodesicExact} instance B{C{gX}}.
     '''
-    if isinstance(gX_glX, _GeodesicLineExact):
-        _glXs.append(gX_glX)  # most recent
-    elif _glXs:  # PYCHOK no cover
-        for glX in _glXs:  # XXX use weakref
-            glX._update(glX._gX is gX_glX)
+    if isinstance(gX, _GeodesicLineExact):
+        raise _AssertionError(gX=gX)
+    for glX in _glXs:  # PYCHOK use weakref
+        if glX._gX is gX:
+            glX._update(True)
 
 
 class _GeodesicLineExact(_GeodesicBase):
@@ -79,7 +83,7 @@ class _GeodesicLineExact(_GeodesicBase):
     _somg1 = _comg1 = NAN
     _ssig1 = _csig1 = NAN
 
-    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name):
+    def __init__(self, gX, lat1, lon1, azi1, caps, _debug, *salp1_calp1, **name_append):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
         if salp1_calp1:
@@ -102,7 +106,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._caps = caps | Caps._LINE
         self._caps_DISTANCE_IN = caps & (Caps._OUTMASK & Caps.DISTANCE_IN)
 
-        name = name.get(_name_, NN) or gX.name
+        name = name_append.get(_name_, NN) or gX.name
         if name:
             self.name = name
 
@@ -136,18 +140,20 @@ class _GeodesicLineExact(_GeodesicBase):
         # norm2(somg1, comg1)  # no need to normalize!
         # norm2(schi1?, cchi1)  # no need to normalize!
 
+        if name_append.get(_append_, True):
+            _glXs.append(self)
         # no need to pre-compute other attrs based on _Caps.X.  All are
         # Property_RO's, computed once and cached/memoized until reset
         # when C4Order is changed or Elliptic function reset.
 
     def __del__(self):  # XXX use weakref?
-        if _glXs:  # may be None
+        if _glXs:  # may be empty or None
             try:  # PYCHOK no cover
                 _glXs.remove(self)
             except (TypeError, ValueError):
                 pass
-        _update_all(self)
         self._gX = None
+        # _update_all(self)  # throws TypeError during Python 2 cleanup
 
     def _update(self, updated, *attrs):
         if updated:

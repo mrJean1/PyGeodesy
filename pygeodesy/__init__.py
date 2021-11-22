@@ -85,8 +85,8 @@ is optional, but required to use modules L{ellipsoidalKarney} and L{css}, L{azim
 L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
-installed for L{Geoid...<pygeodesy.geoids>} and L{Height...<pygeodesy.heights>} interpolators,
-except the L{HeightIDW...<pygeodesy.heights>} ones.
+installed for most L{Geoid...<pygeodesy.geoids>} and L{Height...<pygeodesy.heights>} interpolators,
+except L{GeoidKarney} and the L{HeightIDW...<pygeodesy.heights>} ones.
 
 Functions and methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} and
 C{trilaterate5} require U{numpy<https://PyPI.org/project/numpy>}.
@@ -504,7 +504,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.11.21'
+__version__ = '21.11.22'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

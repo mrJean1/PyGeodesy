@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.11.21'
+__version__ = '21.11.22'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -270,7 +270,7 @@ class GeodesicExact(_GeodesicBase):
         _xnC4(C4Order=order)
         if self._nC4 != order:
             GeodesicExact._C4x._update(self)
-            _update_glXs(self)
+            _update_glXs(self)  # zap cached/memoized _GeodesicLineExact attrs
         self._nC4 = order
 
     @Property_RO
@@ -467,7 +467,7 @@ class GeodesicExact(_GeodesicBase):
         '''
         if not arcmode:  # supply DISTANCE_IN
             outmask |= Caps.DISTANCE_IN
-        glX = self._Line(lat1, lon1, azi1, outmask)
+        glX = self._LineTemp(lat1, lon1, azi1, outmask)
         return glX._GDictPosition(arcmode, s12_a12, outmask)
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):  # MCCABE 32, 41 vars
@@ -1086,10 +1086,10 @@ class GeodesicExact(_GeodesicBase):
         '''
         return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
 
-    def _Line(self, lat1, lon1, azi1, caps):  # for .azimuthal._GnomonicBase.reverse
+    def _LineTemp(self, lat1, lon1, azi1, caps):  # for ._GDictDirect and in .azimuthal._GnomonicBase.reverse
         '''(INTERNAL) Get a temporary L{GeodesicLineExact} instance.
         '''
-        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
+        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug, append=False)
 
     @Property_RO
     def n(self):
@@ -1251,7 +1251,6 @@ class GeodesicLineExact(_GeodesicLineExact):
         _xinstanceof(GeodesicExact, geodesic=geodesic)
 
         _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, name=name)
-        _update_glXs(self)  # append this glX to the .gxline._glXs list
 
 
 def _Astroid(x, y):

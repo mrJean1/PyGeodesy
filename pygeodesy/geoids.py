@@ -56,8 +56,9 @@ C{>>> h0, h1, h2, ... = ginterpolator.height(lats, lons)  # lists, tuples, ...}
 
 For an actual example, see U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>}.
 
-@note: Classes L{GeoidG2012B} and L{GeoidPGM} require both packages U{numpy
-       <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}.
+@note: Classes L{GeoidG2012B} and L{GeoidPGM} require both U{numpy
+       <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
+       to be installed.
 
 @note: Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
        C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
@@ -109,7 +110,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.11.20'
+__version__ = '21.11.22'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -193,7 +194,7 @@ class _GeoidBase(_HeightBase):
         bb = ys[0], ys[-1], xs[0], xs[-1] + p.dlon  # fudge lon_hi
         # geoid grids are typically stored in row-major order, some
         # with rows (90..-90) reversed and columns (0..360) wrapped
-        # to Easten longitude, 0 <= east < 180 and 180 <= west < 0
+        # to Easten longitude, 0 <= east < 180 and 180 <= west < 360
         k = self.kind
         if k in _interp2d_ks:
             self._interp2d = spi.interp2d(xs, ys, hs, kind=_interp2d_ks[k])
@@ -734,7 +735,7 @@ class GeoidG2012B(_GeoidBase):
             raise GeoidError(crop=crop, txt=_not_(_supported_))
 
         g = self._open(g2012b_bin, datum, kind, name, smooth)
-        _ = self.numpy  # import numpy
+        _ = self.numpy  # import numpy for ._load and
 
         try:
             p = _Gpars()

@@ -1517,6 +1517,7 @@ pygeodesy.geodesicx.gxbases.__package__	pygeodesy.geodesicx.gxbases-module.html#
 pygeodesy.geodesicx.gxbases._coSeries	pygeodesy.geodesicx.gxbases-module.html#_coSeries
 pygeodesy.geodesicx.gxline	pygeodesy.geodesicx.gxline-module.html
 pygeodesy.geodesicx.gxline._fix90	pygeodesy.karney-module.html#_fix90
+pygeodesy.geodesicx.gxline._append_	pygeodesy.geodesicx.gxline-module.html#_append_
 pygeodesy.geodesicx.gxline.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.geodesicx.gxline.norm2	pygeodesy.fmath-module.html#norm2
 pygeodesy.geodesicx.gxline._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
@@ -2063,11 +2064,11 @@ pygeodesy.iters.map2	pygeodesy.basics-module.html#map2
 pygeodesy.iters.wrap180	pygeodesy.utily-module.html#wrap180
 pygeodesy.karney	pygeodesy.karney-module.html
 pygeodesy.karney.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.karney._xImportError	pygeodesy.basics-module.html#_xImportError
 pygeodesy.karney.__package__	pygeodesy.karney-module.html#__package__
 pygeodesy.karney._16th	pygeodesy.karney-module.html#_16th
 pygeodesy.karney._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.karney.__all__	pygeodesy.karney-module.html#__all__
+pygeodesy.karney._a12_	pygeodesy.karney-module.html#_a12_
 pygeodesy.karney._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.karney.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.karney._around	pygeodesy.karney-module.html#_around
@@ -2083,6 +2084,7 @@ pygeodesy.karney._fsum2_	pygeodesy.karney-module.html#_fsum2_
 pygeodesy.karney._remainder	pygeodesy.karney-module.html#_remainder
 pygeodesy.karney.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.karney._M21_	pygeodesy.karney-module.html#_M21_
+pygeodesy.karney._xImportError	pygeodesy.basics-module.html#_xImportError
 pygeodesy.karney._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.karney._M12_	pygeodesy.karney-module.html#_M12_
 pygeodesy.karney._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
@@ -2091,9 +2093,10 @@ pygeodesy.karney._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.karney._polygon	pygeodesy.karney-module.html#_polygon
 pygeodesy.karney._lon1_	pygeodesy.karney-module.html#_lon1_
 pygeodesy.karney._norm180	pygeodesy.karney-module.html#_norm180
-pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
+pygeodesy.karney._or	pygeodesy.errors-module.html#_or
 pygeodesy.karney._azi2_	pygeodesy.karney-module.html#_azi2_
-pygeodesy.karney._a12_	pygeodesy.karney-module.html#_a12_
+pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
+pygeodesy.karney.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.karney._S12_	pygeodesy.karney-module.html#_S12_
 pygeodesy.latlonBase	pygeodesy.latlonBase-module.html
 pygeodesy.latlonBase._xkwds	pygeodesy.errors-module.html#_xkwds
@@ -9818,6 +9821,7 @@ pygeodesy.geodesicx.gx.GeodesicExact._E	pygeodesy.geodesicx.gx.GeodesicExact-cla
 pygeodesy.geodesicx.gx.GeodesicExact._C4f_k2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_C4f_k2
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.geodesicx.gx.GeodesicExact.ellipsoid	pygeodesy.geodesicx.gx.GeodesicExact-class.html#ellipsoid
+pygeodesy.geodesicx.gx.GeodesicExact._LineTemp	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_LineTemp
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.geodesicx.gx.GeodesicExact._eTOL2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_eTOL2
 pygeodesy.geodesicx.gx.GeodesicExact.toStr	pygeodesy.geodesicx.gx.GeodesicExact-class.html#toStr
@@ -9849,7 +9853,6 @@ pygeodesy.geodesicx.gx.GeodesicExact._eF	pygeodesy.geodesicx.gx.GeodesicExact-cl
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.geodesicx.gx.GeodesicExact._GenInverse	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_GenInverse
-pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -9875,7 +9878,7 @@ pygeodesy.geodesicx.gx.GeodesicExact.n	pygeodesy.geodesicx.gx.GeodesicExact-clas
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
 pygeodesy.geodesicx.gx.GeodesicExact._eF_reset_k2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_eF_reset_k2
 pygeodesy.geodesicx.gx.GeodesicExact._n_6PI	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_n_6PI
-pygeodesy.geodesicx.gx.GeodesicExact._Line	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Line
+pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.geodesicx.gx.GeodesicExact.f1	pygeodesy.geodesicx.gx.GeodesicExact-class.html#f1
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.geodesicx.gx.GeodesicExact.Polygon	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon
@@ -10248,6 +10251,7 @@ pygeodesy.geodsolve._GeodesicSolveBase._Exact	pygeodesy.geodsolve._GeodesicSolve
 pygeodesy.geodsolve._GeodesicSolveBase.GeodSolve	pygeodesy.geodsolve._GeodesicSolveBase-class.html#GeodSolve
 pygeodesy.geodsolve._GeodesicSolveBase._e_option	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_e_option
 pygeodesy.geodsolve._GeodesicSolveBase.ellipsoid	pygeodesy.geodsolve._GeodesicSolveBase-class.html#ellipsoid
+pygeodesy.geodsolve.GeodesicSolve._LineTemp	pygeodesy.geodsolve.GeodesicSolve-class.html#_LineTemp
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.geodsolve._GeodesicSolveBase.unroll	pygeodesy.geodsolve._GeodesicSolveBase-class.html#unroll
 pygeodesy.geodsolve._GeodesicSolveBase._b_option	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_b_option
@@ -10274,7 +10278,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
-pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.geodsolve._GeodesicSolveBase.verbose	pygeodesy.geodsolve._GeodesicSolveBase-class.html#verbose
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
@@ -10293,7 +10296,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.geodsolve._GeodesicSolveBase._verbose	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_verbose
 pygeodesy.geodsolve._GeodesicSolveBase.f	pygeodesy.geodsolve._GeodesicSolveBase-class.html#f
 pygeodesy.named._NamedBase._overwrite	pygeodesy.named._NamedBase-class.html#_overwrite
-pygeodesy.geodsolve.GeodesicSolve._Line	pygeodesy.geodsolve.GeodesicSolve-class.html#_Line
+pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.geodsolve.GeodesicSolve.Polygon	pygeodesy.geodsolve.GeodesicSolve-class.html#Polygon
 pygeodesy.geodsolve._GeodesicSolveBase._cmdBasic	pygeodesy.geodsolve._GeodesicSolveBase-class.html#_cmdBasic

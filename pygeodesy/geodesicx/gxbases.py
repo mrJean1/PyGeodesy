@@ -8,18 +8,19 @@ and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
 
-from pygeodesy.basics import isodd
-from pygeodesy.errors import _or
+# from pygeodesy.basics import isodd  # from .karney
+# from pygeodesy.errors import _or  # from .karney
 from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
-from pygeodesy.karney import GeodesicError, Property, _3sum2
+from pygeodesy.karney import GeodesicError, isodd, _NamedBase, \
+                            _or, Property, _3sum2
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _NamedBase
+# from pygeodesy.named import _NamedBase  # from .karney
 # from pygeodesy.props import Property  # from .karney
 
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.07.15'
+__version__ = '21.11.22'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

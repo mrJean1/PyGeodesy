@@ -102,16 +102,16 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 '''
 
-from pygeodesy.basics import copysign0, _xImportError, _xversion
+from pygeodesy.basics import copysign0, isodd, _xImportError, _xversion  # PYCHOK shared
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
 from pygeodesy.ellipsoids import Ellipsoid2
-from pygeodesy.errors import _ValueError, _xkwds  # PYCHOK shared
+from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
 from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, \
                              _lat2_, _lon2_, _0_0, _1_0, _2_0, \
                              _16_0, _180_0, _N_180_0, _360_0
 from pygeodesy.iters import PointsIter
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _Dict, _NamedTuple, _Pass
+from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, _Pass  # PYCHOK shared
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 from pygeodesy.units import Degrees as _Deg, Meter as _M, \
@@ -121,7 +121,7 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.10.08'
+__version__ = '21.11.22'
 
 _16th = _1_0 / _16_0
 
@@ -383,8 +383,8 @@ class _Wrapped(object):
             def Line(self, lat1, lon1, azi1, *caps):
                 return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
 
-            _Line = Line  # for .azimuthal._GnomonicBase.reverse, matching
-            # PYCHOK .geodesicx.GeodesictExact._Line and -._GDictDirect
+            _LineTemp = Line  # for .azimuthal._GnomonicBase.reverse, matching
+            # PYCHOK .geodesicx.GeodesictExact._LineTemp and -._GDictDirect
 
         # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
         # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__

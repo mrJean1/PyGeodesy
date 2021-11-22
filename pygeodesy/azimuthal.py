@@ -68,7 +68,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.09.15'
+__version__ = '21.11.22'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -795,7 +795,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         e *= _EPS_K
 
         m = self._mask
-        g = self.geodesic._Line(self.lat0, self.lon0, z, m)
+        g = self.geodesic._LineTemp(self.lat0, self.lon0, z, m)
         P = g.Position
         S = Fsum(s)
         for self._iteration in range(1, _TRIPS):

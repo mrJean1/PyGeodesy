@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.10.07'
+__version__ = '21.11.22'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -479,7 +479,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''
         return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 
-    _Line = Line
+    _LineTemp = Line  # like .karney.Geodesic and .geodesicx.gx.GeodesicExact
 
 
 class GeodesicLineSolve(_GeodesicSolveBase):

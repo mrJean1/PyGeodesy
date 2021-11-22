@@ -66,8 +66,8 @@ but required to use modules ``ellipsoidalKarney`` and ``css``, ``azimuthal``
 classes ``EquidistantKarney`` and ``GnomonicKarney`` and the
 ``HeightIDWkarney`` interpolator.
 
-Both numpy_ and scipy_ must be installed for Geoid_ and Height_ interpolators,
-except the ``HeigthIDW...`` ones.
+Both numpy_ and scipy_ must be installed for most Geoid_ and Height_
+interpolators, except ``GeoidKarney`` and the ``HeigthIDW...`` ones.
 
 Functions and methods ``circin6``, ``circum3``, ``circum4_``, ``soddy4``,
 ``trilaterate3d2`` and ``trilaterate5`` require numpy_.
@@ -145,7 +145,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Nov 21, 2021.*
+*Last updated: Nov 22, 2021.*
 
 License
 =======
