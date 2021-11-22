@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '20.09.30'
+__version__ = '21.11.21'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -16,7 +16,7 @@ class Tests(TestsBase):
     def testApprox(self, name, m, e, x):
         # allow margin and errors
         if m:
-            self.test(name, m, e, fmt='%.3f', known=abs(m - e) < 0.1)
+            self.test(name, m, e, fmt='%.3f', known=abs((m - e) / e) < 0.3)
         else:  # m is None
             self.test(name, x, e, fmt='%s', known=True)
 
@@ -36,7 +36,7 @@ class Tests(TestsBase):
         Boston = LatLon(42.3541165, -71.0693514)
         for p, e, h in ((MtDiablo,    1173.79, -31.699),
                         (Boston,         2.03, -27.773),
-                        (Cleveland_OH, 199.18, -34.337),
+                        (Cleveland_OH, 199.18, -27.077),
                         (Newport_RI,     8.52, -30.000),
                         (NewYork,       32.79, -31.666)):
             m, x = p.elevation2(datum=datum, timeout=timeout)

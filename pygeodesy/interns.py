@@ -486,7 +486,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.11.20'
+__version__ = '21.11.21'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 
@@ -540,14 +540,15 @@ def _platform2(sep=NN):
     global _Py2L
     if _Py2L is None:
         import platform
-        m = platform.machine().replace(_COMMA_, _UNDER_)  # arm64, x86_64, iPhone13_2, etc.
-        if m == 'x86_64':  # only on Intel or Rosetta2 ...
-            v = platform.mac_ver()  # ... and only macOS
-            if v and _version2(v[0]) > (10, 15):  # macOS 11+ aka 10.16
+        m = platform.machine()  # ARM64, arm64, x86_64, iPhone13,2, etc.
+        m = m.replace(_COMMA_, _UNDER_)
+        if m.lower() == 'x86_64':  # on Intel or Rosetta2 ...
+            v = platform.mac_ver()  # ... and only on macOS ...
+            if v and _version2(v[0]) > (10, 15):  # ... 11+ aka 10.16
                 # <https://Developer.Apple.com/forums/thread/659846>
                 if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
 #                  _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
-                    m = _UNDER_('arm64', m)  # Apple Silicon emulating Intel x86-64
+                    m = _UNDER_('arm64', m)  # Apple Si emulating Intel x86-64
         _Py2L = [platform.architecture()[0],  # bits
                  m]  # arm64, arm64_x86_64, x86_64, etc.
     return sep.join(_Py2L) if sep else _Py2L  # 2-list

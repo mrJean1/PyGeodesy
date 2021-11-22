@@ -85,7 +85,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testAlbers.py
     test 74 error: lat1 (150.0): above 90 limit
     test 75 error: slat1 (-0.5) or slat2 (0.5): invalid
 
-    9 of 75 testAlbers.py tests (12.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.695 ms
+    9 of 75 testAlbers.py tests (12.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.434 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testAzimuthal.py
 
@@ -198,197 +198,198 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testAzimuthal.py
     test 101 iteration: 3
     test 102 hypot: 339558.439  FAILED, KNOWN, expected 338901.963
 
-    test 103 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E Random +/- 45
-    test 104 pygeodesy.ellipsoidalExact: 10.143730°N, 001.584095°E, 15.772750°N, 014.150253°W  d 56287.5 meter  Spherical
-    test 105 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 16.115915°N, 014.563680°W  d 1.35088e-08 meter  EquidistantExact
-    test 106 pygeodesy.ellipsoidalExact: 10.119800°N, 001.915665°E, 15.936647°N, 014.386284°W  d 19943.7 meter  Equidistant
-    test 107 pygeodesy.ellipsoidalExact: 00.034454°S, 000.178608°E  00.342%, 008.528% of Random
-    test 108 pygeodesy.ellipsoidalExact: 09.870127°N, 002.050682°E, 88.332046°S, 056.173281°W  d 24279.9 meter  Spherical
-    test 109 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 88.289801°S, 052.650426°W  d 2.68602e-09 meter  EquidistantExact
-    test 110 pygeodesy.ellipsoidalExact: 09.974150°N, 002.017288°E, 88.262782°S, 048.509547°W  d 14916.4 meter  Equidistant
-    test 111 pygeodesy.ellipsoidalExact: 00.111195°N, 000.076985°E  01.103%, 003.676% of Random
-    test 112 pygeodesy.ellipsoidalExact: 09.926896°N, 002.035420°E, 01.746281°S, 046.211609°W  d 18675.9 meter  Spherical
-    test 113 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 01.772352°S, 046.299121°W  d 1.41159e-09 meter  EquidistantExact
-    test 114 pygeodesy.ellipsoidalExact: 09.979840°N, 002.129502°E, 01.737915°S, 046.328279°W  d 12292.2 meter  Equidistant
-    test 115 pygeodesy.ellipsoidalExact: 00.105505°N, 000.035229°W  01.046%, 001.682% of Random
-    test 116 pygeodesy.ellipsoidalExact: 09.845772°N, 002.204911°E, 22.505878°N, 064.745907°W  d 29143.6 meter  Spherical
-    test 117 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 22.836067°N, 064.536302°W  d 1.28399e-08 meter  EquidistantExact
-    test 118 pygeodesy.ellipsoidalExact: 10.007736°N, 002.216387°E, 22.601821°N, 064.716759°W  d 15902.6 meter  Equidistant
-    test 119 pygeodesy.ellipsoidalExact: 00.077610°N, 000.122115°W  00.770%, 005.831% of Random
-    test 120 pygeodesy.ellipsoidalExact: 09.884019°N, 001.977936°E, 23.528344°S, 050.203565°E  d 25662.9 meter  Spherical
-    test 121 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 23.595759°S, 050.152094°E  d 3.0371e-09 meter  EquidistantExact
-    test 122 pygeodesy.ellipsoidalExact: 09.979296°N, 002.019630°E, 23.484200°S, 050.247680°E  d 14302.2 meter  Equidistant
-    test 123 pygeodesy.ellipsoidalExact: 00.106049°N, 000.074643°E  01.052%, 003.564% of Random
-    test 124 pygeodesy.ellipsoidalExact: 10.135722°N, 001.941795°E, 11.584231°N, 004.883953°W  d 17616.4 meter  Spherical
-    test 125 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 11.619135°N, 005.041250°W  d 1.41167e-09 meter  EquidistantExact
-    test 126 pygeodesy.ellipsoidalExact: 10.114482°N, 002.017186°E, 11.595140°N, 004.959484°W  d 9042.94 meter  Equidistant
-    test 127 pygeodesy.ellipsoidalExact: 00.029137°S, 000.077087°E  00.289%, 003.681% of Random
-    test 128 pygeodesy.ellipsoidalExact: 09.951077°N, 002.333930°E, 01.136174°S, 018.394736°W  d 30181.1 meter  Spherical
-    test 129 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 00.972245°S, 018.309385°W  d 5.25821e-09 meter  EquidistantExact
-    test 130 pygeodesy.ellipsoidalExact: 10.003127°N, 002.214939°E, 00.997545°S, 018.369693°W  d 16052.4 meter  Equidistant
-    test 131 pygeodesy.ellipsoidalExact: 00.082218°N, 000.120666°W  00.815%, 005.762% of Random
-    test 132 pygeodesy.ellipsoidalExact: 09.719720°N, 001.704821°E, 14.055882°N, 017.025948°E  d 58819.7 meter  Spherical
-    test 133 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 14.210459°N, 016.485477°E  d 1.76725e-08 meter  EquidistantExact
-    test 134 pygeodesy.ellipsoidalExact: 09.936244°N, 001.933962°E, 14.113344°N, 016.741481°E  d 24101.7 meter  Equidistant
-    test 135 pygeodesy.ellipsoidalExact: 00.149102°N, 000.160311°E  01.478%, 007.655% of Random
-    test 136 pygeodesy.ellipsoidalExact: 10.191830°N, 002.160171°E, 38.293622°N, 032.297146°W  d 13816 meter  Spherical
-    test 137 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 38.376659°N, 032.223368°W  d 2.67005e-08 meter  EquidistantExact
-    test 138 pygeodesy.ellipsoidalExact: 10.157573°N, 002.186040°E, 38.290374°N, 032.289341°W  d 12844.4 meter  Equidistant
-    test 139 pygeodesy.ellipsoidalExact: 00.072228°S, 000.091767°W  00.716%, 004.382% of Random
-    test 140 pygeodesy.ellipsoidalExact: 09.746711°N, 001.801791°E, 02.897318°N, 007.983978°W  d 49312.9 meter  Spherical
-    test 141 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 02.677030°N, 008.357799°W  d 4.27692e-09 meter  EquidistantExact
-    test 142 pygeodesy.ellipsoidalExact: 09.993031°N, 002.055264°E, 02.732908°N, 008.329107°W  d 11070.1 meter  Equidistant
-    test 143 pygeodesy.ellipsoidalExact: 00.092314°N, 000.039009°E  00.915%, 001.863% of Random
-    test 144 pygeodesy.ellipsoidalExact: 09.908986°N, 002.139334°E, 35.422849°S, 036.208309°W  d 20122.7 meter  Spherical
-    test 145 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 35.620307°S, 036.142588°W  d 1.23641e-09 meter  EquidistantExact
-    test 146 pygeodesy.ellipsoidalExact: 10.052688°N, 002.243215°E, 35.422338°S, 036.207631°W  d 16721.3 meter  Equidistant
-    test 147 pygeodesy.ellipsoidalExact: 00.032658°N, 000.148942°W  00.324%, 007.112% of Random
-    test 148 pygeodesy.ellipsoidalExact: 09.708019°N, 001.502182°E, 11.890962°N, 012.670989°E  d 77191.9 meter  Spherical
-    test 149 pygeodesy.ellipsoidalExact: 10.085346°N, 002.094273°E, 12.041170°N, 011.970699°E  d 1.37711e-08 meter  EquidistantExact
-    test 150 pygeodesy.ellipsoidalExact: 09.877202°N, 001.758994°E, 11.948142°N, 012.379728°E  d 43375.8 meter  Equidistant
-    test 151 pygeodesy.ellipsoidalExact: 00.208144°N, 000.335279°E  02.064%, 016.009% of Random
-    test 152 pygeodesy.ellipsoidalExact: 00.208144°N, 000.335279°E  02.064%, 016.009% of Random, max
+    test 103 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W Random +/- 45
+    test 104 pygeodesy.ellipsoidalExact: 44.459094°N, 035.085125°W, 05.875281°S, 128.877751°E  d 40597.2 meter  Spherical
+    test 105 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 05.905308°S, 128.779537°E  d 1.52118e-08 meter  EquidistantExact
+    test 106 pygeodesy.ellipsoidalExact: 44.386355°N, 034.983831°W, 05.743036°S, 129.048692°E  d 48377 meter  Equidistant
+    test 107 pygeodesy.ellipsoidalExact: 00.434731°N, 000.032277°W  00.970%, 000.092% of Random
+    test 108 pygeodesy.ellipsoidalExact: 44.994237°N, 034.440297°W, 42.885546°N, 036.895385°W  d 49377.3 meter  Spherical
+    test 109 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 43.308143°N, 036.755905°W  d 3.33323e-07 meter  EquidistantExact
+    test 110 pygeodesy.ellipsoidalExact: 45.048400°N, 034.151696°W, 42.724425°N, 036.916405°W  d 72759.1 meter  Equidistant
+    test 111 pygeodesy.ellipsoidalExact: 00.227315°S, 000.864412°W  00.507%, 002.469% of Random
+    test 112 pygeodesy.ellipsoidalExact: 44.582355°N, 035.139003°W, 29.141330°N, 062.612309°E  d 28260.6 meter  Spherical
+    test 113 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 29.263726°N, 062.553155°E  d 4.5643e-09 meter  EquidistantExact
+    test 114 pygeodesy.ellipsoidalExact: 44.538974°N, 035.080362°W, 29.159620°N, 062.649455°E  d 31761 meter  Equidistant
+    test 115 pygeodesy.ellipsoidalExact: 00.282111°N, 000.064253°E  00.629%, 000.183% of Random
+    test 116 pygeodesy.ellipsoidalExact: 44.590240°N, 035.166339°W, 33.630347°N, 006.583669°E  d 28281.1 meter  Spherical
+    test 117 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 33.792318°N, 006.603751°E  d 3.09043e-09 meter  EquidistantExact
+    test 118 pygeodesy.ellipsoidalExact: 44.533663°N, 035.163764°W, 33.638282°N, 006.590990°E  d 34017.9 meter  Equidistant
+    test 119 pygeodesy.ellipsoidalExact: 00.287422°N, 000.147656°E  00.641%, 000.422% of Random
+    test 120 pygeodesy.ellipsoidalExact: 44.478587°N, 035.097954°W, 47.956488°S, 110.086104°E  d 38610 meter  Spherical
+    test 121 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 48.175276°S, 109.997066°E  d 3.04389e-08 meter  EquidistantExact
+    test 122 pygeodesy.ellipsoidalExact: 44.394962°N, 035.069845°W, 48.050727°S, 109.971763°E  d 47544.3 meter  Equidistant
+    test 123 pygeodesy.ellipsoidalExact: 00.426124°N, 000.053736°E  00.951%, 000.153% of Random
+    test 124 pygeodesy.ellipsoidalExact: 44.489751°N, 035.104506°W, 33.363278°S, 092.441988°E  d 37481.2 meter  Spherical
+    test 125 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 33.631500°S, 092.384267°E  d 6.60091e-09 meter  EquidistantExact
+    test 126 pygeodesy.ellipsoidalExact: 44.444859°N, 034.999680°W, 33.364414°S, 092.463541°E  d 41828.3 meter  Equidistant
+    test 127 pygeodesy.ellipsoidalExact: 00.376226°N, 000.016429°W  00.839%, 000.047% of Random
+    test 128 pygeodesy.ellipsoidalExact: 44.809524°N, 034.991796°W, 42.548911°N, 033.217774°W  d 2312.84 meter  Spherical
+    test 129 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 42.523080°N, 033.225669°W  d 2.53193e-08 meter  EquidistantExact
+    test 130 pygeodesy.ellipsoidalExact: 44.815970°N, 035.012178°W, 42.537025°N, 033.219685°W  d 647.985 meter  Equidistant
+    test 131 pygeodesy.ellipsoidalExact: 00.005116°N, 000.003931°W  00.011%, 000.011% of Random
+    test 132 pygeodesy.ellipsoidalExact: 44.751475°N, 034.895315°W, 10.254379°N, 054.177588°W  d 12297.4 meter  Spherical
+    test 133 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 10.166673°N, 054.136615°W  d 4.55109e-09 meter  EquidistantExact
+    test 134 pygeodesy.ellipsoidalExact: 44.712527°N, 034.838308°W, 10.273225°N, 054.283787°W  d 18538.2 meter  Equidistant
+    test 135 pygeodesy.ellipsoidalExact: 00.108559°N, 000.177801°W  00.242%, 000.508% of Random
+    test 136 pygeodesy.ellipsoidalExact: 46.001523°N, 031.287950°W, 42.080729°N, 040.176783°W  d 319932 meter  Spherical
+    test 137 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 43.889049°N, 037.104415°W  d 5.67168e-07 meter  EquidistantExact
+    test 138 pygeodesy.ellipsoidalExact: 46.342822°N, 030.005442°W, 41.704449°N, 040.751030°W  d 425961 meter  Equidistant
+    test 139 pygeodesy.ellipsoidalExact: 01.521736°S, 005.010667°W  03.395%, 014.310% of Random
+    test 140 pygeodesy.ellipsoidalExact: 44.511477°N, 035.124673°W, 61.445438°S, 074.171949°E  d 35466.2 meter  Spherical
+    test 141 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 61.656681°S, 074.063542°E  d 3.52039e-09 meter  EquidistantExact
+    test 142 pygeodesy.ellipsoidalExact: 44.439849°N, 035.059080°W, 61.432869°S, 073.670355°E  d 42501.8 meter  Equidistant
+    test 143 pygeodesy.ellipsoidalExact: 00.381237°N, 000.042971°E  00.851%, 000.123% of Random
+    test 144 pygeodesy.ellipsoidalExact: 44.129279°N, 035.363869°W, 61.656488°N, 012.011371°W  d 81702.2 meter  Spherical
+    test 145 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 61.280805°N, 013.530380°W  d 1.19701e-08 meter  EquidistantExact
+    test 146 pygeodesy.ellipsoidalExact: 43.899775°N, 035.399391°W, 61.854383°N, 010.619715°W  d 106837 meter  Equidistant
+    test 147 pygeodesy.ellipsoidalExact: 00.921310°N, 000.383282°E  02.056%, 001.095% of Random
+    test 148 pygeodesy.ellipsoidalExact: 44.660397°N, 035.111936°W, 32.838006°S, 007.480492°W  d 19402.8 meter  Spherical
+    test 149 pygeodesy.ellipsoidalExact: 44.821086°N, 035.016109°W, 33.045142°S, 007.565768°W  d 1.12396e-09 meter  EquidistantExact
+    test 150 pygeodesy.ellipsoidalExact: 44.613008°N, 035.124032°W, 32.845402°S, 007.468807°W  d 24653.5 meter  Equidistant
+    test 151 pygeodesy.ellipsoidalExact: 00.208078°N, 000.107924°E  00.464%, 000.308% of Random
+    test 152 pygeodesy.ellipsoidalExact: 01.521736°N, 005.010667°E  03.395%, 014.310% of Random, max
 
-    test 153 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W Random +/- 45
-    test 154 pygeodesy.ellipsoidalVincenty: 16.257121°S, 001.751384°W, 34.844864°S, 022.740966°E  d 7167.34 meter  Spherical
-    test 155 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 34.986242°S, 022.530890°E  d 7.43021e-06 meter  EquidistantExact
-    test 156 pygeodesy.ellipsoidalVincenty: 16.324504°S, 001.806373°W, 34.846929°S, 022.738794°E  d 5098.19 meter  Equidistant
-    test 157 pygeodesy.ellipsoidalVincenty: 00.003009°N, 000.047607°E  00.018%, 002.707% of Random
-    test 158 pygeodesy.ellipsoidalVincenty: 16.323218°S, 002.110644°W, 27.705665°S, 040.319713°W  d 37602.5 meter  Spherical
-    test 159 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 28.015927°S, 040.606596°W  d 5.65165e-06 meter  EquidistantExact
-    test 160 pygeodesy.ellipsoidalVincenty: 16.322092°S, 001.877362°W, 27.763381°S, 040.416481°W  d 12673.4 meter  Equidistant
-    test 161 pygeodesy.ellipsoidalVincenty: 00.000597°N, 000.118595°E  00.004%, 006.743% of Random
-    test 162 pygeodesy.ellipsoidalVincenty: 16.229816°S, 001.556934°W, 04.771068°S, 016.879771°W  d 23839.7 meter  Spherical
-    test 163 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 04.901513°S, 016.841757°W  d 4.99378e-06 meter  EquidistantExact
-    test 164 pygeodesy.ellipsoidalVincenty: 16.268022°S, 001.724575°W, 04.982434°S, 016.869994°W  d 6954.84 meter  Equidistant
-    test 165 pygeodesy.ellipsoidalVincenty: 00.053473°S, 000.034192°W  00.328%, 001.944% of Random
-    test 166 pygeodesy.ellipsoidalVincenty: 16.206086°S, 001.870962°W, 12.353930°S, 007.702559°E  d 17519.6 meter  Spherical
-    test 167 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 12.469886°S, 007.690595°E  d 2.8368e-06 meter  EquidistantExact
-    test 168 pygeodesy.ellipsoidalVincenty: 16.245870°S, 001.841150°W, 12.408377°S, 007.711618°E  d 12147.9 meter  Equidistant
-    test 169 pygeodesy.ellipsoidalVincenty: 00.075626°S, 000.082383°E  00.463%, 004.684% of Random
-    test 170 pygeodesy.ellipsoidalVincenty: 16.177313°S, 001.733708°W, 31.893550°N, 009.859608°E  d 16178.7 meter  Spherical
-    test 171 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 32.024765°N, 009.781637°E  d 2.79258e-06 meter  EquidistantExact
-    test 172 pygeodesy.ellipsoidalVincenty: 16.210275°S, 001.649363°W, 31.891731°N, 009.881772°E  d 16977.6 meter  Equidistant
-    test 173 pygeodesy.ellipsoidalVincenty: 00.111221°S, 000.109404°W  00.681%, 006.220% of Random
-    test 174 pygeodesy.ellipsoidalVincenty: 16.030087°S, 001.891574°W, 24.281041°S, 063.917117°E  d 35236.4 meter  Spherical
-    test 175 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 24.626192°S, 063.702973°E  d 5.64329e-06 meter  EquidistantExact
-    test 176 pygeodesy.ellipsoidalVincenty: 16.165915°S, 001.901660°W, 24.366919°S, 063.901516°E  d 23016.6 meter  Equidistant
-    test 177 pygeodesy.ellipsoidalVincenty: 00.155580°S, 000.142893°E  00.953%, 008.125% of Random
-    test 178 pygeodesy.ellipsoidalVincenty: 16.087571°S, 001.786025°W, 42.337432°N, 063.614558°W  d 26049.9 meter  Spherical
-    test 179 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 42.529900°N, 063.512408°W  d 3.75506e-06 meter  EquidistantExact
-    test 180 pygeodesy.ellipsoidalVincenty: 16.173069°S, 001.880115°W, 42.385824°N, 063.571430°W  d 20930 meter  Equidistant
-    test 181 pygeodesy.ellipsoidalVincenty: 00.148426°S, 000.121348°E  00.909%, 006.900% of Random
-    test 182 pygeodesy.ellipsoidalVincenty: 16.293407°S, 001.767058°W, 22.541899°S, 070.578420°E  d 3232.15 meter  Spherical
-    test 183 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 22.641177°S, 070.563859°E  d 1.64136e-05 meter  EquidistantExact
-    test 184 pygeodesy.ellipsoidalVincenty: 16.300410°S, 001.845009°W, 22.555576°S, 070.636179°E  d 9507.25 meter  Equidistant
-    test 185 pygeodesy.ellipsoidalVincenty: 00.021085°S, 000.086242°E  00.129%, 004.904% of Random
-    test 186 pygeodesy.ellipsoidalVincenty: 16.099055°S, 001.859129°W, 41.259855°N, 054.343211°E  d 26852.8 meter  Spherical
-    test 187 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 41.425394°N, 054.240077°E  d 2.70328e-06 meter  EquidistantExact
-    test 188 pygeodesy.ellipsoidalVincenty: 16.188486°S, 001.871904°W, 41.257925°N, 054.296434°E  d 19050.3 meter  Equidistant
-    test 189 pygeodesy.ellipsoidalVincenty: 00.133009°S, 000.113137°E  00.815%, 006.433% of Random
-    test 190 pygeodesy.ellipsoidalVincenty: 16.197801°S, 001.804625°W, 15.244306°S, 002.332206°W  d 14539.5 meter  Spherical
-    test 191 pygeodesy.ellipsoidalVincenty: near-concentric: invalid  FAILED, KNOWN, expected EquidistantExact
-    test 192 pygeodesy.ellipsoidalVincenty: near-concentric: invalid  FAILED, KNOWN, expected Equidistant
-    test 193 pygeodesy.ellipsoidalVincenty: 16.282442°S, 001.781028°W, 01.091775°S, 024.305448°W  d 4933.28 meter  Spherical
-    test 194 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 00.960448°S, 024.261155°W  d 1.27994e-05 meter  EquidistantExact
-    test 195 pygeodesy.ellipsoidalVincenty: 16.261713°S, 001.708333°W, 00.997274°S, 024.314836°W  d 8533.47 meter  Equidistant
-    test 196 pygeodesy.ellipsoidalVincenty: 00.059782°S, 000.050433°W  00.366%, 002.868% of Random
-    test 197 pygeodesy.ellipsoidalVincenty: 16.141485°S, 001.855139°W, 15.671410°S, 043.585317°W  d 22427 meter  Spherical
-    test 198 pygeodesy.ellipsoidalVincenty: 16.321495°S, 001.758766°W, 15.843491°S, 043.685366°W  d 8.44406e-06 meter  EquidistantExact
-    test 199 pygeodesy.ellipsoidalVincenty: 16.202920°S, 001.772793°W, 15.732071°S, 043.670289°W  d 13207.1 meter  Equidistant
-    test 200 pygeodesy.ellipsoidalVincenty: 00.118576°S, 000.014027°E  00.726%, 000.798% of Random
-    test 201 pygeodesy.ellipsoidalVincenty: 00.155580°N, 000.142893°E  00.953%, 008.125% of Random, max
+    test 153 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W Random +/- 45
+    test 154 pygeodesy.ellipsoidalVincenty: 04.828107°N, 033.933334°W, 46.301944°N, 036.361949°E  d 3098.56 meter  Spherical
+    test 155 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 46.608660°N, 036.142154°E  d 1.65679e-05 meter  EquidistantExact
+    test 156 pygeodesy.ellipsoidalVincenty: 04.891934°N, 034.085171°W, 46.209568°N, 036.340857°E  d 19030 meter  Equidistant
+    test 157 pygeodesy.ellipsoidalVincenty: 00.091125°S, 000.145533°E  01.898%, 000.429% of Random
+    test 158 pygeodesy.ellipsoidalVincenty: 04.676312°N, 033.916892°W, 37.466084°S, 033.469790°E  d 13996.5 meter  Spherical
+    test 159 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 37.767241°S, 033.373348°E  d 2.50428e-05 meter  EquidistantExact
+    test 160 pygeodesy.ellipsoidalVincenty: 04.671483°N, 034.083182°W, 37.450659°S, 033.458695°E  d 21403.9 meter  Equidistant
+    test 161 pygeodesy.ellipsoidalVincenty: 00.129326°N, 000.143544°E  02.694%, 000.423% of Random
+    test 162 pygeodesy.ellipsoidalVincenty: 04.969927°N, 034.086193°W, 07.690713°N, 042.847386°W  d 24778.7 meter  Spherical
+    test 163 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 07.667938°N, 043.058242°W  d 7.92659e-07 meter  EquidistantExact
+    test 164 pygeodesy.ellipsoidalVincenty: 04.853263°N, 033.970915°W, 07.661013°N, 043.004465°W  d 6758.9 meter  Equidistant
+    test 165 pygeodesy.ellipsoidalVincenty: 00.052454°S, 000.031277°E  01.093%, 000.092% of Random
+    test 166 pygeodesy.ellipsoidalVincenty: 04.925641°N, 034.002149°W, 34.235095°N, 027.745975°W  d 15447.8 meter  Spherical
+    test 167 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 34.299059°N, 027.737603°W  d 3.8019e-06 meter  EquidistantExact
+    test 168 pygeodesy.ellipsoidalVincenty: 05.037892°N, 034.107745°W, 34.231676°N, 027.755422°W  d 32171 meter  Equidistant
+    test 169 pygeodesy.ellipsoidalVincenty: 00.237082°S, 000.168106°E  04.938%, 000.495% of Random
+    test 170 pygeodesy.ellipsoidalVincenty: 04.730176°N, 033.989392°W, 16.719171°N, 084.184826°E  d 9564.13 meter  Spherical
+    test 171 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 16.922733°N, 084.122393°E  d 1.0638e-05 meter  EquidistantExact
+    test 172 pygeodesy.ellipsoidalVincenty: 04.779639°N, 034.130438°W, 16.770453°N, 084.291505°E  d 21295.1 meter  Equidistant
+    test 173 pygeodesy.ellipsoidalVincenty: 00.021170°N, 000.190800°E  00.441%, 000.562% of Random
+    test 174 pygeodesy.ellipsoidalVincenty: 04.910647°N, 033.978527°W, 50.912308°N, 020.979794°E  d 12889.3 meter  Spherical
+    test 175 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 51.103808°N, 020.755309°E  d 5.27752e-06 meter  EquidistantExact
+    test 176 pygeodesy.ellipsoidalVincenty: 04.919659°N, 034.097976°W, 50.815657°N, 020.966267°E  d 21936.1 meter  Equidistant
+    test 177 pygeodesy.ellipsoidalVincenty: 00.118850°S, 000.158338°E  02.476%, 000.467% of Random
+    test 178 pygeodesy.ellipsoidalVincenty: 04.540092°N, 034.140366°W, 48.505975°S, 090.129581°W  d 36430.8 meter  Spherical
+    test 179 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 48.736352°S, 090.056086°W  d 3.61295e-05 meter  EquidistantExact
+    test 180 pygeodesy.ellipsoidalVincenty: 04.586430°N, 034.333292°W, 48.642202°S, 090.100380°W  d 49694.4 meter  Equidistant
+    test 181 pygeodesy.ellipsoidalVincenty: 00.214380°N, 000.393654°E  04.465%, 001.160% of Random
+    test 182 pygeodesy.ellipsoidalVincenty: 04.805650°N, 033.892048°W, 24.071248°N, 028.012809°E  d 5306.36 meter  Spherical
+    test 183 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 24.309505°N, 027.999063°E  d 5.86393e-06 meter  EquidistantExact
+    test 184 pygeodesy.ellipsoidalVincenty: 04.830214°N, 034.012473°W, 24.114571°N, 028.062501°E  d 8709.25 meter  Equidistant
+    test 185 pygeodesy.ellipsoidalVincenty: 00.029404°S, 000.072835°E  00.612%, 000.215% of Random
+    test 186 pygeodesy.ellipsoidalVincenty: 04.834798°N, 034.004489°W, 18.272467°N, 032.068534°W  d 8116.47 meter  Spherical
+    test 187 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 18.289869°N, 032.025715°W  d 2.08671e-06 meter  EquidistantExact
+    test 188 pygeodesy.ellipsoidalVincenty: 04.814809°N, 034.147672°W, 18.315051°N, 032.168233°W  d 23129.1 meter  Equidistant
+    test 189 pygeodesy.ellipsoidalVincenty: 00.014000°S, 000.208034°E  00.292%, 000.613% of Random
+    test 190 pygeodesy.ellipsoidalVincenty: 04.684365°N, 034.021996°W, 35.627158°S, 052.376668°W  d 15788.9 meter  Spherical
+    test 191 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 35.764063°S, 052.257592°W  d 1.61687e-05 meter  EquidistantExact
+    test 192 pygeodesy.ellipsoidalVincenty: 04.744643°N, 034.175546°W, 35.628224°S, 052.374086°W  d 26897.5 meter  Equidistant
+    test 193 pygeodesy.ellipsoidalVincenty: 00.056166°N, 000.235907°E  01.170%, 000.695% of Random
+    test 194 pygeodesy.ellipsoidalVincenty: 04.680963°N, 033.701190°W, 01.365624°N, 007.252882°E  d 29587.8 meter  Spherical
+    test 195 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 01.404599°N, 007.503604°E  d 5.23171e-06 meter  EquidistantExact
+    test 196 pygeodesy.ellipsoidalVincenty: 04.742790°N, 033.887332°W, 01.398740°N, 007.449423°E  d 8650.76 meter  Equidistant
+    test 197 pygeodesy.ellipsoidalVincenty: 00.058020°N, 000.052307°W  01.209%, 000.154% of Random
+    test 198 pygeodesy.ellipsoidalVincenty: 04.829676°N, 033.973683°W, 28.162452°N, 022.243775°W  d 4944.85 meter  Spherical
+    test 199 pygeodesy.ellipsoidalVincenty: 04.800809°N, 033.939638°W, 28.199989°N, 022.332855°W  d 2.72052e-05 meter  EquidistantExact
+    test 200 pygeodesy.ellipsoidalVincenty: 05.141158°N, 034.028588°W, 28.111809°N, 022.352337°W  d 38907.9 meter  Equidistant
+    test 201 pygeodesy.ellipsoidalVincenty: 00.340348°S, 000.088949°E  07.089%, 000.262% of Random
+    test 202 pygeodesy.ellipsoidalVincenty: 00.340348°N, 000.393654°E  07.089%, 001.160% of Random, max
 
-    test 202 Equidistant(10, 80): 1.37704, 0.24656
-    test 203 Equidistant(10, 80): 10.0, 80.0
-    test 204 Gnomonic(10, 80): 5.67128, 1.01543
-    test 205 Gnomonic(10, 80): 10.0, 80.0
-    test 206 LambertEqualArea(10, 80): 1.26747, 0.22694
-    test 207 LambertEqualArea(10, 80): 10.0, 80.0
-    test 208 Orthographic(10, 80): 0.96985, 0.17365
-    test 209 Orthographic(10, 80): 10.0, 80.0
-    test 210 Stereographic(10, 80): 1.65643, 0.29658
-    test 211 Stereographic(10, 80): 10.0, 80.0
-    test 212 Equidistant(20, 20): 0.33454, 0.35601
-    test 213 Equidistant(20, 20): 20.0, 20.0
-    test 214 Gnomonic(20, 20): 0.36397, 0.38733
-    test 215 Gnomonic(20, 20): 20.0, 20.0
-    test 216 LambertEqualArea(20, 20): 0.33123, 0.35248
-    test 217 LambertEqualArea(20, 20): 20.0, 20.0
-    test 218 Orthographic(20, 20): 0.32139, 0.34202
-    test 219 Orthographic(20, 20): 20.0, 20.0
-    test 220 Stereographic(20, 20): 0.34136, 0.36327
-    test 221 Stereographic(20, 20): 20.0, 20.0
-    test 222 Equidistant(40, 40): 0.57386, 0.74912
-    test 223 Equidistant(40, 40): 40.0, 40.0
-    test 224 Gnomonic(40, 40): 0.8391, 1.09537
-    test 225 Gnomonic(40, 40): 40.0, 40.0
-    test 226 LambertEqualArea(40, 40): 0.55281, 0.72164
-    test 227 LambertEqualArea(40, 40): 40.0, 40.0
-    test 228 Orthographic(40, 40): 0.4924, 0.64279
-    test 229 Orthographic(40, 40): 40.0, 40.0
-    test 230 Stereographic(40, 40): 0.62062, 0.81016
-    test 231 Stereographic(40, 40): 40.0, 40.0
-    test 232 Equidistant(60, 60): 0.58948, 1.17896
-    test 233 Equidistant(60, 60): 60.0, 60.0
-    test 234 Gnomonic(60, 60): 1.73205, 3.4641
-    test 235 Gnomonic(60, 60): 60.0, 60.0
-    test 236 LambertEqualArea(60, 60): 0.54772, 1.09545
-    test 237 LambertEqualArea(60, 60): 60.0, 60.0
-    test 238 Orthographic(60, 60): 0.43301, 0.86603
-    test 239 Orthographic(60, 60): 60.0, 60.0
-    test 240 Stereographic(60, 60): 0.69282, 1.38564
-    test 241 Stereographic(60, 60): 60.0, 60.0
-    test 242 Equidistant(70, 80): 0.50997, 1.42273
-    test 243 Equidistant(70, 80): 70.0, 80.0
-    test 244 Gnomonic(70, 80): 5.67128, 15.82209
-    test 245 Gnomonic(70, 80): 70.0, 80.0
-    test 246 LambertEqualArea(70, 80): 0.4628, 1.29114
-    test 247 LambertEqualArea(70, 80): 70.0, 80.0
-    test 248 Orthographic(70, 80): 0.33682, 0.93969
-    test 249 Orthographic(70, 80): 70.0, 80.0
-    test 250 Stereographic(70, 80): 0.63588, 1.77402
-    test 251 Stereographic(70, 80): 70.0, 80.0
-    test 252 Equidistant(80, 80): 0.26358, 1.51792
-    test 253 Equidistant(80, 80): 80.0, 80.0
-    test 254 Gnomonic(80, 80): 5.67128, 32.65961
-    test 255 Gnomonic(80, 80): 80.0, 80.0
-    test 256 LambertEqualArea(80, 80): 0.23828, 1.37219
-    test 257 LambertEqualArea(80, 80): 80.0, 80.0
-    test 258 Orthographic(80, 80): 0.17101, 0.98481
-    test 259 Orthographic(80, 80): 80.0, 80.0
-    test 260 Stereographic(80, 80): 0.33201, 1.91196
-    test 261 Stereographic(80, 80): 80.0, 80.0
-    test 262 Equidistant(80, 10): 0.04281, 1.39829
-    test 263 Equidistant(80, 10): 80.0, 10.0
-    test 264 Gnomonic(80, 10): 0.17633, 5.75877
-    test 265 Gnomonic(80, 10): 80.0, 10.0
-    test 266 LambertEqualArea(80, 10): 0.03941, 1.28702
-    test 267 LambertEqualArea(80, 10): 80.0, 10.0
-    test 268 Orthographic(80, 10): 0.03015, 0.98481
-    test 269 Orthographic(80, 10): 80.0, 10.0
-    test 270 Stereographic(80, 10): 0.0515, 1.68198
-    test 271 Stereographic(80, 10): 80.0, 10.0
+    test 203 Equidistant(10, 80): 1.37704, 0.24656
+    test 204 Equidistant(10, 80): 10.0, 80.0
+    test 205 Gnomonic(10, 80): 5.67128, 1.01543
+    test 206 Gnomonic(10, 80): 10.0, 80.0
+    test 207 LambertEqualArea(10, 80): 1.26747, 0.22694
+    test 208 LambertEqualArea(10, 80): 10.0, 80.0
+    test 209 Orthographic(10, 80): 0.96985, 0.17365
+    test 210 Orthographic(10, 80): 10.0, 80.0
+    test 211 Stereographic(10, 80): 1.65643, 0.29658
+    test 212 Stereographic(10, 80): 10.0, 80.0
+    test 213 Equidistant(20, 20): 0.33454, 0.35601
+    test 214 Equidistant(20, 20): 20.0, 20.0
+    test 215 Gnomonic(20, 20): 0.36397, 0.38733
+    test 216 Gnomonic(20, 20): 20.0, 20.0
+    test 217 LambertEqualArea(20, 20): 0.33123, 0.35248
+    test 218 LambertEqualArea(20, 20): 20.0, 20.0
+    test 219 Orthographic(20, 20): 0.32139, 0.34202
+    test 220 Orthographic(20, 20): 20.0, 20.0
+    test 221 Stereographic(20, 20): 0.34136, 0.36327
+    test 222 Stereographic(20, 20): 20.0, 20.0
+    test 223 Equidistant(40, 40): 0.57386, 0.74912
+    test 224 Equidistant(40, 40): 40.0, 40.0
+    test 225 Gnomonic(40, 40): 0.8391, 1.09537
+    test 226 Gnomonic(40, 40): 40.0, 40.0
+    test 227 LambertEqualArea(40, 40): 0.55281, 0.72164
+    test 228 LambertEqualArea(40, 40): 40.0, 40.0
+    test 229 Orthographic(40, 40): 0.4924, 0.64279
+    test 230 Orthographic(40, 40): 40.0, 40.0
+    test 231 Stereographic(40, 40): 0.62062, 0.81016
+    test 232 Stereographic(40, 40): 40.0, 40.0
+    test 233 Equidistant(60, 60): 0.58948, 1.17896
+    test 234 Equidistant(60, 60): 60.0, 60.0
+    test 235 Gnomonic(60, 60): 1.73205, 3.4641
+    test 236 Gnomonic(60, 60): 60.0, 60.0
+    test 237 LambertEqualArea(60, 60): 0.54772, 1.09545
+    test 238 LambertEqualArea(60, 60): 60.0, 60.0
+    test 239 Orthographic(60, 60): 0.43301, 0.86603
+    test 240 Orthographic(60, 60): 60.0, 60.0
+    test 241 Stereographic(60, 60): 0.69282, 1.38564
+    test 242 Stereographic(60, 60): 60.0, 60.0
+    test 243 Equidistant(70, 80): 0.50997, 1.42273
+    test 244 Equidistant(70, 80): 70.0, 80.0
+    test 245 Gnomonic(70, 80): 5.67128, 15.82209
+    test 246 Gnomonic(70, 80): 70.0, 80.0
+    test 247 LambertEqualArea(70, 80): 0.4628, 1.29114
+    test 248 LambertEqualArea(70, 80): 70.0, 80.0
+    test 249 Orthographic(70, 80): 0.33682, 0.93969
+    test 250 Orthographic(70, 80): 70.0, 80.0
+    test 251 Stereographic(70, 80): 0.63588, 1.77402
+    test 252 Stereographic(70, 80): 70.0, 80.0
+    test 253 Equidistant(80, 80): 0.26358, 1.51792
+    test 254 Equidistant(80, 80): 80.0, 80.0
+    test 255 Gnomonic(80, 80): 5.67128, 32.65961
+    test 256 Gnomonic(80, 80): 80.0, 80.0
+    test 257 LambertEqualArea(80, 80): 0.23828, 1.37219
+    test 258 LambertEqualArea(80, 80): 80.0, 80.0
+    test 259 Orthographic(80, 80): 0.17101, 0.98481
+    test 260 Orthographic(80, 80): 80.0, 80.0
+    test 261 Stereographic(80, 80): 0.33201, 1.91196
+    test 262 Stereographic(80, 80): 80.0, 80.0
+    test 263 Equidistant(80, 10): 0.04281, 1.39829
+    test 264 Equidistant(80, 10): 80.0, 10.0
+    test 265 Gnomonic(80, 10): 0.17633, 5.75877
+    test 266 Gnomonic(80, 10): 80.0, 10.0
+    test 267 LambertEqualArea(80, 10): 0.03941, 1.28702
+    test 268 LambertEqualArea(80, 10): 80.0, 10.0
+    test 269 Orthographic(80, 10): 0.03015, 0.98481
+    test 270 Orthographic(80, 10): 80.0, 10.0
+    test 271 Stereographic(80, 10): 0.0515, 1.68198
+    test 272 Stereographic(80, 10): 80.0, 10.0
 
-    test 272 function: equidistant
-    test 273 equatoradius: 1.0
-    test 274 flattening: 0.0
-    test 275 iteration: None
-    test 276 latlon0: (0.0, 0.0)
-    test 277 latlon0: (1.0, 2.0)
-    test 278 name: coverage
-    test 279 radius: 1.0
+    test 273 function: equidistant
+    test 274 equatoradius: 1.0
+    test 275 flattening: 0.0
+    test 276 iteration: None
+    test 277 latlon0: (0.0, 0.0)
+    test 278 latlon0: (1.0, 2.0)
+    test 279 name: coverage
+    test 280 radius: 1.0
 
-    test 280 function: gnomonic
-    test 281 equatoradius: 1.0
-    test 282 flattening: 0.0
-    test 283 iteration: None
-    test 284 latlon0: (0.0, 0.0)
-    test 285 latlon0: (1.0, 2.0)
-    test 286 name: coverage
-    test 287 radius: 1.0
+    test 281 function: gnomonic
+    test 282 equatoradius: 1.0
+    test 283 flattening: 0.0
+    test 284 iteration: None
+    test 285 latlon0: (0.0, 0.0)
+    test 286 latlon0: (1.0, 2.0)
+    test 287 name: coverage
+    test 288 radius: 1.0
 
-    8 of 287 testAzimuthal.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 950.312 ms
+    6 of 288 testAzimuthal.py tests (2.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.020 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testBasics.py
 
@@ -451,7 +452,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testBasics.py
     test 56 splice: ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
     test 57 splice: ((0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9))
 
-    all 57 testBasics.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 357.151 us
+    all 57 testBasics.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 211.954 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testCartesian.py
 
@@ -857,7 +858,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testCartesian.py
     test 385 vector3d.intersections2: (-0.021973, -0.766467, 0.0)
     test 386 vector3d.intersections2: (0.027459, -0.797488, 0.0)
 
-    20 of 386 testCartesian.py tests (5.2%) FAILED, ALL KNOWN, 4 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 11.339 ms
+    20 of 386 testCartesian.py tests (5.2%) FAILED, ALL KNOWN, 4 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 11.071 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testClasses.py
 
@@ -1543,7 +1544,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testClasses.py
     test 661 Zone: copy
     test 662 a_f2Tuple: copy
 
-    all 662 testClasses.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.690 ms
+    all 662 testClasses.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.609 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testClipy.py
 
@@ -2381,7 +2382,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testClipy.py
     test 823 clipSH11: None
     test 824 clipSH12: None
 
-    all 824 testClipy.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 18.643 ms
+    all 824 testClipy.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 19.632 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testCss.py
 
@@ -2433,7 +2434,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testCss.py
     test 45 cs0.latlon0: (48.833333, 2.333333)
     test 46 cs0.latlon0: type(latlon0) (None): not a LatLonEllipsoidalBase, LatLon4Tuple or LatLon2Tuple
 
-    1 of 46 testCss.py tests (2.2%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.593 ms
+    1 of 46 testCss.py tests (2.2%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.635 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDatums.py
 
@@ -2446,7 +2447,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDatums.py
     test 6 TestDatum: name='TestDatum', ellipsoid=Ellipsoids.TestEllipsiod, transform=Transforms.TestTransform
     test 7 ED50.inverse().inverse(): True
 
-    all 7 testDatums.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 514.269 us
+    all 7 testDatums.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 296.831 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDeprecated.py
 ./test/testDeprecated.py:36: DeprecationWarning: function L{pygeodesy.deprecated.areaof} has been DEPRECATED, use function L{pygeodesy.areaOf}.
@@ -2677,7 +2678,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDeprecated.py
     test 86 toUtm: 6
     test 87 utmZoneBand2: (11, 'U')
 
-    69 of 87 testDeprecated.py tests (79.3%) FAILED, incl. 69 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.582 ms
+    69 of 87 testDeprecated.py tests (79.3%) FAILED, incl. 69 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.930 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDms.py
 
@@ -2913,7 +2914,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testDms.py
     test 229 _MIN: +0.606′
     test 230 _SEC: +36.36″
 
-    all 230 testDms.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.464 ms
+    all 230 testDms.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.188 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEcef.py
 
@@ -3597,12 +3598,12 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEcef.py
     test 664 forward: [4202946.8, 171232.47, 4778354.17]
     test 665 Ecef: <class 'pygeodesy.ecef.EcefKarney'>
 
-    74 of 665 testEcef.py tests (11.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 11.989 ms
+    74 of 665 testEcef.py tests (11.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 11.052 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testElevations.py
 
-    testing testElevations.py 20.09.30
-    all testElevations.py tests SKIPPED (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 18.358 us
+    testing testElevations.py 21.11.21
+    all testElevations.py tests SKIPPED (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 8.345 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
 ./test/testEllipsoidal.py:34: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
@@ -4118,19 +4119,19 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 472 Equidistant: center1 (LatLon(55°00′00.0″N, 055°00′00.0″W)), center2 (LatLon(55°00′00.0″S, 055°00′00.0″E)), radius1 (12231458.77080936) or radius2 (12231458.77080936): no convergence (222847): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 473 Equidistant: center1 (LatLon(60°00′00.0″N, 060°00′00.0″W)), center2 (LatLon(60°00′00.0″S, 060°00′00.0″E)), radius1 (13343409.568155663) or radius2 (13343409.568155663): no convergence (1.02385e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 474 Equidistant: center1 (LatLon(65°00′00.0″N, 065°00′00.0″W)), center2 (LatLon(65°00′00.0″S, 065°00′00.0″E)), radius1 (14455360.36550197) or radius2 (14455360.36550197): no convergence (1.55077e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
-    test 475 Equidistant: 22.404055°S, 010.626387°W Random +/- 45
-    test 476 Equidistant: 22.409996°S, 010.743041°W, 04.197724°N, 001.213806°W  d 12029.3 meter (iteration 4)
-    test 477 Equidistant: 22.332532°S, 010.691092°W, 05.225982°N, 004.55814°E  d 10350.9 meter (iteration 4)
-    test 478 Equidistant: 22.286727°S, 010.766372°W, 12.553982°N, 007.542223°W  d 19409.6 meter (iteration 4)
-    test 479 Equidistant: 22.229749°S, 010.741856°W, 24.833229°N, 044.184201°E  d 22673.7 meter (iteration 5)
-    test 480 Equidistant: 23.012797°S, 011.111875°W, 19.713392°S, 008.88889°W  d 83859 meter (iteration 6)
-    test 481 Equidistant: 22.343959°S, 010.599184°W, 11.239222°S, 031.243215°W  d 7220.48 meter (iteration 3)
-    test 482 Equidistant: 22.232123°S, 010.579618°W, 28.576944°S, 041.98701°W  d 19639.2 meter (iteration 4)
-    test 483 Equidistant: 22.341518°S, 010.697664°W, 01.451427°S, 007.143316°E  d 10091.8 meter (iteration 5)
-    test 484 Equidistant: 22.381758°S, 010.745509°W, 06.73202°N, 010.93119°E  d 12512.7 meter (iteration 5)
-    test 485 Equidistant: 22.728006°S, 010.593551°W, 12.436857°S, 012.508617°W  d 36032.2 meter (iteration 5)
-    test 486 Equidistant: 22.40592°S, 010.629987°W, 18.486865°S, 011.795648°W  d 424.372 meter (iteration 3)
-    test 487 Equidistant: 22.229412°S, 010.560651°W, 40.587271°N, 078.876019°W  d 20490.8 meter (iteration 4)
+    test 475 Equidistant: 34.062651°N, 032.277769°E Random +/- 45
+    test 476 Equidistant: 33.87248°N, 032.348614°E, 16.400621°S, 030.486301°W  d 22086.9 meter (iteration 4)
+    test 477 Equidistant: 33.980055°N, 032.150626°E, 08.770025°N, 050.101152°E  d 14894.2 meter (iteration 5)
+    test 478 Equidistant: 33.771415°N, 032.351166°E, 04.903779°S, 030.540321°W  d 33009.5 meter (iteration 5)
+    test 479 Equidistant: 33.976899°N, 032.18765°E, 01.959017°S, 050.139953°E  d 12639.6 meter (iteration 4)
+    test 480 Equidistant: 33.897955°N, 032.341505°E, 03.33741°S, 007.499082°W  d 19194.2 meter (iteration 4)
+    test 481 Equidistant: 33.858498°N, 032.329499°E, 13.127963°S, 043.571206°W  d 23144.2 meter (iteration 4)
+    test 482 Equidistant: 33.821081°N, 032.417452°E, 21.711259°S, 022.22595°W  d 29744.6 meter (iteration 5)
+    test 483 Equidistant: 33.916646°N, 032.348986°E, 15.343183°S, 032.592393°E  d 17480.9 meter (iteration 5)
+    test 484 Equidistant: 33.765107°N, 032.374739°E, 39.615988°N, 072.591818°W  d 34200.4 meter (iteration 5)
+    test 485 Equidistant: 33.982952°N, 032.350462°E, 02.01252°S, 018.582578°E  d 11100.9 meter (iteration 4)
+    test 486 Equidistant: 34.17604°N, 031.943908°E, 35.62162°N, 029.985717°E  d 33269.6 meter (iteration 4)
+    test 487 Equidistant: 33.853364°N, 032.351547°E, 56.020859°S, 026.108224°E  d 24195.3 meter (iteration 5)
 
     testVincenty(pygeodesy.ellipsoidalVincenty, 21.10.19, datum='WGS84')
     test 488 distanceTo: 866455.43292
@@ -4583,19 +4584,19 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 905 EquidistantKarney: center1 (LatLon(55°00′00.0″N, 055°00′00.0″W)), center2 (LatLon(55°00′00.0″S, 055°00′00.0″E)), radius1 (12231458.77080936) or radius2 (12231458.77080936): no convergence (188568): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 906 EquidistantKarney: center1 (LatLon(60°00′00.0″N, 060°00′00.0″W)), center2 (LatLon(60°00′00.0″S, 060°00′00.0″E)), radius1 (13343409.568155663) or radius2 (13343409.568155663): no convergence (1.01348e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 907 EquidistantKarney: center1 (LatLon(65°00′00.0″N, 065°00′00.0″W)), center2 (LatLon(65°00′00.0″S, 065°00′00.0″E)), radius1 (14455360.36550197) or radius2 (14455360.36550197): no convergence (1.55092e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
-    test 908 EquidistantKarney: 02.405529°S, 013.112126°W Random +/- 45
-    test 909 EquidistantKarney: 02.405529°S, 013.112126°W, 05.84038°N, 016.236631°W  d 5.38117e-09 meter (iteration 3)
-    test 910 EquidistantKarney: 02.405529°S, 013.112126°W, 07.093085°N, 007.651747°E  d 7.70648e-10 meter (iteration 3)
-    test 911 EquidistantKarney: 02.405529°S, 013.112126°W, 31.176376°S, 025.318159°W  d 7.89109e-09 meter (iteration 3)
-    test 912 EquidistantKarney: 02.405529°S, 013.112126°W, 07.778537°S, 023.014503°W  d 6.80943e-09 meter (iteration 3)
-    test 913 EquidistantKarney: 02.405529°S, 013.112126°W, 06.776248°N, 060.866316°W  d 5.99239e-10 meter (iteration 3)
-    test 914 EquidistantKarney: center1 (LatLon(32°09′06.8″N, 020°45′32.46″W)), center2 (LatLon(05°55′13.54″S, 012°07′20.17″W)), radius1 (3909001.012432043) or radius2 (403913.50508024765): too distant (4.31e+06): invalid  FAILED, KNOWN, expected d < 1e-06 m
-    test 915 EquidistantKarney: 02.405529°S, 013.112126°W, 28.809282°N, 049.39273°E  d 2.9962e-09 meter (iteration 3)
-    test 916 EquidistantKarney: 02.405529°S, 013.112126°W, 08.644209°S, 063.517393°W  d 1.8931e-09 meter (iteration 3)
-    test 917 EquidistantKarney: 02.405529°S, 013.112126°W, 09.570452°S, 056.885968°W  d 1.61044e-09 meter (iteration 3)
-    test 918 EquidistantKarney: 02.405529°S, 013.112126°W, 11.559186°S, 067.286997°E  d 1.12996e-09 meter (iteration 3)
-    test 919 EquidistantKarney: 02.405529°S, 013.112126°W, 17.996585°S, 012.313824°W  d 5.7343e-10 meter (iteration 3)
-    test 920 EquidistantKarney: 02.405529°S, 013.112126°W, 10.110165°S, 073.330851°E  d 5.23883e-10 meter (iteration 3)
+    test 908 EquidistantKarney: 44.812555°S, 028.364551°W Random +/- 45
+    test 909 EquidistantKarney: 44.812555°S, 028.364551°W, 23.904297°S, 113.28925°E  d 7.67663e-09 meter (iteration 3)
+    test 910 EquidistantKarney: 44.812555°S, 028.364551°W, 37.480674°S, 036.672951°W  d 3.30074e-09 meter (iteration 3)
+    test 911 EquidistantKarney: 44.812555°S, 028.364551°W, 10.592052°N, 050.831308°E  d 4.84428e-09 meter (iteration 3)
+    test 912 EquidistantKarney: 44.812555°S, 028.364551°W, 65.081263°S, 020.481171°E  d 3.29096e-09 meter (iteration 3)
+    test 913 EquidistantKarney: 44.812555°S, 028.364551°W, 31.519589°N, 068.677097°E  d 2.23481e-09 meter (iteration 3)
+    test 914 EquidistantKarney: 44.812555°S, 028.364551°W, 19.532943°S, 048.048896°W  d 1.20013e-09 meter (iteration 3)
+    test 915 EquidistantKarney: 44.812555°S, 028.364551°W, 16.625029°N, 071.065736°E  d 6.60517e-09 meter (iteration 3)
+    test 916 EquidistantKarney: 44.812555°S, 028.364551°W, 01.748151°N, 104.786386°E  d 1.76036e-09 meter (iteration 3)
+    test 917 EquidistantKarney: 44.812555°S, 028.364551°W, 15.143577°S, 016.372271°E  d 5.62064e-10 meter (iteration 3)
+    test 918 EquidistantKarney: 44.812555°S, 028.364551°W, 00.776164°N, 024.354821°W  d 1.20013e-09 meter (iteration 3)
+    test 919 EquidistantKarney: 44.812555°S, 028.364551°W, 21.816277°S, 082.449124°E  d 3.88811e-09 meter (iteration 3)
+    test 920 EquidistantKarney: 44.812555°S, 028.364551°W, 26.855677°N, 044.477393°W  d 3.2304e-09 meter (iteration 3)
 
     testKarney(pygeodesy.ellipsoidalKarney, 21.10.19, datum='WGS84')
     test 921 distanceTo: 866455.4329
@@ -4754,12 +4755,12 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 1064 distanceTo/quadrants (None): 4015703.02
     test 1065 distanceTo/quadrants (None): 4015703.02
     test 1066 distanceTo/quadrants (None): 4015703.02
-./test/testEllipsoidal.py:162: DeprecationWarning: method L{pygeodesy.ellipsoidalExact.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
-  c = Cleveland_OH.convertDatum(Datums.OSGB36)
-./test/testEllipsoidal.py:162: DeprecationWarning: method L{pygeodesy.ellipsoidalExact.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
-  c = Cleveland_OH.convertDatum(Datums.OSGB36)
     test 1067 distanceTo/quadrants (None): 4015703.02
     test 1068 distanceTo/quadrants (None): 4015703.02
+./test/testEllipsoidal.py:162: DeprecationWarning: method L{pygeodesy.ellipsoidalExact.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
+  c = Cleveland_OH.convertDatum(Datums.OSGB36)
+./test/testEllipsoidal.py:162: DeprecationWarning: method L{pygeodesy.ellipsoidalExact.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
+  c = Cleveland_OH.convertDatum(Datums.OSGB36)
     test 1069 distanceTo/quadrants (None): 4015703.02
     test 1070 distanceTo/quadrants (None): 4015703.02
     test 1071 distanceTo/quadrants (None): 4015703.02
@@ -5049,19 +5050,19 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 1341 EquidistantExact: center1 (LatLon(55°00′00.0″N, 055°00′00.0″W)), center2 (LatLon(55°00′00.0″S, 055°00′00.0″E)), radius1 (12231458.77080936) or radius2 (12231458.77080936): no convergence (188568): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 1342 EquidistantExact: center1 (LatLon(60°00′00.0″N, 060°00′00.0″W)), center2 (LatLon(60°00′00.0″S, 060°00′00.0″E)), radius1 (13343409.568155663) or radius2 (13343409.568155663): no convergence (1.01348e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
     test 1343 EquidistantExact: center1 (LatLon(65°00′00.0″N, 065°00′00.0″W)), center2 (LatLon(65°00′00.0″S, 065°00′00.0″E)), radius1 (14455360.36550197) or radius2 (14455360.36550197): no convergence (1.55092e+06): tolerance (0.001) too low, antipodal, near-polar?  FAILED, KNOWN, expected 2-tuple
-    test 1344 EquidistantExact: 21.29283°S, 026.522851°E Random +/- 45
-    test 1345 EquidistantExact: 21.29283°S, 026.522851°E, 09.96221°S, 026.650866°W  d 0 meter (iteration 3)
-    test 1346 EquidistantExact: 21.29283°S, 026.522851°E, 07.454035°S, 026.310744°E  d 0 meter (iteration 3)
-    test 1347 EquidistantExact: 21.29283°S, 026.522851°E, 70.074398°S, 012.563563°W  d 1.41371e-09 meter (iteration 3)
-    test 1348 EquidistantExact: 21.29283°S, 026.522851°E, 03.162844°S, 007.89679°W  d 0 meter (iteration 3)
-    test 1349 EquidistantExact: 21.29283°S, 026.522851°E, 52.755428°S, 000.107286°E  d 8.63863e-09 meter (iteration 3)
-    test 1350 EquidistantExact: center1 (LatLon(27°03′39.12″S, 007°48′15.31″E)), center2 (LatLon(29°29′49.66″S, 041°42′30.65″W)), radius1 (2003886.5998817114) or radius2 (6832242.649676106): near-concentric: invalid  FAILED, KNOWN, expected d < 1e-06 m
-    test 1351 EquidistantExact: 21.29283°S, 026.522851°E, 10.884889°N, 039.697424°W  d 1.81552e-09 meter (iteration 3)
-    test 1352 EquidistantExact: 21.29283°S, 026.522851°E, 19.040052°N, 001.610188°W  d 1.08193e-08 meter (iteration 3)
-    test 1353 EquidistantExact: 21.29283°S, 026.522851°E, 16.347746°S, 038.882804°E  d 9.58495e-09 meter (iteration 3)
-    test 1354 EquidistantExact: 21.29283°S, 026.522851°E, 12.303978°N, 087.268722°W  d 1.81552e-09 meter (iteration 3)
-    test 1355 EquidistantExact: 21.29283°S, 026.522851°E, 15.342978°S, 063.040757°E  d 1.76463e-09 meter (iteration 3)
-    test 1356 EquidistantExact: 21.29283°S, 026.522851°E, 54.134799°N, 014.614851°E  d 4.84469e-09 meter (iteration 3)
+    test 1344 EquidistantExact: 23.272306°S, 022.427012°E Random +/- 45
+    test 1345 EquidistantExact: 23.272306°S, 022.427012°E, 07.075264°S, 031.59289°E  d 2.82654e-09 meter (iteration 3)
+    test 1346 EquidistantExact: 23.272306°S, 022.427012°E, 17.663985°N, 044.197558°W  d 1.1617e-08 meter (iteration 3)
+    test 1347 EquidistantExact: 23.272306°S, 022.427012°E, 03.595052°N, 033.903918°E  d 2.12007e-09 meter (iteration 3)
+    test 1348 EquidistantExact: 23.272306°S, 022.427012°E, 50.38222°N, 127.904163°W  d 8.73036e-09 meter (iteration 3)
+    test 1349 EquidistantExact: 23.272306°S, 022.427012°E, 01.626573°S, 023.985039°W  d 2.91012e-09 meter (iteration 3)
+    test 1350 EquidistantExact: 23.272306°S, 022.427012°E, 04.801833°N, 005.391354°W  d 1.41298e-09 meter (iteration 3)
+    test 1351 EquidistantExact: 23.272306°S, 022.427012°E, 15.129472°S, 043.51439°W  d 1.36909e-08 meter (iteration 3)
+    test 1352 EquidistantExact: 23.272306°S, 022.427012°E, 19.508235°S, 010.591216°W  d 2.80587e-09 meter (iteration 3)
+    test 1353 EquidistantExact: 23.272306°S, 022.427012°E, 26.190885°S, 022.930646°E  d 1.56023e-08 meter (iteration 4)
+    test 1354 EquidistantExact: 23.272306°S, 022.427012°E, 29.195233°S, 008.94605°E  d 3.35868e-09 meter (iteration 3)
+    test 1355 EquidistantExact: 23.272306°S, 022.427012°E, 04.436007°S, 004.945718°E  d 1.41292e-09 meter (iteration 3)
+    test 1356 EquidistantExact: 23.272306°S, 022.427012°E, 01.711748°N, 094.335275°W  d 6.52782e-09 meter (iteration 3)
 
     testKarney(pygeodesy.ellipsoidalExact, 21.10.19, datum='WGS84')
     test 1357 distanceTo: 866455.4329
@@ -5246,7 +5247,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 1524 isclockwise: True
     test 1525 isclockwise: False
 
-    99 of 1525 testEllipsoidal.py tests (6.5%) FAILED, incl. 85 KNOWN plus 14 DeprecationWarnings, 169 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.581 sec
+    97 of 1525 testEllipsoidal.py tests (6.4%) FAILED, incl. 83 KNOWN plus 14 DeprecationWarnings, 169 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.437 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 
@@ -9753,7 +9754,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoidalGeo
     test 4500 line 500 azi2: 130.988276746436
     test 4501 WGS84.KsOrder: 8
 
-    45 of 4501 testEllipsoidalGeodTest.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 362.745 ms
+    45 of 4501 testEllipsoidalGeodTest.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 342.893 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoids.py
 
@@ -9841,7 +9842,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoids.py
     test 77 rocPrimeVertical: 6388838.29
     test 78 rocPrimeVertical: 6399593.626
 
-    test<function Ellipsoid.__init__ at 0x104992680>(pygeodesy.ellipsoids, 21.10.05)
+    test<function Ellipsoid.__init__ at 0x1034fe710>(pygeodesy.ellipsoids, 21.10.05)
     test 79 a, b, None: 2.0
     test 80 a, None, f_: 500.0
 
@@ -10513,7 +10514,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEllipsoids.py
     test 715 circle4 90: 6371008.771415
     test 716 circle4 90: 6371008.771415
 
-    76 of 716 testEllipsoids.py tests (10.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 12.826 ms
+    76 of 716 testEllipsoids.py tests (10.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 11.736 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testElliptic.py
 
@@ -10775,7 +10776,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testElliptic.py
     test 251 k2 alpha2 kp2 alphap2: (0.5, 0.5, 0.5, 0.5)
     test 252 k2 alpha2 kp2 alphap2: (0.75, 0.75, 0.75, 0.75)
 
-    all 252 testElliptic.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 17.717 ms
+    all 252 testElliptic.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 16.152 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEpsg.py
 
@@ -11179,7 +11180,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEpsg.py
     test 397 TMcoord 257: 39N N
     test 398 TMcoord 258: 40Q N
 
-    all 398 testEpsg.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 24.601 ms
+    all 398 testEpsg.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 23.664 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testErrors.py
 
@@ -11289,7 +11290,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testErrors.py
     test 103 _xkwds_pop: _xkwds_pop(): no name=default kwargs
     test 104 _xkwds_pop: _xkwds_pop(n1='d1', n2='d2'): multiple name=default kwargs
 
-    all 104 testErrors.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 878.096 us
+    all 104 testErrors.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 505.209 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEtm.py
 
@@ -11405,7 +11406,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEtm.py
     test 101 parse: 31 N 448251 5411932
     test 102 name: parse
 
-    2 of 102 testEtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 10.927 ms
+    2 of 102 testEtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 9.841 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEtmTMcoords.py
 
@@ -12960,7 +12961,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testEtmTMcoords.py
     test 1547 Etm.datum.ellipsoid.KsOrder: 8
     test 1548 WGS84.KsOrder: 8
 
-    1 of 1548 testEtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 1 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 254.770 ms
+    1 of 1548 testEtmTMcoords.py tests (0.1%) FAILED, ALL KNOWN, 1 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 243.623 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testExactTMcoords.py
 
@@ -14515,7 +14516,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testExactTMcoords.
     test 1547 _ExactTM.datum.ellipsoid.KsOrder: 8
     test 1548 WGS84.KsOrder: 8
 
-    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 240.154 ms
+    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 227.413 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFmath.py
 
@@ -14687,407 +14688,407 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFmath.py
     test 165 Fsum: 1.005000000001
     test 166 fsum: 1.0000000000000002e+16
     test 167 Fsum: 1.0000000000000002e+16
-    test 168 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -7.73751418509486e-05
-    test 169 fsum: -7.73751418509486e-05
-    test 170 Fsum: -7.73751418509486e-05
-    test 171 Fsum: -7.73751418509486e-05
-    test 172 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.17946429624922988
-    test 173 fsum: 0.17946429624922988
-    test 174 Fsum: 0.17946429624922988
-    test 175 Fsum: 0.17946429624922988
-    test 176 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.502598279657837e-07
-    test 177 fsum: -6.502598279657837e-07
-    test 178 Fsum: -6.502598279657837e-07
-    test 179 Fsum: -6.502598279657837e-07
-    test 180 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.5712933703529203e-10
-    test 181 fsum: -1.5712933703529203e-10
-    test 182 Fsum: -1.5712933703529203e-10
-    test 183 Fsum: -1.5712933703529203e-10
-    test 184 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.7776771001238298
-    test 185 fsum: -1.7776771001238298
-    test 186 Fsum: -1.7776771001238298
-    test 187 Fsum: -1.7776771001238298
-    test 188 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.545308103002672e-05
-    test 189 fsum: -3.545308103002672e-05
-    test 190 Fsum: -3.545308103002672e-05
-    test 191 Fsum: -3.545308103002672e-05
-    test 192 sum: 0.0  FAILED, KNOWN, expected 0.0069938983464217785
-    test 193 fsum: 0.0069938983464217785
-    test 194 Fsum: 0.0069938983464217785
-    test 195 Fsum: 0.0069938983464217785
-    test 196 sum: 0.0  FAILED, KNOWN, expected 9.267151893220571e-05
-    test 197 fsum: 9.267151893220571e-05
-    test 198 Fsum: 9.267151893220571e-05
-    test 199 Fsum: 9.267151893220571e-05
-    test 200 sum: 6.999999886466833  FAILED, KNOWN, expected -4.736521903511866e-10
-    test 201 fsum: -4.736521903511866e-10
-    test 202 Fsum: -4.736521903511866e-10
-    test 203 Fsum: -4.736521903511866e-10
-    test 204 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.652476221694144e-11
-    test 205 fsum: 6.652476221694144e-11
-    test 206 Fsum: 6.652476221694144e-11
-    test 207 Fsum: 6.652476221694144e-11
-    test 208 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.402247192659802e-05
-    test 209 fsum: 4.402247192659802e-05
-    test 210 Fsum: 4.402247192659802e-05
-    test 211 Fsum: 4.402247192659802e-05
-    test 212 sum: -13.644669679052397  FAILED, KNOWN, expected 7.83112945282845e-08
-    test 213 fsum: 7.83112945282845e-08
-    test 214 Fsum: 7.83112945282845e-08
-    test 215 Fsum: 7.83112945282845e-08
-    test 216 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.0936311285327635e-07
-    test 217 fsum: -2.0936311285327635e-07
-    test 218 Fsum: -2.0936311285327635e-07
-    test 219 Fsum: -2.0936311285327635e-07
-    test 220 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.262370100720599e-07
-    test 221 fsum: -3.262370100720599e-07
-    test 222 Fsum: -3.262370100720599e-07
-    test 223 Fsum: -3.262370100720599e-07
-    test 224 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.39026808664742e-05
-    test 225 fsum: -4.39026808664742e-05
-    test 226 Fsum: -4.39026808664742e-05
-    test 227 Fsum: -4.39026808664742e-05
-    test 228 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.936426942696692e-09
-    test 229 fsum: 6.936426942696692e-09
-    test 230 Fsum: 6.936426942696692e-09
-    test 231 Fsum: 6.936426942696692e-09
-    test 232 sum: -7.0  FAILED, KNOWN, expected 0.5407301764878225
-    test 233 fsum: 0.5407301764878225
-    test 234 Fsum: 0.5407301764878225
-    test 235 Fsum: 0.5407301764878225
-    test 236 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.001638139942835943
-    test 237 fsum: -0.001638139942835943
-    test 238 Fsum: -0.001638139942835943
-    test 239 Fsum: -0.001638139942835943
-    test 240 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.989145388319876e-10
-    test 241 fsum: 3.989145388319876e-10
-    test 242 Fsum: 3.989145388319876e-10
-    test 243 Fsum: 3.989145388319876e-10
-    test 244 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.3669144264118395e-06
-    test 245 fsum: -1.3669144264118395e-06
-    test 246 Fsum: -1.3669144264118395e-06
-    test 247 Fsum: -1.3669144264118395e-06
-    test 248 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.976620170609581e-07
-    test 249 fsum: 6.976620170609581e-07
-    test 250 Fsum: 6.976620170609581e-07
-    test 251 Fsum: 6.976620170609581e-07
-    test 252 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.7414601348250817e-16
-    test 253 fsum: -1.7414601348250817e-16
-    test 254 Fsum: -1.7414601348250817e-16
-    test 255 Fsum: -1.7414601348250817e-16
-    test 256 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.714142618017486e-15
-    test 257 fsum: 3.714142618017486e-15
-    test 258 Fsum: 3.714142618017486e-15
-    test 259 Fsum: 3.714142618017486e-15
-    test 260 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00892583602164825
-    test 261 fsum: -0.00892583602164825
-    test 262 Fsum: -0.00892583602164825
-    test 263 Fsum: -0.00892583602164825
-    test 264 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.32337885464254085
-    test 265 fsum: -0.32337885464254085
-    test 266 Fsum: -0.32337885464254085
-    test 267 Fsum: -0.32337885464254085
-    test 268 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.016228196333652512
-    test 269 fsum: 0.016228196333652512
-    test 270 Fsum: 0.016228196333652512
-    test 271 Fsum: 0.016228196333652512
-    test 272 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0005355336315772528
-    test 273 fsum: 0.0005355336315772528
-    test 274 Fsum: 0.0005355336315772528
-    test 275 Fsum: 0.0005355336315772528
-    test 276 sum: 0.0  FAILED, KNOWN, expected -5.808339863301908e-12
-    test 277 fsum: -5.808339863301908e-12
-    test 278 Fsum: -5.808339863301908e-12
-    test 279 Fsum: -5.808339863301908e-12
-    test 280 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0002111888901961324
-    test 281 fsum: -0.0002111888901961324
-    test 282 Fsum: -0.0002111888901961324
-    test 283 Fsum: -0.0002111888901961324
-    test 284 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.3280830107451537
-    test 285 fsum: -0.3280830107451537
-    test 286 Fsum: -0.3280830107451537
-    test 287 Fsum: -0.3280830107451537
-    test 288 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0009804945436534028
-    test 289 fsum: -0.0009804945436534028
-    test 290 Fsum: -0.0009804945436534028
-    test 291 Fsum: -0.0009804945436534028
-    test 292 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.4669011322334164e-06
-    test 293 fsum: 2.4669011322334164e-06
-    test 294 Fsum: 2.4669011322334164e-06
-    test 295 Fsum: 2.4669011322334164e-06
-    test 296 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.6612626790463387
-    test 297 fsum: 1.6612626790463387
-    test 298 Fsum: 1.6612626790463387
-    test 299 Fsum: 1.6612626790463387
-    test 300 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.5278768693773922
-    test 301 fsum: 0.5278768693773922
-    test 302 Fsum: 0.5278768693773922
-    test 303 Fsum: 0.5278768693773922
-    test 304 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 7.529637920409448e-07
-    test 305 fsum: 7.529637920409448e-07
-    test 306 Fsum: 7.529637920409448e-07
-    test 307 Fsum: 7.529637920409448e-07
-    test 308 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00017485707436785925
-    test 309 fsum: 0.00017485707436785925
-    test 310 Fsum: 0.00017485707436785925
-    test 311 Fsum: 0.00017485707436785925
-    test 312 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.71324424706661e-14
-    test 313 fsum: -6.71324424706661e-14
-    test 314 Fsum: -6.71324424706661e-14
-    test 315 Fsum: -6.71324424706661e-14
-    test 316 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.8744755525981335e-07
-    test 317 fsum: 1.8744755525981335e-07
-    test 318 Fsum: 1.8744755525981335e-07
-    test 319 Fsum: 1.8744755525981335e-07
-    test 320 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.3559367237130038e-17
-    test 321 fsum: 2.3559367237130038e-17
-    test 322 Fsum: 2.3559367237130038e-17
-    test 323 Fsum: 2.3559367237130038e-17
-    test 324 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.13897110275678473
-    test 325 fsum: 0.13897110275678473
-    test 326 Fsum: 0.13897110275678473
-    test 327 Fsum: 0.13897110275678473
-    test 328 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.44332455899554096
-    test 329 fsum: 0.44332455899554096
-    test 330 Fsum: 0.44332455899554096
-    test 331 Fsum: 0.44332455899554096
-    test 332 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 7.074306379745337e-15
-    test 333 fsum: 7.074306379745337e-15
-    test 334 Fsum: 7.074306379745337e-15
-    test 335 Fsum: 7.074306379745337e-15
-    test 336 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 9.344963207945503
-    test 337 fsum: 9.344963207945503
-    test 338 Fsum: 9.344963207945503
-    test 339 Fsum: 9.344963207945503
-    test 340 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.09012194953405835
-    test 341 fsum: -0.09012194953405835
-    test 342 Fsum: -0.09012194953405835
-    test 343 Fsum: -0.09012194953405835
-    test 344 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.7915039942856998e-05
-    test 345 fsum: -2.7915039942856998e-05
-    test 346 Fsum: -2.7915039942856998e-05
-    test 347 Fsum: -2.7915039942856998e-05
-    test 348 sum: 0.0  FAILED, KNOWN, expected -0.0005797717991863908
-    test 349 fsum: -0.0005797717991863908
-    test 350 Fsum: -0.0005797717991863908
-    test 351 Fsum: -0.0005797717991863908
-    test 352 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.008575187163862e-14
-    test 353 fsum: -6.008575187163862e-14
-    test 354 Fsum: -6.008575187163862e-14
-    test 355 Fsum: -6.008575187163862e-14
-    test 356 sum: -264.46464510869265  FAILED, KNOWN, expected -1.0619124820782785e-08
-    test 357 fsum: -1.0619124820782785e-08
-    test 358 Fsum: -1.0619124820782785e-08
-    test 359 Fsum: -1.0619124820782785e-08
-    test 360 sum: -171.233066785474  FAILED, KNOWN, expected -1.6673186871673058e-06
-    test 361 fsum: -1.6673186871673058e-06
-    test 362 Fsum: -1.6673186871673058e-06
-    test 363 Fsum: -1.6673186871673058e-06
-    test 364 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.01775955623084608
-    test 365 fsum: 0.01775955623084608
-    test 366 Fsum: 0.01775955623084608
-    test 367 Fsum: 0.01775955623084608
-    test 368 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.10669066114790615
-    test 369 fsum: -0.10669066114790615
-    test 370 Fsum: -0.10669066114790615
-    test 371 Fsum: -0.10669066114790615
-    test 372 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.225501935649675e-07
-    test 373 fsum: -5.225501935649675e-07
-    test 374 Fsum: -5.225501935649675e-07
-    test 375 Fsum: -5.225501935649675e-07
-    test 376 sum: 0.0  FAILED, KNOWN, expected -1.571869517312971e-13
-    test 377 fsum: -1.571869517312971e-13
-    test 378 Fsum: -1.571869517312971e-13
-    test 379 Fsum: -1.571869517312971e-13
-    test 380 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.1928123828641538e-10
-    test 381 fsum: -1.1928123828641538e-10
-    test 382 Fsum: -1.1928123828641538e-10
-    test 383 Fsum: -1.1928123828641538e-10
-    test 384 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.08834474131265219
-    test 385 fsum: -0.08834474131265219
-    test 386 Fsum: -0.08834474131265219
-    test 387 Fsum: -0.08834474131265219
-    test 388 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 6.197499914826135e-05
-    test 389 fsum: 6.197499914826135e-05
-    test 390 Fsum: 6.197499914826135e-05
-    test 391 Fsum: 6.197499914826135e-05
-    test 392 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.014593312289799976
-    test 393 fsum: -0.014593312289799976
-    test 394 Fsum: -0.014593312289799976
-    test 395 Fsum: -0.014593312289799976
-    test 396 sum: -4.079885201624389e-07  FAILED, KNOWN, expected 12.29242775859863
-    test 397 fsum: 12.29242775859863
-    test 398 Fsum: 12.29242775859863
-    test 399 Fsum: 12.29242775859863
-    test 400 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.3261296272929367e-16
-    test 401 fsum: -3.3261296272929367e-16
-    test 402 Fsum: -3.3261296272929367e-16
-    test 403 Fsum: -3.3261296272929367e-16
-    test 404 sum: 7.0  FAILED, KNOWN, expected 0.016492444778667854
-    test 405 fsum: 0.016492444778667854
-    test 406 Fsum: 0.016492444778667854
-    test 407 Fsum: 0.016492444778667854
-    test 408 sum: 6.999967031772656  FAILED, KNOWN, expected 3.6384609279126645e-12
-    test 409 fsum: 3.6384609279126645e-12
-    test 410 Fsum: 3.6384609279126645e-12
-    test 411 Fsum: 3.6384609279126645e-12
-    test 412 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.004599237165286821
-    test 413 fsum: -0.004599237165286821
-    test 414 Fsum: -0.004599237165286821
-    test 415 Fsum: -0.004599237165286821
-    test 416 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0019105620344117232
-    test 417 fsum: -0.0019105620344117232
-    test 418 Fsum: -0.0019105620344117232
-    test 419 Fsum: -0.0019105620344117232
-    test 420 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -88.07771806464994
-    test 421 fsum: -88.07771806464994
-    test 422 Fsum: -88.07771806464994
-    test 423 Fsum: -88.07771806464994
-    test 424 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 41.2305968102419
-    test 425 fsum: 41.2305968102419
-    test 426 Fsum: 41.2305968102419
-    test 427 Fsum: 41.2305968102419
-    test 428 sum: 5.8488548427976195  FAILED, KNOWN, expected -1.439725799481249e-14
-    test 429 fsum: -1.439725799481249e-14
-    test 430 Fsum: -1.439725799481249e-14
-    test 431 Fsum: -1.439725799481249e-14
-    test 432 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00405911668533639
-    test 433 fsum: 0.00405911668533639
-    test 434 Fsum: 0.00405911668533639
-    test 435 Fsum: 0.00405911668533639
-    test 436 sum: 1.6e-19  FAILED, KNOWN, expected -0.0319221925969482
-    test 437 fsum: -0.0319221925969482
-    test 438 Fsum: -0.0319221925969482
-    test 439 Fsum: -0.0319221925969482
-    test 440 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.017210467169795733
-    test 441 fsum: 0.017210467169795733
-    test 442 Fsum: 0.017210467169795733
-    test 443 Fsum: 0.017210467169795733
-    test 444 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.3754036928256e-13
-    test 445 fsum: 2.3754036928256e-13
-    test 446 Fsum: 2.3754036928256e-13
-    test 447 Fsum: 2.3754036928256e-13
-    test 448 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.28194918425483456
-    test 449 fsum: -0.28194918425483456
-    test 450 Fsum: -0.28194918425483456
-    test 451 Fsum: -0.28194918425483456
-    test 452 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.34080553497792565
-    test 453 fsum: 0.34080553497792565
-    test 454 Fsum: 0.34080553497792565
-    test 455 Fsum: 0.34080553497792565
-    test 456 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.33703044324078973
-    test 457 fsum: -0.33703044324078973
-    test 458 Fsum: -0.33703044324078973
-    test 459 Fsum: -0.33703044324078973
-    test 460 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.662461207204755e-06
-    test 461 fsum: 9.662461207204755e-06
-    test 462 Fsum: 9.662461207204755e-06
-    test 463 Fsum: 9.662461207204755e-06
-    test 464 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.281960758386464e-10
-    test 465 fsum: 5.281960758386464e-10
-    test 466 Fsum: 5.281960758386464e-10
-    test 467 Fsum: 5.281960758386464e-10
-    test 468 sum: 56.56692278253114  FAILED, KNOWN, expected -0.21015839311274118
-    test 469 fsum: -0.21015839311274118
-    test 470 Fsum: -0.21015839311274118
-    test 471 Fsum: -0.21015839311274118
-    test 472 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.041604708738442624
-    test 473 fsum: -0.041604708738442624
-    test 474 Fsum: -0.041604708738442624
-    test 475 Fsum: -0.041604708738442624
-    test 476 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.924918658084844e-06
-    test 477 fsum: -2.924918658084844e-06
-    test 478 Fsum: -2.924918658084844e-06
-    test 479 Fsum: -2.924918658084844e-06
-    test 480 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.987784486613265e-12
-    test 481 fsum: -6.987784486613265e-12
-    test 482 Fsum: -6.987784486613265e-12
-    test 483 Fsum: -6.987784486613265e-12
-    test 484 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.03507178358322986
-    test 485 fsum: -0.03507178358322986
-    test 486 Fsum: -0.03507178358322986
-    test 487 Fsum: -0.03507178358322986
-    test 488 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 5.257949977468969e-06
-    test 489 fsum: 5.257949977468969e-06
-    test 490 Fsum: 5.257949977468969e-06
-    test 491 Fsum: 5.257949977468969e-06
-    test 492 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.0658334343440912
-    test 493 fsum: -1.0658334343440912
-    test 494 Fsum: -1.0658334343440912
-    test 495 Fsum: -1.0658334343440912
-    test 496 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.5661413819771262e-06
-    test 497 fsum: -1.5661413819771262e-06
-    test 498 Fsum: -1.5661413819771262e-06
-    test 499 Fsum: -1.5661413819771262e-06
-    test 500 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.3893370421865618e-06
-    test 501 fsum: 3.3893370421865618e-06
-    test 502 Fsum: 3.3893370421865618e-06
-    test 503 Fsum: 3.3893370421865618e-06
-    test 504 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.8070640954230529
-    test 505 fsum: 0.8070640954230529
-    test 506 Fsum: 0.8070640954230529
-    test 507 Fsum: 0.8070640954230529
-    test 508 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -9.669115970191216e-05
-    test 509 fsum: -9.669115970191216e-05
-    test 510 Fsum: -9.669115970191216e-05
-    test 511 Fsum: -9.669115970191216e-05
-    test 512 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -7.015371239942837e-08
-    test 513 fsum: -7.015371239942837e-08
-    test 514 Fsum: -7.015371239942837e-08
-    test 515 Fsum: -7.015371239942837e-08
-    test 516 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.0733437974188396e-12
-    test 517 fsum: -1.0733437974188396e-12
-    test 518 Fsum: -1.0733437974188396e-12
-    test 519 Fsum: -1.0733437974188396e-12
-    test 520 sum: -0.04771077836214154  FAILED, KNOWN, expected 2.7664170191700496e-09
-    test 521 fsum: 2.7664170191700496e-09
-    test 522 Fsum: 2.7664170191700496e-09
-    test 523 Fsum: 2.7664170191700496e-09
-    test 524 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -7.562873408031338e-17
-    test 525 fsum: -7.562873408031338e-17
-    test 526 Fsum: -7.562873408031338e-17
-    test 527 Fsum: -7.562873408031338e-17
-    test 528 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.4725155468236656e-11
-    test 529 fsum: 3.4725155468236656e-11
-    test 530 Fsum: 3.4725155468236656e-11
-    test 531 Fsum: 3.4725155468236656e-11
-    test 532 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0002762956610008881
-    test 533 fsum: -0.0002762956610008881
-    test 534 Fsum: -0.0002762956610008881
-    test 535 Fsum: -0.0002762956610008881
-    test 536 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 3.968652861332413e-06
-    test 537 fsum: 3.968652861332413e-06
-    test 538 Fsum: 3.968652861332413e-06
-    test 539 Fsum: 3.968652861332413e-06
-    test 540 sum: 0.0  FAILED, KNOWN, expected -5.7725683546818756e-11
-    test 541 fsum: -5.7725683546818756e-11
-    test 542 Fsum: -5.7725683546818756e-11
-    test 543 Fsum: -5.7725683546818756e-11
-    test 544 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.170000623522121e-07
-    test 545 fsum: -3.170000623522121e-07
-    test 546 Fsum: -3.170000623522121e-07
-    test 547 Fsum: -3.170000623522121e-07
-    test 548 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.1164913643872928e-07
-    test 549 fsum: -1.1164913643872928e-07
-    test 550 Fsum: -1.1164913643872928e-07
-    test 551 Fsum: -1.1164913643872928e-07
-    test 552 sum: 766.93505332206  FAILED, KNOWN, expected -1.2846882132439826e-06
-    test 553 fsum: -1.2846882132439826e-06
-    test 554 Fsum: -1.2846882132439826e-06
-    test 555 Fsum: -1.2846882132439826e-06
-    test 556 sum: 0.0  FAILED, KNOWN, expected 0.0001400784368122635
-    test 557 fsum: 0.0001400784368122635
-    test 558 Fsum: 0.0001400784368122635
-    test 559 Fsum: 0.0001400784368122635
-    test 560 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.603711390795633e-05
-    test 561 fsum: -6.603711390795633e-05
-    test 562 Fsum: -6.603711390795633e-05
-    test 563 Fsum: -6.603711390795633e-05
-    test 564 sum: 7.000000012012313  FAILED, KNOWN, expected 1.5156795976748372e-05
-    test 565 fsum: 1.5156795976748372e-05
-    test 566 Fsum: 1.5156795976748372e-05
-    test 567 Fsum: 1.5156795976748372e-05
-    test 568 fmul: 2.29728464
+    test 168 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.873293030397849e-05
+    test 169 fsum: -5.873293030397849e-05
+    test 170 Fsum: -5.873293030397849e-05
+    test 171 Fsum: -5.873293030397849e-05
+    test 172 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0015555982092978528
+    test 173 fsum: 0.0015555982092978528
+    test 174 Fsum: 0.0015555982092978528
+    test 175 Fsum: 0.0015555982092978528
+    test 176 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.134369036099455e-09
+    test 177 fsum: 1.134369036099455e-09
+    test 178 Fsum: 1.134369036099455e-09
+    test 179 Fsum: 1.134369036099455e-09
+    test 180 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.601664067621908e-11
+    test 181 fsum: -5.601664067621908e-11
+    test 182 Fsum: -5.601664067621908e-11
+    test 183 Fsum: -5.601664067621908e-11
+    test 184 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.001758181621470849
+    test 185 fsum: 0.001758181621470849
+    test 186 Fsum: 0.001758181621470849
+    test 187 Fsum: 0.001758181621470849
+    test 188 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 9.993657324044335e-15
+    test 189 fsum: 9.993657324044335e-15
+    test 190 Fsum: 9.993657324044335e-15
+    test 191 Fsum: 9.993657324044335e-15
+    test 192 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.44466821927733796
+    test 193 fsum: -0.44466821927733796
+    test 194 Fsum: -0.44466821927733796
+    test 195 Fsum: -0.44466821927733796
+    test 196 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.8221668752119496e-05
+    test 197 fsum: -4.8221668752119496e-05
+    test 198 Fsum: -4.8221668752119496e-05
+    test 199 Fsum: -4.8221668752119496e-05
+    test 200 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0020675344046666507
+    test 201 fsum: 0.0020675344046666507
+    test 202 Fsum: 0.0020675344046666507
+    test 203 Fsum: 0.0020675344046666507
+    test 204 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 113.64795054445355
+    test 205 fsum: 113.64795054445355
+    test 206 Fsum: 113.64795054445355
+    test 207 Fsum: 113.64795054445355
+    test 208 sum: -0.12807071309203424  FAILED, KNOWN, expected 0.0014408949880938347
+    test 209 fsum: 0.0014408949880938347
+    test 210 Fsum: 0.0014408949880938347
+    test 211 Fsum: 0.0014408949880938347
+    test 212 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.0119701123451223e-06
+    test 213 fsum: -2.0119701123451223e-06
+    test 214 Fsum: -2.0119701123451223e-06
+    test 215 Fsum: -2.0119701123451223e-06
+    test 216 sum: -5.568597233598256  FAILED, KNOWN, expected -1.8490505150916348
+    test 217 fsum: -1.8490505150916348
+    test 218 Fsum: -1.8490505150916348
+    test 219 Fsum: -1.8490505150916348
+    test 220 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.2332368558399487e-09
+    test 221 fsum: 2.2332368558399487e-09
+    test 222 Fsum: 2.2332368558399487e-09
+    test 223 Fsum: 2.2332368558399487e-09
+    test 224 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -5.178333533634735e-05
+    test 225 fsum: -5.178333533634735e-05
+    test 226 Fsum: -5.178333533634735e-05
+    test 227 Fsum: -5.178333533634735e-05
+    test 228 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.25001723920198177
+    test 229 fsum: 0.25001723920198177
+    test 230 Fsum: 0.25001723920198177
+    test 231 Fsum: 0.25001723920198177
+    test 232 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -6.6478955525524855e-15
+    test 233 fsum: -6.6478955525524855e-15
+    test 234 Fsum: -6.6478955525524855e-15
+    test 235 Fsum: -6.6478955525524855e-15
+    test 236 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 4.232896723411675e-07
+    test 237 fsum: 4.232896723411675e-07
+    test 238 Fsum: 4.232896723411675e-07
+    test 239 Fsum: 4.232896723411675e-07
+    test 240 sum: -16.248467260035248  FAILED, KNOWN, expected 0.001615101498589771
+    test 241 fsum: 0.001615101498589771
+    test 242 Fsum: 0.001615101498589771
+    test 243 Fsum: 0.001615101498589771
+    test 244 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.4363225521170275e-05
+    test 245 fsum: 5.4363225521170275e-05
+    test 246 Fsum: 5.4363225521170275e-05
+    test 247 Fsum: 5.4363225521170275e-05
+    test 248 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.775865311223629e-12
+    test 249 fsum: 1.775865311223629e-12
+    test 250 Fsum: 1.775865311223629e-12
+    test 251 Fsum: 1.775865311223629e-12
+    test 252 sum: -13.960801509591008  FAILED, KNOWN, expected 0.0292205937925699
+    test 253 fsum: 0.0292205937925699
+    test 254 Fsum: 0.0292205937925699
+    test 255 Fsum: 0.0292205937925699
+    test 256 sum: 4.048961968903464e-06  FAILED, KNOWN, expected -1.2942506252334995
+    test 257 fsum: -1.2942506252334995
+    test 258 Fsum: -1.2942506252334995
+    test 259 Fsum: -1.2942506252334995
+    test 260 sum: 0.0  FAILED, KNOWN, expected -0.0004484849464488231
+    test 261 fsum: -0.0004484849464488231
+    test 262 Fsum: -0.0004484849464488231
+    test 263 Fsum: -0.0004484849464488231
+    test 264 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -6.1406971185446975e-06
+    test 265 fsum: -6.1406971185446975e-06
+    test 266 Fsum: -6.1406971185446975e-06
+    test 267 Fsum: -6.1406971185446975e-06
+    test 268 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.4262938163809407e-08
+    test 269 fsum: -1.4262938163809407e-08
+    test 270 Fsum: -1.4262938163809407e-08
+    test 271 Fsum: -1.4262938163809407e-08
+    test 272 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -8.504276619849756e-07
+    test 273 fsum: -8.504276619849756e-07
+    test 274 Fsum: -8.504276619849756e-07
+    test 275 Fsum: -8.504276619849756e-07
+    test 276 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.8148321073099925e-06
+    test 277 fsum: 1.8148321073099925e-06
+    test 278 Fsum: 1.8148321073099925e-06
+    test 279 Fsum: 1.8148321073099925e-06
+    test 280 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.003945152438313013
+    test 281 fsum: 0.003945152438313013
+    test 282 Fsum: 0.003945152438313013
+    test 283 Fsum: 0.003945152438313013
+    test 284 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0002726440803028474
+    test 285 fsum: -0.0002726440803028474
+    test 286 Fsum: -0.0002726440803028474
+    test 287 Fsum: -0.0002726440803028474
+    test 288 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -9.135199394333342e-06
+    test 289 fsum: -9.135199394333342e-06
+    test 290 Fsum: -9.135199394333342e-06
+    test 291 Fsum: -9.135199394333342e-06
+    test 292 sum: 7.001704513853613  FAILED, KNOWN, expected 0.0002877780155652453
+    test 293 fsum: 0.0002877780155652453
+    test 294 Fsum: 0.0002877780155652453
+    test 295 Fsum: 0.0002877780155652453
+    test 296 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 3.2054566740747195
+    test 297 fsum: 3.2054566740747195
+    test 298 Fsum: 3.2054566740747195
+    test 299 Fsum: 3.2054566740747195
+    test 300 sum: 0.0  FAILED, KNOWN, expected 1.0860537363959784e-15
+    test 301 fsum: 1.0860537363959784e-15
+    test 302 Fsum: 1.0860537363959784e-15
+    test 303 Fsum: 1.0860537363959784e-15
+    test 304 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.26703434438368e-07
+    test 305 fsum: -1.26703434438368e-07
+    test 306 Fsum: -1.26703434438368e-07
+    test 307 Fsum: -1.26703434438368e-07
+    test 308 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.064280279727704e-06
+    test 309 fsum: 5.064280279727704e-06
+    test 310 Fsum: 5.064280279727704e-06
+    test 311 Fsum: 5.064280279727704e-06
+    test 312 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0004973118915368018
+    test 313 fsum: -0.0004973118915368018
+    test 314 Fsum: -0.0004973118915368018
+    test 315 Fsum: -0.0004973118915368018
+    test 316 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0003276548545677198
+    test 317 fsum: 0.0003276548545677198
+    test 318 Fsum: 0.0003276548545677198
+    test 319 Fsum: 0.0003276548545677198
+    test 320 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.030674742552197105
+    test 321 fsum: -0.030674742552197105
+    test 322 Fsum: -0.030674742552197105
+    test 323 Fsum: -0.030674742552197105
+    test 324 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0110755247094609
+    test 325 fsum: 0.0110755247094609
+    test 326 Fsum: 0.0110755247094609
+    test 327 Fsum: 0.0110755247094609
+    test 328 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -2.895856221957423e-08
+    test 329 fsum: -2.895856221957423e-08
+    test 330 Fsum: -2.895856221957423e-08
+    test 331 Fsum: -2.895856221957423e-08
+    test 332 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.14082413398168014
+    test 333 fsum: 0.14082413398168014
+    test 334 Fsum: 0.14082413398168014
+    test 335 Fsum: 0.14082413398168014
+    test 336 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.4591507646188832e-14
+    test 337 fsum: -1.4591507646188832e-14
+    test 338 Fsum: -1.4591507646188832e-14
+    test 339 Fsum: -1.4591507646188832e-14
+    test 340 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.958387994431304e-06
+    test 341 fsum: -4.958387994431304e-06
+    test 342 Fsum: -4.958387994431304e-06
+    test 343 Fsum: -4.958387994431304e-06
+    test 344 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.008856281286732102
+    test 345 fsum: -0.008856281286732102
+    test 346 Fsum: -0.008856281286732102
+    test 347 Fsum: -0.008856281286732102
+    test 348 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.059345806335908e-05
+    test 349 fsum: 1.059345806335908e-05
+    test 350 Fsum: 1.059345806335908e-05
+    test 351 Fsum: 1.059345806335908e-05
+    test 352 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 1.5005940288666996e-06
+    test 353 fsum: 1.5005940288666996e-06
+    test 354 Fsum: 1.5005940288666996e-06
+    test 355 Fsum: 1.5005940288666996e-06
+    test 356 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -1.839519855749714e-09
+    test 357 fsum: -1.839519855749714e-09
+    test 358 Fsum: -1.839519855749714e-09
+    test 359 Fsum: -1.839519855749714e-09
+    test 360 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0008450644994088902
+    test 361 fsum: 0.0008450644994088902
+    test 362 Fsum: 0.0008450644994088902
+    test 363 Fsum: 0.0008450644994088902
+    test 364 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.2028268316363952e-05
+    test 365 fsum: -1.2028268316363952e-05
+    test 366 Fsum: -1.2028268316363952e-05
+    test 367 Fsum: -1.2028268316363952e-05
+    test 368 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.055232761074095e-16
+    test 369 fsum: -1.055232761074095e-16
+    test 370 Fsum: -1.055232761074095e-16
+    test 371 Fsum: -1.055232761074095e-16
+    test 372 sum: 2.558969886632237e-08  FAILED, KNOWN, expected -0.01242438699844397
+    test 373 fsum: -0.01242438699844397
+    test 374 Fsum: -0.01242438699844397
+    test 375 Fsum: -0.01242438699844397
+    test 376 sum: 0.0  FAILED, KNOWN, expected -1.5811654633457632
+    test 377 fsum: -1.5811654633457632
+    test 378 Fsum: -1.5811654633457632
+    test 379 Fsum: -1.5811654633457632
+    test 380 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.142747572711739e-11
+    test 381 fsum: -2.142747572711739e-11
+    test 382 Fsum: -2.142747572711739e-11
+    test 383 Fsum: -2.142747572711739e-11
+    test 384 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.04495084604543578
+    test 385 fsum: 0.04495084604543578
+    test 386 Fsum: 0.04495084604543578
+    test 387 Fsum: 0.04495084604543578
+    test 388 sum: -1.8e-19  FAILED, KNOWN, expected 0.6661214625887194
+    test 389 fsum: 0.6661214625887194
+    test 390 Fsum: 0.6661214625887194
+    test 391 Fsum: 0.6661214625887194
+    test 392 sum: 7.0  FAILED, KNOWN, expected -1.2803306352485759e-05
+    test 393 fsum: -1.2803306352485759e-05
+    test 394 Fsum: -1.2803306352485759e-05
+    test 395 Fsum: -1.2803306352485759e-05
+    test 396 sum: -7.0  FAILED, KNOWN, expected -2.6057034572128095
+    test 397 fsum: -2.6057034572128095
+    test 398 Fsum: -2.6057034572128095
+    test 399 Fsum: -2.6057034572128095
+    test 400 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.71748630647085e-14
+    test 401 fsum: 2.71748630647085e-14
+    test 402 Fsum: 2.71748630647085e-14
+    test 403 Fsum: 2.71748630647085e-14
+    test 404 sum: 0.2004258856798472  FAILED, KNOWN, expected 3.853236909628358e-14
+    test 405 fsum: 3.853236909628358e-14
+    test 406 Fsum: 3.853236909628358e-14
+    test 407 Fsum: 3.853236909628358e-14
+    test 408 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 0.01816101967078988
+    test 409 fsum: 0.01816101967078988
+    test 410 Fsum: 0.01816101967078988
+    test 411 Fsum: 0.01816101967078988
+    test 412 sum: -2.9272611918937725e-05  FAILED, KNOWN, expected -1.16306766961582e-12
+    test 413 fsum: -1.16306766961582e-12
+    test 414 Fsum: -1.16306766961582e-12
+    test 415 Fsum: -1.16306766961582e-12
+    test 416 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.0006040218453976e-06
+    test 417 fsum: 1.0006040218453976e-06
+    test 418 Fsum: 1.0006040218453976e-06
+    test 419 Fsum: 1.0006040218453976e-06
+    test 420 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.12234957584751456
+    test 421 fsum: -0.12234957584751456
+    test 422 Fsum: -0.12234957584751456
+    test 423 Fsum: -0.12234957584751456
+    test 424 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -2.566980764744839e-06
+    test 425 fsum: -2.566980764744839e-06
+    test 426 Fsum: -2.566980764744839e-06
+    test 427 Fsum: -2.566980764744839e-06
+    test 428 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 9.805367033718356e-08
+    test 429 fsum: 9.805367033718356e-08
+    test 430 Fsum: 9.805367033718356e-08
+    test 431 Fsum: 9.805367033718356e-08
+    test 432 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.3548901408446227e-16
+    test 433 fsum: 2.3548901408446227e-16
+    test 434 Fsum: 2.3548901408446227e-16
+    test 435 Fsum: 2.3548901408446227e-16
+    test 436 sum: -0.1659004313252595  FAILED, KNOWN, expected -7.970912626738573e-11
+    test 437 fsum: -7.970912626738573e-11
+    test 438 Fsum: -7.970912626738573e-11
+    test 439 Fsum: -7.970912626738573e-11
+    test 440 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 259.59449051441004
+    test 441 fsum: 259.59449051441004
+    test 442 Fsum: 259.59449051441004
+    test 443 Fsum: 259.59449051441004
+    test 444 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 6.158318465239412e-07
+    test 445 fsum: 6.158318465239412e-07
+    test 446 Fsum: 6.158318465239412e-07
+    test 447 Fsum: 6.158318465239412e-07
+    test 448 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -80.07310044542078
+    test 449 fsum: -80.07310044542078
+    test 450 Fsum: -80.07310044542078
+    test 451 Fsum: -80.07310044542078
+    test 452 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.545975393912916e-09
+    test 453 fsum: -3.545975393912916e-09
+    test 454 Fsum: -3.545975393912916e-09
+    test 455 Fsum: -3.545975393912916e-09
+    test 456 sum: 25.505205760356446  FAILED, KNOWN, expected -1.3418694582746684
+    test 457 fsum: -1.3418694582746684
+    test 458 Fsum: -1.3418694582746684
+    test 459 Fsum: -1.3418694582746684
+    test 460 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.456079886991477e-09
+    test 461 fsum: -4.456079886991477e-09
+    test 462 Fsum: -4.456079886991477e-09
+    test 463 Fsum: -4.456079886991477e-09
+    test 464 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.4021455032297586e-05
+    test 465 fsum: -3.4021455032297586e-05
+    test 466 Fsum: -3.4021455032297586e-05
+    test 467 Fsum: -3.4021455032297586e-05
+    test 468 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -3.0317747902653355e-08
+    test 469 fsum: -3.0317747902653355e-08
+    test 470 Fsum: -3.0317747902653355e-08
+    test 471 Fsum: -3.0317747902653355e-08
+    test 472 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 5.677940665151743e-14
+    test 473 fsum: 5.677940665151743e-14
+    test 474 Fsum: 5.677940665151743e-14
+    test 475 Fsum: 5.677940665151743e-14
+    test 476 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.009839510520131867
+    test 477 fsum: -0.009839510520131867
+    test 478 Fsum: -0.009839510520131867
+    test 479 Fsum: -0.009839510520131867
+    test 480 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -241.1906568349465
+    test 481 fsum: -241.1906568349465
+    test 482 Fsum: -241.1906568349465
+    test 483 Fsum: -241.1906568349465
+    test 484 sum: 0.0  FAILED, KNOWN, expected -1.0676693233947866e-06
+    test 485 fsum: -1.0676693233947866e-06
+    test 486 Fsum: -1.0676693233947866e-06
+    test 487 Fsum: -1.0676693233947866e-06
+    test 488 sum: 7.0  FAILED, KNOWN, expected -0.00013495338952317648
+    test 489 fsum: -0.00013495338952317648
+    test 490 Fsum: -0.00013495338952317648
+    test 491 Fsum: -0.00013495338952317648
+    test 492 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.010599643268844603
+    test 493 fsum: -0.010599643268844603
+    test 494 Fsum: -0.010599643268844603
+    test 495 Fsum: -0.010599643268844603
+    test 496 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -4.9310293108325974e-11
+    test 497 fsum: -4.9310293108325974e-11
+    test 498 Fsum: -4.9310293108325974e-11
+    test 499 Fsum: -4.9310293108325974e-11
+    test 500 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.006012392177622249
+    test 501 fsum: -0.006012392177622249
+    test 502 Fsum: -0.006012392177622249
+    test 503 Fsum: -0.006012392177622249
+    test 504 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -3.267804369158149e-05
+    test 505 fsum: -3.267804369158149e-05
+    test 506 Fsum: -3.267804369158149e-05
+    test 507 Fsum: -3.267804369158149e-05
+    test 508 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 8.276112619211891e-07
+    test 509 fsum: 8.276112619211891e-07
+    test 510 Fsum: 8.276112619211891e-07
+    test 511 Fsum: 8.276112619211891e-07
+    test 512 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -0.15058768399360875
+    test 513 fsum: -0.15058768399360875
+    test 514 Fsum: -0.15058768399360875
+    test 515 Fsum: -0.15058768399360875
+    test 516 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.026154364614664284
+    test 517 fsum: 0.026154364614664284
+    test 518 Fsum: 0.026154364614664284
+    test 519 Fsum: 0.026154364614664284
+    test 520 sum: 0.07054450768619826  FAILED, KNOWN, expected 0.0076216918013070475
+    test 521 fsum: 0.0076216918013070475
+    test 522 Fsum: 0.0076216918013070475
+    test 523 Fsum: 0.0076216918013070475
+    test 524 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 2.245520692324806e-05
+    test 525 fsum: 2.245520692324806e-05
+    test 526 Fsum: 2.245520692324806e-05
+    test 527 Fsum: 2.245520692324806e-05
+    test 528 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -4.287351565313591e-05
+    test 529 fsum: -4.287351565313591e-05
+    test 530 Fsum: -4.287351565313591e-05
+    test 531 Fsum: -4.287351565313591e-05
+    test 532 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00046465963686189674
+    test 533 fsum: 0.00046465963686189674
+    test 534 Fsum: 0.00046465963686189674
+    test 535 Fsum: 0.00046465963686189674
+    test 536 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -0.020082575298349448
+    test 537 fsum: -0.020082575298349448
+    test 538 Fsum: -0.020082575298349448
+    test 539 Fsum: -0.020082575298349448
+    test 540 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.0760957231134956e-05
+    test 541 fsum: -1.0760957231134956e-05
+    test 542 Fsum: -1.0760957231134956e-05
+    test 543 Fsum: -1.0760957231134956e-05
+    test 544 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.978112068896578e-16
+    test 545 fsum: 1.978112068896578e-16
+    test 546 Fsum: 1.978112068896578e-16
+    test 547 Fsum: 1.978112068896578e-16
+    test 548 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 1.7917460685529193e-09
+    test 549 fsum: 1.7917460685529193e-09
+    test 550 Fsum: 1.7917460685529193e-09
+    test 551 Fsum: 1.7917460685529193e-09
+    test 552 sum: 3.885337784451458e+84  FAILED, KNOWN, expected -163.72524218149806
+    test 553 fsum: -163.72524218149806
+    test 554 Fsum: -163.72524218149806
+    test 555 Fsum: -163.72524218149806
+    test 556 sum: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00016869210092783344
+    test 557 fsum: 0.00016869210092783344
+    test 558 Fsum: 0.00016869210092783344
+    test 559 Fsum: 0.00016869210092783344
+    test 560 sum: -3.885337784451458e+84  FAILED, KNOWN, expected -1.5191083464438494e-11
+    test 561 fsum: -1.5191083464438494e-11
+    test 562 Fsum: -1.5191083464438494e-11
+    test 563 Fsum: -1.5191083464438494e-11
+    test 564 sum: 3.885337784451458e+84  FAILED, KNOWN, expected 2.3285762931950785e-13
+    test 565 fsum: 2.3285762931950785e-13
+    test 566 Fsum: 2.3285762931950785e-13
+    test 567 Fsum: 2.3285762931950785e-13
+    test 568 fmul: 0.00000000
     test 569 fpowers: 10
     test 570 fpowers: 2
     test 571 fpowers: 1024
@@ -15258,7 +15259,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFmath.py
     test 736 fasin1: 0.0000631
     test 737 fatan2: 0.0015047
 
-    117 of 737 testFmath.py tests (15.9%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 26.063 ms
+    117 of 737 testFmath.py tests (15.9%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 25.012 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
 
@@ -15306,7 +15307,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 41 flatLocal1 (0.14%): 298425.999  FAILED, KNOWN, expected 298009.404
     test 42 flatPolar1 (8.67%): 323841.582  FAILED, KNOWN, expected 298009.404
     test 43 thomas1 (0.13%): 298396.261  FAILED, KNOWN, expected 298009.404
-    test 44 hubeny: <function flatLocal at 0x1037a80d0>
+    test 44 hubeny: <function flatLocal at 0x100b78160>
     test 45 haversine2 (0.00%): 98164.988
     test 46 vincentys2 (0.00%): 98164.988
     test 47 cosineAndoyerLambert2 (0.10%): 98071.421  FAILED, KNOWN, expected 98164.988
@@ -15317,7 +15318,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 52 flatLocal2 (0.10%): 98071.693  FAILED, KNOWN, expected 98164.988
     test 53 flatPolar2 (0.57%): 98725.040  FAILED, KNOWN, expected 98164.988
     test 54 thomas2 (0.10%): 98071.535  FAILED, KNOWN, expected 98164.988
-    test 55 hubeny: <function flatLocal at 0x1037a80d0>
+    test 55 hubeny: <function flatLocal at 0x100b78160>
     test 56 haversine3 (0.00%): 651816.987
     test 57 vincentys3 (0.00%): 651816.987
     test 58 cosineAndoyerLambert3 (0.25%): 653456.144  FAILED, KNOWN, expected 651816.987
@@ -15328,7 +15329,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 63 flatLocal3 (0.29%): 653681.559  FAILED, KNOWN, expected 651816.987
     test 64 flatPolar3 (13.00%): 736534.840  FAILED, KNOWN, expected 651816.987
     test 65 thomas3 (0.25%): 653456.933  FAILED, KNOWN, expected 651816.987
-    test 66 hubeny: <function flatLocal at 0x1037a80d0>
+    test 66 hubeny: <function flatLocal at 0x100b78160>
     test 67 haversine4 (0.00%): 4084985.780
     test 68 vincentys4 (0.00%): 4084985.780
     test 69 cosineAndoyerLambert4 (0.24%): 4094954.008  FAILED, KNOWN, expected 4084985.780
@@ -15339,7 +15340,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 74 flatLocal4 (1.51%): 4146513.247  FAILED, KNOWN, expected 4084985.780
     test 75 flatPolar4 (12.31%): 4587896.452  FAILED, KNOWN, expected 4084985.780
     test 76 thomas4 (0.24%): 4094958.301  FAILED, KNOWN, expected 4084985.780
-    test 77 hubeny: <function flatLocal at 0x1037a80d0>
+    test 77 hubeny: <function flatLocal at 0x100b78160>
     test 78 haversine5 (0.00%): 9670051.606
     test 79 vincentys5 (0.00%): 9670051.606
     test 80 cosineAndoyerLambert5 (0.21%): 9690752.610  FAILED, KNOWN, expected 9670051.606
@@ -15350,7 +15351,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 85 flatLocal5 (8.03%): 10446503.342  FAILED, KNOWN, expected 9670051.606
     test 86 flatPolar5 (55.59%): 15045906.074  FAILED, KNOWN, expected 9670051.606
     test 87 thomas5 (0.21%): 9690767.767  FAILED, KNOWN, expected 9670051.606
-    test 88 hubeny: <function flatLocal at 0x1037a80d0>
+    test 88 hubeny: <function flatLocal at 0x100b78160>
     test 89 haversine6 (0.00%): 10496496.577
     test 90 vincentys6 (0.00%): 10496496.577
     test 91 cosineAndoyerLambert6 (0.18%): 10477328.664  FAILED, KNOWN, expected 10496496.577
@@ -15361,7 +15362,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 96 flatLocal6 (3.07%): 10818798.605  FAILED, KNOWN, expected 10496496.577
     test 97 flatPolar6 (23.87%): 13002288.857  FAILED, KNOWN, expected 10496496.577
     test 98 thomas6 (0.18%): 10477316.498  FAILED, KNOWN, expected 10496496.577
-    test 99 hubeny: <function flatLocal at 0x1037a80d0>
+    test 99 hubeny: <function flatLocal at 0x100b78160>
     test 100 haversine7 (0.00%): 8998396.669
     test 101 vincentys7 (0.00%): 8998396.669
     test 102 cosineAndoyerLambert7 (0.27%): 8974227.489  FAILED, KNOWN, expected 8998396.669
@@ -15372,7 +15373,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 107 flatLocal7 (1.71%): 9151831.117  FAILED, KNOWN, expected 8998396.669
     test 108 flatPolar7 (17.56%): 10578638.162  FAILED, KNOWN, expected 8998396.669
     test 109 thomas7 (0.27%): 8974216.867  FAILED, KNOWN, expected 8998396.669
-    test 110 hubeny: <function flatLocal at 0x1037a80d0>
+    test 110 hubeny: <function flatLocal at 0x100b78160>
     test 111 haversine8 (0.00%): 6906867.946
     test 112 vincentys8 (0.00%): 6906867.946
     test 113 cosineAndoyerLambert8 (0.13%): 6916085.969  FAILED, KNOWN, expected 6906867.946
@@ -15383,7 +15384,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 118 flatLocal8 (1.04%): 6978905.097  FAILED, KNOWN, expected 6906867.946
     test 119 flatPolar8 (23.23%): 8511564.321  FAILED, KNOWN, expected 6906867.946
     test 120 thomas8 (0.13%): 6916087.828  FAILED, KNOWN, expected 6906867.946
-    test 121 hubeny: <function flatLocal at 0x1037a80d0>
+    test 121 hubeny: <function flatLocal at 0x100b78160>
     test 122 haversine9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 123 vincentys9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 124 cosineAndoyerLambert9 (0.07%): 8050357.566  FAILED, KNOWN, expected 8044806.076
@@ -15391,7 +15392,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
     test 126 cosineLaw9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 127 flatLocal9 (15.21%): 9268128.573  FAILED, KNOWN, expected 8044806.076
     test 128 thomas9 (0.07%): 8050370.796  FAILED, KNOWN, expected 8044806.076
-    test 129 hubeny: <function flatLocal at 0x1037a80d0>
+    test 129 hubeny: <function flatLocal at 0x100b78160>
 
     test 130 intersections2: pygeodesy.formy
     test 131 intersection2 (None) 1: (1.0003, 1.0003), (-1.0003, -1.0003)
@@ -15424,7 +15425,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFormy.py
 
     test 157 LimitError: delta exceeds limit: equirectangular_(0.0, 0.0, 60.0, 120.0, limit=45)  FAILED, KNOWN, expected delta exceeds ...
 
-    65 of 157 testFormy.py tests (41.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 19.117 ms
+    65 of 157 testFormy.py tests (41.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 17.714 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFrechet.py
 
@@ -15506,7 +15507,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testFrechet.py
     test 75 copy(FrechetDistanceTo): (<class 'pygeodesy.frechet.FrechetDistanceTo'>, True)
     test 76 FrechetDistanceTo.copy(): (<class 'pygeodesy.frechet.FrechetDistanceTo'>, True)
 
-    5 of 76 testFrechet.py tests (6.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.630 sec
+    5 of 76 testFrechet.py tests (6.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.542 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGars.py
 
@@ -15538,11 +15539,11 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGars.py
     test 25 precision: 3  FAILED, KNOWN, expected 2
     test 26 resolution: 5′
 
-    2 of 26 testGars.py tests (7.7%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 771.761 us
+    2 of 26 testGars.py tests (7.7%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 401.974 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeodesicx.py
 
-    testing testGeodesicx.py 21.11.18 (module pygeodesy.geodesicx 21.11.05)
+    testing testGeodesicx.py 21.11.21 (module pygeodesy.geodesicx 21.11.05)
 
     testDirectX vs ...(pygeodesy.geodesicx, 21.11.05)
     test 1 C++.a12: 49.4755274632514  FAILED, KNOWN, expected 49.4755274632515
@@ -15661,7 +15662,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeodesicx.py
     test 96 AddPoints: (4, 29506941, 65690027591346)
     test 97 TestPoint: (5, 29506941, 65690027591346)
 
-    12 of 97 testGeodesicx.py tests (12.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 107.421 ms
+    12 of 97 testGeodesicx.py tests (12.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 95.587 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeohash.py
 
@@ -15817,7 +15818,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeohash.py
     test 149 precision: 13  FAILED, KNOWN, expected 12
     test 150 resolution: 0.00000033527613, 0.0
 
-    2 of 150 testGeohash.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 7.367 ms
+    2 of 150 testGeohash.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 6.999 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeoids.py
 
@@ -17135,7 +17136,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGeoids.py
     213 tests skipped (639): no scipy
     12 tests skipped (651): no scipy
 
-    778 of 1290 testGeoids.py tests (60.3%) FAILED, ALL KNOWN, 651 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 830.270 ms
+    778 of 1290 testGeoids.py tests (60.3%) FAILED, ALL KNOWN, 651 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 752.524 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGreatCircle.py
 
@@ -17205,7 +17206,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.964 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.478 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testHausdorff.py
 
@@ -17415,7 +17416,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testHausdorff.py
     test 203 copy(HausdorffDistanceTo): (<class 'pygeodesy.hausdorff.HausdorffDistanceTo'>, True)
     test 204 HausdorffDistanceTo.copy(): (<class 'pygeodesy.hausdorff.HausdorffDistanceTo'>, True)
 
-    2 of 204 testHausdorff.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 10.148 sec
+    2 of 204 testHausdorff.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 9.949 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testHeights.py
 
@@ -18086,11 +18087,11 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testHeights.py
     test 664 HeightError: llis[0] (9.0): 'float' object has no attribute 'lon'
     80 tests skipped (80): No module named 'scipy': required by heights.HeightLinear
 
-    all 664 testHeights.py tests passed, 80 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 19.979 ms
+    all 664 testHeights.py tests passed, 80 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 18.925 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testInterns.py
 
-    testing testInterns.py 21.08.31 (module pygeodesy.interns 21.11.20)
+    testing testInterns.py 21.08.31 (module pygeodesy.interns 21.11.21)
     test 1 _0_ = '0': True
     test 2 _0_ = '0': 0
     test 3 _0_0 = 0.0: True
@@ -18170,11 +18171,11 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testInterns.py
     test 77 __cached__ = './pygeodesy/__pycache__/interns.cpython-310.pyc': True
     test 78 __doc__ = "Single-instance C{float}.... L{pygeodesy.machine}.\n": True
     test 79 __file__ = './pygeodesy/interns.py': True
-    test 80 __loader__ = <_frozen_importlib_extern....er object at 0x1032de8f0>: False  FAILED, KNOWN, expected True
+    test 80 __loader__ = <_frozen_importlib_extern....er object at 0x10501e8f0>: False  FAILED, KNOWN, expected True
     test 81 __name__ = 'pygeodesy.interns': True
     test 82 __package__ = 'pygeodesy': True
     test 83 __spec__ = ModuleSpec(name='pygeodes....'./pygeodesy/interns.py'): False  FAILED, KNOWN, expected True
-    test 84 __version__ = '21.11.20': True
+    test 84 __version__ = '21.11.21': True
     test 85 __vs__ = ' vs ': True
     test 86 _A_ = 'A': True
     test 87 _A_ = 'A': a
@@ -18540,7 +18541,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testInterns.py
     test 443 _perimeterOf_ = 'perimeterOf': perimeterof
     test 444 _phi_ = 'phi': True
     test 445 _phi_ = 'phi': phi
-    test 446 _platform2 = <function _platform2 at 0x103296200>: True
+    test 446 _platform2 = <function _platform2 at 0x104fd6200>: True
     test 447 _PLUS_ = '+': True
     test 448 _PLUS_ = '+': +  FAILED, KNOWN, expected plus
     test 449 _PLUSMINUS_ = '+-': True
@@ -18663,7 +18664,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testInterns.py
     test 566 _V_ = 'V': v
     test 567 _valid_ = 'valid': True
     test 568 _valid_ = 'valid': valid
-    test 569 _version2 = <function _version2 at 0x1032963b0>: True
+    test 569 _version2 = <function _version2 at 0x104fd63b0>: True
     test 570 _version_ = 'version': True
     test 571 _version_ = 'version': version
     test 572 _vs_ = 'vs': True
@@ -18701,7 +18702,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testInterns.py
     test 604 .fromH.tillJ: HJ
     test 605 .fromN.tillP: NP
 
-    49 of 605 testInterns.py tests (8.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.862 ms
+    49 of 605 testInterns.py tests (8.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.725 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testIters.py
 
@@ -18722,7 +18723,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testIters.py
     test 14 iter: 3
     test 15 re-iter: PointsError('points (0): too few')
 
-    all 15 testIters.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 328.064 us
+    all 15 testIters.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 189.781 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testKarney.py
 
@@ -19020,7 +19021,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testKarney.py
     test 272 unroll(-30, 330): (0.0, -30.0)
     test 273 unroll(-30, 360): (30.0, 0.0)
 
-    111 of 273 testKarney.py tests (40.7%) FAILED, ALL KNOWN, 102 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 98.127 ms
+    111 of 273 testKarney.py tests (40.7%) FAILED, ALL KNOWN, 102 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 92.402 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLatLon.py
 
@@ -20146,7 +20147,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLatLon.py
     test 1098 radii11: Radii11Tuple(rA=7244.792747, rB=1828.106695, rC=2.25502, cR=57792.067128, rIn=57.366968, riS=2.087668, roS=2.443334, a=1830.361715, b=7247.047766, c=9072.899442, s=9075.154461)
     22 tests skipped (240): No module named 'numpy': required by vector2d.circum4_
 
-    69 of 1098 testLatLon.py tests (6.3%) FAILED, ALL KNOWN, 240 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 393.775 ms
+    69 of 1098 testLatLon.py tests (6.3%) FAILED, ALL KNOWN, 240 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 378.222 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLatLonBases.py
 
@@ -20460,7 +20461,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLatLonBases.py
     test 285 phimlam: PhiLam2Tuple(phi=0.898457, lam=-0.000028)
     test 286 phimlamheight: PhiLam3Tuple(phi=0.898457, lam=-0.000028, height=42.0)
 
-    all 286 testLatLonBases.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.723 ms
+    all 286 testLatLonBases.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.039 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
 
@@ -20515,8 +20516,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 48 bearing: function
     test 49 Bearing: class
     test 50 Bearing2Tuple: class
-    test 51 bearing_: function
-    test 52 Bearing_: class
+    test 51 Bearing_: class
+    test 52 bearing_: function
     test 53 bearingDMS: function
     test 54 Bool: class
     test 55 bounds: function
@@ -20583,10 +20584,10 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 116 CSSError: class
     test 117 Curvature2Tuple: class
     test 118 date2epoch: function
-    test 119 datum: module
-    test 120 Datum: class
-    test 121 datums: module
-    test 122 Datums: class pygeodesy.datums.Datums
+    test 119 Datum: class
+    test 120 datum: module
+    test 121 Datums: class pygeodesy.datums.Datums
+    test 122 datums: module
     test 123 decodeEPSG2: function
     test 124 degDMS: function
     test 125 degrees: class builtin_function_or_method
@@ -20602,8 +20603,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 135 deprecated_class: function
     test 136 deprecated_function: function
     test 137 deprecated_method: function
-    test 138 deprecated_property_RO: function
-    test 139 deprecated_Property_RO: function
+    test 138 deprecated_Property_RO: function
+    test 139 deprecated_property_RO: function
     test 140 DeprecationWarnings: function
     test 141 Destination2Tuple: class
     test 142 Destination3Tuple: class
@@ -20741,12 +20742,12 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 274 fatan2: function
     test 275 fathom2m: function
     test 276 favg: function
-    test 277 fdot: function
-    test 278 Fdot: class
+    test 277 Fdot: class
+    test 278 fdot: function
     test 279 fdot3: function
     test 280 Feet: class
-    test 281 fhorner: function
-    test 282 Fhorner: class
+    test 281 Fhorner: class
+    test 282 fhorner: function
     test 283 fidw: function
     test 284 FIx: class
     test 285 flatLocal: function
@@ -20789,10 +20790,10 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 322 FrechetVincentys: class
     test 323 freduce: class builtin_function_or_method
     test 324 Frustum: class
-    test 325 fstr: function
-    test 326 fStr: function
-    test 327 fstrzs: function
-    test 328 fStrzs: function
+    test 325 fStr: function
+    test 326 fstr: function
+    test 327 fStrzs: function
+    test 328 fstrzs: function
     test 329 fsum: class builtin_function_or_method
     test 330 Fsum: class
     test 331 fsum1: function
@@ -20813,8 +20814,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 346 geodesicx: module
     test 347 geodsolve: module
     test 348 GeodSolve12Tuple: class
-    test 349 Geohash: class
-    test 350 geohash: module
+    test 349 geohash: module
+    test 350 Geohash: class
     test 351 GeohashError: class
     test 352 GeoidError: class
     test 353 GeoidG2012B: class
@@ -20839,8 +20840,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 372 gxline: module
     test 373 halfs2: function
     test 374 hartzell: function
-    test 375 Hausdorff: class
-    test 376 hausdorff: module
+    test 375 hausdorff: module
+    test 376 Hausdorff: class
     test 377 Hausdorff6Tuple: class
     test 378 hausdorff_: function
     test 379 HausdorffCosineAndoyerLambert: class
@@ -20897,8 +20898,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 430 hypot3: function
     test 431 hypot_: class builtin_function_or_method
     test 432 INF: float
-    test 433 instr: function
-    test 434 inStr: function
+    test 433 inStr: function
+    test 434 instr: function
     test 435 Int: class
     test 436 Int_: class
     test 437 interns: module
@@ -21054,8 +21055,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 587 opposing: function
     test 588 opposing_: function
     test 589 Orthographic: class
-    test 590 Osgr: class
-    test 591 osgr: module
+    test 590 osgr: module
+    test 591 Osgr: class
     test 592 OSGRError: class
     test 593 pairs: function
     test 594 parse3d: function
@@ -21104,8 +21105,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 637 printf: function
     test 638 Property: class
     test 639 property_doc_: function
-    test 640 Property_RO: class
-    test 641 property_RO: class
+    test 640 property_RO: class
+    test 641 Property_RO: class
     test 642 props: module
     test 643 pygeodesy_abspath: str
     test 644 quadOf: function
@@ -21118,8 +21119,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 651 R_NM: float
     test 652 R_SM: float
     test 653 R_VM: float
-    test 654 radians: class builtin_function_or_method
-    test 655 Radians: class
+    test 654 Radians: class
+    test 655 radians: class builtin_function_or_method
     test 656 Radians2: class
     test 657 radians2m: function
     test 658 Radians_: class
@@ -21147,8 +21148,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 680 S_RAD: str
     test 681 S_SEC: str
     test 682 S_SEP: str
-    test 683 scalar: function
-    test 684 Scalar: class
+    test 683 Scalar: class
+    test 684 scalar: function
     test 685 Scalar_: class
     test 686 SciPyError: class
     test 687 SciPyWarning: class
@@ -21229,13 +21230,13 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 762 unsign0: function
     test 763 unstr: function
     test 764 unStr: function
-    test 765 ups: module
-    test 766 Ups: class
+    test 765 Ups: class
+    test 766 ups: module
     test 767 UPSError: class
     test 768 upsZoneBand5: function
     test 769 utily: module
-    test 770 Utm: class
-    test 771 utm: module
+    test 770 utm: module
+    test 771 Utm: class
     test 772 UTMError: class
     test 773 UtmUps: function
     test 774 utmups: module
@@ -21252,8 +21253,8 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 785 utmZoneBand5: function
     test 786 vector2d: module
     test 787 Vector2Tuple: class
-    test 788 vector3d: module
-    test 789 Vector3d: class
+    test 788 Vector3d: class
+    test 789 vector3d: module
     test 790 Vector3Tuple: class
     test 791 Vector4Tuple: class
     test 792 VectorError: class
@@ -21287,7 +21288,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLazily.py
     test 820 PYGEODESY_LAZY_IMPORT=3: 0
     test 821 PYGEODESY_LAZY_IMPORT=4: 0
 
-    all 821 testLazily.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 260.419 ms
+    all 821 testLazily.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 238.281 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLcc.py
 
@@ -21427,7 +21428,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLcc.py
     test 125 _SnyderV .latlon0: (23.0, -96.0)
     test 126 _SnyderV .philam0: (0.401426, -1.675516)
 
-    all 126 testLcc.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.748 ms
+    all 126 testLcc.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.218 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLtp.py
 ./pygeodesy/deprecated/__init__.py:61: DeprecationWarning: class L{pygeodesy.deprecated.EcefCartesian} has been DEPRECATED, use class L{LocalCartesian}.
@@ -21930,7 +21931,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLtp.py
     test 440 tyr3d: (0.0, -2.0, 0.0)
     test 441 tyr3d: (0.0, 0.0, -2.0)
 
-    46 of 441 testLtp.py tests (10.4%) FAILED, incl. 36 KNOWN plus 10 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 14.274 ms
+    46 of 441 testLtp.py tests (10.4%) FAILED, incl. 36 KNOWN plus 10 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 13.079 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLtpTuples.py
 
@@ -22077,7 +22078,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testLtpTuples.py
     test 135 Local9Tuple.philam: 0.803, 0.135
     test 136 Local9Tuple.philamheight: 0.803, 0.135, 1773.0
 
-    all 136 testLtpTuples.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.932 ms
+    all 136 testLtpTuples.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.034 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testMgrs.py
 
@@ -22127,7 +22128,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testMgrs.py
     test 43 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 44 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    1 of 44 testMgrs.py tests (2.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.828 ms
+    1 of 44 testMgrs.py tests (2.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.538 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testModules.py
 
@@ -23459,11 +23460,11 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testModules.py
     test 1263 geoids.PGMError() class: True
     test 1264 geoids.egmGeoidHeights() function: True
 
-    testModule(pygeodesy.geodesicx.gx, 21.11.05)
+    testModule(pygeodesy.geodesicx.gx, 21.11.21)
 
     testModule(pygeodesy.geodesicx.gxarea, 21.06.30)
 
-    testModule(pygeodesy.geodesicx.gxline, 21.11.05)
+    testModule(pygeodesy.geodesicx.gxline, 21.11.21)
 
     testModule(pygeodesy.hausdorff, 21.10.05)
     test 1265 hausdorff.Hausdorff() class: True
@@ -23508,7 +23509,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testModules.py
     test 1302 heights.HeightLinear() class: True
     test 1303 heights.HeightSmoothBiSpline() class: True
 
-    testModule(pygeodesy.interns, 21.11.20)
+    testModule(pygeodesy.interns, 21.11.21)
     test 1304 interns.DIG int: True
     test 1305 interns.EPS float: True
     test 1306 interns.EPS0 float: True
@@ -24633,7 +24634,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testModules.py
     test 2367 wrapPI_2() function: True
     test 2368 yard2m() function: True
 
-    all 2368 testModules.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 9.098 ms
+    all 2368 testModules.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 8.306 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNamed.py
 
@@ -24648,7 +24649,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNamed.py
     test 6 _Named 'Test': Test
     test 7 _Named 'Test': Test
     test 8 _Named 'Test': _Named 'Test'
-    test 9 _Named 'Test': <_Named 'Test' at 0x103001120>  FAILED, KNOWN, expected _Named 'Test'
+    test 9 _Named 'Test': <_Named 'Test' at 0x100e95120>  FAILED, KNOWN, expected _Named 'Test'
     test 10 _Named 'Test': 
 
     testing _NamedBase() (pygeodesy.named, 21.10.05)
@@ -25639,7 +25640,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNamed.py
     test 847 Transforms: 0
     test 848 nameof: KsOrder
 
-    5 of 848 testNamed.py tests (0.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 19.250 ms
+    5 of 848 testNamed.py tests (0.6%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 16.934 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNamedTuples.py
 ./pygeodesy/ellipsoidalNvector.py:492: DeprecationWarning: class L{pygeodesy.ellipsoidalNvector.Ned3Tuple} has been 3-Tuple C{(north, east, down)}. DEPRECATED, use L{pygeodesy.Ned4Tuple}.
@@ -26386,7 +26387,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNamedTuples.py
     test 736 pygeodesy.webmercator, EasNorRadius3Tuple._validated: True
     test 737 pygeodesy.named, _NamedTuple._validated: False
 
-    2 of 737 testNamedTuples.py tests (0.3%) FAILED, incl. 2 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 9.220 ms
+    2 of 737 testNamedTuples.py tests (0.3%) FAILED, incl. 2 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 7.449 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNavlabExamples.py
 ./pygeodesy/ellipsoidalNvector.py:462: DeprecationWarning: class L{pygeodesy.ellipsoidalNvector.Ned} has been DEPRECATED, use L{pygeodesy.Ned}.
@@ -26459,7 +26460,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testNavlabExamples
     test 32 length: 116809.178
     test 33 toVector3d: (-86126.6, -78901.1, -1104.1)
 
-    19 of 33 testNavlabExamples.py tests (57.6%) FAILED, incl. 2 KNOWN plus 17 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 5.819 ms
+    19 of 33 testNavlabExamples.py tests (57.6%) FAILED, incl. 2 KNOWN plus 17 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.549 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testOsgr.py
 ./test/testOsgr.py:24: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
@@ -26817,7 +26818,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testOsgr.py
     test 327 datum: WGS84
     test 328 distanceTo: 0.0015  FAILED, KNOWN, expected 0.0050
 
-    32 of 328 testOsgr.py tests (9.8%) FAILED, incl. 24 KNOWN plus 8 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 14.951 ms
+    32 of 328 testOsgr.py tests (9.8%) FAILED, incl. 24 KNOWN plus 8 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 13.587 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testPoints.py
 
@@ -27396,7 +27397,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testPoints.py
     testArea(pygeodesy.ellipsoidalExact, 21.10.19)
     test 555 luneOf: 1.27516405431022e+14
 
-    8 of 555 testPoints.py tests (1.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 49.193 ms
+    8 of 555 testPoints.py tests (1.4%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 41.661 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testProps.py
 
@@ -27440,7 +27441,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testProps.py
     test 33 Z1: invalid Property: Z.deleter Z
     test 34 Z2: invalid Property: Z.getter Z
 
-    all 34 testProps.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 630.140 us
+    all 34 testProps.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 309.944 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testResections.py
 
@@ -27480,7 +27481,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testResections.py
     test 31 wildberger3: (567.480866, 847.344375, 832.446688)
     test 32 wildberger3: (4064.197313, 3652.539342, 4988.197355)
 
-    all 32 testResections.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.545 ms
+    all 32 testResections.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.026 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testRoutes.py
 ./test/testRoutes.py:17099: DeprecationWarning: function L{pygeodesy.ellipsoidalVincenty.areaOf} has been DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
@@ -27632,47 +27633,47 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testRoutes.py
     test 89 isclockwise('_JFK_LHR1', adjust=False, wrap=True): 0.000
     test 90 isclockwise('_JFK_LHR2', adjust=False, wrap=True): 0.000
 
-    41 of 90 testRoutes.py tests (45.6%) FAILED, incl. 13 KNOWN plus 28 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.306 sec
+    41 of 90 testRoutes.py tests (45.6%) FAILED, incl. 13 KNOWN plus 28 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.264 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testSimplify.py
 
     testing testSimplify.py 20.04.06 (module pygeodesy.simplify 21.10.05)
-    test 1 simplify1(16614, adjust=True) 1m (26.545 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (28.261 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (28.927 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (40.674 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (59.251 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (64.126 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (53.555 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (58.317 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (58.766 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (23.178 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (51.999 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (15.900 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (414.987 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (414.711 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (203.543 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (360.934 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (361.480 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (97.659 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (7.772 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (5.963 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (31.311 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (32.068 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (15.623 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (28.386 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (7.593 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (12.426 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (248.194 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (635.862 us): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (184.059 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (273.228 us): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (340.939 us): 45
-    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (21.935 us): 5
-    test 33 simplifyVW(5, adjust=False, attr='name') 30m (20.981 us): 5
+    test 1 simplify1(16614, adjust=True) 1m (23.896 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (27.190 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (27.510 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (38.797 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (56.353 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (60.733 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (51.562 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (55.856 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (56.605 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (21.999 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (50.854 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (15.357 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (407.186 ms): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (408.750 ms): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (198.913 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (353.764 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (354.313 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (94.020 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (7.382 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (5.874 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (30.586 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (31.505 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (15.210 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (27.572 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (7.359 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (12.053 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (221.014 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (628.948 us): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (173.807 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (267.029 us): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (331.163 us): 45
+    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (20.027 us): 5
+    test 33 simplifyVW(5, adjust=False, attr='name') 30m (18.835 us): 5
     test 34 no module: numpy
 
-    all 34 testSimplify.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.507 sec
+    all 34 testSimplify.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 2.444 sec
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testSpherical.py
 
@@ -28287,19 +28288,19 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testSpherical.py
     test 593 intersections2 (pygeodesy.sphericalTrigonometry) 60: 0.258708 (% of radius)
     test 594 intersections2 (pygeodesy.sphericalTrigonometry) 65: 27.163786°S, 167.475402°E abutting
     test 595 intersections2 (pygeodesy.sphericalTrigonometry) 65: 0.457099 (% of radius)
-    test 596 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W Random +/- 89
-    test 597 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 45.612764°N, 000.947711°E  d 4.67282e-09 meter
-    test 598 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 32.252819°N, 027.407537°W  d 3.58803e-09 meter
-    test 599 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 47.627129°N, 077.632371°E  d 3.83146e-09 meter
-    test 600 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 35.79308°N, 029.512356°W  d 9.40199e-09 meter
-    test 601 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 49.0563°N, 017.925589°W  d 1.52075e-08 meter
-    test 602 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 51.616592°S, 170.794264°W  d 5.39259e-09 meter
-    test 603 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 33.192518°N, 002.427421°W  d 3.71892e-09 meter
-    test 604 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 29.808781°N, 059.409374°E  d 2.0064e-09 meter
-    test 605 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 65.268469°N, 140.940693°E  d 2.86819e-09 meter
-    test 606 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 29.997409°N, 076.122709°W  d 7.13354e-09 meter
-    test 607 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 38.743861°N, 072.04139°W  d 2.58364e-09 meter
-    test 608 intersections2 (pygeodesy.sphericalTrigonometry): 36.628621°N, 020.131283°W, 21.521268°N, 146.49682°W  d 4.8542e-09 meter
+    test 596 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E Random +/- 89
+    test 597 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 45.001289°N, 081.076579°E  d 2.67235e-09 meter
+    test 598 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 59.405302°N, 146.107719°E  d 1.73607e-09 meter
+    test 599 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 68.590683°N, 072.279063°E  d 5.06373e-08 meter
+    test 600 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 64.955531°N, 119.391896°W  d 8.84388e-10 meter
+    test 601 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 61.817027°N, 026.102437°W  d 2.67235e-09 meter
+    test 602 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 72.600585°N, 063.269069°E  d 1.28554e-08 meter
+    test 603 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 79.199217°N, 121.106878°E  d 3.96359e-09 meter
+    test 604 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 64.927041°N, 083.74313°W  d 3.53755e-09 meter
+    test 605 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 10.98316°N, 078.494329°E  d 3.4033e-09 meter
+    test 606 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 71.760853°N, 070.715754°E  d 2.50904e-06 meter
+    test 607 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 64.12867°S, 173.792585°W  d 2.67235e-09 meter
+    test 608 intersections2 (pygeodesy.sphericalTrigonometry): 71.785069°N, 070.422469°E, 24.40535°N, 130.545563°E  d 2.67235e-09 meter
     test 609 trilaterate5 (pygeodesy.sphericalTrigonometry) .min: 313.671
     test 610 trilaterate5 (pygeodesy.sphericalTrigonometry) .point: 42.66937229°N, 002.48639477°E
     test 611 trilaterate5 (pygeodesy.sphericalTrigonometry) .max: 1591.044
@@ -28385,7 +28386,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testSpherical.py
     test 691 nearestOn3: 01.5°N, 001.5°E, +149.99m
     test 692 midpointTo: 01.5°N, 001.5°E, +150.00m
 
-    28 of 692 testSpherical.py tests (4.0%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 39.440 ms
+    28 of 692 testSpherical.py tests (4.0%) FAILED, ALL KNOWN, 71 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 36.303 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testStreprs.py
 
@@ -28456,14 +28457,14 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testStreprs.py
     test 64 g: 0.001
     test 65 g: 0.001
 
-    all 65 testStreprs.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 499.964 us
+    all 65 testStreprs.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 367.880 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testTMcoords.py
 
     testing testTMcoords.py 19.05.23
     test 1 TMcoords: 258
 
-    all 1 testTMcoords.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 72.002 us
+    all 1 testTMcoords.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 47.922 us
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testTrf.py
 ./test/testTrf.py:29: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertRefFrame} has been DEPRECATED, use method L{toRefFrame}.
@@ -28775,7 +28776,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testTrf.py
     test 152 Epoch (2020.916): (2020, 12, 1)
     test 153 Epoch (2021.001): (2021, 1, 1)  FAILED, KNOWN, expected (2020, 13, 1)
 
-    78 of 153 testTrf.py tests (51.0%) FAILED, incl. 6 KNOWN plus 72 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 6.049 ms
+    78 of 153 testTrf.py tests (51.0%) FAILED, incl. 6 KNOWN plus 72 DeprecationWarnings (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 5.334 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUnits.py
 
@@ -29853,7 +29854,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUnits.py
     test 993 FIx: 1.0  FAILED, KNOWN, expected 1
     test 994 FIx: 1.5
 
-    10 of 994 testUnits.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 6.724 ms
+    10 of 994 testUnits.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 5.815 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUps.py
 
@@ -29930,7 +29931,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUps.py
     test 70 NGA-10.3-24: -70.0552944014 26.5650511771
     test 71 NGA-10.3-25: -64.9164123332 45.0
 
-    2 of 71 testUps.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.853 ms
+    2 of 71 testUps.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.242 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtily.py
 
@@ -30086,7 +30087,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtily.py
     test 149 isPoints2: False
     test 150 tan_2_semi: PI[1] edge (3.141592): semi-circular
 
-    5 of 150 testUtily.py tests (3.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.471 ms
+    5 of 150 testUtily.py tests (3.3%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.012 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtm.py
 
@@ -30191,7 +30192,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtm.py
     test 98 repr: [Z:32U, H:N, E:280000, N:5653000]
     test 99 E.N.: (280000.0, 5653000.0)
 
-    2 of 99 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 6.460 ms
+    2 of 99 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 5.536 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmTMcoords.py
 
@@ -31566,7 +31567,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmTMcoords.py
     test 1331 Utm.datum.ellipsoid.KsOrder: 8
     test 1332 WGS84.KsOrder: 8
 
-    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 29.130 ms
+    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 27.928 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmUps.py
 
@@ -31669,7 +31670,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmUps.py
     test 96 parseUTMUPS5: (31, 'N', 446000.0, 8436100.0, 'X')
     test 97 parseUTMUPS5: (0, 'S', 506346.0, 1057743.0, 'A')
 
-    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 4.732 ms
+    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 3.183 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmUpsTMcoords.py
 
@@ -33047,7 +33048,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testUtmUpsTMcoords
     test 1334 Ups.datum.ellipsoid.KsOrder: 8
     test 1335 WGS84.KsOrder: 8
 
-    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 33.006 ms
+    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 31.335 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testVectorial.py
 
@@ -33241,7 +33242,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testVectorial.py
     test 140 (-2, 17): <class 'pygeodesy.errors.IntersectionError'>
     test 141 (49, 25): (Vector3d(49.0, 25.0, 0.0), 0, 0)
 
-    2 of 141 testVectorial.py tests (1.4%) FAILED, ALL KNOWN, 151 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 16.631 ms
+    2 of 141 testVectorial.py tests (1.4%) FAILED, ALL KNOWN, 151 skipped (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 14.755 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testWebMercator.py
 
@@ -33320,7 +33321,7 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testWebMercator.py
     test 72 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 73 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 73 testWebMercator.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.446 ms
+    all 73 testWebMercator.py tests passed (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.033 ms
 
 running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testWgrs.py
 
@@ -33398,6 +33399,6 @@ running /usr/local/bin/p....on3.10 -W always ~/PyGeodesy/test/testWgrs.py
     test 71 precision: 12  FAILED, KNOWN, expected 11
     test 72 resolution: 0.0000000001′
 
-    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 1.225 ms
+    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W  always) 958.204 us
 
-test/run.py /usr/local/bin/p....on3.10 -W always all 31736 tests OK (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W always) 40.499 sec (783.619 tps)
+test/run.py /usr/local/bin/p....on3.10 -W always all 31737 tests OK (PyGeodesy 21.11.21 Python 3.10.0 64bit arm64 geographiclib 1.52 macOS 12.0.1 isLazy 0 -B -W always) 38.116 sec (832.634 tps)

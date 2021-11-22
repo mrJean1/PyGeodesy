@@ -48,20 +48,19 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.11.05'
+__version__ = '21.11.21'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact}
 
 
 def _update_glXs(gX_glX):  # see .C4Order, ._ef_reset, .GdistDirect
-    '''(INTERNAL) Zap cached/memoized C{Property}s or remove.
+    '''(INTERNAL) Zap cached/memoized C{Property}s or append.
     '''
-    if _glXs:  # can become empty, even None
-        if isinstance(gX_glX, _GeodesicLineExact):
-            _glXs.remove(gX_glX)  # most recent
-        else:  # PYCHOK no cover
-            for glX in _glXs:  # XXX use weakref
-                glX._update(glX._gX is gX_glX)
+    if isinstance(gX_glX, _GeodesicLineExact):
+        _glXs.append(gX_glX)  # most recent
+    elif _glXs:  # PYCHOK no cover
+        for glX in _glXs:  # XXX use weakref
+            glX._update(glX._gX is gX_glX)
 
 
 class _GeodesicLineExact(_GeodesicBase):
@@ -137,17 +136,16 @@ class _GeodesicLineExact(_GeodesicBase):
         # norm2(somg1, comg1)  # no need to normalize!
         # norm2(schi1?, cchi1)  # no need to normalize!
 
-        _glXs.append(self)
         # no need to pre-compute other attrs based on _Caps.X.  All are
         # Property_RO's, computed once and cached/memoized until reset
         # when C4Order is changed or Elliptic function reset.
 
     def __del__(self):  # XXX use weakref?
-        while _glXs:  # may be None
+        if _glXs:  # may be None
             try:  # PYCHOK no cover
                 _glXs.remove(self)
-            except ValueError:
-                break
+            except (TypeError, ValueError):
+                pass
         _update_all(self)
         self._gX = None
 

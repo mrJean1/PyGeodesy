@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.11.05'
+__version__ = '21.11.21'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1089,9 +1089,7 @@ class GeodesicExact(_GeodesicBase):
     def _Line(self, lat1, lon1, azi1, caps):  # for .azimuthal._GnomonicBase.reverse
         '''(INTERNAL) Get a temporary L{GeodesicLineExact} instance.
         '''
-        glX = _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
-        _update_glXs(glX)  # remove glX from .gxline._glXs list
-        return glX
+        return _GeodesicLineExact(self, lat1, lon1, azi1, caps, self._debug)
 
     @Property_RO
     def n(self):
@@ -1253,6 +1251,7 @@ class GeodesicLineExact(_GeodesicLineExact):
         _xinstanceof(GeodesicExact, geodesic=geodesic)
 
         _GeodesicLineExact.__init__(self, geodesic, lat1, lon1, azi1, caps, 0, name=name)
+        _update_glXs(self)  # append this glX to the .gxline._glXs list
 
 
 def _Astroid(x, y):
