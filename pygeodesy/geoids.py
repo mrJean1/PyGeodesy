@@ -19,21 +19,22 @@ a C{geoid} model file, I{specific to the interpolator}, more details below
 and in the documentation of the interpolator class.  For each interpolator,
 there are several interpolation choices, like I{linear}, I{cubic}, etc.
 
-B{Typical usage} is one of the following.
+Typical usage
+=============
 
-First, choose one of the interpolator classes L{GeoidG2012B}, L{GeoidKarney}
+1. Choose one of the interpolator classes L{GeoidG2012B}, L{GeoidKarney}
 or L{GeoidPGM} and download a C{geoid} model file, containing locations with
 known heights also referred to as the C{grid knots}.  See the documentation
 of interpolator class for references to available C{grid} models.
 
 C{>>> from pygeodesy import GeoidG2012B  # or -Karney or -PGM as GeoidXyz}
 
-Next, instantiate an interpolator with the C{geoid} model file and use keyword
-arguments to select different interpolation options.
+2. Instantiate an interpolator with the C{geoid} model file and use keyword
+arguments to select different interpolation options
 
 C{>>> ginterpolator = GeoidXyz(geoid_model_file, **options)}
 
-Then, get the interpolated geoid height of one or several C{LatLon}
+3. Get the interpolated geoid height of one or several C{LatLon}
 location(s) with
 
 C{>>> h = ginterpolator(ll)}
@@ -42,19 +43,19 @@ or
 
 C{>>> h0, h1, h2, ... = ginterpolator(ll0, ll1, ll2, ...)}
 
-or
+or a list, tuple, generator, etc. of C{LatLon}s
 
-C{>>> hs = ginterpolator(lls)  # list, tuple, generator, ...}
+C{>>> hs = ginterpolator(lls)}
 
-For separate lat- and longitudes invoke the C{.height} method as
+4. For separate lat- and longitudes invoke the C{.height} method as
 
 C{>>> h = ginterpolator.height(lat, lon)}
 
-or as
+or as 2 lists, tuple, etc.
 
-C{>>> h0, h1, h2, ... = ginterpolator.height(lats, lons)  # lists, tuples, ...}
+C{>>> hs = ginterpolator.height(lats, lons)}
 
-For an actual example, see U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>}.
+5. An example is in U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>}.
 
 @note: Classes L{GeoidG2012B} and L{GeoidPGM} require both U{numpy
        <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
@@ -110,7 +111,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.11.22'
+__version__ = '21.11.25'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

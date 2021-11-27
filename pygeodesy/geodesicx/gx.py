@@ -36,32 +36,31 @@ from __future__ import division
 # - a 12 suffix means a difference, e.g., s12 = s2 - s1.
 # - s and c prefixes mean sin and cos
 
-from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsign0
-from pygeodesy.datums import _ellipsoidal_datum
-from pygeodesy.ellipsoids import Ellipsoid2, Ellipsoids
+from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsigned0
+from pygeodesy.datums import _ellipsoidal_datum, Ellipsoid2, Ellipsoids
+# from pygeodesy.ellipsoids import Ellipsoid2, Ellipsoids  # from .datums
 from pygeodesy.fmath import cbrt, fsum_, hypot, norm2
 from pygeodesy.geodesicx.gxbases import _ALL_DOCS, Caps, _coSeries, \
                                         _GeodesicBase, _polynomial, \
                                         _sincos12, _TINY, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, pairs, \
                                        _update_glXs
-from pygeodesy.interns import EPS, MANT_DIG, NAN, NN, PI, PI_2, \
-                             _COMMASPACE_, _convergence_, _EPSqrt, \
-                             _no_, _0_0, _0_01, _0_5, _1_0, _N_1_0, \
-                             _2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
+from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
+                             _COMMASPACE_, _convergence_, _EPSqrt, _no_, \
+                             _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, \
+                             _N_1_0, _2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
                              _90_0, _180_0, _1000_0
-from pygeodesy.interns import _0_001, _0_1  # PYCHOK used!
-from pygeodesy.karney import _around, GDict, GeodesicError, \
-                             _diff182, _fix90, _norm180
+from pygeodesy.karney import _around, GDict, GeodesicError, _diff182, \
+                             _fix90, _norm180, Property, Property_RO
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import Property, Property_RO
+# from pygeodesy.props import Property, Property_RO  # from .karney
 # from pygeodesy.streprs import pairs  # from .geodesicx.gxline
 from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.11.22'
+__version__ = '21.11.26'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -72,14 +71,33 @@ _1_75    =  1.75
 # case 52.784459512564 0 -52.784459512563990912 179.634407464943777557
 # which otherwise failed for Visual Studio 10 (Release and Debug)
 _TOL0 =  EPS
-_TOL1 = _TOL0 *  200
+_TOL1 = _TOL0 * -200  # negative
 _TOL2 = _EPSqrt  # == sqrt(_TOL0)
+_TOL3 = _TOL2 * _0_1
 _TOLb = _TOL2 * _TOL0  # Check on bisection interval
 _THR1 = _TOL2 * _1000_0 + _1_0
 
 _TINY3  = _TINY *  _3_0
 _TOL08  = _TOL0 *  _8_0
 _TOL016 = _TOL0 * _16_0
+
+
+def _eTOL2(f):
+    # Using the auxiliary sphere solution with dnm computed at
+    # (bet1 + bet2) / 2, the relative error in the azimuth
+    # consistency check is sig12^2 * abs(f) * min(1, 1-f/2) / 2.
+    # (Error measured for 1/100 < b/a < 100 and abs(f) >= 1/1000.
+
+    # For a given f and sig12, the max error occurs for lines
+    # near the pole.  If the old rule for computing dnm = (dn1
+    # + dn2)/2 is used, then the error increases by a factor of
+    # 2.)  Setting this equal to epsilon gives sig12 = etol2.
+
+    # Here 0.1 is a safety factor (error decreased by 100) and
+    # max(0.001, abs(f)) stops etol2 getting too large in the
+    # nearly spherical case.
+    t = min(_1_0, _1_0 - f * _0_5) * max(_0_001, abs(f)) * _0_5
+    return _TOL3 / (sqrt(t) if t > EPS02 else EPS0)
 
 
 class _PDict(GDict):
@@ -425,20 +443,7 @@ class GeodesicExact(_GeodesicBase):
     def _eTOL2(self):
         '''(INTERNAL) The si12 threshold for "really short".
         '''
-        # Using the auxiliary sphere solution with dnm computed at
-        # (bet1 + bet2) / 2, the relative error in the azimuth
-        # consistency check is sig12^2 * abs(f) * min(1, 1-f/2) / 2.
-        # (Error measured for 1/100 < b/a < 100 and abs(f) >= 1/1000.
-        # For a given f and sig12, the max error occurs for lines
-        # near the pole.  If the old rule for computing dnm = (dn1
-        # + dn2)/2 is used, then the error increases by a factor of
-        # 2.)  Setting this equal to epsilon gives sig12 = etol2.
-        # Here 0.1 is a safety factor (error decreased by 100) and
-        # max(0.001, abs(f)) stops etol2 getting too large in the
-        # nearly spherical case.
-        f = self.f
-        return _0_1 * _TOL2 / sqrt(min(_1_0, _1_0 - f * _0_5) *
-                                   max(_0_001, abs(f)) * _0_5)
+        return _eTOL2(self.f)
 
     @Property_RO
     def f(self):
@@ -470,7 +475,7 @@ class GeodesicExact(_GeodesicBase):
         glX = self._LineTemp(lat1, lon1, azi1, outmask)
         return glX._GDictPosition(arcmode, s12_a12, outmask)
 
-    def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):  # MCCABE 32, 41 vars
+    def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):  # MCCABE 33, 41 vars
         '''(INTERNAL) As C{_GenInverse}, but returning a L{GDict}.
 
            @return: A L{GDict} ...
@@ -612,8 +617,8 @@ class GeodesicExact(_GeodesicBase):
                     if (outmask & Caps.GEODESICSCALE):
                         if swap_:
                             M12, M21 = M21, M12
-                        r.set_(M12=unsign0(M12),
-                               M21=unsign0(M21))
+                        r.set_(M12=unsigned0(M12),
+                               M21=unsigned0(M21))
                     C = 3  # Newton
                 else:
                     C = 4  # Short lines, _Inverse6 set salp2, calp2, dnm
@@ -636,10 +641,10 @@ class GeodesicExact(_GeodesicBase):
             return r  # for .Inverse1
 
         if (outmask & Caps.DISTANCE):
-            r.set_(s12=unsign0(s12x))
+            r.set_(s12=unsigned0(s12x))
 
         if (outmask & Caps.REDUCEDLENGTH):
-            r.set_(m12=unsign0(m12x))
+            r.set_(m12=unsigned0(m12x))
 
         if (outmask & Caps.AREA):
             S12 = self._InverseArea(_meridian, salp1, calp1,
@@ -647,7 +652,7 @@ class GeodesicExact(_GeodesicBase):
                                                somg12, comg12, p)
             if _xor(swap_, lat_, lon_):
                 S12 = -S12
-            r.set_(S12=unsign0(S12))
+            r.set_(S12=unsigned0(S12))
 
         if swap_:
             salp1, salp2 = salp2, salp1
@@ -881,23 +886,25 @@ class GeodesicExact(_GeodesicBase):
             # Scale lam12 and bet2 to x, y coordinate system where antipodal
             # point is at origin and singular point is at y = 0, x = -1
             lam12x = atan2(-p.slam12, -p.clam12)  # lam12 - PI
-            if self.f < 0:  # x = dlat, y = dlon
+            f = self.f
+            if f < 0:  # x = dlat, y = dlon
                 # ssig1=sbet1, csig1=-cbet1, ssig2=sbet2, csig2=cbet2
                 p.setsigs(p.sbet1, -p.cbet1, p.sbet2, p.cbet2)
                 # if lon12 = 180, this repeats a calculation made in Inverse
                 _, m12b, m0, _, _ = self._Lengths5(atan2(sbet12a, cbet12a) + PI,
                                                    Caps.REDUCEDLENGTH, p)
-                x = m12b / (p.cbet1 * p.cbet2 * m0 * PI) - _1_0
-                sca = ((sbet12a / x) if x < -_0_01 else (-self.f * p.cbet1**2 * PI)) / p.cbet1
+                t = p.cbet1 * PI
+                x = m12b / (t * p.cbet2 * m0) - _1_0
+                sca = (sbet12a / (x * p.cbet1)) if x < -_0_01 else (-f * t)
                 y = lam12x / sca
             else:  # _f >= 0, in fact f == 0 does not get here
                 sca = self._eF_reset_e2_f1_cH(p.sbet1, p.cbet1 * _2_0)
                 x = lam12x / sca  # dlon
                 y = sbet12a / (sca * p.cbet1)  # dlat
 
-            if y > -_TOL1 and x > -_THR1:  # strip near cut
-                if self.f < 0:
-                    calp1 = max((_0_0 if x > -_TOL1 else _N_1_0), x)
+            if y > _TOL1 and x > -_THR1:  # strip near cut
+                if f < 0:
+                    calp1 = max((_0_0 if x > _TOL1 else _N_1_0), x)
                     salp1 = sqrt(_1_0 - calp1**2)
                 else:
                     salp1 =  min(_1_0, -x)
@@ -939,7 +946,7 @@ class GeodesicExact(_GeodesicBase):
                 # omg12 is near PI, estimate work with omg12a = PI - omg12
                 k = _Astroid(x, y)
                 k1 = k + _1_0
-                sca *= (y * k1 / k) if self.f < 0 else (x * k / k1)
+                sca *= (y * k1 / k) if f < 0 else (x * k / k1)
                 s, c = sincos2(-sca)
                 # update spherical estimate of alp1 using omg12 instead of lam12
                 salp1 = p.cbet2 * s

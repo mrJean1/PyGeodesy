@@ -421,6 +421,14 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 
 
 @deprecated_function
+def unsign0(x):
+    '''DEPRECATED, use function L{pygeodesy.unsigned0}.
+    '''
+    from pygeodesy.basics import unsigned0
+    return unsigned0(x)
+
+
+@deprecated_function
 def unStr(name, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.unstr}.
     '''

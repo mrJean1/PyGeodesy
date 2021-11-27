@@ -12,21 +12,23 @@ L{HeightLinear}, L{HeightLSQBiSpline} and L{HeightSmoothBiSpline}
 to interpolate the height of C{LatLon} locations or separate
 lat-/longitudes from a set of C{LatLon} points with I{known heights}.
 
-B{Typical usage} is one of the following.
+Typical usage
+=============
 
-First, get or create a set of C{LatLon} points with I{known heights},
+1. Get or create a set of C{LatLon} points with I{known heights},
 called C{knots}.  The C{knots} do not need to be ordered in any
 particular way.
 
-Select one of the C{Height} classes for height interpolation.
+2. Select one of the C{Height} classes for height interpolation
 
-C{>>> from pygeodesy import HeightCubic  # or other as HeightXyz}
+C{>>> from pygeodesy import HeightCubic  # or other Height... as HeightXyz}
 
-Next, instantiate a height interpolator with the C{knots}.
+3. Instantiate a height interpolator with the C{knots} and use keyword
+arguments to select different interpolation options
 
 C{>>> hinterpolator = HeightXyz(knots, **options)}
 
-Then, get the interpolated height of other C{LatLon} location(s) with
+4. Get the interpolated height of other C{LatLon} location(s) with
 
 C{>>> h = hinterpolator(ll)}
 
@@ -34,17 +36,17 @@ or
 
 C{>>> h0, h1, h2, ... = hinterpolator(ll0, ll1, ll2, ...)}
 
-or
+or a list, tuple, generator, etc. of C{LatLon}s
 
-C{>>> hs = hinterpolator(lls)  # list, tuple, generator, ...}
+C{>>> hs = hinterpolator(lls)}
 
-For separate lat- and longitudes invoke the C{.height} method
+5. For separate lat- and longitudes invoke the C{.height} method
 
 C{>>> h = hinterpolator.height(lat, lon)}
 
-or
+or as 2 lists, tuples, etc.
 
-C{>>> h0, h1, h2, ... = hinterpolator.height(lats, lons)  # lists, tuples, ...}
+C{>>> hs = hinterpolator.height(lats, lons)}
 
 @note: Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
        <https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
@@ -78,11 +80,11 @@ from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
 from pygeodesy.props import Property_RO
 from pygeodesy.streprs import _boolkwds, Fmt
-from pygeodesy.units import Int_
+from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.11.20'
+__version__ = '21.11.25'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
@@ -1126,10 +1128,10 @@ class HeightLSQBiSpline(_HeightBase):
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
 
-           @raise SciPyError: A C{LSQSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
+                                warning as exception.
         '''
         np  = self.numpy
         spi = self.scipy_interpolate
@@ -1176,10 +1178,10 @@ class HeightLSQBiSpline(_HeightBase):
            @raise HeightError: Insufficient number of B{C{llis}} or
                                an invalid B{C{lli}}.
 
-           @raise SciPyError: A C{LSQSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
+                                warning as exception.
         '''
         return _HeightBase._eval(self, llis)
 
@@ -1195,10 +1197,10 @@ class HeightLSQBiSpline(_HeightBase):
            @raise HeightError: Insufficient or non-matching number of
                                B{C{lats}} and B{C{lons}}.
 
-           @raise SciPyError: A C{LSQSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{LSQSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{LSQSphereBivariateSpline}
+                                warning as exception.
         '''
         return _HeightBase._height(self, lats, lons)
 
@@ -1214,7 +1216,7 @@ class HeightSmoothBiSpline(_HeightBase):
         '''New L{HeightSmoothBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
-           @kwarg s: The spline smoothing factor (C{4}).
+           @kwarg s: The spline smoothing factor (C{scalar}), default C{4}.
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
@@ -1223,14 +1225,14 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
 
-           @raise SciPyError: A C{SmoothSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
+                                warning as exception.
         '''
         spi = self.scipy_interpolate
 
-        s = Int_(s, name='smoothing', Error=HeightError, low=4)
+        s = Float_(s, name='smoothing', Error=HeightError, low=4)
 
         xs, ys, hs = self._xyhs3(knots)
         try:
@@ -1254,10 +1256,10 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise HeightError: Insufficient number of B{C{llis}} or
                                an invalid B{C{lli}}.
 
-           @raise SciPyError: A C{SmoothSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
+                                warning as exception.
         '''
         return _HeightBase._eval(self, llis)
 
@@ -1273,10 +1275,10 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise HeightError: Insufficient or non-matching number of
                                B{C{lats}} and B{C{lons}}.
 
-           @raise SciPyError: A C{SmoothSphereBivariateSpline} issue.
+           @raise SciPyError: A C{scipy} C{SmoothSphereBivariateSpline} issue.
 
-           @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
-                                as exception.
+           @raise SciPyWarning: A C{scipy} C{SmoothSphereBivariateSpline}
+                                warning as exception.
         '''
         return _HeightBase._height(self, lats, lons)
 

@@ -5,7 +5,7 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.11.24'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -145,7 +145,9 @@ class Tests(TestsBase):
             self.test(' wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))
 
         # compare geomath.Math.sum with mimicked _sum2
-        _fsum2_ = karney._fsum2_
+        def _fsum2_(*xs):
+            return karney._sum2_(0.0, *xs)
+
         n = _fsum2_.__name__
         s, t = _fsum2_(7, 1e100, -7, -1e100, 9e-20, -8e-20)
         self.test(n, s, '1.0e-20', fmt='%.1e')

@@ -126,7 +126,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
                                  'isnan', 'isnear0', 'isnear1', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
-                                 'signOf', 'splice', 'ub2str', 'unsign0'),
+                                 'signOf', 'splice', 'ub2str', 'unsigned0'),
                           clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
@@ -140,7 +140,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs',  # ... except ellipsoidal, spherical flavors
                                  'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
                                  'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
-                                 'scalar', 'simplify2', 'toUtm', 'unStr', 'utmZoneBand2'),
+                                 'scalar', 'simplify2', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
@@ -309,7 +309,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.11.17'
+__version__ = '21.11.26'
 
 
 def _ALL_OTHER(*objs):

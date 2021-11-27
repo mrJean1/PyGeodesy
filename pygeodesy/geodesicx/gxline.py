@@ -49,18 +49,18 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.11.22'
+__version__ = '21.11.23'
 
 _append_ = 'append'
 _glXs    = []  # instances of C{[_]GeodesicLineExact}
 
 
 def _update_glXs(gX):  # see .C4Order, ._ef_reset, .GdistDirect
-    '''(INTERNAL) Zap cached/memoized C{Property}s of all
+    '''(INTERNAL) Zap cached/memoized C{Property}s of any
        L{GeodesicLineExact} instances tied to the given
        L{GeodesicExact} instance B{C{gX}}.
     '''
-    if isinstance(gX, _GeodesicLineExact):
+    if isinstance(gX, _GeodesicLineExact):  # == not isinstance(gX, GeodesicExact)
         raise _AssertionError(gX=gX)
     for glX in _glXs:  # PYCHOK use weakref
         if glX._gX is gX:
@@ -94,7 +94,7 @@ class _GeodesicLineExact(_GeodesicBase):
             # also -0 is converted to +0
             salp1, calp1 = sincos2d(_around(azi1))
 
-        self._gX    = gX  # Exact only
+        self._gX    = gX  # GeodesicExact only
         self._lat1  = lat1 = _fix90(lat1)
         self._lon1  = lon1
         self._azi1  = azi1
@@ -171,7 +171,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def _A4_e2a2(self):
         '''(INTERNAL) Cached/memoized.
         '''
-        return self._calp0 * self._salp0 * self._gX._e2a2
+        return self._calp0 * self._salp0 * self.geodesic._e2a2
 
     def ArcPosition(self, a12, outmask=Caps.STANDARD):
         '''Find the position on the line given B{C{a12}}.
@@ -228,7 +228,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def _C4a(self):
         '''(INTERNAL) Cached/memoized.
         '''
-        return self._gX._C4f_k2(self._k2)
+        return self.geodesic._C4f_k2(self._k2)
 
     @Property_RO
     def caps(self):
@@ -263,7 +263,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def _E0_b(self):
         '''(INTERNAL) Cached/memoized.
         '''
-        return self._eF.cE / PI_2 * self._gX.b
+        return self._eF.cE / PI_2 * self.geodesic.b
 
     @Property_RO
     def _E1(self):
@@ -273,9 +273,9 @@ class _GeodesicLineExact(_GeodesicBase):
 
     @Property_RO
     def _eF(self):
-        '''(INTERNAL) Cached/memoized.
+        '''(INTERNAL) Cached/memoized C{Elliptic} function.
         '''
-        return self._gX._eF  # .geodesic._eF
+        return self.geodesic._eF
 
     def _GDictPosition(self, arcmode, s12_a12, outmask):  # MCCABE 17
         '''(INTERNAL) Generate a new position along the geodesic.
@@ -293,8 +293,8 @@ class _GeodesicLineExact(_GeodesicBase):
             outmask |= Caps._DEBUG_LINE & self._debug
         outmask &= self._caps & Caps._OUTMASK
 
-        gX = self._gX
         eF = self._eF
+        gX = self._gX  # .geodesic
 
         if arcmode:  # PYCHOK no cover
             # s12_a12 is spherical arc length
@@ -444,19 +444,22 @@ class _GeodesicLineExact(_GeodesicBase):
             self.SetArc(s13_a13)
         else:
             self.SetDistance(s13_a13)
-        return self  # for gx.GeodesicExact.InverseLine and ._GenDirectLine
+        return self  # for gx.GeodesicExact.InverseLine and -._GenDirectLine
 
     @Property_RO
     def geodesic(self):
         '''Get the I{exact} geodesic (L{GeodesicExact}).
         '''
-        return self._gX
+        gX = self._gX
+        if gX:
+            return gX
+        raise _AssertionError(gX=gX)
 
     @Property_RO
     def _H0_e2_f1(self):
         '''(INTERNAL) Cached/memoized.
         '''
-        return self._eF.cH / PI_2 * self._gX._e2_f1
+        return self._eF.cH / PI_2 * self.geodesic._e2_f1
 
     @Property_RO
     def _H1(self):
@@ -547,7 +550,7 @@ class _GeodesicLineExact(_GeodesicBase):
         # tau1 = sig1 + B11
         return _sincos12(-s, c, self._ssig1, self._csig1)
         # unnecessary because Einv inverts E
-        # return -self._gX._eF.deltaEinv(stau1, ctau1)
+        # return -self._eF.deltaEinv(stau1, ctau1)
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{GeodesicExactLine} as string.

@@ -10,8 +10,8 @@ that package is installed.
 The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items either
 by C{key} or by C{attribute} name.
 
-I{Karney}-based functionality
-=============================
+Karney-based functionality
+==========================
 
 1. The following classes and functions in C{pygeodesy}
 
@@ -102,13 +102,13 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isodd, _xImportError, _xversion  # PYCHOK shared
+from pygeodesy.basics import copysign0, unsigned0, _xImportError, _xversion, \
+                             isodd  # PYCHOK shared
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84  # PYCHOK used!
 from pygeodesy.ellipsoids import Ellipsoid2
 from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
-from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, \
-                             _lat2_, _lon2_, _0_0, _1_0, _2_0, \
-                             _16_0, _180_0, _N_180_0, _360_0
+from pygeodesy.interns import MAX as _MAX, NAN, NN, _lat1_, _lat2_, _lon2_, \
+                             _0_0, _1_0, _2_0, _16_0, _180_0, _N_180_0, _360_0
 from pygeodesy.iters import PointsIter
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Dict, _NamedBase, _NamedTuple, _Pass  # PYCHOK shared
@@ -118,12 +118,12 @@ from pygeodesy.units import Degrees as _Deg, Meter as _M, \
                             Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
 from pygeodesy.utily import atan2d, unroll180, wrap360
 
-from math import fmod
+from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.11.22'
+__version__ = '21.11.26'
 
-_16th = _1_0 / _16_0
+_16th  = _1_0 / _16_0
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -258,7 +258,7 @@ class _Wrapped(object):
     '''
     _geographiclib = None
 
-    @Property_RO  # MCCABE 14
+    @Property_RO  # MCCABE 16
     def Geodesic(self):
         '''Get the I{wrapped} C{Geodesic} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
@@ -460,13 +460,14 @@ class _Wrapped(object):
     def _xgeographiclib(self, where):
         '''(INTERNAL) Import C{geographiclib}.
         '''
-        if self._geographiclib is None:
+        g = self._geographiclib
+        if g is None:
             try:
                 import geographiclib as g
             except ImportError as x:
                 raise _xImportError(x, _Wrapped, name=where.name)
             self._geographiclib = _xversion(g, _Wrapped, 1, 49, name=where.name)
-        return self._geographiclib
+        return g
 
 _wrapped = _Wrapped()  # PYCHOK singleton, .datum
 
@@ -531,23 +532,6 @@ def _fix90(deg):  # mimick Math.LatFix
     return NAN if abs(deg) > 90 else deg
 
 
-def _fsum2_(*vs):  # see .test/testKarney.py
-    '''Cascaded summation, like C{.fmath.fsum_}.
-
-       @arg vs: Values to be added (C{scalar}[]).
-
-       @return: 2-Tuple C{(sum_of_vs, residual)}.
-
-       @note: NOT "error-free", see .test/testKarney.py.
-
-       @see: U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
-    '''
-    s = t = _0_0
-    for v in vs:
-        s, t = _3sum2(s, t, v)
-    return _sum2(s, t)
-
-
 def _isfinite(x):  # mimick Math.AngNormalize
     '''Check finitenessof C{x}.
 
@@ -569,27 +553,7 @@ def _norm180(deg):  # mimick Math.AngNormalize
     if M:
         return M.AngNormalize(deg)
 
-    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6
-    #  fmod( 0,   360) ==  0.0
-    #  fmod( 360, 360) ==  0.0
-    #  fmod(-0,   360) ==  0.0
-    #  fmod(-0.0, 360) == -0.0
-    #  fmod(-360, 360) == -0.0
-    # however, using the % operator ...
-    #    0   % 360 == 0
-    #  360   % 360 == 0
-    #  360.0 % 360 == 0.0
-    #   -0   % 360 == 0
-    # -360   % 360 == 0
-    #   -0.0 % 360 == 0.0
-    # -360.0 % 360 == 0.0
-
-    # On Windows 32-bit with Python 2.7, math.fmod(-0.0, 360)
-    # == +0.0.  This fixes this bug.  See also Math::AngNormalize
-    # in the C++ library, Math::sincosd has a similar fix.
-    d = (fmod(deg, _360_0) if _isfinite(deg) else NAN) if deg else deg
-    return (d + _360_0) if d < _N_180_0 else (d  # XXX was <= twice
-                        if d <   _180_0 else (d - _360_0))
+    return _remod(deg, _360_0)
 
 
 def _polygon(geodesic, points, closed, line, wrap):
@@ -602,17 +566,17 @@ def _polygon(geodesic, points, closed, line, wrap):
         raise _ValueError(wrap=wrap)
 
     gP = geodesic.Polygon(line)
-    p_ = gP.AddPoint
+    pA = gP.AddPoint
 
     Ps = PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
     p0 = Ps[0]
 
     # note, lon deltas are unrolled, by default
-    p_(p0.lat, p0.lon)
+    pA(p0.lat, p0.lon)
     for p in Ps.iterate(closed=closed):
-        p_(p.lat, p.lon)
+        pA(p.lat, p.lon)
     if closed and line and p != p0:
-        p_(p0.lat, p0.lon)
+        pA(p0.lat, p0.lon)
 
     # gP.Compute returns (number_of_points, perimeter, signed area)
     return gP.Compute(False, True)[1 if line else 2]
@@ -630,13 +594,33 @@ def _remainder(x, y):
         except AttributeError:
             pass
 
-    z = (fmod(x, y) if _isfinite(x) else NAN) if x else x
+    return _remod(x, y)
+
+
+def _remod(x, y):
+    '''(INTERNAL) Remainder/modulo in the range M{[-y / 2, y / 2]}.
+    '''
+    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6
+    #  fmod( 0,   360) ==  0.0
+    #  fmod( 360, 360) ==  0.0
+    #  fmod(-0,   360) ==  0.0
+    #  fmod(-0.0, 360) == -0.0
+    #  fmod(-360, 360) == -0.0
+    # however, using the % operator ...
+    #    0   % 360 == 0
+    #  360   % 360 == 0
+    #  360.0 % 360 == 0.0
+    #   -0   % 360 == 0
+    # -360   % 360 == 0
+    #   -0.0 % 360 == 0.0
+    # -360.0 % 360 == 0.0
+
+    z = (_fmod(x, y) if _isfinite(x) else NAN) if x else x
     # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
     # in the C++ library, Math.sincosd has a similar fix.
     h = y / _2_0
-    return (z + y) if z < -h else (z
-                   if z <  h else (z - y))
+    return (z + y) if z < -h else (z if z < h else (z - y))
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2
@@ -644,8 +628,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 
        @return: 2-Tuple C{(sum_u_plus_v, residual)}.
 
-       @note: The C{residual} can be the same as
-              B{C{u}} or B{C{v}}.
+       @note: The C{residual} can be the same as B{C{u}} or B{C{v}}.
 
        @see: U{Algorithm 3.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
@@ -656,32 +639,34 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     s = u + v
     r = s - v
     t = s - r
-    # if True:  # Algorithm 3.1
+    # if Algorithm_3_1:
     t = (u - r) + (v - t)
-
-    # else:  # in Math C/C++
+    # else:  # Math::sum C/C++
     #   r -= u
     #   t -= v
     #   t = -(r + t)
-
-    # u + v =       s      + t
-    #       = round(u + v) + t
     return s, t
 
 
-def _3sum2(s, t, x):
-    '''Accumulate B{C{x}} into C{_sum2(s, t)}.
+def _sum2_(s, t, *vs):
+    '''Accumulate any B{C{vs}} into a previous C{_sum2(s, t)}.
 
        @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
-             html/Accumulator_8hpp_source.html>} comments for more details.
+             html/Accumulator_8hpp_source.html>} comments for more details and
+             U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
+
+       @note: NOT "error-free", see pygeodesy.test/testKarney.py.
     '''
-    if x:
-        t, u = _sum2(t, x)  # start at least-
-        s, t = _sum2(s, t)  # significant end
-        if s:
-            t += u  # accumulate u to t
-        else:
-            s  = u  # result is u
+    for v in vs:
+        if v:
+            t, u = _sum2(t, v)  # start at least-
+            s, t = _sum2(s, t)  # significant end
+            if s:
+                t += u  # accumulate u to t
+#           elif t:  # s == 0 implies t == 0
+#               raise _AssertionError(t=t, txt=_not(_0_))
+            else:
+                s = unsigned0(u)  # result is u, t = 0
     return s, t
 
 
@@ -693,7 +678,7 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)
-        lon2 = (lon1 + d) + t  # _fsum2_(lon1, d, t)
+        lon2, _ = _sum2_(d, t, lon1)  # (lon1 + d) + t
     else:
         lon2 = _norm180(lon2)
     return (lon2 - lon1), lon2

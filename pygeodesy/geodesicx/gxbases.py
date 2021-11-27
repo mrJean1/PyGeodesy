@@ -10,9 +10,10 @@ see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 
 # from pygeodesy.basics import isodd  # from .karney
 # from pygeodesy.errors import _or  # from .karney
-from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
-from pygeodesy.karney import GeodesicError, isodd, _NamedBase, \
-                            _or, Property, _3sum2
+from pygeodesy.interns import MIN as _MIN, _not_, \
+                             _0_0, _1_0, _N_1_0, _2_0
+from pygeodesy.karney import GeodesicError, isodd, _or, \
+                            _NamedBase, Property, _sum2_
 from pygeodesy.lazily import _ALL_DOCS
 # from pygeodesy.named import _NamedBase  # from .karney
 # from pygeodesy.props import Property  # from .karney
@@ -20,7 +21,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.11.22'
+__version__ = '21.11.24'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -151,19 +152,23 @@ def _all_caps(_caps, caps):  # PYCHOK shared
     return (_caps & caps) == caps
 
 
-def _coSeries(c4s, sx, cx):  # PYCHOK shared
+def _coSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     '''(INTERNAL) I{Karney}'s cosine series expansion using U{Clenshaw
        summation<https://WikiPedia.org/wiki/Clenshaw_algorithm>}.
     '''
     ar = _2_0 * (cx - sx) * (cx + sx)  # 2 * cos(2 * x)
-    y0 = y1 = _0_0
-    c4s = list(c4s)
-    if isodd(len(c4s)):
-        y0 = c4s.pop()
-    while c4s:
-        y1 = ar * y0 - y1 + c4s.pop()
-        y0 = ar * y1 - y0 + c4s.pop()
-    return cx * (y0 - y1)
+    y0 = t0 = y1 = t1 = _0_0
+    i = len(c4s)  # c4s = list(c4s)
+    if isodd(i):
+        i -= 1
+        y0 = c4s[i]  # c4s.pop()
+    for i in range(i - 1, 0, -2):  # reversed
+        # y1 = ar * y0 - y1 + c4s.pop()
+        # y0 = ar * y1 - y0 + c4s.pop()
+        y1, t1 = _sum2_(ar * y0, ar * t0, -y1, -t1, c4s[i])
+        y0, t0 = _sum2_(ar * y1, ar * t1, -y0, -t0, c4s[i - 1])
+    s, _ = _sum2_(_1_0, cx * y0, cx * t0, -cx * y1, -cx * t1, _N_1_0)
+    return s  # cx * (y0 - y1)
 
 
 _f = float  # in _f2 and .geodesicx._C4_24, _27 and _30
@@ -183,7 +188,7 @@ def _polynomial(x, c4s, i, j):  # PYCHOK shared
     '''
     s, t = c4s[i], _0_0
     for i in range(i + 1, j):
-        s, t = _3sum2(s * x, t * x, c4s[i])
+        s, t = _sum2_(s * x, t * x, c4s[i])
     return s  # + t
 
 

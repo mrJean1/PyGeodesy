@@ -16,11 +16,10 @@ see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 # make sure int/int division yields float quotient
 from __future__ import division
 
-from pygeodesy.basics import isodd, unsign0
-from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
-                             _0_0, _2_0
-from pygeodesy.karney import GeodesicError, _diff182, \
-                            _norm180, _remainder, _3sum2
+# from pygeodesy.basics import isodd, unsigned0  # from .karney
+from pygeodesy.interns import NAN, NN, _COMMASPACE_, _0_0, _0_5
+from pygeodesy.karney import GeodesicError, _diff182, isodd, \
+                            _norm180, _remainder, _sum2_, unsigned0
 from pygeodesy.lazily import _ALL_DOCS, printf
 from pygeodesy.named import callername, _Dict, _NamedBase, pairs
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -29,7 +28,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '21.06.30'
+__version__ = '21.11.26'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -145,12 +144,6 @@ class GeodesicAreaExact(_NamedBase):
         return self.ellipsoid.areax  # not .area!
 
     area0 = area0x  # for C{geographiclib} compatibility
-
-    @Property_RO
-    def _area0x_2(self):
-        '''Get half the ellipsoid's surface area (C{meter} I{squared}).
-        '''
-        return self.area0x / _2_0
 
     def Compute(self, reverse=False, sign=True):
         '''Compute the accumulated perimeter and area.
@@ -288,22 +281,22 @@ class GeodesicAreaExact(_NamedBase):
     def _reduce(self, Area, reverse, sign, xing):
         '''(INTERNAL) Reduce accumulated area to allowed range.
         '''
-        a0, a0_2 = self.area0x, self._area0x_2
-        a = Area.Remainder(a0)
+        a0 = self.area0x
+        a  = Area.Remainder(a0)
         if isodd(self._xings + xing):
-            a = Area.Add(a0_2 if a < 0 else -a0_2)
+            a = Area.Add((a0 if a < 0 else -a0) * _0_5)
         # area is with the clockwise sense.  If !reverse
         # convert to counter-clockwise convention.
         if not reverse:
             a = Area.Negate()
         # If sign put area in (-area0x/2, area0x/2],
         # otherwise put area in [0, area0x)
-        a0_ = a0 if sign else a0_2
+        a0_ = a0 if sign else (a0 * _0_5)
         if a > a0_:
             a = Area.Add(-a0)
         elif a <= -a0_:
             a = Area.Add( a0)
-        return unsign0(a)
+        return unsigned0(a)
 
     def Reset(self):
         '''Reset this polygon to empty.
@@ -465,7 +458,7 @@ class _Accumulator(_NamedBase):
            @return: Current C{sum}.
         '''
         self._n += 1
-        self._s, self._t = _3sum2(self._s, self._t, y)
+        self._s, self._t = _sum2_(self._s, self._t, y)
         return self._s  # current .Sum()
 
     def Negate(self):

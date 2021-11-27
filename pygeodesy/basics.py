@@ -464,8 +464,8 @@ def ub2str(ub):
     return ub
 
 
-def unsign0(x):
-    '''Return unsigned C{0.0}.
+def unsigned0(x):
+    '''Return C{0.0} unsigned.
 
        @return: C{B{x}} if B{C{x}} else C{0.0}.
     '''
