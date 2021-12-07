@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.08.12'
+__version__ = '21.11.30'
 
 from base import GeodSolve, TestsBase
 
@@ -79,7 +79,7 @@ class Tests(TestsBase):
         c = p.toCartesian()  # NGS Data Sheet Meades Ranch
         self.test('Cartesian', c, '[-734972.563, 4893188.492, 4011982.811]')
 
-        # <https://EPNCB.OMA.BE/_productsservices/coord_trans> (tutorial)
+        # <https://EPNCB.OMA.Be/_productsservices/coord_trans> (tutorial)
         c = Cartesian(4027894.006, 307045.600, 4919474.910)
         x = c.convertRefFrame(RefFrames.ITRF91, RefFrames.ITRF2005, 2007)
         self.test('EUREF C1', x.toStr(prec=4), '[4027894.0444, 307045.6209, 4919474.8613]')

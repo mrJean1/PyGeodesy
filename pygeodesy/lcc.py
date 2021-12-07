@@ -22,7 +22,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'<https://Pubs.USGS.gov/
 @var Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -46,7 +46,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.08.24'
+__version__ = '21.11.30'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

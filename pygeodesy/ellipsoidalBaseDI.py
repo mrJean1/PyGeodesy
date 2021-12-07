@@ -5,7 +5,7 @@ u'''(INTERNAL) Ellipsoidal direct/inverse geodesy base class
 C{LatLonEllipsoidalBaseDI} and functions.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnear0, isnear1, isscalar, issubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
@@ -29,7 +29,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = ()
-__version__ = '21.10.06'
+__version__ = '21.11.30'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'

@@ -13,7 +13,7 @@ and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 # A copy of comments from Karney's C{GeodesicExact.cpp}:
 #
@@ -37,8 +37,6 @@ from __future__ import division
 # - s and c prefixes mean sin and cos
 
 from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsigned0
-from pygeodesy.datums import _ellipsoidal_datum, Ellipsoid2, Ellipsoids
-# from pygeodesy.ellipsoids import Ellipsoid2, Ellipsoids  # from .datums
 from pygeodesy.fmath import cbrt, fsum_, hypot, norm2
 from pygeodesy.geodesicx.gxbases import _ALL_DOCS, Caps, _coSeries, \
                                         _GeodesicBase, _polynomial, \
@@ -50,8 +48,8 @@ from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
                              _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, \
                              _N_1_0, _2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
                              _90_0, _180_0, _1000_0
-from pygeodesy.karney import _around, GDict, GeodesicError, _diff182, \
-                             _fix90, _norm180, Property, Property_RO
+from pygeodesy.karney import _around, _ellipsoid, _EWGS84, GDict, GeodesicError, \
+                             _diff182, _fix90, _norm180, Property, Property_RO
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 # from pygeodesy.props import Property, Property_RO  # from .karney
 # from pygeodesy.streprs import pairs  # from .geodesicx.gxline
@@ -60,7 +58,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.11.26'
+__version__ = '21.11.30'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -125,10 +123,10 @@ class GeodesicExact(_GeodesicBase):
        modeled after I{Karney}'s Python class U{Geodesic<https://GeographicLib.SourceForge.io/
        html/python/code.html#module-geographiclib.geodesic>}.
     '''
-    _E   = Ellipsoids.WGS84
-    _nC4 = 30  # default C4Order
+    _E   = _EWGS84
+    _nC4 =  30  # default C4Order
 
-    def __init__(self, a_ellipsoid=Ellipsoids.WGS84, f=None, name=NN, C4Order=None):
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN, C4Order=None):
         '''New L{GeodesicExact} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -142,12 +140,8 @@ class GeodesicExact(_GeodesicBase):
 
            @raise GeodesicError: Invalid B{C{C4Order}}.
         '''
-        if a_ellipsoid in (GeodesicExact._E, None):
-            pass  # ignore f, default WGS84
-        elif f is None:
-            self._E = _ellipsoidal_datum(a_ellipsoid, name=name, raiser=True).ellipsoid
-        else:
-            self._E =  Ellipsoid2(a_ellipsoid, f, name=name)
+        if a_ellipsoid not in (GeodesicExact._E, None):
+            self._E = _ellipsoid(a_ellipsoid, f, name=name)
 
         if name:
             self.name = name

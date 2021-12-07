@@ -6,8 +6,8 @@ survey functions L{snellius3} and L{wildberger3} and triangle functions L{triAng
 L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 
 @note: Function L{pierlot} transcoded with permission from U{triangulationPierlot
-       <http://www.Telecom.ULg.ac.BE/triangulation/doc/total_8c.html>} and U{Pierlot
-       <http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree>}.
+       <http://www.Telecom.ULg.ac.Be/triangulation/doc/total_8c.html>} and U{Pierlot
+       <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree>}.
 '''
 
 from pygeodesy.basics import isnear0, map1
@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '21.11.01'
+__version__ = '21.11.30'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -270,7 +270,7 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 
 
 def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **Clas_kwds):
-    '''3-Point resection using U{Pierlot<http://www.Telecom.ULg.ac.BE/publi/publications/
+    '''3-Point resection using U{Pierlot<http://www.Telecom.ULg.ac.Be/publi/publications/
        pierlot/Pierlot2014ANewThree>}'s method C{ToTal}.
 
        @arg point1: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
@@ -300,10 +300,10 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
        @see: U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation
-             Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.BE/
+             Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.Be/
              bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{Vincent Pierlot,
              Marc Van Droogenbroeck, "18 Triangulation Algorithms for 2D Positioning
-             (also known as the Resection Problem)"<http://www.Telecom.ULg.ac.BE/
+             (also known as the Resection Problem)"<http://www.Telecom.ULg.ac.Be/
              triangulation>} and functions L{pygeodesy.cassini}, L{pygeodesy.collins}
              and L{pygeodesy.tienstra}.
     '''
@@ -439,8 +439,8 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
 
        @see: U{3-Point Resection Solver<http://MesaMike.org/geocache/GC1B0Q9/tienstra/>},
              U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
-             <http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/>},
-             U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.BE/triangulation/>} and
+             <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
+             U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.Be/triangulation/>} and
              functions L{pygeodesy.cassini}, L{pygeodesy.collins} and L{pygeodesy.pierlot}.
     '''
 

@@ -29,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.10.27'
+__version__ = '21.11.30'
 
 
 class CartesianBase(Vector3d):
@@ -406,7 +406,7 @@ class CartesianBase(Vector3d):
 
     def pierlot(self, point2, point3, alpha12, alpha23, useZ=False):
         '''3-Point resection between this and two other points using U{Pierlot
-           <http://www.Telecom.ULg.ac.BE/triangulation>}'s method C{ToTal}.
+           <http://www.Telecom.ULg.ac.Be/triangulation>}'s method C{ToTal}.
 
            @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
@@ -427,10 +427,10 @@ class CartesianBase(Vector3d):
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
            @see: U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation
-                 Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.BE/
+                 Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.Be/
                  bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{18 Triangulation
                  Algorithms for 2D Positioning (also known as the Resection Problem)
-                 <http://Telecom.ULg.ac.BE/triangulation>} and functions
+                 <http://Telecom.ULg.ac.Be/triangulation>} and functions
                  L{pygeodesy.pierlot}.
         '''
         from pygeodesy.resections import pierlot
@@ -468,8 +468,8 @@ class CartesianBase(Vector3d):
 
            @see: U{3-Point Resection Solver<http://MesaMike.org/geocache/GC1B0Q9/tienstra/>},
                  U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
-                 <http://Telecom.ULG.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/>},
-                 U{18 Triangulation Algorithms...<http://Telecom.ULG.ac.BE/triangulation/>} and
+                 <http://Telecom.ULG.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
+                 U{18 Triangulation Algorithms...<http://Telecom.ULG.ac.Be/triangulation/>} and
                  function L{pygeodesy.tienstra}.
         '''
         from pygeodesy.resections import tienstra

@@ -4,7 +4,7 @@
 u'''Formulary of basic geodesy functions and approximations.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnon0 as _non0
 from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.10.24'
+__version__ = '21.11.30'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -239,7 +239,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
 
 def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using the
-       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
+       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} of
        the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 
@@ -267,7 +267,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
 
 def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using the
-       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
+       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} of
        the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 

@@ -67,7 +67,7 @@ guide-coordinate-systems-great-britain.pdf>}.
 @var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, neg_, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.10.05'
+__version__ = '21.11.30'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -248,7 +248,7 @@ Transforms = Transforms(Transform)  # PYCHOK singleton
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
-                     # <https://www.NGI.BE/FR/FR4-4.shtm> ETRS89 == WG84
+                     # <https://www.NGI.Be/FR/FR4-4.shtm> ETRS89 == WG84
                      # <https://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
                                     sx=_F(-0.33657),   sy=_F( -0.456955), sz=_F( -1.84218),
                                      s=_F( 1.2727)),
@@ -415,7 +415,7 @@ def _En2(earth, name):
         E = Ellipsoid(earth.a, earth.b, name=n)
     elif isinstance(earth, (tuple, list)) and len(earth) == 2:  # no cover
         n = NN(_UNDER_, name or getattr(earth, _name_, NN))
-        a_f = a_f2Tuple(*earth)
+        a_f = a_f2Tuple(earth)  # *earth
         E = Ellipsoid(a_f.a, a_f.b, name=n)  # PYCHOK .a
     else:
         E, n = None, NN

@@ -40,7 +40,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.10.19'
+__version__ = '21.11.30'
 
 
 class LatLonBase(_NamedBase):
@@ -325,7 +325,7 @@ class LatLonBase(_NamedBase):
     def cosineForsytheAndoyerLambertTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
            the U{Forsythe-Andoyer-Lambert correction
-           <https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of the U{Law of Cosines
+           <https://www2.UNB.Ca/gge/Pubs/TR77.pdf>} of the U{Law of Cosines
            <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
            formula.
 
@@ -1336,7 +1336,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
         n = len(t),  # as tuple
         # ... or for a single trilaterated result,
         # min *is* max, min- *is* maxPoint and n=1
-        return Trilaterate5Tuple(*(t[0] + t[-1] + n))
+        return Trilaterate5Tuple(t[0] + t[-1] + n)  # *(t[0] + ...)
 
     elif area and pc == 3:  # all pairwise concentric ...
         r, p = min((r1, p1), (r2, p2), (r3, p3))

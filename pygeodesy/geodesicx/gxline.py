@@ -9,7 +9,7 @@ and licensed under the MIT/X11 License.  For more information,
 see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 # A copy of comments from Karney's C{GeodesicLineExact.cpp}:
 #
@@ -49,7 +49,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.11.23'
+__version__ = '21.11.30'
 
 _append_ = 'append'
 _glXs    = []  # instances of C{[_]GeodesicLineExact}

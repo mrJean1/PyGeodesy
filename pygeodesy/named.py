@@ -14,7 +14,7 @@ standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, _xcopy, _xdup
+                             issubclassof, len2, _xcopy, _xdup
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.10.05'
+__version__ = '21.11.28'
 
 _COMMASPACEDOT_ = _COMMASPACE_ + _DOT_
 _del_           = 'del'
@@ -829,9 +829,11 @@ class _NamedTuple(tuple, _Named):
     '''
     _validated = False  # set to True I{per sub-class!}
 
-    def __new__(cls, *args, **name_only):
+    def __new__(cls, arg, *args, **name_only):
         '''New L{_NamedTuple} initialized with B{C{positional}} arguments.
 
+           @arg arg: Tuple items (C{tuple}, C{list}, ...) or first tuple
+                     item of several more in other positional arguments.
            @arg args: Tuple items (C{any}), all positional arguments.
            @kwarg name_only: Only C{B{name}='name'} is used, all other
                              keyword arguments are I{silently} ignored.
@@ -845,13 +847,15 @@ class _NamedTuple(tuple, _Named):
            @raise ValueError: Item name is not a C{str} or valid C{identifier}
                               or starts with C{underscore}.
         '''
+        n, args = len2(((arg,) + args) if args else arg)
         self = tuple.__new__(cls, args)
         if not self._validated:
             self._validate()
 
-        n = len(self._Names_)
-        if len(args) != n:
-            raise LenError(self.__class__, args=len(args), _Names_=n)
+        N = len(self._Names_)
+        if n != N:
+            raise LenError(self.__class__, args=n, _Names_=N)
+
         if name_only:  # name=NN
             n = name_only.get(_name_, NN)
             if n:
@@ -1029,28 +1033,28 @@ class _NamedTuple(tuple, _Named):
         if (issubclassof(xTuple, _NamedTuple) and
             (len(self._Names_) + len(items)) == len(xTuple._Names_) and
                  self._Names_ == xTuple._Names_[:len(self)]):
-            return self._xnamed(xTuple(*(self + items)))
+            return self._xnamed(xTuple(self + items))  # *(self + items)
         c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
         x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
         raise TypeError(_SPACE_(c, _vs_, x))
 
 
-def callername(up=1, dflt=NN, source=False):
-    '''Get the name of the calling callable.
+def callername(up=1, dflt=NN, source=False, underOK=False):
+    '''Get the name of the invoking callable.
 
        @kwarg up: Number of call stack frames up (C{int}).
        @kwarg dflt: Default return value (C{any}).
        @kwarg source: Include source file name and line
                       number (C{bool}).
+       @kwarg underOK: Private, internal callables are OK (C{bool}).
 
-       @return: Name of the non-internal callable (C{str})
-                or B{C{dflt}} if none found.
+       @return: The callable name (C{str}) or B{C{dflt}} if none found.
     '''
     try:  # see .lazily._caller3
         for u in range(up, up + 32):
             n, f, s = _caller3(u)
-            if n and (n.startswith(_DUNDER_) or
-                  not n.startswith(_UNDER_)):
+            if n and (underOK or n.startswith(_DUNDER_) or
+                             not n.startswith(_UNDER_)):
                 if source:
                     n = NN(n, _AT_, f, _COLON_, str(s))
                 return n

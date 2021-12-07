@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.11.08'
+__version__ = '21.11.28'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -74,7 +74,7 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         '''
         s, w, n, e = self
         S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
-        return Bounds4Tuple(*map1(float, S - s, W - w, n - N, e - E))
+        return Bounds4Tuple(map1(float, S - s, W - w, n - N, e - E))  # *map1
 
     def overlap(self, S_other, *W_N_E):
         '''Intersect this with an other L{Bounds4Tuple}.

@@ -30,7 +30,7 @@ U{Transverse Mercator: Redfearn series
 <https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import halfs2, map1, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.11.18'
+__version__ = '21.11.30'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

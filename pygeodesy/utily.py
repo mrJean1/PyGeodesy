@@ -8,7 +8,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isint, isnear0
 from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
@@ -21,9 +21,9 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.10.11'
+__version__ = '21.11.30'
 
-# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
+# <https://Numbers.Computation.Free.Fr/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
 _2__PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
 # sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>

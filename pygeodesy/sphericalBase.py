@@ -12,7 +12,7 @@ and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnear0, isnon0, map1
 from pygeodesy.cartesianBase import CartesianBase
@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.08.28'
+__version__ = '21.11.30'
 
 
 def _angular(distance, radius):  # PYCHOK for export

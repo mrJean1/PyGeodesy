@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.10.05'
+__version__ = '21.11.28'
 
 
 def _fraction(fraction, n):
@@ -960,7 +960,7 @@ def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
     t  = rF(ni - 1, nj - 1, 0)
     t += (sum(map(len, cF.values())), units)
 #   del cF, iFs
-    return Frechet6Tuple(*t)
+    return Frechet6Tuple(t)  # *t
 
 
 def frechet_(points1, points2, distance=None, units=NN):

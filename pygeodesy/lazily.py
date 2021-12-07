@@ -6,7 +6,7 @@ U{lazy_import<https://modutil.ReadTheDocs.io/en/latest/#lazy_import>}
 from I{Brett Cannon}'s U{modutil<https://PyPI.org/project/modutil>}.
 
 C{Lazy import} is I{supported only for }U{Python 3.7+
-<https://Snarky.CA/lazy-importing-in-python-3-7>} and is I{enabled by
+<https://Snarky.Ca/lazy-importing-in-python-3-7>} and is I{enabled by
 default in }U{PyGeodesy 18.11.10+<https://PyPI.org/project/PyGeodesy>}
 I{ and later}.
 
@@ -309,7 +309,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.11.26'
+__version__ = '21.11.30'
 
 
 def _ALL_OTHER(*objs):
@@ -405,7 +405,7 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
 
        @see: The original U{modutil<https://PyPi.org/project/modutil>},
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
-             U{new way<https://Snarky.CA/lazy-importing-in-python-3-7/>}.
+             U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
     '''
     if _sys_version_info2 < (3, 7):  # not supported before 3.7
         t = _no_(_DOT_(_pygeodesy_, _lazy_import2.__name__))

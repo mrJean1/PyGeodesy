@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.10.19'
+__version__ = '21.11.30'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -581,7 +581,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             raise _IndexError('array.shape', shape)
 
         self._array = array
-        self._shape = Shape2Tuple(*shape)
+        self._shape = Shape2Tuple(shape)  # *shape
 
         if LatLon:  # check the point class
             if _isLatLon_(LatLon):
@@ -1265,10 +1265,10 @@ def centroidOf(points, wrap=True, LatLon=None):
         # Y.fadd_(t1 * y1, t1 * y2, t2 * y1, t2 * y2)
         x1, y1 = x2, y2
 
-    A = A.fsum() * _3_0  # 6.0 / 2.0
+    A = A.fmul(_3_0).fsum()  # 6.0 / 2.0
     if isnear0(A):
         raise _areaError(pts, near_=_near_)
-    Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
+    Y, X = degrees90(Y.fdiv(A).fsum()), degrees180(X.fdiv(A).fsum())
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
 

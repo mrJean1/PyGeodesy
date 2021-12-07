@@ -60,7 +60,7 @@ See:
  - U{https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm}
  - U{https://hydra.Hull.ac.UK/resources/hull:8338}
  - U{https://psimpl.SourceForge.net/reumann-witkam.html}
- - U{https://www.CS.UBC.CA/cgi-bin/tr/1992/TR-92-07.pdf}
+ - U{https://www.CS.UBC.Ca/cgi-bin/tr/1992/TR-92-07.pdf}
  - U{https://GitHub.com/FlorianWilhelm/gps_data_with_python}
  - U{https://www.BDCC.co.UK/Gmaps/GDouglasPeuker.js}
  - U{https://GitHub.com/mourner/simplify-js}
@@ -70,7 +70,7 @@ See:
  - U{https://PyPI.org/project/simplification}
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AttributeError, _ValueError
@@ -84,7 +84,7 @@ from pygeodesy.units import _1mm
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.10.05'
+__version__ = '21.11.30'
 
 
 # try:

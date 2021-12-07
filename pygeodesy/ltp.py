@@ -33,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
 from pygeodesy.vector3d import Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.10.12'
+__version__ = '21.11.28'
 
 _Xyz_  = 'Xyz'
 
@@ -338,7 +338,7 @@ class Frustum(_NamedBase):
                         + _xy2(a, e + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
         # turn center and corners by yaw, clockwise
         p = self.ltp if ltp is None else _xLtp(ltp)
-        return Footprint5Tuple(*_xyz5(b, xy5, z, p))
+        return Footprint5Tuple(_xyz5(b, xy5, z, p))  # *_xyz5
 
     @Property_RO
     def hfov(self):

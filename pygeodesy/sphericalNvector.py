@@ -31,7 +31,7 @@ Also note that on a spherical earth model, an n-vector is equivalent
 to a normalised version of an (ECEF) cartesian coordinate.
 '''
 # make sure int/int division yields float quosient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.datums import Datums
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.10.05'
+__version__ = '21.11.30'
 
 _paths_ = 'paths'
 

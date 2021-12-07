@@ -9,16 +9,16 @@ Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
 of the C{GeodSolve} executable.
 '''
 
-from pygeodesy.basics import map2, _xinstanceof
-from pygeodesy.datums import _ellipsoidal_datum
-from pygeodesy.ellipsoids import Ellipsoids, Ellipsoid2
+from pygeodesy.basics import map2, ub2str, _xinstanceof
 from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _GeodesicBase
-from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _SPACE_
+from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _EQUAL_, \
+                             _SLASH_, _SPACE_
 from pygeodesy.interns import _not_  # PYCHOK used!
-from pygeodesy.karney import GDict, GeodesicError, GeodSolve12Tuple
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, printf, _sys_version_info2
-from pygeodesy.lazily import _getenv  # PYCHOK used!
-from pygeodesy.named import callername
+from pygeodesy.karney import callername, _ellipsoid, _EWGS84, GDict, \
+                             GeodesicError, GeodSolve12Tuple
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _getenv, printf, \
+                             _sys_version_info2
+# from pygeodesy.named import callername  # from .karney
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
@@ -28,12 +28,13 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.11.22'
+__version__ = '21.11.30'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
-_len_N  = len(GeodSolve12Tuple._Names_)
-_SLASH_ = '/'
+_Error_ = 'Error'
+_ERROR_ = 'ERROR'
+_len_N  =  len(GeodSolve12Tuple._Names_)
 _stdin_ = 'stdin'
 
 
@@ -48,7 +49,7 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
 class _GeodesicSolveBase(_GeodesicBase):
     '''(NTERNAL) Base class for L{GeodesicSolve} and L{GeodesicLineSolve}.
     '''
-    _E          =  Ellipsoids.WGS84
+    _E          = _EWGS84
     _Exact      =  True
     _GeodSolve  = _getenv(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
     _invokation =  0
@@ -80,21 +81,22 @@ class _GeodesicSolveBase(_GeodesicBase):
                                  + self._u_option + ('-f',)
 
     @Property_RO
+    def ellipsoid(self):
+        '''Get the ellipsoid (C{Ellipsoid}).
+        '''
+        return self._E
+
+    @Property_RO
     def _e_option(self):
-        if self.ellipsoid is Ellipsoids.WGS84:
+        E = self.ellipsoid
+        if E is _EWGS84:
             return ()  # default
-        a, f = strs((self.a, self.f), fmt=Fmt.F, prec=DIG + 3)  # not .G!
+        a, f = strs(E.a_f, fmt=Fmt.F, prec=DIG + 3)  # not .G!
         return ('-e', a, f)
 
     @Property_RO
     def _E_option(self):
         return ('-E',) if self.Exact else ()
-
-    @Property_RO
-    def ellipsoid(self):
-        '''Get the ellipsoid (C{Ellipsoid}).
-        '''
-        return self._E
 
     @Property
     def Exact(self):
@@ -126,7 +128,7 @@ class _GeodesicSolveBase(_GeodesicBase):
         t = self._invoke(cmd, stdin=i).lstrip().split()  # 12-/+ tuple
         if len(t) > _len_N:  # instrumented?
             # unzip the name=value pairs to names and values
-            n, v = zip(*(p.split('=') for p in t[:-_len_N]))
+            n, v = zip(*(p.split(_EQUAL_) for p in t[:-_len_N]))
             v += tuple(t[-_len_N:])
             n += GeodSolve12Tuple._Names_
         else:
@@ -215,11 +217,8 @@ class _GeodesicSolveBase(_GeodesicBase):
                             stderr       =_STDOUT,
                           **self._text_True)
             # invoke and write to stdin
-            r = p.communicate(stdin)[0]
-            if isinstance(r, bytes):  # Python 3+
-                r = r.decode('utf-8')
-
-            if len(r) < 6 or r[:5] in ('Error', 'ERROR'):
+            r = ub2str(p.communicate(stdin)[0])
+            if len(r) < 6 or r[:5] in (_Error_, _ERROR_):
                 raise ValueError(r)
 
             self._status = p.returncode
@@ -351,7 +350,7 @@ class GeodesicSolve(_GeodesicSolveBase):
        @note: This C{geodesic} is intended I{for testing purposes only}, it invokes the C{GeodSolve}
               executable for I{every} method call.
     '''
-    def __init__(self, a_ellipsoid=Ellipsoids.WGS84, f=None, name=NN):
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):
         '''New L{GeodesicSolve} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -361,12 +360,8 @@ class GeodesicSolve(_GeodesicSolveBase):
                    is specified as C{scalar}.
            @kwarg name: Optional name (C{str}).
         '''
-        if a_ellipsoid in (GeodesicSolve._E, None):
-            pass  # ignore f, default WGS84
-        elif f is None:
-            self._E = _ellipsoidal_datum(a_ellipsoid, name=name, raiser=True).ellipsoid
-        else:
-            self._E =  Ellipsoid2(a_ellipsoid, f, name=name)
+        if a_ellipsoid not in (GeodesicSolve._E, None):
+            self._E = _ellipsoid(a_ellipsoid, f, name=name)
 
         if name:
             self.name = name

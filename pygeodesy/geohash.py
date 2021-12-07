@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.10.05'
+__version__ = '21.11.28'
 
 
 class _GH(object):
@@ -382,7 +382,7 @@ class Geohash(Str):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{PhiLam2Tuple}C{(phi, lam)} in C{radians}.
         '''
-        return PhiLam2Tuple(*map2(radians, self.latlon), name=self.name)
+        return PhiLam2Tuple(map2(radians, self.latlon), name=self.name)  # *map2
 
     @Property_RO
     def precision(self):
@@ -397,7 +397,7 @@ class Geohash(Str):
         '''
         z = _GH.Sizes
         n =  min(len(z) - 1, max(self.precision, 1))
-        return LatLon2Tuple(*z[n][:2], name=self.name)  # XXX Height, Width?
+        return LatLon2Tuple(z[n][:2], name=self.name)  # *z XXX Height, Width?
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the approximate center of) this geohash cell
@@ -620,7 +620,7 @@ def decode2(geohash, LatLon=None, **LatLon_kwds):
        @raise GeohashError: Invalid or null B{C{geohash}}.
     '''
     t = map2(float, decode(geohash))
-    r = LatLon2Tuple(*t) if LatLon is None else LatLon(*t, **LatLon_kwds)
+    r = LatLon2Tuple(t) if LatLon is None else LatLon(*t, **LatLon_kwds)  # *t
     return _xnamed(r, decode2.__name__)
 
 

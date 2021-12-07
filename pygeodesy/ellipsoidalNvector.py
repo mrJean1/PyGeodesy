@@ -22,7 +22,7 @@ See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
@@ -44,7 +44,7 @@ from pygeodesy.units import Bearing, Distance, Height, Meter, Scalar
 from pygeodesy.utily import sincos2d_
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.10.05'
+__version__ = '21.11.30'
 
 
 class Cartesian(CartesianEllipsoidalBase):

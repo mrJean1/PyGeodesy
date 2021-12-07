@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '21.11.01'
+__version__ = '21.11.28'
 
 
 def _main():  # PYCHOK no cover
@@ -15,7 +15,7 @@ def _main():  # PYCHOK no cover
     try:
         from pygeodesy import _isfrozen, isLazy, pygeodesy_abspath, version
         from pygeodesy.interns import _COMMASPACE_, _floats, _pygeodesy_abspath_, \
-                                      _pythonarchine, _SPACE_, _version_
+                                      _pythonarchine, _SPACE_, _usage, _version_
         from pygeodesy.lazily import _a_l_l_, _all_imports, printf
         from pygeodesy.streprs import Fmt
 
@@ -48,17 +48,12 @@ def _main():  # PYCHOK no cover
             v.append(_name_version(scipy))
         except ImportError:
             pass
+
         x = os_path.basename(pygeodesy_abspath)
         printf('%s%s (%s)', x, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
 
     except ImportError:
-        import os, sys  # PYCHOK imports
-
-        m = os_path.dirname(__file__).replace(os.getcwd(), '...').strip()
-        if len(m.split()) > 1:
-            m = '"%s"' % (m,)  # no Fmt.QUOTE2(m)
-        v = sys.version_info[0]
-        printf('usage: python%s -m %s', v, m)
+        printf(_usage(__file__))
 
 
 _main()

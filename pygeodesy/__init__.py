@@ -38,7 +38,7 @@ and Universal Transverse Mercator) and U{Web Mercator<https://WikiPedia.org/wiki
 (Pseudo-Mercator) coordinates, U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and U{OSGR
 <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British Ordinance Survery
-Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames)
+Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.Fr>} (Terrestrial Reference Frames)
 and modules to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and U{Garefs (GARS)
@@ -504,7 +504,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.11.27'
+__version__ = '21.12.07'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

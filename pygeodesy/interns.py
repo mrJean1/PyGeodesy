@@ -266,6 +266,7 @@ _pole_                = 'pole'               # PYCHOK expected
 _precision_           = 'precision'          # PYCHOK expected
 _prime_vertical_      = 'prime_vertical'     # PYCHOK expected
 _pygeodesy_abspath_   = 'pygeodesy_abspath'  # PYCHOK expected
+_PyPy__               = 'PyPy '              # PYCHOK + _SPACE_
 _Python_     = _Python_('Python')            # PYCHOK singleton
 _QUOTE1_              = "'"                  # PYCHOK expected
 _QUOTE2_              = '"'                  # PYCHOK expected
@@ -294,6 +295,7 @@ _SECOND_              = '″'                  # PYCHOK DMS symbol
 _semi_circular_       = 'semi-circular'      # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
 _singular_            = 'singular'           # PYCHOK expected
+_SLASH_         = _Join('/')                 # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
 _Sphere_              = 'Sphere'             # PYCHOK expected
 _spherical_           = 'spherical'          # PYCHOK expected
@@ -486,7 +488,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.11.21'
+__version__ = '21.11.30'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 
@@ -560,8 +562,8 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
     if _Py3L is None:
         from sys import version  # XXX shadows?
         _Py3L = [_SPACE_(_Python_, version.split(None, 1)[0])] + _platform2()
-        if '[PyPy ' in version:  # see test/base.py
-            _Py3L = [_SPACE_('PyPy', version.split('[PyPy ')[1].split()[0])] + _Py3L
+        if _PyPy__ in version:  # see test/base.py
+            _Py3L = [NN(_PyPy__, version.split(_PyPy__)[1].split()[0])] + _Py3L
     return sep.join(_Py3L) if sep else _Py3L  # 3- or 4-list
 
 
@@ -577,6 +579,16 @@ def _sysctl_uint(name):
     else:  # could find or load 'libc'
         r = -2
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
+
+
+def _usage(file_py):
+    # build "usage: python ..." cmd line for module B{C{file_py}}
+    import os, sys  # PYCHOK imports
+    p = NN('python', sys.version_info[0])
+    m = os.path.dirname(file_py).replace(os.getcwd(), _ELLIPSIS_).strip()
+    if len(m.split()) > 1:
+        m = NN(_QUOTE2_, m, _QUOTE2_)  # == streprs.Fmt.QUOTE2(m)
+    return _SPACE_('usage:', p, '-m', m.replace(os.sep, _DOT_))
 
 
 def _version2(version, n=2):

@@ -27,7 +27,7 @@ Note that I{ITRF solutions} do not directly use an ellipsoid, but are specified 
 coordinates.  The GRS80 ellipsoid is recommended for transformations to geographical coordinates.
 
 Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see also U{here
-<ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 I{"are likely
+<ftp://ITRF.ENSG.IGN.Fr/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 I{"are likely
 to agree at the centimeter level"}, see also U{QPS/Qinsy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
@@ -66,7 +66,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.10.05'
+__version__ = '21.12.02'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -341,11 +341,11 @@ def _trfX(n1, n2, **epoch_xform_rates):
 
 _T = Transform7Tuple
 # TRF conversions specified as an epoch and dual 7-parameter Helmert transforms.  Most
-# from U{Transformation Parameters<http://ITRF.IGN.FR/trans_para.php>}, more at U{QPS
+# from U{Transformation Parameters<http://ITRF.IGN.Fr/trans_para.php>}, more at U{QPS
 # <https://Confluence.QPS.NL/qinsy/files/en/29856813/45482834/2/1453459502000/ITRF_Transformation_Parameters.xlsx>}.
 _trfXs = dict()  # key is [(from_TRF, to_TRF)] 2-tuple
-# see U{Transformation Parameters ITRF2014<http://ITRF.IGN.FR/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
-_trfX(_ITRF2014_, _ITRF2008_, epoch=_F(2010),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2014/tp_14-08.php>
+# see U{Transformation Parameters ITRF2014<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
+_trfX(_ITRF2014_, _ITRF2008_, epoch=_F(2010),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2014/tp_14-08.php>
                               xform=_T(  1.6,     1.9,     2.4,  -0.02,  _0_0,    _0_0,    _0_0),
                               rates=_T( _0_0,    _0_0,   -_0_1,   0.03,  _0_0,    _0_0,    _0_0))
 _trfX(_ITRF2014_, _ITRF2005_, epoch=_F(2010),
@@ -382,8 +382,8 @@ _trfX(_ITRF2014_, _ITRF88_,   epoch=_F(2010),
                               xform=_T( 25.4,   -_0_5,  -154.8,  11.29,  _0_1,    _0_0,    _0_26),
                               rates=_T( _0_1,   -_0_5,    -3.3,   0.12,  _0_0,    _0_0,    _0_02))
 
-# see U{Transformation Parameters ITRF2008<http://ITRF.IGN.FR/doc_ITRF/Transfo-ITRF2008_ITRFs.txt>}
-#   _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2005),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2008/tp_08-05.php>
+# see U{Transformation Parameters ITRF2008<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2008_ITRFs.txt>}
+#   _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2005),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2008/tp_08-05.php>
 #                                xform=_T(-_0_5,    -0.9,    -4.7,   0.94,  _0_0,    _0_0,    _0_0),
 #                                rates=_T(  0.3,    _0_0,    _0_0,  _0_0,   _0_0,    _0_0,    _0_0))
 _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2000),
@@ -420,7 +420,7 @@ _trfX(_ITRF2008_, _ITRF88_,   epoch=_F(2000),
                               xform=_T( 22.8,     2.6,  -125.2,  10.41,  _0_1,    _0_0,    _0_06),
                               rates=_T( _0_1,   -_0_5,    -3.2,  _0_09,  _0_0,    _0_0,    _0_02))
 
-_trfX(_ITRF2005_, _ITRF2000_, epoch=_F(2000),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2005/tp_05-00.php>
+_trfX(_ITRF2005_, _ITRF2000_, epoch=_F(2000),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2005/tp_05-00.php>
                               xform=_T( _0_1,    -0.8,    -5.8,   0.4,   _0_0,    _0_0,    _0_0),
                               rates=_T( -0.2,    _0_1,    -1.8,   0.08,  _0_0,    _0_0,    _0_0))
 
@@ -453,7 +453,7 @@ _trfX(_ITRF2000_, _ITRF88_,   epoch=_F(1988),
                               rates=_T(_0_0,     -0.06,   -0.14, _0_01,  _0_0,    _0_0,    _0_02))
 
 # see U{Boucher, C. & Altamimi, Z. "Memo: Specifications for reference frame fixing in the
-# analysis of a EUREF GPS campaign" (2011) <https://ETRS89.ENSG.IGN.FR/memo-V8.pdf>} and
+# analysis of a EUREF GPS campaign" (2011) <https://ETRS89.ENSG.IGN.Fr/memo-V8.pdf>} and
 # Altamimi, Z. U{"Key results of ITRF2014 and implication to ETRS89 realization", EUREF2016
 # <https://www.EUREF.EU/symposia/2016SanSebastian/01-02-Altamimi.pdf>}.
 _trfX(_ITRF2014_, _ETRF2000_, epoch=_F(2000),

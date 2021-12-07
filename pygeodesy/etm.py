@@ -61,7 +61,7 @@ replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, neg, neg_, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -89,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.11.11'
+__version__ = '21.11.30'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS

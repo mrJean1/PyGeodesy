@@ -5,42 +5,44 @@ u'''Some, basic definitions and functions.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
-division = 1 / 2  # .albers, .datums, .ellipsoidalVincenty, .ellipsoids,
-if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
+division = 1 / 2  # .albers, .azimuthal, etc., .utily
+if not division:
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _AttributeError, _ImportError, _IsnotError, \
-                             _TypeError, _TypesError, _ValueError, _xkwds_get
+from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
+                             _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
-                             _invalid_, _N_A_, _name_, _SPACE_, _UNDER_, \
-                             _utf_8_, _version_, _0_0, _1_0
+                             _invalid_, _N_A_, _name_, _not_, _scalar_, \
+                             _SPACE_, _UNDER_, _utf_8_, _version_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
+try:
+    from math import isfinite as _isfinite  # in .fmath
+except ImportError:  # Python 2-
+
+    def _isfinite(x):  # mimick math.isfinite
+        return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.11.19'
+__version__ = '21.12.01'
 
-_required_ = 'required'
+_below_     = 'below'
+_ELLIPSIS4_ = '....'
+_odd_       = 'odd'
+_required_  = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
-    from numbers import Integral as _Ints  # int objects
+    from numbers import Integral as _Ints, Real as _Scalars
 except ImportError:
     try:
         _Ints = int, long  # int objects (C{tuple})
     except NameError:  # Python 3+
         _Ints = int,  # int objects (C{tuple})
-
-try:  # similarly ...
-    from numbers import Real as _Scalars  # scalar objects
-except ImportError:
-    try:
-        _Scalars = int, long, float  # scalar objects (C{tuple})
-    except NameError:
-        _Scalars = int, float  # scalar objects (C{tuple})
+    _Scalars = _Ints + (float,)
 
 try:
     try:  # use C{from collections.abc import ...} in Python 3.9+
@@ -92,11 +94,12 @@ def clips(bstr, limit=50, white=NN):
 
        @return: The clipped or unclipped B{C{bstr}}.
     '''
+    T = type(bstr)
     if len(bstr) > limit > 8:
         h = limit // 2
-        bstr = NN(bstr[:h], type(bstr)('....'), bstr[-h:])
+        bstr = T(_ELLIPSIS4_).join((bstr[:h], bstr[-h:]))
     if white:  # replace whitespace
-        bstr = type(bstr)(white).join(bstr.split())
+        bstr = T(white).join(bstr.split())
     return bstr
 
 
@@ -127,7 +130,7 @@ def halfs2(str2):
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
-        raise _ValueError(str2=str2, txt='odd')
+        raise _ValueError(str2=str2, txt=_odd_)
     return str2[:h], str2[h:]
 
 
@@ -154,23 +157,20 @@ else:
     isclass = _isclass
 
 
-try:
-    from math import isfinite  # new in Python 3+
-except ImportError:
+def isfinite(obj):
+    '''Check for C{Inf} and C{NaN} values.
 
-    def isfinite(obj):
-        '''Check for C{Inf} and C{NaN} values.
+       @arg obj: Value (C{scalar}).
 
-           @arg obj: Value (C{scalar}).
+       @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
+                C{True} otherwise.
 
-           @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
-                    C{True} otherwise.
-
-           @raise TypeError: Non-scalar B{C{obj}}.
-        '''
-        if not isscalar(obj):
-            raise _IsnotError(isscalar.__name__, obj=obj)
-        return not (isinf(obj) or isnan(obj))
+       @raise TypeError: Non-scalar B{C{obj}}.
+    '''
+    try:
+        return _isfinite(obj)
+    except (TypeError, ValueError) as x:
+        raise _TypeError(_not_(_scalar_), obj, txt=str(x))
 
 
 try:
@@ -254,7 +254,7 @@ def isneg0(x):
                 C{False} otherwise.
     '''
     return x in (_0_0, NEG0) and _copysign(1, x) < 0
-#                            and str(x).startswith('-')
+#                            and str(x).startswith(_MINUS_)
 
 
 def isnon0(x, eps0=EPS0):
@@ -364,7 +364,7 @@ def map2(func, *xs):
        Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
        L{map} object, an iterator-like object which generates the
        results only once.  Converting the L{map} object to a tuple
-       maintains Python 2 behavior.
+       maintains the Python 2 behavior.
 
        @arg func: Function to apply (C{callable}).
        @arg xs: Arguments to apply (C{list, tuple, ...}).
@@ -387,7 +387,7 @@ def neg_(*xs):
 
        @return: A C{tuple(neg(x) for x in B{xs})}.
     '''
-    return tuple(map(neg, xs))  # see map1
+    return tuple(map(neg, xs))  # like map1
 
 
 def signOf(x):
@@ -505,6 +505,16 @@ def _xdup(inst, **items):
     return d
 
 
+def _xgeographiclib(where, *required):
+    '''(INTERNAL) Import C{geographiclib} and check required version
+    '''
+    try:
+        import geographiclib
+    except ImportError as x:
+        raise _xImportError(x, where)
+    return _xversion(geographiclib, where, *required)
+
+
 def _xImportError(x, where, **name):
     '''(INTERNAL) Embellish an C{ImportError}.
     '''
@@ -578,7 +588,7 @@ def _xversion(package, where, *required, **name):  # in .karney
         t = map2(int, package.__version__.split(_DOT_))
         if t[:n] < required:
             t = _SPACE_(package.__name__, _version_, _DOT_(*t),
-                       'below', _DOT_(*required),
+                       _below_, _DOT_(*required),
                        _required_, _by_, _xwhere(where, **name))
             raise ImportError(t)
     return package
@@ -593,7 +603,6 @@ def _xwhere(where, **name):
     if n:
         m = _DOT_(m, n)
     return m
-
 
 # **) MIT License
 #

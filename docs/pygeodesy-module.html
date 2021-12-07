@@ -115,7 +115,7 @@
   target="_top">MGRS</a> (NATO Military Grid Reference System) and <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
-  references, <a href="http://ITRF.ENSG.IGN.FR" target="_top">TRF</a> 
+  references, <a href="http://ITRF.ENSG.IGN.Fr" target="_top">TRF</a> 
   (Terrestrial Reference Frames) and modules to encode and decode <a 
   href="https://www.EPSG-Registry.org" target="_top">EPSG</a>, <a 
   href="https://www.Movable-Type.co.UK/scripts/geohash.html" 
@@ -427,7 +427,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.11.27
+        21.12.07
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -480,7 +480,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">European Petroleum Survey Group (EPSG) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors-module.html">pygeodesy.errors</a></strong>: <em class="summary">Errors, exceptions and exception chaining.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary"><i>Karney</i>'s Exact Transverse Mercator (ETM) projection.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point functions, classes and utilities.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point summation and utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet-module.html">pygeodesy.frechet</a></strong>: <em class="summary">Fr&#233;chet distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
@@ -1989,8 +1989,12 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.karney.GeodesicError-class.html" class="summary-name">GeodesicError</a><br />
-      Error raised for <i>geodesicx</i>'s methods for lack of convergence
-        or other issues.
+      Error raised for <a href="pygeodesy.geodesicx-module.html" 
+        class="link">pygeodesy.geodesicx</a> lack of convergence or other 
+        <a href="pygeodesy.geodesicx-module.html" 
+        class="link">pygeodesy.geodesicx</a> or <a 
+        href="pygeodesy.karney-module.html" 
+        class="link">pygeodesy.karney</a> issues.
     </td>
   </tr>
 <tr>
@@ -4598,8 +4602,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#callername" class="summary-sig-name">callername</a>(<span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>,
         <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">source</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Get the name of the calling callable.</td>
+        <span class="summary-sig-arg">source</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">underOK</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Get the name of the invoking callable.</td>
           <td align="right" valign="top">
             
             
@@ -5219,7 +5224,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
-      href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+      href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
       target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
@@ -5243,7 +5248,7 @@
         <span class="summary-sig-arg">lam21</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
       Compute the <i>angular</i> distance between two (ellipsoidal) points 
-      using the <a href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+      using the <a href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
       target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
       target="_top">Law of Cosines</a> formula.</td>
@@ -7138,7 +7143,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f84c83a3950&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe150356dd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9358,7 +9363,7 @@
         <span class="summary-sig-arg">Clas</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Clas_kwds</span>)</span><br />
       3-Point resection using <a 
-      href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+      href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
       target="_top">Pierlot</a>'s method <code>ToTal</code>.</td>
           <td align="right" valign="top">
             
@@ -11152,7 +11157,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.11.27'"><code class="variable-quote">'</code><code class="variable-string">21.11.27</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.12.7'"><code class="variable-quote">'</code><code class="variable-string">21.12.7</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12983,24 +12988,26 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">callername</span>&nbsp;(<span class="sig-arg">up</span>=<span class="sig-default">1</span>,
         <span class="sig-arg">dflt</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">source</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">source</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">underOK</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Get the name of the calling callable.</p>
+  <p>Get the name of the invoking callable.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
         <li><strong class="pname"><code>dflt</code></strong> - Default return value (<code>any</code>).</li>
         <li><strong class="pname"><code>source</code></strong> - Include source file name and line number (<code>bool</code>).</li>
+        <li><strong class="pname"><code>underOK</code></strong> - Private, internal callables are OK (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Name of the non-internal callable (<code>str</code>) or 
-          <b><code>dflt</code></b> if none found.</dd>
+        <dd>The callable name (<code>str</code>) or <b><code>dflt</code></b> 
+          if none found.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -14388,7 +14395,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Compute the distance between two (ellipsoidal) points using the <a 
-  href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+  href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
   target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
@@ -14467,7 +14474,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
-  using the <a href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+  using the <a href="https://www2.UNB.Ca/gge/Pubs/TR77.pdf" 
   target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
   target="_top">Law of Cosines</a> formula.</p>
@@ -16726,7 +16733,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <a 
         href="https://GitHub.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h"
         target="_top">ShaderFastLibs.h</a> and <a 
-        href="http://www-Labs.IRO.UMontreal.CA/~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf"
+        href="http://www-Labs.IRO.UMontreal.Ca/~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf"
         target="_top">Efficient approximations for the arctangent 
         function</a>, IEEE Signal Processing Magazine, 111, May 2006.
       </p>
@@ -16852,7 +16859,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Class <a href="pygeodesy.fmath.Fdot-class.html" 
-        class="link">Fdot</a>.
+        class="link">Fdot</a> and <a 
+        href="https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf" 
+        target="_top">Algorithm 5.10 <b>DotK</b></a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -18273,7 +18282,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f84c83a3950&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe150356dd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18881,6 +18890,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Compute the norm <i class="math">sqrt(sum(x**2 for x in xs))</i>.</p>
+  <p>Similar to Python 3.8+ n-dimension <a 
+  href="https://docs.Python.org/3.8/library/math.html#math.hypot" 
+  target="_top">math.hypot</a>, but exceptions, <code>nan</code> and 
+  <code>infinite</code> values are handled differently.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -18894,13 +18907,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> values.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Similar to Python 3.8+ n-dimension <a 
-        href="https://docs.Python.org/3.8/library/math.html#math.hypot" 
-        target="_top">math.hypot</a>, but handling of exceptions, 
-        <code>nan</code> and <code>infinite</code> values is different.
-      </p>
-      <p><strong>Note:</strong>
+<div class="fields">      <p><strong>Note:</strong>
         The Python 3.8+ Euclidian distance <a 
         href="https://docs.Python.org/3.8/library/math.html#math.dist" 
         target="_top">math.dist</a> between 2 <i>n</i>-dimensional points 
@@ -20928,7 +20935,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <code class="link">map</code> returns a <code class="link">map</code> 
   object, an iterator-like object which generates the results only once.  
   Converting the <code class="link">map</code> object to a tuple maintains 
-  Python 2 behavior.</p>
+  the Python 2 behavior.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22768,7 +22775,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>3-Point resection using <a 
-  href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree"
+  href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
   target="_top">Pierlot</a>'s method <code>ToTal</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -22818,11 +22825,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
       <p><strong>See Also:</strong>
         <a 
-        href="https://ORBi.ULiege.BE/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
+        href="https://ORBi.ULiege.Be/bitstream/2268/157469/1/Pierlot2014ANewThree.pdf"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation Algorithm for Mobile Robot 
         Positioning&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.BE/triangulation" 
+        href="http://www.Telecom.ULg.ac.Be/triangulation" 
         target="_top">Vincent Pierlot, Marc Van Droogenbroeck, &quot;18 
         Triangulation Algorithms for 2D Positioning (also known as the 
         Resection Problem)&quot;</a> and functions <a 
@@ -24635,10 +24642,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       <p><strong>See Also:</strong>
         <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
         target="_top">3-Point Resection Solver</a>, <a 
-        href="http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree/"
+        href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation...&quot;</a>, <a 
-        href="http://www.Telecom.ULg.ac.BE/triangulation/" target="_top">18
+        href="http://www.Telecom.ULg.ac.Be/triangulation/" target="_top">18
         Triangulation Algorithms...</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
         class="link">pygeodesy.cassini</a>, <a 
@@ -26822,7 +26829,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Nov 26 15:18:53 2021
+    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:49 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

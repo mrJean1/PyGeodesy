@@ -77,7 +77,7 @@ C{>>> hs = ginterpolator.height(lats, lons)}
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -111,7 +111,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.11.25'
+__version__ = '21.11.30'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

@@ -13,7 +13,7 @@ See also I{Albers Equal-Area Conic Projection} in U{John P. Snyder, "Map Project
 and the Albers Conical Equal-Area examples on pp 291-294.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, neg
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.11.12'
+__version__ = '21.11.30'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -83,16 +83,18 @@ def _Ks(**name_k):
     return Scalar_(Error=AlbersError, low=EPS0, **name_k)  # > 0
 
 
-def _Lat(**name_lat):
+def _Lat(*lat, **Error_name_lat):
     '''(INTERNAL) Latitude C{-90 <= B{lat} <= 90}.
     '''
-    return Lat_(Error=AlbersError, **name_lat)
+    kwds = _xkwds(Error_name_lat, Error=AlbersError)
+    return Lat_(*lat, **kwds)
 
 
-def _Lon(**name_lon):
+def _Lon(*lon, **Error_name_lon):
     '''(INTERNAL) Longitude C{-180 <= B{lon} <= 180}.
     '''
-    return Lon_(Error=AlbersError, **name_lon)
+    kwds = _xkwds(Error_name_lon, Error=AlbersError)
+    return Lon_(*lon, **kwds)
 
 
 def _tol(tol, x):

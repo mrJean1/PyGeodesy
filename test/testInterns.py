@@ -5,7 +5,7 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.08.31'
+__version__ = '21.11.28'
 
 from base import TestsBase
 
@@ -29,6 +29,7 @@ _exceptions   = (_0to9_, _AtoZnoIO_,
                  interns._NL_hash_,
                  interns._NL_var_,
                  interns._OKd_,
+                 interns._PyPy__,
                  interns._semi_circular_,
                  interns._utf_8_)
 _DUNDER_0to9_ =  NN(_DUNDER_, _0to9_)

@@ -50,7 +50,7 @@ or by converting to anothor datum:
     >>> p = p.toDatum(Datums.OSGB36)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnear0
 from pygeodesy.datums import _WGS84
@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.10.19'
+__version__ = '21.11.30'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!

@@ -14,7 +14,7 @@ I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnear0, isnear1, isnon0, isscalar, \
                              map1, signOf
@@ -52,7 +52,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.10.19'
+__version__ = '21.11.30'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -886,7 +886,7 @@ def areaOf(points, radius=R_M, wrap=True):
                     wrap180(z2 - z))  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
 
-    r = abs(E.fsum()) * _2_0
+    r = abs(E.fmul(_2_0).fsum())
     if abs(D.fsum()) < _90_0:  # ispolar(points)
         r = abs(r - PI2)
     if radius:

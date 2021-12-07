@@ -10,11 +10,12 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
+from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
+                            _spherical_datum, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds_not
 # from pygeodesy.errors import _xkwds  # from .named
@@ -31,7 +32,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.11.11'
+__version__ = '21.12.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -263,28 +264,30 @@ class LatLonEllipsoidalBase(LatLonBase):
         from pygeodesy.elevations import elevation2
         return elevation2(self.lat, self.lon, timeout=self._elevation2to)
 
-    def elevation2(self, adjust=True, datum=_WGS84, timeout=2):
-        '''Return elevation of this point for its or the given datum.
+    def elevation2(self, adjust=True, datum=None, timeout=2):
+        '''Return elevation of this point for its or the given datum, ellipsoid
+           or sphere.
 
-           @kwarg adjust: Adjust the elevation for a B{C{datum}} other
-                          than C{NAD83} (C{bool}).
-           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg adjust: Adjust the elevation for a B{C{datum}} other than
+                          C{NAD83} (C{bool}).
+           @kwarg datum: Optional datum overriding this point's datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or C{scalar}
+                         radius).
            @kwarg timeout: Optional query timeout (C{seconds}).
 
-           @return: An L{Elevation2Tuple}C{(elevation, data_source)}
-                    or C{(None, error)} in case of errors.
+           @return: An L{Elevation2Tuple}C{(elevation, data_source)} or
+                    C{(None, error)} in case of errors.
 
-           @note: The adjustment applied is the difference in geocentric
-                  earth radius between the B{C{datum}} and C{NAV83}
-                  upon which the L{elevations.elevation2} is based.
+           @note: The adjustment applied is the difference in geocentric earth
+                  radius between the B{C{datum}} and C{NAV83} upon which the
+                  L{elevations.elevation2} is based.
 
-           @note: NED elevation is only available for locations within
-                  the U{Conterminous US (CONUS)
+           @note: NED elevation is only available for locations within the
+                  U{Conterminous US (CONUS)
                   <https://WikiPedia.org/wiki/Contiguous_United_States>}.
 
-           @see: Function L{elevations.elevation2} and method
-                 L{Ellipsoid.Rgeocentric} for further details and
-                 possible C{error}s.
+           @see: Function L{elevations.elevation2} and method C{Ellipsoid.Rgeocentric}
+                 for further details and possible C{error}s.
         '''
         if self._elevation2to != timeout:
             self._elevation2to = timeout
@@ -367,28 +370,30 @@ class LatLonEllipsoidalBase(LatLonBase):
         from pygeodesy.elevations import geoidHeight2
         return geoidHeight2(self.lat, self.lon, model=0, timeout=self._geoidHeight2to)
 
-    def geoidHeight2(self, adjust=False, datum=_WGS84, timeout=2):
-        '''Return geoid height of this point for its or the given datum.
+    def geoidHeight2(self, adjust=False, datum=None, timeout=2):
+        '''Return geoid height of this point for its or the given datum, ellipsoid
+           or sphere.
 
-           @kwarg adjust: Adjust the geoid height for a B{C{datum}}
-                          other than C{NAD83/NADV88} (C{bool}).
-           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg adjust: Adjust the geoid height for a B{C{datum}} other than
+                          C{NAD83/NADV88} (C{bool}).
+           @kwarg datum: Optional datum overriding this point's datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or C{scalar}
+                         radius).
            @kwarg timeout: Optional query timeout (C{seconds}).
 
            @return: A L{GeoidHeight2Tuple}C{(height, model_name)} or
                     C{(None, error)} in case of errors.
 
-           @note: The adjustment applied is the difference in geocentric
-                  earth radius between the B{C{datum}} and C{NAV83/NADV88}
-                  upon which the L{elevations.geoidHeight2} is based.
+           @note: The adjustment applied is the difference in geocentric earth
+                  radius between the B{C{datum}} and C{NAV83/NADV88} upon which
+                  the L{elevations.geoidHeight2} is based.
 
-           @note: The geoid height is only available for locations within
-                  the U{Conterminous US (CONUS)
+           @note: The geoid height is only available for locations within the
+                  U{Conterminous US (CONUS)
                   <https://WikiPedia.org/wiki/Contiguous_United_States>}.
 
-           @see: Function L{elevations.geoidHeight2} and method
-                 L{Ellipsoid.Rgeocentric} for further details and
-                 possible C{error}s.
+           @see: Function L{elevations.geoidHeight2} and method C{Ellipsoid.Rgeocentric}
+                 for further details and possible C{error}s.
         '''
         if self._geoidHeight2to != timeout:
             self._geoidHeight2to = timeout
@@ -610,8 +615,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         return r
 
     def _Radjust2(self, adjust, datum, meter_text2):
-        '''(INTERNAL) Adjust elevation or geoidHeight with difference
-           in Gaussian radii of curvature of given datum and NAD83.
+        '''(INTERNAL) Adjust an C{elevation} or C{geoidHeight} with
+           difference in Gaussian radii of curvature of the given
+           datum and NAD83 ellipsoids at this point's latitude.
 
            @note: This is an arbitrary, possibly incorrect adjustment.
         '''
@@ -621,9 +627,11 @@ class LatLonEllipsoidalBase(LatLonBase):
                 n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
                 if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
-                    e = self.ellipsoid(datum).rocGauss(self.lat)
-                    if e > EPS0 and abs(e - n) > EPS:  # EPS1
-                        m *= e / n
+                    E = self.ellipsoid() if datum in (None, self.datum) else \
+                       _spherical_datum(datum).ellipsoid
+                    r = E.rocGauss(self.lat)
+                    if r > EPS0 and abs(r - n) > EPS:  # EPS1
+                        m *= r / n
                         meter_text2 = meter_text2.classof(m, t)
         return self._xnamed(meter_text2)
 

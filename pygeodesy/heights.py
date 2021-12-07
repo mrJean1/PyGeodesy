@@ -63,7 +63,7 @@ C{>>> hs = hinterpolator.height(lats, lons)}
       Interpolation.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -84,7 +84,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.11.25'
+__version__ = '21.11.30'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'

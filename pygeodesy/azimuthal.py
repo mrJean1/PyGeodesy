@@ -40,7 +40,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 #/media/File:Comparison_azimuthal_projections.svg>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnon0, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -68,7 +68,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.11.22'
+__version__ = '21.11.30'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'

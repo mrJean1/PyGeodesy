@@ -71,7 +71,7 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 U{22<https://DLMF.NIST.gov/22>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, map2, neg
 from pygeodesy.errors import _ValueError
@@ -92,12 +92,12 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.07.31'
+__version__ = '21.11.30'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
 _TolRG0 = _TolJAC  * 2.7
-_TRIPS  =  15  # Max depth, 7 might be enough, by .etm
+_TRIPS  =  31  # Max depth, 7 might be enough, by .etm
 
 
 class EllipticError(_ValueError):
@@ -827,7 +827,8 @@ def _RD(x, y, z):  # used by testElliptic.py
     z = (x + y) / _3_0
     z2 = z**2
     xy = x * y
-    return _horner(3 * S.fsum(), m * sqrt(An),
+    S *= _3_0
+    return _horner(S.fsum(), m * sqrt(An),
                    xy - _6_0 * z2,
                   (xy * _3_0 - _8_0 * z2) * z,
                   (xy - z2) * _3_0 * z2,
@@ -978,8 +979,9 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     p2 = p**2
     p3 = p * p2
 
+    S *= _6_0
     e2 = fsum_(x * y, x * z, y * z, -p2 * _3_0)
-    return _horner(_6_0 * S.fsum(), m * sqrt(An), e2,
+    return _horner(S.fsum(), m * sqrt(An), e2,
                    fsum_(xyz, _2_0 * p * e2, _4_0 * p3),
                    fsum_(xyz * _2_0, p * e2, _3_0 * p3) * p,
                    p2 * xyz)

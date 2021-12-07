@@ -200,9 +200,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#elevation2" class="summary-sig-name">elevation2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Return elevation of this point for its or the given datum.</td>
+      Return elevation of this point for its or the given datum, ellipsoid 
+      or sphere.</td>
           <td align="right" valign="top">
             
             
@@ -256,9 +257,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2" class="summary-sig-name">geoidHeight2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">timeout</span>=<span class="summary-sig-default">2</span>)</span><br />
-      Return geoid height of this point for its or the given datum.</td>
+      Return geoid height of this point for its or the given datum, 
+      ellipsoid or sphere.</td>
           <td align="right" valign="top">
             
             
@@ -1031,7 +1033,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">elevation2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">timeout</span>=<span class="sig-default">2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1039,14 +1041,21 @@
     </td>
   </tr></table>
   
-  <p>Return elevation of this point for its or the given datum.</p>
+  <p>Return elevation of this point for its or the given datum, ellipsoid 
+  or sphere.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the elevation for a <b><code>datum</code></b> other than 
           <code>NAD83</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum overriding this point's datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (<code>seconds</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1071,10 +1080,9 @@
       </ul>
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.elevations-module.html#elevation2" 
-        class="link">elevations.elevation2</a> and method <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeocentric" 
-        class="link">Ellipsoid.Rgeocentric</a> for further details and 
-        possible <code>error</code>s.
+        class="link">elevations.elevation2</a> and method 
+        <code>Ellipsoid.Rgeocentric</code> for further details and possible
+        <code>error</code>s.
       </p>
 </div></td></tr></table>
 </div>
@@ -1153,7 +1161,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">geoidHeight2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">timeout</span>=<span class="sig-default">2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1161,14 +1169,21 @@
     </td>
   </tr></table>
   
-  <p>Return geoid height of this point for its or the given datum.</p>
+  <p>Return geoid height of this point for its or the given datum, 
+  ellipsoid or sphere.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the geoid height for a <b><code>datum</code></b> other 
           than <code>NAD83/NADV88</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum overriding this point's datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (<code>seconds</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1194,10 +1209,9 @@
       </ul>
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.elevations-module.html#geoidHeight2" 
-        class="link">elevations.geoidHeight2</a> and method <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeocentric" 
-        class="link">Ellipsoid.Rgeocentric</a> for further details and 
-        possible <code>error</code>s.
+        class="link">elevations.geoidHeight2</a> and method 
+        <code>Ellipsoid.Rgeocentric</code> for further details and possible
+        <code>error</code>s.
       </p>
 </div></td></tr></table>
 </div>
@@ -2219,7 +2233,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Nov 26 15:18:54 2021
+    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:50 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

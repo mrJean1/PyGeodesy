@@ -4,7 +4,7 @@
 # Test namedTuples module.
 
 __all__ = ('Tests',)
-__version__ = '21.05.10'
+__version__ = '21.11.28'
 
 from base import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -12,12 +12,13 @@ from pygeodesy.albers import _Ks
 from pygeodesy.frechet import Frechet6Tuple
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _COMMASPACE_, _DOT_
-from pygeodesy.karney import _GTuple
+from pygeodesy.karney import _GTuple, _Lat, _Lon
 from pygeodesy.named import _Pass
 from pygeodesy.namedTuples import _NamedTuple
 from pygeodesy.units import _NamedUnit
 
 _Units_ = '_Units_'
+_Xcepts = (FIx, _Ks, _Lat, _Lon, _Pass)
 
 
 class Tests(TestsBase):
@@ -33,7 +34,7 @@ class Tests(TestsBase):
             self.test(m, e, len(t))
 
         for i, u in enumerate(U):  # check _Units_ types
-            if not (callable(u) and (u in (FIx, _Ks, _Pass) or
+            if not (callable(u) and (u in _Xcepts or
                                      issubclassof(u, _NamedUnit))):
                 e = '%s[%s] %r' % (n, i, u)
                 self.test(m, e, callable.__name__)
