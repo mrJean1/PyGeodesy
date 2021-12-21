@@ -11,11 +11,12 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 from pygeodesy.basics import isnear0, _xinstanceof
-from pygeodesy.datums import Datum, _spherical_datum, _WGS84
-from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
+from pygeodesy.datums import Datum, _spherical_datum, Transform, _WGS84
+from pygeodesy.errors import _datum_datum, _IsnotError, _TypesError, \
+                             _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
-                             _1_0, _N_1_0, _2_0, _4_0, _6_0
+                             _other_, _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 # from pygeodesy.named import _xnamed  # from .vector3d
@@ -29,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.11.30'
+__version__ = '21.12.20'
 
 
 class CartesianBase(Vector3d):
@@ -62,6 +63,50 @@ class CartesianBase(Vector3d):
             self._height = Height(h)
         if d is not None:
             self.datum = d
+
+    def __imatmul__(self, other):  # PYCHOK no cover
+        '''Convert or transform this cartesian I{in-place}, C{this @= B{other}}.
+
+           @arg other: A L{Datum} or L{Transform} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+
+           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
+        '''
+        t = self.__xmatmul(other, False)
+        if isinstance(other, Datum):
+            self.datum = t.datum
+        self.xyz = t.xyz
+        return self
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Return a converted or transformed cartesian, C{c = this @ B{other}}.
+
+           @arg other: A L{Datum} or L{Transform} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''
+        return self.__xmatmul(other, False)
+
+    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Return a converted or I{inversely} transformed cartesian, C{c = B{other} @ this}.
+
+           @arg other: A L{Datum} or L{Transform} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''
+        return self.__xmatmul(other, True)
+
+    def __xmatmul(self, other, inverse):
+        '''(INTERNAL) Helper for __imatmul__, __matmul__, __rmatmul__.
+        '''
+        if isinstance(other, Datum):
+            t = self.toDatum(datum2=other)
+        elif isinstance(other, Transform):
+            t = self._applyHelmert(other, inverse=inverse)
+        else:  # _xinstanceof(Datum, Transform, other=other)
+            raise _TypesError(_other_, other, Datum, Transform)
+        return t
 
     def _applyHelmert(self, transform, inverse=False, datum=None):
         '''(INTERNAL) Return a new cartesian by applying a Helmert
@@ -210,26 +255,28 @@ class CartesianBase(Vector3d):
         '''
         return self.Ecef(self.datum, name=self.name).reverse(self, M=True)
 
-    def hartzell(self, los=None):
-        '''Compute the intersection of a Line-Of-Sight from this certesian
-           Point-Of-View (pov) with this C{datum}'s ellipsoid surface.
+    def hartzell(self, los=None, earth=None):
+        '''Compute the intersection of a Line-Of-Sight (los) from this certesian
+           Point-Of-View (pov) with this cartesian's ellipsoid surface.
 
            @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
                        C{None} to point to the ellipsoid's center.
+           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                         L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
+                         this cartesian's C{datum} ellipsoid.
 
            @return: The ellipsoid intersection (C{Cartesian}).
 
-           @raise IntersectionError: Null C{pov} or B{C{los}} vector,
-                                     this C{pov} is inside the ellipsoid or
-                                     B{C{los}} points outside the ellipsoid
-                                     or in an opposite direction.
+           @raise IntersectionError: Null C{pov} or B{C{los}} vector, this C{pov}
+                                     is inside the ellipsoid or B{C{los}} points
+                                     outside the ellipsoid or in an opposite direction.
 
            @raise TypeError: Invalid B{C{los}} or no B{C{datum}}.
 
            @see: Function C{hartzell} for further details.
         '''
         from pygeodesy.formy import hartzell
-        return hartzell(self, los=los, earth=self.datum)
+        return hartzell(self, los=los, earth=earth or self.datum)
 
     @Property
     def height(self):

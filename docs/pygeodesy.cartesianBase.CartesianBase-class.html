@@ -98,6 +98,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Convert or transform this cartesian <i>in-place</i>, <code>this @= 
+      <b>other</b></code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x_xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
@@ -106,6 +125,44 @@
         <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <code>Cartesian...</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__matmul__" class="summary-sig-name">__matmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Return a converted or transformed cartesian, <code>c = this @ 
+      <b>other</b></code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__rmatmul__" class="summary-sig-name">__rmatmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Return a converted or <i>inversely</i> transformed cartesian, <code>c
+      = <b>other</b> @ this</code>.</td>
           <td align="right" valign="top">
             
             
@@ -210,9 +267,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Compute the intersection of a Line-Of-Sight from this certesian 
-      Point-Of-View (pov) with this <code>datum</code>'s ellipsoid surface.</td>
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the intersection of a Line-Of-Sight (los) from this certesian
+      Point-Of-View (pov) with this cartesian's ellipsoid surface.</td>
           <td align="right" valign="top">
             
             
@@ -490,21 +548,38 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html" onclick="show_private();">vector3dBase.Vector3dBase</a></code></b>:
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__abs__">__abs__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__bool__">__bool__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__cmp__">__cmp__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__div__">__div__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__divmod__">__divmod__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floordiv__">__floordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__format__">__format__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ge__">__ge__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__gt__">__gt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__iadd__">__iadd__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__idiv__">__idiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imul__">__imul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__isub__">__isub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__itruediv__">__itruediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__le__">__le__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__lt__">__lt__</a></code>,
-      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mod__">__mod__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__">__mul__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ne__">__ne__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__nonzero__">__nonzero__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pos__">__pos__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pow__">__pow__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__">__radd__</a></code>,
-      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rdivmod__">__rdivmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rfloordiv__">__rfloordiv__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmod__">__rmod__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmul__">__rmul__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__round__">__round__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rpow__">__rpow__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rsub__">__rsub__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rtruediv__">__rtruediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__">__sub__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__">__truediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#angleTo">angleTo</a></code>,
@@ -548,7 +623,6 @@
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
-      <code>__format__</code>,
       <code>__getattribute__</code>,
       <code>__hash__</code>,
       <code>__new__</code>,
@@ -717,6 +791,45 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="__imatmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imatmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert or transform this cartesian <i>in-place</i>, <code>this @= 
+  <b>other</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a> instance.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__imatmul__">named._Named.__imatmul__</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Luciano Ramalho, &quot;Fluent Python&quot;, page 397-398, O'Reilly 
+        2016.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -780,6 +893,82 @@
     </ul></dd>
     <dt>Overrides:
         object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__matmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__matmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a converted or transformed cartesian, <code>c = this @ 
+  <b>other</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a> instance.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__matmul__">named._Named.__matmul__</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__rmatmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__rmatmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a converted or <i>inversely</i> transformed cartesian, <code>c 
+  = <b>other</b> @ this</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a> instance.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__rmatmul__">named._Named.__rmatmul__</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -1011,15 +1200,16 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">los</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the intersection of a Line-Of-Sight from this certesian 
-  Point-Of-View (pov) with this <code>datum</code>'s ellipsoid surface.</p>
+  <p>Compute the intersection of a Line-Of-Sight (los) from this certesian 
+  Point-Of-View (pov) with this cartesian's ellipsoid surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1027,6 +1217,16 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>) or <code>None</code> to point to the 
           ellipsoid's center.</li>
+        <li><strong class="pname"><code>earth</code></strong> - The earth model (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
+          <code>meter</code>) overriding this cartesian's 
+          <code>datum</code> ellipsoid.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The ellipsoid intersection (<code>Cartesian</code>).</dd>
@@ -1956,7 +2156,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:50 2021
+    Generated by Epydoc 3.0.1 on Mon Dec 20 16:52:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

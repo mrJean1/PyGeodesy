@@ -11,6 +11,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 '''
 
 from pygeodesy.basics import isstr, _xinstanceof
+# from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _datum_datum, _incompatible, IntersectionError, \
                              _ValueError, _xError, _xkwds, _xkwds_not
@@ -19,7 +20,7 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, hartzell, haversine, isantipode, \
-                            latlon2n_xyz, thomas_, vincentys
+                            latlon2n_xyz, _spherical_datum, thomas_, vincentys
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
                              _concentric_, _height_, _intersection_, _m_, \
                              _no_, _overlap_, _point_, _0_0, _0_5, _1_0
@@ -40,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.11.30'
+__version__ = '21.12.20'
 
 
 class LatLonBase(_NamedBase):
@@ -158,7 +159,7 @@ class LatLonBase(_NamedBase):
         return _v3d(self).minus(_v3d(other)).length
 
     def circin6(self, point2, point3, eps=EPS4):
-        '''Return the radius and center of the I{inscribed} aka I{In- circle}
+        '''Return the radius and center of the I{inscribed} aka I{In-}circle
            of the (planar) triangle formed by this and two other points.
 
            @arg point2: Second point (C{LatLon}).
@@ -168,7 +169,7 @@ class LatLonBase(_NamedBase):
            @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
                     C{center} and contact points C{cA}, C{cB} and C{cC}, each an
                     instance of this (sub-)class, are co-planar with this and the
-                    two given points.
+                    two given points, see the B{Note} below.
 
            @raise ImportError: Package C{numpy} not found, not installed or older
                                than version 1.10.
@@ -183,7 +184,7 @@ class LatLonBase(_NamedBase):
                   in C{meter} indicates whether the C{center} is above, below or on the
                   surface of the earth model.  If C{deltas} is C{None}, the C{center} is
                   I{un}ambigous.  Otherwise C{deltas} is a L{LatLon3Tuple}C{(lat, lon,
-                  height)} representing the difference between both results from
+                  height)} representing the differences between both results from
                   L{pygeodesy.trilaterate3d2} and C{center} is the mean thereof.
 
            @see: Function L{pygeodesy.circin6}, method L{circum3}, U{Incircle
@@ -544,12 +545,15 @@ class LatLonBase(_NamedBase):
         '''
         return self._distanceTo(flatPolar, other, radius, wrap=wrap)
 
-    def hartzell(self, los=None):
-        '''Compute the intersection of a Line-Of-Sight from this Point-Of-View
-           (pov) with this C{datum}'s ellipsoid surface.
+    def hartzell(self, los=None, earth=None):
+        '''Compute the intersection of a Line-Of-Sight (los) from this Point-Of-View
+           (pov) with this point's ellipsoid surface.
 
            @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
                        C{None} to point to the ellipsoid's center.
+           @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                         L{a_f2Tuple} or C{scalar} radius in C{meter}) overriding
+                         this point's C{datum} ellipsoid.
 
            @return: The ellipsoid intersection (C{LatLon}) or this very instance
                     if this C{pov's height} is C{0}.
@@ -569,12 +573,11 @@ class LatLonBase(_NamedBase):
         elif h < 0:
             raise IntersectionError(pov=self, los=los, height=h, txt=_no_(_height_))
         elif los is None:
-            r = self.copy()
-            r.rename(self.hartzell.__name__)
-            r.height = 0
+            d = self.datum if earth is None else _spherical_datum(earth)
+            r = self.dup(datum=d, height=0, name=self.hartzell.__name__)
         else:
             c = self.toCartesian()
-            r = hartzell(c, los=los, earth=self.datum, LatLon=self.classof)
+            r = hartzell(c, los=los, earth=earth or self.datum, LatLon=self.classof)
         return r
 
     def haversineTo(self, other, radius=None, wrap=False):

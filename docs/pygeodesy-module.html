@@ -193,7 +193,7 @@
     class="link">GeoidKarney</a> and the <a 
     href="pygeodesy.heights-module.html" class="link">HeightIDW...</a> 
     ones.</p>
-    <p>Functions and methods <a 
+    <p>Functions and <code>LatLon</code> methods <a 
     href="pygeodesy.vector2d-module.html#circin6" class="link">circin6</a>,
     <a href="pygeodesy.vector2d-module.html#circum3" 
     class="link">circum3</a>, <a 
@@ -226,7 +226,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.10.0 (with <a 
+    <p>The tests have been run with Python 3.10.1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52), Python 3.9.6 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
@@ -238,13 +238,13 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and Python 2.7.18 (with <a 
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 12.0.1 Monterey and in 
+    target="_top">GeodSolve</a> 1.51, all on macOS 12.1 Monterey and in 
     64-bit only.  The tests are run with and without <code>lazy 
     import</code> for Python 3 and with command line option <code>-W 
     always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of only those tests are included in the distribution files.</p>
-    <p>Python 3.10.0 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
+    <p>Python 3.10.1 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
     <i>natively</i>), all other Python versions run on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (<code>&quot;arm64_x86_64&quot;</code>, see function <a 
@@ -252,9 +252,11 @@
     class="link">pygeodesy.machine</a>).</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.9.6 (with <a href="https://PyPI.org/project/numpy"
-    target="_top">numpy</a> 1.21.2), Python 3.8.10 (with <a 
+    4.5.4 using Python 3.10.1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.52), Python 3.9.6 (with <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
+    Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
@@ -270,7 +272,7 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
     1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
-    16.04</a> and with Python 3.10.0 (and <a 
+    16.04</a> and with Python 3.10.1 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -284,7 +286,7 @@
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.9.0-5, 3.8.0-6, 
+    <p>Previously, the tests were run with Python 3.10.0, 3.9.0-5, 3.8.0-6,
     3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
@@ -315,8 +317,8 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.10.0, both in 64-bit on macOS 
-    12.0.1 Monterey.</p>
+    target="_top">Flake8</a> using Python 3.10.1, both in 64-bit on macOS 
+    12.1 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -344,6 +346,10 @@
         class="link">pygeodesy.lazily</a> and variable <a 
         href="pygeodesy-module.html#isLazy" 
         class="link">pygeodesy.isLazy</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_NOTIMPLEMENTED</code> - __special__ methods return 
+        <code>NotImplemented</code> if set to &quot;std&quot;.
       </li>
       <li>
         <code>PYGEODESY_BEARING_STD_REPR</code> - see method <a 
@@ -427,7 +433,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.12.07
+        21.12.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1964,11 +1970,12 @@
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
         <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
-        all in <code>degrees</code>, distance <code>s12</code> and reduced 
-        length <code>m12</code> in <code>meter</code>, area 
-        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
-        scales <code>M12</code> and <code>M21</code> <code>scalar</code>, 
-        see <a 
+        all in <code>degrees</code>, initial <code>azi1</code> and final 
+        <code>azi2</code> forward azimuths, distance <code>s12</code> and 
+        reduced length <code>m12</code> in <code>meter</code>, area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>  and geodesic
+        scale factors <code>M12</code> and <code>M21</code>, both 
+        <code>scalar</code>, see <a 
         href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a>.
     </td>
@@ -2720,8 +2727,10 @@
         M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
-        <code>meter</code> <i>squared</i> and sines and cosines of initial 
-        and final (forward) azimuths.
+        <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
+        <code>salp2</code> and cosines <code>calp1</code>, 
+        <code>calp2</code> of the initial <code>1</code> and final 
+        <code>2</code> foward azimuths.
     </td>
   </tr>
 <tr>
@@ -7117,8 +7126,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
       space with the surface of the earth.</td>
           <td align="right" valign="top">
@@ -7143,7 +7151,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe150356dd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9ca8829150&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11157,7 +11165,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.12.7'"><code class="variable-quote">'</code><code class="variable-string">21.12.7</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.12.21'"><code class="variable-quote">'</code><code class="variable-string">21.12.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18207,8 +18215,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18237,12 +18244,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Ellipsoid2</a>, <a 
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
-          <code>meter</code>.</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to convert insection point (<code>LatLon</code>, <a 
-          href="pygeodesy.points.LatLon_-class.html" 
-          class="link">LatLon_</a>).</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+          <code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code>LatLon</code> class to convert insection point 
+          plus <code>LatLon</code> keyword arguments, include 
+          <b><code>datum</code></b> if different from 
+          <b><code>earth</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The earth intersection (<a 
@@ -18282,7 +18288,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe150356dd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9ca8829150&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26829,7 +26835,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:49 2021
+    Generated by Epydoc 3.0.1 on Mon Dec 20 16:52:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

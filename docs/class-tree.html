@@ -1005,14 +1005,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1024,6 +1016,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1148,12 +1148,12 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
@@ -1164,12 +1164,12 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -2128,11 +2128,12 @@
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
         <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
-        all in <code>degrees</code>, distance <code>s12</code> and reduced 
-        length <code>m12</code> in <code>meter</code>, area 
-        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
-        scales <code>M12</code> and <code>M21</code> <code>scalar</code>, 
-        see <a 
+        all in <code>degrees</code>, initial <code>azi1</code> and final 
+        <code>azi2</code> forward azimuths, distance <code>s12</code> and 
+        reduced length <code>m12</code> in <code>meter</code>, area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>  and geodesic
+        scale factors <code>M12</code> and <code>M21</code>, both 
+        <code>scalar</code>, see <a 
         href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a>.</em>
     </li>
@@ -2141,8 +2142,10 @@
         M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
-        <code>meter</code> <i>squared</i> and sines and cosines of initial 
-        and final (forward) azimuths.</em>
+        <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
+        <code>salp2</code> and cosines <code>calp1</code>, 
+        <code>calp2</code> of the initial <code>1</code> and final 
+        <code>2</code> foward azimuths.</em>
     </li>
     </ul>
     </li>
@@ -3230,11 +3233,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
         <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
-        all in <code>degrees</code>, distance <code>s12</code> and reduced 
-        length <code>m12</code> in <code>meter</code>, area 
-        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
-        scales <code>M12</code> and <code>M21</code> <code>scalar</code>, 
-        see <a 
+        all in <code>degrees</code>, initial <code>azi1</code> and final 
+        <code>azi2</code> forward azimuths, distance <code>s12</code> and 
+        reduced length <code>m12</code> in <code>meter</code>, area 
+        <code>S12</code> in <code>meter</code> <i>squared</i>  and geodesic
+        scale factors <code>M12</code> and <code>M21</code>, both 
+        <code>scalar</code>, see <a 
         href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
         target="_top">GeodSolve</a>.</em>
     </li>
@@ -3243,8 +3247,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         M21, S12)</code> with arc length <code>a12</code> in 
         <code>degrees</code>, distance <code>s12</code> and reduced length 
         <code>m12</code> in <code>meter</code>, area <code>S12</code> in 
-        <code>meter</code> <i>squared</i> and sines and cosines of initial 
-        and final (forward) azimuths.</em>
+        <code>meter</code> <i>squared</i> and the sines <code>salp1</code>,
+        <code>salp2</code> and cosines <code>calp1</code>, 
+        <code>calp2</code> of the initial <code>1</code> and final 
+        <code>2</code> foward azimuths.</em>
     </li>
     </ul>
     </li>
@@ -3300,7 +3306,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:49 2021
+    Generated by Epydoc 3.0.1 on Mon Dec 20 16:52:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

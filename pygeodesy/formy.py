@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.11.30'
+__version__ = '21.12.20'
 
 _opposite_ = 'opposite'
 _ratio_    = 'ratio'
@@ -815,7 +815,7 @@ def flatPolar_(phi2, phi1, lam21):
     return sqrt0(r2)
 
 
-def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
+def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
     '''Compute the intersection of a Line-Of-Sight from a Point-Of-View in
        space with the surface of the earth.
 
@@ -824,10 +824,10 @@ def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
        @kwarg los: Line-Of-Sight, I{direction} to earth (L{Vector3d}) or
                    C{None} to point to the earth' center.
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
-                     L{a_f2Tuple} or C{scalar} radius in C{meter}.
-       @kwarg LatLon: Class to convert insection point (C{LatLon}, L{LatLon_}).
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+                     L{a_f2Tuple} or C{scalar} radius in C{meter}).
+       @kwarg LatLon_and_kwds: Optional C{LatLon} class to convert insection
+                               point plus C{LatLon} keyword arguments, include
+                               B{C{datum}} if different from B{C{earth}}.
 
        @return: The earth intersection (L{Vector3d}, C{Cartesian type} of
                 B{C{pov}} or B{C{LatLon}}).
@@ -886,10 +886,9 @@ def hartzell(pov, los=None, earth=_WGS84, LatLon=None, **LatLon_kwds):
         raise IntersectionError(pov=pov, los=los, earth=earth, txt=_too_(_distant_))
 
     r = _xnamed(p3.minus(u3.times(d)), hartzell.__name__)
-    if LatLon is not None:
-        from pygeodesy.cartesianBase import CartesianBase as _CB
-        # earth datum is overidden in LatLon if datum is specified in LatLon_kwds
-        r = _CB(r, datum=D, name=r.name).toLatLon(LatLon=LatLon, **LatLon_kwds)
+    if LatLon_and_kwds:
+        from pygeodesy.cartesianBase import CartesianBase as CB
+        r = CB(r, datum=D, name=r.name).toLatLon(**LatLon_and_kwds)
     return r
 
 

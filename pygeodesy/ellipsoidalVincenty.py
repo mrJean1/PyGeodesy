@@ -74,7 +74,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.11.30'
+__version__ = '21.12.11'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -493,11 +493,11 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
-       @arg point1: Start point of the arc (C{LatLon}).
-       @arg point2: End point of the arc (C{LatLon}).
+       @arg point1: Start point of the geodesic (C{LatLon}).
+       @arg point2: End point of the geodesic (C{LatLon}).
        @kwarg within: If C{True} return the closest point I{between}
                       B{C{point1}} and B{C{point2}}, otherwise the
-                      closest point elsewhere on the arc (C{bool}).
+                      closest point elsewhere on the geodesic (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},
                       conventionally) or C{None} or C{False} for the
                       interpolated height.  If C{False}, the closest

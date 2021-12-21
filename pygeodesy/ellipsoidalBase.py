@@ -17,12 +17,13 @@ from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
                             _spherical_datum, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _ValueError, _xellipsoidal, _xError, _xkwds_not
+                             _ValueError, _TypesError, _xellipsoidal, _xError, \
+                             _xkwds_not
 # from pygeodesy.errors import _xkwds  # from .named
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
-                             _reframe_, _SPACE_, _0_0
+                             _other_, _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed, _xkwds
@@ -32,7 +33,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.12.07'
+__version__ = '21.12.19'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -174,6 +175,53 @@ class LatLonEllipsoidalBase(LatLonBase):
         if reframe:
             self.reframe = reframe
             self.epoch = epoch
+
+    def __imatmul__(self, other):  # PYCHOK no cover
+        '''Convert this point I{in-place}, C{this @= B{other}}.
+
+           @arg other: A L{Datum} or L{RefFrame} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+
+           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
+        '''
+        t, D = self.__xmatmul2(other)
+        if t != self:
+            if D:
+                self.datum = t.datum
+            else:
+                self.reframe = t.reframe
+            self.latlon = t.latlonheight
+        return self
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Return a converted point, C{ll = this @ B{other}}.
+
+           @arg other: A L{Datum} or L{RefFrame} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''
+        return self.__xmatmul2(other)[0]
+
+    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Return a converted point, C{ll = B{other} @ this}.
+
+           @arg other: A L{Datum} or L{RefFrame} instance.
+
+           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''
+        return self.__xmatmul2(other)[0]
+
+    def __xmatmul2(self, other):
+        '''(INTERNAL) Helper for __imatmul__, __matmul__, __rmatmul__.
+        '''
+        if isinstance(other, Datum):
+            return self.toDatum(other), True
+        from pygeodesy.trf import RefFrame
+        if isinstance(other, RefFrame):
+            return self.toRefFrame(other), False
+        # _xinstanceof(Datum, RefFrame, other=other)
+        raise _TypesError(_other_, other, Datum, RefFrame)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -532,7 +580,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg point2: End point (C{LatLon}).
            @kwarg within: If C{True} return the closest point I{between}
                           B{C{point1}} and B{C{point2}}, otherwise the
-                          closest point elsewhere on the arc (C{bool}).
+                          closest point elsewhere on the geodesic (C{bool}).
            @kwarg height: Optional height for the closest point (C{meter},
                           conventionally) or C{None} or C{False} for the
                           interpolated height.  If C{False}, the closest

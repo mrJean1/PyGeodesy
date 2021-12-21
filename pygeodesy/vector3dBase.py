@@ -8,15 +8,16 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1
-from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, \
-                             VectorError
-from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
+from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1, \
+                            _xinstanceof
+from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
+from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_, _sys_version_info2
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
 from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
                              _colinear_, _COMMASPACE_, _1_0
-from pygeodesy.named import _NamedBase, _xother3
-from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
+# from pygeodesy.lazily import _sys_version_info2  # from .fmath
+from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
+from pygeodesy.namedTuples import Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_
 from pygeodesy.streprs import Fmt, strs
@@ -26,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = ()
-__version__ = '21.10.19'
+__version__ = '21.12.18'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -49,9 +50,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __init__(self, x_xyz, y=0, z=0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
-           The vector may be normalised or use x, y, z for position and height
-           relative to the surface of the earth' sphere or ellipsoid, distance
-           from earth centre.
+           The vector may be normalised or use x, y, z for position and
+           distance from earth centre or height relative to the surface
+           of the earth' sphere or ellipsoid.
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
                        (C{Cartesian}, C{Nvector}, L{Vector3d} or L{Vector3Tuple}).
@@ -64,15 +65,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise VectorError: Invalid B{C{x_xyz}}.
         '''
-        if isscalar(x_xyz):
-            self._x = x_xyz
-            self._y = y
-            self._z = z
-        else:
-            try:
-                self._x, self._y, self._z = x_xyz.xyz
-            except AttributeError:
-                raise VectorError(x=x_xyz, y=y, z=z)
+        try:
+            self._x, self._y, self._z = (x_xyz, y, z) if isscalar(x_xyz) else x_xyz.xyz
+        except (AttributeError, TypeError, ValueError) as x:
+            raise VectorError(x=x_xyz, y=y, z=z, txt=str(x))
         if ll:
             self._fromll = ll
         if name:
@@ -93,8 +89,13 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.plus(other)
-#   __iadd__ = __add__
-    __radd__ = __add__
+
+    __radd__ = __add__  # PYCHOK no cover
+
+    def __bool__(self):  # PYCHOK PyChecker
+        '''Is this vector non-zero?
+        '''
+        return bool(self.x or self.y or self.z)
 
     def __cmp__(self, other):  # Python 2-
         '''Compare this and an other vector
@@ -111,18 +112,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     cmp = __cmp__
 
-    def __div__(self, scalar):
-        '''Divide this vector by a scalar.
-
-           @arg scalar: The divisor (C{scalar}).
-
-           @return: Quotient (L{Vector3d}).
-
-           @raise TypeError: Non-scalar B{C{scalar}}.
-        '''
-        return self.dividedBy(scalar)
-#   __itruediv__ = __div__
-    __truediv__ = __div__
+    def __divmod__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __eq__(self, other):
         '''Is this vector equal to an other vector?
@@ -134,7 +126,15 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
 #       self.others(other)
-        return self.isequalTo(other)
+        return self.isequalTo(other, eps=EPS0)
+
+    def __floordiv__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
+
+    def __format__(self, *other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, *other)
 
     def __ge__(self, other):
         '''Is this vector longer than or equal to an other vector?
@@ -165,6 +165,53 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         self.others(other)
         return self.length > other.length
 
+    def __iadd__(self, other):
+        '''Add an other vector to this one I{in-place}, C{this += B{other}}.
+
+           @arg other: The other vector (L{Vector3d}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        self.xyz = self.plus(other).xyz
+
+    def __imatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Cross multiply an other vector and this one I{in-place}, C{this @= B{other}}.
+
+           @arg other: The other vector (L{Vector3d}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+
+           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
+        '''
+        self.xyz = self.cross(other).xyz
+
+    def __imul__(self, scalar):
+        '''Multiply this vector by a scalar I{in-place}, C{this *= B{scalar}}.
+
+           @arg scalar: Factor (C{scalar}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        self.xyz = self.times(scalar).xyz
+
+    def __isub__(self, other):
+        '''Subtract an other vector from this one I{in-place}, C{this -= B{other}}.
+
+           @arg other: The other vector (L{Vector3d}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        self.xyz = self.minus(other).xyz
+
+    def __itruediv__(self, scalar):
+        '''Divide this vector by a scalar I{in-place}, C{this /= B{scalar}}.
+
+           @arg scalar: The divisor (C{scalar}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        self.xyz = self.dividedBy(scalar).xyz
+
     def __le__(self, other):  # Python 3+
         '''Is this vector shorter than or equal to an other vector?
 
@@ -194,9 +241,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         self.others(other)
         return self.length < other.length
 
-    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
-    def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Compute the cross product of this and an other vector.
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Compute the cross product of this and an other vector, C{this @ B{other}}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -205,18 +251,19 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.cross(other)
-#   __imatmul__ = __matmul__
+
+    def __mod__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __mul__(self, scalar):
-        '''Multiply this vector by a scalar
+        '''Multiply this vector by a scalar.
 
            @arg scalar: Factor (C{scalar}).
 
            @return: Product (L{Vector3d}).
         '''
         return self.times(scalar)
-#   __imul__ = __mul__
-#   __rmul__ = __mul__
 
     def __ne__(self, other):
         '''Is this vector not equal to an other vector?
@@ -227,26 +274,29 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return not self.isequalTo(other)
+        return not self.__eq__(other)
 
-    def __neg__(self):
-        '''Negate this vector.
+    def __pos__(self):  # PYCHOK no cover
+        '''Return this vector I{as-is}.
 
-           @return: Negative (L{Vector3d})
+           @return: This instance (L{Vector3d})
         '''
-        return self.negate()
+        return self
 
-    def __pos__(self):
-        '''Copy this vector.
+    def __pow__(self, other, *mod):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other, *mod)
 
-           @return: Positive (L{Vector3d})
-        '''
-        return self.copy()
+    def __rdivmod__ (self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
-    # Luciano Ramalho, "Fluent Python", page 397, O'Reilly 2016
-    def __rmatmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
-        '''Compute the cross product of an other and this vector.
+    def __rfloordiv__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
+
+    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Compute the cross product of an other and this vector, C{B{other} @ this}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -257,7 +307,23 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         self.others(other)
         return other.cross(self)
 
-    def __rsub__(self, other):
+    def __rmod__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
+
+    def __rmul__(self, scalar):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, scalar)
+
+    def __round__(self, ndigits=None):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, ndigits=ndigits)
+
+    def __rpow__(self, other, *mod):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other, *mod)
+
+    def __rsub__(self, other):  # PYCHOK no cover
         '''Subtract this vector from an other vector.
 
            @arg other: The other vector (L{Vector3d}).
@@ -269,6 +335,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         self.others(other)
         return other.minus(self)
 
+    def __rtruediv__(self, scalar):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, scalar)
+
     def __sub__(self, other):
         '''Subtract an other vector from this vector.
 
@@ -279,7 +349,23 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.minus(other)
-#   __isub__ = __sub__
+
+    def __truediv__(self, scalar):
+        '''Divide this vector by a scalar.
+
+           @arg scalar: The divisor (C{scalar}).
+
+           @return: Quotient (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        return self.dividedBy(scalar)
+
+    if _sys_version_info2 < (3, 0):  # PYCHOK no cover
+        # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
+        __div__     = __truediv__
+        __idiv__    = __itruediv__
+        __nonzero__ = __bool__
 
     def angleTo(self, other, vSign=None, wrap=False):
         '''Compute the angle between this and an other vector.
@@ -543,6 +629,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.classof(-self.x, -self.y, -self.z)
 
+    __neg__ = negate  # PYCHOK no cover
+
     @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
@@ -598,10 +686,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @JSname: I{rotateAround}.
         '''
-        r = self.others(axis=axis).unit()  # axis being rotated around
         p = self.unit().xyz  # point being rotated
+        r = self.others(axis=axis).unit()  # axis being rotated around
 
-        s, c = sincos2(theta)
+        s, c = sincos2(theta)  # rotation angle
 
         ax, ay, az = r.xyz  # quaternion-derived rotation matrix
         bx, by, bz = r.times(_1_0 - c).xyz
@@ -715,15 +803,26 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def x(self, x):
         '''Set the X component, if different (C{float}).
         '''
+        x = Float(x=x)
         if self.x != x:
             self._update(True)
             self._x = x
 
-    @Property_RO
+    @Property
     def xyz(self):
         '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
         '''
         return Vector3Tuple(self.x, self.y, self.z, name=self.name)
+
+    @xyz.setter  # PYCHOK setter!
+    def xyz(self, xyz):
+        '''Set the X, Y and Z components, if different (L{Vector3dBase}, L{Vector3Tuple} or L{Vector4Tuple}).
+        '''
+        _xinstanceof(Vector3dBase, Vector3Tuple, Vector4Tuple, xyz=xyz)
+        t3 = xyz.x,  xyz.y,  xyz.z
+        if (self.x, self.y, self.z) != t3:
+            self._update(True)
+            self.x, self.y, self.z = t3
 
     @Property_RO
     def x2y2z2(self):
@@ -741,6 +840,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def y(self, y):
         '''Set the Y component, if different (C{float}).
         '''
+        y = Float(y=y)
         if self.y != y:
             self._update(True)
             self._y = y
@@ -755,6 +855,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def z(self, z):
         '''Set the Z component, if different (C{float}).
         '''
+        z = Float(z=z)
         if self.z != z:
             self._update(True)
             self._z = z

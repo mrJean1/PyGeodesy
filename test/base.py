@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '21.08.16'
+__version__ = '21.12.18'
 
 try:
     import geographiclib
@@ -88,6 +88,7 @@ isNix      = uname()[0] in ('Linux', 'linux')
 isPyPy     = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
 isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
+isPython35 = sys.version_info[:2] >= (3, 5)  # for testCartesian
 isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
 isWindows  = sys.platform[:3] == 'win'
 

@@ -11,20 +11,20 @@ from pygeodesy.basics import copysign0, _isfinite, isint, isnear0, \
 from pygeodesy.errors import _IsnotError, LenError, _NotImplementedError, \
                              _OverflowError, _TypeError, _ValueError
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _DOT_, _finite_, _few_, _h_, _name_, _negative_, \
+                             _finite_, _few_, _h_, _name_, _negative_, \
                              _not_, _singular_, _SPACE_, _SLASH_ as _div_, _too_, \
                              _0_0, _0_5, _1_0, _N_1_0, _1_5, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
-# from pygeodesy.named import callername, _Named  # from .units
+from pygeodesy.named import _Named, _NotImplemented
 # from pygeodesy.props import property_RO  # from .units
 from pygeodesy.streprs import Fmt, unstr
-from pygeodesy.units import callername, Int_, _Named, property_RO
+from pygeodesy.units import Int_, property_RO
 
 from math import ceil as _ceil, floor as _floor, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.12.06'
+__version__ = '21.12.18'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -180,11 +180,11 @@ class Fsum(_Named):
 
     def __floordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __format__(self, *other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(*other)
+        return _NotImplemented(self, *other)
 
     def __ge__(self, other):
         '''Compare this and an other instance or scalar.
@@ -235,6 +235,10 @@ class Fsum(_Named):
         s = -s
         return int(p if (s > 0 and p < s) or
                         (s < 0 and p > s) else s)
+
+    def __imatmul__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __imul__(self, other):
         '''Multiply this instance by a scalar or an other instance.
@@ -299,9 +303,9 @@ class Fsum(_Named):
 
            @raise TypeError: Non-scalar B{C{other}}.
 
-           @raise ValueError: Invalid or non-finite B{C{other}}
-                              or an L{Fsum} B{C{other}} with
-                              too many C{partials}.
+           @raise ValueError: Zero, invalid or non-finite B{C{other}}
+                              or an L{Fsum} B{C{other}} with too many
+                              C{partials}.
 
            @return: This instance (L{Fsum}).
         '''
@@ -341,6 +345,10 @@ class Fsum(_Named):
         '''
         s, p = self._cmp2(other)
         return p < s
+
+    def __matmul__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __mod__(self, other):
         '''Return C{this_instance % B{other}}.
@@ -383,43 +391,47 @@ class Fsum(_Named):
 
     def __pow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other, *mod)
+        return _NotImplemented(self, other, *mod)
 
     def __radd__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __rdivmod__ (self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __rfloordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
+
+    def __rmatmul__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __rmod__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __rmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __round__(self, ndigits=None):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(ndigits=ndigits)
+        return _NotImplemented(self, ndigits=ndigits)
 
     def __rpow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other, *mod)
+        return _NotImplemented(self, other, *mod)
 
     def __rsub__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __rtruediv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        self._notImplemented(other)
+        return _NotImplemented(self, other)
 
     def __sizeof__(self):  # PYCHOK no cover
         '''Size of this instance in C{bytes}.
@@ -449,9 +461,9 @@ class Fsum(_Named):
 
            @raise TypeError: Non-scalar B{C{other}}.
 
-           @raise ValueError: Invalid or non-finite B{C{other}}
-                              or an L{Fsum} B{C{other}} with
-                              too many C{partials}.
+           @raise ValueError: Zero, invalid or non-finite B{C{other}}
+                              or an L{Fsum} B{C{other}} with too many
+                              C{partials}.
 
            @return: The quotient (L{Fsum}).
         '''
@@ -469,7 +481,7 @@ class Fsum(_Named):
         __nonzero__ = __bool__
 
     def _cmp2(self, *other):
-        '''(INTERNAL) Diff this and another instance.
+        '''(INTERNAL) Diff this and another instance or C{0}.
         '''
         f = self.fcopy()
         if other:
@@ -551,13 +563,13 @@ class Fsum(_Named):
 
            @raise TypeError: Non-scalar B{C{divisor}}.
 
-           @raise ValueError: Invalid or non-finite B{C{divisor}}.
+           @raise ValueError: Zero, invalid or non-finite B{C{divisor}}.
 
            @return: This instance (L{Fsum}).
         '''
         try:
             self.fmul(_1_0 / _2float(divisor=divisor))
-        except (TypeError, ValueError) as x:
+        except (TypeError, ValueError, ZeroDivisionError) as x:
             raise self._Error(_div_, divisor, Error=_ValueError, txt=str(x))
         return self
 
@@ -693,12 +705,6 @@ class Fsum(_Named):
         '''
         s, p = self._cmp2()
         return s.is_integer() and p == -s
-
-    def _notImplemented(self, *other, **kwds):
-        '''(INTERNAL) Raise an __operation__ error.
-        '''
-        n = _DOT_(NN, callername(up=2, underOK=True))  # source=True
-        raise _NotImplementedError(unstr(n, *other, **kwds), txt=repr(self))
 
     @property_RO
     def real(self):

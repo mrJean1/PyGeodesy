@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.10.27'
+__version__ = '21.12.18'
 
 _default_     = 'default'
 _kwargs_      = 'kwargs'
@@ -410,7 +410,7 @@ def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=
     return e
 
 
-def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
+def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
     '''Create a C{TypeError} for an invalid C{name=value} type.
 
        @arg nouns: One or more expected class or type names,

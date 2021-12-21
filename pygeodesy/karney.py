@@ -123,7 +123,7 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.11.29'
+__version__ = '21.12.14'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -251,8 +251,9 @@ class GeodesicError(_ValueError):
 class GeodSolve12Tuple(_GTuple):
     '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
        angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
-       C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area C{S12} in
-       C{meter} I{squared} and geodesic scales C{M12} and C{M21} C{scalar}, see U{GeodSolve
+       C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
+       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared}  and geodesic
+       scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
        <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}.
     '''
     # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
@@ -261,10 +262,10 @@ class GeodSolve12Tuple(_GTuple):
 
 
 class Inverse10Tuple(_GTuple):
-    '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)}
-       with arc length C{a12} in C{degrees}, distance C{s12} and reduced
-       length C{m12} in C{meter}, area C{S12} in C{meter} I{squared} and
-       sines and cosines of initial and final (forward) azimuths.
+    '''10-Tuple C{(a12, s12, salp1, calp1, salp2, calp2, m12, M12, M21, S12)} with arc length
+       C{a12} in C{degrees}, distance C{s12} and reduced length C{m12} in C{meter}, area
+       C{S12} in C{meter} I{squared} and the sines C{salp1}, C{salp2} and cosines C{calp1},
+       C{calp2} of the initial C{1} and final C{2} foward azimuths.
     '''
     _Names_ = (_a12_, _s12_, 'salp1', 'calp1', 'salp2', 'calp2', _m12_, _M12_, _M21_, _S12_)
     _Units_ = (_Azi,  _M,    _Pass,   _Pass,   _Pass,   _Pass,   _Pass, _Pass, _Pass, _M2)

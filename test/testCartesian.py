@@ -4,13 +4,15 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.08.21'
+__version__ = '21.12.20'
 
-from base import GeodSolve, geographiclib, TestsBase
+from base import GeodSolve, geographiclib, isPython35, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename  # PYCHOK expected
+from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, \
+                modulename, Transforms  # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.ecef import Ecef9Tuple
+from pygeodesy.named import _std_NotImplemented
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
                                   PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, \
                                                 Vector3Tuple, Vector4Tuple  # PYCHOK hanging
@@ -37,6 +39,23 @@ class Tests(TestsBase):
         self.test('isEllipsoidal', c.isEllipsoidal, not Sph)
         self.test('isSpherical',   c.isSpherical,       Sph)
         self.testCopy(c)
+
+        if datum2:
+            d = c.convertDatum(datum2)
+            t = d.convertDatum(datum)
+            self.test('convertDatum', t, c)  # PYCHOK attribute
+            if isPython35:
+                # using eval avoids SyntaxError with Python 3.4- ...
+                t = eval('c @ datum2')
+                self.test('__matmul__', t, d)
+                if _std_NotImplemented:  # PYGEODESY_NOTIMPLEMENTED=std
+                    t = eval('datum2 @ c')
+                    self.test('__rmatmul__', t, d)
+                # ... however t = eval("d @= ...") throws a SyntaxError
+                # d @= datum2
+                # self.test('__imatmul__', d, c)
+                t = eval('d @ Transforms.Identity')
+                self.test('__matmul__', t, d)
 
         self.test('height',  c.height, '-5918.380258' if Sph else '0.242887', prec=6)
         self.test('height4', c.height4().toStr(prec=1), '(3984282.2, 97.1, 4971443.2, -5918.4)' if Sph
@@ -68,9 +87,6 @@ class Tests(TestsBase):
                    (40.96,    5.50),  # SAL, Salamanca, Spain
                    (40.1,   116.6),   # BJS, Beijing Airport
                    (37.6,  -122.4)):  # SFO
-            if datum2:
-                t = c.convertDatum(datum2).convertDatum(datum)
-                self.test('convertDatum', t, c)  # PYCHOK attribute
             p = LatLon(*ll)
             q = p.toCartesian().toLatLon()
             t = str(q)
@@ -92,7 +108,7 @@ class Tests(TestsBase):
             self.testReturnType(c.latlon,            LatLon2Tuple, 'latlon')
             self.testReturnType(c.latlonheight,      LatLon3Tuple, 'latlonheight')
             self.testReturnType(c.latlonheightdatum, LatLon4Tuple, 'latlonheightdatum')
-            self.testReturnType(c.height4(),         Vector4Tuple,  'height4')
+            self.testReturnType(c.height4(),         Vector4Tuple, 'height4')
             self.testReturnType(c.isequalTo(c),      bool,         'isequalTo')
             self.testReturnType(c.philam,            PhiLam2Tuple, 'philam')
             self.testReturnType(c.philamheight,      PhiLam3Tuple, 'philamheight')

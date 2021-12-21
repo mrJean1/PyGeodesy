@@ -95,6 +95,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Convert this point <i>in-place</i>, <code>this @= 
+      <b>other</b></code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
@@ -106,6 +125,42 @@
       Create an ellipsoidal <code>LatLon</code> point frome the given lat-,
       longitude and height on the given datum and with the given reference 
       frame and epoch.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__matmul__" class="summary-sig-name">__matmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Return a converted point, <code>ll = this @ <b>other</b></code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#__rmatmul__" class="summary-sig-name">__rmatmul__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      Return a converted point, <code>ll = <b>other</b> @ this</code>.</td>
           <td align="right" valign="top">
             
             
@@ -824,6 +879,45 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="__imatmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__imatmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point <i>in-place</i>, <code>this @= 
+  <b>other</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> instance.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__imatmul__">named._Named.__imatmul__</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Luciano Ramalho, &quot;Fluent Python&quot;, page 397-398, O'Reilly 
+        2016.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -896,6 +990,74 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.4778, -0.0016)  <span class="py-comment"># height=0, datum=Datums.WGS84</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="__matmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__matmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a converted point, <code>ll = this @ <b>other</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> instance.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__matmul__">named._Named.__matmul__</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__rmatmul__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__rmatmul__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a converted point, <code>ll = <b>other</b> @ this</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - A <a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a> or <a 
+          href="pygeodesy.trf.RefFrame-class.html" 
+          class="link">RefFrame</a> instance.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or incompatible <b><code>other</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#__rmatmul__">named._Named.__rmatmul__</a>
+    </dt>
+  </dl>
+</td></tr></table>
 </div>
 <a name="antipode"></a>
 <div>
@@ -1394,7 +1556,7 @@
         <li><strong class="pname"><code>point2</code></strong> - End point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point <i>between</i> 
           <b><code>point1</code></b> and <b><code>point2</code></b>, 
-          otherwise the closest point elsewhere on the arc 
+          otherwise the closest point elsewhere on the geodesic 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>, 
           conventionally) or <code>None</code> or <code>False</code> for 
@@ -2233,7 +2395,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec  7 12:10:50 2021
+    Generated by Epydoc 3.0.1 on Mon Dec 20 16:52:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.11.30'
+__version__ = '21.12.18'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -184,6 +184,13 @@ class Transform(_NamedEnumItem):
                                  self.ry == other.ry and
                                  self.rz == other.rz and
                                  self.s  == other.s)
+
+    @Property_RO
+    def _CartesianBase(self):
+        '''(INTERNAL) Import and cache C{CartesianBase} once.
+        '''
+        from pygeodesy.cartesianBase import CartesianBase
+        return CartesianBase
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.

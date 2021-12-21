@@ -22,25 +22,26 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
                              _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
-                             _name_, _not_, _O_, _other_, _s_, _SPACE_, _UNDER_, \
-                             _valid_, _vs_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
+                             _name_, _not_, _O_, _other_, _s_, _SPACE_, _std_, \
+                             _UNDER_, _valid_, _vs_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.11.28'
+__version__ = '21.12.18'
 
-_COMMASPACEDOT_ = _COMMASPACE_ + _DOT_
-_del_           = 'del'
-_item_          = 'item'
-_MRO_           = 'MRO'
+_COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
+_del_               = 'del'
+_item_              = 'item'
+_MRO_               = 'MRO'
 # __DUNDER gets mangled in class
-_name           = '_name'
-_Names_         = '_Names_'
-_registered_    = 'registered'  # PYCHOK used!
-_Units_         = '_Units_'
+_name               = '_name'
+_Names_             = '_Names_'
+_registered_        = 'registered'  # PYCHOK used!
+_std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_
+_Units_             = '_Units_'
 
 
 def _xjoined_(prefix, name):
@@ -148,10 +149,22 @@ class _Named(object):
     _name        = NN     # name (C{str})
     _classnaming = False  # prefixed (C{bool})
 
+    def __imatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
+
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
         return Fmt.ANGLE(_SPACE_(self, _at_, hex(id(self))))
+
+    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __str__(self):
         '''Default C{str(self)}.
@@ -1147,6 +1160,16 @@ def _notError(inst, name, args, kwds):  # PYCHOK no cover
     n = _DOT_(classname(inst, prefixed=True), _dunder_name(name, name))
     m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
     return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
+
+
+def _NotImplemented(inst, *other, **kwds):
+    '''(INTERNAL) Raise a C{__special__} error or return C{NotImplemented},
+       but only if env variable PYGEODESY_NOTIMPLEMENTED=std.
+    '''
+    if _std_NotImplemented:
+        return NotImplemented
+    n = _DOT_(classname(inst), callername(up=2, underOK=True))  # source=True
+    raise _NotImplementedError(unstr(n, *other, **kwds), txt=repr(inst))
 
 
 def notImplemented(inst, *args, **kwds):  # PYCHOK no cover

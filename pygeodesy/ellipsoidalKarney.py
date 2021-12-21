@@ -40,7 +40,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_method, Property_RO
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.10.19'
+__version__ = '21.12.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -289,11 +289,11 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
-       @arg point1: Start point of the arc (C{LatLon}).
-       @arg point2: End point of the arc (C{LatLon}).
+       @arg point1: Start point of the geodesic (C{LatLon}).
+       @arg point2: End point of the geodesic (C{LatLon}).
        @kwarg within: If C{True} return the closest point I{between}
                       B{C{point1}} and B{C{point2}}, otherwise the
-                      closest point elsewhere on the arc (C{bool}).
+                      closest point elsewhere on the geodesic (C{bool}).
        @kwarg height: Optional height for the closest point (C{meter},
                       conventionally) or C{None} or C{False} for the
                       interpolated height.  If C{False}, the closest

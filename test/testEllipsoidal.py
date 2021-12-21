@@ -4,16 +4,17 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.11.16'
+__version__ = '21.12.20'
 
-from base import coverage, GeodSolve, geographiclib, RandomLatLon
+from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
                       Datums, ellipsoidalVincenty as V, fstr, IntersectionError, \
                       latlonDMS, latlonDMS_, m2SM, normDMS, PI, PI_4, R_M, \
-                      VincentyError, wrap360
+                      RefFrames, VincentyError, wrap360
+from pygeodesy.named import _std_NotImplemented
 
 from math import radians
 
@@ -38,6 +39,20 @@ class Tests(_TestsLL, _TestsV):
         self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
         self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
+
+        if isPython35:
+            # using eval avoids SyntaxError with Python 3.4- ...
+            t = eval('p @ Datums.OSGB36')
+            self.test('__matmul__', t, d)
+            if _std_NotImplemented:  # PYGEODESY_NOTIMPLEMENTED=std
+                t = eval('Datums.OSGB36 @ p')
+                self.test('__rmatmul__', t, d)
+            # ... however t = eval("d @= ...") throws a SyntaxError
+            # d @= Datums.OSGB36
+            # self.test('__imatmul__', d, p)
+            t = d.dup(reframe=RefFrames.ITRF2000)
+            t = eval('t @ RefFrames.ITRF2014')
+            self.test('__matmul__', t, t)
 
         if coverage:  # coverage
             n = 'test'
