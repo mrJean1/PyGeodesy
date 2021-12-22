@@ -50,25 +50,24 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 
 from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.datums import _ellipsoid, Transform
-from pygeodesy.ellipsoids import Ellipsoids
-from pygeodesy.errors import TRFError
-from pygeodesy.interns import NN, _COMMASPACE_, _conversion_, _ellipsoid_, \
-                             _epoch_, _exists_, _float as _F, _GRS80_, _NAD83_, \
-                             _name_, _no_, _s_, _SPACE_, _sx_, _sy_, _sz_, \
-                             _to_, _tx_, _ty_, _tz_, _WGS84_, _0_0, _0_001, \
-                             _0_01, _0_1, _0_26, _0_5, _1_0
+from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
+from pygeodesy.errors import _IsnotError, TRFError
+from pygeodesy.interns import NN, _COMMASPACE_, _cartesian_, _conversion_, \
+                             _ellipsoid_, _ellipsoidal_, _epoch_, _exists_, \
+                             _float as _F, _GRS80_, _NAD83_, _name_, _no_, _s_, \
+                             _SPACE_, _sx_, _sy_, _sz_, _to_, _tx_, _ty_, _tz_, \
+                             _WGS84_, _0_0, _0_001, _0_01, _0_1, _0_26, _0_5, _1_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, \
-                           _NamedDict as _XD, _NamedEnum, _NamedEnumItem, \
-                           _NamedTuple
-from pygeodesy.props import Property_RO
-from pygeodesy.streprs import Fmt
+from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, _NamedEnum, \
+                           _NamedEnumItem, _NamedDict as _XD, _NamedTuple
+# from pygeodesy.props import Property_RO  # from .ellipsoids
+# from pygeodesy.streprs import Fmt  # from .ellipsoids
 from pygeodesy.units import Epoch, Float
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.12.20'
+__version__ = '21.12.22'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -122,6 +121,17 @@ class RefFrame(_NamedEnumItem):
         self._ellipsoid = _ellipsoid(ellipsoid, name=name)
         self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Convert cartesian or ellipsoidal B{C{other}} to this reframe.
+
+           @raise TypeError: Invalid B{C{other}}.
+        '''
+        try:  # only Cartesian- and LatLonEllipsoidalBase
+            return other.toRefFrame(self)
+        except AttributeError:
+            pass
+        raise _IsnotError(_cartesian_, _ellipsoidal_, other=other)
 
     @Property_RO
     def ellipsoid(self):

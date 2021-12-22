@@ -12,25 +12,25 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, Transform, _WGS84
-from pygeodesy.errors import _datum_datum, _IsnotError, _TypesError, \
-                             _ValueError, _xkwds
+from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
-                             _other_, _1_0, _N_1_0, _2_0, _4_0, _6_0
+                             _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.named import _xnamed  # from .vector3d
-from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple
+from pygeodesy.named import _NotImplemented, _xnamed
+from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple, \
+                                  Vector3Tuple  # PYCHOK .ellipsoidalBase
 from pygeodesy.props import deprecated_method, Property, \
                             Property_RO, property_doc_
 # from pygeodesy.streprs import Fmt  # from .fmath
 # from pygeodesy.units import Height  # from .namedTuples
-from pygeodesy.vector3d import Vector3d, _xnamed, _xyzhdn6
+from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.12.20'
+__version__ = '21.12.22'
 
 
 class CartesianBase(Vector3d):
@@ -64,49 +64,11 @@ class CartesianBase(Vector3d):
         if d is not None:
             self.datum = d
 
-    def __imatmul__(self, other):  # PYCHOK no cover
-        '''Convert or transform this cartesian I{in-place}, C{this @= B{other}}.
-
-           @arg other: A L{Datum} or L{Transform} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
-
-           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
-        '''
-        t = self.__xmatmul(other, False)
-        if isinstance(other, Datum):
-            self.datum = t.datum
-        self.xyz = t.xyz
-        return self
-
     def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return a converted or transformed cartesian, C{c = this @ B{other}}.
-
-           @arg other: A L{Datum} or L{Transform} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''Return C{NotImplemented} for C{c_ = c @ datum} and C{c_ = c @ transform}.
         '''
-        return self.__xmatmul(other, False)
-
-    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return a converted or I{inversely} transformed cartesian, C{c = B{other} @ this}.
-
-           @arg other: A L{Datum} or L{Transform} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
-        '''
-        return self.__xmatmul(other, True)
-
-    def __xmatmul(self, other, inverse):
-        '''(INTERNAL) Helper for __imatmul__, __matmul__, __rmatmul__.
-        '''
-        if isinstance(other, Datum):
-            t = self.toDatum(datum2=other)
-        elif isinstance(other, Transform):
-            t = self._applyHelmert(other, inverse=inverse)
-        else:  # _xinstanceof(Datum, Transform, other=other)
-            raise _TypesError(_other_, other, Datum, Transform)
-        return t
+        return NotImplemented if isinstance(other, (Datum, Transform)) else \
+              _NotImplemented(self, other)
 
     def _applyHelmert(self, transform, inverse=False, datum=None):
         '''(INTERNAL) Return a new cartesian by applying a Helmert

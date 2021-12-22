@@ -13,33 +13,40 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.cartesianBase import CartesianBase
+from pygeodesy.cartesianBase import CartesianBase, Vector3Tuple
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _spherical_datum, _WGS84
+                            _spherical_datum, Transform, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _ValueError, _TypesError, _xellipsoidal, _xError, \
-                             _xkwds_not
+                             _ValueError, _xellipsoidal, _xError, _xkwds_not
 # from pygeodesy.errors import _xkwds  # from .named
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
-                             _other_, _reframe_, _SPACE_, _0_0
+                             _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _xnamed, _xkwds
-from pygeodesy.namedTuples import Vector3Tuple
+from pygeodesy.named import _NotImplemented, _xnamed, _xkwds
+# from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.12.19'
+__version__ = '21.12.22'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
     '''(INTERNAL) Base class for ellipsoidal C{Cartesian}s.
     '''
-    _datum = _WGS84  # L{Datum}
+    _datum   = _WGS84  # L{Datum}
+    _reframe =  None
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Return C{NotImplemented} for C{c_ = c @ datum}, C{c_ = c @ reframe} and C{c_ = c @ Transform}.
+        '''
+        from pygeodesy.trf import RefFrame
+        return NotImplemented if isinstance(other, (Datum, RefFrame, Transform)) else \
+              _NotImplemented(self, other)
 
     def _applyHelmerts(self, *transforms):
         '''(INTERNAL) Apply one I{or more} Helmert transforms.
@@ -101,11 +108,28 @@ class CartesianEllipsoidalBase(CartesianBase):
         except (TypeError, ValueError) as x:
             raise _xError(x, center=self, radius=radius, center2=center2, radius2=radius2)
 
-    def toRefFrame(self, reframe2, reframe, epoch=None):
+    @property_doc_(''' this cartesian's reference frame (L{RefFrame}).''')
+    def reframe(self):
+        '''Get this cartesian's reference frame (L{RefFrame}) or C{None}.
+        '''
+        return self._reframe
+
+    @reframe.setter  # PYCHOK setter!
+    def reframe(self, reframe):
+        '''Set or clear this cartesian's reference frame.
+
+           @arg reframe: Reference frame (L{RefFrame}) or C{None}.
+
+           @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
+        '''
+        _set_reframe(self, reframe)
+
+    def toRefFrame(self, reframe2, reframe=None, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @arg reframe: Reference frame to convert I{from} (L{RefFrame}).
+           @arg reframe: Reference frame to convert I{from} (L{RefFrame}),
+                         overriding this cartesian's C{reframe}.
            @kwarg epoch: Optional epoch to observe (C{scalar}, fractional
                          calendar year), overriding B{C{reframe}}'s epoch.
 
@@ -118,10 +142,13 @@ class CartesianEllipsoidalBase(CartesianBase):
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
                              L{RefFrame}.
         '''
-        from pygeodesy.trf import RefFrame, _reframeTransforms2
-        _xinstanceof(RefFrame, reframe2=reframe2, reframe=reframe)
-
-        _, xs = _reframeTransforms2(reframe2, reframe, epoch)
+        r = self.reframe if reframe is None else reframe
+        if r in (None, reframe2):
+            xs = None  # XXX _set_reframe(self, reframe2)?
+        else:
+            from pygeodesy.trf import RefFrame, _reframeTransforms2
+            _xinstanceof(RefFrame, reframe2=reframe2, reframe=r)
+            _, xs = _reframeTransforms2(reframe2, r, epoch)
         return self._applyHelmerts(*xs) if xs else self
 
 
@@ -176,52 +203,12 @@ class LatLonEllipsoidalBase(LatLonBase):
             self.reframe = reframe
             self.epoch = epoch
 
-    def __imatmul__(self, other):  # PYCHOK no cover
-        '''Convert this point I{in-place}, C{this @= B{other}}.
-
-           @arg other: A L{Datum} or L{RefFrame} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
-
-           @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
-        '''
-        t, D = self.__xmatmul2(other)
-        if t != self:
-            if D:
-                self.datum = t.datum
-            else:
-                self.reframe = t.reframe
-            self.latlon = t.latlonheight
-        return self
-
     def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return a converted point, C{ll = this @ B{other}}.
-
-           @arg other: A L{Datum} or L{RefFrame} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
+        '''Return C{NotImplemented} for C{ll_ = ll @ datum} and C{ll_ = ll @ reframe}.
         '''
-        return self.__xmatmul2(other)[0]
-
-    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return a converted point, C{ll = B{other} @ this}.
-
-           @arg other: A L{Datum} or L{RefFrame} instance.
-
-           @raise TypeError: Invalid or incompatible B{C{other}}.
-        '''
-        return self.__xmatmul2(other)[0]
-
-    def __xmatmul2(self, other):
-        '''(INTERNAL) Helper for __imatmul__, __matmul__, __rmatmul__.
-        '''
-        if isinstance(other, Datum):
-            return self.toDatum(other), True
         from pygeodesy.trf import RefFrame
-        if isinstance(other, RefFrame):
-            return self.toRefFrame(other), False
-        # _xinstanceof(Datum, RefFrame, other=other)
-        raise _TypesError(_other_, other, Datum, RefFrame)
+        return NotImplemented if isinstance(other, (Datum, RefFrame)) else \
+              _NotImplemented(self, other)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -697,12 +684,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''
-        if reframe is not None:
-            from pygeodesy.trf import RefFrame
-            _xinstanceof(RefFrame, reframe=reframe)
-            self._reframe = reframe
-        elif self.reframe is not None:
-            self._reframe = None
+        _set_reframe(self, reframe)
 
     @Property_RO
     def scale(self):
@@ -1069,6 +1051,19 @@ def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
                                       LatLon=LatLon, **LatLon_kwds).closest
     except (TypeError, ValueError) as x:
         raise _xError(x, point=point, point1=point1, point2=point2)
+
+
+def _set_reframe(inst, reframe):
+    '''(INTERNAL) Set or clear an instance's reference frame.
+    '''
+    if reframe is not None:
+        from pygeodesy.trf import RefFrame
+
+        _xinstanceof(RefFrame, reframe=reframe)
+        inst._reframe = reframe
+
+    elif inst.reframe is not None:
+        inst._reframe = None
 
 
 __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)

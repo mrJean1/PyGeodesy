@@ -75,11 +75,11 @@ from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
 # from pygeodesy.errors import _IsnotError  # from .fmath
 from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
 from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
-                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, \
-                             _DOT_, _ellipsoid_, _ellipsoidal_, _float as _F, \
-                             _GRS80_, _Intl1924_, _Krassovski1940_, _NAD27_, \
-                             _Krassowsky1940_, _NAD83_, _name_, _s_, _Sphere_, \
-                             _spherical_, _sx_, _sy_, _sz_, _transform_, \
+                             _cartesian_, _Clarke1866_, _Clarke1880IGN_, \
+                             _COMMASPACE_, _DOT_, _ellipsoid_, _ellipsoidal_, \
+                             _float as _F, _GRS80_, _Intl1924_, _Krassovski1940_, \
+                             _NAD27_, _Krassowsky1940_, _NAD83_, _name_, _s_, \
+                             _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, \
                              _tx_, _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, \
                              _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.12.18'
+__version__ = '21.12.22'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -185,12 +185,16 @@ class Transform(_NamedEnumItem):
                                  self.rz == other.rz and
                                  self.s  == other.s)
 
-    @Property_RO
-    def _CartesianBase(self):
-        '''(INTERNAL) Import and cache C{CartesianBase} once.
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Helmert-transform cartesian B{C{other}}.
+
+           @raise TypeError: Invalid B{C{other}}.
         '''
-        from pygeodesy.cartesianBase import CartesianBase
-        return CartesianBase
+        try:  # only CartesianBase
+            return other._applyHelmert(self)
+        except AttributeError:
+            pass
+        raise _IsnotError(_cartesian_, other=other)
 
     def inverse(self, name=NN):
         '''Return the inverse of this transform.
@@ -339,6 +343,17 @@ class Datum(_NamedEnumItem):
         return self is other or (isinstance(other, Datum) and
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
+
+    def __matmul__(self, other):  # PYCHOK Python 3.5+
+        '''Convert cartesian or ellipsoidal B{C{other}} to this datum.
+
+           @raise TypeError: Invalid B{C{other}}.
+        '''
+        try:  # only CartesianBase and EllipsoidalLatLonBase
+            return other.toDatum(self)
+        except AttributeError:
+            pass
+        raise _IsnotError(_cartesian_, _ellipsoidal_, other=other)
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
