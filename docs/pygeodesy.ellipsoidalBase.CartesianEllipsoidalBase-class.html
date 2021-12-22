@@ -99,25 +99,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#__matmul__" class="summary-sig-name">__matmul__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Return <code>NotImplemented</code> for <code>c_ = c @ datum</code>, 
-      <code>c_ = c @ reframe</code> and <code>c_ = c @ Transform</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame" class="summary-sig-name">convertRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">reframe2</span>,
         <span class="summary-sig-arg">reframe</span>,
@@ -178,6 +159,25 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toTransforms_" class="summary-sig-name">toTransforms_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*transforms</span>,
+        <span class="summary-sig-arg">**datum</span>)</span><br />
+      Apply one <i>or more</i> Helmert transforms.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
@@ -198,6 +198,7 @@
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLtp">toLtp</a></code>,
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector">toNvector</a></code>,
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toTransform">toTransform</a></code>,
       <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector">toVector</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
@@ -234,6 +235,7 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__itruediv__">__itruediv__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__le__">__le__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__lt__">__lt__</a></code>,
+      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mod__">__mod__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__">__mul__</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ne__">__ne__</a></code>,
@@ -373,43 +375,6 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__matmul__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__matmul__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return <code>NotImplemented</code> for <code>c_ = c @ datum</code>, 
-  <code>c_ = c @ reframe</code> and <code>c_ = c @ Transform</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
-    </ul></dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#__matmul__">named._Named.__matmul__</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="convertRefFrame"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -555,6 +520,38 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toTransforms_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toTransforms_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*transforms</span>,
+        <span class="sig-arg">**datum</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply one <i>or more</i> Helmert transforms.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>transforms</code></strong> - Transforms to apply, in order (<a 
+          href="pygeodesy.datums.Transform-class.html" 
+          class="link">Transform</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Datum for the transformed point (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>),
+          overriding this point's datum.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The transformed point (<code>Cartesian</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -620,7 +617,7 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec 21 20:58:54 2021
+    Generated by Epydoc 3.0.1 on Wed Dec 22 13:48:58 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -15,24 +15,23 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase, Vector3Tuple
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _spherical_datum, Transform, _WGS84
+                            _spherical_datum, _WGS84
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
-                             _ValueError, _xellipsoidal, _xError, _xkwds_not
-# from pygeodesy.errors import _xkwds  # from .named
+                             _ValueError, _xellipsoidal, _xError, _xkwds, \
+                             _xkwds_get, _xkwds_not
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
                              _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _NotImplemented, _xnamed, _xkwds
 # from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = ()
-__version__ = '21.12.22'
+__version__ = '21.12.23'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -41,20 +40,12 @@ class CartesianEllipsoidalBase(CartesianBase):
     _datum   = _WGS84  # L{Datum}
     _reframe =  None
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return C{NotImplemented} for C{c_ = c @ datum}, C{c_ = c @ reframe} and C{c_ = c @ Transform}.
-        '''
-        from pygeodesy.trf import RefFrame
-        return NotImplemented if isinstance(other, (Datum, RefFrame, Transform)) else \
-              _NotImplemented(self, other)
-
-    def _applyHelmerts(self, *transforms):
-        '''(INTERNAL) Apply one I{or more} Helmert transforms.
-        '''
-        xyz = self.xyz
-        for t in transforms:
-            xyz = t.transform(*xyz)
-        return self.classof(xyz, datum=self.datum)
+#   def __matmul__(self, other):  # PYCHOK Python 3.5+
+#       '''Return C{NotImplemented} for C{c_ = c @ datum}, C{c_ = c @ reframe} and C{c_ = c @ Transform}.
+#       '''
+#       from pygeodesy.trf import RefFrame
+#       return NotImplemented if isinstance(other, (Datum, RefFrame, Transform)) else \
+#             _NotImplemented(self, other)
 
     @deprecated_method
     def convertRefFrame(self, reframe2, reframe, epoch=None):
@@ -149,7 +140,22 @@ class CartesianEllipsoidalBase(CartesianBase):
             from pygeodesy.trf import RefFrame, _reframeTransforms2
             _xinstanceof(RefFrame, reframe2=reframe2, reframe=r)
             _, xs = _reframeTransforms2(reframe2, r, epoch)
-        return self._applyHelmerts(*xs) if xs else self
+        return self.toTransforms_(*xs) if xs else self
+
+    def toTransforms_(self, *transforms, **datum):
+        '''Apply one I{or more} Helmert transforms.
+
+           @arg transforms: Transforms to apply, in order (L{Transform}).
+           @kwarg datum: Datum for the transformed point (L{Datum}),
+                         overriding this point's datum.
+
+           @return: The transformed point (C{Cartesian}).
+        '''
+        xyz = self.xyz
+        for t in transforms:
+            xyz = t.transform(*xyz)
+        d = _xkwds_get(datum, datum=self.datum)
+        return self.classof(xyz, datum=d)
 
 
 class LatLonEllipsoidalBase(LatLonBase):
@@ -203,12 +209,12 @@ class LatLonEllipsoidalBase(LatLonBase):
             self.reframe = reframe
             self.epoch = epoch
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return C{NotImplemented} for C{ll_ = ll @ datum} and C{ll_ = ll @ reframe}.
-        '''
-        from pygeodesy.trf import RefFrame
-        return NotImplemented if isinstance(other, (Datum, RefFrame)) else \
-              _NotImplemented(self, other)
+#   def __matmul__(self, other):  # PYCHOK Python 3.5+
+#       '''Return C{NotImplemented} for C{ll_ = ll @ datum} and C{ll_ = ll @ reframe}.
+#       '''
+#       from pygeodesy.trf import RefFrame
+#       return NotImplemented if isinstance(other, (Datum, RefFrame)) else \
+#             _NotImplemented(self, other)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -645,9 +651,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             r.epoch = epoch
         if reframe not in (None, self.reframe):
             r.reframe = reframe
-        if name:
-            r = _xnamed(r, name, force=True)
-        return r
+        return self._xnamed(r, name=name, force=True) if name else r
 
     def _Radjust2(self, adjust, datum, meter_text2):
         '''(INTERNAL) Adjust an C{elevation} or C{geoidHeight} with
@@ -833,7 +837,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
         e, xs = _reframeTransforms2(reframe2, self.reframe, self.epoch)
         if xs:
-            c = self.toCartesian()._applyHelmerts(*xs)
+            c = self.toCartesian().toTransforms_(*xs)
             n = name or self.name
             ll = c.toLatLon(datum=self.datum, epoch=e, height=height,
                             LatLon=self.classof, name=n, reframe=reframe2)

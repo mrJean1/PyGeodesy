@@ -108,29 +108,31 @@ scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).  The complete
 coverage report in HTML and a PDF summary are included in the
 distribution files.
 
-The tests also ran with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_ 7.3.1
-(Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52 and
-numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on `Ubuntu 16.04`_
-and with Python 3.10.1 (and geographiclib_ 1.52) on `Debian 11`_, all in
-64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17 (all with geographiclib_
-1.52) on `Windows Server 2012R2`_ in both 64- and 32-bit.
+The tests also ran with Python 3.10 or 3.9.9 (and geographiclib_ 1.52)
+on `Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17
+(all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in 64-
+and/or 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.10.0, 3.9.0-5, 3.8.0-6,
+Previously, the tests were run with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15,
+PyPy_ 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and
+geographiclib_ 1.52 and numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4
+or 1.19.5) on `Ubuntu 16.04`_, with Python 3.10.0, 3.9.0-5, 3.8.0-6,
 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_
 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and
-scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python
-2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS
-11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, macOS 10.14
-Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El
-Capitan and/or MacOS X 10.10 Yosemite, with Pythonista_ 3.2 (with
-geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3
-on iPad4, iPhone6 and/or iPhone10, with Pythonista_ 3.1 on iOS 10.3.3,
-11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit
-Python 2.7.14 on Windows 10 Pro and 32-bit Python 2.6.6 on Windows XP SP3.
+scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0
+(Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3)
+on macOS 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina,
+macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra,
+MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with Pythonista_
+3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2,
+11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with Pythonista_ 3.1
+on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and
+with 32-bit Python 2.7.14 on Windows 10 Pro and 32-bit Python 2.6.6 on
+Windows XP SP3.
 
 Notes
 =====
@@ -146,7 +148,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 22, 2021.*
+*Last updated: Dec 23, 2021.*
 
 License
 =======

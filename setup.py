@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.12.21'
+__version__ = '21.12.23'
 
 
 def _c2(*names):
@@ -63,8 +63,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Hodgman', 'horizon', 'Hubeny',
-             'IDW', 'incenter', 'incirle', 'infix_@_operator', 'in_place_@_operator',
-             'inradius', 'intermediate', 'interpolate',
+             'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Jekel', 'Karney', 'Krueger', 'Krüger',

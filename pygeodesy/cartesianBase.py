@@ -11,14 +11,13 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 from pygeodesy.basics import isnear0, _xinstanceof
-from pygeodesy.datums import Datum, _spherical_datum, Transform, _WGS84
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _NotImplemented, _xnamed
 from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple, \
                                   Vector3Tuple  # PYCHOK .ellipsoidalBase
 from pygeodesy.props import deprecated_method, Property, \
@@ -30,7 +29,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = ()
-__version__ = '21.12.22'
+__version__ = '21.12.23'
 
 
 class CartesianBase(Vector3d):
@@ -64,34 +63,11 @@ class CartesianBase(Vector3d):
         if d is not None:
             self.datum = d
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
-        '''Return C{NotImplemented} for C{c_ = c @ datum} and C{c_ = c @ transform}.
-        '''
-        return NotImplemented if isinstance(other, (Datum, Transform)) else \
-              _NotImplemented(self, other)
-
-    def _applyHelmert(self, transform, inverse=False, datum=None):
-        '''(INTERNAL) Return a new cartesian by applying a Helmert
-           transform to this cartesian.
-
-           @arg transform: Transform to apply (L{Transform}).
-           @kwarg inverse: Apply the inverse of the Helmert
-                           transform (C{bool}).
-           @kwarg datum: Datum for the transformed point (L{Datum}),
-                         overriding this point's datum.
-
-           @return: The transformed point (C{Cartesian}).
-
-           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}}
-                             is not L{Datums}C{.WGS84}.
-        '''
-        d = datum or self.datum
-        if inverse and d != _WGS84:
-            raise _ValueError(inverse=inverse, datum=d,
-                              txt=_not_(_WGS84.name))
-
-        xyz = transform.transform(*self.xyz, inverse=inverse)
-        return self.classof(xyz, datum=d)
+#   def __matmul__(self, other):  # PYCHOK Python 3.5+
+#       '''Return C{NotImplemented} for C{c_ = c @ datum} and C{c_ = c @ transform}.
+#       '''
+#       return NotImplemented if isinstance(other, (Datum, Transform)) else \
+#             _NotImplemented(self, other)
 
     def cassini(self, pointB, pointC, alpha, beta, useZ=False):
         '''3-Point resection between this and 2 other points using U{Cassini
@@ -202,7 +178,7 @@ class CartesianBase(Vector3d):
         else:
             r = self._ltp._local2ecef(delta, nine=False)
             r = Cartesian(*r, **_xkwds(Cartesian_kwds, datum=self.datum))
-        return _xnamed(r, self.name)
+        return r._xnamed(r) if self.name else r
 
     @Property_RO
     def Ecef(self):
@@ -533,10 +509,10 @@ class CartesianBase(Vector3d):
             i = True  # convert to WGS84 by inverse transformation
 
         else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, inverse=True, datum=_WGS84)
+            c = c.toTransform(d.transform, inverse=True, datum=_WGS84)
             d = datum2
 
-        return c._applyHelmert(d.transform, inverse=i, datum=datum2)
+        return c.toTransform(d.transform, inverse=i, datum=datum2)
 
     convertDatum = toDatum  # for backward compatibility
 
@@ -578,7 +554,7 @@ class CartesianBase(Vector3d):
         if LatLon:  # class or .classof
             h = r.height if height is None else Height(height)
             r = LatLon(r.lat, r.lon, datum=r.datum, height=h,
-                            **_xkwds(LatLon_kwds, name=r.name))
+                                **_xkwds(LatLon_kwds, name=r.name))
         _datum_datum(r.datum, d)
         return r
 
@@ -654,6 +630,29 @@ class CartesianBase(Vector3d):
            @return: Cartesian represented as "[x, y, z]" (string).
         '''
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
+
+    def toTransform(self, transform, inverse=False, datum=None):
+        '''Return a new cartesian by applying a Helmert transform
+           to this cartesian.
+
+           @arg transform: Transform to apply (L{Transform}).
+           @kwarg inverse: Apply the inverse of the Helmert
+                           transform (C{bool}).
+           @kwarg datum: Datum for the transformed cartesian (L{Datum}),
+                         overriding this cartesian's datum.
+
+           @return: The transformed cartesian (C{Cartesian}).
+
+           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}}
+                             is not L{Datums}C{.WGS84}.
+        '''
+        d = datum or self.datum
+        if inverse and d != _WGS84:
+            raise _ValueError(inverse=inverse, datum=d,
+                              txt=_not_(_WGS84.name))
+
+        xyz = transform.transform(*self.xyz, inverse=inverse)
+        return self.classof(xyz, datum=d)
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Return this cartesian's components as vector.

@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.12.22'
+__version__ = '21.12.23'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -191,7 +191,7 @@ class Transform(_NamedEnumItem):
            @raise TypeError: Invalid B{C{other}}.
         '''
         try:  # only CartesianBase
-            return other._applyHelmert(self)
+            return other.toTransform(self)
         except AttributeError:
             pass
         raise _IsnotError(_cartesian_, other=other)

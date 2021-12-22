@@ -20,7 +20,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.12.18'
+__version__ = '21.12.23'
 
 _default_     = 'default'
 _kwargs_      = 'kwargs'
@@ -278,12 +278,18 @@ def _an(noun):
 def _and(*words):
     '''(INTERNAL) Join C{words} with C{", "} and C{" and "}.
     '''
+    return _and_or(_and_, *words)
+
+
+def _and_or(last, *words):
+    '''(INTERNAL) Join C{words} with C{", "} and C{B{last}}.
+    '''
     t, w = NN, list(words)
     if w:
         t = w.pop()
         if w:
             w = _COMMASPACE_.join(w)
-            t = _SPACE_(w, _and_, t)
+            t = _SPACE_(w, last, t)
     return t
 
 
@@ -454,13 +460,7 @@ def limiterrors(raiser=None):
 def _or(*words):
     '''(INTERNAL) Join C{words} with C{", "} and C{" or "}.
     '''
-    t, w = NN, list(words)
-    if w:
-        t = w.pop()
-        if w:
-            w = _COMMASPACE_.join(w)
-            t = _SPACE_(w, _or_, t)
-    return t
+    return _and_or(_or_, *words)
 
 
 def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=ParseError]
