@@ -1,5 +1,10 @@
+
+# <https://Cirrus-CI.org/examples/#python>
+# <https://hub.Docker.com/_/python/>
+
 container:
   image: python:latest
+  image: python:3.9.9-slim
 
 test_task:
   pip_cache:
