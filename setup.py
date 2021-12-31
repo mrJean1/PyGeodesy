@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.12.23'
+__version__ = '21.12.31'
 
 
 def _c2(*names):
@@ -56,8 +56,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM', 'excess',
-             'Farrell', 'Farrell-Barth', 'flattening', 'fmath', 'footprint', 'Forsythe', 'fov',
-             'fractional', 'Frechet', 'Fréchet', 'frustum',
+             'Farrell', 'Farrell-Barth', 'flattening', 'Field-Of-View', 'fmath',
+             'footprint', 'Forsythe', 'FOV', 'fractional', 'Frechet', 'Fréchet', 'frustum',
              'GARS', 'geocentric', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic',
