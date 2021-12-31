@@ -420,10 +420,26 @@ class LocalCartesian(_NamedBase):
            @note: If BC{latlonh0} is L{Ltp}, only the lat-, longitude and
                   height are duplicated, I{not} the ECEF converter.
         '''
+        if isinstance(latlonh0, LocalCartesian):
+            self._ecef = latlonh0.ecef
+            self._t0   = latlonh0._t0
+            self.name  = name or latlonh0.name
+        else:
+            self.reset(latlonh0, lon0, height0, name=name)
         if ecef:
             _xinstanceof(EcefKarney, ecef=ecef)
             self._ecef = ecef
-        self.reset(latlonh0, lon0, height0, name=name)
+
+    def __eq__(self, other):
+        '''Compare this and an other instance.
+
+           @arg other: The other ellipsoid (L{LocalCartesian} or L{Ltp}).
+
+           @return: C{True} if equal, C{False} otherwise.
+        '''
+        return other is self or (isinstance(other, self.__class__) and
+                               self.ecef == other.ecef and
+                               self._t0  == other._t0)
 
     @Property_RO
     def datum(self):
@@ -630,12 +646,7 @@ class Ltp(LocalCartesian):
 
            @raise TypeError: Invalid B{C{ecef}}.
         '''
-        if isinstance(latlonh0, Ltp):
-            self._ecef = latlonh0.ecef
-            self._t0   = latlonh0._to
-            self.name  = name or latlonh0.name
-        else:
-            LocalCartesian.__init__(self, latlonh0, lon0=lon0, height0=height0, name=name)
+        LocalCartesian.__init__(self, latlonh0, lon0=lon0, height0=height0, name=name)
         if ecef:
             self.ecef = ecef
 

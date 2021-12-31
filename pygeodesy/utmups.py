@@ -20,7 +20,7 @@ from pygeodesy.datums import _WGS84
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import modulename
 from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
 from pygeodesy.streprs import Fmt
@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.11.08'
+__version__ = '21.12.28'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -224,11 +224,9 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
     z, B, h = _to3zBhp(zone, band, hemipole=hemi)
 
     if z == _UPS_ZONE:  # UPS
-        import pygeodesy.ups as u  # PYCHOK expected
-        U, M = _UPS_, _UpsMinMax
+        u, U, M = _MODS.ups, _UPS_, _UpsMinMax
     else:  # UTM
-        import pygeodesy.utm as u  # PYCHOK expected
-        U, M = _UTM_, _UtmMinMax
+        u, U, M = _MODS.utm, _UTM_, _UtmMinMax
 
     if MGRS:
         U, s = _MGRS_, _MGRS_TILE

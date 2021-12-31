@@ -11,11 +11,11 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1, \
                             _xinstanceof
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
-from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_, _sys_version_info2
+from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
 from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
                              _colinear_, _COMMASPACE_, _1_0
-# from pygeodesy.lazily import _sys_version_info2  # from .fmath
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 from pygeodesy.namedTuples import Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
@@ -26,8 +26,8 @@ from pygeodesy.units import Float, Scalar
 
 from math import atan2
 
-__all__ = ()
-__version__ = '21.12.18'
+__all__ = _ALL_LAZY.vector3dBase
+__version__ = '21.12.28'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -635,8 +635,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
-        from pygeodesy.nvectorBase import _N_vector_
-        return _N_vector_(*self.xyz, name=self.name)
+        return _MODS.nvectorBase._N_vector_(*self.xyz, name=self.name)
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.

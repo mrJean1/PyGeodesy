@@ -7,17 +7,17 @@ u'''Floating point and other formatting utilities.
 
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
-                             _ValueError, _xkwds_pop
+                             _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
                              _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
                              _OKd_, _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
                              _0_0, _0_001, _0_01, _0_1, _1_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.11.15'
+__version__ = '21.12.28'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -216,28 +216,29 @@ def anstr(name, OKd=_OKd_, sub=_UNDER_):
     return sub.join(s.strip().split())
 
 
-def attrs(inst, *names, **pairs_kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
+def attrs(inst, *names, **Nones_True_pairs_kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
     '''Get instance attributes as I{name=value} strings, with C{float}s
        formatted by function L{fstr}.
 
        @arg inst: The instance (any C{type}).
        @arg names: The attribute names (C{str}s).
-       @kwarg pairs_kwds: Keyword argument for function L{pairs}, except
-                          C{B{Nones}=True} to in- or exclude missing or
-                          or C{None}-valued attributes.
+       @kwarg Nones_True_pairs_kwds: Keyword argument for function L{pairs}, except
+              C{B{Nones}=True} to in-/exclude missing or C{None}-valued attributes.
 
-       @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values, ...)))}
+       @return: A C{tuple(B{sep}.join(t) for t in zip(B{names}, reprs(values, ...)))}
                 of C{str}s.
     '''
-    Nones = _xkwds_pop(pairs_kwds, Nones=True)
-
-    def items():
+    def _items(inst, names, Nones):
         for n in names:
             v = getattr(inst, n, None)
             if Nones or v is not None:
                 yield n, v
 
-    return pairs(items(), **pairs_kwds)
+    def _Nones_kwds(Nones=True, **kwds):
+        return Nones, kwds
+
+    Nones, kwds = _Nones_kwds(**Nones_True_pairs_kwds)
+    return pairs(_items(inst, names, Nones), **kwds)
 
 
 def enstr2(easting, northing, prec, *extras):
@@ -366,8 +367,7 @@ def instr(inst, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    from pygeodesy.named import classname
-    return unstr(classname(inst), *args, **kwds)
+    return unstr(_MODS.named.classname(inst), *args, **kwds)
 
 
 def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
@@ -381,8 +381,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
        @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining I{names} and I{values} (C{str}).
 
-       @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values,...)))}
-                of C{str}s.
+       @return: A C{tuple(B{sep}.join(t) for t in B{items}))} of C{str}s.
     '''
     try:
         if isinstance(items, dict):

@@ -5,7 +5,7 @@ u'''Test I{local tangent plane} (LTP) classes .
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.09.21'
+__version__ = '21.12.30'
 
 from base import TestsBase
 
@@ -30,6 +30,8 @@ class Tests(TestsBase):
         Sudano = c.ecef.__class__ is EcefSudano
 
         self.testCopy(c)
+        t = Ltp(c)  # like c.copy() or c.dup()
+        self.test('New', t, c)
 
         t = c.forward(33.3, 44.4, 6000)
         self.test('forward', fstr(t[0:3], prec=2), '37288.97, 33374.29, 5783.65')  # 5783.64
@@ -108,8 +110,9 @@ class Tests(TestsBase):
         t = f.footprint5(1000, -179, 0, 22.5).toStr()
         self.test('footprint', t, t)
 
-        a = Attitude(tilt=350, roll=340, yaw=-30, name='test')
+        a = Attitude(0, tilt=350, roll=340, yaw=-30, name='test')
         self.test(Attitude.__name__, a, '(0.0, -10.0, 330.0, -20.0)', nl=1)
+        self.test('alt',  a.alt,  '0.0')
         self.test('tilt', a.tilt, '-10.0')
         self.test('roll', a.roll, '-20.0')
         self.test('yaw',  a.yaw,  '330.0')

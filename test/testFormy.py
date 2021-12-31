@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '21.07.28'
+__version__ = '21.12.30'
 
 from base import TestsBase
 
@@ -34,6 +34,8 @@ class Tests(TestsBase):
         self.testDistance(t, haversine,            lat1, lon1, lat2, lon2, x, 0.1)
         # assumed as reference
         self.testDistance(t, vincentys,            lat1, lon1, lat2, lon2, x, 0.0)
+        self.testDistance(t, vincentys,            lat1, lon1, lat2, lon2, x, 0.0,
+                                                   radius=Datums.Sphere)  # datums._mean_radius
         # allow 0.4% margin
         self.testDistance(t, cosineAndoyerLambert, lat1, lon1, lat2, lon2, x, 0.4)
         # allow 0.4% margin

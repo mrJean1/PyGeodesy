@@ -43,7 +43,7 @@ from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
                              _COMMASPACE_, _NS_, _outside_, \
                              _range_, _S_, _SPACE_, _UTM_, \
                              _V_, _X_, _zone_, _0_0, _1_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
@@ -63,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.11.11'
+__version__ = '21.12.28'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -352,8 +352,7 @@ class Utm(UtmUpsBase):
     def _etm(self):
         '''(INTERNAL) Cache for method L{toEtm}.
         '''
-        from pygeodesy.etm import Etm
-        return self._xcopy2(Etm)
+        return self._xcopy2(_MODS.etm.Etm)
 
     @Property_RO
     def falsed2(self):
@@ -592,10 +591,10 @@ class Utm(UtmUpsBase):
         '''
         u = self._ups
         if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
-            from pygeodesy.ups import toUps8, Ups
             ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
-            self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole,
-                                                strict=False, name=self.name)
+            self._ups = u = _MODS.ups.toUps8(ll, Ups=_MODS.ups.Ups,
+                                                 falsed=falsed, pole=pole,
+                                                 strict=False, name=self.name)
         return u
 
     def toUtm(self, zone, eps=EPS, falsed=True, **unused):
@@ -705,8 +704,7 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
 def _toMgrs(utm):
     '''(INTERNAL) Convert a L{Utm} to an L{Mgrs} instance.
     '''
-    from pygeodesy.mgrs import toMgrs
-    return toMgrs(utm, datum=utm.datum, name=utm.name)
+    return _MODS.mgrs.toMgrs(utm, datum=utm.datum, name=utm.name)
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,

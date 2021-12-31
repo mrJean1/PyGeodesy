@@ -74,7 +74,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
                              _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, \
                              _6_0, _90_0
 from pygeodesy.interns import _N_2_0  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -88,7 +88,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.11.18'
+__version__ = '21.12.28'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -311,8 +311,7 @@ class _EcefBase(_NamedBase):
     def _Geocentrics(self):
         '''(INTERNAL) Valid geocentric classes.
         '''
-        from pygeodesy.cartesianBase import CartesianBase
-        return Ecef9Tuple, CartesianBase
+        return Ecef9Tuple, _MODS.cartesianBase.CartesianBase
 
     @Property_RO
     def _isYou(self):
@@ -1157,8 +1156,7 @@ class Ecef9Tuple(_NamedTuple):
         elif Cartesian is Vector3Tuple:
             r = self.xyz
         else:
-            from pygeodesy.cartesianBase import CartesianBase
-            _xsubclassof(CartesianBase, Cartesian=Cartesian)
+            _xsubclassof(_MODS.cartesianBase.CartesianBase, Cartesian=Cartesian)
             r = Cartesian(self, **_xkwds(Cartesian_kwds, name=self.name))
         return r
 
@@ -1174,8 +1172,7 @@ class Ecef9Tuple(_NamedTuple):
         if self.datum in (None, datum2):  # PYCHOK _Names_
             r = self.copy()
         else:
-            from pygeodesy.cartesianBase import CartesianBase
-            c = CartesianBase(self, datum=self.datum, name=self.name)  # PYCHOK _Names_
+            c = _MODS.cartesianBase.CartesianBase(self, datum=self.datum, name=self.name)  # PYCHOK _Names_
             # c.toLatLon converts datum, x, y, z, lat, lon, etc.
             # and returns another Ecef9Tuple iff LatLon is None
             r = c.toLatLon(datum=datum2, LatLon=None)
@@ -1224,8 +1221,7 @@ class Ecef9Tuple(_NamedTuple):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp(ltp)._ecef2local(self, Xyz, Xyz_kwds)
+        return _MODS.ltp._xLtp(ltp)._ecef2local(self, Xyz, Xyz_kwds)
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as vector.
@@ -1261,7 +1257,8 @@ def _xEcef(Ecef):  # PYCHOK .latlonBase.py
     '''
     if issubclassof(Ecef, _EcefBase):
         return Ecef
-    raise _TypesError(_Ecef_, Ecef, EcefFarrell21, EcefFarrell22, EcefKarney, EcefSudano, EcefVeness, EcefYou)
+    raise _TypesError(_Ecef_, Ecef, EcefFarrell21, EcefFarrell22, EcefKarney,
+                                    EcefSudano, EcefVeness, EcefYou)
 
 
 __all__ += _ALL_DOCS(_EcefBase)

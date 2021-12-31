@@ -4,15 +4,15 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '21.09.28'
+__version__ = '21.12.30'
 
 from base import GeodSolve, geographiclib, isPython37, TestsBase
 
 from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
                       Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \
                       centroidOf, classname, fstr, \
-                      isclockwise, isconvex, luneOf, nearestOn5, \
-                      perimeterOf, points, quadOf
+                      isclockwise, isconvex, ispolar, luneOf, \
+                      nearestOn5, perimeterOf, points, quadOf
 
 try:
     if isPython37:
@@ -100,7 +100,7 @@ class Tests(TestsBase):
         _test('isPoints2', pts.isPoints2, pts.__class__ is LatLon2psxy)
         _test('isTuple2',  pts.isTuple2,  pts.__class__ is Tuple2LatLon)
 
-    def test3(self, LatLon, X=False):
+    def test3(self, LatLon, oK=True, X=False):
         self.subtitle(points, LatLon=LatLon)
 
         p = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
@@ -109,6 +109,8 @@ class Tests(TestsBase):
         self.test('perimeterOf', perimeterOf(p, radius=R_MA), '2.673633e+05', fmt='%.6e')
         self.test('isclockwise', isclockwise(p), False)
         self.test('isconvex', isconvex(p), True)
+        if oK:
+            self.test('ispolar', ispolar(p), False)
 
         p = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaOf', areaOf(p, radius=R_MA), '7.086883e+09', fmt='%.6e')
@@ -116,6 +118,8 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=6), '0.333333, 0.333333')
         self.test('isclockwise', isclockwise(p), True)
         self.test('isconvex', isconvex(p), True)
+        if oK:
+            self.test('ispolar', ispolar(p), False)
 
         p = LatLon(0, 1), LatLon(1, 2), LatLon(2, 1), LatLon(1, 0)
         self.test('areaOf', areaOf(p, radius=R_M), '2.827856e+10', fmt='%.6e')
@@ -123,6 +127,8 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=6), '1.0, 1.0')
         self.test('isclockwise', isclockwise(p), False)
         self.test('isconvex', isconvex(p), True)
+        if oK:
+            self.test('ispolar', ispolar(p), False)
 
         p = LatLon(45, -70), LatLon(60, 0), LatLon(20, 110), LatLon(80, 170)  # XXX warped?
         self.test('areaOf', areaOf(p, radius=R_M), '2.747297e+13', fmt='%.6e')  # XXX 1.047657e+12
@@ -130,6 +136,8 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=3), '52.113, 102.123')  # XXX '22.536, -164.928'
         self.test('isclockwise', isclockwise(p), False)  # XXX True
         self.test('isconvex', isconvex(p), False)
+        if oK:
+            self.test('ispolar', ispolar(p), True)  # XXX warped?
 
         p = LatLon(0, 0), LatLon(0, 3), LatLon(3, 3), LatLon(3, 2), \
             LatLon(1, 2), LatLon(1, 1), LatLon(2, 1), LatLon(2, 0)
@@ -138,6 +146,8 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=3), '1.167, 1.667')
         self.test('isclockwise', isclockwise(p), False)
         self.test('isconvex', isconvex(p), False)
+        if oK:
+            self.test('ispolar', ispolar(p), False)
 
         p = LatLon(-20, -180), LatLon(5, -160), LatLon(0, -60), LatLon(-60, -160)
         self.test('areaOf', areaOf(p, radius=R_M), '5.151974e+13', fmt='%.6e')
@@ -145,6 +155,8 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=3), '-19.444, -133.333')
         self.test('isclockwise', isclockwise(p), True)
         self.test('isconvex', isconvex(p), True)
+        if oK:
+            self.test('ispolar', ispolar(p), False)
 
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         p = (LatLon(-63.1,  -58), LatLon(-72.9,  -74), LatLon(-71.9, -102),
@@ -158,14 +170,38 @@ class Tests(TestsBase):
         self.test('centroidOf', fstr(centroidOf(p), prec=3), '-71.443, -69.683')  # XXX '-72.112, 92.032'
         self.test('isclockwise', isclockwise(p), True)  # XXX False
         self.test('isconvex', isconvex(p), False)
+        if oK:
+            self.test('ispolar', ispolar(p), True)
         self.test('points2', p[0].points2(p)[0], len(p))
         self.test('nearestOn5', nearestOn5(LatLon(-80, 0), p, limit=0), '(-77.455114, -16.67063, 4.134666, 307.988253, 0)', known=not X)
+
+        # <https://StackOverflow.com/questions/4681737/how-to-calculate-the-area-of-a-polygon-on-the-earths-surface-using-python>
+        co = LatLon(41, -102.05), LatLon(37, -102.05), LatLon(37, -109.05), LatLon(41, -109.05)  # State of Colorado
+        self.test('areaCO', areaOf(co, radius=R_M, wrap=False), '2.69601367661e+11', fmt='%.11e', known=True)
+        self.test('isclockwise', isclockwise(co), True)  #
+        self.test('perimeterCO', perimeterOf(co, closed=True), '2098430.887891' if X else '2099854.381923', prec=6, known=True)
 
         if LatLon is LatLon_:
             b = boundsOf(p)
             self.test('boundsOf', b, '(-77.9, -163.0, -63.1, 172.0)')
             q = str(quadOf(*b)).replace(LatLon_.__name__, NN).replace('(', NN).replace(')', NN)
             self.test('quadOf', q, '77.9°S, 163.0°W, 63.1°S, 163.0°W, 63.1°S, 172.0°E, 77.9°S, 172.0°E')
+
+            p = LatLon(52.205, 0.119)
+            q = LatLon(48.857, 2.351)
+            i = p.intermediateTo(q, 0.25)
+            self.test('intermediateTo', i, "51.368°N, 000.677°E, 'intermediateTo'")
+            self.test('intermediateTo', isinstance(i, LatLon_), True)
+            i = i.dup(name='')
+            self.test('intermediateTo', i, "51.368°N, 000.677°E")
+            i = p.intermediateTo(q, 0)
+            self.test('intermediateTo', i, p)
+            i = p.intermediateTo(q, 1)
+            self.test('intermediateTo', i, q)
+
+            from pygeodesy.points import _Array2LatLon
+            t = _Array2LatLon([], LatLon=LatLon, shape=(1, 2))
+            self.test('_isLatLon_', t, "_Array2LatLon('[ ... ][1]', ilat=0, ilon=1)")
 
         p = LatLon('66.6S', '88W')
         self.test('latlon', p.latlon, '(-66.6, -88.0)')
@@ -252,7 +288,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     t.test3(ellipsoidalNvector.LatLon)
     t.test3(ellipsoidalVincenty.LatLon)
-    t.test3(ellipsoidalKarney.LatLon)
+    t.test3(ellipsoidalKarney.LatLon, oK=geographiclib)
     t.test3(ellipsoidalExact.LatLon, X=True)
 
     if geographiclib:

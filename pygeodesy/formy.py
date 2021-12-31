@@ -6,7 +6,7 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnon0 as _non0
+from pygeodesy.basics import isnon0 as _isnon0
 from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
                             _spherical_datum, _WGS84
 from pygeodesy.ellipsoids import Ellipsoid
@@ -14,10 +14,10 @@ from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, fsum_, hypot, hypot2, sqrt0, unstr
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
-                             _distant_, _inside_, _near_, _null_, _outside_, _too_, \
-                             _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
-                             _32_0, _90_0, _180_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY
+                             _distant_, _inside_, _near_, _null_, _opposite_, \
+                             _outside_, _too_, _0_0, _0_125, _0_25, _0_5, \
+                             _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
@@ -32,11 +32,10 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.12.20'
+__version__ = '21.12.30'
 
-_opposite_ = 'opposite'
-_ratio_    = 'ratio'
-_xline_    = 'xline'
+_ratio_ = 'ratio'
+_xline_ = 'xline'
 
 
 def antipode(lat, lon):
@@ -221,7 +220,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
              Distance/AndoyerLambert.php>}.
     '''
     s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
-    if _non0(c1) and _non0(c2):
+    if _isnon0(c1) and _isnon0(c2):
         E = _ellipsoidal(datum, cosineAndoyerLambert_)
         if E.f:  # ellipsoidal
             r2 = atan2(E.b_a * s2, c2)
@@ -230,7 +229,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
             r = acos1(s1 * s2 + c1 * c2 * c21)
             if r:
                 sr, _, sr_2, cr_2 = sincos2_(r, r * _0_5)
-                if _non0(sr_2) and _non0(cr_2):
+                if _isnon0(sr_2) and _isnon0(cr_2):
                     s  = (sr + r) * ((s1 - s2) / sr_2)**2
                     c  = (sr - r) * ((s1 + s2) / cr_2)**2
                     r += (c - s) * E.f * _0_125
@@ -288,11 +287,11 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
              Distance/ForsytheCorrection.php>}.
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
-    if r and _non0(c1) and _non0(c2):
+    if r and _isnon0(c1) and _isnon0(c2):
         E = _ellipsoidal(datum, cosineForsytheAndoyerLambert_)
         if E.f:  # ellipsoidal
             sr, cr, s2r, _ = sincos2_(r, r * _2_0)
-            if _non0(sr) and abs(cr) < EPS1:
+            if _isnon0(sr) and abs(cr) < EPS1:
                 s = (s1 + s2)**2 / (1 + cr)
                 t = (s1 - s2)**2 / (1 - cr)
                 x = s + t
@@ -715,18 +714,17 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean of both latitude.
 
-       @see: Functions L{flatLocal_}/L{hubeny_}, L{cosineLaw},
-             L{flatPolar}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
-             L{equirectangular}, L{euclidean}, L{haversine}, L{thomas}, L{vincentys},
-             method L{Ellipsoid.distance2} and U{local, flat earth approximation
-             <https://www.EdWilliams.org/avform.htm#flat>}.
+       @see: Functions L{flatLocal_}/L{hubeny_}, L{cosineLaw}, L{flatPolar},
+             L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
+             L{equirectangular}, L{euclidean}, L{haversine}, L{thomas},
+             L{vincentys}, method L{Ellipsoid.distance2} and U{local, flat
+             earth approximation<https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
     return flatLocal_(Phi_(lat2=lat2),
                       Phi_(lat1=lat1), radians(d), datum=datum)
 
-
-hubeny = flatLocal  # for Karl Hubeny
+hubeny = flatLocal  # PYCHOK for Karl Hubeny
 
 
 def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
@@ -758,8 +756,7 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
     m, n = E.roc2_((phi2 + phi1) * _0_5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
-
-hubeny_ = flatLocal_  # for Karl Hubeny
+hubeny_ = flatLocal_  # PYCHOK for Karl Hubeny
 
 
 def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
@@ -842,8 +839,6 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
              satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}
              and function L{pygeodesy.tyr3d} for B{C{los}}.
     '''
-    from pygeodesy.vector3d import _otherV3d
-
     D = earth if isinstance(earth, Datum) else \
            _spherical_datum(earth, name=hartzell.__name__)
     E = D.ellipsoid
@@ -853,8 +848,8 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
     q2 = E.b2_a2  # == c2 / a2
     bc = E.a * E.b  # == b * c
 
-    p3 = _otherV3d(pov=pov)
-    u3 = _otherV3d(los=los) if los else p3.negate()
+    p3 = _MODS.vector3d._otherV3d(pov=pov)
+    u3 = _MODS.vector3d._otherV3d(los=los) if los else p3.negate()
     u3 =  u3.unit()  # unit vector, opposing signs
 
     x2, y2, z2 = p3.times_(p3).xyz  # == p3.x2y2z2
@@ -887,8 +882,8 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
 
     r = _xnamed(p3.minus(u3.times(d)), hartzell.__name__)
     if LatLon_and_kwds:
-        from pygeodesy.cartesianBase import CartesianBase as CB
-        r = CB(r, datum=D, name=r.name).toLatLon(**LatLon_and_kwds)
+        c = _MODS.cartesianBase.CartesianBase(r, datum=D, name=r.name)
+        r =  c.toLatLon(**LatLon_and_kwds)
     return r
 
 
@@ -1015,14 +1010,14 @@ def intersections2(lat1, lon1, radius1,
        about 0.9 degrees) or if no B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
-       or if B{C{datum}} is a C{scalar} representing the earth radius, or ...
+       or if B{C{datum}} is a C{scalar} representing the earth radius,
+       conventionally in C{meter} or ...
 
        3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
-       is installed, or ...
+       is installed, otherwise ...
 
-       4) L{ellipsoidalExact.intersections2} otherwise provided B{C{datum}}
-       is ellipsoidal.
+       4) L{ellipsoidalExact.intersections2}, provided B{C{datum}} is ellipsoidal.
 
        @arg lat1: Latitude of the first circle center (C{degrees}).
        @arg lon1: Longitude of the first circle center (C{degrees}).
@@ -1049,10 +1044,8 @@ def intersections2(lat1, lon1, radius1,
        @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}}
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
-    if datum is None or euclidean(lat1, lon1, lat1, lon2, radius=R_M,
+    if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,
                                   adjust=True, wrap=wrap) < _100km:
-        import pygeodesy.vector3d as m
-
         def _V2T(x, y, _, **unused):  # _ == z unused
             return LatLon2Tuple(y, x, name=intersections2.__name__)
 
@@ -1060,24 +1053,24 @@ def intersections2(lat1, lon1, radius1,
         r2 = m2degrees(Radius_(radius2=radius2), radius=R_M, lat=lat2)
 
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)
+        m = _MODS.vector3d
         t = m.intersections2(m.Vector3d(lon1, lat1, 0), r1,
                              m.Vector3d(lon2, lat2, 0), r2, sphere=False,
                                Vector=_V2T)
-
     else:
         def _LL2T(lat, lon, **unused):
             return LatLon2Tuple(lat, lon, name=intersections2.__name__)
 
         d = _spherical_datum(datum, name=intersections2.__name__)
         if d.isSpherical:
-            import pygeodesy.sphericalTrigonometry as m
+            m = _MODS.sphericalTrigonometry
         elif d.isEllipsoidal:
             try:
                 if d.ellipsoid.geodesic:
                     pass
-                import pygeodesy.ellipsoidalKarney as m
+                m = _MODS.ellipsoidalKarney
             except ImportError:
-                import pygeodesy.ellipsoidalExact as m
+                m = _MODS.ellipsoidalExact
         else:
             raise _AssertionError(datum=d)
 
@@ -1350,7 +1343,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
              Distance/ThomasFormula.php>}.
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
-    if r and _non0(c1) and _non0(c2):
+    if r and _isnon0(c1) and _isnon0(c2):
         E = _ellipsoidal(datum, thomas_)
         if E.f:
             r1 = atan2(E.b_a * s1, c1)
@@ -1362,10 +1355,10 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
 
             h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
             u = _1_0 - h
-            if _non0(u) and _non0(h):
+            if _isnon0(u) and _isnon0(h):
                 r = atan(sqrt0(h / u)) * _2_0  # == acos(1 - 2 * h)
                 sr, cr = sincos2(r)
-                if _non0(sr):
+                if _isnon0(sr):
                     u = 2 * (sj * ck)**2 / u
                     h = 2 * (sk * cj)**2 / h
                     x = u + h

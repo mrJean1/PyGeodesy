@@ -17,7 +17,7 @@ from pygeodesy.fmath import cbrt, Fmt, fsum_, hypot_, hypot2  # hypot
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple, \
                                   Vector3Tuple  # PYCHOK .ellipsoidalBase
 from pygeodesy.props import deprecated_method, Property, \
@@ -28,8 +28,8 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt
 
-__all__ = ()
-__version__ = '21.12.23'
+__all__ = _ALL_LAZY.cartesianBase
+__version__ = '21.12.28'
 
 
 class CartesianBase(Vector3d):
@@ -97,8 +97,8 @@ class CartesianBase(Vector3d):
                  three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}
                  and function L{pygeodesy.cassini}.
         '''
-        from pygeodesy.resections import cassini
-        return cassini(self, pointB, pointC, alpha, beta, useZ=useZ, datum=self.datum)
+        return _MODS.resections.cassini(self, pointB, pointC, alpha, beta,
+                                              useZ=useZ, datum=self.datum)
 
     def collins(self, pointB, pointC, alpha, beta, useZ=False):
         '''3-Point resection between this and 2 other points using U{Collins<https://Dokumen.tips/
@@ -129,8 +129,8 @@ class CartesianBase(Vector3d):
            @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
                  and function L{pygeodesy.collins}.
         '''
-        from pygeodesy.resections import collins
-        return collins(self, pointB, pointC, alpha, beta, useZ=useZ, datum=self.datum)
+        return _MODS.resections.collins(self, pointB, pointC, alpha, beta,
+                                              useZ=useZ, datum=self.datum)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -184,8 +184,7 @@ class CartesianBase(Vector3d):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefKarney
-        return EcefKarney  # default
+        return _MODS.ecef.EcefKarney  # default
 
     @Property_RO
     def _ecef9(self):
@@ -213,8 +212,7 @@ class CartesianBase(Vector3d):
 
            @see: Function C{hartzell} for further details.
         '''
-        from pygeodesy.formy import hartzell
-        return hartzell(self, los=los, earth=earth or self.datum)
+        return _MODS.formy.hartzell(self, los=los, earth=earth or self.datum)
 
     @Property
     def height(self):
@@ -316,16 +314,14 @@ class CartesianBase(Vector3d):
     def _ltp(self):
         '''(INTERNAL) Cache for L{toLtp}.
         '''
-        from pygeodesy.ltp import Ltp
-        return Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
+        return _MODS.ltp.Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
 
     @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
         '''
-        from pygeodesy.nvectorBase import _N_vector_
         x, y, z, h = self._n_xyzh4(self.datum)
-        return _N_vector_(x, y, z, h=h, name=self.name)
+        return _MODS.nvectorBase._N_vector_(x, y, z, h=h, name=self.name)
 
     def _n_xyzh4(self, datum):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
@@ -418,8 +414,8 @@ class CartesianBase(Vector3d):
                  <http://Telecom.ULg.ac.Be/triangulation>} and functions
                  L{pygeodesy.pierlot}.
         '''
-        from pygeodesy.resections import pierlot
-        return pierlot(self, point2, point3, alpha12, alpha23, useZ=useZ, datum=self.datum)
+        return _MODS.resections.pierlot(self, point2, point3, alpha12, alpha23,
+                                              useZ=useZ, datum=self.datum)
 
     def tienstra(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):
         '''3-Point resection between this and two other points using U{Tienstra
@@ -457,8 +453,8 @@ class CartesianBase(Vector3d):
                  U{18 Triangulation Algorithms...<http://Telecom.ULG.ac.Be/triangulation/>} and
                  function L{pygeodesy.tienstra}.
         '''
-        from pygeodesy.resections import tienstra
-        return tienstra(self, pointB, pointC, alpha, beta, gamma, useZ=useZ, datum=self.datum)
+        return _MODS.resections.tienstra(self, pointB, pointC, alpha, beta, gamma,
+                                               useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover
@@ -574,7 +570,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = self._ltp if ltp is None else self._xLtp(ltp)
+        p = self._ltp if ltp is None else _MODS.ltp._xLtp(ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):
@@ -583,12 +579,8 @@ class CartesianBase(Vector3d):
            @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
                         L{EcefYou}), overriding this cartesian's C{Ecef}.
         '''
-        if Ecef in (None, self.Ecef):
-            r = self._ltp
-        else:
-            from pygeodesy.ltp import Ltp
-            r = Ltp(self._ecef9, ecef=Ecef(self.datum), name=self.name)
-        return r
+        return self._ltp if Ecef in (None, self.Ecef) else _MODS.ltp.Ltp(
+               self._ecef9, ecef=Ecef(self.datum), name=self.name)
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):
         '''Convert this cartesian to C{n-vector} components.
@@ -669,13 +661,6 @@ class CartesianBase(Vector3d):
         '''
         return self.xyz if Vector is None else self._xnamed(
                Vector(self.x, self.y, self.z, **Vector_kwds))
-
-    @Property_RO
-    def _xLtp(self):
-        '''(INTERNAL) Import and cache function C{ltp._xLtp}.
-        '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp
 
 
 __all__ += _ALL_DOCS(CartesianBase)

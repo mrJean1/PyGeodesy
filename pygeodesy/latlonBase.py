@@ -25,7 +25,7 @@ from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
                              _concentric_, _height_, _intersection_, _m_, \
                              _no_, _overlap_, _point_, _0_0, _0_5, _1_0
 from pygeodesy.iters import PointsIter, points2
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
@@ -40,8 +40,8 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 
 from math import asin, cos, degrees, radians
 
-__all__ = ()
-__version__ = '21.12.20'
+__all__ = _ALL_LAZY.latlonBase
+__version__ = '21.12.28'
 
 
 class LatLonBase(_NamedBase):
@@ -416,8 +416,7 @@ class LatLonBase(_NamedBase):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefKarney
-        return EcefKarney  # default
+        return _MODS.ecef.EcefKarney  # default
 
     @Property_RO
     def _Ecef_forward(self):
@@ -856,8 +855,7 @@ class LatLonBase(_NamedBase):
     def _ltp(self):
         '''(INTERNAL) Cache for L{toLtp}.
         '''
-        from pygeodesy.ltp import Ltp
-        return Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
+        return _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
 
     def nearestOn6(self, points, closed=False, height=None, wrap=False):
         '''Locate the point on a path or polygon closest to this point.
@@ -916,8 +914,7 @@ class LatLonBase(_NamedBase):
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
-        from pygeodesy.nvectorBase import _N_vector_
-        return _N_vector_(*self.xyzh)
+        return _MODS.nvectorBase._N_vector_(*self.xyzh)
 
     @Property_RO
     def phi(self):
@@ -1121,7 +1118,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = self._ltp if ltp is None else self._xLtp(ltp)
+        p = self._ltp if ltp is None else _MODS.ltp._xLtp(ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):
@@ -1130,12 +1127,8 @@ class LatLonBase(_NamedBase):
            @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
                         L{EcefYou}), overriding this point's C{Ecef}.
         '''
-        if Ecef in (None, self.Ecef):
-            r = self._ltp
-        else:
-            from pygeodesy.ltp import Ltp
-            r = Ltp(self, ecef=Ecef(self.datum), name=self.name)
-        return r
+        return self._ltp if Ecef in (None, self.Ecef) else _MODS.ltp.Ltp(
+               self, ecef=Ecef(self.datum), name=self.name)
 
     def toNvector(self, h=None, Nvector=None, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -1256,13 +1249,6 @@ class LatLonBase(_NamedBase):
                  L{flatPolarTo}, L{haversineTo} and L{thomasTo}.
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
-
-    @Property_RO
-    def _xLtp(self):
-        '''(INTERNAL) Import and cache function C{ltp._xLtp}.
-        '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp
 
     @Property_RO
     def xyz(self):

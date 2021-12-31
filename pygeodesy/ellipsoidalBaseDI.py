@@ -17,7 +17,7 @@ from pygeodesy.formy import opposing, _radical2
 from pygeodesy.interns import EPS, PI, PI2, PI_4, _antipodal_, _COMMASPACE_, \
                              _concentric_, _exceed_PI_radians_, _near_, _no_, \
                              _SPACE_, _too_, _0_0, _0_5, _1_5, _3_0
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
@@ -28,8 +28,8 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 
 from math import degrees, radians
 
-__all__ = ()
-__version__ = '21.11.30'
+__all__ = _ALL_LAZY.ellipsoidalBaseDI
+__version__ = '21.12.28'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
@@ -430,7 +430,7 @@ class _Tol(object):
         return self._lat
 
     def mError(self, m, Error=_ValueError):
-        '''Compose an error with C{m}eter minimum.
+        '''Compose an error with B{C{m}}eter minimum.
         '''
         t = _SPACE_(_tolerance_, Fmt.PAREN(Fmt.g(self.meter)), _too_low_)
         if m2km(m) > self.meter:
@@ -455,11 +455,9 @@ def _Equidistant00(equidistant, p1):
     '''
     if equidistant is None or not callable(equidistant):
         equidistant = p1.Equidistant
-    else:
-        from pygeodesy.azimuthal import _Equidistants
-        if not issubclassof(equidistant, *_Equidistants):  # PYCHOK no cover
-            t = tuple(_.__name__ for _ in _Equidistants)
-            raise _IsnotError(*t, equidistant=equidistant)
+    elif not issubclassof(equidistant, *_MODS.azimuthal._Equidistants):  # PYCHOK no cover
+        t = tuple(_.__name__ for _  in  _MODS.azimuthal._Equidistants)
+        raise _IsnotError(*t, equidistant=equidistant)
     return equidistant(0, 0, p1.datum)
 
 
@@ -468,8 +466,9 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
     '''(INTERNAL) Intersect two (ellipsoidal) path, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
     '''
-    from pygeodesy.sphericalTrigonometry import _intersect as _si, LatLon as _LLS
-    from pygeodesy.vector3d import _intersect3d3 as _vi3
+    _LLS = _MODS.sphericalTrigonometry.LatLon
+    _si  = _MODS.sphericalTrigonometry._intersect
+    _vi3 = _MODS.vector3d._intersect3d3
 
     def _b_d(s, e, w, t, h=_0_0):
         # compute opposing and distance
@@ -502,8 +501,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
     def _o(o, b, n, s, t, e):
         # determine C{o}utside before, on or after start point
         if not o:  # intersection may be on start
-            from pygeodesy.latlonBase import _isequalTo
-            if _isequalTo(s, t, eps=e.degrees):
+            if _MODS.latlonBase._isequalTo(s, t, eps=e.degrees):
                 return o
         return -n if b else n
 
@@ -607,8 +605,9 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
     '''(INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
        above, separated to allow callers to embellish any exceptions.
     '''
-    from pygeodesy.sphericalTrigonometry import _intersects2 as _si2, LatLon as _LLS
-    from pygeodesy.vector3d import _intersects2 as _vi2
+    _LLS = _MODS.sphericalTrigonometry.LatLon
+    _si2 = _MODS.sphericalTrigonometry._intersects2
+    _vi2 = _MODS.vector3d._intersects2
 
     def _latlon4(t, h, n, c):
         r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c, name=n)
@@ -724,11 +723,12 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
 def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
                                LatLon=None, **LatLon_kwds):
     # Only function C{_nearestOn2} and method C{nearestOn8} above
-    from pygeodesy.sphericalNvector import LatLon as _LLS
-    from pygeodesy.vector3d import _nearestOn2 as _vnOn2, Vector3d
+    _LLS   = _MODS.sphericalNvector.LatLon
+    _vnOn2 = _MODS.vector3d._nearestOn2
+    _V3d   = _MODS.vector3d.Vector3d
 
     def _v3d(t, h):
-        return Vector3d(t.x, t.y, h)
+        return _V3d(t.x, t.y, h)
 
     E =  p.ellipsoids(p2)
     e = _Tol(tol, E, p.lat, p1.lat, p2.lat)
@@ -750,7 +750,7 @@ def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
     # LatLonEllipsoidalBase.LatLon.intersections2
     c = m = f = None  # force first d == c to False
     # closest to origin, .z to interpolate height
-    vp = Vector3d(_0_0, _0_0, h0)
+    vp = _V3d(_0_0, _0_0, h0)
     for i in range(1, _TRIPS):
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
         # convert points to projection space

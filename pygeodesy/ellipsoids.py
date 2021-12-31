@@ -67,7 +67,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NN, PI4, PI_2, R_M, _
                              _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, \
                              _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
 from pygeodesy.interns import _0_25, _3_0  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.11.30'
+__version__ = '21.12.28'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)
@@ -113,12 +113,11 @@ def _aux(lat, inverse, auxLat, clip=90):
 def _4Ecef(this, Ecef):
     '''Return an ECEF converter.
     '''
-    from pygeodesy.ecef import EcefKarney, EcefVeness, EcefYou
-
+    ecef = _MODS.ecef
     if Ecef is None:
-        Ecef = EcefKarney
+        Ecef = ecef.EcefKarney
     else:
-        _xinstanceof(EcefKarney, EcefVeness, EcefYou, Ecef=Ecef)
+        _xinstanceof(ecef.EcefKarney, ecef.EcefVeness, ecef.EcefYou, Ecef=Ecef)
     return Ecef(this, name=this.name)  # datum or ellipsoid
 
 
@@ -212,7 +211,6 @@ class Ellipsoid(_NamedEnumItem):
     _f_ = 0  # inverse flattening: 1 / f = a / (a - b)
 
     _KsOrder = 8     # Krüger series order (4, 6 or 8)
-    _Math    = None  # cached karney._wrapped.Math module
 
     def __init__(self, a, b=None, f_=None, name=NN):
         '''New L{Ellipsoid} from I{equatorial} and I{polar} radius or
@@ -356,8 +354,7 @@ class Ellipsoid(_NamedEnumItem):
     def _albersCyl(self):
         '''(INTERNAL) Helper for C{auxAuthalic}.
         '''
-        from pygeodesy.albers import AlbersEqualAreaCylindrical
-        return AlbersEqualAreaCylindrical(datum=self, name=self.name)
+        return _MODS.albers.AlbersEqualAreaCylindrical(datum=self, name=self.name)
 
     @Property_RO
     def AlphaKs(self):
@@ -799,8 +796,7 @@ class Ellipsoid(_NamedEnumItem):
     def _elliptic_e22(self):
         '''(INTERNAL) Elliptic helper for C{auxRectifying}, C{L}, C{Llat}.
         '''
-        from pygeodesy.elliptic import Elliptic
-        return Elliptic(-abs(self.e22))
+        return _MODS.elliptic.Elliptic(-abs(self.e22))
 
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
@@ -941,18 +937,14 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        from pygeodesy.karney import _wrapped
-        g = _wrapped.Geodesic(self)
-        Ellipsoid._Math = _wrapped.Math  # hold
-        return g
+        return _MODS.karney._wrapped.Geodesic(self)
 
     @Property_RO
     def _geodesic_Math2(self):
         '''(INTERNAL) Get this ellipsoid's I{wrapped Karney} C{Geodesic}
            and I{Karney}'s C{Math} class, see L{geodesic}.
         '''
-        g = self.geodesic
-        return g, Ellipsoid._Math
+        return self.geodesic, _MODS.karney._wrapped.Math
 
     @Property_RO
     def geodesicx(self):
@@ -960,8 +952,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        from pygeodesy.geodesicx import GeodesicExact
-        return GeodesicExact(self, name=self.name)
+        return _MODS.geodesicx.GeodesicExact(self, name=self.name)
 
     @Property_RO
     def geodsolve(self):
@@ -972,8 +963,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-        from pygeodesy.geodsolve import GeodesicSolve
-        return GeodesicSolve(self, name=self.name)
+        return _MODS.geodsolve.GeodesicSolve(self, name=self.name)
 
     def height4(self, xyz, normal=True):
         '''Compute the height of a cartesian above or below and the projection
@@ -995,8 +985,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Distance to<https://StackOverflow.com/questions/22959698/distance-from-given-point-to-given-ellipse>}
                  and U{intersection with<https://MathWorld.wolfram.com/Ellipse-LineIntersection.html>} an ellipse.
         '''
-        from pygeodesy.vector3d import _otherV3d
-        v = _otherV3d(xyz=xyz)
+        v = _MODS.vector3d._otherV3d(xyz=xyz)
         r =  v.length
         if r < EPS0:  # EPS
             raise _ValueError(xyz=xyz, txt=_null_)

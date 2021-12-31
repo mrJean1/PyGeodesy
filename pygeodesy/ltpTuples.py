@@ -13,17 +13,17 @@ L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypesError, _xkwds
-from pygeodesy.fmath import hypot, hypot_
+from pygeodesy.fmath import fdot, hypot, hypot_  # PYCHOK shared
 from pygeodesy.interns import NN, _4_, _azimuth_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, \
                              _height_, _lat_, _lon_, _ltp_, _M_, \
                              _name_, _north_, _up_, _x_, _xyz_, \
                              _y_, _z_, _0_0, _90_0, _N_90_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
-from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
-                            Property_RO, property_RO
+from pygeodesy.props import deprecated_class, deprecated_method, \
+                            deprecated_Property_RO, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, \
                             Lon, Meter, Meter_
@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.09.21'
+__version__ = '21.12.28'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -118,7 +118,7 @@ class Aer(_NamedBase):
             p, n = ltp, name
 
         if p:
-            self._ltp = self._xLtp(p)
+            self._ltp = _MODS.ltp._xLtp(p)
         if name:
             self.name = n
 
@@ -232,13 +232,6 @@ class Aer(_NamedBase):
         return self.xyz4.x
 
     @Property_RO
-    def _xLtp(self):
-        '''(INTERNAL) Import and cache function C{_xLtp}.
-        '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp
-
-    @Property_RO
     def xyz(self):
         '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
@@ -318,8 +311,7 @@ class Attitude4Tuple(_NamedTuple):
     def tyr3d(self):
         '''Get this attitude's (3-D) directional vector (L{Vector3d}).
         '''
-        from pygeodesy.ltp import Attitude
-        return Attitude(self).tyr3d
+        return _MODS.ltp.Attitude(self).tyr3d
 
 
 class Ned(_NamedBase):
@@ -361,7 +353,7 @@ class Ned(_NamedBase):
             p, n = ltp, name
 
         if p:
-            self._ltp = self._xLtp(p)
+            self._ltp = _MODS.ltp._xLtp(p)
         if n:
             self.name = n
 
@@ -420,7 +412,6 @@ class Ned(_NamedBase):
     @deprecated_Property_RO
     def ned(self):
         '''DEPRECATED, use property C{ned4}.'''
-        from pygeodesy.ellipsoidalNvector import Ned3Tuple
         return Ned3Tuple(self.north, self.east, self.down, name=self.name)
 
     @Property_RO
@@ -506,13 +497,6 @@ class Ned(_NamedBase):
         return Meter(x=self._east)  # 2nd arg, E
 
     @Property_RO
-    def _xLtp(self):
-        '''(INTERNAL) Import and cache function C{_xLtp}.
-        '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp
-
-    @Property_RO
     def xyz(self):
         '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
@@ -541,6 +525,17 @@ class Ned(_NamedBase):
         '''Get the Z component (C{meter}).
         '''
         return Meter(z=-self._down)  # negated
+
+
+class Ned3Tuple(_NamedTuple):  # was in .ellipsoidalNvector
+    '''3-Tuple C{(north, east, down)}.  DEPRECATED, use L{pygeodesy.Ned4Tuple}.
+    '''
+    _Names_ = (_north_, _east_,  _down_)
+    _Units_ = ( Meter,   Meter,   Meter)
+
+    def __new__(cls, north, east, down, name=NN):
+        deprecated_class(cls)
+        return _NamedTuple.__new__(cls, north, east, down, name=name)
 
 
 class Ned4Tuple(_NamedTuple):
@@ -599,7 +594,7 @@ class XyzLocal(Vector3d):
             p, n = ltp, name
 
         if p:
-            self._ltp = self._xLtp(p)
+            self._ltp = _MODS.ltp._xLtp(p)
         if n:
             self.name = n
 
@@ -726,7 +721,7 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}, B{C{Cartesian}} or
                              B{C{Cartesian_kwds}} argument.
         '''
-        ltp = self._xLtp(self.ltp if ltp is None else ltp)
+        ltp = _MODS.ltp._xLtp(self.ltp if ltp is None else ltp)
         if Cartesian is None:
             r = ltp._local2ecef(self, nine=True)
         else:
@@ -764,7 +759,7 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or
                              B{C{LatLon_kwds}} argument.
         '''
-        ltp = self._xLtp(self.ltp if ltp is None else ltp)
+        ltp = _MODS.ltp._xLtp(self.ltp if ltp is None else ltp)
         r = ltp._local2ecef(self, nine=True)
         if LatLon is None:
             r = _xnamed(r, self.name or ltp.name)
@@ -854,13 +849,6 @@ class XyzLocal(Vector3d):
 #       '''Get the X component (C{meter}).
 #       '''
 #       return self._x
-
-    @Property_RO
-    def _xLtp(self):
-        '''(INTERNAL) Import and cache function C{_xLtp}.
-        '''
-        from pygeodesy.ltp import _xLtp
-        return _xLtp
 
 #   @Property_RO
 #   def xyz(self):  # see: Vector3d.xyz

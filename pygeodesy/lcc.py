@@ -46,7 +46,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.11.30'
+__version__ = '21.12.30'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

@@ -31,7 +31,7 @@ from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                              _end_, _invalid_, _LatLon_, _near_, _not_, \
                              _null_, _points_, _SPACE_, _too_, _1_, _2_, \
                              _0_0, _0_5, _1_0, _2_0, _90_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple, Triangle7Tuple, \
@@ -52,7 +52,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.11.30'
+__version__ = '21.12.29'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -291,8 +291,7 @@ class LatLon(LatLonSphericalBase):
 #   def Ecef(self):
 #       '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
 #       '''
-#       from pygeodesy.ecef import EcefKarney
-#       return EcefKarney
+#       return _MODS.ecef.EcefKarney
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -843,8 +842,8 @@ def areaOf(points, radius=R_M, wrap=True):
                           polygon edge.
 
        @note: The area is based on I{Karney}'s U{'Area of a spherical
-              polygon'<https://OSGeo-org.1560.x6.nabble.com/
-              Area-of-a-spherical-polygon-td3841625.html>}.
+              polygon'<https://MathOverflow.net/questions/97711/
+              the-area-of-spherical-polygons>}, 3rd Answer.
 
        @see: Funxtions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
              L{ellipsoidalKarney.areaOf} and L{pygeodesy.excessKarney}.
@@ -977,7 +976,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
             a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     else:  # end point(s) or bearing(s)
-        from pygeodesy.nvectorBase import _N_vector_
+        _N_vector_ = _MODS.nvectorBase._N_vector_
 
         x1, d1 = _int3d2(start1, end1, wrap, _1_, _N_vector_, hs)
         x2, d2 = _int3d2(start2, end2, wrap, _2_, _N_vector_, hs)

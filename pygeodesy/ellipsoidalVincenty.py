@@ -62,7 +62,8 @@ from pygeodesy.fmath import fpolynomial, fsum_, hypot, hypot1
 from pygeodesy.interns import EPS, NN, _ambiguous_, _antipodal_, \
                              _convergence_, _no_, _SPACE_, _to_, \
                              _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
@@ -74,7 +75,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.12.11'
+__version__ = '21.12.28'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -95,8 +96,7 @@ class Cartesian(CartesianEllipsoidalBase):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefVeness
-        return EcefVeness
+        return _MODS.ecef.EcefVeness
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Vincenty}-based geodetic point.
@@ -147,8 +147,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefVeness
-        return EcefVeness
+        return _MODS.ecef.EcefVeness
 
     @property_doc_(''' the convergence epsilon (C{radians}).''')
     def epsilon(self):
@@ -384,8 +383,7 @@ def _r3(a, f):
 def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
-    from pygeodesy.ellipsoidalKarney import areaOf
-    return areaOf(points, datum=datum, wrap=wrap)
+    return _MODS.ellipsoidalKarney.areaOf(points, datum=datum, wrap=wrap)
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
@@ -538,8 +536,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{ellipsoidalExact.perimeterOf} or L{ellipsoidalKarney.perimeterOf}.
     '''
-    from pygeodesy.ellipsoidalKarney import perimeterOf
-    return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
+    return _MODS.ellipsoidalKarney.perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,

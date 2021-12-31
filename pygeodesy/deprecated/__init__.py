@@ -10,19 +10,17 @@ inside the C{pygeodesy} package.
 Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
 '''
-from pygeodesy.ecef import Ecef9Tuple as _Ecef9Tuple
 from pygeodesy.errors import TRFError as _TRFError
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
 from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _scalar_, _SPACE_, _UNDER_
-from pygeodesy.interns import _easting_, _end_, _hemipole_, _northing_, _sep_, \
-                              _start_, _zone_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, isLazy
+from pygeodesy.interns import _easting_, _end_, _hemipole_, _negative_, _northing_, \
+                              _sep_, _start_, _value_, _zone_  # PYCHOK used!
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, isLazy
 from pygeodesy.ltp import LocalCartesian
 from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
 from pygeodesy.named import _NamedTuple, _Pass
-from pygeodesy.streprs import Fmt as _Fmt
 from pygeodesy.units import Easting, Northing, Number_, Scalar_, Str
 if isLazy:  # XXX force import of all deprecated modules
     import pygeodesy.deprecated.bases as bases, \
@@ -31,11 +29,10 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.10.05'
+__version__ = '21.12.29'
 
-OK      = 'OK'  # OK for test like I{if ... is OK: ...}
-_value_ = 'value'
-_WGS84  = _UTM = object()
+OK     = 'OK'  # OK for test like I{if ... is OK: ...}
+_WGS84 = _UTM = object()
 
 
 # DEPRECATED classes, for export only
@@ -71,9 +68,9 @@ class EcefCartesian(LocalCartesian):
                     optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
         '''
         t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
-        return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
-                                          0, t.M, t.ecef.datum,
-                                          name=t.name or self.name)
+        return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                                    0, t.M, t.ecef.datum,
+                                                    name=t.name or self.name)
 
     @deprecated_method
     def reverse(self, xyz, y=None, z=None, M=False, name=NN):
@@ -85,9 +82,9 @@ class EcefCartesian(LocalCartesian):
                     I{concatenated} L{EcefMatrix} C{M} and C{datum}.
         '''
         t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M, name=name)
-        return _Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
-                                          t.ecef.C, t.M, t.ecef.datum,
-                                          name=t.name or self.name)
+        return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                                    t.ecef.C, t.M, t.ecef.datum,
+                                                    name=t.name or self.name)
 
 
 class HeightIDW(_HeightIDWeuclidean):  # PYCHOK no cover
@@ -140,16 +137,14 @@ class UtmUps4Tuple(_NamedTuple):  # PYCHOK no cover
 def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.anstr}.
     '''
-    from pygeodesy.streprs import anstr
-    return anstr(name, OKd=OKd, sub=sub)
+    return _MODS.streprs.anstr(name, OKd=OKd, sub=sub)
 
 
 @deprecated_function
 def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.areaOf}.
     '''
-    from pygeodesy.points import areaOf
-    return areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
+    return _MODS.points.areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
 
 
 @deprecated_function
@@ -160,8 +155,7 @@ def bounds(points, wrap=True, LatLon=None):  # PYCHOK no cover
                 or 4-Tuple C{(latS, lonW, latN, lonE)} if
                 B{C{LatLon}} is C{None}.
     '''
-    from pygeodesy.points import boundsOf
-    return tuple(boundsOf(points, wrap=wrap, LatLon=LatLon))
+    return tuple(_MODS.points.boundsOf(points, wrap=wrap, LatLon=LatLon))
 
 
 @deprecated_function
@@ -171,7 +165,7 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # PYCHOK
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the I{clipped} path.
     '''
-    from pygeodesy.clipy import clipCS4
+    from pygeodesy.clipy import clipCS4  # _MODS.clipy.clipCS4
     for p1, p2, _, j in clipCS4(points, lowerleft, upperright,
                                         closed=closed, inull=inull):
         yield ClipCS3Tuple(p1, p2, j)
@@ -181,15 +175,14 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # PYCHOK
 def clipDMS(deg, limit):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.clipDegrees}.
     '''
-    from pygeodesy.dms import clipDegrees
-    return clipDegrees(deg, limit)
+    return _MODS.dms.clipDegrees(deg, limit)
 
 
 @deprecated_function
 def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.clips}.
     '''
-    from pygeodesy.basics import clips
+    from pygeodesy.basics import clips  # _MODS.basics.clips
     return clips(bstr, limit=limit, white=white)
 
 
@@ -197,7 +190,7 @@ def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
 def copysign(x, y):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.copysign0}.
     '''
-    from pygeodesy.basics import copysign0
+    from pygeodesy.basics import copysign0  # _MODS.basics.copysign0
     return copysign0(x, y)
 
 
@@ -207,8 +200,7 @@ def decodeEPSG2(arg):  # PYCHOK no cover
 
        @return: 2-Tuple C{(zone, hemipole)}
     '''
-    from pygeodesy.epsg import decode2
-    return tuple(decode2(arg))
+    return tuple(_MODS.epsg.decode2(arg))
 
 
 @deprecated_function
@@ -217,16 +209,14 @@ def encodeEPSG(zone, hemipole=NN, band=NN):  # PYCHOK no cover
 
        @return: C{EPSG} code (C{int}).
     '''
-    from pygeodesy.epsg import encode
-    return int(encode(zone, hemipole=hemipole, band=band))
+    return int(_MODS.epsg.encode(zone, hemipole=hemipole, band=band))
 
 
 @deprecated_function
 def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.enstr2}.
     '''
-    from pygeodesy.streprs import enstr2
-    return enstr2(easting, northing, prec, *extras)
+    return _MODS.streprs.enstr2(easting, northing, prec, *extras)
 
 
 @deprecated_function
@@ -235,8 +225,7 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
 
        @return: 3-Tuple C{(distance2, delta_lat, delta_lon)}.
     '''
-    from pygeodesy.formy import equirectangular_
-    return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
+    return tuple(_MODS.formy.equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
 
 
 @deprecated_function
@@ -268,34 +257,31 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
                 if falsed and f < 0:
                     break
                 return f
-            t = 'falsed, negative'
+            t = _COMMASPACE_('falsed', _negative_)
         except (TypeError, ValueError) as x:
             t = str(x)
-    from pygeodesy.errors import _InvalidError
-    raise _InvalidError(Error=Error, txt=t, **name_value)
+    raise _MODS.errors._InvalidError(Error=Error, txt=t, **name_value)
 
 
 @deprecated_function
-def fStr(floats, prec=6, fmt=_Fmt.f, ints=False, sep=_COMMASPACE_):  # PYCHOK no cover
+def fStr(floats, prec=6, fmt=_MODS.streprs.Fmt.f, ints=False, sep=_COMMASPACE_):  # PYCHOK no cover
     '''DEPRECATED, use function L{fstr}.
     '''
-    from pygeodesy.streprs import fstr
-    return fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
+    return _MODS.streprs.fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
 
 
 @deprecated_function
 def fStrzs(floatstr):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.fstrzs}.
     '''
-    from pygeodesy.streprs import fstrzs
-    return fstrzs(floatstr)
+    return _MODS.streprs.fstrzs(floatstr)
 
 
 @deprecated_function
 def hypot3(x, y, z):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.hypot_}.
     '''
-    from pygeodesy.fmath import hypot_
+    from pygeodesy.fmath import hypot_  # _MODS.fmath.hypot_
     return hypot_(x, y, z)
 
 
@@ -303,16 +289,14 @@ def hypot3(x, y, z):  # PYCHOK no cover
 def inStr(inst, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.instr}.
     '''
-    from pygeodesy.streprs import instr
-    return instr(inst, *args, **kwds)
+    return _MODS.streprs.instr(inst, *args, **kwds)
 
 
 @deprecated_function
 def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.isenclosedBy}.
     '''
-    from pygeodesy.points import isenclosedBy
-    return isenclosedBy(point, points, wrap=wrap)
+    return _MODS.points.isenclosedBy(point, points, wrap=wrap)
 
 
 @deprecated_function
@@ -335,8 +319,7 @@ def nearestOn3(point, points, closed=False, wrap=False, **options):  # PYCHOK no
 
        @return: 3-Tuple C{(lat, lon, distance)}
     '''
-    from pygeodesy.points import nearestOn5  # no name conflict
-    return tuple(nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:3])
+    return tuple(_MODS.points.nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:3])
 
 
 @deprecated_function
@@ -345,8 +328,7 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):  # PYCHOK no
 
        @return: 4-Tuple C{(lat, lon, distance, angle)}
     '''
-    from pygeodesy.points import nearestOn5  # no name conflict
-    return tuple(nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:4])
+    return tuple(_MODS.points.nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:4])
 
 
 @deprecated_function
@@ -356,11 +338,9 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):  # PYCHOK no cover
        @return: The UTM coordinate (B{L{Utm}}) or 4-tuple C{(zone,
                 hemisphere, easting, northing)} if B{C{Utm}} is C{None}.
     '''
-    from pygeodesy.datums import Datums  # PYCHOK shadows?
-    from pygeodesy.utm import parseUTM5, Utm as _Utm
-    d = Datums.WGS84 if datum is _WGS84 else datum  # PYCHOK shadows?
-    U = _Utm if Utm is _UTM else Utm
-    r = parseUTM5(strUTM, datum=d, Utm=U, name=name)
+    d = _MODS.datums.Datums.WGS84 if datum is _WGS84 else datum  # PYCHOK shadows?
+    U = _MODS.utm.Utm if Utm is _UTM else Utm
+    r = _MODS.utm.parseUTM5(strUTM, datum=d, Utm=U, name=name)
     if isinstance(r, tuple):  # UtmUps5Tuple
         r = r.zone, r.hemipole, r.easting, r.northing  # no band
     return r
@@ -370,8 +350,7 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):  # PYCHOK no cover
 def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{perimeterOf}.
     '''
-    from pygeodesy.points import perimeterOf
-    return perimeterOf(points, closed=closed, adjust=adjust, radius=radius, wrap=wrap)
+    return _MODS.points.perimeterOf(points, closed=closed, adjust=adjust, radius=radius, wrap=wrap)
 
 
 @deprecated_function
@@ -390,7 +369,7 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 
        @raise Error: Invalid B{C{value}}.
     '''
-    from pygeodesy.basics import isint
+    from pygeodesy.basics import isint  # _MODS.basics.isint
     C_ = Number_ if isint(low) else Scalar_
     return C_(value, name=name, Error=Error, low=low, high=high)
 
@@ -399,7 +378,7 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.simplifyRW}.
     '''
-    from pygeodesy.simplify import simplifyRW
+    from pygeodesy.simplify import simplifyRW  # _MODS.siimplify.simplifyRW
     return simplifyRW(points, pipe, radius=radius, shortest=shortest, indices=indices, **options)
 
 
@@ -411,9 +390,8 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
                 easting, northing, band, convergence, scale)} if
                 B{C{Utm}} is C{None} or B{C{cmoff}} is C{False}.
     '''
-    from pygeodesy.utm import toUtm8, Utm as _Utm
-    U = _Utm if Utm is _UTM else Utm
-    r = toUtm8(latlon, lon=lon, datum=datum, Utm=U, name=name, falsed=cmoff)
+    U = _MODS.utm.Utm if Utm is _UTM else Utm
+    r = _MODS.utm.toUtm8(latlon, lon=lon, datum=datum, Utm=U, name=name, falsed=cmoff)
     if isinstance(r, tuple):  # UtmUps8Tuple
         # no hemisphere/pole and datum
         r = r.zone, r.easting, r.northing, r.band, r.convergence, r.scale
@@ -424,7 +402,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 def unsign0(x):
     '''DEPRECATED, use function L{pygeodesy.unsigned0}.
     '''
-    from pygeodesy.basics import unsigned0
+    from pygeodesy.basics import unsigned0  # _MODS.basics.unsigned0
     return unsigned0(x)
 
 
@@ -432,8 +410,7 @@ def unsign0(x):
 def unStr(name, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.unstr}.
     '''
-    from pygeodesy.streprs import unstr
-    return unstr(name, *args, **kwds)
+    return _MODS.streprs.unstr(name, *args, **kwds)
 
 
 @deprecated_function
@@ -442,8 +419,7 @@ def utmZoneBand2(lat, lon):  # PYCHOK no cover
 
        @return: 2-Tuple C{(zone, band)}.
     '''
-    from pygeodesy.utm import utmZoneBand5
-    r = utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
+    r = _MODS.utm.utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
     return r.zone, r.band
 
 # **) MIT License

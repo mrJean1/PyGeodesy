@@ -35,12 +35,12 @@ from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
 from pygeodesy.karney import _polygon, _xkwds
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_method, Property_RO
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.12.11'
+__version__ = '21.12.30'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -88,8 +88,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def Equidistant(self):
         '''Get the prefered azimuthal equidistant projection I{class} (L{EquidistantKarney}).
         '''
-        from pygeodesy.azimuthal import EquidistantKarney
-        return EquidistantKarney
+        return _MODS.azimuthal.EquidistantKarney
 
     @Property_RO
     def geodesic(self):
@@ -276,9 +275,9 @@ def isclockwise(points, datum=_WGS84, wrap=True):
        @see: L{pygeodesy.isclockwise}.
     '''
     a = _polygon(datum.ellipsoid.geodesic, points, True, False, wrap)
-    if a > 0:
+    if a < 0:
         return True
-    elif a < 0:
+    elif a > 0:
         return False
     raise _areaError(points)
 

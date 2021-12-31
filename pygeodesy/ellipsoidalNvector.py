@@ -24,27 +24,29 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _xinstanceof
+# from pygeodesy.basics import _xinstanceof  # from .ltpTuples
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
                                       LatLonEllipsoidalBase, _nearestOn
-from pygeodesy.errors import _xkwds
-from pygeodesy.fmath import fdot
+# from pygeodesy.errors import _xkwds  # from .ltpTuples
+# from pygeodesy.fmath import fdot  # from .ltpTuples
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned
-from pygeodesy.named import _NamedTuple, _xnamed
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
+from pygeodesy.ltpTuples import Aer as _Aer, fdot, Ned as _Ned, \
+                                Ned3Tuple as _Ned3Tuple, sincos2d_, \
+                               _xinstanceof, _xkwds, _xnamed  # PYCHOK indent
+# from pygeodesy.named import _xnamed  # from .ltpTuples
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
-from pygeodesy.units import Bearing, Distance, Height, Meter, Scalar
-from pygeodesy.utily import sincos2d_
+from pygeodesy.units import Bearing, Distance, Height, Scalar
+# from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.12.11'
+__version__ = '21.12.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -55,8 +57,7 @@ class Cartesian(CartesianEllipsoidalBase):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefVeness
-        return EcefVeness
+        return _MODS.ecef.EcefVeness
 
     def toLatLon(self, **LatLon_and_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
@@ -287,8 +288,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefVeness
-        return EcefVeness
+        return _MODS.ecef.EcefVeness
 
     @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
@@ -475,22 +475,11 @@ class Ned(_Ned):
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
-        from pygeodesy.dms import F_D, toDMS
+        F_D, toDMS = _MODS.dms.F_D, _MODS.dms.toDMS
         t = (fstr(self.slantrange, prec=3 if prec is None else prec),
-             toDMS(self.azimuth,   form=F_D, prec=prec, ddd=0),
-             toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
+            toDMS(self.azimuth,   form=F_D, prec=prec, ddd=0),
+            toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)
-
-
-class Ned3Tuple(_NamedTuple):  # @see: .ltpTuples
-    '''3-Tuple C{(north, east, down)}.  DEPRECATED, use L{pygeodesy.Ned4Tuple}.
-    '''
-    _Names_ = (_north_, _east_,  _down_)
-    _Units_ = ( Meter,   Meter,   Meter)
-
-    def __new__(cls, north, east, down, name=NN):
-        deprecated_class(cls)
-        return _NamedTuple.__new__(cls, north, east, down, name=name)
 
 
 _Nvll = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})
@@ -733,8 +722,8 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
         e  = sb * d * ce
         d *= se
 
-    r = Ned3Tuple(n, e, -d) if Ned is None else \
-              Ned(n, e, -d)
+    r = _Ned3Tuple(n, e, -d) if Ned is None else \
+               Ned(n, e, -d)
     return _xnamed(r, name)
 
 

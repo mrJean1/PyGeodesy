@@ -250,6 +250,7 @@ _Nv00_                = 'Nv00'               # PYCHOK expected
 _O_                   = 'O'                  # PYCHOK expected
 _OKd_                 = '._-'                # PYCHOK expected
 _on_                  = 'on'                 # PYCHOK expected
+_opposite_            = 'opposite'           # PYCHOK expected
 _or_                  = 'or'                 # PYCHOK expected
 _other_               = 'other'              # PYCHOK expected
 _outside_             = 'outside'            # PYCHOK expected
@@ -301,6 +302,7 @@ _Sphere_              = 'Sphere'             # PYCHOK expected
 _spherical_           = 'spherical'          # PYCHOK expected
 _SouthPole_           = 'SouthPole'          # PYCHOK expected
 _SPACE_         = _Join(' ')                 # PYCHOK expected
+_specified_           = 'specified'          # PYCHOK expected
 _STAR_          = _Join('*')                 # PYCHOK expected
 _start_               = 'start'              # PYCHOK expected
 _std_                 = 'std'                # PYCHOK expected
@@ -325,6 +327,7 @@ _utf_8_               = 'utf-8'              # PYCHOK expected
 _UTM_                 = 'UTM'                # PYCHOK expected
 _V_                   = 'V'                  # PYCHOK expected
 _valid_               = 'valid'              # PYCHOK expected
+_value_               = 'value'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
 __vs__                = ' vs '               # PYCHOK vs-SPACED
@@ -355,12 +358,18 @@ _DUNDER_        = _Join(_UNDER_ * 2)         # PYCHOK expected
 class _Range(str):
     '''(INTERNAL) Extended C{str} for C{range} strings.
     '''
+    _Fmt = None  # cached .streprs.Fmt
+
     def __call__(self, lo, hi, prec=0, lopen=False, ropen=False,
                                join=_COMMASPACE_):
         '''Return the range as C{"(lo, hi)"}, C{"(lo, hi]"},
            C{"[lo, hi)"} or C{"[lo, hi]"}.
         '''
-        from pygeodesy.streprs import Fmt  # PYCHOK re-imported
+        Fmt = _Range._Fmt
+        if Fmt is None:
+            from pygeodesy.lazily import _ALL_MODS
+            Fmt = _Range._Fmt = _ALL_MODS.streprs.Fmt
+
         r = NN(Fmt.f(lo, prec=prec), join,
                Fmt.f(hi, prec=prec))
         if lopen:
@@ -488,7 +497,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.12.22'
+__version__ = '21.12.28'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

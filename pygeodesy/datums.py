@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.12.23'
+__version__ = '21.12.30'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -341,8 +341,8 @@ class Datum(_NamedEnumItem):
            @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Datum) and
-                                 self.ellipsoid == other.ellipsoid and
-                                 self.transform == other.transform)
+                          self.ellipsoid == other.ellipsoid and
+                          self.transform == other.transform)
 
     def __matmul__(self, other):  # PYCHOK Python 3.5+
         '''Convert cartesian or ellipsoidal B{C{other}} to this datum.
@@ -474,7 +474,7 @@ def _mean_radius(radius, *lats):
     '''
     if isscalar(radius):
         r =  Radius_(radius, low=0, Error=TypeError)
-    else:  # no cover
+    else:
         E = _ellipsoidal_datum(radius).ellipsoid
         r =  fmean(map(E.Rgeocentric, lats)) if lats else E.Rmean
     return r

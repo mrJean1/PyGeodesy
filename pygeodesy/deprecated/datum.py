@@ -6,14 +6,14 @@ u'''DEPRECATED, use module L{datums} or L{ellipsoids} instead.
 # XXX only the items previously public
 from pygeodesy.ellipsoids import R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM, \
                                  Ellipsoid, Ellipsoids, Curvature2Tuple  # PYCHOK exported
-from pygeodesy.datums import Datum, Datums, Transform, Transforms  # PYCHOK exported
+from pygeodesy.datums import Datum, Datums, Transform, Transforms
 # from pygeodesy.props import _deprecated_module
 
 __all__ = (R_M.name,  R_MA.name, R_MB.name,
            R_KM.name, R_NM.name, R_SM.name, R_FM.name, R_VM.name,
            Datum.__name__, Ellipsoid.__name__, Transform.__name__, Curvature2Tuple.__name__,
-          'Datums',       'Ellipsoids',       'Transforms')
-__version__ = '21.02.10'
+           Datums.name,    Ellipsoids.name,    Transforms.name)
+__version__ = '21.12.29'
 
 # _deprecated_module(__name__)
 

@@ -50,6 +50,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
                              _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _ellipsoid, _EWGS84, GDict, GeodesicError, \
                              _diff182, _fix90, _norm180, Property, Property_RO
+from pygeodesy.lazily import _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 # from pygeodesy.props import Property, Property_RO  # from .karney
 # from pygeodesy.streprs import pairs  # from .geodesicx.gxline
@@ -58,7 +59,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.11.30'
+__version__ = '21.12.28'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -213,9 +214,8 @@ class GeodesicExact(_GeodesicBase):
            @note: The B{C{debug}} setting is passed as C{verbose}
                   to the returned L{GeodesicAreaExact} instance.
         '''
-        from pygeodesy.geodesicx.gxarea import GeodesicAreaExact
-        gaX = GeodesicAreaExact(self, polyline=polyline,
-                                      name=name or self.name)
+        gaX = _MODS.geodesicx.GeodesicAreaExact(self, polyline=polyline,
+                                                      name=name or self.name)
         if self.debug:
             gaX.verbose = True
         return gaX
@@ -307,7 +307,7 @@ class GeodesicExact(_GeodesicBase):
     def _coeffs(self, nC4):
         '''(INTERNAL) Get the series coefficients.
         '''
-        if nC4 == 30:
+        if nC4 == 30:  # XXX no _MODS.geodesicx._C4_xx attr
             from pygeodesy.geodesicx._C4_30 import _coeffs_30 as _coeffs
         elif nC4 == 27:
             from pygeodesy.geodesicx._C4_27 import _coeffs_27 as _coeffs
@@ -402,8 +402,7 @@ class GeodesicExact(_GeodesicBase):
     def _eF(self):
         '''(INTERNAL) Get the elliptic function, aka C{.E}.
         '''
-        from pygeodesy.elliptic import Elliptic
-        return Elliptic(k2=-self.ep2)
+        return _MODS.elliptic.Elliptic(k2=-self.ep2)
 
     def _eF_reset_e2_f1_cH(self, x, y):
         '''(INTERNAL) Reset elliptic function and return M{e2 / f1 * cH * ...}.

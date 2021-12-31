@@ -348,6 +348,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
     import pygeodesy.deprecated.bases      as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
+    import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK exported
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.deprecated.datum      as datum                  # PYCHOK DEPRECATED
@@ -356,6 +357,8 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.dms                   as dms                    # PYCHOK exported
     import pygeodesy.ecef                  as ecef                   # PYCHOK exported
     import pygeodesy.elevations            as elevations             # PYCHOK exported
+    import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # PYCHOK exported
+    import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # PYCHOK exported
     import pygeodesy.ellipsoidalExact      as ellipsoidalExact       # PYCHOK exported
     import pygeodesy.ellipsoidalGeodSolve  as ellipsoidalGeodSolve   # PYCHOK exported
     import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # PYCHOK exported
@@ -379,6 +382,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.interns               as interns                # PYCHOK exported
     import pygeodesy.iters                 as iters                  # PYCHOK exported
     import pygeodesy.karney                as karney                 # PYCHOK exported
+    import pygeodesy.latlonBase            as latlonBase             # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
     import pygeodesy.ltp                   as ltp                    # PYCHOK exported
@@ -386,12 +390,14 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
     import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
+    import pygeodesy.nvectorBase           as nvectorBase            # PYCHOK exported
     import pygeodesy.deprecated.nvector    as nvector                # PYCHOK DEPRECATED
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.resections            as resections             # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
+    import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK exported
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
     import pygeodesy.streprs               as streprs                # PYCHOK exported
@@ -403,6 +409,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.utmups                as utmups                 # PYCHOK exported
     import pygeodesy.vector2d              as vector2d               # PYCHOK exported
     import pygeodesy.vector3d              as vector3d               # PYCHOK exported
+    import pygeodesy.vector3dBase          as vector3dBase           # PYCHOK exported
     import pygeodesy.webmercator           as webmercator            # PYCHOK exported
     import pygeodesy.wgrs                  as wgrs                   # PYCHOK exported
 
@@ -414,6 +421,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.albers                import *  # PYCHOK __all__
     from pygeodesy.azimuthal             import *  # PYCHOK __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
+#   from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
     from pygeodesy.datums                import *  # PYCHOK __all__
@@ -421,10 +429,12 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.dms                   import *  # PYCHOK __all__
     from pygeodesy.ecef                  import *  # PYCHOK __all__
     from pygeodesy.elevations            import *  # PYCHOK __all__
+#   from pygeodesy.ellipsoidalBase       import *  # PYCHOK __(_)__
+#   from pygeodesy.ellipsoidalBaseDI     import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalExact      import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalGeodSolve  import *  # PYCHOK __(_)__
 #   from pygeodesy.ellipsoidalKarney     import *  # PYCHOK __(_)__
-    from pygeodesy.ellipsoidalNvector    import Ned3Tuple  # PYCHOK lazily
+#   from pygeodesy.ellipsoidalNvector    import *  # PYCHOK __(_)__
     from pygeodesy.ellipsoidalVincenty   import VincentyError  # PYCHOK lazily
     from pygeodesy.ellipsoids            import *  # PYCHOK __all__
     from pygeodesy.elliptic              import *  # PYCHOK __all__
@@ -445,6 +455,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.interns               import *  # PYCHOK __all__
     from pygeodesy.iters                 import *  # PYCHOK __all__
     from pygeodesy.karney                import *  # PYCHOK __all__
+#   from pygeodesy.latlonBase            import *  # PYCHOK __(_)__
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
     from pygeodesy.ltp                   import *  # PYCHOK __all__
@@ -452,11 +463,13 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
     from pygeodesy.namedTuples           import *  # PYCHOK __all__
+#   from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.resections            import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
+#   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
     from pygeodesy.streprs               import *  # PYCHOK __all__
@@ -466,8 +479,10 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
+#   from pygeodesy.utmupsBase            import *  # PYCHOK __(_)__
     from pygeodesy.vector2d              import *  # PYCHOK __all__
     from pygeodesy.vector3d              import *  # PYCHOK __all__
+#   from pygeodesy.vector3dBase          import *  # PYCHOK __(_)__
     from pygeodesy.webmercator           import *  # PYCHOK __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
 
@@ -507,7 +522,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.12.23'
+__version__ = '21.12.31'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

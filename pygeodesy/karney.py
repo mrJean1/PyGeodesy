@@ -99,8 +99,10 @@ on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, s
   - L{pygeodesy.excessKarney_}, L{sphericalTrigonometry.areaOf}
 
 in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
-<http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+<https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
+# <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+
 
 from pygeodesy.basics import copysign0, unsigned0, _xgeographiclib, \
                             _xImportError, isodd  # PYCHOK shared
@@ -109,7 +111,7 @@ from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
 from pygeodesy.interns import MAX as _MAX, NAN, NN, _DOT_, _lat1_, _lat2_, _lon2_, \
                              _0_0, _1_0, _2_0, _16_0, _180_0, _N_180_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
                            _NamedTuple, _Pass, unstr  # PYCHOK shared
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -123,7 +125,7 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.12.14'
+__version__ = '21.12.29'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -142,11 +144,8 @@ _EWGS84 = _WGS84.ellipsoid  # PYCHOK used!
 def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx and .geodsolve
     '''(INTERNAL) Get an ellipsoid.
     '''
-    if f is None:
-        E = _ellipsoidal_datum(a_ellipsoid, name=name, raiser=raiser).ellipsoid
-    else:
-        E =  Ellipsoid2(a_ellipsoid, f, name=name)
-    return E
+    return Ellipsoid2(a_ellipsoid, f, name=name) if f is not None else \
+          _ellipsoidal_datum(a_ellipsoid, name=name, raiser=raiser).ellipsoid
 
 
 def _Lat(*lat, **Error_name):
@@ -333,8 +332,7 @@ class _Wrapped(object):
 
                    @arg debug: Include more details in results (C{bool}).
                 '''
-                from pygeodesy.geodesicx.gxbases import Caps
-                self._debug = Caps._DEBUG_ALL if debug else 0
+                self._debug = _MODS.geodesicx.Caps._DEBUG_ALL if debug else 0
 
             def Direct(self, lat1, lon1, azi1, s12, *outmask):
                 '''Return the C{Direct} result.
@@ -489,7 +487,7 @@ class _Wrapped(object):
         try:
             M = self.geographiclib.Math
             # replace karney. with Math. functions
-            from pygeodesy import karney as k
+            k = _MODS.karney
             k._around    = M.AngRound
             k._diff182   = M.AngDiff
             k._fix90     = M.LatFix
@@ -546,11 +544,11 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
 #     # C{-Karney} class if B{C{equidistant}} in not callable.
 #     if equidistant is None or not callable(equidistant):
 #         if exact:
-#             from pygeodesy.azimuthal import EquidistantExact as equidistant
+#             equidistant = _MODS.azimuthal.EquidistantExact
 #         elif geodsolve:
-#             from pygeodesy.azimuthal import EquidistantGeodSolve as equidistant
+#             equidistant = _MODS.azimuthal.EquidistantGeodSolve
 #         else:
-#             from pygeodesy.azimuthal import EquidistantKarney as equidistant
+#             equidistant = _MODS.azimuthal.EquidistantKarney
 #     return equidistant
 
 
@@ -596,16 +594,14 @@ def _polygon(geodesic, points, closed, line, wrap):
         C{geographiclib} package is installed) a C{Geodesic}
         or C{_wrapped.Geodesic} instance.
     '''
-    from pygeodesy.iters import PointsIter
-
     if not wrap:  # capability LONG_UNROLL can't be off
         raise _ValueError(wrap=wrap)
 
     gP = geodesic.Polygon(line)
     pA = gP.AddPoint
 
-    Ps = PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
-    p0 = Ps[0]
+    Ps = _MODS.iters.PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
+    p0 =  Ps[0]
 
     # note, lon deltas are unrolled, by default
     pA(p0.lat, p0.lon)

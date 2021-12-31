@@ -24,14 +24,14 @@ from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _N_, _no_, \
                              _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
-__all__ = ()
-__version__ = '21.12.23'
+__all__ = _ALL_LAZY.ellipsoidalBase
+__version__ = '21.12.29'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -89,13 +89,11 @@ class CartesianEllipsoidalBase(CartesianBase):
                  U{Circle-Circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
                  Intersection and function L{pygeodesy.radical2}.
         '''
-        from pygeodesy.vector3d import _intersects2, _otherV3d
         try:
-            return _intersects2(_otherV3d(useZ=sphere, center=self),
-                                 Radius_(radius=radius),
-                                 center2, Radius_(radius2=radius2),
-                                 sphere=sphere, clas=self.classof,
-                                 Vector=Vector, **Vector_kwds)
+            return _MODS.vector3d._intersects2(self,    Radius_(radius=radius),
+                                               center2, Radius_(radius2=radius2),
+                                               sphere=sphere, clas=self.classof,
+                                               Vector=Vector, **Vector_kwds)
         except (TypeError, ValueError) as x:
             raise _xError(x, center=self, radius=radius, center2=center2, radius2=radius2)
 
@@ -137,25 +135,30 @@ class CartesianEllipsoidalBase(CartesianBase):
         if r in (None, reframe2):
             xs = None  # XXX _set_reframe(self, reframe2)?
         else:
-            from pygeodesy.trf import RefFrame, _reframeTransforms2
-            _xinstanceof(RefFrame, reframe2=reframe2, reframe=r)
-            _, xs = _reframeTransforms2(reframe2, r, epoch)
+            trf = _MODS.trf
+            _xinstanceof(trf.RefFrame, reframe2=reframe2, reframe=r)
+            _, xs = trf._reframeTransforms2(reframe2, r, epoch)
         return self.toTransforms_(*xs) if xs else self
 
     def toTransforms_(self, *transforms, **datum):
-        '''Apply one I{or more} Helmert transforms.
+        '''Apply none, one or several Helmert transforms.
 
-           @arg transforms: Transforms to apply, in order (L{Transform}).
+           @arg transforms: Transforms to apply, in order (L{Transform}s).
            @kwarg datum: Datum for the transformed point (L{Datum}),
                          overriding this point's datum.
 
-           @return: The transformed point (C{Cartesian}).
+           @return: The transformed point (C{Cartesian}) or this point
+                    if the B{C{transforms}} produce the same point.
         '''
-        xyz = self.xyz
-        for t in transforms:
-            xyz = t.transform(*xyz)
-        d = _xkwds_get(datum, datum=self.datum)
-        return self.classof(xyz, datum=d)
+        r = self
+        if transforms:
+            xyz = r.xyz
+            for t in transforms:
+                xyz = t.transform(*xyz)
+            d = _xkwds_get(datum, datum=r.datum)
+            if d != r.datum or xyz != r.xyz:
+                r = r.classof(xyz, datum=d)
+        return r
 
 
 class LatLonEllipsoidalBase(LatLonBase):
@@ -251,8 +254,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _css(self):
         '''(INTERNAL) Get this C{LatLon} point as a Cassini-Soldner location (L{Css}).
         '''
-        from pygeodesy.css import Css, toCss
-        return toCss(self, height=self.height, Css=Css, name=self.name)
+        css = _MODS.css
+        return css.toCss(self, height=self.height, Css=css.Css, name=self.name)
 
     @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
@@ -302,8 +305,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _elevation2(self):
         '''(INTERNAL) Get elevation and data source.
         '''
-        from pygeodesy.elevations import elevation2
-        return elevation2(self.lat, self.lon, timeout=self._elevation2to)
+        return _MODS.elevations.elevation2(self.lat, self.lon,
+                                           timeout=self._elevation2to)
 
     def elevation2(self, adjust=True, datum=None, timeout=2):
         '''Return elevation of this point for its or the given datum, ellipsoid
@@ -390,26 +393,25 @@ class LatLonEllipsoidalBase(LatLonBase):
     def Equidistant(self):
         '''Get the prefered azimuthal equidistant projection I{class} (L{EquidistantKarney} or L{EquidistantExact}).
         '''
-        from pygeodesy.azimuthal import EquidistantKarney, EquidistantExact
         try:
             _ = self.datum.ellipsoid.geodesic
-            return EquidistantKarney
+            return _MODS.azimuthal.EquidistantKarney
         except ImportError:  # no geographiclib
-            return EquidistantExact  # XXX no longer L{azimuthal.Equidistant}
+            return _MODS.azimuthal.EquidistantExact  # XXX no longer L{azimuthal.Equidistant}
 
     @Property_RO
     def _etm(self):
         '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{pygeodesy.toEtm8}).
         '''
-        from pygeodesy.etm import toEtm8, Etm
-        return toEtm8(self, datum=self.datum, Etm=Etm)
+        etm = _MODS.etm
+        return etm.toEtm8(self, datum=self.datum, Etm=etm.Etm)
 
     @Property_RO
     def _geoidHeight2(self):
         '''(INTERNAL) Get geoid height and model.
         '''
-        from pygeodesy.elevations import geoidHeight2
-        return geoidHeight2(self.lat, self.lon, model=0, timeout=self._geoidHeight2to)
+        return _MODS.elevations.geoidHeight2(self.lat, self.lon, model=0,
+                                             timeout=self._geoidHeight2to)
 
     def geoidHeight2(self, adjust=False, datum=None, timeout=2):
         '''Return geoid height of this point for its or the given datum, ellipsoid
@@ -487,12 +489,13 @@ class LatLonEllipsoidalBase(LatLonBase):
                  <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
                  BOUNDARIES} for more details about the iteration algorithm.
         '''
-        from pygeodesy.ellipsoidalBaseDI import _intersect3
         try:
             s2 = self.others(other)
-            return _intersect3(self, end1, s2, end2, height=height, wrap=wrap,
-                                           equidistant=equidistant, tol=tol,
-                                           LatLon=self.classof, datum=self.datum)
+            return _MODS.ellipsoidalBaseDI._intersect3(self, end1,
+                                                       s2,   end2,
+                                                       height=height, wrap=wrap,
+                                                       equidistant=equidistant, tol=tol,
+                                                       LatLon=self.classof, datum=self.datum)
         except (TypeError, ValueError) as x:
             raise _xError(x, start1=self, end1=end1, other=other, end2=end2,
                                           height=height, wrap=wrap, tol=tol)
@@ -540,12 +543,13 @@ class LatLonEllipsoidalBase(LatLonBase):
                  U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
                  intersections.
         '''
-        from pygeodesy.ellipsoidalBaseDI import _intersections2
         try:
             c2 = self.others(other)
-            return _intersections2(self, radius1, c2, radius2, height=height, wrap=wrap,
-                                                  equidistant=equidistant, tol=tol,
-                                                  LatLon=self.classof, datum=self.datum)
+            return _MODS.ellipsoidalBaseDI._intersections2(self, radius1,
+                                                           c2,   radius2,
+                                                           height=height, wrap=wrap,
+                                                           equidistant=equidistant, tol=tol,
+                                                           LatLon=self.classof, datum=self.datum)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2,
                                           height=height, wrap=wrap, tol=tol)
@@ -561,8 +565,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _lcc(self):
         '''(INTERNAL) Get this C{LatLon} point as a Lambert location (L{Lcc}).
         '''
-        from pygeodesy.lcc import Lcc, toLcc
-        return toLcc(self, height=self.height, Lcc=Lcc, name=self.name)
+        lcc = _MODS.lcc
+        return lcc.toLcc(self, height=self.height, Lcc=lcc.Lcc, name=self.name)
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
@@ -600,24 +604,24 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
                  calculating-intersection-of-two-circles>} and U{Karney's paper
                  <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
-                 BOUNDARIES} for more details about the iteration algorithm.
+                 BOUNDARIES} for details about the iteration algorithm.
         '''
-        from pygeodesy.ellipsoidalBaseDI import _nearestOn2
         try:
-            return _nearestOn2(self, point1, point2, within=within,
-                                     height=height, wrap=wrap,
-                                     equidistant=equidistant, tol=tol,
-                                     LatLon=self.classof).closest
+            t = _MODS.ellipsoidalBaseDI._nearestOn2(self, point1, point2, within=within,
+                                                          height=height, wrap=wrap,
+                                                          equidistant=equidistant,
+                                                          tol=tol, LatLon=self.classof)
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point1=point1, point2=point2, within=within,
                                          height=height, wrap=wrap, tol=tol)
+        return t.closest
 
     @Property_RO
     def _osgr(self):
         '''(INTERNAL) Get this C{LatLon} point to an OSGR coordinate (L{Osgr}).
         '''
-        from pygeodesy.osgr import Osgr, toOsgr
-        return toOsgr(self, datum=self.datum, Osgr=Osgr, name=self.name)
+        osgr = _MODS.osgr
+        return osgr.toOsgr(self, datum=self.datum, Osgr=osgr.Osgr, name=self.name)
 
     def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
                                                   sep=_COMMA_, name=NN):
@@ -642,8 +646,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise ParseError: Invalid B{C{strllh}}.
         '''
-        from pygeodesy.dms import parse3llh
-        a, b, h = parse3llh(strllh, height=height, sep=sep)
+        a, b, h = _MODS.dms.parse3llh(strllh, height=height, sep=sep)
         r = self.classof(a, b, height=h, datum=self.datum)
         if datum not in (None, self.datum):
             r.datum = datum
@@ -706,12 +709,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toCss}.
         '''
-        if toCss_kwds:
-            from pygeodesy.css import toCss
-            r = toCss(self, **_xkwds(toCss_kwds, name=self.name))
-        else:
-            r = self._css
-        return r
+        return self._css if not toCss_kwds else _MODS.css.toCss(
+               self, **_xkwds(toCss_kwds, name=self.name))
 
     def toDatum(self, datum2, height=None, name=NN):
         '''Convert this point to an other datum.
@@ -752,12 +751,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toEtm8}.
         '''
-        if toEtm8_kwds:
-            from pygeodesy.etm import toEtm8
-            r = toEtm8(self, **_xkwds(toEtm8_kwds, name=self.name))
-        else:
-            r = self._etm
-        return r
+        return self._etm if not toEtm8_kwds else _MODS.etm.toEtm8(
+               self, **_xkwds(toEtm8_kwds, name=self.name))
 
     def toLcc(self, **toLcc_kwds):
         '''Convert this C{LatLon} point to a Lambert location.
@@ -768,12 +763,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toLcc}.
         '''
-        if toLcc_kwds:
-            from pygeodesy.lcc import toLcc
-            r = toLcc(self, **_xkwds(toLcc_kwds, name=self.name))
-        else:
-            r = self._lcc
-        return r
+        return self._lcc if not toLcc_kwds else _MODS.lcc.toLcc(
+               self, **_xkwds(toLcc_kwds, name=self.name))
 
     def toMgrs(self, center=False):
         '''Convert this C{LatLon} point to an MGRS coordinate.
@@ -797,12 +788,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toOsgr}.
         '''
-        if toOsgr_kwds:
-            from pygeodesy.osgr import toOsgr
-            r = toOsgr(self, **_xkwds(toOsgr_kwds, name=self.name))
-        else:
-            r = self._osgr
-        return r
+        return self._osgr if not toOsgr_kwds else _MODS.osgr.toOsgr(
+               self, **_xkwds(toOsgr_kwds, name=self.name))
 
     def toRefFrame(self, reframe2, height=None, name=NN):
         '''Convert this point to an other reference frame.
@@ -832,10 +819,10 @@ class LatLonEllipsoidalBase(LatLonBase):
             t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
             raise TRFError(_no_(_conversion_), txt=t)
 
-        from pygeodesy.trf import RefFrame, _reframeTransforms2
-        _xinstanceof(RefFrame, reframe2=reframe2)
+        trf = _MODS.trf
+        trf._xinstanceof(trf.RefFrame, reframe2=reframe2)
 
-        e, xs = _reframeTransforms2(reframe2, self.reframe, self.epoch)
+        e, xs = trf._reframeTransforms2(reframe2, self.reframe, self.epoch)
         if xs:
             c = self.toCartesian().toTransforms_(*xs)
             n = name or self.name
@@ -859,9 +846,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         if self._upsOK(pole, falsed):
             u = self._ups
         else:
-            from pygeodesy.ups import toUps8, Ups
-            u = toUps8(self, datum=self.datum, Ups=Ups,
-                              pole=pole, falsed=falsed)
+            ups = _MODS.ups
+            u = ups.toUps8(self, datum=self.datum, Ups=ups.Ups,
+                                 pole=pole, falsed=falsed)
         return u
 
     def toUtm(self, center=False):
@@ -880,8 +867,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         elif center in (True,):
             u = self._utm._lowerleft
         else:
-            from pygeodesy.utm import _lowerleft
-            u = _lowerleft(self._utm, center)
+            u = _MODS.utm._lowerleft(self._utm, center)
         return u
 
     def toUtmUps(self, pole=NN):
@@ -901,7 +887,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         elif self._upsOK(pole):
             u = self._ups
         else:  # no cover
-            from pygeodesy.utmups import toUtmUps8, Utm, Ups
+            from pygeodesy.utmups import toUtmUps8, Utm, Ups  # utmups = _MODS.utmups
             u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
                                 pole=pole, name=self.name)
             if isinstance(u, Utm):
@@ -921,12 +907,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toWm}.
         '''
-        if toWm_kwds:
-            from pygeodesy.webmercator import toWm
-            r = toWm(self, **_xkwds(toWm_kwds, name=self.name))
-        else:
-            r = self._wm
-        return r
+        return self._wm if not toWm_kwds else _MODS.webmercator.toWm(
+               self, **_xkwds(toWm_kwds, name=self.name))
 
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
@@ -992,7 +974,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @note: Ellipsoidal trilateration invokes methods C{LatLon.intersections2}
                   and C{LatLon.nearestOn} based on I{Karney}'s Python U{geographiclib
                   <https://PyPI.org/project/geographiclib>} if installed, otherwise
-                  using the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
+                  uses the accurate (but slower) C{ellipsoidalExact.LatLon} methods.
         '''
         return _trilaterate5(self, distance1,
                              self.others(point2=point2), distance2,
@@ -1004,9 +986,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}),
            see L{pygeodesy.toUps8}.
         '''
-        from pygeodesy.ups import toUps8, Ups
-        return toUps8(self, datum=self.datum, Ups=Ups,
-                             pole=NN, falsed=True, name=self.name)
+        ups = _MODS.ups
+        return ups.toUps8(self, datum=self.datum, Ups=ups.Ups,
+                                pole=NN, falsed=True, name=self.name)
 
     def _upsOK(self, pole=NN, falsed=True):
         '''(INTERNAL) Check matching C{Ups}.
@@ -1022,8 +1004,8 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}),
            see L{pygeodesy.toUtm8}.
         '''
-        from pygeodesy.utm import toUtm8, Utm
-        return toUtm8(self, datum=self.datum, Utm=Utm, name=self.name)
+        utm = _MODS.utm
+        return utm.toUtm8(self, datum=self.datum, Utm=utm.Utm, name=self.name)
 
     def _utmOK(self):
         '''(INTERNAL) Check C{Utm}.
@@ -1038,8 +1020,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _wm(self):
         '''(INTERNAL) Get this C{LatLon} point as webmercator (L{Wm}).
         '''
-        from pygeodesy.webmercator import toWm
-        return toWm(self)
+        return _MODS.webmercator.toWm(self)
 
 
 def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
@@ -1047,25 +1028,23 @@ def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,
     '''(INTERNAL) Get closest point, imported by .ellipsoidalExact,
        -GeodSolve, -Karney and -Vincenty to embellish exceptions.
     '''
-    from pygeodesy.ellipsoidalBaseDI import _nearestOn2
     try:
         p = _xellipsoidal(point=point)
-        return _nearestOn2(p, point1, point2, within=within, height=height,
-                                      wrap=wrap, equidistant=equidistant, tol=tol,
-                                      LatLon=LatLon, **LatLon_kwds).closest
+        t = _MODS.ellipsoidalBaseDI._nearestOn2(p, point1, point2, within=within,
+                                                   height=height, wrap=wrap,
+                                                   equidistant=equidistant, tol=tol,
+                                                   LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, point=point, point1=point1, point2=point2)
+    return t.closest
 
 
 def _set_reframe(inst, reframe):
     '''(INTERNAL) Set or clear an instance's reference frame.
     '''
     if reframe is not None:
-        from pygeodesy.trf import RefFrame
-
-        _xinstanceof(RefFrame, reframe=reframe)
+        _xinstanceof(_MODS.trf.RefFrame, reframe=reframe)
         inst._reframe = reframe
-
     elif inst.reframe is not None:
         inst._reframe = None
 

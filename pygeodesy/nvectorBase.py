@@ -25,7 +25,7 @@ from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
                              _points_, _pole_, _SPACE_, _SouthPole_, \
                              _1_, _2_, _3_, _2_0
 from pygeodesy.latlonBase import LatLonBase
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn6
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.12.20'
+__version__ = '21.12.28'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -91,8 +91,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        from pygeodesy.ecef import EcefKarney
-        return EcefKarney  # default
+        return _MODS.ecef.EcefKarney  # default
 
     @property_doc_(''' the height above surface (C{meter}).''')
     def h(self):
@@ -429,8 +428,7 @@ class LatLonNvectorBase(LatLonBase):
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
 #       '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
 #       '''
-#       from pygeodesy.named import notOverloaded
-#       notOverloaded(self, other, **kwds)
+#       _MODS.named.notOverloaded(self, other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
         '''B{Not implemented}, throws a C{NotImplementedError} always.

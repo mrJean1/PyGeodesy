@@ -25,7 +25,7 @@ from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _exceed_PI_radians_, _name_, _near_, \
                              _too_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
 from pygeodesy.props import property_doc_
@@ -35,8 +35,8 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 
 from math import cos, log, sin, sqrt
 
-__all__ = ()
-__version__ = '21.11.30'
+__all__ = _ALL_LAZY.sphericalBase
+__version__ = '21.12.28'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -274,8 +274,8 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise ParseError: Invalid B{C{strllh}}.
         '''
-        from pygeodesy.dms import parse3llh
-        r = self.classof(*parse3llh(strllh, height=height, sep=sep))
+        t = _MODS.dms.parse3llh(strllh, height=height, sep=sep)
+        r =  self.classof(*t)
         if name:
             r.rename(name)
         return r
@@ -460,8 +460,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @see: Function L{pygeodesy.toWm} in module L{webmercator} for details.
         '''
-        from pygeodesy.webmercator import toWm
-        return toWm(self, radius=radius)
+        return _MODS.webmercator.toWm(self, radius=radius)
 
 
 __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)

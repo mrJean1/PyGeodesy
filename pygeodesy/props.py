@@ -8,17 +8,18 @@ variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
 with command line option C{-X dev} or one or the C{-W} choices, see
 function L{DeprecationWarnings} below.
 '''
-from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
+from pygeodesy.errors import _AssertionError, _AttributeError, \
+                             _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
                              _invalid_, MISSING, _N_A_, _NLNL_, \
                              _SPACE_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _getenv, _FOR_DOCS, \
-                             _PYTHON_X_DEV, _sys
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
+                             _FOR_DOCS, _PYTHON_X_DEV, _sys
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.11.20'
+__version__ =  '21.12.28'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -39,18 +40,19 @@ def _hasProperty(inst, name, *Classes):
     return False
 
 
-def _update_all(inst, *attrs):
+def _update_all(inst, *attrs, **Base):
     '''(INTERNAL) Zap all I{cached} L{property_RO}s, L{Property_RO}s
        and the named C{attrs} from an instance' C{__dict__}.
 
        @return: The number of updates (C{int}), if any.
     '''
+    B = _xkwds_get(Base, Base=_PropertyBase)
     d = inst.__dict__
     u = len(d)
 
     for c in inst.__class__.__mro__[:-1]:
         for n, p in c.__dict__.items():
-            if isinstance(p, _PropertyBase) and p.name == n:
+            if isinstance(p, B) and p.name == n:
                 p._update(inst, c)
 
     p = d.pop
@@ -58,8 +60,7 @@ def _update_all(inst, *attrs):
         if hasattr(inst, a):
             p(a, None)
         else:
-            from pygeodesy.named import classname
-            n =  classname(inst, prefixed=True)
+            n = _MODS.named.classname(inst, prefixed=True)
             a = _DOT_(n, _SPACE_(a, _invalid_))
             raise _AssertionError(a, txt=repr(inst))
 
@@ -82,7 +83,7 @@ class _PropertyBase(property):
 
         property.__init__(self, fget, fset, self._fdel, d or _N_A_)
 
-    def _fdel(self, inst):  # deleter
+    def _fdel(self, inst):
         '''Zap the I{cached/memoized} C{property} value.
         '''
         self._update(inst, None)   # PYCHOK no cover
@@ -100,19 +101,10 @@ class _PropertyBase(property):
     def _fset_error(self, inst, val):
         '''Throws an C{AttributeError}, always.
         '''
-        from pygeodesy.named import classname
-        n = _DOT_(classname(inst), self.name)
-        self._immutable_error(_EQUALSPACED_(n, repr(val)))
-
-    def _immutable_error(self, name):
-        from pygeodesy.named import classname
-        e = _SPACE_(_immutable_, classname(self))
-        raise _AttributeError(e, txt=name)
-
-    def _invalid_error(self, name):
-        from pygeodesy.named import classname
-        e = _SPACE_(_invalid_, classname(self))
-        raise _AttributeError(e, txt=name)
+        n = _MODS.named.classname(inst)
+        n = _DOT_(n, self.name)
+        n = _EQUALSPACED_(n, repr(val))
+        raise self._Error(_immutable_, n, None)
 
     def _update(self, inst, *unused):
         '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
@@ -122,20 +114,28 @@ class _PropertyBase(property):
     def deleter(self, fdel):
         '''Throws an C{AttributeError}, always.
         '''
-        n = _DOT_(self.name, self.deleter.__name__)
-        self._invalid_error(_SPACE_(n, fdel.__name__))
+        raise self._Error(_invalid_, self.deleter, fdel)
 
     def getter(self, fget):
         '''Throws an C{AttributeError}, always.
         '''
-        n = _DOT_(self.name, self.getter.__name__)
-        self._invalid_error(_SPACE_(n, fget.__name__))
+        raise self._Error(_invalid_, self.getter, fget)
 
     def setter(self, fset):
         '''Throws an C{AttributeError}, always.
         '''
-        n = _DOT_(self.name, self.setter.__name__)
-        self._immutable_error(_SPACE_(n, fset.__name__))
+        raise self._Error(_immutable_, self.setter, fset)
+
+    def _Error(self, kind, nameter, farg):
+        '''(INTERNAL) Return an C{AttributeError} instance.
+        '''
+        if farg:
+            n = _DOT_(self.name, nameter.__name__)
+            n = _SPACE_(n, farg.__name__)
+        else:
+            n = nameter
+        e = _SPACE_(kind, _MODS.named.classname(self))
+        return _AttributeError(e, txt=n)
 
 
 class Property_RO(_PropertyBase):
@@ -417,11 +417,11 @@ def _qualified(inst, name):
 def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''(INTERNAL) Report or raise a C{DeprecationWarning}.
     '''
-    from pygeodesy.streprs import Fmt
     from warnings import warn
 
     line =  doc.split(_NLNL_, 1)[0].split()
-    text = _SPACE_(kind, Fmt.CURLY(L=name), _has_been_, *line)
+    name = _MODS.streprs.Fmt.CURLY(L=name)
+    text = _SPACE_(kind, name, _has_been_, *line)
     kwds = _xkwds(stacklevel, stacklevel=3)
     # XXX invoke warn or raise DeprecationWarning(text)
     warn(text, category=DeprecationWarning, **kwds)

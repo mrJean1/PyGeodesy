@@ -42,7 +42,7 @@ from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
                              _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
                              _90_0, _N_90_0, _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
                            _NamedTuple, _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.11.30'
+__version__ = '21.12.29'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -373,8 +373,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
 def _isLatLon(inst):
     '''(INTERNAL) Check a C{LatLon} or C{LatLon_} instance.
     '''
-    from pygeodesy.latlonBase import LatLonBase
-    return isinstance(inst, (LatLon_, LatLonBase))
+    return isinstance(inst, (LatLon_, _MODS.latlonBase.LatLonBase))
 
 
 def _isLatLon_(LL):
@@ -584,10 +583,9 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         self._shape = Shape2Tuple(shape)  # *shape
 
         if LatLon:  # check the point class
-            if _isLatLon_(LatLon):
-                self._LatLon = LatLon
-            else:
+            if not _isLatLon_(LatLon):
                 raise _IsnotError(_valid_, LatLon=LatLon)
+            self._LatLon = LatLon
 
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
@@ -1403,7 +1401,7 @@ def isclockwise(points, adjust=False, wrap=True):
         >>> isclockwise(reversed(f))  # True
     '''
     a, pts = _area2(points, adjust, wrap)
-    if a > 0:
+    if a > 0:  # opposite of ellipsoidalExact and -Karney
         return True
     elif a < 0:
         return False

@@ -15,7 +15,7 @@ from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, _xkwds
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _float, _invalid_, \
                              _N_, _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
                              _0_0, _0_5, _180_0
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.11.18'
+__version__ = '21.12.28'
 
 _MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
 _UPS_BANDS = _A_, _B_, 'Y', 'Z'  # UPS polar bands
@@ -260,8 +260,7 @@ class UtmUpsBase(_NamedBase):
     def _epsg(self):
         '''(INTERNAL) Cache for method L{toEpsg}.
         '''
-        from pygeodesy.epsg import Epsg
-        return Epsg(self)
+        return _MODS.epsg.Epsg(self)
 
     @Property_RO
     def falsed(self):

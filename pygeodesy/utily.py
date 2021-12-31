@@ -15,13 +15,13 @@ from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
                              _edge_, _radians_, _semi_circular_, _SPACE_, \
                              _0_0, _0_5, _1_0, _90_0, _N_90_0, _180_0, \
                              _N_180_0, _360_0, _400_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.11.30'
+__version__ = '21.12.28'
 
 # <https://Numbers.Computation.Free.Fr/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -140,8 +140,7 @@ def circle4(earth, lat):
 
        @raise ValueError: B{C{earth}} or B{C{lat}}.
     '''
-    from pygeodesy.datums import _spherical_datum
-    E = _spherical_datum(earth).ellipsoid
+    E = _MODS.datums._spherical_datum(earth).ellipsoid
     return E.circle4(lat)
 
 
@@ -157,8 +156,8 @@ def cot(rad, **error_kwds):
     '''
     s, c = sincos2(rad)
     if isnear0(s):
-        from pygeodesy.errors import _ValueError, _xkwds
-        raise _ValueError(**_xkwds(error_kwds, cot=rad))
+        kwds = _MODS.errors._xkwds(error_kwds, cot=rad)
+        raise  _MODS.errors._ValueError(**kwds)
     return c / s
 
 
@@ -188,8 +187,8 @@ def cotd(deg, **error_kwds):
     '''
     s, c = sincos2d(deg)
     if isnear0(s):
-        from pygeodesy.errors import _ValueError, _xkwds
-        raise _ValueError(**_xkwds(error_kwds, cotd=deg))
+        kwds = _MODS.errors._xkwds(error_kwds, cotd=deg)
+        raise  _MODS.errors._ValueError(**kwds)
     return c / s
 
 
@@ -683,13 +682,9 @@ def tan_2(rad, **semi):  # edge=1
     if semi and isnear0(abs(rad) - PI):
         for n, v in semi.items():
             break
-        if isint(v):
-            from pygeodesy.streprs import Fmt
-            n = _SPACE_(Fmt.SQUARE(**semi), _edge_)
-        else:
-            n = _SPACE_(n, _radians_)
-        from pygeodesy.errors import _ValueError
-        raise _ValueError(n, rad, txt=_semi_circular_)
+        n = _SPACE_(n, _radians_) if not isint(v) else \
+            _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_)
+        raise _MODS.errors._ValueError(n, rad, txt=_semi_circular_)
 
     return tan(rad * _0_5)
 
@@ -706,8 +701,7 @@ def tand(deg, **error_kwds):
     '''
     s, c = sincos2d(deg)
     if isnear0(c):
-        from pygeodesy.errors import _ValueError
-        raise _ValueError(tand.__name__, deg, **error_kwds)
+        raise _MODS.errors._ValueError(tand.__name__, deg, **error_kwds)
     return s / c
 
 

@@ -17,7 +17,7 @@ from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, MISSING, NN, \
                              _intersection_, _name_, _near_, _negative_, \
                              _no_, _too_, _xyz_, _y_, _z_, _0_0, _1_0
 from pygeodesy.iters import Fmt, PointsIter
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
@@ -28,7 +28,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.11.28'
+__version__ = '21.12.28'
 
 
 class Vector3d(Vector3dBase):
@@ -70,9 +70,8 @@ class Vector3d(Vector3dBase):
                  <https://MathWorld.Wolfram.com/Incircle.html>} and U{Contact
                  Triangle<https://MathWorld.Wolfram.com/ContactTriangle.html>}.
         '''
-        from pygeodesy.vector2d import _circin6
         try:
-            return _circin6(self, point2, point3, eps=eps, useZ=True)
+            return _MODS.vector2d._circin6(self, point2, point3, eps=eps, useZ=True)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
@@ -102,10 +101,9 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.circum3} and methods L{circum4_} and L{meeus2}.
         '''
-        from pygeodesy.vector2d import _circum3
         try:
-            return _circum3(self, point2, point3, circum=circum, eps=eps, useZ=True,
-                                                  clas=self.classof)
+            return _MODS.vector2d._circum3(self, point2, point3, circum=circum,
+                                                 eps=eps, useZ=True, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
 
@@ -129,8 +127,7 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.circum4_} and methods L{circum3} and L{meeus2}.
         '''
-        from pygeodesy.vector2d import circum4_
-        return circum4_(self, *points, Vector=self.classof)
+        return _MODS.vector2d.circum4_(self, *points, Vector=self.classof)
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other (3-D) points are colinear.
@@ -149,9 +146,8 @@ class Vector3d(Vector3dBase):
 
            @see: Method L{nearestOn}.
         '''
-        from pygeodesy.vector2d import _iscolinearWith
         v = self if self.name else _otherV3d(NN_OK=False, this=self)
-        return _iscolinearWith(v, point1, point2, eps=eps)
+        return _MODS.vector2d._iscolinearWith(v, point1, point2, eps=eps)
 
     def meeus2(self, point2, point3, circum=False):
         '''Return the radius and I{Meeus}' Type of the smallest circle
@@ -172,12 +168,12 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.meeus2} and methods L{circum3} and L{circum4_}.
         '''
-        from pygeodesy.vector2d import _meeus4, Meeus2Tuple
         try:
-            r, t, _, _ = _meeus4(self, point2, point3, circum=circum, clas=self.classof)
+            r, t, _, _ = _MODS.vector2d._meeus4(self, point2, point3, circum=circum,
+                                                      clas=self.classof)
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
-        return Meeus2Tuple(r, t)
+        return _MODS.vector2d.Meeus2Tuple(r, t)
 
     def nearestOn(self, point1, point2, within=True):
         '''Locate the point between two points closest to this point.
@@ -260,9 +256,8 @@ class Vector3d(Vector3dBase):
                  <https://MathWorld.Wolfram.com/SoddyCircles.html>} and U{Tangent
                  Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
         '''
-        from pygeodesy.vector2d import _radii11ABC
         try:
-            return _radii11ABC(self, point2, point3, useZ=True)[0]
+            return _MODS.vector2d._radii11ABC(self, point2, point3, useZ=True)[0]
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
@@ -291,8 +286,7 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.soddy4}.
         '''
-        from pygeodesy.vector2d import soddy4
-        return soddy4(self, point2, point3, eps=eps, useZ=True)
+        return _MODS.vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
 
     def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS, z=0):
         '''Trilaterate this and two other circles, each given as a (2-D) center
@@ -322,17 +316,16 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.trilaterate2d2}.
         '''
-        from pygeodesy.vector2d import _trilaterate2d2
 
         def _xyr3(r, **name_v):
             v = _otherV3d(useZ=False, **name_v)
             return v.x, v.y, r
 
         try:
-            return _trilaterate2d2(*(_xyr3(radius,  center=self) +
-                                     _xyr3(radius2, center2=center2) +
-                                     _xyr3(radius3, center3=center3)),
-                                      eps=eps, Vector=self.classof, z=z)
+            return _MODS.vector2d._trilaterate2d2(*(_xyr3(radius,  center=self) +
+                                                    _xyr3(radius2, center2=center2) +
+                                                    _xyr3(radius3, center3=center3)),
+                                                     eps=eps, Vector=self.classof, z=z)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -377,12 +370,12 @@ class Vector3d(Vector3dBase):
                  and U{I{implementation}<https://www.ResearchGate.net/publication/
                  288825016_Trilateration_Matlab_Code>}.
         '''
-        from pygeodesy.vector2d import _trilaterate3d2
         try:
-            return _trilaterate3d2(_otherV3d(center=self, NN_OK=False),
-                                    Radius_(radius, low=eps),
-                                    center2, radius2, center3, radius3,
-                                    eps=eps, clas=self.classof)
+            c1 = _otherV3d(center=self, NN_OK=False)
+            return _MODS.vector2d._trilaterate3d2(c1,      Radius_(radius, low=eps),
+                                                  center2, radius2,
+                                                  center3, radius3,
+                                                  eps=eps, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,
@@ -604,9 +597,7 @@ def iscolinearWith(point, point1, point2, eps=EPS, useZ=True):
        @see: Function L{nearestOn}.
     '''
     p = _otherV3d(useZ=useZ, point=point)
-
-    from pygeodesy.vector2d import _iscolinearWith
-    return _iscolinearWith(p, point1, point2, eps=eps, useZ=useZ)
+    return _MODS.vector2d._iscolinearWith(p, point1, point2, eps=eps, useZ=useZ)
 
 
 def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vector_kwds):
@@ -834,9 +825,9 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
              <https://math.StackExchange.com/questions/884807>} and function
              L{pygeodesy.trilaterate3d2}.
     '''
-    from pygeodesy.vector2d import _trilaterate2d2
-    return _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
-                                            eps=eps, **Vector_and_kwds)
+    return _MODS.vector2d._trilaterate2d2(x1, y1, radius1,
+                                          x2, y2, radius2,
+                                          x3, y3, radius3, eps=eps, **Vector_and_kwds)
 
 
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
@@ -884,12 +875,11 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
              288825016_Trilateration_Matlab_Code>} and function
              L{pygeodesy.trilaterate2d2}.
     '''
-    from pygeodesy.vector2d import _trilaterate3d2
     try:
-        return _trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
-                                Radius_(radius1=radius1, low=eps),
-                                center2, radius2, center3, radius3, eps=eps,
-                                clas=center1.classof, **Vector_and_kwds)
+        return _MODS.vector2d._trilaterate3d2(_otherV3d(center1=center1, NN_OK=False),
+                                               Radius_(radius1=radius1, low=eps),
+                                               center2, radius2, center3, radius3, eps=eps,
+                                               clas=center1.classof, **Vector_and_kwds)
     except (AssertionError, TypeError, ValueError) as x:
         raise _xError(x, center1=center1, radius1=radius1,
                          center2=center2, radius2=radius2,

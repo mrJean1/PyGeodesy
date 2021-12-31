@@ -16,8 +16,8 @@ from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _EQUAL_, \
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import callername, _ellipsoid, _EWGS84, GDict, \
                              GeodesicError, GeodSolve12Tuple
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _getenv, printf, \
-                             _sys_version_info2
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _getenv, printf, _sys_version_info2
 # from pygeodesy.named import callername  # from .karney
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.12.17'
+__version__ = '21.12.28'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -379,9 +379,8 @@ class GeodesicSolve(_GeodesicSolveBase):
            @note: The B{C{debug}} setting is passed as C{verbose}
                   to the returned L{GeodesicAreaExact} instance.
         '''
-        from pygeodesy.geodesicx.gxarea import GeodesicAreaExact
-        gaX = GeodesicAreaExact(self, polyline=polyline,
-                                      name=name or self.name)
+        gaX = _MODS.geodesicx.GeodesicAreaExact(self, polyline=polyline,
+                                                      name=name or self.name)
         if self.verbose or self.debug:  # PYCHOK no cover
             gaX.verbose = True
         return gaX

@@ -25,7 +25,7 @@ from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import EPS, EPS0, NN, _COMMASPACE_, _EPSmin as _Tol90, \
                              _N_, _inside_, _pole_, _range_, _S_, _SPACE_, \
                              _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.11.11'
+__version__ = '21.12.28'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -345,9 +345,9 @@ class Ups(UtmUpsBase):
         '''
         u = self._utm
         if u is None or u.zone != zone or falsed != u.falsed:
-            from pygeodesy.utm import toUtm8, Utm
             ll = self.toLatLon(LatLon=None, unfalse=True)
-            self._utm = toUtm8(ll, Utm=Utm, falsed=falsed, name=self.name, zone=zone)
+            self._utm = _MODS.utm.toUtm8(ll, Utm=_MODS.utm.Utm, falsed=falsed,
+                                             name=self.name, zone=zone)
         return self._utm
 
     @Property_RO

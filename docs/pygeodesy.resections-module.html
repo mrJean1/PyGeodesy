@@ -83,14 +83,14 @@
 <hr />
 <div class="fields">      <p><strong>Note:</strong>
         Function <a href="pygeodesy.resections-module.html#pierlot" 
-        class="link">pierlot</a> transcoded with permission from <a 
+        class="link">pierlot</a> is transcoded with permission from <a 
         href="http://www.Telecom.ULg.ac.Be/triangulation/doc/total_8c.html"
         target="_top">triangulationPierlot</a> and <a 
         href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree"
         target="_top">Pierlot</a>.
       </p>
       <p><strong>Version:</strong>
-        21.11.30
+        21.12.26
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -119,7 +119,8 @@
         <a href="pygeodesy.resections.Survey3Tuple-class.html" class="summary-name">Survey3Tuple</a><br />
       3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
         <code>P</code> to each of the triangle corners <code>A</code>, 
-        <code>B</code> and <code>C</code>.
+        <code>B</code> and <code>C</code> in <code>meter</code>, 
+        conventionally.
     </td>
   </tr>
 <tr>
@@ -140,9 +141,10 @@
     </td><td class="summary">
         <a href="pygeodesy.resections.TriAngle4Tuple-class.html" class="summary-name">TriAngle4Tuple</a><br />
       4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corner <code>A</code>, <code>B</code> and 
-        <code>C</code> and the <code>InCircle</code> radius 
-        <code>rIn</code> aka <code>inradius</code>.
+        angles at triangle corners <code>A</code>, <code>B</code> and 
+        <code>C</code> in <code>radians</code> and the 
+        <code>InCircle</code> radius <code>rIn</code> aka 
+        <code>inradius</code> in <code>meter</code>, conventionally.
     </td>
   </tr>
 <tr>
@@ -150,9 +152,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.resections.TriSide2Tuple-class.html" class="summary-name">TriSide2Tuple</a><br />
-      2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> 
-        (<code>meter</code> conventionally) and the opposite triangle angle
-        <code>radA</code> (<code>radians</code>).
+      2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> in
+        <code>meter</code>, conventionally and angle <code>radA</code> at 
+        the opposite triangle corner in <code>radians</code>.
     </td>
   </tr>
 <tr>
@@ -160,11 +162,12 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.resections.TriSide4Tuple-class.html" class="summary-name">TriSide4Tuple</a><br />
-      4-Tuple <code>(a, b, radC, d)</code> with the length of triangle 
-        sides <code>a</code> and <code>b</code>, the interior angle 
-        <code>radC</code> at triangle corner <code>radC</code> 
-        (<code>radians</code>) and triangle height <code>d</code>, 
-        perpendicular to triangle side <code>c</code>.
+      4-Tuple <code>(a, b, radC, d)</code> with interior angle 
+        <code>radC</code> at triangle corner <code>C</code> in 
+        <code>radians</code>with the length of triangle sides 
+        <code>a</code> and <code>b</code> and with triangle height 
+        <code>d</code> perpendicular to triangle side <code>c</code>, in 
+        the same units as triangle sides <code>a</code> and <code>b</code>.
     </td>
   </tr>
 </table>
@@ -313,7 +316,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triAngle" class="summary-sig-name">triAngle</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      Compute an interior angle of a triangle.</td>
+      Compute one angle of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -332,7 +335,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triAngle4" class="summary-sig-name">triAngle4</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      Compute the angles of a triangle side.</td>
+      Compute the angles of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -351,7 +354,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide" class="summary-sig-name">triSide</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">radC</span>)</span><br />
-      Compute the length of a triangle side.</td>
+      Compute one side of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -370,7 +373,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide2" class="summary-sig-name">triSide2</a>(<span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>,
         <span class="summary-sig-arg">radB</span>)</span><br />
-      Compute the length of a triangle side and the angle.</td>
+      Compute one side and the opposite angle of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -389,7 +392,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#triSide4" class="summary-sig-name">triSide4</a>(<span class="summary-sig-arg">radA</span>,
         <span class="summary-sig-arg">radB</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
-      Compute the length of two triangle sides and the triangle height.</td>
+      Compute two sides and the height of a triangle.</td>
           <td align="right" valign="top">
             
             
@@ -593,7 +596,8 @@
           <code>pointH</code>, each an instance of <b><code>Clas</code></b>
           or if <code><b>Clas</b> is None</code> of 
           <b><code>pointA</code></b>'s (sub-)class and triangle sides 
-          <code>a</code>, <code>b</code> and <code>c</code>.</dd>
+          <code>a</code>, <code>b</code> and <code>c</code> in 
+          <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
@@ -731,26 +735,28 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
-          corner <code>A</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
-        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
-          corner <code>B</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>a</code></strong> - Length of the triangle side between corners <code>B</code> and 
+          <code>C</code> and opposite of triangle corner <code>A</code> 
+          (<code>scalar</code>, non-negative <code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of the triangle side between corners <code>C</code> and 
+          <code>A</code> and opposite of triangle corner <code>B</code> 
+          (<code>scalar</code>, non-negative <code>meter</code>, 
+          conventionally).</li>
         <li><strong class="pname"><code>degC</code></strong> - Angle at triangle corner <code>C</code>, opposite triangle side 
-          <code>c</code> (<code>degrees</code>, non-negative).</li>
+          <code>c</code> (non-negative <code>degrees</code>).</li>
         <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>b</code></b> 
-          (<code>degrees</code>, non-negative).</li>
+          (non-negative <code>degrees</code>).</li>
         <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>a</code></b> 
-          (<code>degrees</code>, non-negative).</li>
+          (non-negative <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Survey3Tuple-class.html" 
           class="link">Survey3Tuple</a><code>(PA, PB, PC)</code> with 
           distance from survey point <code>P</code> to each of the triangle
-          corners <code>A</code>, <code>B</code> and <code>C</code> (same 
-          units as <b><code>a</code></b>, <b><code>b</code></b> and 
-          <b><code>c</code></b>).</dd>
+          corners <code>A</code>, <code>B</code> and <code>C</code>, same 
+          units as triangle sides <b><code>a</code></b>, 
+          <b><code>b</code></b> and <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
@@ -830,11 +836,12 @@
           class="link">Tienstra7Tuple</a><code>(pointP, A, B, C, a, b, 
           c)</code> with survey <code>pointP</code>, an instance of 
           <b><code>Clas</code></b> or if <code><b>Clas</b> is None</code> 
-          of <b><code>pointA</code></b>'s (sub-)class and triangle angle 
+          of <b><code>pointA</code></b>'s (sub-)class, with triangle angles
           <code>A</code> at <b><code>pointA</code></b>, <code>B</code> at 
           <b><code>pointB</code></b> and <code>C</code> at 
-          <b><code>pointC</code></b> in <code>degrees</code> and triangle 
-          sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
+          <b><code>pointC</code></b> in <code>degrees</code> and with 
+          triangle sides <code>a</code>, <code>b</code> and <code>c</code> 
+          in <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
@@ -883,28 +890,30 @@
     </td>
   </tr></table>
   
-  <p>Compute an interior angle of a triangle.</p>
+  <p>Compute one angle of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>c</code></strong> - Opposite triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle at triangle corner <code>C</code>, opposite triangle side 
-          <b><code>c</code></b> (<code>radians</code>).</dd>
+        <dd>Angle in <code>radians</code> at triangle corner <code>C</code>, 
+          opposite triangle side <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid or negative <b><code>a</code></b>, <b><code>b</code></b> or
         <b><code>c</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.resections-module.html#triSide" 
+        Functions <a href="pygeodesy.resections-module.html#triAngle4" 
+        class="link">pygeodesy.triAngle4</a> and <a 
+        href="pygeodesy.resections-module.html#triSide" 
         class="link">pygeodesy.triSide</a>.
       </p>
 </div></td></tr></table>
@@ -925,36 +934,41 @@
     </td>
   </tr></table>
   
-  <p>Compute the angles of a triangle side.</p>
+  <p>Compute the angles of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
-          corner <code>A</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
-        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
-          corner <code>B</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
-        <li><strong class="pname"><code>c</code></strong> - Length of triangle side <code>AB</code>, opposite of triangle 
-          corner <code>C</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>a</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>A</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>B</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of the triangle side opposite of triangle corner 
+          <code>C</code> (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.TriAngle4Tuple-class.html" 
           class="link">TriAngle4Tuple</a><code>(radA, radB, radC, 
-          rIn)</code> with the triangle angles at corner <code>A</code>, 
-          <code>B</code> and <code>C</code> (each in radians) and the 
-          <code>InCircle</code> radius <code>rIn</code> aka 
-          <code>inradius</code> (same units and triangle sides 
+          rIn)</code> with angles <code>radA</code>, <code>radB</code> and 
+          <code>radC</code> at triangle corners <code>A</code>, 
+          <code>B</code> and <code>C</code>, all in <code>radians</code> 
+          and the <code>InCircle</code> radius <code>rIn</code> aka 
+          <code>inradius</code>, same units as triangle sides 
           <b><code>a</code></b>, <b><code>b</code></b> and 
-          <b><code>c</code></b>).</dd>
+          <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
-        <b><code>b</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid or negative <b><code>a</code></b>, <b><code>b</code></b> or
+        <b><code>c</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.resections-module.html#triAngle" 
+        class="link">pygeodesy.triAngle</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="triSide"></a>
 <div>
@@ -972,29 +986,37 @@
     </td>
   </tr></table>
   
-  <p>Compute the length of a triangle side.</p>
+  <p>Compute one side of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>radC</code></strong> - Angle included by sides <b><code>a</code></b> and 
           <b><code>b</code></b>, opposite triangle side <code>c</code> 
           (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Length of triangle side <code>c</code>, opposite angle 
-          <b><code>rC</code></b> (same units as <b><code>a</code></b> and 
-          <b><code>b</code></b>).</dd>
+        <dd>Length of triangle side <code>c</code>, opposite triangle corner 
+          <code>C</code> and angle <b><code>radC</code></b>, same units as 
+          <b><code>a</code></b> and <b><code>b</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
         <b><code>radC</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.resections-module.html#triAngle" 
+        class="link">pygeodesy.triAngle</a>, <a 
+        href="pygeodesy.resections-module.html#triSide2" 
+        class="link">pygeodesy.triSide2</a> and <a 
+        href="pygeodesy.resections-module.html#triSide4" 
+        class="link">pygeodesy.triSide4</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="triSide2"></a>
 <div>
@@ -1012,14 +1034,14 @@
     </td>
   </tr></table>
   
-  <p>Compute the length of a triangle side and the angle.</p>
+  <p>Compute one side and the opposite angle of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>b</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>c</code></strong> - Adjacent triangle side length (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>radB</code></strong> - Angle included by sides <b><code>a</code></b> and 
           <b><code>c</code></b>, opposite triangle side <code>b</code> 
           (<code>radians</code>).</li>
@@ -1027,17 +1049,22 @@
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.TriSide2Tuple-class.html" 
           class="link">TriSide2Tuple</a><code>(a, radA)</code> with 
-          triangle angle <code>radA</code> (radians) and the length of the 
-          opposite triangle side <code>a</code> (same units as 
-          <b><code>b</code></b> and <b><code>c</code></b>).</dd>
+          triangle angle <code>radA</code> in <code>radians</code> and 
+          length of the opposite triangle side <code>a</code>, same units 
+          as <b><code>b</code></b> and <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>b</code></b> or <b><code>c</code></b> or either 
-        <b><code>b</code></b> or <b><code>radB</code></b> near zero and not
-        both.</li>
+        <b><code>b</code></b> or <b><code>radB</code></b> near zero.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.resections-module.html#triSide" 
+        class="link">pygeodesy.triSide</a> and <a 
+        href="pygeodesy.resections-module.html#triSide4" 
+        class="link">pygeodesy.triSide4</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="triSide4"></a>
 <div>
@@ -1055,37 +1082,40 @@
     </td>
   </tr></table>
   
-  <p>Compute the length of two triangle sides and the triangle height.</p>
+  <p>Compute two sides and the height of a triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>radA</code></strong> - Angle at triangle corner <code>A</code>, opposite triangle side 
-          <code>a</code> (<code>scalar</code>, non-negative).</li>
+          <code>a</code> (non-negative <code>radians</code>).</li>
         <li><strong class="pname"><code>radB</code></strong> - Angle at triangle corner <code>B</code>, opposite triangle side 
-          <code>b</code> (<code>scalar</code>, non-negative).</li>
-        <li><strong class="pname"><code>c</code></strong> - Length of triangle side between corners <code>A</code> and 
-          <code>B</code>, (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+          <code>b</code> (non-negative <code>radians</code>).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of triangle side between triangle corners <code>A</code> 
+          and <code>B</code>, (<code>scalar</code>, non-negative 
+          <code>meter</code>, conventionally).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.TriSide4Tuple-class.html" 
           class="link">TriSide4Tuple</a><code>(a, b, radC, d)</code> with 
           triangle sides <code>a</code> and <code>b</code> and triangle 
           height <code>d</code> perpendicular to triangle side 
-          <b><code>c</code></b> (all in same units as 
-          <b><code>c</code></b>) and the interior angle at triangle corner 
-          <code>C</code> (<code>radians</code>), opposite of triangle side 
-          <b><code>c</code></b>.</dd>
+          <b><code>c</code></b>, all in the same units as 
+          <b><code>c</code></b> and interior angle <code>radC</code> in 
+          <code>radians</code> at triangle corner <code>C</code>, opposite 
+          triangle side <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b> or <b><code>b</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid or negative <b><code>radA</code></b>, 
+        <b><code>radB</code></b> or <b><code>c</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.resections-module.html#triSide" 
+        <a href="https://WikiPedia.org/wiki/Triangulation_(surveying)" 
+        target="_top">Triangulation, Surveying</a> and functions <a 
+        href="pygeodesy.resections-module.html#triSide" 
         class="link">pygeodesy.triSide</a> and <a 
-        href="https://WikiPedia.org/wiki/Triangulation_(surveying)" 
-        target="_top">Triangulation, Surveying</a>.
+        href="pygeodesy.resections-module.html#triSide2" 
+        class="link">pygeodesy.triSide2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1114,15 +1144,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Length of triangle side <code>BC</code>, opposite of triangle 
-          corner <code>A</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
-        <li><strong class="pname"><code>b</code></strong> - Length of triangle side <code>AC</code>, opposite of triangle 
-          corner <code>B</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
-        <li><strong class="pname"><code>c</code></strong> - Length of triangle side <code>AB</code>, opposite of triangle 
-          corner <code>C</code> (<code>scalar</code>, non-negative 
-          <code>meter</code> conventionally).</li>
+        <li><strong class="pname"><code>a</code></strong> - Length of the triangle side between corners <code>B</code> and 
+          <code>C</code> and opposite of triangle corner <code>A</code> 
+          (<code>scalar</code>, non-negative <code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>b</code></strong> - Length of the triangle side between corners <code>C</code> and 
+          <code>A</code> and opposite of triangle corner <code>B</code> 
+          (<code>scalar</code>, non-negative <code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>c</code></strong> - Length of the triangle side between corners <code>A</code> and 
+          <code>B</code> and opposite of triangle corner <code>C</code> 
+          (<code>scalar</code>, non-negative <code>meter</code>, 
+          conventionally).</li>
         <li><strong class="pname"><code>alpha</code></strong> - Angle subtended by triangle side <b><code>b</code></b> 
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>beta</code></strong> - Angle subtended by triangle side <b><code>a</code></b> 
@@ -1135,9 +1168,9 @@
         <dd><a href="pygeodesy.resections.Survey3Tuple-class.html" 
           class="link">Survey3Tuple</a><code>(PA, PB, PC)</code> with 
           distance from survey point <code>P</code> to each of the triangle
-          corners <code>A</code>, <code>B</code> and <code>C</code> (same 
+          corners <code>A</code>, <code>B</code> and <code>C</code>, same 
           units as <b><code>a</code></b>, <b><code>b</code></b> and 
-          <b><code>c</code></b>).</dd>
+          <b><code>c</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.TriangleError-class.html">TriangleError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
@@ -1189,7 +1222,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 22 13:48:57 2021
+    Generated by Epydoc 3.0.1 on Fri Dec 31 13:07:20 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

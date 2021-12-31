@@ -5,7 +5,7 @@ u'''3-Point resection functions L{cassini}, L{collins}, L{pierlot} and L{tienstr
 survey functions L{snellius3} and L{wildberger3} and triangle functions L{triAngle},
 L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 
-@note: Function L{pierlot} transcoded with permission from U{triangulationPierlot
+@note: Function L{pierlot} is transcoded with permission from U{triangulationPierlot
        <http://www.Telecom.ULg.ac.Be/triangulation/doc/total_8c.html>} and U{Pierlot
        <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree>}.
 '''
@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '21.11.30'
+__version__ = '21.12.26'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -52,8 +52,8 @@ class Collins5Tuple(_NamedTuple):
 
 
 class Survey3Tuple(_NamedTuple):
-    '''3-Tuple C{(PA, PB, PC)} with distance from survey point C{P} to each
-       of the triangle corners C{A}, C{B} and C{C}.
+    '''3-Tuple C{(PA, PB, PC)} with distance from survey point C{P} to each of
+       the triangle corners C{A}, C{B} and C{C} in C{meter}, conventionally.
     '''
     _Names_ = (_PA_,     _PB_,     _PC_)
     _Units_ = ( Distance, Distance, Distance)
@@ -70,24 +70,26 @@ class Tienstra7Tuple(_NamedTuple):
 
 class TriAngle4Tuple(_NamedTuple):
     '''4-Tuple C{(radA, radB, radC, rIn)} with the interior angles at triangle
-       corner C{A}, C{B} and C{C} and the C{InCircle} radius C{rIn} aka C{inradius}.
+       corners C{A}, C{B} and C{C} in C{radians} and the C{InCircle} radius
+       C{rIn} aka C{inradius} in C{meter}, conventionally.
     '''
     _Names_ = (_radA_,  _radB_,  _radC_,  _rIn_)
     _Units_ = ( Radians, Radians, Radians, Distance)
 
 
 class TriSide2Tuple(_NamedTuple):
-    '''2-Tuple C{(a, radA)} with triangle side C{a} (C{meter} conventionally)
-       and the opposite triangle angle C{radA} (C{radians}).
+    '''2-Tuple C{(a, radA)} with triangle side C{a} in C{meter}, conventionally
+       and angle C{radA} at the opposite triangle corner in C{radians}.
     '''
     _Names_ = (_a_,      _radA_)
     _Units_ = ( Distance, Radians)
 
 
 class TriSide4Tuple(_NamedTuple):
-    '''4-Tuple C{(a, b, radC, d)} with the length of triangle sides C{a} and
-       C{b}, the interior angle C{radC} at triangle corner C{radC} (C{radians})
-       and triangle height C{d}, perpendicular to triangle side C{c}.
+    '''4-Tuple C{(a, b, radC, d)} with interior angle C{radC} at triangle corner
+       C{C} in C{radians}with the length of triangle sides C{a} and C{b} and
+       with triangle height C{d} perpendicular to triangle side C{c}, in the
+       same units as triangle sides C{a} and C{b}.
     '''
     _Names_ = (_a_,      _b_,      _radC_,  _d_)
     _Units_ = ( Distance, Distance, Radians, Distance)
@@ -202,7 +204,7 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
        @return: L{Collins5Tuple}C{(pointP, pointH, a, b, c)} with survey C{pointP},
                 auxiliary C{pointH}, each an instance of B{C{Clas}} or if C{B{Clas}
                 is None} of B{C{pointA}}'s (sub-)class and triangle sides C{a},
-                C{b} and C{c}.
+                C{b} and C{c} in C{meter}, conventionally.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points
                               or negative or invalid B{C{alpha}} or B{C{beta}}.
@@ -320,20 +322,20 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
 #       cot31 = (1 - cot12 * cot23) / (cot12 + cot32)
         d = fsum1_(c12 * s23, s12 * c23)
         if isnear0(d):
-            raise ValueError(_or(_coincident_, _colinear_))
+            raise ValueError(_or(_colinear_, _coincident_))
         cot31 = fsum1_(s12 * s23, -c12 * c23) / d
 
         x1_, y1_, _ = B1.minus(B2).xyz
         x3_, y3_, _ = B3.minus(B2).xyz
 
-        x23 = x3_ - cot23 * y3_
-        y23 = y3_ + cot23 * x3_
+#       x23 = x3_ - cot23 * y3_
+#       y23 = y3_ + cot23 * x3_
 
-        x12_23 = fsum_(x1_,  cot12 * y1_, -x23)
-        y12_23 = fsum_(y1_, -cot12 * x1_, -y23)
+        x12_23 = fsum_(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
+        y12_23 = fsum_(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
 
-        x31_23 = fsum_(x1_, -cot31 * y1_, x3_,  cot31 * y3_, -x23)
-        y31_23 = fsum_(y1_,  cot31 * x1_, y3_, -cot31 * x3_, -y23)
+        x31_23 = fsum_(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
+        y31_23 = fsum_(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
 
         d = x31_23 * y12_23 - x12_23 * y31_23
         if isnear0(d):
@@ -356,18 +358,17 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
 def snellius3(a, b, degC, alpha, beta):
     '''Snellius' surveying using U{Snellius Pothenot<https://WikiPedia.org/wiki/Snellius–Pothenot_problem>}.
 
-       @arg a: Length of triangle side C{BC}, opposite of triangle corner C{A} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg b: Length of triangle side C{AC}, opposite of triangle corner C{B} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg degC: Angle at triangle corner C{C}, opposite triangle side C{c} (C{degrees},
-                  non-negative).
-       @arg alpha: Angle subtended by triangle side B{C{b}} (C{degrees}, non-negative).
-       @kwarg beta: Angle subtended by triangle side B{C{a}} (C{degrees}, non-negative).
+       @arg a: Length of the triangle side between corners C{B} and C{C} and opposite of
+               triangle corner C{A} (C{scalar}, non-negative C{meter}, conventionally).
+       @arg b: Length of the triangle side between corners C{C} and C{A} and opposite of
+               triangle corner C{B} (C{scalar}, non-negative C{meter}, conventionally).
+       @arg degC: Angle at triangle corner C{C}, opposite triangle side C{c} (non-negative C{degrees}).
+       @arg alpha: Angle subtended by triangle side B{C{b}} (non-negative C{degrees}).
+       @arg beta: Angle subtended by triangle side B{C{a}} (non-negative C{degrees}).
 
        @return: L{Survey3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
-                each of the triangle corners C{A}, C{B} and C{C} (same units as B{C{a}},
-                B{C{b}} and B{C{c}}).
+                each of the triangle corners C{A}, C{B} and C{C}, same units as triangle
+                sides B{C{a}}, B{C{b}} and B{C{c}}.
 
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{degC}} or negative B{C{alpha}}
                              or B{C{beta}}.
@@ -392,8 +393,14 @@ def snellius3(a, b, degC, alpha, beta):
         x = k + w
         y = k - w
 
-        pc = abs((a * sin(y) / sb) if abs(sb) > abs(sa) else
-                 (b * sin(x) / sa))
+        s = abs(sa)
+        if abs(sb) > s:
+            pc = abs(a * sin(y) / sb)
+        elif s:
+            pc = abs(b * sin(x) / sa)
+        else:
+            raise ValueError(_or(_colinear_, _coincident_))
+
         pa = _triSide(b, pc, fsum_(PI, -ra, -x))
         pb = _triSide(a, pc, fsum_(PI, -rb, -y))
         return Survey3Tuple(pa, pb, pc)
@@ -426,10 +433,11 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
 
        @note: Points B{C{pointA}}, B{C{pointB}} and B{C{pointC}} are ordered clockwise.
 
-       @return: L{Tienstra7Tuple}C{(pointP, A, B, C, a, b, c)} with survey C{pointP},
-                an instance of B{C{Clas}} or if C{B{Clas} is None} of B{C{pointA}}'s
-                (sub-)class and triangle angle C{A} at B{C{pointA}}, C{B} at B{C{pointB}}
-                and C{C} at B{C{pointC}} in C{degrees} and triangle sides C{a}, C{b} and C{c}.
+       @return: L{Tienstra7Tuple}C{(pointP, A, B, C, a, b, c)} with survey C{pointP}, an
+                instance of B{C{Clas}} or if C{B{Clas} is None} of B{C{pointA}}'s (sub-)class,
+                with triangle angles C{A} at B{C{pointA}}, C{B} at B{C{pointB}} and C{C} at
+                B{C{pointC}} in C{degrees} and with triangle sides C{a}, C{b} and C{c} in
+                C{meter}, conventionally.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points or sum of
                               B{C{alpha}}, B{C{beta}} and B{C{gamma}} not C{360} or
@@ -504,21 +512,21 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
 
 
 def triAngle(a, b, c):
-    '''Compute an interior angle of a triangle.
+    '''Compute one angle of a triangle.
 
        @arg a: Adjacent triangle side length (C{scalar}, non-negative
-               C{meter} conventionally).
+               C{meter}, conventionally).
        @arg b: Adjacent triangle side length (C{scalar}, non-negative
-               C{meter} conventionally).
+               C{meter}, conventionally).
        @arg c: Opposite triangle side length (C{scalar}, non-negative
-               C{meter} conventionally).
+               C{meter}, conventionally).
 
-       @return: Angle at triangle corner C{C}, opposite triangle side
-                B{C{c}} (C{radians}).
+       @return: Angle in C{radians} at triangle corner C{C}, opposite
+                triangle side B{C{c}}.
 
-       @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
+       @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
 
-       @see: Function L{pygeodesy.triSide}.
+       @see: Functions L{pygeodesy.triAngle4} and L{pygeodesy.triSide}.
     '''
     try:
         return _triAngle(a, b, c)
@@ -542,21 +550,23 @@ def _triAngle(a, b, c):
 
 
 def triAngle4(a, b, c):
-    '''Compute the angles of a triangle side.
+    '''Compute the angles of a triangle.
 
-       @arg a: Length of triangle side C{BC}, opposite of triangle corner C{A} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg b: Length of triangle side C{AC}, opposite of triangle corner C{B} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg c: Length of triangle side C{AB}, opposite of triangle corner C{C} (C{scalar},
-               non-negative C{meter} conventionally).
+       @arg a: Length of the triangle side opposite of triangle corner C{A}
+               (C{scalar}, non-negative C{meter}, conventionally).
+       @arg b: Length of the triangle side opposite of triangle corner C{B}
+               (C{scalar}, non-negative C{meter}, conventionally).
+       @arg c: Length of the triangle side opposite of triangle corner C{C}
+               (C{scalar}, non-negative C{meter}, conventionally).
 
-       @return: L{TriAngle4Tuple}C{(radA, radB, radC, rIn)} with the triangle angles at
-                corner C{A}, C{B} and C{C} (each in radians) and the C{InCircle} radius
-                C{rIn} aka C{inradius} (same units and triangle sides B{C{a}}, B{C{b}}
-                and B{C{c}}).
+       @return: L{TriAngle4Tuple}C{(radA, radB, radC, rIn)} with angles C{radA},
+                C{radB} and C{radC} at triangle corners C{A}, C{B} and C{C}, all
+                in C{radians} and the C{InCircle} radius C{rIn} aka C{inradius},
+                same units as triangle sides B{C{a}}, B{C{b}} and B{C{c}}.
 
-       @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{b}}.
+       @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
+
+       @see: Function L{pygeodesy.triAngle}.
     '''
     try:
         a, b, c = map1(float, a, b, c)
@@ -575,7 +585,7 @@ def triAngle4(a, b, c):
             r = sa * sb * sc / s
             if r < EPS02:
                 raise ValueError(_coincident_)
-            r = sqrt(r)
+            r  = sqrt(r)
             rA = atan2(r, sa) * _2_0
             rB = atan2(r, sb) * _2_0
             rC = fsum_(PI, -rA, -rB)
@@ -585,7 +595,7 @@ def triAngle4(a, b, c):
             raise ValueError(_negative_)
         else:  # 0 <= c <= EPS0
             rA = rB = PI_2
-            rC = r  = _0_0
+            rC = r = _0_0
 
         if bc:
             rB, rC = rC, rB
@@ -598,19 +608,23 @@ def triAngle4(a, b, c):
 
 
 def triSide(a, b, radC):
-    '''Compute the length of a triangle side.
+    '''Compute one side of a triangle.
 
        @arg a: Adjacent triangle side length (C{scalar},
-               non-negative C{meter} conventionally).
+               non-negative C{meter}, conventionally).
        @arg b: Adjacent triangle side length (C{scalar},
-               non-negative C{meter} conventionally).
+               non-negative C{meter}, conventionally).
        @arg radC: Angle included by sides B{C{a}} and B{C{b}},
                   opposite triangle side C{c} (C{radians}).
 
-       @return: Length of triangle side C{c}, opposite angle B{C{rC}}
-                (same units as B{C{a}} and B{C{b}}).
+       @return: Length of triangle side C{c}, opposite triangle
+                corner C{C} and angle B{C{radC}}, same units as
+                B{C{a}} and B{C{b}}.
 
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{radC}}.
+
+       @see: Functions L{pygeodesy.triAngle}, L{pygeodesy.triSide2}
+             and L{pygeodesy.triSide4}.
     '''
     try:
         return _triSide(a, b, radC)
@@ -641,22 +655,23 @@ def _triSide(a, b, radC):
 
 
 def triSide2(b, c, radB):
-    '''Compute the length of a triangle side and the angle.
+    '''Compute one side and the opposite angle of a triangle.
 
        @arg b: Adjacent triangle side length (C{scalar},
-               non-negative C{meter} conventionally).
+               non-negative C{meter}, conventionally).
        @arg c: Adjacent triangle side length (C{scalar},
-               non-negative C{meter} conventionally).
+               non-negative C{meter}, conventionally).
        @arg radB: Angle included by sides B{C{a}} and B{C{c}},
                   opposite triangle side C{b} (C{radians}).
 
        @return: L{TriSide2Tuple}C{(a, radA)} with triangle angle
-                C{radA} (radians) and the length of the opposite
-                triangle side C{a} (same units as B{C{b}} and B{C{c}}).
+                C{radA} in C{radians} and length of the opposite
+                triangle side C{a}, same units as B{C{b}} and B{C{c}}.
 
        @raise TriangleError: Invalid B{C{b}} or B{C{c}} or either
-                             B{C{b}} or B{C{radB}} near zero and
-                             not both.
+                             B{C{b}} or B{C{radB}} near zero.
+
+       @see: Functions L{pygeodesy.triSide} and L{pygeodesy.triSide4}.
     '''
     try:
         return _triSide2(b, c, radB)
@@ -686,25 +701,25 @@ def _triSide2(b, c, radB):
 
 
 def triSide4(radA, radB, c):
-    '''Compute the length of two triangle sides and the triangle height.
+    '''Compute two sides and the height of a triangle.
 
        @arg radA: Angle at triangle corner C{A}, opposite triangle side C{a}
-                  (C{scalar}, non-negative).
+                  (non-negative C{radians}).
        @arg radB: Angle at triangle corner C{B}, opposite triangle side C{b}
-                  (C{scalar}, non-negative).
-       @arg c: Length of triangle side between corners C{A} and C{B}, (C{scalar},
-               non-negative C{meter} conventionally).
+                  (non-negative C{radians}).
+       @arg c: Length of triangle side between triangle corners C{A} and C{B},
+               (C{scalar}, non-negative C{meter}, conventionally).
 
        @return: L{TriSide4Tuple}C{(a, b, radC, d)} with triangle sides C{a} and
                 C{b} and triangle height C{d} perpendicular to triangle side
-                B{C{c}} (all in same units as B{C{c}}) and the interior angle
-                at triangle corner C{C} (C{radians}), opposite of triangle
-                side B{C{c}}.
+                B{C{c}}, all in the same units as B{C{c}} and interior angle
+                C{radC} in C{radians} at triangle corner C{C}, opposite
+                triangle side B{C{c}}.
 
-       @raise TriangleError: Invalid B{C{a}} or B{C{b}}.
+       @raise TriangleError: Invalid or negative B{C{radA}}, B{C{radB}} or B{C{c}}.
 
-       @see: Function L{pygeodesy.triSide} and U{Triangulation, Surveying
-             <https://WikiPedia.org/wiki/Triangulation_(surveying)>}.
+       @see: U{Triangulation, Surveying<https://WikiPedia.org/wiki/Triangulation_(surveying)>}
+             and functions L{pygeodesy.triSide} and L{pygeodesy.triSide2}.
     '''
     try:
         rA, rB, c = map1(float, radA, radB, c)
@@ -725,20 +740,20 @@ def triSide4(radA, radB, c):
 def wildberger3(a, b, c, alpha, beta, R3=min):
     '''Snellius' surveying using U{Rational Trigonometry<https://WikiPedia.org/wiki/Snellius–Pothenot_problem>}.
 
-       @arg a: Length of triangle side C{BC}, opposite of triangle corner C{A} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg b: Length of triangle side C{AC}, opposite of triangle corner C{B} (C{scalar},
-               non-negative C{meter} conventionally).
-       @arg c: Length of triangle side C{AB}, opposite of triangle corner C{C} (C{scalar},
-               non-negative C{meter} conventionally).
+       @arg a: Length of the triangle side between corners C{B} and C{C} and opposite of
+               triangle corner C{A} (C{scalar}, non-negative C{meter}, conventionally).
+       @arg b: Length of the triangle side between corners C{C} and C{A} and opposite of
+               triangle corner C{B} (C{scalar}, non-negative C{meter}, conventionally).
+       @arg c: Length of the triangle side between corners C{A} and C{B} and opposite of
+               triangle corner C{C} (C{scalar}, non-negative C{meter}, conventionally).
        @arg alpha: Angle subtended by triangle side B{C{b}} (C{degrees}, non-negative).
        @arg beta: Angle subtended by triangle side B{C{a}} (C{degrees}, non-negative).
        @kwarg R3: Callable to determine C{R3} from C{(R3 - C)**2 = D}, typically standard
                   function C{min} or C{max}, invoked with 2 arguments.
 
        @return: L{Survey3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
-                each of the triangle corners C{A}, C{B} and C{C} (same units as B{C{a}},
-                B{C{b}} and B{C{c}}).
+                each of the triangle corners C{A}, C{B} and C{C}, same units as B{C{a}},
+                B{C{b}} and B{C{c}}.
 
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{c}} or negative B{C{alpha}} or
                              B{C{beta}} or B{C{R3}} not C{callable}.
@@ -756,7 +771,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         n = r - fsum_(r1, r3, -q2)**2
         if n < 0 or isnear0(r):
             raise ValueError(_coincident_)
-        return sqrt((n / r) * q3_r3)
+        return sqrt((n / r) * q3_r3) if n else _0_0
 
     try:
         a, b, c, da, db = map1(float, a, b, c, alpha, beta)
@@ -804,7 +819,8 @@ def _zidw(A, B, C, x, y):
     # interpolate z or coplanar with A, B and C?
     t = A.z, B.z, C.z
     v = Vector3d(x, y, fmean(t))
-    return fidw(t, (v.minus(A).length, v.minus(B).length, v.minus(C).length))
+    m = v.minus
+    return fidw(t, (m(A).length, m(B).length, m(C).length))
 
 # **) MIT License
 #

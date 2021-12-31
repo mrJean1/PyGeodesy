@@ -16,20 +16,20 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _COLON_, _COMMA_, _COMMASPACE_, \
                              _datum_, _ellipsoidal_, _EQUAL_, \
                              _invalid_, _len_, _name_, _no_, \
-                             _not_, _or_, _SPACE_, _UNDER_, __vs__
-from pygeodesy.lazily import _ALL_LAZY, _getenv, _PYTHON_X_DEV
+                             _not_, _or_, _SPACE_, _specified_, \
+                             _UNDER_, _value_, __vs__
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.12.23'
+__version__ = '21.12.28'
 
-_default_     = 'default'
-_kwargs_      = 'kwargs'
-_limiterrors  =  True  # imported by .formy
-_multiple_    = 'multiple'
-_name_value_  =  repr('name=value')
-_rangerrors   =  True  # imported by .dms
-_specified_   = 'specified'
-_value_       = 'value'
+_default_    = 'default'
+_kwargs_     = 'kwargs'
+_limiterrors =  True  # imported by .formy
+_multiple_   = 'multiple'
+_name_value_ =  repr('name=value')
+_rangerrors  =  True  # imported by .dms
 
 try:
     _exception_chaining = None  # not available
@@ -169,12 +169,12 @@ class LenError(_ValueError):
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
-        from pygeodesy.streprs import Fmt as _Fmt
+        PAREN = _MODS.streprs.Fmt.PAREN
         x = _xkwds_pop(lens_txt, txt=_invalid_)
         ns, vs = zip(*sorted(lens_txt.items()))
         ns = _COMMASPACE_.join(ns)
         vs = __vs__.join(map(str, vs))
-        t  = _SPACE_(_Fmt.PAREN(where.__name__, ns), _len_, vs)
+        t  = _SPACE_(PAREN(where.__name__, ns), _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
 
@@ -304,10 +304,10 @@ def crosserrors(raiser=None):
 
        @see: Property C{Vector3d[Base].crosserrors}.
     '''
-    from pygeodesy.vector3dBase import Vector3dBase
-    t = Vector3dBase._crosserrors  # XXX class attr!
+    B = _MODS.vector3dBase.Vector3dBase
+    t =  B._crosserrors  # XXX class attr!
     if raiser in (True, False):
-        Vector3dBase._crosserrors = raiser
+        B._crosserrors = raiser
     return t
 
 
@@ -428,14 +428,14 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
-    from pygeodesy.streprs import Fmt as _Fmt
     Error = _xkwds_pop(name_value_Error, Error=TypeError)
     n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
                           _name_value_, MISSING)  # XXX else tuple(...)
+    v = _MODS.streprs.Fmt.PAREN(repr(v))
     t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
-    e = Error(_SPACE_(n, _Fmt.PAREN(repr(v)), _not_, t))
+    e = Error(_SPACE_(n, v, _not_, t))
     _error_chain(e)
     _error_under(e)
     return e
@@ -577,9 +577,9 @@ except AttributeError:
 
 def _xkwds_Error(where, kwds, name_txt, txt=_default_):
     # Helper for _xkwds_get, _xkwds_pop and _xkwds_popitem below
-    from pygeodesy.streprs import Fmt, pairs
+    pairs = _MODS.streprs.pairs
     f = _COMMASPACE_.join(pairs(kwds) + pairs(name_txt))
-    f =  Fmt.PAREN(where.__name__, f)
+    f = _MODS.streprs.Fmt.PAREN(where.__name__, f)
     t = _multiple_ if name_txt else _no_
     t = _SPACE_(t, _EQUAL_(_name_, txt), _kwargs_)
     return _AssertionError(f, txt=t)

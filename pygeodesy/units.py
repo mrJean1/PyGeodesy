@@ -24,7 +24,8 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, PI2, \
                              _scalar_, _SPACE_, _UNDER_, _units_, \
                              _W_, _zone_, _0_0, _0_001
 from pygeodesy.interns import _std_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _getenv  # PYCHOK used!
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _getenv  # PYCHOK used!
 from pygeodesy.named import callername, modulename, _Named  # PYCHOK shared
 from pygeodesy.props import Property_RO, property_doc_, property_RO  # PYCHOK shared
 from pygeodesy.streprs import Fmt, fstr
@@ -32,7 +33,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.12.05'
+__version__ = '21.12.28'
 
 
 class _NamedUnit(_Named):
@@ -793,9 +794,9 @@ class FIx(Float_):
 
            @see: Function L{pygeodesy.fractional}.
         '''
-        from pygeodesy.points import fractional
         # fi = 0 if self == self.fin else self
-        return fractional(points, self, wrap=wrap, LatLon=LatLon, Vector=Vector, **kwds)
+        return _MODS.points.fractional(points, self, wrap=wrap,
+                                       LatLon=LatLon, Vector=Vector, **kwds)
 
 
 def _fi_j2(f, n):  # PYCHOK in .ellipsoidalBaseDI, .vector3d

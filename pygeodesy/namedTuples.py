@@ -18,7 +18,7 @@ from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
                              _point_, _points_, _precision_, _radius_, \
                              _reframe_, _scale_, _start_, _x_, _y_, _z_, \
                              _zone_, _1_, _2_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             FIx, Height, Int, Lam, Lat, Lon, Meter, \
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.11.28'
+__version__ = '21.12.28'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -222,8 +222,7 @@ class LatLon3Tuple(_NamedTuple):
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
-        from pygeodesy.datums import Datum
-        _xinstanceof(Datum, datum=datum)
+        _xinstanceof(_MODS.datums.Datum, datum=datum)
         return self._xtend(LatLon4Tuple, datum)
 
 
@@ -418,8 +417,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
-        from pygeodesy.datums import Datum
-        _xinstanceof(Datum, datum=datum)
+        _xinstanceof(_MODS.datums.Datum, datum=datum)
         return self._xtend(PhiLam4Tuple, datum)
 
 

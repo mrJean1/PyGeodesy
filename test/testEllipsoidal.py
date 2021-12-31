@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.12.22'
+__version__ = '21.12.30'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -222,8 +222,16 @@ class Tests(_TestsLL, _TestsV):
             LL(-77.3,  -33), LL(-77.9,  -46), LL(-74.7,  -61)  # on/around south pole!
         self.test('areaOf', module.areaOf(p), '1.366270368e+13', fmt='%.9e')  # 1.366270368002013e+13'
         self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683089136e+07' if X else '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
-        self.test('isclockwise', module.isclockwise(p), True)  # polar
-        self.test('isclockwise', module.isclockwise(reversed(p)), False)  # polar
+        self.test('isclockwise', module.isclockwise(p), False)  # polar
+        self.test('isclockwise', module.isclockwise(reversed(p)), True)  # polar
+
+        # <https://StackOverflow.com/questions/4681737/how-to-calculate-the-area-of-a-polygon-on-the-earths-surface-using-python>
+        # <https://geographiclib.sourceforge.io/cgi-bin/Planimeter?
+        #        type=polygon&rhumb=geodesic&input=41+-102.05%0D%0A37+-102.05%0D%0A37+-109.05%0D%0A41+-109.05&option=Submit>
+        co = LL(41, -102.05), LL(37, -102.05), LL(37, -109.05), LL(41, -109.05)  # State of Colorado
+        self.test('areaCO', module.areaOf(co), '2.69154549884e+11', fmt='%.11e', known=True)
+        self.test('isclockwise', module.isclockwise(co), True)
+        self.test('perimeterCO', module.perimeterOf(co, closed=True), '2098430.887891' if X else '2099854.381923', prec=6, known=True)
 
     def testVincenty(self, module, datum, X=False, GS=False):
 

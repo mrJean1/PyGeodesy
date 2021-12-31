@@ -1005,14 +1005,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1024,6 +1016,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1148,13 +1148,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1170,6 +1163,13 @@
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1924,7 +1924,7 @@
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html">pygeodesy.ellipsoidalNvector.Ned3Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned3Tuple-class.html">pygeodesy.ltpTuples.Ned3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(north, east, down)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
@@ -1992,7 +1992,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Survey3Tuple-class.html">pygeodesy.resections.Survey3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
         <code>P</code> to each of the triangle corners <code>A</code>, 
-        <code>B</code> and <code>C</code>.</em>
+        <code>B</code> and <code>C</code> in <code>meter</code>, 
+        conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
@@ -2011,21 +2012,23 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corner <code>A</code>, <code>B</code> and 
-        <code>C</code> and the <code>InCircle</code> radius 
-        <code>rIn</code> aka <code>inradius</code>.</em>
+        angles at triangle corners <code>A</code>, <code>B</code> and 
+        <code>C</code> in <code>radians</code> and the 
+        <code>InCircle</code> radius <code>rIn</code> aka 
+        <code>inradius</code> in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide2Tuple-class.html">pygeodesy.resections.TriSide2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> 
-        (<code>meter</code> conventionally) and the opposite triangle angle
-        <code>radA</code> (<code>radians</code>).</em>
+      <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> in
+        <code>meter</code>, conventionally and angle <code>radA</code> at 
+        the opposite triangle corner in <code>radians</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide4Tuple-class.html">pygeodesy.resections.TriSide4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(a, b, radC, d)</code> with the length of triangle 
-        sides <code>a</code> and <code>b</code>, the interior angle 
-        <code>radC</code> at triangle corner <code>radC</code> 
-        (<code>radians</code>) and triangle height <code>d</code>, 
-        perpendicular to triangle side <code>c</code>.</em>
+      <em class="summary">4-Tuple <code>(a, b, radC, d)</code> with interior angle 
+        <code>radC</code> at triangle corner <code>C</code> in 
+        <code>radians</code>with the length of triangle sides 
+        <code>a</code> and <code>b</code> and with triangle height 
+        <code>d</code> perpendicular to triangle side <code>c</code>, in 
+        the same units as triangle sides <code>a</code> and <code>b</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle7Tuple-class.html">pygeodesy.namedTuples.Triangle7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
@@ -3029,7 +3032,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html">pygeodesy.ellipsoidalNvector.Ned3Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned3Tuple-class.html">pygeodesy.ltpTuples.Ned3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(north, east, down)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
@@ -3097,7 +3100,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Survey3Tuple-class.html">pygeodesy.resections.Survey3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(PA, PB, PC)</code> with distance from survey point 
         <code>P</code> to each of the triangle corners <code>A</code>, 
-        <code>B</code> and <code>C</code>.</em>
+        <code>B</code> and <code>C</code> in <code>meter</code>, 
+        conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.Tienstra7Tuple-class.html">pygeodesy.resections.Tienstra7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(pointP, A, B, C, a, b, c)</code> with survey 
@@ -3116,21 +3120,23 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
-        angles at triangle corner <code>A</code>, <code>B</code> and 
-        <code>C</code> and the <code>InCircle</code> radius 
-        <code>rIn</code> aka <code>inradius</code>.</em>
+        angles at triangle corners <code>A</code>, <code>B</code> and 
+        <code>C</code> in <code>radians</code> and the 
+        <code>InCircle</code> radius <code>rIn</code> aka 
+        <code>inradius</code> in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide2Tuple-class.html">pygeodesy.resections.TriSide2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> 
-        (<code>meter</code> conventionally) and the opposite triangle angle
-        <code>radA</code> (<code>radians</code>).</em>
+      <em class="summary">2-Tuple <code>(a, radA)</code> with triangle side <code>a</code> in
+        <code>meter</code>, conventionally and angle <code>radA</code> at 
+        the opposite triangle corner in <code>radians</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriSide4Tuple-class.html">pygeodesy.resections.TriSide4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(a, b, radC, d)</code> with the length of triangle 
-        sides <code>a</code> and <code>b</code>, the interior angle 
-        <code>radC</code> at triangle corner <code>radC</code> 
-        (<code>radians</code>) and triangle height <code>d</code>, 
-        perpendicular to triangle side <code>c</code>.</em>
+      <em class="summary">4-Tuple <code>(a, b, radC, d)</code> with interior angle 
+        <code>radC</code> at triangle corner <code>C</code> in 
+        <code>radians</code>with the length of triangle sides 
+        <code>a</code> and <code>b</code> and with triangle height 
+        <code>d</code> perpendicular to triangle side <code>c</code>, in 
+        the same units as triangle sides <code>a</code> and <code>b</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle7Tuple-class.html">pygeodesy.namedTuples.Triangle7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
@@ -3306,7 +3312,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 22 13:48:57 2021
+    Generated by Epydoc 3.0.1 on Fri Dec 31 13:07:19 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

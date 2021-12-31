@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.11.30'
+__version__ = '21.12.28'
 
 _paths_ = 'paths'
 
@@ -263,8 +263,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 #   def Ecef(self):
 #       '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
 #       '''
-#       from pygeodesy.ecef import EcefKarney
-#       return EcefKarney
+#       return _MODS.ecef.EcefKarney
 
     def _gc3(self, start, end, namend, raiser=_points_):
         '''(INTERNAL) Return great circle, start and end Nvectors.

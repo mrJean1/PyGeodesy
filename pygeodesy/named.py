@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.12.18'
+__version__ = '21.12.24'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -171,20 +171,24 @@ class _Named(object):
         '''
         return self.named2
 
-    def attrs(self, *names, **pairs_kwds):
-        '''Join attributes as I{name=value} strings, with C{float}s
-           formatted by function L{pygeodesy.fstr}.
+    def attrs(self, *names, **sep_COMMASPACE_Nones_True_pairs_kwds):
+        '''Join named attributes as I{name=value} strings, with C{float}s formatted by
+           function L{pygeodesy.fstr}.
 
            @arg names: The attribute names (C{str}s).
-           @kwarg pairs_kwds: Keyword argument for function L{pygeodesy.pairs},
-                              except C{B{Nones}=True} to in- or exclude
-                              missing or C{None}-valued attributes.
+           @kwarg sep_COMMASPACE_Nones_True_pairs_kwds: Keyword argument for function
+                  L{pygeodesy.pairs}, except C{B{sep}=", "} and C{B{Nones}=True} to
+                  in-/exclude missing or C{None}-valued attributes.
 
-           @return: All C{name=value} pairs, joined (C{str}).
+           @return: All C{name=value} pairs, joined by B{C{sep}} (C{str}).
 
-           @see: Functions L{pygeodesy.attrs} and L{pygeodesy.pairs}.
+           @see: Functions L{pygeodesy.attrs}, L{pygeodesy.fstr} and L{pygeodesy.pairs}.
         '''
-        return _COMMASPACE_.join(attrs(self, *names, **pairs_kwds))
+        def _sep_kwds(sep=_COMMASPACE_, **kwds):
+            return sep, kwds
+
+        sep, kwds = _sep_kwds(**sep_COMMASPACE_Nones_True_pairs_kwds)
+        return sep.join(attrs(self, *names, **kwds))
 
     @Property_RO
     def classname(self):
