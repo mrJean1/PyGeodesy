@@ -2177,7 +2177,6 @@ pygeodesy.latlonBase._unrollon	pygeodesy.utily-module.html#_unrollon
 pygeodesy.latlonBase.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.lazily	pygeodesy.lazily-module.html
 pygeodesy.lazily._pygeodesy_abspath_	pygeodesy.lazily-module.html#_pygeodesy_abspath_
-pygeodesy.lazily._N_A_	pygeodesy.lazily-module.html#_N_A_
 pygeodesy.lazily._NL_	pygeodesy.lazily-module.html#_NL_
 pygeodesy.lazily._sys_version_info2	pygeodesy.lazily-module.html#_sys_version_info2
 pygeodesy.lazily.printf	pygeodesy.lazily-module.html#printf
@@ -2201,7 +2200,7 @@ pygeodesy.lazily._caller3	pygeodesy.lazily-module.html#_caller3
 pygeodesy.lazily._ALL_MODS	pygeodesy.lazily-module.html#_ALL_MODS
 pygeodesy.lazily.print_	pygeodesy.lazily-module.html#print_
 pygeodesy.lazily.__package__	pygeodesy.lazily-module.html#__package__
-pygeodesy.lazily._Python_	pygeodesy.lazily-module.html#_Python_
+pygeodesy.lazily._ALL_OVERRIDDEN	pygeodesy.lazily-module.html#_ALL_OVERRIDDEN
 pygeodesy.lazily._immutable_	pygeodesy.lazily-module.html#_immutable_
 pygeodesy.lazily._ispolar_	pygeodesy.lazily-module.html#_ispolar_
 pygeodesy.lazily._version_	pygeodesy.lazily-module.html#_version_
@@ -2209,10 +2208,9 @@ pygeodesy.lazily._areaOf_	pygeodesy.lazily-module.html#_areaOf_
 pygeodesy.lazily._p_a_c_k_a_g_e_	pygeodesy.lazily-module.html#_p_a_c_k_a_g_e_
 pygeodesy.lazily._enabled_	pygeodesy.lazily-module.html#_enabled_
 pygeodesy.lazily._COMMASPACE_	pygeodesy.lazily-module.html#_COMMASPACE_
-pygeodesy.lazily._ALL_OVERRIDDEN	pygeodesy.lazily-module.html#_ALL_OVERRIDDEN
+pygeodesy.lazily._Python_	pygeodesy.lazily-module.html#_Python_
 pygeodesy.lazily._isclockwise_	pygeodesy.lazily-module.html#_isclockwise_
 pygeodesy.lazily._or_	pygeodesy.lazily-module.html#_or_
-pygeodesy.lazily._invalid_	pygeodesy.lazily-module.html#_invalid_
 pygeodesy.lazily._perimeterOf_	pygeodesy.lazily-module.html#_perimeterOf_
 pygeodesy.lazily._SPACE_	pygeodesy.lazily-module.html#_SPACE_
 pygeodesy.lazily._no_	pygeodesy.lazily-module.html#_no_
@@ -2227,6 +2225,7 @@ pygeodesy.lazily._ALL_OTHER	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.lazily.isLazy	pygeodesy.lazily-module.html#isLazy
 pygeodesy.lazily._COLONSPACE_	pygeodesy.lazily-module.html#_COLONSPACE_
 pygeodesy.lazily._interns_a_l_l_	pygeodesy.lazily-module.html#_interns_a_l_l_
+pygeodesy.lazily._pygeodesy_	pygeodesy.lazily-module.html#_pygeodesy_
 pygeodesy.lazily._FOR_DOCS	pygeodesy.lazily-module.html#_FOR_DOCS
 pygeodesy.lcc	pygeodesy.lcc-module.html
 pygeodesy.lcc._IsnotError	pygeodesy.errors-module.html#_IsnotError
