@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.09.30'
+__version__ = '22.01.03'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -92,7 +92,7 @@ class Tests(_TestsLL, _TestsV):
         i = STN.intersection(108.547, CDG, 32.435)
         self.test('intersection6', i, '50.907809°N, 004.50841°E')  # 50.9078°N, 004.5084°E
 
-        # courtesy sbonaime <https://GitHub.com/mrJean1/PyGeodesy/issues/58>
+        # courtesy of U{sbonaime<https://GitHub.com/mrJean1/PyGeodesy/issues/58>}
         s1, s2 = LatLon(8, 0), LatLon(0, 8.4)
         self.test('intersection7', s1.intersection(150.06, s2, 55.61).toStr(), '''01°52′46.41″S, 005°39′06.87″E''')  # 01°52′46.41″N, 174°20′53.13″W
         s1, s2 = LatLon(80, 0), LatLon(0, 84)
@@ -190,7 +190,7 @@ class Tests(_TestsLL, _TestsV):
                 self.test(d, s, s)
 
             d_m = 5e-5  # 50 micrometer
-            # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+            # courtesy of U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
             R = RandomLatLon(LatLon, 178, 178)  # +/- 89
             r = R()
             s = latlonDMS(r, form=F_D) + ' Random +/- 89'
@@ -210,7 +210,7 @@ class Tests(_TestsLL, _TestsV):
                 except IntersectionError as x:
                     self.test(n, str(x), 'd < %g m' % (d_m), known=True)  # too distant, near concetric, etc.
 
-            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
             def _known(p):
                 return int(p.lat) == 42 and int(p.lon) == 2
 

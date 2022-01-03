@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.06.19'
+__version__ = '22.01.03'
 
 from base import TestsBase
 
@@ -15,12 +15,12 @@ class Tests(TestsBase):
 
     def testMgrs(self, LatLon):
 
-        # courtesy Richard Wright
+        # courtesy of Richard Wright
         m = mgrs.parseMGRS('42SXD0970538646')
         self.test('Mgrs1', str(m), '42S XD 09705 38646')
         self.test('Mgrs1', repr(m), '[Z:42S, G:XD, E:09705, N:38646]')
 
-        # courtesy Richard Wright
+        # courtesy of Richard Wright
         m = mgrs.parseMGRS('42SXD1970508646')
         self.test('Mgrs2', str(m), '42S XD 19705 08646')
         self.test('Mgrs2', repr(m), '[Z:42S, G:XD, E:19705, N:08646]')
@@ -48,7 +48,7 @@ class Tests(TestsBase):
         self.test('Mgrs7', str(m), s)
         self.test('Mgrs7', repr(m), r)
 
-        # courtesy abubelinha <https://github.com/mrJean1/PyGeodesy/issues/54>
+        # courtesy of U{abubelinha<https://github.com/mrJean1/PyGeodesy/issues/54>}
         m = mgrs.parseMGRS('31TDF3182')
         self.test('Mgrs8', m.toUtm(), '31 N 431000 4582000')  # center=False
         self.test('Mgrs8', m.toLatLon(center=False), "(41.38657, 2.174726, Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84), -0.54564, 0.999659)")

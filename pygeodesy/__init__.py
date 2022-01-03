@@ -407,6 +407,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.utily                 as utily                  # PYCHOK exported
     import pygeodesy.utm                   as utm                    # PYCHOK exported
     import pygeodesy.utmups                as utmups                 # PYCHOK exported
+    import pygeodesy.utmupsBase            as utmupsBase             # PYCHOK exported
     import pygeodesy.vector2d              as vector2d               # PYCHOK exported
     import pygeodesy.vector3d              as vector3d               # PYCHOK exported
     import pygeodesy.vector3dBase          as vector3dBase           # PYCHOK exported
@@ -522,7 +523,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.12.31'
+__version__ = '22.01.03'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

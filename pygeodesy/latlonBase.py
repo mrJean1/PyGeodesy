@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '21.12.28'
+__version__ = '22.01.03'
 
 
 class LatLonBase(_NamedBase):
@@ -291,7 +291,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @note: Courtesy Martin Schultz.
+           @note: Courtesy of Martin Schultz.
 
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>}.

@@ -26,11 +26,10 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, \
                              _dunder_name, _enabled_, _EQUALSPACED_, \
-                             _immutable_, _invalid_, _isclockwise_, \
-                             _ispolar_, _module_, _N_A_, _NL_, _no_, \
-                             _not_, _or_, _perimeterOf_, _Python_, \
-                             _pygeodesy_abspath_, _sep_, _SPACE_, \
-                             _UNDER_, _version_
+                             _immutable_, _isclockwise_, _ispolar_, \
+                             _module_, _NL_, _no_, _not_, _or_, \
+                             _perimeterOf_, _Python_, _pygeodesy_abspath_, \
+                             _sep_, _SPACE_, _UNDER_, _version_
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
@@ -47,6 +46,7 @@ _a_l_l_            = '__all__'
 _FOR_DOCS          = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _imports_          = 'imports'
 _p_a_c_k_a_g_e_    = '__package__'
+_pygeodesy_        = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
 _PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
                      _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
@@ -106,74 +106,6 @@ class _NamedEnum_RO(dict):
         for k, v in dict.items(self):
             if not k.startswith(_UNDER_):  # skip _name
                 yield k, v
-
-
-class _Property_RO(property):
-    '''(INTERNAL) Sub-set of L{pygeodesy.props.Property_RO}.
-    '''
-
-    def __init__(self, method):
-        self.method   = method
-        self.name = n = method.__name__
-        d = _N_A_ if not _FOR_DOCS else \
-            '(INTERNAL) Get and cache module L{%s}.' % (n,)
-        property.__init__(self, self._fget, None, self._fdel, d)
-
-    def _fdel(self, inst):  # PYCHOK no cover
-        '''Zap the I{cached/memoized} C{property} value.
-        '''
-        self._update(inst, None)   # PYCHOK no cover
-
-    def _fget(self, inst):  # getter
-        '''Get and I{cache/memoize} the C{property} value.
-        '''
-        try:  # to get the value cached in instance' __dict__
-            return inst.__dict__[self.name]
-        except KeyError:
-            # cache the value in the instance' __dict__
-            inst.__dict__[self.name] = val = self.method(inst)
-            return val
-
-    def __get__(self, inst, *unused):  # PYCHOK 2 vs 3 args
-        if inst is None:
-            return self
-        try:  # to get the cached value immediately
-            return inst.__dict__[self.name]
-        except (AttributeError, KeyError):
-            return self._fget(inst)
-
-    def _update(self, inst, *unused):  # PYCHOK no cover
-        '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
-        '''
-        inst.__dict__.pop(self.name, None)  # name, NOT _name
-
-    def deleter(self, fdel):  # PYCHOK no cover
-        '''Throws a C{LazyImportError}, always.
-        '''
-        raise self._Error(_invalid_, self.deleter, fdel)
-
-    def getter(self, fget):  # PYCHOK no cover
-        '''Throws a C{LazyImportError}, always.
-        '''
-        raise self._Error(_invalid_, self.getter, fget)
-
-    def reload(self):  # PYCHOK no cover
-        '''Zap all cached module, forcing a reload.
-        '''
-        _ALL_MODS.props._update_all(_ALL_MODS, Base=_Property_RO)
-
-    def setter(self, fset):  # PYCHOK no cover
-        '''Throws a C{LazyImportError}, always.
-        '''
-        raise self._Error(_immutable_, self.setter, fset)
-
-    def _Error(self, kind, xter, farg):  # PYCHOK no cover
-        '''(INTERNAL) Return a C{LazyImportError} instance.
-        '''
-        e = _SPACE_(kind, self.__class__.__name__)
-        n = _DOT_(self.name, xter.__name__)
-        t = _SPACE_(n, farg.__name__)
-        return LazyImportError(e, txt=t)
 
 
 _ALL_INIT = _pygeodesy_abspath_, _version_
@@ -359,7 +291,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-#                    utmupsBase=(),  # module only
+                     utmupsBase=(),  # module only
                        vector2d=('Circin6Tuple', 'Circum3Tuple', 'Circum4Tuple', 'Meeus2Tuple', 'Radii11Tuple', 'Soddy4Tuple',
                                  'circin6', 'circum3', 'circum4_', 'meeus2', 'radii11', 'soddy4'),
                        vector3d=('Vector3d', 'intersection3d3', 'iscolinearWith', 'nearestOn', 'nearestOn6', 'parse3d',
@@ -383,224 +315,36 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 
-class _ALL_MODS(object):
-    '''(INTERNAL) Memoized imports of about half the L{pygeodesy} modules.
+class _ALL_MODS(dict):
+    '''(INTERNAL) Memoize import of any L{pygeodesy} module.
     '''
-    @_Property_RO
-    def albers(self):
-        import pygeodesy.albers as m
-        return m
-
-    @_Property_RO
-    def azimuthal(self):
-        import pygeodesy.azimuthal as m
-        return m
-
-    @_Property_RO
-    def cartesianBase(self):
-        import pygeodesy.cartesianBase as m
-        return m
-
-    @_Property_RO
-    def css(self):
-        import pygeodesy.css as m
-        return m
-
-    @_Property_RO
-    def datums(self):
-        import pygeodesy.datums as m
-        return m
-
-    @_Property_RO
-    def dms(self):
-        import pygeodesy.dms as m
-        return m
-
-    @_Property_RO
-    def ecef(self):
-        import pygeodesy.ecef as m
-        return m
-
-    @_Property_RO
-    def elevations(self):
-        import pygeodesy.elevations as m
-        return m
-
-    @_Property_RO
-    def ellipsoidalBaseDI(self):
-        import pygeodesy.ellipsoidalBaseDI as m
-        return m
-
-    @_Property_RO
-    def ellipsoidalExact(self):
-        import pygeodesy.ellipsoidalExact as m
-        return m
-
-    @_Property_RO
-    def ellipsoidalKarney(self):
-        import pygeodesy.ellipsoidalKarney as m
-        return m
-
-    @_Property_RO
-    def elliptic(self):
-        import pygeodesy.elliptic as m
-        return m
-
-    @_Property_RO
-    def epsg(self):
-        import pygeodesy.epsg as m
-        return m
-
-    @_Property_RO
-    def errors(self):
-        import pygeodesy.errors as m
-        return m
-
-    @_Property_RO
-    def etm(self):
-        import pygeodesy.etm as m
-        return m
-
-    @_Property_RO
-    def formy(self):  # in .cartesianBase.hartzell
-        import pygeodesy.formy as m
-        return m
-
-    @_Property_RO
-    def geodesicx(self):
-        import pygeodesy.geodesicx as m
-        return m
-
-    @_Property_RO
-    def geodsolve(self):
-        import pygeodesy.geodsolve as m
-        return m
-
-    @_Property_RO
-    def iters(self):
-        import pygeodesy.iters as m
-        return m
-
-    @_Property_RO
-    def karney(self):
-        import pygeodesy.karney as m
-        return m
-
-    @_Property_RO
-    def latlonBase(self):
-        import pygeodesy.latlonBase as m
-        return m
-
-    @_Property_RO
-    def lcc(self):
-        import pygeodesy.lcc as m
-        return m
-
-    @_Property_RO
-    def ltp(self):
-        import pygeodesy.ltp as m
-        return m
-
-    @_Property_RO
-    def mgrs(self):
-        import pygeodesy.mgrs as m
-        return m
-
-    @_Property_RO
-    def named(self):
-        import pygeodesy.named as m
-        return m
-
-    @_Property_RO
-    def nvectorBase(self):
-        import pygeodesy.nvectorBase as m
-        return m
-
-    @_Property_RO
-    def osgr(self):
-        import pygeodesy.osgr as m
-        return m
-
-    @_Property_RO
-    def points(self):
-        import pygeodesy.points as m
-        return m
-
-    @_Property_RO
-    def resections(self):
-        import pygeodesy.resections as m
-        return m
-
-    @_Property_RO
-    def sphericalNvector(self):
-        import pygeodesy.sphericalNvector as m
-        return m
-
-    @_Property_RO
-    def sphericalTrigonometry(self):
-        import pygeodesy.sphericalTrigonometry as m
-        return m
-
-    @_Property_RO
-    def streprs(self):
-        import pygeodesy.streprs as m
-        return m
-
-    @_Property_RO
-    def trf(self):
-        import pygeodesy.trf as m
-        return m
-
-    @_Property_RO
-    def ups(self):
-        import pygeodesy.ups as m
-        return m
-
-    @_Property_RO
-    def utm(self):
-        import pygeodesy.utm as m
-        return m
-
-#   @_Property_RO
-#   def utmups(self):  # in .ellipsoidalBase...toUtmUps
-#       import pygeodesy.utmups as m
-#       return m
-
-    @_Property_RO
-    def vector2d(self):
-        import pygeodesy.vector2d as m
-        return m
-
-    @_Property_RO
-    def vector3d(self):
-        import pygeodesy.vector3d as m
-        return m
-
-    @_Property_RO
-    def vector3dBase(self):
-        import pygeodesy.vector3dBase as m
-        return m
-
-    @_Property_RO
-    def webmercator(self):
-        import pygeodesy.webmercator as m
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            pass
+        try:
+            n = _DOT_(_pygeodesy_, name)
+            self[name] = m = import_module(n, _pygeodesy_)
+        except ImportError as x:
+            raise LazyImportError(str(x), txt=_doesn_t_exist_)
         return m
 
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.12.29'
+__version__ = '22.01.01'
 
 
 def _ALL_OTHER(*objs):
-    '''(INTERNAL) List local objects for __all__.
+    '''(INTERNAL) Get class and function B{C{objs}} for __all__.
     '''
     from pygeodesy import interns  # PYCHOK import
 
     def _dun(o):
         n = _dunder_name(o).rsplit(_DOT_, 1)[-1]
-        u = NN(_UNDER_, n, _UNDER_)
-        return getattr(interns, u, n)
+        i = NN(_UNDER_, n, _UNDER_)  # intern'd
+        return getattr(interns, i, n)
 
     return tuple(map(_dun, objs))
 
@@ -646,7 +390,7 @@ def _all_missing2(_all_):
     '''
     _alzy = _all_imports(**_NamedEnum_RO((a, ()) for a in _ALL_INIT))
     return ((_DOT_('lazily', _all_imports.__name__), _COMMASPACE_.join(a for a in _all_ if a not in _alzy)),
-            (_DOT_('pygeodesy', _a_l_l_),            _COMMASPACE_.join(a for a in _alzy if a not in _all_)))
+            (_DOT_(_pygeodesy_, _a_l_l_),            _COMMASPACE_.join(a for a in _alzy if a not in _all_)))
 
 
 def _caller3(up):  # in .named
@@ -661,12 +405,12 @@ def _caller3(up):  # in .named
             f.f_lineno)  # line number
 
 
-def _lazy_import2(_pygeodesy_):  # MCCABE 15
+def _lazy_import2(package_name):  # MCCABE 15
     '''Check for and set up C{lazy import}.
 
-       @arg _pygeodesy_: The name of the package (C{str}) performing
-                         the imports, to help facilitate resolving
-                         relative imports, usually C{__package__}.
+       @arg package_name: The name of the package (C{str}) performing
+                          the imports, to help facilitate resolving
+                          relative imports, usually C{__package__}.
 
        @return: 2-Tuple C{(package, getattr)} of the importing package
                 for easy reference within itself and the callable to
@@ -687,8 +431,8 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
              U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
     '''
-    if _sys_version_info2 < (3, 7):  # not supported before 3.7
-        t = _no_(_DOT_(_pygeodesy_, _lazy_import2.__name__))
+    if package_name != _pygeodesy_ or _sys_version_info2 < (3, 7):  # not supported before 3.7
+        t = _no_(_DOT_(package_name, _lazy_import2.__name__))
         raise LazyImportError(t, txt=_Python_(_sys))
 
     package, parent = _lazy_init2(_pygeodesy_)
@@ -744,18 +488,16 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
     return package, __getattr__  # _lazy_import2
 
 
-def _lazy_init2(_pygeodesy_):
+def _lazy_init2(package_name):
     '''(INTERNAL) Try to initialize lazy import.
 
-       @arg _pygeodesy_: The name of the package (C{str}) performing
-                         the imports, to help facilitate resolving
-                         relative imports, usually C{__package__}.
+       @arg package_name: The name of the package (C{str}) performing
+                          the imports, to help facilitate resolving
+                          relative imports, usually C{__package__}.
 
-       @return: 3-Tuple C{(import_module, package, parent)} of module
-                C{importlib.import_module}, the importing C{package}
-                for easy reference within itself, always C{pygeodesy}
-                and the package name, aka the C{parent}, always
-                C{'pygeodesy'}.
+       @return: 2-Tuple C{(package, parent)} of the importing C{package}
+                for easy reference within itself and its name aka the
+                C{parent}, same as B{C{package_name}}.
 
        @raise LazyImportError: Lazy import not supported or not enabled,
                                an import failed or the package name is
@@ -777,15 +519,15 @@ def _lazy_init2(_pygeodesy_):
         isLazy += 1
 
     try:  # to initialize in Python 3+
-        package = import_module(_pygeodesy_)
+        package = import_module(package_name)
         parent = package.__spec__.parent  # __spec__ only in Python 3.7+
-        if parent != _pygeodesy_:  # assert
-            t = _COMMASPACE_(parent, _not_(_pygeodesy_))
+        if parent != package_name:  # assert
+            t = _COMMASPACE_(parent, _not_(package_name))
             raise AttributeError(_EQUALSPACED_('parent', t))
 
     except (AttributeError, ImportError) as x:
         isLazy = False  # failed
-        raise LazyImportError(_lazy_init2.__name__, _pygeodesy_, txt=str(x))
+        raise LazyImportError(_lazy_init2.__name__, package_name, txt=str(x))
 
     return package, parent
 
@@ -847,7 +589,103 @@ if __name__ == '__main__':
 
     t1 = timeit(t1, number=1000000)
     t2 = timeit(t2, number=1000000)
-    printf('%.8f vs %.8f: %.3fX slower', t1, t2, t1 / t2)
+    v = _sys.version.split()[0]
+    printf('%.8f vs %.8f: %.3fX slower, Python %s', t1, t2, t1 / t2, v)
+
+# _ALL_MODS above in t2 is 1.51 to 2.26X faster than t1 with Python
+# 2.7.18 resp. 3.10.1.  The implementation below would be 2.16 to
+# 4.84X faster, but is far too verbose to be worthwhile.
+
+# class _Property_RO(property):
+#     '''(INTERNAL) Sub-set of L{pygeodesy.props.Property_RO}.
+#     '''
+#     def __init__(self, method):
+#         self.method   = method
+#         self.name = n = method.__name__
+#         d = _N_A_ if not _FOR_DOCS else \
+#             '(INTERNAL) Get and cache module L{%s}.' % (n,)
+#         property.__init__(self, self._fget, None, self._fdel, d)
+#
+#     def _fdel(self, inst):  # PYCHOK no cover
+#         '''Zap the I{cached/memoized} C{property} value.
+#         '''
+#         self._update(inst, None)   # PYCHOK no cover
+#
+#     def _fget(self, inst):  # getter
+#         '''Get and I{cache/memoize} the C{property} value.
+#         '''
+#         try:  # to get the value cached in instance' __dict__
+#             return inst.__dict__[self.name]
+#         except KeyError:
+#             # cache the value in the instance' __dict__
+#             inst.__dict__[self.name] = val = self.method(inst)
+#             return val
+#
+#     def __get__(self, inst, *unused):  # PYCHOK 2 vs 3 args
+#         if inst is None:
+#             return self
+#         try:  # to get the cached value immediately
+#             return inst.__dict__[self.name]
+#         except (AttributeError, KeyError):
+#             return self._fget(inst)
+#
+#     def _update(self, inst, *unused):  # PYCHOK no cover
+#         '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
+#         '''
+#         inst.__dict__.pop(self.name, None)  # name, NOT _name
+#
+#     def deleter(self, fdel):  # PYCHOK no cover
+#         '''Throws a C{LazyImportError}, always.
+#         '''
+#         raise self._Error(_invalid_, self.deleter, fdel)
+#
+#     def getter(self, fget):  # PYCHOK no cover
+#         '''Throws a C{LazyImportError}, always.
+#         '''
+#         raise self._Error(_invalid_, self.getter, fget)
+#
+#     def reload(self):  # PYCHOK no cover
+#         '''Zap all cached module, forcing a reload.
+#         '''
+#         _ALL_MODS.props._update_all(_ALL_MODS, Base=_Property_RO)
+#
+#     def setter(self, fset):  # PYCHOK no cover
+#         '''Throws a C{LazyImportError}, always.
+#         '''
+#         raise self._Error(_immutable_, self.setter, fset)
+#
+#     def _Error(self, kind, xter, farg):  # PYCHOK no cover
+#         '''(INTERNAL) Return a C{LazyImportError} instance.
+#         '''
+#         e = _SPACE_(kind, self.__class__.__name__)
+#         n = _DOT_(self.name, xter.__name__)
+#         t = _SPACE_(n, farg.__name__)
+#         return LazyImportError(e, txt=t)
+
+# class _ALL_MODS(object):
+#     '''(INTERNAL) Memoized imports of about half the L{pygeodesy} modules.
+#     '''
+#     @_Property_RO
+#     def albers(self):
+#         import pygeodesy.albers as m
+#         return m
+#
+#     @_Property_RO
+#     def azimuthal(self):
+#         import pygeodesy.azimuthal as m
+#         return m
+#
+#     @_Property_RO
+#     def cartesianBase(self):
+#         import pygeodesy.cartesianBase as m
+#         return m
+#
+#     # ... etc.
+#
+#     @_Property_RO
+#     def webmercator(self):
+#         import pygeodesy.webmercator as m
+#         return m
 
 # **) MIT License
 #

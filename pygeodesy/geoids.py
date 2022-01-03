@@ -34,9 +34,9 @@ arguments to select different interpolation options
 
 C{>>> ginterpolator = GeoidXyz(geoid_model_file, **options)}
 
-3. Get the interpolated geoid height of one or several C{LatLon}
-location(s) with
+3. Get the interpolated geoid height of other C{LatLon} location(s) with
 
+C{>>> ll = LatLon(1, 2, ...)}
 C{>>> h = ginterpolator(ll)}
 
 or
@@ -51,11 +51,12 @@ C{>>> hs = ginterpolator(lls)}
 
 C{>>> h = ginterpolator.height(lat, lon)}
 
-or as 2 lists, tuple, etc.
+or as 2 lists, 2 tuples, etc.
 
 C{>>> hs = ginterpolator.height(lats, lons)}
 
-5. An example is in U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>}.
+5. An example is in U{issue #64<https://GitHub.com/mrJean1/PyGeodesy/issues/64>},
+courtesy of SBFRF.
 
 @note: Classes L{GeoidG2012B} and L{GeoidPGM} require both U{numpy
        <https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>}
@@ -111,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.11.30'
+__version__ = '22.01.03'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

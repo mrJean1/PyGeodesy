@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '22.01.03'
 
 from base import TestsBase
 
@@ -171,7 +171,7 @@ class Tests(TestsBase):
         ll = u.toLatLon(LL)
         self.test('UtmUps.toLatLon', ll, '41.321801°N, 074.801413°W')
 
-        # courtesy of sumnamazu <https://GitHub.com/mrJean1/PyGeodesy/issues/26>
+        # courtesy of U{sumnamazu<https://GitHub.com/mrJean1/PyGeodesy/issues/26>}
         u = UtmUps(0, 'S', 321441.0425108216, 5810117.133231169)  # falsed=False
         self.test('UtmUps', u.toStr(B=True), '00A S 321441 5810117')
         self.test('UtmUps.ValidateOK', utmupsValidateOK(u), OK, known=True)

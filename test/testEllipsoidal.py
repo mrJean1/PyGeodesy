@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.12.30'
+__version__ = '22.01.03'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -593,7 +593,7 @@ class Tests(_TestsLL, _TestsV):
             self.test('(-2, 17)', x.__class__, IntersectionError)
         self.test('(49, 25)', m.intersection3(s1, e1, e1, e2), '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=k)
 
-        # courtesy sbonaime <https://GitHub.com/mrJean1/PyGeodesy/issues/58>
+        # courtesy of U{sbonaime<https://GitHub.com/mrJean1/PyGeodesy/issues/58>}
         s1, s2 = m.LatLon(8, 0), m.LatLon(0, 8.4)
         self.test('#58', s1.intersection3(150.06, s2, 55.61), '(LatLon(01°54′25.65″S, 005°37′48.76″E), 1, -2)', known=k)  # 01°54′25.28″N, 174°22′10.76″W, -1, 2
         try:
@@ -680,7 +680,7 @@ class Tests(_TestsLL, _TestsV):
             except IntersectionError as x:  # XXX no convergence after 55 degrees
                 self.test(n, str(x), '2-tuple', known=True)
 
-        # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+        # courtesy of U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
         R = RandomLatLon(m.LatLon, 90, 90)  # +/- 45
         r = R()
         s = latlonDMS(r, form=F_D) + ' Random +/- 45'

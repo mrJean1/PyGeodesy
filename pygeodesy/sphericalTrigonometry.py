@@ -52,7 +52,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.12.29'
+__version__ = '22.01.03'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'
@@ -1081,7 +1081,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
        @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}},
                           B{C{eps}} or B{C{height}}.
 
-       @note: Courtesy U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}.
+       @note: Courtesy of U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}.
 
        @see: This U{Answer<https://StackOverflow.com/questions/53324667/
              find-intersection-coordinates-of-two-circles-on-earth/53331953>}.

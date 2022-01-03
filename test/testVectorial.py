@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.21'
+__version__ = '22.01.03'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
@@ -224,7 +224,7 @@ class Tests(TestsBase):
                     self.test('isenclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
 
         if hasattr(LatLon, 'iswithin'):
-            # courtesy of Paulius Šarka  psarka  Aug 30, 2017
+            # courtesy of Paulius Šarka (psarka) Aug 30, 2017
             p = LatLon(1, 1).iswithin(LatLon(2, 2), LatLon(2, 2))
             self.test('iswithin', p, False)
             p = LatLon(2, 2).iswithin(LatLon(2, 2), LatLon(2, 2))
@@ -258,7 +258,7 @@ class Tests(TestsBase):
             self.test('nearestOn', p.toStr(F_D), '51.0°N, 002.0°E')
             self.test('nearestOn', isinstance(p, LatLon), True)
 
-            # courtesy AkimboEG on GitHub
+            # courtesy of AkimboEG on GitHub
             s1 = LatLon(0, 0)
             s2 = LatLon(0, 1)
             s = LatLon(1, 0)
@@ -270,7 +270,7 @@ class Tests(TestsBase):
             self.test('nearestOn', p, '00.0°N, 020.0°E')
             self.test('nearestOn', isinstance(p, LatLon), True)
 
-            # courtesy of Paulius Šarka  psarka  Aug 30, 2017
+            # courtesy of Paulius Šarka (psarka) Aug 30, 2017
             p = LatLon(1, 1).nearestOn(LatLon(2, 2), LatLon(2, 2))
             self.test('nearestOn', p, '02.0°N, 002.0°E')
             p = LatLon(2, 2).nearestOn(LatLon(2, 2), LatLon(2, 2))
@@ -303,7 +303,7 @@ class Tests(TestsBase):
             self.test('trilaterate', t, '37.419078°N, 121.960579°W')
             self.test('trilaterate', isinstance(t, LatLon), True)
 
-            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
             b1 = LatLon(-8.068361, -34.892722)
             b2 = LatLon(-8.075917, -34.894611)
             b3 = LatLon(-8.076361, -34.908000)
@@ -318,7 +318,7 @@ class Tests(TestsBase):
             self.test('trilaterate', t, p, known=abs(t.lon - p.lon) < 1e-5)
             self.test('trilaterate', isinstance(t, LatLon), True)
 
-            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
             d  = 5110  # meter
             p1 = LatLon(42.688839, 2.438857)
             p2 = LatLon(42.635421, 2.522570)
@@ -392,7 +392,7 @@ class Tests(TestsBase):
     def testTrilaterate2d2(self):
 
         self.subtitle(vector2d, trilaterate2d2.__name__.capitalize())
-        # courtesy MartinManganiello <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+        # courtesy of U{MartinManganiello<https://GitHub.com/mrJean1/PyGeodesy/issues/49>}
         t = trilaterate2d2(2, 2, 1, 3, 3, 1, 1, 4, 1.4142)
         self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(2.0, 3.0)')  # XXX ?
         try:

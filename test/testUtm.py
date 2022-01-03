@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.11.11'
+__version__ = '22.01.03'
 
 from base import TestsBase
 
@@ -117,7 +117,7 @@ class Tests(TestsBase):
         # but eps = max(eps, EPS) and cached as EPS
         _EPSs = tuple(EPS * 10**(4 - e) for e in range(9))
 
-        # courtesy of sumnamazu <https://GitHub.com/mrJean1/PyGeodesy/issues/26>
+        # courtesy of U{sumnamazu<https://GitHub.com/mrJean1/PyGeodesy/issues/26>}
         u = Utm(55, 'S', 321441.0425108216, 5810117.133231169)
         self.test('Utm9', u, '55 S 321441 5810117')
         for eps in _EPSs:
@@ -148,8 +148,8 @@ class Tests(TestsBase):
         u = ll.toUtm()
         self.test('CV#86', u.toRepr(cs=6), '[Z:01, H:N, E:100000, N:0, ...]', known=True)  # [Z:60N, H:N, E:767993, N:0]
 
-        # courtesy of CaipiDE <https://GitHub.com/mrJean1/PyGeodesy/issues/63> (with
-        # results from <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>)
+        # courtesy of U{CaipiDE<https://GitHub.com/mrJean1/PyGeodesy/issues/63>} with
+        # results from <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>
         u = Utm(32, 'N', 280000.0, 5653000.0)
         self.test('#63', u, '32 N 280000 5653000')
         m = u.toMgrs()

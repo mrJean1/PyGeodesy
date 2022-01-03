@@ -32,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.12.30'
+__version__ = '22.01.03'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -156,7 +156,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
 
        @return: Compass angle from North (C{degrees360}).
 
-       @note: Courtesy Martin Schultz.
+       @note: Courtesy of Martin Schultz.
 
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}.

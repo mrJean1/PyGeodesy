@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.09.30'
+__version__ = '22.01.03'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -85,7 +85,7 @@ class Tests(TestsBase):
             self.test('initialBearingTo', b, '156.1666' if Sph else '156.1106', fmt='%.4f')  # 156.2
             b = LAX.initialBearingTo(JFK)
             self.test('initialBearingTo', b, '65.8921' if Sph else '65.9335', fmt='%.4f')
-            # courtesy Inmars Didaitis (bakakaldsas) <https://GitHub.com/mrJean1/PyGeodesy/issues/56>
+            # courtesy of U{Inmars Didaitis (bakakaldsas)<https://GitHub.com/mrJean1/PyGeodesy/issues/56>}
             a, b = LatLon(5, 5), LatLon(10, 5)  # same lon
             self.test('initialBearingTo', a.initialBearingTo(b),   0.0, prec=1)
             self.test('initialBearingTo', b.initialBearingTo(a), 180.0, prec=1)
@@ -185,7 +185,7 @@ class Tests(TestsBase):
             if hasattr(p, 'distanceTo'):
                 self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', prec=3)
 
-            # courtesy of <https://GitHub.com/bakakaldsas>
+            # courtesy of U{Inmars Didaitis (bakakaldsas)<https://GitHub.com/bakakaldsas>}
             i = LatLon(52, 0, 100).intermediateTo(LatLon(48, 2, 200), 0.25)
             self.test('intermediateTo-h', i.height, '125.000', prec=3)
 
@@ -194,7 +194,7 @@ class Tests(TestsBase):
             self.test('intermediateChordTo', i, '51.372294°N, 000.707192°E')
             self.test('intermediateChordTo', isinstance(i, LatLon), True)
 
-            # courtesy of <https://GitHub.com/bakakaldsas>
+            # courtesy of U{Inmars Didaitis (bakakaldsas)<https://GitHub.com/bakakaldsas>}
             i = LatLon(52, 0, 100).intermediateChordTo(LatLon(48, 2, 200), 0.25)
             self.test('intermediateChordTo-h', i.height, '125.000', fmt='%.3f')
 
@@ -382,7 +382,7 @@ class Tests(TestsBase):
                 self.test('isenclosedBy7', isenclosedBy((90, 0), p), 'True')
 
         if hasattr(LatLon, 'isenclosedBy'):
-            # courtesy Maranov <https://GitHub.com/mrJean1/PyGeodesy/issues/53>
+            # courtesy of U{Maranov<https://GitHub.com/mrJean1/PyGeodesy/issues/53>}
             b = LatLon(0, 0), LatLon(0, 1), LatLon(0, 1), LatLon(1, 1), LatLon(1, 0)
             for t in ('CCW', 'CW ', 'CCW'):
                 self.test('isenclosedBy-' + t, LatLon(0.5, 0.5).isenclosedBy(b), True)
@@ -465,7 +465,7 @@ class Tests(TestsBase):
         self.test('toVector',   p.toVector(), '(0.615661, 0.0, 0.788011)')
         self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)')
 
-        # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+        # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
         def _known(p):
             return int(p.lat) == 42 and int(p.lon) == 2
 

@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.29'
+__version__ = '22.01.03'
 
 from base import TestsBase
 
@@ -193,10 +193,10 @@ class Tests(TestsBase):
                                                                    '-0.33, 1.33, 0.0, 2.0, 0.33, 1.33, 0.5, 0.5, 0.78, 0.44, 1.18, -0.36, 0.5, -0.5, 0.2, -2.0, -0.2, -2.0, -0.5, -0.5, -1.18, -0.36, -0.78, 0.44, -0.5, 0.5'),
                           ([(86, -174), (86, -173), (75, -82), (73, -65), (77, -30)],
                                                                    [(28, -95), (28, -94), (29, -94), (29, -95)],  # CCW
-                                                                   None),  # courtesy christophelebrun <https://GitHub.com/mrJean1/PyGeodesy/issues/61>
+                                                                   None),  # courtesy of U{christophelebrun<https://GitHub.com/mrJean1/PyGeodesy/issues/61>}
                           ([(86, -174), (86, -173), (75, -82), (73, -65), (77, -30)],
                                                                    [(29, -95), (29, -94), (28, -94), (28, -95)],  # CW
-                                                                   None),  # courtesy christophelebrun <https://GitHub.com/mrJean1/PyGeodesy/issues/61>
+                                                                   None),  # courtesy of U{christophelebrun<https://GitHub.com/mrJean1/PyGeodesy/issues/61>}
                           ([(28, -95), (28, -94), (29, -94)],      [(30, -94), (29, -95), (30, -95)], None),
                           ([(30, -94), (29, -95), (30, -95)],      [(28, -95), (28, -94), (29, -94)], None)):
             sh = clipSH((LatLon(*ll) for ll in ps),

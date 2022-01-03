@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.05.17'
+__version__ = '22.01.03'
 
 from base import GeodSolve, geographiclib, TestsBase
 
@@ -81,7 +81,7 @@ class Tests(TestsBase):
         self.test('OSGR6', r.toStr(prec=0), '651409,313177')
 
         self.test('issue', 38, 38)
-        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # courtesy of U{jaluebbe<https://GitHub.com/mrJean1/PyGeodesy/issues/38>}, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         p = LatLon(52, -0.12, datum=Datums.WGS84)
         g = osgr.toOsgr(p)
@@ -95,7 +95,7 @@ class Tests(TestsBase):
         self.test('toLatLonWGS84 ', p.toStr(m=None), '52°00′00.0″N, 000°07′12.0″W')
         self.test('toLatLonWGS84 ', p.datum.name, 'WGS84')
 
-        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # courtesy of U{jaluebbe<https://GitHub.com/mrJean1/PyGeodesy/issues/38>}, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.Osgr(532014, 123971)
         self.test('Osgr', g.toRepr(), '[G:TQ, E:32014, N:23971]')
@@ -119,7 +119,7 @@ class Tests(TestsBase):
         self.test('toLatLonWGS84', p.toStr(form=F_DEG, m=None), '50.999995N, 000.120004W', known=True)
         self.test('toLatLonWGS84', p.datum.name, 'WGS84')
 
-        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # courtesy of U{jaluebbe<https://GitHub.com/mrJean1/PyGeodesy/issues/38>}, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.toOsgr(LatLon(50.999995, -0.120004, datum=Datums.WGS84))
         self.test('toOsgr', g.toRepr(), '[G:TQ, E:32013, N:23971]')
@@ -132,7 +132,7 @@ class Tests(TestsBase):
         self.test('toLatLonWGS84 ', p.toStr(form=F_DEG, m=None), '50.999995N, 000.120004W')
         self.test('toLatLonWGS84 ', p.datum.name, 'WGS84')
 
-        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # courtesy of U{jaluebbe<https://GitHub.com/mrJean1/PyGeodesy/issues/38>}, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.toOsgr(LatLon(50.999995, +0.120004, datum=Datums.WGS84))
         self.test('toOsgr', g.toRepr(), '[G:TQ, E:48853, N:24427]')
@@ -156,7 +156,7 @@ class Tests(TestsBase):
                 r = g.toLatLon(LatLon, datum=d)
                 self.test('toLatLon', r.toStr(form=F_DEG, m=None), t)
 
-        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # courtesy of U{jaluebbe<https://GitHub.com/mrJean1/PyGeodesy/issues/38>}, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         p = LatLon(49.926244, -6.297934)
         self.test('LatLon', p, '49.926244°N, 006.297934°W')

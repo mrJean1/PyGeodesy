@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '21.11.16'
+__version__ = '22.01.03'
 
 from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -83,7 +83,7 @@ class Tests(TestsBase):
             LL = m.LatLon
             e = LL(0, 0)
             n = m.__name__
-            # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+            # courtesy of U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
             R = RandomLatLon(LL, 90, 90)  # +/- 45
             r = R()
             s = latlonDMS(r, form=F_D, prec=-6) + ' Random +/- 45'

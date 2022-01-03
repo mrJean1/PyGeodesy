@@ -30,6 +30,7 @@ C{>>> hinterpolator = HeightXyz(knots, **options)}
 
 4. Get the interpolated height of other C{LatLon} location(s) with
 
+C{>>> ll = LatLon(1, 2, ...)}
 C{>>> h = hinterpolator(ll)}
 
 or
@@ -44,7 +45,7 @@ C{>>> hs = hinterpolator(lls)}
 
 C{>>> h = hinterpolator.height(lat, lon)}
 
-or as 2 lists, tuples, etc.
+or as 2 lists, 2 tuples, etc.
 
 C{>>> hs = hinterpolator.height(lats, lons)}
 
@@ -84,7 +85,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.11.30'
+__version__ = '22.01.03'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'

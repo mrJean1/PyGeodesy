@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn6
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.12.28'
+__version__ = '22.01.03'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -657,10 +657,10 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS_2:
-            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
             x = fsum_(r12, -r22, d**2) / (_2_0 * d)  # n1->intersection x- and ...
             y = fsum_(r12, -r32, i**2, j**2, -2 * x * i) / (_2_0 * j)  # ... y-component
-            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
             z = fsum_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
             if z > EPS:
                 n = n1.plus(X.times(x)).plus(Y.times(y))

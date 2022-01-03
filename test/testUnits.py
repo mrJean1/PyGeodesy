@@ -4,7 +4,7 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '21.09.30'
+__version__ = '22.01.03'
 
 from base import TestsBase
 
@@ -101,7 +101,7 @@ class Tests(TestsBase):
         for U in (Epoch,):
             self.testUnit(U, 1901, known=True)
 
-        self.subtitle(units)  # courtesy JaapZee at Gmail
+        self.subtitle(units)  # courtesy of JaapZee at Gmail
         self.test(Bearing.__name__,  Bearing(361), 1.0)
         self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
 
