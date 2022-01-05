@@ -9,11 +9,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, _isfinite, isint, isnear0, \
                              isscalar, len2, neg
 from pygeodesy.errors import _IsnotError, LenError, _NotImplementedError, \
-                             _OverflowError, _TypeError, _ValueError
+                             _OverflowError, _TypeError, _ValueError, \
+                             _xkwds_get
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _finite_, _few_, _h_, _name_, _negative_, \
-                             _not_, _singular_, _SPACE_, _SLASH_ as _div_, _too_, \
-                             _0_0, _0_5, _1_0, _N_1_0, _1_5, _2_0, _3_0
+                             _finite_, _few_, _h_, _negative_, _not_, \
+                             _singular_, _SPACE_, _too_, _0_0, _0_5, \
+                             _1_0, _N_1_0, _1_5, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.named import _Named, _NotImplemented
 # from pygeodesy.props import property_RO  # from .units
@@ -24,7 +25,7 @@ from math import ceil as _ceil, floor as _floor, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.12.18'
+__version__ = '22.01.05'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -32,6 +33,7 @@ _1_3rd  = _1_0 / _3_0
 _2_3rd  = _2_0 / _3_0
 
 _iadd_     = '+='
+_idiv_     = '/='
 _imul_     = '*='
 _isub_     = '-='
 _partials_ = 'partials'
@@ -116,7 +118,7 @@ class Fsum(_Named):
         if starts:
             self.fadd(starts)
         if name:
-            self.name = name.get(_name_, NN) or NN
+            self.name = _xkwds_get(name, name=NN)
 
     def __abs__(self):
         '''Return absolute value of this instance.
@@ -323,10 +325,10 @@ class Fsum(_Named):
                 s = f.fsum()
                 p = len(f._ps) - 1  # NOT len(f)!
                 if p > 0:
-                    raise self._Error(_div_, other, Error=_ValueError,
+                    raise self._Error(_idiv_, other, Error=_ValueError,
                                 txt=_SPACE_(_partials_, Fmt.PAREN(p)))
         else:
-            raise self._Error(_div_, other)
+            raise self._Error(_idiv_, other)
         return self.fdiv(s)
 
     def __le__(self, other):
@@ -570,7 +572,7 @@ class Fsum(_Named):
         try:
             self.fmul(_1_0 / _2float(divisor=divisor))
         except (TypeError, ValueError, ZeroDivisionError) as x:
-            raise self._Error(_div_, divisor, Error=_ValueError, txt=str(x))
+            raise self._Error(_idiv_, divisor, Error=_ValueError, txt=str(x))
         return self
 
     def fmul(self, factor):
@@ -784,6 +786,101 @@ class Fpolynomial(Fsum):
         n = len(cs) - 1
         if n > 0:
             self.fadd(_map_a_x_b(cs[1:], fpowers(x, n)))
+
+
+class Fwelford(_Named):
+    '''U{Welford's<https://WikiPedia.org/wiki/Algorithms_for_calculating_variance>}
+       accumulator computing the running mean, sample variance and standard deviation.
+
+       @see: U{Cook<https://www.JohnDCook.com/blog/standard_deviation/>} and U{Cook
+             <https://www.JohnDCook.com/blog/skewness_kurtosis/>}.
+    '''
+    def __init__(self, *xs, **name):
+        '''New L{Fwelford} accumulator.
+
+           @arg xs: Optional, initial values (C{scalar}s).
+           @kwarg name: Optional name (C{str}).
+
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise TypeError: Non-scalar B{C{ s}} value.
+
+           @raise ValueError: Invalid or non-finite B{C{xs}} value.
+        '''
+        self._M = Fsum()
+        self._m = _0_0  # mean
+        self._n =  0
+        self._S = Fsum()
+        if name:
+            self.name = _xkwds_get(name, name=NN)
+        if xs:
+            self.fmean_(*xs)
+
+    def __len__(self):
+        '''Return the I{total} number of accumulated values (C{int}).
+        '''
+        return self._n
+
+    def fcopy(self, deep=False, name=NN):
+        '''Copy this instance, C{shallow} or B{C{deep}}.
+
+           @return: The copy (L{Fwelford}).
+         '''
+        f = _Named.copy(self, deep=deep, name=name)
+        f._M = self._M.fcopy(deep=False)
+        f._n = self._n
+        f._m = self._m
+        f._S = self._S.fcopy(deep=False)
+        return f
+
+    copy = fcopy
+
+    def fmean_(self, *xs):
+        '''Accumulate and return the running mean.
+
+           @arg xs: Additional values to accumulate (C{scalar}s).
+
+           @return: Current, running mean (C{float}).
+        '''
+        M = self._M.fsum_
+        m = self._m
+        n = self._n
+        S = self._S.fadd_
+        for x in xs:
+            n += 1
+            d  = float(x - m)
+            m  = M(d / n)
+            S(float(x - m) * d)
+        self._m = m
+        self._n = n
+        return m
+
+    def fstdev_(self, *xs, **sample):
+        '''Accumulate and return the running standard deviation.
+
+           @arg xs: Additional values to accumulate (C{scalar}s).
+           @kwarg sample: If C{True} use the reduced number of
+                          accumulated values (C{bool}).
+
+           @return: Current, running standard deviation (C{float}).
+        '''
+        v = self.fvariance_(*xs, **sample)
+        return sqrt(v) if v > 0 else _0_0
+
+    def fvariance_(self, *xs, **sample):
+        '''Accumulate and return the running variance.
+
+           @arg xs: Additional values to accumulate (C{scalar}s).
+           @kwarg sample: If C{True} use the reduced number of
+                          accumulated values (C{bool}).
+
+           @return: Current, running variance (C{float}).
+        '''
+        if xs:
+            self.fmean_(*xs)
+        s = 1 if _xkwds_get(sample, sample=False) else 0
+        n = float(len(self) - s)
+        return (self._S.fsum() / n) if n > 0 else _0_0
 
 
 def cbrt(x3):

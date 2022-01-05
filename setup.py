@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.12.31'
+__version__ = '22.01.04'
 
 
 def _c2(*names):
@@ -83,14 +83,14 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'scipy', 'semi-perimeter', 'sexagecimal', 'simplify',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
-             'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
+             'standard_deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
              'tilt', 'TMcoords', 'TMExact', 'toise', 'Transverse', 'TransverseMercatorExact', 'TRF',
              'triangle', 'triangulate', 'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
-             'volume', ' volumetric',
-             'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
+             'variance', 'volume', ' volumetric',
+             'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
              'XYZ', 'yaw', 'You')
 
 setup(name='PyGeodesy',

@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '21.11.20'
+__version__ = '22.01.05'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -14,8 +14,8 @@ warnings.filterwarnings('ignore')  # or 'error'
 
 from base import coverage, scipy, PyGeodesy_dir, TestsBase
 
-from pygeodesy import fstr, len2, egmGeoidHeights, GeoidError, \
-                      GeoidG2012B, GeoidKarney, GeoidPGM, \
+from pygeodesy import fstr, len2, egmGeoidHeights, Fwelford, \
+                      GeoidError, GeoidG2012B, GeoidKarney, GeoidPGM, \
                       LatLon_, RangeError, reprs
 
 import os.path as _os_path
@@ -272,13 +272,15 @@ class Tests(TestsBase):
 #               lon -= 360
             yield lat, lon, t5[h]
 
-    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):  # MCCABE 13
+    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):  # MCCABE 18
         # test geoid G(grid) for (lat, lon, height, eps)
         if scipy or G is GeoidKarney:
             e_max = 0
-            eps = eps or self._epsHeight
-            f = self.failed - self.known
+            if not eps:
+                eps = self._epsHeight
             with G(grid, kind=kind or self._kind, crop=crop) as g:
+                f = self.failed - self.known
+                w = Fwelford()
                 s = '%s.height(%%s) kind %s' % (g, g.kind)
                 for lat, lon, expected in llh3:
                     t = s % (fstr((lat, lon), prec=3),)
@@ -287,6 +289,7 @@ class Tests(TestsBase):
                         e = abs(h - expected)
                         if e_max < e:
                             e_max = e
+                        w.fmean_(e)
                         self.test(t, h, expected, fmt='%.3f', known=e < eps)
                     except GeoidError as x:
                         self.test(t, str(x), '%.3f' % (expected,),
@@ -300,11 +303,16 @@ class Tests(TestsBase):
                         break
 
                 f = self.failed - self.known - f
-                if f > 0 or e_max > 0:
+                if f > 0 or e_max > 0 or w is not None:
                     h = '' if g.hits is None else ', hits %s' % (g.hits,)
-                    t = '%s.height() kind %s%s, eps max (in %s FAILED)' % (g, g.kind, h, f)
+                    h = '%s.height() kind %s%s, eps ' % (g, g.kind, h)
+                    t = h + 'max (in %s FAILED)' % (f,)
                     x = eps if f > 0 else e_max
-                    self.test(t, e_max, x, fmt='%.3f', known=e_max < eps, nl=1, nt=1)
+                    self.test(t, e_max, x, fmt='%.6f', known=e_max < eps, nl=1)
+                    for t, x in (('mean',  w.fmean_()),
+                                 ('stdev', w.fstdev_())):
+                        t = h + '%s (of %s total)' % (t, len(w))
+                        self.test(t, x, x, fmt='%.6f')
 
                 # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
                 if coverage:
