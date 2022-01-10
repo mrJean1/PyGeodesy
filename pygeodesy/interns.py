@@ -178,6 +178,7 @@ _height_              = 'height'             # PYCHOK expected
 _hemipole_            = 'hemipole'           # PYCHOK expected
 _i_                   = 'i'                  # PYCHOK expected
 _I_                   = 'I'                  # PYCHOK expected
+_iadd_                = '+='                 # PYCHOK expected
 _immutable_           = 'immutable'          # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
@@ -497,7 +498,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '21.12.28'
+__version__ = '22.01.05'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

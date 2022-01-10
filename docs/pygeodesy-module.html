@@ -433,7 +433,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.01.05
+        22.01.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -489,6 +489,9 @@
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point summation and utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet-module.html">pygeodesy.frechet</a></strong>: <em class="summary">Fr&#233;chet distances.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fstats-module.html">pygeodesy.fstats</a></strong>: <em class="summary">Classes for running statistics based on <a 
+        href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a>, 
+        precision floating point summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx-module.html">pygeodesy.geodesicx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
@@ -1649,6 +1652,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.fstats.Fcook-class.html" class="summary-name">Fcook</a><br />
+      <a href="https://www.JohnDCook.com/blog/skewness_kurtosis" 
+        target="_top">Cook's</a> <code>RunningStats</code> computing the 
+        running kurtosis, mean, skewness, (sample) variance, standard 
+        deviation and Jarque-Bera normality.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.fmath.Fdot-class.html" class="summary-name">Fdot</a><br />
       Precision dot product.
     </td>
@@ -1948,11 +1962,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fmath.Fwelford-class.html" class="summary-name">Fwelford</a><br />
+        <a href="pygeodesy.fstats.Fwelford-class.html" class="summary-name">Fwelford</a><br />
       <a 
         href="https://WikiPedia.org/wiki/Algorithms_for_calculating_variance"
         target="_top">Welford's</a> accumulator computing the running mean,
-        sample variance and standard deviation.
+        (sample) variance and standard deviation.
     </td>
   </tr>
 <tr>
@@ -7165,7 +7179,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd078574dd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb0f8546f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11179,7 +11193,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.1.5'"><code class="variable-quote">'</code><code class="variable-string">22.1.5</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.1.10'"><code class="variable-quote">'</code><code class="variable-string">22.1.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18303,7 +18317,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd078574dd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb0f8546f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26879,7 +26893,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jan  5 13:05:34 2022
+    Generated by Epydoc 3.0.1 on Sun Jan  9 14:18:18 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

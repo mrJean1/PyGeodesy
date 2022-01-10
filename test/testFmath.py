@@ -4,14 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.05'
+__version__ = '22.01.06'
 
 from base import coverage, TestsBase
 
-from pygeodesy import EPS0,cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
+from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan2, fhorner, fmath, fpolynomial, fpowers, \
-                      Fsum, fsum, fsum_, Fwelford, hypot, hypot_, hypot2_, \
-                      norm_, signOf, sqrt3  # hypot3  # DEPRECATED
+                      Fsum, fsum, fsum_, hypot, hypot_, hypot2_, norm_, \
+                      signOf, sqrt3  # hypot3  # DEPRECATED
 
 from math import acos, asin, atan, atan2, ceil, floor, sqrt
 from random import random, gauss, shuffle
@@ -255,16 +255,6 @@ class Tests(TestsBase):
         self.test('fasin1', s, '0.439%', fmt='%.3f%%', known=True)
         self.test('fatan ', a, '0.508%', fmt='%.3f%%', known=True)
         self.test('fatan2', t, '1.214%', fmt='%.3f%%', known=True)
-
-        w = Fwelford(name='Test')
-        m = w.fmean_(2, 4, 4, 4, 5, 5, 7, 9)
-        self.test(w.__class__.__name__, m, 5.0, known=abs(m - 5) < EPS0)
-        s = w.fstdev_(sample=False)
-        self.test(w.__class__.__name__, s, 2.0, prec=1, known=abs(m - 2) < EPS0)
-        c = w.fcopy(name=w.fcopy.__name__)
-        self.test(c.__class__.__name__, c, w, known=True)
-        self.test(c.__class__.__name__, c.fmean_(),  m)
-        self.test(c.__class__.__name__, c.fstdev_(), s, prec=1)
 
 
 if __name__ == '__main__':

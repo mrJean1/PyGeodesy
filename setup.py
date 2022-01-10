@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.01.04'
+__version__ = '22.01.07'
 
 
 def _c2(*names):
@@ -51,7 +51,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'conformal', 'conic', 'contact-triangle',
-             'cosines-law', 'coverage', 'curvature', 'cylindrical',
+             'Cook', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
@@ -66,7 +66,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
-             'Jekel', 'Karney', 'Krueger', 'Krüger',
+             'Jarque-Bera', 'Jekel', 'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS',
@@ -80,16 +80,16 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'semi-perimeter', 'sexagecimal', 'simplify',
+             'scipy', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
-             'standard_deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
+             'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
              'tilt', 'TMcoords', 'TMExact', 'toise', 'Transverse', 'TransverseMercatorExact', 'TRF',
              'triangle', 'triangulate', 'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
-             'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
+             'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS', 'variance',
              'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
-             'variance', 'volume', ' volumetric',
+             'volume', ' volumetric',
              'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
              'XYZ', 'yaw', 'You')
 

@@ -372,6 +372,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.fmath                 as fmath                  # PYCHOK exported
     import pygeodesy.formy                 as formy                  # PYCHOK exported
     import pygeodesy.frechet               as frechet                # PYCHOK exported
+    import pygeodesy.fstats                as fstats                 # PYCHOK exported
     import pygeodesy.gars                  as gars                   # PYCHOK exported
     import pygeodesy.geodesicx             as geodesicx              # PYCHOK exported
     import pygeodesy.geodsolve             as geodsolve              # PYCHOK exported
@@ -445,6 +446,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.fmath                 import *  # PYCHOK __all__
     from pygeodesy.formy                 import *  # PYCHOK __all__
     from pygeodesy.frechet               import *  # PYCHOK __all__
+    from pygeodesy.fstats                import *  # PYCHOK __all__
     from pygeodesy.gars                  import Garef, GARSError  # PYCHOK lazily
     from pygeodesy.geodesicx             import *  # PYCHOK __all__
     from pygeodesy.geodsolve             import *  # PYCHOK __all__
@@ -523,7 +525,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.01.05'
+__version__ = '22.01.10'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
