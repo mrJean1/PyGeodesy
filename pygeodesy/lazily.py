@@ -200,7 +200,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'FrechetHaversine', 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas',
                                  'FrechetVincentys', 'Frechet6Tuple',
                                  'frechet_'),
-                         fstats=('Fcook', 'Fwelford'),
+                         fstats=('Fcook', 'Flinear', 'Fwelford'),
                            gars=('Garef', 'GARSError'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
                                  'Caps', 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
@@ -334,7 +334,7 @@ class _ALL_MODS(dict):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.01.06'
+__version__ = '22.01.12'
 
 
 def _ALL_OTHER(*objs):

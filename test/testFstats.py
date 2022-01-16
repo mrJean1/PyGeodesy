@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.08'
+__version__ = '22.01.14'
 
 from base import TestsBase
 
-from pygeodesy import EPS0, Fcook, fstats, Fsum, Fwelford
+from pygeodesy import EPS0, Fcook, Flinear, fstats, Fsum, Fwelford
 
 
 class Tests(TestsBase):
@@ -51,11 +51,19 @@ class Tests(TestsBase):
 
         t = Fcook(name='Empty')
         t += c
-        self.test(t.name, t, c, known=True, nt=1)
+        self.test(t.name, t, c, known=True)
+        t += 0
+        t += Fsum()
+        self.test(t.name, len(t), 18)
+        try:
+            t += None
+            self.test(t.name, t, TypeError.__name__)
+        except TypeError as x:
+            self.test(t.name, str(x), str(x))
 
         # <https://www.Real-Statistics.com/descriptive-statistics/symmetry-skewness-kurtosis/>
         c = Fcook((2, 5, -1, 3, 4, 5, 0, Fsum(2)), name='Excel')
-        self.test(c.name, len(c), 8)
+        self.test(c.name, len(c), 8, nl=1)
         k = c.fkurtosis_()
         self.test(c.name, k, '-1.114187', prec=6)
         t = c.fkurtosis_(sample=True)
@@ -90,6 +98,41 @@ class Tests(TestsBase):
         self.test(t.name, t.fstdev_(), d, prec=1)
         self.test(t.name, t.fvariance_(), d**2, prec=1)
         self.test(t.name, t.fadd_(), 8)
+
+        t = Fwelford(name='Empty') + c.toFwelford()
+        t += t
+        t += 0
+        t += Fsum()
+        self.test(t.name, len(t), 18)
+        try:
+            t += None
+            self.test(t.name, t, TypeError.__name__)
+        except TypeError as x:
+            self.test(t.name, str(x), str(x))
+
+        # <https://www.DisplayR.com/what-is-linear-regression/>
+        r = Flinear(( 23,  26,  30,   34,   43,   48,   52,   57,   58),
+                    (651, 762, 856, 1063, 1190, 1298, 1421, 1440, 1518), name=Flinear.__name__)
+        self.test(r.name, len(r), 9, nl=1)
+        self.test(r.name, r.fcorrelation(), '0.988288', prec=6)
+        self.test(r.name, r.fintercept(), '167.682949', prec=6)
+        self.test(r.name, r.fslope(),      '23.422786', prec=6)
+
+        r = r + (1, 2)
+        self.test(r.name, len(r), 10)
+        r += r.fcopy()
+        r += Fsum(), Fsum()
+        self.test(r.name, len(r), 21)
+        try:
+            r += None
+            self.test(r.name, r, TypeError.__name__)
+        except TypeError as x:
+            self.test(r.name, str(x), str(x))
+        try:
+            r += 1, 2, 3
+            self.test(r.name, r, ValueError.__name__)
+        except ValueError as x:
+            self.test(r.name, str(x), str(x))
 
 
 if __name__ == '__main__':

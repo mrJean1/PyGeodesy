@@ -498,7 +498,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '22.01.05'
+__version__ = '22.01.11'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 
@@ -540,9 +540,10 @@ def machine():
     '''Return standard C{platform.machine}, but distinguishing Intel from
        Intel I{emulation} on Apple Silicon (on macOS only).
 
-       @return: Machine C{'arm64'} for Apple Silicon I{natively}, C{'x86_64'}
-                for Intel, Intel C{"arm64_x86_64"} for Intel I{emulation}, etc.
-                (C{str} with C{comma}s replaced with C{underscore}s).
+       @return: Machine C{'arm64'} for Apple Silicon I{native}, C{'x86_64'}
+                for Intel I{native}, Intel C{"arm64_x86_64"} for Intel
+                I{emulation}, etc. (C{str} with C{comma}s replaced by
+                C{underscore}s).
     '''
     return _platform2()[1]
 

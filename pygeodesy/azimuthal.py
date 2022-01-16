@@ -68,11 +68,20 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.11.30'
+__version__ = '22.01.12'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
 _TRIPS         =  21  # numit, 4 sufficient
+
+
+def _enzh4(x, y, h=True):
+    '''(INTERNAL) return 4-tuple (easting, northing, azimuth, hypot).
+    '''
+    e = Easting( x=x)
+    n = Northing(y=y)
+    z = atan2b(e, n)  # (x, y) for azimuth from true North
+    return e, n, z, (hypot(e, n) if h else None)
 
 
 class _AzimuthalBase(_NamedBase):
@@ -146,12 +155,12 @@ class _AzimuthalBase(_NamedBase):
         sa, ca, sb, cb = sincos2d_(lat, lon - self.lon0)
         s0, c0 = self._sc0
 
-        k, t = _k_t_2(s0 * sa + c0 * ca * cb)
+        cb  *= ca
+        k, t = _k_t_2(s0 * sa + c0 * cb)
         if t:
             r = k * self.radius
-            x = Easting(x=r * ca * sb)
-            y = Northing(y=r * (c0 * sa - s0 * ca * cb))
-            z = atan2b(x, y)  # (x, y) for azimuth from true North
+            x, y, z, _ = _enzh4(r *  ca * sb,
+                                r * (c0 * sa - s0 * cb), h=False)
         else:  # 0 or 180
             x = y = z = _0_0
 
@@ -222,17 +231,13 @@ class _AzimuthalBase(_NamedBase):
     def _reverse(self, x, y, name, LatLon, LatLon_kwds, _c_t, lea):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
         '''
-        x = Easting(x=x)
-        y = Northing(y=y)
+        x, y, z, r = _enzh4(x, y)
 
-        r = hypot(x, y)
         c, t = _c_t(r / self.radius)
         if t:
             s0, c0 = self._sc0
             sc, cc = sincos2(c)
-            k = c / sc
-            z = atan2b(x, y)  # (x, y) for azimuth from true North
-
+            k = c  / sc
             t = s0 * cc
             if r > EPS0:
                 t += c0 * sc * (y / r)
@@ -494,11 +499,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
                   North and is C{1 / reciprocal} in the direction perpendicular
                   to this.
         '''
-        x = Easting(x=x)
-        y = Northing(y=y)
-
-        z = atan2d(x, y)  # (x, y) for azimuth from true North
-        s = hypot( x, y)
+        x, y, z, s = _enzh4(x, y)
 
         r = self.geodesic.Direct(self.lat0, self.lon0, z, s, self._mask)
         return self._7Tuple(x, y, r, name=name) if LatLon is None else \
@@ -777,11 +778,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
                   direction and C{1 / reciprocal} in the direction perpendicular
                   to this.
         '''
-        x = Easting(x=x)
-        y = Northing(y=y)
-
-        z = atan2d(x, y)  # (x, y) for azimuth from true North
-        q = hypot( x, y)
+        x, y, z, q = _enzh4(x, y)
 
         d = e = self.equatoradius
         s = e * atan(q / e)
@@ -797,12 +794,12 @@ class _GnomonicBase(_AzimuthalGeodesic):
         m = self._mask
         g = self.geodesic._LineTemp(self.lat0, self.lon0, z, m)
         P = g.Position
-        S = Fsum(s)
+        S = Fsum(s).fsum2_
         for self._iteration in range(1, _TRIPS):
             r = P(s, m)
             if abs(d) < e:
                 break
-            s, d = S.fsum2_(_d(r, q))
+            s, d = S(_d(r, q))
         else:
             raise AzimuthalError(x=x, y=y, txt=_no_(Fmt.convergence(e)))
 

@@ -28,7 +28,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.12.01'
+__version__ = '22.01.12'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -565,19 +565,19 @@ def _xscipy(where, *required):
     return _xversion(scipy, where, *required)
 
 
-def _xsubclassof(Class, **name_value_pairs):
-    '''(INTERNAL) Check super C{Class} of all C{name=value} pairs.
+def _xsubclassof(*Classes, **name_value_pairs):
+    '''(INTERNAL) Check (super) class of all C{name=value} pairs.
 
-       @arg Class: A class or type (C{class}).
+       @arg Classes: One or more classes or types (C{class}).
        @kwarg name_value_pairs: One or more C{B{name}=value} pairs
                                 with the C{value} to be checked.
 
        @raise TypeError: At least one of the B{C{name_value_pairs}}
-                         is not a sub-class of B{C{Class}}.
+                         is not a (sub-)class of any B{C{Classes}}.
     '''
     for n, v in name_value_pairs.items():
-        if not issubclassof(v, Class):
-            raise _TypesError(n, v, Class)
+        if not issubclassof(v, *Classes):
+            raise _TypesError(n, v, *Classes)
 
 
 def _xversion(package, where, *required, **name):  # in .karney

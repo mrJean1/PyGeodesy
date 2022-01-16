@@ -25,7 +25,7 @@ from math import ceil as _ceil, floor as _floor, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.01.07'
+__version__ = '22.01.16'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -227,16 +227,6 @@ class Fsum(_Named):
             raise self._Error(_iadd_, other)
         return self
 
-    def __int__(self):
-        '''Convert this instance to C{int} as C{int(self.fsum() + partials)}.
-
-           @see: Methods L{__ceil__} and L{__floor__}.
-        '''
-        s, p = self._cmp2()
-        s = -s
-        return int(p if (s > 0 and p < s) or
-                        (s < 0 and p > s) else s)
-
     def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other)
@@ -253,7 +243,7 @@ class Fsum(_Named):
            @see: Method L{Fsum.fmul}.
         '''
         if isscalar(other):
-            if other != _1_0:
+            if other not in (_1_0, 1):
                 self.fmul(other)
         elif isinstance(other, Fsum):
             ps = list(other._ps)  # copy
@@ -272,6 +262,16 @@ class Fsum(_Named):
         else:
             raise self._Error(_imul_, other)
         return self
+
+    def __int__(self):
+        '''Convert this instance to C{int} as C{int(self.fsum() + partials)}.
+
+           @see: Methods L{__ceil__} and L{__floor__}.
+        '''
+        s, p = self._cmp2()
+        s = -s
+        return int(p if (s > 0 and p < s) or
+                        (s < 0 and p > s) else s)
 
     def __iset__(self, other):  # PYCHOK not special
         '''Override this instance with an other.
@@ -333,24 +333,26 @@ class Fsum(_Named):
            @return: This instance (L{Fsum}).
         '''
         if isscalar(other):
-            s = other
+            d = other
         elif isinstance(other, Fsum):
             if other.__eq__(0):
-                s = 0  # throw ZeroDivisionError
+                d = 0  # throw ZeroDivisionError
             elif other is self or self.__eq__(other):
                 self._ps[:] = [_1_0]
                 self._fsum2_ = _1_0
                 return self
             else:
                 f = other.fcopy()
-                s = f.fsum()
+                d = f.fsum()
                 p = len(f._ps) - 1  # NOT len(f)!
                 if p > 0:
                     raise self._Error(_idiv_, other, Error=_ValueError,
                                 txt=_SPACE_(_partials_, Fmt.PAREN(p)))
         else:
             raise self._Error(_idiv_, other)
-        return self.fdiv(s)
+        if d not in (_1_0, 1):
+            self.fdiv(d)
+        return self
 
     def __le__(self, other):
         '''Compare this and an other instance or scalar.
@@ -623,17 +625,17 @@ class Fsum(_Named):
         # assert self._ps is ps
         return self
 
-    def fsub(self, iterable):
+    def fsub(self, xs):
         '''Subtract more I{scalar} values from an iterable.
 
-           @arg iterable: Sequence, list, tuple, etc. (C{scalar}s).
+           @arg xs: Iterable, list, tuple (C{scalar}s).
 
            @return: This instance (L{Fsum}).
 
            @see: Method L{Fsum.fadd}.
         '''
-        if iterable:
-            self.fadd(-s for s in iterable)
+        if xs:
+            self.fadd(-s for s in xs)
         return self
 
     def fsub_(self, *xs):
@@ -647,23 +649,26 @@ class Fsum(_Named):
         '''
         return self.fsub(xs)
 
-    def fsum(self, iterable=()):
+    def fsum(self, xs=None):
         '''Accumulate more I{scalar} values from an iterable and sum all.
 
-           @kwarg iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
+           @kwarg xs: Iterable, list, tuple (C{scalar}s) or a single
+                      C{scalar} of L{Fsum} instance.
 
            @return: Accurate, running sum (C{float}).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar B{C{iterable}} value.
+           @raise TypeError: Non-scalar B{C{xs}} value.
 
-           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
+           @raise ValueError: Invalid or non-finite B{C{xs}} value.
 
            @note: Accumulation can continue after summation.
         '''
-        if iterable:
-            self.fadd(iterable)
+        if isinstance(xs, _Scalar):
+            self += xs
+        elif xs:
+            self.fadd(xs)
 
         ps = self._ps
         i = len(ps) - 1
@@ -734,6 +739,13 @@ class Fsum(_Named):
         '''Return the real part of this instance.
         '''
         return float(self)
+
+
+_Float = Fsum, float  # in .fstats
+try:  # XXX basics._Ints is ABCMeta
+    _Scalar = _Float + (int, long)
+except NameError:  # Python 3+
+    _Scalar = _Float + (int,)
 
 
 class Fdot(Fsum):

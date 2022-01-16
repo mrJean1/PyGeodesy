@@ -61,25 +61,29 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Fcook</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+        
-           |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
-               |    
-      _StatsBase --+
-                   |
-                  <strong class="uidshort">Fcook</strong>
+  object --+            
+           |            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+               |        
+    <a href="pygeodesy.fstats._FstatsNamed-class.html">_FstatsNamed</a> --+    
+                   |    
+         <a href="pygeodesy.fstats._FstatsBase-class.html">_FstatsBase</a> --+
+                       |
+                      <strong class="uidshort">Fcook</strong>
 </pre>
 
 <hr />
 <p><a href="https://www.JohnDCook.com/blog/skewness_kurtosis" 
-  target="_top">Cook's</a> <code>RunningStats</code> computing the running 
-  kurtosis, mean, skewness, (sample) variance, standard deviation and 
-  Jarque-Bera normality.</p>
+  target="_top">Cook</a>'s <code>RunningStats</code> computing the running 
+  mean, median and (sample) kurtosis, skewness, variance, standard 
+  deviation and Jarque-Bera normality.</p>
 
 <hr />
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="pygeodesy.fstats.Fwelford-class.html" 
-        class="link">Fwelford</a>.
+        class="link">Fwelford</a> and <a 
+        href="https://WikiPedia.org/wiki/Algorithms_for_calculating_variance"
+        target="_top">Higher-order statistics</a>.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -96,30 +100,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.fstats.Fcook-class.html" 
-      class="link">Fcook</a> accumulator.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#__add__" class="summary-sig-name">__add__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Sum of this and a scalar, an <a 
-      href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a> or an 
-      other instance.</td>
+      class="link">Fcook</a> stats accumulator.</td>
           <td align="right" valign="top">
             
             
@@ -137,26 +121,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#__iadd__" class="summary-sig-name">__iadd__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Add a scalar, an <a href="pygeodesy.fmath.Fsum-class.html" 
-      class="link">Fsum</a> or an other instance to this instance.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="__radd__"></a><span class="summary-sig-name">__radd__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Not implemented.</td>
+      Add <b><code>other</code></b> to this <a 
+      href="pygeodesy.fstats.Fcook-class.html" class="link">Fcook</a> 
+      instance.</td>
           <td align="right" valign="top">
             
             
@@ -191,46 +158,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fcopy" class="summary-sig-name">fcopy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">deep</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Copy this instance, <code>shallow</code> or <b><code>deep</code></b>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fjb" class="summary-sig-name">fjb</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>)</span><br />
       Accumulate and compute the current <a 
@@ -253,7 +182,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fjb_" class="summary-sig-name">fjb_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**excess_sample</span>)</span><br />
+        <span class="summary-sig-arg">**sample_excess</span>)</span><br />
       Accumulate and compute the current <a 
       href="https://WikiPedia.org/wiki/Jarque&#8211;Bera_test" 
       target="_top">Jarque-Bera</a> normality.</td>
@@ -273,7 +202,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fkurtosis" class="summary-sig-name">fkurtosis</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">True</span>)</span><br />
       Accumulate and return the current kurtosis.</td>
@@ -294,7 +223,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fkurtosis_" class="summary-sig-name">fkurtosis_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**excess_sample</span>)</span><br />
+        <span class="summary-sig-arg">**sample_excess</span>)</span><br />
       Accumulate and return the current kurtosis.</td>
           <td align="right" valign="top">
             
@@ -312,7 +241,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span><br />
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>)</span><br />
       Accumulate and return the current mean.</td>
           <td align="right" valign="top">
             
@@ -330,7 +259,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fmedian" class="summary-sig-name">fmedian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span><br />
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>)</span><br />
       Accumulate and return the current median.</td>
           <td align="right" valign="top">
             
@@ -366,7 +295,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fskewness" class="summary-sig-name">fskewness</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
       Accumulate and return the current skewness.</td>
           <td align="right" valign="top">
@@ -404,7 +333,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fstdev" class="summary-sig-name">fstdev</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
       Accumulate and return the current standard deviation.</td>
           <td align="right" valign="top">
@@ -423,7 +352,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fstats.Fcook-class.html#fvariance" class="summary-sig-name">fvariance</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sample</span>=<span class="summary-sig-default">False</span>)</span><br />
       Accumulate and return the current variance.</td>
           <td align="right" valign="top">
@@ -435,14 +364,43 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="toFwelford"></a><span class="summary-sig-name">toFwelford</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Return an <a href="pygeodesy.fstats.Fwelford-class.html" 
+      class="link">Fwelford</a> equivalent.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_StatsBase</code></b>:
-      <code>__len__</code>,
-      <code>fadd_</code>,
-      <code>fmean_</code>,
-      <code>fstdev_</code>,
-      <code>fvariance_</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.fstats._FstatsBase-class.html">_FstatsBase</a></code></b>:
+      <code><a href="pygeodesy.fstats._FstatsBase-class.html#fadd_">fadd_</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsBase-class.html#fmean_">fmean_</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsBase-class.html#fstdev_">fstdev_</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsBase-class.html#fvariance_">fvariance_</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.fstats._FstatsNamed-class.html">_FstatsNamed</a></code></b>:
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__add__">__add__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__float__">__float__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__int__">__int__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__len__">__len__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__neg__">__neg__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__radd__">__radd__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.fstats._FstatsNamed-class.html#fcopy">fcopy</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
@@ -450,7 +408,6 @@
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
@@ -516,7 +473,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -526,7 +483,7 @@
   </tr></table>
   
   <p>New <a href="pygeodesy.fstats.Fcook-class.html" class="link">Fcook</a>
-  accumulator.</p>
+  stats accumulator.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -539,42 +496,6 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
-        class="link">Fcook.fadd</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="__add__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__add__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>)</span>
-    <br /><em class="fname">(Addition operator)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Sum of this and a scalar, an <a href="pygeodesy.fmath.Fsum-class.html"
-  class="link">Fsum</a> or an other instance.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - <a href="pygeodesy.fstats.Fcook-class.html" 
-          class="link">Fcook</a> instance or a <code>Scalar</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The sum (<a href="pygeodesy.fstats.Fcook-class.html" 
-          class="link">Fcook</a>).</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Methods <a href="pygeodesy.fstats.Fcook-class.html#__iadd__" 
-        class="link">Fcook.__iadd__</a> and <a 
-        href="pygeodesy.fstats.Fcook-class.html#fadd" 
         class="link">Fcook.fadd</a>.
       </p>
 </div></td></tr></table>
@@ -594,13 +515,17 @@
     </td>
   </tr></table>
   
-  <p>Add a scalar, an <a href="pygeodesy.fmath.Fsum-class.html" 
-  class="link">Fsum</a> or an other instance to this instance.</p>
+  <p>Add <b><code>other</code></b> to this <a 
+  href="pygeodesy.fstats.Fcook-class.html" class="link">Fcook</a> 
+  instance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - <a href="pygeodesy.fstats.Fcook-class.html" 
-          class="link">Fcook</a> instance or a <code>Scalar</code>.</li>
+        <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fstats.Fcook-class.html" 
+          class="link">Fcook</a> instance or <code>Scalar</code>s, meaning 
+          one or more <code>scalar</code> or <a 
+          href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a> 
+          instances.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a 
@@ -608,6 +533,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -636,12 +562,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the full <i>population</i> 
+        <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s, meaning 
+          <code>scalar</code> or <a href="pygeodesy.fmath.Fsum-class.html" 
+          class="link">Fsum</a> instances).</li>
+        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
           value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running count (<code>float</code>).</dd>
+        <dd>Current, running (sample) count (<code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
@@ -649,77 +577,12 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        <code>Scalar</code> means an <a 
-        href="pygeodesy.fmath.Fsum-class.html" class="link">Fsum</a> 
-        instance or <code>scalar</code>.
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://WikiPedia.org/wiki/Algorithms_for_calculating_variance"
+        target="_top">online_kurtosis</a>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="fcopy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fcopy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Copy this instance, <code>shallow</code> or 
-  <b><code>deep</code></b>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The copy (<a href="pygeodesy.fstats.Fwelford-class.html" 
-          class="link">Fwelford</a>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="copy"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">deep</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Copy this instance, <code>shallow</code> or 
-  <b><code>deep</code></b>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deep</code></strong> - If <code>True</code> make a deep, otherwise a shallow copy 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, non-empty name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The copy (<a href="pygeodesy.fstats.Fwelford-class.html" 
-          class="link">Fwelford</a>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#copy">named._Named.copy</a>
-    </dt>
-  </dl>
-</td></tr></table>
 </div>
 <a name="fjb"></a>
 <div>
@@ -729,7 +592,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fjb</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sample</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">excess</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -749,7 +612,8 @@
         <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running Jarque-Bera normality (<code>float</code>).</dd>
+        <dd>Current, running (sample) Jarque-Bera normality 
+          (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
@@ -766,7 +630,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fjb_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**excess_sample</span>)</span>
+        <span class="sig-arg">**sample_excess</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -792,7 +656,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fkurtosis</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sample</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">excess</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -806,12 +670,12 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the full <i>population</i> 
+        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
           value (<code>bool</code>).</li>
         <li><strong class="pname"><code>excess</code></strong> - Return the <i>excess</i> kurtosis (<code>bool</code>), default.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running kurtosis or <i>excess</i> kurtosis 
+        <dd>Current, running (sample) kurtosis or <i>excess</i> kurtosis 
           (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <dl><dt>See Also:</dt>
@@ -835,7 +699,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fkurtosis_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**excess_sample</span>)</span>
+        <span class="sig-arg">**sample_excess</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -859,7 +723,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fmean</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span>
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -889,7 +753,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fmedian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span>
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -905,18 +769,16 @@
     <dt>Returns:</dt>
         <dd>Current, running median (<code>float</code>).</dd>
   </dl>
-<div class="fields">      <dl><dt>See Also:</dt>
-        <dd>
-          <a 
-          href="https://MathWorld.Wolfram.com/PearsonsSkewnessCoefficients.html"
-          target="_top">Pearson's Skewness Coefficients</a> and <a 
-          href="https://Skewness&amp;KurtosisSimplifiedhttps://TowardsDataScience.com/skewness-kurtosis-simplified-1338e094fc85&gt;"
-          target="_top">Skewness &amp; Kurtosis Simplified 
-          https://TowardsDataScience.com/skewness-kurtosis-simplified-1338e094fc85&gt;</a>.,
-          Method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
-          class="link">Fcook.fadd</a>.
-        </dd>
-      </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://MathWorld.Wolfram.com/PearsonsSkewnessCoefficients.html"
+        target="_top">Pearson's Skewness Coefficients</a>, <a 
+        href="https://Skewness&amp;KurtosisSimplifiedhttps://TowardsDataScience.com/skewness-kurtosis-simplified-1338e094fc85&gt;"
+        target="_top">Skewness &amp; Kurtosis Simplified 
+        https://TowardsDataScience.com/skewness-kurtosis-simplified-1338e094fc85&gt;</a>
+        and method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
+        class="link">Fcook.fadd</a>.
+      </p>
 </div></td></tr></table>
 </div>
 <a name="fmedian_"></a>
@@ -951,7 +813,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fskewness</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -964,11 +826,11 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the full <i>population</i> 
+        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
           value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running skewness (<code>float</code>).</dd>
+        <dd>Current, running (sample) skewness (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <dl><dt>See Also:</dt>
         <dd>
@@ -1015,7 +877,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fstdev</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1028,11 +890,12 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the full <i>population</i> 
+        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
           value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running standard deviation (<code>float</code>).</dd>
+        <dd>Current, running (sample) standard deviation 
+          (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
@@ -1048,7 +911,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fvariance</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sample</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1061,11 +924,11 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - Iterable with additional values (<code>Scalar</code>s).</li>
-        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the full <i>population</i> 
+        <li><strong class="pname"><code>sample</code></strong> - Return the <i>sample</i> instead of the entire <i>population</i> 
           value (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Current, running variance (<code>float</code>).</dd>
+        <dd>Current, running (sample) variance (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fstats.Fcook-class.html#fadd" 
@@ -1105,7 +968,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan  9 14:18:19 2022
+    Generated by Epydoc 3.0.1 on Sun Jan 16 13:36:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

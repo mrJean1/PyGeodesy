@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '22.01.05'
+__version__ = '22.01.11'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -16,7 +16,8 @@ from base import coverage, scipy, PyGeodesy_dir, TestsBase
 
 from pygeodesy import fstr, len2, egmGeoidHeights, Fwelford, \
                       GeoidError, GeoidG2012B, GeoidKarney, GeoidPGM, \
-                      LatLon_, RangeError, reprs
+                      LatLon_, NN, RangeError, reprs
+from pygeodesy.interns import _DOT_
 
 import os.path as _os_path
 from os import SEEK_SET as _SEEK_SET
@@ -249,11 +250,11 @@ _GeoidHeights_dat = b'''
 
 class Tests(TestsBase):
 
-    _crop4     = None
+    _crop4     =  None
     _dat5tests = _GeoidHeights_dat
-    _epsHeight = 0.010  # 1 centi-meter
-    _hIndex    = 0  # invalid
-    _kind      = 3
+    _epsHeight =  0.010  # 1 centi-meter
+    _hIndex    =  0  # invalid
+    _kind      =  3
 
     def dat5llhs3(self, grid, hIndex=4):
         # Generate test 3-tuples (lat, lon, expected)
@@ -263,7 +264,7 @@ class Tests(TestsBase):
             3 if 'egm96-'  in egm else (
             4 if 'egm2008-'in egm else (
             self._hIndex or hIndex)))
-        if not 2 <= h <= 4:
+        if h not in (2, 3, 4):
             raise ValueError('%s: %s' % ('-hindex', h))
 
         for t5 in egmGeoidHeights(self._dat5tests):
@@ -289,7 +290,7 @@ class Tests(TestsBase):
                         e = abs(h - expected)
                         if e_max < e:
                             e_max = e
-                        w.fmean_(e)
+                        w.fadd_(e)
                         self.test(t, h, expected, fmt='%.3f', known=e < eps)
                     except GeoidError as x:
                         self.test(t, str(x), '%.3f' % (expected,),
@@ -304,34 +305,34 @@ class Tests(TestsBase):
 
                 f = self.failed - self.known - f
                 if f > 0 or e_max > 0 or w is not None:
-                    h = '' if g.hits is None else ', hits %s' % (g.hits,)
+                    h = NN if g.hits is None else ', hits %s' % (g.hits,)
                     h = '%s.height() kind %s%s, eps ' % (g, g.kind, h)
-                    t = h + 'max (in %s FAILED)' % (f,)
+                    t = '%smax (in %s FAILED)' % (h, f)
                     x = eps if f > 0 else e_max
                     self.test(t, e_max, x, fmt='%.6f', known=e_max < eps, nl=1)
-                    for t, x in (('mean',  w.fmean_()),
-                                 ('stdev', w.fstdev_())):
-                        t = h + '%s (of %s total)' % (t, len(w))
+                    for t, x in (('mean',  w.fmean()),
+                                 ('stdev', w.fstdev())):
+                        t = '%s%s (of %s total)' % (h, t, len(w))
                         self.test(t, x, x, fmt='%.6f')
 
                 # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
                 if coverage:
                     for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
                         t = fstr(getattr(g, a)(), prec=3)
-                        self.test('%s.%s()' % (g, a), t, t, known=True)
+                        self.test(NN(_DOT_(g, a), '()'), t, t, known=True)
                     for p in ('dtype', 'knots', 'mean', 'nBytes', 'smooth', 'stdev'):  # , 'pgm', 'scipy'
-                        t = ''.join(reprs((getattr(g, p),), prec=3))
-                        self.test('%s.%s' % (g, p), t, t, known=True)
+                        t = NN(reprs((getattr(g, p),), prec=3))
+                        self.test(_DOT_(g, p), t, t, known=True)
                     for a in ('_g2ll2', '_ll2g2'):
                         t = getattr(g, a)(180, 360)
-                        self.test('%s.%s(180, 360)' % (g, a), t, t, known=True)
+                        self.test(NN(_DOT_(g, a), '(180, 360)'), t, t, known=True)
                     for t in ((LatLon_(-10, -100), LatLon_(10, 100)),
                               (       (-10, -100),        (10, 100))):
                         t = g._swne(t)
-                        self.test('%s.%s' % (g, '_swne'), t, '(-10.0, -100.0, 10.0, 100.0)')
+                        self.test(_DOT_(g, '_swne'), t, '(-10.0, -100.0, 10.0, 100.0)')
 
                 t = g.toStr()
-                self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
+                self.test(_DOT_(g, 'toStr'), t, t, known=True, nt=1)
 
             self.test('closed', g.closed, True)
             self.testCopy(g)

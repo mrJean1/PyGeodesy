@@ -379,24 +379,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#__int__" class="summary-sig-name">__int__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this instance to <code>int</code> as <code>int(self.fsum() + 
-      partials)</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Not implemented.</td>
@@ -418,6 +400,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#__imul__" class="summary-sig-name">__imul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Multiply this instance by a scalar or an other instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#__int__" class="summary-sig-name">__int__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this instance to <code>int</code> as <code>int(self.fsum() + 
+      partials)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1117,7 +1117,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsub" class="summary-sig-name">fsub</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">iterable</span>)</span><br />
+        <span class="summary-sig-arg">xs</span>)</span><br />
       Subtract more <i>scalar</i> values from an iterable.</td>
           <td align="right" valign="top">
             
@@ -1153,7 +1153,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath.Fsum-class.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">iterable</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span><br />
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default">None</span>)</span><br />
       Accumulate more <i>scalar</i> values from an iterable and sum all.</td>
           <td align="right" valign="top">
             
@@ -1539,32 +1539,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="__int__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__int__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert this instance to <code>int</code> as <code>int(self.fsum() + 
-  partials)</code>.</p>
-  <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Methods <a href="pygeodesy.fmath.Fsum-class.html#__ceil__" 
-        class="link">__ceil__</a> and <a 
-        href="pygeodesy.fmath.Fsum-class.html#__floor__" 
-        class="link">__floor__</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="__imatmul__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1621,6 +1595,32 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fmath.Fsum-class.html#fmul" 
         class="link">Fsum.fmul</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="__int__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__int__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <code>int</code> as <code>int(self.fsum() + 
+  partials)</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a href="pygeodesy.fmath.Fsum-class.html#__ceil__" 
+        class="link">__ceil__</a> and <a 
+        href="pygeodesy.fmath.Fsum-class.html#__floor__" 
+        class="link">__floor__</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2269,7 +2269,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsub</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">iterable</span>)</span>
+        <span class="sig-arg">xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2280,7 +2280,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Sequence, list, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance (<a href="pygeodesy.fmath.Fsum-class.html" 
@@ -2331,7 +2331,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">iterable</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span>
+        <span class="sig-arg">xs</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2342,15 +2342,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Sequence, list, tuple, etc. (<code>scalar</code>s), optional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple (<code>scalar</code>s) or a single 
+          <code>scalar</code> of <a href="pygeodesy.fmath.Fsum-class.html" 
+          class="link">Fsum</a> instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Accurate, running sum (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -2518,7 +2520,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan  9 14:18:19 2022
+    Generated by Epydoc 3.0.1 on Sun Jan 16 13:36:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

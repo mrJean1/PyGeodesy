@@ -59,7 +59,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '21.12.28'
+__version__ = '22.01.12'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1287,13 +1287,13 @@ def _Astroid(x, y):
                 u += r**2 / u
             u += r
 
-        v = sqrt(u**2 + q)
+        v = hypot(u, y)  # sqrt(u**2 + q)
         # avoid loss of accuracy when u < 0
-        uv = (q / (v - u)) if u < 0 else (u + v)
-        w = (uv - q) / (_2_0 * v)  # positive?
+        u = (q / (v - u)) if u < 0 else (v + u)
+        w = (u - q) / (_2_0 * v)  # positive?
         # rearrange expression for k to avoid loss of accuracy due to
-        # subtraction, division by 0 impossible because uv > 0, w >= 0
-        k = uv / (sqrt(w**2 + uv) + w)  # guaranteed positive
+        # subtraction, division by 0 impossible because u > 0, w >= 0
+        k = u / (sqrt(w**2 + u) + w)  # guaranteed positive
 
     else:  # q == 0 && r <= 0
         # y = 0 with |x| <= 1.  Handle this case directly, for
