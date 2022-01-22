@@ -107,7 +107,7 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests have been run with Python 3.10.1 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+The tests have been run with Python 3.10.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy <https://PyPI.org/project/numpy>}
@@ -117,11 +117,11 @@ in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 
 option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The
 results of only those tests are included in the distribution files.
 
-Python 3.10.1 and 3.9.6 run on Apple Silicon (C{arm64} I{natively}), all other Python versions run on Intel
+Python 3.10.2 and 3.9.6 run on Apple Silicon (C{arm64} I{natively}), all other Python versions run on Intel
 (C{x86_64}) or Intel I{emulation} (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using
-Python 3.10.1 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python 3.9.6
+Python 3.10.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python 3.9.6
 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and
 U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (U{GeodSolve
@@ -140,9 +140,9 @@ Previously, the tests were run with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15 and U{PyP
 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52 and U{numpy<https://PyPI.org/project/numpy>} 1.16.3,
 1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on U{Ubuntu 16.04<https://Travis-CI.com/mrJean1/PyGeodesy>},
-with Python 3.10.0, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and
-U{numpy<https://PyPI.org/project/numpy>} 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or
-1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python
+with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9
+(and U{numpy<https://PyPI.org/project/numpy>} 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1
+or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python
 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7
@@ -161,7 +161,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.1, both in 64-bit on macOS 12.1 Monterey.
+using Python 3.10.2, both in 64-bit on macOS 12.1 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -373,6 +373,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.formy                 as formy                  # PYCHOK exported
     import pygeodesy.frechet               as frechet                # PYCHOK exported
     import pygeodesy.fstats                as fstats                 # PYCHOK exported
+    import pygeodesy.fsums                 as fsums                  # PYCHOK exported
     import pygeodesy.gars                  as gars                   # PYCHOK exported
     import pygeodesy.geodesicx             as geodesicx              # PYCHOK exported
     import pygeodesy.geodsolve             as geodsolve              # PYCHOK exported
@@ -447,6 +448,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.formy                 import *  # PYCHOK __all__
     from pygeodesy.frechet               import *  # PYCHOK __all__
     from pygeodesy.fstats                import *  # PYCHOK __all__
+    from pygeodesy.fsums                 import *  # PYCHOK __all__
     from pygeodesy.gars                  import Garef, GARSError  # PYCHOK lazily
     from pygeodesy.geodesicx             import *  # PYCHOK __all__
     from pygeodesy.geodsolve             import *  # PYCHOK __all__
@@ -525,7 +527,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.01.16'
+__version__ = '22.01.22'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

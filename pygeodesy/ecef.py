@@ -62,11 +62,12 @@ plane} as opposed to I{geocentric} (ECEF) ones.
 
 from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, \
                              neg, map1, _xinstanceof, _xsubclassof
-from pygeodesy.datums import _ellipsoidal_datum
-from pygeodesy.ellipsoids import a_f2Tuple
+from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
+# from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
 from pygeodesy.errors import _datum_datum, _IndexError, LenError, \
                              _ValueError, _TypesError, _xkwds
-from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot, hypot1, hypot2_
+from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
+from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
                              _a_, _C_, _convergence_, _datum_, _ellipsoid_, \
                              _f_, _h_, _height_, _lat_, _lon_, _M_, _name_, \
@@ -88,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'

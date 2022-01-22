@@ -37,12 +37,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 from pygeodesy.basics import copysign0, _xinstanceof, _xor, unsigned0
-from pygeodesy.fmath import cbrt, fsum_, hypot, norm2
+from pygeodesy.fmath import cbrt, hypot, norm2
+# from pygeodesy.fsums import fsum_  # from .geodesicx.gxline
 from pygeodesy.geodesicx.gxbases import _ALL_DOCS, Caps, _coSeries, \
                                         _GeodesicBase, _polynomial, \
                                         _sincos12, _TINY, _xnC4
-from pygeodesy.geodesicx.gxline import _GeodesicLineExact, pairs, \
-                                       _update_glXs
+from pygeodesy.geodesicx.gxline import fsum_, _GeodesicLineExact, pairs, \
+                                      _update_glXs
 from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
                              _COMMASPACE_, _convergence_, _EPSqrt, _no_, \
                              _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, \
@@ -59,7 +60,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '22.01.12'
+__version__ = '22.01.17'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits

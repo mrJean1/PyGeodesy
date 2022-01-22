@@ -39,6 +39,7 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, \
                             _xkwds_get, _xkwds_not
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
+# from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
                              _COMMASPACE_, _NS_, _outside_, \
                              _range_, _S_, _SPACE_, _UTM_, \
@@ -63,7 +64,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

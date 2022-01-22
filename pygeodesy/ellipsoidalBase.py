@@ -12,10 +12,10 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _xinstanceof
+# from pygeodesy.basics import _xinstanceof  # from .datums
 from pygeodesy.cartesianBase import CartesianBase, Vector3Tuple
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _spherical_datum, _WGS84
+                            _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds, \
                              _xkwds_get, _xkwds_not
@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '21.12.29'
+__version__ = '22.01.17'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

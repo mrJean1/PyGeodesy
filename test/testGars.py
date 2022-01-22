@@ -4,7 +4,7 @@
 # Test gars module.
 
 __all__ = ('Tests',)
-__version__ = '20.01.22'
+__version__ = '22.01.20'
 
 from base import TestsBase
 
@@ -28,7 +28,8 @@ class Tests(TestsBase):
         self.test('Garef', g.toStr(), '381NH45')
         self.test('Garef', g.toRepr(), "Garef('381NH45')")
         self.test('Garef', g.toRepr(std=True), "'381NH45'")
-        self.test_('Garef', repr(g), "Garef('381NH45')", "'381NH45'")  # PYGEODESY_NAMEDSTR_REPR
+        t = repr(g)
+        self.test('Garef', t, "Garef('381NH45')", known=t == "'381NH45'")  # PYGEODESY_NAMEDSTR_REPR
         self.test('Garef.precision', g.precision, 2)
         self.testCopy(g)
 

@@ -7,7 +7,7 @@
 # see <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
 # and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
-from copy import copy as _xcopy
+# from copy import copy as _xcopy
 from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import getenv
@@ -31,7 +31,7 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, clips, DeprecationWarnings, isLazy, \
+from pygeodesy import anstr, basics, clips, DeprecationWarnings, isLazy, \
                       issubclassof, iterNumpy2over, LazyImportError, \
                       map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '21.12.18'
+__version__ = '22.01.20'
 
 try:
     import geographiclib
@@ -51,7 +51,6 @@ except ImportError:
     geographiclib = None
 
 # don't test with numpy and scypi older than 1.9 resp. 1.0
-from pygeodesy import basics
 try:
     numpy = basics._xnumpy(basics, 1, 9)
 except ImportError:
@@ -60,6 +59,8 @@ try:
     scipy = basics._xscipy(basics, 1, 0)
 except ImportError:
     scipy = None
+
+_xcopy = basics._xcopy
 del basics
 
 try:
@@ -93,6 +94,8 @@ isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
 isWindows  = sys.platform[:3] == 'win'
 
 GeodSolve  = getenv('PYGEODESY_GEODSOLVE', None)
+
+startswith = str.startswith
 
 try:
     # use distro only for Linux, not macOS, etc.
@@ -280,47 +283,21 @@ class TestsBase(object):
         if self._iterisk:
             name += self._iterisk
 
-        fmt, known, kwds = _fmt_known_kwds(**kwds)
+        fmt, known, kwds = _get_kwds(**kwds)
 
         if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
 
         f, r, v = NN, False, fmt % (value,)  # value as str
-        if v != expect and v != normDMS(expect):
+        if v != expect and v != normDMS(expect) and not (
+           callable(known) and known(v, expect)):
             self.failed += 1  # failures
-            if known:  # failed before
+            if not known or callable(known):
+                r = True
+            else:  # failed before
                 self.known += 1
                 f = ', KNOWN'
-            else:
-                r = True
             f = '  FAILED%s, expected %s' % (f, expect)
-
-        self.total += 1  # tests
-        if f or self._verbose:
-            self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
-        if r and self._raiser:
-            raise TestError('test %d %s', self.total, name)
-
-    def test_(self, name, value, *expects, **kwds):
-        '''Compare a test value with one or several expected results.
-        '''
-        if self._iterisk:
-            name += self._iterisk
-
-        fmt, known, kwds = _fmt_known_kwds(**kwds)
-
-        f, r, v = NN, False, fmt % (value,)  # value as str
-        for x in expects:
-            if v == x or v == normDMS(x):
-                break
-        else:
-            self.failed += 1  # failures
-            if known:  # failed before
-                self.known += 1
-                f = ', KNOWN'
-            else:
-                r = True
-            f = '  FAILED%s, expected %s' % (f, ' or '.join(expects))
 
         self.total += 1  # tests
         if f or self._verbose:
@@ -337,13 +314,13 @@ class TestsBase(object):
     def testCopy(self, inst, *attrs, **kwds):  # Clas=None
         C = kwds.get('Clas', inst.__class__)
 
-        c = _xcopy(inst)
+        c = _xcopy(inst, **kwds)
         t = c.__class__, id(c) != id(inst)
         self.test('copy(%s)' % C.__name__, t, (C, True))
         for a in attrs:
             self.test('.' + a, getattr(c, a), getattr(inst, a))
 
-        c = inst.copy()
+        c = inst.copy(**kwds)
         t = c.__class__, id(c) != id(inst)
         self.test(C.__name__ + '.copy()', t, (C, True))
         for a in attrs:
@@ -391,7 +368,7 @@ class TestError(RuntimeError):  # ValueError's are often caught
         RuntimeError.__init__(self, fmt % args)
 
 
-def _fmt_known_kwds(fmt='%s', prec=0, known=False, **kwds):
+def _get_kwds(fmt='%s', prec=0, known=False, **kwds):
     '''(INTERNAL) Get C{fmt}, C{known} and other C{kwds}.
     '''
     if prec > 0:

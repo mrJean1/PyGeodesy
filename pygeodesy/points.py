@@ -34,6 +34,7 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
+# from pygeodesy.fsums import Fsum, fsum  # from .fmath
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
                              _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
@@ -60,7 +61,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.12.29'
+__version__ = '22.01.17'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'

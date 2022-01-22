@@ -52,13 +52,15 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0
-from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
-from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
-                                       _intersection3, _intersections2
+# from pygeodesy.basics import isnear0  # from .ellipsoidalBaseDI
+# from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn, \
+                                     _WGS84
+from pygeodesy.ellipsoidalBaseDI import fsum_, isnear0, LatLonEllipsoidalBaseDI, \
+                                       _TOL_M, _intersection3, _intersections2
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.fmath import fpolynomial, fsum_, hypot, hypot1
+from pygeodesy.fmath import fpolynomial, hypot, hypot1
+# from pygeodesy.fsums import fsum_  # from .ellipsoidalBaseDI
 from pygeodesy.interns import EPS, NN, _ambiguous_, _antipodal_, \
                              _convergence_, _no_, _SPACE_, _to_, \
                              _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
@@ -75,7 +77,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!

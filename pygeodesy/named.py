@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.12.24'
+__version__ = '22.01.20'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -460,7 +460,6 @@ class _NamedDict(_Dict, _Named):
     '''(INTERNAL) Named C{dict} with key I{and} attribute
        access to the items.
     '''
-
     def __init__(self, *args, **kwds):
         if args:  # args override kwds
             if len(args) != 1:
@@ -962,29 +961,31 @@ class _NamedTuple(tuple, _Named):
         '''
         return self._iteration
 
-    def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+    def toRepr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
            @kwarg sep: Optional separator to join (C{str}).
+           @kwarg fmt: Optional, C{float} format (C{str}).
 
            @return: Tuple items (C{str}).
         '''
-        return Fmt.PAREN(self.named, sep.join(pairs(self.items(), prec=prec)))
+        return Fmt.PAREN(self.named, sep.join(pairs(self.items(), prec=prec, fmt=fmt)))
 
-    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
+    def toStr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
            @kwarg sep: Optional separator to join (C{str}).
+           @kwarg fmt: Optional, C{float} format (C{str}).
 
            @return: Tuple items (C{str}).
         '''
-        return Fmt.PAREN(sep.join(reprs(self, prec=prec)))
+        return Fmt.PAREN(sep.join(reprs(self, prec=prec, fmt=fmt)))
 
     def toUnits(self, Error=UnitError):  # overloaded in .frechet, .hausdorff
         '''Return a copy of this C{Named-Tuple} with each item value wrapped

@@ -1,751 +1,32 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Precision floating point summation and utilities.
+u'''Utilities using precision floating point summation.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _isfinite, isint, isnear0, \
-                             isscalar, len2, neg
-from pygeodesy.errors import _IsnotError, LenError, _NotImplementedError, \
-                             _OverflowError, _TypeError, _ValueError, \
-                             _xkwds_get
-from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NN, PI, PI_2, PI_4, \
-                             _finite_, _few_, _h_, _iadd_, _negative_, _not_, \
-                             _singular_, _SPACE_, _too_, _0_0, _0_5, \
+from pygeodesy.basics import copysign0, isint, isnear0, len2
+from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError
+from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_
+from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, PI, PI_2, PI_4, \
+                             _few_, _h_, _negative_, \
+                             _singular_, _too_, _0_0, _0_5, \
                              _1_0, _N_1_0, _1_5, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
-from pygeodesy.named import _Named, _NotImplemented
-# from pygeodesy.props import property_RO  # from .units
-from pygeodesy.streprs import Fmt, unstr
-from pygeodesy.units import Int_, property_RO
+# from pygeodesy.streprs import Fmt  # from .fsums
+from pygeodesy.units import Int_
 
-from math import ceil as _ceil, floor as _floor, sqrt  # pow
+from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.01.16'
+__version__ = '22.01.17'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
 _1_3rd  = _1_0 / _3_0
 _2_3rd  = _2_0 / _3_0
-
-_idiv_     = '/='
-_imul_     = '*='
-_isub_     = '-='
-_partials_ = 'partials'
-
-
-def _2even(s, r, p):
-    '''(INTERNAL) Half-even rounding.
-    '''
-    if (r > 0 and p > 0) or \
-       (r < 0 and p < 0):  # signs match
-        t, p = _2sum(s, p * 2)
-        if not p:
-            s = t
-    return s
-
-
-def _2float(index=None, **name_value):
-    '''(INTERNAL) Raise C{TypeError} or C{ValueError} if not scalar or infinite.
-    '''
-    n, v = name_value.popitem()
-    try:
-        if _isfinite(v):
-            return float(v)
-        X, t = _ValueError, _not_(_finite_)
-    except TypeError as x:
-        X, t = _TypeError, str(x)
-    except ValueError as x:
-        X, t = _ValueError, str(x)
-    except Exception as x:
-        X, t = _NotImplementedError, repr(x)
-    if index is not None:
-        n = Fmt.SQUARE(n, index)
-    raise X(n, v, txt=t)
-
-
-def _2sum(a, b):  # by .testFmath
-    '''(INTERNAL) Precision C{2sum} of M{a + b} as 2-tuple (sum, residual).
-    '''
-    s = a + b
-    if not _isfinite(s):
-        raise _OverflowError(unstr(_2sum.__name__, a, b), txt=str(s))
-    if abs(a) < abs(b):
-        a, b = b, a
-    return s, (b - (s - a))  # abs(b) <= abs(a)
-
-
-class Fsum(_Named):
-    '''Precision summation similar to standard Python function C{math.fsum}.
-
-       Unlike C{math.fsum}, this class accumulates the values and provides
-       intermediate, precision running sums.  Accumulation may continue
-       after intermediate summations.
-
-       @note: Handling of exceptions, C{inf}, C{INF}, C{nan} and C{NAN}
-              values is different from C{math.fsum}.
-
-       @see: U{Hettinger<https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
-             393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>},
-             U{Kahan<https://WikiPedia.org/wiki/Kahan_summation_algorithm>},
-             U{Klein<https://Link.Springer.com/article/10.1007/s00607-005-0139-x>},
-             Python 2.6+ file I{Modules/mathmodule.c} and the issue log
-             U{Full precision summation<https://Bugs.Python.org/issue2819>}.
-    '''
-    _fsum2_ = None
-    _n      = 0
-    _ps     = []  # partials
-
-    def __init__(self, *starts, **name):
-        '''Initialize a new accumulator with one or more start values.
-
-           @arg starts: No, one or more start values (C{scalar}s).
-           @kwarg name: Optional name (C{str}).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar B{C{starts}} value.
-
-           @raise ValueError: Invalid or non-finite B{C{starts}} value.
-        '''
-        self._n = 0
-        self._ps = []
-        if starts:
-            self.fadd(starts)
-        if name:
-            self.name = _xkwds_get(name, name=NN)
-
-    def __abs__(self):
-        '''Return absolute value of this instance.
-        '''
-        return self.__neg__() if self.__lt__(0) else self
-
-    def __add__(self, other):
-        '''Sum of this and a scalar or an other instance.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: The sum (L{Fsum}).
-
-           @see: Method L{Fsum.__iadd__}.
-        '''
-        f = self.fcopy(name=self.__add__.__name__)
-        f += other
-        return f
-
-    def __bool__(self):  # PYCHOK PyChecker
-        '''Is this instance non-zero?.
-        '''
-        return self.__ne__(0)
-
-    def __ceil__(self):  # PYCHOK not special in Python 2-
-        '''Return the C{ceil} of this instance as C{float}.
-
-           @see: Methods L{__floor__} and L{__int__}.
-        '''
-        s, p = self._cmp2()
-        return _ceil(max(p, -s))
-
-    def __divmod__(self, other):
-        '''Return the 2-tuple C{divmod(this_instance, B{other})}.
-
-           @see: Method L{__itruediv__}.
-        '''
-        f = self.fcopy(name=self.__divmod__.__name__)
-        i = f.__truediv__(other).__int__()
-        return float(i), f.__isub__(other * i)
-
-    def __eq__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p == s
-
-    def __float__(self):
-        '''Convert this instance to C{float} as C{float(self.fsum())}.
-        '''
-        s = self._fsum2_
-        return self.fsum() if s is None else s
-
-    def __floor__(self):  # PYCHOK not special in Python 2-
-        '''Return the C{floor} of this instance as C{float}.
-
-           @see: Methods L{__ceil__} and L{__int__}.
-        '''
-        s, p = self._cmp2()
-        return _floor(min(p, -s))
-
-    def __floordiv__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __format__(self, *other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, *other)
-
-    def __ge__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p >= s
-
-    def __gt__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p > s
-
-    def __hash__(self):  # PYCHOK no cover
-        '''Return the C{hash} of this instance.
-        '''
-        return hash(self._ps)
-
-    def __iadd__(self, other):
-        '''Add a scalar or an other instance to this instance.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: This instance, updated (L{Fsum}).
-
-           @raise TypeError: Invalid B{C{other}} type.
-
-           @see: Method L{Fsum.fadd}.
-        '''
-        if isscalar(other):
-            if other:
-                self.fadd_(other)
-        elif isinstance(other, Fsum):
-            if other is self:  # or self.__eq__(other):
-                self.fmul(2)
-            else:
-                self.fadd(other._ps)
-        else:
-            raise self._Error(_iadd_, other)
-        return self
-
-    def __imatmul__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __imul__(self, other):
-        '''Multiply this instance by a scalar or an other instance.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: This instance, updated (L{Fsum}).
-
-           @raise TypeError: Invalid B{C{other}} type.
-
-           @see: Method L{Fsum.fmul}.
-        '''
-        if isscalar(other):
-            if other not in (_1_0, 1):
-                self.fmul(other)
-        elif isinstance(other, Fsum):
-            ps = list(other._ps)  # copy
-            p = ps.pop() if ps else 0
-            if p:
-                s = self.fcopy()
-                self.fmul(p)
-                while ps:  # self += s * ps.pop()
-                    p = ps.pop()
-                    if p:
-                        p = s.fcopy().fmul(p)
-                        self.fadd(p._ps)
-            else:  # PYCHOK no cover
-                self._ps = []  # zero
-                self._fsum2_ = _0_0
-        else:
-            raise self._Error(_imul_, other)
-        return self
-
-    def __int__(self):
-        '''Convert this instance to C{int} as C{int(self.fsum() + partials)}.
-
-           @see: Methods L{__ceil__} and L{__floor__}.
-        '''
-        s, p = self._cmp2()
-        s = -s
-        return int(p if (s > 0 and p < s) or
-                        (s < 0 and p > s) else s)
-
-    def __iset__(self, other):  # PYCHOK not special
-        '''Override this instance with an other.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: This instance, overridden (L{Fsum}).
-
-           @raise TypeError: Invalid B{C{other}} type.
-        '''
-        if isscalar(other):
-            self._n  =     1
-            self._ps =    [float(other)]
-            self._fsum2_ = float(other)
-        elif isinstance(other, Fsum):
-            if other is not self:
-                self._n  =      other._n
-                self._ps = list(other._ps)
-                self._fsum2_ =  other._fsum2_
-        else:
-            raise self._Error(_isub_, other)
-        return self
-
-    def __isub__(self, other):
-        '''Subtract a scalar or an other instance from this instance.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: This instance, updated (L{Fsum}).
-
-           @raise TypeError: Invalid B{C{other}} type.
-
-           @see: Method L{Fsum.fadd}.
-        '''
-        if isscalar(other):
-            if other:
-                self.fadd_(-other)
-        elif isinstance(other, Fsum):
-            if other is self:  # or self.__eq__(other):
-                self._ps = []  # zero
-                self._fsum2_ = _0_0
-            else:
-                self.fadd(-p for p in other._ps)  # neg_(*other._ps)
-        else:
-            raise self._Error(_isub_, other)
-        return self
-
-    def __itruediv__(self, other):
-        '''Devide this instance by a I{scalar} divisor only.
-
-           @arg other: The denominator (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{other}}.
-
-           @raise ValueError: Zero, invalid or non-finite B{C{other}}
-                              or an L{Fsum} B{C{other}} with too many
-                              C{partials}.
-
-           @return: This instance (L{Fsum}).
-        '''
-        if isscalar(other):
-            d = other
-        elif isinstance(other, Fsum):
-            if other.__eq__(0):
-                d = 0  # throw ZeroDivisionError
-            elif other is self or self.__eq__(other):
-                self._ps[:] = [_1_0]
-                self._fsum2_ = _1_0
-                return self
-            else:
-                f = other.fcopy()
-                d = f.fsum()
-                p = len(f._ps) - 1  # NOT len(f)!
-                if p > 0:
-                    raise self._Error(_idiv_, other, Error=_ValueError,
-                                txt=_SPACE_(_partials_, Fmt.PAREN(p)))
-        else:
-            raise self._Error(_idiv_, other)
-        if d not in (_1_0, 1):
-            self.fdiv(d)
-        return self
-
-    def __le__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p <= s
-
-    def __len__(self):
-        '''Return the I{total} number of accumulated values (C{int}).
-        '''
-        return self._n
-
-    def __lt__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p < s
-
-    def __matmul__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __mod__(self, other):
-        '''Return C{this_instance % B{other}}.
-
-           @see: Method L{__divmod__}.
-        '''
-        _, m = self.__divmod__(other)
-        return m
-
-    def __mul__(self, other):
-        '''Product of this and an other instance or a scalar.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: The product (L{Fsum}).
-
-           @see: Method L{Fsum.__imul__}.
-        '''
-        f = self.fcopy(name=self.__mul__.__name__)
-        f *= other
-        return f
-
-    def __ne__(self, other):
-        '''Compare this and an other instance or scalar.
-        '''
-        s, p = self._cmp2(other)
-        return p != s
-
-    def __neg__(self):
-        '''Return a copy of this instance, negated.
-        '''
-        f = self.fcopy(name=self.__neg__.__name__)
-        f *= -1  # negates
-        return f
-
-    def __pos__(self):  # PYCHOK no cover
-        '''Return this instance, I{as-is}.
-        '''
-        return self
-
-    def __pow__(self, other, *mod):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other, *mod)
-
-    def __radd__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rdivmod__ (self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rfloordiv__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rmatmul__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rmod__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rmul__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __round__(self, ndigits=None):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, ndigits=ndigits)
-
-    def __rpow__(self, other, *mod):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other, *mod)
-
-    def __rsub__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __rtruediv__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
-
-    def __sizeof__(self):  # PYCHOK no cover
-        '''Size of this instance in C{bytes}.
-        '''
-        return sum(p.__sizeof__() for p in (self._ps + [self._ps]))
-
-    def __str__(self):
-        return Fmt.SQUARE(self.named3, len(self))
-
-    def __sub__(self, other):
-        '''Difference of this and an other instance or a scalar.
-
-           @arg other: L{Fsum} instance or C{scalar}.
-
-           @return: The difference (L{Fsum}).
-
-           @see: Method L{Fsum.__isub__}.
-        '''
-        f = self.fcopy(name=self.__sub__.__name__)
-        f -= other
-        return f
-
-    def __truediv__(self, other):
-        '''Quotient of this instance and a I{scalar}.
-
-           @arg other: The denominator (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{other}}.
-
-           @raise ValueError: Zero, invalid or non-finite B{C{other}}
-                              or an L{Fsum} B{C{other}} with too many
-                              C{partials}.
-
-           @return: The quotient (L{Fsum}).
-        '''
-        f = self.fcopy(name=self.__truediv__.__name__)
-        f.__itruediv__(other)  # /= chokes PyChecker
-        return f
-
-    __trunc__ = __int__
-
-    if _sys_version_info2 < (3, 0):  # PYCHOK no cover
-        # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
-        __div__     = __truediv__
-        __idiv__    = __itruediv__
-        __long__    = __int__
-        __nonzero__ = __bool__
-
-    def _cmp2(self, *other):
-        '''(INTERNAL) Diff this and another instance or C{0}.
-        '''
-        f = self.fcopy()
-        if other:
-            f = f.__isub__(*other)
-        s = neg(f.fsum())  # negative sum!
-        p = (fsum(p for p in f._ps if p > 0) +
-             fsum(p for p in f._ps if p < 0)) if f._ps else _0_0
-        return s, p
-
-    def _Error(self, op, other, Error=_TypeError, **txt):  # PYCHOK no cover
-        '''(INTERNAL) Return an operation error.
-        '''
-        return Error(_SPACE_(self, op, repr(other)), **txt)
-
-    def fadd(self, xs):
-        '''Accumulate more scalar values from an iterable.
-
-           @arg xs: Iterable, list, tuple, etc. (C{scalar}s).
-
-           @return: This instance (L{Fsum}).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar B{C{xs}} value.
-
-           @raise ValueError: Invalid or non-finite B{C{xs}} value.
-        '''
-        if isscalar(xs):  # for backward compatibility
-            xs = (xs,)  # PYCHOK no cover
-
-        ps, n = self._ps, -1
-        for n, x in enumerate(xs):  # _iter()
-            if x:
-                x = _2float(xs=x, index=n)
-                i = 0
-                for p in ps:
-                    x, p = _2sum(x, p)
-                    if p:
-                        ps[i] = p
-                        i += 1
-                ps[i:] = [x]
-        # assert self._ps is ps
-        self._n += n + 1
-        self._fsum2_ = None
-        return self
-
-    def fadd_(self, *xs):
-        '''Accumulate more I{scalar} values from positional arguments.
-
-           @arg xs: Values to add (C{scalar}s), all positional.
-
-           @return: This instance (L{Fsum}).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar B{C{xs}} value.
-
-           @raise ValueError: Invalid or non-finite B{C{xs}} value.
-        '''
-        return self.fadd(xs)
-
-    def fcopy(self, deep=False, name=NN):
-        '''Copy this instance, C{shallow} or B{C{deep}}.
-
-           @return: The copy (L{Fsum}).
-         '''
-        f = _Named.copy(self, deep=deep, name=name)  # see .__neg__
-        # f._fsum2_ = self._fsum2_
-        # f._n = self._n
-        f._ps = list(self._ps)  # separate copy
-        return f
-
-    copy = fcopy
-
-    def fdiv(self, divisor):
-        '''Devide this instance by a I{scalar}.
-
-           @arg divisor: The denominator (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{divisor}}.
-
-           @raise ValueError: Zero, invalid or non-finite B{C{divisor}}.
-
-           @return: This instance (L{Fsum}).
-        '''
-        try:
-            self.fmul(_1_0 / _2float(divisor=divisor))
-        except (TypeError, ValueError, ZeroDivisionError) as x:
-            raise self._Error(_idiv_, divisor, Error=_ValueError, txt=str(x))
-        return self
-
-    def fmul(self, factor):
-        '''Multiple this instance by a I{scalar}.
-
-           @arg factor: The multiplier (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{factor}}.
-
-           @raise ValueError: Invalid or non-finite B{C{factor}}.
-
-           @return: This instance (L{Fsum}).
-
-           @see: Method L{Fsum.fadd}.
-        '''
-        f, ps = _2float(factor=factor), self._ps
-        if ps:
-            if abs(f) != 1:
-                # multiply and adjust partial sums
-                ps[:] = [p * f for p in ps]
-                self.fadd_(ps.pop())
-                self._n -= 1
-            elif f < 0:  # == -1
-                ps[:] = [-p for p in ps]
-                if self._fsum2_:
-                    self._fsum2_ = -self._fsum2_
-        # assert self._ps is ps
-        return self
-
-    def fsub(self, xs):
-        '''Subtract more I{scalar} values from an iterable.
-
-           @arg xs: Iterable, list, tuple (C{scalar}s).
-
-           @return: This instance (L{Fsum}).
-
-           @see: Method L{Fsum.fadd}.
-        '''
-        if xs:
-            self.fadd(-s for s in xs)
-        return self
-
-    def fsub_(self, *xs):
-        '''Subtract more I{scalar} values from positional arguments.
-
-           @arg xs: Values to subtract (C{scalar}s), all positional.
-
-           @return: This instance (L{Fsum}).
-
-           @see: Method L{Fsum.fadd}.
-        '''
-        return self.fsub(xs)
-
-    def fsum(self, xs=None):
-        '''Accumulate more I{scalar} values from an iterable and sum all.
-
-           @kwarg xs: Iterable, list, tuple (C{scalar}s) or a single
-                      C{scalar} of L{Fsum} instance.
-
-           @return: Accurate, running sum (C{float}).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar B{C{xs}} value.
-
-           @raise ValueError: Invalid or non-finite B{C{xs}} value.
-
-           @note: Accumulation can continue after summation.
-        '''
-        if isinstance(xs, _Scalar):
-            self += xs
-        elif xs:
-            self.fadd(xs)
-
-        ps = self._ps
-        i = len(ps) - 1
-        if i < 0:
-            s = _0_0
-        else:
-            s = ps[i]
-            while i > 0:
-                i -= 1
-                s, p = _2sum(s, ps[i])
-                ps[i:] = [s]
-                if p:  # sum(ps) became inexact
-                    ps.append(p)
-                    if i > 0:  # half-even round if signs match
-                        s = _2even(s, ps[i-1], p)
-                    break
-            # assert self._ps is ps
-        self._fsum2_ = s
-        return s
-
-    def fsum_(self, *xs):
-        '''Accumulate more I{scalar} values from positional arguments and sum all.
-
-           @arg xs: Values to add (C{scalar}s), all positional.
-
-           @return: Accurate, running sum (C{float}).
-
-           @see: Method L{Fsum.fsum}.
-
-           @note: Accumulation can continue after summation.
-        '''
-        return self.fsum(xs)
-
-    def fsum2_(self, *xs):
-        '''Accumulate more I{scalar} values from positional arguments,
-           sum all and provide the sum and delta.
-
-           @arg xs: Values to add (C{scalar}s), all positional.
-
-           @return: 2-Tuple C{(sum, delta)} with the accurate,
-                    running C{sum} and the C{delta} with the
-                    previous running C{sum}, both (C{float}).
-
-           @see: Method L{Fsum.fsum_}.
-
-           @note: Accumulation can continue after summation.
-        '''
-        p = self._fsum2_
-        if p is None:
-            p = self.fsum()
-        s = self.fsum(xs)  # if xs else self._fsum2_
-        return s, s - p
-
-    @property_RO
-    def imag(self):
-        '''Return the imaginary part of this instance.
-        '''
-        return _0_0
-
-    def is_integer(self):
-        '''Return C{True} if this instance is an integer.
-        '''
-        s, p = self._cmp2()
-        return s.is_integer() and p == -s
-
-    @property_RO
-    def real(self):
-        '''Return the real part of this instance.
-        '''
-        return float(self)
-
-
-_Float = Fsum, float  # in .fstats
-try:  # XXX basics._Ints is ABCMeta
-    _Scalar = _Float + (int, long)
-except NameError:  # Python 3+
-    _Scalar = _Float + (int,)
 
 
 class Fdot(Fsum):
@@ -755,8 +36,8 @@ class Fdot(Fsum):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
            for i=0..len(a))}.
 
-           @arg a: List, sequence, tuple, etc. (C{scalar}s).
-           @arg b: All positional arguments (C{scalar}s).
+           @arg a: Iterable, list, tuple, etc. (C{scalar}s).
+           @arg b: Other values (C{scalar}s), all positional.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -776,7 +57,8 @@ class Fhorner(Fsum):
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
            @arg x: Polynomial argument (C{scalar}).
-           @arg cs: Polynomial coeffients (C{scalar}[]).
+           @arg cs: Polynomial coeffients (C{scalar}s), all
+                    positional.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -805,7 +87,8 @@ class Fpolynomial(Fsum):
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
            @arg x: Polynomial argument (C{scalar}).
-           @arg cs: Polynomial coeffients (C{scalar}[]).
+           @arg cs: Polynomial coeffients (C{scalar}s), all
+                    positional.
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -869,7 +152,7 @@ def euclid_(*xs):
     '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))}
        by cascaded L{euclid}.
 
-       @arg xs: X arguments, positional (C{scalar}[]).
+       @arg xs: X arguments, positional (C{scalar}s).
 
        @return: Appoximate norm (C{float}).
 
@@ -922,7 +205,9 @@ def fatan(x):
         r = PI_2 - fatan1(_1_0 / a)  # == fatan2(a, _1_0)
     else:
         r = PI_4
-    return (-r) if x < 0 else r  # copysign0(r, x)
+    if x < 0:  # copysign0(r, x)
+        r = -r
+    return r
 
 
 def fatan1(x):
@@ -958,7 +243,9 @@ def fatan2(y, x):
         return _0_0
     if x < 0:
         r = PI - r
-    return (-r) if y < 0 else r  # copysign0(r, y)
+    if y < 0:  # copysign0(r, y)
+        r = -r
+    return r
 
 
 def favg(v1, v2, f=_0_5):
@@ -978,11 +265,31 @@ def favg(v1, v2, f=_0_5):
     return fsum1_(v1, -f * v1, f * v2)
 
 
+def _map_a_x_b(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}.
+    '''
+    n = len(b)
+    if len(a) != n:
+        from pygeodesy.fmath import fdot
+        raise LenError(fdot, a=len(a), b=n)
+    return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
+
+
+def _map_a_x_b1(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}, primed with C{1.0}.
+    '''
+    yield _1_0
+    for ab in map(_mul, a, b):
+        if ab:
+            yield ab
+    yield _N_1_0
+
+
 def fdot(a, *b):
     '''Return the precision dot product M{sum(a[i] * b[i] for
        i=0..len(a))}.
 
-       @arg a: List, sequence, tuple, etc. (C{scalar}s).
+       @arg a: Iterable, list, tuple, etc. (C{scalar}s).
        @arg b: All positional arguments (C{scalar}s).
 
        @return: Dot product (C{float}).
@@ -999,9 +306,9 @@ def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
        sum(a[i] * b[i] * c[i] for i=0..len(a))}.
 
-       @arg a: List, sequence, tuple, etc. (C{scalar}[]).
-       @arg b: List, sequence, tuple, etc. (C{scalar}[]).
-       @arg c: List, sequence, tuple, etc. (C{scalar}[]).
+       @arg a: Iterable, list, tuple, etc. (C{scalar}s).
+       @arg b: Iterable, list, tuple, etc. (C{scalar}s).
+       @arg c: Iterable, list, tuple, etc. (C{scalar}s).
        @kwarg start: Optional bias (C{scalar}).
 
        @return: Dot product (C{float}).
@@ -1030,7 +337,7 @@ def fhorner(x, *cs):
        i=0..len(cs))} using the Horner form.
 
        @arg x: Polynomial argument (C{scalar}).
-       @arg cs: Polynomial coeffients (C{scalar}[]).
+       @arg cs: Polynomial coeffients (C{scalar}s).
 
        @return: Horner value (C{float}).
 
@@ -1050,8 +357,8 @@ def fidw(xs, ds, beta=2):
     '''Interpolate using using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
 
-       @arg xs: Known values (C{scalar}[]).
-       @arg ds: Non-negative distances (C{scalar}[]).
+       @arg xs: Known values (C{scalar}s).
+       @arg ds: Non-negative distances (C{scalar}s).
        @kwarg beta: Inverse distance power (C{int}, 0, 1, 2, or 3).
 
        @return: Interpolated value C{x} (C{float}).
@@ -1124,7 +431,8 @@ def fpolynomial(x, *cs):
        i=0..len(cs))}.
 
        @arg x: Polynomial argument (C{scalar}).
-       @arg cs: Polynomial coeffients (C{scalar}[]).
+       @arg cs: Polynomial coeffients (C{scalar}s), all
+                positional.
 
        @return: Polynomial value (C{float}).
 
@@ -1177,19 +485,20 @@ try:
     from math import prod as fprod  # Python 3.8
 except ImportError:
 
-    def fprod(iterable, start=_1_0):
+    def fprod(xs, start=_1_0):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-           @arg iterable: Terms to be multiplied (C{scalar}[]).
+           @arg xs: Terms to be multiplied as an iterable, list,
+                    tuple, etc. (C{scalar}s).
            @kwarg start: Initial term, also the value returned
-                         for an empty iterable (C{scalar}).
+                         for an empty B{C{xs}} (C{scalar}).
 
            @return: The product (C{float}).
 
            @see: U{NumPy.prod<https://docs.SciPy.org/doc/
                  numpy/reference/generated/numpy.prod.html>}.
         '''
-        return freduce(_mul, iterable, start)
+        return freduce(_mul, xs, start)
 
 
 def frange(start, number, step=1):
@@ -1217,103 +526,18 @@ except ImportError:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
 
-        def freduce(f, iterable, *start):
+        def freduce(f, xs, *start):
             '''For missing C{functools.reduce}.
             '''
             if start:
                 r = v = start[0]
             else:
                 r, v = 0, MISSING
-            for v in iterable:
+            for v in xs:
                 r = f(r, v)
             if v is MISSING:
-                raise _TypeError(iterable=(), start=MISSING)
+                raise _TypeError(xs=(), start=MISSING)
             return r
-
-try:
-    from math import fsum  # precision IEEE-754 sum, Python 2.6+
-
-    # make sure fsum works as expected (XXX check
-    # float.__getformat__('float')[:4] == 'IEEE'?)
-    if fsum((1, 1e101, 1, -1e101)) != 2:  # PYCHOK no cover
-        del fsum  # nope, remove fsum ...
-        raise ImportError  # ... use fsum below
-
-except ImportError:
-
-    def fsum(iterable):
-        '''Precision summation similar to standard Python function C{math.fsum}.
-
-           Exception and I{non-finite} handling differs from C{math.fsum}.
-
-           @arg iterable: Values to be added (C{scalar}[]).
-
-           @return: Accurate C{sum} (C{float}).
-
-           @raise OverflowError: Partial C{2sum} overflow.
-
-           @raise TypeError: Non-scalar B{C{iterable}} value.
-
-           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
-
-           @see: Class L{Fsum}.
-        '''
-        f = Fsum(name=fsum.__name__)
-        return f.fsum(iterable)
-
-
-def fsum1(iterable):
-    '''Precision summation, primed with C{1.0}.
-
-       @arg iterable: Values to be added (C{scalar}[]).
-
-       @return: Accurate L{fsum} (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{iterable}} value.
-
-       @raise ValueError: Invalid or non-finite B{C{iterable}} value.
-    '''
-    def _xs(iterable):
-        yield _1_0
-        for x in iterable:
-            yield x
-        yield _N_1_0
-
-    return fsum(_xs(iterable))
-
-
-def fsum_(*xs):
-    '''Precision summation of all positional arguments.
-
-       @arg xs: Values to be added (C{scalar}s).
-
-       @return: Accurate L{fsum} (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{xs}} value.
-
-       @raise ValueError: Invalid or non-finite B{C{xs}} value.
-    '''
-    return fsum(map(float, xs))
-
-
-def fsum1_(*xs):
-    '''Precision summation of a few arguments, primed with C{1.0}.
-
-       @arg xs: Values to be added (C{scalar}s).
-
-       @return: Accurate L{fsum} (C{float}).
-
-       @raise OverflowError: Partial C{2sum} overflow.
-
-       @raise TypeError: Non-scalar B{C{xs}} value.
-
-       @raise ValueError: Invalid or non-finite B{C{xs}} value.
-    '''
-    return fsum1(xs)
 
 
 if _sys_version_info2 < (3, 8):
@@ -1328,7 +552,7 @@ if _sys_version_info2 < (3, 8):
            but exceptions, C{nan} and C{infinite} values are
            handled differently.
 
-           @arg xs: X arguments, positional (C{scalar}[]).
+           @arg xs: X arguments (C{scalar}s), all positional.
 
            @return: Norm (C{float}).
 
@@ -1355,8 +579,8 @@ elif _sys_version_info2 < (3, 10):
     def hypot(x, y):
         '''Compute the norm M{sqrt(x**2 + y**2)}.
 
-           @arg x: Argument (C{scalar}).
-           @arg y: Argument (C{scalar}).
+           @arg x: X argument (C{scalar}).
+           @arg y: Y argument (C{scalar}).
 
            @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
         '''
@@ -1407,8 +631,8 @@ def hypot1(x):
 def hypot2(x, y):
     '''Compute the I{squared} norm M{x**2 + y**2}.
 
-       @arg x: Argument (C{scalar}).
-       @arg y: Argument (C{scalar}).
+       @arg x: X argument (C{scalar}).
+       @arg y: Y argument (C{scalar}).
 
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
@@ -1425,7 +649,7 @@ def hypot2(x, y):
 def hypot2_(*xs):
     '''Compute the I{squared} norm C{sum(x**2 for x in B{xs})}.
 
-       @arg xs: X arguments, positional (C{scalar}[]).
+       @arg xs: X arguments (C{scalar}s), all positional.
 
        @return: Squared norm (C{float}).
 
@@ -1437,25 +661,6 @@ def hypot2_(*xs):
     '''
     h, x2 = _h_x2(xs)
     return (h**2 * x2) if x2 else _0_0
-
-
-def _map_a_x_b(a, b):
-    '''(INTERNAL) Yield B{C{a * b}}.
-    '''
-    n = len(b)
-    if len(a) != n:
-        raise LenError(fdot, a=len(a), b=n)
-    return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
-
-
-def _map_a_x_b1(a, b):
-    '''(INTERNAL) Yield B{C{a * b}}, primed with C{1.0}.
-    '''
-    yield _1_0
-    for ab in map(_mul, a, b):
-        if ab:
-            yield ab
-    yield _N_1_0
 
 
 def norm2(x, y):
@@ -1479,7 +684,7 @@ def norm2(x, y):
 def norm_(*xs):
     '''Normalize all n-dimensional vector components.
 
-       @arg xs: The component (C{scalar}[]).
+       @arg xs: Components (C{scalar}s), all positional.
 
        @return: Yield each component, normalized.
 

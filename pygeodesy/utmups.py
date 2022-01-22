@@ -15,23 +15,23 @@ A pure Python implementation, partially transcoded from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import map1
-from pygeodesy.datums import _WGS84
+# from pygeodesy.basics import map1  # from .utmupsBase
+# from pygeodesy.datums import _WGS84  # from .utmupsBase
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import modulename
 from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
-from pygeodesy.streprs import Fmt
+# from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
-from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
-                                 _UPS_ZONE, _UPS_ZONE_STR, \
-                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
+from pygeodesy.utmupsBase import Fmt, map1, _MGRS_TILE, _to4lldn, _to3zBhp, \
+                                _UPS_ZONE, _UPS_ZONE_STR, \
+                                _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE

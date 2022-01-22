@@ -226,7 +226,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.10.1 (with <a 
+    <p>The tests have been run with Python 3.10.2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52), Python 3.9.6 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
@@ -244,7 +244,7 @@
     always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of only those tests are included in the distribution files.</p>
-    <p>Python 3.10.1 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
+    <p>Python 3.10.2 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
     <i>natively</i>), all other Python versions run on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (<code>&quot;arm64_x86_64&quot;</code>, see function <a 
@@ -252,7 +252,7 @@
     class="link">pygeodesy.machine</a>).</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.10.1 (with <a 
+    4.5.4 using Python 3.10.2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52), Python 3.9.6 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
@@ -286,7 +286,7 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
     1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
-    16.04</a>, with Python 3.10.0, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 
+    16.04</a>, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 
     3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
@@ -317,7 +317,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.10.1, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.10.2, both in 64-bit on macOS 
     12.1 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -433,7 +433,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.01.16
+        22.01.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -486,12 +486,15 @@
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">European Petroleum Survey Group (EPSG) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors-module.html">pygeodesy.errors</a></strong>: <em class="summary">Errors, exceptions and exception chaining.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary"><i>Karney</i>'s Exact Transverse Mercator (ETM) projection.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Precision floating point summation and utilities.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Utilities using precision floating point summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet-module.html">pygeodesy.frechet</a></strong>: <em class="summary">Fr&#233;chet distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fstats-module.html">pygeodesy.fstats</a></strong>: <em class="summary">Classes for running statistics and regreesions based on <a 
-        href="pygeodesy.fmath.Fsum-class.html" 
+        href="pygeodesy.fsums.Fsum-class.html" 
         class="link">pygeodesy.Fsum</a>, precision floating point 
+        summation.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fsums-module.html">pygeodesy.fsums</a></strong>: <em class="summary">Class <a href="pygeodesy.fsums.Fsum-class.html" 
+        class="link">Fsum</a> for running, precision floating point 
         summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx-module.html">pygeodesy.geodesicx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
@@ -1965,9 +1968,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
+        <a href="pygeodesy.fsums.Fsum-class.html" class="summary-name">Fsum</a><br />
       Precision summation similar to standard Python function 
         <code>math.fsum</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fsums.Fsum2Tuple-class.html" class="summary-name">Fsum2Tuple</a><br />
+      2-Tuple <code>(fsum, residual)</code> with the accurate, running 
+        <code>fsum</code> and <code>residual</code> the precision sum of 
+        the remaining partials, both <code>float</code>.
     </td>
   </tr>
 <tr>
@@ -6775,7 +6788,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
       Iterable product, like <code>math.prod</code> or 
       <code>numpy.prod</code>.</td>
@@ -6938,7 +6951,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>)</span><br />
       Precision summation, primed with <code>1.0</code>.</td>
           <td align="right" valign="top">
             
@@ -7191,7 +7204,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fab882dd3d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd2c817d650&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11205,7 +11218,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.1.16'"><code class="variable-quote">'</code><code class="variable-string">22.1.16</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.1.22'"><code class="variable-quote">'</code><code class="variable-string">22.1.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15804,7 +15817,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code>).</dd>
@@ -16896,7 +16909,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>a</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>b</code></strong> - All positional arguments (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16936,9 +16949,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>a</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>c</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16973,7 +16986,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Horner value (<code>float</code>).</dd>
@@ -17014,8 +17027,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code>, 0, 1, 2, or 3).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -17409,7 +17422,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polynomial value (<code>float</code>).</dd>
@@ -17474,7 +17487,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>&nbsp;(<span class="sig-arg">iterable</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>&nbsp;(<span class="sig-arg">xs</span>,
         <span class="sig-arg">start</span>=<span class="sig-default">1.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -17487,9 +17500,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Terms to be multiplied (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty iterable 
-          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Terms to be multiplied as an iterable, list, tuple, etc. 
+          (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty 
+          <b><code>xs</code></b> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The product (<code>float</code>).</dd>
@@ -17833,7 +17847,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">iterable</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17844,16 +17858,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Values to be added (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+        <dd>Accurate <a href="pygeodesy.fsums-module.html#fsum" 
           class="link">fsum</a> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -17877,10 +17891,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+        <dd>Accurate <a href="pygeodesy.fsums-module.html#fsum" 
           class="link">fsum</a> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -17912,7 +17926,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+        <dd>Accurate <a href="pygeodesy.fsums-module.html#fsum" 
           class="link">fsum</a> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -18329,7 +18343,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fab882dd3d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd2c817d650&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18853,8 +18867,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
@@ -18880,7 +18894,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Squared norm (<code>float</code>).</dd>
@@ -18944,7 +18958,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (<code>float</code>).</dd>
@@ -21708,7 +21722,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - The component (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Components (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield each component, normalized.</dd>
@@ -26905,7 +26919,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan 16 13:36:40 2022
+    Generated by Epydoc 3.0.1 on Sat Jan 22 11:38:59 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

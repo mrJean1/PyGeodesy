@@ -9,8 +9,9 @@ L{isclockwise}, L{nearestOn} and L{perimeterOf} based on classes
 L{GeodesicExact}, L{GeodesicAreaExact} and L{GeodesicLineExact}.
 '''
 
-from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
+# from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                     _nearestOn, _WGS84
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
@@ -20,7 +21,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '21.12.30'
+__version__ = '22.01.17'
 
 
 class Cartesian(CartesianEllipsoidalBase):

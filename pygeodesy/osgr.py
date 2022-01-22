@@ -37,7 +37,8 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
-from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
+from pygeodesy.fmath import fdot, fpowers
+from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import NN, _A_, _COMMA_, _COMMASPACE_, _DOT_, \
                              _convergence_, _float, _latlon_, _no_, \
                              _not_, _SPACE_, _1_0, _2_0, _6_0, \
@@ -55,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.11.30'
+__version__ = '22.01.17'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

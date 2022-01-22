@@ -7,20 +7,20 @@ Clip a path or polygon of C{LatLon} points against a rectangular
 box or a (convex) clip region.
 '''
 
-from pygeodesy.basics import len2
+# from pygeodesy.basics import len2  # from .iters
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
-from pygeodesy.fmath import fsum_
+from pygeodesy.fsums import fsum_
 from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
                              _fi_, _i_, _j_, _near_, _not_, _SPACE_, \
                              _start_, _too_, _0_0, _1_0
-from pygeodesy.iters import _imdex2, points2
+from pygeodesy.iters import _imdex2, len2, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
 from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.10.23'
+__version__ = '22.01.17'
 
 _fj_ = 'fj'
 

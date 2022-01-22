@@ -16,7 +16,8 @@ from pygeodesy.datums import _WGS84, _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, isscalar, issubclassof, \
                            _llhn4, map1, _xyzn4
 from pygeodesy.errors import _TypesError, _ValueError, _xkwds
-from pygeodesy.fmath import fdot, fsum_, fsum1_
+# from pygeodesy.fmath import fdot  # from .vector3d
+from pygeodesy.fsums import fsum_, fsum1_
 from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, _M_, \
                              _name_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0, _360_0
 from pygeodesy.interns import _ecef_, _N_1_0  # PYCHOK used!
@@ -30,10 +31,10 @@ from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Bearing, Degrees, Meter
 from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
                             wrap180, wrap360
-from pygeodesy.vector3d import Vector3d, Vector3Tuple
+from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '21.11.28'
+__version__ = '22.01.17'
 
 _Xyz_  = 'Xyz'
 

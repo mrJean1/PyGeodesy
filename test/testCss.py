@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.05.16'
+__version__ = '22.01.20'
 
 from base import GeodSolve, TestsBase, geographiclib
 
@@ -67,8 +67,8 @@ class Tests(TestsBase):
         self.test('Css.'+'toLatLon.height', r.height, '1.0')  # Height
         self.test('Css.'+'toLatLon.name', r.name, 'Calais')
         self.test('Css.'+'toLatLon.datum.name', r.datum.name, 'WGS84')
-
-        self.test_('Css.'+'toLatLon.height', repr(r.height), '1.0', 'height(1.0)')  # Height
+        t = repr(r.height)
+        self.test('Css.'+'toLatLon.height', t, 'height(1.0)', known=t == '1.0')  # Height
 
         self.testCopy(C)
 
@@ -78,7 +78,8 @@ class Tests(TestsBase):
         self.test('cs0.flattening',   c.cs0.flattening, 0.00335281066475, fmt='%.9f')
         self.test('cs0.lat0',         c.cs0.lat0, 0.0)  # Lat
         self.test('cs0.equatoradius', c.cs0.equatoradius, '6378137.0')
-        self.test_('cs0.lat0',        repr(c.cs0.lat0), '0.0', 'lat0(0.0)')  # Lat
+        t = repr(c.cs0.lat0)
+        self.test('cs0.lat0',         t, 'lat(0.0)', known=t == '0.0')  # Lat
 
         c = C.classof(C.easting, C.northing, h=C.height, cs0=C.cs0)  # coverage Css._reverse4
         for a, f, x in (('height',   '%.1f', '1.0'),

@@ -75,7 +75,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, map2, neg
 from pygeodesy.errors import _ValueError
-from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
+from pygeodesy.fmath import fdot, fmean_, hypot1
+from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
                              _EPStol as _TolJAC, _convergence_, \
                              _no_, _SPACE_, _0_0, _0_125, _0_25, \
@@ -92,7 +93,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.11.30'
+__version__ = '22.01.17'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)

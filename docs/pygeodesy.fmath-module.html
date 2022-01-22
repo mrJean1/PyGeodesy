@@ -59,11 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module fmath</h1><p class="nomargin-top"></p>
-<p>Precision floating point summation and utilities.</p>
+<p>Utilities using precision floating point summation.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.01.16
+        22.01.17
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -73,15 +73,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision summation similar to standard Python function 
-        <code>math.fsum</code>.
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -456,7 +447,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
       Iterable product, like <code>math.prod</code> or 
       <code>numpy.prod</code>.</td>
@@ -500,74 +491,6 @@
       Apply a function of two arguments cumulatively to the items of a 
       sequence, from left to right, so as to reduce the sequence to a 
       single value.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
-      Return an accurate floating point sum of values in the iterable.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
-      Precision summation, primed with <code>1.0</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision summation of all positional arguments.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Precision summation of a few arguments, primed with <code>1.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -875,7 +798,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code>).</dd>
@@ -1038,7 +961,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>a</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>b</code></strong> - All positional arguments (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1078,9 +1001,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>a</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>c</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1115,7 +1038,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Horner value (<code>float</code>).</dd>
@@ -1156,8 +1079,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code>, 0, 1, 2, or 3).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1260,7 +1183,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Polynomial value (<code>float</code>).</dd>
@@ -1325,7 +1248,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>&nbsp;(<span class="sig-arg">iterable</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>&nbsp;(<span class="sig-arg">xs</span>,
         <span class="sig-arg">start</span>=<span class="sig-default">1.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1338,9 +1261,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Terms to be multiplied (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty iterable 
-          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Terms to be multiplied as an iterable, list, tuple, etc. 
+          (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty 
+          <b><code>xs</code></b> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The product (<code>float</code>).</dd>
@@ -1413,123 +1337,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="fsum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">iterable</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return an accurate floating point sum of values in the iterable. 
-  Assumes IEEE-754 floating point arithmetic.</p>
-  <dl class="fields">
-  </dl>
-</td></tr></table>
-</div>
-<a name="fsum1"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">iterable</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Precision summation, primed with <code>1.0</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Values to be added (<code>scalar</code>[]).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>iterable</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>iterable</code></b> value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="fsum_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Precision summation of all positional arguments.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="fsum1_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Precision summation of a few arguments, primed with 
-  <code>1.0</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="hypot_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1552,7 +1359,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (<code>float</code>).</dd>
@@ -1617,8 +1424,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - X argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y argument (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
@@ -1644,7 +1451,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - X arguments (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Squared norm (<code>float</code>).</dd>
@@ -1710,7 +1517,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - The component (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Components (<code>scalar</code>s), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield each component, normalized.</dd>
@@ -1817,7 +1624,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jan 16 13:36:40 2022
+    Generated by Epydoc 3.0.1 on Sat Jan 22 11:38:59 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

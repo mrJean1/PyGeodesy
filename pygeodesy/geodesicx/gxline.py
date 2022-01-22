@@ -34,7 +34,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import copysign0  # from .fmath
 # from pygeodesy.errors import _AssertionError  # from .karney
-from pygeodesy.fmath import copysign0, fsum_, hypot, norm2
+from pygeodesy.fmath import copysign0, hypot, norm2
+from pygeodesy.fsums import fsum_
 from pygeodesy.geodesicx.gxbases import _all_caps, _ALL_DOCS, Caps, \
                                         _coSeries, _GeodesicBase, \
                                         _sincos12, _TINY
@@ -49,7 +50,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '21.11.30'
+__version__ = '22.01.17'
 
 _append_ = 'append'
 _glXs    = []  # instances of C{[_]GeodesicLineExact}

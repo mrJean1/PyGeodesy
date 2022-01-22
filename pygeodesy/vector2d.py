@@ -8,7 +8,8 @@ L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11} and L{soddy4}.
 from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
-from pygeodesy.fmath import fdot, fsum_, fsum1_, hypot, hypot2_
+from pygeodesy.fmath import fdot, hypot, hypot2_
+from pygeodesy.fsums import fsum_, fsum1_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, NN, \
                              _EPS4e8, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
@@ -27,7 +28,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '21.10.25'
+__version__ = '22.01.17'
 
 _cA_        = 'cA'
 _cB_        = 'cB'

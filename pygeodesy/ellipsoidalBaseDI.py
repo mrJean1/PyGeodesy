@@ -12,7 +12,8 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
                                       property_RO, _TOL_M
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds_not
-from pygeodesy.fmath import favg, fmean_, Fmt, fsum_
+from pygeodesy.fmath import favg, fmean_
+from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.formy import opposing, _radical2
 from pygeodesy.interns import EPS, PI, PI2, PI_4, _antipodal_, _COMMASPACE_, \
                              _concentric_, _exceed_PI_radians_, _near_, _no_, \
@@ -22,14 +23,14 @@ from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn8Tuple, _LL4Tuple
 # from pygeodesy.props import Property_RO, property_RO  # from .ellipsoidalBase
-# from pygeodesy.streprs import Fmt  # from .fmath
+# from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import _fi_j2, Height, Radius_, Scalar
 from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'

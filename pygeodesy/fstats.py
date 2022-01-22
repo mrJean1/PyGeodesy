@@ -9,22 +9,27 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, _xinstanceof, _xsubclassof
 from pygeodesy.errors import _xError
-from pygeodesy.fmath import _Float, _2float, Fmt, Fsum, hypot2, \
-                            _Scalar, sqrt
+from pygeodesy.fmath import hypot2, sqrt
+from pygeodesy.fsums import _2float, Fmt, Fsum
 from pygeodesy.interns import NN, _iadd_, _invalid_, _other_, _SPACE_, \
                              _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _Named, _NotImplemented, Property_RO
-# from pygeodesy.proprs import Property_RO  # from .named
-# from pygeodesy.streprs import Fmt  # from .fmath
+from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
+                             property_RO
+# from pygeodesy.props import property_RO  # from .named
+# from pygeodesy.streprs import Fmt  # from .fsums
 
-# from math import sqrt  # pow from .fmath
+# from math import sqrt  # pow  from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '22.01.16'
+__version__ = '22.01.19'
 
-_N_3_0 = -_3_0
-_N_4_0 = -_4_0
+_Float  =  Fsum, float
+_Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta
+try:
+    _Scalar += (long,)
+except NameError:  # Python 3+
+    pass
 
 
 def _2Floats(xs, ys=False):
@@ -49,7 +54,7 @@ class _FstatsNamed(_Named):
     def __add__(self, other):
         '''Sum of this and a scalar, an L{Fsum} or an other instance.
         '''
-        f = self.fcopy(name=self.__add__.__name__)  # PYCHOK expected
+        f  = self.fcopy(name=self.__add__.__name__)  # PYCHOK expected
         f += other
         return f
 
@@ -90,34 +95,89 @@ class _FstatsNamed(_Named):
 class _FstatsBase(_FstatsNamed):
     '''(INTERNAL) Base running stats class.
     '''
+    _Ms = ()
+
+    def _copy(self, c, s):
+        '''(INTERNAL) Copy C{B{c} = B{s}}.
+        '''
+        _xinstanceof(self.__class__, c=c, s=s)
+        c._Ms = tuple(M.fcopy() for M in s._Ms)  # deep=False
+        c._n  =                          s._n
+        return c
+
+    def fadd(self, xs, sample=False):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        notOverloaded(self, xs, sample=sample)
 
     def fadd_(self, *xs, **sample):
         '''Accumulate and return the current count.
 
            @see: Method C{fadd}.
         '''
-        return self.fadd(xs, **sample)  # PYCHOK expected
+        return self.fadd(xs, **sample)
+
+    def fmean(self, xs=None):
+        '''Accumulate and return the current mean.
+
+           @kwarg xs: Iterable with additional values (C{Scalar}s).
+
+           @return: Current, running mean (C{float}).
+
+           @see: Method C{fadd}.
+        '''
+        if xs:
+            self.fadd(xs)
+        return self._M1.fsum()
 
     def fmean_(self, *xs):
         '''Accumulate and return the current mean.
 
            @see: Method C{fmean}.
         '''
-        return self.fmean(xs)  # PYCHOK expected
+        return self.fmean(xs)
+
+    def fstdev(self, xs=None, sample=False):
+        '''Accumulate and return the current standard deviation.
+
+           @kwarg xs: Iterable with additional values (C{Scalar}).
+           @kwarg sample: Return the I{sample} instead of the entire
+                          I{population} value (C{bool}).
+
+           @return: Current, running (sample) standard deviation (C{float}).
+
+           @see: Method C{fadd}.
+        '''
+        v = self.fvariance(xs, sample=sample)
+        return sqrt(v) if v > 0 else _0_0
 
     def fstdev_(self, *xs, **sample):
         '''Accumulate and return the current standard deviation.
 
            @see: Method C{fstdev}.
         '''
-        return self.fstdev(xs, **sample)  # PYCHOK expected
+        return self.fstdev(xs, **sample)
+
+    def fvariance(self, xs=None, sample=False):
+        '''Accumulate and return the current variance.
+
+           @kwarg xs: Iterable with additional values (C{Scalar}s).
+           @kwarg sample: Return the I{sample} instead of the entire
+                          I{population} value (C{bool}).
+
+           @return: Current, running (sample) variance (C{float}).
+
+           @see: Method C{fadd}.
+        '''
+        n = self.fadd(xs, sample=sample)
+        return float(self._M2 / float(n)) if n > 0 else _0_0
 
     def fvariance_(self, *xs, **sample):
         '''Accumulate and return the current variance.
 
            @see: Method C{fvariance}.
         '''
-        return self.fvariance(xs, **sample)  # PYCHOK expected
+        return self.fvariance(xs, **sample)
 
     def _iadd_other(self, other):
         '''(INTERNAL) Add Scalar or Scalars.
@@ -128,9 +188,19 @@ class _FstatsBase(_FstatsNamed):
             try:
                 if not isinstance(other, (list, tuple)):
                     raise TypeError(_SPACE_(_invalid_, _other_))
-                self.fadd(other)  # PYCHOK expected
+                self.fadd(other)
             except Exception as x:
                 raise _xError(x, _SPACE_(self, _iadd_, repr(other)))
+
+    @property_RO
+    def _M1(self):
+        '''(INTERNAL) get the 1st Moment accumulator.'''
+        return self._Ms[0]
+
+    @property_RO
+    def _M2(self):
+        '''(INTERNAL) get the 2nd Moment accumulator.'''
+        return self._Ms[1]
 
 
 class Fcook(_FstatsBase):
@@ -151,7 +221,6 @@ class Fcook(_FstatsBase):
            @see: Method L{Fcook.fadd}.
         '''
         self._Ms = tuple(Fsum() for _ in range(4))  # 1st, 2nd ... Moment
-        self._ms = (_0_0,) * len(self._Ms)  # Moment running values
         if name:
             self.name = name
         if xs:
@@ -179,27 +248,27 @@ class Fcook(_FstatsBase):
                     A1, A2, A3, A4 = self._Ms
                     B1, B2, B3, B4 = other._Ms
 
-                    d   = other._ms[0] - self._ms[0]  # b1 - a1
                     n   = na + nb
                     n_  = float(n)
-                    q1  = d / n_
-                    q2  = q1**2  # d**2 / n**2
+                    D   = A1 - B1  # b1 - a1
+                    Dn  = D / n_
+                    Dn2 = Dn**2  # d**2 / n**2
                     nab = na * nb
-                    nq2 = q2 * nab
+                    Dn3 = Dn2 * (D * nab)
 
                     na2 =  na**2
                     nb2 =  nb**2
                     A4 +=  B4
-                    A4 += (B3 * na  - (A3 * nb))  * (_4_0 * q1)
-                    A4 += (B2 * na2 + (A2 * nb2)) * (_6_0 * q2)
-                    A4 += (na2 - nab + nb2) * nq2 * (d * q1)  # d**4 / n**3
+                    A4 += (B3 * na  - (A3 * nb))  * (Dn  * _4_0)
+                    A4 += (B2 * na2 + (A2 * nb2)) * (Dn2 * _6_0)
+                    A4 += (Dn * Dn3) * (na2 - nab + nb2)  # d**4 / n**3
 
                     A3 +=  B3
-                    A3 += (A2 * na - (B2 * nb)) * (_3_0 * q1)
-                    A3 += (na - nb) * nq2 * d
+                    A3 += (A2 *  na - (B2 * nb)) * (Dn * _3_0)
+                    A3 += Dn3 * (na - nb)
 
                     A2 += B2
-                    A2 += n_ * nq2  # d**2 * na * nb / n
+                    A2 += Dn2 * (nab / n_)
 
                     B1n = B1 * nb  # if other is self
                     A1 *= na
@@ -207,22 +276,12 @@ class Fcook(_FstatsBase):
                     A1 *= 1 / n_  # /= chokes PyChecker
 
 #                   self._Ms = A1, A2, A3, A4
-                    self._ms = tuple(M.fsum() for M in self._Ms)
                     self._n  = n
                 else:
                     self._copy(self, other)
         else:
             self._iadd_other(other)
         return self
-
-    def _copy(self, c, s):
-        '''(INTERNAL) Copy C{B{c} = B{s}}.
-        '''
-        _xinstanceof(Fcook, c=c, s=s)
-        c._Ms = tuple(M.fcopy() for M in s._Ms)  # deep=False
-        c._ms = tuple(s._ms)
-        c._n  =       s._n
-        return c
 
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
@@ -245,27 +304,34 @@ class Fcook(_FstatsBase):
         '''
         n = self._n
         if xs:
-            M1, M2, M3, M4 = (M.fsum_ for M in self._Ms)
-            m1, m2, m3, m4 = self._ms
+            M1, M2, M3, M4 = self._Ms
             for x in _2Floats(xs):
                 n1 = n
                 n += 1
-                d  = x - m1  # Fsum or float
-                dn = float(d / n)  # == d.fsum()
-                if dn:
-                    dn2 = dn**2
-                    if n1 > 0:
-                        d *= dn * n1   # Fsum or float
-                        t1 = float(d)  # == d.fsum()
-                        t2 = float(d * (dn  * (n - 2)))
-                        t3 = float(d * (dn2 * (n**2 - 3 * n1)))
+                D  = x - M1
+                Dn = D / n
+                if Dn:
+                    Dn2 = Dn**2
+                    if n1 > 1:
+                        T1 = D  * (Dn  *  n1)
+                        T2 = T1 * (Dn  * (n1 - 1))
+                        T3 = T1 * (Dn2 * (n**2 - 3 * n1))
+                    elif n1 > 0:  # n1 == 1, n == 2
+                        T1 =  D * Dn
+                        T2 = _0_0
+                        T3 = T1 * Dn2
                     else:
-                        t1 = t2 = t3 = _0_0
-                    m4 = M4(t3, _N_4_0 * dn * m3, _6_0 * dn2 * m2)
-                    m3 = M3(t2, _N_3_0 * dn * m2)
-                    m2 = M2(t1)
-                    m1 = M1(dn)
-            self._ms = m1, m2, m3, m4
+                        T1 = T2 = T3 = _0_0
+                    M4 += T3
+                    M4 -= M3 * (Dn  * _4_0)
+                    M4 += M2 * (Dn2 * _6_0)
+
+                    M3 += T2
+                    M3 -= M2 * (Dn  * _3_0)
+
+                    M2 += T1
+                    M1 += Dn
+#           self._Ms = M1, M2, M3, M4
             self._n  = n
         return _sampled(n, sample)
 
@@ -312,16 +378,17 @@ class Fcook(_FstatsBase):
         '''
         k, n = _0_0, self.fadd(xs, sample=sample)
         if n > 0:
-            _, m2, _, m4 = self._ms
-            m2 *= m2
+            _, M2, _, M4 = self._Ms
+            m2 = float(M2 * M2)
             if m2:
-                k, x = n * m4 / m2, _3_0
+                K, x = (M4 * (n / m2)), _3_0
                 if sample and 2 < n < len(self):
-                    d  = (n - 1) * (n - 2)
-                    k *= (n + 1) * (n + 2) / float(d)
-                    x *=  n**2 / float(d)
+                    d  = float((n - 1) * (n - 2))
+                    K *=       (n + 1) * (n + 2) / d
+                    x *= n**2 / d
                 if excess:
-                    k -= x
+                    K -= x
+                k = K.fsum()
         return k
 
     def fkurtosis_(self, *xs, **sample_excess):
@@ -330,19 +397,6 @@ class Fcook(_FstatsBase):
            @see: Method L{Fcook.fkurtosis}.
         '''
         return self.fkurtosis(xs, **sample_excess)
-
-    def fmean(self, xs=None):
-        '''Accumulate and return the current mean.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-
-           @return: Current, running mean (C{float}).
-
-           @see: Method L{Fcook.fadd}.
-        '''
-        if xs:
-            self.fadd(xs)
-        return self._ms[0]
 
     def fmedian(self, xs=None):
         '''Accumulate and return the current median.
@@ -358,8 +412,8 @@ class Fcook(_FstatsBase):
         '''
         # skewness = 3 * (mean - median) / stdev, i.e.
         # median = mean - skewness * stdef / 3
-        m1 = self._ms[0] if xs is None else self.fmean(xs)
-        return m1 - self.fskewness() * self.fstdev() / _3_0
+        m = float(self._M1) if xs is None else self.fmean(xs)
+        return m - self.fskewness() * self.fstdev() / _3_0
 
     def fmedian_(self, *xs):
         '''Accumulate and return the current median.
@@ -385,12 +439,13 @@ class Fcook(_FstatsBase):
         '''
         s, n = _0_0, self.fadd(xs, sample=sample)
         if n > 0:
-            _, m2, m3, _ = self._ms
-            m2 = pow(m2, _1_5)
+            _, M2, M3, _ = self._Ms
+            m2 = pow(float(M2), _1_5)
             if m2:
-                s = sqrt(float(n)) * m3 / m2
+                S = M3 * (sqrt(float(n)) / m2)
                 if sample and 1 < n < len(self):
-                    s *= (n + 1) / float(n - 1)
+                    S *= (n + 1) / float(n - 1)
+                s = S.fsum()
         return s
 
     def fskewness_(self, *xs, **sample):
@@ -400,42 +455,12 @@ class Fcook(_FstatsBase):
         '''
         return self.fskewness(xs, **sample)
 
-    def fstdev(self, xs=None, sample=False):
-        '''Accumulate and return the current standard deviation.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
-
-           @return: Current, running (sample) standard deviation (C{float}).
-
-           @see: Method L{Fcook.fadd}.
-        '''
-        v = self.fvariance(xs, sample=sample)
-        return sqrt(v) if v > 0 else _0_0
-
-    def fvariance(self, xs=None, sample=False):
-        '''Accumulate and return the current variance.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
-
-           @return: Current, running (sample) variance (C{float}).
-
-           @see: Method L{Fcook.fadd}.
-        '''
-        n = self.fadd(xs, sample=sample)
-        return (self._ms[1] / float(n)) if n > 0 else _0_0
-
     def toFwelford(self, name=NN):
         '''Return an L{Fwelford} equivalent.
         '''
         f = Fwelford(name=name or self.name)
-        f._M = self._Ms[0].fcopy()
-        f._m = self._ms[0]
-        f._n = self._n
-        f._S = self._Ms[1].fcopy()
+        f._Ms = self._M1.fcopy(), self._M2.fcopy()  # deep=False
+        f._n  = self._n
         return f
 
 
@@ -453,9 +478,7 @@ class Fwelford(_FstatsBase):
 
            @see: Method L{Fwelford.fadd}.
         '''
-        self._M =  Fsum()  # 1st Moment
-        self._m = _0_0     # running mean
-        self._S =  Fsum()  # 2nd Moment
+        self._Ms = Fsum(), Fsum()  # 1st and 2nd Moment
         if name:
             self.name = name
         if xs:
@@ -481,22 +504,25 @@ class Fwelford(_FstatsBase):
             if nb > 0:
                 na = len(self)
                 if na > 0:
-                    M, S = self._M, self._S
+                    M,  S  = self._Ms
+                    M_, S_ = other._Ms
 
                     n  = na + nb
                     n_ = float(n)
 
-                    d2 = (other._m - self._m)**2
-                    S +=  other._S
-                    S +=  d2 * (na * nb / n_)
+                    D  = M_ - M
+                    D *= D  # D**2
+                    D *= na * nb / n_
+                    S += D
+                    S += S_
 
-                    Mn = other._M * nb  # if other is self
+                    Mn = M_ * nb  # if other is self
                     M *= na
                     M += Mn
                     M *= 1 / n_  # /= chokes PyChecker
 
-                    self._m = M.fsum()
-                    self._n = n
+#                   self._Ms = M, S
+                    self._n  = n
                 else:
                     self._copy(self, other)
 
@@ -505,16 +531,6 @@ class Fwelford(_FstatsBase):
         else:
             self._iadd_other(other)
         return self
-
-    def _copy(self, c, s):
-        '''(INTERNAL) Copy C{B{c} = B{s}}.
-        '''
-        _xinstanceof(Fwelford, c=c, s=s)
-        c._M = s._M.fcopy(deep=False)
-        c._m = s._m
-        c._n = s._n
-        c._S = s._S.fcopy(deep=False)
-        return c
 
     def fadd(self, xs, sample=False):
         '''Accumulate and return the current count.
@@ -534,58 +550,16 @@ class Fwelford(_FstatsBase):
         '''
         n = self._n
         if xs:
-            M = self._M.fsum  # allows single Scalar
-            m = self._m
-            S = self._S
+            M, S = self._Ms
             for x in _2Floats(xs):
                 n += 1
-                d  = x - m
-                m  = M(d / n)
-                S += (x - m) * d
-            self._m = m
+                D  = x - M
+                M += D / n
+                D *= x - M
+                S += D
+#           self._Ms = M, S
             self._n = n
         return _sampled(n, sample)
-
-    def fmean(self, xs=None):
-        '''Accumulate and return the current mean.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-
-           @return: Current, running mean (C{float}).
-
-           @see: Method L{Fwelford.fadd}.
-        '''
-        if xs:
-            self.fadd(xs)
-        return self._m
-
-    def fstdev(self, xs=None, sample=False):
-        '''Accumulate and return the current standard deviation.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
-
-           @return: Current, running (sample) standard deviation (C{float}).
-
-           @see: Method L{Fwelford.fadd}.
-        '''
-        v = self.fvariance(xs, sample=sample)
-        return sqrt(v) if v > 0 else _0_0
-
-    def fvariance(self, xs=None, sample=False):
-        '''Accumulate and return the current variance.
-
-           @kwarg xs: Iterable with additional values (C{Scalar}s).
-           @kwarg sample: Return the I{sample} instead of the entire
-                          I{population} value (C{bool}).
-
-           @return: Current, running (sample) variance (C{float}).
-
-           @see: Method L{Fwelford.fadd}.
-        '''
-        n = self.fadd(xs, sample=sample)
-        return (self._S.fsum() / float(n)) if n > 0 else _0_0
 
 
 class Flinear(_FstatsNamed):
@@ -593,9 +567,6 @@ class Flinear(_FstatsNamed):
        C{RunningRegression} computing the running slope, intercept
        and correlation of a linear regression.
     '''
-    _mx = _0_0  # running x mean
-    _my = _0_0  # running y mean
-
     def __init__(self, xs=None, ys=None, Fstats=Fwelford, name=NN):
         '''New L{Flinear} regression accumulator.
 
@@ -638,16 +609,17 @@ class Flinear(_FstatsNamed):
         if isinstance(other, Flinear):
             if len(other) > 0:
                 if len(self) > 0:
-                    n =  other._n  + self._n
-                    s = (other._mx - self._mx) * \
-                        (other._my - self._my) * \
-                        (other._n  * self._n) / float(n)
-                    self._S += other._S + s
-                    self._X += other._X
-                    self._Y += other._Y
-                    self._mx = self._X.fmean()
-                    self._my = self._Y.fmean()
-                    self._n  = n
+                    n = other._n
+                    S = other._S
+                    X = other._X
+                    Y = other._Y
+                    D = (X._M1 - self._X._M1) * \
+                        (Y._M1 - self._Y._M1) * \
+                        (n     * self._n / float(n + self._n))
+                    self._n += n
+                    self._S += S + D
+                    self._X += X
+                    self._Y += Y
                 else:
                     self._copy(self, other)
         else:
@@ -665,12 +637,10 @@ class Flinear(_FstatsNamed):
         '''(INTERNAL) Copy C{B{c} = B{s}}.
         '''
         _xinstanceof(Flinear, c=c, s=s)
-        c._mx = s._mx
-        c._my = s._my
-        c._n  = s._n
-        c._S  = s._S.fcopy(deep=False)
-        c._X  = s._X.fcopy(deep=False)
-        c._Y  = s._Y.fcopy(deep=False)
+        c._n = s._n
+        c._S = s._S.fcopy(deep=False)
+        c._X = s._X.fcopy(deep=False)
+        c._Y = s._Y.fcopy(deep=False)
         return c
 
     def fadd(self, xs, ys, sample=False):
@@ -693,19 +663,16 @@ class Flinear(_FstatsNamed):
         '''
         n = self._n
         if xs and ys:
-            mx = self._mx
-            my = self._my
-            S  = self._S
-            X  = self._X.fmean_
-            Y  = self._Y.fmean_
+            S = self._S
+            X = self._X
+            Y = self._Y
             for x, y in zip(_2Floats(xs), _2Floats(ys, ys=True)):
                 n1 = n
                 n += 1
                 if n1 > 0:
-                    S += (x - mx) * (y - my) * (n1 / float(n))
-                mx, my = X(x), Y(y)
-            self._mx = mx
-            self._my = my
+                    S += (X._M1 - x) * (Y._M1 - y) * (n1 / float(n))
+                X += x
+                Y += y
             self._n  = n
         return _sampled(n, sample)
 
@@ -734,7 +701,8 @@ class Flinear(_FstatsNamed):
            @kwarg sample: Return the I{sample} instead of the entire
                           I{population} value (C{bool}).
         '''
-        return self._my - self.fslope(sample=sample) * self._mx
+        return float(self.y._M1 -
+                    (self.x._M1 * self.fslope(sample=sample)))
 
     def fslope(self, sample=False):
         '''Return the current, running (sample) slope (C{float}).
@@ -748,15 +716,15 @@ class Flinear(_FstatsNamed):
         '''(INTERNAL) Compute the sampled or entire population result.
         '''
         t *= float(_sampled(self._n, sample))
-        return (self._S.fsum() / t) if t else _0_0
+        return float(self._S / t) if t else _0_0
 
-    @Property_RO
+    @property_RO
     def x(self):
         '''Get the C{x} accumulator (L{Fcook} or L{Fwelford}).
         '''
         return self._X
 
-    @Property_RO
+    @property_RO
     def y(self):
         '''Get the C{y} accumulator (L{Fcook} or L{Fwelford}).
         '''

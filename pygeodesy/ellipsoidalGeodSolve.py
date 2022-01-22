@@ -10,8 +10,9 @@ L{geodsolve}, a wrapper invoking I{Karney}'s U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} utility.
 '''
 
-from pygeodesy.datums import _WGS84
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
+# from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                     _nearestOn, _WGS84
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
@@ -21,7 +22,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '21.12.30'
+__version__ = '22.01.17'
 
 
 class Cartesian(CartesianEllipsoidalBase):

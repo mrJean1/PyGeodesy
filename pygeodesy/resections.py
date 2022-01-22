@@ -12,8 +12,8 @@ L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 
 from pygeodesy.basics import isnear0, map1
 from pygeodesy.errors import _and, _or, ResectionError, TriangleError, _xkwds
-from pygeodesy.fmath import favg, fdot, fidw, fmean, fsum, fsum_, fsum1, fsum1_, \
-                            hypot, hypot2_
+from pygeodesy.fmath import favg, fdot, fidw, fmean, hypot, hypot2_
+from pygeodesy.fsums import fsum, fsum_, fsum1, fsum1_
 from pygeodesy.interns import EPS, EPS0, EPS02, PI, PI2, PI_2, PI_4, _a_, _A_, \
                              _b_, _B_, _c_, _C_, _coincident_, _colinear_, _d_, \
                              _invalid_, _negative_, _not_, _rIn_, _SPACE_, \
@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '21.12.26'
+__version__ = '22.01.17'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'

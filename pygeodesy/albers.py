@@ -18,7 +18,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, neg
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
+from pygeodesy.fmath import hypot, hypot1, sqrt3
+from pygeodesy.fsums import Fmt, Fsum, fsum_
 from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
                              _gamma_, _lat_, _lat1_, _lat2_, _lon_, _no_, \
                              _scale_, _x_, _y_, _0_0, _0_5, _1_0, _N_1_0, \
@@ -28,7 +29,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_RO
-from pygeodesy.streprs import Fmt
+# from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
@@ -37,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.11.30'
+__version__ = '22.01.17'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?

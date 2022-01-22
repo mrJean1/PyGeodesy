@@ -11,6 +11,7 @@ from pygeodesy.basics import len2, map2
 from pygeodesy.errors import IntersectionError, _TypeError, _ValueError, \
                              VectorError, _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import fdot, fsum, fsum1_
+# from pygeodesy.fsums import fsum, fsum1_  # from .fmath
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, MISSING, NN, \
                              _COMMA_, _concentric_, _datum_, _h_, _height_, \
@@ -28,7 +29,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 
 class Vector3d(Vector3dBase):

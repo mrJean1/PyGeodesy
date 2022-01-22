@@ -22,7 +22,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
                              _xkwds, _xkwds_get
-from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_, hypot
+from pygeodesy.fmath import favg, fdot, fmean, hypot
+from pygeodesy.fsums import Fsum, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, opposing_, _radical2, \
                             vincentys_
@@ -52,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.01.03'
+__version__ = '22.01.17'
 
 _infinite_ = 'infinite'
 _parallel_ = 'parallel'

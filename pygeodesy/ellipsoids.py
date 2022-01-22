@@ -56,8 +56,9 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
-from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
-                            hypot, hypot_, hypot1, hypot2, sqrt3
+from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, hypot, hypot_, \
+                            hypot1, hypot2, sqrt3
+from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NN, PI4, PI_2, R_M, _a_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
                              _Clarke1880IGN_, _DOT_, _1_EPS, _EPStol as _TOL, _f_, \
@@ -96,7 +97,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.12.28'
+__version__ = '22.01.17'
 
 _f_0_0   = Float(f =_0_0)
 _f__0_0  = Float(f_=_0_0)

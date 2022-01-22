@@ -173,11 +173,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'EasNorExact4Tuple', 'LatLonExact4Tuple',
                                  'parseETM5', 'toEtm8'),
-                          fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
+                          fmath=('Fdot', 'Fhorner', 'Fpolynomial',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
-                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_', 'fsum1', 'fsum1_',
+                                 'fpowers', 'fprod', 'frange', 'freduce',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                  'norm2', 'norm_', 'sqrt0', 'sqrt3'),
                           formy=('Radical2Tuple',
@@ -201,6 +201,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'FrechetVincentys', 'Frechet6Tuple',
                                  'frechet_'),
                          fstats=('Fcook', 'Flinear', 'Fwelford'),
+                          fsums=('Fsum', 'Fsum2Tuple', 'fsum', 'fsum_', 'fsum1', 'fsum1_',),
                            gars=('Garef', 'GARSError'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
                                  'Caps', 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
@@ -334,7 +335,7 @@ class _ALL_MODS(dict):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.01.12'
+__version__ = '22.01.20'
 
 
 def _ALL_OTHER(*objs):

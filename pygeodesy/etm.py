@@ -67,7 +67,8 @@ from pygeodesy.basics import copysign0, neg, neg_, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
-from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
+from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
+from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, EPS02, _1_EPS, NN, PI_2, PI_4, \
                              _COMMASPACE_, _convergence_, _easting_, \
                              _lat_, _lon_, _no_, _northing_, _scale_, \
@@ -89,7 +90,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.11.30'
+__version__ = '22.01.17'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
