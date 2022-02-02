@@ -19,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '21.12.28'
+__version__ =  '22.01.29'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -110,6 +110,17 @@ class _PropertyBase(property):
         '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
         '''
         inst.__dict__.pop(self.name, None)  # name, NOT _name
+
+    def _update_from(self, inst, other):
+        '''(INTERNAL) Copy a I{cached/memoized} C{inst.__dict__[name]} item
+           if present, otherwise zap it.
+        '''
+        n = self.name  # name, NOT _name
+        v = other.__dict__.get(n, MISSING)
+        if v is MISSING:
+            inst.__dict__.pop(n, None)
+        else:
+            inst.__dict__[n] = v
 
     def deleter(self, fdel):
         '''Throws an C{AttributeError}, always.
