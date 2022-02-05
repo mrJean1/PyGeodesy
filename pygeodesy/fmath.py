@@ -21,7 +21,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.01.17'
+__version__ = '22.02.04'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -397,7 +397,7 @@ def fmean(xs):
     '''Compute the accurate mean M{sum(xs[i] for
        i=0..len(xs)) / len(xs)}.
 
-       @arg xs: Values (C{scalar}s).
+       @arg xs: Values (C{scalar} or L{Fsum} instances).
 
        @return: Mean value (C{float}).
 
@@ -415,7 +415,7 @@ def fmean_(*xs):
     '''Compute the accurate mean M{sum(xs[i] for
        i=0..len(xs)) / len(xs)}.
 
-       @arg xs: Values (C{scalar}s).
+       @arg xs: Values (C{scalar} or L{Fsum} instances).
 
        @return: Mean value (C{float}).
 

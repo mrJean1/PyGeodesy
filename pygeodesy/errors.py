@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.12.28'
+__version__ = '22.02.03'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -137,6 +137,13 @@ class _ValueError(ValueError):
     '''
     def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_invalid_
         _error_init(ValueError, self, name_value, **txt_name_values)
+
+
+class _ZeroDivisionError(ZeroDivisionError):
+    '''(INTERNAL) Format a C{ZeroDivisionError} without exception chaining.
+    '''
+    def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_invalid_
+        _error_init(ZeroDivisionError, self, name_value, **txt_name_values)
 
 
 class CrossError(_ValueError):

@@ -4,15 +4,17 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.01'
+__version__ = '22.02.04'
 
-from base import startswith, TestsBase
+from base import isPython2, startswith, TestsBase
 
-from pygeodesy import Fsum, fsum, fsum_, fsums, ResidualError
+from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
 
 from math import ceil, floor
 from random import random, gauss, shuffle
 from sys import getsizeof
+
+_dot0 = '.0' if isPython2 else NN
 
 
 class Tests(TestsBase):
@@ -52,10 +54,20 @@ class Tests(TestsBase):
                 s += v
                 t.append(v)
             shuffle(t)
-            s = fsum(t)
+            f = Fsum().fadd(t)
+            s = f.fsum()
             self.test('sum' + str(i), sum(t), s, known=True)
             self.test('fsum', s, s)
+
+            i = f.ceil  # Python 2, ceil(f) != f.__ceil__
+            self.test('ceil', (i - 1) < f <= i, True)
+            i = f.floor  # Python 2, floor(f) != f.__floor__
+            self.test('floor', i <= f < (i + 1), True)
             n = len(t) // 2
+            i, m = divmod(f, n)  # == f.__divmod__ in Python 2
+            f -= (m + i * n)
+            self.test('divmod', f, 0.0, known=f == 0)
+
             f = Fsum()
             f.fsum(t[:n])  # test ps
             self.test('Fsum', f.fsum(t[n:]), s)
@@ -159,14 +171,16 @@ class Tests(TestsBase):
         self.test('signOf', m.signOf(), -1)
 
         self.test('ceil ', ceil(t.fcopy().fadd_(1e-15)), '3', known=startswith)
-        self.test('floor', floor(t), '2', known=startswith)
-        self.test('divmod ', divmod(d, 2),  "(2.0, <fsums.Fsum '__divmod__'[1] (0.0, 0)",  known=startswith)
-        self.test('rdivmod ', divmod(2, d), "(0.0, <fsums.Fsum '__rdivmod__'[1] (2.0, 0)", known=startswith)
-        self.test('divmod ', divmod(Fsum(-3), 2),  "(-2.0, <fsums.Fsum '__divmod__'[1] (1.0, 0)",  known=startswith)
+        self.test('floor', floor(t), '2', known=startswith, nt=1)
+
+        self.test('divmod ', divmod(d, 2),  ("(2%s, <fsums.Fsum '__divmod__'[2] (0.0, 0)" % _dot0),  known=startswith)
+        self.test('divmod ', d.fcopy().divmod(2), ("(2%s, <fsums.Fsum 'divmod'[2] (0.0, 0)" % _dot0), known=startswith)
+        self.test('rdivmod ', divmod(2, d), ("(0%s, <fsums.Fsum '__rdivmod__'[1] (2.0, 0)" % _dot0), known=startswith)
+        self.test('divmod ', divmod(Fsum(-3), 2), ("(-2%s, <fsums.Fsum '__divmod__'[2] (1.0, 0)" % _dot0), known=startswith)
         m  = d.fcopy(name='__imod__')
         m %= 2
-        self.test('imod', m, "fsums.Fsum '__imod__'[1] (0.0, 0)")
-        self.test('mod ', d % 2, "fsums.Fsum '__mod__'[1] (0.0, 0)")
+        self.test('imod', m, "fsums.Fsum '__imod__'[2] (0.0, 0)")
+        self.test('mod ', d % 2, "fsums.Fsum '__mod__'[2] (0.0, 0)")
         self.test('rmod', 2 % d, "fsums.Fsum '__rmod__'[1] (2.0, 0)")
         m = -t
         self.test('neg ', m, -t, known=m == -t)
@@ -186,6 +200,10 @@ class Tests(TestsBase):
             self.test('// F', repr(X), ResidualError.__name__, known=startswith)
         m.__ifloordiv__(2)  # //= chockes PyChecker
         self.test('F //=', m, "fsums.Fsum[1] (-2, 0)")
+        try:
+            self.test('F / 0', x / 0, ZeroDivisionError.__name__)
+        except Exception as X:
+            self.test('F / 0', repr(X), ZeroDivisionError.__name__, known=startswith)
 
         try:
             self.test('pow(F, +)', pow(x, 2.1), ResidualError.__name__)
@@ -195,6 +213,14 @@ class Tests(TestsBase):
             self.test('pow(F, -)', pow(x, -1), ResidualError.__name__)
         except Exception as X:
             self.test('pow(F, -)', repr(X), ResidualError.__name__, known=startswith)
+        try:
+            self.test('pow(-F, F)', pow(m, x), ValueError.__name__)
+        except Exception as X:
+            self.test('pow(-F, F)', repr(X), ValueError.__name__, known=startswith)
+        try:
+            self.test('pow(F, F)', pow(-m, x), Fsum(1))  # -m = 2, x = 0.+
+        except Exception as X:
+            self.test('pow(F, F)', repr(X), ResidualError.__name__, known=startswith)
         try:
             self.test('pow(F, m)', pow(x, 2.1, 2), NotImplementedError.__name__, known=True)
         except Exception as X:
@@ -208,16 +234,31 @@ class Tests(TestsBase):
         self.test('pow(2)', x**2, '0.000', prec=3)
 
         x = Fsum(2, 3)
-        self.test('pow(F)',    x**x, '3125.000', prec=3)
-        self.test('pow(-1)',   x**-1,   '0.200', prec=3)
-        self.test('pow(-2)',   x**-2,   '0.040', prec=3)
-        self.test('pow(-2.5)', x**-2.5, '0.018', prec=3)
+        self.test('F ** 2',    x**x,     '3125.000', prec=3)
+        self.test('F ** -1',   x**-1,       '0.200', prec=3)
+        self.test('F ** -2',   x**-2,       '0.040', prec=3)
+        self.test('F ** -2.5', x**-2.5,     '0.018', prec=3)
+        self.test('F **  2.5', x** 2.5,    '55.902', prec=3)
+        self.test('pow(2.5)',  x.pow(2.5), '55.902', prec=3)
+        self.test('pow(F)',    x.pow(x), '3125.000', prec=3)
 
-        self.test('fpow(1)',   x.fpow(4),    '625.000', prec=3)
-        self.test('fpow(2.5)', x.fpow(2.5),   '55.902', prec=3)
-        self.test('fsum2()',   x.fsum2(),     '(5.0, 0)')
-        self.test('fmul(x)',   x.fmul(x),     '25.000', prec=3)
-        self.test('fmul(F0)',  x.fmul(Fsum()), '0.000', prec=3)
+        t = x.fsum()
+        self.test('fsum()',  t, '5.0')
+        self.test('fsum()',  t is x.fsum(), True)
+        t = x.fsum2()
+        self.test('fsum2()', t, '(5.0, 0)')
+        self.test('fsum2()', t is x.fsum2(), True)
+        self.test('fsum2()', t.toRepr(), 'Fsum2Tuple(fsum=5.0, residual=0)')
+
+        s, r = t.toUnits()
+        self.test('"fsum"', (s.name, s.__class__), "('fsum', <class 'pygeodesy.units.Float'>)")
+        self.test('"res."', (r.name, r.__class__), "('residual', <class 'pygeodesy.units.Int'>)")
+
+        self.test('fmul(x)', x.fmul(x),          '25.0', prec=1)
+        self.test('fmul(F)', x.fmul(Fsum(2.5)),  '62.5', prec=1)
+        self.test('fadd(F)', x.fadd(Fsum(2.5)),  '65.0', prec=1)
+        self.test('fsub(F)', x.fsub(Fsum(2.5)),  '62.5', prec=1)  # iter(Fsum)
+        self.test('Fsum(F)', Fsum(x, x).fsum(), '125.0', prec=1)
 
 
 if __name__ == '__main__':

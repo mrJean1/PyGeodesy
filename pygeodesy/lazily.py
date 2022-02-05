@@ -336,7 +336,7 @@ class _ALL_MODS(dict):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.02.02'
+__version__ = '22.02.03'
 
 
 def _ALL_OTHER(*objs):
@@ -692,7 +692,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -61,16 +61,17 @@
 <h1 class="epydoc">Module fsums</h1><p class="nomargin-top"></p>
 <p>Class <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
   for precision <i>running</i> floating point summation.</p>
-  <p>Set env variable <code>PYGEODESY_FSUM_RESIDUAL</code> to 
-  &quot;std&quot; to throw an exception for division or exponention by an 
-  <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> instance 
+  <p>Set env variable <code>PYGEODESY_FSUM_RESIDUAL</code> to nay non-empty
+  string to throw a <a href="pygeodesy.fsums.ResidualError-class.html" 
+  class="link">ResidualError</a> for division or exponention by an <a 
+  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> instance 
   with a non-zero <code>residual</code>, see method <a 
   href="pygeodesy.fsums.Fsum-class.html#fsum2" 
   class="link">Fsum.fsum2</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.02.01
+        22.02.04
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -105,8 +106,8 @@
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum2Tuple-class.html" class="summary-name">Fsum2Tuple</a><br />
       2-Tuple <code>(fsum, residual)</code> with the precision running 
-        <code>fsum</code> and <code>residual</code> the sum of the 
-        remaining partials, both <code>float</code>.
+        <code>fsum</code> and the <code>residual</code>, the sum of the 
+        remaining partials if any.
     </td>
   </tr>
 </table>
@@ -124,8 +125,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
-      Return an accurate floating point sum of values in the iterable.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">xs</span>)</span><br />
+      Precision floating point summation similar to Python's 
+      <code>math.fsum</code>.</td>
           <td align="right" valign="top">
             
             
@@ -159,7 +161,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>)</span><br />
-      Precision floating point summation, 1-primed.</td>
+      Precision floating point summation of a few values, 1-primed.</td>
           <td align="right" valign="top">
             
             
@@ -219,18 +221,42 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">iterable</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return an accurate floating point sum of values in the iterable. 
-  Assumes IEEE-754 floating point arithmetic.</p>
+  <p>Precision floating point summation similar to Python's 
+  <code>math.fsum</code>.</p>
+  <p>Exception and <i>non-finite</i> handling differ from 
+  <code>math.fsum</code>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instances).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Precision <code>sum</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.fsums.Fsum-class.html" 
+        class="link">Fsum</a> and methods <a 
+        href="pygeodesy.fsums.Fsum-class.html#fsum" 
+        class="link">Fsum.fsum</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fsum_"></a>
 <div>
@@ -250,11 +276,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to add (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a>instances), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision <a href="pygeodesy.fsums-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
+        <dd>Precision <code>sum</code> (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <code>fsum</code>.
@@ -275,15 +302,16 @@
     </td>
   </tr></table>
   
-  <p>Precision floating point summation, 1-primed.</p>
+  <p>Precision floating point summation of a few values, 1-primed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instances).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision <a href="pygeodesy.fsums-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
+        <dd>Precision <code>sum</code> (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <code>fsum</code>.
@@ -308,11 +336,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>s), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - Values to add (<code>scalar</code> or <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          instances), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision <a href="pygeodesy.fsums-module.html#fsum" 
-          class="link">fsum</a> (<code>float</code>).</dd>
+        <dd>Precision <code>sum</code> (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <code>fsum</code>
@@ -351,7 +380,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Feb  1 18:09:28 2022
+    Generated by Epydoc 3.0.1 on Fri Feb  4 20:03:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

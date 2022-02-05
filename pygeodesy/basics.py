@@ -28,7 +28,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.01.12'
+__version__ = '22.02.03'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -190,20 +190,25 @@ def isint(obj, both=False):
     '''Check for C{int} type or an integer C{float} value.
 
        @arg obj: The object (any C{type}).
-       @kwarg both: Optionally, check C{float} type and value (C{bool}).
+       @kwarg both: Optionally, check C{float} and L{Fsum}
+                    type and value (C{bool}).
 
        @return: C{True} if B{C{obj}} is C{int} or an integer
-                C{float}, C{False} otherwise.
+                C{float} or L{Fsum}, C{False} otherwise.
 
-       @note: C{isint(True)} or C{isint(False)} returns C{False} (and
-              no longer C{True}).
+       @note: C{isint(True)} or C{isint(False)} returns
+              C{False} (and no longer C{True}).
     '''
-    if both and isinstance(obj, float):  # NOT _Scalars!
+    if isinstance(obj, _Ints) and not isbool(obj):
+        i = True
+    elif both:  # and isinstance(obj, (float, Fsum)):  # NOT _Scalars!
         try:
-            return obj.is_integer()
+            i = obj.is_integer()
         except AttributeError:
-            return False  # XXX float(int(obj)) == obj?
-    return isinstance(obj, _Ints) and not isbool(obj)
+            i = False  # XXX float(int(obj)) == obj?
+    else:
+        i = False
+    return i
 
 
 try:
@@ -390,12 +395,18 @@ def neg_(*xs):
     return tuple(map(neg, xs))  # like map1
 
 
-def signOf(x):
+def signOf(x, off=0):
     '''Return sign of C{x} as C{int}.
+
+       @kwarg off: Reference value (C{scalar}, 0 usually).
 
        @return: -1, 0 or +1 (C{int}).
     '''
-    return 1 if x > 0 else (-1 if x < 0 else 0)
+    try:
+        s = x.signOf()  # Fsum instance?
+    except AttributeError:
+        s = 1 if x > off else (-1 if x < off else 0)
+    return s
 
 
 def splice(iterable, n=2, **fill):

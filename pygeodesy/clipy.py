@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '22.01.17'
+__version__ = '22.02.03'
 
 _fj_ = 'fj'
 
@@ -567,7 +567,7 @@ def clipSH3(points, corners, closed=False, inull=False):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

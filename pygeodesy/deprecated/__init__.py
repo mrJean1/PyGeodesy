@@ -29,7 +29,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '21.12.29'
+__version__ = '22.02.03'
 
 OK     = 'OK'  # OK for test like I{if ... is OK: ...}
 _WGS84 = _UTM = object()
@@ -424,7 +424,7 @@ def utmZoneBand2(lat, lon):  # PYCHOK no cover
 
 # **) MIT License
 #
-# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2022 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
