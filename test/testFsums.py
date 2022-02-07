@@ -4,9 +4,9 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.04'
+__version__ = '22.02.06'
 
-from base import isPython2, startswith, TestsBase
+from base import isPython2, isPython3, startswith, TestsBase
 
 from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
 
@@ -19,7 +19,7 @@ _dot0 = '.0' if isPython2 else NN
 
 class Tests(TestsBase):
 
-    def testFsums(self):  # MCCABE 15
+    def testFsums(self):  # MCCABE 26
 
         # U{Neumaier<https://WikiPedia.org/wiki/Kahan_summation_algorithm>}
         t = 1, 1e101, 1, -1e101
@@ -66,7 +66,11 @@ class Tests(TestsBase):
             n = len(t) // 2
             i, m = divmod(f, n)  # == f.__divmod__ in Python 2
             f -= (m + i * n)
-            self.test('divmod', f, 0.0, known=f == 0)
+            self.test('divmod', f, '0.0', known=f == 0)
+
+            r = f.residual
+            self.test('residual', r, '0')
+            self.test('is_exact', f.is_exact(), (not r))
 
             f = Fsum()
             f.fsum(t[:n])  # test ps
@@ -93,7 +97,7 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
-            self.testCopy(a, '_fsum', '_fsum2', '_n', '_ps', deep=True)  # _n
+            self.testCopy(a, '_fsum1', '_fsum2', '_n', '_ps', deep=True)  # _n
         self.test('len', len(a), len(a), nt=1)
 
         c = a - b
@@ -166,6 +170,7 @@ class Tests(TestsBase):
         m = -t  # t is positive
         self.test('lt 0', m < 0, True)
         self.test('gt 0', t > 0, True)
+        self.test('gt 0', m > 0, False)
 
         self.test('signOf', t.signOf(),  1)
         self.test('signOf', m.signOf(), -1)
@@ -232,6 +237,8 @@ class Tests(TestsBase):
         self.test('pow(0)', x**0, '1.000', prec=3)
         self.test('pow(1)', x**1, '0.000', prec=3)
         self.test('pow(2)', x**2, '0.000', prec=3)
+        m **= 2
+        self.test('**= 2',  m,    '4.000', prec=3)
 
         x = Fsum(2, 3)
         self.test('F ** 2',    x**x,     '3125.000', prec=3)
@@ -258,7 +265,25 @@ class Tests(TestsBase):
         self.test('fmul(F)', x.fmul(Fsum(2.5)),  '62.5', prec=1)
         self.test('fadd(F)', x.fadd(Fsum(2.5)),  '65.0', prec=1)
         self.test('fsub(F)', x.fsub(Fsum(2.5)),  '62.5', prec=1)  # iter(Fsum)
-        self.test('Fsum(F)', Fsum(x, x).fsum(), '125.0', prec=1)
+        self.test('Fsum(F)', Fsum(x, x).fsum(), '125.0', prec=1, nt=1)
+
+        f = Fsum(1, 1e-11, -4, -1e-12)  # about -3
+        r = f.as_integer_ratio()
+        t = '(-16725558898847790679455094805678836756250624L, 5575186299632655785383929568162090376495104L)'
+        if isPython3:
+            t = t.replace('L', NN)
+        self.test('ratio', r, t)
+        t = Fsum(r[0] / r[1])
+        self.test('ratio', t, f, known=abs(t.fsum() - f.fsum()) < 1e-9)  # python special
+
+        f = Fsum(3) // 1
+        try:
+            t = pow(f, 3, 4)
+            self.test('pow3', t, "fsums.Fsum '__pow__'[1] (3", known=startswith)
+        except Exception as X:
+            self.test('pow3', repr(X), TypeError.__name__, known=startswith)
+
+        self.test('math_fsum', f.is_math_fsum(), True, known=isPython2)
 
 
 if __name__ == '__main__':
