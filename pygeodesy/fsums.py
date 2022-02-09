@@ -17,9 +17,9 @@ from pygeodesy.errors import _NotImplementedError, _OverflowError, \
                              _TypeError, _ValueError, _xkwds_get, \
                              _ZeroDivisionError
 from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _EQUAL_, \
-                             _finite_, _iadd_, _not_, _PERCENT_, \
-                             _SLASH_, _SPACE_, _STAR_, _supported_, \
-                             _0_0, _1_0, _N_1_0
+                             _finite_, _iadd_, _negative_, _not_, \
+                             _PERCENT_, _scalar_, _SLASH_, _SPACE_, \
+                             _STAR_, _supported_, _0_0, _1_0, _N_1_0
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
 # from pygeodesy.props import Property_RO, property_RO
@@ -29,22 +29,22 @@ from pygeodesy.units import Float, Int, Property_RO, property_RO
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.02.06'
+__version__ = '22.02.09'
 
 _eq_ = _EQUAL_ * 2
 _ge_ = '>='
-_gt_ = '>'
+_gt_ = '>'  # _RANGLE_
 _le_ = '<='
-_lt_ = '<'
+_lt_ = '<'  # _LANGLE_
 _ne_ = '!='
 
 _floordiv_ = _SLASH_ * 2
-_iset_     = _EQUAL_
+_fset_     = _EQUAL_
 _mod_      = _PERCENT_
 _divmod_   = _floordiv_ + _mod_
 _mul_      = _STAR_
 _non_zero_ = 'non-zero'
-_pow_      = _mul_ * 2
+_pow_      = _STAR_ * 2
 _residual_ = 'residual'
 _sub_      = _DASH_
 _truediv_  = _SLASH_
@@ -58,9 +58,9 @@ def _2even(s, r, p):
     '''
     if (r > 0 and p > 0) or \
        (r < 0 and p < 0):  # signs match
-        t, p = _2sum(s, p * 2)
+        r, p = _2sum(s, p * 2)
         if not p:
-            s = t
+            s = r
     return s
 
 
@@ -201,10 +201,10 @@ class Fsum(_Named):
            @see: Standard C{float.as_integer_ratio} in Python 3+.
         '''
         s, r = self._fsum2
-        n, d = (s, 1) if isint(s) else s.as_integer_ratio()
+        n, d = (int(s), 1) if isint(s) else s.as_integer_ratio()
         if r:
-            if isint(r):
-                n += r * d
+            if isint(r):  # PYCHOK no cover
+                n += int(r) * d
             else:
                 rn, rd = r.as_integer_ratio()
                 n  = (n * rd) + (rn * d)
@@ -250,7 +250,7 @@ class Fsum(_Named):
 
            @see: Method L{Fsum.fsum}.
         '''
-        return self._fsum1
+        return self._fsum0
 
     def __floor__(self):  # PYCHOK not special in Python 2-
         '''Return this instance' C{math.floor} as C{int} or C{float}.
@@ -333,7 +333,7 @@ class Fsum(_Named):
 
            @see: Methods L{Fsum.__itruediv__}.
         '''
-        return self._floordiv(other, _floordiv_ + _iset_)
+        return self._floordiv(other, _floordiv_ + _fset_)
 
     def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -348,7 +348,7 @@ class Fsum(_Named):
 
            @see: Method L{Fsum.__divmod__}.
         '''
-        self._fdivmod(other, _mod_ + _iset_)
+        self._fdivmod(other, _mod_ + _fset_)
         return self
 
     def __imul__(self, other):
@@ -358,26 +358,27 @@ class Fsum(_Named):
 
            @return: This instance, updated (L{Fsum}).
 
+           @raise OverflowError: Partial C{2sum} overflow.
+
            @raise TypeError: Invalid B{C{other}} type.
 
            @see: Method L{Fsum.fmul}.
         '''
         if isinstance(other, Fsum):
-            ps = list(other._ps)
-            if ps and self._ps:
-                s = self._copy()._fmul(ps.pop())
-                while ps:  # s += self * ps.pop()
-                    p = ps.pop()
-                    if p:
-                        s._fadd(self._ps_x(p), update=False)
-                s._update()  # XXX s._fadd_1()?
+            a = False
+            if len(self._ps) != 1:
+                f = self._mul_Fsum(other)
+            elif len(other._ps) != 1:
+                f = other._copy()._fmul(self._ps[0])
+                f._n = self._n
             else:
-                s = _0_0
-            self._fset(s)
+                f = other._ps[0] * self._ps[0]
+                a = isint(f)
+            self._fset(f, asis=a)
         elif isscalar(other):
             self._fmul(other)
         else:
-            raise self._TypeError(_mul_ + _iset_, other)
+            raise self._TypeError(_mul_ + _fset_, other)
         return self
 
     def __int__(self):
@@ -385,7 +386,7 @@ class Fsum(_Named):
 
            @see: Methods L{Fsum.__ceil__} and L{Fsum.__floor__}.
         '''
-        return int(self._fsum1)
+        return int(self._fsum0)
 
     def __ipow__(self, other, *mod):  # PYCHOK 2 vs 3 args
         '''Apply C{B{self} **= B{other}} to this instance.
@@ -395,6 +396,8 @@ class Fsum(_Named):
                      version C{pow(B{self}, B{other}, *B{mod})}.
 
            @return: This instance, updated (L{Fsum}).
+
+           @raise OverflowError: Partial C{2sum} overflow.
 
            @raise ResidualError: Non-zero residual in B{C{other}}
                                  a negative or fractional C{scalar}
@@ -414,7 +417,7 @@ class Fsum(_Named):
            @see: CPython function U{float_pow<https://GitHub.com/
                  python/cpython/blob/main/Objects/floatobject.c>}.
         '''
-        return self._fpow(other, _pow_ + _iset_, *mod)
+        return self._fpow(other, _pow_ + _fset_, *mod)
 
     def __isub__(self, other):
         '''Apply C{B{self} -= B{other}} to this instance.
@@ -433,7 +436,7 @@ class Fsum(_Named):
             elif other._ps:
                 self._fadd(map(neg, other._ps))
         elif not isscalar(other):
-            raise self._TypeError(_sub_ + _iset_, other)
+            raise self._TypeError(_sub_ + _fset_, other)
         elif other:
             self._fadd_(neg(other))
         return self
@@ -450,6 +453,8 @@ class Fsum(_Named):
 
            @return: This instance, updated (L{Fsum}).
 
+           @raise OverflowError: Partial C{2sum} overflow.
+
            @raise ResidualError: Non-zero residual in B{C{other}}.
 
            @raise TypeError: Invalid B{C{other}} type.
@@ -460,7 +465,7 @@ class Fsum(_Named):
 
            @see: Method L{Fsum.__ifloordiv__}.
         '''
-        return self._ftruediv(other, _truediv_ + _iset_)
+        return self._ftruediv(other, _truediv_ + _fset_)
 
     def __le__(self, other):
         '''Compare this with an other instance or scalar.
@@ -469,7 +474,7 @@ class Fsum(_Named):
         return r <= -s
 
     def __len__(self):
-        '''Return the I{total} number of value accumulated (C{int}).
+        '''Return the I{total} number of values accumulated (C{int}).
         '''
         return self._n
 
@@ -518,7 +523,7 @@ class Fsum(_Named):
         return self if _1p0iself else self.fcopy(name=self.__pos__.__name__)
 
     def __pow__(self, other, *mod):  # PYCHOK 2 vs 3 args
-        '''Return C{B{self} ** B{other}} as an L{Fsum}.
+        '''Return C{B{self}**B{other}} as an L{Fsum}.
 
            @see: Method L{Fsum.__ipow__}.
         '''
@@ -581,7 +586,7 @@ class Fsum(_Named):
         return _NotImplemented(self, ndigits=ndigits)
 
     def __rpow__(self, other, *mod):
-        '''Return C{B{other} ** B{self}} as an L{Fsum}.
+        '''Return C{B{other}**B{self}} as an L{Fsum}.
 
            @see: Method L{Fsum.__ipow__}.
         '''
@@ -609,8 +614,12 @@ class Fsum(_Named):
         '''Return the size of this instance in C{bytes}.
         '''
         from sys import getsizeof
-        return sum(map1(getsizeof, self._fsum1, self._fsum2,
-                                   self._n, self._ps, *self._ps))
+        return sum(map1(getsizeof, self._fsum0,
+                                   self._fsum2,
+                                   self._fsum2.fsum,
+                                   self._fsum2.residual,
+                                   self._n,
+                                   self._ps, *self._ps))
 
     def __str__(self):
         '''Return the default C{str(this)}.
@@ -687,7 +696,7 @@ class Fsum(_Named):
     def _copy(self, _fsum2=False):
         '''(INTERNAL) Make a fast, un-named copy.
         '''
-        f = Fsum()
+        f = Fsum()  # NN
         f._n     = self._n
         f._ps[:] = self._ps
         if _fsum2:
@@ -751,7 +760,7 @@ class Fsum(_Named):
         '''
         return self._fadd(_2floats(xs, origin=1))
 
-    def _fadd(self, xs, update=True):
+    def _fadd(self, xs):
         '''(INTERNAL) Accumulate more I{known} C{scalar}s.
         '''
         ps, n, _2s = self._ps, 0, _2sum
@@ -767,8 +776,7 @@ class Fsum(_Named):
         # assert self._ps is ps
         if n:
             self._n += n
-            if update:
-                self._update()
+            self._update()
         return self
 
     def _fadd_(self, *xs):
@@ -802,8 +810,8 @@ class Fsum(_Named):
         return f
 
     copy    =   fcopy
-    fdiv    = __itruediv__  # for backward comptibility
-    fdivmod = __divmod__    # for backward comptibility
+    fdiv    = __itruediv__  # for backward compatibility
+    fdivmod = __divmod__    # for backward compatibility
 
     def _fdivmod(self, other, op):
         '''(INTERNAL) C{divmod(B{self}, B{other})} as 2-tuple (C{int} or C{float}, C{self}).
@@ -841,7 +849,7 @@ class Fsum(_Named):
             f -= 1
         return f
 
-#   floordiv = __floordiv__  # for naming constentcy
+#   floordiv = __floordiv__  # for naming consistency
 
     def _floordiv(self, other, op):  # rather _ffloordiv?
         '''Apply C{B{self} //= B{other}}.
@@ -849,12 +857,14 @@ class Fsum(_Named):
         q = self._ftruediv(other, op)  # == self
         return self._fset(q.floor, asis=True)  # floor(q)
 
-    fmul = __imul__  # for backward comptibility
+    fmul = __imul__  # for backward compatibility
 
     def _fmul(self, other):
-        '''(INTERNAL) Apply C{B{self} *= B{other}} by a C{scalar} only.
+        '''(INTERNAL) Apply C{B{self} *= B{other}}.
         '''
-        if other and self._ps:
+        if isinstance(other, Fsum):  # PYCHOK no cover
+            self._fset(self._mul_Fsum(other))
+        elif other and self._ps:
             if other != _1_0:
                 # multiply and adjust partials
                 self._ps[:] = self._ps_x(other)
@@ -872,16 +882,16 @@ class Fsum(_Named):
             self._fadd_1()
         return self
 
-    fpow = __ipow__  # for backward comptibility
+    fpow = __ipow__  # for backward compatibility
 
     def _fpow(self, other, op, *mod):
         '''Apply C{B{self} **= B{other}}.
         '''
         if mod:
             try:
-                f = int(self) if self.is_integer() else self._fsum1
+                f = int(self) if self.is_integer() else self._fsum0
                 # throw the same TypeError as C{pow} if not all
-                # self._fsum1, other and mod are C{int} and map
+                # self._fsum0, other and mod are C{int} and map
                 # the ValueError for mod==0 into TypeError
                 s = pow(f, other, *mod)
                 a = isint(s)
@@ -896,56 +906,18 @@ class Fsum(_Named):
                 if r:
                     if Fsum._Rx:
                         raise self._ResidualError(op, other, r)
-                    p = self._fpows(r, other, op)  # returns scalar or Fsum
-            s = self._fpows(x, other, op)  # returns scalar or Fsum
+                    p = self._pow_scalar(r, other, op)
+            s = self._pow_scalar(x, other, op)
             if p != _1_0:
-                s *= p
+                s *= p  # C{scalar}s or L{Fsum}s
             a = False
         return self._fset(s, asis=a)
-
-    def _fpows(self, x, other, op):  # MCCABE 14
-        '''(INTERNAL) Return C{self ** B{x}} for C{scalar B{x}} only.
-        '''
-        s, r = self._fsum2
-        if isint(x, both=True):
-            x = int(x)  # Fsum ** integer
-            y = abs(x)
-            if y > 1:
-                if r:
-                    s = self.pow(y)
-                    if x < 0:
-                        s, r = s._fsum2
-                        if r:
-                            raise self._ResidualError(op, other, r)
-                        # use **= -1 for the CPython float_pow
-                        # error if s is zero, and not s = 1 / s
-                        x = -1
-                    else:
-                        x = None
-            elif x < 0:  # x == -1
-                if r:
-                    raise self._ResidualError(op, other, r)
-            else:  # x == 1 or x == 0
-                s = self if x else _1_0
-                x = None
-        elif not isscalar(x):
-            raise self._TypeError(op, other)
-        elif r:  # residual Fsum ** fractional
-            raise self._ResidualError(op, other, r)
-        elif s < 0:  # negative**fractional yields complex
-            raise self._ValueError(op, other, txt=_not_(_supported_))
-        if x not in (None, _1_0):
-            try:
-                s **= x
-            except Exception as e:
-                raise self._ValueError(op, other, txt=str(e))
-        return s  # C{scalar} or an L{Fsum}
 
     def _fset(self, other, asis=False):
         '''(INTERNAL) Overwrite this instance with an other or a C{scalar}.
         '''
         if other is self:
-            pass  # from ._fpows
+            pass  # from ._fpow_scalar
         elif isinstance(other, Fsum):
             self._n     = other._n
             self._ps[:] = other._ps
@@ -954,9 +926,9 @@ class Fsum(_Named):
             f = other if asis else float(other)
             self._n     =  1
             self._ps[:] = [f]
-            self._update(_fsum1=f, _fsum2=Fsum2Tuple(f, _int0))
+            self._update(_fsum0=f, _fsum2=Fsum2Tuple(f, _int0))
         else:  # PYCHOK no cover
-            raise self._TypeError(_iset_, other)
+            raise self._TypeError(_fset_, other)
         return self
 
     def fsub(self, xs):
@@ -1000,7 +972,7 @@ class Fsum(_Named):
            @note: Accumulation can continue after summation.
         '''
         f = self._fadd(_2floats(xs)) if xs else self
-        return f._fsum1
+        return f._fsum0
 
     def fsum_(self, *xs):
         '''Add any positional value and sum all.
@@ -1013,10 +985,10 @@ class Fsum(_Named):
            @see: Method L{Fsum.fsum}.
         '''
         f = self._fadd(_2floats(xs, origin=1)) if xs else self
-        return f._fsum1
+        return f._fsum0
 
     @Property_RO
-    def _fsum1(self):
+    def _fsum0(self):
         '''(INTERNAL) Get this instance', memoized precision
            running sum (C{float} or C{int}), without C{residual}.
 
@@ -1076,7 +1048,7 @@ class Fsum(_Named):
 
            @see: Method L{Fsum.fsum} and property L{Fsum.residual}.
         '''
-        s =  self._fsum1
+        s =  self._fsum0
         r = _fsum(self._ps1(s)) if len(self._ps) > 1 else _int0
         t =  Fsum2Tuple(s, r) if s else Fsum2Tuple((r or _0_0), _int0)
         return t
@@ -1106,32 +1078,29 @@ class Fsum(_Named):
         '''
         if isinstance(other, Fsum):
             if other is self or other._fsum2 == self._fsum2:
-                self._fset(_1_0)
-                d = _1_0
-            else:
-                d, r = other._fsum2
-                if r:
-                    if Fsum._Rx:
-                        raise self._ResidualError(op, other, r)
-                    if d:
-                        # self / (d + r) == self * n / d
-                        # n = d / (d + r) = 1 / (1 + r / d)
-                        # d' = d / n = d * (1 + r / d), but
-                        # is pointless if (1 + r / d) == 1
-                        d *= r / d + _1_0
-                    else:  # PYCHOK no cover
-                        d  = r
+                return self._fset(_1_0)
+            d, r = other._fsum2
+            if r:
+                if Fsum._Rx:
+                    raise self._ResidualError(op, other, r)
+                if d:
+                    # self / (d + r) == self * n / d
+                    # n = d / (d + r) = 1 / (1 + r / d)
+                    # d' = d / n = d * (1 + r / d), but
+                    # is pointless if (1 + r / d) == 1
+                    d *= r / d + _1_0
+                else:  # PYCHOK no cover
+                    d  = r
         elif isscalar(other):
             d = other
         else:
             raise self._TypeError(op, other)
-        if d != _1_0:
-            try:
-                self._fmul(_1_0 / d)
-            except ZeroDivisionError as x:
-                raise self._ZeroDivisionError(op, d, txt=str(x))
-            except (TypeError, ValueError) as x:
-                raise self._ValueError(op, d, txt=str(x))
+        try:
+            self._fmul(_1_0 / d)
+        except ZeroDivisionError as x:
+            raise self._ZeroDivisionError(op, d, txt=str(x))
+        except (TypeError, ValueError) as x:
+            raise self._ValueError(op, d, txt=str(x))
         return self
 
     @property_RO
@@ -1159,6 +1128,11 @@ class Fsum(_Named):
         '''
         return bool(Fsum._math_fsum)
 
+    def _mul_Fsum(self, other):
+        '''(INTERNAL) Return C{B{self} * B{other}} L{Fsum} as L{Fsum}.
+        '''
+        return Fsum(_0_0)._fadd(self._ps_x(*other._ps))
+
     @property_RO
     def partials(self):
         '''Get this instance' current partial sums (C{tuple} of C{float}s).
@@ -1166,7 +1140,7 @@ class Fsum(_Named):
         return tuple(self._ps)
 
     def pow(self, x):
-        '''Return C{B{self} ** B{x}} as L{Fsum}.
+        '''Return C{B{self}**B{x}} as L{Fsum}.
 
            @arg x: The exponent (C{scalar} or L{Fsum} instance).
 
@@ -1181,23 +1155,83 @@ class Fsum(_Named):
 
            @see: Method L{Fsum.__ipow__}.
         '''
-        if isint(x) and x >= 0:
-            f = Fsum(name=self.pow.__name__)._fset(_1_0)
-            m = 1
-            p = self._ps[0] if len(self._ps) == 1 else self._copy()
-            x = int(x)
-            while True:
-                if x & m:
-                    f *= p
-                    x -= m  # x ^= m
-                if x:
-                    m += m  # m <<= 1
-                    p *= p  # p **= 2
-                else:
-                    break
-        else:  # non-int or nagative int B{C{x}}
+        if isint(x, both=True) and int(x) >= 0:
+            f = self._pow_int(int(x), _pow_)
+        else:  # negative or not int B{C{x}}
             f = self.fcopy(name=self.pow.__name__)._fpow(x, _pow_)  # f **= x
         return f
+
+    def _pow_int(self, x, op):
+        '''(INTERNAL) Return C{B{self}**B{x}} for C{int B{x} >= 0} only.
+        '''
+        if x < 0:  # assert x >= 0
+            raise self._ValueError(op, x, txt=_SPACE_(_negative_, int.__name__))
+
+        a = False
+        if len(self._ps) > 1:
+            if x > 2:
+                m = 1  # single-bit mask
+                p = self._copy()
+                if x & m:
+                    x -= m  # x ^= m
+                    f  = p._copy()
+                else:
+                    f = Fsum(_1_0)
+                while x:
+                    p  = p._mul_Fsum(p)  # p **= 2
+                    m += m  # m <<= 1
+                    if x & m:
+                        f  = f._mul_Fsum(p)  # f *= p
+                        x -= m  # x ^= m
+            elif x > 1:  # self**2
+                f = self._mul_Fsum(self)
+            else:  # self**1 or self**0
+                f = self if x else _1_0
+        elif self._ps:
+            f = self._ps[0]**x
+            a = True  # preserve C{type(ps[0])}
+        else:  # 0**non0 == 0, but 0**0 == 1
+            f = _0_0 if x else _1_0
+        return Fsum(name=self.pow.__name__)._fset(f, asis=a)
+
+    def _pow_scalar(self, x, other, op):  # MCCABE 14
+        '''(INTERNAL) Return C{self**B{x}} for C{scalar B{x}} only.
+        '''
+        s, r = self._fsum2
+        if isint(x, both=True):
+            x = int(x)  # Fsum**int
+            y = abs(x)
+            if y > 1:
+                if r:
+                    s = self._pow_int(y, op)
+                    if x < 0:
+                        s, r = s._fsum2
+                        if r:
+                            raise self._ResidualError(op, other, r)
+                        # use **= -1 for the CPython float_pow
+                        # error if s is zero, and not s = 1 / s
+                        x = -1
+                    else:
+                        x = None
+            elif x < 0:
+                if r:  # self**-1 == 1 / self
+                    s = Fsum(_1_0)._ftruediv(self, op)
+                    x = None
+            else:  # self**1 or self**0
+                s = self if x else _1_0
+                x = None
+        elif not isscalar(x):  # assert ...
+            raise self._TypeError(op, other, txt=_not_(_scalar_))
+        elif r:  # non0_residual**fractional
+            raise self._ResidualError(op, other, r)
+        elif s < 0:  # neg**fractional yields complex
+            raise self._ValueError(op, other, txt=_not_(_supported_))
+        if x not in (None, _1_0):
+            try:
+                s **= x
+            except Exception as e:
+                raise self._ValueError(op, other, txt=str(e))
+        return s  # C{scalar} or an L{Fsum}
 
     def _ps1(self, less):
         '''(INTERNAL) Yield partials, pseudo-sorted, 1-primed
@@ -1214,13 +1248,17 @@ class Fsum(_Named):
                 yield p
         yield _N_1_0
 
-    def _ps_x(self, factor):
-        '''(INTERNAL) Yield partials, multiplied by B{C{factor}}.
+    def _ps_x(self, *factors):
+        '''(INTERNAL) Yield C{partials}, multiplied by each of the B{C{factors}}.
         '''
-        for p in self._ps:
-            p *= factor
-            if p:
-                yield p
+        ps = self._ps
+        if len(ps) < len(factors):
+            ps, factors = factors, ps
+        for f in factors:
+            for p in ps:
+                p *= f
+                if p:
+                    yield p
 
     @property_RO
     def real(self):
@@ -1230,7 +1268,7 @@ class Fsum(_Named):
                  and properties L{Fsum.ceil}, L{Fsum.floor},
                  L{Fsum.imag} and L{Fsum.residual}.
         '''
-        return float(self._fsum1)
+        return float(self._fsum0)
 
     @property_RO
     def residual(self):
@@ -1254,12 +1292,12 @@ class Fsum(_Named):
     def signOf(self, res=True):
         '''Determine the sign of this instance.
 
-           @kwarg res: If C{True} consider, otherwise ignore
-                       the residual (C{bool}).
+           @kwarg res: If C{True} consider, otherwise
+                       ignore the residual (C{bool}).
 
            @return: The sign (C{int}, -1, 0 or +1).
         '''
-        s, r = self._fsum2 if res else (self._fsum1, 0)
+        s, r = self._fsum2 if res else (self._fsum0, 0)
         return signOf(r, off=-s)
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.g, **unused):  # PYCHOK signature
@@ -1299,13 +1337,13 @@ class Fsum(_Named):
         '''(INTERNAL) Copy, set or zap all cached C{Property_RO} values.
         '''
         if other is None:  # zap all
-            Fsum._fsum1._update(self)
+            Fsum._fsum0._update(self)
             Fsum._fsum2._update(self)
         else:  # dup if present, otherwise zap
-            Fsum._fsum1._update_from(self, other)
+            Fsum._fsum0._update_from(self, other)
             Fsum._fsum2._update_from(self, other)
         if setters:
-            # Property_RO ._fsum1 and ._fsum2 can't be a Property since
+            # Property_RO ._fsum0 and ._fsum2 can't be a Property since
             # Property's _fset zaps the value just set by the @setter
             self.__dict__.update(setters)
         return self
@@ -1353,7 +1391,7 @@ except ImportError:
     def _fsum(xs):
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
-        return Fsum(name=_fsum.__name__)._fadd(xs)._fsum1
+        return Fsum(name=_fsum.__name__)._fadd(xs)._fsum0
 
 
 def fsum(xs):

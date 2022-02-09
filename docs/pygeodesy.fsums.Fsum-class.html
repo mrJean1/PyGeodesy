@@ -596,7 +596,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the <i>total</i> number of value accumulated 
+      Return the <i>total</i> number of values accumulated 
       (<code>int</code>).</td>
           <td align="right" valign="top">
             
@@ -742,7 +742,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__pow__" class="summary-sig-name">__pow__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">*mod</span>)</span><br />
-      Return <code><b>self</b> ** <b>other</b></code> as an <a 
+      Return <code><b>self</b>**<b>other</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
@@ -893,7 +893,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__rpow__" class="summary-sig-name">__rpow__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">*mod</span>)</span><br />
-      Return <code><b>other</b> ** <b>self</b></code> as an <a 
+      Return <code><b>other</b>**<b>self</b></code> as an <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
@@ -1482,7 +1482,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#pow" class="summary-sig-name">pow</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
-      Return <code><b>self</b> ** <b>x</b></code> as <a 
+      Return <code><b>self</b>**<b>x</b></code> as <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
             
@@ -2110,6 +2110,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
     </ul></dd>
   </dl>
@@ -2174,6 +2175,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> a negative or 
         fractional <code>scalar</code> <b><code>other</code></b> and this 
         instance has a non-zero residual.</li>
@@ -2257,6 +2259,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>other</code></b>.</li>
@@ -2358,7 +2361,7 @@
     </td>
   </tr></table>
   
-  <p>Return <code><b>self</b> ** <b>other</b></code> as an <a 
+  <p>Return <code><b>self</b>**<b>other</b></code> as an <a 
   href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
   <dl class="fields">
   </dl>
@@ -2533,7 +2536,7 @@
     </td>
   </tr></table>
   
-  <p>Return <code><b>other</b> ** <b>self</b></code> as an <a 
+  <p>Return <code><b>other</b>**<b>self</b></code> as an <a 
   href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
   <dl class="fields">
   </dl>
@@ -2791,6 +2794,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>other</code></b>.</li>
@@ -3051,6 +3055,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>other</code></b>.</li>
@@ -3122,6 +3127,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type.</li>
     </ul></dd>
   </dl>
@@ -3161,6 +3167,7 @@
           class="link">Fsum</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> a negative or 
         fractional <code>scalar</code> <b><code>other</code></b> and this 
         instance has a non-zero residual.</li>
@@ -3405,7 +3412,7 @@
     </td>
   </tr></table>
   
-  <p>Return <code><b>self</b> ** <b>x</b></code> as <a 
+  <p>Return <code><b>self</b>**<b>x</b></code> as <a 
   href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -3787,7 +3794,7 @@ sum of the <code>partials</code> less the precision running sum
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  7 09:27:40 2022
+    Generated by Epydoc 3.0.1 on Wed Feb  9 14:14:05 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

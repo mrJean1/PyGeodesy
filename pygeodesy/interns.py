@@ -112,6 +112,7 @@ _c_                   = 'c'                  # PYCHOK expected
 _C_                   = 'C'                  # PYCHOK expected
 _cartesian_           = 'cartesian'          # PYCHOK expected
 _center_              = 'center'             # PYCHOK expected
+# _CIRCUMFLEX_        = '^'                  # PYCHOK expected
 _Clarke1866_          = 'Clarke1866'         # PYCHOK expected
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK expected
 _coincident_          = 'coincident'         # PYCHOK expected
@@ -498,7 +499,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '22.01.11'
+__version__ = '22.02.07'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

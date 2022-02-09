@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.06'
+__version__ = '22.02.09'
 
 from base import isPython2, isPython3, startswith, TestsBase
 
@@ -97,7 +97,7 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
-            self.testCopy(a, '_fsum1', '_fsum2', '_n', '_ps', deep=True)  # _n
+            self.testCopy(a, '_fsum0', '_fsum2', '_n', '_ps', deep=True)  # _n
         self.test('len', len(a), len(a), nt=1)
 
         c = a - b
@@ -215,7 +215,7 @@ class Tests(TestsBase):
         except Exception as X:
             self.test('pow(F, +)', repr(X), ResidualError.__name__, known=startswith)
         try:
-            self.test('pow(F, -)', pow(x, -1), ResidualError.__name__)
+            self.test('pow(F, -)', pow(x, -1), "fsums.Fsum '__pow__'[1] (1.11111e+101, 0)")
         except Exception as X:
             self.test('pow(F, -)', repr(X), ResidualError.__name__, known=startswith)
         try:
@@ -234,11 +234,14 @@ class Tests(TestsBase):
             self.test('Z**-2', Fsum(0.0)**-2, ValueError.__name__)
         except Exception as X:
             self.test('Z**-2', repr(X), ValueError.__name__, known=startswith)
-        self.test('pow(0)', x**0, '1.000', prec=3)
-        self.test('pow(1)', x**1, '0.000', prec=3)
-        self.test('pow(2)', x**2, '0.000', prec=3)
-        m **= 2
-        self.test('**= 2',  m,    '4.000', prec=3)
+
+        x = Fsum(1, 1e-101, -4, -1e-102)  # about -3
+        self.test('pow(0)',  x**0,             '1.000', prec=3)
+        self.test('pow(1)',  x**1,            '-3.000', prec=3)
+        self.test('pow(2)',  x**2,             '9.000', prec=3)
+        self.test('pow(21)', x**21, '-10460353203.000', prec=3)
+        x **= 2
+        self.test('**= 2',  x,                 '9.000', prec=3)
 
         x = Fsum(2, 3)
         self.test('F ** 2',    x**x,     '3125.000', prec=3)
