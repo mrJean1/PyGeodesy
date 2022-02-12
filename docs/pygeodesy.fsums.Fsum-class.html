@@ -273,7 +273,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__float__" class="summary-sig-name">__float__</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return this instance' current precision running sum as 
-      <code>float</code> or <code>int</code>.</td>
+      <code>float</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1442,9 +1442,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="is_integer"></a><span class="summary-sig-name">is_integer</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return <code>True</code> if this instance is an integer, 
-      <code>False</code> otherwise.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#is_integer" class="summary-sig-name">is_integer</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Return <code>True</code> if this instance value is 
+      <code>integer</code> or <code>type(int)</code>, <code>False</code> 
+      otherwise.</td>
           <td align="right" valign="top">
             
             
@@ -1481,7 +1483,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#pow" class="summary-sig-name">pow</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>)</span><br />
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*mod</span>)</span><br />
       Return <code><b>self</b>**<b>x</b></code> as <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
           <td align="right" valign="top">
@@ -1591,6 +1594,15 @@
         <a href="pygeodesy.fsums.Fsum-class.html#ceil" class="summary-name">ceil</a><br />
       Get this instance' <code>ceil</code> value (<code>int</code> in 
       Python 3+, <code>float</code> in Python 2-).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fsums.Fsum-class.html#float_int" class="summary-name">float_int</a><br />
+      Get the current, precision running sum (<code>float</code> or 
+      <code>int</code>).
     </td>
   </tr>
 <tr>
@@ -1836,12 +1848,14 @@
   </tr></table>
   
   <p>Return this instance' current precision running sum as 
-  <code>float</code> or <code>int</code>.</p>
+  <code>float</code>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
-        class="link">Fsum.fsum</a>.
+        class="link">Fsum.fsum</a> and property <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2141,7 +2155,13 @@
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__ceil__" 
         class="link">Fsum.__ceil__</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#__floor__" 
-        class="link">Fsum.__floor__</a>.
+        class="link">Fsum.__floor__</a> and properties <a 
+        href="pygeodesy.fsums.Fsum-class.html#ceil" 
+        class="link">Fsum.ceil</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#floor" 
+        class="link">Fsum.floor</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2165,10 +2185,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <code>scalar</code> exponent.</li>
-        <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code>) for the 3-argument version 
-          <code>pow(<b>self</b>, <b>other</b>, *<b>mod</b>)</code>.</li>
+        <li><strong class="pname"><code>other</code></strong> - The exponent (<a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <code>scalar</code>).</li>
+        <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> on <code>None</code>) for the 
+          3-argument <code>pow(<b>self</b>, <b>other</b>, 
+          <b>mod</b>)</code> version.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -2176,20 +2197,26 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> a negative or 
-        fractional <code>scalar</code> <b><code>other</code></b> and this 
-        instance has a non-zero residual.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or the 3-argument 
+        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - If this instance has a non-zero residual and either 
+        <b><code>mod</code></b> is given as non-<code>None</code> or 
+        <b><code>other</code></b> is a negative or fractional 
+        <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or 3-argument 
         <code>pow</code> invocation failed.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>other</code></b> is a negative <code>scalar</code> and 
         this instance is <code>0</code> or <b><code>other</code></b> is a 
         fractional <code>scalar</code> and this instance is negative or has
-        a non-zero residual or <b><code>other</code></b> is an <a 
-        href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with a
-        non-zero residual.</li>
+        a non-zero residual or <b><code>mod</code></b> is given and 
+        <code>0</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        If <b><code>mod</code></b> is given, the result is an 
+        <code>int</code> in Python 3+ if this instance 
+        <code>is_integer</code>, in particular when <b><code>mod</code></b>
+        given as <code>None</code>.
+      </p>
+      <p><strong>See Also:</strong>
         CPython function <a 
         href="https://GitHub.com/python/cpython/blob/main/Objects/floatobject.c"
         target="_top">float_pow</a>.
@@ -2730,7 +2757,13 @@
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__ceil__" 
         class="link">Fsum.__ceil__</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#__floor__" 
-        class="link">Fsum.__floor__</a>.
+        class="link">Fsum.__floor__</a> and properties <a 
+        href="pygeodesy.fsums.Fsum-class.html#ceil" 
+        class="link">Fsum.ceil</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#floor" 
+        class="link">Fsum.floor</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2828,7 +2861,13 @@
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__ceil__" 
         class="link">Fsum.__ceil__</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#__floor__" 
-        class="link">Fsum.__floor__</a>.
+        class="link">Fsum.__floor__</a> and properties <a 
+        href="pygeodesy.fsums.Fsum-class.html#ceil" 
+        class="link">Fsum.ceil</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#floor" 
+        class="link">Fsum.floor</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3157,10 +3196,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - An <a href="pygeodesy.fsums.Fsum-class.html" 
-          class="link">Fsum</a> or <code>scalar</code> exponent.</li>
-        <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code>) for the 3-argument version 
-          <code>pow(<b>self</b>, <b>other</b>, *<b>mod</b>)</code>.</li>
+        <li><strong class="pname"><code>other</code></strong> - The exponent (<a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <code>scalar</code>).</li>
+        <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> on <code>None</code>) for the 
+          3-argument <code>pow(<b>self</b>, <b>other</b>, 
+          <b>mod</b>)</code> version.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This instance, updated (<a href="pygeodesy.fsums.Fsum-class.html"
@@ -3168,20 +3208,26 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> a negative or 
-        fractional <code>scalar</code> <b><code>other</code></b> and this 
-        instance has a non-zero residual.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or the 3-argument 
+        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - If this instance has a non-zero residual and either 
+        <b><code>mod</code></b> is given as non-<code>None</code> or 
+        <b><code>other</code></b> is a negative or fractional 
+        <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or 3-argument 
         <code>pow</code> invocation failed.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>other</code></b> is a negative <code>scalar</code> and 
         this instance is <code>0</code> or <b><code>other</code></b> is a 
         fractional <code>scalar</code> and this instance is negative or has
-        a non-zero residual or <b><code>other</code></b> is an <a 
-        href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with a
-        non-zero residual.</li>
+        a non-zero residual or <b><code>mod</code></b> is given and 
+        <code>0</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        If <b><code>mod</code></b> is given, the result is an 
+        <code>int</code> in Python 3+ if this instance 
+        <code>is_integer</code>, in particular when <b><code>mod</code></b>
+        given as <code>None</code>.
+      </p>
+      <p><strong>See Also:</strong>
         CPython function <a 
         href="https://GitHub.com/python/cpython/blob/main/Objects/floatobject.c"
         target="_top">float_pow</a>.
@@ -3278,7 +3324,7 @@
           instances).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision running sum (<code>float</code>).</dd>
+        <dd>Precision running sum (<code>float</code> or <code>int</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
@@ -3315,7 +3361,7 @@
           instances), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Precision running sum (<code>float</code>).</dd>
+        <dd>Precision running sum (<code>float</code> or <code>int</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
@@ -3392,10 +3438,40 @@
           with the prior running <code>fsum</code> (<code>float</code>s).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fsums.Fsum-class.html#fsum_" 
-        class="link">Fsum.fsum_</a>.
+        Methods <a href="pygeodesy.fsums.Fsum-class.html#fsum_" 
+        class="link">Fsum.fsum_</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#fsum" 
+        class="link">Fsum.fsum</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="is_integer"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_integer</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>True</code> if this instance value is 
+  <code>integer</code> or <code>type(int)</code>, <code>False</code> 
+  otherwise.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, check <code>float</code> types and value, 
+          otherwise consider the <code>int</code> 
+          single-<code>partial</code> only.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="pow"></a>
 <div>
@@ -3405,7 +3481,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">pow</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>)</span>
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*mod</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3417,22 +3494,24 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - The exponent (<code>scalar</code> or <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instance).</li>
+        <li><strong class="pname"><code>x</code></strong> - The exponent (<a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <code>scalar</code>).</li>
+        <li><strong class="pname"><code>mod</code></strong> - Optional modulus (<code>int</code> on <code>None</code>) for the 
+          3-argument <code>pow(<b>self</b>, <b>other</b>, 
+          <b>mod</b>)</code> version.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code>pow(self, <b>x</b>)</code> (<a 
+        <dd>The <code>pow(self, <b>x</b>)</code> or <code>pow(self, <b>x</b>,
+          *<b>mod</b>)</code> result (<a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - This residual non-zero and negative or fractional 
-        <b><code>x</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>factor</code></b>.</li>
-    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        If <b><code>mod</code></b> is given, the result is an 
+        <code>int</code> in Python 3+ if this instance 
+        <code>is_integer</code>, in particular when <b><code>mod</code></b>
+        given as <code>None</code>.
+      </p>
+      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.fsums.Fsum-class.html#__ipow__" 
         class="link">Fsum.__ipow__</a>.
       </p>
@@ -3574,17 +3653,45 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The <code>ceil</code> accounts for the <code>residual</code>.
+        The <code>ceil</code> takes the <code>residual</code> into account.
       </p>
       <p><strong>See Also:</strong>
         Properties <a href="pygeodesy.fsums.Fsum-class.html#floor" 
         class="link">Fsum.floor</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#imag" 
         class="link">Fsum.imag</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#real" 
         class="link">Fsum.real</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="float_int"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">float_int</h3>
+  <p>Get the current, precision running sum (<code>float</code> or 
+  <code>int</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">float_int(<span class="summary-sig-arg">self</span>)</span>
+        - Get the current, precision running sum (<code>float</code> or 
+<code>int</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="floor"></a>
 <div>
@@ -3611,11 +3718,14 @@
     </dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The <code>floor</code> accounts for the <code>residual</code>.
+        The <code>floor</code> takes the <code>residual</code> into 
+        account.
       </p>
       <p><strong>See Also:</strong>
         Properties <a href="pygeodesy.fsums.Fsum-class.html#ceil" 
         class="link">Fsum.ceil</a>, <a 
+        href="pygeodesy.fsums.Fsum-class.html#float_int" 
+        class="link">Fsum.float_int</a>, <a 
         href="pygeodesy.fsums.Fsum-class.html#imag" 
         class="link">Fsum.imag</a> and <a 
         href="pygeodesy.fsums.Fsum-class.html#real" 
@@ -3794,7 +3904,7 @@ sum of the <code>partials</code> less the precision running sum
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Feb  9 14:14:05 2022
+    Generated by Epydoc 3.0.1 on Fri Feb 11 20:04:15 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

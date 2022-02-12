@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.09'
+__version__ = '22.02.11'
 
 from base import isPython2, isPython3, startswith, TestsBase
 
@@ -227,9 +227,10 @@ class Tests(TestsBase):
         except Exception as X:
             self.test('pow(F, F)', repr(X), ResidualError.__name__, known=startswith)
         try:
-            self.test('pow(F, m)', pow(x, 2.1, 2), NotImplementedError.__name__, known=True)
+            self.test('pow(F, F, i)', pow(x, 2.1, 2), ResidualError.__name__)
         except Exception as X:
-            self.test('pow(F, m)', repr(X), NotImplementedError.__name__, known=True)
+            self.test('pow(F, F, i)', repr(X), ResidualError.__name__, known=startswith)
+        self.test('pow(F, F, None)', pow(-m, 2, None), ("fsums.Fsum[1] (4%s, 0)" % _dot0))
         try:
             self.test('Z**-2', Fsum(0.0)**-2, ValueError.__name__)
         except Exception as X:
@@ -243,21 +244,27 @@ class Tests(TestsBase):
         x **= 2
         self.test('**= 2',  x,                 '9.000', prec=3)
 
+        # preserve C{type(base)}
+        self.test('2**F0',  2**Fsum(),  "fsums.Fsum '__rpow__'[1] (1, 0)", fmt='%s')
+        self.test('2.**F0', 2.**Fsum(), "fsums.Fsum '__rpow__'[1] (1.0, 0)", fmt='%s')
+        self.test('F2**0',  Fsum()._fset(2, asis=True)**0, "fsums.Fsum '__pow__'[1] (1, 0)", fmt='%s')
+        self.test('F2.**0', Fsum(2.)**0, "fsums.Fsum '__pow__'[1] (1.0, 0)", fmt='%s')
+
         x = Fsum(2, 3)
-        self.test('F ** 2',    x**x,     '3125.000', prec=3)
-        self.test('F ** -1',   x**-1,       '0.200', prec=3)
-        self.test('F ** -2',   x**-2,       '0.040', prec=3)
-        self.test('F ** -2.5', x**-2.5,     '0.018', prec=3)
-        self.test('F **  2.5', x** 2.5,    '55.902', prec=3)
-        self.test('pow(2.5)',  x.pow(2.5), '55.902', prec=3)
-        self.test('pow(F)',    x.pow(x), '3125.000', prec=3)
+        self.test('F**2',     x**x,     '3125.000', prec=3)
+        self.test('F**-1',    x**-1,       '0.200', prec=3)
+        self.test('F**-2',    x**-2,       '0.040', prec=3)
+        self.test('F**-2.5',  x**-2.5,     '0.018', prec=3)
+        self.test('F** 2.5',  x** 2.5,    '55.902', prec=3)
+        self.test('pow(2.5)', x.pow(2.5), '55.902', prec=3)
+        self.test('pow(F)',   x.pow(x), '3125.000', prec=3)
 
         t = x.fsum()
         self.test('fsum()',  t, '5.0')
-        self.test('fsum()',  t is x.fsum(), True)
+        self.test('fsum()',  t is x.fsum(), True)  # Property_RO
         t = x.fsum2()
         self.test('fsum2()', t, '(5.0, 0)')
-        self.test('fsum2()', t is x.fsum2(), True)
+        self.test('fsum2()', t is x.fsum2(), True)  # Property_RO
         self.test('fsum2()', t.toRepr(), 'Fsum2Tuple(fsum=5.0, residual=0)')
 
         s, r = t.toUnits()

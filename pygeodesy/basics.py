@@ -28,7 +28,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.02.03'
+__version__ = '22.02.10'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -190,7 +190,7 @@ def isint(obj, both=False):
     '''Check for C{int} type or an integer C{float} value.
 
        @arg obj: The object (any C{type}).
-       @kwarg both: Optionally, check C{float} and L{Fsum}
+       @kwarg both: If C{true}, check C{float} and L{Fsum}
                     type and value (C{bool}).
 
        @return: C{True} if B{C{obj}} is C{int} or an integer
