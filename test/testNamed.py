@@ -4,11 +4,11 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '21.12.20'
+__version__ = '22.02.20'
 
-from base import TestsBase
+from base import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
-                      namedTuples, nameof, ub2str
+                      namedTuples, nameof, NN, ub2str
 
 from os import linesep
 
@@ -35,7 +35,7 @@ class Tests(TestsBase):
         self.test('nd.dict', nd.toRepr(), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'})
-        self.test('nd.dict', nd.toRepr(), 'test(1=1, 2=2)')
+        self.test('nd.dict', repr(nd), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict(one=1, two=2, name='test')
         self.test('nd.kwds', nd.toRepr(), 'test(one=1, two=2)')
@@ -57,9 +57,22 @@ class Tests(TestsBase):
         self.test(n.named, n.classname, N.__name__)
         self.test(n.named, isinstance(n, N), True)
         self.test(n.named, repr(n.name), "''", known=k)
+
         n.rename('Test')
-        self.test(n.named, n.name, 'Test')
+        self.test(n.named,  n.name, 'Test')
         self.test(n.named2, n.named2, n.classname + " 'Test'")
+        self.test(n.named3, n.named3, " 'Test'", known=endswith)
+        self.test(n.named4, n.named4, " 'Test'", known=endswith)
+        if n.name and N is not named._NamedEnumItem:
+            try:  # coverage
+                n.name = 'X'
+                self.test(n.name, n.name, NameError.__name__)
+            except NameError as x:
+                self.test(n.name, x, x)
+            try:  # coverage
+                self.test(n.name, n._xrenamed(n), n)
+            except (AssertionError, NameError) as x:  # not overloaded
+                self.test(n.name, x, x)
 
         for a in ('name', '_name'):  # coverage
             self.test(n.named2, getattr(n, a), 'Test')
@@ -72,7 +85,7 @@ class Tests(TestsBase):
         except AssertionError as x:
             self.test(n.named2, x, x)
         delattr(n, '_name')  # coverage
-        self.test(n.named2, n.name, '')
+        self.test(n.named2, repr(n.name), repr(NN))
 
     def testNamedDicts(self):
         self.subtitle(named, 'ing %s ' % ('NamedDicts',))

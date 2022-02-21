@@ -47,8 +47,8 @@ from pygeodesy.geodesicx.gxline import fsum_, _GeodesicLineExact, pairs, \
 from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
                              _COMMASPACE_, _convergence_, _EPSqrt, _no_, \
                              _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, \
-                             _N_1_0, _2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
-                             _90_0, _180_0, _1000_0
+                             _N_1_0, _2_0, _N_2_0, _3_0, _4_0, _6_0, _8_0, \
+                             _16_0, _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _ellipsoid, _EWGS84, GDict, GeodesicError, \
                              _diff182, _fix90, _norm180, Property, Property_RO
 from pygeodesy.lazily import _ALL_MODS as _MODS
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '22.01.17'
+__version__ = '22.02.20'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -110,10 +110,10 @@ class _PDict(GDict):
         self.set_(ssig1=ssig1, csig1=csig1, sncndn1=(ssig1, csig1, self.dn1),  # PYCHOK dn1
                   ssig2=ssig2, csig2=csig2, sncndn2=(ssig2, csig2, self.dn2))  # PYCHOK dn2
 
-    def toGDict(self):
+    def toGDict(self):  # PYCHOK no cover
         '''Return as C{GDict} without attrs C{sncndn1} and C{sncndn2}.
         '''
-        def _rest(sncndn1=None, sncndn2=None, **rest):  # PYCHOK unused
+        def _rest(sncndn1=None, sncndn2=None, **rest):  # PYCHOK sncndn* not used
             return GDict(rest)
 
         return _rest(**self)
@@ -1016,9 +1016,9 @@ class GeodesicExact(_GeodesicBase):
             dlam12  = NAN  # dv > 0 in ._Newton9
         elif calp2:
             _, dlam12, _, _, _ = self._Lengths5(sig12, Caps.REDUCEDLENGTH, p)
-            dlam12 *=  f1 / (calp2 * p.cbet2)
+            dlam12 *= f1 / (calp2 * p.cbet2)
         else:
-            dlam12  = -f1 * _2_0 * p.dn1 / p.sbet1
+            dlam12  = f1 * _N_2_0 * p.dn1 / p.sbet1
 
         # p.set_(deta12=-eta12, lam12=lam12)
         return lam12, sig12, salp2, calp2, domg12, dlam12

@@ -27,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '21.12.28'
+__version__ = '22.02.20'
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -89,8 +89,6 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.plus(other)
-
-    __radd__ = __add__  # PYCHOK no cover
 
     def __bool__(self):  # PYCHOK PyChecker
         '''Is this vector non-zero?
@@ -173,6 +171,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.xyz = self.plus(other).xyz
+        return self
 
     def __imatmul__(self, other):  # PYCHOK Python 3.5+
         '''Cross multiply an other vector and this one I{in-place}, C{this @= B{other}}.
@@ -184,6 +183,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
         '''
         self.xyz = self.cross(other).xyz
+        return self
 
     def __imul__(self, scalar):
         '''Multiply this vector by a scalar I{in-place}, C{this *= B{scalar}}.
@@ -193,6 +193,11 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Non-scalar B{C{scalar}}.
         '''
         self.xyz = self.times(scalar).xyz
+        return self
+
+    def __int__(self):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self)
 
     def __isub__(self, other):
         '''Subtract an other vector from this one I{in-place}, C{this -= B{other}}.
@@ -202,6 +207,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.xyz = self.minus(other).xyz
+        return self
 
     def __itruediv__(self, scalar):
         '''Divide this vector by a scalar I{in-place}, C{this /= B{scalar}}.
@@ -211,6 +217,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Non-scalar B{C{scalar}}.
         '''
         self.xyz = self.dividedBy(scalar).xyz
+        return self
 
     def __le__(self, other):  # Python 3+
         '''Is this vector shorter than or equal to an other vector?
@@ -281,11 +288,13 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @return: This instance (L{Vector3d})
         '''
-        return self
+        return self  # XXX self.copy()
 
     def __pow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other, *mod)
+
+    __radd__ = __add__  # PYCHOK no cover
 
     def __rdivmod__ (self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -311,9 +320,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''Not implemented.'''
         return _NotImplemented(self, other)
 
-    def __rmul__(self, scalar):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, scalar)
+    __rmul__ = __mul__
 
     def __round__(self, ndigits=None):  # PYCHOK no cover
         '''Not implemented.'''
@@ -361,11 +368,15 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.dividedBy(scalar)
 
+    __trunc__ = __int__
+
     if _sys_version_info2 < (3, 0):  # PYCHOK no cover
         # <https://docs.Python.org/2/library/operator.html#mapping-operators-to-functions>
         __div__     = __truediv__
         __idiv__    = __itruediv__
+        __long__    = __int__
         __nonzero__ = __bool__
+        __rdiv__    = __rtruediv__
 
     def angleTo(self, other, vSign=None, wrap=False):
         '''Compute the angle between this and an other vector.
@@ -536,11 +547,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         f = Scalar(fraction=fraction)
         if isnear0(f):
             r = self
-        elif isnear1(f):
-            r = self.others(other)
         else:
-            d = self.others(other).minus(self)
-            r = self.plus(d.times(f))
+            r = self.others(other)
+            if not isnear1(f):  # self * (1 - f) + r * f
+                r = self.plus(r.minus(self).times(f))
         return r
 
     def isconjugateTo(self, other, minum=1, eps=EPS):
@@ -617,7 +627,6 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
-
         return self.classof(self.x - other.x,
                             self.y - other.y,
                             self.z - other.z)
@@ -818,10 +827,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''Set the X, Y and Z components, if different (L{Vector3dBase}, L{Vector3Tuple} or L{Vector4Tuple}).
         '''
         _xinstanceof(Vector3dBase, Vector3Tuple, Vector4Tuple, xyz=xyz)
-        t3 = xyz.x,  xyz.y,  xyz.z
-        if (self.x, self.y, self.z) != t3:
-            self._update(True)
-            self.x, self.y, self.z = t3
+        self.x, self.y, self.z = xyz.x, xyz.y, xyz.z
 
     @Property_RO
     def x2y2z2(self):

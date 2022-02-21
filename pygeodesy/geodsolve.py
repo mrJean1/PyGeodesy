@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '21.12.28'
+__version__ = '22.02.20'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -122,12 +122,12 @@ class _GeodesicSolveBase(_GeodesicBase):
         return self.ellipsoid.f
 
     def _GDictInvoke(self, cmd, floats, *args):
-        '''(INTERNAL) Invoke C{GeodSolve}, return C{GDict}.
+        '''(INTERNAL) Invoke C{GeodSolve}, return results as C{GDict}.
         '''
         i = fstr(args, prec=DIG, fmt=Fmt.F, sep=_SPACE_) if args else None  # not Fmt.G!
         t = self._invoke(cmd, stdin=i).lstrip().split()  # 12-/+ tuple
-        if len(t) > _len_N:  # instrumented?
-            # unzip the name=value pairs to names and values
+        if len(t) > _len_N:  # PYCHOK no cover
+            # unzip instrumented name=value pairs to names and values
             n, v = zip(*(p.split(_EQUAL_) for p in t[:-_len_N]))
             v += tuple(t[-_len_N:])
             n += GeodSolve12Tuple._Names_

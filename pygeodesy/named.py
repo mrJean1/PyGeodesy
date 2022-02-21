@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.01.20'
+__version__ = '22.02.21'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -149,22 +149,22 @@ class _Named(object):
     _name        = NN     # name (C{str})
     _classnaming = False  # prefixed (C{bool})
 
-    def __imatmul__(self, other):  # PYCHOK Python 3.5+
+    def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        return _NotImplemented(self, other)
+        return _NotImplemented(self, other)  # PYCHOK Python 3.5+
 
-    def __matmul__(self, other):  # PYCHOK Python 3.5+
+    def __matmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        return _NotImplemented(self, other)
+        return _NotImplemented(self, other)  # PYCHOK Python 3.5+
 
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
         return Fmt.ANGLE(_SPACE_(self, _at_, hex(id(self))))
 
-    def __rmatmul__(self, other):  # PYCHOK Python 3.5+
+    def __rmatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
-        return _NotImplemented(self, other)
+        return _NotImplemented(self, other)  # PYCHOK Python 3.5+
 
     def __str__(self):
         '''Default C{str(self)}.
@@ -319,12 +319,12 @@ class _Named(object):
             _update_all(self)
         return m
 
-    def toRepr(self, **unused):  # PYCHOK expected
+    def toRepr(self, **unused):  # PYCHOK no cover
         '''Default C{repr(self)}.
         '''
         return repr(self)
 
-    def toStr(self, **unused):  # PYCHOK expected
+    def toStr(self, **unused):  # PYCHOK no cover
         '''Default C{str(self)}.
         '''
         return str(self)
@@ -498,11 +498,6 @@ class _NamedDict(_Dict, _Named):
             raise KeyError(Fmt.SQUARE(self.classname, key))
         return _Dict.__getitem__(self, key)
 
-    def __repr__(self):
-        '''Default C{repr(self)}.
-        '''
-        return self.toRepr()
-
     def __setattr__(self, name, value):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
@@ -517,11 +512,6 @@ class _NamedDict(_Dict, _Named):
         if key == _name_:
             raise KeyError(_EQUAL_(Fmt.SQUARE(self.classname, key), repr(value)))
         _Dict.__setitem__(self, key, value)
-
-    def __str__(self):
-        '''Default C{str(self)}.
-        '''
-        return self.toStr()
 
     def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
         '''Like C{repr(dict)} but with C{name} prefix and with
@@ -1169,7 +1159,7 @@ def _notError(inst, name, args, kwds):  # PYCHOK no cover
 
 def _NotImplemented(inst, *other, **kwds):
     '''(INTERNAL) Raise a C{__special__} error or return C{NotImplemented},
-       but only if env variable PYGEODESY_NOTIMPLEMENTED=std.
+       but only if env variable C{PYGEODESY_NOTIMPLEMENTED=std}.
     '''
     if _std_NotImplemented:
         return NotImplemented

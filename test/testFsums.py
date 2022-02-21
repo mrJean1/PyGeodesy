@@ -4,9 +4,9 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.11'
+__version__ = '22.02.19'
 
-from base import isPython2, isPython3, startswith, TestsBase
+from base import isPython2, startswith, TestsBase
 
 from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
 
@@ -59,6 +59,12 @@ class Tests(TestsBase):
             self.test('sum' + str(i), sum(t), s, known=True)
             self.test('fsum', s, s)
 
+            p = f * f * f * f
+            self.test('pow(4)', f.pow(4), p, known=True)  # abs(p - f**4) < 1e-3
+            p = f.pow(1)
+            self.test('pow(1)', p, f, known=p == f)
+            self.test('pow(0)', f.pow(0), "fsums.Fsum[1] (1.0, 0)")
+
             i = f.ceil  # Python 2, ceil(f) != f.__ceil__
             self.test('ceil', (i - 1) < f <= i, True)
             i = f.floor  # Python 2, floor(f) != f.__floor__
@@ -97,8 +103,8 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
-            self.testCopy(a, '_fsum0', '_fsum2', '_n', '_ps', deep=True)  # _n
-        self.test('len', len(a), len(a), nt=1)
+            self.testCopy(a, '_fint2', '_fprs', '_fprs2', '_n', '_ps', deep=True)
+        self.test('len', len(a), 4096, nt=1)
 
         c = a - b
         self.test('FSum0', c.fsum(), 0.0)
@@ -112,7 +118,7 @@ class Tests(TestsBase):
         self.test('FSum0', t.fsum(), 0.0)
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)
-        self.test('Fsum#', len(a), 2049)
+        self.test('Fsum#', len(a), 4097)
         self.test('Fsum#', len(a._ps), 1)
         self.test('FSum.', a, 'fsums.Fsum[2049] (0.0, 0)', known=not a)
 
@@ -125,11 +131,15 @@ class Tests(TestsBase):
         self.test('rpow', float(2 ** a),    '1.0')
         self.test('rsub', float(2 - b), '-2046.0')
         z = getsizeof(t)
-        self.test('sizeof', z, 220, known=100 < z < 400)  # or 156, 208, 288, etc.
+        self.test('sizeof', z, 372, known=300 < z < 500)  # or 456 Python 2.
         try:
             self.test('_2sum', fsums._2sum(1e308, 1e803), OverflowError.__name__)
         except OverflowError as x:
-            self.test('_2sum', repr(x), repr(x), nt=1)
+            self.test('_2sum', repr(x), repr(x))
+        try:
+            self.test('F(None)', Fsum(None).fsum(), TypeError.__name__)
+        except Exception as X:
+            self.test('F(None)', repr(X), TypeError.__name__, known=startswith, nt=1)
 
         # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testKarney.py
         # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
@@ -227,14 +237,18 @@ class Tests(TestsBase):
         except Exception as X:
             self.test('pow(F, F)', repr(X), ResidualError.__name__, known=startswith)
         try:
-            self.test('pow(F, F, i)', pow(x, 2.1, 2), ResidualError.__name__)
+            self.test('pow(F, f, i)', pow(x, 2.1, 2), ResidualError.__name__)
         except Exception as X:
-            self.test('pow(F, F, i)', repr(X), ResidualError.__name__, known=startswith)
+            self.test('pow(F, f, i)', repr(X), ResidualError.__name__, known=startswith)
+        try:
+            self.test('pow(F, F, i)', pow(m, Fsum(2.1), 2), TypeError.__name__)
+        except Exception as X:
+            self.test('pow(F, F, i)', repr(X), TypeError.__name__, known=startswith)
         self.test('pow(F, F, None)', pow(-m, 2, None), ("fsums.Fsum[1] (4%s, 0)" % _dot0))
         try:
-            self.test('Z**-2', Fsum(0.0)**-2, ValueError.__name__)
+            self.test('Z**-2', Fsum(0.0)**-2, ZeroDivisionError.__name__)
         except Exception as X:
-            self.test('Z**-2', repr(X), ValueError.__name__, known=startswith)
+            self.test('Z**-2', repr(X), ZeroDivisionError.__name__, known=startswith)
 
         x = Fsum(1, 1e-101, -4, -1e-102)  # about -3
         self.test('pow(0)',  x**0,             '1.000', prec=3)
@@ -244,11 +258,25 @@ class Tests(TestsBase):
         x **= 2
         self.test('**= 2',  x,                 '9.000', prec=3)
 
+        x = Fsum()
+        self.test('F0**0',  x**0,            "fsums.Fsum '__pow__'[1] (1.0, 0)")
+        self.test('F0**0.', x**0.,           "fsums.Fsum '__pow__'[1] (1.0, 0)")
+        self.test('0**F0',  0**x,            "fsums.Fsum '__rpow__'[1] (1.0, 0)")
+        self.test('0.**F0', 0.**x,           "fsums.Fsum '__rpow__'[1] (1.0, 0)")
+        self.test('F0**0', x.pow(0),         "fsums.Fsum 'pow'[1] (1.0, 0)")
+        self.test('F0**2', x.pow(2),         "fsums.Fsum 'pow'[1] (0.0, 0)")
+        self.test('F0**0.', x.pow(0.),       "fsums.Fsum 'pow'[1] (1.0, 0)")
+        self.test('F0**3.', x.pow(3.),       "fsums.Fsum 'pow'[1] (0.0, 0)")
+        self.test('F0**0.', x.pow(0., None), "fsums.Fsum 'pow'[1] (1, 0)")
+
         # preserve C{type(base)}
-        self.test('2**F0',  2**Fsum(),  "fsums.Fsum '__rpow__'[1] (1, 0)", fmt='%s')
-        self.test('2.**F0', 2.**Fsum(), "fsums.Fsum '__rpow__'[1] (1.0, 0)", fmt='%s')
-        self.test('F2**0',  Fsum()._fset(2, asis=True)**0, "fsums.Fsum '__pow__'[1] (1, 0)", fmt='%s')
-        self.test('F2.**0', Fsum(2.)**0, "fsums.Fsum '__pow__'[1] (1.0, 0)", fmt='%s')
+        t = Fsum()._fset(2, asis=True)
+        self.test('2**F0',  (2**Fsum()).toStr(),   "fsums.Fsum '__rpow__'[1] (1.0, 0)")
+        self.test('2.**F0', (2.**Fsum()).toStr(),  "fsums.Fsum '__rpow__'[1] (1.0, 0)")
+        self.test('F2**0',  (t**0).toStr(),        "fsums.Fsum '__pow__'[1] (1.0, 0)")
+        self.test('F2.**0', (Fsum(2.)**0).toStr(), "fsums.Fsum '__pow__'[1] (1.0, 0)")
+        self.test('F2**F2',  t**t,                 "fsums.Fsum '__pow__'[1] (4, 0)")
+        self.test('F2**F2',  t.__rpow__(t),        "fsums.Fsum '__rpow__'[1] (4, 0)")
 
         x = Fsum(2, 3)
         self.test('F**2',     x**x,     '3125.000', prec=3)
@@ -256,8 +284,13 @@ class Tests(TestsBase):
         self.test('F**-2',    x**-2,       '0.040', prec=3)
         self.test('F**-2.5',  x**-2.5,     '0.018', prec=3)
         self.test('F** 2.5',  x** 2.5,    '55.902', prec=3)
+        self.test('pow(2)',   x.pow(2),   '25.000', prec=3)
         self.test('pow(2.5)', x.pow(2.5), '55.902', prec=3)
         self.test('pow(F)',   x.pow(x), '3125.000', prec=3)
+
+        self.test('3pow(2, None)',   x.pow(2, None).toStr(),         "fsums.Fsum 'pow'[1] (25, 0)")
+        self.test('3pow(2.5, None)', x.pow(2.5, None).toStr(prec=5), "fsums.Fsum 'pow'[1] (55.902, 0)")
+        self.test('3pow(2, 20)',     x.pow(2, 20).toStr(),           "fsums.Fsum 'pow'[1] (5, 0)")
 
         t = x.fsum()
         self.test('fsum()',  t, '5.0')
@@ -268,8 +301,9 @@ class Tests(TestsBase):
         self.test('fsum2()', t.toRepr(), 'Fsum2Tuple(fsum=5.0, residual=0)')
 
         s, r = t.toUnits()
-        self.test('"fsum"', (s.name, s.__class__), "('fsum', <class 'pygeodesy.units.Float'>)")
-        self.test('"res."', (r.name, r.__class__), "('residual', <class 'pygeodesy.units.Int'>)")
+        t = t.__class__.__name__
+        self.test(t, (s.name, s, s.__class__), "('fsum', 5.0, <class 'pygeodesy.units.Float'>)")
+        self.test(t, (r.name, r, r.__class__), "('residual', 0, <class 'pygeodesy.units.Int'>)")
 
         self.test('fmul(x)', x.fmul(x),          '25.0', prec=1)
         self.test('fmul(F)', x.fmul(Fsum(2.5)),  '62.5', prec=1)
@@ -279,12 +313,13 @@ class Tests(TestsBase):
 
         f = Fsum(1, 1e-11, -4, -1e-12)  # about -3
         r = f.as_integer_ratio()
-        t = '(-16725558898847790679455094805678836756250624L, 5575186299632655785383929568162090376495104L)'
-        if isPython3:
-            t = t.replace('L', NN)
-        self.test('ratio', r, t)
-        t = Fsum(r[0] / r[1])
+        self.test('ratio', r, '(-27021597764141911, 9007199254740992)')  # .replace('L', NN) if isPython3
+        t = Fsum(r[0] / r[1])  # C{int} in Python 2
         self.test('ratio', t, f, known=abs(t.fsum() - f.fsum()) < 1e-9)  # python special
+        self.test('int_float', t.int_float(), '-3.000', prec=3)
+        self.test('fint',  t.fint(raiser=False), ("fsums.Fsum 'fint'[1] (-3, 0)" if isPython2
+                                             else "fsums.Fsum 'fint'[1] (-2, 0)"))
+        self.test('fint2', t.fint2(), ('(-3, 0' if isPython2 else '(-2, -1.0)'), known=startswith)
 
         f = Fsum(3) // 1
         try:
@@ -294,6 +329,10 @@ class Tests(TestsBase):
             self.test('pow3', repr(X), TypeError.__name__, known=startswith)
 
         self.test('math_fsum', f.is_math_fsum(), True, known=isPython2)
+
+        self.test('RESIDUAL', f.RESIDUAL(), False)
+        self.test('RESIDUAL', f.RESIDUAL(True), False)
+        self.test('RESIDUAL', f.RESIDUAL(None), True)
 
 
 if __name__ == '__main__':

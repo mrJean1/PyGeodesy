@@ -4,12 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.29'
+__version__ = '22.02.20'
 
 from base import isWindows, TestsBase
 
-from pygeodesy import PI_4, cassini, collins, fstr, pierlot, snellius3, tienstra, \
-                      triAngle4, triSide, triSide4, Vector3d, wildberger3
+from pygeodesy import EPS0, PI, PI_4, cassini, collins, fstr, pierlot, snellius3, \
+                      tienstra, triAngle, triAngle4, triSide, triSide2, triSide4, \
+                      Vector3d, wildberger3
 from math import degrees
 
 
@@ -38,6 +39,8 @@ class Tests(TestsBase):
         p = pierlot(C, B, A, 115.0889, 109.5125)  # note CCW order, alpha and beta definition
         self.test(pierlot.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
         p = C_(C).pierlot(B, A, 115.0889, 109.5125)
+        self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
+        p = C_(C).pierlot(B, A, 115.0889, 109.5125, useZ=True)  # _zidw coverage
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
 
         t = tienstra(A, B, C, 115.0889, None, 109.5125)  # note alpha, beta and gamma definition
@@ -90,6 +93,16 @@ class Tests(TestsBase):
         t = snellius3(1716, 924, degrees(rC), 0.0, 14.5)  # alpha 0.0 OK
         self.test(n, t, '(4064.197388, 3652.539386, 4988.197388)', known=isWindows)  # (0.0, 3652....)
 
+    def testTri(self):  # for coverage
+        t = triAngle(1, 2, 3)
+        self.test(triAngle.__name__, t, PI, prec=9, nl=1)
+        t = triAngle4(1, 2, EPS0 / 2)
+        self.test(triAngle4.__name__, t, '(1.570796, 1.570796, 0.0, 0.0)', known=True)
+        t = triSide2(0, 2, 0)
+        self.test(triSide2.__name__, t, '(2.0, 0.0)')
+        t = triSide2(0, 2, PI)
+        self.test(triSide2.__name__, t, '(2.0, 3.141593)')
+
     def testWildberger(self):
         n = wildberger3.__name__
 
@@ -120,5 +133,6 @@ if __name__ == '__main__':
     t.testResections(Cartesian_, Vector3d)
     t.testSnellius()
     t.testWildberger()
+    t.testTri()
     t.results()
     t.exit()

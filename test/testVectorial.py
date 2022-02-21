@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.02.20'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
@@ -181,6 +181,14 @@ class Tests(TestsBase):
         t.z += v.z
         t = v.classof(v)
         self.test('init', t, v)
+
+        t  = v.copy()  # coverage
+        t += v
+        t -= v
+        t *= 2
+        t  = t.__itruediv__(2)  # # /= chokes PyChecker
+        self.test('i***', t, v)
+        self.test('abs', abs(t), v.length, prec=11)
 
         class Nv(Nvector):
             pass

@@ -244,6 +244,8 @@ _north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
 _NorthPole_           = 'NorthPole'          # PYCHOK expected
 _not_         = _Prefix('not')               # PYCHOK expected
+_not_finite_          = 'not finite'         # PYCHOK _not_(_finite_)
+_not_scalar_          = 'not scalar'         # PYCHOK _not_(_scalar_)
 _NTF_                 = 'NTF'                # PYCHOK expected
 _null_                = 'null'               # PYCHOK expected
 _number_              = 'number'             # PYCHOK expected
@@ -499,7 +501,7 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '22.02.07'
+__version__ = '22.02.19'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

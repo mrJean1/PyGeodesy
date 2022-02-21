@@ -13,22 +13,23 @@ del division
 from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
                              _TypesError, _ValueError, _xkwds_get
 from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
-                             _invalid_, _N_A_, _name_, _not_, _scalar_, \
-                             _SPACE_, _UNDER_, _utf_8_, _version_, _0_0, _1_0
+                             _invalid_, _N_A_, _name_, _not_finite_, \
+                             _not_scalar_, _SPACE_, _UNDER_, _utf_8_, \
+                             _version_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 try:
-    from math import isfinite as _isfinite  # in .fmath
+    from math import isfinite as _isfinite  # in .ellipsoids, .fsums
 except ImportError:  # Python 2-
 
     def _isfinite(x):  # mimick math.isfinite
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.02.10'
+__version__ = '22.02.20'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -157,6 +158,17 @@ else:
     isclass = _isclass
 
 
+def iscomplex(obj):
+    '''Check whether an object is C{complex}.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is C{complex},
+                C{False} otherwise.
+    '''
+    return isinstance(obj, complex)  # numbers.Complex?
+
+
 def isfinite(obj):
     '''Check for C{Inf} and C{NaN} values.
 
@@ -169,8 +181,10 @@ def isfinite(obj):
     '''
     try:
         return _isfinite(obj)
-    except (TypeError, ValueError) as x:
-        raise _TypeError(_not_(_scalar_), obj, txt=str(x))
+    except TypeError as x:
+        raise _TypeError(_not_scalar_, obj, txt=str(x))
+    except Exception as x:  # ValueError
+        raise _ValueError(_not_finite_, obj, txt=str(x))
 
 
 try:
@@ -180,8 +194,8 @@ except AttributeError:  # Python 2-
     def isidentifier(obj):
         '''Return C{True} if B{C{obj}} is a valid Python identifier.
         '''
-        return True if (obj and obj.replace(_UNDER_, NN).isalnum()
-                            and not obj[:1].isdigit()) else False
+        return bool(obj and obj.replace(_UNDER_, NN).isalnum()
+                        and not obj[:1].isdigit())
 
 # from math import isinf
 
@@ -200,15 +214,13 @@ def isint(obj, both=False):
               C{False} (and no longer C{True}).
     '''
     if isinstance(obj, _Ints) and not isbool(obj):
-        i = True
+        return True
     elif both:  # and isinstance(obj, (float, Fsum)):  # NOT _Scalars!
         try:
-            i = obj.is_integer()
+            return obj.is_integer()
         except AttributeError:
-            i = False  # XXX float(int(obj)) == obj?
-    else:
-        i = False
-    return i
+            pass  # XXX float(int(obj)) == obj?
+    return False
 
 
 try:
@@ -395,17 +407,21 @@ def neg_(*xs):
     return tuple(map(neg, xs))  # like map1
 
 
-def signOf(x, off=0):
-    '''Return sign of C{x} as C{int}.
+def _signOf(x, off):
+    '''(INTERNAL) Return the sign of B{C{x}} versus B{C{off}}.
+    '''
+    return 1 if x > off else (-1 if x < off else 0)
 
-       @kwarg off: Reference value (C{scalar}, 0 usually).
+
+def signOf(x):
+    '''Return sign of C{x} as C{int}.
 
        @return: -1, 0 or +1 (C{int}).
     '''
     try:
         s = x.signOf()  # Fsum instance?
     except AttributeError:
-        s = 1 if x > off else (-1 if x < off else 0)
+        s = _signOf(x, 0)
     return s
 
 

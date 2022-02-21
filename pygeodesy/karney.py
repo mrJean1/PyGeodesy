@@ -125,7 +125,7 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.12.29'
+__version__ = '22.02.19'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -488,12 +488,12 @@ class _Wrapped(object):
             M = self.geographiclib.Math
             # replace karney. with Math. functions
             k = _MODS.karney
-            k._around    = M.AngRound
-            k._diff182   = M.AngDiff
-            k._fix90     = M.LatFix
-            k._isfinite  = M.isfinite
-            k._norm180   = M.AngNormalize
-            k._sum2      = M.sum
+            k._around   = M.AngRound
+            k._diff182  = M.AngDiff
+            k._fix90    = M.LatFix
+            k._isfinite = M.isfinite
+            k._norm180  = M.AngNormalize
+            k._sum2     = M.sum
             try:  # geographiclib 1.49
                 k._remainder = M.remainder
             except AttributeError:
@@ -558,22 +558,16 @@ def _fix90(deg):  # mimick Math.LatFix
        @return: Angle C{degrees} or NAN.
     '''
     M = _wrapped.Math
-    if M:
-        return M.LatFix(deg)
-
-    return NAN if abs(deg) > 90 else deg
+    return M.LatFix(deg) if M else (NAN if abs(deg) > 90 else deg)
 
 
 def _isfinite(x):  # mimick Math.AngNormalize
-    '''Check finitenessof C{x}.
+    '''Check finiteness of C{x}.
 
-       @return: True if finite.
+       @return: C{True} if finite.
     '''
     M = _wrapped.Math
-    if M:
-        return M.isfinite(x)
-
-    return abs(x) <= _MAX
+    return M.isfinite(x) if M else (abs(x) <= _MAX)
 
 
 def _norm180(deg):  # mimick Math.AngNormalize
@@ -582,10 +576,7 @@ def _norm180(deg):  # mimick Math.AngNormalize
        @return: Reduced angle C{degrees}.
     '''
     M = _wrapped.Math
-    if M:
-        return M.AngNormalize(deg)
-
-    return _remod(deg, _360_0, _180_0)
+    return M.AngNormalize(deg) if M else _remod(deg, _360_0, _180_0)
 
 
 def _polygon(geodesic, points, closed, line, wrap):

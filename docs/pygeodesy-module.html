@@ -238,7 +238,7 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and Python 2.7.18 (with <a 
     href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 12.1 Monterey and in 
+    target="_top">GeodSolve</a> 1.51, all on macOS 12.2.1 Monterey and in 
     64-bit only.  The tests are run with and without <code>lazy 
     import</code> for Python 3 and with command line option <code>-W 
     always</code> and environment variable 
@@ -318,7 +318,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.2, both in 64-bit on macOS 
-    12.1 Monterey.</p>
+    12.2.1 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -439,7 +439,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.02.11
+        22.02.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -500,7 +500,7 @@
         class="link">pygeodesy.Fsum</a>, precision floating point 
         summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fsums-module.html">pygeodesy.fsums</a></strong>: <em class="summary">Class <a href="pygeodesy.fsums.Fsum-class.html" 
-        class="link">Fsum</a> for precision <i>running</i> floating point 
+        class="link">Fsum</a> for precision floating point <i>running</i> 
         summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx-module.html">pygeodesy.geodesicx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
@@ -1975,7 +1975,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision <i>running</i> floating point summation similar to 
+      Precision floating point <i>running</i> summation similar to 
         standard Python's <code>math.fsum</code>.
     </td>
   </tr>
@@ -3566,7 +3566,7 @@
         <a href="pygeodesy.fsums.ResidualError-class.html" class="summary-name">ResidualError</a><br />
       Error raised for an operation involving an <a 
         href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> with a
-        non-zero residual.
+        non-zero or <i>integer</i> residual.
     </td>
   </tr>
 <tr>
@@ -7221,7 +7221,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb2d83f7650&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fde283902d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -7752,6 +7752,23 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Check whether a point is colinear with two other (2- or 3-D) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#iscomplex" class="summary-sig-name">iscomplex</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check whether an object is <code>complex</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9806,8 +9823,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#signOf" class="summary-sig-name">signOf</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">off</span>=<span class="summary-sig-default">0</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#signOf" class="summary-sig-name">signOf</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return sign of <code>x</code> as <code>int</code>.</td>
           <td align="right" valign="top">
             
@@ -11236,7 +11252,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.2.11'"><code class="variable-quote">'</code><code class="variable-string">22.2.11</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.2.22'"><code class="variable-quote">'</code><code class="variable-string">22.2.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18384,7 +18400,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb2d83f7650&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fde283902d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19524,6 +19540,32 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         class="link">nearestOn</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="iscomplex"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscomplex</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether an object is <code>complex</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is 
+          <code>complex</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="isconvex"></a>
 <div>
@@ -23594,8 +23636,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">signOf</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">off</span>=<span class="sig-default">0</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">signOf</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23604,10 +23645,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   
   <p>Return sign of <code>x</code> as <code>int</code>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>off</code></strong> - Reference value (<code>scalar</code>, 0 usually).</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>-1, 0 or +1 (<code>int</code>).</dd>
   </dl>
@@ -26968,7 +27005,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb 11 20:04:12 2022
+    Generated by Epydoc 3.0.1 on Mon Feb 21 12:58:18 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

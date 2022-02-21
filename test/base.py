@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.01.20'
+__version__ = '22.02.20'
 
 try:
     import geographiclib
@@ -95,6 +95,7 @@ isWindows  = sys.platform[:3] == 'win'
 
 GeodSolve  = getenv('PYGEODESY_GEODSOLVE', None)
 
+endswith   = str.endswith
 startswith = str.startswith
 
 try:

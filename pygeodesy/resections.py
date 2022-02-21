@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.01.17'
+__version__ = '22.02.20'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -453,7 +453,7 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
     '''
 
     def _deg_ks(r, s, ks, N):
-        if isnear0(fsum1_(PI, r, -s)):  # r + (PI2 - s) == PI
+        if isnear0(fsum_(PI, r, -s)):  # r + (PI2 - s) == PI
             raise ValueError(Fmt.PARENSPACED(concyclic=N))
         # k = 1 / (cot(r) - cot(s))
         #   = 1 / (cos(r) / sin(r) - cos(s) / sin(s))
@@ -475,9 +475,9 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         if beta is None:
             if gamma is None:
                 raise ValueError(_and(Fmt.EQUAL(beta=beta), Fmt.EQUAL(gamma=gamma)))
-            sb = fsum1_(PI2, -sa, -sc)
+            sb = fsum_(PI2, -sa, -sc)
         elif gamma is None:
-            sc = fsum1_(PI2, -sa, -sb)
+            sc = fsum_(PI2, -sa, -sb)
         else:  # subtended angles must add to 360 degrees
             r = fsum1_(sa, sb, sc)
             if abs(r - PI2) > EPS:
@@ -695,7 +695,7 @@ def _triSide2(b, c, radB):
     elif isnear0(b):
         raise ValueError(_invalid_)
     else:
-        rA = fsum1_(PI, -rB, -asin1(c * sB / b))
+        rA = fsum_(PI, -rB, -asin1(c * sB / b))
         a = sin(rA) * b / sB
     return TriSide2Tuple(a, rA)
 
