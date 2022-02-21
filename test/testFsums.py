@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.19'
+__version__ = '22.02.21'
 
 from base import isPython2, startswith, TestsBase
 
@@ -131,7 +131,7 @@ class Tests(TestsBase):
         self.test('rpow', float(2 ** a),    '1.0')
         self.test('rsub', float(2 - b), '-2046.0')
         z = getsizeof(t)
-        self.test('sizeof', z, 372, known=300 < z < 500)  # or 456 Python 2.
+        self.test('sizeof', z, 372, known=100 < z < 600)  # or 456 Python 2.
         try:
             self.test('_2sum', fsums._2sum(1e308, 1e803), OverflowError.__name__)
         except OverflowError as x:
@@ -313,7 +313,7 @@ class Tests(TestsBase):
 
         f = Fsum(1, 1e-11, -4, -1e-12)  # about -3
         r = f.as_integer_ratio()
-        self.test('ratio', r, '(-27021597764141911, 9007199254740992)')  # .replace('L', NN) if isPython3
+        self.test('ratio', str(r).replace('L', NN), '(-27021597764141911, 9007199254740992)')  # L on Windows
         t = Fsum(r[0] / r[1])  # C{int} in Python 2
         self.test('ratio', t, f, known=abs(t.fsum() - f.fsum()) < 1e-9)  # python special
         self.test('int_float', t.int_float(), '-3.000', prec=3)
