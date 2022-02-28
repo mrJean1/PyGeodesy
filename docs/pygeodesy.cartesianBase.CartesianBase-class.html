@@ -151,6 +151,30 @@
         <span class="summary-sig-arg">alpha</span>,
         <span class="summary-sig-arg">beta</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.cartesianBase.CartesianBase-class.html#collins5" 
+      class="link">collins5</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#collins5" class="summary-sig-name">collins5</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pointB</span>,
+        <span class="summary-sig-arg">pointC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
       3-Point resection between this and 2 other points using <a 
       href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
       target="_top">Collins</a>' method.</td>
@@ -276,6 +300,31 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra" class="summary-sig-name">tienstra</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">pointB</span>,
+        <span class="summary-sig-arg">pointC</span>,
+        <span class="summary-sig-arg">alpha</span>,
+        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra7" 
+      class="link">tienstra7</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra7" class="summary-sig-name">tienstra7</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pointB</span>,
         <span class="summary-sig-arg">pointC</span>,
         <span class="summary-sig-arg">alpha</span>,
@@ -877,7 +926,7 @@
         <dd>The survey point, an instance of this (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
         <b><code>pointM</code></b>.</li>
@@ -904,6 +953,36 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">collins</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pointB</span>,
+        <span class="sig-arg">pointC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.cartesianBase.CartesianBase-class.html#collins5" 
+  class="link">collins5</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="collins5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">collins5</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pointB</span>,
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
@@ -948,7 +1027,7 @@
           triangle sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointB</code></b> or <b><code>pointM</code></b>.</li>
     </ul></dd>
@@ -960,8 +1039,8 @@
       <p><strong>See Also:</strong>
         <a href="https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding" 
         target="_top">Collins' methode</a> and function <a 
-        href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a>.
+        href="pygeodesy.resections-module.html#collins5" 
+        class="link">pygeodesy.collins5</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1210,7 +1289,7 @@
         <dd>The survey (or robot) point, an instance of this (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
         <b><code>alpha12</code></b> or <b><code>alpha23</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
     </ul></dd>
@@ -1225,7 +1304,7 @@
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation Algorithm for Mobile Robot 
         Positioning&quot;</a>, <a 
-        href="http://Telecom.ULg.ac.Be/triangulation" target="_top">18 
+        href="http://www.Telecom.ULg.ac.Be/triangulation" target="_top">18 
         Triangulation Algorithms for 2D Positioning (also known as the 
         Resection Problem)</a> and functions <a 
         href="pygeodesy.resections-module.html#pierlot" 
@@ -1241,6 +1320,37 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">tienstra</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">pointB</span>,
+        <span class="sig-arg">pointC</span>,
+        <span class="sig-arg">alpha</span>,
+        <span class="sig-arg">beta</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.cartesianBase.CartesianBase-class.html#tienstra7" 
+  class="link">tienstra7</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tienstra7"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tienstra7</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pointB</span>,
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
@@ -1291,7 +1401,7 @@
           triangle sides <code>a</code>, <code>b</code> and <code>c</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
         <b><code>alpha</code></b>, <b><code>beta</code></b> and 
         <b><code>gamma</code></b> not <code>360</code> or negative 
         <b><code>alpha</code></b>, <b><code>beta</code></b> or 
@@ -1306,13 +1416,13 @@
       <p><strong>See Also:</strong>
         <a href="http://MesaMike.org/geocache/GC1B0Q9/tienstra/" 
         target="_top">3-Point Resection Solver</a>, <a 
-        href="http://Telecom.ULG.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/"
+        href="http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/"
         target="_top">V. Pierlot, M. Van Droogenbroeck, &quot;A New Three 
         Object Triangulation...&quot;</a>, <a 
-        href="http://Telecom.ULG.ac.Be/triangulation/" target="_top">18 
+        href="http://www.Telecom.ULg.ac.Be/triangulation/" target="_top">18
         Triangulation Algorithms...</a> and function <a 
-        href="pygeodesy.resections-module.html#tienstra" 
-        class="link">pygeodesy.tienstra</a>.
+        href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">pygeodesy.tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2053,7 +2163,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 21 12:58:19 2022
+    Generated by Epydoc 3.0.1 on Mon Feb 28 11:14:17 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

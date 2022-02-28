@@ -64,8 +64,8 @@ from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, \
                              neg, map1, _xinstanceof, _xsubclassof
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
-from pygeodesy.errors import _datum_datum, _IndexError, LenError, \
-                             _ValueError, _TypesError, _xkwds
+from pygeodesy.errors import _IndexError, LenError, _ValueError, \
+                             _TypesError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.01.17'
+__version__ = '22.02.24'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1204,7 +1204,7 @@ class Ecef9Tuple(_NamedTuple):
             if d is None:  # remove None datum
                 _ = kwds.pop[_datum_]
             r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
-        _datum_datum(getattr(r, _datum_, self.datum), self.datum)  # PYCHOK Ecef9Tuple
+        _xdatum(getattr(r, _datum_, self.datum), self.datum)  # PYCHOK Ecef9Tuple
         return r
 
     def toLocal(self, ltp, Xyz=None, **Xyz_kwds):

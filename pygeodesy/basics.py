@@ -29,7 +29,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.02.20'
+__version__ = '22.02.25'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -47,9 +47,9 @@ except ImportError:
 
 try:
     try:  # use C{from collections.abc import ...} in Python 3.9+
-        from collections.abc import Sequence as _Sequence  # imported by .points
-    except ImportError:  # no .abc in Python 2.7-
-        from collections import Sequence as _Sequence  # imported by .points
+        from collections.abc import Sequence as _Sequence  # in .points
+    except ImportError:  # no .abc in Python 3.8- and 2.7-
+        from collections import Sequence as _Sequence  # in .points
     if isinstance([], _Sequence) and isinstance((), _Sequence):
         #                        and isinstance(range(1), _Sequence):
         _Seqs = _Sequence
@@ -64,7 +64,7 @@ try:
     _Strs  = basestring, str
 
     def _Xstr(exc):  # PYCHOK no cover
-        '''I{Invoke only with caught import exception} B{C{exc}}.
+        '''I{Invoke only with caught ImportError} B{C{exc}}.
 
            C{... "cannot import name _distributor_init" ...}
 
@@ -552,12 +552,13 @@ def _xImportError(x, where, **name):
 def _xinstanceof(*Types, **name_value_pairs):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
-       @arg Types: One or more classes or types (C{class}).
+       @arg Types: One or more classes or types (C{class}),
+                   all positional.
        @kwarg name_value_pairs: One or more C{B{name}=value} pairs
                                 with the C{value} to be checked.
 
-       @raise TypeError: At least one of the B{C{name_value_pairs}}
-                         is not any of the B{C{Types}}.
+       @raise TypeError: One of the B{C{name_value_pairs}} is not
+                         an instance of any of the B{C{Types}}.
     '''
     for n, v in name_value_pairs.items():
         if not isinstance(v, Types):
@@ -595,12 +596,13 @@ def _xscipy(where, *required):
 def _xsubclassof(*Classes, **name_value_pairs):
     '''(INTERNAL) Check (super) class of all C{name=value} pairs.
 
-       @arg Classes: One or more classes or types (C{class}).
+       @arg Classes: One or more classes or types (C{class}),
+                     all positional.
        @kwarg name_value_pairs: One or more C{B{name}=value} pairs
                                 with the C{value} to be checked.
 
-       @raise TypeError: At least one of the B{C{name_value_pairs}}
-                         is not a (sub-)class of any B{C{Classes}}.
+       @raise TypeError: One of the B{C{name_value_pairs}} is not
+                         a (sub-)class of any of the B{C{Classes}}.
     '''
     for n, v in name_value_pairs.items():
         if not issubclassof(v, *Classes):

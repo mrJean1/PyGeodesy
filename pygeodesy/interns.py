@@ -92,7 +92,7 @@ _angle_               = 'angle'              # PYCHOK expected
 _antipodal_           = 'antipodal'          # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
 _ambiguous_           = 'ambiguous'          # PYCHOK expected
-# _AMPERSAND_   = _Join('&')                 # PYCHOK expected
+_AMPERSAND_     = _Join('&')                 # PYCHOK expected
 # _AND_               = _AMPERSAND_          # PYCHOK expected
 _and_                 = 'and'                # PYCHOK expected
 _at_                  = 'at'                 # PYCHOK expected
@@ -204,7 +204,7 @@ _lat1_                = 'lat1'               # PYCHOK expected
 _lat2_                = 'lat2'               # PYCHOK expected
 _latlon_              = 'latlon'             # PYCHOK expected
 _LatLon_              = 'LatLon'             # PYCHOK expected
-#_LCURLY_             = '{'                  # PYCHOK LBRACE
+_LCURLY_              = '{'                  # PYCHOK LBRACE
 _len_                 = 'len'                # PYCHOK expected
 _linear_              = 'linear'             # PYCHOK expected
 #_LPAREN_             = '('                  # PYCHOK expected
@@ -284,7 +284,7 @@ _radius1_             = 'radius1'            # PYCHOK expected
 _radius2_             = 'radius2'            # PYCHOK expected
 # _range_        = _Range('range')           # moved down
 #_RANGLE_             = '>'                  # PYCHOK expected
-#_RCURLY_             = '}'                  # PYCHOK RBRACE
+_RCURLY_              = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
 _reframe_             = 'reframe'            # PYCHOK expected
 _resolution_          = 'resolution'         # PYCHOK expected
@@ -481,6 +481,7 @@ _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
 INF   = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+INT0  =  int(0)          # PYCHOK unique int(0) instance, see .fsums
 NAN   = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
 NEG0  =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
 
@@ -496,12 +497,12 @@ R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
 
 __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EPS4',
-           'INF', 'MANT_DIG', 'MANTIS',  # DEPRECATED
+           'INF', 'INT0', 'MANT_DIG', 'MANTIS',  # DEPRECATED
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'machine')  # imported by .lazily
-__version__ = '22.02.19'
+__version__ = '22.02.24'
 
 _Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
 

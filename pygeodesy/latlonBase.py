@@ -13,9 +13,9 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from pygeodesy.basics import isstr, _xinstanceof
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
-from pygeodesy.errors import _datum_datum, _incompatible, IntersectionError, \
-                             _ValueError, _xError, _xkwds, _xkwds_not
-from pygeodesy.fmath import favg
+from pygeodesy.errors import _incompatible, IntersectionError, _ValueError, \
+                             _xdatum, _xError, _xkwds, _xkwds_not
+# from pygeodesy.fmath import favg  # _MODS.fmath.favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.01.03'
+__version__ = '22.02.24'
 
 
 class LatLonBase(_NamedBase):
@@ -608,7 +608,7 @@ class LatLonBase(_NamedBase):
 
            @return: Average, fractional height (C{float}).
         '''
-        return favg(self.height, other.height, f=f)
+        return _MODS.fmath.favg(self.height, other.height, f=f)
 
     @property_doc_(''' the height (C{meter}).''')
     def height(self):
@@ -1054,7 +1054,7 @@ class LatLonBase(_NamedBase):
         r = self._ecef9 if height is None else self.toEcef(height=height)
         if Cartesian is not None:  # class or .classof
             r = self._xnamed(Cartesian(r, **Cartesian_kwds))
-        _datum_datum(r.datum, self.datum)
+        _xdatum(r.datum, self.datum)
         return r
 
     def _toCartesian3(self, point2, point3):

@@ -114,8 +114,8 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all on macOS 12.2.1 Monterey and
 in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line
-option C{-W always} and environment variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The
-results of only those tests are included in the distribution files.
+option C{-W always} and env var C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only
+those tests are included in the distribution files.
 
 Python 3.10.2 and 3.9.6 run on Apple Silicon (C{arm64} I{natively}), all other Python versions run on Intel
 (C{x86_64}) or Intel I{emulation} (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
@@ -528,7 +528,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.02.22'
+__version__ = '22.02.28'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

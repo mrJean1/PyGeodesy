@@ -6,13 +6,14 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint, isnear0, len2
-from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError
+from pygeodesy.basics import copysign0, isint, isnear0, isscalar, len2
+from pygeodesy.errors import _IsnotError, LenError, _TypeError, \
+                             _ValueError, _xError
 from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, PI, PI_2, PI_4, \
-                             _few_, _h_, _negative_, \
-                             _singular_, _too_, _0_0, _0_5, \
-                             _1_0, _N_1_0, _1_5, _2_0, _3_0
+                             _few_, _h_, _negative_, _not_scalar_, \
+                             _singular_, _too_, _0_0, _0_5, _1_0, _N_1_0, \
+                             _1_5, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Int_
@@ -21,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.02.04'
+__version__ = '22.02.27'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -72,9 +73,11 @@ class Fhorner(Fsum):
         if len(cs) > 1:
             x  = _2float(x=x)
             a_ =  self.fadd_
+            _f =  self._finite
+            op =  Fhorner.__name__
             ps =  self._ps
             for c in reversed(cs[:-1]):  # multiply-accumulate
-                ps[:] = [p * x for p in ps]
+                ps[:] = [_f(p * x, op) for p in ps]
                 a_(c)
             # assert self._ps is ps
 
@@ -213,16 +216,17 @@ def fatan(x):
 def fatan1(x):
     '''Fast approximation of C{atan(B{x})} for C{0 <= B{x} <= 1}, I{unchecked}.
 
-       @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
-             ShaderFastLibs/blob/master/ShaderFastMathLib.h>} and
-             U{Efficient approximations for the arctangent function
-             <http://www-Labs.IRO.UMontreal.Ca/~mignotte/IFT2425/Documents/
-             EfficientApproximationArctgFunction.pdf>}, IEEE Signal
-             Processing Magazine, 111, May 2006.
+       @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/ShaderFastLibs/
+             blob/master/ShaderFastMathLib.h>} and U{Efficient approximations
+             for the arctangent function<http://www-Labs.IRO.UMontreal.CA/
+             ~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf>},
+             IEEE Signal Processing Magazine, 111, May 2006.
     '''
-    # Eq (9): PI_4 * x - x * (x - 1) * (0.2447 + 0.0663 * x**2)
-    # == x * (1.0300982 + x * (-0.2447 + x * 0.0663 * (1 - x)))
-    return x * fhorner(x, 1.0300982, -0.2447, 0.0663, -0.0663)
+    # Eq (9): PI_4 * x - x * (abs(x) - 1) * (0.2447 + 0.0663 * abs(x)), for -1 < x < 1
+    #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x - 1
+    #         x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
+    h = Fhorner(x, _0_0, 1.0300982, -0.1784, -0.0663)
+    return h.fsum()
 
 
 def fatan2(y, x):
@@ -263,26 +267,6 @@ def favg(v1, v2, f=_0_5):
 #       raise _ValueError(fraction=f)
     # v1 + f * (v2 - v1) == v1 * (1 - f) + v2 * f
     return fsum1_(v1, -f * v1, f * v2)
-
-
-def _map_a_x_b(a, b):
-    '''(INTERNAL) Yield B{C{a * b}}.
-    '''
-    n = len(b)
-    if len(a) != n:
-        from pygeodesy.fmath import fdot
-        raise LenError(fdot, a=len(a), b=n)
-    return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
-
-
-def _map_a_x_b1(a, b):
-    '''(INTERNAL) Yield B{C{a * b}}, primed with C{1.0}.
-    '''
-    yield _1_0
-    for ab in map(_mul, a, b):
-        if ab:
-            yield ab
-    yield _N_1_0
 
 
 def fdot(a, *b):
@@ -540,7 +524,7 @@ except ImportError:
             return r
 
 
-if _sys_version_info2 < (3, 8):
+if _sys_version_info2 < (3, 8):  # PYCHOK no cover
 
     from math import hypot  # OK in Python 3.7-
 
@@ -611,8 +595,8 @@ def _h_x2(xs):
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h  = float(max(map(abs, xs)))
-            x2 = fsum(_x2s(xs, h)) if h else _0_0
+            h  =  float(max(map(abs, xs)))
+            x2 = _0_0 if isnear0(h) else fsum(_x2s(xs, h))
             return h, x2
 
     raise _ValueError(xs=xs, txt=_too_(_few_))
@@ -663,6 +647,26 @@ def hypot2_(*xs):
     return (h**2 * x2) if x2 else _0_0
 
 
+def _map_a_x_b(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}.
+    '''
+    n = len(b)
+    if len(a) != n:  # PYCHOK no cover
+        from pygeodesy.fmath import fdot
+        raise LenError(fdot, a=len(a), b=n)
+    return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
+
+
+def _map_a_x_b1(a, b):
+    '''(INTERNAL) Yield B{C{a * b}}, 1-primed.
+    '''
+    yield _1_0
+    for ab in map(_mul, a, b):
+        if ab:
+            yield ab
+    yield _N_1_0
+
+
 def norm2(x, y):
     '''Normalize a 2-dimensional vector.
 
@@ -677,8 +681,8 @@ def norm2(x, y):
     h = hypot(x, y)
     try:
         return x / h, y / h
-    except (TypeError, ValueError) as X:
-        raise _ValueError(x=x, y=y, h=h, txt=str(X))
+    except Exception as e:
+        raise _xError(e, x=x, y=y, h=h)
 
 
 def norm_(*xs):
@@ -695,8 +699,8 @@ def norm_(*xs):
     try:
         for i, x in enumerate(xs):
             yield x / h
-    except (TypeError, ValueError) as X:
-        raise _ValueError(Fmt.SQUARE(xs=i), x, _h_, h, txt=str(X))
+    except Exception as e:
+        raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
 
 
 def sqrt0(x2):
@@ -726,6 +730,43 @@ def sqrt3(x2):
     if x2 < 0:
         raise _ValueError(x2=x2, txt=_negative_)
     return pow(x2, _1_5) if x2 else _0_0
+
+
+def sqrt_a(h, b):
+    '''Compute C{I{a}} side of a right-angled triangle from
+       C{sqrt(B{h}**2 - B{b}**2)}.
+
+       @arg h: Hypotenuse or outer annulus radius (C{scalar}).
+       @arg b: Triangle side or inner annulus radius (C{scalar}).
+
+       @return: C{copysign(I{a}, B{h})} or C{unsigned 0.0} (C{float}).
+
+       @raise TypeError: Non-scalar B{C{h}} or B{C{b}}.
+
+       @raise ValueError: If C{abs(B{h}) < abs(B{b})}.
+
+       @see: Inner tangent chord B{I{d}} of an U{annulus
+             <https://WikiPedia.org/wiki/Annulus_(mathematics)>}
+             and function U{annulus_area<https://People.SC.FSU.edu/
+             ~jburkardt/py_src/geometry/geometry.py>}.
+    '''
+    try:
+        if not (isscalar(h) and isscalar(b)):
+            raise TypeError(_not_scalar_)
+        elif abs(h) < abs(b):
+            raise ValueError('abs(h) < abs(b)')
+
+        if isnear0(h):
+            a = _0_0  # PYCHOK no cover
+        elif isnear0(b):
+            a =  h  # PYCHOK no cover
+        else:
+            s = _1_0 - (b / h)**2
+            a = (sqrt(s) * h) if 0 < s < 1 else (h if s else _0_0)
+        return float(a)
+
+    except Exception as x:
+        raise _xError(x, h=h, b=b)
 
 # **) MIT License
 #

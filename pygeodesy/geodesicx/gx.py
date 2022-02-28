@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '22.02.20'
+__version__ = '22.02.23'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -881,26 +881,27 @@ class GeodesicExact(_GeodesicBase):
             # point is at origin and singular point is at y = 0, x = -1
             lam12x = atan2(-p.slam12, -p.clam12)  # lam12 - PI
             f = self.f
-            if f < 0:  # x = dlat, y = dlon
+            if f < 0:  # PYCHOK no cover
                 # ssig1=sbet1, csig1=-cbet1, ssig2=sbet2, csig2=cbet2
                 p.setsigs(p.sbet1, -p.cbet1, p.sbet2, p.cbet2)
                 # if lon12 = 180, this repeats a calculation made in Inverse
                 _, m12b, m0, _, _ = self._Lengths5(atan2(sbet12a, cbet12a) + PI,
                                                    Caps.REDUCEDLENGTH, p)
-                t = p.cbet1 * PI
+                t = p.cbet1 * PI  # x = dlat, y = dlon
                 x = m12b / (t * p.cbet2 * m0) - _1_0
                 sca = (sbet12a / (x * p.cbet1)) if x < -_0_01 else (-f * t)
                 y = lam12x / sca
-            else:  # _f >= 0, in fact f == 0 does not get here
+            else:  # PYCHOK no cover
+                # f >= 0, however f == 0 does not get here
                 sca = self._eF_reset_e2_f1_cH(p.sbet1, p.cbet1 * _2_0)
                 x = lam12x / sca  # dlon
                 y = sbet12a / (sca * p.cbet1)  # dlat
 
             if y > _TOL1 and x > -_THR1:  # strip near cut
-                if f < 0:
+                if f < 0:  # PYCHOK no cover
                     calp1 = max((_0_0 if x > _TOL1 else _N_1_0), x)
                     salp1 = sqrt(_1_0 - calp1**2)
-                else:
+                else:  # PYCHOK no cover
                     salp1 =  min(_1_0, -x)
                     calp1 = -sqrt(_1_0 - salp1**2)
             else:

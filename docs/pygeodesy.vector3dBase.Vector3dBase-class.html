@@ -334,7 +334,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__iadd__" class="summary-sig-name">__iadd__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Add an other vector to this one <i>in-place</i>, <code>this += 
+      Add this and an other vector <i>in-place</i>, <code>this += 
       <b>other</b></code>.</td>
           <td align="right" valign="top">
             
@@ -353,8 +353,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__imatmul__" class="summary-sig-name">__imatmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Cross multiply an other vector and this one <i>in-place</i>, 
-      <code>this @= <b>other</b></code>.</td>
+      Cross multiply this and an other vector <i>in-place</i>, <code>this 
+      @= <b>other</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -519,7 +519,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mul__" class="summary-sig-name">__mul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
-      Multiply this vector by a scalar.</td>
+      Multiply this vector by a scalar, <code>this * <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -684,7 +684,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rmul__" class="summary-sig-name">__rmul__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
-      Multiply this vector by a scalar.</td>
+      Multiply this vector by a scalar, <code>this * <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -739,7 +739,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__rsub__" class="summary-sig-name">__rsub__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Subtract this vector from an other vector.</td>
+      Subtract this vector from an other vector, <code><b>other</b> - 
+      this</code>.</td>
           <td align="right" valign="top">
             
             
@@ -775,7 +776,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__sub__" class="summary-sig-name">__sub__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Subtract an other vector from this vector.</td>
+      Subtract an other vector from this vector, <code>this - 
+      <b>other</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -793,7 +795,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__truediv__" class="summary-sig-name">__truediv__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
-      Divide this vector by a scalar.</td>
+      Divide this vector by a scalar, <code>this / <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -828,7 +830,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__div__" class="summary-sig-name">__div__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">scalar</span>)</span><br />
-      Divide this vector by a scalar.</td>
+      Divide this vector by a scalar, <code>this / <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -1824,7 +1826,7 @@
     </td>
   </tr></table>
   
-  <p>Add an other vector to this one <i>in-place</i>, <code>this += 
+  <p>Add this and an other vector <i>in-place</i>, <code>this += 
   <b>other</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1855,8 +1857,8 @@
     </td>
   </tr></table>
   
-  <p>Cross multiply an other vector and this one <i>in-place</i>, 
-  <code>this @= <b>other</b></code>.</p>
+  <p>Cross multiply this and an other vector <i>in-place</i>, <code>this @=
+  <b>other</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2085,7 +2087,8 @@
     </td>
   </tr></table>
   
-  <p>Multiply this vector by a scalar.</p>
+  <p>Multiply this vector by a scalar, <code>this * 
+  <b>scalar</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2233,7 +2236,8 @@
     </td>
   </tr></table>
   
-  <p>Multiply this vector by a scalar.</p>
+  <p>Multiply this vector by a scalar, <code>this * 
+  <b>scalar</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2260,7 +2264,8 @@
     </td>
   </tr></table>
   
-  <p>Subtract this vector from an other vector.</p>
+  <p>Subtract this vector from an other vector, <code><b>other</b> - 
+  this</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2294,7 +2299,8 @@
     </td>
   </tr></table>
   
-  <p>Subtract an other vector from this vector.</p>
+  <p>Subtract an other vector from this vector, <code>this - 
+  <b>other</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2327,7 +2333,7 @@
     </td>
   </tr></table>
   
-  <p>Divide this vector by a scalar.</p>
+  <p>Divide this vector by a scalar, <code>this / <b>scalar</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2358,7 +2364,7 @@
     </td>
   </tr></table>
   
-  <p>Divide this vector by a scalar.</p>
+  <p>Divide this vector by a scalar, <code>this / <b>scalar</b></code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3530,7 +3536,7 @@ class="link">Vector4Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 21 12:58:21 2022
+    Generated by Epydoc 3.0.1 on Mon Feb 28 11:14:19 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

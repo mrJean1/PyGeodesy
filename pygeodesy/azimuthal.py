@@ -45,7 +45,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, isnon0, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
-from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
+from pygeodesy.errors import _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import euclid, Fsum, hypot
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # from latlonBase
@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.01.17'
+__version__ = '22.02.24'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -191,7 +191,7 @@ class _AzimuthalBase(_NamedBase):
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon2Tuple, LatLon4Tuple, latlon0=latlon0)
         if hasattr(latlon0, _datum_):
-            _datum_datum(self.datum, latlon0.datum, Error=AzimuthalError)
+            _xdatum(self.datum, latlon0.datum, Error=AzimuthalError)
         self.reset(latlon0.lat, latlon0.lon)
 
     @Property_RO

@@ -5,42 +5,39 @@ u'''Class L{Fsum} for precision floating point I{running} summation.
 
 Generally, an L{Fsum} instance is considered a C{float} plus a small
 or zero C{residual} value, see property L{Fsum.residual}.  However,
-there are several cases where L{Fsum} value is C{integer}, for
-example the result of C{ceil}, C{floor}, C{Fsum.__floordiv__} and
-methods L{Fsum.fint} and L{Fsum.fint2}.  Also, methods L{Fsum.pow},
-L{Fsum.__ipow__}, L{Fsum.__pow__} and L{Fsum.__rpow__} return a
-(very long) C{int} if invoked with optional argument C{mod} set to
-C{None}.  The C{residual} of an C{integer} L{Fsum} may be anywhere
-between C{-1.0} and C{+1.0}.
+there are several C{integer} L{Fsum} cases, for example the result
+of C{ceil}, C{floor}, C{Fsum.__floordiv__} and methods L{Fsum.fint}
+and L{Fsum.fint2}.  Also, methods L{Fsum.pow}, L{Fsum.__ipow__},
+L{Fsum.__pow__} and L{Fsum.__rpow__} return a (very long) C{int}
+if invoked with optional argument C{mod} set to C{None}.  The
+C{residual} of an C{integer} L{Fsum} may be anywhere between C{-1.0}
+and C{+1.0}, including C{INT0} if considered to be I{exact}.
 
 Set env variable C{PYGEODESY_FSUM_RESIDUAL} to any non-empty string
 to throw a L{ResidualError} for division or exponention by an L{Fsum}
 instance with a non-zero C{residual}, see methods L{Fsum.RESIDUAL},
-L{Fsum.__itruediv__} and L{Fsum.__ipow__}.
+L{Fsum.pow}, L{Fsum.__itruediv__} and L{Fsum.__ipow__}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import iscomplex, _isfinite, isint, isscalar, \
-                             map1, neg, signOf, _signOf
-from pygeodesy.errors import _NotImplementedError, _OverflowError, \
-                             _TypeError, _ValueError, _xkwds_get, \
-                             _ZeroDivisionError
-from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _EQUAL_, \
-                             _from_, _iadd_, _not_finite_, _not_scalar_, \
-                             _PERCENT_, _PLUS_, _SLASH_, _SPACE_, _STAR_, \
-                             _0_0, _1_0, _N_1_0
+from pygeodesy.basics import iscomplex, _isfinite, isinf, isint, isnan, \
+                             isscalar, map1, neg, signOf, _signOf
+from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, \
+                             _xError2, _xkwds_get, _ZeroDivisionError
+from pygeodesy.interns import INT0, NN, _COMMASPACE_, _DASH_, _EQUAL_, _from_, \
+                             _iadd_, _not_finite_, _not_scalar_, _PERCENT_, \
+                             _PLUS_, _SLASH_, _SPACE_, _STAR_, _0_0, _1_0, _N_1_0
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
-from pygeodesy.props import deprecated_property_RO, Property_RO, \
-                            property_RO
-from pygeodesy.streprs import Fmt, fstr, pairs, unstr
+from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO
+from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Float, Int
 
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.02.20'
+__version__ = '22.02.27'
 
 _eq_ = _EQUAL_ * 2
 _ge_ = '>='
@@ -63,7 +60,6 @@ _residual_ = 'residual'
 _sub_      = _DASH_
 _truediv_  = _SLASH_
 
-_int_0     =  0
 _pos_self  = _1_0.__pos__() is _1_0
 
 
@@ -87,12 +83,8 @@ def _2float(index=None, **name_value):
         if _isfinite(v):
             return v
         E, t = _ValueError, _not_finite_
-    except TypeError as x:
-        E, t = _TypeError, str(x)
-    except ValueError as x:
-        E, t = _ValueError, str(x)
     except Exception as x:
-        E, t = _NotImplementedError, repr(x)
+        E, t = _xError2(x)
     if index is not None:
         n = Fmt.SQUARE(n, index)
     raise E(n, v, txt=t)
@@ -156,12 +148,19 @@ def _2strcomplex(s, *args):
     return unstr(t, *args)
 
 
-def _2stresidual(prefix, residual):
+def _2stresidual(prefix, residual, **name_values):
     '''(INTERNAL) Residual error C{str}.
     '''
-    t = _SPACE_(prefix, _residual_)
-    r =  fstr(residual, fmt=Fmt.g, prec=9)
-    return Fmt.PARENSPACED(t, r)
+    def _fmt(s):
+        return str(s) if isint(s) and abs(s) < 1e9 else (
+               Fmt.g(s, prec=9) if isscalar(s) else repr(s))
+
+    p = _SPACE_(prefix, _residual_)
+    t =  Fmt.PARENSPACED(p, _fmt(residual))
+    for n, v in name_values.items():
+        n =  Fmt.PARENSPACED(n, _fmt(v))
+        t = _COMMASPACE_(t, n)
+    return t
 
 
 def _2sum(a, b):  # by .testFmath
@@ -175,22 +174,16 @@ def _2sum(a, b):  # by .testFmath
     return s, (b - (s - a))  # abs(b) <= abs(a)
 
 
-class ResidualError(_ValueError):
-    '''Error raised for an operation involving an L{Fsum} with a non-zero
-       or I{integer} residual.
-    '''
-    pass
-
-
 class Fsum(_Named):
     '''Precision floating point I{running} summation similar to standard Python's C{math.fsum}.
 
        Unlike C{math.fsum}, this class accumulates values and provides I{intermediate}
        precision floating point summation.  Accumulation may continue after I{intermediate}
-       summations.
+       summuation, aka I{running} summation.
 
        @note: Accumulated values may be C{scalar} or other L{Fsum} instances with C{scalar}
-              meaning type C{float}, C{int} or any other C{type} convertible to C{float}.
+              meaning type C{float}, C{int} or any C{type} convertible into a single-instance
+              C{float}.
 
        @note: Handling of exceptions and of values C{inf}, C{INF}, C{nan} and C{NAN} differs
               from standard Python's C{math.fsum}.
@@ -250,7 +243,7 @@ class Fsum(_Named):
     def __ceil__(self):  # PYCHOK not special in Python 2-
         '''Return this instance' C{math.ceil} as C{int} or C{float}.
 
-           @return: An C{int} in Python 3+, C{float} in Python 2-.
+           @return: An C{int} in Python 3+, but C{float} in Python 2-.
 
            @see: Methods L{Fsum.__floor__} and property L{Fsum.ceil}.
         '''
@@ -284,7 +277,7 @@ class Fsum(_Named):
     def __floor__(self):  # PYCHOK not special in Python 2-
         '''Return this instance' C{math.floor} as C{int} or C{float}.
 
-           @return: An C{int} in Python 3+, C{float} in Python 2-.
+           @return: An C{int} in Python 3+, but C{float} in Python 2-.
 
            @see: Methods L{Fsum.__ceil__} and property L{Fsum.floor}.
         '''
@@ -385,8 +378,7 @@ class Fsum(_Named):
 
            @raise ValueError: Invalid or non-finite B{C{other}}.
         '''
-        op = _mul_ + _fset_
-        return self._fmul(self._finite(other, op), op)
+        return self._fmul(other, _mul_ + _fset_)
 
     def __int__(self):
         '''Return this instance as an C{int}.
@@ -417,7 +409,7 @@ class Fsum(_Named):
                                  env var C{PYGEODESY_FSUM_RESIDUAL}
                                  set or this instance has a non-zero
                                  residual and either B{C{mod}} is
-                                 given as non-C{None} or B{C{other}}
+                                 given and non-C{None} or B{C{other}}
                                  is a negative or fractional C{scalar}.
 
            @raise TypeError: Invalid B{C{other}} type or 3-argument
@@ -509,7 +501,7 @@ class Fsum(_Named):
            @see: Method L{Fsum.__imul__}.
         '''
         f = self.copy(name=self.__mul__.__name__)
-        return f._fmul(self._finite(other, _mul_), _mul_)
+        return f._fmul(other, _mul_)
 
     def __ne__(self, other):
         '''Compare this with an other instance or scalar.
@@ -685,7 +677,7 @@ class Fsum(_Named):
 
     @property_RO
     def ceil(self):
-        '''Get this instance' C{ceil} value (C{int} in Python 3+,
+        '''Get this instance' C{ceil} value (C{int} in Python 3+, but
            C{float} in Python 2-).
 
            @note: The C{ceil} takes the C{residual} into account.
@@ -874,12 +866,12 @@ class Fsum(_Named):
 #               raise self._Error(op, other, _AssertionError, txt=signOf.__name__)
         return q, self  # q is C{int} in Python 3+, but C{float} in Python 2-
 
-    def _finite(self, other, op, txt_only=False):
+    def _finite(self, other, op=None):
         '''(INTERNAL) Return B{C{other}} if C{finite}.
         '''
         if _isfinite(other):
             return other
-        raise ValueError(_not_finite_) if txt_only else \
+        raise ValueError(_not_finite_) if not op else \
               self._ValueError(op, other, txt=_not_finite_)
 
     def fint(self, raiser=True, name=NN):
@@ -893,32 +885,33 @@ class Fsum(_Named):
 
            @raise ResidualError: Non-zero I{integer} residual.
 
-           @see: Method L{Fsum.is_integer}.
+           @see: Methods L{Fsum.int_float} and L{Fsum.is_integer}.
         '''
         i, r = self._fint2
         if r and raiser:
-            raise ResidualError(integer=i, txt=_2stresidual(_integer_, r))
+            t = _2stresidual(_integer_, r)
+            raise ResidualError(_integer_, i, txt=t)
         n = name or self.fint.__name__
         return Fsum(name=n)._fset(i, asis=True)
 
     def fint2(self):
-        '''Return this instance' current C{integer} running sum and
+        '''Return this instance' current running sum as C{int} and
            the I{integer} residual.
 
            @return: L{Fsum2Tuple}C{(fsum, residual)} with C{fsum} an
                     C{int} and I{integer} C{residual} a C{float} or
-                    C{int} if the sum C{is_integer} and C{is_exact}.
+                    C{INT0} if the C{fsum} is considered I{exact}.
         '''
         return Fsum2Tuple(*self._fint2)
 
     @Property_RO
     def _fint2(self):
-        '''(INTERNAL) Get 2-tuple (C{integer}, I{integer} residual).
+        '''(INTERNAL) Get 2-tuple (C{int}, I{integer} residual).
         '''
         i = int(self._fprs)  # int(self)
         # assert len(self._ps) > 0
         r = _fsum(self._ps1(i)) if len(self._ps) > 1 else (
-                 (self._ps[0] - i) or _int_0)
+                 (self._ps[0] - i) or INT0)
         return i, r
 
     @deprecated_property_RO
@@ -928,7 +921,7 @@ class Fsum(_Named):
 
     @property_RO
     def floor(self):
-        '''Get this instance' C{floor} (C{int} in Python 3+,
+        '''Get this instance' C{floor} (C{int} in Python 3+, but
            C{float} in Python 2-).
 
            @note: The C{floor} takes the C{residual} into account.
@@ -960,23 +953,15 @@ class Fsum(_Named):
             if len(self._ps) != 1:
                 f = self._mul_Fsum(other, op)
             elif len(other._ps) != 1:
-                f = other._copy()._fmul(self._ps[0], op)
+                f = other._mul_scalar(self._ps[0], op)
                 f._n = self._n
             else:
-                f = other._ps[0] * self._ps[0]
+                f = self._finite(other._ps[0] * self._ps[0], op)
                 a = isint(f)
         elif not isscalar(other):
             raise self._TypeError(op, other, txt=_not_scalar_)
-        elif self._finite(other, op) and self._ps:
-            if other != _1_0:
-                f = self._Fsum(0)
-                f._n     = self._n
-                f._ps[:] = self._ps_x(op, other)
-                f._facc_up()
-            else:
-                f = self
         else:
-            f, a = _0_0, True
+            f = self._mul_scalar(other, op)
         return self._fset(f, asis=a)
 
     def _fneg(self):
@@ -1057,7 +1042,7 @@ class Fsum(_Named):
            running sum and residual (L{Fsum2Tuple}).
         '''
         s =  self._fprs
-        r = _fsum(self._ps1(s)) if len(self._ps) > 1 else _int_0
+        r = _fsum(self._ps1(s)) if len(self._ps) > 1 else INT0
         return Fsum2Tuple(s, r)
 
     def _fset(self, other, asis=False, n=1):
@@ -1073,7 +1058,7 @@ class Fsum(_Named):
             s = other if asis else float(other)
             self._n     =  n
             self._ps[:] = [s]
-            self._update(_fprs=s, _fprs2=Fsum2Tuple(s, _int_0))
+            self._update(_fprs=s, _fprs2=Fsum2Tuple(s, INT0))
         else:  # PYCHOK no cover
             raise self._TypeError(_fset_, other)  # txt=_invalid_
         return self
@@ -1178,7 +1163,7 @@ class Fsum(_Named):
                     running C{fsum} and C{delta}, the difference with
                     the previous running C{fsum} (C{float}s).
 
-           @note: If the C{residual} is C{int(0)}, C{fsum} is considered
+           @note: If the C{residual is INT0}, the C{fsum} is considered
                   to be I{exact}.
 
            @see: Methods L{Fsum.fsum_} and L{Fsum.fsum}.
@@ -1212,12 +1197,13 @@ class Fsum(_Named):
         else:  # PYCHOK no cover
             raise self._TypeError(op, other)  # txt=_invalid_
         try:
-            self._fmul(_1_0 / d, op)
-        except ZeroDivisionError as x:
-            raise self._ZeroDivisionError(op, d, txt=str(x))
-        except (TypeError, ValueError) as x:
-            raise self._ValueError(op, d, txt=str(x))
-        return self
+            s = 0 if isinf(d) else (
+                d if isnan(d) else self._finite(_1_0 / d))
+        except Exception as x:
+            E, t = _xError2(x)
+            raise self._Error(op, d, E, txt=t)
+        f = self._mul_scalar(s, _mul_)  # handles 0, NAN, etc.
+        return self._fset(f)
 
     @property_RO
     def imag(self):
@@ -1244,14 +1230,15 @@ class Fsum(_Named):
         if r:
             s, r = self._fprs2
             if r and raiser:
-                raise ResidualError(int_float=s, txt=_2stresidual(_integer_, r))
+                t = _2stresidual(_non_zero_, r)
+                raise ResidualError(int_float=s, txt=t)
             s = float(s)  # redundant
         return s
 
     def is_exact(self):
         '''Is this instance' current running C{fsum} considered to be exact? (C{bool}).
         '''
-        return self.residual is _int_0
+        return self.residual is INT0
 
     def is_integer(self):
         '''Is this instance' current running sum C{integer}? (C{bool}).
@@ -1272,6 +1259,22 @@ class Fsum(_Named):
         '''
         # assert isinstance(other, Fsum)
         return self._Fsum(_0_0)._facc(self._ps_x(op, *other._ps))
+
+    def _mul_scalar(self, factor, op):
+        '''(INTERNAL) Return C{B{self} * scalar B{factor}} as L{Fsum} or C{0}.
+        '''
+        # assert isscalar(factor)
+        if self._finite(factor, op) and self._ps:
+            if factor != _1_0:
+                f = self._Fsum(0)
+                f._n     = self._n
+                f._ps[:] = self._ps_x(op, factor)
+                f._facc_up()
+            else:
+                f = self
+        else:
+            f = _0_0
+        return f
 
     @property_RO
     def partials(self):
@@ -1314,15 +1317,13 @@ class Fsum(_Named):
         b = self._ps[0]  # assert isscalar(b)
         try:  # type(s) == type(x) if x in (_1_0, 1)
             s = pow(b, x)  # -1**2.3 == -(1**2.2)
-        except ZeroDivisionError as e:
-            raise self._ZeroDivisionError(op, other, txt=str(e))
-        except Exception as e:  # ValueError
-            raise self._ValueError(op, other, txt=str(e))
-        if iscomplex(s):
-            # neg**frac == complex in Python 3+, ValueError in 2-
-            t = _2strcomplex(s, b, x)
-            raise self._ValueError(op, other, txt=t)
-        return self._finite(s, op)  # 0**INF == 0.0, 1**INF==1.0
+            if not iscomplex(s):
+                return self._finite(s)  # 0**INF == 0.0, 1**INF==1.0
+            # neg**frac == complex in Python 3+, but ValueError in 2-
+            E, t = _ValueError, _2strcomplex(s, b, x)  # PYCHOK no cover
+        except Exception as x:
+            E, t = _xError2(x)
+        raise self._Error(op, other, E, txt=t)
 
     def _pow_3(self, other, mod, op):
         '''(INTERNAL) 3-arg C{pow(B{self}, B{other}, int B{mod} or C{None})}.
@@ -1330,20 +1331,18 @@ class Fsum(_Named):
         b, r = self._fprs2 if mod is None else self._fint2
         if r:  # and self._RESIDUAL:
             t = _non_zero_ if mod is None else _integer_
-            E, t = ResidualError, _2stresidual(t, r)
+            E, t = ResidualError, _2stresidual(t, r, mod=mod)
         else:
             try:  # b, other, mod all C{int}, unless C{mod} is C{None}
                 x = _2scalar(other, raiser=self._RESIDUAL)
                 s =  pow(b, x, mod)
                 if not iscomplex(s):
-                    return self._finite(s, op, txt_only=True)
-                # neg**frac == complex in Python 3+, ValueError in 2-
+                    return self._finite(s)
+                # neg**frac == complex in Python 3+, but ValueError in 2-
                 E, t = _ValueError, _2strcomplex(s, b, x, mod)  # PYCHOK no cover
-            except TypeError as x:
-                E, t = _TypeError, str(x)
-            except Exception as x:  # ValueError
-                E, t = _ValueError, str(x)
-        t = _COMMASPACE_(Fmt.PARENSPACED(mod=mod), t)
+            except Exception as x:
+                E, t = _xError2(x)
+                t = _COMMASPACE_(Fmt.PARENSPACED(mod=mod), t)
         raise self._Error(op, other, E, txt=t)
 
     def _pow_int(self, x, other, op):
@@ -1425,7 +1424,7 @@ class Fsum(_Named):
                 yield p
         yield _N_1_0
 
-    def _ps_x(self, op, *factors):
+    def _ps_x(self, op, *factors):  # see .fmath.Fhorner
         '''(INTERNAL) Yield all C{partials} times each B{C{factor}}.
         '''
         _f = self._finite
@@ -1451,7 +1450,7 @@ class Fsum(_Named):
         '''Get this instance' residual (C{float} or C{int}), the sum of
            the C{partials} less the precision running sum C{fsum}.
 
-           @note: If the C{residual} is C{int(0)}, the precision running
+           @note: If the C{residual is INT0}, the precision running
                   C{fsum} is considered to be I{exact}.
 
            @see: Methods L{Fsum.fsum}, L{Fsum.fsum2} and L{Fsum.is_exact}.
@@ -1459,12 +1458,13 @@ class Fsum(_Named):
         return self._fprs2.residual
 
     def RESIDUAL(self, *raiser):
-        '''Raise L{ResidualError}s for this instance, overriding env var
-           C{PYGEODESY_FSUM_RESIDUAL}.
+        '''Do or don't raise L{ResidualError}s for this instance, overriding
+           the default setting from env var C{PYGEODESY_FSUM_RESIDUAL}.
 
            @arg raiser: If C{True} throw L{ResidualError}s for division
-                        and exponention, if C{False} don't (C{bool}) or
-                        restore the original setting if C{None}.
+                        and exponention, if C{False} don't, if C{None}
+                        restore the default setting (C{bool}) and if
+                        omitted, maintain the current setting.
 
            @return: The previous C{RESIDUAL} setting (C{bool}).
         '''
@@ -1477,10 +1477,7 @@ class Fsum(_Named):
     def _ResidualError(self, op, other, residual, **name_values):
         '''(INTERNAL) Non-zero B{C{residual}} and C{name=value, ...} error.
         '''
-        t = _2stresidual(_non_zero_, residual)
-        for n, v in name_values.items():
-            v =  Fmt.PARENSPACED(n, fstr(v, fmt=Fmt.g, prec=9))
-            t = _COMMASPACE_(t, v)
+        t = _2stresidual(_non_zero_, residual, **name_values)
         return self._Error(op, other, ResidualError, txt=t)
 
     def signOf(self, res=True):
@@ -1575,14 +1572,23 @@ def _Float_Int(arg, **name_Error):
 
 class Fsum2Tuple(_NamedTuple):
     '''2-Tuple C{(fsum, residual)} with the precision running C{fsum}
-       and the C{residual}, the sum of the remaining partials if any.
-       Each item is either C{float} or C{int}.
+       and the C{residual}, the sum of the remaining partials.  Each
+       item is either C{float} or C{int}.
 
-       @note: If the C{residual} is C{int(0)}, C{fsum} is considered
+       @note: If the C{residual is INT0}, the C{fsum} is considered
               to be I{exact}.
     '''
     _Names_ = ( Fsum.fsum.__name__, _residual_)
     _Units_ = (_Float_Int,          _Float_Int)
+
+
+class ResidualError(_ValueError):
+    '''Error raised for an operation involving a L{pygeodesy.sums.Fsum}
+       instance with a non-zero C{residual}, I{integer} or otherwise.
+
+       @see: Module L{pygeodesy.fsums} and method L{Fsum.RESIDUAL}.
+    '''
+    pass
 
 
 try:

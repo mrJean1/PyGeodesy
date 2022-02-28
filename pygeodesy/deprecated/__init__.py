@@ -29,7 +29,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.02.03'
+__version__ = '22.02.27'
 
 OK     = 'OK'  # OK for test like I{if ... is OK: ...}
 _WGS84 = _UTM = object()
@@ -184,6 +184,13 @@ def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
     '''
     from pygeodesy.basics import clips  # _MODS.basics.clips
     return clips(bstr, limit=limit, white=white)
+
+
+@deprecated_function
+def collins(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds):
+    '''DEPRECATED, use function L{pygeodesy.collins5}.'''
+    from pygeodesy.resections import collins5  # _MODS.resections.collins5
+    return collins5(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds)
 
 
 @deprecated_function
@@ -380,6 +387,13 @@ def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options
     '''
     from pygeodesy.simplify import simplifyRW  # _MODS.siimplify.simplifyRW
     return simplifyRW(points, pipe, radius=radius, shortest=shortest, indices=indices, **options)
+
+
+@deprecated_function
+def tienstra(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds):
+    '''DEPRECATED, use function L{pygeodesy.tienstra7}.'''
+    from pygeodesy.resections import tienstra7  # _MODS.resections.tienstra7
+    return tienstra7(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds)
 
 
 @deprecated_function

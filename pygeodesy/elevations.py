@@ -4,30 +4,32 @@
 u'''Web-services-based elevations and geoid heights.
 
 Functions to obtain elevations and geoid heights thru web services,
-for (lat, lon) locations, currently limited to the U{Conterminous US
-(CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>}, see also
-module L{geoids}, module L{heights} classes and U{USGS10mElev.py
-<https://Gist.GitHub.com/pyRobShrk>}.
+for (lat, lon) locations, currently limited to the U{Conterminous
+US (CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>},
+see also modules L{pygeodesy.geoids} and L{pygeodesy.heights} and
+U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}.
 
-B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
-I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
-"signed certificate in certificate chain ..."}, review U{this post
-<https://StackOverflow.com/questions/27835619/urllib-and-ssl-certificate
--verify-failed-error>} for a remedy.  From a Terminal window run:
-C{"/Applications/Python X.Y/Install Certificates.command"}
+B{macOS}: If an C{SSLCertVerificationError} occurs, especially
+this I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
+failed: self "signed certificate in certificate chain ..."},
+review U{this post<https://StackOverflow.com/questions/27835619/
+urllib-and-ssl-certificate-verify-failed-error>} for a remedy.
+From a C{Terminal} window run:
+C{"/Applications/Python\\ X.Y/Install\\ Certificates.command"}
 '''
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _COLONSPACE_, _elevation_, \
-                             _height_, _n_a_, _no_, _SPACE_
+from pygeodesy.interns import NN, _AMPERSAND_, _COLONSPACE_, \
+                             _elevation_, _height_, _LCURLY_, \
+                             _n_a_, _no_, _RCURLY_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '21.09.14'
+__version__ = '22.02.25'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -38,14 +40,16 @@ except (ImportError, NameError):  # Python 3+
     # from urllib.parse import quote
     from urllib.error import HTTPError
 
-_JSON_ = 'JSON'
-_XML_  = 'XML'
+_JSON_     = 'JSON'
+_QUESTION_ = '?'
+_XML_      = 'XML'
 
 try:
     from json import loads as _json
 except ImportError:
 
     from pygeodesy.interns import _COMMA_, _QUOTE2_
+    _QUOTE2COLONSPACE_ = _QUOTE2_ + _COLONSPACE_
 
     def _json(ngs):
         '''(INTERNAL) Convert an NGS response in JSON to a C{dict}.
@@ -65,9 +69,9 @@ except ImportError:
         # b'{"error": "No suitable Geoid model found for model 15"
         #   }'
         d = {}
-        for t in ngs.strip().lstrip('{').rstrip('}').split(_COMMA_):
+        for t in ngs.strip().lstrip(_LCURLY_).rstrip(_RCURLY_).split(_COMMA_):
             t = t.strip()
-            j = t.strip(_QUOTE2_).split('": ')
+            j = t.strip(_QUOTE2_).split(_QUOTE2COLONSPACE_)
             if len(j) != 2:
                 raise ParseError(json=t)
             k, v = j
@@ -89,14 +93,14 @@ def _qURL(url, timeout=2, **params):
     '''(INTERNAL) Build B{C{url}} query, get and verify response.
     '''
     if params:  # build url query, don't map(quote, params)!
-        p = '&'.join(Fmt.EQUAL(p, v) for p, v in params.items() if v)
+        p = _AMPERSAND_(*(Fmt.EQUAL(p, v) for p, v in params.items() if v))
         if p:
-            url = NN(url, '?', p)
+            url = NN(url, _QUESTION_, p)
     u = urlopen(url, timeout=timeout)  # secs
 
     s = u.getcode()
     if s != 200:  # http.HTTPStatus.OK or http.client.OK
-        raise IOError('code %d: %s' % (s, u.geturl()))
+        raise HTTPError('code %d: %s' % (s, u.geturl()))
 
     r = u.read()
     u.close()
@@ -121,7 +125,7 @@ def _xml(tag, xml):
         j = xml.find(Fmt.TAGEND(tag), i)
         if j > i:
             return Str(xml[i:j].strip(), name=tag)
-    return _no_(_XML_, Fmt.TAG(tag))
+    return _no_(_XML_, Fmt.TAG(tag))  # PYCHOK no cover
 
 
 class Elevation2Tuple(_NamedTuple):  # .elevations.py
@@ -144,10 +148,9 @@ def elevation2(lat, lon, timeout=2.0):
        @raise ValueError: Invalid B{C{timeout}}.
 
        @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}}
-              is invalid or outside the C{Conterminous US (CONUS)},
-              if conversion failed or if the query timed out.  The
-              C{error} is the C{HTTP-, IO-, SSL-, Type-, URL-} or
-              C{ValueError} as a string (C{str}).
+              is invalid or outside the C{Conterminous US (CONUS)}, if
+              conversion failed or if the query timed out.  The C{"error"} is
+              the C{HTTP-, IO-, SSL-} or other C{-Error} as a string (C{str}).
 
        @see: U{USGS National Map<https://NationalMap.gov/epqs>},
              the U{FAQ<https://www.USGS.gov/faqs/what-are-projection-
@@ -167,14 +170,14 @@ def elevation2(lat, lon, timeout=2.0):
             e = _xml('Elevation', x)
             try:
                 e = float(e)
-                if -1000000 < e < 1000000:
+                if abs(e) < 1e6:
                     return Elevation2Tuple(e, _xml('Data_Source', x))
                 e = 'non-CONUS %.2F' % (e,)
             except (TypeError, ValueError):
                 pass
-        else:
+        else:  # PYCHOK no cover
             e = _no_(_XML_, Fmt.QUOTE2(clips(x, limit=128, white=_SPACE_)))
-    except (HTTPError, IOError, TypeError, ValueError) as x:
+    except Exception as x:  # (HTTPError, IOError, TypeError, ValueError)
         e = repr(x)
     e = _error(elevation2, lat, lon, e)
     return Elevation2Tuple(None, e)
@@ -203,9 +206,9 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
 
        @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}} is
               invalid or outside the C{Conterminous US (CONUS)}, if the
-              B{C{model}} was invalid, if conversion failed or if the
-              query timed out.  The C{error} is the C{HTTP-, IO-, SSL-,
-              Type-, URL-} or C{ValueError} as a string (C{str}).
+              B{C{model}} was invalid, if conversion failed or if the query
+              timed out.  The C{"error"} is the C{HTTP-, IO-, SSL-, URL-} or
+              other C{-Error} as a string (C{str}).
 
        @see: U{NOAA National Geodetic Survey
              <https://www.NGS.NOAA.gov/INFO/geodesy.shtml>},
@@ -220,7 +223,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
                          lon=Lon(lon).toStr(prec=6),
                          model=(model if model else NN),
                          timeout=Scalar(timeout=timeout))  # PYCHOK indent
-        if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
+        if j[:1] == _LCURLY_ and j[-1:] == _RCURLY_ and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'
             if isinstance(_xkwds_get(d, error=_n_a_), float):
                 h = d.get(e, None)
@@ -230,7 +233,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
         else:
             e = _JSON_
         e = _no_(e, Fmt.QUOTE2(clips(j, limit=256, white=_SPACE_)))
-    except (HTTPError, IOError, ParseError, TypeError, ValueError) as x:
+    except Exception as x:  # (HTTPError, IOError, ParseError, TypeError, ValueError)
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
     return GeoidHeight2Tuple(None, e)

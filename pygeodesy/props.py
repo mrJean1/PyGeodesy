@@ -1,12 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Im-/mutable, caching or memoizing properties and deprecation decorators.
+u'''Mutable, immutable and caching/memoizing properties and
+deprecation decorators.
 
-To enable C{DeprecationWarning}s from C{PyGeodesy}, set environment
-variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
-with command line option C{-X dev} or one or the C{-W} choices, see
-function L{DeprecationWarnings} below.
+To enable C{DeprecationWarning}s from C{PyGeodesy}, set env var
+C{PYGEODESY_WARNINGS} to a non-empty string I{AND} run C{python}
+with command line option C{-X dev} or with one of the C{-W}
+choices, see function L{DeprecationWarnings} below.
 '''
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
@@ -19,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.01.29'
+__version__ =  '22.02.24'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -398,9 +399,9 @@ def DeprecationWarnings():
                 far or C{None} if not enabled.
 
        @note: To get C{DeprecationWarning}s if any, run C{python}
-              with environment variable C{PYGEODESY_WARNINGS} set
-              to a non-empty string I{AND} use C{python[3]} command
-              line option C{-X dev}, C{-W always} or C{-W error}, etc.
+              with env var C{PYGEODESY_WARNINGS} set to a non-empty
+              string I{AND} use C{python[3]} command line option
+              C{-X dev}, C{-W always} or C{-W error}, etc.
     '''
     return _Warnings if _W_DEV else None
 

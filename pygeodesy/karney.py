@@ -101,8 +101,6 @@ on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, s
 in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
-# <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
-
 
 from pygeodesy.basics import copysign0, unsigned0, _xgeographiclib, \
                             _xImportError, isodd  # PYCHOK shared
@@ -117,15 +115,14 @@ from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
 # from pygeodesy.streps import unstr  # from .named
-from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, \
-                            Lon, Meter as _M, Meter2 as _M2, \
-                           _1mm as _TOL_M  # PYCHOK shared
+from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
+                            Meter as _M, Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
 from pygeodesy.utily import atan2d, unroll180, wrap360
 
 from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.02.19'
+__version__ = '22.02.28'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -137,12 +134,12 @@ _M21_  = 'M21'
 _s12_  = 's12'
 _S12_  = 'S12'
 
-_16th   = _1_0 / _16_0
+_1_16th = _1_0 / _16_0
 _EWGS84 = _WGS84.ellipsoid  # PYCHOK used!
 
 
 def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx and .geodsolve
-    '''(INTERNAL) Get an ellipsoid.
+    '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}.
     '''
     return Ellipsoid2(a_ellipsoid, f, name=name) if f is not None else \
           _ellipsoidal_datum(a_ellipsoid, name=name, raiser=raiser).ellipsoid
@@ -515,9 +512,9 @@ def _around(x):
         return M.AngRound(x)
 
     if x:
-        y = _16th - abs(x)
-        if y > 0:  # abs(x) < _16th
-            x = copysign0(_16th - y, x)
+        y = _1_16th - abs(x)
+        if y > 0:  # abs(x) < _1_16th
+            x = copysign0(_1_16th - y, x)
     else:
         x = _0_0  # -0 to 0
     return x
@@ -623,7 +620,8 @@ def _remainder(x, y):
 def _remod(x, y, y_2):
     '''(INTERNAL) Remainder/modulo in the range C{[-B{y_2}, B{y_2}]}.
     '''
-    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6
+    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6 and
+    # with Python 3.10.2 on macOS 12.2.1 M1 arm64 native
     #  fmod( 0,   360) ==  0.0
     #  fmod( 360, 360) ==  0.0
     #  fmod(-0,   360) ==  0.0
@@ -634,21 +632,21 @@ def _remod(x, y, y_2):
     #  360   % 360 == 0
     #  360.0 % 360 == 0.0
     #   -0   % 360 == 0
-    # -360   % 360 == 0
-    #   -0.0 % 360 == 0.0
-    # -360.0 % 360 == 0.0
+    # -360   % 360 == 0   == (-360)   % 360
+    #   -0.0 % 360 == 0.0 ==   (-0.0) % 360
+    # -360.0 % 360 == 0.0 == (-360.0) % 360
 
     # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
     # in the C++ library, Math.sincosd has a similar fix.
     if x:
         if _isfinite(x):
-            h = y_2 if y_2 else (y / _2_0)
+            h =  y_2 if y_2 else (y / _2_0)
             z = _fmod(x, y)
             x = (z + y) if z < -h else (z if z < h else (z - y))
-        else:
+        else:  # PYCHOK no cover
             x = NAN
-    return x  # maintain -0.0
+    return x  # maintain -0.0 signed
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2
@@ -667,13 +665,15 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     s = u + v
     r = s - v
     t = s - r
-    t = (u - r) + (v - t)
     # if Algorithm_3_1:
-    #   t = (u - (s - r)) + (v + r)
-    # else:  # Math::sum C/C++
+    #   t = (u - t) + (v + r)
+    # elif C_CPP:  # Math::sum C/C++
     #   r -= u
     #   t -= v
-    #   t  = -(r + t)
+    #   t += r
+    #   t = -t
+    # else:
+    t = (u - r) + (v - t)
     return s, t
 
 

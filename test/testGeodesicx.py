@@ -5,11 +5,11 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '21.11.21'
+__version__ = '22.02.23'
 
-from base import geographiclib, GeodSolve, isPython2, TestsBase
+from base import GeodSolve, geographiclib, isPython2, TestsBase
 
-from pygeodesy import classname, map2, NN
+from pygeodesy import classname, Ellipsoid, GeodesicLineExact, map2, NN
 from pygeodesy.interns import DIG, _DOT_
 
 _G = '%%.%sg' % (DIG,)
@@ -32,11 +32,11 @@ def _t3(n_p_a):
 
 class Tests(TestsBase):
 
-    def testDiffs(self, name, r, rx, nl):
+    def testDiffs(self, name, r, rx, nl, e=1e-13):
         for n, v in sorted(r.items(), key=_key2):
             x = rx.get(n, None)
             if x is not None:
-                k = (abs(v - x) / (x or 1)) < 1e-13  # rel error
+                k = (abs(v - x) / (x or 1)) < e  # rel error
                 self.test(_DOT_(name, n), v, x, fmt=_G, known=k, nl=nl)
             nl = 0
 
@@ -94,6 +94,18 @@ class Tests(TestsBase):
             S = t.toStr()
             self.test(n, S, S)
             self.test(n, t.toGDict(), r, known=True)
+
+        t = gX.ArcDirect(40.6, -73.8, 51, 49.8)  # coverage
+        self.testDiffs(gX.ArcDirect.__name__, t, dict(lat1=40.6, lon1=-73.8,
+                                                      lat2=51.7876867, lon2=-0.641731,
+                                                      azi1=51.0, azi2=107.5820825,
+                                                      a12=49.8, s12=5536073.734393), 1, e=1e-7)
+
+        t = str(gX.ArcDirectLine(40.6, -73.8, 51, 49.8, gX.STANDARD))  # coverage
+        self.test(gX.ArcDirectLine.__name__, t, t, nl=1)
+
+        t = GeodesicLineExact(gX, 40.6, -73.8, 51, caps=gX.ALL, name='Test')  # coverage
+        self.test(GeodesicLineExact.__name__, t, gX.Line(40.6, -73.8, 51), nl=1)
 
     def testInverse(self, E):
         self.subtitle(geodesicx, 'InverseX vs ...')
@@ -167,6 +179,12 @@ class Tests(TestsBase):
             R = t.toRepr()
             self.test(n, R, R)
             self.test(n, t.toGDict(), r, known=True)
+
+        gX = Ellipsoid(E.b, E.a, name='Prolate').geodesicx
+        t = str(gX.Inverse(40.6, -73.8, 51.6, -0.5))  # coverage
+        self.test(gX.Inverse.__name__, t, t, nl=1)
+        t = str(gX.Inverse1(40.6, -73.8, 51.6, -0.5))  # coverage
+        self.test(gX.Inverse1.__name__, t, t)
 
     def testPolygon(self, module, g, nC4=NN, K=False):
         self.subtitle(module, 'Polygon' + str(nC4))

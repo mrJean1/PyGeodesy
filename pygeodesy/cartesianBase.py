@@ -12,7 +12,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
-from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
+from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot_, hypot2  # hypot
 from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.01.17'
+__version__ = '22.02.28'
 
 
 class CartesianBase(Vector3d):
@@ -101,7 +101,12 @@ class CartesianBase(Vector3d):
         return _MODS.resections.cassini(self, pointB, pointC, alpha, beta,
                                               useZ=useZ, datum=self.datum)
 
+    @deprecated_method
     def collins(self, pointB, pointC, alpha, beta, useZ=False):
+        '''DEPRECATED, use method L{collins5}.'''
+        return self.collins5(pointB, pointC, alpha, beta, useZ=useZ)
+
+    def collins5(self, pointB, pointC, alpha, beta, useZ=False):
         '''3-Point resection between this and 2 other points using U{Collins<https://Dokumen.tips/
            documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}' method.
 
@@ -128,10 +133,10 @@ class CartesianBase(Vector3d):
            @raise TypeError: Invalid B{C{pointB}} or B{C{pointM}}.
 
            @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
-                 and function L{pygeodesy.collins}.
+                 and function L{pygeodesy.collins5}.
         '''
-        return _MODS.resections.collins(self, pointB, pointC, alpha, beta,
-                                              useZ=useZ, datum=self.datum)
+        return _MODS.resections.collins5(self, pointB, pointC, alpha, beta,
+                                               useZ=useZ, datum=self.datum)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -412,13 +417,18 @@ class CartesianBase(Vector3d):
                  Algorithm for Mobile Robot Positioning"<https://ORBi.ULiege.Be/
                  bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{18 Triangulation
                  Algorithms for 2D Positioning (also known as the Resection Problem)
-                 <http://Telecom.ULg.ac.Be/triangulation>} and functions
+                 <http://www.Telecom.ULg.ac.Be/triangulation>} and functions
                  L{pygeodesy.pierlot}.
         '''
         return _MODS.resections.pierlot(self, point2, point3, alpha12, alpha23,
                                               useZ=useZ, datum=self.datum)
 
+    @deprecated_method
     def tienstra(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):
+        '''DEPRECATED, use method L{tienstra7}.'''
+        return self.tienstra7(pointB, pointC, alpha, beta=beta, gamma=gamma, useZ=useZ)
+
+    def tienstra7(self, pointB, pointC, alpha, beta=None, gamma=None, useZ=False):
         '''3-Point resection between this and two other points using U{Tienstra
            <https://WikiPedia.org/wiki/Tienstra_formula>}'s formula.
 
@@ -450,12 +460,12 @@ class CartesianBase(Vector3d):
 
            @see: U{3-Point Resection Solver<http://MesaMike.org/geocache/GC1B0Q9/tienstra/>},
                  U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
-                 <http://Telecom.ULG.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
-                 U{18 Triangulation Algorithms...<http://Telecom.ULG.ac.Be/triangulation/>} and
-                 function L{pygeodesy.tienstra}.
+                 <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
+                 U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.Be/triangulation/>}
+                 and function L{pygeodesy.tienstra7}.
         '''
-        return _MODS.resections.tienstra(self, pointB, pointC, alpha, beta, gamma,
-                                               useZ=useZ, datum=self.datum)
+        return _MODS.resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
+                                                useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover
@@ -552,7 +562,7 @@ class CartesianBase(Vector3d):
             h = r.height if height is None else Height(height)
             r = LatLon(r.lat, r.lon, datum=r.datum, height=h,
                                 **_xkwds(LatLon_kwds, name=r.name))
-        _datum_datum(r.datum, d)
+        _xdatum(r.datum, d)
         return r
 
     def toLocal(self, Xyz=None, ltp=None, **Xyz_kwds):

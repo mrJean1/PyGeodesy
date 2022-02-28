@@ -135,11 +135,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      deprecated=('OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
-                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
+                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
                                  'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs',  # ... except ellipsoidal, spherical flavors
                                  'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
                                  'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
-                                 'scalar', 'simplify2', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
+                                 'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
@@ -166,9 +166,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f', 'n2f_'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
-                         errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError', 'PointsError',
-                                 'RangeError', 'ResectionError', 'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError',
-                                 'UnitError', 'VectorError',
+                         errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
+                                 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
+                                 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'EasNorExact4Tuple', 'LatLonExact4Tuple',
@@ -179,7 +179,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
-                                 'norm2', 'norm_', 'sqrt0', 'sqrt3'),
+                                 'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a'),
                           formy=('Radical2Tuple',
                                  'antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
@@ -256,9 +256,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           props=('Property', 'Property_RO', 'property_RO', 'property_doc_',
                                  'deprecated_class', 'deprecated_function', 'deprecated_method',
                                  'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
-                     resections=('Collins5Tuple', 'Survey3Tuple', 'Tienstra7Tuple',
+                     resections=('Collins5Tuple', 'ResectionError', 'Survey3Tuple', 'Tienstra7Tuple',
                                  'TriAngle4Tuple', 'TriSide2Tuple', 'TriSide4Tuple',
-                                 'cassini', 'collins', 'pierlot', 'tienstra',
+                                 'cassini', 'collins5', 'pierlot', 'tienstra7',
                                  'snellius3', 'wildberger3',
                                  'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
                   sphericalBase=(),  # module only
@@ -336,7 +336,7 @@ class _ALL_MODS(dict):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.02.13'
+__version__ = '22.02.27'
 
 
 def _ALL_OTHER(*objs):

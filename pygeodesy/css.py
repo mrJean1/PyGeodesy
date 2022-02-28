@@ -11,8 +11,7 @@ installed.
 from pygeodesy.basics import copysign0, neg, _xinstanceof, _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _datum_datum, _ValueError, \
-                             _xellipsoidal, _xkwds
+from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
 from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _easting_, _lat_, _lon_, _m_, _name_, \
                              _northing_, _reciprocal_, _SPACE_, \
@@ -28,7 +27,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.07.31'
+__version__ = '22.02.24'
 
 
 def _CS0(cs0):
@@ -101,7 +100,7 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Ellipsoidal mismatch of B{C{latlon}} and this projection.
         '''
-        _datum_datum(self.datum, latlon.datum, Error=CSSError)
+        _xdatum(self.datum, latlon.datum, Error=CSSError)
 
     @Property_RO
     def equatoradius(self):

@@ -27,7 +27,9 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.02.20'
+__version__ = '22.02.23'
+
+_fromll_ = '_fromll'  # UNDERSCORE
 
 
 class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
@@ -164,7 +166,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self.length > other.length
 
     def __iadd__(self, other):
-        '''Add an other vector to this one I{in-place}, C{this += B{other}}.
+        '''Add this and an other vector I{in-place}, C{this += B{other}}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -174,7 +176,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self
 
     def __imatmul__(self, other):  # PYCHOK Python 3.5+
-        '''Cross multiply an other vector and this one I{in-place}, C{this @= B{other}}.
+        '''Cross multiply this and an other vector I{in-place}, C{this @= B{other}}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -264,7 +266,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return _NotImplemented(self, other)
 
     def __mul__(self, scalar):
-        '''Multiply this vector by a scalar.
+        '''Multiply this vector by a scalar, C{this * B{scalar}}.
 
            @arg scalar: Factor (C{scalar}).
 
@@ -331,7 +333,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return _NotImplemented(self, other, *mod)
 
     def __rsub__(self, other):  # PYCHOK no cover
-        '''Subtract this vector from an other vector.
+        '''Subtract this vector from an other vector, C{B{other} - this}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -347,7 +349,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return _NotImplemented(self, scalar)
 
     def __sub__(self, other):
-        '''Subtract an other vector from this vector.
+        '''Subtract an other vector from this vector, C{this - B{other}}.
 
            @arg other: The other vector (L{Vector3d}).
 
@@ -358,7 +360,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self.minus(other)
 
     def __truediv__(self, scalar):
-        '''Divide this vector by a scalar.
+        '''Divide this vector by a scalar, C{this / B{scalar}}.
 
            @arg scalar: The divisor (C{scalar}).
 
@@ -447,13 +449,14 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         self.others(other)
 
-        x = self.y * other.z - self.z * other.y
-        y = self.z * other.x - self.x * other.z
-        z = self.x * other.y - self.y * other.x
+        x, y, z = self.xyz
+        x, y, z = ((y * other.z - z * other.y),
+                   (z * other.x - x * other.z),
+                   (x * other.y - y * other.x))
 
         if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
             t = _coincident_ if self.isequalTo(other) else _colinear_
-            r = getattr(other, '_fromll', None) or other
+            r = getattr(other, _fromll_, None) or other
             raise CrossError(raiser, r, txt=t)
 
         return self.classof(x, y, z)
@@ -573,7 +576,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
         n = 0
         for a, b in zip(self.xyz, other.xyz):
-            if abs(a + b) < eps and (a * b) < 0:
+            if abs(a + b) < eps and ((a < 0 and b > 0) or
+                                     (a > 0 and b < 0)):
                 n += 1  # conjugate
             elif abs(a - b) > eps:
                 return False  # unequal

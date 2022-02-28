@@ -4,13 +4,13 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.17'
+__version__ = '22.02.27'
 
 from base import TestsBase
 
 from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
-                      fatan, fatan2, fhorner, fmath, fpolynomial, fpowers, \
-                      fsum_, hypot, hypot_, hypot2_, norm_, signOf, sqrt3
+                      fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, fpowers, \
+                      fsum_, hypot, hypot_, hypot2_, norm_, signOf, sqrt3, sqrt_a
 
 from math import acos, asin, atan, atan2, sqrt
 
@@ -59,14 +59,14 @@ class Tests(TestsBase):
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
             self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
 
-        # cffk <https://Bugs.Python.org/issue43088> and
-        # <https://Bugs.Python.org/file49783/hypot_bug.py>
+        # cffk <https://Bugs.Python.org/issue43088> and <https://Bugs.Python.org/file49783/hypot_bug.py>
         x  = 0.6102683302836215
         y1 = 0.7906090004346522
         y2 = y1 + 1e-16
         z1 = hypot(x, y1)
         z2 = hypot(x, y2)
         self.test('hypot', signOf(y2 - y1) == signOf(z2 - z1), True, known=True)  # (3, 7) < sys.version_info[:2] < (3, 10))
+        self.test('sqrt_a', sqrt_a(z1, y1), x, prec=9)
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot_ ', h, '1.00001250', prec=8)
@@ -104,18 +104,20 @@ class Tests(TestsBase):
         def _percent(a, x, f):
             return max(a, abs((f - x) * 100 / x) if x else 0)
 
-        c = s = a = t = 0
+        c = s = t = t1 = t2 = 0
         for f in range(100):
-            f =  float(f)
-            a = _percent(a, atan(f), fatan(f))
-            t = _percent(t, atan2(f, 2.0), fatan2(f, 2.0))
+            f  =  float(f)
+            t  = _percent(t,  atan(f), fatan(f))
+            t2 = _percent(t2, atan2(f, 2.0), fatan2(f, 2.0))
             f *= 0.01
-            s = _percent(s, asin(f), fasin1(f))
-            c = _percent(c, acos(f), facos1(f))
-        self.test('facos1', c, '0.005%', fmt='%.3f%%', known=True)
-        self.test('fasin1', s, '0.439%', fmt='%.3f%%', known=True)
-        self.test('fatan ', a, '0.508%', fmt='%.3f%%', known=True)
-        self.test('fatan2', t, '1.214%', fmt='%.3f%%', known=True)
+            c  = _percent(c,  acos(f), facos1(f))
+            s  = _percent(s,  asin(f), fasin1(f))
+            t1 = _percent(t1, atan(f), fatan1(f))
+        self.test('facos1', c,  '0.005%', fmt='%.3f%%', known=True)
+        self.test('fasin1', s,  '0.439%', fmt='%.3f%%', known=True)
+        self.test('fatan ', t,  '0.134%', fmt='%.3f%%', known=True)
+        self.test('fatan1', t1, '2.834%', fmt='%.3f%%', known=True)
+        self.test('fatan2', t2, '0.321%', fmt='%.3f%%', known=True)
 
 
 if __name__ == '__main__':

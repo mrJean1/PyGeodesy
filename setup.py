@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.01.22'
+__version__ = '22.02.26'
 
 
 def _c2(*names):
@@ -45,7 +45,7 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitude',
+_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
@@ -76,7 +76,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'attitu
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch',
-             'Point-Of-View', 'polar', 'POV', 'prolate', 'Pseudo-Mercator',
+             'Point-Of-View', 'polar', 'POV',
+             'precision-running-summation', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
@@ -111,15 +112,6 @@ setup(name='PyGeodesy',
       long_description=_long_description(),
 
       package_data={'pygeodesy': ['LICENSE']},
-
-#     data_files=[('docs',         ['docs/*.*']),
-#                 ('images',       ['test/testRoute.jpg']),
-#                 ('test',         ['test/test*.py']),
-#                 ('testcoverage', ['testcoverage/*.*',
-#                                   'testcoverage.pdf',
-#                                   'testcoverage.rc']),
-#                 ('testresults',  ['testresults/*.txt'])],
-#     data_files fails somehow, see file MANIFEST.in
 
       test_suite='test.TestSuite',
 

@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.21'
+__version__ = '22.02.24'
 
 from base import isPython2, startswith, TestsBase
 
@@ -120,7 +120,7 @@ class Tests(TestsBase):
         self.test('FSum0', a.fsum(), 0.0)
         self.test('Fsum#', len(a), 4097)
         self.test('Fsum#', len(a._ps), 1)
-        self.test('FSum.', a, 'fsums.Fsum[2049] (0.0, 0)', known=not a)
+        self.test('FSum.', a, 'fsums.Fsum[4097] (0.0, 0)', known=not a)
 
         self.test('FsumI', c.imag, 0.0)
         self.test('FsumR', c.real, float(c))
@@ -128,7 +128,7 @@ class Tests(TestsBase):
         self.test('radd', float(2 + b),  '2050.0')
         self.test('rdiv', float(2 / b),  '9.77e-04', prec=-2)
         self.test('rmul', float(2 * b),  '4096.0')
-        self.test('rpow', float(2 ** a),    '1.0')
+        self.test('rpow', float(2**a),      '1.0')
         self.test('rsub', float(2 - b), '-2046.0')
         z = getsizeof(t)
         self.test('sizeof', z, 372, known=100 < z < 600)  # or 456 Python 2.
@@ -241,7 +241,7 @@ class Tests(TestsBase):
         except Exception as X:
             self.test('pow(F, f, i)', repr(X), ResidualError.__name__, known=startswith)
         try:
-            self.test('pow(F, F, i)', pow(m, Fsum(2.1), 2), TypeError.__name__)
+            self.test('pow(F, F, i)', m.pow(Fsum(2.1), 2), TypeError.__name__)
         except Exception as X:
             self.test('pow(F, F, i)', repr(X), TypeError.__name__, known=startswith)
         self.test('pow(F, F, None)', pow(-m, 2, None), ("fsums.Fsum[1] (4%s, 0)" % _dot0))

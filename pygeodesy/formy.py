@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.01.17'
+__version__ = '22.02.25'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -587,9 +587,9 @@ def excessLHuilier(a, b, c):
 
 
 def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
-    '''Compute the surface area of a (spherical) quadrilateral bounded by
-       a segment of a great circle, two meridians and the equator using U{Karney's
-       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}
+    '''Compute the surface area of a (spherical) quadrilateral bounded by a
+       segment of a great circle, two meridians and the equator using U{Karney's
+       <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}
        method.
 
        @arg lat1: Start latitude (C{degrees}).
@@ -619,7 +619,7 @@ def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 def excessKarney_(phi2, phi1, lam21):
     '''Compute the I{spherical excess} C{E} of a (spherical) quadrilateral bounded
        by a segment of a great circle, two meridians and the equator using U{Karney's
-       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}
+       <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}
        method.
 
        @arg phi2: End latitude (C{radians}).
@@ -631,22 +631,61 @@ def excessKarney_(phi2, phi1, lam21):
        @raise ValueError: Semi-circular longitudinal delta B{C{lam21}}.
 
        @see: Function L{excessKarney}, U{Area of a spherical polygon
-       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+       <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}.
     '''
-    # from: Veness <https://www.Movable-Type.co.UK/scripts/latlong.html>
-    # Area method due to Karney: for each edge of the polygon,
+    # from: Veness <https://www.Movable-Type.co.UK/scripts/latlong.html>  Area
+    # method due to Karney: for each edge of the polygon,
     #
-    #               tan(Δλ/2) · (tan(φ1/2) + tan(φ2/2))
-    #    tan(E/2) = ------------------------------------
-    #                    1 + tan(φ1/2) · tan(φ2/2)
+    #                 tan(Δλ / 2) · (tan(φ1 / 2) + tan(φ2 / 2))
+    #    tan(E / 2) = -----------------------------------------
+    #                            1 + tan(φ1 / 2) · tan(φ2 / 2)
     #
-    # where E is the spherical excess of the trapezium obtained by
-    # extending the edge to the equator-circle vector for each edge.
+    # where E is the spherical excess of the trapezium obtained by extending
+    # the edge to the equator-circle vector for each edge (see also ***).
     t2 = tan_2(phi2)
     t1 = tan_2(phi1)
     t  = tan_2(lam21, lam21=None)
     return Radians(Karney=atan2(t * (t1 + t2),
                              _1_0 + (t1 * t2)) * _2_0)
+
+
+# ***) Original post no longer available, following is a copy of the main part
+# <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>
+#
+# The area of a polygon on a (unit) sphere is given by the spherical excess
+#
+#    A = 2 * pi - sum(exterior angles)
+#
+# However this is badly conditioned if the polygon is small.  In this case, use
+#
+#    A = sum S12{i, i+1} over the edges of the polygon
+#
+# where S12 is the area of the quadrilateral bounded by an edge of the polygon,
+# two meridians and the equator, i.e. with vertices (phi1, lambda1), (phi2,
+# lambda2), (0, lambda1) and (0, lambda2).  S12 is given by
+#
+#    tan(S12 / 2) = tan(lambda21 / 2) * (tan(phi1 / 2) + tan(phi2 / 2)) /
+#                                       (tan(phi1 / 2) * tan(phi2 / 2) + 1)
+#
+#                 = tan(lambda21 / 2) * tanh((lam(phi1) + lam(phi2)) / 2)
+#
+# where lambda21 = lambda2 - lambda1 and lam(x) is the Lambertian (or inverse
+# Gudermannian) function
+#
+#    lam(x) = asinh(tan(x)) = atanh(sin(x)) = 2 * atanh(tan(x / 2))
+#
+# Notes: The formula for S12 is exact, except that...
+#      - it is indeterminate if an edge is a semi-circle
+#      - the formula for A applies only if the polygon does not include a pole
+#        (if it does, then add +/- 2 * pi to the result)
+#      - in the limit of small phi and lambda, S12 reduces to the trapezoidal
+#        formula, S12 = (lambda2 - lambda1) * (phi1 + phi2) / 2
+#      - I derived this result from the equation for the area of a spherical
+#        triangle in terms of two edges and the included angle given by, e.g.
+#        U{Todhunter, I. - Spherical Trigonometry (1871), Sec. 103, Eq. (2)
+#        <http://Books.Google.com/books?id=3uBHAAAAIAAJ&pg=PA71>}
+#      - I would be interested to know if this formula for S12 is already known
+#      - Charles Karney
 
 
 def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):

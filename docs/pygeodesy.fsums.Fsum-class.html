@@ -79,7 +79,8 @@
   Python's <code>math.fsum</code>.</p>
   <p>Unlike <code>math.fsum</code>, this class accumulates values and 
   provides <i>intermediate</i> precision floating point summation.  
-  Accumulation may continue after <i>intermediate</i> summations.</p>
+  Accumulation may continue after <i>intermediate</i> summuation, aka 
+  <i>running</i> summation.</p>
 
 <hr />
 <div class="fields">      <strong>Notes:</strong>
@@ -88,8 +89,8 @@
         Accumulated values may be <code>scalar</code> or other <a 
         href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
         instances with <code>scalar</code> meaning type <code>float</code>,
-        <code>int</code> or any other <code>type</code> convertible to 
-        <code>float</code>.
+        <code>int</code> or any <code>type</code> convertible into a 
+        single-instance <code>float</code>.
         </li>
         <li>
         Handling of exceptions and of values <code>inf</code>, 
@@ -1301,8 +1302,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fint2" class="summary-sig-name">fint2</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this instance' current <code>integer</code> running sum and 
-      the <i>integer</i> residual.</td>
+      Return this instance' current running sum as <code>int</code> and the
+      <i>integer</i> residual.</td>
           <td align="right" valign="top">
             
             
@@ -1575,9 +1576,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" class="summary-sig-name">RESIDUAL</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*raiser</span>)</span><br />
-      Raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-      class="link">ResidualError</a>s for this instance, overriding env var
-      <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
+      Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
+      class="link">ResidualError</a>s for this instance, overriding the 
+      default setting from env var <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1684,7 +1685,7 @@
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html#ceil" class="summary-name">ceil</a><br />
       Get this instance' <code>ceil</code> value (<code>int</code> in 
-      Python 3+, <code>float</code> in Python 2-).
+      Python 3+, but <code>float</code> in Python 2-).
     </td>
   </tr>
 <tr>
@@ -1701,7 +1702,7 @@
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html#floor" class="summary-name">floor</a><br />
       Get this instance' <code>floor</code> (<code>int</code> in Python 3+,
-      <code>float</code> in Python 2-).
+      but <code>float</code> in Python 2-).
     </td>
   </tr>
 <tr>
@@ -1855,8 +1856,8 @@
   <code>float</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>An <code>int</code> in Python 3+, <code>float</code> in Python 
-          2-.</dd>
+        <dd>An <code>int</code> in Python 3+, but <code>float</code> in 
+          Python 2-.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__floor__" 
@@ -1942,8 +1943,8 @@
   <code>float</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>An <code>int</code> in Python 3+, <code>float</code> in Python 
-          2-.</dd>
+        <dd>An <code>int</code> in Python 3+, but <code>float</code> in 
+          Python 2-.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.fsums.Fsum-class.html#__ceil__" 
@@ -2264,7 +2265,7 @@
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> and env var 
         <code>PYGEODESY_FSUM_RESIDUAL</code> set or this instance has a 
-        non-zero residual and either <b><code>mod</code></b> is given as 
+        non-zero residual and either <b><code>mod</code></b> is given and 
         non-<code>None</code> or <b><code>other</code></b> is a negative or
         fractional <code>scalar</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or 3-argument 
@@ -3276,7 +3277,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fsums.Fsum-class.html#is_integer" 
+        Methods <a href="pygeodesy.fsums.Fsum-class.html#int_float" 
+        class="link">Fsum.int_float</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#is_integer" 
         class="link">Fsum.is_integer</a>.
       </p>
 </div></td></tr></table>
@@ -3295,15 +3298,15 @@
     </td>
   </tr></table>
   
-  <p>Return this instance' current <code>integer</code> running sum and the
+  <p>Return this instance' current running sum as <code>int</code> and the 
   <i>integer</i> residual.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a><code>(fsum, residual)</code> with 
           <code>fsum</code> an <code>int</code> and <i>integer</i> 
-          <code>residual</code> a <code>float</code> or <code>int</code> if
-          the sum <code>is_integer</code> and <code>is_exact</code>.</dd>
+          <code>residual</code> a <code>float</code> or <code>INT0</code> 
+          if the <code>fsum</code> is considered <i>exact</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3375,7 +3378,7 @@
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual in <b><code>other</code></b> and env var 
         <code>PYGEODESY_FSUM_RESIDUAL</code> set or this instance has a 
-        non-zero residual and either <b><code>mod</code></b> is given as 
+        non-zero residual and either <b><code>mod</code></b> is given and 
         non-<code>None</code> or <b><code>other</code></b> is a negative or
         fractional <code>scalar</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> type or 3-argument 
@@ -3616,8 +3619,8 @@
           (<code>float</code>s).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        If the <code>residual</code> is <code>int(0)</code>, 
-        <code>fsum</code> is considered to be <i>exact</i>.
+        If the <code>residual is INT0</code>, the <code>fsum</code> is 
+        considered to be <i>exact</i>.
       </p>
       <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.fsums.Fsum-class.html#fsum_" 
@@ -3760,17 +3763,18 @@
     </td>
   </tr></table>
   
-  <p>Raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-  class="link">ResidualError</a>s for this instance, overriding env var 
-  <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
+  <p>Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
+  class="link">ResidualError</a>s for this instance, overriding the default
+  setting from env var <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
           href="pygeodesy.fsums.ResidualError-class.html" 
           class="link">ResidualError</a>s for division and exponention, if 
-          <code>False</code> don't (<code>bool</code>) or restore the 
-          original setting if <code>None</code>.</li>
+          <code>False</code> don't, if <code>None</code> restore the 
+          default setting (<code>bool</code>) and if omitted, maintain the 
+          current setting.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The previous <code>RESIDUAL</code> setting (<code>bool</code>).</dd>
@@ -3895,12 +3899,12 @@
 <tr><td>
   <h3 class="epydoc">ceil</h3>
   <p>Get this instance' <code>ceil</code> value (<code>int</code> in Python
-  3+, <code>float</code> in Python 2-).</p>
+  3+, but <code>float</code> in Python 2-).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ceil(<span class="summary-sig-arg">self</span>)</span>
         - Get this instance' <code>ceil</code> value (<code>int</code> in Python 3+, 
-<code>float</code> in Python 2-).
+but <code>float</code> in Python 2-).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3958,11 +3962,11 @@
 <tr><td>
   <h3 class="epydoc">floor</h3>
   <p>Get this instance' <code>floor</code> (<code>int</code> in Python 3+, 
-  <code>float</code> in Python 2-).</p>
+  but <code>float</code> in Python 2-).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">floor(<span class="summary-sig-arg">self</span>)</span>
-        - Get this instance' <code>floor</code> (<code>int</code> in Python 3+, 
+        - Get this instance' <code>floor</code> (<code>int</code> in Python 3+, but 
 <code>float</code> in Python 2-).
     </dd>
     <dt>Set method:</dt>
@@ -4117,8 +4121,8 @@ sum of the <code>partials</code> less the precision running sum
     </dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        If the <code>residual</code> is <code>int(0)</code>, the precision 
-        running <code>fsum</code> is considered to be <i>exact</i>.
+        If the <code>residual is INT0</code>, the precision running 
+        <code>fsum</code> is considered to be <i>exact</i>.
       </p>
       <p><strong>See Also:</strong>
         Methods <a href="pygeodesy.fsums.Fsum-class.html#fsum" 
@@ -4162,7 +4166,7 @@ sum of the <code>partials</code> less the precision running sum
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 21 12:58:20 2022
+    Generated by Epydoc 3.0.1 on Mon Feb 28 11:14:18 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

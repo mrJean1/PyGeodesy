@@ -6,11 +6,11 @@ u'''Errors, exceptions and exception chaining.
 Error, exception classes and functions to format PyGeodesy errors,
 including the setting of I{exception chaining} in Python 3+.
 
-By default, I{exception chaining} is turned off.  To enable
-I{exception chaining}, use command line option C{python -X dev} or
-set environment variable C{PYTHONDEVMODE} to C{1} or any non-empyty
-string OR set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
-to C{'std'} or any other non-empty string.
+By default, I{exception chaining} is turned I{off}.  To enable
+I{exception chaining}, use command line option C{python -X dev}
+I{OR} set env var C{PYTHONDEVMODE} to C{1} or any non-empyty
+string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
+or any other non-empty string.
 '''
 from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _COLON_, _COMMA_, _COMMASPACE_, \
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.02.03'
+__version__ = '22.02.27'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -153,7 +153,7 @@ class CrossError(_ValueError):
     pass
 
 
-class IntersectionError(_ValueError):
+class IntersectionError(_ValueError):  # in .ellipsoidalBaseDI, .formy, ...
     '''Error raised for path or circle intersection issues.
     '''
     def __init__(self, *args, **kwds):  # txt=_invalid_
@@ -165,7 +165,7 @@ class IntersectionError(_ValueError):
             _ValueError.__init__(self, **kwds)
 
 
-class LenError(_ValueError):
+class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
     '''Error raised for mis-matching C{len} values.
     '''
     def __init__(self, where, **lens_txt):  # txt=None
@@ -200,19 +200,19 @@ class NumPyError(_ValueError):
     pass
 
 
-class ParseError(_ValueError):
+class ParseError(_ValueError):  # in .dms, .elevations, .utmupsBase
     '''Error parsing degrees, radians or several other formats.
     '''
     pass
 
 
-class PointsError(_ValueError):
+class PointsError(_ValueError):  # in .clipy, .frechet, ...
     '''Error for an insufficient number of points.
     '''
     pass
 
 
-class RangeError(_ValueError):
+class RangeError(_ValueError):  # in .dms, .ellipsoidalBase, .geoids, .units, .ups, .utm, .utmups
     '''Error raised for lat- or longitude values outside the B{C{clip}}, B{C{clipLat}},
        B{C{clipLon}} or B{C{limit}} range in function L{pygeodesy.clipDegrees},
        L{pygeodesy.clipRadians}, L{pygeodesy.parse3llh}, L{pygeodesy.parseDMS},
@@ -223,13 +223,7 @@ class RangeError(_ValueError):
     pass
 
 
-class ResectionError(_ValueError):
-    '''Error raised for resection issues.
-    '''
-    pass
-
-
-class TriangleError(_ValueError):
+class TriangleError(_ValueError):  # in .resections, .vector2d
     '''Error raised for triangle, inter- or resection issues.
     '''
     pass
@@ -247,29 +241,28 @@ class SciPyWarning(PointsError):
        To raise C{SciPy} warnings as L{SciPyWarning} exceptions, Python
        C{warnings} must be filtered as U{warnings.filterwarnings('error')
        <https://docs.Python.org/3/library/warnings.html#the-warnings-filter>}
-       I{prior to} C{import scipy} or by setting environment variable
-       U{PYTHONWARNINGS<https://docs.Python.org/3/using/cmdline.html
-       #envvar-PYTHONWARNINGS>} or with C{python} command line option
-       U{-W<https://docs.Python.org/3/using/cmdline.html#cmdoption-w>}
-       as C{error}.
+       I{prior to} C{import scipy} OR by setting env var U{PYTHONWARNINGS
+       <https://docs.Python.org/3/using/cmdline.html#envvar-PYTHONWARNINGS>}
+       OR by invoking C{python} with command line option U{-W<https://docs.
+       Python.org/3/using/cmdline.html#cmdoption-w>} set to C{-W error}.
     '''
     pass
 
 
-class TRFError(_ValueError):
+class TRFError(_ValueError):  # in .ellipsoidalBase, .trf, .units
     '''Terrestrial Reference Frame (TRF), L{Epoch}, L{RefFrame}
        or L{RefFrame} conversion issue.
     '''
     pass
 
 
-class UnitError(_ValueError):
+class UnitError(_ValueError):  # in .named, .units
     '''Default exception for L{units} issues.
     '''
     pass
 
 
-class VectorError(_ValueError):
+class VectorError(_ValueError):  # in .nvectorBase, .vector3d, .vector3dBase
     '''L{Vector3d}, C{Cartesian*} or C{*Nvector} issues.
     '''
     pass
@@ -279,7 +272,8 @@ def _an(noun):
     '''(INTERNAL) Prepend an article to a noun based
        on the pronounciation of the first letter.
     '''
-    return _SPACE_((_an_ if noun[:1].lower() in 'aeinoux' else _a_), noun)
+    a = _an_ if noun[:1].lower() in 'aeinoux' else _a_
+    return _SPACE_(a, noun)
 
 
 def _and(*words):
@@ -316,18 +310,6 @@ def crosserrors(raiser=None):
     if raiser in (True, False):
         B._crosserrors = raiser
     return t
-
-
-def _datum_datum(datum1, datum2, Error=None):
-    '''(INTERNAL) Check for datum or ellipsoid match.
-    '''
-    if Error:
-        E1, E2 = datum1.ellipsoid, datum2.ellipsoid
-        if E1 != E2:
-            raise Error(E2.named2, txt=_incompatible(E1.named2))
-    elif datum1 != datum2:
-        t = _SPACE_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
-        raise _AssertionError(t)
 
 
 def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
@@ -388,9 +370,9 @@ def exception_chaining(error=None):
                 B{C{error}} is not C{None}, return the previous,
                 chained error or C{None} otherwise.
 
-       @note: Set C{env} variable C{PYGEODESY_EXCEPTION_CHAINING}
-              to any non-empty value prior to C{import pygeodesy}
-              to enable exception chaining for C{pygeodesy} errors.
+       @note: Set env var C{PYGEODESY_EXCEPTION_CHAINING} to any
+              non-empty value prior to C{import pygeodesy} to
+              enable exception chaining for C{pygeodesy} errors.
     '''
     return _exception_chaining if error is None else \
             getattr(error, '__cause__', None)
@@ -524,6 +506,18 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     return _error_chain(X(t), other=x)
 
 
+def _xdatum(datum1, datum2, Error=None):
+    '''(INTERNAL) Check for datum or ellipsoid mis-match.
+    '''
+    if Error:
+        E1, E2 = datum1.ellipsoid, datum2.ellipsoid
+        if E1 != E2:
+            raise Error(E2.named2, txt=_incompatible(E1.named2))
+    elif datum1 != datum2:
+        t = _SPACE_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
+        raise _AssertionError(t)
+
+
 def _xellipsoidal(**name_value):
     '''(INTERNAL) Check an I{ellipsoidal} item.
 
@@ -543,21 +537,51 @@ def _xellipsoidal(**name_value):
     raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
 
 
-def _xError(x, *name_value, **kwds):
+# map certain C{Exception} classes to the C{_Error}
+_X2Error = {AssertionError:      _AssertionError,
+            AttributeError:      _AttributeError,
+            ImportError:         _ImportError,
+            IndexError:          _IndexError,
+            NameError:           _NameError,
+            NotImplementedError: _NotImplementedError,
+            OverflowError:       _OverflowError,
+            TypeError:           _TypeError,
+            ValueError:          _ValueError,
+            ZeroDivisionError:   _ZeroDivisionError}
+_xErrors = _TypeError, _TypeError, _ValueError
+
+
+def _xError(x, *args, **kwds):
     '''(INTERNAL) Embellish an exception.
 
        @arg x: The exception instance (usually, C{_Error}).
+       @arg args: Embelishments (C{any}).
        @arg kwds: Embelishments (C{any}).
     '''
     X = x.__class__
     t = str(x)
     try:  # C{_Error} style
-        return X(txt=t, *name_value, **kwds)
+        return X(txt=t, *args, **kwds)
     except TypeError:  # no keyword arguments
         pass
     # not an C{_Error}, format as C{_Error}
-    t = str(_ValueError(txt=t, *name_value, **kwds))
+    t = str(_ValueError(txt=t, *args, **kwds))
     return x if _exception_chaining else X(t)
+
+
+def _xError2(x):  # in .fsums
+    '''(INTERNAL) Map an exception to 2-tuple (C{_Error} class, error C{txt}).
+
+       @arg x: The exception instance (usually, C{Exception}).
+    '''
+    X =  x.__class__
+    E = _X2Error.get(X, X)
+    if E is X and not isinstance(x, _xErrors):
+        E = _NotImplementedError
+        t =  repr(x)
+    else:
+        t =  str(x)
+    return E, t
 
 
 try:

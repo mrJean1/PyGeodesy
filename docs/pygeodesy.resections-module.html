@@ -61,11 +61,11 @@
 <h1 class="epydoc">Module resections</h1><p class="nomargin-top"></p>
 <p>3-Point resection functions <a 
   href="pygeodesy.resections-module.html#cassini" class="link">cassini</a>,
-  <a href="pygeodesy.resections-module.html#collins" 
-  class="link">collins</a>, <a 
+  <a href="pygeodesy.resections-module.html#collins5" 
+  class="link">collins5</a>, <a 
   href="pygeodesy.resections-module.html#pierlot" class="link">pierlot</a> 
-  and <a href="pygeodesy.resections-module.html#tienstra" 
-  class="link">tienstra</a>, survey functions <a 
+  and <a href="pygeodesy.resections-module.html#tienstra7" 
+  class="link">tienstra7</a>, survey functions <a 
   href="pygeodesy.resections-module.html#snellius3" 
   class="link">snellius3</a> and <a 
   href="pygeodesy.resections-module.html#wildberger3" 
@@ -90,7 +90,7 @@
         target="_top">Pierlot</a>.
       </p>
       <p><strong>Version:</strong>
-        22.02.20
+        22.02.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -110,6 +110,16 @@
         instance of <b><code>pointA</code></b>'s (sub-)class and triangle 
         sides <code>a</code>, <code>b</code> and <code>c</code> in 
         <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.resections.ResectionError-class.html" class="summary-name">ResectionError</a><br />
+      Error raised for issues in <a 
+        href="pygeodesy.resections-module.html" 
+        class="link">pygeodesy.resections</a>.
     </td>
   </tr>
 <tr>
@@ -211,7 +221,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#collins" class="summary-sig-name">collins</a>(<span class="summary-sig-arg">pointA</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#collins5" class="summary-sig-name">collins5</a>(<span class="summary-sig-arg">pointA</span>,
         <span class="summary-sig-arg">pointB</span>,
         <span class="summary-sig-arg">pointC</span>,
         <span class="summary-sig-arg">alpha</span>,
@@ -286,7 +296,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#tienstra" class="summary-sig-name">tienstra</a>(<span class="summary-sig-arg">pointA</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.resections-module.html#tienstra7" class="summary-sig-name">tienstra7</a>(<span class="summary-sig-arg">pointA</span>,
         <span class="summary-sig-arg">pointB</span>,
         <span class="summary-sig-arg">pointC</span>,
         <span class="summary-sig-arg">alpha</span>,
@@ -511,7 +521,7 @@
           (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
         <b><code>pointM</code></b>.</li>
@@ -525,23 +535,23 @@
         <a 
         href="https://Dokumen.tips/documents/three-point-resection-problem-introduction-kaestner-burkhardt-method.html"
         target="_top">Three Point Resection Problem</a> and functions <a 
-        href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a>, <a 
+        href="pygeodesy.resections-module.html#collins5" 
+        class="link">pygeodesy.collins5</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
         class="link">pygeodesy.pierlot</a> and <a 
-        href="pygeodesy.resections-module.html#tienstra" 
-        class="link">pygeodesy.tienstra</a>.
+        href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">pygeodesy.tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
-<a name="collins"></a>
+<a name="collins5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">collins</span>&nbsp;(<span class="sig-arg">pointA</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">collins5</span>&nbsp;(<span class="sig-arg">pointA</span>,
         <span class="sig-arg">pointB</span>,
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
@@ -600,7 +610,7 @@
           <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or negative or 
         invalid <b><code>alpha</code></b> or <b><code>beta</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pointA</code></b>, <b><code>pointB</code></b> or 
         <b><code>pointM</code></b>.</li>
@@ -617,8 +627,8 @@
         class="link">pygeodesy.cassini</a>, <a 
         href="pygeodesy.resections-module.html#pierlot" 
         class="link">pygeodesy.pierlot</a> and <a 
-        href="pygeodesy.resections-module.html#tienstra" 
-        class="link">pygeodesy.tienstra</a>.
+        href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">pygeodesy.tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -681,7 +691,7 @@
           of <b><code>point1</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or invalid 
         <b><code>alpha12</code></b> or <b><code>alpha23</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
         <b><code>point3</code></b>.</li>
@@ -704,10 +714,10 @@
         Resection Problem)&quot;</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
         class="link">pygeodesy.cassini</a>, <a 
-        href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a> and <a 
-        href="pygeodesy.resections-module.html#tienstra" 
-        class="link">pygeodesy.tienstra</a>.
+        href="pygeodesy.resections-module.html#collins5" 
+        class="link">pygeodesy.collins5</a> and <a 
+        href="pygeodesy.resections-module.html#tienstra7" 
+        class="link">pygeodesy.tienstra7</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -770,14 +780,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="tienstra"></a>
+<a name="tienstra7"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">tienstra</span>&nbsp;(<span class="sig-arg">pointA</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tienstra7</span>&nbsp;(<span class="sig-arg">pointA</span>,
         <span class="sig-arg">pointB</span>,
         <span class="sig-arg">pointC</span>,
         <span class="sig-arg">alpha</span>,
@@ -844,7 +854,7 @@
           in <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
+        <li><code><strong class='fraise'><a href="pygeodesy.resections.ResectionError-class.html">ResectionError</a></strong></code> - Near-coincident, -colinear or -concyclic points or sum of 
         <b><code>alpha</code></b>, <b><code>beta</code></b> and 
         <b><code>gamma</code></b> not <code>360</code> or negative 
         <b><code>alpha</code></b>, <b><code>beta</code></b> or 
@@ -867,8 +877,8 @@
         Triangulation Algorithms...</a> and functions <a 
         href="pygeodesy.resections-module.html#cassini" 
         class="link">pygeodesy.cassini</a>, <a 
-        href="pygeodesy.resections-module.html#collins" 
-        class="link">pygeodesy.collins</a> and <a 
+        href="pygeodesy.resections-module.html#collins5" 
+        class="link">pygeodesy.collins5</a> and <a 
         href="pygeodesy.resections-module.html#pierlot" 
         class="link">pygeodesy.pierlot</a>.
       </p>
@@ -1009,7 +1019,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.resections-module.html#triAngle" 
+        Functions <a href="pygeodesy.fmath-module.html#sqrt_a" 
+        class="link">pygeodesy.sqrt_a</a>, <a 
+        href="pygeodesy.resections-module.html#triAngle" 
         class="link">pygeodesy.triAngle</a>, <a 
         href="pygeodesy.resections-module.html#triSide2" 
         class="link">pygeodesy.triSide2</a> and <a 
@@ -1059,7 +1071,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.resections-module.html#triSide" 
+        Functions <a href="pygeodesy.fmath-module.html#sqrt_a" 
+        class="link">pygeodesy.sqrt_a</a>, <a 
+        href="pygeodesy.resections-module.html#triSide" 
         class="link">pygeodesy.triSide</a> and <a 
         href="pygeodesy.resections-module.html#triSide4" 
         class="link">pygeodesy.triSide4</a>.
@@ -1112,6 +1126,8 @@
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Triangulation_(surveying)" 
         target="_top">Triangulation, Surveying</a> and functions <a 
+        href="pygeodesy.fmath-module.html#sqrt_a" 
+        class="link">pygeodesy.sqrt_a</a>, <a 
         href="pygeodesy.resections-module.html#triSide" 
         class="link">pygeodesy.triSide</a> and <a 
         href="pygeodesy.resections-module.html#triSide2" 
@@ -1222,7 +1238,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 21 12:58:19 2022
+    Generated by Epydoc 3.0.1 on Mon Feb 28 11:14:16 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

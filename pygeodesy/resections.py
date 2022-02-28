@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''3-Point resection functions L{cassini}, L{collins}, L{pierlot} and L{tienstra},
+u'''3-Point resection functions L{cassini}, L{collins5}, L{pierlot} and L{tienstra7},
 survey functions L{snellius3} and L{wildberger3} and triangle functions L{triAngle},
 L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 
@@ -11,7 +11,7 @@ L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 '''
 
 from pygeodesy.basics import isnear0, map1
-from pygeodesy.errors import _and, _or, ResectionError, TriangleError, _xkwds
+from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
 from pygeodesy.fmath import favg, fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import fsum, fsum_, fsum1, fsum1_
 from pygeodesy.interns import EPS, EPS0, EPS02, PI, PI2, PI_2, PI_4, _a_, _A_, \
@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.02.20'
+__version__ = '22.02.28'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -49,6 +49,12 @@ class Collins5Tuple(_NamedTuple):
     '''
     _Names_ = (_pointP_, _pointH_, _a_,      _b_,      _c_)
     _Units_ = (_Pass,    _Pass,     Distance, Distance, Distance)
+
+
+class ResectionError(_ValueError):
+    '''Error raised for issues in L{pygeodesy.resections}.
+    '''
+    pass
 
 
 class Survey3Tuple(_NamedTuple):
@@ -127,8 +133,8 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 
        @see: U{Three Point Resection Problem<https://Dokumen.tips/documents/
              three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}
-             and functions L{pygeodesy.collins}, L{pygeodesy.pierlot} and
-             L{pygeodesy.tienstra}.
+             and functions L{pygeodesy.collins5}, L{pygeodesy.pierlot} and
+             L{pygeodesy.tienstra7}.
     '''
 
     def _H(A, C, sa):
@@ -178,7 +184,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
                              alpha=alpha, beta=beta, txt=str(x))
 
 
-def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_kwds):
+def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_kwds):
     '''3-Point resection using U{Collins<https://Dokumen.tips/documents/
        three-point-resection-problem-introduction-kaestner-burkhardt-method.html>}' method.
 
@@ -213,7 +219,7 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 
        @see: U{Collins' methode<https://NL.WikiPedia.org/wiki/Achterwaartse_insnijding>}
              and functions L{pygeodesy.cassini}, L{pygeodesy.pierlot} and
-             L{pygeodesy.tienstra}.
+             L{pygeodesy.tienstra7}.
     '''
 
     def _azi_len2(A, B, pi2):
@@ -244,7 +250,7 @@ def collins(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
             raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
 
         clas =  Clas or pointA.classof
-        kwds = _xkwds(Clas_kwds, name=collins.__name__)
+        kwds = _xkwds(Clas_kwds, name=collins5.__name__)
 
 #       za, a = _azi_len2(C, B, PI2)
         zb, b = _azi_len2(C, A, PI2)
@@ -306,8 +312,8 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
              bitstream/2268/157469/1/Pierlot2014ANewThree.pdf>}, U{Vincent Pierlot,
              Marc Van Droogenbroeck, "18 Triangulation Algorithms for 2D Positioning
              (also known as the Resection Problem)"<http://www.Telecom.ULg.ac.Be/
-             triangulation>} and functions L{pygeodesy.cassini}, L{pygeodesy.collins}
-             and L{pygeodesy.tienstra}.
+             triangulation>} and functions L{pygeodesy.cassini}, L{pygeodesy.collins5}
+             and L{pygeodesy.tienstra7}.
     '''
     B1 = _otherV3d(useZ=useZ, point1=point1)
     B2 = _otherV3d(useZ=useZ, point2=point2)
@@ -409,8 +415,8 @@ def snellius3(a, b, degC, alpha, beta):
         raise TriangleError(a=a, b=b, degC=degC, alpha=alpha, beta=beta, txt=str(x))
 
 
-def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
-                                     useZ=False, Clas=None, **Clas_kwds):
+def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
+                                      useZ=False, Clas=None, **Clas_kwds):
     '''3-Point resection using U{Tienstra<https://WikiPedia.org/wiki/Tienstra_formula>}'s formula.
 
        @arg pointA: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple} or
@@ -449,7 +455,7 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
              U{V. Pierlot, M. Van Droogenbroeck, "A New Three Object Triangulation..."
              <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree/>},
              U{18 Triangulation Algorithms...<http://www.Telecom.ULg.ac.Be/triangulation/>} and
-             functions L{pygeodesy.cassini}, L{pygeodesy.collins} and L{pygeodesy.pierlot}.
+             functions L{pygeodesy.cassini}, L{pygeodesy.collins5} and L{pygeodesy.pierlot}.
     '''
 
     def _deg_ks(r, s, ks, N):
@@ -503,7 +509,7 @@ def tienstra(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         z = _zidw(A, B, C, x, y) if useZ else 0
 
         clas = Clas or pointA.classof
-        P = clas(x, y, z, **_xkwds(Clas_kwds, name=tienstra.__name__))
+        P = clas(x, y, z, **_xkwds(Clas_kwds, name=tienstra7.__name__))
         return Tienstra7Tuple(P, dA, dB, dC, a, b, c)
 
     except (TypeError, ValueError) as x:
@@ -623,8 +629,8 @@ def triSide(a, b, radC):
 
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{radC}}.
 
-       @see: Functions L{pygeodesy.triAngle}, L{pygeodesy.triSide2}
-             and L{pygeodesy.triSide4}.
+       @see: Functions L{pygeodesy.sqrt_a}, L{pygeodesy.triAngle},
+             L{pygeodesy.triSide2} and L{pygeodesy.triSide4}.
     '''
     try:
         return _triSide(a, b, radC)
@@ -638,20 +644,18 @@ def _triSide(a, b, radC):
     if min(a, b, r) < 0:
         raise ValueError(_negative_)
 
-    if isnear0(r):
-        return abs(a - b)
-    ab = _N_2_0 * a * b * cos(r)
-    if abs(ab) < EPS02:
-        return hypot(a, b)
-
-    c2 = fsum_(a**2, b**2, ab)
-    if abs(c2) < EPS02:
-        c = _0_0
-    elif c2 < 0:
-        raise ValueError(_invalid_)
-    else:
-        c = sqrt(c2)
-    return c
+    if a < b:
+        a, b = b, a
+    if a > EPS0:
+        ba =  b / a
+        ab = _N_2_0 * ba * cos(r)
+        if abs(ab) > EPS0:
+            c2 = fsum_(_1_0, ba**2, ab)
+            if c2 > EPS02:
+                return a * sqrt(c2)
+            elif c2 < 0:
+                raise ValueError(_invalid_)
+    return hypot(a, b)
 
 
 def triSide2(b, c, radB):
@@ -671,7 +675,8 @@ def triSide2(b, c, radB):
        @raise TriangleError: Invalid B{C{b}} or B{C{c}} or either
                              B{C{b}} or B{C{radB}} near zero.
 
-       @see: Functions L{pygeodesy.triSide} and L{pygeodesy.triSide4}.
+       @see: Functions L{pygeodesy.sqrt_a}, L{pygeodesy.triSide}
+             and L{pygeodesy.triSide4}.
     '''
     try:
         return _triSide2(b, c, radB)
@@ -719,7 +724,7 @@ def triSide4(radA, radB, c):
        @raise TriangleError: Invalid or negative B{C{radA}}, B{C{radB}} or B{C{c}}.
 
        @see: U{Triangulation, Surveying<https://WikiPedia.org/wiki/Triangulation_(surveying)>}
-             and functions L{pygeodesy.triSide} and L{pygeodesy.triSide2}.
+             and functions L{pygeodesy.sqrt_a}, L{pygeodesy.triSide} and L{pygeodesy.triSide2}.
     '''
     try:
         rA, rB, c = map1(float, radA, radB, c)
