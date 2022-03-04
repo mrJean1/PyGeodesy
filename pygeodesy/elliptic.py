@@ -77,15 +77,14 @@ from pygeodesy.basics import copysign0, map2, neg
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, hypot1
 from pygeodesy.fsums import Fsum, fsum_
-from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
-                             _EPStol as _TolJAC, _convergence_, \
+from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, _DOT_, \
+                             _EPStol as _TolJAC, _convergence_, _f_, \
                              _no_, _SPACE_, _0_0, _0_125, _0_25, \
-                             _0_5, _1_0, _2_0, _3_0, _4_0, _5_0, \
-                             _6_0, _8_0, _180_0, _360_0
+                             _0_5, _1_0, _2_0, _N_2_0, _3_0, _4_0, \
+                             _5_0, _6_0, _8_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 from pygeodesy.props import Property_RO, property_RO, _update_all
-# from pygeodesy.streprs import unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
 
@@ -93,8 +92,9 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.01.17'
+__version__ = '22.03.01'
 
+_delta_ = 'delta'
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
 _TolRG0 = _TolJAC  * 2.7
@@ -310,7 +310,7 @@ class Elliptic(_Named):
         '''(INTERNAL) Helper for C{.deltaD} thru C{.deltaPi}.
         '''
         if None in (cn, dn):
-            t = self.classname + '.delta' + fX.__name__[1:]
+            t = _DOT_(self.classname, _delta_) + fX.__name__[1:]
             raise _invokationError(t, sn, cn, dn)
 
         if cn < 0:
@@ -337,7 +337,7 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid invokation or no convergence.
         '''
         def _fD(sn, cn, dn):
-            return abs(sn) * sn**2 * _RD_3(cn**2, dn**2, _1_0)
+            return abs(sn)**3 * _RD_3(cn**2, dn**2, _1_0)
 
         return self._fXf(phi_or_sn, cn, dn, self.cD,
                                             self.deltaD, _fD)
@@ -396,9 +396,9 @@ class Elliptic(_Named):
         if abs(deg) < _180_0:
             e = _0_0
         else:
-            n    = ceil(deg / _360_0 - _0_5)
-            deg -= n * _360_0
-            e    = n * _4_0 * self.cE
+            e    =  ceil(deg / _360_0 - _0_5)
+            deg -= _360_0 * e
+            e   *= _4_0 * self.cE
         sn, cn = sincos2d(deg)
         return self.fE(sn, cn, self.fDelta(sn, cn)) + e
 
@@ -419,7 +419,7 @@ class Elliptic(_Named):
         phi = PI * x / E2  # phi in [-pi/2, pi/2)
         Phi = Fsum(phi)
         # first order correction
-        phi = Phi.fsum_(-self.eps * sin(2 * phi) * _0_5)
+        phi = Phi.fsum_(self.eps * sin(2 * phi) / _N_2_0)
         # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
@@ -535,7 +535,7 @@ class Elliptic(_Named):
                 return (deltaX(sn, cn, dn) + phi) * cX / PI_2
             # fall through
         elif None in (cn, dn):
-            t = self.classname + '.f' + deltaX.__name__[5:]
+            t = _DOT_(self.classname, _f_) + deltaX.__name__[5:]
             raise _invokationError(t, sn, cn, dn)
 
         if cn < 0:  # enforce usual trig-like symmetries
@@ -682,7 +682,7 @@ class Elliptic(_Named):
         if mc:  # never negative ...
             if mc < 0:  # PYCHOK no cover
                 d  = _1_0 - mc
-                mc = neg(mc / d)  # /= d chokes PyChecker
+                mc = neg(mc / d)  # /= -d chokes PyChecker
                 d  = sqrt(d)
                 x *= d
             else:
@@ -739,7 +739,7 @@ def _convergenceError(where, *args):  # PYCHOK no cover
     return EllipticError(_no_(_convergence_), txt=t)  # unstr
 
 
-def _horner(e0, e1, e2, e3, e4, e5):
+def _horner(S, e1, e2, e3, e4, e5):
     '''(INTERNAL) Horner form for C{_RD} and C{_RJ} below.
     '''
     # Polynomial is <https://DLMF.NIST.gov/19.36.E2>
@@ -747,12 +747,13 @@ def _horner(e0, e1, e2, e3, e4, e5):
     #    - E2**3/16 + 3*E3**2/40 + 3*E2*E4/20 + 45*E2**2*E3/272
     #    - 9*(E3*E4+E2*E5)/68)
     # converted to Horner form ...
-    H  = Fsum(471240,      -540540 * e2) * e5
-    H += Fsum(612612 * e2, -540540 * e3,    -556920) * e4
-    H += Fsum(306306 * e3,  675675 * e2**2, -706860  * e2, 680680) * e3
-    H += Fsum(417690 * e2, -255255 * e2**2, -875160) * e2
-    e  = 4084080 * e1
-    return H.fsum_(4084080, e * e0) / e
+    e  = e1 * 4084080
+    S *= e
+    S += Fsum(471240,      -540540 * e2).fmul(e5)
+    S += Fsum(612612 * e2, -540540 * e3,    -556920).fmul(e4)
+    S += Fsum(306306 * e3,  675675 * e2**2, -706860  * e2, 680680).fmul(e3)
+    S += Fsum(417690 * e2, -255255 * e2**2, -875160).fmul(e2)
+    return S.fadd_(4084080).fover(e)
 
 
 def _invokationError(name, *args):  # PYCHOK no cover
@@ -829,7 +830,7 @@ def _RD(x, y, z):  # used by testElliptic.py
     z2 = z**2
     xy = x * y
     S *= _3_0
-    return _horner(S.fsum(), m * sqrt(An),
+    return _horner(S, m * sqrt(An),
                    xy - _6_0 * z2,
                   (xy * _3_0 - _8_0 * z2) * z,
                   (xy - z2) * _3_0 * z2,
@@ -888,9 +889,9 @@ def _RF(x, y, z):  # used by testElliptic.py
     # (1 - E2/10 + E3/14 + E2**2/24 - 3*E2*E3/44
     #    - 5*E2**3/208 + 3*E3**2/104 + E2**2*E3/16)
     # converted to Horner form ...
-    H  = Fsum( 6930 * e3, 15015 * e2**2, -16380  * e2, 17160) * e3
-    H += Fsum(10010 * e2, -5775 * e2**2, -24024) * e2
-    return H.fsum_(240240) / (240240 * sqrt(An))
+    S  = Fsum( 6930 * e3, 15015 * e2**2, -16380  * e2, 17160).fmul(e3)
+    S += Fsum(10010 * e2, -5775 * e2**2, -24024).fmul(e2)
+    return S.fadd_(240240).fover(240240 * sqrt(An))
 
 
 def _RG_(x, y):
@@ -910,9 +911,9 @@ def _RG_(x, y):
     for _ in range(_TRIPS):  # max 4 trips
         if abs(a - b) <= (_TolRG0 * a):
             S *= PI_2 / (a + b)
-            return S.fsum()
-        b, a = sqrt(a * b), (a + b) * _0_5
-        S -=  m * (a - b)**2
+            return float(S)
+        a, b = ((a + b) * _0_5), sqrt(a * b)
+        S += -m * (a - b)**2
         m *= _2_0
 
     raise _convergenceError(_RG_, x, y)
@@ -929,9 +930,9 @@ def _RG(x, y, z):  # used by testElliptic.py
     if not z:
         y, z = z, y
     # Carlson, eq 1.7
-    return fsum_(_RF(x, y, z) * z,
-                 _RD_3(x, y, z) * (x - z) * (z - y),  # - (y - z)
-                  sqrt(x * y / z)) * _0_5
+    return Fsum(_RF(x, y, z) * z,
+                _RD_3(x, y, z) * (x - z) * (z - y),  # - (y - z)
+                 sqrt(x * y / z)).fover(_2_0)
 
 
 def _RJ_3(x, y, z, p):
@@ -976,15 +977,17 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     y = (A - y) / m
     z = (A - z) / m
     xyz = x * y * z
-    p  = neg(x + y + z) * _0_5
+    p  = Fsum(x, y, z).fover(_N_2_0)
     p2 = p**2
     p3 = p * p2
 
-    S *= _6_0
-    e2 = fsum_(x * y, x * z, y * z, -p2 * _3_0)
-    return _horner(S.fsum(), m * sqrt(An), e2,
-                   fsum_(xyz, _2_0 * p * e2, _4_0 * p3),
-                   fsum_(xyz * _2_0, p * e2, _3_0 * p3) * p,
+    E2  =  Fsum(x * y, x * z, y * z, -p2 * _3_0)
+    e2  =  float(E2)
+    E2 *=  p
+    S  *= _6_0
+    return _horner(S, m * sqrt(An), e2,
+                   Fsum(xyz, _2_0 * E2, _4_0 * p3),
+                   Fsum(xyz * _2_0, E2, _3_0 * p3).fmul(p),
                    p2 * xyz)
 
 

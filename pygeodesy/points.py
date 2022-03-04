@@ -29,7 +29,7 @@ from pygeodesy.basics import isclass, isint, isnear0, isnear1, isscalar, \
                              issequence, issubclassof, map1, _Sequence, \
                              _xcopy, _xdup, _xinstanceof
 from pygeodesy.datums import _spherical_datum
-from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
+from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2, S_DEG, S_MIN, S_SEC
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, \
                             _xkwds, _xkwds_pop
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.01.17'
+__version__ = '22.03.03'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -344,19 +344,35 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
         return Fmt.PAREN(classname(self), self.toStr(**kwds))
 
-    def toStr(self, form=F_D, prec=6, sep=_COMMASPACE_, **kwds):
+    def toStr(self, form=F_D, prec=6, sep=_COMMASPACE_, **s_D_M_S_kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
-           @kwarg form: Optional format, F_D, F_DM, F_DMS for
-                        deg°, deg°min′, deg°min′sec″ (C{str}).
-           @kwarg prec: Optional number of decimal digits (0..8 or C{None}).
-           @kwarg sep: Optional separator to join (C{str}).
-           @kwarg kwds: Optional, keyword arguments.
+           @kwarg form: Format specifier (C{str} or L{F_D}, L{F_DM}, L{F_DMS},
+                        L{F_DEG}, L{F_MIN}, L{F_SEC}, L{F_D60}, L{F__E},
+                        L{F__F}, L{F__G}, L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_},
+                        L{F_DEG_}, L{F_MIN_}, L{F_SEC_}, L{F_D60_}, L{F__E_},
+                        L{F__F_}, L{F__G_}, L{F_RAD_}, L{F_D__}, L{F_DM__},
+                        L{F_DMS__}, L{F_DEG__}, L{F_MIN__}, L{F_SEC__}, L{F_D60__},
+                        L{F__E__}, L{F__F__}, L{F__G__} or L{F_RAD__})
+           @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
+                        Trailing zero decimals are stripped for B{C{prec}}
+                        values of 1 and above, but kept for negative B{C{prec}}.
+           @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
+           @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
+                           and/or C{B{s_S}=str} to override the degrees, minutes
+                           respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
+                           respectively L{S_SEC}.
 
-           @return: Instance (C{str}).
+           @return: This instance in the specified B{C{form}} (C{str}).
+
+           @see: Function L{pygeodesy.degDMS} for B{C{form}} and B{C{s_D_M_S}}.
         '''
-        t = (latDMS(self.lat, form=form, prec=prec),
-             lonDMS(self.lon, form=form, prec=prec))
+        def _split2(s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, **kwds):
+            return kwds, dict(s_D=s_D, s_M=s_M, s_S=s_S)
+
+        kwds, s_D_M_S = _split2(**s_D_M_S_kwds)
+        t = (latDMS(self.lat, form=form, prec=prec, **s_D_M_S),
+             lonDMS(self.lon, form=form, prec=prec, **s_D_M_S))
         if self.height:
             t += (self.heightStr(),)
         if self.name:

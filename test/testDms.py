@@ -4,14 +4,14 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '21.11.13'
+__version__ = '22.02.03'
 
 from base import TestsBase
 
 from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD,   F_D60, \
                       F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_,  F_D60_, \
                       F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, F_D60__, \
-                      compassPoint, degDMS, fstr, parseDDDMMSS, parseDMS, \
+                      compassPoint, degDMS, fstr, normDMS, parseDDDMMSS, parseDMS, \
                       ParseError, parse3llh, RangeError, rangerrors, toDMS
 
 
@@ -101,17 +101,25 @@ class Tests(TestsBase):
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')
         self.test('parse3llh', fstr(x, prec=6), '51.477811, -0.001475, 0.0')
 
-        t = 'toDMS(%s)' % ('',)
+        t = 'toDMS(%s)' % (F_DM,)
         self.test(t, toDMS(45.99999, F_DM,  prec=1), '46°00.0′')  # not 45°60.0′
         self.test(t, toDMS(45.99999, F_DM,  prec=2), '46°00.0′')
         self.test(t, toDMS(45.9999,  F_DM,  prec=2), '45°59.99′')
         self.test(t, toDMS(45.99999, F_DM,  prec=3), '45°59.999′')
+        t = 'toDMS(%s)' % (F_DMS,)
         self.test(t, toDMS(45.99999, F_DMS, prec=1), '46°00′00.0″')
         self.test(t, toDMS(45.99999, F_DMS, prec=2), '45°59′59.96″')
         self.test(t, toDMS(45.99999, F_DMS, prec=3), '45°59′59.964″')
+        t = 'toDMS(%s)' % (F_D60,)
         self.test(t, toDMS(45.99999, F_D60, prec=3), '45.5959964')
 
         self.test(t, toDMS(45.76260),   '45°45′45.36″')
+        x = toDMS(45.76260, s_D='d', s_M="m", s_S='s')
+        self.test(t,  x,              '''45d45m45.36s''')
+        t = normDMS(x, s_D='d', s_M="m", s_S='s')
+        self.test(normDMS.__name__, t, '45°45′45.36″')
+        t = parseDMS(x, s_D='d', s_M="m", s_S='s')
+        self.test(parseDMS.__name__, t, '45.7626')
 
         for F, p, x in ((F_D,   None,   '45.7626°'),
                         (F_DM,  None,   "45°45.756'"),

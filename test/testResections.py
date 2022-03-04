@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.27'
+__version__ = '22.03.01'
 
 from base import isWindows, TestsBase
 
@@ -124,7 +124,7 @@ class Tests(TestsBase):
         self.test(n, t, '(567.480866, 847.344375, 832.446688)')
 
         t = wildberger3(1716, 924, 1056, 0.0000001, 14.5)
-        self.test(n, t, '(4064.197313, 3652.539342, 4988.197355)')
+        self.test(n, t, '(4064.197323, 3652.539342, 4988.197355)')
 
 
 if __name__ == '__main__':

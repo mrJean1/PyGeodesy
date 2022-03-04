@@ -5,7 +5,7 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.02.23'
+__version__ = '22.03.02'
 
 from base import GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -180,7 +180,7 @@ class Tests(TestsBase):
             self.test(n, R, R)
             self.test(n, t.toGDict(), r, known=True)
 
-        gX = Ellipsoid(E.b, E.a, name='Prolate').geodesicx
+        gX = Ellipsoid(E.b, E.a, name='_Prolate').geodesicx  # '_...' for iOS
         t = str(gX.Inverse(40.6, -73.8, 51.6, -0.5))  # coverage
         self.test(gX.Inverse.__name__, t, t, nl=1)
         t = str(gX.Inverse1(40.6, -73.8, 51.6, -0.5))  # coverage

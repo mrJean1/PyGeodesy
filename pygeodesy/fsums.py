@@ -37,7 +37,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.02.27'
+__version__ = '22.03.01'
 
 _eq_ = _EQUAL_ * 2
 _ge_ = '>='
@@ -783,7 +783,7 @@ class Fsum(_Named):
                 break
         else:  # force zap
             self._update()
-        return self
+        return self._fpsqz()
 
     def fadd(self, xs=()):
         '''Add more C{scalar} or L{Fsum} instances from an iterable.
@@ -972,6 +972,17 @@ class Fsum(_Named):
             self._facc_up()
         return self
 
+    def fover(self, over):
+        '''Apply C{B{self} /= B{over}} and summate.
+
+           @arg over: An L{Fsum} or C{scalar} denominator.
+
+           @return: Precision running sum (C{float}).
+
+           @see: Methods L{Fsum.fsum} and L{Fsum.__itruediv__}.
+        '''
+        return float(self.fdiv(over)._fprs)
+
     fpow = __ipow__  # for backward compatibility
 
     def _fpow(self, other, op, *mod):
@@ -1044,6 +1055,13 @@ class Fsum(_Named):
         s =  self._fprs
         r = _fsum(self._ps1(s)) if len(self._ps) > 1 else INT0
         return Fsum2Tuple(s, r)
+
+    def _fpsqz(self):
+        '''(INTERNAL) Compress, squeeze the C{partials}.
+        '''
+        if len(self._ps) > 2:
+            _ = self._fprs
+        return self
 
     def _fset(self, other, asis=False, n=1):
         '''(INTERNAL) Overwrite this instance with an other or a C{scalar}.
@@ -1258,7 +1276,7 @@ class Fsum(_Named):
         '''(INTERNAL) Return C{B{self} * Fsum B{other}} as L{Fsum}.
         '''
         # assert isinstance(other, Fsum)
-        return self._Fsum(_0_0)._facc(self._ps_x(op, *other._ps))
+        return self._Fsum(_0_0)._facc(self._ps_x(op, *other._ps))._fpsqz()
 
     def _mul_scalar(self, factor, op):
         '''(INTERNAL) Return C{B{self} * scalar B{factor}} as L{Fsum} or C{0}.
@@ -1272,8 +1290,8 @@ class Fsum(_Named):
                 f._facc_up()
             else:
                 f = self
-        else:
-            f = _0_0
+        else:  # to allow setting f._n
+            f = _Fsum(_0_0)
         return f
 
     @property_RO

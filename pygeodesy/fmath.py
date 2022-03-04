@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.02.27'
+__version__ = '22.03.01'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -47,7 +47,7 @@ class Fdot(Fsum):
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
         Fsum.__init__(self)
-        self.fadd(_map_a_x_b(a, b))
+        self.fadd(_map_a_x_b(a, b, Fdot))
 
 
 class Fhorner(Fsum):
@@ -104,7 +104,7 @@ class Fpolynomial(Fsum):
         Fsum.__init__(self, *cs[:1])
         n = len(cs) - 1
         if n > 0:
-            self.fadd(_map_a_x_b(cs[1:], fpowers(x, n)))
+            self.fadd(_map_a_x_b(cs[1:], fpowers(x, n), Fpolynomial))
 
 
 def cbrt(x3):
@@ -283,7 +283,7 @@ def fdot(a, *b):
        @see: Class L{Fdot} and U{Algorithm 5.10 B{DotK}
              <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
     '''
-    return fsum(_map_a_x_b(a, b))
+    return fsum(_map_a_x_b(a, b, fdot))
 
 
 def fdot3(a, b, c, start=0):
@@ -368,7 +368,7 @@ def fidw(xs, ds, beta=2):
             if isnear0(d):  # PYCHOK no cover
                 n = Fmt.PAREN(fsum='ds')
                 raise _ValueError(n, d, txt=_singular_)
-            x = fdot(xs, *ds) / d
+            x = Fdot(xs, *ds).fover(d)
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
     elif d < 0:  # PYCHOK no cover
@@ -391,7 +391,7 @@ def fmean(xs):
     '''
     n, xs = len2(xs)
     if n > 0:
-        return fsum(xs) / n
+        return fsum(xs) / n  # if n > 1 else _2float(index=0, xs=xs[0])
     raise _ValueError(xs=xs)
 
 
@@ -556,9 +556,9 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
 elif _sys_version_info2 < (3, 10):
 
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
-    # agdhruv <https://GitHub.com/geopy/geopy/issues/466>,
-    # cffk <https://Bugs.Python.org/issue43088> and module
-    # geomath.py <https://PyPI.org/project/geographiclib/1.52>
+    # U{agdhruv<https://GitHub.com/geopy/geopy/issues/466>},
+    # U{cffk<https://Bugs.Python.org/issue43088>} and module
+    # U{geomath.py<https://PyPI.org/project/geographiclib/1.52>}
 
     def hypot(x, y):
         '''Compute the norm M{sqrt(x**2 + y**2)}.
@@ -595,8 +595,8 @@ def _h_x2(xs):
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h  =  float(max(map(abs, xs)))
-            x2 = _0_0 if isnear0(h) else fsum(_x2s(xs, h))
+            h  = float(max(map(abs, xs)))
+            x2 = fsum(_x2s(xs, h)) if h > EPS02 else _0_0
             return h, x2
 
     raise _ValueError(xs=xs, txt=_too_(_few_))
@@ -621,8 +621,8 @@ def hypot2(x, y):
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
     if x:
-        x *= x
-        h2 = fsum1_(x, y**2) if y else x
+        x2 = x**2
+        h2 = fsum1_(x2, y**2) if y else x2
     elif y:
         h2 = y**2
     else:
@@ -647,13 +647,12 @@ def hypot2_(*xs):
     return (h**2 * x2) if x2 else _0_0
 
 
-def _map_a_x_b(a, b):
+def _map_a_x_b(a, b, where):
     '''(INTERNAL) Yield B{C{a * b}}.
     '''
     n = len(b)
     if len(a) != n:  # PYCHOK no cover
-        from pygeodesy.fmath import fdot
-        raise LenError(fdot, a=len(a), b=n)
+        raise LenError(where, a=len(a), b=n)
     return map(_mul, a, b) if n > 3 else _map_a_x_b1(a, b)
 
 

@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.01.03'
+__version__ = '22.03.01'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1021,9 +1021,8 @@ class GeoidKarney(_GeoidBase):
             y, x = self._yxH = yx
             self._yxHt = t = self._raws(y, x, GeoidKarney._BT)
         v  = _1_0, -fx, fx
-        H  = Fdot(v, t[0], t[0], t[1])  # a
-        H -= H * fy  # c = (1 - fy) * a
-        H += Fdot(v, t[2], t[2], t[3]) * fy  # c += b * fy
+        H  = Fdot(v, t[0], t[0], t[1]).fmul(_1_0 - fy)  # c = a * (1 - fy)
+        H += Fdot(v, t[2], t[2], t[3]).fmul(fy)  # c += b * fy
         return H
 
     def _ev3H(self, fy, fx, *yx):

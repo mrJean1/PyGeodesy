@@ -31,7 +31,8 @@ from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import hypot
 from pygeodesy.interns import EPS, EPS02, NN, PI_2, _COMMASPACE_, _ellipsoidal_, \
                              _float as _F, _GRS80_, _k0_, _lat0_, _lon0_, _m_, \
-                             _NAD83_, _NTF_, _SPACE_, _WGS84_, _0_0, _0_5, _1_0, _90_0
+                             _NAD83_, _NTF_, _SPACE_, _WGS84_, _0_0, _0_5, \
+                             _1_0, _2_0, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
@@ -46,7 +47,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.12.30'
+__version__ = '22.03.01'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -74,10 +75,10 @@ class Conic(_NamedEnumItem):
     _phi0 = _0_0  # origin lat (C{radians})
     _lam0 = _0_0  # origin lon (C{radians})
 
-    _aF = _0_0  # precomputed F (C{float})
-    _n  = _0_0  # precomputed n (C{float})
-    _n_ = _0_0  # precomputed 1 / n (C{float})
-    _r0 = _0_0  # precomputed rho0 (C{float})
+    _aF  = _0_0  # precomputed F (C{float})
+    _n   = _0_0  # precomputed n (C{float})
+    _1_n = _0_0  # precomputed 1 / n (C{float})
+    _r0  = _0_0  # precomputed rho0 (C{float})
 
     def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
                        k0=1, opt3=0, name=NN, auth=NN):
@@ -274,11 +275,11 @@ class Conic(_NamedEnumItem):
 
             F = m1 / (n * pow(t1, n))
 
-            c._aF = k * E.a * F
-            c._n  = n
-            c._n_ = _1_0 / n
-            c._r0 = c._rdef(t0)
-            c._SP = sp
+            c._aF  =  k * E.a * F
+            c._n   =  n
+            c._1_n = _1_0 / n
+            c._r0  =  c._rdef(t0)
+            c._SP  =  sp
 
         return c
 
@@ -320,10 +321,10 @@ class Conic(_NamedEnumItem):
         c._lam0 = self._lam0
         c._opt3 = self._opt3
 
-        c._aF = self._aF
-        c._n  = self._n
-        c._n_ = self._n_
-        c._r0 = self._r0
+        c._aF  = self._aF
+        c._n   = self._n
+        c._1_n = self._1_n
+        c._r0  = self._r0
 
     def _mdef(self, a):
         '''(INTERNAL) Compute m(a).
@@ -351,7 +352,7 @@ class Conic(_NamedEnumItem):
     def _xdef(self, t_x):
         '''(INTERNAL) Compute x(t_x).
         '''
-        return PI_2 - 2 * atan(t_x)  # XXX + self._phi0
+        return PI_2 - _2_0 * atan(t_x)  # XXX + self._phi0
 
 
 Conic._name = Conic.__name__
@@ -546,7 +547,7 @@ class Lcc(_NamedBase):
         n = c._r0 - self.northing + c._N0
 
         r_ = copysign0(hypot(e, n), c._n)
-        t_ = pow(r_ / c._aF, c._n_)
+        t_ = pow(r_ / c._aF, c._1_n)
 
         x = c._xdef(t_)  # XXX c._lam0
         while True:
@@ -554,7 +555,7 @@ class Lcc(_NamedBase):
             if abs(x - p) < 1e-9:  # XXX EPS too small?
                 break
         lat = degrees90(x)
-        lon = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
+        lon = degrees180((atan(e / n) + c._opt3) * c._1_n + c._lam0)
 
         h = self.height if height is None else Height(height)
         return _LL4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds,

@@ -12,8 +12,8 @@ L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
 
 from pygeodesy.basics import isnear0, map1
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
-from pygeodesy.fmath import favg, fdot, fidw, fmean, hypot, hypot2_
-from pygeodesy.fsums import fsum, fsum_, fsum1, fsum1_
+from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
+from pygeodesy.fsums import Fsum, fsum_, fsum1, fsum1_
 from pygeodesy.interns import EPS, EPS0, EPS02, PI, PI2, PI_2, PI_4, _a_, _A_, \
                              _b_, _B_, _c_, _C_, _coincident_, _colinear_, _d_, \
                              _invalid_, _negative_, _not_, _rIn_, _SPACE_, \
@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.02.28'
+__version__ = '22.03.01'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -142,8 +142,8 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         if isnear0(s):
             raise ValueError(_or(_coincident_, _colinear_))
         t = s, c, c
-        x = fdot(t, A.x,  C.y, -A.y) / s
-        y = fdot(t, A.y, -C.x,  A.x) / s
+        x = Fdot(t, A.x,  C.y, -A.y).fover(s)
+        y = Fdot(t, A.y, -C.x,  A.x).fover(s)
         return Vector3d(x, y, 0)
 
     A = _otherV3d(useZ=useZ, pointA=pointA)
@@ -172,8 +172,8 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
             raise ValueError(_SPACE_(_concyclic_, (m, n, N)))
 
         t = n, m, _1_0, _N_1_0
-        x = fdot(t,  C.x, H1.x, C.y, H1.y) / N
-        y = fdot(t, H1.y,  C.y, C.x, H1.x) / N
+        x = Fdot(t,  C.x, H1.x, C.y, H1.y).fover(N)
+        y = Fdot(t, H1.y,  C.y, C.x, H1.x).fover(N)
         z = _zidw(A, B, C, x, y) if useZ else 0
 
         clas = Clas or pointA.classof
@@ -337,20 +337,19 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
 #       x23 = x3_ - cot23 * y3_
 #       y23 = y3_ + cot23 * x3_
 
-        x12_23 = fsum_(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
-        y12_23 = fsum_(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
+        X12_23 = Fsum(x1_,  cot12 * y1_, -x3_,  cot23 * y3_)
+        Y12_23 = Fsum(y1_, -cot12 * x1_, -y3_, -cot23 * x3_)
 
-        x31_23 = fsum_(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
-        y31_23 = fsum_(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
+        X31_23 = Fsum(x1_, -cot31 * y1_,  cot31 * y3_,  cot23 * y3_)
+        Y31_23 = Fsum(y1_,  cot31 * x1_, -cot31 * x3_, -cot23 * x3_)
 
-        d = x31_23 * y12_23 - x12_23 * y31_23
+        d = float(X31_23 * Y12_23 - X12_23 * Y31_23)
         if isnear0(d):
             raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
-        k = fsum_(x3_ * x1_,  cot31 * (y3_ * x1_),
-                  y3_ * y1_, -cot31 * (x3_ * y1_)) / d
-
-        x = B2.x + k * y12_23
-        y = B2.y - k * x12_23
+        K = Fsum(x3_ * x1_,  cot31 * (y3_ * x1_),
+                 y3_ * y1_, -cot31 * (x3_ * y1_))
+        x = (B2.x * d + K * Y12_23).fover(d)
+        y = (B2.y * d - K * X12_23).fover(d)
         z = _zidw(B1, B2, B3, x, y) if useZ else 0
 
         clas = Clas or point1.classof
@@ -504,8 +503,8 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         k = fsum1(ks)
         if isnear0(k):
             raise ValueError(Fmt.EQUAL(K=k))
-        x = fdot(ks, A.x, B.x, C.x) / k
-        y = fdot(ks, A.y, B.y, C.y) / k
+        x = Fdot(ks, A.x, B.x, C.x).fover(k)
+        y = Fdot(ks, A.y, B.y, C.y).fover(k)
         z = _zidw(A, B, C, x, y) if useZ else 0
 
         clas = Clas or pointA.classof
@@ -584,7 +583,7 @@ def triAngle4(a, b, c):
             b, c = c, b
 
         if c > EPS0:  # c = min(a, b, c)
-            s = fsum_(a, b, c) * _0_5
+            s = float(Fsum(a, b, c) * _0_5)
             if s < EPS0:
                 raise ValueError(_negative_)
             sa, sb, sc = (s - a), (s - b), (s - c)
@@ -647,14 +646,12 @@ def _triSide(a, b, radC):
     if a < b:
         a, b = b, a
     if a > EPS0:
-        ba =  b / a
-        ab = _N_2_0 * ba * cos(r)
-        if abs(ab) > EPS0:
-            c2 = fsum_(_1_0, ba**2, ab)
-            if c2 > EPS02:
-                return a * sqrt(c2)
-            elif c2 < 0:
-                raise ValueError(_invalid_)
+        ba = b / a
+        c2 = fsum_(_1_0, ba**2, _N_2_0 * ba * cos(r))
+        if c2 > EPS02:
+            return a * sqrt(c2)
+        elif c2 < 0:
+            raise ValueError(_invalid_)
     return hypot(a, b)
 
 
@@ -773,7 +770,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
 
     def _vpa(r1, r3, q2, q3_r3):
         r = r1 * r3 * _4_0
-        n = r - fsum_(r1, r3, -q2)**2
+        n = float(r - Fsum(r1, r3, -q2).fpow(2))
         if n < 0 or isnear0(r):
             raise ValueError(_coincident_)
         return sqrt((n / r) * q3_r3) if n else _0_0
@@ -795,20 +792,19 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
 
         r1 = s2 * q3_s3  # s2!
         r2 = s1 * q3_s3  # s1!
-        qs = fsum(q)  # == hypot2_(a, b, c)
+        Qs = Fsum(*q)  # == hypot2_(a, b, c)
         ss = fsum1(s)
-        s += (qs * _0_5),
-        c0 = -fdot(s, q1, q2, q3, -ss) / s3
-        d0 = (qs**2 - hypot2_(*q) * _2_0) * s1 * s2 / s3
+        s += float(Qs * _0_5),  # tuple!
+        C0 = Fdot(s, q1, q2, q3, -ss)
+        r3 = C0.fover(-s3)
+        d0 = float(Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2 / s3))
         if d0 > EPS02:  # > c0
             d0 = sqrt(d0)
             if not callable(R3):
                 raise ValueError(_SPACE_(_R3_, _not_(callable.__name__)))
-            r3 = R3(c0 + d0, c0 - d0)  # XXX min or max
+            r3 = R3(float(d0 + C0), -float(d0 - C0))  # XXX min or max
         elif d0 < 0:
             raise ValueError(_negative_)
-        else:  # isnear0(sqrt(d0))
-            r3 = c0
 
         pa = _vpa(r1, r3, q2, q3_s3)
         pb = _vpa(r2, r3, q1, q3_s3)

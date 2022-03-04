@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '22.02.23'
+__version__ = '22.03.01'
 
 _MAXIT1  = 20
 _MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1185,8 +1185,8 @@ class GeodesicExact(_GeodesicBase):
             # estimate.  This mechanism is not needed for the WGS84
             # ellipsoid, but it does catch problems with more eccentric
             # ellipsoids.  Its efficacy is such for the WGS84 test set
-            # with the starting guess set to alp1 = 90deg: the WGS84
-            # test set: mean = 5.21, sd = 3.93, max = 24 WGS84 and
+            # with the starting guess set to alp1 = 90 deg: the WGS84
+            # test set: mean = 5.21, sd = 3.93, max = 24 and WGS84 with
             # random input: mean = 4.74, sd = 0.99
             salp1, calp1 = norm2((salp1a + salp1b) * _0_5,
                                  (calp1a + calp1b) * _0_5)

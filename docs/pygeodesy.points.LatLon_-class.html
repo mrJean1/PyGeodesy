@@ -442,7 +442,7 @@ object --+
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**s_D_M_S_kwds</span>)</span><br />
       This <a href="pygeodesy.points.LatLon_-class.html" 
       class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
       &lt;degrees&gt;&quot;.</td>
@@ -1100,7 +1100,7 @@ object --+
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**s_D_M_S_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1113,16 +1113,60 @@ object --+
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS for deg&#176;, deg&#176;min&#8242;, 
-          deg&#176;min&#8242;sec&#8243; (<code>str</code>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or <code>None</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
+        <li><strong class="pname"><code>form</code></strong> - Format specifier (<code>str</code> or F_D, <a 
+          href="pygeodesy-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy-module.html#F_DMS" class="link">F_DMS</a>, <a 
+          href="pygeodesy-module.html#F_DEG" class="link">F_DEG</a>, <a 
+          href="pygeodesy-module.html#F_MIN" class="link">F_MIN</a>, <a 
+          href="pygeodesy-module.html#F_SEC" class="link">F_SEC</a>, <a 
+          href="pygeodesy-module.html#F_D60" class="link">F_D60</a>, <a 
+          href="pygeodesy-module.html#F__E" class="link">F__E</a>, <a 
+          href="pygeodesy-module.html#F__F" class="link">F__F</a>, <a 
+          href="pygeodesy-module.html#F__G" class="link">F__G</a>, <a 
+          href="pygeodesy-module.html#F_RAD" class="link">F_RAD</a>, <a 
+          href="pygeodesy-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy-module.html#F_DM_" class="link">F_DM_</a>, <a 
+          href="pygeodesy-module.html#F_DMS_" class="link">F_DMS_</a>, <a 
+          href="pygeodesy-module.html#F_DEG_" class="link">F_DEG_</a>, <a 
+          href="pygeodesy-module.html#F_MIN_" class="link">F_MIN_</a>, <a 
+          href="pygeodesy-module.html#F_SEC_" class="link">F_SEC_</a>, <a 
+          href="pygeodesy-module.html#F_D60_" class="link">F_D60_</a>, <a 
+          href="pygeodesy-module.html#F__E_" class="link">F__E_</a>, <a 
+          href="pygeodesy-module.html#F__F_" class="link">F__F_</a>, <a 
+          href="pygeodesy-module.html#F__G_" class="link">F__G_</a>, <a 
+          href="pygeodesy-module.html#F_RAD_" class="link">F_RAD_</a>, <a 
+          href="pygeodesy-module.html#F_D__" class="link">F_D__</a>, <a 
+          href="pygeodesy-module.html#F_DM__" class="link">F_DM__</a>, <a 
+          href="pygeodesy-module.html#F_DMS__" class="link">F_DMS__</a>, <a
+          href="pygeodesy-module.html#F_DEG__" class="link">F_DEG__</a>, <a
+          href="pygeodesy-module.html#F_MIN__" class="link">F_MIN__</a>, <a
+          href="pygeodesy-module.html#F_SEC__" class="link">F_SEC__</a>, <a
+          href="pygeodesy-module.html#F_D60__" class="link">F_D60__</a>, <a
+          href="pygeodesy-module.html#F__E__" class="link">F__E__</a>, <a 
+          href="pygeodesy-module.html#F__F__" class="link">F__F__</a>, <a 
+          href="pygeodesy-module.html#F__G__" class="link">F__G__</a> or <a
+          href="pygeodesy-module.html#F_RAD__" class="link">F_RAD__</a>)</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
+          Trailing zero decimals are stripped for <b><code>prec</code></b> 
+          values of 1 and above, but kept for negative 
+          <b><code>prec</code></b>.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
+          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
+          override the degrees, minutes respectively seconds symbol, 
+          defaults S_DEG, S_MIN respectively S_SEC.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Instance (<code>str</code>).</dd>
+        <dd>This instance in the specified <b><code>form</code></b> 
+          (<code>str</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.dms-module.html#degDMS" 
+        class="link">pygeodesy.degDMS</a> for <b><code>form</code></b> and 
+        <b><code>s_D_M_S</code></b>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toStr2"></a>
 <div>
@@ -1304,7 +1348,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 28 11:14:19 2022
+    Generated by Epydoc 3.0.1 on Thu Mar  3 21:12:55 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

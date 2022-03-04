@@ -17,9 +17,9 @@ and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N by 
 each end).
 '''
 
-# from pygeodesy.basics import neg  # from .dms
+# from pygeodesy.basics import neg as _neg  # from .dms
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.dms import degDMS, neg, parseDMS2
+from pygeodesy.dms import degDMS, _neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import EPS, EPS0, NN, _COMMASPACE_, _EPSmin as _Tol90, \
@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.12.28'
+__version__ = '22.03.02'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -247,7 +247,7 @@ class Ups(UtmUpsBase):
         if self._pole == _N_:
             b, c = atan2(x, -y), 1
         else:
-            a, b, c = neg(a), atan2(x, y), -1
+            a, b, c = _neg(a), atan2(x, y), -1
         ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
 
         ll._convergence = b * c  # gamma
@@ -461,9 +461,9 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     x *= r
     y *= r
     if N:
-        y = neg(y)
+        y = _neg(y)
     else:
-        c = neg(c)
+        c = _neg(c)
 
     if falsed:
         x += _Falsing

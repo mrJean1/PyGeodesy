@@ -15,7 +15,7 @@ from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '21.08.14'
+__version__ = '22.03.01'
 
 if isiOS:  # MCCABE 14
 
@@ -106,12 +106,13 @@ PythonX_O = clips(PythonX_O, 32)
 
 # command line options
 _failedonly = False
+_prefix     = False
 _raiser     = False
 _results    = False  # or file
 _verbose    = False
+
 _Total = 0  # total tests
 _FailX = 0  # failed tests
-
 
 if isPython3:
     def _decoded(r):
@@ -138,12 +139,25 @@ def _exit(last, text, exit):
     sys.exit(exit)
 
 
-def _run(test, *opts):  # MCCABE 13
+def _prefix2(prev):
+    '''(INTERNAL) Get prefix and time stamp.
+    '''
+    t = time()
+    if _prefix:
+        p = '%7.3f ' % ((t - prev),)
+        if p.startswith('  0.'):
+            p = '   .' + p[4:]
+    else:
+        p = ''
+    return p, t
+
+
+def _run(prefix, test, *opts):  # MCCABE 13
     '''(INTERNAL) Run a test script and parse the result.
     '''
     global _Total, _FailX
 
-    t = 'running %s %s' % (PythonX_O, tilde(test))
+    t = '%srunning %s %s' % (prefix, PythonX_O, tilde(test))
     if access(test, F_OK):
 
         print(t)
@@ -215,6 +229,8 @@ if __name__ == '__main__':  # MCCABE 19
             environ['PYTHONDONTWRITEBYTECODE'] = arg[2:]
         elif '-failedonly'.startswith(arg):
             _failedonly = True
+        elif '-prefix'.startswith(arg):
+            _prefix = True
         elif '-raiser'.startswith(arg):
             _raiser = True  # break on error
         elif '-results'.startswith(arg):
@@ -240,16 +256,18 @@ if __name__ == '__main__':  # MCCABE 19
         _results = open(t, 'wb')  # note, 'b' not 't'!
         _write('%s typical test results (%s)%s' % (argv0, v, NL))
 
-    s = time()
+    s = t = time()
     try:
         for arg in args:
-            _run(*arg.split())
+            p, t = _prefix2(t)
+            _run(p, *arg.split())
     except KeyboardInterrupt:
         _exit('', '^C', 9)
     except SystemExit:
         pass
-    s = time() - s
-    t = secs2str(s)
+    p, t = _prefix2(t)
+    s    =  t - s
+    t    =  secs2str(s)
     if _Total > s > 1:
         t = '%s (%.3f tps)' % (t, _Total / s)
 
@@ -261,7 +279,7 @@ if __name__ == '__main__':  # MCCABE 19
     else:
         x = 'all OK'
 
-    t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, t)
+    t = '%s%s %s %s (%s) %s' % (p, argv0, PythonX_O, x, v, t)
     _exit(t, t, 2 if _FailX else 0)
 
 # **) MIT License

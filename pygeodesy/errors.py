@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.02.27'
+__version__ = '22.03.02'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -624,6 +624,14 @@ def _xkwds_get(kwds, **name_default):
             return kwds.get(n, d)
 
     raise _xkwds_Error(_xkwds_get, kwds, name_default)
+
+
+def _xkwds_get_(kwds, **names_defaults):
+    '''(INTERNAL) Yield each C{kwds} value by C{name} or its C{default}
+       in I{alphabetically sorted} order.
+    '''
+    for n, d in sorted(names_defaults.items()):
+        yield kwds.get(n, d)
 
 
 def _xkwds_not(*args, **kwds):
