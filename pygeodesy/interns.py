@@ -6,42 +6,51 @@ Function L{pygeodesy.machine}.
 from math import pi as PI, sqrt
 
 
-class _Dash(str):
-    '''(INTERNAL) Extended C{str} for prefix_DASH_.
-    '''
-    def __call__(self, *args):
-        '''Join C{self} plus all B{C{args}} like C{str.join((self,) + B{args})}.
-        '''
-        return _DASH_(self, *args)  # re-callable
+class Str_(str):
+    '''Extended, I{callable} C{str} class, not nameable.
 
-
-class _Join(str):
-    '''(INTERNAL) Extended, callable C{str}.
+       @see: Nameable, non-callable class L{pygeodesy.Str}.
     '''
     def join_(self, *args):
-        '''Join all B{C{args}} like C{str.join(B{args})}.
+        '''Join all positional B{C{args}} like C{self.join(B{args})}.
+
+           @return: All B{C{args}} joined by this instance (L{Str_}).
+
+           @note: An other L{Str_} instance is returned to make the
+                  result re-callable.
         '''
-        return _Join(str.join(self, map(str, args)))  # re-callable
+        return Str_(str.join(self, map(str, args)))  # re-callable
 
     __call__ = join_
 
 
-class _Prefix(_Join):
+class _Dash(str):
+    '''(INTERNAL) Extended C{str} for prefix_DASH_.
+    '''
+    def __call__(self, *args):
+        '''Join C{self} plus all B{C{args}} like C{'-'.join((self,) + B{args})}.
+        '''
+        return _DASH_(self, *args)  # re-callable
+
+
+class _Prefix(Str_):
     '''(INTERNAL) Extended C{str} for prefix.
     '''
     def __call__(self, *args):
-        '''Join C{self} plus all B{C{args}} like C{str.join((self,) + B{args})}.
+        '''Join C{self} plus all B{C{args}} like C{" ".join((self,) + B{args})}.
         '''
         return _SPACE_.join_(self, *args)  # re-callable
 
 
-class _Python_(str):  # overwritten below
-    '''(INTERNAL) Extended C{str} for C{Python} and version.
+class _Python_(str):  # overwritten by singleton below
+    '''(INTERNAL) Extended C{str} for C{"Python"} and version.
     '''
-    def __call__(self, sys):
+    def __call__(self, version=None):
         '''Return C{"Python <version>"}.
         '''
-        return _SPACE_(self, sys.version.split()[0])
+        if not version:
+            from sys import version
+        return _SPACE_(self, version.split(None, 1)[0])
 
 
 class _Slicer(str):
@@ -62,7 +71,7 @@ class _Slicer(str):
 
 
 class MISSING(object):
-    '''(INTERNAL) Singleton.
+    '''(INTERNAL) Singleton C{str}.
     '''
     def toRepr(self, **unused):
         return self.__class__.__name__
@@ -74,7 +83,7 @@ class MISSING(object):
 MISSING          = MISSING()  # PYCHOK singleton
 MISSING.__name__ = str(MISSING)
 
-NN = _Join('')  # Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
+NN = Str_('')  # Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
 # __DUNDER__-style names would get mangled in classes
 _0_                   = '0'                  # PYCHOK expected
@@ -92,11 +101,11 @@ _angle_               = 'angle'              # PYCHOK expected
 _antipodal_           = 'antipodal'          # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
 _ambiguous_           = 'ambiguous'          # PYCHOK expected
-_AMPERSAND_     = _Join('&')                 # PYCHOK expected
+_AMPERSAND_      = Str_('&')                 # PYCHOK expected
 # _AND_               = _AMPERSAND_          # PYCHOK expected
 _and_                 = 'and'                # PYCHOK expected
 _at_                  = 'at'                 # PYCHOK expected
-_AT_            = _Join('@')                 # PYCHOK expected
+_AT_             = Str_('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
 _azi2_                = 'azi2'               # PYCHOK expected
@@ -104,7 +113,7 @@ _azimuth_             = 'azimuth'            # PYCHOK expected
 _b_                   = 'b'                  # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
-_BAR_           = _Join('|')                 # PYCHOK expected
+_BAR_            = Str_('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
 _Bessel1841_          = 'Bessel1841'         # PYCHOK expected
 _by_                  = 'by'                 # PYCHOK expected
@@ -117,28 +126,28 @@ _Clarke1866_          = 'Clarke1866'         # PYCHOK expected
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK expected
 _coincident_          = 'coincident'         # PYCHOK expected
 _colinear_            = 'colinear'           # PYCHOK expected
-_COLON_         = _Join(':')                 # PYCHOK expected
-_COLONSPACE_    = _Join(': ')                # PYCHOK expected
-_COMMA_         = _Join(',')                 # PYCHOK expected
-_COMMASPACE_    = _Join(', ')                # PYCHOK expected
+_COLON_          = Str_(':')                 # PYCHOK expected
+_COLONSPACE_     = Str_(': ')                # PYCHOK expected
+_COMMA_          = Str_(',')                 # PYCHOK expected
+_COMMASPACE_     = Str_(', ')                # PYCHOK expected
 _concentric_          = 'concentric'         # PYCHOK expected
 _convergence_ = _Prefix('convergence')       # PYCHOK expected
 _conversion_          = 'conversion'         # PYCHOK expected
 _convex_              = 'convex'             # PYCHOK expected
 _cubic_               = 'cubic'              # PYCHOK expected
 _d_                   = 'd'                  # PYCHOK expected
-_DASH_          = _Join('-')                 # PYCHOK == _MINUS_
+_DASH_           = Str_('-')                 # PYCHOK == _MINUS_
 _datum_               = 'datum'              # PYCHOK expected
 _decode3_             = 'decode3'            # PYCHOK expected
 _deg_                 = 'deg'                # PYCHOK expected
 _degrees_             = 'degrees'            # PYCHOK expected
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
-_DEQUALSPACED_  = _Join(' == ')              # PYCHOK expected
+_DEQUALSPACED_   = Str_(' == ')              # PYCHOK expected
 _distance_            = 'distance'           # PYCHOK expected
 _distanceTo_          = 'distanceTo'         # PYCHOK expected
 _distant_     = _Prefix('distant')           # PYCHOK expected
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK expected
-_DOT_           = _Join('.')                 # PYCHOK expected
+_DOT_            = Str_('.')                 # PYCHOK expected
 _down_                = 'down'               # PYCHOK expected
 _e_                   = 'e'                  # PYCHOK expected
 _E_                   = 'E'                  # PYCHOK expected
@@ -147,8 +156,8 @@ _easting_             = 'easting'            # PYCHOK expected
 _ecef_                = 'ecef'               # PYCHOK expected
 _edge_                = 'edge'               # PYCHOK expected
 _elevation_           = 'elevation'          # PYCHOK expected
-_ELLIPSIS_      = _Join('...')               # PYCHOK expected
-# _ELLIPSISPACED_ = _Join(' ... ')           # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
+_ELLIPSIS_       = Str_('...')               # PYCHOK expected
+# _ELLIPSISPACED_ = Str_(' ... ')            # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
 _ellipsoid_           = 'ellipsoid'          # PYCHOK expected
 _ellipsoidal_         = 'ellipsoidal'        # PYCHOK expected
 _enabled_             = 'enabled'            # PYCHOK expected
@@ -157,8 +166,8 @@ _end_                 = 'end'                # PYCHOK expected
 _epoch_               = 'epoch'              # PYCHOK expected
 _EPS_                 = 'EPS'                # PYCHOK expected
 _EPS0_                = 'EPS0'               # PYCHOK expected
-_EQUAL_         = _Join('=')                 # PYCHOK expected
-_EQUALSPACED_   = _Join(' = ')               # PYCHOK expected
+_EQUAL_          = Str_('=')                 # PYCHOK expected
+_EQUALSPACED_    = Str_(' = ')               # PYCHOK expected
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
 _exceeds_     = _Prefix('exceeds')           # PYCHOK expected
 _exists_              = 'exists'             # PYCHOK expected
@@ -233,10 +242,10 @@ _NAN_                 = 'NAN'                # PYCHOK expected
 _near_          = _Dash('near')              # PYCHOK expected
 _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
-_NL_            = _Join('\n')                # PYCHOK expected
-_NL_hash_       = _Join(_NL_ + '# ')         # PYCHOK expected
-_NL_var_        = _Join(_NL_ + '@var ')      # PYCHOK expected
-_NLNL_          = _Join(_NL_)                # PYCHOK expected
+_NL_             = Str_('\n')                # PYCHOK expected
+_NL_hash_        = Str_(_NL_ + '# ')         # PYCHOK expected
+_NL_var_         = Str_(_NL_ + '@var ')      # PYCHOK expected
+_NLNL_           = Str_(_NL_)                # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
@@ -261,7 +270,7 @@ _PERCENT_             = '%'                  # PYCHOK expected
 _PERCENTDOTSTAR_      = '%.*'                # PYCHOK _DOT_(_PERCENT_, _STAR_)
 _perimeterOf_         = 'perimeterOf'        # PYCHOK expected
 _phi_                 = 'phi'                # PYCHOK expected
-_PLUS_          = _Join('+')                 # PYCHOK expected
+_PLUS_           = Str_('+')                 # PYCHOK expected
 _PLUSMINUS_           = _PLUS_ + _MINUS_     # PYCHOK expected
 _point_               = 'point'              # PYCHOK expected
 _points_              = 'points'             # PYCHOK expected
@@ -280,7 +289,7 @@ _radians2_            = 'radians2'           # PYCHOK SQUARED
 _radius_              = 'radius'             # PYCHOK expected
 _radius1_             = 'radius1'            # PYCHOK expected
 _radius2_             = 'radius2'            # PYCHOK expected
-# _range_        = _Range('range')           # moved down
+# _range_      = _Range('range')             # moved down
 #_RANGLE_             = '>'                  # PYCHOK expected
 _RCURLY_              = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
@@ -297,14 +306,14 @@ _scipy_               = 'scipy'              # PYCHOK expected
 _semi_circular_       = 'semi-circular'      # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
 _singular_            = 'singular'           # PYCHOK expected
-_SLASH_         = _Join('/')                 # PYCHOK expected
+_SLASH_          = Str_('/')                 # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
 _Sphere_              = 'Sphere'             # PYCHOK expected
 _spherical_           = 'spherical'          # PYCHOK expected
 _SouthPole_           = 'SouthPole'          # PYCHOK expected
-_SPACE_         = _Join(' ')                 # PYCHOK expected
+_SPACE_          = Str_(' ')                 # PYCHOK expected
 _specified_           = 'specified'          # PYCHOK expected
-_STAR_          = _Join('*')                 # PYCHOK expected
+_STAR_           = Str_('*')                 # PYCHOK expected
 _start_               = 'start'              # PYCHOK expected
 _std_                 = 'std'                # PYCHOK expected
 _stdev_               = 'stdev'              # PYCHOK expected
@@ -320,7 +329,7 @@ _transform_           = 'transform'          # PYCHOK expected
 _tx_                  = 'tx'                 # PYCHOK expected
 _ty_                  = 'ty'                 # PYCHOK expected
 _tz_                  = 'tz'                 # PYCHOK expected
-_UNDER_         = _Join('_')                 # PYCHOK expected
+_UNDER_          = Str_('_')                 # PYCHOK expected
 _units_               = 'units'              # PYCHOK expected
 _up_                  = 'up'                 # PYCHOK expected
 _UPS_                 = 'UPS'                # PYCHOK expected
@@ -344,16 +353,17 @@ _z_                   = 'z'                  # PYCHOK expected
 _zone_                = 'zone'               # PYCHOK expected
 
 _EW_                  = _E_  + _W_           # PYCHOK common cardinals
-_NE_                  = _N_  + _E_           # PYCHOK expected
+_NE_                  = _N_  + _E_           # PYCHOK positive ones
 _NS_                  = _N_  + _S_           # PYCHOK expected
 _NSEW_                = _NS_ + _EW_          # PYCHOK expected
 _NW_                  = _N_  + _W_           # PYCHOK expected
 _SE_                  = _S_  + _E_           # PYCHOK expected
 _SW_                  = _S_  + _W_           # PYCHOK negative ones
+# _NESW_              = _NE_ + _SW_          # PYCHOK clockwise
 
-_DDOT_          = _Join(_DOT_ * 2)           # PYCHOK expected
-# _DEQUAL_      = _Join(_EQUAL_ * 2)         # PYCHOK expected
-_DUNDER_        = _Join(_UNDER_ * 2)         # PYCHOK expected
+_DDOT_           = Str_(_DOT_ * 2)           # PYCHOK expected
+# _DEQUAL_       = Str_(_EQUAL_ * 2)         # PYCHOK expected
+_DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK expected
 
 
 class _Range(str):
@@ -455,6 +465,7 @@ try:
     MANT_DIG =        _float_info.mant_dig   # PYCHOK system's float mantissa bits
     MAX      = _float(_float_info.max)       # PYCHOK system's MAX float 1.7976931348623157e+308
     MIN      = _float(_float_info.min)       # PYCHOK system's MIN float 2.2250738585072014e-308
+    del               _float_info
 except (AttributeError, ImportError):  # PYCHOK no cover
     DIG      =  15  # PYCHOK system's float decimal digits
     EPS      = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
@@ -498,13 +509,14 @@ __all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EP
            'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
+           'Str_',  # classes
            'machine')  # imported by .lazily
-__version__ = '22.03.03'
+__version__ = '22.03.07'
 
-_Py2L = _Py3L = None  # cached _platform2 and _pythonarchine tuples
+_pl2List = _Py3List = None  # cached _platform2 and _pythonarchine lists
 
 
-def _load_lib(name):  # must startwith('lib')
+def _load_lib(name):  # name must startwith('lib')
     # macOS 11+ (aka 10.16) no longer provides direct loading of
     # system libraries, instead it installs the library after a
     # low-level dlopen(name) call where name is the library base
@@ -551,8 +563,8 @@ def machine():
 
 def _platform2(sep=NN):
     # get platform architecture and machine as C{2-list} or C{str}
-    global _Py2L
-    if _Py2L is None:
+    global _pl2List
+    if _pl2List is None:
         import platform
         m = platform.machine()  # ARM64, arm64, x86_64, iPhone13,2, etc.
         m = m.replace(_COMMA_, _UNDER_)
@@ -563,20 +575,21 @@ def _platform2(sep=NN):
                 if _sysctl_uint('sysctl.proc_translated') == 1:  # and \
 #                  _sysctl_uint('hw.optional.arm64') == 1:  # PYCHOK indent
                     m = _UNDER_('arm64', m)  # Apple Si emulating Intel x86-64
-        _Py2L = [platform.architecture()[0],  # bits
-                 m]  # arm64, arm64_x86_64, x86_64, etc.
-    return sep.join(_Py2L) if sep else _Py2L  # 2-list
+        _pl2List = [platform.architecture()[0],  # bits
+                    m]  # arm64, arm64_x86_64, x86_64, etc.
+    return sep.join(_pl2List) if sep else _pl2List  # 2-list()
 
 
 def _pythonarchine(sep=NN):  # in test/base.py versions
     # get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}
-    global _Py3L
-    if _Py3L is None:
+    global _Py3List
+    if _Py3List is None:
         from sys import version  # XXX shadows?
-        _Py3L = [_SPACE_(_Python_, version.split(None, 1)[0])] + _platform2()
+        _Py3List = [_Python_(version)] + _platform2()
         if _PyPy__ in version:  # see test/base.py
-            _Py3L = [NN(_PyPy__, version.split(_PyPy__)[1].split()[0])] + _Py3L
-    return sep.join(_Py3L) if sep else _Py3L  # 3- or 4-list
+            v = version.split(_PyPy__)[1].split(None, 1)[0]
+            _Py3List.insert(0, NN(_PyPy__, v))
+    return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
 def _sysctl_uint(name):

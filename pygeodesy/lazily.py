@@ -48,13 +48,13 @@ _imports_          = 'imports'
 _p_a_c_k_a_g_e_    = '__package__'
 _pygeodesy_        = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
-_PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
+_PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
                      _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
 _sub_packages      = 'deprecated' , 'geodesicx'
 _sys_version_info2 = _sys.version_info[:2]  # in .fmath, .geodsolve
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
-isLazy = None  # see @var isLazy
+isLazy = None  # see @var isLazy in .__init__
 
 
 class LazyImportError(ImportError):
@@ -143,7 +143,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
-                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP', 'ParseError',
+                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                  'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
@@ -167,7 +167,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
-                                 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
+                                 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
@@ -318,25 +318,42 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 
-class _ALL_MODS(dict):
+class _ALL_MODS(object):
     '''(INTERNAL) Memoize import of any L{pygeodesy} module.
     '''
+    def _DOT_(self, name):  # PYCHOK no cover
+        return _DOT_(self.__class__.__name__, name)
+
     def __getattr__(self, name):
         try:
-            return self[name]
-        except KeyError:
-            pass
-        try:
             n = _DOT_(_pygeodesy_, name)
-            self[name] = m = import_module(n, _pygeodesy_)
+            m =  import_module(n, _pygeodesy_)
         except ImportError as x:
             raise LazyImportError(str(x), txt=_doesn_t_exist_)
-        return m
+        return self._insert(name, m)
+
+    def __setattr__(self, name, value):  # PYCHOK no cover
+        t = _EQUALSPACED_(self._DOT_(name), repr(value))
+        raise AttributeError(_COLONSPACE_(t, _immutable_))
+
+    def _insert(self, name, module):  # see _lazy_import2 below
+        try:  # after .props.Property_RO.__get__
+            if name not in self.__dict__:
+                self.__dict__[name] = module
+        except (AttributeError, KeyError):
+            pass
+        return module
+
+    def items(self):  # no module named 'items'
+        '''Yield the modules imported so far.
+        '''
+        for n, m in self.__dict__.items():
+            yield n, m
 
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.02.27'
+__version__ = '22.03.08'
 
 
 def _ALL_OTHER(*objs):
@@ -436,7 +453,7 @@ def _lazy_import2(package_name):  # MCCABE 15
     '''
     if package_name != _pygeodesy_ or _sys_version_info2 < (3, 7):  # not supported before 3.7
         t = _no_(_DOT_(package_name, _lazy_import2.__name__))
-        raise LazyImportError(t, txt=_Python_(_sys))
+        raise LazyImportError(t, txt=_Python_(_sys.version))
 
     package, parent = _lazy_init2(_pygeodesy_)
 
@@ -457,6 +474,7 @@ def _lazy_import2(package_name):  # MCCABE 15
             pkg = getattr(imported, _p_a_c_k_a_g_e_, None)
             if pkg not in packages:  # invalid package
                 raise LazyImportError(_DOT_(mod, _p_a_c_k_a_g_e_), pkg)
+            _ALL_MODS._insert(mod, imported)
             # import the module or module attribute
             if attr:
                 imported = getattr(imported, attr, MISSING)
@@ -535,7 +553,7 @@ def _lazy_init2(package_name):
     return package, parent
 
 
-def print_(*args, **nl_nt_prefix_end_file_flush_sep):
+def print_(*args, **nl_nt_prefix_end_file_flush_sep):  # PYCHOK no cover
     '''Python 3-style C{print} function.
 
        @arg args: Values to be converted to C{str} and
@@ -592,12 +610,12 @@ if __name__ == '__main__':
 
     t1 = timeit(t1, number=1000000)
     t2 = timeit(t2, number=1000000)
-    v = _sys.version.split()[0]
-    printf('%.8f vs %.8f: %.3fX slower, Python %s', t1, t2, t1 / t2, v)
+    v = _Python_(_sys.version)
+    printf('%.8f vs %.8f: %.3fX slower, %s', t1, t2, t1 / t2, v)
 
-# _ALL_MODS above in t2 is 1.51 to 2.26X faster than t1 with Python
-# 2.7.18 resp. 3.10.1.  The implementation below would be 2.16 to
-# 4.84X faster, but is far too verbose to be worthwhile.
+# _ALL_MODS above in t2 is 5X to 12X faster than t1 with
+#  Python 2.7.18 and 3.10.2 (on M1 Apple Silicon).  The
+#  implementation below is far too verbose to be worthwhile.
 
 # class _Property_RO(property):
 #     '''(INTERNAL) Sub-set of L{pygeodesy.props.Property_RO}.

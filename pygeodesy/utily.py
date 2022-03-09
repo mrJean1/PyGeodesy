@@ -21,7 +21,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.03.03'
+__version__ = '22.03.05'
 
 # <https://Numbers.Computation.Free.Fr/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -617,7 +617,7 @@ def sincos2(rad):
 
 
 def sincos2_(*rads):
-    '''Return the C{sine} and C{cosine} of angle(s) in {Cradians}.
+    '''Return the C{sine} and C{cosine} of angle(s) in C{radians}.
 
        @arg rads: One or more angles (C{radians}).
 

@@ -439,7 +439,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.03.03
+        22.03.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -473,7 +473,8 @@
         class="link">nvectorBase</a> instead.</em>    </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of angles in degrees, minutes and seconds.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Parsers and formatters of angles in degrees, minutes and seconds or
+        radians.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy base classes 
@@ -3645,6 +3646,14 @@
     </td><td class="summary">
         <a href="pygeodesy.units.Str-class.html" class="summary-name">Str</a><br />
       Named <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.interns.Str_-class.html" class="summary-name">Str_</a><br />
+      Extended, <i>callable</i> <code>str</code> class, not nameable.
     </td>
   </tr>
 <tr>
@@ -7250,7 +7259,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7faa387855d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd470519f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8982,9 +8991,11 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Normalize all degree, minute and second DMS symbols in a string to 
-      the default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and 
-      '\xe2\x80\xb3'.</td>
+      Normalize all degrees, minutes and seconds (DMS) symbols in a string 
+      to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+      class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
+      class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
+      class="link">S_SEC</a>.</td>
           <td align="right" valign="top">
             
             
@@ -10056,7 +10067,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sincos2_" class="summary-sig-name">sincos2_</a>(<span class="summary-sig-arg">*rads</span>)</span><br />
       Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
-      {Cradians}.</td>
+      <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -11331,7 +11342,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.3.3'"><code class="variable-quote">'</code><code class="variable-string">22.3.3</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.3.8'"><code class="variable-quote">'</code><code class="variable-string">22.3.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13031,11 +13042,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -13859,7 +13870,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -14341,11 +14352,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -15160,15 +15171,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or 
+        <li><strong class="pname"><code>s_D</code></strong> - D symbol for degrees (<code>str</code>).</li>
+        <li><strong class="pname"><code>s_M</code></strong> - M symbol for minutes (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
-        <li><strong class="pname"><code>s_S</code></strong> - Symbol for seconds (<code>str</code>) or 
+        <li><strong class="pname"><code>s_S</code></strong> - S symbol for seconds (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative (<code>'-'</code>).</li>
         <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive (<code>''</code>).</li>
@@ -15656,7 +15667,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>).</li>
         <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (<code>meter</code>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>, [1..5]).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>, 2..10).</li>
         <li><strong class="pname"><code>extras</code></strong> - Optional leading items (<code>str</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -18544,7 +18555,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7faa387855d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd470519f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20368,7 +20379,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -20421,11 +20432,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -20555,11 +20566,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>str</code> or <code>tuple</code> if 
@@ -20697,7 +20708,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -20750,11 +20761,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -21962,19 +21973,22 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Normalize all degree, minute and second DMS symbols in a string to the
-  default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and '\xe2\x80\xb3'.</p>
+  <p>Normalize all degrees, minutes and seconds (DMS) symbols in a string 
+  to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+  class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
+  class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
+  class="link">S_SEC</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strDMS</code></strong> - DMS (<code>str</code>).</li>
+        <li><strong class="pname"><code>strDMS</code></strong> - Original DMS string (<code>str</code>).</li>
         <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol (<code>str</code>) or 
-          <code>None</code> for the default DMS symbols.  Use 
-          <code><b>norm</b>=&quot;&quot;</code> or 
-          <code><b>norm</b>=pygeodesy.NN</code> to remove all DMS symbols.</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
-          and/or seconds <code><b>s_S</b>=str</code>.</li>
+          <code>None</code> for the default DMS symbols).  Use 
+          <code><b>norm</b>=&quot;&quot;</code> to remove all DMS symbols.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbols <code><b>s_D</b>=str</code>, 
+          <code><b>s_M</b>=str</code>, <code><b>s_S</b>=str</code> and/or 
+          <code><b>s_R</b>=str</code> for radians, each to be replaced by 
+          <b><code>norm</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
@@ -22336,7 +22350,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>&quot;D.MMSS&quot;</code> or 
           <code>float(D.MMSS)</code> to <code>base-60</code> &quot;MM&quot;
-          and &quot;SS&quot; digits.  See also <code>form</code>s <a 
+          and &quot;SS&quot; digits.  See <code>form</code>s <a 
           href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a> 
           and <a href="pygeodesy.dms-module.html#F_D60__" 
@@ -22346,7 +22360,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
         or the form of <b><code>strDDDMMSS</code></b> is incompatible with 
         the suffixed or <b><code>suffix</code></b> compass point.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid 
@@ -22364,9 +22378,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         parsed properly only if <i>either</i> unsigned and suffixed with a 
         valid, compatible, <code>cardinal</code> <a 
         href="pygeodesy.dms-module.html#compassPoint" 
-        class="link">compassPoint</a> <i>or</i> if unsigned or signed, 
-        unsuffixed and with keyword argument <b><code>suffix</code></b> set
-        to <b>'NS'</b>, <b>'EW'</b> or a compatible <a 
+        class="link">compassPoint</a> <i>or</i> signed <i>or</i> unsigned, 
+        unsuffixed and with keyword argument 
+        <b><code>suffix</code>=&quot;NS&quot;</b>, 
+        <b><code>suffix</code>=&quot;EW&quot;</b> or a compatible <a 
         href="pygeodesy.dms-module.html#compassPoint" 
         class="link">compassPoint</a>.
         </li>
@@ -22379,10 +22394,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <code>int(1230)</code> is returned as 12.5 and <i>not 1230.0</i> 
         degrees.  However, <code>int(345)</code> is considered 
         <code>form</code> &quot;DDD&quot; 345 <i>and not &quot;DDMM&quot; 
-        0345</i>, unless <b><code>suffix</code></b> specifies compass point
-        <b>'NS'</b>.  Also, <code>float(15.0523)</code> is returned as 
-        15.0523 decimal degrees and <i>not 15&#176;5&#8242;23&#8243; sexagecimal</i>.  To 
-        consider the latter, use <code>float(15.0523)</code> or 
+        0345</i>, unless <b><code>suffix</code></b> specifies the compass 
+        point.  Also, <code>float(15.0523)</code> is returned as 15.0523 
+        decimal degrees and <i>not 15&#176;5&#8242;23&#8243; sexagecimal</i>.  To consider 
+        the latter, use <code>float(15.0523)</code> or 
         <code>&quot;15.0523&quot;</code> and specify the keyword argument 
         <code><b>sexagecimal</b>=True</code>.
         </li>
@@ -22439,7 +22454,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid 
         <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
@@ -22510,7 +22525,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>degrees</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strLat</code></b> or <b><code>strLon</code></b> 
         outside the valid <code>-/+<b>clipLat</b></code> or 
         <code>-/+<b>clipLon</b></code> range and <a 
@@ -22736,7 +22751,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Radians (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid 
         <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
@@ -24268,7 +24283,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
-  {Cradians}.</p>
+  <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -25166,7 +25181,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -25223,16 +25238,42 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>form</code></b> (<code>'+'</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          override the DMS symbol for the degrees, minutes respectively 
+          seconds value, defaults <a href="pygeodesy.dms-module.html#S_DEG"
           class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
           class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.  
+          See <b>Notes</b> below.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        The degrees, minutes and seconds (DMS) symbol can be overridden in 
+        this and other <code>*DMS</code> functions by using optional 
+        keyword argments <code><b>s_D</b>=&quot;d&quot;</code>, 
+        <code><b>s_M</b>=&quot;'&quot;</code> respectively 
+        <code><b>s_S</b>='&quot;'</code>.
+        </li>
+        <li>
+        Sexagecimal format <b><code>F_D60</code></b> supports overridable 
+        pseudo-DMS symbols positioned at 
+        <code>&quot;[D]DD&lt;<b>s_D</b>&gt;MM&lt;<b>s_M</b>&gt;SS&lt;<b>s_S</b>&gt;&quot;</code>
+        with defaults <code><b>s_D</b>=&quot;.&quot;</code>, 
+        <code><b>s_M</b>=<b>sep</b></code> and <code><b>s_S</b>=</code><a 
+        href="pygeodesy-module.html#NN" class="link">pygeodesy.NN</a>.
+        </li>
+        <li>
+        Formats <b><code>F__E</code></b>, <b><code>F__F</code></b> and 
+        <b><code>F__G</code></b> can be extended with a <code>D</code>-only
+        symbol if defined with keyword argument 
+        <code><b>s_D</b>=str</code>. Likewise for <b><code>F_RAD</code></b>
+        formats with keyword argument <code><b>s_R</b>=str</code>.
+        </li>
+      </ul>
+      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#degDMS" 
         class="link">pygeodesy.degDMS</a>
       </p>
@@ -27306,7 +27347,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  3 21:12:52 2022
+    Generated by Epydoc 3.0.1 on Tue Mar  8 19:38:06 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

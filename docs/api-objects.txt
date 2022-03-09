@@ -195,6 +195,7 @@ pygeodesy.anStr	pygeodesy-module.html#anStr
 pygeodesy.simplifyRW	pygeodesy-module.html#simplifyRW
 pygeodesy.issubclassof	pygeodesy-module.html#issubclassof
 pygeodesy.toDMS	pygeodesy-module.html#toDMS
+pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.vincentys_	pygeodesy-module.html#vincentys_
 pygeodesy.clipLB6	pygeodesy-module.html#clipLB6
 pygeodesy.parse3d	pygeodesy-module.html#parse3d
@@ -241,7 +242,6 @@ pygeodesy.simplifyVW	pygeodesy-module.html#simplifyVW
 pygeodesy.F_SEC__	pygeodesy-module.html#F_SEC__
 pygeodesy.cotd	pygeodesy-module.html#cotd
 pygeodesy.latlonDMS	pygeodesy-module.html#latlonDMS
-pygeodesy.wrap90	pygeodesy-module.html#wrap90
 pygeodesy.property_doc_	pygeodesy-module.html#property_doc_
 pygeodesy.F_DMS_	pygeodesy-module.html#F_DMS_
 pygeodesy.perimeterOf	pygeodesy-module.html#perimeterOf
@@ -736,7 +736,6 @@ pygeodesy.dms.F_MIN__	pygeodesy.dms-module.html#F_MIN__
 pygeodesy.dms._SEXAGECIMUL	pygeodesy.dms-module.html#_SEXAGECIMUL
 pygeodesy.dms._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.dms.F__F_	pygeodesy.dms-module.html#F__F_
-pygeodesy.dms._MINUTESYMBOL_	pygeodesy.dms-module.html#_MINUTESYMBOL_
 pygeodesy.dms.parseDDDMMSS	pygeodesy.dms-module.html#parseDDDMMSS
 pygeodesy.dms.F_DEG__	pygeodesy.dms-module.html#F_DEG__
 pygeodesy.dms.F_RAD	pygeodesy.dms-module.html#F_RAD
@@ -748,12 +747,12 @@ pygeodesy.dms._mod360	pygeodesy.dms-module.html#_mod360
 pygeodesy.dms.S_SEC	pygeodesy.dms-module.html#S_SEC
 pygeodesy.dms._F_case	pygeodesy.dms-module.html#_F_case
 pygeodesy.dms.parse3llh	pygeodesy.dms-module.html#parse3llh
-pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
+pygeodesy.dms._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.dms.F_SEC__	pygeodesy.dms-module.html#F_SEC__
+pygeodesy.dms._dms3	pygeodesy.dms-module.html#_dms3
 pygeodesy.dms.latlonDMS	pygeodesy.dms-module.html#latlonDMS
 pygeodesy.dms.F__E_	pygeodesy.dms-module.html#F__E_
 pygeodesy.dms.F_DMS_	pygeodesy.dms-module.html#F_DMS_
-pygeodesy.dms._xError2	pygeodesy.errors-module.html#_xError2
 pygeodesy.dms.S_NUL	pygeodesy.dms-module.html#S_NUL
 pygeodesy.dms.issequence	pygeodesy.basics-module.html#issequence
 pygeodesy.dms.bearingDMS	pygeodesy.dms-module.html#bearingDMS
@@ -766,7 +765,7 @@ pygeodesy.dms.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.dms.F_D60_	pygeodesy.dms-module.html#F_D60_
 pygeodesy.dms.__all__	pygeodesy.dms-module.html#__all__
 pygeodesy.dms.F__G__	pygeodesy.dms-module.html#F__G__
-pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
+pygeodesy.dms._fstrzs	pygeodesy.dms-module.html#_fstrzs
 pygeodesy.dms._toDMS	pygeodesy.dms-module.html#_toDMS
 pygeodesy.dms.F_SEC_	pygeodesy.dms-module.html#F_SEC_
 pygeodesy.dms.F_DM_	pygeodesy.dms-module.html#F_DM_
@@ -775,11 +774,12 @@ pygeodesy.dms.parseDMS2	pygeodesy.dms-module.html#parseDMS2
 pygeodesy.dms.F__G_	pygeodesy.dms-module.html#F__G_
 pygeodesy.dms._WINDS	pygeodesy.dms-module.html#_WINDS
 pygeodesy.dms.compassPoint	pygeodesy.dms-module.html#compassPoint
-pygeodesy.dms._F_s__	pygeodesy.dms-module.html#_F_s__
-pygeodesy.dms._F_s_	pygeodesy.dms-module.html#_F_s_
+pygeodesy.dms._SECONDS_	pygeodesy.dms-module.html#_SECONDS_
 pygeodesy.dms.F__E	pygeodesy.dms-module.html#F__E
 pygeodesy.dms.F__F	pygeodesy.dms-module.html#F__F
 pygeodesy.dms.F__G	pygeodesy.dms-module.html#F__G
+pygeodesy.dms.fstr	pygeodesy.streprs-module.html#fstr
+pygeodesy.dms._DMS3	pygeodesy.dms-module.html#_DMS3
 pygeodesy.dms.F_DEG	pygeodesy.dms-module.html#F_DEG
 pygeodesy.dms.fstrzs	pygeodesy.streprs-module.html#fstrzs
 pygeodesy.dms.isodd	pygeodesy.basics-module.html#isodd
@@ -787,13 +787,12 @@ pygeodesy.dms._neg	pygeodesy.basics-module.html#neg
 pygeodesy.dms.degDMS	pygeodesy.dms-module.html#degDMS
 pygeodesy.dms.clipRadians	pygeodesy.dms-module.html#clipRadians
 pygeodesy.dms._F_symb	pygeodesy.dms-module.html#_F_symb
-pygeodesy.dms._xkwds_get_	pygeodesy.errors-module.html#_xkwds_get_
-pygeodesy.dms._F_s	pygeodesy.dms-module.html#_F_s
-pygeodesy.dms._SECONDSYMBOL_	pygeodesy.dms-module.html#_SECONDSYMBOL_
+pygeodesy.dms._DEGREES_	pygeodesy.dms-module.html#_DEGREES_
 pygeodesy.dms.F__F__	pygeodesy.dms-module.html#F__F__
 pygeodesy.dms.F_D60	pygeodesy.dms-module.html#F_D60
 pygeodesy.dms._SDIGITS_	pygeodesy.dms-module.html#_SDIGITS_
 pygeodesy.dms.F_DM__	pygeodesy.dms-module.html#F_DM__
+pygeodesy.dms._MINUTES_	pygeodesy.dms-module.html#_MINUTES_
 pygeodesy.dms.F__E__	pygeodesy.dms-module.html#F__E__
 pygeodesy.dms._F_prec	pygeodesy.dms-module.html#_F_prec
 pygeodesy.dms.toDMS	pygeodesy.dms-module.html#toDMS
@@ -810,6 +809,7 @@ pygeodesy.dms.F_RAD_	pygeodesy.dms-module.html#F_RAD_
 pygeodesy.dms.lonDMS	pygeodesy.dms-module.html#lonDMS
 pygeodesy.dms.F_SEC	pygeodesy.dms-module.html#F_SEC
 pygeodesy.dms.F_DEG_	pygeodesy.dms-module.html#F_DEG_
+pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
 pygeodesy.dms.F_RAD__	pygeodesy.dms-module.html#F_RAD__
 pygeodesy.dms.F_MIN_	pygeodesy.dms-module.html#F_MIN_
 pygeodesy.dms.parseRad	pygeodesy.dms-module.html#parseRad
@@ -822,11 +822,10 @@ pygeodesy.dms.F_D__	pygeodesy.dms-module.html#F_D__
 pygeodesy.dms._sexagecimal_	pygeodesy.dms-module.html#_sexagecimal_
 pygeodesy.dms.normDMS	pygeodesy.dms-module.html#normDMS
 pygeodesy.dms.latlonDMS_	pygeodesy.dms-module.html#latlonDMS_
-pygeodesy.dms._S_normx	pygeodesy.dms-module.html#_S_normx
-pygeodesy.dms.fstr	pygeodesy.streprs-module.html#fstr
+pygeodesy.dms.precision	pygeodesy.dms-module.html#precision
+pygeodesy.dms._D603	pygeodesy.dms-module.html#_D603
 pygeodesy.dms.map2	pygeodesy.basics-module.html#map2
 pygeodesy.dms._clip	pygeodesy.dms-module.html#_clip
-pygeodesy.dms._DEGREESYMBOL_	pygeodesy.dms-module.html#_DEGREESYMBOL_
 pygeodesy.dms.F_DMS__	pygeodesy.dms-module.html#F_DMS__
 pygeodesy.ecef	pygeodesy.ecef-module.html
 pygeodesy.ecef.hypot2_	pygeodesy.fmath-module.html#hypot2_
@@ -1838,7 +1837,6 @@ pygeodesy.interns._not_scalar_	pygeodesy.interns-module.html#_not_scalar_
 pygeodesy.interns._PERCENTDOTSTAR_	pygeodesy.interns-module.html#_PERCENTDOTSTAR_
 pygeodesy.interns._lat_	pygeodesy.interns-module.html#_lat_
 pygeodesy.interns._k0_	pygeodesy.interns-module.html#_k0_
-pygeodesy.interns._Py2L	pygeodesy.interns-module.html#_Py2L
 pygeodesy.interns._COLONSPACE_	pygeodesy.interns-module.html#_COLONSPACE_
 pygeodesy.interns.INF	pygeodesy.interns-module.html#INF
 pygeodesy.interns._rIn_	pygeodesy.interns-module.html#_rIn_
@@ -1872,6 +1870,7 @@ pygeodesy.interns._C_	pygeodesy.interns-module.html#_C_
 pygeodesy.interns._iadd_	pygeodesy.interns-module.html#_iadd_
 pygeodesy.interns.INT0	pygeodesy.interns-module.html#INT0
 pygeodesy.interns.EPS4	pygeodesy.interns-module.html#EPS4
+pygeodesy.interns._distance_	pygeodesy.interns-module.html#_distance_
 pygeodesy.interns.EPS2	pygeodesy.interns-module.html#EPS2
 pygeodesy.interns._radius2_	pygeodesy.interns-module.html#_radius2_
 pygeodesy.interns.EPS0	pygeodesy.interns-module.html#EPS0
@@ -1921,7 +1920,6 @@ pygeodesy.interns._cubic_	pygeodesy.interns-module.html#_cubic_
 pygeodesy.interns._8_0	pygeodesy.interns-module.html#_8_0
 pygeodesy.interns._1_0_T	pygeodesy.interns-module.html#_1_0_T
 pygeodesy.interns._exceed_PI_radians_	pygeodesy.interns-module.html#_exceed_PI_radians_
-pygeodesy.interns._Py3L	pygeodesy.interns-module.html#_Py3L
 pygeodesy.interns._height_	pygeodesy.interns-module.html#_height_
 pygeodesy.interns._convergence_	pygeodesy.interns-module.html#_convergence_
 pygeodesy.interns._3_0	pygeodesy.interns-module.html#_3_0
@@ -1933,7 +1931,7 @@ pygeodesy.interns._mean_	pygeodesy.interns-module.html#_mean_
 pygeodesy.interns._DUNDER_	pygeodesy.interns-module.html#_DUNDER_
 pygeodesy.interns._16_0	pygeodesy.interns-module.html#_16_0
 pygeodesy.interns.R_M	pygeodesy.interns-module.html#R_M
-pygeodesy.interns._version2	pygeodesy.interns-module.html#_version2
+pygeodesy.interns._90_0	pygeodesy.interns-module.html#_90_0
 pygeodesy.interns._10_0	pygeodesy.interns-module.html#_10_0
 pygeodesy.interns._band_	pygeodesy.interns-module.html#_band_
 pygeodesy.interns._distant_	pygeodesy.interns-module.html#_distant_
@@ -2044,7 +2042,7 @@ pygeodesy.interns._points_	pygeodesy.interns-module.html#_points_
 pygeodesy.interns._H_	pygeodesy.interns-module.html#_H_
 pygeodesy.interns._to_	pygeodesy.interns-module.html#_to_
 pygeodesy.interns.EPS_2	pygeodesy.interns-module.html#EPS_2
-pygeodesy.interns._ellipsoidal_	pygeodesy.interns-module.html#_ellipsoidal_
+pygeodesy.interns._Py3List	pygeodesy.interns-module.html#_Py3List
 pygeodesy.interns._sx_	pygeodesy.interns-module.html#_sx_
 pygeodesy.interns._range_	pygeodesy.interns-module.html#_range_
 pygeodesy.interns._by_	pygeodesy.interns-module.html#_by_
@@ -2063,7 +2061,7 @@ pygeodesy.interns._radius_	pygeodesy.interns-module.html#_radius_
 pygeodesy.interns._n_a_	pygeodesy.interns-module.html#_n_a_
 pygeodesy.interns._Python_	pygeodesy.interns-module.html#_Python_
 pygeodesy.interns._Intl1924_	pygeodesy.interns-module.html#_Intl1924_
-pygeodesy.interns._90_0	pygeodesy.interns-module.html#_90_0
+pygeodesy.interns._version2	pygeodesy.interns-module.html#_version2
 pygeodesy.interns._OKd_	pygeodesy.interns-module.html#_OKd_
 pygeodesy.interns.MISSING	pygeodesy.interns-module.html#MISSING
 pygeodesy.interns._a_	pygeodesy.interns-module.html#_a_
@@ -2105,7 +2103,7 @@ pygeodesy.interns._V_	pygeodesy.interns-module.html#_V_
 pygeodesy.interns._360_0	pygeodesy.interns-module.html#_360_0
 pygeodesy.interns._NAN_	pygeodesy.interns-module.html#_NAN_
 pygeodesy.interns._O_	pygeodesy.interns-module.html#_O_
-pygeodesy.interns._distance_	pygeodesy.interns-module.html#_distance_
+pygeodesy.interns._pl2List	pygeodesy.interns-module.html#_pl2List
 pygeodesy.interns._WGS84_	pygeodesy.interns-module.html#_WGS84_
 pygeodesy.interns._0_001	pygeodesy.interns-module.html#_0_001
 pygeodesy.interns._std_	pygeodesy.interns-module.html#_std_
@@ -2125,6 +2123,7 @@ pygeodesy.interns._Clarke1866_	pygeodesy.interns-module.html#_Clarke1866_
 pygeodesy.interns._platform2	pygeodesy.interns-module.html#_platform2
 pygeodesy.interns._1_EPS	pygeodesy.interns-module.html#_1_EPS
 pygeodesy.interns._tx_	pygeodesy.interns-module.html#_tx_
+pygeodesy.interns._ellipsoidal_	pygeodesy.interns-module.html#_ellipsoidal_
 pygeodesy.interns._AT_	pygeodesy.interns-module.html#_AT_
 pygeodesy.interns._lat1_	pygeodesy.interns-module.html#_lat1_
 pygeodesy.interns._LatLon_	pygeodesy.interns-module.html#_LatLon_
@@ -2136,7 +2135,6 @@ pygeodesy.interns.EPS02	pygeodesy.interns-module.html#EPS02
 pygeodesy.interns._deg_	pygeodesy.interns-module.html#_deg_
 pygeodesy.interns._scale_	pygeodesy.interns-module.html#_scale_
 pygeodesy.interns._DASH_	pygeodesy.interns-module.html#_DASH_
-pygeodesy.interns._float_info	pygeodesy.interns-module.html#_float_info
 pygeodesy.interns._SLASH_	pygeodesy.interns-module.html#_SLASH_
 pygeodesy.interns._float	pygeodesy.interns-module.html#_float
 pygeodesy.interns._meridional_	pygeodesy.interns-module.html#_meridional_
@@ -2968,6 +2966,7 @@ pygeodesy.units._Str_radians2	pygeodesy.units-module.html#_Str_radians2
 pygeodesy.units._Error	pygeodesy.units-module.html#_Error
 pygeodesy.units._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.units._fi_j2	pygeodesy.units-module.html#_fi_j2
+pygeodesy.units.signOf	pygeodesy.basics-module.html#signOf
 pygeodesy.units._Str_radians	pygeodesy.units-module.html#_Str_radians
 pygeodesy.units.parseRad	pygeodesy.dms-module.html#parseRad
 pygeodesy.units.callername	pygeodesy.named-module.html#callername
@@ -14089,6 +14088,9 @@ pygeodesy.heights._HeightBase.adjust	pygeodesy.heights._HeightBase-class.html#ad
 pygeodesy.heights._HeightBase._adjust	pygeodesy.heights._HeightBase-class.html#_adjust
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.heights._HeightBase._wrap	pygeodesy.heights._HeightBase-class.html#_wrap
+pygeodesy.interns.Str_	pygeodesy.interns.Str_-class.html
+pygeodesy.interns.Str_.__call__	pygeodesy.interns.Str_-class.html#__call__
+pygeodesy.interns.Str_.join_	pygeodesy.interns.Str_-class.html#join_
 pygeodesy.iters.LatLon2PsxyIter	pygeodesy.iters.LatLon2PsxyIter-class.html
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.toRepr	pygeodesy.named._Named-class.html#toRepr

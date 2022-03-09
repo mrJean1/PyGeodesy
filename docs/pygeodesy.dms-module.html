@@ -59,7 +59,8 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module dms</h1><p class="nomargin-top"></p>
-<p>Parsers and formatters of angles in degrees, minutes and seconds.</p>
+<p>Parsers and formatters of angles in degrees, minutes and seconds or 
+  radians.</p>
   <p>Functions to parse and format bearing, compass, lat- and longitudes in
   various forms of degrees, minutes and seconds with or without degrees, 
   minute and second symbols plus a compass point suffix, including parsing 
@@ -73,32 +74,19 @@
 
 <hr />
 <div class="fields">      <p><strong>Note:</strong>
-        The degrees, minutes and seconds symbol can be overridden in 
-        <code>*DMS</code> functions by using optional keyword argments 
-        <code>s_D=&quot;d&quot;</code>, <code>s_M=&quot;'&quot;</code> 
-        respectively <code>s_S='&quot;'</code>.
+        In Python 2-, <a href="pygeodesy.dms-module.html#S_DEG" 
+        class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
+        class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
+        class="link">S_SEC</a>, <a href="pygeodesy.dms-module.html#S_RAD" 
+        class="link">S_RAD</a> and <a 
+        href="pygeodesy.dms-module.html#S_SEP" class="link">S_SEP</a> are 
+        or may be multi-byte, non-ascii characters and if-so <i>not</i> 
+        <code>unicode</code>.
       </p>
       <p><strong>Version:</strong>
-        22.03.03
+        22.03.07
       </p>
-</div><!-- ==================== CLASSES ==================== -->
-<a name="section-Classes"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Classes</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.errors.ParseError-class.html" class="summary-name">ParseError</a><br />
-      Error parsing degrees, radians or several other formats.
-    </td>
-  </tr>
-</table>
-<!-- ==================== FUNCTIONS ==================== -->
+</div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -315,9 +303,11 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Normalize all degree, minute and second DMS symbols in a string to 
-      the default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and 
-      '\xe2\x80\xb3'.</td>
+      Normalize all degrees, minutes and seconds (DMS) symbols in a string 
+      to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+      class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
+      class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
+      class="link">S_SEC</a>.</td>
           <td align="right" valign="top">
             
             
@@ -498,7 +488,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code><br />
-      Degrees symbol, default &quot;&#176;&quot;
+      Degrees symbol, default <code>&quot;&#176;&quot;</code>
     </td>
   </tr>
 <tr>
@@ -506,7 +496,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes symbol, default &quot;&#8242;&quot; aka <i>PRIME</i>
+      Minutes symbol, default <code>&quot;&#8242;&quot;</code> aka <i>PRIME</i>
     </td>
   </tr>
 <tr>
@@ -514,7 +504,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code><br />
-      Seconds symbol, default &quot;&#8243;&quot; aka <i>DOUBLE_PRIME</i>
+      Seconds symbol, default <code>&quot;&#8243;&quot;</code> aka 
+      <i>DOUBLE_PRIME</i>
     </td>
   </tr>
 <tr>
@@ -522,7 +513,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''">''</code><br />
-      Radians symbol, default &quot;&quot; aka <code>NN</code>
+      Radians symbol, default <code>&quot;&quot;</code> aka <a 
+      href="pygeodesy-module.html#NN" class="link">pygeodesy.NN</a>
     </td>
   </tr>
 <tr>
@@ -530,8 +522,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''">''</code><br />
-      Separator between deg&#176;, min&#8242;, sec&#8243; and suffix, default &quot;&quot; 
-      aka <code>NN</code>
+      Separator between <code>deg&#176;, min&#8242;, sec&#8243;, suffix</code>, default 
+      <code>&quot;&quot;</code> aka <a href="pygeodesy-module.html#NN" 
+      class="link">pygeodesy.NN</a>
     </td>
   </tr>
 <tr>
@@ -540,7 +533,7 @@
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
       Format degrees as unsigned &quot;deg&#176;&quot; with symbol, plus compass
-      point suffix <code>N, S, W</code> or <code>E</code> 
+      point suffix <code>N, S, E</code> or <code>W</code> 
       (<code>str</code>).
     </td>
   </tr>
@@ -549,8 +542,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60"></a><span class="summary-name">F_D60</span> = <code title="'d60'"><code class="variable-quote">'</code><code class="variable-string">d60</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DD.MMSS&quot; without symbols 
-      plus suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, plus suffix 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -558,8 +552,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60_"></a><span class="summary-name">F_D60_</span> = <code title="'-d60'">'-d60'</code><br />
-      Format degrees as signed &quot;-/[D]DD.MMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, <i>without</i> 
+      suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -567,8 +562,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60__"></a><span class="summary-name">F_D60__</span> = <code title="'+d60'">'+d60'</code><br />
-      Format degrees as signed &quot;-/+[D]DD.MMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, <i>without</i> 
+      suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -576,8 +572,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DD&quot; without symbol, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DD&quot; <i>without</i> symbol, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -585,8 +581,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'">'-deg'</code><br />
-      Format degrees as signed &quot;-/[D]DD&quot; without symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DD&quot; <i>without</i> symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -594,8 +590,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'">'+deg'</code><br />
-      Format degrees as signed &quot;-/+[D]DD&quot; without symbol, without
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DD&quot; <i>without</i> symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -622,7 +618,7 @@
     </td><td class="summary">
         <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'">'-dms'</code><br />
       Format degrees as signed &quot;-/deg&#176;min&#8242;sec&#8243;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -631,7 +627,7 @@
     </td><td class="summary">
         <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'">'+dms'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;sec&#8243;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -639,8 +635,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'">'-dm'</code><br />
-      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; with symbols, without
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; with symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -649,7 +645,7 @@
     </td><td class="summary">
         <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'">'+dm'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -657,8 +653,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'">'-d'</code><br />
-      Format degrees as signed &quot;-/deg&#176;&quot; with symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/deg&#176;&quot; with symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -666,8 +662,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'">'+d'</code><br />
-      Format degrees as signed &quot;-/+deg&#176;&quot; with symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+deg&#176;&quot; with symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -675,8 +671,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMM&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMM&quot; <i>without</i> 
+      symbols, plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -684,8 +680,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'">'-min'</code><br />
-      Format degrees as signed &quot;-/[D]DDMM&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DDMM&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -693,8 +689,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'">'+min'</code><br />
-      Format degrees as signed &quot;-/+[D]DDMM&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DDMM&quot; <i>without</i> 
+      symbols, without suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -712,7 +708,7 @@
     </td><td class="summary">
         <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'">'-rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/RR&quot; 
-      without symbol, without suffix (<code>str</code>).
+      <i>without</i> symbol, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -721,7 +717,7 @@
     </td><td class="summary">
         <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'">'+rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/+RR&quot; 
-      without symbol, without suffix (<code>str</code>).
+      <i>without</i> symbol, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -729,8 +725,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMMSS&quot; without symbols, 
-      plus suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMMSS&quot; <i>without</i> 
+      symbols, plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -738,8 +734,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'">'-sec'</code><br />
-      Format degrees as signed &quot;-/[D]DDMMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DDMMSS&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -747,8 +743,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'">'+sec'</code><br />
-      Format degrees as signed &quot;-/+[D]DDMMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DDMMSS&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -756,8 +752,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%E&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%E&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -765,8 +761,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'">'-e'</code><br />
-      Format degrees as signed &quot;-/%E&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%E&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -774,8 +770,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'">'+e'</code><br />
-      Format degrees as signed &quot;-/+%E&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%E&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -783,8 +779,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%F&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%F&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -792,8 +788,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'">'-f'</code><br />
-      Format degrees as signed &quot;-/%F&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%F&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -801,8 +797,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'">'+f'</code><br />
-      Format degrees as signed &quot;-/+%F&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%F&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -810,8 +806,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%G&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%G&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -819,8 +815,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'">'-g'</code><br />
-      Format degrees as signed &quot;-/%G&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%G&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -828,8 +824,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'">'+g'</code><br />
-      Format degrees as signed &quot;-/+%G&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%G&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 </table>
@@ -917,11 +913,11 @@
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -955,7 +951,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Unclipped lat- or longitude (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Valid <code>-/+<b>limit</b></code> range (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1079,11 +1075,11 @@
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -1172,15 +1168,15 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Value in degrees (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or 
+        <li><strong class="pname"><code>s_D</code></strong> - D symbol for degrees (<code>str</code>).</li>
+        <li><strong class="pname"><code>s_M</code></strong> - M symbol for minutes (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
-        <li><strong class="pname"><code>s_S</code></strong> - Symbol for seconds (<code>str</code>) or 
+        <li><strong class="pname"><code>s_S</code></strong> - S symbol for seconds (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative (<code>'-'</code>).</li>
         <li><strong class="pname"><code>pos</code></strong> - Optional sign for positive (<code>''</code>).</li>
@@ -1217,7 +1213,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -1270,11 +1266,11 @@
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1365,11 +1361,11 @@
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>str</code> or <code>tuple</code> if 
@@ -1448,7 +1444,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -1501,11 +1497,11 @@
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
-          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
-          class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          override DMS symbols, defaults <a 
+          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
+          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
+          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
+          class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1537,19 +1533,22 @@
     </td>
   </tr></table>
   
-  <p>Normalize all degree, minute and second DMS symbols in a string to the
-  default DMS symbols '\xc2\xb0', '\xe2\x80\xb2' and '\xe2\x80\xb3'.</p>
+  <p>Normalize all degrees, minutes and seconds (DMS) symbols in a string 
+  to the default symbols <a href="pygeodesy.dms-module.html#S_DEG" 
+  class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN" 
+  class="link">S_MIN</a>, <a href="pygeodesy.dms-module.html#S_SEC" 
+  class="link">S_SEC</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>strDMS</code></strong> - DMS (<code>str</code>).</li>
+        <li><strong class="pname"><code>strDMS</code></strong> - Original DMS string (<code>str</code>).</li>
         <li><strong class="pname"><code>norm</code></strong> - Optional replacement symbol (<code>str</code>) or 
-          <code>None</code> for the default DMS symbols.  Use 
-          <code><b>norm</b>=&quot;&quot;</code> or 
-          <code><b>norm</b>=pygeodesy.NN</code> to remove all DMS symbols.</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
-          <code><b>s_D</b>=str</code>, minutes, <code><b>s_M</b>=str</code>
-          and/or seconds <code><b>s_S</b>=str</code>.</li>
+          <code>None</code> for the default DMS symbols).  Use 
+          <code><b>norm</b>=&quot;&quot;</code> to remove all DMS symbols.</li>
+        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate DMS symbols <code><b>s_D</b>=str</code>, 
+          <code><b>s_M</b>=str</code>, <code><b>s_S</b>=str</code> and/or 
+          <code><b>s_R</b>=str</code> for radians, each to be replaced by 
+          <b><code>norm</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
@@ -1590,7 +1589,7 @@
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>&quot;D.MMSS&quot;</code> or 
           <code>float(D.MMSS)</code> to <code>base-60</code> &quot;MM&quot;
-          and &quot;SS&quot; digits.  See also <code>form</code>s <a 
+          and &quot;SS&quot; digits.  See <code>form</code>s <a 
           href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
           href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a> 
           and <a href="pygeodesy.dms-module.html#F_D60__" 
@@ -1600,7 +1599,7 @@
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strDDDMMSS</code></b> or <b><code>clip</code></b> 
         or the form of <b><code>strDDDMMSS</code></b> is incompatible with 
         the suffixed or <b><code>suffix</code></b> compass point.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDDDMMSS</code></b> outside the valid 
@@ -1618,9 +1617,10 @@
         parsed properly only if <i>either</i> unsigned and suffixed with a 
         valid, compatible, <code>cardinal</code> <a 
         href="pygeodesy.dms-module.html#compassPoint" 
-        class="link">compassPoint</a> <i>or</i> if unsigned or signed, 
-        unsuffixed and with keyword argument <b><code>suffix</code></b> set
-        to <b>'NS'</b>, <b>'EW'</b> or a compatible <a 
+        class="link">compassPoint</a> <i>or</i> signed <i>or</i> unsigned, 
+        unsuffixed and with keyword argument 
+        <b><code>suffix</code>=&quot;NS&quot;</b>, 
+        <b><code>suffix</code>=&quot;EW&quot;</b> or a compatible <a 
         href="pygeodesy.dms-module.html#compassPoint" 
         class="link">compassPoint</a>.
         </li>
@@ -1633,10 +1633,10 @@
         <code>int(1230)</code> is returned as 12.5 and <i>not 1230.0</i> 
         degrees.  However, <code>int(345)</code> is considered 
         <code>form</code> &quot;DDD&quot; 345 <i>and not &quot;DDMM&quot; 
-        0345</i>, unless <b><code>suffix</code></b> specifies compass point
-        <b>'NS'</b>.  Also, <code>float(15.0523)</code> is returned as 
-        15.0523 decimal degrees and <i>not 15&#176;5&#8242;23&#8243; sexagecimal</i>.  To 
-        consider the latter, use <code>float(15.0523)</code> or 
+        0345</i>, unless <b><code>suffix</code></b> specifies the compass 
+        point.  Also, <code>float(15.0523)</code> is returned as 15.0523 
+        decimal degrees and <i>not 15&#176;5&#8242;23&#8243; sexagecimal</i>.  To consider 
+        the latter, use <code>float(15.0523)</code> or 
         <code>&quot;15.0523&quot;</code> and specify the keyword argument 
         <code><b>sexagecimal</b>=True</code>.
         </li>
@@ -1693,7 +1693,7 @@
         <dd>Degrees (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strDMS</code></b> or <b><code>clip</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strDMS</code></b> outside the valid 
         <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
@@ -1764,7 +1764,7 @@
           <code>degrees</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strLat</code></b> or <b><code>strLon</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strLat</code></b> or <b><code>strLon</code></b> 
         outside the valid <code>-/+<b>clipLat</b></code> or 
         <code>-/+<b>clipLon</b></code> range and <a 
@@ -1900,7 +1900,7 @@
         <dd>Radians (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ParseError-class.html">ParseError</a></strong></code> - Invalid <b><code>strRad</code></b> or <b><code>clip</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>strRad</code></b> outside the valid 
         <code>-/+<b>clip</b></code> range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
@@ -1982,7 +1982,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (<code>scalar degrees</code>).</li>
         <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
           <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
           href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
@@ -2039,16 +2039,42 @@
           <b><code>form</code></b> (<code>'+'</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
           <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          override the DMS symbol for the degrees, minutes respectively 
+          seconds value, defaults <a href="pygeodesy.dms-module.html#S_DEG"
           class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
           class="link">S_MIN</a> respectively <a 
-          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.  
+          See <b>Notes</b> below.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        The degrees, minutes and seconds (DMS) symbol can be overridden in 
+        this and other <code>*DMS</code> functions by using optional 
+        keyword argments <code><b>s_D</b>=&quot;d&quot;</code>, 
+        <code><b>s_M</b>=&quot;'&quot;</code> respectively 
+        <code><b>s_S</b>='&quot;'</code>.
+        </li>
+        <li>
+        Sexagecimal format <b><code>F_D60</code></b> supports overridable 
+        pseudo-DMS symbols positioned at 
+        <code>&quot;[D]DD&lt;<b>s_D</b>&gt;MM&lt;<b>s_M</b>&gt;SS&lt;<b>s_S</b>&gt;&quot;</code>
+        with defaults <code><b>s_D</b>=&quot;.&quot;</code>, 
+        <code><b>s_M</b>=<b>sep</b></code> and <code><b>s_S</b>=</code><a 
+        href="pygeodesy-module.html#NN" class="link">pygeodesy.NN</a>.
+        </li>
+        <li>
+        Formats <b><code>F__E</code></b>, <b><code>F__F</code></b> and 
+        <b><code>F__G</code></b> can be extended with a <code>D</code>-only
+        symbol if defined with keyword argument 
+        <code><b>s_D</b>=str</code>. Likewise for <b><code>F_RAD</code></b>
+        formats with keyword argument <code><b>s_R</b>=str</code>.
+        </li>
+      </ul>
+      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#degDMS" 
         class="link">pygeodesy.degDMS</a>
       </p>
@@ -2086,7 +2112,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  3 21:12:52 2022
+    Generated by Epydoc 3.0.1 on Tue Mar  8 19:38:06 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -8,7 +8,7 @@ C{int} respectively C{str} to named units as L{Degrees},
 L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isstr, issubclassof
+from pygeodesy.basics import isstr, issubclassof, signOf
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _AssertionError, _IsnotError, RangeError, \
@@ -33,7 +33,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.12.28'
+__version__ = '22.03.07'
 
 
 class _NamedUnit(_Named):
@@ -353,6 +353,8 @@ class Str(str, _NamedUnit):
            @returns: A L{Str} instance.
 
            @raise Error: Invalid B{C{arg}}.
+
+           @see: Callable, unnameable class L{pygeodesy.Str_}.
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
@@ -468,14 +470,15 @@ class Degrees(Float):
         return Float.toRepr(self, std=std) if std else \
                self._toRepr(self.toStr(prec=prec, fmt=fmt, ints=ints))
 
-    def toStr(self, prec=None, fmt=F__F_, ints=False):  # PYCHOK prec=8, ...
+    def toStr(self, prec=None, fmt=F__F_, ints=False, **s_D_M_S):  # PYCHOK prec=8, ...
+        '''@see: Function L{pygeodesy.toDMS} for keyword argument details.
+        '''
         if fmt.startswith(_PERCENT_):  # use regular formatting
             p = 8 if prec is None else prec
             return fstr(self, prec=p, fmt=fmt, ints=ints, sep=self._sep_)
         else:
-            return _toDMS(self, fmt, prec, self._sep_, self._ddd_,
-                                           self._suf_[0 if self > 0 else
-                                                     (1 if self < 0 else 2)])
+            s = self._suf_[signOf(self) + 1]
+            return _toDMS(self, fmt, prec, self._sep_, self._ddd_, s, s_D_M_S)
 
 
 class Degrees_(Degrees):
@@ -839,7 +842,7 @@ class Lat(Degrees):
     '''Named C{float} representing a latitude in C{degrees}.
     '''
     _ddd_ =  2
-    _suf_ = _N_, _S_, S_NUL  # no zero suffix
+    _suf_ = _S_, S_NUL, _N_  # no zero suffix
 
     def __new__(cls, arg=None, name=_lat_, clip=90, **Error_name_arg):
         '''See L{Degrees}.
@@ -851,7 +854,7 @@ class Lat_(Degrees_):
     '''Named C{float} representing a latitude in C{degrees} within limits C{low} and C{high}.
     '''
     _ddd_ =  2
-    _suf_ = _N_, _S_, S_NUL  # no zero suffix
+    _suf_ = _S_, S_NUL, _N_  # no zero suffix
 
     def __new__(cls, arg=None, name=_lat_, low=-90, high=90, **Error_name_arg):
         '''See L{Degrees_}.
@@ -863,7 +866,7 @@ class Lon(Degrees):
     '''Named C{float} representing a longitude in C{degrees}.
     '''
     _ddd_ =  3
-    _suf_ = _E_, _W_, S_NUL  # no zero suffix
+    _suf_ = _W_, S_NUL, _E_  # no zero suffix
 
     def __new__(cls, arg=None, name=_lon_, clip=180, **Error_name_arg):
         '''See L{Degrees}.
@@ -875,7 +878,7 @@ class Lon_(Degrees_):
     '''Named C{float} representing a longitude in C{degrees} within limits C{low} and C{high}.
     '''
     _ddd_ =  3
-    _suf_ = _E_, _W_, S_NUL  # no zero suffix
+    _suf_ = _W_, S_NUL, _E_  # no zero suffix
 
     def __new__(cls, arg=None, name=_lon_, low=-180, high=180, **Error_name_arg):
         '''See L{Degrees_}.

@@ -28,7 +28,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.01.17'
+__version__ = '22.03.04'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -407,7 +407,7 @@ def _numpy(arg, where):
         e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
         yield np
     except Exception as x:  # mostly FloatingPointError?
-        raise NumPyError(x.__class__.__name__, arg, txt=str(x))
+        raise NumPyError(x.__class__.__name__, arg, txt=str(x))  # _xError2?
     finally:  # restore numpy error handling
         np.seterr(**e)
 

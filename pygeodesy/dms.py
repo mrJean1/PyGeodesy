@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Parsers and formatters of angles in degrees, minutes and seconds.
+u'''Parsers and formatters of angles in degrees, minutes and seconds or radians.
 
 Functions to parse and format bearing, compass, lat- and longitudes in various forms of
 degrees, minutes and seconds with or without degrees, minute and second symbols plus a
@@ -11,63 +11,61 @@ After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
-@var F_D:   Format degrees as unsigned "deg°" with symbol, plus compass point suffix C{N, S, W} or C{E} (C{str}).
+@var F_D:   Format degrees as unsigned "deg°" with symbol, plus compass point suffix C{N, S, E} or C{W} (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" with symbols, plus suffix (C{str}).
 @var F_DMS: Format degrees as unsigned "deg°min′sec″" with symbols, plus suffix (C{str}).
-@var F_DEG: Format degrees as unsigned "[D]DD" without symbol, plus suffix (C{str}).
-@var F_MIN: Format degrees as unsigned "[D]DDMM" without symbols, plus suffix (C{str}).
-@var F_SEC: Format degrees as unsigned "[D]DDMMSS" without symbols, plus suffix (C{str}).
-@var F_D60: Format degrees as unsigned "[D]DD.MMSS" without symbols plus suffix (C{str}).
-@var F__E:  Format degrees as unsigned "%E" without symbols, plus suffix (C{str}).
-@var F__F:  Format degrees as unsigned "%F" without symbols, plus suffix (C{str}).
-@var F__G:  Format degrees as unsigned "%G" without symbols, plus suffix (C{str}).
+@var F_DEG: Format degrees as unsigned "[D]DD" I{without} symbol, plus suffix (C{str}).
+@var F_MIN: Format degrees as unsigned "[D]DDMM" I{without} symbols, plus suffix (C{str}).
+@var F_SEC: Format degrees as unsigned "[D]DDMMSS" I{without} symbols, plus suffix (C{str}).
+@var F_D60: Format degrees as unsigned "[D]DD.MMSS" C{sexagecimal} I{without} symbols, plus suffix (C{str}).
+@var F__E:  Format degrees as unsigned "%E" I{without} symbols, plus suffix (C{str}).
+@var F__F:  Format degrees as unsigned "%F" I{without} symbols, plus suffix (C{str}).
+@var F__G:  Format degrees as unsigned "%G" I{without} symbols, plus suffix (C{str}).
 @var F_RAD: Convert degrees to radians and format as unsigned "RR" with symbol, plus suffix (C{str}).
 
-@var F_D_:   Format degrees as signed "-/deg°" with symbol, without suffix (C{str}).
-@var F_DM_:  Format degrees as signed "-/deg°min′" with symbols, without suffix (C{str}).
-@var F_DMS_: Format degrees as signed "-/deg°min′sec″" with symbols, without suffix (C{str}).
-@var F_DEG_: Format degrees as signed "-/[D]DD" without symbol, without suffix (C{str}).
-@var F_MIN_: Format degrees as signed "-/[D]DDMM" without symbols, without suffix (C{str}).
-@var F_SEC_: Format degrees as signed "-/[D]DDMMSS" without symbols, without suffix (C{str}).
-@var F_D60_: Format degrees as signed "-/[D]DD.MMSS" without symbols, without suffix (C{str}).
-@var F__E_:  Format degrees as signed "-/%E" without symbols, without suffix (C{str}).
-@var F__F_:  Format degrees as signed "-/%F" without symbols, without suffix (C{str}).
-@var F__G_:  Format degrees as signed "-/%G" without symbols, without suffix (C{str}).
-@var F_RAD_: Convert degrees to radians and format as signed "-/RR" without symbol, without suffix (C{str}).
+@var F_D_:   Format degrees as signed "-/deg°" with symbol, I{without} suffix (C{str}).
+@var F_DM_:  Format degrees as signed "-/deg°min′" with symbols, I{without} suffix (C{str}).
+@var F_DMS_: Format degrees as signed "-/deg°min′sec″" with symbols, I{without} suffix (C{str}).
+@var F_DEG_: Format degrees as signed "-/[D]DD" I{without} symbol, I{without} suffix (C{str}).
+@var F_MIN_: Format degrees as signed "-/[D]DDMM" I{without} symbols, I{without} suffix (C{str}).
+@var F_SEC_: Format degrees as signed "-/[D]DDMMSS" I{without} symbols, I{without} suffix (C{str}).
+@var F_D60_: Format degrees as signed "-/[D]DD.MMSS" C{sexagecimal} I{without} symbols, I{without} suffix (C{str}).
+@var F__E_:  Format degrees as signed "-/%E" I{without} symbols, I{without} suffix (C{str}).
+@var F__F_:  Format degrees as signed "-/%F" I{without} symbols, I{without} suffix (C{str}).
+@var F__G_:  Format degrees as signed "-/%G" I{without} symbols, I{without} suffix (C{str}).
+@var F_RAD_: Convert degrees to radians and format as signed "-/RR" I{without} symbol, I{without} suffix (C{str}).
 
-@var F_D__:   Format degrees as signed "-/+deg°" with symbol, without suffix (C{str}).
-@var F_DM__:  Format degrees as signed "-/+deg°min′" with symbols, without suffix (C{str}).
-@var F_DMS__: Format degrees as signed "-/+deg°min′sec″" with symbols, without suffix (C{str}).
-@var F_DEG__: Format degrees as signed "-/+[D]DD" without symbol, without suffix (C{str}).
-@var F_MIN__: Format degrees as signed "-/+[D]DDMM" without symbols, without suffix (C{str}).
-@var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without symbols, without suffix (C{str}).
-@var F_D60__: Format degrees as signed "-/+[D]DD.MMSS" without symbols, without suffix (C{str}).
-@var F__E__:  Format degrees as signed "-/+%E" without symbols, without suffix (C{str}).
-@var F__F__:  Format degrees as signed "-/+%F" without symbols, without suffix (C{str}).
-@var F__G__:  Format degrees as signed "-/+%G" without symbols, without suffix (C{str}).
-@var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without symbol, without suffix (C{str}).
+@var F_D__:   Format degrees as signed "-/+deg°" with symbol, I{without} suffix (C{str}).
+@var F_DM__:  Format degrees as signed "-/+deg°min′" with symbols, I{without} suffix (C{str}).
+@var F_DMS__: Format degrees as signed "-/+deg°min′sec″" with symbols, I{without} suffix (C{str}).
+@var F_DEG__: Format degrees as signed "-/+[D]DD" I{without} symbol, I{without} suffix (C{str}).
+@var F_MIN__: Format degrees as signed "-/+[D]DDMM" I{without} symbols, without suffix (C{str}).
+@var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" I{without} symbols, I{without} suffix (C{str}).
+@var F_D60__: Format degrees as signed "-/+[D]DD.MMSS" C{sexagecimal} I{without} symbols, I{without} suffix (C{str}).
+@var F__E__:  Format degrees as signed "-/+%E" I{without} symbols, I{without} suffix (C{str}).
+@var F__F__:  Format degrees as signed "-/+%F" I{without} symbols, I{without} suffix (C{str}).
+@var F__G__:  Format degrees as signed "-/+%G" I{without} symbols, I{without} suffix (C{str}).
+@var F_RAD__: Convert degrees to radians and format as signed "-/+RR" I{without} symbol, I{without} suffix (C{str}).
 
-@var S_DEG: Degrees symbol, default "°"
-@var S_MIN: Minutes symbol, default "′" aka I{PRIME}
-@var S_SEC: Seconds symbol, default "″" aka I{DOUBLE_PRIME}
-@var S_RAD: Radians symbol, default "" aka C{NN}
-@var S_SEP: Separator between deg°, min′, sec″ and suffix, default "" aka C{NN}
+@var S_DEG: Degrees symbol, default C{"°"}
+@var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
+@var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
+@var S_RAD: Radians symbol, default C{""} aka L{pygeodesy.NN}
+@var S_SEP: Separator between C{deg°, min′, sec″, suffix}, default C{""} aka L{pygeodesy.NN}
 
-@note: The degrees, minutes and seconds symbol can be overridden in C{*DMS} functions by
-       using optional keyword argments C{s_D="d"}, C{s_M="'"} respectively C{s_S='"'}.
+@note: In Python 2-, L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} are or may be
+       multi-byte, non-ascii characters and if-so I{not} C{unicode}.
 '''
 
-from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, \
-                             neg as _neg  # in .ups
-from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, \
-                            _ValueError, _xError2, _xkwds, _xkwds_get_
-from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, \
-                             _DOT_, _e_, _E_, _EW_, _f_, _F_, _g_, _MINUS_, \
-                             _N_, _NE_, _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, \
-                             _PLUS_, _PLUSMINUS_, _QUOTE1_, _QUOTE2_, \
+from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, neg as _neg  # in .ups
+from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, _ValueError, \
+                            _xkwds, _xkwds_get
+from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, _e_, _E_, \
+                             _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, _N_, _NE_, _NS_, _NSEW_, \
+                             _NW_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, _QUOTE1_, _QUOTE2_, \
                              _radians_, _S_, _SE_, _SPACE_, _SW_, _W_, _0_, \
                              _0_0, _0_5, _60_0, _360_0, _3600_0
-from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
 
 from math import modf, radians
@@ -77,60 +75,22 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.03.03'
-
-(F_D,    # unsigned format "deg°" with symbol, plus suffix N, S, E or W
- F_DM,   # unsigned format "deg°min′" with symbols, plus suffix
- F_DMS,  # unsigned format "deg°min′sec″" with symbols, plus suffix
- F_DEG,  # unsigned format "[D]DD" without symbols, plus suffix
- F_MIN,  # unsigned format "[D]DDMM" without symbols, plus suffix
- F_SEC,  # unsigned format "[D]DDMMSS" without symbols, plus suffix
- F_D60,  # unsigned format "[D]DD.MMSS" without symbols, plus suffix
- F__E,   # unsigned format "%E" without symbols, plus suffix
- F__F,   # unsigned format "%F" without symbols, plus suffix
- F__G,   # unsigned format "%G" without symbols, plus suffix
- F_RAD,  # convert degrees to radians and format unsigned "RR" plus suffix
- ) = _F_s = (_d_, 'dm', 'dms', _deg_, 'min', 'sec', 'd60', _e_, _f_, _g_, 'rad')
-
-(F_D_,    # signed format "-/deg°" with symbol, without suffix
- F_DM_ ,  # signed format "-/deg°min′" with symbols, without suffix
- F_DMS_,  # signed format "-/deg°min′sec″" with symbols, without suffix
- F_DEG_,  # signed format "-/[D]DD" without symbols, without suffix
- F_MIN_,  # signed format "-/[D]DDMM" without symbols, without suffix
- F_SEC_,  # signed format "-/[D]DDMMSS" without symbols, without suffix
- F_D60_,  # signed format "-/[D]DD.MMSS" without symbols, without suffix
- F__E_ ,  # signed format "-/%E" without symbols, without suffix
- F__F_,   # signed format "-/%F" without symbols, without suffix
- F__G_,   # signed format "-/%G" without symbols, without suffix
- F_RAD_,  # convert degrees to radians and format as signed "-/RR" without suffix
- ) = _F_s_ = (NN(_MINUS_, _) for _ in _F_s)  # PYCHOK unused
-
-(F_D__,    # signed format "-/+deg°" with symbol, without suffix
- F_DM__,   # signed format "-/+deg°min′" with symbols, without suffix
- F_DMS__,  # signed format "-/+deg°min′sec″" with symbols, without suffix
- F_DEG__,  # signed format "-/+[D]DD" without symbols, without suffix
- F_MIN__,  # signed format "-/+[D]DDMM" without symbols, without suffix
- F_SEC__,  # signed format "-/+[D]DDMMSS" without symbols, without suffix
- F_D60__,  # signed format "-/+[D]DD.MMSS" without symbols, without suffix
- F__E__,   # signed format "-/+%E" without symbols, without suffix
- F__F__,   # signed format "-/+%F" without symbols, without suffix
- F__G__,   # signed format "-/+%G" without symbols, without suffix
- F_RAD__,  # convert degrees to radians and format signed "-/+RR" without suffix
- ) = _F_s__ = (NN(_PLUS_, _) for _ in _F_s)  # PYCHOK unused
-
-S_DEG = _DEGREESYMBOL_ = '°'  # ord() = 176
-S_MIN = _MINUTESYMBOL_ = '′'  # PRIME
-S_SEC = _SECONDSYMBOL_ = '″'  # DOUBLE_PRIME
-S_RAD =  NN   # radians symbol ""
-S_SEP =  NN   # separator between deg, min and sec ""
-S_NUL =  NN   # empty string
+__version__ = '22.03.07'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
 _deg_min_     = 'deg+min'
 _SDIGITS_     = '-0123456789+'
 _sexagecimal_ = 'sexagecimal'
-_SEXAGECIMUL  =  1.e4  # decimal C{D.MMSS} into sexagecimal C{DMMSS}
+_SEXAGECIMUL  =  1.e4  # sexagecimal C{D.MMSSss} into decimal C{DMMSS.ss}
+
+F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_D60,   F__E,   F__F,   F__G,   F_RAD   = _F_s = (
+ _d_,   'dm',   'dms',   _deg_,   'min',   'sec',   'd60',    _e_,    _f_,    _g_,   'rad')
+F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_D60_,  F__E_,  F__F_,  F__G_,  F_RAD_  = (NN(
+ _MINUS_, _) for _ in _F_s)
+F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_D60__, F__E__, F__F__, F__G__, F_RAD__ = (NN(
+ _PLUS_, _)  for _ in _F_s)
+del _F_s
 
 _F_case = {F_D:   F_D,   F_DEG: F_D,   _degrees_: F_D,  # unsigned _F_s
            F_DM:  F_DM,  F_MIN: F_DM,  _deg_min_: F_DM,
@@ -141,13 +101,19 @@ _F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  # default precs
            F_DEG: 6, F_MIN: 4, F_SEC: 2, F_D60: 0,
            F__E:  8, F__F:  8, F__G:  8, F_RAD: 5}
 
-_F_symb = set((F_DMS, F_DM, F_D, _deg_min_))  # == {} pychok -Tb
+_F_symb = set((F_D, F_DM, F_DMS, _deg_min_))  # == {} pychok -Tb
 
-# note ord(_DEGREES_) == ord('°') == 176, ord('˚') == 730
-_S_norm = {_DEGREESYMBOL_: S_DEG, '˚': S_DEG, '^': S_DEG, _d_: S_DEG,  # normalized DMS symbols
-           _MINUTESYMBOL_: S_MIN, '’': S_MIN, _QUOTE1_: S_MIN,
-           _SECONDSYMBOL_: S_SEC, '”': S_SEC, _QUOTE2_: S_SEC}
-assert S_DEG in _S_norm and S_MIN in _S_norm and S_SEC in _S_norm
+S_DEG = _DEGREES_ = '°'  # ord() = 176
+S_MIN = _MINUTES_ = '′'  # PRIME
+S_SEC = _SECONDS_ = '″'  # DOUBLE_PRIME
+S_RAD =  NN  # radians symbol ""
+S_SEP =  NN  # separator between deg, min and sec ""
+S_NUL =  NN  # empty string, kept INTERNAL
+
+# note: ord(_DEGREES_) == ord('°') == 176, ord('˚') == 730
+_S_norm = {S_DEG: _DEGREES_, '˚': _DEGREES_, '^': _DEGREES_,  # _d_: _DEGREES_,
+           S_MIN: _MINUTES_, '’': _MINUTES_, _QUOTE1_: _MINUTES_,
+           S_SEC: _SECONDS_, '”': _SECONDS_, _QUOTE2_: _SECONDS_}
 
 _WINDS = (_N_, 'NbE', 'NNE', 'NEbN', _NE_, 'NEbE', 'ENE', 'EbN',
           _E_, 'EbS', 'ESE', 'SEbE', _SE_, 'SEbS', 'SSE', 'SbE',
@@ -155,8 +121,37 @@ _WINDS = (_N_, 'NbE', 'NNE', 'NEbN', _NE_, 'NEbE', 'ENE', 'EbN',
           _W_, 'WbN', 'WNW', 'NWbW', _NW_, 'NWbN', 'NNW', 'NbW')
 
 
+def _D603(sep, s_D=_DOT_, s_M=None, s_S=S_NUL, **unused):
+    '''(INTERNAL) Get the overridden or default pseudo-C{DMS} symbols.
+    '''
+    M = sep if s_M is None else s_M
+    return s_D, (M or NN), s_S
+
+
+def _DMS3(form, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, **unused):
+    '''(INTERNAL) Get the overridden or default C{DMS} symbols.
+    '''
+    return (s_D, s_M, s_S) if form in _F_symb else (S_NUL, S_NUL, S_NUL)
+
+
+def _dms3(d, ddd, p, w):
+    '''(INTERNAL) Format C{d} as (deg, min, sec) C{str}s with leading zeros.
+    '''
+    d, s = divmod(round(d * _3600_0, p), _3600_0)
+    m, s = divmod(s, _60_0)
+    return (_0wpF(ddd, 0, d),
+            _0wpF(  2, 0, m),
+            _0wpF(w+2, p, s))
+
+
+def _fstrzs(t, **unused):  #
+    '''(INTERNAL) Pass-thru version of C{.streprs.fstrzs}.
+    '''
+    return t
+
+
 def _mod360(deg):  # or .utily.wrap360
-    '''(INTERNAL) Non-negative c{deg} modulo 360.
+    '''(INTERNAL) Non-negative C{deg} modulo 360.
     '''
     return (deg % _360_0) or _0_0  # see comments in .karney._remod
 
@@ -171,86 +166,68 @@ def _split3(strDMS, suffix=_NSEW_):
     return s, t, P
 
 
-def _toDMS(deg, form, prec, sep, ddd, suff, **s_D_M_S):  # MCCABE 18, in .units
-    '''(INTERNAL) Convert degrees to C{str}, with/-out sign and/or suffix.
+def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
+    '''(INTERNAL) Convert C{deg} to C{str}, with/-out sign, DMS symbols and/or suffix.
     '''
-    def _DMS3(d, ddd, p, w):
-        d, s = divmod(round(d * _3600_0, p), _3600_0)
-        m, s = divmod(s, _60_0)
-        return (_0wpF(ddd, 0, d),
-                _0wpF(  2, 0, m),
-                _0wpF(w+2, p, s))
-
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
-        raise _ValueError(deg=deg, txt=str(x))
+        raise _ValueError(deg=deg, form=form, prec=prec, txt=str(x))
 
     form = form.lower()  # .strip()
-    sign = form[:1]
-    if sign in _PLUSMINUS_:
-        form = form[1:]
-    else:
-        sign = None
+    if form[:1] in _PLUSMINUS_:  # signed
+        sign = _MINUS_ if deg < 0 else (
+               _PLUS_  if deg > 0 and form[:1] == _PLUS_ else NN)
+        form =  form.lstrip(_PLUSMINUS_)
+        suff =  NN  # no suffix if signed
+    else:  # suffixed
+        sign =  NN  # no sign if suffixed
+        suff =  NN(sep, suff)
+    F = _F_case.get(form, F_DMS)
 
     if prec is None:
-        z = p = _F_prec.get(form, 6)
+        z = p = _F_prec.get(F, 6)
     else:
         z = int(prec)
         p = abs(z)
     w = p + (1 if p else 0)
+    z = fstrzs if z > 1 else _fstrzs
     d = abs(deg)
 
-    if form in _F_symb:  # _xkwd_get_ returns names_values in alphabetically sorted order
-        s_deg, s_min, s_sec = _xkwds_get_(s_D_M_S,  s_D=S_DEG, s_M=S_MIN, s_S=S_SEC) if \
-                                          s_D_M_S else (S_DEG,     S_MIN,     S_SEC)
-    else:
-        s_deg = s_min = s_sec = S_NUL  # no symbols
-
-    F = _F_case.get(form, F_DMS)
     if F is F_DMS:  # 'deg+min+sec', default
-        d, m, s = _DMS3(d, ddd, p, w)
-        t = NN(d, s_deg, sep,
-               m, s_min, sep, s)
-        s = s_sec
+        D, M, S = _DMS3(form, **s_D_M_S)
+        d, m, s = _dms3(d, ddd, p, w)
+        t = NN(sign, d,  D, sep,
+                     m,  M, sep,
+                   z(s), S, suff)
 
     elif F is F_DM:  # 'deg+min'
+        D, M, _ = _DMS3(form, **s_D_M_S)
         d, m = divmod(round(d * _60_0, p), _60_0)
-        t = NN(_0wpF(ddd, 0, d), s_deg, sep,
-               _0wpF(w+2, p, m))
-        s = s_min
+        t = NN(sign, _0wpF(ddd, 0, d),  D, sep,
+                   z(_0wpF(w+2, p, m)), M, suff)
 
     elif F is F_D:  # 'deg'
-        t = _0wpF(ddd+w, p, d)
-        s = s_deg
+        D, _, _ = _DMS3(form, **s_D_M_S)
+        t = NN(sign, z(_0wpF(w+ddd, p, d)), D, suff)
 
     elif F is F_D60:  # 'deg.MMSSss'
-        d, m, s = _DMS3(d, ddd, p, w)
-        if z > 1:
-            s = fstrzs(s)
-            z = 0  # skip fstrzs below
-        t = NN(d, _DOT_, m, sep, *s.split(_DOT_))
-        s = S_NUL
+        D, M, S = _D603(sep, **s_D_M_S)
+        d, m, s = _dms3(d, ddd, p, w)
+        t = z(s).split(_DOT_) + [S, suff]
+        t = NN(sign, d, D, m, M, *t)
 
     elif F is F_RAD:
-        t = NN(_PERCENTDOTSTAR_, _F_) % (p, radians(d))
-        s = S_RAD
+        R = _xkwds_get(s_D_M_S, s_R=S_RAD)
+        r =  NN(_PERCENTDOTSTAR_, _F_) % (p, radians(d))
+        t =  NN(sign, z(r), R, suff)
 
     else:  # F in (F__E, F__F, F__G)
-        t = NN(_PERCENTDOTSTAR_, F) % (p, d)
-        s = S_NUL
+        D = _xkwds_get(s_D_M_S, s_D=S_NUL)
+        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)
+        t =  NN(sign, z(d, ap1z=F is F__G), D, suff)
 
-    if z > 1:
-        t = fstrzs(t, ap1z=F is F__G)
-
-    if sign:
-        if deg < 0:
-            t = _MINUS_ + t
-        elif deg > 0 and sign == _PLUS_:
-            t = _PLUS_ + t
-    elif suff:  # and deg:  # zero suffix?
-        s += sep + suff
-    return (t + s) if s else t
+    return t  # NOT unicode in Python 2-
 
 
 def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
@@ -270,9 +247,8 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
                     values of 1 and above, but kept for negative B{C{prec}}.
        @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override DMS symbols, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
 
        @return: Compass degrees per the specified B{C{form}} (C{str}).
 
@@ -280,7 +256,7 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
 
        @JSname: I{toBrng}.
     '''
-    return _toDMS(_mod360(bearing), form, prec, sep, 1, NN, **s_D_M_S)
+    return _toDMS(_mod360(bearing), form, prec, sep, 1, NN, s_D_M_S)
 
 
 def _clip(angle, limit, units):
@@ -297,7 +273,7 @@ def _clip(angle, limit, units):
 def clipDegrees(deg, limit):
     '''Clip a lat- or longitude to the given range.
 
-       @arg deg: Unclipped lat- or longitude (C{degrees}).
+       @arg deg: Unclipped lat- or longitude (C{scalar degrees}).
        @arg limit: Valid C{-/+B{limit}} range (C{degrees}).
 
        @return: Clipped value (C{degrees}).
@@ -339,16 +315,15 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
                     values of 1 and above, but kept for negative B{C{prec}}.
        @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override DMS symbols, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
 
        @return: Compass degrees and point in the specified form (C{str}).
 
        @see: Function L{pygeodesy.toDMS}.
     '''
     b = _mod360(bearing)
-    return _toDMS(b, form, prec, sep, 1, compassPoint(b), **s_D_M_S)
+    return _toDMS(b, form, prec, sep, 1, compassPoint(b), s_D_M_S)
 
 
 def compassPoint(bearing, prec=3):
@@ -382,29 +357,31 @@ def compassPoint(bearing, prec=3):
         >>> p = compassPoint(-11.25)  # 'N'
         >>> p = compassPoint(348.749) # 'NNW'
     '''
-    try:
-        m =  2 << prec
-        x = 32 // m
-        # not round(), i.e. half-even rounding in Python 3+,
-        # but round-away-from-zero as int(b + 0.5) iff b is
-        # non-negative, otherwise int(b + copysign0(_0_5, b))
-        q = int(_mod360(bearing) * m / _360_0 + _0_5) % m
-        return _WINDS[q * x]
-    except Exception as x:
-        E, t = _xError2(x)
-        raise E(prec=prec, txt=t)
+    try:  # like .streprs.enstr2
+        m = 2 << prec
+        if m in (4, 8, 16, 32):
+            w = 32 // m
+            # not round(), i.e. half-even rounding in Python 3+,
+            # but round-away-from-zero as int(b + 0.5) iff b is
+            # non-negative, otherwise int(b + copysign0(_0_5, b))
+            w *= int(_mod360(bearing) * m / _360_0 + _0_5) % m
+            return _WINDS[w]
+        t = _invalid_
+    except (IndexError, TypeError, ValueError) as x:
+        t =  str(x)
+    raise _ValueError(bearing=bearing, prec=prec, txt=t)
 
 
 def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     '''Convert degrees to a string in degrees, minutes I{or} seconds.
 
-       @arg deg: Value in degrees (C{scalar}).
+       @arg deg: Value in degrees (C{scalar degrees}).
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg s_D: Symbol for degrees (C{str}).
-       @kwarg s_M: Symbol for minutes (C{str}) or C{""}.
-       @kwarg s_S: Symbol for seconds (C{str}) or C{""}.
+       @kwarg s_D: D symbol for degrees (C{str}).
+       @kwarg s_M: M symbol for minutes (C{str}) or C{""}.
+       @kwarg s_S: S symbol for seconds (C{str}) or C{""}.
        @kwarg neg: Optional sign for negative (C{'-'}).
        @kwarg pos: Optional sign for positive (C{''}).
 
@@ -415,7 +392,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
-        raise _ValueError(deg=deg, txt=str(x))
+        raise _ValueError(deg=deg, prec=prec, txt=str(x))
 
     d, s = abs(deg), s_D
     if d < 1:
@@ -435,13 +412,13 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     if z > 1:
         t = fstrzs(t)
     n = neg if deg < 0 else pos
-    return NN(n, t, s)
+    return NN(n, t, s)  # NOT unicode in Python 2-
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
     '''Convert latitude to a string, optionally suffixed with N or S.
 
-       @arg deg: Latitude to be formatted (C{degrees}).
+       @arg deg: Latitude to be formatted (C{scalar degrees}).
        @kwarg form: Format specifier for B{C{deg}} (C{str} or L{F_D},
                     L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
                     L{F_D60}, L{F__E}, L{F__F}, L{F__G}, L{F_RAD},
@@ -455,9 +432,8 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
                     values of 1 and above, but kept for negative B{C{prec}}.
        @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override DMS symbols, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
 
        @return: Degrees in the specified form (C{str}).
 
@@ -466,7 +442,7 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
        @JSname: I{toLat}.
     '''
     p = _S_ if deg < 0 else _N_
-    return _toDMS(deg, form, prec, sep, 2, p, **s_D_M_S)
+    return _toDMS(deg, form, prec, sep, 2, p, s_D_M_S)
 
 
 def latlonDMS(lls, form=F_DMS, prec=None, sep=None, **s_D_M_S):
@@ -486,9 +462,8 @@ def latlonDMS(lls, form=F_DMS, prec=None, sep=None, **s_D_M_S):
                     values of 1 and above, but kept for negative B{C{prec}}.
        @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override DMS symbols, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
 
        @return: A C{str} or C{tuple} if B{C{sep}=None} or C{NN} and if
                 B{C{lls}} is a list, sequence, tuple, etc.
@@ -529,7 +504,7 @@ def latlonDMS_(*lls, **form_prec_sep_s_D_M_S):
 def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
     '''Convert longitude to a string, optionally suffixed with E or W.
 
-       @arg deg: Longitude to be formatted (C{degrees}).
+       @arg deg: Longitude to be formatted (C{scalar degrees}).
        @kwarg form: Format specifier for B{C{deg}} (C{str} or L{F_D},
                     L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
                     L{F_D60}, L{F__E}, L{F__F}, L{F__G}, L{F_RAD},
@@ -543,9 +518,8 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
                     values of 1 and above, but kept for negative B{C{prec}}.
        @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override DMS symbols, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
 
        @return: Degrees in the specified form (C{str}).
 
@@ -554,86 +528,59 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
        @JSname: I{toLon}.
     '''
     p = _W_ if deg < 0 else _E_
-    return _toDMS(deg, form, prec, sep, 3, p, **s_D_M_S)
+    return _toDMS(deg, form, prec, sep, 3, p, s_D_M_S)
 
 
-def _S_normx(s_D=S_DEG, s_M=S_MIN, s_S=S_SEC):
-    '''(INTERNAL) Alternate symbols for degrees, minutes and seconds.
+def normDMS(strDMS, norm=None, **s_D_M_S):
+    '''Normalize all degrees, minutes and seconds (DMS) symbols in a
+       string to the default symbols L{S_DEG}, L{S_MIN}, L{S_SEC}.
+
+       @arg strDMS: Original DMS string (C{str}).
+       @kwarg norm: Optional replacement symbol (C{str}) or C{None} for
+                    the default DMS symbols).  Use C{B{norm}=""} to
+                    remove all DMS symbols.
+       @kwarg s_D_M_S: Optional, alternate DMS symbols C{B{s_D}=str},
+                       C{B{s_M}=str}, C{B{s_S}=str} and/or C{B{s_R}=str}
+                       for radians, each to be replaced by B{C{norm}}.
+
+       @return: Normalized DMS (C{str}).
     '''
-    return _xkwds({s_D: S_DEG, s_M: S_MIN, s_S: S_SEC}, **_S_norm)
+    def _s2S2(s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, s_R=S_RAD):
+        d = {s_D: S_DEG, s_M: S_MIN, s_S: S_SEC, s_R: S_RAD}
+        for s, S in _xkwds(d, **_S_norm).items():
+            if s:
+                yield s, S
 
+    # XXX strDMS isn't unicode in Python 2- and looping
+    # thru strDMS will yield each byte, hence the loop
+    # thru _s2S2 and replacing the DMS symbols in strDMS
 
-if _sys_version_info2 < (3, 0):  # PYCHOK no cover
-
-    def normDMS(strDMS, norm=None, **s_D_M_S):
-        '''Normalize all degree, minute and second DMS symbols in a string
-           to the default DMS symbols %r, %r and %r.
-
-           @arg strDMS: DMS (C{str}).
-           @kwarg norm: Optional replacement symbol (C{str}) or C{None} for
-                        the default DMS symbols.  Use C{B{norm}=""} or
-                        C{B{norm}=pygeodesy.NN} to remove all DMS symbols.
-           @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
-                           minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
-
-           @return: Normalized DMS (C{str}).
-        '''
-        S_norm = _S_normx(**s_D_M_S) if s_D_M_S else _S_norm
-
-        if norm is None:
-            for s, S in S_norm.items():
+    if norm is None:  # back to default DMS
+        for s, S in _s2S2(**s_D_M_S):
+            if s != S:
                 strDMS = strDMS.replace(s, S)
-        else:
-            for s in S_norm.keys():
-                strDMS = strDMS.replace(s, norm)
-            strDMS = strDMS.rstrip(norm)
-        return strDMS
 
-else:  # Python 3+
+    else:  # replace or remove all DMS
+        n = norm or NN
+        for s, _ in _s2S2(**s_D_M_S):
+            if s != n:
+                strDMS = strDMS.replace(s, n)
+        if n:
+            strDMS = strDMS.rstrip(n)  # XXX not .strip?
 
-    def normDMS(strDMS, norm=None, **s_D_M_S):  # PYCHOK expected
-        '''Normalize all degree, minute and second DMS symbols in a string
-           to the default DMS symbols %r, %r and %r.
-
-           @arg strDMS: DMS (C{str}).
-           @kwarg norm: Optional replacement symbol (C{str}) or C{None} for
-                        the default DMS symbols.  Use C{B{norm}=""} or
-                        C{B{norm}=pygeodesy.NN} to remove all DMS symbols.
-           @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
-                           minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
-
-           @return: Normalized DMS (C{str}).
-        '''
-        S_norm = _S_normx(**s_D_M_S) if s_D_M_S else _S_norm
-
-        if norm is None:
-            S_norm_get = S_norm.get
-            t = NN.join(S_norm_get(s, s) for s in strDMS)
-
-        elif norm:  # replace all DMS symbols
-            t = NN.join((norm if s in S_norm else s) for s in strDMS)
-            t = t.rstrip(norm)
-
-        else:  # remove all DMS symbols
-            t = NN.join(s for s in strDMS if s not in S_norm)
-
-        return t
+    return strDMS  # NOT unicode in Python 2-
 
 
-if __debug__:  # no __doc__ at -O and -OO
-    normDMS.__doc__ %= (S_DEG, S_MIN, S_SEC)
-
-
-def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False):  # MCCABE 16
+def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False):  # MCCABE 14
     '''Parse a lat- or longitude represention forms as [D]DDMMSS in degrees.
 
-       @arg strDDDMMSS: Degrees in any of several forms (C{str}) and
-                        types (C{float}, C{int}, other).
+       @arg strDDDMMSS: Degrees in any of several forms (C{str}) and types
+                        (C{float}, C{int}, other).
        @kwarg suffix: Optional, valid compass points (C{str}, C{tuple}).
        @kwarg sep: Optional separator between "[D]DD", "MM" and "SS" (L{S_SEP}).
        @kwarg clip: Optionally, limit value to range C{-/+B{clip}} (C{degrees}).
        @kwarg sexagecimal: If C{True}, convert C{"D.MMSS"} or C{float(D.MMSS)}
-                           to C{base-60} "MM" and "SS" digits.  See also C{form}s
+                           to C{base-60} "MM" and "SS" digits.  See C{form}s
                            L{F_D60}, L{F_D60_} and L{F_D60__}.
 
        @return: Degrees (C{float}).
@@ -648,15 +595,15 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
        @note: Type C{str} values "[D]DD", "[D]DDMM", "[D]DDMMSS" and "[D]DD.MMSS"
               for B{C{strDDDMMSS}} are parsed properly only if I{either} unsigned
               and suffixed with a valid, compatible, C{cardinal} L{compassPoint}
-              I{or} if unsigned or signed, unsuffixed and with keyword argument
-              B{C{suffix}} set to B{%r}, B{%r} or a compatible L{compassPoint}.
+              I{or} signed I{or} unsigned, unsuffixed and with keyword argument
+              B{C{suffix}="NS"}, B{C{suffix}="EW"} or a compatible L{compassPoint}.
 
        @note: Unlike function L{parseDMS}, type C{float}, C{int} and other non-C{str}
               B{C{strDDDMMSS}} values are interpreted as C{form} [D]DDMMSS or
               [D]DD.MMSS.  For example, C{int(1230)} is returned as 12.5 and I{not
               1230.0} degrees.  However, C{int(345)} is considered C{form} "DDD"
-              345 I{and not "DDMM" 0345}, unless B{C{suffix}} specifies compass
-              point B{%r}.  Also, C{float(15.0523)} is returned as 15.0523 decimal
+              345 I{and not "DDMM" 0345}, unless B{C{suffix}} specifies the compass
+              point.  Also, C{float(15.0523)} is returned as 15.0523 decimal
               degrees and I{not 15°5′23″ sexagecimal}.  To consider the latter, use
               C{float(15.0523)} or C{"15.0523"} and specify the keyword argument
               C{B{sexagecimal}=True}.
@@ -667,15 +614,12 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
     def _DDDMMSS(strDDDMMSS, suffix, sep, clip, sexagecimal):
         S = suffix.upper()
         if isstr(strDDDMMSS):
-            if sep:
-                t = strDDDMMSS.replace(sep, NN)
-            else:
-                t = strDDDMMSS
+            t = strDDDMMSS.replace(sep, NN) if sep else strDDDMMSS
             s, t, P = _split3(t, S)
             f = t.split(_DOT_)
             n = len(f[0])
             f = NN.join(f)
-            if 1 < n < 8 and f.isdigit() and (
+            if 1 < n < 8 and f.isdigit() and (  # dddN/S/E/W or ddd or +/-ddd
                                  (P in S and s.isdigit()) or
                             (P.isdigit() and s in _SDIGITS_  # PYCHOK indent
                                          and S in _WINDS)):
@@ -691,10 +635,8 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
                 n += 4  # ... [D]DD.MMSSs to [D]DDMMSS.s
                 if n < 6:
                     raise ParseError('%s digits (%s)' % (_sexagecimal_, n))
-                elif n > len(f):  # if (z := n - len(f)) > 0:
-                    t = f + (_0_ * (n - len(f)))  # + (_0_ * z)
-                else:
-                    t = _DOT_(f[:n], f[n:])
+                z = n - len(f)  # zeros to append
+                t = (f + (_0_ * z)) if z > 0 else _DOT_(f[:n], f[n:])
             f = _0_0  # fraction
 
         else:  # float or int to [D]DDMMSS[.fff]
@@ -706,10 +648,10 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
             if f < 0:
                 f = -f
                 s = _MINUS_
-            f, i = modf(f)
-            t = str(int(i))  # str(i) == 'i.0'
+            f, i = modf(f)   # returns ...
+            t = str(int(i))  # ... float(i)
             n = len(t)  # number of digits to ...
-            if n < m:  # ... min required or ...
+            if n < m:  # ... required min or ...
                 t = (_0_ * (m - n)) + t
             # ... match the given compass point
             elif S in (_NS_ if isodd(n) else _EW_):
@@ -728,15 +670,10 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False
             else:  # [D]DDMMSS[.sss]
                 t = float(t[:n-4]), float(t[n-4:n-2]), f
         d = _dms2deg(s, P, *t)
-
         return clipDegrees(d, float(clip)) if clip else d
 
     return _parseX(_DDDMMSS, strDDDMMSS, suffix, sep, clip, sexagecimal,
-                             strDDDMMSS=strDDDMMSS, suffix=suffix)
-
-
-if __debug__:  # no __doc__ at -O and -OO
-    parseDDDMMSS.__doc__ %= (_NS_, _EW_, _NS_)
+                             strDDDMMSS=strDDDMMSS, suffix=suffix, sexagecimal=sexagecimal)
 
 
 def _dms2deg(s, P, deg, min=_0_0, sec=_0_0):
@@ -950,7 +887,7 @@ def precision(form, prec=None):
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **s_D_M_S):
     '''Convert I{signed} C{degrees} to string, without suffix.
 
-       @arg deg: Degrees to be formatted (C{degrees}).
+       @arg deg: Degrees to be formatted (C{scalar degrees}).
        @kwarg form: Format specifier for B{C{deg}} (C{str} or L{F_D},
                     L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
                     L{F_D60}, L{F__E}, L{F__F}, L{F__G}, L{F_RAD},
@@ -967,17 +904,30 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **
        @kwarg neg: Prefix for negative B{C{deg}} (C{'-'}).
        @kwarg pos: Prefix for positive B{C{deg}} and signed B{C{form}} (C{'+'}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the degrees, minutes
-                       respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                       respectively L{S_SEC}.
+                       and/or C{B{s_S}=str} to override the DMS symbol for the
+                       degrees, minutes respectively seconds value, defaults
+                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.  See B{Notes}
+                       below.
 
        @return: Degrees in the specified form (C{str}).
+
+       @note: The degrees, minutes and seconds (DMS) symbol can be overridden in
+              this and other C{*DMS} functions by using optional keyword argments
+              C{B{s_D}="d"}, C{B{s_M}="'"} respectively C{B{s_S}='"'}.
+
+       @note: Sexagecimal format B{C{F_D60}} supports overridable pseudo-DMS symbols
+              positioned at C{"[D]DD<B{s_D}>MM<B{s_M}>SS<B{s_S}>"} with defaults
+              C{B{s_D}="."}, C{B{s_M}=B{sep}} and C{B{s_S}=}L{pygeodesy.NN}.
+
+       @note: Formats B{C{F__E}}, B{C{F__F}} and B{C{F__G}} can be extended with
+              a C{D}-only symbol if defined with keyword argument C{B{s_D}=str}.
+              Likewise for B{C{F_RAD}} formats with keyword argument C{B{s_R}=str}.
 
        @see: Function L{pygeodesy.degDMS}
     '''
     s =  form[:1]
     f =  form[1:] if s in _PLUSMINUS_ else form
-    t = _toDMS(deg, f, prec, sep, ddd, NN, **s_D_M_S)  # unsigned and -suffixed
+    t = _toDMS(deg, f, prec, sep, ddd, NN, s_D_M_S)  # unsigned and -suffixed
     if deg < 0 and neg:
         t = neg + t
     elif deg > 0 and s == _PLUS_ and pos:

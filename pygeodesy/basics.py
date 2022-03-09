@@ -29,7 +29,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.02.25'
+__version__ = '22.03.06'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -61,14 +61,15 @@ except ImportError:
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
-    _Strs  = basestring, str
+    _Strs  = basestring, str  # XXX , bytes
 
     def _Xstr(exc):  # PYCHOK no cover
         '''I{Invoke only with caught ImportError} B{C{exc}}.
 
            C{... "cannot import name _distributor_init" ...}
 
-           only for numpy, scipy on arm64 macOS' Python 2.7.16?
+           only for C{numpy}, C{scipy} import errors occurring
+           on arm64 Apple Silicon running macOS' Python 2.7.16?
         '''
         t = str(exc)
         if '_distributor_init' in t:

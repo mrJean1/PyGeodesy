@@ -9,15 +9,15 @@ from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
-                             _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
-                             _OKd_, _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
-                             _0_0, _0_001, _0_01, _0_1, _1_0
+                             _EQUAL_, _H_, _invalid_, _N_, _name_, _not_, \
+                             _PERCENT_, _OKd_, _scalar_, _SPACE_, _STAR_, \
+                             _UNDER_, _0_, _0_0, _0_001, _0_01, _0_1, _1_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.12.28'
+__version__ = '22.03.04'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -246,19 +246,23 @@ def enstr2(easting, northing, prec, *extras):
 
        @arg easting: Easting from false easting (C{meter}).
        @arg northing: Northing from from false northing (C{meter}).
-       @arg prec: Precision in number of digits (C{int}, [1..5]).
+       @arg prec: Precision in number of digits (C{int}, 2..10).
        @arg extras: Optional leading items (C{str}s).
 
        @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
 
        @raise ValueError: Invalid B{C{prec}}.
     '''
-    w = int(prec) // 2
-    if not 0 < w < 6:
-        raise _ValueError(prec=prec)
-    p = _E_4_E0[w - 1]  # 10**(5 - w)
-    return extras + (_0wd(w, int(easting  * p)),
-                     _0wd(w, int(northing * p)))
+    try:  # like .dms.compassPoint
+        w = int(prec) // 2
+        if 0 < w <= len(_E_4_E0):
+            s = _E_4_E0[w - 1]  # 10**(5 - w)
+            return extras + (_0wd(w, int(easting  * s)),
+                             _0wd(w, int(northing * s)))
+        t = _invalid_
+    except (TypeError, ValueError) as x:
+        t =  str(x)
+    raise _ValueError(easting=easting, northing=northing, prec=prec, txt=t)
 
 
 def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):

@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '20.01.07'
+__version__ = '22.03.08'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
                  PythonX, type2str
@@ -54,6 +54,9 @@ class Tests(TestsBase):
                 self.test(e, x, 0)
         else:
             self.skip('no _env_cmd')
+
+        for n, m in lazily._ALL_MODS.items():  # coverage
+            self.test(n, m, m)
 
 
 if __name__ == '__main__':
