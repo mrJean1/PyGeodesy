@@ -50,11 +50,11 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @var S_DEG: Degrees symbol, default C{"°"}
 @var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
 @var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
-@var S_RAD: Radians symbol, default C{""} aka L{pygeodesy.NN}
-@var S_SEP: Separator between C{deg°, min′, sec″, suffix}, default C{""} aka L{pygeodesy.NN}
+@var S_RAD: Radians symbol, default C{""} aka C{pygeodesy.NN}
+@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka C{pygeodesy.NN}
 
-@note: In Python 2-, L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} are or may be
-       multi-byte, non-ascii characters and if-so I{not} C{unicode}.
+@note: In Python 2-, L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} may be multi-byte,
+       non-ascii characters and if so, I{not} C{unicode}.
 '''
 
 from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, neg as _neg  # in .ups
@@ -75,7 +75,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.03.07'
+__version__ = '22.03.27'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -95,7 +95,7 @@ del _F_s
 _F_case = {F_D:   F_D,   F_DEG: F_D,   _degrees_: F_D,  # unsigned _F_s
            F_DM:  F_DM,  F_MIN: F_DM,  _deg_min_: F_DM,
            F_D60: F_D60, F_RAD: F_RAD, _radians_: F_RAD,
-           F__E:  F__E,  F__F:  F__F,   F__G:     F__G}
+           F__E:  F__E,  F__F:  F__F,   F__G:     F__G}  # default F_DMS
 
 _F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  # default precs
            F_DEG: 6, F_MIN: 4, F_SEC: 2, F_D60: 0,
@@ -107,7 +107,7 @@ S_DEG = _DEGREES_ = '°'  # ord() = 176
 S_MIN = _MINUTES_ = '′'  # PRIME
 S_SEC = _SECONDS_ = '″'  # DOUBLE_PRIME
 S_RAD =  NN  # radians symbol ""
-S_SEP =  NN  # separator between deg, min and sec ""
+S_SEP =  NN  # separator between deg|min|sec|suffix ""
 S_NUL =  NN  # empty string, kept INTERNAL
 
 # note: ord(_DEGREES_) == ord('°') == 176, ord('˚') == 730
@@ -125,7 +125,7 @@ def _D603(sep, s_D=_DOT_, s_M=None, s_S=S_NUL, **unused):
     '''(INTERNAL) Get the overridden or default pseudo-C{DMS} symbols.
     '''
     M = sep if s_M is None else s_M
-    return s_D, (M or NN), s_S
+    return s_D, (M or S_NUL), s_S
 
 
 def _DMS3(form, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, **unused):
@@ -144,7 +144,7 @@ def _dms3(d, ddd, p, w):
             _0wpF(w+2, p, s))
 
 
-def _fstrzs(t, **unused):  #
+def _fstrzs(t, **unused):
     '''(INTERNAL) Pass-thru version of C{.streprs.fstrzs}.
     '''
     return t
@@ -166,7 +166,7 @@ def _split3(strDMS, suffix=_NSEW_):
     return s, t, P
 
 
-def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
+def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     '''(INTERNAL) Convert C{deg} to C{str}, with/-out sign, DMS symbols and/or suffix.
     '''
     try:
@@ -174,7 +174,6 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
     except (TypeError, ValueError) as x:
         raise _ValueError(deg=deg, form=form, prec=prec, txt=str(x))
 
-    form = form.lower()  # .strip()
     if form[:1] in _PLUSMINUS_:  # signed
         sign = _MINUS_ if deg < 0 else (
                _PLUS_  if deg > 0 and form[:1] == _PLUS_ else NN)
@@ -182,8 +181,13 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
         suff =  NN  # no suffix if signed
     else:  # suffixed
         sign =  NN  # no sign if suffixed
-        suff =  NN(sep, suff)
-    F = _F_case.get(form, F_DMS)
+        if suff and sep:
+            suff = NN(sep, suff)
+    try:
+        F    = _F_case[form]  # .strip()
+    except KeyError:
+        form =  form.lower()  # .strip()
+        F    = _F_case.get(form, F_DMS)
 
     if prec is None:
         z = p = _F_prec.get(F, 6)
@@ -211,7 +215,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
         D, _, _ = _DMS3(form, **s_D_M_S)
         t = NN(sign, z(_0wpF(w+ddd, p, d)), D, suff)
 
-    elif F is F_D60:  # 'deg.MMSSss'
+    elif F is F_D60:  # 'deg.MM|SSss|'
         D, M, S = _D603(sep, **s_D_M_S)
         d, m, s = _dms3(d, ddd, p, w)
         t = z(s).split(_DOT_) + [S, suff]
@@ -224,7 +228,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # in .units
 
     else:  # F in (F__E, F__F, F__G)
         D = _xkwds_get(s_D_M_S, s_D=S_NUL)
-        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)
+        d =  NN(_PERCENTDOTSTAR_, F) % (p, d)  # XXX form?
         t =  NN(sign, z(d, ap1z=F is F__G), D, suff)
 
     return t  # NOT unicode in Python 2-

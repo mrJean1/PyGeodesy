@@ -269,7 +269,7 @@ class _AzimuthalBase(_NamedBase):
         '''(INTERNAL) Check B{C{LatLon}} and return an instance.
         '''
         kwds = _xkwds(LatLon_kwds, datum=self.datum)
-        r = self._xnamed(LatLon(lat, lon, **kwds), name=name)  # handle .classof
+        r =  self._xnamed(LatLon(lat, lon, **kwds), name=name)  # handle .classof
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon=r)
         return r

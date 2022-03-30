@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 
 u'''Single-instance C{float}s and C{str}ings, C{intern}'ed across modules.
-Function L{pygeodesy.machine}.
+
+Functions L{pygeodesy.float_} and L{pygeodesy.machine}.
 '''
 from math import pi as PI, sqrt
+
+_COMMASPACE_  = ', '   # overriden below
+_pl2List      =  None  # cached _platform2 lists
+_Py3List      =  None  # cached _pythonarchine lists
 
 
 class Str_(str):
@@ -51,6 +56,30 @@ class _Python_(str):  # overwritten by singleton below
         if not version:
             from sys import version
         return _SPACE_(self, version.split(None, 1)[0])
+
+
+class _Range(str):
+    '''(INTERNAL) Extended C{str} for C{range} strings.
+    '''
+    _Fmt = None  # cached .streprs.Fmt
+
+    def __call__(self, lo, hi, lopen=False, ropen=False,
+                               prec=0, sep=_COMMASPACE_):
+        '''Return the range as C{"(lo, hi)"}, C{"(lo, hi]"},
+           C{"[lo, hi)"} or C{"[lo, hi]"}.
+        '''
+        Fmt = _Range._Fmt
+        if Fmt is None:
+            from pygeodesy.lazily import _ALL_MODS
+            Fmt = _Range._Fmt = _ALL_MODS.streprs.Fmt
+
+        r = NN(Fmt.f(lo, prec=prec), sep,
+               Fmt.f(hi, prec=prec))
+        if lopen:
+            r = Fmt.PAREN(r) if ropen else Fmt.LOPEN(r)
+        else:
+            r = Fmt.ROPEN(r) if ropen else Fmt.SQUARE(r)
+        return r
 
 
 class _Slicer(str):
@@ -129,7 +158,7 @@ _colinear_            = 'colinear'           # PYCHOK expected
 _COLON_          = Str_(':')                 # PYCHOK expected
 _COLONSPACE_     = Str_(': ')                # PYCHOK expected
 _COMMA_          = Str_(',')                 # PYCHOK expected
-_COMMASPACE_     = Str_(', ')                # PYCHOK expected
+_COMMASPACE_     = Str_(_COMMASPACE_)        # PYCHOK expected
 _concentric_          = 'concentric'         # PYCHOK expected
 _convergence_ = _Prefix('convergence')       # PYCHOK expected
 _conversion_          = 'conversion'         # PYCHOK expected
@@ -244,8 +273,8 @@ _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
 _NL_             = Str_('\n')                # PYCHOK expected
 _NL_hash_        = Str_(_NL_ + '# ')         # PYCHOK expected
+_NL_NL_          = Str_(_NL_ + _NL_)         # PYCHOK expected
 _NL_var_         = Str_(_NL_ + '@var ')      # PYCHOK expected
-_NLNL_           = Str_(_NL_)                # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
@@ -289,7 +318,7 @@ _radians2_            = 'radians2'           # PYCHOK SQUARED
 _radius_              = 'radius'             # PYCHOK expected
 _radius1_             = 'radius1'            # PYCHOK expected
 _radius2_             = 'radius2'            # PYCHOK expected
-# _range_      = _Range('range')             # moved down
+_range_        = _Range('range')             # PYCHOK expected
 #_RANGLE_             = '>'                  # PYCHOK expected
 _RCURLY_              = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
@@ -340,7 +369,7 @@ _valid_               = 'valid'              # PYCHOK expected
 _value_               = 'value'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
-__vs__                = ' vs '               # PYCHOK vs-SPACED
+# __vs__              = ' vs '               # PYCHOK vsSPACED
 _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
@@ -361,35 +390,10 @@ _SE_                  = _S_  + _E_           # PYCHOK expected
 _SW_                  = _S_  + _W_           # PYCHOK negative ones
 # _NESW_              = _NE_ + _SW_          # PYCHOK clockwise
 
-_DDOT_           = Str_(_DOT_ * 2)           # PYCHOK expected
+_DDOT_           = Str_(_DOT_   * 2)         # PYCHOK expected
 # _DEQUAL_       = Str_(_EQUAL_ * 2)         # PYCHOK expected
+# _DSTAR_        = Str_(_STAR_  * 2)         # PYCHOK expected
 _DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK expected
-
-
-class _Range(str):
-    '''(INTERNAL) Extended C{str} for C{range} strings.
-    '''
-    _Fmt = None  # cached .streprs.Fmt
-
-    def __call__(self, lo, hi, prec=0, lopen=False, ropen=False,
-                               join=_COMMASPACE_):
-        '''Return the range as C{"(lo, hi)"}, C{"(lo, hi]"},
-           C{"[lo, hi)"} or C{"[lo, hi]"}.
-        '''
-        Fmt = _Range._Fmt
-        if Fmt is None:
-            from pygeodesy.lazily import _ALL_MODS
-            Fmt = _Range._Fmt = _ALL_MODS.streprs.Fmt
-
-        r = NN(Fmt.f(lo, prec=prec), join,
-               Fmt.f(hi, prec=prec))
-        if lopen:
-            r = Fmt.PAREN(r) if ropen else Fmt.LOPEN(r)
-        else:
-            r = Fmt.ROPEN(r) if ropen else Fmt.SQUARE(r)
-        return r
-
-_range_ = _Range('range')  # PYCHOK expected
 
 
 def _dunder_name(inst, *dflt):
@@ -402,8 +406,16 @@ def _dunder_name(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def _float(f):  # in .datums, .ellipsoids, .trf
-    '''(INTERNAL) cache initial C{float}s.
+def float_(*xs):
+    '''Yield all positional B{C{xs}} as C{float}.
+    '''
+    for x in xs:
+        x = float(x)
+        yield _floats.get(x, x)
+
+
+def _float(f):  # in .datums, .ellipsoids, ...
+    '''(INTERNAL) Cache initial C{float}s.
     '''
     f = float(f)
     return _floats.setdefault(f, f)  # PYCHOK del _floats
@@ -502,21 +514,10 @@ PI_4  = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
-MANTIS  = MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
 
-__all__ = ('DIG', _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EPS4',
-           'INF', 'INT0', 'MANT_DIG', 'MANTIS',  # DEPRECATED
-           'MAX', 'MIN',  # not 'MISSING'!
-           'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
-           'Str_',  # classes
-           'machine')  # imported by .lazily
-__version__ = '22.03.07'
-
-_pl2List = _Py3List = None  # cached _platform2 and _pythonarchine lists
-
-
-def _load_lib(name):  # name must startwith('lib')
+def _load_lib(name):
+    '''(INTERNAL) Load a C{dylib}, B{C{name}} must startwith('lib').
+    '''
     # macOS 11+ (aka 10.16) no longer provides direct loading of
     # system libraries, instead it installs the library after a
     # low-level dlopen(name) call where name is the library base
@@ -562,7 +563,8 @@ def machine():
 
 
 def _platform2(sep=NN):
-    # get platform architecture and machine as C{2-list} or C{str}
+    '''(INTERNAL) et platform architecture and machine as C{2-list} or C{str}.
+    '''
     global _pl2List
     if _pl2List is None:
         import platform
@@ -581,7 +583,8 @@ def _platform2(sep=NN):
 
 
 def _pythonarchine(sep=NN):  # in test/base.py versions
-    # get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}
+    '''(INTERNAL) Get PyPy and Python versions and C{_platform2} as C{3-} or C{4-list} or C{str}.
+    '''
     global _Py3List
     if _Py3List is None:
         from sys import version  # XXX shadows?
@@ -593,7 +596,8 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
 
 
 def _sysctl_uint(name):
-    # get an unsigned int sysctl item by name, use on macOS ONLY!
+    '''(INTERNAL) Get an unsigned int sysctl item by name, use on macOS ONLY!
+    '''
     libc = _load_lib('libc')
     if libc:  # <https://StackOverflow.com/questions/759892/python-ctypes-and-sysctl>
         from ctypes import byref, c_char_p, c_size_t, c_uint, sizeof  # get_errno
@@ -607,19 +611,43 @@ def _sysctl_uint(name):
 
 
 def _usage(file_py):
-    # build "usage: python ..." cmd line for module B{C{file_py}}
+    '''(INTERNAL) Build "usage: python ..." cmd line for module B{C{file_py}}.
+    '''
     import os, sys  # PYCHOK imports
     p = NN('python', sys.version_info[0])
-    m = os.path.dirname(file_py).replace(os.getcwd(), _ELLIPSIS_).strip()
+    m = os.path.dirname(file_py).replace(os.getcwd(), _ELLIPSIS_) \
+                                .replace(os.sep, _DOT_).strip()
     if len(m.split()) > 1:
         m = NN(_QUOTE2_, m, _QUOTE2_)  # == streprs.Fmt.QUOTE2(m)
-    return _SPACE_('usage:', p, '-m', m.replace(os.sep, _DOT_))
+    return _SPACE_('usage:', p, '-m', m)
 
 
 def _version2(version, n=2):
-    # split C{B{version} str} into 1-, 2- or 3-tuple of C{int}s
-    t = (tuple(map(int, version.split(_DOT_)[:n])) if version else ()) + (0, 0, 0)
+    '''(INTERNAL) Split C{B{version} str} into 1-, 2- or 3-tuple of C{int}s.
+    '''
+    def _int(*vs):
+        for v in vs:
+            try:
+                yield int(v)
+            except (TypeError, ValueError):
+                pass
+
+    t = tuple(_int(*version.split(_DOT_, 2))) + (0,) * n
     return t[:n]
+
+
+MANTIS  =   MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
+__all__ = ('DIG',
+           _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS1_2', 'EPS2', 'EPS_2', 'EPS4',
+           'INF', 'INT0',
+           'MANT_DIG', 'MAX', 'MIN',  # don't include 'MISSING'!
+           'MANTIS',  # DEPRECATED
+           'NAN', 'NEG0', 'NN',
+           'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
+           'Str_',  # classes
+            float_.__name__, machine.__name__)  # imported by .lazily
+__version__ = '22.03.27'
+
 
 # **) MIT License
 #

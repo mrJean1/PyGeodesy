@@ -59,18 +59,19 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module etm</h1><p class="nomargin-top"></p>
-<p><i>Karney</i>'s Exact Transverse Mercator (ETM) projection.</p>
-  <p>Classes <a href="pygeodesy.etm.ETMError-class.html" 
-  class="link">ETMError</a> and <a href="pygeodesy.etm.Etm-class.html" 
-  class="link">Etm</a>, a pure Python transcoding of <i>Karney</i>'s C++ 
-  class <a 
+<p>A pure Python version of <i>Karney</i>'s <code>Exact Transverse 
+  Mercator</code> (ETM) projection.</p>
+  <p>Classes <a href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, 
+  <a href="pygeodesy.etm.ETMError-class.html" class="link">ETMError</a> and
+  <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+  class="link">ExactTransverseMercator</a>, transcoded from <i>Karney</i>'s
+  C++ class <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
-  target="_top">TransverseMercatorExact</a>, abbreviated as 
-  <code>TMExact</code> below.</p>
-  <p>Python class <a 
-  href="pygeodesy.etm.ExactTransverseMercator-class.html" 
-  class="link">ExactTransverseMercator</a> implements the <code>Exact 
-  Transverse Mercator</code> (ETM) projection.  Instances of class <a 
+  target="_top">TransverseMercatorExact</a> (abbreviated as 
+  <code>TMExact</code> below).</p>
+  <p>Class <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+  class="link">ExactTransverseMercator</a> provides <code>Exact Transverse 
+  Mercator</code> projections while instances of class <a 
   href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> represent ETM 
   <code>(easting, nothing)</code> locations.</p>
   <p>Following is a copy of <i>Karney</i>'s <a 
@@ -82,15 +83,17 @@
   MIT/X11 License.  For more information, see the <a 
   href="https://GeographicLib.SourceForge.io" 
   target="_top">GeographicLib</a> documentation.</p>
-  <p>The method entails using the <code>Thompson Transverse Mercator</code>
-  as an intermediate projection.  The projections from the intermediate 
-  coordinates to <code>phi, lam</code> and <code>x, y</code> are given by 
-  elliptic functions. The inverse of these projections are found by 
-  Newton's method with a suitable starting guess.</p>
+  <p>The method entails using the <a 
+  href="https://WikiPedia.org/wiki/Transverse_Mercator_projection" 
+  target="_top">Thompson Transverse Mercator</a> as an intermediate 
+  projection.  The projections from the intermediate coordinates to 
+  <code>phi, lam</code> and <code>x, y</code> are given by elliptic 
+  functions.  The inverse of these projections are found by Newton's method
+  with a suitable starting guess.</p>
   <p>The relevant section of L.P. Lee's paper <a 
   href="https://DOI.org/10.3138/X687-1574-4325-WM62" 
   target="_top">Conformal Projections Based On Jacobian Elliptic 
-  Functions</a> is part V, pp 67--101.  The C++ implementation and notation
+  Functions</a> in part V, pp 67-101.  The C++ implementation and notation 
   closely follow Lee, with the following exceptions:</p>
 <pre class="literalblock">
  Lee   here   Description
@@ -124,7 +127,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.01.17
+        22.03.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -174,7 +177,7 @@
       A Python version of Karney's <a 
         href="https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html"
         target="_top">TransverseMercatorExact</a> C++ class, a numerically 
-        exact transverse mercator projection, here referred to as 
+        exact transverse Mercator projection, here referred to as 
         <code>TMExact</code>.
     </td>
   </tr>
@@ -318,7 +321,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>strUTM</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -387,15 +390,16 @@
           <code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b> or near-spherical or incompatible 
+        <b><code>datum</code></b> or <code>ellipsoid</code>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>lat</code></b> outside the valid UTM bands or if 
         <b><code>lat</code></b> or <b><code>lon</code></b> outside the 
         valid range and <a href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or <b><code>latlon</code></b> not
-        ellipsoidal.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b> or 
+        <b><code>latlon</code></b> not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>lon</code></b> value is missing or 
         <b><code>latlon</code></b> is invalid.</li>
     </ul></dd>
   </dl>
@@ -433,7 +437,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar  8 19:38:06 2022
+    Generated by Epydoc 3.0.1 on Wed Mar 30 11:30:11 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

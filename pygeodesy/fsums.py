@@ -39,7 +39,7 @@ from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 __all__ = _ALL_LAZY.fsums
 __version__ = '22.03.01'
 
-_eq_ = _EQUAL_ * 2
+_eq_ = _EQUAL_ * 2  # _DEQUAL_
 _ge_ = '>='
 _gt_ = '>'  # _RANGLE_
 _le_ = '<='
@@ -55,7 +55,7 @@ _mod_      = _PERCENT_
 _divmod_   = _floordiv_ + _mod_
 _mul_      = _STAR_
 _non_zero_ = 'non-zero'
-_pow_      = _STAR_ * 2
+_pow_      = _STAR_ * 2  # _DSTAR_
 _residual_ = 'residual'
 _sub_      = _DASH_
 _truediv_  = _SLASH_

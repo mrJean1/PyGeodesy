@@ -166,6 +166,9 @@ using Python 3.10.2, both in 64-bit on macOS 12.2.1 Monterey.
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
 
+In Python 2, symbols L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} may be multi-byte, non-ascii
+characters and if so, I{not} C{unicode}.
+
 Some function and method names differ from the JavaScript version.  In such cases documentation tag
 B{JS name:} shows the original JavaScript name.
 
@@ -230,41 +233,41 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var EPS0:   M{EPS**2}    ≈ 4.9e-32 for near-zero comparison
 @var EPS02:  M{EPS**4}    ≈ 2.4e-63 for near-zero squared comparison
 
-@var F_D:   Format degrees as unsigned "deg°" with symbol, plus compass point suffix C{N, S, W} or C{E} (C{str}).
+@var F_D:   Format degrees as unsigned "deg°" with symbol, plus compass point suffix C{N, S, E} or C{W} (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" with symbols, plus suffix (C{str}).
 @var F_DMS: Format degrees as unsigned "deg°min′sec″" with symbols, plus suffix (C{str}).
-@var F_DEG: Format degrees as unsigned "[D]DD" without symbol, plus suffix (C{str}).
-@var F_MIN: Format degrees as unsigned "[D]DDMM" without symbols, plus suffix (C{str}).
-@var F_SEC: Format degrees as unsigned "[D]DDMMSS" without symbols, plus suffix (C{str}).
-@var F_D60: Format degrees as unsigned "[D]DD.MMSS" without symbols plus suffix (C{str}).
-@var F__E:  Format degrees as unsigned "%E" without symbols, plus suffix (C{str}).
-@var F__F:  Format degrees as unsigned "%F" without symbols, plus suffix (C{str}).
-@var F__G:  Format degrees as unsigned "%G" without symbols, plus suffix (C{str}).
+@var F_DEG: Format degrees as unsigned "[D]DD" I{without} symbol, plus suffix (C{str}).
+@var F_MIN: Format degrees as unsigned "[D]DDMM" I{without} symbols, plus suffix (C{str}).
+@var F_SEC: Format degrees as unsigned "[D]DDMMSS" I{without} symbols, plus suffix (C{str}).
+@var F_D60: Format degrees as unsigned "[D]DD.MMSS" C{sexagecimal} I{without} symbols, plus suffix (C{str}).
+@var F__E:  Format degrees as unsigned "%E" I{without} symbols, plus suffix (C{str}).
+@var F__F:  Format degrees as unsigned "%F" I{without} symbols, plus suffix (C{str}).
+@var F__G:  Format degrees as unsigned "%G" I{without} symbols, plus suffix (C{str}).
 @var F_RAD: Convert degrees to radians and format as unsigned "RR" with symbol, plus suffix (C{str}).
 
-@var F_D_:   Format degrees as signed "-/deg°" with symbol, without suffix (C{str}).
-@var F_DM_:  Format degrees as signed "-/deg°min′" with symbols, without suffix (C{str}).
-@var F_DMS_: Format degrees as signed "-/deg°min′sec″" with symbols, without suffix (C{str}).
-@var F_DEG_: Format degrees as signed "-/[D]DD" without symbol, without suffix (C{str}).
-@var F_MIN_: Format degrees as signed "-/[D]DDMM" without symbols, without suffix (C{str}).
-@var F_SEC_: Format degrees as signed "-/[D]DDMMSS" without symbols, without suffix (C{str}).
-@var F_D60_: Format degrees as signed "-/[D]DD.MMSS" without symbols, without suffix (C{str}).
-@var F__E_:  Format degrees as signed "-/%E" without symbols, without suffix (C{str}).
-@var F__F_:  Format degrees as signed "-/%F" without symbols, without suffix (C{str}).
-@var F__G_:  Format degrees as signed "-/%G" without symbols, without suffix (C{str}).
-@var F_RAD_: Convert degrees to radians and format as signed "-/RR" without symbol, without suffix (C{str}).
+@var F_D_:   Format degrees as signed "-/deg°" with symbol, I{without} suffix (C{str}).
+@var F_DM_:  Format degrees as signed "-/deg°min′" with symbols, I{without} suffix (C{str}).
+@var F_DMS_: Format degrees as signed "-/deg°min′sec″" with symbols, I{without} suffix (C{str}).
+@var F_DEG_: Format degrees as signed "-/[D]DD" I{without} symbol, I{without} suffix (C{str}).
+@var F_MIN_: Format degrees as signed "-/[D]DDMM" I{without} symbols, I{without} suffix (C{str}).
+@var F_SEC_: Format degrees as signed "-/[D]DDMMSS" I{without} symbols, I{without} suffix (C{str}).
+@var F_D60_: Format degrees as signed "-/[D]DD.MMSS" C{sexagecimal} I{without} symbols, I{without} suffix (C{str}).
+@var F__E_:  Format degrees as signed "-/%E" I{without} symbols, I{without} suffix (C{str}).
+@var F__F_:  Format degrees as signed "-/%F" I{without} symbols, I{without} suffix (C{str}).
+@var F__G_:  Format degrees as signed "-/%G" I{without} symbols, I{without} suffix (C{str}).
+@var F_RAD_: Convert degrees to radians and format as signed "-/RR" I{without} symbol, I{without} suffix (C{str}).
 
-@var F_D__:   Format degrees as signed "-/+deg°" with symbol, without suffix (C{str}).
-@var F_DM__:  Format degrees as signed "-/+deg°min′" with symbols, without suffix (C{str}).
-@var F_DMS__: Format degrees as signed "-/+deg°min′sec″" with symbols, without suffix (C{str}).
-@var F_DEG__: Format degrees as signed "-/+[D]DD" without symbol, without suffix (C{str}).
-@var F_MIN__: Format degrees as signed "-/+[D]DDMM" without symbols, without suffix (C{str}).
-@var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without symbols, without suffix (C{str}).
-@var F_D60__: Format degrees as signed "-/+[D]DD.MMSS" without symbols, without suffix (C{str}).
-@var F__E__:  Format degrees as signed "-/+%E" without symbols, without suffix (C{str}).
-@var F__F__:  Format degrees as signed "-/+%F" without symbols, without suffix (C{str}).
-@var F__G__:  Format degrees as signed "-/+%G" without symbols, without suffix (C{str}).
-@var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without symbol, without suffix (C{str}).
+@var F_D__:   Format degrees as signed "-/+deg°" with symbol, I{without} suffix (C{str}).
+@var F_DM__:  Format degrees as signed "-/+deg°min′" with symbols, I{without} suffix (C{str}).
+@var F_DMS__: Format degrees as signed "-/+deg°min′sec″" with symbols, I{without} suffix (C{str}).
+@var F_DEG__: Format degrees as signed "-/+[D]DD" I{without} symbol, I{without} suffix (C{str}).
+@var F_MIN__: Format degrees as signed "-/+[D]DDMM" I{without} symbols, without suffix (C{str}).
+@var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" I{without} symbols, I{without} suffix (C{str}).
+@var F_D60__: Format degrees as signed "-/+[D]DD.MMSS" C{sexagecimal} I{without} symbols, I{without} suffix (C{str}).
+@var F__E__:  Format degrees as signed "-/+%E" I{without} symbols, I{without} suffix (C{str}).
+@var F__F__:  Format degrees as signed "-/+%F" I{without} symbols, I{without} suffix (C{str}).
+@var F__G__:  Format degrees as signed "-/+%G" I{without} symbols, I{without} suffix (C{str}).
+@var F_RAD__: Convert degrees to radians and format as signed "-/+RR" I{without} symbol, I{without} suffix (C{str}).
 
 @var DIG:      System's M{float decimal digits} = 15 (C{int}).
 @var INF:      Infinity (C{float}), see function L{pygeodesy.isinf}, L{pygeodesy.isfinite}.
@@ -275,6 +278,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var NAN:      Not-A-Number (C{float}), see function L{pygeodesy.isnan}.
 @var NEG0:     Negative 0.0 (C{float}), see function L{pygeodesy.isneg0}.
 @var NN:       Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
+@var OK:       DEPRECATED, do not use.
 
 @var PI:    Constant M{math.pi} (C{float}).
 @var PI2:   Two PI, M{PI * 2}, aka I{Tau} (C{float}).
@@ -294,11 +298,11 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var R_GM: Average earth radius, distance to geoid surface (C{meter})
 @var R_VM: Aviation/Navigation earth radius (C{meter}).
 
-@var S_DEG: Degrees symbol, default "°"
-@var S_MIN: Minutes symbol, default "′" aka C{PRIME}
-@var S_SEC: Seconds symbol, default "″" aka C{DOUBLE PRIME}
-@var S_RAD: Radians symbol, default "" aka C{NN}
-@var S_SEP: Separator between deg°, min′, sec″ and suffix, default "" aka C{NN}
+@var S_DEG: Degrees symbol, default C{"°"}
+@var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
+@var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
+@var S_RAD: Radians symbol, default C{""} aka C{NN}
+@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka C{NN}
 
 @var Conics:     Registered conics (C{enum-like}).
 @var Datums:     Registered datums (C{enum-like}).
@@ -528,7 +532,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.03.08'
+__version__ = '22.03.30'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

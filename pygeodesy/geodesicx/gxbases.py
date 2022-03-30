@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '21.11.24'
+__version__ = '22.03.25'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -65,7 +65,7 @@ class Caps(object):  # PYCHOK
     _AZIMUTH_LATITUDE_LONGITUDE           = AZIMUTH | LATITUDE | LONGITUDE
     _LINE                                 = AZIMUTH | LATITUDE | LONG_UNROLL
     _REDUCEDLENGTH_GEODESICSCALE          = REDUCEDLENGTH | GEODESICSCALE
-    _DISTANCE_REDUCEDLENGTH_GEODESICSCALE = REDUCEDLENGTH | GEODESICSCALE | DISTANCE
+#   _REDUCEDLENGTH_GEODESICSCALE_DISTANCE = REDUCEDLENGTH | GEODESICSCALE | DISTANCE
 
 Caps = Caps()  # PYCHOK singleton
 '''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic

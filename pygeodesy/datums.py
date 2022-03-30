@@ -82,7 +82,7 @@ from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, \
                              _tx_, _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, \
                              _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy, Property_RO
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.02.24'
+__version__ = '22.03.29'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -378,8 +378,7 @@ class Datum(_NamedEnumItem):
     def exactTM(self):
         '''Get the C{ExactTM} projection (L{ExactTransverseMercator}).
         '''
-        from pygeodesy.etm import ExactTransverseMercator
-        return ExactTransverseMercator(datum=self)
+        return _MODS.etm.ExactTransverseMercator(datum=self)
 
     @Property_RO
     def isEllipsoidal(self):

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''DEPRECATED classes, functions, methods, etc.
+u'''DEPRECATED constants, classes, functions, methods, etc.
 
 Kept and exported for backward compatibility, including deprecated modules
 C{pygeodesy.bases}, C{pygeodesy.datum} and C{pygeodesy,nvector}, previously
@@ -29,9 +29,9 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.02.27'
+__version__ = '22.03.30'
 
-OK     = 'OK'  # OK for test like I{if ... is OK: ...}
+OK     = 'OK'  # DEPRECATED
 _WGS84 = _UTM = object()
 
 

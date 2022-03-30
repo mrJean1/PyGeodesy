@@ -38,7 +38,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.01.17'
+__version__ = '22.03.26'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -188,14 +188,14 @@ class _AlbersBase(_NamedBase):
                 g  = (_1_0 + (b_a * ta0)**2) * sa0
                 dg = e12 * sca02 * (_1_0 + 2 * ta02) + e2
                 D  = sa0m * (_1_0 - e2 * (_1_0 + sa01 * 2 * sa0)) / (e12 * sa01)  # dD/dsa0
-                dD =   -2 * (_1_0 - e2 * sa02 * (_3_0 + 2 * sa0)) / (e12 * sa01**2)
+                dD = _2_0 * (_1_0 - e2 * sa02 * (_3_0 + 2 * sa0)) / (e12 * sa01**2)
                 sa02_ = _1_0 - e2 * sa02
                 sa0m_ = sa0m / (_1_0 - e2 * sa0)
                 BA = sa0m_ * (self._atanhx1(e2 * sa0m_**2) * e12 - e2 * sa0m) \
                    - sa0m**2 * e2 * (2 + (_1_0 + e2) * sa0) / (e12 * sa02_)  # == B + A
                 dAB = 2 * e2 * (2 - e2 * (_1_0 + sa02)) / (e12 * sa02_**2 * sca02)
-                u_du = fsum_(s1_qZ *  g,  -D,  g * BA) \
-                     / fsum_(s1_qZ * dg, -dD, dg * BA, g * dAB)  # == u/du
+                u_du = fsum_(s1_qZ *  g, -D,  g * BA) \
+                     / fsum_(s1_qZ * dg, dD, dg * BA, g * dAB)  # == u/du
                 ta0, d = Ta0.fsum2_(-u_du * (sca0 * sca02))
                 if abs(d) < tol:
                     break

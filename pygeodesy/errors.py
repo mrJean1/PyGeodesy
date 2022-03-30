@@ -17,12 +17,12 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _datum_, _ellipsoidal_, _EQUAL_, \
                              _invalid_, _len_, _name_, _no_, \
                              _not_, _or_, _SPACE_, _specified_, \
-                             _UNDER_, _value_, __vs__
+                             _UNDER_, _value_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.03.04'
+__version__ = '22.03.25'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -30,6 +30,7 @@ _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
+__vs__       = ' vs '  # _vsSPACED_
 
 try:
     _exception_chaining = None  # not available

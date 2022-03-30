@@ -12,7 +12,7 @@ choices, see function L{DeprecationWarnings} below.
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, MISSING, _N_A_, _NLNL_, \
+                             _invalid_, MISSING, _N_A_, _NL_NL_, \
                              _SPACE_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _FOR_DOCS, _PYTHON_X_DEV, _sys
@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.02.24'
+__version__ =  '22.03.24'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -431,7 +431,7 @@ def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''
     from warnings import warn
 
-    line =  doc.split(_NLNL_, 1)[0].split()
+    line =  doc.split(_NL_NL_, 1)[0].split()
     name = _MODS.streprs.Fmt.CURLY(L=name)
     text = _SPACE_(kind, name, _has_been_, *line)
     kwds = _xkwds(stacklevel, stacklevel=3)

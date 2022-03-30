@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.03.01'
+__version__ = '22.03.29'
 
 _delta_ = 'delta'
 _TolRD  =  pow(EPS * 0.002, _0_125)
@@ -430,7 +430,7 @@ class Elliptic(_Named):
                 if n:
                     phi = Phi.fsum_(n * PI)
                 return phi
-        raise _convergenceError(self.fEinv, x)
+        raise _convergenceError(_TolJAC, self.fEinv, x)
 
     def fF(self, phi_or_sn, cn=None, dn=None):
         '''The incomplete integral of the first kind in terms of
@@ -568,7 +568,7 @@ class Elliptic(_Named):
     def reset(self, k2=0, alpha2=0, kp2=None, alphap2=None):  # MCCABE 13
         '''Reset the modulus and parameter.
 
-           @kwarg k2: modulus squared (C{float}, -INF <= k^2<= 1).
+           @kwarg k2: modulus squared (C{float}, -INF <= k^2 <= 1).
            @kwarg alpha2: parameter (C{float}, -INF <= α^2 <= 1).
            @kwarg kp2: complementary modulus squared (C{float}, k'^2 >= 0).
            @kwarg alphap2: complementary parameter squared (C{float}, α'^2 >= 0).
@@ -698,7 +698,7 @@ class Elliptic(_Named):
                 mc *= a
                 a = c
             else:
-                raise _convergenceError(self.sncndn, x)
+                raise _convergenceError(_TolJAC * a, self.sncndn, x)
             x *=  c
             dn = _1_0
             sn, cn = sincos2(x)
@@ -732,11 +732,11 @@ class Elliptic(_Named):
         return Elliptic3Tuple(sn, cn, self.fDelta(sn, cn))
 
 
-def _convergenceError(where, *args):  # PYCHOK no cover
+def _convergenceError(tol, where, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
     t = _SPACE_(where.__name__, repr(args))
-    return EllipticError(_no_(_convergence_), txt=t)  # unstr
+    return EllipticError(_no_(_convergence_), tol, txt=t)  # unstr
 
 
 def _horner(S, e1, e2, e3, e4, e5):
@@ -821,7 +821,7 @@ def _RD(x, y, z):  # used by testElliptic.py
         S += _1_0 / (m * s[2] * (t + r))
         m *= _4_0
     else:
-        raise _convergenceError(_RD, x, y, z)
+        raise _convergenceError(Q, _RD, x, y, z)
 
     m *= An
     x = (x - A) / m
@@ -853,7 +853,7 @@ def _RF_(x, y):
             return PI / (a + b)
         b, a = sqrt(a * b), (a + b) * _0_5
 
-    raise _convergenceError(_RF_, x, y)
+    raise _convergenceError(_TolRG0 * a, _RF_, x, y)
 
 
 def _RF(x, y, z):  # used by testElliptic.py
@@ -876,7 +876,7 @@ def _RF(x, y, z):  # used by testElliptic.py
         _, _, T = _rsT3(T)
         m *= _4_0
     else:
-        raise _convergenceError(_RF, x, y, z)
+        raise _convergenceError(Q, _RF, x, y, z)
 
     m *= An
     x = (A - x) / m
@@ -916,7 +916,7 @@ def _RG_(x, y):
         S += -m * (a - b)**2
         m *= _2_0
 
-    raise _convergenceError(_RG_, x, y)
+    raise _convergenceError(_TolRG0 * a, _RG_, x, y)
 
 
 def _RG(x, y, z):  # used by testElliptic.py
@@ -970,7 +970,7 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
         m *= _4_0
         m3 *= 64
     else:
-        raise _convergenceError(_RJ, x, y, z, p)
+        raise _convergenceError(Q, _RJ, x, y, z, p)
 
     m *= An
     x = (A - x) / m

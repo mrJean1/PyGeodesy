@@ -323,6 +323,13 @@
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
     target="_top">karney</a>.</p>
+    <p>In Python 2, symbols <a href="pygeodesy-module.html#S_DEG" 
+    class="link">S_DEG</a>, <a href="pygeodesy-module.html#S_MIN" 
+    class="link">S_MIN</a>, <a href="pygeodesy-module.html#S_SEC" 
+    class="link">S_SEC</a>, <a href="pygeodesy-module.html#S_RAD" 
+    class="link">S_RAD</a> and <a href="pygeodesy-module.html#S_SEP" 
+    class="link">S_SEP</a> may be multi-byte, non-ascii characters and if 
+    so, <i>not</i> <code>unicode</code>.</p>
     <p>Some function and method names differ from the JavaScript version.  
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
@@ -439,7 +446,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.03.08
+        22.03.30
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -461,7 +468,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Datums and transformations thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, methods, etc.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED constants, classes, functions, methods, etc.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
         class="link">latlonBase</a> instead.</em>    </li>
@@ -492,7 +499,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary"><i>Karney</i>'s elliptic functions and integrals.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">European Petroleum Survey Group (EPSG) en-/decoding.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors-module.html">pygeodesy.errors</a></strong>: <em class="summary">Errors, exceptions and exception chaining.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary"><i>Karney</i>'s Exact Transverse Mercator (ETM) projection.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <code>Exact Transverse 
+        Mercator</code> (ETM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Utilities using precision floating point summation.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy-module.html">pygeodesy.formy</a></strong>: <em class="summary">Formulary of basic geodesy functions and approximations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet-module.html">pygeodesy.frechet</a></strong>: <em class="summary">Fr&#233;chet distances.</em>    </li>
@@ -1645,7 +1653,7 @@
       A Python version of Karney's <a 
         href="https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html"
         target="_top">TransverseMercatorExact</a> C++ class, a numerically 
-        exact transverse mercator projection, here referred to as 
+        exact transverse Mercator projection, here referred to as 
         <code>TMExact</code>.
     </td>
   </tr>
@@ -6768,6 +6776,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="float_"></a><span class="summary-sig-name">float_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Yield all positional <b><code>xs</code></b> as <code>float</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
       Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
       / len(xs)</i>.</td>
@@ -7259,7 +7284,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd470519f50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8ad03a09d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8166,7 +8191,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
         <span class="summary-sig-arg">*Supers</span>)</span><br />
-      Check whether a class is a sub-class of some class(es).</td>
+      Check whether a class is a sub-class of some other class(es).</td>
           <td align="right" valign="top">
             
             
@@ -11342,7 +11367,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.3.8'"><code class="variable-quote">'</code><code class="variable-string">22.3.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.3.30'"><code class="variable-quote">'</code><code class="variable-string">22.3.30</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11478,7 +11503,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
       Format degrees as unsigned &quot;deg&#176;&quot; with symbol, plus compass
-      point suffix <code>N, S, W</code> or <code>E</code> 
+      point suffix <code>N, S, E</code> or <code>W</code> 
       (<code>str</code>).
     </td>
   </tr>
@@ -11487,8 +11512,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60"></a><span class="summary-name">F_D60</span> = <code title="'d60'"><code class="variable-quote">'</code><code class="variable-string">d60</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DD.MMSS&quot; without symbols 
-      plus suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, plus suffix 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11496,8 +11522,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60_"></a><span class="summary-name">F_D60_</span> = <code title="'-d60'">'-d60'</code><br />
-      Format degrees as signed &quot;-/[D]DD.MMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, <i>without</i> 
+      suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11505,8 +11532,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D60__"></a><span class="summary-name">F_D60__</span> = <code title="'+d60'">'+d60'</code><br />
-      Format degrees as signed &quot;-/+[D]DD.MMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DD.MMSS&quot; 
+      <code>sexagecimal</code> <i>without</i> symbols, <i>without</i> 
+      suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11514,8 +11542,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DD&quot; without symbol, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DD&quot; <i>without</i> symbol, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11523,8 +11551,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'">'-deg'</code><br />
-      Format degrees as signed &quot;-/[D]DD&quot; without symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DD&quot; <i>without</i> symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11532,8 +11560,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'">'+deg'</code><br />
-      Format degrees as signed &quot;-/+[D]DD&quot; without symbol, without
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DD&quot; <i>without</i> symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11560,7 +11588,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'">'-dms'</code><br />
       Format degrees as signed &quot;-/deg&#176;min&#8242;sec&#8243;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11569,7 +11597,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'">'+dms'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;sec&#8243;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11577,8 +11605,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'">'-dm'</code><br />
-      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; with symbols, without
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; with symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11587,7 +11615,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'">'+dm'</code><br />
       Format degrees as signed &quot;-/+deg&#176;min&#8242;&quot; with symbols, 
-      without suffix (<code>str</code>).
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11595,8 +11623,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'">'-d'</code><br />
-      Format degrees as signed &quot;-/deg&#176;&quot; with symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/deg&#176;&quot; with symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11604,8 +11632,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'">'+d'</code><br />
-      Format degrees as signed &quot;-/+deg&#176;&quot; with symbol, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+deg&#176;&quot; with symbol, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11613,8 +11641,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMM&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMM&quot; <i>without</i> 
+      symbols, plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11622,8 +11650,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'">'-min'</code><br />
-      Format degrees as signed &quot;-/[D]DDMM&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DDMM&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11631,8 +11659,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'">'+min'</code><br />
-      Format degrees as signed &quot;-/+[D]DDMM&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DDMM&quot; <i>without</i> 
+      symbols, without suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11650,7 +11678,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'">'-rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/RR&quot; 
-      without symbol, without suffix (<code>str</code>).
+      <i>without</i> symbol, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11659,7 +11687,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td><td class="summary">
         <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'">'+rad'</code><br />
       Convert degrees to radians and format as signed &quot;-/+RR&quot; 
-      without symbol, without suffix (<code>str</code>).
+      <i>without</i> symbol, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11667,8 +11695,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMMSS&quot; without symbols, 
-      plus suffix (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMMSS&quot; <i>without</i> 
+      symbols, plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11676,8 +11704,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'">'-sec'</code><br />
-      Format degrees as signed &quot;-/[D]DDMMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/[D]DDMMSS&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11685,8 +11713,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'">'+sec'</code><br />
-      Format degrees as signed &quot;-/+[D]DDMMSS&quot; without symbols, 
-      without suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+[D]DDMMSS&quot; <i>without</i> 
+      symbols, <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11694,8 +11722,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%E&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%E&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11703,8 +11731,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'">'-e'</code><br />
-      Format degrees as signed &quot;-/%E&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%E&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11712,8 +11740,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'">'+e'</code><br />
-      Format degrees as signed &quot;-/+%E&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%E&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11721,8 +11749,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%F&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%F&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11730,8 +11758,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'">'-f'</code><br />
-      Format degrees as signed &quot;-/%F&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%F&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11739,8 +11767,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'">'+f'</code><br />
-      Format degrees as signed &quot;-/+%F&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%F&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11748,8 +11776,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%G&quot; without symbols, plus 
-      suffix (<code>str</code>).
+      Format degrees as unsigned &quot;%G&quot; <i>without</i> symbols, 
+      plus suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11757,8 +11785,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'">'-g'</code><br />
-      Format degrees as signed &quot;-/%G&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/%G&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11766,8 +11794,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'">'+g'</code><br />
-      Format degrees as signed &quot;-/+%G&quot; without symbols, without 
-      suffix (<code>str</code>).
+      Format degrees as signed &quot;-/+%G&quot; <i>without</i> symbols, 
+      <i>without</i> suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -11858,7 +11886,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'"><code class="variable-quote">'</code><code class="variable-string">OK</code><code class="variable-quote">'</code></code>
+        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'"><code class="variable-quote">'</code><code class="variable-string">OK</code><code class="variable-quote">'</code></code><br />
+      DEPRECATED, do not use.
     </td>
   </tr>
 <tr>
@@ -12004,7 +12033,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code><br />
-      Degrees symbol, default &quot;&#176;&quot;
+      Degrees symbol, default <code>&quot;&#176;&quot;</code>
     </td>
   </tr>
 <tr>
@@ -12012,7 +12041,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes symbol, default &quot;&#8242;&quot; aka <code>PRIME</code>
+      Minutes symbol, default <code>&quot;&#8242;&quot;</code> aka <i>PRIME</i>
     </td>
   </tr>
 <tr>
@@ -12020,7 +12049,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''">''</code><br />
-      Radians symbol, default &quot;&quot; aka <code>NN</code>
+      Radians symbol, default <code>&quot;&quot;</code> aka <code>NN</code>
     </td>
   </tr>
 <tr>
@@ -12028,7 +12057,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code><br />
-      Seconds symbol, default &quot;&#8243;&quot; aka <code>DOUBLE PRIME</code>
+      Seconds symbol, default <code>&quot;&#8243;&quot;</code> aka 
+      <i>DOUBLE_PRIME</i>
     </td>
   </tr>
 <tr>
@@ -12036,8 +12066,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''">''</code><br />
-      Separator between deg&#176;, min&#8242;, sec&#8243; and suffix, default &quot;&quot; 
-      aka <code>NN</code>
+      Separator between <code>deg&#176;|min&#8242;|sec&#8243;|suffix</code>, default 
+      <code>&quot;&quot;</code> aka <code>NN</code>
     </td>
   </tr>
 <tr>
@@ -14441,7 +14471,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><code>math.copysign(<b>x</b>, <b>y</b>)</code> if 
-          <b><code>x</code></b> else <code>0</code>.</dd>
+          <b><code>x</code></b> else <code>type(<b>x</b>)(0)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -18555,7 +18585,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd470519f50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8ad03a09d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20237,7 +20267,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check whether a class is a sub-class of some class(es).</p>
+  <p>Check whether a class is a sub-class of some other class(es).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -20246,8 +20276,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>Sub</code></b> is a sub-class of 
-          any <b><code>Supers</code></b>, <code>False</code> otherwise 
-          (<code>bool</code>).</dd>
+          any <b><code>Supers</code></b>, <code>False</code> if not 
+          (<code>bool</code>) or <code>None</code> if 
+          <b><code>Sub</code></b> is not a class or if no 
+          <b><code>Supers</code></b> are given or none of those are a 
+          class.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -22599,7 +22632,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>strUTM</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -25336,15 +25369,16 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b> or near-spherical or incompatible 
+        <b><code>datum</code></b> or <code>ellipsoid</code>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>lat</code></b> outside the valid UTM bands or if 
         <b><code>lat</code></b> or <b><code>lon</code></b> outside the 
         valid range and <a href="pygeodesy.errors-module.html#rangerrors" 
         class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or <b><code>latlon</code></b> not
-        ellipsoidal.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>lon</code></b> value is missing or if 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b> or 
+        <b><code>latlon</code></b> not ellipsoidal.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>lon</code></b> value is missing or 
         <b><code>latlon</code></b> is invalid.</li>
     </ul></dd>
   </dl>
@@ -27347,7 +27381,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar  8 19:38:06 2022
+    Generated by Epydoc 3.0.1 on Wed Mar 30 11:30:11 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

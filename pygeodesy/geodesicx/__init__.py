@@ -21,10 +21,8 @@ from pygeodesy.geodesicx.gxbases import Caps, GeodesicError  # PYCHOK exported
 # from pygeodesy.karney import GeodesicError  # from .geodesicx.bases
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
-__all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError, GeodesicAreaExact,
-                                          GeodesicExact, GeodesicLineExact,
-                                          PolygonArea)
-__version__ = '21.11.23'
+__all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError)
+__version__ = '22.03.25'
 
 # **) MIT License
 #

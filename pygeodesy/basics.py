@@ -19,7 +19,6 @@ from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
-from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 try:
     from math import isfinite as _isfinite  # in .ellipsoids, .fsums
@@ -29,7 +28,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.03.06'
+__version__ = '22.03.28'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -108,9 +107,10 @@ def clips(bstr, limit=50, white=NN):
 def copysign0(x, y):
     '''Like C{math.copysign(x, y)} except C{zero}, I{unsigned}.
 
-       @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else C{0}.
+       @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else
+                C{type(B{x})(0)}.
     '''
-    return _copysign(x, y) if x else copytype(0, x)
+    return _copysign(x, (y if y else 0)) if x else copytype(0, x)
 
 
 def copytype(x, y):
@@ -118,7 +118,7 @@ def copytype(x, y):
 
        @return: C{type(B{y})(B{x})}.
     '''
-    return type(y)(x)
+    return type(y)(x if x else _0_0)
 
 
 def halfs2(str2):
@@ -149,6 +149,8 @@ def isbool(obj):
 
 
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
+    from inspect import isclass as _isclass
+
     def isclass(obj):
         '''Return C{True} if B{C{obj}} is a C{class}.
 
@@ -156,7 +158,7 @@ if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
         '''
         return _isclass(obj)
 else:
-    isclass = _isclass
+    from inspect import isclass  # PYCHOK re-import
 
 
 def iscomplex(obj):
@@ -286,7 +288,7 @@ def isnon0(x, eps0=EPS0):
 
        @see: Function L{isnear0}.
     '''
-    return x > eps0 or (-x) > eps0
+    return eps0 <= x or x <= -eps0  # not isnear0
 
 
 def isodd(x):
@@ -335,19 +337,21 @@ def isstr(obj):
 
 
 def issubclassof(Sub, *Supers):
-    '''Check whether a class is a sub-class of some class(es).
+    '''Check whether a class is a sub-class of some other class(es).
 
        @arg Sub: The sub-class (C{class}).
        @arg Supers: One or more C(super) classes (C{class}).
 
-       @return: C{True} if B{C{Sub}} is a sub-class of any
-                B{C{Supers}}, C{False} otherwise (C{bool}).
+       @return: C{True} if B{C{Sub}} is a sub-class of any B{C{Supers}},
+                C{False} if not (C{bool}) or C{None} if B{C{Sub}} is not
+                a class or if no B{C{Supers}} are given or none of those
+                are a class.
     '''
     if isclass(Sub):
-        for S in Supers:  # any()
-            if isclass(S) and issubclass(Sub, S):
-                return True
-    return False
+        t = tuple(S for S in Supers if isclass(S))
+        if t:
+            return bool(issubclass(Sub, t))
+    return None
 
 
 def len2(items):

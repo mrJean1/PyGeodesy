@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.03.01'
+__version__ = '22.03.10'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -755,14 +755,16 @@ def sqrt_a(h, b):
         elif abs(h) < abs(b):
             raise ValueError('abs(h) < abs(b)')
 
-        if isnear0(h):
-            a = _0_0  # PYCHOK no cover
-        elif isnear0(b):
-            a =  h  # PYCHOK no cover
+        if isnear0(h):  # PYCHOK no cover
+            c, b = abs(h), abs(b)
+            d = c - b
+            s = sqrt((c + b) * d) if d > 0 else _0_0
+            a = copysign0(s, h)
         else:
-            s = _1_0 - (b / h)**2
-            a = (sqrt(s) * h) if 0 < s < 1 else (h if s else _0_0)
-        return float(a)
+            c =  float(h)
+            s = _1_0 - (b / c)**2
+            a = (sqrt(s) * c) if 0 < s < 1 else (c if s else _0_0)
+        return a
 
     except Exception as x:
         raise _xError(x, h=h, b=b)
