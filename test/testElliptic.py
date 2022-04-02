@@ -5,23 +5,23 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.05.10'
+__version__ = '22.04.01'
 
 from base import TestsBase
 
-from pygeodesy import elliptic, EllipticError, EPS, fstr, \
-                      PI_2, PI_4, radians, Scalar, sincos2
+from pygeodesy import Elliptic, EllipticError, Elliptic3Tuple, \
+                      EPS, fstr, PI_2, PI_4, radians, Scalar, sincos2
 
 
 class Tests(TestsBase):
 
     def testElliptic(self):
 
-        RC = elliptic._RC
-        RD = elliptic._RD
-        RF = elliptic._RF
-        RG = elliptic._RG
-        RJ = elliptic._RJ
+        RC = Elliptic.fRC
+        RD = Elliptic.fRD
+        RF = Elliptic.fRF
+        RG = Elliptic.fRG
+        RJ = Elliptic.fRJ
 
         eps4 = EPS * 4
         self.test('eps4', eps4, eps4, fmt='%.9e')
@@ -31,8 +31,8 @@ class Tests(TestsBase):
             x *= 0.01
             rc = RC(x, y)
             rf = RF(x, y, y)
-            k = abs(rc - rf) < eps4
-            t = 'RC, RF(%.3f, ...)' % (x,)
+            k  = abs(rc - rf) < eps4
+            t  = 'RC, RF(%.3f, ...)' % (x,)
             self.test(t, rc, rf, fmt='%.12f', known=k)
             y = x
 
@@ -40,14 +40,16 @@ class Tests(TestsBase):
             kp2 *= 0.01
             rd = RD(0, kp2, 1)
             rj = RJ(0, kp2, 1, 1)
-            k = abs(rd - rj) < eps4
-            t = 'RD, RJ(%.3f, ...)' % (kp2,)
+            k  = abs(rd - rj) < eps4
+            t  = 'RD, RJ(%.3f, ...)' % (kp2,)
             self.test(t, rd, rj, fmt='%.12f', known=k)
 
         self.test('eps4', eps4, eps4, fmt='%.9e', nl=1)
 
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>
-        e = elliptic.Elliptic(0.1)
+        e = Elliptic(0.1)
+        self.test('k2',  e.k2,  '0.1000000',   fmt='%.7f')
+        self.test('kp2', e.kp2, '0.9000000',   fmt='%.7f')
         self.test('eps', e.eps, '0.0263340',   fmt='%.7f')
         self.test('cD',  e.cD,  '0.816837118', fmt='%.9f')  # ?
         self.test('cE',  e.cE,  '1.530757637', fmt='%.9f')
@@ -121,17 +123,19 @@ class Tests(TestsBase):
         self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f')  # E(0.99)?
 
         e.reset(0, 0)
-        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),    '0.0, 1.0, 1.0', nl=1)
+        self.test('reset', len(e.__dict__), 4, nl=1)
+
+        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),    '0.0, 1.0, 1.0')
         self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '1.0, -0.0, 1.0', known=True)
         e.reset(1, 1)
         self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),    '0.0, 1.0, 1.0')
         self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
-        self.test('sncndn(x)', type(e.sncndn(PI_4)), elliptic.Elliptic3Tuple)
+        self.test('sncndn(x)', type(e.sncndn(PI_4)), Elliptic3Tuple)
         self.testCopy(e)
 
         for f in range(4):  # coverage
             t = (f / 4.0,) * 4
-            e = elliptic.Elliptic(*t)
+            e = Elliptic(*t)
             s = 'k2 alpha2 kp2 alphap2'
             e = tuple(getattr(e, a) for a in s.split())
             t = tuple(Scalar(f, name=n) for n, f in zip(s.split(), t))

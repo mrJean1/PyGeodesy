@@ -30,13 +30,13 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.01.17'
+__version__ = '22.03.31'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
 _too_low_   = _too_('low')
 _B2END      = _1_5  # _intersect3 bearing to pseudo-end point factor
-_TRIPS      = 33    # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
+_TRIPS      =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
 
 
 class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):

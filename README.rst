@@ -148,7 +148,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Mar 30, 2022.*
+*Last updated: April 04, 2022.*
 
 License
 =======
@@ -203,7 +203,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: https://mrJean1.GitHub.io/PyGeodesy
 .. _ECEF: https://WikiPedia.org/wiki/ECEF
-.. _EPSG: https://www.EPSG-Registry.org
+.. _EPSG: https://EPSG.org
 .. _Epydoc: https://PyPI.org/project/epydoc
 .. _equidistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
@@ -237,7 +237,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _PyCodeStyle: https://PyPI.org/project/pycodestyle
 .. _PyFlakes: https://PyPI.org/project/pyflakes
 .. _PyGeodesy: https://PyPI.org/project/PyGeodesy
-.. _PyInstaller: https://www.PyInstaller.org
+.. _PyInstaller: https://PyPI.org/project/pyinstaller
 .. _PyPI: https://PyPI.org/project/PyGeodesy
 .. _PyPy: https://PyPy.org
 .. _Pythonista: https://OMZ-Software.com/pythonista

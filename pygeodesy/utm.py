@@ -30,7 +30,7 @@ Some other references are U{Universal Transverse Mercator coordinate system
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>},
 U{Transverse Mercator Projection<https://GeographicLib.SourceForge.io/tm.html>}
 and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006.
+<https://DE.WikiPedia.org/wiki/Gauß-Krüger-Koordinatensystem>}, 2006.
 '''
 
 from pygeodesy.basics import len2, map2, neg  # splice
@@ -64,7 +64,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.01.17'
+__version__ = '22.04.02'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

@@ -62,7 +62,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnear0, neg, neg_, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
+from pygeodesy.elliptic import Elliptic, EllipticError
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1_
@@ -74,11 +74,12 @@ from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _update_all
-from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
+from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, property_doc_
 #                          _update_all  # from .named
 from pygeodesy.streprs import pairs, unstr
-from pygeodesy.units import Degrees, Easting, Lat, Lon, Northing, Scalar, Scalar_
+from pygeodesy.units import Degrees, Easting, Float, Lat, Lon, Northing, \
+                            Scalar, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
 from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, \
                           _to7zBlldfn, Utm, UTMError
@@ -86,12 +87,13 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.03.30'
+__version__ = '22.04.02'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
 _TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _2_0 * _TAYTOL
+_TRIPS    =  21  # 7 might be sufficient
 
 
 class EasNorExact4Tuple(_NamedTuple):
@@ -119,7 +121,7 @@ class Etm(Utm):
        @see: Karney's U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
     '''
-    _Error   = ETMError
+    _Error   = ETMError  # see utm.UTMError
     _exactTM = None
 
     def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
@@ -243,15 +245,8 @@ class Etm(Utm):
             t = repr(d.ellipsoid)
             raise ETMError(repr(xTM._E), txt=_incompatible(t))
 
-        f = not unfalse
-        e, n = self.eastingnorthing2(falsed=f)
-        # f  = unfalse == self.falsed
-        #   == unfalse and self.falsed or (not unfalse and not self.falsed)
-        #   == unfalse if self.falsed else not unfalse
-        #   == unfalse if self.falsed else f
-        if self.falsed:
-            f = unfalse
-        lon0 = _cmlon(self.zone) if f else None
+        e, n =  self.eastingnorthing2(falsed=not unfalse)
+        lon0 = _cmlon(self.zone) if bool(unfalse) == self.falsed else None
         lat, lon, g, k = xTM.reverse(e, n, lon0=lon0)
 
         ll = _LLEB(lat, lon, datum=d, name=self.name)  # utm._LLEB
@@ -279,8 +274,8 @@ class ExactTransverseMercator(_NamedBase):
     _iteration =  None  # ._sigmaInv and ._zetaInv
     _k0        = _1_0   # central scale factor
     _lon0      = _0_0   # central meridian
-    _mu        = _0_0   # _E.e2, 1st eccentricity squared
-    _mv        = _1_0   # _1_0 - _mu
+    _mu        = _0_0   # ._E.e2, 1st eccentricity squared
+    _mv        = _1_0   # _1_0 - ._mu
 
     def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
@@ -301,12 +296,11 @@ class ExactTransverseMercator(_NamedBase):
                  html/classGeographicLib_1_1TransverseMercatorExact.html} for more details,
                  especially on B{X{extendp}}.
 
-           @note: The maximum error for all 255.5K U{TMcoords.dat
-                  <https://Zenodo.org/record/32470>} tests (with C{0 <= lat <= 84}
-                  and C{0 <= lon}) is C{5.2e-08 .forward} or 52 nano-meter easting
-                  and northing and C{3.8e-13 .reverse} or 0.38 pico-degrees lat-
-                  and longitude (with Python 3.7.3+, 2.7.16+, PyPy6 3.5.3 and PyPy6
-                  2.7.13, all in 64-bit on macOS 10.13.6 High Sierra C{x86_64} and
+           @note: For all 255.5K U{TMcoords.dat<https://Zenodo.org/record/32470>} tests (with
+                  C{0 <= lat <= 84} and C{0 <= lon}) the maximum error is C{5.2e-08 .forward}
+                  (or 52 nano-meter) easting and northing and C{3.8e-13 .reverse} (or 0.38
+                  pico-degrees) lat- and longitude (with Python 3.7.3+, 2.7.16+, PyPy6 3.5.3
+                  and PyPy6 2.7.13, all in 64-bit on macOS 10.13.6 High Sierra C{x86_64} and
                   12.2 Monterey C{arm64} and C{"arm64_x86_64"}).
         '''
         if not extendp:
@@ -335,7 +329,7 @@ class ExactTransverseMercator(_NamedBase):
            @raise TypeError: Invalid or near-spherical B{C{datum}}.
         '''
         d = _ellipsoidal_datum(datum, name=self.name, raiser=True)
-        self._reset(d.ellipsoid, datum)
+        self._reset(datum)
         self._datum = d
 
     @Property_RO
@@ -344,7 +338,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         return (_1_0 - self._E.e) * _90_0
 
-    @Property_RO
+    @property_RO
     def ellipsoid(self):
         '''Get the ellipsoid (L{Ellipsoid}) or C{None}.
         '''
@@ -374,7 +368,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         return (_1_0 - _2_0 * self._E.e) * PI_2
 
-    @Property_RO
+    @property_RO
     def equatoradius(self):
         '''Get the C{ellipsoid}'s equatorial radius, semi-axis (C{meter}).
         '''
@@ -434,7 +428,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         return self._extendp
 
-    @Property_RO
+    @property_RO
     def flattening(self):
         '''Get the C{ellipsoid}'s flattening (C{float}).
         '''
@@ -469,10 +463,10 @@ class ExactTransverseMercator(_NamedBase):
             if lon < 0:
                 _lon, lon = True, -lon
             if lon > _90_0:
-                backside = True
+                lon = _180_0 - lon
                 if lat == 0:
                     _lat = True
-                lon = _180_0 - lon
+                backside = True
 
         # u,v = coordinates for the Thompson TM, Lee 54
         if lat == _90_0:
@@ -506,7 +500,7 @@ class ExactTransverseMercator(_NamedBase):
         return r
 
     def _Inv3(self, psi, dlam, _3_mv_e, _e_TAYTOL):  # (xi, deta, _3_mv, _TAYTOL2)
-        '''(INTERNAL) Partial C{sigmaInv0} or C{zetaInv0}.
+        '''(INTERNAL) Partial C{zetaInv0} or C{sigmaInv0}.
         '''
         h = hypot(psi, dlam)
         r = cbrt(h * _3_mv_e)
@@ -563,9 +557,9 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(Lon(lon0=lon0, Error=ETMError))
+        self._lon0 = _norm180(Float(lon0=lon0, Error=ETMError))
 
-    @deprecated_Property_RO
+    @deprecated_property_RO
     def majoradius(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{equatoradius}.'''
         return self.equatoradius
@@ -589,7 +583,7 @@ class ExactTransverseMercator(_NamedBase):
         return _3_0 / (self._mv * self._E.e)
 
     def _Newton2(self, taup, lam, zeta=True):  # or (xi, eta, False)
-        '''(INTERNAL) Invert C{sigma} or C{zeta} using Newton's method.
+        '''(INTERNAL) Invert C{zeta} or C{sigma} using Newton's method.
 
            @return: 2-Tuple C{(u, v)}.
 
@@ -601,8 +595,7 @@ class ExactTransverseMercator(_NamedBase):
         else:
             u, v, trip = self._sigmaInv0(taup, lam)
         if trip:
-            self._iteration = 0
-
+            i = 0
         else:
             sca1, tol2 = _1_0, _TOL_10
             if zeta:  # /= chokes PyChecker
@@ -615,7 +608,7 @@ class ExactTransverseMercator(_NamedBase):
             _zeta3   = self._zeta3   if zeta else self._sigma3    # PYCHOK attr
             _zetaDwd = self._zetaDwd if zeta else self._sigmaDwd  # PYCHOK attr
             # min iterations 2, max 6 or 7, mean 3.9 or 4.0
-            for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
+            for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 sncndn6 = _sncndn6(u, v)
                 dw, dv  = _zetaDwd( *sncndn6)
                 T, L, _ = _zeta3(v, *sncndn6)
@@ -628,34 +621,35 @@ class ExactTransverseMercator(_NamedBase):
                 trip = hypot2(du, dv) < tol2
 
             else:  # PYCHOK no cover
+                self._iteration = _TRIPS
                 w = self._zetaInv if zeta else self._sigmaInv  # PYCHOK attr
                 t = unstr(w.__name__, taup, lam)
                 raise EllipticError(_no_(_convergence_), tol2, txt=t)
 
+        self._iteration = i
         return u, v
 
-    def _reset(self, E, datum=None):
-        '''(INTERNAL) Get elliptic functions.
+    def _reset(self, datum):
+        '''(INTERNAL) Set the ellipsoid and elliptic moduli.
 
-           @arg E: An ellipsoid (L{Ellipsoid}) with C{0 < eccentricity2 < 1}.
-           @kwarg datum: Optional datum or C{None} for L{ETMError}.
+           @arg datum: Ellipsoidal datum (C{Datum}).
 
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid}.
         '''
+        E  =  datum.ellipsoid
         mu =  E.e2  # .eccentricity2
         mv = _1_0 - mu
         if isnear0(E.e) or isnear0(mu, eps0=EPS02) \
                         or isnear0(mv, eps0=EPS02):
-            raise ETMError(e=E.e, e2=mu, txt=repr(datum or E))
+            raise ETMError(e=E.e, e2=mu, txt=repr(datum))
 
         if self._datum or self._E:
-            _update_all(self)  # redo all @Property_ROs
+            _i = ExactTransverseMercator.iteration._uname
+            _update_all(self, _i)
 
         self._E  = E
         self._mu = mu
         self._mv = mv
-
-        self._iteration =  None
 
     def reverse(self, x, y, lon0=None):
         '''Reverse projection, from Transverse Mercator to geographic.
@@ -684,7 +678,7 @@ class ExactTransverseMercator(_NamedBase):
                 _lat, xi  = True, -xi
             if x < 0:
                 _lon, eta = True, -eta
-            if xi > self._Eu.cE:
+            if xi > self._Eu.cE:  # PYCHOK no cover
                 xi = self._xi_backside(xi)
                 backside = True
 
@@ -697,10 +691,10 @@ class ExactTransverseMercator(_NamedBase):
 
         if v or u != self._Eu.cK:
             g, k, lat, lon = self._zetaScaled(self._sncndn6(u, v))
-        else:
+        else:  # PYCHOK no cover
             g, k, lat, lon = _0_0, self._k0, _90_0, _0_0
 
-        if backside:
+        if backside:  # PYCHOK no cover
             lon, g = (_180_0 - lon), (_180_0 - g)
         if _lat:
             lat, g = neg_(lat, g)

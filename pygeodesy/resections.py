@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.03.01'
+__version__ = '22.04.02'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -760,7 +760,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{c}} or negative B{C{alpha}} or
                              B{C{beta}} or B{C{R3}} not C{callable}.
 
-       @see: U{Wildberger, Norman J.<https://math.sc.chula.ac.th/cjm/content/
+       @see: U{Wildberger, Norman J.<https://math.sc.chula.AC.TH/cjm/content/
              survey-article-greek-geometry-rational-trigonometry-and-snellius-–-pothenot-surveying>},
              U{Devine Proportions, page 252<http://www.ms.LT/derlius/WildbergerDivineProportions.pdf>}
              and function L{pygeodesy.snellius3}.

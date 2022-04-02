@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.03.29'
+__version__ = '22.04.02'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -260,7 +260,7 @@ Transforms = Transforms(Transform)  # PYCHOK singleton
 Transforms._assert(
     BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
                      # <https://www.NGI.Be/FR/FR4-4.shtm> ETRS89 == WG84
-                     # <https://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
+                     # <https://EPSG.org/transformation_15929/BD72-to-WGS-84-3.html>
                                     sx=_F(-0.33657),   sy=_F( -0.456955), sz=_F( -1.84218),
                                      s=_F( 1.2727)),
     Bessel1841     = _lazy(_Bessel1841_, tx=_F(-582.0),  ty=_F(-105.0),  tz=_F(-414.0),
@@ -532,7 +532,7 @@ Datums._assert(
     # <https://WikiPedia.org/wiki/GRS_80>
     GRS80          = _lazy(_GRS80_, _GRS80_, _WGS84_),
 
-    # <https://OSI.IE/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
+    # <https://OSI.IE/wp-content/uploads/2015/05/transformations_booklet.pdf> Table 2
 #   Irl1975        = _lazy(_Irl1965_, _AiryModified_, _Irl1965_),
     Irl1975        = _lazy(_Irl1975_, _AiryModified_, _Irl1975_),
 

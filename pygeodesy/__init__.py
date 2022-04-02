@@ -39,7 +39,7 @@ and Universal Transverse Mercator) and U{Web Mercator<https://WikiPedia.org/wiki
 (NATO Military Grid Reference System) and U{OSGR
 <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British Ordinance Survery
 Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.Fr>} (Terrestrial Reference Frames)
-and modules to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
+and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and U{Garefs (GARS)
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
@@ -134,7 +134,7 @@ The tests also ran with Python 3.10 or 3.9.9 (and U{geographiclib<https://PyPI.o
 U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
-<https://www.PyInstaller.org>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
+<https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15 and U{PyPy<https://PyPy.org>}
 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13) (and U{geographiclib
@@ -532,7 +532,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.03.30'
+__version__ = '22.04.04'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

@@ -11,8 +11,8 @@ near-spherical earth models.
 
 References U{Google Maps / Bing Maps Spherical Mercator Projection
 <https://AlastairA.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
-U{Geomatics Guidance Note 7, part 2<https://www.EPSG.org/Portals/0/373-07-02.pdf>} and
-U{Implementation Practice Web Mercator Map Projection
+U{Geomatics Guidance Note 7, part 2<https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf>}
+and U{Implementation Practice Web Mercator Map Projection
 <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 '''
 
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.11.18'
+__version__ = '22.04.02'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

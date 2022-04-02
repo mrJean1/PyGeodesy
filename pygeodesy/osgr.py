@@ -25,7 +25,7 @@ See also Karney U{'Transverse Mercator with an accuracy of a few nanometers'
 U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912), Seidel
 U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<https://Henrik-Seidel.GMXhome.DE/gausskrueger.pdf>}, 2006 and
+<https://DE.WikiPedia.org/wiki/Gauß-Krüger-Koordinatensystem>}, 2006 and
 U{Transverse Mercator: Redfearn series
 <https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
 '''
@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.01.17'
+__version__ = '22.04.02'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

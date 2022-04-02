@@ -439,7 +439,7 @@
         <span class="summary-sig-arg">alpha2</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">kp2</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">alphap2</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Reset the modulus and parameter.</td>
+      Reset the modulus, parameter and the complementaries.</td>
           <td align="right" valign="top">
             
             
@@ -497,6 +497,114 @@
       <code>__sizeof__</code>,
       <code>__subclasshook__</code>
       </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elliptic.Elliptic-class.html#fRC" class="summary-sig-name">fRC</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Degenerate symmetric integral of the first kind <code>RC(x, 
+      y)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elliptic.Elliptic-class.html#fRD" class="summary-sig-name">fRD</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>)</span><br />
+      Degenerate symmetric integral of the third kind <code>RD(x, y, 
+      z)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elliptic.Elliptic-class.html#fRF" class="summary-sig-name">fRF</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">*z</span>)</span><br />
+      Symmetric or complete symmetric integral of the first kind 
+      <code>RF(x, y, z)</code> respectively <code>RF(x, y)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elliptic.Elliptic-class.html#fRG" class="summary-sig-name">fRG</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">*z</span>)</span><br />
+      Symmetric or complete symmetric integral of the second kind 
+      <code>RG(x, y, z)</code> respectively <code>RG(x, y)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.elliptic.Elliptic-class.html#fRJ" class="summary-sig-name">fRJ</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">p</span>)</span><br />
+      Symmetric integral of the third kind <code>RJ(x, y, z, p)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -675,21 +783,13 @@
   <p>Constructor, specifying the <code>modulus</code> and 
   <code>parameter</code>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>k2</code></strong> - Modulus squared (<code>float</code>, 0 &lt;= k^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>alpha2</code></strong> - Parameter squared (<code>float</code>, 0 &lt;= &#945;^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>kp2</code></strong> - Complementary modulus squared (<code>float</code>, k'^2 &gt;= 0).</li>
-        <li><strong class="pname"><code>alphap2</code></strong> - Complementary parameter squared (<code>float</code>, &#945;'^2 &gt;= 
-          0).</li>
-    </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.elliptic.Elliptic-class.html#reset" 
-        class="link">reset</a> for further details.
+        class="link">Elliptic.reset</a> for further details.
       </p>
       <p><strong>Note:</strong>
         If only elliptic integrals of the first and second kinds are 
@@ -1283,21 +1383,20 @@
     </td>
   </tr></table>
   
-  <p>Reset the modulus and parameter.</p>
+  <p>Reset the modulus, parameter and the complementaries.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>k2</code></strong> - modulus squared (<code>float</code>, -INF &lt;= k^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>alpha2</code></strong> - parameter (<code>float</code>, -INF &lt;= &#945;^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>kp2</code></strong> - complementary modulus squared (<code>float</code>, k'^2 &gt;= 0).</li>
-        <li><strong class="pname"><code>alphap2</code></strong> - complementary parameter squared (<code>float</code>, &#945;'^2 &gt;= 
+        <li><strong class="pname"><code>k2</code></strong> - Modulus squared (<code>float</code>, -INF &lt;= k^2 &lt;= 1).</li>
+        <li><strong class="pname"><code>alpha2</code></strong> - Parameter squared (<code>float</code>, -INF &lt;= &#945;^2 &lt;= 1).</li>
+        <li><strong class="pname"><code>kp2</code></strong> - Complementary modulus squared (<code>float</code>, k'^2 &gt;= 0).</li>
+        <li><strong class="pname"><code>alphap2</code></strong> - Complementary parameter squared (<code>float</code>, &#945;'^2 &gt;= 
           0).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid <b><code>k2</code></b>, <b><code>alpha2</code></b>, 
-        <b><code>kp2</code></b> or <b><code>alphap2</code></b> or no 
-        convergence.</li>
+        <b><code>kp2</code></b> or <b><code>alphap2</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1339,6 +1438,163 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="fRC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fRC</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Degenerate symmetric integral of the first kind <code>RC(x, 
+  y)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>RC(x, y)</code>, equivalent to <code>RF(x, y, y)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://DLMF.NIST.gov/19.2.E17" 
+        target="_top"><code>RC</code> definition</a> and <a 
+        href="https://ArXiv.org/pdf/math/9409227.pdf" 
+        target="_top">Carlson</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fRD"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fRD</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Degenerate symmetric integral of the third kind <code>RD(x, y, 
+  z)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>RD(x, y, z)</code>, equivalent to <code>RJ(x, y, z, 
+          z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://DLMF.NIST.gov/19.16.E5" 
+        target="_top"><code>RD</code> definition</a> and <a 
+        href="https://ArXiv.org/pdf/math/9409227.pdf" 
+        target="_top">Carlson</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fRF"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fRF</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">*z</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Symmetric or complete symmetric integral of the first kind <code>RF(x,
+  y, z)</code> respectively <code>RF(x, y)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>RF(x, y, z)</code> or <code>RF(x, y)</code> for missing or 
+          zero <b><code>z</code></b>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://DLMF.NIST.gov/19.16.E1" 
+        target="_top"><code>RF</code> definition</a> and <a 
+        href="https://ArXiv.org/pdf/math/9409227.pdf" 
+        target="_top">Carlson</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fRG"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fRG</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">*z</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Symmetric or complete symmetric integral of the second kind 
+  <code>RG(x, y, z)</code> respectively <code>RG(x, y)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>RG(x, y, z)</code> or <code>RG(x, y)</code> for missing or 
+          zero <b><code>z</code></b>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://DLMF.NIST.gov/19.16.E3" 
+        target="_top"><code>RG</code> definition</a> and <a 
+        href="https://ArXiv.org/pdf/math/9409227.pdf" 
+        target="_top">Carlson</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fRJ"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fRJ</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">p</span>)</span>
+    <br /><em class="fname">Static Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Symmetric integral of the third kind <code>RJ(x, y, z, p)</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>RJ(x, y, z, p)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://DLMF.NIST.gov/19.16.E2" 
+        target="_top"><code>RJ</code> definition</a> and <a 
+        href="https://ArXiv.org/pdf/math/9409227.pdf" 
+        target="_top">Carlson</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
@@ -1720,7 +1976,7 @@ target="_top">defined</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Mar 30 11:30:12 2022
+    Generated by Epydoc 3.0.1 on Sat Apr  2 15:28:48 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

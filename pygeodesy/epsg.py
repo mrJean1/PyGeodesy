@@ -4,7 +4,7 @@
 u'''European Petroleum Survey Group (EPSG) en-/decoding.
 
 Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
-(U{EPSG<https://www.EPSG-Registry.org>}) codes from and to U{UTM
+(U{EPSG<https://EPSG.org>}) codes from and to U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 zones.
@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '21.11.08'
+__version__ = '22.04.02'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -41,7 +41,7 @@ _EPSG_S    = 32761  # EPSG code for UPS pole S
 
 
 class Epsg(Int):
-    '''U{EPSG<https://www.EPSG-Registry.org>} class, a named C{int}.
+    '''U{EPSG<https://EPSG.org>} class, a named C{int}.
     '''
     _band       =  NN
     _epsg       =  None
@@ -140,7 +140,7 @@ class EPSGError(_ValueError):
 
 def decode2(epsg):
     '''Determine the UTM/USP zone and hemisphere from a given
-       U{EPSG<https://www.EPSG-Registry.org>}.
+       U{EPSG<https://EPSG.org>}.
 
        @arg epsg: The EPSG (L{Epsg}, C{str} or C{scalar}).
 
@@ -178,7 +178,7 @@ def decode2(epsg):
 
 
 def encode(zone, hemipole=NN, band=NN):
-    '''Determine the U{EPSG<https://www.EPSG-Registry.org>} code for
+    '''Determine the U{EPSG<https://EPSG.org>} code for
        a given UTM/UPS zone number, hemisphere/pole and/or Band.
 
        @arg zone: The (longitudinal) UTM zone (C{int}, 1..60) or UPS

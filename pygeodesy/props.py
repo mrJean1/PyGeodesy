@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.03.24'
+__version__ =  '22.04.02'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -47,25 +47,31 @@ def _update_all(inst, *attrs, **Base):
 
        @return: The number of updates (C{int}), if any.
     '''
-    B = _xkwds_get(Base, Base=_PropertyBase)
-    d = inst.__dict__
+    try:
+        d = inst.__dict__
+    except AttributeError:
+        d = {}
     u = len(d)
-
-    for c in inst.__class__.__mro__[:-1]:
-        for n, p in c.__dict__.items():
-            if isinstance(p, B) and p.name == n:
-                p._update(inst, c)
-
-    p = d.pop
-    for a in attrs:  # PYCHOK no cover
-        if hasattr(inst, a):
-            p(a, None)
-        else:
-            n = _MODS.named.classname(inst, prefixed=True)
-            a = _DOT_(n, _SPACE_(a, _invalid_))
-            raise _AssertionError(a, txt=repr(inst))
-
-    return u - len(d)  # of updates
+    if u:
+        try:
+            S =  inst.__class__.__mro__[:-1]  # not object
+            B = _xkwds_get(Base, Base=_PropertyBase)
+        except AttributeError:
+            S = ()
+        for C in S:  # class and super classes
+            for n, p in C.__dict__.items():
+                if n in d and isinstance(p, B) and p.name == n:
+                    p._update(inst, C)
+        p = d.pop  # remove specified attributes
+        for a in attrs:  # PYCHOK no cover
+            if hasattr(inst, a):
+                p(a, None)
+            else:
+                n = _MODS.named.classname(inst, prefixed=True)
+                a = _DOT_(n, _SPACE_(a, _invalid_))
+                raise _AssertionError(a, txt=repr(inst))
+        u -= len(d)
+    return u  # updated
 
 
 class _PropertyBase(property):
