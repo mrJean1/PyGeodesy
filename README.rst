@@ -88,7 +88,7 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.10.2 (with geographiclib_ 1.52),
+The tests have been run with Python 3.10.4 (with geographiclib_ 1.52),
 Python 3.9.6 (with numpy_ 1.21.2), Python 3.8.10 (with geographiclib_
 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18
 (with GeodSolve_ 1.51), all on macOS 12.2.1 Monterey and in 64-bit only.
@@ -97,11 +97,11 @@ command line option ``-W always`` and environment variable
 ``PYGEODESY_WARNINGS=on`` for all Python versions. The results of only
 those tests are included in the distribution files.
 
-Python 3.10.2 and 3.9.6 run on Apple Silicon (arm64 *natively*), all
+Python 3.10.4 and 3.9.6 run on Apple Silicon (arm64 *natively*), all
 other Python versions run on Intel (x86_64) or Intel *emulation*
 (\"arm64_x86_64\", see function ``pygeodesy.machine``).
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.2
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.4
 (with geographiclib_ 1.52), Python 3.9.6 (with numpy_ 1.21.2), Python
 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and
 scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).  The complete
@@ -117,8 +117,8 @@ A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.9.1, 3.8.7, 3.7.1, 2.7.15,
-PyPy_ 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and
+Previously, the tests were run with Python 3.10.2, 3.9.1, 3.8.7, 3.7.1,
+2.7.15, PyPy_ 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and
 geographiclib_ 1.52 and numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4
 or 1.19.5) on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6,
 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_
@@ -139,7 +139,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.2, both in 64-bit on macOS 12.2.1
+and with Flake8_ using Python 3.10.4, both in 64-bit on macOS 12.2.1
 Monterey.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see

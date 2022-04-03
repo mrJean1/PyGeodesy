@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.02.26'
+__version__ = '22.04.02'
 
 
 def _c2(*names):
@@ -57,7 +57,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM', 'excess',
              'Farrell', 'Farrell-Barth', 'flattening', 'Field-Of-View', 'fmath',
-             'footprint', 'Forsythe', 'FOV', 'fractional', 'Frechet', 'Fréchet', 'frustum',
+             'footprint', 'Forsythe', 'FOV', 'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum',
              'GARS', 'geocentric', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic',
@@ -77,7 +77,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch',
              'Point-Of-View', 'polar', 'POV',
-             'precision-running-summation', 'prolate', 'Pseudo-Mercator',
+             'precision-running-summation', 'precision-summation', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
@@ -128,7 +128,7 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '2.7'),
 #                  _c2('Programming Language', 'Python', '3.5'),
 #                  _c2('Programming Language', 'Python', '3.6'),
-                   _c2('Programming Language', 'Python', '3.7'),
+#                  _c2('Programming Language', 'Python', '3.7'),
                    _c2('Programming Language', 'Python', '3.8'),
                    _c2('Programming Language', 'Python', '3.9'),
                    _c2('Programming Language', 'Python', '3.10'),
