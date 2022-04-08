@@ -119,7 +119,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
     db, _ = unrollPI(lam1, lam2, wrap=wrap)
     sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(phi1, phi2, db)
 
-    # see <https://MathForum.org/library/drmath/view/55417.html>
+    # see <https://web.archive.org/web/20020630205931/https://MathForum.org/library/drmath/view/55417.html>
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
     return (atan2(y, x) + r) % PI2  # wrapPI2
