@@ -102,10 +102,12 @@
         <span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">f_</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a> from <i>equatorial</i> and <i>polar</i> 
-      radius or <i>equatorial</i> radius and <i>inverse flattening</i>.</td>
+      class="link">Ellipsoid</a> from the <i>equatorial</i> radius and 
+      either the <i>polar</i> radius or <i>inverse flattening</i> or 
+      <i>flattening</i>.</td>
           <td align="right" valign="top">
             
             
@@ -802,7 +804,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
@@ -1137,8 +1140,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e12" class="summary-name">e12</a><br />
       Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i
-      class="math">1 - e**2 == (1 - f)**2</i> == <i class="math">b**2 / 
-      a**2</i>, see <code>b2_a2</code>.
+      class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
+      class="math">b**2 / a**2</i>, see <code>b2_a2</code>.
     </td>
   </tr>
 <tr>
@@ -1358,10 +1361,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="summary-name">L</a><br />
-      Get the <i>quarter meridian</i> <code>L</code>, aka <code>polar 
-      distance</code>, the distance along a meridian between the equator 
-      and a pole (<code>meter</code>), <i class="math">b * Elliptic(-e2 / 
-      (1 - e2)).E</i> or <i class="math">a * PI / 2</i>.
+      Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
+      distance</code> along a meridian between the equator and a pole 
+      (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - 
+      e2)).E</i> or <i class="math">a * PI / 2</i>.
     </td>
   </tr>
 <tr>
@@ -1622,6 +1625,7 @@
         <span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">f_</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -1631,22 +1635,26 @@
   </tr></table>
   
   <p>New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a> from <i>equatorial</i> and <i>polar</i> radius
-  or <i>equatorial</i> radius and <i>inverse flattening</i>.</p>
+  class="link">Ellipsoid</a> from the <i>equatorial</i> radius and either 
+  the <i>polar</i> radius or <i>inverse flattening</i> or 
+  <i>flattening</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a</code></strong> - Equatorial radius, semi-axis (<code>meter</code>).</li>
-        <li><strong class="pname"><code>b</code></strong> - Optional, polar radius, semi-axis (<code>meter</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Optional polar radius, semi-axis (<code>meter</code>).</li>
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening: <i class="math">a / (a - b)</i> 
           (<code>float</code> &gt;&gt;&gt; 1.0).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening: <i class="math">(a - b) / a</i> (<code>float</code>, 
+          near zero for spherical).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional, unique name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>NameError</strong></code> - Ellipsoid with that <b><code>name</code></b> already exists.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
-        <b><code>f_</code></b>.</li>
+        <li><code><strong class='fraise'>NameError</strong></code> - Ellipsoid with the same <b><code>name</code></b> already exists.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b>, 
+        <b><code>f_</code></b> or <b><code>f</code></b> or 
+        <b><code>f_</code></b> and <b><code>f</code></b> are incompatible.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -2139,27 +2147,22 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Ecef</code></strong> - ECEF class to use (<a href="pygeodesy.ecef.EcefKarney-class.html"
-          class="link">EcefKarney</a>, <a 
-          href="pygeodesy.ecef.EcefVeness-class.html" 
-          class="link">EcefVeness</a> or <a 
-          href="pygeodesy.ecef.EcefYou-class.html" 
-          class="link">EcefYou</a>).</li>
+        <li><strong class="pname"><code>Ecef</code></strong> - ECEF class to use, default <a 
+          href="pygeodesy.ecef.EcefKarney-class.html" 
+          class="link">EcefKarney</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An ECEF converter for this <code>ellipsoid</code> (<a 
-          href="pygeodesy.ecef.EcefKarney-class.html" 
-          class="link">EcefKarney</a>, <a 
-          href="pygeodesy.ecef.EcefVeness-class.html" 
-          class="link">EcefVeness</a> or <a 
-          href="pygeodesy.ecef.EcefYou-class.html" 
-          class="link">EcefYou</a>).</dd>
+        <dd>An ECEF converter for this <code>ellipsoid</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Ecef</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Module <a href="pygeodesy.ecef-module.html" 
+        class="link">pygeodesy.ecef</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="e2s"></a>
 <div>
@@ -2981,7 +2984,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">8</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2993,6 +2997,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
+          the ellipsoid's name.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Ellipsoid attributes (<code>str</code>).</dd>
@@ -3816,14 +3822,14 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
 <tr><td>
   <h3 class="epydoc">e12</h3>
   <p>Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-  class="math">1 - e**2 == (1 - f)**2</i> == <i class="math">b**2 / 
-  a**2</i>, see <code>b2_a2</code>.</p>
+  class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
+  class="math">b**2 / a**2</i>, see <code>b2_a2</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e12(<span class="summary-sig-arg">self</span>)</span>
         - Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-class="math">1 - e**2 == (1 - f)**2</i> == <i class="math">b**2 / a**2</i>,
-see <code>b2_a2</code>.
+class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
+class="math">b**2 / a**2</i>, see <code>b2_a2</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4436,17 +4442,17 @@ spherical otherwise.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">L</h3>
-  <p>Get the <i>quarter meridian</i> <code>L</code>, aka <code>polar 
-  distance</code>, the distance along a meridian between the equator and a 
-  pole (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - 
-  e2)).E</i> or <i class="math">a * PI / 2</i>.</p>
+  <p>Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
+  distance</code> along a meridian between the equator and a pole 
+  (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).E</i> 
+  or <i class="math">a * PI / 2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">L(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>quarter meridian</i> <code>L</code>, aka <code>polar 
-distance</code>, the distance along a meridian between the equator and a 
-pole (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - 
-e2)).E</i> or <i class="math">a * PI / 2</i>.
+        - Get the <i>quarter meridian</i> <code>L</code>, aka the <code>polar 
+distance</code> along a meridian between the equator and a pole 
+(<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).E</i> or
+<i class="math">a * PI / 2</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5197,7 +5203,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr  2 20:18:19 2022
+    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:24 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

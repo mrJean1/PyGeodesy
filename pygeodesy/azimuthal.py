@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.02.24'
+__version__ = '22.04.11'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -429,7 +429,7 @@ class _AzimuthalGeodesic(_AzimuthalBase):
     _mask = 0
 
     @Property_RO
-    def geodesic(self):
+    def geodesic(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
         '''
         notOverloaded(self)
@@ -751,7 +751,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
             y *= q
         elif raiser:
             raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
-        else:
+        else:  # PYCHOK no cover
             x = y = NAN
 
         t = self._7Tuple(x, y, r, M=M, name=name)
@@ -783,7 +783,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
 
         d = e = self.equatoradius
         s = e * atan(q / e)
-        if q > e:
+        if q > e:  # PYCHOK no cover
             def _d(r, q):
                 return (r.M12 - q * r.m12) * r.m12  # negated
             q = _1_0 / q

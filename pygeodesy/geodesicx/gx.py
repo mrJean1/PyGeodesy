@@ -45,10 +45,10 @@ from pygeodesy.geodesicx.gxbases import _ALL_DOCS, Caps, _coSeries, \
 from pygeodesy.geodesicx.gxline import fsum_, _GeodesicLineExact, pairs, \
                                       _update_glXs
 from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, PI_2, \
-                             _COMMASPACE_, _convergence_, _EPSqrt, _no_, \
-                             _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, \
-                             _N_1_0, _2_0, _N_2_0, _3_0, _4_0, _6_0, _8_0, \
-                             _16_0, _90_0, _180_0, _1000_0
+                             _COMMASPACE_, _convergence_, _EPSqrt, _no_, _SQRT2_2, \
+                             _0_0, _0_001, _0_01, _0_1, _0_5, _1_0, _N_1_0, \
+                             _2_0, _N_2_0, _3_0, _4_0, _6_0, _8_0, _16_0, \
+                             _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _ellipsoid, _EWGS84, GDict, GeodesicError, \
                              _diff182, _fix90, _norm180, Property, Property_RO
 from pygeodesy.lazily import _ALL_MODS as _MODS
@@ -60,12 +60,11 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d, unroll180, wrap360
 from math import atan2, cos, degrees, radians, sqrt
 
 __all__ = ()
-__version__ = '22.03.01'
+__version__ = '22.04.07'
 
-_MAXIT1  = 20
-_MAXIT2  = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
-_SQRT2_2 = -0.7071  # negative sqrt(2) / 2
-_1_75    =  1.75
+_MAXIT1 = 20
+_MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
+_1_75   =  1.75
 
 # increased multiplier in defn of _TOL1 from 100 to 200 to fix Inverse
 # case 52.784459512564 0 -52.784459512563990912 179.634407464943777557
@@ -803,7 +802,7 @@ class GeodesicExact(_GeodesicBase):
             S12 = _0_0
 
         if (_meridian and  # omg12 < 3/4 * PI
-             comg12 > _SQRT2_2 and  # lon diff not too big
+             comg12 > -_SQRT2_2 and  # lon diff not too big
              (p.sbet2 - p.sbet1) < _1_75):  # lat diff not too big
             # use tan(Gamma/2) = tan(omg12/2) *
             #                   (tan(bet1/2) + tan(bet2/2)) /

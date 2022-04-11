@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.02.21'
+__version__ = '22.04.07'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -250,7 +250,10 @@ class _Named(object):
 
            @raise AttributeError: Some B{C{items}} invalid.
         '''
-        return _xdup(self, name=name, **items)
+        d = _xdup(self, **items)
+        if name:
+            d.rename(name=name)
+        return d
 
     @property_doc_(''' the name (C{str}).''')
     def name(self):
@@ -761,16 +764,16 @@ class _NamedEnumItem(_NamedBase):
         '''
         return not self.__eq__(other)
 
-    def _instr(self, prec, *attrs, **kwds):
+    def _instr(self, name, prec, *attrs, **kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
         '''
-        t = Fmt.EQUAL(_name_, repr(self.name)),
+        t = Fmt.EQUAL(_name_, repr(name or self.name)),
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
-        return _COMMASPACE_.join(t)
+        return _COMMASPACE_.join(t[1:] if name is None else t)
 
     @property_doc_(''' the I{registered} name (C{str}).''')
     def name(self):

@@ -219,6 +219,7 @@ _I_                   = 'I'                  # PYCHOK expected
 _iadd_                = '+='                 # PYCHOK expected
 _immutable_           = 'immutable'          # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
+_incompatible_        = 'incompatible'       # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
 _initial_             = 'initial'            # PYCHOK expected
 _inside_              = 'inside'             # PYCHOK expected
@@ -500,6 +501,8 @@ _EPSmin  = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
+_SQRT2_2 = _float(sqrt(2) / _2_0)  # PYCHOK = 0.7071067811865476
+
 INF   = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 INT0  =  int(0)          # PYCHOK unique int(0) instance, see .fsums
 NAN   = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
@@ -646,7 +649,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.03.27'
+__version__ = '22.04.09'
 
 
 # **) MIT License

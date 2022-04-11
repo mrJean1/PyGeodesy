@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.02.24'
+__version__ = '22.04.09'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -476,7 +476,7 @@ class EcefKarney(_EcefBase):
                     e = E.a
                 else:
                     e = E.b2_a
-                sa, ca, h = _sch3(sqrt(q / E.e12), sqrt(p))
+                sa, ca, h = _sch3(sqrt(q * E._e12), sqrt(p))
                 if z < 0:
                     sa = neg(sa)  # for tiny negative z, not for prolate
                 h *= neg(e / E.e2abs)
@@ -1253,14 +1253,26 @@ class Ecef9Tuple(_NamedTuple):
         return self.xyz.to4Tuple(self.height)
 
 
+def _4Ecef(this, Ecef):  # in .datums.Datum.ecef, .ellipsoids.Ellipsoid.ecef
+    '''Return an ECEF converter for C{this} L{Datum} or L{Ellipsoid}.
+    '''
+    if Ecef is None:
+        Ecef = EcefKarney
+    else:
+        _xinstanceof(*_Ecefs, Ecef=Ecef)
+    return Ecef(this, name=this.name)
+
+
 def _xEcef(Ecef):  # PYCHOK .latlonBase.py
     '''(INTERNAL) Validate B{C{Ecef}} I{class}.
     '''
     if issubclassof(Ecef, _EcefBase):
         return Ecef
-    raise _TypesError(_Ecef_, Ecef, EcefFarrell21, EcefFarrell22, EcefKarney,
-                                    EcefSudano, EcefVeness, EcefYou)
+    raise _TypesError(_Ecef_, Ecef, *_Ecefs)
 
+
+_Ecefs = (EcefKarney, EcefSudano, EcefVeness, EcefYou,
+                      EcefFarrell21, EcefFarrell22)
 
 __all__ += _ALL_DOCS(_EcefBase)
 

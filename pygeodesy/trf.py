@@ -67,7 +67,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.12.22'
+__version__ = '22.04.07'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -145,17 +145,20 @@ class RefFrame(_NamedEnumItem):
         '''
         return self._epoch
 
-    def toStr(self, **unused):  # PYCHOK expected
+    def toStr(self, name=NN, **unused):  # PYCHOK expected
         '''Return this reference frame as a text string.
+
+           @kwarg name: Override name (C{str}) or C{None} to exclude the
+                        reframe's name.
 
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
         e = self.ellipsoid
-        t = (Fmt.EQUAL(_name_, repr(self.name)),
+        t = (Fmt.EQUAL(_name_, repr(name or self.name)),
              Fmt.EQUAL(_epoch_, self.epoch),
              Fmt.PAREN(Fmt.EQUAL(_ellipsoid_, classname(e)),
                        Fmt.EQUAL(_name_, repr(e.name))))
-        return _COMMASPACE_.join(t)
+        return _COMMASPACE_.join(t[1:] if name is None else t)
 
 
 class RefFrames(_NamedEnum):

@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.02.28'
+__version__ = '22.04.11'
 
 
 class CartesianBase(Vector3d):
@@ -276,8 +276,9 @@ class CartesianBase(Vector3d):
 
            @see: L{Ellipsoid.height4} for more information.
         '''
-        r = self._height4 if normal and earth in (None, self.datum) else \
-                       _spherical_datum(earth).ellipsoid.height4(self, normal=normal)
+        d = self.datum if earth is None else earth
+        r = self._height4 if normal and d == self.datum else \
+                       _spherical_datum(d).ellipsoid.height4(self, normal=normal)
         if Cartesian is not None:
             kwds = Cartesian_kwds.copy()
             h = kwds.pop(_height_, None)

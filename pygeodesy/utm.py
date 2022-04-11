@@ -40,31 +40,31 @@ from pygeodesy.errors import RangeError, _ValueError, \
                             _xkwds_get, _xkwds_not
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
-                             _COMMASPACE_, _NS_, _outside_, \
-                             _range_, _S_, _SPACE_, _UTM_, \
-                             _V_, _X_, _zone_, _0_0, _1_0
+from pygeodesy.interns import EPS, EPS0, MISSING, NN, \
+                             _by_, _COMMASPACE_, _convergence_, _no_, \
+                             _NS_, _outside_, _range_, _S_, _SPACE_, \
+                             _UTM_, _V_, _X_, _zone_, _0_0, _0_1
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO
-# from pygeodesy.streprs import Fmt  # from .utmupsBase
+from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Band, Int, Lat, Lon, Scalar, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2
-from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, \
-                                _to4lldn, _to3zBhp, _to3zll, \
-                                _UTM_LAT_MAX, _UTM_LAT_MIN, \
-                                _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                                _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
+from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
+                                 _to4lldn, _to3zBhp, _to3zll, \
+                                 _UTM_LAT_MAX, _UTM_LAT_MIN, \
+                                 _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+                                 _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.04.02'
+__version__ = '22.04.10'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -457,10 +457,9 @@ class Utm(UtmUpsBase):
     def _toLLEB(self, unfalse=True, eps=EPS):  # PYCHOK signature
         '''(INTERNAL) Compute (ellipsoidal) lat- and longitude.
         '''
-        E = self.datum.ellipsoid
-
         x, y = self.eastingnorthing2(falsed=not unfalse)
 
+        E = self.datum.ellipsoid
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
         if A0 < EPS0:
@@ -471,29 +470,29 @@ class Utm(UtmUpsBase):
         x =  neg(K.xs(-x))  # η' eta
         y =  neg(K.ys(-y))  # ξ' ksi
 
-        shx = sinh(x)
         sy, cy = sincos2(y)
-
+        shx = sinh(x)
         H = hypot(shx, cy)
         if H < EPS0:
             raise self._Error(H=H)
 
         T = t0 = sy / H  # τʹ
         S = Fsum(T)
-        q = _1_0 / E.e12
-        P =  7  # -/+ toggle trips
-        d = _1_0 + eps
-        while abs(d) > eps and P > 0:
-            p = -d  # previous d, toggled
+        p = _0_0  # previous d
+        e = _0_1 * eps
+        for i in range(1, 10):
             h = hypot1(T)
             s = sinh(E.e * atanh(E.e * T / h))
             t = T * hypot1(s) - s * h
-            d = (t0 - t) / hypot1(t) * ((q + T**2) / h)
+            d = (t0 - t) / hypot1(t) * ((E._e12 + T**2) / h)
             T, d = S.fsum2_(d)  # τi, (τi - τi-1)
-            if d == p:  # catch -/+ toggling of d
-                P -= 1
-            # else:
-            #   P = 0
+            if abs(d) < eps or \
+               abs(d + p) < e:  # d -/+ toggle
+                break
+            p = d
+        else:
+            t = unstr(self.toLatLon.__name__, eps=eps, unfalse=unfalse)
+            self._Error(t, txt=_no_(_convergence_))
 
         a = atan(T)  # lat
         b = atan2(shx, cy)
@@ -505,6 +504,7 @@ class Utm(UtmUpsBase):
         p = neg(K.ps(-1))
         q =     K.qs(0)
         ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
+        ll._iteration   = i
 
         # scale: Karney 2011 Eq 28
         ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))

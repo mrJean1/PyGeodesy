@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.02.25'
+__version__ = '22.04.10'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -109,6 +109,11 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
 
        @return: Initial or final bearing (compass C{radiansPI2}) or zero if start
                 and end point coincide.
+
+       @see: U{Bearing<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Course
+             between two points<https://www.EdWilliams.org/avform147.htm#Crs>} and
+             U{Bearing Between Two Points<https://web.Archive.org/web/20020630205931/
+             https://MathForum.org/library/drmath/view/55417.html>}.
     '''
     if final:  # swap plus PI
         phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
@@ -119,7 +124,6 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
     db, _ = unrollPI(lam1, lam2, wrap=wrap)
     sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(phi1, phi2, db)
 
-    # see <https://MathForum.org/library/drmath/view/55417.html>
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
     return (atan2(y, x) + r) % PI2  # wrapPI2
@@ -754,7 +758,7 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean of both latitude.
 
-       @see: Functions L{flatLocal_}/L{hubeny_}, L{cosineLaw}, L{flatPolar},
+       @see: Functions L{flatLocal_} or L{hubeny_}, L{cosineLaw}, L{flatPolar},
              L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
              L{equirectangular}, L{euclidean}, L{haversine}, L{thomas},
              L{vincentys}, method L{Ellipsoid.distance2} and U{local, flat
@@ -786,11 +790,11 @@ def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled I{at the mean of both latitude}.
 
-       @see: Functions L{flatLocal}/L{hubeny}, L{cosineAndoyerLambert_},
-             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{flatPolar_}, L{equirectangular_}, L{euclidean_},
-             L{haversine_}, L{thomas_} and L{vincentys_} and U{local, flat
-             earth approximation <https://www.EdWilliams.org/avform.htm#flat>}.
+       @see: Functions L{flatLocal} or L{hubeny}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_}, L{flatPolar_},
+             L{equirectangular_}, L{euclidean_}, L{haversine_}, L{thomas_}
+             and L{vincentys_} and U{local, flat earth approximation
+             <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     E = _ellipsoidal(datum, flatLocal_)
     m, n = E.roc2_((phi2 + phi1) * _0_5, scaled=True)
@@ -845,11 +849,18 @@ def flatPolar_(phi2, phi1, lam21):
              L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
              L{haversine_}, L{thomas_} and L{vincentys_}.
     '''
-    a1 = PI_2 - phi1  # co-latitude
-    a2 = PI_2 - phi2  # co-latitude
-    ab = _2_0 * a1 * a2 * cos(lam21)
-    r2 = fsum_(a1**2, a2**2, -abs(ab))
-    return sqrt0(r2)
+    a = abs(PI_2 - phi1)  # co-latitude
+    b = abs(PI_2 - phi2)  # co-latitude
+    if a < b:
+        a, b = b, a
+    if a < EPS0:
+        a = _0_0
+    elif b > 0:
+        b  = b / a  # /= chokes PyChecker
+        c  = b * cos(lam21) * _2_0
+        c  = fsum_(_1_0, b**2, -abs(c))
+        a *= sqrt0(c)
+    return a
 
 
 def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
@@ -862,7 +873,7 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
                    C{None} to point to the earth' center.
        @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
                      L{a_f2Tuple} or C{scalar} radius in C{meter}).
-       @kwarg LatLon_and_kwds: Optional C{LatLon} class to convert insection
+       @kwarg LatLon_and_kwds: Optional C{LatLon} class for the intersection
                                point plus C{LatLon} keyword arguments, include
                                B{C{datum}} if different from B{C{earth}}.
 

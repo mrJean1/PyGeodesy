@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.12.22'
+__version__ = '22.04.09'
 
 from base import GeodSolve, geographiclib, isPython35, TestsBase
 
@@ -73,7 +73,7 @@ class Tests(TestsBase):
         else:
             n = fstr(n, fmt='g', prec=12)
             self.test(t, n, '0.625376979018, 1.52393750974e-05, 0.780322775447, -5918.38025833' if Sph
-                       else '0.622817764745, 1.51770113911e-05, 0.782366941842, 0.242886808456')
+                       else '0.622817764745, 1.51770113911e-05, 0.782366941842, 0.242886808051')
 
         for ll in ((50.0379, 8.5622),  # FRA
                    (51.47,   0.4543),  # LHR

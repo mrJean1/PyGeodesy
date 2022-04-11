@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.04.11'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -311,7 +311,9 @@ class Tests(TestsBase):
         self.test('height4', h, float(p.height), known=abs(h) < 2e-9)
         self.test('height4', p.height4(earth=R_M).toStr(prec=1), '(3803904.2, -114870.8, 5109488.3, 0.0)' if Sph
                                                             else '(3820333.9, -115367.0, 5097204.4, -6584.9)')
-        self.test('height4', p.height4(LatLon=LatLon, height=0).toStr(prec=1), '53°19′14.2″N, 001°43′46.9″W')
+        for n in (True, False):
+            t = p.height4(LatLon=LatLon, normal=n, height=0)
+            self.test('height4', t.toStr(prec=1), '53°19′14.2″N, 001°43′46.9″W')
 
         self.test('haversineTo', p.haversineTo(q), '124801.098', fmt='%.3f')
         self.test('haversineTo', q.haversineTo(p), '124801.098', fmt='%.3f')

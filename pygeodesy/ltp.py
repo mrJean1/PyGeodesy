@@ -34,7 +34,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.01.17'
+__version__ = '22.04.11'
 
 _Xyz_  = 'Xyz'
 
@@ -94,7 +94,7 @@ class Attitude(_NamedBase):
         return self._alt
 
     @alt.setter  # PYCHOK setter!
-    def alt(self, alt):
+    def alt(self, alt):  # PYCHOK no cover
         a = Meter(alt=alt, Error=AttitudeError)
         self._update(a != self.alt)
         self._alt = a
@@ -312,7 +312,7 @@ class Frustum(_NamedBase):
         a = Meter(altitude=a)
         if a < EPS:  # too low
             raise _ValueError(altitude=a)
-        if z:
+        if z:  # PYCHOK no cover
             z  = Meter(z=z)
             a -= z
             if a < EPS:  # z above a
@@ -427,7 +427,7 @@ class LocalCartesian(_NamedBase):
             self.name  = name or latlonh0.name
         else:
             self.reset(latlonh0, lon0, height0, name=name)
-        if ecef:
+        if ecef:  # PYCHOK no cover
             _xinstanceof(EcefKarney, ecef=ecef)
             self._ecef = ecef
 
@@ -666,7 +666,7 @@ class Ltp(LocalCartesian):
            @raise TypeError: Invalid B{C{ecef}}.
         '''
         _xinstanceof(_EcefBase, ecef=ecef)
-        if ecef != self._ecef:
+        if ecef != self._ecef:  # PYCHOK no cover
             self._ecef = ecef
             self.reset(self._t0)
 

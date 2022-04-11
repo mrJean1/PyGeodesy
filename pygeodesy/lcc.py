@@ -47,7 +47,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.03.01'
+__version__ = '22.04.07'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -283,21 +283,20 @@ class Conic(_NamedEnumItem):
 
         return c
 
-    def toStr(self, prec=8):  # PYCHOK expected
+    def toStr(self, prec=8, name=NN):  # PYCHOK expected
         '''Return this conic as a string.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg name: Override name (C{str}) or C{None} to exclude the
+                        conic's name.
 
            @return: Conic attributes (C{str}).
         '''
+        a = [name, prec, _lat0_, _lon0_, _par1_, _par2_,
+                         _E0_, _N0_, _k0_, _SP_]
         if self._SP == 1:
-            return self._instr(prec, _lat0_, _lon0_, _par1_,
-                                     _E0_, _N0_, _k0_, _SP_,
-                                      datum=self.datum)
-        else:
-            return self._instr(prec, _lat0_, _lon0_, _par1_, _par2_,
-                                     _E0_, _N0_, _k0_, _SP_,
-                                      datum=self.datum)
+            _ = a.pop(a.index(_par2_))
+        return self._instr(datum=self.datum, *a)
 
     def _dup2(self, c):
         '''(INTERNAL) Copy this conic to C{c}.

@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '21.12.28'
+__version__ = '22.04.11'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -57,15 +57,15 @@ def _4Tuple2Cls(inst, Cls, Cls_kwds):
         return inst
     elif issubclassof(Cls, Aer):
         return inst.xyzLocal.toAer(Aer=Cls, **Cls_kwds)
-    elif issubclassof(Cls, Enu):
+    elif issubclassof(Cls, Enu):  # PYCHOK no cover
         return inst.xyzLocal.toEnu(Enu=Cls, **Cls_kwds)
     elif issubclassof(Cls, Ned):
         return inst.xyzLocal.toNed(Ned=Cls, **Cls_kwds)
-    elif issubclassof(Cls, XyzLocal):
+    elif issubclassof(Cls, XyzLocal):  # PYCHOK no cover
         return inst.xyzLocal.toXyz(Xyz=Cls, **Cls_kwds)
-    elif Cls is Local9Tuple:
+    elif Cls is Local9Tuple:  # PYCHOK no cover
         return inst.xyzLocal.toLocal9Tuple(**Cls_kwds)
-    n = inst.__class__.__name__[:3]
+    n = inst.__class__.__name__[:3]  # PYCHOK no cover
     raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
 
 
@@ -105,7 +105,7 @@ class Aer(_NamedBase):
            @raise UnitError: Invalid B{C{azimuth}}, B{C{elevation}} or
                              or B{C{slantrange}}.
         '''
-        try:
+        try:  # PYCHOK no cover
             self._azimuth, self._elevation, self._slantrange = \
               aer.azimuth,   aer.elevation,   aer.slantrange
             _xinstanceof(Aer, Aer4Tuple, aer=aer)
@@ -341,7 +341,7 @@ class Ned(_NamedBase):
 
            @raise UnitError: Invalid B{C{north}}, B{C{east}} or B{C{down}}.
         '''
-        try:
+        try:  # PYCHOK no cover
             self._north, self._east, self._down = ned.north, ned.east, ned.down
             _xinstanceof(Ned, Ned4Tuple, ned=ned)
             p = getattr(ned, _ltp_, ltp)
@@ -616,7 +616,7 @@ class XyzLocal(Vector3d):
         '''
         return self.aer4.azimuth
 
-    def classof(self, *args, **kwds):
+    def classof(self, *args, **kwds):  # PYCHOK no cover
         '''Create another instance of this very class.
 
            @arg args: Optional, positional arguments.

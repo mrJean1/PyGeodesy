@@ -70,8 +70,8 @@ guide-coordinate-systems-great-britain.pdf>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, neg_, _xinstanceof
-from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
-                                 Ellipsoid2, Ellipsoids, Vector3Tuple
+from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, \
+                                 Ellipsoids, Vector3Tuple
 # from pygeodesy.errors import _IsnotError  # from .fmath
 from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
 from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.04.02'
+__version__ = '22.04.07'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -209,16 +209,18 @@ class Transform(_NamedEnumItem):
                          tx=-self.tx, ty=-self.ty, tz=-self.tz,
                          sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
 
-    def toStr(self, prec=5):  # PYCHOK expected
+    def toStr(self, prec=5, name=NN):  # PYCHOK expected
         '''Return this transform as a string.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg name: Override name (C{str}) or C{None} to exclude the
+                        transform's name.
 
            @return: Transform attributes (C{str}).
         '''
-        return self._instr(prec, _tx_, _ty_, _tz_,
-                                 'rx', 'ry', 'rz', _s_, 's1',
-                                 _sx_, _sy_, _sz_)
+        return self._instr(name, prec, _tx_, _ty_, _tz_,
+                                       'rx', 'ry', 'rz', _s_, 's1',
+                                       _sx_, _sy_, _sz_)
 
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
@@ -358,15 +360,15 @@ class Datum(_NamedEnumItem):
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
 
-           @kwarg Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
-                        or L{EcefYou}).
+           @kwarg Ecef: ECEF class to use, default L{EcefKarney}.
 
-           @return: An ECEF converter for this C{datum} (L{EcefKarney},
-                    L{EcefVeness} or L{EcefYou}).
+           @return: An ECEF converter for this C{datum}.
 
            @raise TypeError: Invalid B{C{Ecef}}.
+
+           @see: Module L{pygeodesy.ecef}.
         '''
-        return _4Ecef(self, Ecef)
+        return _MODS.ecef._4Ecef(self, Ecef)
 
     @Property_RO
     def ellipsoid(self):
@@ -404,16 +406,19 @@ class Datum(_NamedEnumItem):
         '''
         return self._ellipsoid.isSpherical
 
-    def toStr(self, **unused):  # PYCHOK expected
+    def toStr(self, name=NN, **unused):  # PYCHOK expected
         '''Return this datum as a string.
+
+           @kwarg name: Override name (C{str}) or C{None} to exclude the
+                        datum's name.
 
            @return: Datum attributes (C{str}).
         '''
-        t = [Fmt.EQUAL(_name_, repr(self.named))]
+        t = [Fmt.EQUAL(_name_, repr(name or self.named))]
         for a in (_ellipsoid_, _transform_):
             v = getattr(self, a)
             t.append(NN(Fmt.EQUAL(a, v.classname), _s_, _DOT_, v.name))
-        return _COMMASPACE_.join(t)
+        return _COMMASPACE_.join(t[1:] if name is None else t)
 
     @Property_RO
     def transform(self):

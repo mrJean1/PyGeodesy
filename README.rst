@@ -148,7 +148,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: April 04, 2022.*
+*Last updated: April 11, 2022.*
 
 License
 =======
@@ -179,7 +179,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
+.. image:: https://Img.Shields.io/badge/coverage-97%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy

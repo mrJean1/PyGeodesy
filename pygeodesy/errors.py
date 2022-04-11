@@ -15,14 +15,14 @@ or any other non-empty string.
 from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
                              _COLON_, _COMMA_, _COMMASPACE_, \
                              _datum_, _ellipsoidal_, _EQUAL_, \
-                             _invalid_, _len_, _name_, _no_, \
-                             _not_, _or_, _SPACE_, _specified_, \
-                             _UNDER_, _value_
+                             _incompatible_, _invalid_, _len_, \
+                             _name_, _no_, _not_, _or_, _SPACE_, \
+                             _specified_, _UNDER_, _value_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
                              _getenv, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.03.25'
+__version__ = '22.04.09'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -31,6 +31,7 @@ _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
 __vs__       = ' vs '  # _vsSPACED_
+_with_       = 'with'
 
 try:
     _exception_chaining = None  # not available
@@ -382,7 +383,7 @@ def exception_chaining(error=None):
 def _incompatible(this):
     '''(INTERNAL) Format an incompatible text.
     '''
-    return 'incompatible with ' + str(this)
+    return _SPACE_(_incompatible_, _with_, this)
 
 
 def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=value [, ...]
