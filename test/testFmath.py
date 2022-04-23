@@ -4,9 +4,9 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.18'
+__version__ = '22.04.23'
 
-from base import TestsBase
+from base import isWindows, TestsBase
 
 from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, fpowers, \
@@ -65,7 +65,7 @@ class Tests(TestsBase):
         y2 = y1 + 1e-16
         h1 = hypot(x, y1)
         h2 = hypot(x, y2)
-        self.test('hypot', signOf(y2 - y1), signOf(h2 - h1))  # (3, 7) < sys.version_info[:2] < (3, 10))
+        self.test('hypot', signOf(y2 - y1), signOf(h2 - h1), known=isWindows)  # (3, 7) < sys.version_info[:2] < (3, 10))
         self.test('sqrt_a', sqrt_a(h1, y1), x, prec=13)
         self.test('sqrt_a', sqrt_a(h2, y2), x, prec=13)
 
