@@ -108,25 +108,23 @@ Tests
 =====
 
 The tests have been run with Python 3.10.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52), Python 3.9.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0 and U{numpy
-<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, U{numpy
-<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python
-2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all on macOS
-12.3.1 Monterey and in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and
-with command line option C{-W always} and env var C{PYGEODESY_WARNINGS=on} for all Python versions.  The
-results of only those tests are included in the distribution files.
+2.0), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+1.51, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python
+2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all on macOS 12.3.1
+Monterey and in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line
+option C{-W always} and env var C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only those tests
+are included in the distribution files.
 
 Python 3.10.4 and 3.9.6 run on Apple Silicon (C{arm64} I{natively}), all other Python versions run on Intel
 (C{x86_64}) or Intel I{emulation} (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using
-Python 3.10.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52), Python 3.9.6
-(with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0 and U{numpy<https://PyPI.org/project/numpy>}
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.4 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>}
 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy
-<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python
-2.7.18 (U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage
-report in HTML and a PDF summary are included in the distribution files.
+<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18
+(U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage report in HTML and
+a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.10.4 or 3.9.9 (and U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.52) on U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python
