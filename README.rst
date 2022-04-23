@@ -89,24 +89,25 @@ Tests
 =====
 
 The tests have been run with Python 3.10.4 (with geographiclib_ 1.52),
-Python 3.9.6 (with numpy_ 1.21.2), Python 3.8.10 (with geographiclib_
-1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18
-(with GeodSolve_ 1.51), all on macOS 12.3.1 Monterey and in 64-bit only.
-The tests are run with and without ``lazy import`` for Python 3 and with
-command line option ``-W always`` and environment variable
-``PYGEODESY_WARNINGS=on`` for all Python versions. The results of only
-those tests are included in the distribution files.
+Python 3.9.6 (with geographiclib_ 1.52 and numpy_ 1.21.2), Python 3.8.10
+(with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_
+1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51), all on macOS 12.3.1
+Monterey and in 64-bit only.  The tests are run with and without
+``lazy import`` for Python 3 and with command line option ``-W always``
+and environment variable ``PYGEODESY_WARNINGS=on`` for all Python
+versions. The results of only those tests are included in the
+distribution files.
 
 Python 3.10.4 and 3.9.6 run on Apple Silicon (arm64 *natively*), all
 other Python versions run on Intel (x86_64) or Intel *emulation*
 (\"arm64_x86_64\", see function ``pygeodesy.machine``).
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.4
-(with geographiclib_ 1.52), Python 3.9.6 (with numpy_ 1.21.2), Python
-3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and
-scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).  The complete
-coverage report in HTML and a PDF summary are included in the
-distribution files.
+(with geographiclib_ 1.52), Python 3.9.6 (with geographiclib_ 1.52 and
+numpy_ 1.21.2), Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51,
+numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).
+The complete coverage report in HTML and a PDF summary are included in
+the distribution files.
 
 The tests also ran with Python 3.10.4 or 3.9.9 (and geographiclib_ 1.52)
 on `Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17

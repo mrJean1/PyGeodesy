@@ -102,12 +102,12 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
 
-from pygeodesy.basics import copysign0, unsigned0, _xgeographiclib, \
-                            _xImportError, isodd  # PYCHOK shared
+from pygeodesy.basics import copysign0, _isfinite as _math_isfinite, unsigned0, \
+                            _xgeographiclib, _xImportError, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
 from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
-from pygeodesy.interns import MAX as _MAX, NAN, NN, _DOT_, _lat1_, _lat2_, _lon2_, \
+from pygeodesy.interns import NAN, NN, _DOT_, _lat1_, _lat2_, _lon2_, \
                              _0_0, _1_0, _2_0, _16_0, _180_0, _N_180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
@@ -122,7 +122,7 @@ from pygeodesy.utily import atan2d, unroll180, wrap360
 from math import fmod as _fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.02.28'
+__version__ = '22.04.22'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -488,9 +488,12 @@ class _Wrapped(object):
             k._around   = M.AngRound
             k._diff182  = M.AngDiff
             k._fix90    = M.LatFix
-            k._isfinite = M.isfinite
             k._norm180  = M.AngNormalize
             k._sum2     = M.sum
+            try:  # geographiclib 1.52
+                k._isfinite = M.isfinite
+            except AttributeError:  # 2.0
+                k._isfinite = _math_isfinite
             try:  # geographiclib 1.49
                 k._remainder = M.remainder
             except AttributeError:
@@ -564,7 +567,7 @@ def _isfinite(x):  # mimick Math.AngNormalize
        @return: C{True} if finite.
     '''
     M = _wrapped.Math
-    return M.isfinite(x) if M else (abs(x) <= _MAX)
+    return M.isfinite(x) if M else _math_isfinite(x)  # (abs(x) <= _MAX)
 
 
 def _norm180(deg):  # mimick Math.AngNormalize
@@ -614,7 +617,7 @@ def _remainder(x, y):
         except AttributeError:
             pass
 
-    return _remod(x, y, 0)
+    return _remod(x, y, 0) if _isfinite(x) else NAN
 
 
 def _remod(x, y, y_2):

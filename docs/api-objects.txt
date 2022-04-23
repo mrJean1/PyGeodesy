@@ -2231,6 +2231,7 @@ pygeodesy.karney._raiseX	pygeodesy.karney-module.html#_raiseX
 pygeodesy.karney._M21_	pygeodesy.karney-module.html#_M21_
 pygeodesy.karney._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.karney._M12_	pygeodesy.karney-module.html#_M12_
+pygeodesy.karney._math_isfinite	pygeodesy.basics-module.html#_isfinite
 pygeodesy.karney._around	pygeodesy.karney-module.html#_around
 pygeodesy.karney._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2

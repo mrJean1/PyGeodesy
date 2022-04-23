@@ -108,7 +108,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testAlbers.py
     test 74 error: lat1 (150.0): above 90 limit
     test 75 error: slat1 (-0.5) or slat2 (0.5): invalid
 
-    9 of 75 testAlbers.py tests (12.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 4.770 ms
+    9 of 75 testAlbers.py tests (12.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 4.672 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testAzimuthal.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -419,7 +419,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testAzimuthal.py
     test 257 radius: 1.0
     test 258 NANing: (NAN, NAN, 0.0, 0.0, 0.0, 1.0, None)
 
-    7 of 258 testAzimuthal.py tests (2.7%) FAILED, ALL KNOWN, 14 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.313 sec
+    7 of 258 testAzimuthal.py tests (2.7%) FAILED, ALL KNOWN, 14 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.312 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testBasics.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -511,7 +511,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testBasics.py
     test 60 splice: ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
     test 61 splice: ((0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9))
 
-    all 61 testBasics.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 317.097 us
+    all 61 testBasics.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 329.971 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testCartesian.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -866,7 +866,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testCartesian.py
     test 311 vector3d.intersections2: (-0.021973, -0.766467, 0.0)
     test 312 vector3d.intersections2: (0.027459, -0.797488, 0.0)
 
-    21 of 312 testCartesian.py tests (6.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 11.101 ms
+    21 of 312 testCartesian.py tests (6.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 12.853 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testClasses.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -2336,7 +2336,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testClasses.py
 # lazily imported pygeodesy.wrapPI_2 from .utily by testClasses.py line 100
 # lazily imported pygeodesy.yard2m from .utily by testClasses.py line 100
 
-    all 670 testClasses.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 90.849 ms
+    all 670 testClasses.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 100.577 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testClipy.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -3198,7 +3198,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testClipy.py
     test 823 clipSH11: None
     test 824 clipSH12: None
 
-    all 824 testClipy.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 25.793 ms
+    all 824 testClipy.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 25.640 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testCss.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -3226,7 +3226,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testCss.py
     testing testCss.py 22.01.20 (module pygeodesy.css 22.04.22) isLazy=3
     14 tests skipped (14): no geographiclib
 
-    all testCss.py tests passed, 14 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 12.159 us
+    all testCss.py tests passed, 14 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.252 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDatums.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -3257,7 +3257,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDatums.py
     test 6 TestDatum: name='TestDatum', ellipsoid=Ellipsoids.TestEllipsiod, transform=Transforms.TestTransform
     test 7 ED50.inverse().inverse(): True
 
-    all 7 testDatums.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 361.919 us
+    all 7 testDatums.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 383.854 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDeprecated.py
 ./test/testDeprecated.py:36: DeprecationWarning: function L{pygeodesy.deprecated.areaof} has been DEPRECATED, use function L{pygeodesy.areaOf}.
@@ -3535,7 +3535,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDeprecated.py
     test 86 toUtm: 6
     test 87 utmZoneBand2: (11, 'U')
 
-    69 of 87 testDeprecated.py tests (79.3%) FAILED, incl. 69 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.350 ms
+    69 of 87 testDeprecated.py tests (79.3%) FAILED, incl. 69 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.337 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDms.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -3820,7 +3820,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testDms.py
     test 232 _MIN: +0.606′
     test 233 _SEC: +36.36″
 
-    all 233 testDms.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.711 ms
+    all 233 testDms.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.822 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEcef.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -4536,7 +4536,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEcef.py
     test 664 forward: [4202946.8, 171232.47, 4778354.17]
     test 665 Ecef: <class 'pygeodesy.ecef.EcefKarney'>
 
-    74 of 665 testEcef.py tests (11.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 18.277 ms
+    74 of 665 testEcef.py tests (11.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 18.433 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -4556,7 +4556,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testElevations.py
 # lazily imported pygeodesy.geoidHeight2 from .elevations by testElevations.py line 11
 
     testing testElevations.py 21.11.21 isLazy=3
-    all testElevations.py tests SKIPPED (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 7.868 us
+    all testElevations.py tests SKIPPED (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 5.245 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoidal.py
 ./test/testEllipsoidal.py:34: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
@@ -5883,7 +5883,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoidal.py
     test 1184 isclockwise: True
     test 1185 perimeterCO: 2098430.887891
 
-    116 of 1185 testEllipsoidal.py tests (9.8%) FAILED, incl. 106 KNOWN plus 10 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 15.733 sec
+    116 of 1185 testEllipsoidal.py tests (9.8%) FAILED, incl. 106 KNOWN plus 10 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 15.731 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoidalGeodTest.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -8907,7 +8907,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoidalGeo
     test 3000 line 500 azi2: 130.988276746436
     test 3001 WGS84.KsOrder: 8
 
-    35 of 3001 testEllipsoidalGeodTest.py tests (1.2%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.024 sec
+    35 of 3001 testEllipsoidalGeodTest.py tests (1.2%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.023 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoids.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -9026,7 +9026,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoids.py
     test 77 rocPrimeVertical: 6388838.29
     test 78 rocPrimeVertical: 6399593.626
 
-    test<function Ellipsoid.__init__ at 0x10563b280>(pygeodesy.ellipsoids, 22.04.22)
+    test<function Ellipsoid.__init__ at 0x1026c8280>(pygeodesy.ellipsoids, 22.04.22)
     test 79 a, b, None: 2.0
     test 80 a, None, f_: 500.0
 
@@ -9688,7 +9688,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEllipsoids.py
     test 705 circle4 90: 6371008.771415
     test 706 circle4 90: 6371008.771415
 
-    76 of 706 testEllipsoids.py tests (10.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 24.009 ms
+    76 of 706 testEllipsoids.py tests (10.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 23.949 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testElliptic.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -9975,7 +9975,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testElliptic.py
     test 254 k2 alpha2 kp2 alphap2: (0.5, 0.5, 0.5, 0.5)
     test 255 k2 alpha2 kp2 alphap2: (0.75, 0.75, 0.75, 0.75)
 
-    all 255 testElliptic.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 52.974 ms
+    all 255 testElliptic.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 53.376 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEpsg.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -10396,7 +10396,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEpsg.py
     test 397 TMcoord 257: 39N N
     test 398 TMcoord 258: 40Q N
 
-    all 398 testEpsg.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 29.121 ms
+    all 398 testEpsg.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 29.032 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testErrors.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -10554,7 +10554,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testErrors.py
     test 103 _xkwds_pop: _xkwds_pop(): no name=default kwargs
     test 104 _xkwds_pop: _xkwds_pop(n1='d1', n2='d2'): multiple name=default kwargs
 
-    all 104 testErrors.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 703.096 us
+    all 104 testErrors.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 729.084 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEtm.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -10686,7 +10686,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEtm.py
     test 101 parse: 31 N 448251 5411932
     test 102 name: parse
 
-    2 of 102 testEtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 18.172 ms
+    2 of 102 testEtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 17.981 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEtmTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -12259,7 +12259,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testEtmTMcoords.py
     test 1547 Etm.datum.ellipsoid.KsOrder: 8
     test 1548 WGS84.KsOrder: 8
 
-    all 1548 testEtmTMcoords.py tests passed, 1 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 492.219 ms
+    all 1548 testEtmTMcoords.py tests passed, 1 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 491.587 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testExactTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -13832,7 +13832,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testExactTMcoords.
     test 1547 _ExactTM.datum.ellipsoid.KsOrder: 8
     test 1548 WGS84.KsOrder: 8
 
-    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 481.607 ms
+    all 1548 testExactTMcoords.py tests passed, 1 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 472.530 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFmath.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -14035,7 +14035,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFmath.py
     test 164 fatan1: 2.834%
     test 165 fatan2: 0.321%
 
-    3 of 165 testFmath.py tests (1.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 7.132 ms
+    3 of 165 testFmath.py tests (1.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 7.162 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -14131,7 +14131,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 42 flatLocal1 (0.14%): 298425.999  FAILED, KNOWN, expected 298009.404
     test 43 flatPolar1 (8.67%): 323841.582  FAILED, KNOWN, expected 298009.404
     test 44 thomas1 (0.13%): 298396.261  FAILED, KNOWN, expected 298009.404
-    test 45 hubeny: <function flatLocal at 0x102736160>
+    test 45 hubeny: <function flatLocal at 0x105ea5160>
     test 46 haversine2 (0.00%): 98164.988
     test 47 vincentys2 (0.00%): 98164.988
     test 48 vincentys2 (0.00%): 98164.988
@@ -14143,7 +14143,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 54 flatLocal2 (0.10%): 98071.693  FAILED, KNOWN, expected 98164.988
     test 55 flatPolar2 (0.57%): 98725.040  FAILED, KNOWN, expected 98164.988
     test 56 thomas2 (0.10%): 98071.535  FAILED, KNOWN, expected 98164.988
-    test 57 hubeny: <function flatLocal at 0x102736160>
+    test 57 hubeny: <function flatLocal at 0x105ea5160>
     test 58 haversine3 (0.00%): 651816.987
     test 59 vincentys3 (0.00%): 651816.987
     test 60 vincentys3 (0.00%): 651816.987
@@ -14155,7 +14155,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 66 flatLocal3 (0.29%): 653681.559  FAILED, KNOWN, expected 651816.987
     test 67 flatPolar3 (13.00%): 736534.840  FAILED, KNOWN, expected 651816.987
     test 68 thomas3 (0.25%): 653456.933  FAILED, KNOWN, expected 651816.987
-    test 69 hubeny: <function flatLocal at 0x102736160>
+    test 69 hubeny: <function flatLocal at 0x105ea5160>
     test 70 haversine4 (0.00%): 4084985.780
     test 71 vincentys4 (0.00%): 4084985.780
     test 72 vincentys4 (0.00%): 4084985.780
@@ -14167,7 +14167,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 78 flatLocal4 (1.51%): 4146513.247  FAILED, KNOWN, expected 4084985.780
     test 79 flatPolar4 (12.31%): 4587896.452  FAILED, KNOWN, expected 4084985.780
     test 80 thomas4 (0.24%): 4094958.301  FAILED, KNOWN, expected 4084985.780
-    test 81 hubeny: <function flatLocal at 0x102736160>
+    test 81 hubeny: <function flatLocal at 0x105ea5160>
     test 82 haversine5 (0.00%): 9670051.606
     test 83 vincentys5 (0.00%): 9670051.606
     test 84 vincentys5 (0.00%): 9670051.606
@@ -14179,7 +14179,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 90 flatLocal5 (8.03%): 10446503.342  FAILED, KNOWN, expected 9670051.606
     test 91 flatPolar5 (55.59%): 15045906.074  FAILED, KNOWN, expected 9670051.606
     test 92 thomas5 (0.21%): 9690767.767  FAILED, KNOWN, expected 9670051.606
-    test 93 hubeny: <function flatLocal at 0x102736160>
+    test 93 hubeny: <function flatLocal at 0x105ea5160>
     test 94 haversine6 (0.00%): 10496496.577
     test 95 vincentys6 (0.00%): 10496496.577
     test 96 vincentys6 (0.00%): 10496496.577
@@ -14191,7 +14191,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 102 flatLocal6 (3.07%): 10818798.605  FAILED, KNOWN, expected 10496496.577
     test 103 flatPolar6 (23.87%): 13002288.857  FAILED, KNOWN, expected 10496496.577
     test 104 thomas6 (0.18%): 10477316.498  FAILED, KNOWN, expected 10496496.577
-    test 105 hubeny: <function flatLocal at 0x102736160>
+    test 105 hubeny: <function flatLocal at 0x105ea5160>
     test 106 haversine7 (0.00%): 8998396.669
     test 107 vincentys7 (0.00%): 8998396.669
     test 108 vincentys7 (0.00%): 8998396.669
@@ -14203,7 +14203,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 114 flatLocal7 (1.71%): 9151831.117  FAILED, KNOWN, expected 8998396.669
     test 115 flatPolar7 (17.56%): 10578638.162  FAILED, KNOWN, expected 8998396.669
     test 116 thomas7 (0.27%): 8974216.867  FAILED, KNOWN, expected 8998396.669
-    test 117 hubeny: <function flatLocal at 0x102736160>
+    test 117 hubeny: <function flatLocal at 0x105ea5160>
     test 118 haversine8 (0.00%): 6906867.946
     test 119 vincentys8 (0.00%): 6906867.946
     test 120 vincentys8 (0.00%): 6906867.946
@@ -14215,7 +14215,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 126 flatLocal8 (1.04%): 6978905.097  FAILED, KNOWN, expected 6906867.946
     test 127 flatPolar8 (23.23%): 8511564.321  FAILED, KNOWN, expected 6906867.946
     test 128 thomas8 (0.13%): 6916087.828  FAILED, KNOWN, expected 6906867.946
-    test 129 hubeny: <function flatLocal at 0x102736160>
+    test 129 hubeny: <function flatLocal at 0x105ea5160>
     test 130 haversine9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 131 vincentys9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 132 cosineAndoyerLambert9 (0.07%): 8050357.566  FAILED, KNOWN, expected 8044806.076
@@ -14223,7 +14223,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
     test 134 cosineLaw9 (0.01%): 8045325.213  FAILED, KNOWN, expected 8044806.076
     test 135 flatLocal9 (15.21%): 9268128.573  FAILED, KNOWN, expected 8044806.076
     test 136 thomas9 (0.07%): 8050370.796  FAILED, KNOWN, expected 8044806.076
-    test 137 hubeny: <function flatLocal at 0x102736160>
+    test 137 hubeny: <function flatLocal at 0x105ea5160>
 
     test 138 intersections2: pygeodesy.formy
     test 139 intersection2 (None) 1: (1.0003, 1.0003), (-1.0003, -1.0003)
@@ -14256,7 +14256,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFormy.py
 
     test 165 LimitError: delta exceeds limit: equirectangular_(0.0, 0.0, 60.0, 120.0, limit=45)  FAILED, KNOWN, expected delta exceeds ...
 
-    65 of 165 testFormy.py tests (39.4%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 783.780 ms
+    65 of 165 testFormy.py tests (39.4%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 779.735 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFrechet.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -14368,7 +14368,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFrechet.py
     test 67 copy(FrechetDistanceTo): (<class 'pygeodesy.frechet.FrechetDistanceTo'>, True)
     test 68 FrechetDistanceTo.copy(): (<class 'pygeodesy.frechet.FrechetDistanceTo'>, True)
 
-    4 of 68 testFrechet.py tests (5.9%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 2.779 sec
+    4 of 68 testFrechet.py tests (5.9%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 2.821 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFstats.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -14450,7 +14450,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFstats.py
     test 51 __add__: fstats.Flinear '__add__'[21] += None: invalid other
     test 52 __add__: fstats.Flinear '__add__'[21] += (1, 2, 3): isodd(len(other))
 
-    4 of 52 testFstats.py tests (7.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 22.112 ms
+    4 of 52 testFstats.py tests (7.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 22.090 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFsums.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -14507,1207 +14507,1207 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFsums.py
     test 34 fsum: 1.0000000000000002e+16
     test 35 Fsum: 1.0000000000000002e+16
 
-    test 36 sum1: -3.885337784451458e+84  FAILED, KNOWN, expected 0.2778229900708281
-    test 37 fsum: 0.2778229900708281
-    test 38 pow(4): fsums.Fsum 'pow'[17] (0.00595762, -6.03592e-20)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (0.00595762, -2.64163e-19)
-    test 39 pow(1): fsums.Fsum 'pow'[1] (0.277823, -1.55677e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (0.277823, -1.55677e-17)
+    test 36 sum1: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0011082381244884986
+    test 37 fsum: -0.0011082381244884986
+    test 38 pow(4): fsums.Fsum 'pow'[15] (1.50845e-12, -2.18295e-29)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (1.50845e-12, -2.18295e-29)
+    test 39 pow(1): fsums.Fsum 'pow'[1] (-0.00110824, 4.00945e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00110824, 4.00945e-21)
     test 40 pow(0): fsums.Fsum[1] (1.0, 0)
     test 41 ceil: True
     test 42 floor: True
     test 43 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 44 residual: 0
     test 45 is_exact: True
-    test 46 Fsum: 0.2778229900708281
-    test 47 Fsum: 0.2778229900708281
-    test 48 sum2: -7.0  FAILED, KNOWN, expected 3.345558891983871e-07
-    test 49 fsum: 3.345558891983871e-07
-    test 50 pow(4): fsums.Fsum 'pow'[10] (1.25278e-26, 4.3222e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.25278e-26, -1.6859e-43)
-    test 51 pow(1): fsums.Fsum 'pow'[1] (3.34556e-07, 2.17491e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (3.34556e-07, 2.17491e-23)
+    test 46 Fsum: -0.0011082381244884986
+    test 47 Fsum: -0.0011082381244884986
+    test 48 sum2: -3.885337784451458e+84  FAILED, KNOWN, expected 0.5412177517987432
+    test 49 fsum: 0.5412177517987432
+    test 50 pow(4): fsums.Fsum 'pow'[18] (0.0858002, 5.48102e-18)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (0.0858002, -6.01441e-18)
+    test 51 pow(1): fsums.Fsum 'pow'[1] (0.541218, 3.80421e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (0.541218, 3.80421e-17)
     test 52 pow(0): fsums.Fsum[1] (1.0, 0)
     test 53 ceil: True
     test 54 floor: True
     test 55 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 56 residual: 0
     test 57 is_exact: True
-    test 58 Fsum: 3.345558891983871e-07
-    test 59 Fsum: 3.345558891983871e-07
-    test 60 sum3: 3.885337784451458e+84  FAILED, KNOWN, expected 0.04150170016668904
-    test 61 fsum: 0.04150170016668904
-    test 62 pow(4): fsums.Fsum 'pow'[22] (2.96663e-06, -5.51555e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[40] (2.96663e-06, -5.51555e-23)
-    test 63 pow(1): fsums.Fsum 'pow'[1] (0.0415017, -1.929e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0415017, -1.929e-19)
+    test 58 Fsum: 0.5412177517987432
+    test 59 Fsum: 0.5412177517987432
+    test 60 sum3: -3.885337784451458e+84  FAILED, KNOWN, expected 1.66728341683665e-06
+    test 61 fsum: 1.66728341683665e-06
+    test 62 pow(4): fsums.Fsum 'pow'[7] (7.72748e-24, 2.69026e-40)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (7.72748e-24, 2.69026e-40)
+    test 63 pow(1): fsums.Fsum 'pow'[1] (1.66728e-06, 1.45113e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (1.66728e-06, 1.45113e-23)
     test 64 pow(0): fsums.Fsum[1] (1.0, 0)
     test 65 ceil: True
     test 66 floor: True
-    test 67 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 67 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 68 residual: 0
     test 69 is_exact: True
-    test 70 Fsum: 0.04150170016668904
-    test 71 Fsum: 0.04150170016668904
-    test 72 sum4: 3.885337784451458e+84  FAILED, KNOWN, expected 4.2105390073370764e-11
-    test 73 fsum: 4.2105390073370764e-11
-    test 74 pow(4): fsums.Fsum 'pow'[10] (3.14305e-42, -2.51037e-58)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (3.14305e-42, -2.80678e-58)
-    test 75 pow(1): fsums.Fsum 'pow'[1] (4.21054e-11, -3.17345e-27)  FAILED, KNOWN, expected fsums.Fsum[80] (4.21054e-11, -3.17345e-27)
+    test 70 Fsum: 1.66728341683665e-06
+    test 71 Fsum: 1.66728341683665e-06
+    test 72 sum4: 0.0  FAILED, KNOWN, expected -5.729437846462826e-06
+    test 73 fsum: -5.729437846462826e-06
+    test 74 pow(4): fsums.Fsum 'pow'[7] (1.07758e-21, 5.89451e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (1.07758e-21, 8.3002e-38)
+    test 75 pow(1): fsums.Fsum 'pow'[1] (-5.72944e-06, -3.9231e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-5.72944e-06, -3.9231e-22)
     test 76 pow(0): fsums.Fsum[1] (1.0, 0)
     test 77 ceil: True
     test 78 floor: True
     test 79 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 80 residual: 0
     test 81 is_exact: True
-    test 82 Fsum: 4.2105390073370764e-11
-    test 83 Fsum: 4.2105390073370764e-11
-    test 84 sum5: 6.999878711731896  FAILED, KNOWN, expected -0.004038971290456673
-    test 85 fsum: -0.004038971290456673
-    test 86 pow(4): fsums.Fsum 'pow'[32] (2.66123e-10, -2.42629e-26)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[61] (2.66123e-10, -2.06901e-26)
-    test 87 pow(1): fsums.Fsum 'pow'[1] (-0.00403897, -3.2737e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00403897, -3.2737e-19)
+    test 82 Fsum: -5.729437846462826e-06
+    test 83 Fsum: -5.729437846462826e-06
+    test 84 sum5: -3.885337784451458e+84  FAILED, KNOWN, expected -0.5761571981815666
+    test 85 fsum: -0.5761571981815666
+    test 86 pow(4): fsums.Fsum 'pow'[20] (0.110196, 1.24931e-18)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (0.110196, 3.68506e-18)
+    test 87 pow(1): fsums.Fsum 'pow'[1] (-0.576157, -4.98066e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.576157, -4.98066e-17)
     test 88 pow(0): fsums.Fsum[1] (1.0, 0)
     test 89 ceil: True
     test 90 floor: True
-    test 91 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 91 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 92 residual: 0
     test 93 is_exact: True
-    test 94 Fsum: -0.004038971290456673
-    test 95 Fsum: -0.004038971290456673
-    test 96 sum6: 3.885337784451458e+84  FAILED, KNOWN, expected -0.004305948412759792
-    test 97 fsum: -0.004305948412759792
-    test 98 pow(4): fsums.Fsum 'pow'[21] (3.43776e-10, -1.2041e-26)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (3.43776e-10, -2.31622e-26)
-    test 99 pow(1): fsums.Fsum 'pow'[1] (-0.00430595, 2.69242e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00430595, 2.69242e-19)
+    test 94 Fsum: -0.5761571981815666
+    test 95 Fsum: -0.5761571981815666
+    test 96 sum6: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0005264455864951501
+    test 97 fsum: -0.0005264455864951501
+    test 98 pow(4): fsums.Fsum 'pow'[16] (7.68093e-14, -4.75238e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (7.68093e-14, -2.70222e-30)
+    test 99 pow(1): fsums.Fsum 'pow'[1] (-0.000526446, -4.21371e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000526446, -4.21371e-20)
     test 100 pow(0): fsums.Fsum[1] (1.0, 0)
     test 101 ceil: True
     test 102 floor: True
     test 103 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 104 residual: 0
     test 105 is_exact: True
-    test 106 Fsum: -0.004305948412759792
-    test 107 Fsum: -0.004305948412759792
-    test 108 sum7: -3.885337784451458e+84  FAILED, KNOWN, expected 1.8113061976586565e-08
-    test 109 fsum: 1.8113061976586565e-08
-    test 110 pow(4): fsums.Fsum 'pow'[14] (1.07638e-31, 4.49142e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[29] (1.07638e-31, 1.0211e-47)
-    test 111 pow(1): fsums.Fsum 'pow'[1] (1.81131e-08, -1.17205e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.81131e-08, -1.17205e-24)
+    test 106 Fsum: -0.0005264455864951501
+    test 107 Fsum: -0.0005264455864951501
+    test 108 sum7: 3.885337784451458e+84  FAILED, KNOWN, expected 3.065754551531956e-06
+    test 109 fsum: 3.065754551531956e-06
+    test 110 pow(4): fsums.Fsum 'pow'[12] (8.83384e-23, -4.5695e-41)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (8.83384e-23, -3.47541e-39)
+    test 111 pow(1): fsums.Fsum 'pow'[1] (3.06575e-06, -1.61898e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (3.06575e-06, -1.61898e-22)
     test 112 pow(0): fsums.Fsum[1] (1.0, 0)
     test 113 ceil: True
     test 114 floor: True
     test 115 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 116 residual: 0
     test 117 is_exact: True
-    test 118 Fsum: 1.8113061976586565e-08
-    test 119 Fsum: 1.8113061976586565e-08
-    test 120 sum8: -3.885337784451458e+84  FAILED, KNOWN, expected -0.7237278830966904
-    test 121 fsum: -0.7237278830966904
-    test 122 pow(4): fsums.Fsum 'pow'[29] (0.274348, 4.55359e-18)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[81] (0.274348, 7.19393e-18)
-    test 123 pow(1): fsums.Fsum 'pow'[1] (-0.723728, -4.30952e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.723728, -4.30952e-17)
+    test 118 Fsum: 3.065754551531956e-06
+    test 119 Fsum: 3.065754551531956e-06
+    test 120 sum8: 3.885337784451458e+84  FAILED, KNOWN, expected -2.1671082950692205e-09
+    test 121 fsum: -2.1671082950692205e-09
+    test 122 pow(4): fsums.Fsum 'pow'[13] (2.20558e-35, 8.72531e-53)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (2.20558e-35, -3.4963e-52)
+    test 123 pow(1): fsums.Fsum 'pow'[1] (-2.16711e-09, -6.77969e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.16711e-09, -6.77969e-26)
     test 124 pow(0): fsums.Fsum[1] (1.0, 0)
     test 125 ceil: True
     test 126 floor: True
-    test 127 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 127 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 128 residual: 0
     test 129 is_exact: True
-    test 130 Fsum: -0.7237278830966904
-    test 131 Fsum: -0.7237278830966904
-    test 132 sum9: -0.003279851240667645  FAILED, KNOWN, expected -0.0008005714079150696
-    test 133 fsum: -0.0008005714079150696
-    test 134 pow(4): fsums.Fsum 'pow'[16] (4.10771e-13, -1.04421e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (4.10771e-13, -1.04421e-30)
-    test 135 pow(1): fsums.Fsum 'pow'[1] (-0.000800571, 2.51079e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000800571, 2.51079e-20)
+    test 130 Fsum: -2.1671082950692205e-09
+    test 131 Fsum: -2.1671082950692205e-09
+    test 132 sum9: 3.885337784451458e+84  FAILED, KNOWN, expected 1.6785118103921264e-08
+    test 133 fsum: 1.6785118103921264e-08
+    test 134 pow(4): fsums.Fsum 'pow'[8] (7.93775e-32, -2.69866e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (7.93775e-32, 2.44561e-49)
+    test 135 pow(1): fsums.Fsum 'pow'[1] (1.67851e-08, 7.47267e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (1.67851e-08, 7.47267e-25)
     test 136 pow(0): fsums.Fsum[1] (1.0, 0)
     test 137 ceil: True
     test 138 floor: True
-    test 139 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 139 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 140 residual: 0
     test 141 is_exact: True
-    test 142 Fsum: -0.0008005714079150696
-    test 143 Fsum: -0.0008005714079150696
-    test 144 sum10: -3.885337784451458e+84  FAILED, KNOWN, expected 1.0570201800817042e-08
-    test 145 fsum: 1.0570201800817042e-08
-    test 146 pow(4): fsums.Fsum 'pow'[11] (1.24834e-32, 4.62838e-49)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (1.24834e-32, -3.32634e-49)
-    test 147 pow(1): fsums.Fsum 'pow'[1] (1.05702e-08, -4.81387e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (1.05702e-08, -4.81387e-25)
+    test 142 Fsum: 1.6785118103921264e-08
+    test 143 Fsum: 1.6785118103921264e-08
+    test 144 sum10: -0.0022865252706474872  FAILED, KNOWN, expected 0.0090147573328956
+    test 145 fsum: 0.0090147573328956
+    test 146 pow(4): fsums.Fsum 'pow'[16] (6.60414e-09, 3.54789e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (6.60414e-09, -1.98215e-25)
+    test 147 pow(1): fsums.Fsum 'pow'[1] (0.00901476, 5.9048e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00901476, 5.9048e-19)
     test 148 pow(0): fsums.Fsum[1] (1.0, 0)
     test 149 ceil: True
     test 150 floor: True
-    test 151 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 151 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 152 residual: 0
     test 153 is_exact: True
-    test 154 Fsum: 1.0570201800817042e-08
-    test 155 Fsum: 1.0570201800817042e-08
-    test 156 sum11: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0005771703189983162
-    test 157 fsum: -0.0005771703189983162
-    test 158 pow(4): fsums.Fsum 'pow'[16] (1.10973e-13, -7.76511e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (1.10973e-13, -5.79026e-30)
-    test 159 pow(1): fsums.Fsum 'pow'[1] (-0.00057717, 3.04595e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00057717, 3.04595e-20)
+    test 154 Fsum: 0.0090147573328956
+    test 155 Fsum: 0.0090147573328956
+    test 156 sum11: -7.520187382881623  FAILED, KNOWN, expected -1.078824770655507
+    test 157 fsum: -1.078824770655507
+    test 158 pow(4): fsums.Fsum 'pow'[21] (1.35458, -1.56169e-17)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[43] (1.35458, 1.88568e-18)
+    test 159 pow(1): fsums.Fsum 'pow'[1] (-1.07882, 4.73202e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.07882, 4.73202e-17)
     test 160 pow(0): fsums.Fsum[1] (1.0, 0)
     test 161 ceil: True
     test 162 floor: True
     test 163 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 164 residual: 0
     test 165 is_exact: True
-    test 166 Fsum: -0.0005771703189983162
-    test 167 Fsum: -0.0005771703189983162
-    test 168 sum12: -3.885337784451458e+84  FAILED, KNOWN, expected 9.547820266064367
-    test 169 fsum: 9.547820266064367
-    test 170 pow(4): fsums.Fsum 'pow'[25] (8310.3, -8.85523e-13)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (8310.3, -3.62008e-13)
-    test 171 pow(1): fsums.Fsum 'pow'[1] (9.54782, -4.76076e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (9.54782, -4.76076e-16)
+    test 166 Fsum: -1.078824770655507
+    test 167 Fsum: -1.078824770655507
+    test 168 sum12: 3.885337784451458e+84  FAILED, KNOWN, expected -1.2064654601463566e-06
+    test 169 fsum: -1.2064654601463566e-06
+    test 170 pow(4): fsums.Fsum 'pow'[19] (2.11865e-24, 6.39569e-41)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (2.11865e-24, -9.43728e-42)
+    test 171 pow(1): fsums.Fsum 'pow'[1] (-1.20647e-06, -9.27993e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.20647e-06, -9.27993e-23)
     test 172 pow(0): fsums.Fsum[1] (1.0, 0)
     test 173 ceil: True
     test 174 floor: True
     test 175 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 176 residual: 0
     test 177 is_exact: True
-    test 178 Fsum: 9.547820266064367
-    test 179 Fsum: 9.547820266064367
-    test 180 sum13: 0.0  FAILED, KNOWN, expected -7.46573912273361e-08
-    test 181 fsum: -7.46573912273361e-08
-    test 182 pow(4): fsums.Fsum 'pow'[13] (3.10664e-29, -4.9438e-46)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (3.10664e-29, -1.3809e-45)
-    test 183 pow(1): fsums.Fsum 'pow'[1] (-7.46574e-08, 5.58022e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-7.46574e-08, 5.58022e-24)
+    test 178 Fsum: -1.2064654601463566e-06
+    test 179 Fsum: -1.2064654601463566e-06
+    test 180 sum13: -3.885337784451458e+84  FAILED, KNOWN, expected 109.81277191985501
+    test 181 fsum: 109.81277191985501
+    test 182 pow(4): fsums.Fsum 'pow'[24] (1.45416e+08, 1.04089e-08)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[76] (1.45416e+08, 1.04089e-08)
+    test 183 pow(1): fsums.Fsum 'pow'[1] (109.813, 1.96511e-15)  FAILED, KNOWN, expected fsums.Fsum[80] (109.813, 1.96511e-15)
     test 184 pow(0): fsums.Fsum[1] (1.0, 0)
     test 185 ceil: True
     test 186 floor: True
-    test 187 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 187 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 188 residual: 0
     test 189 is_exact: True
-    test 190 Fsum: -7.46573912273361e-08
-    test 191 Fsum: -7.46573912273361e-08
-    test 192 sum14: -3.885337784451458e+84  FAILED, KNOWN, expected 2.2968628658559966e-11
-    test 193 fsum: 2.2968628658559966e-11
-    test 194 pow(4): fsums.Fsum 'pow'[8] (2.78317e-43, 2.79795e-60)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (2.78317e-43, 2.79795e-60)
-    test 195 pow(1): fsums.Fsum 'pow'[1] (2.29686e-11, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (2.29686e-11, 5.77265e-29)
+    test 190 Fsum: 109.81277191985501
+    test 191 Fsum: 109.81277191985501
+    test 192 sum14: -3.885337784451458e+84  FAILED, KNOWN, expected 9.301174682708321e-08
+    test 193 fsum: 9.301174682708321e-08
+    test 194 pow(4): fsums.Fsum 'pow'[7] (7.4843e-29, 4.31619e-45)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (7.4843e-29, 4.31619e-45)
+    test 195 pow(1): fsums.Fsum 'pow'[1] (9.30117e-08, 1.341e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (9.30117e-08, 1.341e-24)
     test 196 pow(0): fsums.Fsum[1] (1.0, 0)
     test 197 ceil: True
     test 198 floor: True
-    test 199 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 199 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 200 residual: 0
     test 201 is_exact: True
-    test 202 Fsum: 2.2968628658559966e-11
-    test 203 Fsum: 2.2968628658559966e-11
-    test 204 sum15: 3.885337784451458e+84  FAILED, KNOWN, expected 7.458363766420415e-17
-    test 205 fsum: 7.458363766420415e-17
-    test 206 pow(4): fsums.Fsum 'pow'[7] (3.09438e-65, -9.40309e-82)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (3.09438e-65, -1.35102e-81)
-    test 207 pow(1): fsums.Fsum 'pow'[1] (7.45836e-17, 4.02038e-33)  FAILED, KNOWN, expected fsums.Fsum[80] (7.45836e-17, 4.02038e-33)
+    test 202 Fsum: 9.301174682708321e-08
+    test 203 Fsum: 9.301174682708321e-08
+    test 204 sum15: 3.885337784451458e+84  FAILED, KNOWN, expected -0.033188843791507376
+    test 205 fsum: -0.033188843791507376
+    test 206 pow(4): fsums.Fsum 'pow'[23] (1.2133e-06, 9.51386e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[53] (1.2133e-06, 6.80473e-23)
+    test 207 pow(1): fsums.Fsum 'pow'[1] (-0.0331888, 2.61616e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0331888, 2.61616e-18)
     test 208 pow(0): fsums.Fsum[1] (1.0, 0)
     test 209 ceil: True
     test 210 floor: True
-    test 211 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 211 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 212 residual: 0
     test 213 is_exact: True
-    test 214 Fsum: 7.458363766420415e-17
-    test 215 Fsum: 7.458363766420415e-17
-    test 216 sum16: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0002418109395598181
-    test 217 fsum: 0.0002418109395598181
-    test 218 pow(4): fsums.Fsum 'pow'[23] (3.41904e-15, -1.23625e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (3.41904e-15, -1.23625e-31)
-    test 219 pow(1): fsums.Fsum 'pow'[1] (0.000241811, -2.18583e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000241811, -2.18583e-21)
+    test 214 Fsum: -0.033188843791507376
+    test 215 Fsum: -0.033188843791507376
+    test 216 sum16: -3.885337784451458e+84  FAILED, KNOWN, expected 0.05409687939297869
+    test 217 fsum: 0.05409687939297869
+    test 218 pow(4): fsums.Fsum 'pow'[17] (8.56424e-06, -8.06621e-22)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (8.56424e-06, -8.06621e-22)
+    test 219 pow(1): fsums.Fsum 'pow'[1] (0.0540969, -1.27378e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0540969, -1.27378e-18)
     test 220 pow(0): fsums.Fsum[1] (1.0, 0)
     test 221 ceil: True
     test 222 floor: True
-    test 223 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 223 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 224 residual: 0
     test 225 is_exact: True
-    test 226 Fsum: 0.0002418109395598181
-    test 227 Fsum: 0.0002418109395598181
-    test 228 sum17: -3.885337784451458e+84  FAILED, KNOWN, expected -8.72353759325327e-06
-    test 229 fsum: -8.72353759325327e-06
-    test 230 pow(4): fsums.Fsum 'pow'[17] (5.79123e-21, 3.76147e-37)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (5.79123e-21, 1.44893e-37)
-    test 231 pow(1): fsums.Fsum 'pow'[1] (-8.72354e-06, 5.99143e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-8.72354e-06, 5.99143e-22)
+    test 226 Fsum: 0.05409687939297869
+    test 227 Fsum: 0.05409687939297869
+    test 228 sum17: 3.885337784451458e+84  FAILED, KNOWN, expected -0.09583606378564902
+    test 229 fsum: -0.09583606378564902
+    test 230 pow(4): fsums.Fsum 'pow'[24] (8.4356e-05, 1.8473e-21)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[57] (8.4356e-05, 4.22743e-21)
+    test 231 pow(1): fsums.Fsum 'pow'[1] (-0.0958361, -5.72592e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0958361, -5.72592e-18)
     test 232 pow(0): fsums.Fsum[1] (1.0, 0)
     test 233 ceil: True
     test 234 floor: True
-    test 235 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 235 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 236 residual: 0
     test 237 is_exact: True
-    test 238 Fsum: -8.72353759325327e-06
-    test 239 Fsum: -8.72353759325327e-06
-    test 240 sum18: 3.885337784451458e+84  FAILED, KNOWN, expected 0.009853288056302839
-    test 241 fsum: 0.009853288056302839
-    test 242 pow(4): fsums.Fsum 'pow'[17] (9.42594e-09, 2.11774e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (9.42594e-09, 5.50357e-25)
-    test 243 pow(1): fsums.Fsum 'pow'[1] (0.00985329, -6.32372e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00985329, -6.32372e-19)
+    test 238 Fsum: -0.09583606378564902
+    test 239 Fsum: -0.09583606378564902
+    test 240 sum18: 7.0  FAILED, KNOWN, expected 9.191146565946678
+    test 241 fsum: 9.191146565946678
+    test 242 pow(4): fsums.Fsum 'pow'[21] (7136.39, 3.70364e-14)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[57] (7136.39, 1.72454e-13)
+    test 243 pow(1): fsums.Fsum 'pow'[1] (9.19115, -2.80915e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (9.19115, -2.80915e-16)
     test 244 pow(0): fsums.Fsum[1] (1.0, 0)
     test 245 ceil: True
     test 246 floor: True
-    test 247 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 247 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 248 residual: 0
     test 249 is_exact: True
-    test 250 Fsum: 0.009853288056302839
-    test 251 Fsum: 0.009853288056302839
-    test 252 sum19: -3.885337784451458e+84  FAILED, KNOWN, expected -0.21577853509829323
-    test 253 fsum: -0.21577853509829323
-    test 254 pow(4): fsums.Fsum 'pow'[25] (0.00216787, 1.93951e-19)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[66] (0.00216787, 1.93951e-19)
-    test 255 pow(1): fsums.Fsum 'pow'[1] (-0.215779, 5.96536e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.215779, 5.96536e-18)
+    test 250 Fsum: 9.191146565946678
+    test 251 Fsum: 9.191146565946678
+    test 252 sum19: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00013436251794075475
+    test 253 fsum: 0.00013436251794075475
+    test 254 pow(4): fsums.Fsum 'pow'[16] (3.25921e-16, -1.26355e-32)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (3.25921e-16, -1.26355e-32)
+    test 255 pow(1): fsums.Fsum 'pow'[1] (0.000134363, -1.30226e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000134363, -1.30226e-21)
     test 256 pow(0): fsums.Fsum[1] (1.0, 0)
     test 257 ceil: True
     test 258 floor: True
-    test 259 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 259 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 260 residual: 0
     test 261 is_exact: True
-    test 262 Fsum: -0.21577853509829323
-    test 263 Fsum: -0.21577853509829323
-    test 264 sum20: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0002846994089827921
-    test 265 fsum: 0.0002846994089827921
-    test 266 pow(4): fsums.Fsum 'pow'[7] (6.56971e-15, 1.88857e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (6.56971e-15, 1.88857e-31)
-    test 267 pow(1): fsums.Fsum 'pow'[1] (0.000284699, -6.50031e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000284699, -6.50031e-21)
+    test 262 Fsum: 0.00013436251794075475
+    test 263 Fsum: 0.00013436251794075475
+    test 264 sum20: -3.885337784451458e+84  FAILED, KNOWN, expected -1.9901440458136932
+    test 265 fsum: -1.9901440458136932
+    test 266 pow(4): fsums.Fsum 'pow'[13] (15.6869, 8.87258e-16)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (15.6869, -8.71634e-16)
+    test 267 pow(1): fsums.Fsum 'pow'[1] (-1.99014, 8.34313e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.99014, 8.34313e-17)
     test 268 pow(0): fsums.Fsum[1] (1.0, 0)
     test 269 ceil: True
     test 270 floor: True
-    test 271 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 271 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 272 residual: 0
     test 273 is_exact: True
-    test 274 Fsum: 0.0002846994089827921
-    test 275 Fsum: 0.0002846994089827921
-    test 276 sum21: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0428820430126866
-    test 277 fsum: -0.0428820430126866
-    test 278 pow(4): fsums.Fsum 'pow'[24] (3.38144e-06, 5.72535e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (3.38144e-06, 5.72535e-23)
-    test 279 pow(1): fsums.Fsum 'pow'[1] (-0.042882, 1.1612e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.042882, 1.1612e-18)
+    test 274 Fsum: -1.9901440458136932
+    test 275 Fsum: -1.9901440458136932
+    test 276 sum21: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0001365076973698658
+    test 277 fsum: 0.0001365076973698658
+    test 278 pow(4): fsums.Fsum 'pow'[7] (3.47239e-16, 3.91607e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (3.47239e-16, 1.62682e-32)
+    test 279 pow(1): fsums.Fsum 'pow'[1] (0.000136508, 7.65844e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000136508, 7.65844e-21)
     test 280 pow(0): fsums.Fsum[1] (1.0, 0)
     test 281 ceil: True
     test 282 floor: True
-    test 283 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 283 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 284 residual: 0
     test 285 is_exact: True
-    test 286 Fsum: -0.0428820430126866
-    test 287 Fsum: -0.0428820430126866
-    test 288 sum22: 7.0  FAILED, KNOWN, expected 3.235965366167431e-06
-    test 289 fsum: 3.235965366167431e-06
-    test 290 pow(4): fsums.Fsum 'pow'[17] (1.09652e-22, -1.038e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.09652e-22, -1.038e-38)
-    test 291 pow(1): fsums.Fsum 'pow'[1] (3.23597e-06, -7.6582e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (3.23597e-06, -7.6582e-23)
+    test 286 Fsum: 0.0001365076973698658
+    test 287 Fsum: 0.0001365076973698658
+    test 288 sum22: 0.0  FAILED, KNOWN, expected 7.818805107091096e-05
+    test 289 fsum: 7.818805107091096e-05
+    test 290 pow(4): fsums.Fsum 'pow'[8] (3.73733e-17, -2.52937e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (3.73733e-17, -1.42325e-33)
+    test 291 pow(1): fsums.Fsum 'pow'[1] (7.81881e-05, -3.38923e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (7.81881e-05, -3.38923e-21)
     test 292 pow(0): fsums.Fsum[1] (1.0, 0)
     test 293 ceil: True
     test 294 floor: True
-    test 295 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 295 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 296 residual: 0
     test 297 is_exact: True
-    test 298 Fsum: 3.235965366167431e-06
-    test 299 Fsum: 3.235965366167431e-06
-    test 300 sum23: -3.885337784451458e+84  FAILED, KNOWN, expected 2.5195949848824535e-05
-    test 301 fsum: 2.5195949848824535e-05
-    test 302 pow(4): fsums.Fsum 'pow'[15] (4.03017e-19, -1.36474e-36)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (4.03017e-19, -1.8857e-35)
-    test 303 pow(1): fsums.Fsum 'pow'[1] (2.51959e-05, -1.32066e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (2.51959e-05, -1.32066e-21)
+    test 298 Fsum: 7.818805107091096e-05
+    test 299 Fsum: 7.818805107091096e-05
+    test 300 sum23: 0.0  FAILED, KNOWN, expected -0.010972827926626951
+    test 301 fsum: -0.010972827926626951
+    test 302 pow(4): fsums.Fsum 'pow'[23] (1.44969e-08, -2.65928e-26)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.44969e-08, -2.65928e-26)
+    test 303 pow(1): fsums.Fsum 'pow'[1] (-0.0109728, 5.03209e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0109728, 5.03209e-21)
     test 304 pow(0): fsums.Fsum[1] (1.0, 0)
     test 305 ceil: True
     test 306 floor: True
-    test 307 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 307 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 308 residual: 0
     test 309 is_exact: True
-    test 310 Fsum: 2.5195949848824535e-05
-    test 311 Fsum: 2.5195949848824535e-05
-    test 312 sum24: 3.885337784451458e+84  FAILED, KNOWN, expected -6.931372452177678e-05
-    test 313 fsum: -6.931372452177678e-05
-    test 314 pow(4): fsums.Fsum 'pow'[22] (2.30822e-17, 1.41222e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (2.30822e-17, 5.19605e-34)
-    test 315 pow(1): fsums.Fsum 'pow'[1] (-6.93137e-05, 4.90674e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.93137e-05, 4.90674e-21)
+    test 310 Fsum: -0.010972827926626951
+    test 311 Fsum: -0.010972827926626951
+    test 312 sum24: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0005183377683992761
+    test 313 fsum: -0.0005183377683992761
+    test 314 pow(4): fsums.Fsum 'pow'[17] (7.21857e-14, 2.75707e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (7.21857e-14, -1.326e-30)
+    test 315 pow(1): fsums.Fsum 'pow'[1] (-0.000518338, 2.79137e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000518338, 2.79137e-20)
     test 316 pow(0): fsums.Fsum[1] (1.0, 0)
     test 317 ceil: True
     test 318 floor: True
     test 319 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 320 residual: 0
     test 321 is_exact: True
-    test 322 Fsum: -6.931372452177678e-05
-    test 323 Fsum: -6.931372452177678e-05
-    test 324 sum25: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00048253458730023797
-    test 325 fsum: 0.00048253458730023797
-    test 326 pow(4): fsums.Fsum 'pow'[23] (5.42143e-14, 2.90994e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (5.42143e-14, 2.90994e-30)
-    test 327 pow(1): fsums.Fsum 'pow'[1] (0.000482535, -7.56753e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000482535, -7.56753e-21)
+    test 322 Fsum: -0.0005183377683992761
+    test 323 Fsum: -0.0005183377683992761
+    test 324 sum25: 14.000000164123794  FAILED, KNOWN, expected -8.610962955123117e-06
+    test 325 fsum: -8.610962955123117e-06
+    test 326 pow(4): fsums.Fsum 'pow'[7] (5.49803e-21, -9.38372e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (5.49803e-21, -9.38372e-38)
+    test 327 pow(1): fsums.Fsum 'pow'[1] (-8.61096e-06, 3.67417e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (-8.61096e-06, 3.67417e-23)
     test 328 pow(0): fsums.Fsum[1] (1.0, 0)
     test 329 ceil: True
     test 330 floor: True
-    test 331 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 331 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 332 residual: 0
     test 333 is_exact: True
-    test 334 Fsum: 0.00048253458730023797
-    test 335 Fsum: 0.00048253458730023797
-    test 336 sum26: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0033596546992010375
-    test 337 fsum: 0.0033596546992010375
-    test 338 pow(4): fsums.Fsum 'pow'[23] (1.27403e-10, 1.03983e-26)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (1.27403e-10, -8.72307e-27)
-    test 339 pow(1): fsums.Fsum 'pow'[1] (0.00335965, -1.83567e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00335965, -1.83567e-19)
+    test 334 Fsum: -8.610962955123117e-06
+    test 335 Fsum: -8.610962955123117e-06
+    test 336 sum26: -3.885337784451458e+84  FAILED, KNOWN, expected 0.007306516005184785
+    test 337 fsum: 0.007306516005184785
+    test 338 pow(4): fsums.Fsum 'pow'[14] (2.84998e-09, 1.53071e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[43] (2.84998e-09, 1.26285e-25)
+    test 339 pow(1): fsums.Fsum 'pow'[1] (0.00730652, -1.66974e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00730652, -1.66974e-19)
     test 340 pow(0): fsums.Fsum[1] (1.0, 0)
     test 341 ceil: True
     test 342 floor: True
     test 343 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 344 residual: 0
     test 345 is_exact: True
-    test 346 Fsum: 0.0033596546992010375
-    test 347 Fsum: 0.0033596546992010375
-    test 348 sum27: 3.885337784451458e+84  FAILED, KNOWN, expected -3.63099906649281e-05
-    test 349 fsum: -3.63099906649281e-05
-    test 350 pow(4): fsums.Fsum 'pow'[8] (1.73822e-18, 1.65573e-34)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (1.73822e-18, 5.30291e-35)
-    test 351 pow(1): fsums.Fsum 'pow'[1] (-3.631e-05, -1.70075e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.631e-05, -1.70075e-21)
+    test 346 Fsum: 0.007306516005184785
+    test 347 Fsum: 0.007306516005184785
+    test 348 sum27: 3.885337784451458e+84  FAILED, KNOWN, expected -7.078206349806783e-06
+    test 349 fsum: -7.078206349806783e-06
+    test 350 pow(4): fsums.Fsum 'pow'[8] (2.51011e-21, 7.42675e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (2.51011e-21, 2.18795e-38)
+    test 351 pow(1): fsums.Fsum 'pow'[1] (-7.07821e-06, -2.43672e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-7.07821e-06, -2.43672e-22)
     test 352 pow(0): fsums.Fsum[1] (1.0, 0)
     test 353 ceil: True
     test 354 floor: True
     test 355 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 356 residual: 0
     test 357 is_exact: True
-    test 358 Fsum: -3.63099906649281e-05
-    test 359 Fsum: -3.63099906649281e-05
-    test 360 sum28: -3.885337784451458e+84  FAILED, KNOWN, expected 1.832283804195778e-08
-    test 361 fsum: 1.832283804195778e-08
-    test 362 pow(4): fsums.Fsum 'pow'[7] (1.12712e-31, -4.24317e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (1.12712e-31, -9.58587e-48)
-    test 363 pow(1): fsums.Fsum 'pow'[1] (1.83228e-08, 1.17297e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.83228e-08, 1.17297e-24)
+    test 358 Fsum: -7.078206349806783e-06
+    test 359 Fsum: -7.078206349806783e-06
+    test 360 sum28: -3.885337784451458e+84  FAILED, KNOWN, expected 0.12817985496165746
+    test 361 fsum: 0.12817985496165746
+    test 362 pow(4): fsums.Fsum 'pow'[25] (0.000269947, 1.38035e-20)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[71] (0.000269947, 1.65966e-20)
+    test 363 pow(1): fsums.Fsum 'pow'[1] (0.12818, 8.73691e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (0.12818, 8.73691e-18)
     test 364 pow(0): fsums.Fsum[1] (1.0, 0)
     test 365 ceil: True
     test 366 floor: True
-    test 367 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 367 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 368 residual: 0
     test 369 is_exact: True
-    test 370 Fsum: 1.832283804195778e-08
-    test 371 Fsum: 1.832283804195778e-08
-    test 372 sum29: 3.885337784451458e+84  FAILED, KNOWN, expected -0.004662725077858622
-    test 373 fsum: -0.004662725077858622
-    test 374 pow(4): fsums.Fsum 'pow'[22] (4.72671e-10, 5.49199e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (4.72671e-10, -6.45875e-27)
-    test 375 pow(1): fsums.Fsum 'pow'[1] (-0.00466273, 3.49777e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00466273, 3.49777e-19)
+    test 370 Fsum: 0.12817985496165746
+    test 371 Fsum: 0.12817985496165746
+    test 372 sum29: -3.885337784451458e+84  FAILED, KNOWN, expected -1.0193159676536079e-07
+    test 373 fsum: -1.0193159676536079e-07
+    test 374 pow(4): fsums.Fsum 'pow'[14] (1.07953e-28, 1.01325e-44)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.07953e-28, 1.01325e-44)
+    test 375 pow(1): fsums.Fsum 'pow'[1] (-1.01932e-07, -2.39182e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.01932e-07, -2.39182e-24)
     test 376 pow(0): fsums.Fsum[1] (1.0, 0)
     test 377 ceil: True
     test 378 floor: True
-    test 379 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 379 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 380 residual: 0
     test 381 is_exact: True
-    test 382 Fsum: -0.004662725077858622
-    test 383 Fsum: -0.004662725077858622
-    test 384 sum30: -3.885337784451458e+84  FAILED, KNOWN, expected -6.731931403642055e-05
-    test 385 fsum: -6.731931403642055e-05
-    test 386 pow(4): fsums.Fsum 'pow'[15] (2.0538e-17, -7.19302e-34)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (2.0538e-17, -1.38651e-33)
-    test 387 pow(1): fsums.Fsum 'pow'[1] (-6.73193e-05, 4.20802e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.73193e-05, 4.20802e-21)
+    test 382 Fsum: -1.0193159676536079e-07
+    test 383 Fsum: -1.0193159676536079e-07
+    test 384 sum30: -3.885337784451458e+84  FAILED, KNOWN, expected -2.5894550192405692e-09
+    test 385 fsum: -2.5894550192405692e-09
+    test 386 pow(4): fsums.Fsum 'pow'[8] (4.49607e-35, -6.36893e-52)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (4.49607e-35, -6.36893e-52)
+    test 387 pow(1): fsums.Fsum 'pow'[1] (-2.58946e-09, -6.77969e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.58946e-09, -6.77969e-26)
     test 388 pow(0): fsums.Fsum[1] (1.0, 0)
     test 389 ceil: True
     test 390 floor: True
-    test 391 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 391 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 392 residual: 0
     test 393 is_exact: True
-    test 394 Fsum: -6.731931403642055e-05
-    test 395 Fsum: -6.731931403642055e-05
-    test 396 sum31: 3.885337784451458e+84  FAILED, KNOWN, expected -9.805397385179168e-08
-    test 397 fsum: -9.805397385179168e-08
-    test 398 pow(4): fsums.Fsum 'pow'[7] (9.24402e-29, 4.44764e-45)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (9.24402e-29, 4.44764e-45)
-    test 399 pow(1): fsums.Fsum 'pow'[1] (-9.8054e-08, 1.79336e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-9.8054e-08, 1.79336e-24)
+    test 394 Fsum: -2.5894550192405692e-09
+    test 395 Fsum: -2.5894550192405692e-09
+    test 396 sum31: 3.885337784451458e+84  FAILED, KNOWN, expected -1.9432620723782554e-06
+    test 397 fsum: -1.9432620723782554e-06
+    test 398 pow(4): fsums.Fsum 'pow'[11] (1.42602e-23, 8.18775e-40)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.42602e-23, 9.30483e-40)
+    test 399 pow(1): fsums.Fsum 'pow'[1] (-1.94326e-06, -1.35622e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.94326e-06, -1.35622e-22)
     test 400 pow(0): fsums.Fsum[1] (1.0, 0)
     test 401 ceil: True
     test 402 floor: True
-    test 403 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 403 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 404 residual: 0
     test 405 is_exact: True
-    test 406 Fsum: -9.805397385179168e-08
-    test 407 Fsum: -9.805397385179168e-08
-    test 408 sum32: -3.885337784451458e+84  FAILED, KNOWN, expected -1.4847715307898297e-05
-    test 409 fsum: -1.4847715307898297e-05
-    test 410 pow(4): fsums.Fsum 'pow'[8] (4.86003e-20, -8.63914e-37)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (4.86003e-20, -1.18383e-36)
-    test 411 pow(1): fsums.Fsum 'pow'[1] (-1.48477e-05, -8.04501e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.48477e-05, -8.04501e-22)
+    test 406 Fsum: -1.9432620723782554e-06
+    test 407 Fsum: -1.9432620723782554e-06
+    test 408 sum32: -3.885337784451458e+84  FAILED, KNOWN, expected 254.78431416716003
+    test 409 fsum: 254.78431416716003
+    test 410 pow(4): fsums.Fsum 'pow'[31] (4.21396e+09, 2.0362e-07)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[96] (4.21396e+09, 1.99102e-07)
+    test 411 pow(1): fsums.Fsum 'pow'[1] (254.784, 1.01489e-14)  FAILED, KNOWN, expected fsums.Fsum[80] (254.784, 1.01489e-14)
     test 412 pow(0): fsums.Fsum[1] (1.0, 0)
     test 413 ceil: True
     test 414 floor: True
-    test 415 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 415 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 416 residual: 0
     test 417 is_exact: True
-    test 418 Fsum: -1.4847715307898297e-05
-    test 419 Fsum: -1.4847715307898297e-05
-    test 420 sum33: 3.885337784451458e+84  FAILED, KNOWN, expected -6.491818840109952e-16
-    test 421 fsum: -6.491818840109952e-16
-    test 422 pow(4): fsums.Fsum 'pow'[6] (1.77609e-61, -5.5915e-78)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[19] (1.77609e-61, -7.95677e-78)
-    test 423 pow(1): fsums.Fsum 'pow'[1] (-6.49182e-16, 4.09982e-32)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.49182e-16, 4.09982e-32)
+    test 418 Fsum: 254.78431416716003
+    test 419 Fsum: 254.78431416716003
+    test 420 sum33: 3.885337784451458e+84  FAILED, KNOWN, expected -0.00019789402981009038
+    test 421 fsum: -0.00019789402981009038
+    test 422 pow(4): fsums.Fsum 'pow'[9] (1.53367e-15, -5.62332e-32)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (1.53367e-15, 7.90445e-32)
+    test 423 pow(1): fsums.Fsum 'pow'[1] (-0.000197894, 1.21718e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000197894, 1.21718e-20)
     test 424 pow(0): fsums.Fsum[1] (1.0, 0)
     test 425 ceil: True
     test 426 floor: True
     test 427 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 428 residual: 0
     test 429 is_exact: True
-    test 430 Fsum: -6.491818840109952e-16
-    test 431 Fsum: -6.491818840109952e-16
-    test 432 sum34: 8e-20  FAILED, KNOWN, expected 1.7422084953999324e-08
-    test 433 fsum: 1.7422084953999324e-08
-    test 434 pow(4): fsums.Fsum 'pow'[8] (9.21299e-32, 5.94264e-49)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (9.21299e-32, 2.44635e-48)
-    test 435 pow(1): fsums.Fsum 'pow'[1] (1.74221e-08, -4.89465e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (1.74221e-08, -4.89465e-25)
+    test 430 Fsum: -0.00019789402981009038
+    test 431 Fsum: -0.00019789402981009038
+    test 432 sum34: -3.885337784451458e+84  FAILED, KNOWN, expected 7.150362670004449e-09
+    test 433 fsum: 7.150362670004449e-09
+    test 434 pow(4): fsums.Fsum 'pow'[12] (2.61404e-33, -7.37477e-50)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (2.61404e-33, -6.05178e-50)
+    test 435 pow(1): fsums.Fsum 'pow'[1] (7.15036e-09, 3.45793e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (7.15036e-09, 3.45793e-25)
     test 436 pow(0): fsums.Fsum[1] (1.0, 0)
     test 437 ceil: True
     test 438 floor: True
-    test 439 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 439 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 440 residual: 0
     test 441 is_exact: True
-    test 442 Fsum: 1.7422084953999324e-08
-    test 443 Fsum: 1.7422084953999324e-08
-    test 444 sum35: -3.885337784451458e+84  FAILED, KNOWN, expected 1.1797966166323616e-07
-    test 445 fsum: 1.1797966166323616e-07
-    test 446 pow(4): fsums.Fsum 'pow'[8] (1.93744e-28, -7.58749e-46)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (1.93744e-28, -5.27482e-46)
-    test 447 pow(1): fsums.Fsum 'pow'[1] (1.1798e-07, 3.29775e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.1798e-07, 3.29775e-24)
+    test 442 Fsum: 7.150362670004449e-09
+    test 443 Fsum: 7.150362670004449e-09
+    test 444 sum35: -3.885337784451458e+84  FAILED, KNOWN, expected -0.00013550202528445234
+    test 445 fsum: -0.00013550202528445234
+    test 446 pow(4): fsums.Fsum 'pow'[12] (3.37119e-16, 9.3885e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (3.37119e-16, -2.05848e-33)
+    test 447 pow(1): fsums.Fsum 'pow'[1] (-0.000135502, 1.12657e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000135502, 1.12657e-20)
     test 448 pow(0): fsums.Fsum[1] (1.0, 0)
     test 449 ceil: True
     test 450 floor: True
-    test 451 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 451 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 452 residual: 0
     test 453 is_exact: True
-    test 454 Fsum: 1.1797966166323616e-07
-    test 455 Fsum: 1.1797966166323616e-07
-    test 456 sum36: -3.885337784451458e+84  FAILED, KNOWN, expected 1.1394765001171269e-10
-    test 457 fsum: 1.1394765001171269e-10
-    test 458 pow(4): fsums.Fsum 'pow'[11] (1.68586e-40, 1.61106e-57)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (1.68586e-40, 1.17882e-57)
-    test 459 pow(1): fsums.Fsum 'pow'[1] (1.13948e-10, -3.17345e-27)  FAILED, KNOWN, expected fsums.Fsum[80] (1.13948e-10, -3.17345e-27)
+    test 454 Fsum: -0.00013550202528445234
+    test 455 Fsum: -0.00013550202528445234
+    test 456 sum36: -3.885337784451458e+84  FAILED, KNOWN, expected -0.34484603103621886
+    test 457 fsum: -0.34484603103621886
+    test 458 pow(4): fsums.Fsum 'pow'[16] (0.0141417, 8.22781e-19)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (0.0141417, 8.22781e-19)
+    test 459 pow(1): fsums.Fsum 'pow'[1] (-0.344846, 5.55945e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.344846, 5.55945e-18)
     test 460 pow(0): fsums.Fsum[1] (1.0, 0)
     test 461 ceil: True
     test 462 floor: True
-    test 463 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 463 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 464 residual: 0
     test 465 is_exact: True
-    test 466 Fsum: 1.1394765001171269e-10
-    test 467 Fsum: 1.1394765001171269e-10
-    test 468 sum37: -3.885337784451458e+84  FAILED, KNOWN, expected 103.09736686624343
-    test 469 fsum: 103.09736686624343
-    test 470 pow(4): fsums.Fsum 'pow'[25] (1.12977e+08, 8.63104e-10)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[71] (1.12977e+08, 5.2961e-09)
-    test 471 pow(1): fsums.Fsum 'pow'[1] (103.097, 5.61909e-15)  FAILED, KNOWN, expected fsums.Fsum[80] (103.097, 5.61909e-15)
+    test 466 Fsum: -0.34484603103621886
+    test 467 Fsum: -0.34484603103621886
+    test 468 sum37: -3.885337784451458e+84  FAILED, KNOWN, expected -4.886712386032545e-15
+    test 469 fsum: -4.886712386032545e-15
+    test 470 pow(4): fsums.Fsum 'pow'[7] (5.70252e-58, 5.58256e-75)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (5.70252e-58, 3.21473e-74)
+    test 471 pow(1): fsums.Fsum 'pow'[1] (-4.88671e-15, 1.39606e-31)  FAILED, KNOWN, expected fsums.Fsum[80] (-4.88671e-15, 1.39606e-31)
     test 472 pow(0): fsums.Fsum[1] (1.0, 0)
     test 473 ceil: True
     test 474 floor: True
-    test 475 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 475 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 476 residual: 0
     test 477 is_exact: True
-    test 478 Fsum: 103.09736686624343
-    test 479 Fsum: 103.09736686624343
-    test 480 sum38: 3.885337784451458e+84  FAILED, KNOWN, expected 9.440259796176308
-    test 481 fsum: 9.440259796176308
-    test 482 pow(4): fsums.Fsum 'pow'[22] (7942.11, 1.75205e-13)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[53] (7942.11, 1.75205e-13)
-    test 483 pow(1): fsums.Fsum 'pow'[1] (9.44026, 5.20637e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (9.44026, 5.20637e-17)
+    test 478 Fsum: -4.886712386032545e-15
+    test 479 Fsum: -4.886712386032545e-15
+    test 480 sum38: -3.885337784451458e+84  FAILED, KNOWN, expected 4.02273475185748e-06
+    test 481 fsum: 4.02273475185748e-06
+    test 482 pow(4): fsums.Fsum 'pow'[24] (2.6187e-22, 2.18705e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (2.6187e-22, 2.18705e-38)
+    test 483 pow(1): fsums.Fsum 'pow'[1] (4.02273e-06, -9.65831e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (4.02273e-06, -9.65831e-23)
     test 484 pow(0): fsums.Fsum[1] (1.0, 0)
     test 485 ceil: True
     test 486 floor: True
     test 487 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 488 residual: 0
     test 489 is_exact: True
-    test 490 Fsum: 9.440259796176308
-    test 491 Fsum: 9.440259796176308
-    test 492 sum39: 3.885337784451458e+84  FAILED, KNOWN, expected 0.003965433439224315
-    test 493 fsum: 0.003965433439224315
-    test 494 pow(4): fsums.Fsum 'pow'[20] (2.47265e-10, -1.69425e-26)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (2.47265e-10, -1.69425e-26)
-    test 495 pow(1): fsums.Fsum 'pow'[1] (0.00396543, -6.79276e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00396543, -6.79276e-20)
+    test 490 Fsum: 4.02273475185748e-06
+    test 491 Fsum: 4.02273475185748e-06
+    test 492 sum39: 3.885337784451458e+84  FAILED, KNOWN, expected -3.025098216330543e-15
+    test 493 fsum: -3.025098216330543e-15
+    test 494 pow(4): fsums.Fsum 'pow'[8] (8.37448e-59, -7.49872e-75)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (8.37448e-59, -2.63543e-75)
+    test 495 pow(1): fsums.Fsum 'pow'[1] (-3.0251e-15, 1.39606e-31)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.0251e-15, 1.39606e-31)
     test 496 pow(0): fsums.Fsum[1] (1.0, 0)
     test 497 ceil: True
     test 498 floor: True
-    test 499 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 499 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 500 residual: 0
     test 501 is_exact: True
-    test 502 Fsum: 0.003965433439224315
-    test 503 Fsum: 0.003965433439224315
-    test 504 sum40: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0010789218204967108
-    test 505 fsum: 0.0010789218204967108
-    test 506 pow(4): fsums.Fsum 'pow'[17] (1.35506e-12, 9.27538e-29)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.35506e-12, 4.82003e-29)
-    test 507 pow(1): fsums.Fsum 'pow'[1] (0.00107892, -7.96712e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00107892, -7.96712e-20)
+    test 502 Fsum: -3.025098216330543e-15
+    test 503 Fsum: -3.025098216330543e-15
+    test 504 sum40: -3.885337784451458e+84  FAILED, KNOWN, expected 0.00028267071860032286
+    test 505 fsum: 0.00028267071860032286
+    test 506 pow(4): fsums.Fsum 'pow'[9] (6.38445e-15, -3.84416e-32)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (6.38445e-15, -1.82587e-31)
+    test 507 pow(1): fsums.Fsum 'pow'[1] (0.000282671, -2.38359e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000282671, -2.38359e-20)
     test 508 pow(0): fsums.Fsum[1] (1.0, 0)
     test 509 ceil: True
     test 510 floor: True
-    test 511 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 511 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 512 residual: 0
     test 513 is_exact: True
-    test 514 Fsum: 0.0010789218204967108
-    test 515 Fsum: 0.0010789218204967108
-    test 516 sum41: 0.0  FAILED, KNOWN, expected 1.226123956197685e-12
-    test 517 fsum: 1.226123956197685e-12
-    test 518 pow(4): fsums.Fsum 'pow'[7] (2.26015e-48, -1.26619e-64)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (2.26015e-48, 1.49508e-64)
-    test 519 pow(1): fsums.Fsum 'pow'[1] (1.22612e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (1.22612e-12, 5.77265e-29)
+    test 514 Fsum: 0.00028267071860032286
+    test 515 Fsum: 0.00028267071860032286
+    test 516 sum41: 3.885337784451458e+84  FAILED, KNOWN, expected 2.8678566422785496e-17
+    test 517 fsum: 2.8678566422785496e-17
+    test 518 pow(4): fsums.Fsum 'pow'[6] (6.76441e-67, -5.2552e-83)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[16] (6.76441e-67, -6.1462e-83)
+    test 519 pow(1): fsums.Fsum 'pow'[1] (2.86786e-17, -2.1426e-33)  FAILED, KNOWN, expected fsums.Fsum[80] (2.86786e-17, -2.1426e-33)
     test 520 pow(0): fsums.Fsum[1] (1.0, 0)
     test 521 ceil: True
     test 522 floor: True
     test 523 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 524 residual: 0
     test 525 is_exact: True
-    test 526 Fsum: 1.226123956197685e-12
-    test 527 Fsum: 1.226123956197685e-12
-    test 528 sum42: 3.885337784451458e+84  FAILED, KNOWN, expected 3.9839320771645015e-09
-    test 529 fsum: 3.9839320771645015e-09
-    test 530 pow(4): fsums.Fsum 'pow'[13] (2.51911e-34, -1.03564e-50)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (2.51911e-34, -4.21214e-51)
-    test 531 pow(1): fsums.Fsum 'pow'[1] (3.98393e-09, 3.45793e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (3.98393e-09, 3.45793e-25)
+    test 526 Fsum: 2.8678566422785496e-17
+    test 527 Fsum: 2.8678566422785496e-17
+    test 528 sum42: 3.885337784451458e+84  FAILED, KNOWN, expected -5.203050146182635e-09
+    test 529 fsum: -5.203050146182635e-09
+    test 530 pow(4): fsums.Fsum 'pow'[12] (7.32879e-34, 2.21105e-50)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (7.32879e-34, -2.7383e-50)
+    test 531 pow(1): fsums.Fsum 'pow'[1] (-5.20305e-09, 4.08682e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (-5.20305e-09, 4.08682e-25)
     test 532 pow(0): fsums.Fsum[1] (1.0, 0)
     test 533 ceil: True
     test 534 floor: True
-    test 535 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 535 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 536 residual: 0
     test 537 is_exact: True
-    test 538 Fsum: 3.9839320771645015e-09
-    test 539 Fsum: 3.9839320771645015e-09
-    test 540 sum43: -3.885337784451458e+84  FAILED, KNOWN, expected 2.2210854452636452e-07
-    test 541 fsum: 2.2210854452636452e-07
-    test 542 pow(4): fsums.Fsum 'pow'[7] (2.43367e-27, 1.23918e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (2.43367e-27, 1.23918e-43)
-    test 543 pow(1): fsums.Fsum 'pow'[1] (2.22109e-07, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (2.22109e-07, 2.82734e-24)
+    test 538 Fsum: -5.203050146182635e-09
+    test 539 Fsum: -5.203050146182635e-09
+    test 540 sum43: 3.885337784451458e+84  FAILED, KNOWN, expected -3.593461396284899e-06
+    test 541 fsum: -3.593461396284899e-06
+    test 542 pow(4): fsums.Fsum 'pow'[13] (1.66745e-22, 5.76264e-39)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.66745e-22, 3.11477e-39)
+    test 543 pow(1): fsums.Fsum 'pow'[1] (-3.59346e-06, -1.29179e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.59346e-06, -1.29179e-22)
     test 544 pow(0): fsums.Fsum[1] (1.0, 0)
     test 545 ceil: True
     test 546 floor: True
-    test 547 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 547 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 548 residual: 0
     test 549 is_exact: True
-    test 550 Fsum: 2.2210854452636452e-07
-    test 551 Fsum: 2.2210854452636452e-07
-    test 552 sum44: -130.09495549083837  FAILED, KNOWN, expected -1.1535742053648018e-06
-    test 553 fsum: -1.1535742053648018e-06
-    test 554 pow(4): fsums.Fsum 'pow'[12] (1.77085e-24, 2.92549e-41)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (1.77085e-24, 2.92549e-41)
-    test 555 pow(1): fsums.Fsum 'pow'[1] (-1.15357e-06, -4.76433e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.15357e-06, -4.76433e-24)
+    test 550 Fsum: -3.593461396284899e-06
+    test 551 Fsum: -3.593461396284899e-06
+    test 552 sum44: -3.885337784451458e+84  FAILED, KNOWN, expected -68.01770690828432
+    test 553 fsum: -68.01770690828432
+    test 554 pow(4): fsums.Fsum 'pow'[23] (2.14037e+07, -4.31011e-10)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[61] (2.14037e+07, -6.79553e-10)
+    test 555 pow(1): fsums.Fsum 'pow'[1] (-68.0177, 7.02814e-15)  FAILED, KNOWN, expected fsums.Fsum[80] (-68.0177, 7.02814e-15)
     test 556 pow(0): fsums.Fsum[1] (1.0, 0)
     test 557 ceil: True
     test 558 floor: True
-    test 559 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 559 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 560 residual: 0
     test 561 is_exact: True
-    test 562 Fsum: -1.1535742053648018e-06
-    test 563 Fsum: -1.1535742053648018e-06
-    test 564 sum45: 3.885337784451458e+84  FAILED, KNOWN, expected 1.411970092537799e-06
-    test 565 fsum: 1.411970092537799e-06
-    test 566 pow(4): fsums.Fsum 'pow'[19] (3.97468e-24, -1.45762e-40)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[46] (3.97468e-24, -2.16311e-40)
-    test 567 pow(1): fsums.Fsum 'pow'[1] (1.41197e-06, -9.07236e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (1.41197e-06, -9.07236e-23)
+    test 562 Fsum: -68.01770690828432
+    test 563 Fsum: -68.01770690828432
+    test 564 sum45: -3.885337784451458e+84  FAILED, KNOWN, expected -5.042396883982793e-06
+    test 565 fsum: -5.042396883982793e-06
+    test 566 pow(4): fsums.Fsum 'pow'[19] (6.4647e-22, 8.29674e-39)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (6.4647e-22, 8.29674e-39)
+    test 567 pow(1): fsums.Fsum 'pow'[1] (-5.0424e-06, -1.61784e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (-5.0424e-06, -1.61784e-23)
     test 568 pow(0): fsums.Fsum[1] (1.0, 0)
     test 569 ceil: True
     test 570 floor: True
-    test 571 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 571 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 572 residual: 0
     test 573 is_exact: True
-    test 574 Fsum: 1.411970092537799e-06
-    test 575 Fsum: 1.411970092537799e-06
-    test 576 sum46: -3.885337784451458e+84  FAILED, KNOWN, expected 1.4870974381991149e-13
-    test 577 fsum: 1.4870974381991149e-13
-    test 578 pow(4): fsums.Fsum 'pow'[6] (4.89055e-52, -3.17006e-68)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[29] (4.89055e-52, 3.17652e-68)
-    test 579 pow(1): fsums.Fsum 'pow'[1] (1.4871e-13, 7.23935e-30)  FAILED, KNOWN, expected fsums.Fsum[80] (1.4871e-13, 7.23935e-30)
+    test 574 Fsum: -5.042396883982793e-06
+    test 575 Fsum: -5.042396883982793e-06
+    test 576 sum46: -3.885337784451458e+84  FAILED, KNOWN, expected -7.822027781718524e-10
+    test 577 fsum: -7.822027781718524e-10
+    test 578 pow(4): fsums.Fsum 'pow'[8] (3.7435e-37, 7.9228e-54)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (3.7435e-37, -9.23341e-54)
+    test 579 pow(1): fsums.Fsum 'pow'[1] (-7.82203e-10, 3.56006e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-7.82203e-10, 3.56006e-26)
     test 580 pow(0): fsums.Fsum[1] (1.0, 0)
     test 581 ceil: True
     test 582 floor: True
-    test 583 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 583 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 584 residual: 0
     test 585 is_exact: True
-    test 586 Fsum: 1.4870974381991149e-13
-    test 587 Fsum: 1.4870974381991149e-13
-    test 588 sum47: 6.31588120450583  FAILED, KNOWN, expected 18.1562329677453
-    test 589 fsum: 18.1562329677453
-    test 590 pow(4): fsums.Fsum 'pow'[26] (108668.0, 5.39779e-12)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[61] (108668.0, 5.39779e-12)
-    test 591 pow(1): fsums.Fsum 'pow'[1] (18.1562, 2.25465e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (18.1562, 2.25465e-16)
+    test 586 Fsum: -7.822027781718524e-10
+    test 587 Fsum: -7.822027781718524e-10
+    test 588 sum47: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0028157200378729017
+    test 589 fsum: 0.0028157200378729017
+    test 590 pow(4): fsums.Fsum 'pow'[6] (6.28576e-11, -2.60905e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (6.28576e-11, -2.60905e-27)
+    test 591 pow(1): fsums.Fsum 'pow'[1] (0.00281572, -2.92183e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00281572, -2.92183e-20)
     test 592 pow(0): fsums.Fsum[1] (1.0, 0)
     test 593 ceil: True
     test 594 floor: True
-    test 595 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 595 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 596 residual: 0
     test 597 is_exact: True
-    test 598 Fsum: 18.1562329677453
-    test 599 Fsum: 18.1562329677453
-    test 600 sum48: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0002247825601922522
-    test 601 fsum: -0.0002247825601922522
-    test 602 pow(4): fsums.Fsum 'pow'[11] (2.553e-15, -1.03547e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (2.553e-15, -1.03547e-31)
-    test 603 pow(1): fsums.Fsum 'pow'[1] (-0.000224783, 2.27923e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000224783, 2.27923e-21)
+    test 598 Fsum: 0.0028157200378729017
+    test 599 Fsum: 0.0028157200378729017
+    test 600 sum48: -3.885337784451458e+84  FAILED, KNOWN, expected 0.10697723240196826
+    test 601 fsum: 0.10697723240196826
+    test 602 pow(4): fsums.Fsum 'pow'[21] (0.000130968, 1.31115e-20)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[66] (0.000130968, 1.31115e-20)
+    test 603 pow(1): fsums.Fsum 'pow'[1] (0.106977, 2.67744e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (0.106977, 2.67744e-18)
     test 604 pow(0): fsums.Fsum[1] (1.0, 0)
     test 605 ceil: True
     test 606 floor: True
-    test 607 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 607 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 608 residual: 0
     test 609 is_exact: True
-    test 610 Fsum: -0.0002247825601922522
-    test 611 Fsum: -0.0002247825601922522
-    test 612 sum49: -14.044344549008487  FAILED, KNOWN, expected -6.552220535628577e-12
-    test 613 fsum: -6.552220535628577e-12
-    test 614 pow(4): fsums.Fsum 'pow'[7] (1.84312e-45, -6.49532e-62)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.84312e-45, -6.49532e-62)
-    test 615 pow(1): fsums.Fsum 'pow'[1] (-6.55222e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.55222e-12, 5.77265e-29)
+    test 610 Fsum: 0.10697723240196826
+    test 611 Fsum: 0.10697723240196826
+    test 612 sum49: -3.885337784451458e+84  FAILED, KNOWN, expected 1.6499400041636074e-05
+    test 613 fsum: 1.6499400041636074e-05
+    test 614 pow(4): fsums.Fsum 'pow'[20] (7.41093e-20, -1.33145e-36)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (7.41093e-20, 7.05458e-37)
+    test 615 pow(1): fsums.Fsum 'pow'[1] (1.64994e-05, 1.49258e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (1.64994e-05, 1.49258e-21)
     test 616 pow(0): fsums.Fsum[1] (1.0, 0)
     test 617 ceil: True
     test 618 floor: True
-    test 619 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 619 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 620 residual: 0
     test 621 is_exact: True
-    test 622 Fsum: -6.552220535628577e-12
-    test 623 Fsum: -6.552220535628577e-12
-    test 624 sum50: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00012403578925384808
-    test 625 fsum: 0.00012403578925384808
-    test 626 pow(4): fsums.Fsum 'pow'[25] (2.36694e-16, 1.30307e-32)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[51] (2.36694e-16, 1.14302e-32)
-    test 627 pow(1): fsums.Fsum 'pow'[1] (0.000124036, -1.16306e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000124036, -1.16306e-20)
+    test 622 Fsum: 1.6499400041636074e-05
+    test 623 Fsum: 1.6499400041636074e-05
+    test 624 sum50: 3.885337784451458e+84  FAILED, KNOWN, expected -3.6798750692557483e-06
+    test 625 fsum: -3.6798750692557483e-06
+    test 626 pow(4): fsums.Fsum 'pow'[13] (1.83372e-22, 5.4893e-39)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.83372e-22, 3.85685e-39)
+    test 627 pow(1): fsums.Fsum 'pow'[1] (-3.67988e-06, -1.29108e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.67988e-06, -1.29108e-22)
     test 628 pow(0): fsums.Fsum[1] (1.0, 0)
     test 629 ceil: True
     test 630 floor: True
-    test 631 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 631 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 632 residual: 0
     test 633 is_exact: True
-    test 634 Fsum: 0.00012403578925384808
-    test 635 Fsum: 0.00012403578925384808
-    test 636 sum51: 3.885337784451458e+84  FAILED, KNOWN, expected -5.067505403734645
-    test 637 fsum: -5.067505403734645
-    test 638 pow(4): fsums.Fsum 'pow'[15] (659.442, 7.17201e-15)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (659.442, -1.52825e-14)
-    test 639 pow(1): fsums.Fsum 'pow'[1] (-5.06751, -3.64317e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (-5.06751, -3.64317e-16)
+    test 634 Fsum: -3.6798750692557483e-06
+    test 635 Fsum: -3.6798750692557483e-06
+    test 636 sum51: -3.885337784451458e+84  FAILED, KNOWN, expected 1.3479556620741069e-08
+    test 637 fsum: 1.3479556620741069e-08
+    test 638 pow(4): fsums.Fsum 'pow'[7] (3.30143e-32, -1.93041e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (3.30143e-32, -1.93041e-48)
+    test 639 pow(1): fsums.Fsum 'pow'[1] (1.34796e-08, -1.97044e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (1.34796e-08, -1.97044e-25)
     test 640 pow(0): fsums.Fsum[1] (1.0, 0)
     test 641 ceil: True
     test 642 floor: True
-    test 643 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 643 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 644 residual: 0
     test 645 is_exact: True
-    test 646 Fsum: -5.067505403734645
-    test 647 Fsum: -5.067505403734645
-    test 648 sum52: 3.885337784451458e+84  FAILED, KNOWN, expected 0.3924362789516225
-    test 649 fsum: 0.3924362789516225
-    test 650 pow(4): fsums.Fsum 'pow'[14] (0.0237179, 4.26032e-19)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (0.0237179, 1.23112e-18)
-    test 651 pow(1): fsums.Fsum 'pow'[1] (0.392436, 2.27741e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (0.392436, 2.27741e-17)
+    test 646 Fsum: 1.3479556620741069e-08
+    test 647 Fsum: 1.3479556620741069e-08
+    test 648 sum52: 3.885337784451458e+84  FAILED, KNOWN, expected 1.9294823695792719e-07
+    test 649 fsum: 1.9294823695792719e-07
+    test 650 pow(4): fsums.Fsum 'pow'[16] (1.386e-27, 8.12381e-44)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.386e-27, 8.12381e-44)
+    test 651 pow(1): fsums.Fsum 'pow'[1] (1.92948e-07, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.92948e-07, 2.82734e-24)
     test 652 pow(0): fsums.Fsum[1] (1.0, 0)
     test 653 ceil: True
     test 654 floor: True
-    test 655 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 655 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 656 residual: 0
     test 657 is_exact: True
-    test 658 Fsum: 0.3924362789516225
-    test 659 Fsum: 0.3924362789516225
-    test 660 sum53: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0005630057134683336
-    test 661 fsum: -0.0005630057134683336
-    test 662 pow(4): fsums.Fsum 'pow'[7] (1.00473e-13, 3.16603e-32)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (1.00473e-13, 4.19043e-30)
-    test 663 pow(1): fsums.Fsum 'pow'[1] (-0.000563006, -2.93779e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000563006, -2.93779e-20)
+    test 658 Fsum: 1.9294823695792719e-07
+    test 659 Fsum: 1.9294823695792719e-07
+    test 660 sum53: 3.885337784451458e+84  FAILED, KNOWN, expected -3.668788632387524e-07
+    test 661 fsum: -3.668788632387524e-07
+    test 662 pow(4): fsums.Fsum 'pow'[12] (1.81172e-26, 4.17547e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[86] (1.81172e-26, 9.45472e-43)
+    test 663 pow(1): fsums.Fsum 'pow'[1] (-3.66879e-07, -2.19881e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.66879e-07, -2.19881e-23)
     test 664 pow(0): fsums.Fsum[1] (1.0, 0)
     test 665 ceil: True
     test 666 floor: True
-    test 667 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 667 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 668 residual: 0
     test 669 is_exact: True
-    test 670 Fsum: -0.0005630057134683336
-    test 671 Fsum: -0.0005630057134683336
-    test 672 sum54: -3.885337784451458e+84  FAILED, KNOWN, expected 2.5620589725106217e-12
-    test 673 fsum: 2.5620589725106217e-12
-    test 674 pow(4): fsums.Fsum 'pow'[7] (4.3088e-47, -9.78419e-64)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (4.3088e-47, -9.78419e-64)
-    test 675 pow(1): fsums.Fsum 'pow'[1] (2.56206e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (2.56206e-12, 5.77265e-29)
+    test 670 Fsum: -3.668788632387524e-07
+    test 671 Fsum: -3.668788632387524e-07
+    test 672 sum54: -3.885337784451458e+84  FAILED, KNOWN, expected -6.429089330355976
+    test 673 fsum: -6.429089330355976
+    test 674 pow(4): fsums.Fsum 'pow'[18] (1708.43, 6.65597e-15)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[49] (1708.43, 6.65597e-15)
+    test 675 pow(1): fsums.Fsum 'pow'[1] (-6.42909, 2.07649e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.42909, 2.07649e-16)
     test 676 pow(0): fsums.Fsum[1] (1.0, 0)
     test 677 ceil: True
     test 678 floor: True
-    test 679 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 679 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 680 residual: 0
     test 681 is_exact: True
-    test 682 Fsum: 2.5620589725106217e-12
-    test 683 Fsum: 2.5620589725106217e-12
-    test 684 sum55: 3.885337784451458e+84  FAILED, KNOWN, expected -3.12780151359973e-06
-    test 685 fsum: -3.12780151359973e-06
-    test 686 pow(4): fsums.Fsum 'pow'[17] (9.57099e-23, 5.36168e-39)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (9.57099e-23, 5.36168e-39)
-    test 687 pow(1): fsums.Fsum 'pow'[1] (-3.1278e-06, -4.3805e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.1278e-06, -4.3805e-23)
+    test 682 Fsum: -6.429089330355976
+    test 683 Fsum: -6.429089330355976
+    test 684 sum55: 15.733549350557679  FAILED, KNOWN, expected -1.5371548220291638
+    test 685 fsum: -1.5371548220291638
+    test 686 pow(4): fsums.Fsum 'pow'[18] (5.58304, -2.2041e-16)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (5.58304, -2.2041e-16)
+    test 687 pow(1): fsums.Fsum 'pow'[1] (-1.53715, 1.51712e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.53715, 1.51712e-17)
     test 688 pow(0): fsums.Fsum[1] (1.0, 0)
     test 689 ceil: True
     test 690 floor: True
     test 691 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 692 residual: 0
     test 693 is_exact: True
-    test 694 Fsum: -3.12780151359973e-06
-    test 695 Fsum: -3.12780151359973e-06
-    test 696 sum56: -3.885337784451458e+84  FAILED, KNOWN, expected -1.7453433210669054
-    test 697 fsum: -1.7453433210669054
-    test 698 pow(4): fsums.Fsum 'pow'[28] (9.27948, -1.82675e-16)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[76] (9.27948, -1.82675e-16)
-    test 699 pow(1): fsums.Fsum 'pow'[1] (-1.74534, 8.58968e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.74534, 8.58968e-18)
+    test 694 Fsum: -1.5371548220291638
+    test 695 Fsum: -1.5371548220291638
+    test 696 sum56: -3.885337784451458e+84  FAILED, KNOWN, expected 1.933909340252523e-12
+    test 697 fsum: 1.933909340252523e-12
+    test 698 pow(4): fsums.Fsum 'pow'[6] (1.39876e-47, -7.60763e-64)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (1.39876e-47, -7.60763e-64)
+    test 699 pow(1): fsums.Fsum 'pow'[1] (1.93391e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (1.93391e-12, 5.77265e-29)
     test 700 pow(0): fsums.Fsum[1] (1.0, 0)
     test 701 ceil: True
     test 702 floor: True
-    test 703 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 703 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 704 residual: 0
     test 705 is_exact: True
-    test 706 Fsum: -1.7453433210669054
-    test 707 Fsum: -1.7453433210669054
-    test 708 sum57: -3.885337784451458e+84  FAILED, KNOWN, expected 6.521863332280429e-10
-    test 709 fsum: 6.521863332280429e-10
-    test 710 pow(4): fsums.Fsum 'pow'[16] (1.8092e-37, -1.45617e-54)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (1.8092e-37, -1.85743e-54)
-    test 711 pow(1): fsums.Fsum 'pow'[1] (6.52186e-10, 3.56006e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (6.52186e-10, 3.56006e-26)
+    test 706 Fsum: 1.933909340252523e-12
+    test 707 Fsum: 1.933909340252523e-12
+    test 708 sum57: 6.999210725439562  FAILED, KNOWN, expected 1.649566266680871e-08
+    test 709 fsum: 1.649566266680871e-08
+    test 710 pow(4): fsums.Fsum 'pow'[14] (7.40422e-32, 2.23403e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (7.40422e-32, 3.53084e-48)
+    test 711 pow(1): fsums.Fsum 'pow'[1] (1.64957e-08, 1.61888e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.64957e-08, 1.61888e-24)
     test 712 pow(0): fsums.Fsum[1] (1.0, 0)
     test 713 ceil: True
     test 714 floor: True
     test 715 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 716 residual: 0
     test 717 is_exact: True
-    test 718 Fsum: 6.521863332280429e-10
-    test 719 Fsum: 6.521863332280429e-10
-    test 720 sum58: -3.885337784451458e+84  FAILED, KNOWN, expected -2.9440056011129115e-10
-    test 721 fsum: -2.9440056011129115e-10
-    test 722 pow(4): fsums.Fsum 'pow'[10] (7.51198e-39, -4.43491e-55)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (7.51198e-39, 5.99781e-55)
-    test 723 pow(1): fsums.Fsum 'pow'[1] (-2.94401e-10, -1.60981e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.94401e-10, -1.60981e-26)
+    test 718 Fsum: 1.649566266680871e-08
+    test 719 Fsum: 1.649566266680871e-08
+    test 720 sum58: -6.965846020246951  FAILED, KNOWN, expected -1.6940767702068544
+    test 721 fsum: -1.6940767702068544
+    test 722 pow(4): fsums.Fsum 'pow'[22] (8.2363, -3.2488e-16)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[69] (8.2363, -3.2488e-16)
+    test 723 pow(1): fsums.Fsum 'pow'[1] (-1.69408, 1.67057e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.69408, 1.67057e-17)
     test 724 pow(0): fsums.Fsum[1] (1.0, 0)
     test 725 ceil: True
     test 726 floor: True
-    test 727 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 727 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 728 residual: 0
     test 729 is_exact: True
-    test 730 Fsum: -2.9440056011129115e-10
-    test 731 Fsum: -2.9440056011129115e-10
-    test 732 sum59: 3.885337784451458e+84  FAILED, KNOWN, expected 4770.012233717213
-    test 733 fsum: 4770.012233717213
-    test 734 pow(4): fsums.Fsum 'pow'[35] (5.177e+14, 0.0203143)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[86] (5.177e+14, -0.00194732)
-    test 735 pow(1): fsums.Fsum 'pow'[1] (4770.01, -3.43697e-13)  FAILED, KNOWN, expected fsums.Fsum[80] (4770.01, -3.43697e-13)
+    test 730 Fsum: -1.6940767702068544
+    test 731 Fsum: -1.6940767702068544
+    test 732 sum59: 3.885337784451458e+84  FAILED, KNOWN, expected -0.016217487364546257
+    test 733 fsum: -0.016217487364546257
+    test 734 pow(4): fsums.Fsum 'pow'[21] (6.91726e-08, -4.32045e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (6.91726e-08, 5.90697e-25)
+    test 735 pow(1): fsums.Fsum 'pow'[1] (-0.0162175, -1.64602e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0162175, -1.64602e-18)
     test 736 pow(0): fsums.Fsum[1] (1.0, 0)
     test 737 ceil: True
     test 738 floor: True
-    test 739 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 739 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 740 residual: 0
     test 741 is_exact: True
-    test 742 Fsum: 4770.012233717213
-    test 743 Fsum: 4770.012233717213
-    test 744 sum60: -3.885337784451458e+84  FAILED, KNOWN, expected -4.24333469478205e-12
-    test 745 fsum: -4.24333469478205e-12
-    test 746 pow(4): fsums.Fsum 'pow'[6] (3.24212e-46, -1.76424e-62)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (3.24212e-46, -1.76424e-62)
-    test 747 pow(1): fsums.Fsum 'pow'[1] (-4.24333e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (-4.24333e-12, 5.77265e-29)
+    test 742 Fsum: -0.016217487364546257
+    test 743 Fsum: -0.016217487364546257
+    test 744 sum60: -3.885337784451458e+84  FAILED, KNOWN, expected -6.932162375680124e-09
+    test 745 fsum: -6.932162375680124e-09
+    test 746 pow(4): fsums.Fsum 'pow'[12] (2.30927e-33, 1.31554e-49)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[33] (2.30927e-33, -1.64608e-49)
+    test 747 pow(1): fsums.Fsum 'pow'[1] (-6.93216e-09, 3.45793e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.93216e-09, 3.45793e-25)
     test 748 pow(0): fsums.Fsum[1] (1.0, 0)
     test 749 ceil: True
     test 750 floor: True
-    test 751 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 751 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 752 residual: 0
     test 753 is_exact: True
-    test 754 Fsum: -4.24333469478205e-12
-    test 755 Fsum: -4.24333469478205e-12
-    test 756 sum61: 3.885337784451458e+84  FAILED, KNOWN, expected -3.110729070446381e-09
-    test 757 fsum: -3.110729070446381e-09
-    test 758 pow(4): fsums.Fsum 'pow'[7] (9.36373e-35, -2.52793e-51)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (9.36373e-35, -2.52793e-51)
-    test 759 pow(1): fsums.Fsum 'pow'[1] (-3.11073e-09, -6.77969e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.11073e-09, -6.77969e-26)
+    test 754 Fsum: -6.932162375680124e-09
+    test 755 Fsum: -6.932162375680124e-09
+    test 756 sum61: -3.885337784451458e+84  FAILED, KNOWN, expected 7.983648897579354e-07
+    test 757 fsum: 7.983648897579354e-07
+    test 758 pow(4): fsums.Fsum 'pow'[18] (4.06262e-25, 1.50991e-41)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[56] (4.06262e-25, 2.57899e-42)
+    test 759 pow(1): fsums.Fsum 'pow'[1] (7.98365e-07, -3.5223e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (7.98365e-07, -3.5223e-23)
     test 760 pow(0): fsums.Fsum[1] (1.0, 0)
     test 761 ceil: True
     test 762 floor: True
-    test 763 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 763 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 764 residual: 0
     test 765 is_exact: True
-    test 766 Fsum: -3.110729070446381e-09
-    test 767 Fsum: -3.110729070446381e-09
-    test 768 sum62: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0010344136873619329
-    test 769 fsum: -0.0010344136873619329
-    test 770 pow(4): fsums.Fsum 'pow'[16] (1.14492e-12, -3.38011e-29)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.14492e-12, -5.84365e-29)
-    test 771 pow(1): fsums.Fsum 'pow'[1] (-0.00103441, 6.43773e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00103441, 6.43773e-20)
+    test 766 Fsum: 7.983648897579354e-07
+    test 767 Fsum: 7.983648897579354e-07
+    test 768 sum62: -3.885337784451458e+84  FAILED, KNOWN, expected 4.686645570262283e-05
+    test 769 fsum: 4.686645570262283e-05
+    test 770 pow(4): fsums.Fsum 'pow'[18] (4.82446e-18, -1.29454e-34)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[49] (4.82446e-18, -2.67518e-34)
+    test 771 pow(1): fsums.Fsum 'pow'[1] (4.68665e-05, -2.85591e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (4.68665e-05, -2.85591e-21)
     test 772 pow(0): fsums.Fsum[1] (1.0, 0)
     test 773 ceil: True
     test 774 floor: True
-    test 775 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 775 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 776 residual: 0
     test 777 is_exact: True
-    test 778 Fsum: -0.0010344136873619329
-    test 779 Fsum: -0.0010344136873619329
-    test 780 sum63: -3.885337784451458e+84  FAILED, KNOWN, expected 0.0007386656855203177
-    test 781 fsum: 0.0007386656855203177
-    test 782 pow(4): fsums.Fsum 'pow'[7] (2.97709e-13, 4.63559e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (2.97709e-13, 1.1919e-29)
-    test 783 pow(1): fsums.Fsum 'pow'[1] (0.000738666, 4.32278e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000738666, 4.32278e-20)
+    test 778 Fsum: 4.686645570262283e-05
+    test 779 Fsum: 4.686645570262283e-05
+    test 780 sum63: 3.885337784451458e+84  FAILED, KNOWN, expected -1.456255113671298e-07
+    test 781 fsum: -1.456255113671298e-07
+    test 782 pow(4): fsums.Fsum 'pow'[13] (4.49728e-28, -4.45171e-44)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (4.49728e-28, -9.61225e-45)
+    test 783 pow(1): fsums.Fsum 'pow'[1] (-1.45626e-07, -3.65628e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.45626e-07, -3.65628e-24)
     test 784 pow(0): fsums.Fsum[1] (1.0, 0)
     test 785 ceil: True
     test 786 floor: True
-    test 787 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 787 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 788 residual: 0
     test 789 is_exact: True
-    test 790 Fsum: 0.0007386656855203177
-    test 791 Fsum: 0.0007386656855203177
-    test 792 sum64: -3.885337784451458e+84  FAILED, KNOWN, expected 2.3933322158208217
-    test 793 fsum: 2.3933322158208217
-    test 794 pow(4): fsums.Fsum 'pow'[23] (32.8104, 2.12328e-15)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (32.8104, 2.12328e-15)
-    test 795 pow(1): fsums.Fsum 'pow'[1] (2.39333, 3.87202e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (2.39333, 3.87202e-17)
+    test 790 Fsum: -1.456255113671298e-07
+    test 791 Fsum: -1.456255113671298e-07
+    test 792 sum64: 3.885337784451458e+84  FAILED, KNOWN, expected 0.11873249347444201
+    test 793 fsum: 0.11873249347444201
+    test 794 pow(4): fsums.Fsum 'pow'[18] (0.000198737, -7.58839e-21)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[49] (0.000198737, -1.02383e-20)
+    test 795 pow(1): fsums.Fsum 'pow'[1] (0.118732, 6.17178e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (0.118732, 6.17178e-18)
     test 796 pow(0): fsums.Fsum[1] (1.0, 0)
     test 797 ceil: True
     test 798 floor: True
     test 799 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 800 residual: 0
     test 801 is_exact: True
-    test 802 Fsum: 2.3933322158208217
-    test 803 Fsum: 2.3933322158208217
-    test 804 sum65: 3.885337784451458e+84  FAILED, KNOWN, expected -0.017932372753267124
-    test 805 fsum: -0.017932372753267124
-    test 806 pow(4): fsums.Fsum 'pow'[19] (1.03407e-07, 2.56476e-24)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (1.03407e-07, -1.6327e-24)
-    test 807 pow(1): fsums.Fsum 'pow'[1] (-0.0179324, 1.40032e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0179324, 1.40032e-18)
+    test 802 Fsum: 0.11873249347444201
+    test 803 Fsum: 0.11873249347444201
+    test 804 sum65: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0007130492148648443
+    test 805 fsum: -0.0007130492148648443
+    test 806 pow(4): fsums.Fsum 'pow'[8] (2.5851e-13, 1.09267e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (2.5851e-13, -1.25306e-29)
+    test 807 pow(1): fsums.Fsum 'pow'[1] (-0.000713049, 3.40612e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000713049, 3.40612e-20)
     test 808 pow(0): fsums.Fsum[1] (1.0, 0)
     test 809 ceil: True
     test 810 floor: True
-    test 811 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 811 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 812 residual: 0
     test 813 is_exact: True
-    test 814 Fsum: -0.017932372753267124
-    test 815 Fsum: -0.017932372753267124
-    test 816 sum66: 0.0  FAILED, KNOWN, expected -3.9661549537737075e-09
-    test 817 fsum: -3.9661549537737075e-09
-    test 818 pow(4): fsums.Fsum 'pow'[14] (2.47445e-34, 1.0651e-50)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (2.47445e-34, 4.94222e-51)
-    test 819 pow(1): fsums.Fsum 'pow'[1] (-3.96615e-09, 3.45793e-25)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.96615e-09, 3.45793e-25)
+    test 814 Fsum: -0.0007130492148648443
+    test 815 Fsum: -0.0007130492148648443
+    test 816 sum66: -3.885337784451458e+84  FAILED, KNOWN, expected -0.010223548379236043
+    test 817 fsum: -0.010223548379236043
+    test 818 pow(4): fsums.Fsum 'pow'[19] (1.09246e-08, -4.8855e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (1.09246e-08, -4.8855e-25)
+    test 819 pow(1): fsums.Fsum 'pow'[1] (-0.0102235, 1.14299e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0102235, 1.14299e-19)
     test 820 pow(0): fsums.Fsum[1] (1.0, 0)
     test 821 ceil: True
     test 822 floor: True
     test 823 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 824 residual: 0
     test 825 is_exact: True
-    test 826 Fsum: -3.9661549537737075e-09
-    test 827 Fsum: -3.9661549537737075e-09
-    test 828 sum67: -3.885337784451458e+84  FAILED, KNOWN, expected 0.003271955063418312
-    test 829 fsum: 0.003271955063418312
-    test 830 pow(4): fsums.Fsum 'pow'[15] (1.14612e-10, -2.28127e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[40] (1.14612e-10, -2.28127e-27)
-    test 831 pow(1): fsums.Fsum 'pow'[1] (0.00327196, 7.59625e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00327196, 7.59625e-20)
+    test 826 Fsum: -0.010223548379236043
+    test 827 Fsum: -0.010223548379236043
+    test 828 sum67: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0037068834133503876
+    test 829 fsum: -0.0037068834133503876
+    test 830 pow(4): fsums.Fsum 'pow'[20] (1.88815e-10, 3.36959e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.88815e-10, 3.36959e-27)
+    test 831 pow(1): fsums.Fsum 'pow'[1] (-0.00370688, -1.65383e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00370688, -1.65383e-20)
     test 832 pow(0): fsums.Fsum[1] (1.0, 0)
     test 833 ceil: True
     test 834 floor: True
-    test 835 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 835 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 836 residual: 0
     test 837 is_exact: True
-    test 838 Fsum: 0.003271955063418312
-    test 839 Fsum: 0.003271955063418312
-    test 840 sum68: -20.956119748225642  FAILED, KNOWN, expected 0.017518361595358502
-    test 841 fsum: 0.017518361595358502
-    test 842 pow(4): fsums.Fsum 'pow'[20] (9.41833e-08, -6.19025e-24)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (9.41833e-08, -6.19025e-24)
-    test 843 pow(1): fsums.Fsum 'pow'[1] (0.0175184, -2.87851e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0175184, -2.87851e-19)
+    test 838 Fsum: -0.0037068834133503876
+    test 839 Fsum: -0.0037068834133503876
+    test 840 sum68: 3.885337784451458e+84  FAILED, KNOWN, expected -3.902274714096135e-05
+    test 841 fsum: -3.902274714096135e-05
+    test 842 pow(4): fsums.Fsum 'pow'[8] (2.31884e-18, -9.02155e-35)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (2.31884e-18, -9.02155e-35)
+    test 843 pow(1): fsums.Fsum 'pow'[1] (-3.90227e-05, -1.24098e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.90227e-05, -1.24098e-21)
     test 844 pow(0): fsums.Fsum[1] (1.0, 0)
     test 845 ceil: True
     test 846 floor: True
-    test 847 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 847 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 848 residual: 0
     test 849 is_exact: True
-    test 850 Fsum: 0.017518361595358502
-    test 851 Fsum: 0.017518361595358502
-    test 852 sum69: 3.885337784451458e+84  FAILED, KNOWN, expected 1.996849170295804
-    test 853 fsum: 1.996849170295804
-    test 854 pow(4): fsums.Fsum 'pow'[24] (15.8994, 1.52532e-16)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[71] (15.8994, 1.49738e-16)
-    test 855 pow(1): fsums.Fsum 'pow'[1] (1.99685, -1.06058e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (1.99685, -1.06058e-16)
+    test 850 Fsum: -3.902274714096135e-05
+    test 851 Fsum: -3.902274714096135e-05
+    test 852 sum69: 3.885337784451458e+84  FAILED, KNOWN, expected 4.635118794761334e-07
+    test 853 fsum: 4.635118794761334e-07
+    test 854 pow(4): fsums.Fsum 'pow'[12] (4.61576e-26, 2.48536e-42)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (4.61576e-26, 2.48536e-42)
+    test 855 pow(1): fsums.Fsum 'pow'[1] (4.63512e-07, 6.23946e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (4.63512e-07, 6.23946e-24)
     test 856 pow(0): fsums.Fsum[1] (1.0, 0)
     test 857 ceil: True
     test 858 floor: True
-    test 859 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 859 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 860 residual: 0
     test 861 is_exact: True
-    test 862 Fsum: 1.996849170295804
-    test 863 Fsum: 1.996849170295804
-    test 864 sum70: -3.5760671504799975e-08  FAILED, KNOWN, expected 2.5918550178900232e-05
-    test 865 fsum: 2.5918550178900232e-05
-    test 866 pow(4): fsums.Fsum 'pow'[20] (4.51277e-19, -4.36521e-35)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (4.51277e-19, -1.68151e-35)
-    test 867 pow(1): fsums.Fsum 'pow'[1] (2.59186e-05, -1.23877e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (2.59186e-05, -1.23877e-21)
+    test 862 Fsum: 4.635118794761334e-07
+    test 863 Fsum: 4.635118794761334e-07
+    test 864 sum70: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0024828329152662165
+    test 865 fsum: 0.0024828329152662165
+    test 866 pow(4): fsums.Fsum 'pow'[29] (3.80006e-11, 1.46192e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[66] (3.80006e-11, 2.21076e-28)
+    test 867 pow(1): fsums.Fsum 'pow'[1] (0.00248283, 1.94457e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00248283, 1.94457e-19)
     test 868 pow(0): fsums.Fsum[1] (1.0, 0)
     test 869 ceil: True
     test 870 floor: True
-    test 871 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 871 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 872 residual: 0
     test 873 is_exact: True
-    test 874 Fsum: 2.5918550178900232e-05
-    test 875 Fsum: 2.5918550178900232e-05
-    test 876 sum71: -3.885337784451458e+84  FAILED, KNOWN, expected -3.178993767006473e-05
-    test 877 fsum: -3.178993767006473e-05
-    test 878 pow(4): fsums.Fsum 'pow'[7] (1.02131e-18, -7.16728e-36)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (1.02131e-18, -1.5197e-35)
-    test 879 pow(1): fsums.Fsum 'pow'[1] (-3.17899e-05, -1.44292e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.17899e-05, -1.44292e-21)
+    test 874 Fsum: 0.0024828329152662165
+    test 875 Fsum: 0.0024828329152662165
+    test 876 sum71: -3.885337784451458e+84  FAILED, KNOWN, expected -0.01892343832169508
+    test 877 fsum: -0.01892343832169508
+    test 878 pow(4): fsums.Fsum 'pow'[15] (1.28233e-07, -1.17283e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.28233e-07, -1.28734e-24)
+    test 879 pow(1): fsums.Fsum 'pow'[1] (-0.0189234, -5.43851e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0189234, -5.43851e-19)
     test 880 pow(0): fsums.Fsum[1] (1.0, 0)
     test 881 ceil: True
     test 882 floor: True
-    test 883 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 883 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 884 residual: 0
     test 885 is_exact: True
-    test 886 Fsum: -3.178993767006473e-05
-    test 887 Fsum: -3.178993767006473e-05
-    test 888 sum72: -3.885337784451458e+84  FAILED, KNOWN, expected -3.43734794839957e-16
-    test 889 fsum: -3.43734794839957e-16
-    test 890 pow(4): fsums.Fsum 'pow'[6] (1.39603e-62, -8.09768e-79)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[16] (1.39603e-62, -3.21872e-79)
-    test 891 pow(1): fsums.Fsum 'pow'[1] (-3.43735e-16, -8.30557e-33)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.43735e-16, -8.30557e-33)
+    test 886 Fsum: -0.01892343832169508
+    test 887 Fsum: -0.01892343832169508
+    test 888 sum72: -69.83524523268687  FAILED, KNOWN, expected -0.3820144591229831
+    test 889 fsum: -0.3820144591229831
+    test 890 pow(4): fsums.Fsum 'pow'[26] (0.021297, 9.33348e-19)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[61] (0.021297, 1.14659e-19)
+    test 891 pow(1): fsums.Fsum 'pow'[1] (-0.382014, 1.13728e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.382014, 1.13728e-17)
     test 892 pow(0): fsums.Fsum[1] (1.0, 0)
     test 893 ceil: True
     test 894 floor: True
-    test 895 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 895 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 896 residual: 0
     test 897 is_exact: True
-    test 898 Fsum: -3.43734794839957e-16
-    test 899 Fsum: -3.43734794839957e-16
-    test 900 sum73: -3.885337784451458e+84  FAILED, KNOWN, expected 1.2503941518547577e-06
-    test 901 fsum: 1.2503941518547577e-06
-    test 902 pow(4): fsums.Fsum 'pow'[6] (2.44449e-24, -7.64284e-41)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (2.44449e-24, -2.48298e-41)
-    test 903 pow(1): fsums.Fsum 'pow'[1] (1.25039e-06, -9.05275e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (1.25039e-06, -9.05275e-23)
+    test 898 Fsum: -0.3820144591229831
+    test 899 Fsum: -0.3820144591229831
+    test 900 sum73: 0.002074256865118155  FAILED, KNOWN, expected -0.00027570156910771977
+    test 901 fsum: -0.00027570156910771977
+    test 902 pow(4): fsums.Fsum 'pow'[21] (5.77773e-15, 1.70121e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (5.77773e-15, -4.70201e-32)
+    test 903 pow(1): fsums.Fsum 'pow'[1] (-0.000275702, 2.19727e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000275702, 2.19727e-20)
     test 904 pow(0): fsums.Fsum[1] (1.0, 0)
     test 905 ceil: True
     test 906 floor: True
-    test 907 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 907 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 908 residual: 0
     test 909 is_exact: True
-    test 910 Fsum: 1.2503941518547577e-06
-    test 911 Fsum: 1.2503941518547577e-06
-    test 912 sum74: -3.885337784451458e+84  FAILED, KNOWN, expected -3.1105633876015017e-07
-    test 913 fsum: -3.1105633876015017e-07
-    test 914 pow(4): fsums.Fsum 'pow'[12] (9.36173e-27, -3.40372e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (9.36173e-27, -3.40372e-43)
-    test 915 pow(1): fsums.Fsum 'pow'[1] (-3.11056e-07, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.11056e-07, 2.82734e-24)
+    test 910 Fsum: -0.00027570156910771977
+    test 911 Fsum: -0.00027570156910771977
+    test 912 sum74: -3.885337784451458e+84  FAILED, KNOWN, expected 0.014158758843101422
+    test 913 fsum: 0.014158758843101422
+    test 914 pow(4): fsums.Fsum 'pow'[15] (4.01884e-08, 2.73266e-24)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (4.01884e-08, -2.70111e-24)
+    test 915 pow(1): fsums.Fsum 'pow'[1] (0.0141588, -7.16498e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0141588, -7.16498e-19)
     test 916 pow(0): fsums.Fsum[1] (1.0, 0)
     test 917 ceil: True
     test 918 floor: True
-    test 919 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 919 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 920 residual: 0
     test 921 is_exact: True
-    test 922 Fsum: -3.1105633876015017e-07
-    test 923 Fsum: -3.1105633876015017e-07
-    test 924 sum75: 3.885337784451458e+84  FAILED, KNOWN, expected 10.633386115405898
-    test 925 fsum: 10.633386115405898
-    test 926 pow(4): fsums.Fsum 'pow'[36] (12784.6, -1.41232e-13)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[127] (12784.6, -1.41232e-13)
-    test 927 pow(1): fsums.Fsum 'pow'[1] (10.6334, -2.93669e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (10.6334, -2.93669e-17)
+    test 922 Fsum: 0.014158758843101422
+    test 923 Fsum: 0.014158758843101422
+    test 924 sum75: 3.885337784451458e+84  FAILED, KNOWN, expected 0.20060303193422932
+    test 925 fsum: 0.20060303193422932
+    test 926 pow(4): fsums.Fsum 'pow'[22] (0.00161938, 4.26093e-20)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[71] (0.00161938, -8.85411e-20)
+    test 927 pow(1): fsums.Fsum 'pow'[1] (0.200603, 8.0349e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (0.200603, 8.0349e-18)
     test 928 pow(0): fsums.Fsum[1] (1.0, 0)
     test 929 ceil: True
     test 930 floor: True
-    test 931 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 931 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 932 residual: 0
     test 933 is_exact: True
-    test 934 Fsum: 10.633386115405898
-    test 935 Fsum: 10.633386115405898
-    test 936 sum76: 1.6e-19  FAILED, KNOWN, expected -2.847997524717405e-07
-    test 937 fsum: -2.847997524717405e-07
-    test 938 pow(4): fsums.Fsum 'pow'[7] (6.57898e-27, -2.6125e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (6.57898e-27, -2.6125e-43)
-    test 939 pow(1): fsums.Fsum 'pow'[1] (-2.848e-07, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.848e-07, 2.82734e-24)
+    test 934 Fsum: 0.20060303193422932
+    test 935 Fsum: 0.20060303193422932
+    test 936 sum76: -3.885337784451458e+84  FAILED, KNOWN, expected -0.0005280022200858345
+    test 937 fsum: -0.0005280022200858345
+    test 938 pow(4): fsums.Fsum 'pow'[13] (7.77218e-14, -5.14352e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (7.77218e-14, 5.3412e-30)
+    test 939 pow(1): fsums.Fsum 'pow'[1] (-0.000528002, 3.74311e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000528002, 3.74311e-20)
     test 940 pow(0): fsums.Fsum[1] (1.0, 0)
     test 941 ceil: True
     test 942 floor: True
-    test 943 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 943 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 944 residual: 0
     test 945 is_exact: True
-    test 946 Fsum: -2.847997524717405e-07
-    test 947 Fsum: -2.847997524717405e-07
-    test 948 sum77: 0.0  FAILED, KNOWN, expected -0.0005118800460049556
-    test 949 fsum: -0.0005118800460049556
-    test 950 pow(4): fsums.Fsum 'pow'[15] (6.86551e-14, -1.66033e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (6.86551e-14, -2.27035e-30)
-    test 951 pow(1): fsums.Fsum 'pow'[1] (-0.00051188, -2.04316e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00051188, -2.04316e-20)
+    test 946 Fsum: -0.0005280022200858345
+    test 947 Fsum: -0.0005280022200858345
+    test 948 sum77: -3.885337784451458e+84  FAILED, KNOWN, expected -0.004994570022650488
+    test 949 fsum: -0.004994570022650488
+    test 950 pow(4): fsums.Fsum 'pow'[16] (6.22289e-10, -3.25307e-27)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[33] (6.22289e-10, 1.56251e-26)
+    test 951 pow(1): fsums.Fsum 'pow'[1] (-0.00499457, 3.45709e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00499457, 3.45709e-19)
     test 952 pow(0): fsums.Fsum[1] (1.0, 0)
     test 953 ceil: True
     test 954 floor: True
-    test 955 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 955 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 956 residual: 0
     test 957 is_exact: True
-    test 958 Fsum: -0.0005118800460049556
-    test 959 Fsum: -0.0005118800460049556
-    test 960 sum78: -3.885337784451458e+84  FAILED, KNOWN, expected 0.036339384360779284
-    test 961 fsum: 0.036339384360779284
-    test 962 pow(4): fsums.Fsum 'pow'[23] (1.74385e-06, 1.10058e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.74385e-06, 1.10058e-23)
-    test 963 pow(1): fsums.Fsum 'pow'[1] (0.0363394, 5.73364e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0363394, 5.73364e-20)
+    test 958 Fsum: -0.004994570022650488
+    test 959 Fsum: -0.004994570022650488
+    test 960 sum78: -3.885337784451458e+84  FAILED, KNOWN, expected -0.027712981237941216
+    test 961 fsum: -0.027712981237941216
+    test 962 pow(4): fsums.Fsum 'pow'[24] (5.89838e-07, -4.83629e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[43] (5.89838e-07, -4.83629e-23)
+    test 963 pow(1): fsums.Fsum 'pow'[1] (-0.027713, -6.75585e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.027713, -6.75585e-19)
     test 964 pow(0): fsums.Fsum[1] (1.0, 0)
     test 965 ceil: True
     test 966 floor: True
-    test 967 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 967 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 968 residual: 0
     test 969 is_exact: True
-    test 970 Fsum: 0.036339384360779284
-    test 971 Fsum: 0.036339384360779284
-    test 972 sum79: -3.885337784451458e+84  FAILED, KNOWN, expected 3.0087717174692207e-10
-    test 973 fsum: 3.0087717174692207e-10
-    test 974 pow(4): fsums.Fsum 'pow'[9] (8.19515e-39, 6.2893e-57)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (8.19515e-39, 6.2893e-57)
-    test 975 pow(1): fsums.Fsum 'pow'[1] (3.00877e-10, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (3.00877e-10, 5.77265e-29)
+    test 970 Fsum: -0.027712981237941216
+    test 971 Fsum: -0.027712981237941216
+    test 972 sum79: 8e-20  FAILED, KNOWN, expected -2.6291658875429717e-07
+    test 973 fsum: -2.6291658875429717e-07
+    test 974 pow(4): fsums.Fsum 'pow'[13] (4.77828e-27, -2.05538e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (4.77828e-27, -2.05538e-43)
+    test 975 pow(1): fsums.Fsum 'pow'[1] (-2.62917e-07, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.62917e-07, 2.82734e-24)
     test 976 pow(0): fsums.Fsum[1] (1.0, 0)
     test 977 ceil: True
     test 978 floor: True
-    test 979 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 979 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 980 residual: 0
     test 981 is_exact: True
-    test 982 Fsum: 3.0087717174692207e-10
-    test 983 Fsum: 3.0087717174692207e-10
-    test 984 sum80: 3.885337784451458e+84  FAILED, KNOWN, expected 7.335971875203218e-12
-    test 985 fsum: 7.335971875203218e-12
-    test 986 pow(4): fsums.Fsum 'pow'[7] (2.89621e-45, 9.11607e-62)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (2.89621e-45, 9.11607e-62)
-    test 987 pow(1): fsums.Fsum 'pow'[1] (7.33597e-12, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (7.33597e-12, 5.77265e-29)
+    test 982 Fsum: -2.6291658875429717e-07
+    test 983 Fsum: -2.6291658875429717e-07
+    test 984 sum80: 3.885337784451458e+84  FAILED, KNOWN, expected 0.006855862488227104
+    test 985 fsum: 0.006855862488227104
+    test 986 pow(4): fsums.Fsum 'pow'[30] (2.20927e-09, -1.16182e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[57] (2.20927e-09, -1.16182e-25)
+    test 987 pow(1): fsums.Fsum 'pow'[1] (0.00685586, -9.01348e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00685586, -9.01348e-20)
     test 988 pow(0): fsums.Fsum[1] (1.0, 0)
     test 989 ceil: True
     test 990 floor: True
-    test 991 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 991 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 992 residual: 0
     test 993 is_exact: True
-    test 994 Fsum: 7.335971875203218e-12
-    test 995 Fsum: 7.335971875203218e-12
-    test 996 sum81: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0001172158607180437
-    test 997 fsum: -0.0001172158607180437
-    test 998 pow(4): fsums.Fsum 'pow'[24] (1.88775e-16, -9.7657e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (1.88775e-16, -7.84399e-33)
-    test 999 pow(1): fsums.Fsum 'pow'[1] (-0.000117216, 4.74609e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000117216, 4.74609e-21)
+    test 994 Fsum: 0.006855862488227104
+    test 995 Fsum: 0.006855862488227104
+    test 996 sum81: 3.885337784451458e+84  FAILED, KNOWN, expected 0.00023534703905770196
+    test 997 fsum: 0.00023534703905770196
+    test 998 pow(4): fsums.Fsum 'pow'[21] (3.06786e-15, -1.74628e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (3.06786e-15, 1.919e-31)
+    test 999 pow(1): fsums.Fsum 'pow'[1] (0.000235347, 1.07098e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000235347, 1.07098e-20)
     test 1000 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1001 ceil: True
     test 1002 floor: True
-    test 1003 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1003 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1004 residual: 0
     test 1005 is_exact: True
-    test 1006 Fsum: -0.0001172158607180437
-    test 1007 Fsum: -0.0001172158607180437
-    test 1008 sum82: 3.885337784451458e+84  FAILED, KNOWN, expected -0.029833409545559682
-    test 1009 fsum: -0.029833409545559682
-    test 1010 pow(4): fsums.Fsum 'pow'[20] (7.92158e-07, 2.40453e-23)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[53] (7.92158e-07, 1.92457e-23)
-    test 1011 pow(1): fsums.Fsum 'pow'[1] (-0.0298334, 7.70485e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0298334, 7.70485e-19)
+    test 1006 Fsum: 0.00023534703905770196
+    test 1007 Fsum: 0.00023534703905770196
+    test 1008 sum82: -3.885337784451458e+84  FAILED, KNOWN, expected -3.8997593726197896e-10
+    test 1009 fsum: -3.8997593726197896e-10
+    test 1010 pow(4): fsums.Fsum 'pow'[12] (2.31287e-38, -5.24933e-55)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (2.31287e-38, 1.03409e-54)
+    test 1011 pow(1): fsums.Fsum 'pow'[1] (-3.89976e-10, 2.20765e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-3.89976e-10, 2.20765e-26)
     test 1012 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1013 ceil: True
     test 1014 floor: True
-    test 1015 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1015 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1016 residual: 0
     test 1017 is_exact: True
-    test 1018 Fsum: -0.029833409545559682
-    test 1019 Fsum: -0.029833409545559682
-    test 1020 sum83: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0022587368857932433
-    test 1021 fsum: 0.0022587368857932433
-    test 1022 pow(4): fsums.Fsum 'pow'[8] (2.60293e-11, -4.03527e-28)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (2.60293e-11, 1.02065e-28)
-    test 1023 pow(1): fsums.Fsum 'pow'[1] (0.00225874, -7.88518e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.00225874, -7.88518e-20)
+    test 1018 Fsum: -3.8997593726197896e-10
+    test 1019 Fsum: -3.8997593726197896e-10
+    test 1020 sum83: 3.885337784451458e+84  FAILED, KNOWN, expected -2.430867780445975
+    test 1021 fsum: -2.430867780445975
+    test 1022 pow(4): fsums.Fsum 'pow'[18] (34.9177, -1.77592e-15)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[31] (34.9177, -1.77592e-15)
+    test 1023 pow(1): fsums.Fsum 'pow'[1] (-2.43087, 3.09085e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.43087, 3.09085e-17)
     test 1024 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1025 ceil: True
     test 1026 floor: True
-    test 1027 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1027 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1028 residual: 0
     test 1029 is_exact: True
-    test 1030 Fsum: 0.0022587368857932433
-    test 1031 Fsum: 0.0022587368857932433
-    test 1032 sum84: -1.7395728954767918e-11  FAILED, KNOWN, expected 1.1410547664045412e-06
-    test 1033 fsum: 1.1410547664045412e-06
-    test 1034 pow(4): fsums.Fsum 'pow'[21] (1.69522e-24, -2.67355e-43)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (1.69522e-24, 4.29115e-41)
-    test 1035 pow(1): fsums.Fsum 'pow'[1] (1.14105e-06, 8.8447e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (1.14105e-06, 8.8447e-23)
+    test 1030 Fsum: -2.430867780445975
+    test 1031 Fsum: -2.430867780445975
+    test 1032 sum84: 7.0  FAILED, KNOWN, expected -1.90900311053527e-09
+    test 1033 fsum: -1.90900311053527e-09
+    test 1034 pow(4): fsums.Fsum 'pow'[14] (1.32809e-35, -7.86121e-52)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.32809e-35, -8.52641e-52)
+    test 1035 pow(1): fsums.Fsum 'pow'[1] (-1.909e-09, -6.77969e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.909e-09, -6.77969e-26)
     test 1036 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1037 ceil: True
     test 1038 floor: True
     test 1039 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1040 residual: 0
     test 1041 is_exact: True
-    test 1042 Fsum: 1.1410547664045412e-06
-    test 1043 Fsum: 1.1410547664045412e-06
-    test 1044 sum85: -3.885337784451458e+84  FAILED, KNOWN, expected -2.5879006588520088e-05
-    test 1045 fsum: -2.5879006588520088e-05
-    test 1046 pow(4): fsums.Fsum 'pow'[8] (4.48529e-19, 3.41668e-35)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[11] (4.48529e-19, 1.95301e-35)
-    test 1047 pow(1): fsums.Fsum 'pow'[1] (-2.5879e-05, 8.96182e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.5879e-05, 8.96182e-22)
+    test 1042 Fsum: -1.90900311053527e-09
+    test 1043 Fsum: -1.90900311053527e-09
+    test 1044 sum85: -3.885337784451458e+84  FAILED, KNOWN, expected 4.619713792069477
+    test 1045 fsum: 4.619713792069477
+    test 1046 pow(4): fsums.Fsum 'pow'[16] (455.471, 7.21181e-15)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[22] (455.471, -1.17659e-14)
+    test 1047 pow(1): fsums.Fsum 'pow'[1] (4.61971, -2.22093e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (4.61971, -2.22093e-16)
     test 1048 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1049 ceil: True
     test 1050 floor: True
     test 1051 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1052 residual: 0
     test 1053 is_exact: True
-    test 1054 Fsum: -2.5879006588520088e-05
-    test 1055 Fsum: -2.5879006588520088e-05
-    test 1056 sum86: -3.885337784451458e+84  FAILED, KNOWN, expected 60.94911411016949
-    test 1057 fsum: 60.94911411016949
-    test 1058 pow(4): fsums.Fsum 'pow'[24] (1.37997e+07, -7.71877e-10)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[57] (1.37997e+07, -5.98524e-10)
-    test 1059 pow(1): fsums.Fsum 'pow'[1] (60.9491, -2.52615e-15)  FAILED, KNOWN, expected fsums.Fsum[80] (60.9491, -2.52615e-15)
+    test 1054 Fsum: 4.619713792069477
+    test 1055 Fsum: 4.619713792069477
+    test 1056 sum86: -7.0  FAILED, KNOWN, expected 1.7440463436905057e-11
+    test 1057 fsum: 1.7440463436905057e-11
+    test 1058 pow(4): fsums.Fsum 'pow'[6] (9.25192e-44, 1.22492e-60)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (9.25192e-44, 1.22492e-60)
+    test 1059 pow(1): fsums.Fsum 'pow'[1] (1.74405e-11, 5.77265e-29)  FAILED, KNOWN, expected fsums.Fsum[80] (1.74405e-11, 5.77265e-29)
     test 1060 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1061 ceil: True
     test 1062 floor: True
-    test 1063 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1063 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1064 residual: 0
     test 1065 is_exact: True
-    test 1066 Fsum: 60.94911411016949
-    test 1067 Fsum: 60.94911411016949
-    test 1068 sum87: -3.885337784451458e+84  FAILED, KNOWN, expected -1.8166058802577327e-07
-    test 1069 fsum: -1.8166058802577327e-07
-    test 1070 pow(4): fsums.Fsum 'pow'[11] (1.08904e-27, -1.17406e-44)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (1.08904e-27, -5.44406e-44)
-    test 1071 pow(1): fsums.Fsum 'pow'[1] (-1.81661e-07, 7.96955e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-1.81661e-07, 7.96955e-24)
+    test 1066 Fsum: 1.7440463436905057e-11
+    test 1067 Fsum: 1.7440463436905057e-11
+    test 1068 sum87: 3.885337784451458e+84  FAILED, KNOWN, expected 0.9530068374161696
+    test 1069 fsum: 0.9530068374161696
+    test 1070 pow(4): fsums.Fsum 'pow'[22] (0.824867, -3.84582e-17)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (0.824867, -3.32409e-17)
+    test 1071 pow(1): fsums.Fsum 'pow'[1] (0.953007, 2.09591e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (0.953007, 2.09591e-17)
     test 1072 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1073 ceil: True
     test 1074 floor: True
-    test 1075 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1075 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1076 residual: 0
     test 1077 is_exact: True
-    test 1078 Fsum: -1.8166058802577327e-07
-    test 1079 Fsum: -1.8166058802577327e-07
-    test 1080 sum88: 3.885337784451458e+84  FAILED, KNOWN, expected -6.838905250989783e-16
-    test 1081 fsum: -6.838905250989783e-16
-    test 1082 pow(4): fsums.Fsum 'pow'[7] (2.18749e-61, -5.07493e-78)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (2.18749e-61, -1.14925e-77)
-    test 1083 pow(1): fsums.Fsum 'pow'[1] (-6.83891e-16, 4.09982e-32)  FAILED, KNOWN, expected fsums.Fsum[80] (-6.83891e-16, 4.09982e-32)
+    test 1078 Fsum: 0.9530068374161696
+    test 1079 Fsum: 0.9530068374161696
+    test 1080 sum88: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0003199802337347699
+    test 1081 fsum: -0.0003199802337347699
+    test 1082 pow(4): fsums.Fsum 'pow'[23] (1.04832e-14, -2.01561e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (1.04832e-14, -2.01561e-31)
+    test 1083 pow(1): fsums.Fsum 'pow'[1] (-0.00031998, 1.53807e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.00031998, 1.53807e-21)
     test 1084 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1085 ceil: True
     test 1086 floor: True
-    test 1087 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1087 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1088 residual: 0
     test 1089 is_exact: True
-    test 1090 Fsum: -6.838905250989783e-16
-    test 1091 Fsum: -6.838905250989783e-16
-    test 1092 sum89: 3.885337784451458e+84  FAILED, KNOWN, expected 0.0002354205529488565
-    test 1093 fsum: 0.0002354205529488565
-    test 1094 pow(4): fsums.Fsum 'pow'[21] (3.07169e-15, -1.52209e-31)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[46] (3.07169e-15, -1.38624e-31)
-    test 1095 pow(1): fsums.Fsum 'pow'[1] (0.000235421, 1.01341e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000235421, 1.01341e-20)
+    test 1090 Fsum: -0.0003199802337347699
+    test 1091 Fsum: -0.0003199802337347699
+    test 1092 sum89: 3.885337784451458e+84  FAILED, KNOWN, expected 1.3033691182508488e-14
+    test 1093 fsum: 1.3033691182508488e-14
+    test 1094 pow(4): fsums.Fsum 'pow'[6] (2.88582e-56, 1.86742e-72)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[16] (2.88582e-56, -1.94135e-72)
+    test 1095 pow(1): fsums.Fsum 'pow'[1] (1.30337e-14, -6.49255e-31)  FAILED, KNOWN, expected fsums.Fsum[80] (1.30337e-14, -6.49255e-31)
     test 1096 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1097 ceil: True
     test 1098 floor: True
-    test 1099 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1099 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1100 residual: 0
     test 1101 is_exact: True
-    test 1102 Fsum: 0.0002354205529488565
-    test 1103 Fsum: 0.0002354205529488565
-    test 1104 sum90: 3.885337784451458e+84  FAILED, KNOWN, expected -2.704023746528962e-10
-    test 1105 fsum: -2.704023746528962e-10
-    test 1106 pow(4): fsums.Fsum 'pow'[14] (5.34616e-39, 1.65406e-55)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[29] (5.34616e-39, -2.59536e-55)
-    test 1107 pow(1): fsums.Fsum 'pow'[1] (-2.70402e-10, -1.60981e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (-2.70402e-10, -1.60981e-26)
+    test 1102 Fsum: 1.3033691182508488e-14
+    test 1103 Fsum: 1.3033691182508488e-14
+    test 1104 sum90: 3.885337784451458e+84  FAILED, KNOWN, expected 7.7324760466816e-05
+    test 1105 fsum: 7.7324760466816e-05
+    test 1106 pow(4): fsums.Fsum 'pow'[16] (3.57499e-17, -2.584e-33)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[33] (3.57499e-17, 2.36181e-33)
+    test 1107 pow(1): fsums.Fsum 'pow'[1] (7.73248e-05, 3.95148e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (7.73248e-05, 3.95148e-21)
     test 1108 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1109 ceil: True
     test 1110 floor: True
-    test 1111 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1111 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1112 residual: 0
     test 1113 is_exact: True
-    test 1114 Fsum: -2.704023746528962e-10
-    test 1115 Fsum: -2.704023746528962e-10
-    test 1116 sum91: 0.0  FAILED, KNOWN, expected 1.0770159332762111e-05
-    test 1117 fsum: 1.0770159332762111e-05
-    test 1118 pow(4): fsums.Fsum 'pow'[17] (1.34551e-20, 6.96695e-37)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (1.34551e-20, 6.96695e-37)
-    test 1119 pow(1): fsums.Fsum 'pow'[1] (1.07702e-05, -1.61678e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (1.07702e-05, -1.61678e-22)
+    test 1114 Fsum: 7.7324760466816e-05
+    test 1115 Fsum: 7.7324760466816e-05
+    test 1116 sum91: -7.0  FAILED, KNOWN, expected 0.0008179583861038488
+    test 1117 fsum: 0.0008179583861038488
+    test 1118 pow(4): fsums.Fsum 'pow'[16] (4.47636e-13, 5.20511e-30)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[45] (4.47636e-13, 5.20511e-30)
+    test 1119 pow(1): fsums.Fsum 'pow'[1] (0.000817958, 2.37781e-21)  FAILED, KNOWN, expected fsums.Fsum[80] (0.000817958, 2.37781e-21)
     test 1120 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1121 ceil: True
     test 1122 floor: True
-    test 1123 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1123 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1124 residual: 0
     test 1125 is_exact: True
-    test 1126 Fsum: 1.0770159332762111e-05
-    test 1127 Fsum: 1.0770159332762111e-05
-    test 1128 sum92: 3.885337784451458e+84  FAILED, KNOWN, expected -0.15740858987068843
-    test 1129 fsum: -0.15740858987068843
-    test 1130 pow(4): fsums.Fsum 'pow'[20] (0.000613923, -4.91662e-20)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[28] (0.000613923, -2.67101e-20)
-    test 1131 pow(1): fsums.Fsum 'pow'[1] (-0.157409, 7.22236e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.157409, 7.22236e-18)
+    test 1126 Fsum: 0.0008179583861038488
+    test 1127 Fsum: 0.0008179583861038488
+    test 1128 sum92: 3.885337784451458e+84  FAILED, KNOWN, expected -0.0008779675397878537
+    test 1129 fsum: -0.0008779675397878537
+    test 1130 pow(4): fsums.Fsum 'pow'[7] (5.94174e-13, 1.71688e-29)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (5.94174e-13, 3.65285e-29)
+    test 1131 pow(1): fsums.Fsum 'pow'[1] (-0.000877968, 5.39556e-20)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.000877968, 5.39556e-20)
     test 1132 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1133 ceil: True
     test 1134 floor: True
-    test 1135 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1135 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1136 residual: 0
     test 1137 is_exact: True
-    test 1138 Fsum: -0.15740858987068843
-    test 1139 Fsum: -0.15740858987068843
-    test 1140 sum93: -3.885337784451458e+84  FAILED, KNOWN, expected 5.32752701771522e-08
-    test 1141 fsum: 5.32752701771522e-08
-    test 1142 pow(4): fsums.Fsum 'pow'[12] (8.05569e-30, -5.28916e-46)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (8.05569e-30, 5.90578e-46)
-    test 1143 pow(1): fsums.Fsum 'pow'[1] (5.32753e-08, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (5.32753e-08, 2.82734e-24)
+    test 1138 Fsum: -0.0008779675397878537
+    test 1139 Fsum: -0.0008779675397878537
+    test 1140 sum93: 0.015176309615014847  FAILED, KNOWN, expected 0.018303586215064106
+    test 1141 fsum: 0.018303586215064106
+    test 1142 pow(4): fsums.Fsum 'pow'[19] (1.12239e-07, -3.89168e-24)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[37] (1.12239e-07, -3.89168e-24)
+    test 1143 pow(1): fsums.Fsum 'pow'[1] (0.0183036, -1.5866e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (0.0183036, -1.5866e-19)
     test 1144 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1145 ceil: True
     test 1146 floor: True
     test 1147 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1148 residual: 0
     test 1149 is_exact: True
-    test 1150 Fsum: 5.32752701771522e-08
-    test 1151 Fsum: 5.32752701771522e-08
-    test 1152 sum94: -6.999767867889807  FAILED, KNOWN, expected 3.0445367462125546e-08
-    test 1153 fsum: 3.0445367462125546e-08
-    test 1154 pow(4): fsums.Fsum 'pow'[12] (8.59181e-31, -4.64511e-47)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (8.59181e-31, -3.88106e-47)
-    test 1155 pow(1): fsums.Fsum 'pow'[1] (3.04454e-08, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (3.04454e-08, 2.82734e-24)
+    test 1150 Fsum: 0.018303586215064106
+    test 1151 Fsum: 0.018303586215064106
+    test 1152 sum94: -3.885337784451458e+84  FAILED, KNOWN, expected -0.12956167060359233
+    test 1153 fsum: -0.12956167060359233
+    test 1154 pow(4): fsums.Fsum 'pow'[35] (0.000281777, 4.19946e-21)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[81] (0.000281777, 1.70646e-22)
+    test 1155 pow(1): fsums.Fsum 'pow'[1] (-0.129562, 1.29064e-17)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.129562, 1.29064e-17)
     test 1156 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1157 ceil: True
     test 1158 floor: True
-    test 1159 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1159 divmod: fsums.Fsum[86] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1160 residual: 0
     test 1161 is_exact: True
-    test 1162 Fsum: 3.0445367462125546e-08
-    test 1163 Fsum: 3.0445367462125546e-08
-    test 1164 sum95: -3.885337784451458e+84  FAILED, KNOWN, expected 1.5172292245805852e-09
-    test 1165 fsum: 1.5172292245805852e-09
-    test 1166 pow(4): fsums.Fsum 'pow'[8] (5.29913e-36, 1.47757e-52)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[33] (5.29913e-36, 1.47757e-52)
-    test 1167 pow(1): fsums.Fsum 'pow'[1] (1.51723e-09, -3.72522e-26)  FAILED, KNOWN, expected fsums.Fsum[80] (1.51723e-09, -3.72522e-26)
+    test 1162 Fsum: -0.12956167060359233
+    test 1163 Fsum: -0.12956167060359233
+    test 1164 sum95: 3.885337784451458e+84  FAILED, KNOWN, expected -0.024940126340969104
+    test 1165 fsum: -0.024940126340969104
+    test 1166 pow(4): fsums.Fsum 'pow'[22] (3.86896e-07, -6.51031e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (3.86896e-07, 1.38479e-23)
+    test 1167 pow(1): fsums.Fsum 'pow'[1] (-0.0249401, -1.30997e-18)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0249401, -1.30997e-18)
     test 1168 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1169 ceil: True
     test 1170 floor: True
     test 1171 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1172 residual: 0
     test 1173 is_exact: True
-    test 1174 Fsum: 1.5172292245805852e-09
-    test 1175 Fsum: 1.5172292245805852e-09
-    test 1176 sum96: -3.885337784451458e+84  FAILED, KNOWN, expected 1.4178528656160694e-05
-    test 1177 fsum: 1.4178528656160694e-05
-    test 1178 pow(4): fsums.Fsum 'pow'[18] (4.04133e-20, 1.8444e-36)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (4.04133e-20, 1.02239e-36)
-    test 1179 pow(1): fsums.Fsum 'pow'[1] (1.41785e-05, 5.45458e-22)  FAILED, KNOWN, expected fsums.Fsum[80] (1.41785e-05, 5.45458e-22)
+    test 1174 Fsum: -0.024940126340969104
+    test 1175 Fsum: -0.024940126340969104
+    test 1176 sum96: -3.885337784451458e+84  FAILED, KNOWN, expected -0.010852353416526135
+    test 1177 fsum: -0.010852353416526135
+    test 1178 pow(4): fsums.Fsum 'pow'[14] (1.38706e-08, -6.78899e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (1.38706e-08, 2.30471e-26)
+    test 1179 pow(1): fsums.Fsum 'pow'[1] (-0.0108524, 7.57197e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0108524, 7.57197e-19)
     test 1180 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1181 ceil: True
     test 1182 floor: True
-    test 1183 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1183 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1184 residual: 0
     test 1185 is_exact: True
-    test 1186 Fsum: 1.4178528656160694e-05
-    test 1187 Fsum: 1.4178528656160694e-05
-    test 1188 sum97: -3.885337784451458e+84  FAILED, KNOWN, expected 1.1534483456095595e-05
-    test 1189 fsum: 1.1534483456095595e-05
-    test 1190 pow(4): fsums.Fsum 'pow'[6] (1.77008e-20, -3.07608e-37)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[9] (1.77008e-20, -3.07608e-37)
-    test 1191 pow(1): fsums.Fsum 'pow'[1] (1.15345e-05, -5.01122e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (1.15345e-05, -5.01122e-23)
+    test 1186 Fsum: -0.010852353416526135
+    test 1187 Fsum: -0.010852353416526135
+    test 1188 sum97: 3.885337784451458e+84  FAILED, KNOWN, expected 6.6607520562641955
+    test 1189 fsum: 6.6607520562641955
+    test 1190 pow(4): fsums.Fsum 'pow'[24] (1968.31, -9.54829e-14)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[61] (1968.31, -9.54829e-14)
+    test 1191 pow(1): fsums.Fsum 'pow'[1] (6.66075, 1.1158e-16)  FAILED, KNOWN, expected fsums.Fsum[80] (6.66075, 1.1158e-16)
     test 1192 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1193 ceil: True
     test 1194 floor: True
-    test 1195 divmod: fsums.Fsum[82] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1195 divmod: fsums.Fsum[84] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1196 residual: 0
     test 1197 is_exact: True
-    test 1198 Fsum: 1.1534483456095595e-05
-    test 1199 Fsum: 1.1534483456095595e-05
-    test 1200 sum98: -3.885337784451458e+84  FAILED, KNOWN, expected 5.808742657122109e-14
-    test 1201 fsum: 5.808742657122109e-14
-    test 1202 pow(4): fsums.Fsum 'pow'[7] (1.13849e-53, 6.21943e-70)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[19] (1.13849e-53, 5.19363e-70)
-    test 1203 pow(1): fsums.Fsum 'pow'[1] (5.80874e-14, -5.38242e-30)  FAILED, KNOWN, expected fsums.Fsum[80] (5.80874e-14, -5.38242e-30)
+    test 1198 Fsum: 6.6607520562641955
+    test 1199 Fsum: 6.6607520562641955
+    test 1200 sum98: 3.885337784451458e+84  FAILED, KNOWN, expected -0.010966949336193832
+    test 1201 fsum: -0.010966949336193832
+    test 1202 pow(4): fsums.Fsum 'pow'[21] (1.44658e-08, -2.35781e-25)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (1.44658e-08, -2.35781e-25)
+    test 1203 pow(1): fsums.Fsum 'pow'[1] (-0.0109669, -2.68866e-19)  FAILED, KNOWN, expected fsums.Fsum[80] (-0.0109669, -2.68866e-19)
     test 1204 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1205 ceil: True
     test 1206 floor: True
-    test 1207 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1207 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1208 residual: 0
     test 1209 is_exact: True
-    test 1210 Fsum: 5.808742657122109e-14
-    test 1211 Fsum: 5.808742657122109e-14
-    test 1212 sum99: -3.885337784451458e+84  FAILED, KNOWN, expected 5.394333440235675e-06
-    test 1213 fsum: 5.394333440235675e-06
-    test 1214 pow(4): fsums.Fsum 'pow'[10] (8.46742e-22, -3.14642e-38)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[34] (8.46742e-22, -3.14642e-38)
-    test 1215 pow(1): fsums.Fsum 'pow'[1] (5.39433e-06, -5.01122e-23)  FAILED, KNOWN, expected fsums.Fsum[80] (5.39433e-06, -5.01122e-23)
+    test 1210 Fsum: -0.010966949336193832
+    test 1211 Fsum: -0.010966949336193832
+    test 1212 sum99: -3.885337784451458e+84  FAILED, KNOWN, expected -4.3020269655617206e-08
+    test 1213 fsum: -4.3020269655617206e-08
+    test 1214 pow(4): fsums.Fsum 'pow'[7] (3.42525e-30, -1.41114e-46)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[13] (3.42525e-30, -1.70454e-46)
+    test 1215 pow(1): fsums.Fsum 'pow'[1] (-4.30203e-08, 2.82734e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (-4.30203e-08, 2.82734e-24)
     test 1216 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1217 ceil: True
     test 1218 floor: True
     test 1219 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1220 residual: 0
     test 1221 is_exact: True
-    test 1222 Fsum: 5.394333440235675e-06
-    test 1223 Fsum: 5.394333440235675e-06
-    test 1224 sum100: 0.1351015022807598  FAILED, KNOWN, expected -4.5538820313861986e-14
-    test 1225 fsum: -4.5538820313861986e-14
-    test 1226 pow(4): fsums.Fsum 'pow'[6] (4.30058e-54, 2.28834e-70)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[41] (4.30058e-54, 2.28834e-70)
-    test 1227 pow(1): fsums.Fsum 'pow'[1] (-4.55388e-14, 9.28467e-31)  FAILED, KNOWN, expected fsums.Fsum[80] (-4.55388e-14, 9.28467e-31)
+    test 1222 Fsum: -4.3020269655617206e-08
+    test 1223 Fsum: -4.3020269655617206e-08
+    test 1224 sum100: 3.885337784451458e+84  FAILED, KNOWN, expected 1.6520084836913086e-08
+    test 1225 fsum: 1.6520084836913086e-08
+    test 1226 pow(4): fsums.Fsum 'pow'[12] (7.44816e-32, 1.68074e-48)  FAILED, KNOWN, expected fsums.Fsum '__mul__'[25] (7.44816e-32, -8.27272e-49)
+    test 1227 pow(1): fsums.Fsum 'pow'[1] (1.65201e-08, -1.39904e-24)  FAILED, KNOWN, expected fsums.Fsum[80] (1.65201e-08, -1.39904e-24)
     test 1228 pow(0): fsums.Fsum[1] (1.0, 0)
     test 1229 ceil: True
     test 1230 floor: True
-    test 1231 divmod: fsums.Fsum[85] (0.0, 0)  FAILED, KNOWN, expected 0.0
+    test 1231 divmod: fsums.Fsum[83] (0.0, 0)  FAILED, KNOWN, expected 0.0
     test 1232 residual: 0
     test 1233 is_exact: True
-    test 1234 Fsum: -4.5538820313861986e-14
-    test 1235 Fsum: -4.5538820313861986e-14
-    test 1236 fmul: 0.00000000
+    test 1234 Fsum: 1.6520084836913086e-08
+    test 1235 Fsum: 1.6520084836913086e-08
+    test 1236 fmul: 0.00000273
 
     test 1237 len1: 4
     test 1238 FSum+: 4.0
@@ -15899,10 +15899,10 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFsums.py
     test 1422 ceil : 3
     test 1423 floor: 2
 
-    test 1424 divmod : (2, <fsums.Fsum '__divmod__'[2] (0.0, 0) at 0x1043f9df0>)
-    test 1425 divmod : (2, <fsums.Fsum 'divmod'[2] (0.0, 0) at 0x1043f9e80>)
-    test 1426 rdivmod : (0, <fsums.Fsum '__rdivmod__'[1] (2.0, 0) at 0x102e83a90>)
-    test 1427 divmod : (-2, <fsums.Fsum '__divmod__'[2] (1.0, 0) at 0x1043f9e80>)
+    test 1424 divmod : (2, <fsums.Fsum '__divmod__'[2] (0.0, 0) at 0x103e8ddf0>)
+    test 1425 divmod : (2, <fsums.Fsum 'divmod'[2] (0.0, 0) at 0x103e8de80>)
+    test 1426 rdivmod : (0, <fsums.Fsum '__rdivmod__'[1] (2.0, 0) at 0x1026fba90>)
+    test 1427 divmod : (-2, <fsums.Fsum '__divmod__'[2] (1.0, 0) at 0x103e8de80>)
     test 1428 imod: fsums.Fsum '__imod__'[2] (0.0, 0)
     test 1429 mod : fsums.Fsum '__mod__'[2] (0.0, 0)
     test 1430 rmod: fsums.Fsum '__rmod__'[1] (2.0, 0)
@@ -15917,10 +15917,10 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFsums.py
     test 1439 F / 0: ZeroDivisionError("fsums.Fsum '__truediv__'[1] (fsum=9.0e-102, residual=5.9483e-118) / 0: float division by zero")
     test 1440 pow(F, +): ResidualError("fsums.Fsum '__pow__'[1] (fsum=9.0e-102, residual=5.9483e-118) ** 2.1: non-zero residual (5.94830118e-118), fractional (2.1)")
     test 1441 pow(F, -): fsums.Fsum '__pow__'[1] (1.11111e+101, 0)
-    test 1442 pow(-F, F): ValueError("fsums._Fsum '__pow__'[1] (fsum=-2, residual=0) ** <fsums.Fsum[4] (9.0e-102, 5.9483e-118) at 0x1043f2e50>: complex (1+1.868713929222428e-117j) from 2-arg pow(-2, 5.9483e-118)")
+    test 1442 pow(-F, F): ValueError("fsums._Fsum '__pow__'[1] (fsum=-2, residual=0) ** <fsums.Fsum[4] (9.0e-102, 5.9483e-118) at 0x1026fbaf0>: complex (1+1.868713929222428e-117j) from 2-arg pow(-2, 5.9483e-118)")
     test 1443 pow(F, F): fsums.Fsum[1] (1.0, 0)
     test 1444 pow(F, f, i): ResidualError('fsums.Fsum[1] (fsum=9.0e-102, residual=5.9483e-118) ** 2.1: integer residual (9.0e-102), mod (2)')
-    test 1445 pow(F, F, i): TypeError('fsums.Fsum[1] (fsum=-2, residual=0) ** <fsums.Fsum[1] (2.1, 0) at 0x1043f9eb0>: mod (2), pow() 3rd argument not allowed unless all arguments are integers')
+    test 1445 pow(F, F, i): TypeError('fsums.Fsum[1] (fsum=-2, residual=0) ** <fsums.Fsum[1] (2.1, 0) at 0x103e8deb0>: mod (2), pow() 3rd argument not allowed unless all arguments are integers')
     test 1446 pow(F, F, None): fsums.Fsum[1] (4, 0)
     test 1447 Z**-2: ZeroDivisionError("fsums._Fsum '__pow__'[1] (fsum=0.0, residual=0) ** -2: 0.0 cannot be raised to a negative power")
     test 1448 pow(0): 1.000
@@ -15978,7 +15978,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testFsums.py
     test 1499 RESIDUAL: False
     test 1500 RESIDUAL: True
 
-    418 of 1500 testFsums.py tests (27.9%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 84.581 ms
+    418 of 1500 testFsums.py tests (27.9%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 85.441 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGars.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -16028,7 +16028,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGars.py
     test 25 precision: 3  FAILED, KNOWN, expected 2
     test 26 resolution: 5′
 
-    3 of 26 testGars.py tests (11.5%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 499.010 us
+    3 of 26 testGars.py tests (11.5%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 486.851 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeodesicx.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -16141,7 +16141,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeodesicx.py
     test 71 TestPoint: (5, 29506941, 65690027591346)
     test 72 toStr: area=65690027591345.671875, geodesic=GeodesicExact(C4Order=30, ellipsoid=Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.14582341, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6371000.79000916, Rbiaxial=6367453.63451633, Rtriaxial=6372797.5559594), num=4, perimeter=29506941.155178, polyline=False
 
-    6 of 72 testGeodesicx.py tests (8.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 271.341 ms
+    6 of 72 testGeodesicx.py tests (8.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 272.880 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeohash.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -16314,7 +16314,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeohash.py
     test 149 precision: 13  FAILED, KNOWN, expected 12
     test 150 resolution: 0.00000033527613, 0.0
 
-    2 of 150 testGeohash.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 12.862 ms
+    2 of 150 testGeohash.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 12.856 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeoids.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -17661,7 +17661,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGeoids.py
     213 tests skipped (639): no scipy
     12 tests skipped (651): no scipy
 
-    778 of 1302 testGeoids.py tests (59.8%) FAILED, ALL KNOWN, 651 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 24.129 sec
+    778 of 1302 testGeoids.py tests (59.8%) FAILED, ALL KNOWN, 651 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 24.286 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGreatCircle.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -17751,7 +17751,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testGreatCircle.py
     test 59 CrossTrackDistance200m+270°: -200.0
     test 60 CrossTrackDistanceCloseToZero: 0.0000000
 
-    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.547 ms
+    10 of 60 testGreatCircle.py tests (16.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.585 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testHausdorff.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -17978,7 +17978,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testHausdorff.py
     test 183 copy(HausdorffDistanceTo): (<class 'pygeodesy.hausdorff.HausdorffDistanceTo'>, True)
     test 184 HausdorffDistanceTo.copy(): (<class 'pygeodesy.hausdorff.HausdorffDistanceTo'>, True)
 
-    2 of 184 testHausdorff.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 6.449 sec
+    2 of 184 testHausdorff.py tests (1.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 6.495 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testHeights.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -18546,7 +18546,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testHeights.py
     test 528 HeightError: llis[0] (9.0): 'float' object has no attribute 'lon'
     80 tests skipped (80): No module named 'scipy': required by heights.HeightLinear
 
-    all 528 testHeights.py tests passed, 80 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.612 ms
+    all 528 testHeights.py tests passed, 80 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.571 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -18651,7 +18651,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 72 _8_0 = 8.0: 8.0
     test 73 _90_0 = 90.0: True
     test 74 _90_0 = 90.0: 90.0
-    test 75 _90_EPS_2 = <function _90_EPS_2 at 0x1015ace50>: True
+    test 75 _90_EPS_2 = <function _90_EPS_2 at 0x10087ce50>: True
     test 76 _9_0 = 9.0: True
     test 77 _9_0 = 9.0: 9.0
     test 78 __all__ = ('DIG', 'EPS', 'EPS0', 'E....r_', 'float_', 'machine'): False  FAILED, KNOWN, expected True
@@ -18659,7 +18659,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 80 __cached__ = './pygeodesy/__pycache__/interns.cpython-39.pyc': True
     test 81 __doc__ = "Single-instance C{float}.... L{pygeodesy.machine}.\n": True
     test 82 __file__ = './pygeodesy/interns.py': True
-    test 83 __loader__ = <_frozen_importlib_extern....er object at 0x101617280>: False  FAILED, KNOWN, expected True
+    test 83 __loader__ = <_frozen_importlib_extern....er object at 0x1008e7280>: False  FAILED, KNOWN, expected True
     test 84 __name__ = 'pygeodesy.interns': True
     test 85 __package__ = 'pygeodesy': True
     test 86 __spec__ = ModuleSpec(name='pygeodes....'./pygeodesy/interns.py'): False  FAILED, KNOWN, expected True
@@ -18836,7 +18836,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 257 _fi_ = 'fi': fi
     test 258 _finite_ = 'finite': True
     test 259 _finite_ = 'finite': finite
-    test 260 _float0 = <function _float0 at 0x1015acd30>: True
+    test 260 _float0 = <function _float0 at 0x10087cd30>: True
     test 261 _from_ = 'from': True
     test 262 _from_ = 'from': from
     test 263 _g_ = 'g': True
@@ -19042,7 +19042,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 458 _perimeterOf_ = 'perimeterOf': perimeterof
     test 459 _phi_ = 'phi': True
     test 460 _phi_ = 'phi': phi
-    test 461 _platform2 = <function _platform2 at 0x1015cd040>: True
+    test 461 _platform2 = <function _platform2 at 0x10089d040>: True
     test 462 _PLUS_ = '+': True
     test 463 _PLUS_ = '+': +  FAILED, KNOWN, expected plus
     test 464 _PLUSMINUS_ = '+-': True
@@ -19177,7 +19177,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 593 _valid_ = 'valid': valid
     test 594 _value_ = 'value': True
     test 595 _value_ = 'value': value
-    test 596 _version2 = <function _version2 at 0x1015cd280>: True
+    test 596 _version2 = <function _version2 at 0x10089d280>: True
     test 597 _version_ = 'version': True
     test 598 _version_ = 'version': version
     test 599 _vs_ = 'vs': True
@@ -19231,7 +19231,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testInterns.py
     test 647 _90_EPS_2: True
     test 648 _90_EPS_2: True
 
-    55 of 648 testInterns.py tests (8.5%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 2.521 ms
+    55 of 648 testInterns.py tests (8.5%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.552 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testIters.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -19266,7 +19266,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testIters.py
     test 14 iter: 3
     test 15 re-iter: PointsError('points (0): too few')
 
-    all 15 testIters.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 183.821 us
+    all 15 testIters.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 192.165 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testKarney.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -19289,7 +19289,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testKarney.py
 # lazily imported pygeodesy.ellipsoidalExact by testKarney.py line 181
 # lazily imported pygeodesy.geodesicx by testKarney.py line 181
 
-    testing testKarney.py 21.11.24 (module pygeodesy.karney 22.02.28) isLazy=3
+    testing testKarney.py 21.11.24 (module pygeodesy.karney 22.04.22) isLazy=3
     103 tests skipped (103): no geographiclib
 
     testDirect(pygeodesy.geodesicx, 22.03.25)
@@ -19405,7 +19405,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testKarney.py
     test 104 Geodesic.LONG_UNROLL: 32768
     102 tests skipped (205): no GeodSolve
 
-    testMath(pygeodesy.karney, 22.02.28)
+    testMath(pygeodesy.karney, 22.04.22)
     test 105 _diff182(-180, -180): 0.0  FAILED, KNOWN, expected -0.0
     test 106 _diff182(-180, -90): 90.0
     test 107 _diff182(-180, 0): -180.0  FAILED, KNOWN, expected 180.0
@@ -19471,7 +19471,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testKarney.py
     test 167 unroll(-30, 330): (0.0, -30.0)
     test 168 unroll(-30, 360): (30.0, 0.0)
 
-    63 of 168 testKarney.py tests (37.5%) FAILED, ALL KNOWN, 205 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 271.606 ms
+    63 of 168 testKarney.py tests (37.5%) FAILED, ALL KNOWN, 205 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 277.081 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLatLon.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -20565,7 +20565,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLatLon.py
     test 1043 circin6 (pygeodesy.ellipsoidalExact) .dB: 326036.153
     test 1044 circin6 (pygeodesy.ellipsoidalExact) .dC: 326020.432
 
-    133 of 1044 testLatLon.py tests (12.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.779 sec
+    133 of 1044 testLatLon.py tests (12.7%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.796 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLatLonBases.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -20900,7 +20900,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLatLonBases.py
     test 285 phimlam: PhiLam2Tuple(phi=0.898457, lam=-0.000028)
     test 286 phimlamheight: PhiLam3Tuple(phi=0.898457, lam=-0.000028, height=42.0)
 
-    all 286 testLatLonBases.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 5.325 ms
+    all 286 testLatLonBases.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 5.322 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLazily.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -22598,7 +22598,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLazily.py
     test 905 sphericalNvector: <module 'pygeodesy.sphericalNvector' from './pygeodesy/sphericalNvector.py'>
     test 906 sphericalTrigonometry: <module 'pygeodesy.sphericalTrigonometry' from './pygeodesy/sphericalTrigonometry.py'>
 
-    all 906 testLazily.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 428.393 ms
+    all 906 testLazily.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 429.319 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLcc.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -22759,7 +22759,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLcc.py
     test 125 _SnyderV .latlon0: (23.0, -96.0)
     test 126 _SnyderV .philam0: (0.401426, -1.675516)
 
-    all 126 testLcc.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.659 ms
+    all 126 testLcc.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.704 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLtp.py
 ./pygeodesy/deprecated/__init__.py:60: DeprecationWarning: class L{pygeodesy.deprecated.EcefCartesian} has been DEPRECATED, use class L{LocalCartesian}.
@@ -23316,7 +23316,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLtp.py
     test 458 tyr3d: (0.0, -2.0, 0.0)
     test 459 tyr3d: (0.0, 0.0, -2.0)
 
-    47 of 459 testLtp.py tests (10.2%) FAILED, incl. 36 KNOWN plus 11 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 23.796 ms
+    47 of 459 testLtp.py tests (10.2%) FAILED, incl. 36 KNOWN plus 11 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 23.840 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLtpTuples.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -23482,7 +23482,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testLtpTuples.py
     test 135 Local9Tuple.philam: 0.803, 0.135
     test 136 Local9Tuple.philamheight: 0.803, 0.135, 1773.0
 
-    all 136 testLtpTuples.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 8.119 ms
+    all 136 testLtpTuples.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 8.156 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testMgrs.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -23546,7 +23546,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testMgrs.py
     test 43 toUtm(76.0°N, 025.0°E).toMgrs: 35X ME 45999 36099
     test 44 toUtm(76.0°N, 037.0°E).toMgrs: 37X DE 45999 36099
 
-    1 of 44 testMgrs.py tests (2.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.432 ms
+    1 of 44 testMgrs.py tests (2.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.446 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testModules.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -25788,7 +25788,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testModules.py
     test 1373 iters.iterNumpy2over() function: True
     test 1374 iters.points2() function: True
 
-    testModule(pygeodesy.karney, 22.02.28)
+    testModule(pygeodesy.karney, 22.04.22)
     test 1375 karney.Direct9Tuple() class: True
     test 1376 karney.GDict() class: True
     test 1377 karney.GeodSolve12Tuple() class: True
@@ -26907,7 +26907,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testModules.py
     test 2426 wrapPI_2() function: True
     test 2427 yard2m() function: True
 
-    all 2427 testModules.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 146.461 ms
+    all 2427 testModules.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 145.977 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNamed.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -26943,7 +26943,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNamed.py
     test 10 _Named 'Test': Test
     test 11 _Named 'Test': Test
     test 12 _Named 'Test': _Named 'Test'
-    test 13 _Named 'Test': <_Named 'Test' at 0x100538e80>  FAILED, KNOWN, expected _Named 'Test'
+    test 13 _Named 'Test': <_Named 'Test' at 0x104d8ce80>  FAILED, KNOWN, expected _Named 'Test'
     test 14 _Named 'Test': ''
 
     testing _NamedBase() (pygeodesy.named, 22.04.22)
@@ -28009,7 +28009,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNamed.py
     test 883 Transforms: 0
     test 884 nameof: KsOrder
 
-    5 of 884 testNamed.py tests (0.6%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 128.339 ms
+    5 of 884 testNamed.py tests (0.6%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 128.643 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNamedTuples.py
 ./pygeodesy/ltpTuples.py:537: DeprecationWarning: class L{pygeodesy.ltpTuples.Ned3Tuple} has been 3-Tuple C{(north, east, down)}. DEPRECATED, use L{pygeodesy.Ned4Tuple}.
@@ -28807,7 +28807,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNamedTuples.py
 # lazily imported pygeodesy.wgrs by base.py line 208
     test 743 pygeodesy.named, _NamedTuple._validated: False
 
-    2 of 743 testNamedTuples.py tests (0.3%) FAILED, incl. 2 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 97.414 ms
+    2 of 743 testNamedTuples.py tests (0.3%) FAILED, incl. 2 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 97.632 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNavlabExamples.py
 ./pygeodesy/ellipsoidalNvector.py:462: DeprecationWarning: class L{pygeodesy.ellipsoidalNvector.Ned} has been DEPRECATED, use L{pygeodesy.Ned}.
@@ -28898,7 +28898,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testNavlabExamples
     test 31 length: 116809.178
     test 32 toVector3d: (-86126.6, -78901.1, -1104.1)
 
-    19 of 32 testNavlabExamples.py tests (59.4%) FAILED, incl. 2 KNOWN plus 17 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 18.961 ms
+    19 of 32 testNavlabExamples.py tests (59.4%) FAILED, incl. 2 KNOWN plus 17 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 18.970 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testOsgr.py
 ./test/testOsgr.py:24: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertDatum} has been DEPRECATED, use method L{toDatum}.
@@ -29190,7 +29190,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testOsgr.py
     test 245 datum: WGS84
     test 246 distanceTo: 0.0015  FAILED, KNOWN, expected 0.0050
 
-    24 of 246 testOsgr.py tests (9.8%) FAILED, incl. 18 KNOWN plus 6 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 21.911 ms
+    24 of 246 testOsgr.py tests (9.8%) FAILED, incl. 18 KNOWN plus 6 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 21.832 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testPoints.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -29975,7 +29975,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testPoints.py
     testArea(pygeodesy.ellipsoidalExact, 22.01.17)
     test 723 luneOf: 1.27516405431022e+14
 
-    22 of 723 testPoints.py tests (3.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 377.356 ms
+    22 of 723 testPoints.py tests (3.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 377.163 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testProps.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -30035,7 +30035,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testProps.py
     test 33 Z1: invalid Property: Z.deleter Z
     test 34 Z2: invalid Property: Z.getter Z
 
-    all 34 testProps.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 380.993 us
+    all 34 testProps.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 351.906 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testResections.py
 ./test/testResections.py:39: DeprecationWarning: method L{__main__.Cartesian_.collins} has been DEPRECATED, use method L{collins5}.
@@ -30125,7 +30125,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testResections.py
     test 41 triSide2: (2.0, 0.0)
     test 42 triSide2: (2.0, 3.141593)
 
-    4 of 42 testResections.py tests (9.5%) FAILED, incl. 4 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.702 ms
+    4 of 42 testResections.py tests (9.5%) FAILED, incl. 4 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 3.768 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testRoutes.py
 ./test/testRoutes.py:17099: DeprecationWarning: function L{pygeodesy.ellipsoidalVincenty.areaOf} has been DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
@@ -30201,7 +30201,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testRoutes.py
     test 44 isclockwise('_JFK_LHR1', adjust=False, wrap=True): 0.000
     test 45 isclockwise('_JFK_LHR2', adjust=False, wrap=True): 0.000
 
-    17 of 45 testRoutes.py tests (37.8%) FAILED, incl. 15 KNOWN plus 2 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 944.778 ms
+    17 of 45 testRoutes.py tests (37.8%) FAILED, incl. 15 KNOWN plus 2 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 933.959 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -30235,84 +30235,84 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testSimplify.py
 # lazily imported pygeodesy.unstr from .streprs by testRoutes.py line 13
 
     testing testSimplify.py 20.04.06 (module pygeodesy.simplify 22.01.17) isLazy=3
-    test 1 simplify1(16614, adjust=True) 1m (47.463 ms): 16597
-    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (50.941 ms): 7095
-    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (51.194 ms): 7095
-    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (74.126 ms): 8302
-    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (105.095 ms): 16328
-    test 6 simplifyVWm(16614, adjust=True) 1m (110.452 ms): 16328
-    test 7 simplifyVWm(16614, adjust=False) 1m (98.300 ms): 16373
-    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (103.170 ms): 15864
-    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (104.730 ms): 15867
-    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (28.126 ms): 15867
-    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (97.233 ms): 15869
-    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (19.750 ms): 15869
-    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (785.514 ms): 10960
-    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (783.877 ms): 10960
-    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (254.256 ms): 10960
-    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (724.026 ms): 11248
-    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (722.076 ms): 11248
-    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (121.531 ms): 11248
-    test 19 simplifyVW(1661, adjust=True) 1m (12.415 ms): 1641
-    test 20 simplifyVW(1661, adjust=False) 1m (10.559 ms): 1646
-    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (59.123 ms): 1231
-    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (60.382 ms): 1231
-    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (19.390 ms): 1231
-    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (55.545 ms): 1267
-    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (9.553 ms): 1267
-    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (14.928 ms): 1267
-    test 27 simplifyVW(69, adjust=False) 1m (411.749 us): 69
-    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.253 ms): 50
-    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (225.067 us): 50
-    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (330.210 us): 50
-    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (422.001 us): 45
-    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (35.048 us): 5
-    test 33 simplifyVW(5, adjust=False, attr='name') 30m (29.087 us): 5
+    test 1 simplify1(16614, adjust=True) 1m (47.742 ms): 16597
+    test 2 simplifyRW(16614, adjust=True, shortest=False, indices=True) 1m (51.608 ms): 7095
+    test 3 simplifyRW(16614, adjust=True, shortest=False) 1m (51.705 ms): 7095
+    test 4 simplifyRW(16614, adjust=True, shortest=True) 1m (74.492 ms): 8302
+    test 5 simplifyVWm(16614, adjust=True, indices=True) 1m (106.094 ms): 16328
+    test 6 simplifyVWm(16614, adjust=True) 1m (110.798 ms): 16328
+    test 7 simplifyVWm(16614, adjust=False) 1m (98.800 ms): 16373
+    test 8 simplifyRDPm(16614, adjust=True, shortest=False) 1m (103.836 ms): 15864
+    test 9 simplifyRDPm(16614, adjust=True, shortest=True) 1m (105.597 ms): 15867
+    test 10 simplifyRDPgr(16614, adjust=True, shortest=True, modified=True) 1m (27.871 ms): 15867
+    test 11 simplifyRDPm(16614, adjust=False, shortest=False) 1m (97.803 ms): 15869
+    test 12 simplifyRDPfw(16614, adjust=False, shortest=False, modified=True) 1m (19.560 ms): 15869
+    test 13 simplifyRDP(16614, adjust=True, shortest=True, indices=True) 1m (786.248 ms): 10960
+    test 14 simplifyRDP(16614, adjust=True, shortest=True) 1m (785.138 ms): 10960
+    test 15 simplifyRDPgr(16614, adjust=True, shortest=True, modified=False) 1m (253.101 ms): 10960
+    test 16 simplifyRDP(16614, adjust=False, shortest=False, indices=True) 1m (725.454 ms): 11248
+    test 17 simplifyRDP(16614, adjust=False, shortest=False) 1m (721.408 ms): 11248
+    test 18 simplifyRDPfw(16614, adjust=False, shortest=False, modified=False) 1m (124.378 ms): 11248
+    test 19 simplifyVW(1661, adjust=True) 1m (12.430 ms): 1641
+    test 20 simplifyVW(1661, adjust=False) 1m (10.587 ms): 1646
+    test 21 simplifyRDP(1661, adjust=True, shortest=False) 1m (59.147 ms): 1231
+    test 22 simplifyRDP(1661, adjust=True, shortest=True) 1m (60.414 ms): 1231
+    test 23 simplifyRDPgr(1661, adjust=True, shortest=True) 1m (19.373 ms): 1231
+    test 24 simplifyRDP(1661, adjust=False, shortest=False) 1m (55.674 ms): 1267
+    test 25 simplifyRDPfw(1661, adjust=False, shortest=False) 1m (9.591 ms): 1267
+    test 26 simplifyRDPgr(1661, adjust=False, shortest=True) 1m (15.022 ms): 1267
+    test 27 simplifyVW(69, adjust=False) 1m (404.119 us): 69
+    test 28 simplifyRDP(69, adjust=False, shortest=False) 1m (1.255 ms): 50
+    test 29 simplifyRDPfw(69, adjust=False, shortest=False) 1m (221.014 us): 50
+    test 30 simplifyRDPgr(69, adjust=False, shortest=True) 1m (338.793 us): 50
+    test 31 simplifyRDPgr(69, adjust=True, shortest=True) 1m (422.955 us): 45
+    test 32 simplifyRDP(5, adjust=False, shortest=True) 1m (34.094 us): 5
+    test 33 simplifyVW(5, adjust=False, attr='name') 30m (30.041 us): 5
     test 34 numpy.__version__: 1.21.2
-    test 35 simplify1(69, adjust=False) 1m (359.774 us): 69
+    test 35 simplify1(69, adjust=False) 1m (369.072 us): 69
     test 36 simplify1(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 37 simplifyRW(69, adjust=False) 1m (344.753 us): 33
+    test 37 simplifyRW(69, adjust=False) 1m (349.045 us): 33
     test 38 simplifyRW(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 39 simplifyRDP(69, adjust=False) 1m (2.046 ms): 50
+    test 39 simplifyRDP(69, adjust=False) 1m (2.027 ms): 50
     test 40 simplifyRDP(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 41 simplifyRDPm(69, adjust=False) 1m (646.830 us): 67
+    test 41 simplifyRDPm(69, adjust=False) 1m (653.028 us): 67
     test 42 simplifyRDPm(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 43 simplifyRDPfw(69, adjust=False) 1m (1.084 ms): 50
-    test 44 simplifyRDPgr(69, adjust=False) 1m (1.728 ms): 50
-    test 45 simplifyVW(69, adjust=False) 1m (653.982 us): 69
+    test 43 simplifyRDPfw(69, adjust=False) 1m (964.165 us): 50
+    test 44 simplifyRDPgr(69, adjust=False) 1m (1.633 ms): 50
+    test 45 simplifyVW(69, adjust=False) 1m (652.075 us): 69
     test 46 simplifyVW(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 47 simplifyVWm(69, adjust=False) 1m (651.836 us): 69
+    test 47 simplifyVWm(69, adjust=False) 1m (648.975 us): 69
     test 48 simplifyVWm(69, adjust=False) result: <class 'numpy.ndarray'>
-    test 49 simplify1(69, adjust=True) 1m (344.038 us): 69
+    test 49 simplify1(69, adjust=True) 1m (341.892 us): 69
     test 50 simplify1(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 51 simplifyRW(69, adjust=True) 1m (353.098 us): 31
+    test 51 simplifyRW(69, adjust=True) 1m (350.952 us): 31
     test 52 simplifyRW(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 53 simplifyRDP(69, adjust=True) 1m (2.072 ms): 45
+    test 53 simplifyRDP(69, adjust=True) 1m (2.056 ms): 45
     test 54 simplifyRDP(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 55 simplifyRDPm(69, adjust=True) 1m (686.169 us): 67
+    test 55 simplifyRDPm(69, adjust=True) 1m (685.930 us): 67
     test 56 simplifyRDPm(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 57 simplifyRDPfw(69, adjust=True) 1m (976.801 us): 45
-    test 58 simplifyRDPgr(69, adjust=True) 1m (1.727 ms): 45
-    test 59 simplifyVW(69, adjust=True) 1m (676.155 us): 69
+    test 57 simplifyRDPfw(69, adjust=True) 1m (972.986 us): 45
+    test 58 simplifyRDPgr(69, adjust=True) 1m (1.721 ms): 45
+    test 59 simplifyVW(69, adjust=True) 1m (674.248 us): 69
     test 60 simplifyVW(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 61 simplifyVWm(69, adjust=True) 1m (671.148 us): 69
+    test 61 simplifyVWm(69, adjust=True) 1m (659.943 us): 69
     test 62 simplifyVWm(69, adjust=True) result: <class 'numpy.ndarray'>
-    test 63 simplify1(69, adjust=False, indices=True) 1m (297.070 us): 69
+    test 63 simplify1(69, adjust=False, indices=True) 1m (294.209 us): 69
     test 64 simplify1(69, adjust=False, indices=True) result: <class 'list'>
     test 65 simplifyRW(69, adjust=False, indices=True) 1m (317.097 us): 33
     test 66 simplifyRW(69, adjust=False, indices=True) result: <class 'list'>
-    test 67 simplifyRDP(69, adjust=False, indices=True) 1m (1.971 ms): 50
+    test 67 simplifyRDP(69, adjust=False, indices=True) 1m (1.969 ms): 50
     test 68 simplifyRDP(69, adjust=False, indices=True) result: <class 'list'>
-    test 69 simplifyRDPm(69, adjust=False, indices=True) 1m (612.974 us): 67
+    test 69 simplifyRDPm(69, adjust=False, indices=True) 1m (609.159 us): 67
     test 70 simplifyRDPm(69, adjust=False, indices=True) result: <class 'list'>
-    test 71 simplifyRDPfw(69, adjust=True, indices=True) 1m (948.906 us): 45
-    test 72 simplifyRDPgr(69, adjust=True, indices=True) 1m (1.669 ms): 45
-    test 73 simplifyVW(69, adjust=False, indices=True) 1m (646.830 us): 69
+    test 71 simplifyRDPfw(69, adjust=True, indices=True) 1m (936.031 us): 45
+    test 72 simplifyRDPgr(69, adjust=True, indices=True) 1m (1.663 ms): 45
+    test 73 simplifyVW(69, adjust=False, indices=True) 1m (642.061 us): 69
     test 74 simplifyVW(69, adjust=False, indices=True) result: <class 'list'>
-    test 75 simplifyVWm(69, adjust=False, indices=True) 1m (608.206 us): 69
+    test 75 simplifyVWm(69, adjust=False, indices=True) 1m (608.921 us): 69
     test 76 simplifyVWm(69, adjust=False, indices=True) result: <class 'list'>
 
-    all 76 testSimplify.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 4.550 sec
+    all 76 testSimplify.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 4.560 sec
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testSpherical.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -31130,7 +31130,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testSpherical.py
     test 747 nearestOn3: 01.5°N, 001.5°E, +149.99m
     test 748 midpointTo: 01.5°N, 001.5°E, +150.00m
 
-    63 of 748 testSpherical.py tests (8.4%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 59.662 ms
+    63 of 748 testSpherical.py tests (8.4%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 60.748 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testStreprs.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -31221,7 +31221,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testStreprs.py
     test 64 g: 0.001
     test 65 g: 0.001
 
-    all 65 testStreprs.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 468.016 us
+    all 65 testStreprs.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 465.870 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -31243,7 +31243,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testTMcoords.py
     testing testTMcoords.py 19.05.23 isLazy=3
     test 1 TMcoords: 258
 
-    all 1 testTMcoords.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 72.956 us
+    all 1 testTMcoords.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 53.883 us
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testTrf.py
 ./test/testTrf.py:29: DeprecationWarning: method L{pygeodesy.ellipsoidalNvector.LatLon.convertRefFrame} has been DEPRECATED, use method L{toRefFrame}.
@@ -31578,7 +31578,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testTrf.py
     test 152 Epoch (2020.916): (2020, 12, 1)
     test 153 Epoch (2021.001): (2021, 1, 1)  FAILED, KNOWN, expected (2020, 13, 1)
 
-    78 of 153 testTrf.py tests (51.0%) FAILED, incl. 6 KNOWN plus 72 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.591 ms
+    78 of 153 testTrf.py tests (51.0%) FAILED, incl. 6 KNOWN plus 72 DeprecationWarnings (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 10.654 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUnits.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -32718,7 +32718,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUnits.py
     test 993 FIx: 1.0  FAILED, KNOWN, expected 1
     test 994 FIx: 1.5
 
-    10 of 994 testUnits.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 96.230 ms
+    10 of 994 testUnits.py tests (1.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 96.218 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUps.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -32815,7 +32815,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUps.py
     test 70 NGA-10.3-24: -70.0552944014 26.5650511771
     test 71 NGA-10.3-25: -64.9164123332 45.0
 
-    2 of 71 testUps.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 7.967 ms
+    2 of 71 testUps.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 7.948 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtily.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -33027,7 +33027,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtily.py
     test 148 isPoints2: False
     test 149 tan_2_semi: PI[1] edge (3.141592): semi-circular
 
-    2 of 149 testUtily.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 16.482 ms
+    2 of 149 testUtily.py tests (1.3%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 16.325 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtm.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -33153,7 +33153,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtm.py
     test 98 repr: [Z:32U, H:N, E:280000, N:5653000]
     test 99 E.N.: (280000.0, 5653000.0)
 
-    2 of 99 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 16.749 ms
+    2 of 99 testUtm.py tests (2.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 16.745 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -34545,7 +34545,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmTMcoords.py
     test 1331 Utm.datum.ellipsoid.KsOrder: 8
     test 1332 WGS84.KsOrder: 8
 
-    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 38.840 ms
+    23 of 1332 testUtmTMcoords.py tests (1.7%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 38.795 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmUps.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -34667,7 +34667,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmUps.py
     test 96 parseUTMUPS5: (31, 'N', 446000.0, 8436100.0, 'X')
     test 97 parseUTMUPS5: (0, 'S', 506346.0, 1057743.0, 'A')
 
-    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 6.127 ms
+    4 of 97 testUtmUps.py tests (4.1%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 6.157 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmUpsTMcoords.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -36063,7 +36063,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testUtmUpsTMcoords
     test 1334 Ups.datum.ellipsoid.KsOrder: 8
     test 1335 WGS84.KsOrder: 8
 
-    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 43.216 ms
+    24 of 1335 testUtmUpsTMcoords.py tests (1.8%) FAILED, ALL KNOWN, 37 skipped (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 43.472 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testVectorial.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -36447,7 +36447,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testVectorial.py
     test 304 (-2, 17): <class 'pygeodesy.errors.IntersectionError'>
     test 305 (49, 25): (Vector3d(49.0, 25.0, 0.0), 0, 0)
 
-    9 of 305 testVectorial.py tests (3.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 160.919 ms
+    9 of 305 testVectorial.py tests (3.0%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 159.980 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testWebMercator.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -36549,7 +36549,7 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testWebMercator.py
     test 72 toWm(LatLonE(50.0003, 0)).y: 6413572.57
     test 73 toWm(LatLonE(60.0003, 0)).y: 8362760.29
 
-    all 73 testWebMercator.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.341 ms
+    all 73 testWebMercator.py tests passed (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.296 ms
 
 running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testWgrs.py
 # lazily imported pygeodesy.anstr from .streprs by base.py line 34
@@ -36645,6 +36645,6 @@ running /usr/local/bin/p....hon3.9 -W always ~/PyGeodesy/test/testWgrs.py
     test 71 precision: 12  FAILED, KNOWN, expected 11
     test 72 resolution: 0.0000000001′
 
-    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.208 ms
+    2 of 72 testWgrs.py tests (2.8%) FAILED, ALL KNOWN (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W  always) 1.212 ms
 
-test/run.py /usr/local/bin/p....hon3.9 -W always all 30965 tests OK (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W always) 76.645 sec (404.007 tps)
+test/run.py /usr/local/bin/p....hon3.9 -W always all 30965 tests OK (PyGeodesy 22.4.22 Python 3.9.6 64bit arm64 numpy 1.21.2 macOS 12.3.1 isLazy 3 -B -W always) 77.099 sec (401.628 tps)
