@@ -25,12 +25,12 @@ from pygeodesy.props import deprecated_method, Property, \
                             Property_RO, property_doc_
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.units import Height  # from .namedTuples
-from pygeodesy.vector3d import Vector3d, _xyzhdn6
+from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
 from math import sqrt
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.04.11'
+__version__ = '22.04.22'
 
 
 class CartesianBase(Vector3d):
@@ -57,8 +57,8 @@ class CartesianBase(Vector3d):
                              coordinate or B{C{x_xyz}} not an L{Ecef9Tuple},
                              L{Vector3Tuple} or L{Vector4Tuple}.
         '''
-        x, y, z, h, d, n = _xyzhdn6(x_xyz, y, z, None, datum, ll)
-        Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
+        h, d, n = _xyzhdn3(x_xyz, None, datum, ll)
+        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
         if h is not None:
             self._height = Height(h)
         if d is not None:
@@ -83,7 +83,7 @@ class CartesianBase(Vector3d):
            @arg beta: Angle subtended by triangle side C{a} from B{C{pointB}} to
                       B{C{pointC}} (C{degrees}, non-negative).
            @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
-                        force C{z=0} (C{bool}).
+                        force C{z=INT0} (C{bool}).
 
            @note: Typically, B{C{pointC}} is between this and B{C{pointB}}.
 
@@ -119,7 +119,7 @@ class CartesianBase(Vector3d):
            @arg beta: Angle subtended by triangle side C{a} from B{C{pointB}} to
                       B{C{pointC}} (C{degrees}, non-negative).
            @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
-                        force C{z=0} (C{bool}).
+                        force C{z=INT0} (C{bool}).
 
            @note: Typically, B{C{pointC}} is between this and B{C{pointB}}.
 
@@ -402,7 +402,7 @@ class CartesianBase(Vector3d):
                         C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
            @arg alpha12: Angle subtended from this point to B{C{point2}} (C{degrees}).
            @arg alpha23: Angle subtended from B{C{point2}} to B{C{point3}} (C{degrees}).
-           @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=0}
+           @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=INT0}
                         (C{bool}).
 
            @note: This point, B{C{point2}} and B{C{point3}} are ordered counter-clockwise.
@@ -443,7 +443,7 @@ class CartesianBase(Vector3d):
                         non-negative) or C{None} if C{B{gamma} is not None}.
            @kwarg gamma: Angle subtended by triangle side C{c} from this to B{C{pointB}} (C{degrees},
                          non-negative) or C{None} if C{B{beta} is not None}.
-           @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=0}
+           @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=INT0}
                         (C{bool}).
 
            @note: This point, B{C{pointB}} and B{C{pointC}} are ordered clockwise.
@@ -467,6 +467,22 @@ class CartesianBase(Vector3d):
         '''
         return _MODS.resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
                                                 useZ=useZ, datum=self.datum)
+
+    @deprecated_method
+    def to2ab(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{philam}.
+
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
+        '''
+        return self.philam
+
+    @deprecated_method
+    def to2ll(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{latlon}.
+
+           @return: A L{LatLon2Tuple}C{(lat, lon)}.
+        '''
+        return self.latlon
 
     @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover
@@ -627,9 +643,9 @@ class CartesianBase(Vector3d):
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (string).
-           @kwarg sep: Optional separator to join (string).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (string).
+           @kwarg sep: Separator to join (string).
 
            @return: Cartesian represented as "[x, y, z]" (string).
         '''

@@ -38,12 +38,11 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, \
                             _xkwds_get, _xkwds_not
-from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-# from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.fmath import fdot3, hypot, hypot1
 from pygeodesy.interns import EPS, EPS0, MISSING, NN, \
                              _by_, _COMMASPACE_, _convergence_, _no_, \
                              _NS_, _outside_, _range_, _S_, _SPACE_, \
-                             _UTM_, _V_, _X_, _zone_, _0_0, _0_1
+                             _UTM_, _V_, _X_, _zone_, _0_0, _0_0001
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -64,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.04.10'
+__version__ = '22.04.22'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -476,23 +475,19 @@ class Utm(UtmUpsBase):
         if H < EPS0:
             raise self._Error(H=H)
 
-        T = t0 = sy / H  # τʹ
-        S = Fsum(T)
+        T =  sy / H  # τʹ == τ0
         p = _0_0  # previous d
-        e = _0_1 * eps
-        for i in range(1, 10):
-            h = hypot1(T)
-            s = sinh(E.e * atanh(E.e * T / h))
-            t = T * hypot1(s) - s * h
-            d = (t0 - t) / hypot1(t) * ((E._e12 + T**2) / h)
-            T, d = S.fsum2_(d)  # τi, (τi - τi-1)
-            if abs(d) < eps or \
-               abs(d + p) < e:  # d -/+ toggle
+        e = _0_0001 * eps
+        for T, i, d in E._es_tauf3(T, T):  # max 5
+            # d may toggle on +/-1.12e-16 or +/-4.47e-16,
+            # see the references at C{Ellipsoid.es_tauf}
+            if abs(d) < eps or abs(d + p) < e:
                 break
             p = d
         else:
-            t = unstr(self.toLatLon.__name__, eps=eps, unfalse=unfalse)
-            self._Error(t, txt=_no_(_convergence_))
+            n = self.toLatLon.__name__
+            t = unstr(n, eps=eps, unfalse=unfalse)
+            raise self._Error(t, txt=_no_(_convergence_))
 
         a = atan(T)  # lat
         b = atan2(shx, cy)
@@ -500,14 +495,13 @@ class Utm(UtmUpsBase):
             b += radians(_cmlon(self.zone))
         ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
 
-        # convergence: Karney 2011 Eq 26, 27
+        # convergence and scale: Karney 2011 Eq 26, 27 and 28
         p = neg(K.ps(-1))
         q =     K.qs(0)
+        s = hypot(p, q) * E.a / A0
         ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
-        ll._iteration   = i
-
-        # scale: Karney 2011 Eq 28
-        ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
+        ll._iteration = i
+        ll._scale = (E.e2s(sin(a)) * H * hypot1(T) / s) if s else s  # INF?
         self._latlon5args(ll, _toBand, unfalse, eps)
 
     def toMgrs(self, center=False):
@@ -534,8 +528,8 @@ class Utm(UtmUpsBase):
            Note that UTM coordinates are rounded, not truncated (unlike
            MGRS grid references).
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:value pairs (C{str}).
            @kwarg B: Optionally, include latitudinal band (C{bool}).
            @kwarg cs: Optionally, include meridian convergence and grid
@@ -557,7 +551,7 @@ class Utm(UtmUpsBase):
            Note that UTM coordinates are rounded, not truncated (unlike
            MGRS grid references).
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include latitudinal band (C{bool}).

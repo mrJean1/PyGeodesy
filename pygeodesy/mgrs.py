@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.11.18'
+__version__ = '22.04.22'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -63,7 +63,7 @@ class _RE(object):
         return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
 
     @Property_RO
-    def ZBG(self):  # split an MGRS string "12ABC1235..." into 3 parts
+    def ZBG(self):  # split an MGRS string "12ABC" into 2 parts
         import re  # PYCHOK warning locale.Error
         return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)
 
@@ -215,7 +215,7 @@ class Mgrs(_NamedBase):
     def resolution(self, resolution):
         '''Set the resolution of this L{Mgrs} instance.
 
-           @arg resolution: Cell size C({meter}, power of 10).
+           @arg resolution: Cell size (C{meter}, power of 10).
 
            @raise MGRSError: Invalid B{C{resolution}}.
         '''
@@ -237,7 +237,7 @@ class Mgrs(_NamedBase):
            @kwarg LatLon: Optional, ellipsoidal class to return the
                           geodetic point (C{LatLon}) or C{None}.
            @kwarg center: Optionally, return the grid's center or
-                          lower left corner C({bool}).
+                          lower left corner (C{bool}).
            @kwarg toLatLon_kwds: Optional, additional L{Utm.toLatLon}
                                  and B{C{LatLon}} keyword arguments.
 
@@ -257,9 +257,9 @@ class Mgrs(_NamedBase):
     def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
-           @kwarg prec: Optional number of digits (C{int}), 4:Km, 10:m.
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between name:values (C{str}).
+           @kwarg prec: Number of digits (C{int}), 4:Km, 10:m.
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator between name:values (C{str}).
 
            @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
         '''
@@ -272,7 +272,7 @@ class Mgrs(_NamedBase):
            Note that MGRS grid references are truncated, not rounded
            (unlike UTM coordinates).
 
-           @kwarg prec: Optional number of digits (C{int}), 4:Km, 10:m.
+           @kwarg prec: Number of digits (C{int}), 4:Km, 10:m.
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
 
@@ -295,7 +295,7 @@ class Mgrs(_NamedBase):
            @kwarg Utm: Optional class to return the UTM coordinate
                        (L{Utm}) or C{None}.
            @kwarg center: Optionally, center easting and northing by
-                          the resolution C({bool}).
+                          the resolution (C{bool}).
 
            @return: A B{C{Utm}} instance or if C{B{Utm} is None}
                     a L{UtmUps5Tuple}C{(zone, hemipole, easting,

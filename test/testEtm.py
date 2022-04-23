@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.05.28'
+__version__ = '22.04.12'
 
 from base import TestsBase
 
@@ -97,10 +97,10 @@ class Tests(TestsBase):
 
         else:
             e, n, g, k = xtm.forward(-90, -120)  # coverage
-            self.test('easting',  e,       '-0.000', prec=3, known=True)
-            self.test('northing', n, '-9997964.943', prec=3, known=True)
-            self.test('gamma',    g,      '120.000', prec=3)
-            self.test('scale',    k,        '1.000', prec=3)
+            self.test('easting', abs(e),       '0.000', prec=3)
+            self.test('northing',    n, '-9997964.943', prec=3, known=True)
+            self.test('gamma',       g,      '120.000', prec=3)
+            self.test('scale',       k,        '1.000', prec=3)
 
             lat, lon, g, k = xtm.reverse(e, n)
             self.test('lat', lat,  '-90.000', prec=3)

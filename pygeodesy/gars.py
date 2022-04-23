@@ -16,8 +16,8 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, \
-                             _floatuple, _0to9_, _0_5, _90_0
+from pygeodesy.interns import NN, _AtoZnoIO_, _floatuple, \
+                             _0to9_, _0_5, _90_EPS_2
 from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof
@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.08.24'
+__version__ = '22.04.14'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -47,13 +47,12 @@ _M1 = _M2 = 2
 _M3 =  3
 _M_ = _M1 * _M2 * _M3
 
-_LatOrig_M_ = _LatOrig * _M_
-_LonOrig_M_ = _LonOrig * _M_
-
+_LatOrig_M_   = _LatOrig * _M_
 _LatOrig_M1   = _LatOrig * _M1
+_LonOrig_M_   = _LonOrig * _M_
 _LonOrig_M1_1 = _LonOrig * _M1 - 1
 
-_Resolutions = _floatuple(*(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_)))
+_Resolutions  = _floatuple(*(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_)))
 
 
 def _2divmod2(ll, Orig_M_):
@@ -287,8 +286,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon = _2fll(lat, lon)
-    if lat == _90_0:
-        lat *= EPS1_2
+    lat = _90_EPS_2(lat)
 
     ix, x = _2divmod2(lon, _LonOrig_M_)
     iy, y = _2divmod2(lat, _LatOrig_M_)

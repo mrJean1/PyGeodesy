@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.04.19'
 
 from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -52,7 +52,11 @@ class Tests(TestsBase):
 
         h = hypot(f.x, f.y)  # easting + norting ~= distance
         d = vincentys(G.lat0, G.lon0, r.lat, r.lon)  # haversine
-        self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000, nt=1)
+        self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000)
+
+        r = r.antipodal(azimuth=0)  # coverage
+        t = r.toStr()
+        self.test('antipodal', t, t, nt=1)
 
     def testDiscrepancies(self):
         # Compare ellipsoidal intersections2 for EquidistantKarney
@@ -131,7 +135,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import azimuthal, equidistant, gnomonic, namedTuples
+    from pygeodesy import azimuthal, Azimuthal7Tuple, equidistant, gnomonic, namedTuples, NAN
 
     t = Tests(__file__, __version__, azimuthal)
 
@@ -238,6 +242,9 @@ if __name__ == '__main__':
 
     A = Stereographic(0, 0)  # coverage
     A.k0 = A.k0 + 1
+
+    A = Azimuthal7Tuple(NAN, NAN, 0, 0, 0, 1, None)
+    t.test('NANing', A.toUnits(), '(NAN, NAN, 0.0, 0.0, 0.0, 1.0, None)')
 
     t.results()
     t.exit()

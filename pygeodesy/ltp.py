@@ -11,15 +11,14 @@ L{LocalError} and L{Attitude} and L{Frustum}.
       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 
-# from pygeodesy.basics import isscalar, issubclassof, map1  # from ecef
+from pygeodesy.basics import isscalar, issubclassof, map1, _umod_360
 from pygeodesy.datums import _WGS84, _xinstanceof
-from pygeodesy.ecef import _EcefBase, EcefKarney, isscalar, issubclassof, \
-                           _llhn4, map1, _xyzn4
+from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _TypesError, _ValueError, _xkwds
 # from pygeodesy.fmath import fdot  # from .vector3d
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, _M_, \
-                             _name_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0, _360_0
+from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, \
+                             _M_, _name_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0
 from pygeodesy.interns import _ecef_, _N_1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
@@ -34,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.04.11'
+__version__ = '22.04.22'
 
 _Xyz_  = 'Xyz'
 
@@ -189,7 +188,7 @@ class Attitude(_NamedBase):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: This attitude (C{str}).
         '''
@@ -325,8 +324,8 @@ class Frustum(_NamedBase):
         if not EPS < e < _180_0:
             raise _ValueError(tilt=t)
         if e > _90_0:
-            e =  _180_0 - e
-            b = (_180_0 + b) % _360_0
+            e = _180_0 - e
+            b = _umod_360(b + _180_0)
 
         r = Degrees(roll=r, wrap=wrap180)  # roll center
         x = (-a * tand(r, roll=r)) if r else _0_0
@@ -356,9 +355,9 @@ class Frustum(_NamedBase):
     def toStr(self, prec=3, fmt=Fmt.F, sep=_COMMASPACE_):  # PYCHOK signature
         '''Convert this frustum to a "hfov, vfov, ltp" string.
 
-           @kwarg prec: Optional number of decimal digits (0..8 or C{None}).
+           @kwarg prec: Number of (decimal) digits, unstripped (0..8 or C{None}).
            @kwarg fmt: Optional, C{float} format (C{str}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: Frustum in the specified form (C{str}).
         '''
@@ -602,10 +601,10 @@ class LocalCartesian(_NamedBase):
         m = self.M.multiply(t.M) if M else None
         return Local9Tuple(x, y, z, t.lat, t.lon, t.height, self, t, m, name=n or self.name)
 
-    def toStr(self, prec=9):  # PYCHOK signature
+    def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this L{LocalCartesian} as a string.
 
-           @kwarg prec: Optional precision, number of decimal digits (0..9).
+           @kwarg prec: Precision, number of (decimal) digits (0..9).
 
            @return: This L{LocalCartesian} representation (C{str}).
         '''

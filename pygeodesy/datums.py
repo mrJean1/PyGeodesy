@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.04.07'
+__version__ = '22.04.22'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -212,9 +212,9 @@ class Transform(_NamedEnumItem):
     def toStr(self, prec=5, name=NN):  # PYCHOK expected
         '''Return this transform as a string.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg name: Override name (C{str}) or C{None} to exclude the
-                        transform's name.
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg name: Override name (C{str}) or C{None} to exclude
+                        this transform's name.
 
            @return: Transform attributes (C{str}).
         '''
@@ -409,16 +409,17 @@ class Datum(_NamedEnumItem):
     def toStr(self, name=NN, **unused):  # PYCHOK expected
         '''Return this datum as a string.
 
-           @kwarg name: Override name (C{str}) or C{None} to exclude the
-                        datum's name.
+           @kwarg name: Override name (C{str}) or C{None} to exclude
+                        this datum's name.
 
            @return: Datum attributes (C{str}).
         '''
-        t = [Fmt.EQUAL(_name_, repr(name or self.named))]
+        t = [] if name is None else \
+            [Fmt.EQUAL(name=repr(name or self.named))]
         for a in (_ellipsoid_, _transform_):
             v = getattr(self, a)
             t.append(NN(Fmt.EQUAL(a, v.classname), _s_, _DOT_, v.name))
-        return _COMMASPACE_.join(t[1:] if name is None else t)
+        return _COMMASPACE_.join(t)
 
     @Property_RO
     def transform(self):

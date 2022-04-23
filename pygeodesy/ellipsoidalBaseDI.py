@@ -30,7 +30,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.03.31'
+__version__ = '22.04.15'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
@@ -397,7 +397,7 @@ class _Tol(object):
         '''New L{_Tol}.
 
            @arg tol_m: Tolerance (C{meter}, only).
-           @arg E: Earth ellispoid (L{Ellipsoid}).
+           @arg E: Earth ellipsoid (L{Ellipsoid}).
            @arg lat: Latitude (C{degrees}).
            @arg lats: Additional latitudes (C{degrees}).
         '''

@@ -50,7 +50,7 @@ from pygeodesy.utily import atan2d, sincos2, sincos2d
 from math import atan2, degrees, floor, radians
 
 __all__ = ()
-__version__ = '22.01.17'
+__version__ = '22.04.22'
 
 _append_ = 'append'
 _glXs    = []  # instances of C{[_]GeodesicLineExact}
@@ -156,7 +156,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._gX = None
         # _update_all(self)  # throws TypeError during Python 2 cleanup
 
-    def _update(self, updated, *attrs):
+    def _update(self, updated, *attrs, **unused):
         if updated:
             _update_all(self, *attrs)
 
@@ -489,7 +489,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def Position(self, s12, outmask=Caps.STANDARD):
         '''Find the position on the line given B{C{s12}}.
 
-           @arg s12: Distance from the first point to the second C({meter}).
+           @arg s12: Distance from the first point to the second (C{meter}).
            @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
                            the quantities to be returned.
 
@@ -509,7 +509,7 @@ class _GeodesicLineExact(_GeodesicBase):
 
     @Property_RO
     def s13(self):
-        '''Get the distance from the first to the reference point C({meter}).
+        '''Get the distance from the first to the reference point (C{meter}).
 
            @see: Method L{SetDistance}.
         '''
@@ -532,7 +532,7 @@ class _GeodesicLineExact(_GeodesicBase):
     def SetDistance(self, s13):
         '''Set reference point 3 in terms of distance to the first point.
 
-           @arg s13: Distance from the first to the reference point C({meter}).
+           @arg s13: Distance from the first to the reference point (C{meter}).
 
            @return: The arc length C{a13} (C{degrees}) between the first
                     and the reference point or C{NAN}.
@@ -559,7 +559,7 @@ class _GeodesicLineExact(_GeodesicBase):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: C{GeodesicExactLine} (C{str}).
         '''

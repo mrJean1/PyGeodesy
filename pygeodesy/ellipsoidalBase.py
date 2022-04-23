@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.01.17'
+__version__ = '22.04.22'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -554,6 +554,12 @@ class LatLonEllipsoidalBase(LatLonBase):
             raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2,
                                           height=height, wrap=wrap, tol=tol)
 
+    @Property_RO
+    def isEllipsoidalLatLon(self):
+        '''Get C{LatLon} base.
+        '''
+        return True
+
     @property_RO
     def iteration(self):
         '''Get the most recent C{intersections2} or C{nearestOn} iteration
@@ -891,9 +897,9 @@ class LatLonEllipsoidalBase(LatLonBase):
             u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
                                 pole=pole, name=self.name)
             if isinstance(u, Utm):
-                self._overwrite(_utm=u)
+                self._update(False, _utm=u)  # PYCHOK kwds
             elif isinstance(u, Ups):
-                self._overwrite(_ups=u)
+                self._update(False, _ups=u)  # PYCHOK kwds
             else:
                 _xinstanceof(Utm, Ups, toUtmUps8=u)
         return u

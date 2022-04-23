@@ -942,7 +942,8 @@
         <span class="summary-sig-arg">other_x</span>,
         <span class="summary-sig-arg">*y_z</span>,
         <span class="summary-sig-arg">**fun2_kwds</span>)</span><br />
-      Apply a function component-wise to this and an other vector.</td>
+      Apply a 2-argument function component-pairwise to this and an other 
+      vector.</td>
           <td align="right" valign="top">
             
             
@@ -960,7 +961,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#cross" class="summary-sig-name">cross</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
       Compute the cross product of this and an other vector.</td>
           <td align="right" valign="top">
             
@@ -978,7 +980,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy" class="summary-sig-name">dividedBy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">factor</span>)</span><br />
+        <span class="summary-sig-arg">divisor</span>)</span><br />
       Divide this vector by a scalar.</td>
           <td align="right" valign="top">
             
@@ -1034,7 +1036,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#equirectangular" class="summary-sig-name">equirectangular</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Approximate the different between this and an other vector.</td>
+      <i>Approximate</i> the different between this and an other vector.</td>
           <td align="right" valign="top">
             
             
@@ -1277,41 +1279,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_" class="summary-sig-name">times_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other_x</span>,
         <span class="summary-sig-arg">*y_z</span>)</span><br />
-      Multiply this vector's components by separate scalars.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <code>Nvector.philam</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll" class="summary-sig-name">to2ll</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <code>Nvector.latlon</code>.</td>
+      Multiply this vector's components by separate X, Y and Z factors.</td>
           <td align="right" valign="top">
             
             
@@ -1386,7 +1354,6 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -1431,7 +1398,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#euclid" class="summary-name">euclid</a><br />
-      Approximate the length (norm, magnitude) of this vector 
+      <i>Approximate</i> the length (norm, magnitude) of this vector 
       (<code>Float</code>).
     </td>
   </tr>
@@ -1474,8 +1441,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2" class="summary-name">x2y2z2</a><br />
-      Get the X, Y and Z components <i>squared</i> 
-      (<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).
+      Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, 
+      y**2, z**2)</code>).
     </td>
   </tr>
 <tr>
@@ -1548,12 +1515,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x_xyz</code></strong> - X component of vector (<code>scalar</code>) or (3-D) vector 
-          (<code>Cartesian</code>, <code>Nvector</code>, <a 
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component of vector (<code>scalar</code>) or a (3-D) vector 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a> or <a 
+          class="link">Vector3d</a>, <a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a>).</li>
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a> or a <code>tuple</code> or 
+          <code>list</code> of 3+ <code>scalar</code> values).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component of vector (<code>scalar</code>), ignored if 
           <b><code>x_xyz</code></b> is not <code>scalar</code>, otherwise 
           same units as <b><code>x_xyz</code></b>.</li>
@@ -2468,22 +2440,25 @@
     </td>
   </tr></table>
   
-  <p>Apply a function component-wise to this and an other vector.</p>
+  <p>Apply a 2-argument function component-pairwise to this and an other 
+  vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fun2</code></strong> - 2-Argument callable (<code>any(scalar, scalar</code>).</li>
-        <li><strong class="pname"><code>other_x</code></strong> - An other vector factors (<a 
-          href="pygeodesy.vector3dBase.Vector3dBase-class.html" 
-          class="link" onclick="show_private();">Vector3dBase</a>, <a 
-          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a>, <a 
-          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a>, <a 
+        <li><strong class="pname"><code>fun2</code></strong> - 2-Argument callable (<code>any(scalar, scalar</code>), return a 
+          <code>scalar</code> or INT0 result.</li>
+        <li><strong class="pname"><code>other_x</code></strong> - Other X component (<code>scalar</code>) or a vector with X, Y and
+          Z components (<code>Cartesian</code>, <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> cartesian) or X scale factor 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y_z</code></strong> - Y and Z scale factors (<code>scalar</code>, <code>scalar</code>).</li>
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Other Y and Z components, positional (<code>scalar</code>, 
+          <code>scalar</code>).</li>
         <li><strong class="pname"><code>fun2_kwds</code></strong> - Optional keyword arguments for <b><code>fun2</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2506,7 +2481,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">cross</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">raiser</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">eps0</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2521,7 +2497,10 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>raiser</code></strong> - Optional, <a href="pygeodesy.errors.CrossError-class.html" 
-          class="link">CrossError</a> label if raised (<code>str</code>).</li>
+          class="link">CrossError</a> label if raised (<code>str</code>, 
+          non-NN).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-zero tolerance (<code>scalar</code>), same units as 
+          <code>x</code>, <code>y</code>, and <code>z</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cross product (<a href="pygeodesy.vector3d.Vector3d-class.html" 
@@ -2544,7 +2523,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">dividedBy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">factor</span>)</span>
+        <span class="sig-arg">divisor</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2555,7 +2534,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>factor</code></strong> - The divisor (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>divisor</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New, scaled vector (<a 
@@ -2563,8 +2542,8 @@
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>factor</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid or zero <b><code>factor</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>divisor</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid or zero <b><code>divisor</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2641,7 +2620,7 @@
     </td>
   </tr></table>
   
-  <p>Approximate the different between this and an other vector.</p>
+  <p><i>Approximate</i> the different between this and an other vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2719,18 +2698,19 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>minum</code></strong> - Minimal number of conjugates (<code>int</code>, 0..3).</li>
+        <li><strong class="pname"><code>minum</code></strong> - Minimal number of conjugates required (<code>int</code>, 0..3).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality and conjugation (<code>scalar</code>), 
           same units as <code>x</code>, <code>y</code>, and <code>z</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <code>x</code>, <code>y</code> and 
-          <code>z</code> of this match the other vector's or at least 
-          <code><b>minum</b></code> have opposite signs.</dd>
+        <dd><code>True</code> if both vector's components either match or at 
+          least <code><b>minum</b></code> have opposite signs.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
@@ -3079,20 +3059,20 @@
     </td>
   </tr></table>
   
-  <p>Multiply this vector's components by separate scalars.</p>
+  <p>Multiply this vector's components by separate X, Y and Z factors.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other_x</code></strong> - An other vector factors (<a 
-          href="pygeodesy.vector3dBase.Vector3dBase-class.html" 
-          class="link" onclick="show_private();">Vector3dBase</a>, <a 
+        <li><strong class="pname"><code>other_x</code></strong> - X scale factor (<code>scalar</code>) or a vector's X, Y, and Z 
+          components as scale factors (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
           href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a>, <a 
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a>, <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> cartesian) or X scale factor 
-          (<code>scalar</code>).</li>
+          class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y_z</code></strong> - Y and Z scale factors (<code>scalar</code>, <code>scalar</code>),
           ignored if <b><code>other_x</code></b> is not 
           <code>scalar</code>.</li>
@@ -3104,58 +3084,6 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to2ab"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use property <code>Nvector.philam</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-          class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
-    <dt>Decorators:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code>@deprecated_method</code></li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to2ll"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ll</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use property <code>Nvector.latlon</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
-    <dt>Decorators:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code>@deprecated_method</code></li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3206,9 +3134,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal places (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing format to use (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between components (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal places (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Enclosing format to use (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator between components (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Vector as &quot;(x, y, z)&quot; (<code>str</code>).</dd>
@@ -3286,12 +3214,12 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">euclid</h3>
-  <p>Approximate the length (norm, magnitude) of this vector 
+  <p><i>Approximate</i> the length (norm, magnitude) of this vector 
   (<code>Float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">euclid(<span class="summary-sig-arg">self</span>)</span>
-        - Approximate the length (norm, magnitude) of this vector 
+        - <i>Approximate</i> the length (norm, magnitude) of this vector 
 (<code>Float</code>).
     </dd>
     <dt>Set method:</dt>
@@ -3415,13 +3343,15 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xyz</span>)</span>
-        - Set the X, Y and Z components, if different (<a 
-href="pygeodesy.vector3dBase.Vector3dBase-class.html" class="link" 
-onclick="show_private();">Vector3dBase</a>, <a 
+        - Set the X, Y and Z components (<code>Cartesian</code>, <a 
+href="pygeodesy.ecef.Ecef9Tuple-class.html" class="link">Ecef9Tuple</a>, 
+<code>Nvector</code>, <a href="pygeodesy.vector3d.Vector3d-class.html" 
+class="link">Vector3d</a>, <a 
 href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-class="link">Vector3Tuple</a> or <a 
+class="link">Vector3Tuple</a>, <a 
 href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-class="link">Vector4Tuple</a>).
+class="link">Vector4Tuple</a> or a <code>tuple</code> or <code>list</code> 
+of 3+ <code>scalar</code> values).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -3436,13 +3366,13 @@ class="link">Vector4Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x2y2z2</h3>
-  <p>Get the X, Y and Z components <i>squared</i> 
-  (<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).</p>
+  <p>Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, 
+  y**2, z**2)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">x2y2z2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the X, Y and Z components <i>squared</i> 
-(<code>Vector3Tuple</code><code>(x2, y2, z2)</code>).
+        - Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, y**2, 
+z**2)</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3536,7 +3466,7 @@ class="link">Vector4Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:26 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:15:04 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

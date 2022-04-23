@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.03.01'
+__version__ = '22.04.22'
 
 from base import isWindows, TestsBase
 
@@ -24,7 +24,7 @@ class Tests(TestsBase):
         p = cassini(A, C, B, 109.5125, 115.0889)  # note B center, alpha and beta definition
         self.test(cassini.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
         p = C_(A).cassini(C, B, 109.5125, 115.0889)
-        self.test(cassini.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
+        self.test(cassini.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
 
         t = collins5(A, C, B, 109.5125, 115.0889)  # note B center, alpha and beta definition
         self.test(collins5.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
@@ -32,8 +32,8 @@ class Tests(TestsBase):
         r = fstr(t[2:], prec=4)
         self.test(collins5.__name__, r, '1581.1388, 1562.0499, 2121.3203')
         t = C_(A).collins5(C, B, 109.5125, 115.0889)
-        self.test(collins5.__name__, t.pointP.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
-        self.test(collins5.__name__, t.pointH.toRepr(prec=4), 'Cartesian_(1830.5948, 2576.2429, 0.0)')
+        self.test(collins5.__name__, t.pointP.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
+        self.test(collins5.__name__, t.pointH.toRepr(prec=4), 'Cartesian_(1830.5948, 2576.2429, 0)')
         self.test(collins5.__name__, fstr(t[2:], prec=4), r)
         self.test(collins5.__name__, fstr(t[2:], prec=4), r)
         self.test(collins.__name__, C_(A).collins(C, B, 109.5125, 115.0889), t)  # DEPRECATED
@@ -41,7 +41,7 @@ class Tests(TestsBase):
         p = pierlot(C, B, A, 115.0889, 109.5125)  # note CCW order, alpha and beta definition
         self.test(pierlot.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
         p = C_(C).pierlot(B, A, 115.0889, 109.5125)
-        self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
+        self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
         p = C_(C).pierlot(B, A, 115.0889, 109.5125, useZ=True)  # _zidw coverage
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
 
@@ -50,7 +50,7 @@ class Tests(TestsBase):
         r = fstr(t[1:], prec=4)
         self.test(tienstra7.__name__, r, '47.9357, 84.8896, 47.1747, 1581.1388, 2121.3203, 1562.0499')
         t = C_(A).tienstra7(B, C, 115.0889, None, 109.5125)
-        self.test(tienstra7.__name__, t.pointP.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
+        self.test(tienstra7.__name__, t.pointP.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
         self.test(tienstra7.__name__, fstr(t[1:], prec=4), r)
         self.test(tienstra.__name__, C_(A).tienstra(B, C, 115.0889, None, 109.5125), t)  # DEPRECATED
 

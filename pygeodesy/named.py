@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.04.07'
+__version__ = '22.04.22'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -171,14 +171,14 @@ class _Named(object):
         '''
         return self.named2
 
-    def attrs(self, *names, **sep_COMMASPACE_Nones_True_pairs_kwds):
+    def attrs(self, *names, **sep_COMMASPACE__Nones_True__pairs_kwds):
         '''Join named attributes as I{name=value} strings, with C{float}s formatted by
            function L{pygeodesy.fstr}.
 
-           @arg names: The attribute names (C{str}s).
-           @kwarg sep_COMMASPACE_Nones_True_pairs_kwds: Keyword argument for function
+           @arg names: The attribute names, all positional (C{str}).
+           @kwarg sep_COMMASPACE__Nones_True__pairs_kwds: Keyword argument for function
                   L{pygeodesy.pairs}, except C{B{sep}=", "} and C{B{Nones}=True} to
-                  in-/exclude missing or C{None}-valued attributes.
+                  in- or exclude missing or C{None}-valued attributes.
 
            @return: All C{name=value} pairs, joined by B{C{sep}} (C{str}).
 
@@ -187,7 +187,7 @@ class _Named(object):
         def _sep_kwds(sep=_COMMASPACE_, **kwds):
             return sep, kwds
 
-        sep, kwds = _sep_kwds(**sep_COMMASPACE_Nones_True_pairs_kwds)
+        sep, kwds = _sep_kwds(**sep_COMMASPACE__Nones_True__pairs_kwds)
         return sep.join(attrs(self, *names, **kwds))
 
     @Property_RO
@@ -413,14 +413,16 @@ class _NamedBase(_Named):
 
         raise _xotherError(self, other, name=name, up=up + 1)
 
-    def toRepr(self, **kwds):  # PYCHOK expected
+    def toRepr(self, sep=_COMMASPACE_, **kwds):  # PYCHOK expected
         '''(INTERNAL) I{Could be overloaded}.
 
-           @kwarg kwds: Optional, keyword arguments.
+           @kwarg kwds: Optional, C{toStr} keyword arguments.
 
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
-        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
+        t = self.toStr(sep=sep, **kwds).lstrip('([{').rstrip('}])')
+#       if self.name:
+#           t =  NN(Fmt.EQUAL(name=repr(self.name)), sep, t)
         return Fmt.PAREN(self.classname, t)  # XXX (self.named, t)
 
 #   def toRepr(self, **kwds)
@@ -442,21 +444,18 @@ class _NamedBase(_Named):
 #           s = super(self.__class__, self).__str__()
 #       return s
 
-    def _overwrite(self, **name_values):
-        '''(INTERNAL) Overwrite L{Property_RO} values.
-        '''
-        d = self.__dict__
-        for n, v in name_values.items():
-            if _hasProperty(self, n, Property_RO):
-                d[n] = v
-            else:
-                raise _AssertionError(n, v, txt=repr(self))
-
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached instance attributes.
+    def _update(self, updated, *attrs, **prop_ROs):
+        '''(INTERNAL) Zap cached instance attributes and overwrite L{Property_RO} values.
         '''
         if updated:
             _update_all(self, *attrs)
+        if prop_ROs:
+            d = self.__dict__
+            for n, v in prop_ROs.items():
+                if _hasProperty(self, n, Property_RO):
+                    d[n] = v
+                else:
+                    raise _AssertionError(n, v, txt=repr(self))
 
 
 class _NamedDict(_Dict, _Named):
@@ -960,12 +959,15 @@ class _NamedTuple(tuple, _Named):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
            @kwarg fmt: Optional, C{float} format (C{str}).
 
            @return: Tuple items (C{str}).
         '''
-        return Fmt.PAREN(self.named, sep.join(pairs(self.items(), prec=prec, fmt=fmt)))
+        t = pairs(self.items(), prec=prec, fmt=fmt)
+#       if self.name:
+#           t = (Fmt.EQUAL(name=repr(self.name)),) + t
+        return Fmt.PAREN(self.named, sep.join(t))  # XXX (self.classname, sep.join(t))
 
     def toStr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as string(s).
@@ -973,8 +975,8 @@ class _NamedTuple(tuple, _Named):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
-           @kwarg fmt: Optional, C{float} format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
+           @kwarg fmt: Optional C{float} format (C{str}).
 
            @return: Tuple items (C{str}).
         '''

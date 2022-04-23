@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.01.17'
+__version__ = '22.04.20'
 
 _paths_ = 'paths'
 
@@ -471,6 +471,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise PointsError: Insufficient number of B{C{points}}.
 
            @raise TypeError: Some B{C{points}} are not L{LatLon}.
+
+           @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy}
+                 and L{pygeodesy.ispolar} especially if the B{C{points}} may
+                 enclose a pole or wrap around the earth longitudinally.
 
            @example:
 

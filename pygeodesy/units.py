@@ -8,7 +8,7 @@ C{int} respectively C{str} to named units as L{Degrees},
 L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isstr, issubclassof, signOf
+from pygeodesy.basics import isstr, issubclassof, signOf, _umod_360
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _AssertionError, _IsnotError, RangeError, \
@@ -33,7 +33,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.03.07'
+__version__ = '22.04.19'
 
 
 class _NamedUnit(_Named):
@@ -621,8 +621,8 @@ class Bearing(Degrees):
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
-        d = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
-        b = d % 360  # == wrap360(d)
+        d =  Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
+        b = _umod_360(d)  # 0 <= b < 360
         return d if b == d else Degrees.__new__(cls, arg=b, name=name, Error=Error)
 
 
@@ -944,7 +944,7 @@ class Northing(Float):
     '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
     def __new__(cls, arg=None, name=_northing_, Error=UnitError, falsed=False, osgr=False, **name_arg):
-        '''New named C{Northing} or C({Northing of point} instance.
+        '''New named C{Northing} or C{Northing of point} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float}).

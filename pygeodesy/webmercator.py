@@ -20,7 +20,7 @@ from pygeodesy.basics import isscalar, issubclassof
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.ellipsoids import R_MA
+from pygeodesy.ellipsoids import R_M, R_MA, R_MB
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
@@ -28,7 +28,7 @@ from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
                              _radius_, _SPACE_
 from pygeodesy.interns import _x_, _y_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, nameof
+from pygeodesy.named import _NamedBase, _NamedTuple
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '22.04.02'
+__version__ = '22.04.22'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -63,9 +63,9 @@ class WebMercatorError(_ValueError):
 class Wm(_NamedBase):
     '''Web Mercator (WM) coordinate.
     '''
-    _radius = 0  # earth radius (C{meter})
-    _x      = 0  # Easting (C{meter})
-    _y      = 0  # Northing (C{meter})
+    _radius = R_MA  # earth radius (C{meter})
+    _x      = 0     # Easting (C{meter})
+    _y      = 0     # Northing (C{meter})
 
     def __init__(self, x, y, radius=R_MA, name=NN):
         '''New L{Wm} Web Mercator (WM) coordinate.
@@ -84,7 +84,8 @@ class Wm(_NamedBase):
         '''
         self._x = Easting( x=x, Error=WebMercatorError)
         self._y = Northing(y=y, Error=WebMercatorError)
-        self._radius = Radius_(radius, Error=WebMercatorError)
+        if radius != R_MA:
+            self._radius = Radius_(radius, Error=WebMercatorError)
 
         if name:
             self.name = name
@@ -109,8 +110,8 @@ class Wm(_NamedBase):
            @see: Method C{toLatLon}.
         '''
         r = self.radius
-        x = self._x / r
-        y = 2 * atan(exp(self._y / r)) - PI_2
+        x = self.x / r
+        y = 2 * atan(exp(self.y / r)) - PI_2
         if datum is not None:
             E = _ellipsoidal_datum(datum, name=self.name).ellipsoid
             if not E.isEllipsoidal:
@@ -204,10 +205,11 @@ class Wm(_NamedBase):
     def toRepr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:value pairs (C{str}).
-           @kwarg radius: Optionally, include radius (C{bool} or C{scalar}).
+           @kwarg radius: If C{True} include the radius (C{bool}) or
+                          C{scalar} to override this WM's radius.
 
            @return: This WM as "[x:meter, y:meter]" (C{str}) plus
                     ", radius:meter]" if B{C{radius}} is C{True} or
@@ -218,16 +220,18 @@ class Wm(_NamedBase):
         t = self.toStr(prec=prec, sep=None, radius=radius)
         return _xzipairs((_x_, _y_, _radius_), t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=3, sep=_SPACE_, radius=False, **unused):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=Fmt.F, sep=_SPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: The C{float} format (C{str}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
-           @kwarg radius: Optionally, include radius (C{bool} or C{scalar}).
+           @kwarg radius: If C{True} include the radius (C{bool}) or
+                          C{scalar} to override this WM's radius.
 
-           @return: This WM as "meter meter" (C{str}) plus " radius"
-                    if B{C{radius}} is C{True} or C{scalar}.
+           @return: This WM as "meter meter" (C{str}) or as "meter meter
+                    radius" if B{C{radius}} is C{True} or C{scalar}.
 
            @raise WebMercatorError: Invalid B{C{radius}}.
 
@@ -237,14 +241,12 @@ class Wm(_NamedBase):
             >>> w.toStr(4)  # 448251.0 5411932.0001
             >>> w.toStr(sep=', ')  # 448251, 5411932
         '''
-        fs = self._x, self._y
-        if radius in (False, None):
-            pass
-        elif radius is True:
-            fs += (self._radius,)
-        elif isscalar(radius):
+        fs = self.x, self.y
+        if isscalar(radius):
             fs += (radius,)
-        else:
+        elif radius:  # is True:
+            fs += (self.radius,)
+        elif radius not in (None, False):
             raise WebMercatorError(radius=radius)
         t = strs(fs, prec=prec)
         return t if sep is None else sep.join(t)
@@ -306,15 +308,14 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
                     spherical) geodetic C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees} or C{None}).
        @kwarg radius: Optional earth radius (C{meter}).
-       @kwarg Wm: Optional class to return the WM coordinate
-                  (L{Wm}) or C{None}.
+       @kwarg Wm: Optional class to return the WM coordinate (L{Wm})
+                  or C{None}.
        @kwarg name: Optional name (C{str}).
        @kwarg Wm_kwds: Optional, additional B{C{Wm}} keyword arguments,
                        ignored if C{B{Wm} is None}.
 
-       @return: The WM coordinate (B{C{Wm}}) or an
-                L{EasNorRadius3Tuple}C{(easting, northing, radius)}
-                if B{C{Wm}} is C{None}.
+       @return: The WM coordinate (B{C{Wm}}) or if B{C{Wm}} is C{None}
+                an L{EasNorRadius3Tuple}C{(easting, northing, radius)}.
 
        @raise ValueError: If B{C{lon}} value is missing, if B{C{latlon}} is not
                           scalar, if B{C{latlon}} is beyond the valid WM range
@@ -328,27 +329,27 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
         >>> p = LatLon(13.4125, 103.8667)  # 377302.4 1483034.8
         >>> w = toWm(p)  # 377302 1483035
     '''
-    e, r = None, Radius(radius)
+    e, r, n = 0, radius, name
+    if r not in (R_MA, R_MB, R_M):
+        r = Radius(radius)
     try:
-        lat, lon = latlon.lat, latlon.lon
+        y, x = latlon.lat, latlon.lon
         if isinstance(latlon, _LLEB):
-            r = latlon.datum.ellipsoid.a
-            e = latlon.datum.ellipsoid.e
-            if not name:  # use latlon.name
-                name = nameof(latlon)
-        lat = clipDegrees(lat, _LatLimit)
+            E = latlon.datum.ellipsoid
+            e, r = E.e, E.a
+        y = clipDegrees(y, _LatLimit)
+        n = name or latlon.name
     except AttributeError:
-        lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
+        y, x = parseDMS2(latlon, lon, clipLat=_LatLimit)
 
-    s = sin(radians(lat))
+    s = sin(radians(y))
     y = atanh(s)  # == log(tan((90 + lat) / 2)) == log(tanPI_2_2(radians(lat)))
     if e:
         y -= e * atanh(e * s)
-
-    e = r * radians(lon)
-    n = r * y
-    r = EasNorRadius3Tuple(e, n, r, name=name) if Wm is None else \
-                        Wm(e, n, **_xkwds(Wm_kwds, radius=r, name=name))
+    y *= r
+    x  = r * radians(x)
+    r  = EasNorRadius3Tuple(x, y, r, name=n) if Wm is None else \
+                         Wm(x, y, **_xkwds(Wm_kwds, radius=r, name=n))
     return r
 
 # **) MIT License

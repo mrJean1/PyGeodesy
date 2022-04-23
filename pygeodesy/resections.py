@@ -14,10 +14,11 @@ from pygeodesy.basics import isnear0, map1
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import Fsum, fsum_, fsum1, fsum1_
-from pygeodesy.interns import EPS, EPS0, EPS02, PI, PI2, PI_2, PI_4, _a_, _A_, \
-                             _b_, _B_, _c_, _C_, _coincident_, _colinear_, _d_, \
-                             _invalid_, _negative_, _not_, _rIn_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _360_0
+from pygeodesy.interns import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
+                             _a_, _A_, _b_, _B_, _c_, _C_, _coincident_, \
+                             _colinear_, _d_, _invalid_, _negative_, _not_, \
+                             _rIn_, _SPACE_, _0_0, _0_5, _1_0, _N_1_0, _2_0, \
+                             _N_2_0, _4_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Fmt, _NamedTuple, _Pass
 # from pygeodesy.streprs import Fmt  # from .named
@@ -28,7 +29,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.04.02'
+__version__ = '22.04.21'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -115,7 +116,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
        @arg beta: Angle subtended by triangle side B{C{pointB}} to B{C{pointC}}
                   (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
-                    force C{z=0} (C{bool}).
+                    force C{z=INT0} (C{bool}).
        @kwarg Clas: Optional class to return the survey and auxiliary point
                     or C{None} for B{C{pointA}}'s (sub-)class.
        @kwarg Clas_kwds: Optional additional keyword argument for the survey
@@ -174,7 +175,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         t = n, m, _1_0, _N_1_0
         x = Fdot(t,  C.x, H1.x, C.y, H1.y).fover(N)
         y = Fdot(t, H1.y,  C.y, C.x, H1.x).fover(N)
-        z = _zidw(A, B, C, x, y) if useZ else 0
+        z = _zidw(A, B, C, x, y) if useZ else INT0
 
         clas = Clas or pointA.classof
         return clas(x, y, z, **_xkwds(Clas_kwds, name=cassini.__name__))
@@ -199,7 +200,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
        @arg beta: Angle subtended by triangle side C{a} from B{C{pointB}} to
                   B{C{pointC}} (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
-                    force C{z=0} (C{bool}).
+                    force C{z=INT0} (C{bool}).
        @kwarg Clas: Optional class to return the survey point or C{None} for
                     B{C{pointA}}'s (sub-)class.
        @kwarg Clas_kwds: Optional additional keyword argument for the survey
@@ -233,7 +234,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
         s, c = sincos2(r)
         x = A.x + d * s
         y = A.y + d * c
-        z = _zidw(A, B, C, x, y) if useZ else 0
+        z = _zidw(A, B, C, x, y) if useZ else INT0
         return V3(x, y, z, **kwds)
 
     A = _otherV3d(useZ=useZ, pointA=pointA)
@@ -289,7 +290,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @arg alpha12: Angle subtended from B{C{point1}} to B{C{point2}} (C{degrees}).
        @arg alpha23: Angle subtended from B{C{point2}} to B{C{point3}} (C{degrees}).
-       @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=0}
+       @kwarg useZ: If C{True}, interpolate the Z component, otherwise use C{z=INT0}
                     (C{bool}).
        @kwarg Clas: Optional class to return the survey point or C{None} for
                     B{C{point1}}'s (sub-)class.
@@ -350,7 +351,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
                  y3_ * y1_, -cot31 * (x3_ * y1_))
         x = (B2.x * d + K * Y12_23).fover(d)
         y = (B2.y * d - K * X12_23).fover(d)
-        z = _zidw(B1, B2, B3, x, y) if useZ else 0
+        z = _zidw(B1, B2, B3, x, y) if useZ else INT0
 
         clas = Clas or point1.classof
         return clas(x, y, z, **_xkwds(Clas_kwds, name=pierlot.__name__))
@@ -430,7 +431,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
                     (C{degrees}, non-negative) or C{None} if C{B{gamma} is not None}.
        @kwarg gamma: Angle subtended by triangle side C{c} from B{C{pointA}} to B{C{pointB}}
                      (C{degrees}, non-negative) or C{None} if C{B{beta} is not None}.
-       @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=0}
+       @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise force C{z=INT0}
                     (C{bool}).
        @kwarg Clas: Optional class to return the survey point or C{None} for B{C{pointA}}'s
                     (sub-)class.
@@ -505,7 +506,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
             raise ValueError(Fmt.EQUAL(K=k))
         x = Fdot(ks, A.x, B.x, C.x).fover(k)
         y = Fdot(ks, A.y, B.y, C.y).fover(k)
-        z = _zidw(A, B, C, x, y) if useZ else 0
+        z = _zidw(A, B, C, x, y) if useZ else INT0
 
         clas = Clas or pointA.classof
         P = clas(x, y, z, **_xkwds(Clas_kwds, name=tienstra7.__name__))

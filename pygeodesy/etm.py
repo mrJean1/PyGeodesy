@@ -87,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.04.02'
+__version__ = '22.04.14'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -637,7 +637,7 @@ class ExactTransverseMercator(_NamedBase):
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid}.
         '''
         E  =  datum.ellipsoid
-        mu =  E.e2  # .eccentricity2
+        mu =  E.e2  # .eccentricity1st2
         mv = _1_0 - mu
         if isnear0(E.e) or isnear0(mu, eps0=EPS02) \
                         or isnear0(mv, eps0=EPS02):

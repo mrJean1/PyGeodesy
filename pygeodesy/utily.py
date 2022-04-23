@@ -21,13 +21,11 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.03.05'
+__version__ = '22.04.19'
 
-# <https://Numbers.Computation.Free.Fr/Constants/Miscellaneous/digits.html>
-_1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
-_2__PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
-# sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>
-# _1sqrt2 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
+# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
+_1__90 = _1_0 / _90_0  # 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+_2__PI = _1_0 /  PI_2  # 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
 
 def acos1(x):
@@ -804,7 +802,7 @@ def _wrap(angle, wrap, modulo):
        @return: The B{C{angle}}, wrapped (C{degrees}, C{radians} or C{grades}).
     '''
     a = float(angle)
-    if not wrap > a >= (wrap - modulo):
+    if not (wrap - modulo) <= a < wrap:
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
         # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
         a %= modulo
@@ -833,7 +831,7 @@ def wrap180(deg):
     return _wrap(deg, _180_0, _360_0)
 
 
-def wrap360(deg):
+def wrap360(deg):  # see .streprs._umod_360
     '''Wrap degrees to M{[0..+360)}.
 
        @arg deg: Angle (C{degrees}).

@@ -27,7 +27,7 @@ C{ilon} longitude index in each 2+tuple.
 
 from pygeodesy.basics import isclass, isint, isnear0, isnear1, isscalar, \
                              issequence, issubclassof, map1, _Sequence, \
-                             _xcopy, _xdup, _xinstanceof
+                             _umod_360, _xcopy, _xdup, _xinstanceof
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2, S_DEG, S_MIN, S_SEC
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
@@ -43,7 +43,7 @@ from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
                              _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
                              _90_0, _N_90_0, _180_0, _360_0
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
                            _NamedTuple, _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.03.03'
+__version__ = '22.04.22'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -108,10 +108,10 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                   un-clipped and un-validated .
         '''
         try:  # most common use case
-            self.lat, self.lon = float(lat), float(lon)
+            self.lat, self.lon = float(lat), float(lon)  # Lat(lat), Lon(lon)
         except (TypeError, ValueError):
             self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
-        self.name   = str(name)
+        self.name   = str(name) if name else NN
         self.height = height
         self.datum  = datum if datum is None else \
                      _spherical_datum(datum, name=self.name)
@@ -164,7 +164,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     def heightStr(self, prec=-2):
         '''Return a string for the height B{C{height}}.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
 
            @see: Function L{pygeodesy.hstr}.
         '''
@@ -200,6 +200,18 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                              name=self.intermediateTo.__name__)
         return r
 
+    @Property_RO
+    def isEllipsoidal(self):
+        '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isEllipsoidal if self.datum else None
+
+    @Property_RO
+    def isEllipsoidalLatLon(self):
+        '''Get C{LatLon} base.
+        '''
+        return False
+
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point, I{ignoring} height.
 
@@ -219,6 +231,12 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         else:
             return self.lat == other.lat and \
                    self.lon == other.lon
+
+    @Property_RO
+    def isSpherical(self):
+        '''Check whether this point is spherical (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isSpherical if self.datum else None
 
     @Property_RO
     def latlon(self):
@@ -580,7 +598,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
 
 class _Array2LatLon(_Basequence):  # immutable, on purpose
-    '''Base class for Numpy2LatLon or Tuple2LatLon.
+    '''(INTERNAL) Base class for Numpy2LatLon or Tuple2LatLon.
     '''
     _array  = ()
     _ilat   = 0  # row column index
@@ -1537,7 +1555,10 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
 
        @raise ValueError: Invalid B{C{point}}, lat- or longitude.
 
-       @see: L{sphericalNvector.LatLon.isenclosedBy},
+       @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy} and
+             L{pygeodesy.ispolar} especially if the B{C{points}} may enclose
+             a pole or wrap around the earth longitudinally, methods
+             L{sphericalNvector.LatLon.isenclosedBy},
              L{sphericalTrigonometry.LatLon.isenclosedBy} and
              U{MultiDop GeogContainPt<https://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
@@ -1561,12 +1582,12 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             return dx, x2, y2
 
     else:
-        x0 = fmod(x0, _360_0)  # not x0 % 360
+        x0 = fmod(x0, _360_0)  # not x0 % 360!
         x0_180_ = x0 - _180_0
         x0_180  = x0 + _180_0
 
         def _dxy3(x1, x, y, unused):  # PYCHOK expected
-            x = float(x) % _360_0
+            x = _umod_360(float(x))
             if x < x0_180_:
                 x += _360_0
             elif x >= x0_180:
@@ -1845,6 +1866,9 @@ def quadOf(latS, lonW, latN, lonE, closed=False, LatLon=LatLon_, **LatLon_kwds):
     if closed:
         t += t[:1]
     return t
+
+
+__all__ += _ALL_DOCS(_Array2LatLon, _Basequence)
 
 # **) MIT License
 #

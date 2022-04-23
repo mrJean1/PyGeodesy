@@ -29,8 +29,8 @@ from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             vincentys_
 from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                              _coincident_, _colinear_, _concentric_, _convex_, \
-                             _end_, _invalid_, _LatLon_, _near_, _not_, \
-                             _null_, _points_, _SPACE_, _too_, _1_, _2_, \
+                             _end_, _infinite_, _invalid_, _LatLon_, _near_, \
+                             _not_, _null_, _points_, _SPACE_, _too_, _1_, _2_, \
                              _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
@@ -53,9 +53,8 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.01.17'
+__version__ = '22.04.20'
 
-_infinite_ = 'infinite'
 _parallel_ = 'parallel'
 _path_     = 'path'
 
@@ -76,11 +75,12 @@ def _destination2(a, b, r, t):
     '''
     # see <https://www.EdWilliams.org/avform.htm#LL>
     sa, ca, sr, cr, st, ct = sincos2_(a, r, t)
+    ca *= sr
 
-    a = asin1(ct * sr * ca + cr * sa)
-    d = atan2(st * sr * ca, cr - sa * sin(a))
+    a = asin1(ct * ca + cr * sa)
+    d = atan2(st * ca,  cr - sa * sin(a))
     # note, in EdWilliams.org/avform.htm W is + and E is -
-    return a, b + d
+    return a, (b + d)  # (mod(b + d + PI, PI2) - PI)
 
 
 def _r2m(r, radius):
@@ -186,13 +186,14 @@ class LatLon(LatLonSphericalBase):
 
         sa,  ca,  sa1, ca1, \
         sa2, ca2, sdb, cdb = sincos2_(a, a1, a2, db)
+        sa1 *= ca2 * ca
 
-        x = sa1 * ca2 * ca * sdb
-        y = sa1 * ca2 * ca * cdb - ca1 * sa2 * ca
-        z = ca1 * ca2 * sa * sdb
+        x = sa1 * sdb
+        y = sa1 * cdb - ca1 * sa2 * ca
+        z = ca1 * sdb * ca2 * sa
 
         h = hypot(x, y)
-        if h < EPS or abs(z) > h:
+        if h < EPS or abs(z) > h:  # PYCHOK no cover
             return None  # great circle doesn't reach latitude
 
         m = atan2(-y, x) + b1  # longitude at max latitude
@@ -385,24 +386,24 @@ class LatLon(LatLonSphericalBase):
            @JSname: I{intermediatePointTo}.
         '''
         f = Scalar(fraction=fraction)  # not high=_1_0
-        if isnear0(f):
+        if isnear0(f):  # PYCHOK no cover
             r = self
-        elif isnear1(f) and not wrap:
+        elif isnear1(f) and not wrap:  # PYCHOK no cover
             r = self.others(other)
         else:
             a1, b1 = self.philam
             a2, b2 = self.others(other).philam
 
             db, b2 = unrollPI(b1, b2, wrap=wrap)
-            r = vincentys_(a2, a1, db)
+            r  = vincentys_(a2, a1, db)
             sr = sin(r)
             if isnon0(sr):
                 sa1, ca1, sa2, ca2, \
                 sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
 
                 t = f * r
-                A = sin(r - t) / sr
-                B = sin(    t) / sr
+                A = sin(r - t)  # / sr  superflous
+                B = sin(    t)  # / sr  superflous
 
                 x = A * ca1 * cb1 + B * ca2 * cb2
                 y = A * ca1 * sb1 + B * ca2 * sb2
@@ -411,8 +412,8 @@ class LatLon(LatLonSphericalBase):
                 a = atan2(z, hypot(x, y))
                 b = atan2(y, x)
 
-            else:  # points too close
-                a = favg(a1, a2, f=f)
+            else:  # PYCHOK no cover
+                a = favg(a1, a2, f=f)  # coincident
                 b = favg(b1, b2, f=f)
 
             h = self._havg(other, f=f) if height is None else Height(height)
@@ -512,6 +513,10 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
            @raise ValueError: Invalid B{C{points}}, non-convex polygon.
+
+           @see: Functions L{pygeodesy.isconvex}, L{pygeodesy.isenclosedBy}
+                 and L{pygeodesy.ispolar} especially if the B{C{points}} may
+                 enclose a pole or wrap around the earth longitudinally.
 
            @example:
 
@@ -1035,11 +1040,11 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
         >>> s = LatLon(49.0034, 2.5735)
         >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
-    _T00.others(start1=start1)
-    _T00.others(start2=start2)
+    s1 = _T00.others(start1=start1)
+    s2 = _T00.others(start2=start2)
     try:
-        return _intersect(start1, end1, start2, end2, height=height, wrap=wrap,
-                                                      LatLon=LatLon, **LatLon_kwds)
+        return _intersect(s1, end1, s2, end2, height=height, wrap=wrap,
+                                              LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
 
@@ -1089,7 +1094,6 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
     '''
     c1 = _T00.others(center1=center1)
     c2 = _T00.others(center2=center2)
-
     try:
         return _intersects2(c1, rad1, c2, rad2, radius=radius, eps=eps,
                                                 height=height, wrap=wrap,
@@ -1134,7 +1138,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
             raise _ValueError(_invalid_)
         x = acos1((cr2 - cd * cr1) / x)  # 0 <= x <= PI
 
-    elif x < r:
+    elif x < r:  # PYCHOK no cover
         t = (d * radius) if too_d is None else too_d
         raise IntersectionError(_too_(_Fmt.distant(t)))
 
@@ -1198,7 +1202,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
 
     if height is None:
         h = fmean(p.height for p in _T00.PointsIter(points).iterate(closed=False))
-    else:
+    else:  # PYCHOK no cover
         h = Height(height)
     return _LL3Tuple(lat, lon, h, meanOf, LatLon, LatLon_kwds)
 
@@ -1386,7 +1390,7 @@ def _t7Tuple(t, radius):
     '''
     if radius:  # not in (None, _0_0)
         r = radius if isscalar(radius) else \
-           _ellipsoidal_datum(radius).ellipsoid.Rmean
+            _ellipsoidal_datum(radius).ellipsoid.Rmean
         A, B, C = map1(degrees, t.A, t.B, t.C)
         t = Triangle7Tuple(A, (r * t.a),
                            B, (r * t.b),

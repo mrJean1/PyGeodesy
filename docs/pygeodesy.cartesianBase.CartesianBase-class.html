@@ -349,6 +349,40 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use property <code>philam</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to2ll" class="summary-sig-name">to2ll</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use property <code>latlon</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use property <a 
@@ -622,8 +656,6 @@
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum">sum</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times">times</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#times_">times_</a></code>,
-      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to2ll">to2ll</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#to3xyz">to3xyz</a></code>,
       <code><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#unit">unit</a></code>
       </p>
@@ -633,7 +665,6 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -920,7 +951,7 @@
           <b><code>pointB</code></b> to <b><code>pointC</code></b> 
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
-          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+          otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey point, an instance of this (sub-)class.</dd>
@@ -1017,7 +1048,7 @@
           <b><code>pointB</code></b> to <b><code>pointC</code></b> 
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
-          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+          otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
@@ -1283,7 +1314,7 @@
         <li><strong class="pname"><code>alpha23</code></strong> - Angle subtended from <b><code>point2</code></b> to 
           <b><code>point3</code></b> (<code>degrees</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the Z component, otherwise use 
-          <code>z=0</code> (<code>bool</code>).</li>
+          <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey (or robot) point, an instance of this (sub-)class.</dd>
@@ -1389,7 +1420,7 @@
           <b><code>pointB</code></b> (<code>degrees</code>, non-negative) 
           or <code>None</code> if <code><b>beta</b> is not None</code>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
-          otherwise force <code>z=0</code> (<code>bool</code>).</li>
+          otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Tienstra7Tuple-class.html" 
@@ -1425,6 +1456,58 @@
         class="link">pygeodesy.tienstra7</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="to2ab"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use property <code>philam</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+          class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to2ll"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ll</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use property <code>latlon</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="to3llh"></a>
 <div>
@@ -1728,9 +1811,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (string).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (string).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of (decimal) digits, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Enclosing backets format (string).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator to join (string).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cartesian represented as &quot;[x, y, z]&quot; (string).</dd>
@@ -2163,7 +2246,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:24 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:57 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

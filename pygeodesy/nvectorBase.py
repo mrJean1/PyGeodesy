@@ -34,12 +34,12 @@ from pygeodesy.props import deprecated_method, property_doc_, Property_RO
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
-from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn6
+from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.01.17'
+__version__ = '22.04.22'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -75,11 +75,11 @@ class NvectorBase(Vector3d):  # XXX kept private
             >>> v = Nvector(0.5, 0.5, 0.7071, 1)
             >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
-        x, y, z, h, d, n = _xyzhdn6(x_xyz, y, z, h, datum, ll)
-        Vector3d.__init__(self, x, y=y, z=z, ll=ll, name=name or n)
+        h, d, n = _xyzhdn3(x_xyz, h, datum, ll)
+        Vector3d.__init__(self, x_xyz, y=y, z=z, ll=ll, name=name or n)
         if h:
             self.h = h
-        if d:
+        if d is not None:
             self._datum = _spherical_datum(d, name=self.name)  # pass-thru
 
     @Property_RO
@@ -131,7 +131,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def hStr(self, prec=-2, m=NN):
         '''Return a string for the height B{C{h}}.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg m: Optional unit of the height (C{str}).
 
            @see: Function L{pygeodesy.hstr}.
@@ -288,7 +288,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple}C{)}B{C{height}}C{)}.
+        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.
 
            @kwarg height: Optional height, overriding this
                           n-vector's height (C{meter}).
@@ -341,8 +341,8 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            Height component is only included if non-zero.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between components (C{str}).
 
            @return: Comma-separated C{"(x, y, z [, h])"} enclosed in

@@ -6,10 +6,10 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnon0 as _isnon0
-from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
-                            _spherical_datum, _WGS84
-from pygeodesy.ellipsoids import Ellipsoid
+from pygeodesy.basics import isnon0 as _isnon0, _umod_360
+from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
+                            _mean_radius, _spherical_datum, _WGS84
+# from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, hypot, hypot2, sqrt0
@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.04.10'
+__version__ = '22.04.22'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -532,7 +532,7 @@ def excessAbc(A, b, c):
        @arg b: Frist adjacent triangle side (C{radians}).
        @arg c: Second adjacent triangle side (C{radians}).
 
-       @return: Spherical excess ({radians}).
+       @return: Spherical excess (C{radians}).
 
        @raise UnitError: Invalid B{C{A}}, B{C{b}} or B{C{c}}.
 
@@ -553,7 +553,7 @@ def excessGirard(A, B, C):
        @arg B: Second interior triangle angle (C{radians}).
        @arg C: Third interior triangle angle (C{radians}).
 
-       @return: Spherical excess ({radians}).
+       @return: Spherical excess (C{radians}).
 
        @raise UnitError: Invalid B{C{A}}, B{C{B}} or B{C{C}}.
 
@@ -574,7 +574,7 @@ def excessLHuilier(a, b, c):
        @arg b: Second triangle side (C{radians}).
        @arg c: Third triangle side (C{radians}).
 
-       @return: Spherical excess ({radians}).
+       @return: Spherical excess (C{radians}).
 
        @raise UnitError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
 
@@ -903,9 +903,9 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
     u3 = _MODS.vector3d._otherV3d(los=los) if los else p3.negate()
     u3 =  u3.unit()  # unit vector, opposing signs
 
-    x2, y2, z2 = p3.times_(p3).xyz  # == p3.x2y2z2
+    x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
     ux, vy, wz = u3.times_(p3).xyz
-    u2, v2, w2 = u3.times_(u3).xyz  # == u3.x2y2z2
+    u2, v2, w2 = u3.x2y2z2  # u3.times_(u3).xyz
 
     t = c2, c2, b2  # a2 factored out
     m = fdot(t, u2, v2, w2)
@@ -1232,7 +1232,7 @@ def opposing(bearing1, bearing2, margin=None):
        @see: Function L{opposing_}.
     '''
     m =  Degrees_(margin=margin, low=EPS0, high=_90_0) if margin else _90_0
-    d = (bearing2 - bearing1) % _360_0  # note -20 % 360 == 340
+    d = _umod_360(bearing2 - bearing1)  # -20 % 360 == 340
     return False if      d < m or d > (_360_0 - m) else (
            True if (_180_0 - m) < d < (_180_0 + m) else None)
 

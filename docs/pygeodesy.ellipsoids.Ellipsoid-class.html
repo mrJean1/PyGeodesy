@@ -395,8 +395,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es_atanh" class="summary-sig-name">es_atanh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
-      Compute <i class="math">es * atanh(es * x)</i> where <i>es</i> is the
-      <i>signed</i> (1st) eccentricity.</td>
+      Compute  <i class="math">es * atanh(es * x)</i> or <i 
+      class="math">-es * atan(es * x)</i> for <i>oblate</i> respectively 
+      <i>prolate</i> ellipsoids where <i>es</i> is the <i>signed</i> (1st) 
+      eccentricity.</td>
           <td align="right" valign="top">
             
             
@@ -455,31 +457,6 @@
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>)</span><br />
       Compute the height of a cartesian above or below and the projection 
       on this ellipsoid's surface.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="_hubeny2_"></a><span class="summary-sig-name">_hubeny2_</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">phi2</span>,
-        <span class="summary-sig-arg">phi1</span>,
-        <span class="summary-sig-arg">lam21</span>)</span><br />
-      (INTERNAL) like function <a 
-      href="pygeodesy.formy-module.html#flatLocal_" 
-      class="link">pygeodesy.flatLocal_</a>/<a 
-      href="pygeodesy.formy-module.html#flatLocal_" 
-      class="link">pygeodesy.hubeny_</a> but returning the <i>angular</i> 
-      distance in <code>radians squared</code>.</td>
           <td align="right" valign="top">
             
             
@@ -805,7 +782,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
       Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
@@ -829,7 +807,6 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
@@ -852,23 +829,6 @@
       <code>__sizeof__</code>,
       <code>__subclasshook__</code>
       </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== CLASS VARIABLES ==================== -->
-<a name="section-ClassVariables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variables</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="_f_"></a><span class="summary-name">_f_</span> = <code title="0">0</code><br />
-      hash(x)
     </td>
   </tr>
 </table>
@@ -1092,16 +1052,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e" class="summary-name">e</a><br />
-      Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
-      class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity" class="summary-name">eccentricity</a><br />
-      Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
+      Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
       class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
     </td>
   </tr>
@@ -1110,19 +1061,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2" class="summary-name">e2</a><br />
-      Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-      class="math">f * (2 - f) == 1 - (b / a)**2</i>, see 
-      <code>a_b2e2</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2" class="summary-name">eccentricity2</a><br />
-      Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-      class="math">f * (2 - f) == 1 - (b / a)**2</i>, see 
-      <code>a_b2e2</code>.
+      Get the <i>signed, (1st) eccentricity squared</i> 
+      (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / 
+      a)**2</i>, see <code>a_b2e2</code>.
     </td>
   </tr>
 <tr>
@@ -1130,7 +1071,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e2abs" class="summary-name">e2abs</a><br />
-      Get <code>abs</code> value of the <i>(1st) eccentricity squared</i> 
+      Get the <i>unsigned, (1st) eccentricity squared</i> 
       (<code>float</code>).
     </td>
   </tr>
@@ -1139,7 +1080,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e12" class="summary-name">e12</a><br />
-      Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i
+      Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
       class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
       class="math">b**2 / a**2</i>, see <code>b2_a2</code>.
     </td>
@@ -1149,19 +1090,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22" class="summary-name">e22</a><br />
-      Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
-      see <code>a_b2e22</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2" class="summary-name">eccentricity2nd2</a><br />
-      Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
-      see <code>a_b2e22</code>.
+      Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>),
+      <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 
+      1</i>, see <code>a_b2e22</code>.
     </td>
   </tr>
 <tr>
@@ -1169,7 +1100,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs" class="summary-name">e22abs</a><br />
-      Get <code>abs</code> value of the <i>(2nd) eccentricity squared</i> 
+      Get the <i>unsigned, 2nd eccentricity squared</i> 
       (<code>float</code>).
     </td>
   </tr>
@@ -1178,19 +1109,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32" class="summary-name">e32</a><br />
-      Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-      <code>a_b2e32</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2" class="summary-name">eccentricity3rd2</a><br />
-      Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
-      class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-      <code>a_b2e32</code>.
+      Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>),
+      <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, 
+      see <code>a_b2e32</code>.
     </td>
   </tr>
 <tr>
@@ -1198,7 +1119,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e32abs" class="summary-name">e32abs</a><br />
-      Get <code>abs</code> value of the <i>(3rd) eccentricity squared</i> 
+      Get the <i>unsigned, 3rd eccentricity squared</i> 
       (<code>float</code>).
     </td>
   </tr>
@@ -1207,8 +1128,47 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e4" class="summary-name">e4</a><br />
-      Get the <i>(1st) eccentricity</i> to 4th power (<code>float</code>), 
-      <i class="math">e**4 == e2**2</i>.
+      Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
+      (<code>float</code>), <i class="math">e**4 == e2**2</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity" class="summary-name">eccentricity</a><br />
+      Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
+      class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity1st2" class="summary-name">eccentricity1st2</a><br />
+      Get the <i>signed, (1st) eccentricity squared</i> 
+      (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / 
+      a)**2</i>, see <code>a_b2e2</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2" class="summary-name">eccentricity2nd2</a><br />
+      Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>),
+      <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 
+      1</i>, see <code>a_b2e22</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2" class="summary-name">eccentricity3rd2</a><br />
+      Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>),
+      <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, 
+      see <code>a_b2e32</code>.
     </td>
   </tr>
 <tr>
@@ -1216,7 +1176,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" class="summary-name">es</a><br />
-      Get the <i>(1st) eccentricity signed</i> (<code>float</code>).
+      Get the <i>signed (1st) eccentricity</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -1241,15 +1201,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
-      b) / a</i>, <code>0</code> for spherical, negative for prolate.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f_" class="summary-name">f_</a><br />
       Get the <i>inverse flattening</i> (<code>float</code>), <i 
       class="math">1 / f</i> == <i class="math">a / (a - b)</i>, 
@@ -1261,16 +1212,6 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f2" class="summary-name">f2</a><br />
-      Get the <i>2nd flattening</i> (<code>float</code>), <i 
-      class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
-      spherical, see <code>a_b2f2</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening2nd" class="summary-name">flattening2nd</a><br />
       Get the <i>2nd flattening</i> (<code>float</code>), <i 
       class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
       spherical, see <code>a_b2f2</code>.
@@ -1399,6 +1340,34 @@
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#n" class="summary-name">n</a><br />
       Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
       / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening" class="summary-name">flattening</a><br />
+      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+      b) / a</i>, <code>0</code> for spherical, negative for prolate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening1st" class="summary-name">flattening1st</a><br />
+      Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+      b) / a</i>, <code>0</code> for spherical, negative for prolate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening2nd" class="summary-name">flattening2nd</a><br />
+      Get the <i>2nd flattening</i> (<code>float</code>), <i 
+      class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
+      spherical, see <code>a_b2f2</code>.
     </td>
   </tr>
 <tr>
@@ -2239,8 +2208,9 @@
     </td>
   </tr></table>
   
-  <p>Compute <i class="math">es * atanh(es * x)</i> where <i>es</i> is the 
-  <i>signed</i> (1st) eccentricity.</p>
+  <p>Compute  <i class="math">es * atanh(es * x)</i> or <i class="math">-es
+  * atan(es * x)</i> for <i>oblate</i> respectively <i>prolate</i> 
+  ellipsoids where <i>es</i> is the <i>signed</i> (1st) eccentricity.</p>
   <dl class="fields">
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2274,9 +2244,12 @@
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        <i>Karney</i>'s C++ method <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
-        target="_top">Math::tauf</a>.
+        target="_top">Math::tauf</a> and and <i>Veness</i>' JavaScript 
+        method <a 
+        href="https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html"
+        target="_top">toLatLon</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2300,7 +2273,7 @@
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        <i>Karney</i>'s C++ method <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
         target="_top">Math::taupf</a>.
       </p>
@@ -2343,9 +2316,10 @@
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
-          intersection <code>x</code>, <code>y</code> and <code>z</code> 
-          coordinates and height <code>h</code> in <code>meter</code>, 
-          conventionally.</dd>
+          cartesian coordinates <code>x</code>, <code>y</code> and 
+          <code>z</code> of the projection on or the intersection with and 
+          with the height <code>h</code> above the ellipsoid's surface in 
+          <code>meter</code>, conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Null <b><code>xyz</code></b>.</li>
@@ -2985,7 +2959,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2996,9 +2971,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits, unstripped (<code>int</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Override name (<code>str</code>) or <code>None</code> to exclude 
-          the ellipsoid's name.</li>
+          this ellipsoid's name.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Ellipsoid attributes (<code>str</code>).</dd>
@@ -3689,12 +3664,12 @@ target="_top">Beta series coefficients</a>
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e</h3>
-  <p>Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
+  <p>Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
   class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
+        - Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
 class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
     </dd>
     <dt>Set method:</dt>
@@ -3707,33 +3682,11 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-</td></tr></table>
-</div>
-<a name="eccentricity"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">eccentricity</h3>
-  <p>Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
-  class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity</i> (<code>float</code>), <i 
-class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" 
+        class="link">es</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="e2"></a>
 <div>
@@ -3741,40 +3694,13 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e2</h3>
-  <p>Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-  class="math">f * (2 - f) == 1 - (b / a)**2</i>, see 
-  <code>a_b2e2</code>.</p>
+  <p>Get the <i>signed, (1st) eccentricity squared</i> 
+  (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / a)**2</i>, 
+  see <code>a_b2e2</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="eccentricity2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">eccentricity2</h3>
-  <p>Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
-  class="math">f * (2 - f) == 1 - (b / a)**2</i>, see 
-  <code>a_b2e2</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
+        - Get the <i>signed, (1st) eccentricity squared</i> (<code>float</code>), <i 
 class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
     </dd>
     <dt>Set method:</dt>
@@ -3795,13 +3721,12 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e2abs</h3>
-  <p>Get <code>abs</code> value of the <i>(1st) eccentricity squared</i> 
+  <p>Get the <i>unsigned, (1st) eccentricity squared</i> 
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e2abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>abs</code> value of the <i>(1st) eccentricity squared</i> 
-(<code>float</code>).
+        - Get the <i>unsigned, (1st) eccentricity squared</i> (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3821,13 +3746,13 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e12</h3>
-  <p>Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
+  <p>Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
   class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
   class="math">b**2 / a**2</i>, see <code>b2_a2</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e12(<span class="summary-sig-arg">self</span>)</span>
-        - Get 1 less <i>(1st) eccentricity squared</i> (<code>float</code>), <i 
+        - Get 1 less <i>1st eccentricity squared</i> (<code>float</code>), <i 
 class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i 
 class="math">b**2 / a**2</i>, see <code>b2_a2</code>.
     </dd>
@@ -3849,41 +3774,13 @@ class="math">b**2 / a**2</i>, see <code>b2_a2</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e22</h3>
-  <p>Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
-  <code>a_b2e22</code>.</p>
+  <p>Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), 
+  <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
+  see <code>a_b2e22</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
-<code>a_b2e22</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="eccentricity2nd2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">eccentricity2nd2</h3>
-  <p>Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
-  <code>a_b2e22</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>2nd eccentricity squared</i> (<code>float</code>), <i 
+        - Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), <i 
 class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
 <code>a_b2e22</code>.
     </dd>
@@ -3905,13 +3802,12 @@ class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e22abs</h3>
-  <p>Get <code>abs</code> value of the <i>(2nd) eccentricity squared</i> 
+  <p>Get the <i>unsigned, 2nd eccentricity squared</i> 
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e22abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>abs</code> value of the <i>(2nd) eccentricity squared</i> 
-(<code>float</code>).
+        - Get the <i>unsigned, 2nd eccentricity squared</i> (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3931,41 +3827,13 @@ class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e32</h3>
-  <p>Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
+  <p>Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), 
+  <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
   <code>a_b2e32</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e32(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
-class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-<code>a_b2e32</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="eccentricity3rd2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">eccentricity3rd2</h3>
-  <p>Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
-  class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
-  <code>a_b2e32</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e32(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>3rd eccentricity squared</i> (<code>float</code>), <i 
+        - Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), <i 
 class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
 <code>a_b2e32</code>.
     </dd>
@@ -3987,13 +3855,12 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e32abs</h3>
-  <p>Get <code>abs</code> value of the <i>(3rd) eccentricity squared</i> 
+  <p>Get the <i>unsigned, 3rd eccentricity squared</i> 
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e32abs(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>abs</code> value of the <i>(3rd) eccentricity squared</i> 
-(<code>float</code>).
+        - Get the <i>unsigned, 3rd eccentricity squared</i> (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4013,13 +3880,126 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e4</h3>
-  <p>Get the <i>(1st) eccentricity</i> to 4th power (<code>float</code>), 
-  <i class="math">e**4 == e2**2</i>.</p>
+  <p>Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
+  (<code>float</code>), <i class="math">e**4 == e2**2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e4(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity</i> to 4th power (<code>float</code>), <i 
-class="math">e**4 == e2**2</i>.
+        - Get the <i>unsignd, (1st) eccentricity</i> to 4th power 
+(<code>float</code>), <i class="math">e**4 == e2**2</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="eccentricity"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">eccentricity</h3>
+  <p>Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
+  class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>unsigned, (1st) eccentricity</i> (<code>float</code>), <i 
+class="math">sqrt(1 - (b / a)**2))</i>, see <code>a_b2e</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" 
+        class="link">es</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="eccentricity1st2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">eccentricity1st2</h3>
+  <p>Get the <i>signed, (1st) eccentricity squared</i> 
+  (<code>float</code>), <i class="math">f * (2 - f) == 1 - (b / a)**2</i>, 
+  see <code>a_b2e2</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>signed, (1st) eccentricity squared</i> (<code>float</code>), <i 
+class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code>a_b2e2</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="eccentricity2nd2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">eccentricity2nd2</h3>
+  <p>Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), 
+  <i class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, 
+  see <code>a_b2e22</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">e22(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>signed, 2nd eccentricity squared</i> (<code>float</code>), <i 
+class="math">e2 / (1 - e2) == e2 / (1 - f)**2 == (a / b)**2 - 1</i>, see 
+<code>a_b2e22</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="eccentricity3rd2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">eccentricity3rd2</h3>
+  <p>Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), 
+  <i class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
+  <code>a_b2e32</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">e32(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>signed, 3rd eccentricity squared</i> (<code>float</code>), <i 
+class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see 
+<code>a_b2e32</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4039,11 +4019,11 @@ class="math">e**4 == e2**2</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">es</h3>
-  <p>Get the <i>(1st) eccentricity signed</i> (<code>float</code>).</p>
+  <p>Get the <i>signed (1st) eccentricity</i> (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">es(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>(1st) eccentricity signed</i> (<code>float</code>).
+        - Get the <i>signed (1st) eccentricity</i> (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4055,7 +4035,11 @@ class="math">e**4 == e2**2</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#e" 
+        class="link">e</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="es_c"></a>
 <div>
@@ -4089,32 +4073,6 @@ class="math">b_a * exp(es_atanh(1))</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f</h3>
-  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
-  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
-a</i>, <code>0</code> for spherical, negative for prolate.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="flattening"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">flattening</h3>
   <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
   b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
   <dl class="fields">
@@ -4169,34 +4127,6 @@ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f2</h3>
-  <p>Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a
-  - b) / b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-  <code>a_b2f2</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a - b)
-/ b == f / (1 - f)</i>, <code>0</code> for spherical, see 
-<code>a_b2f2</code>.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="flattening2nd"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">flattening2nd</h3>
   <p>Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a
   - b) / b == f / (1 - f)</i>, <code>0</code> for spherical, see 
   <code>a_b2f2</code>.</p>
@@ -4554,6 +4484,86 @@ distance</code> along a meridian between the equator and a pole
     <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
         - Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f / (2 
 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="flattening"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">flattening</h3>
+  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+a</i>, <code>0</code> for spherical, negative for prolate.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="flattening1st"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">flattening1st</h3>
+  <p>Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - 
+  b) / a</i>, <code>0</code> for spherical, negative for prolate.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>flattening</i> (<code>float</code>), <i class="math">(a - b) / 
+a</i>, <code>0</code> for spherical, negative for prolate.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="flattening2nd"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">flattening2nd</h3>
+  <p>Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a
+  - b) / b == f / (1 - f)</i>, <code>0</code> for spherical, see 
+  <code>a_b2f2</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">f2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>2nd flattening</i> (<code>float</code>), <i class="math">(a - b)
+/ b == f / (1 - f)</i>, <code>0</code> for spherical, see 
+<code>a_b2f2</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5203,7 +5213,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:24 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:58 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.03.25'
+__version__ = '22.04.22'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -122,7 +122,7 @@ class _GeodesicBase(_NamedBase):  # in .geodsolve
 #          @kwarg prec: The C{float} precision, number of decimal digits (0..9).
 #                       Trailing zero decimals are stripped for B{C{prec}} values
 #                       of 1 and above, but kept for negative B{C{prec}} values.
-#          @kwarg sep: Optional separator to join (C{str}).
+#          @kwarg sep: Separator to join (C{str}).
 #
 #          @return: C{GeodesicExact*} (C{str}).
 #       '''

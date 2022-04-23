@@ -10,7 +10,7 @@ from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyErro
                               PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fdot, hypot, hypot2_
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, NN, \
+from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, INT0, NN, \
                              _EPS4e8, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _radius_, \
@@ -28,7 +28,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.03.04'
+__version__ = '22.04.21'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -128,7 +128,7 @@ def circin6(point1, point2, point3, eps=EPS4, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
                    C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: L{Circin6Tuple}C{(radius, center, deltas, cA, cB, cC)}.  The
                 C{center} and contact points C{cA}, C{cB} and C{cC}, each an
@@ -193,7 +193,7 @@ def circum3(point1, point2, point3, circum=True, eps=EPS4, useZ=True):
                       always, ignoring the I{Meeus}' Type I case (C{bool}).
        @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if C{B{useZ}
                    is True} otherwise L{pygeodesy.trilaterate2d2}.
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: A L{Circum3Tuple}C{(radius, center, deltas)}.  The C{center}, an
                 instance of B{C{point1}}'s (sub-)class, is co-planar with the three
@@ -308,7 +308,7 @@ def meeus2(point1, point2, point3, circum=False, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @kwarg circum: If C{True} return the non-zero C{circumradius} always,
                       ignoring the I{Meeus}' Type I case (C{bool}).
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: L{Meeus2Tuple}C{(radius, Type)}.
 
@@ -347,14 +347,14 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
     if a > EPS02 and (circum or a < (b + c)):  # circumradius
         b = sqrt(b / a)
         c = sqrt(c / a)
-        r = fsum1_(_1_0, b, c) * fsum1_(_1_0, b, -c) * fsum1_(_N_1_0, b, c) * fsum1_(_1_0, -b, c)
+        r = fsum1_(_1_0, b, c) * fsum1_(_1_0, b, -c) * fsum1_(_1_0, -b, c) * fsum1_(_N_1_0, b, c)
         if r < EPS02:
             raise IntersectionError(_coincident_ if b < EPS0 or c < EPS0 else (
                                     _colinear_ if _iscolinearWith(A, B, C) else _invalid_))
         r = sqrt(a / r) * b * c
         t = None  # Meeus' Type II
     else:  # obtuse or right angle
-        r = 0 if a < EPS02 else sqrt(a) * _0_5
+        r = INT0 if a < EPS02 else (sqrt(a) * _0_5)
         t = B.plus(C).times(_0_5)  # Meeus' Type I
         if clas is not None:
             t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=meeus2.__name__))
@@ -422,7 +422,7 @@ def radii11(point1, point2, point3, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple},
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: L{Radii11Tuple}C{(rA, rB, rC, cR, rIn, riS, roS, a, b, c, s)}.
 
@@ -498,7 +498,7 @@ def soddy4(point1, point2, point3, eps=EPS4, useZ=True):
                     C{Vector4Tuple} or C{Vector2Tuple} if C{B{useZ}=False}).
        @kwarg eps: Tolerance for function L{pygeodesy.trilaterate3d2} if
                    C{B{useZ} is True} otherwise L{pygeodesy.trilaterate2d2}.
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: L{Soddy4Tuple}C{(radius, center, deltas, outer)}.  The C{center},
                 an instance of B{C{point1}}'s (sub-)class, is co-planar with the
@@ -630,7 +630,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
         # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
         yield _0_0
         if eps and eps > 0:
-            p = max(eps,  EPS)
+            p = max(eps, EPS)
             yield  p
             yield -min(p, r)
             q = max(eps, _EPS4e8)

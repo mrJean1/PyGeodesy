@@ -46,7 +46,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.12.28'
+__version__ = '22.04.22'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -469,9 +469,9 @@ class Ned(_Ned):
            Return a string representation of this NED vector as
            length, bearing and elevation.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between NEDs (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator between NEDs (C{str}).
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
@@ -588,7 +588,7 @@ class Nvector(NvectorBase):
         '''
         u = NvectorBase.unit(self, ll=ll)
         if u.datum != self.datum:
-            u._overwrite(datum=self.datum)
+            u._update(False, datum=self.datum)
         return u
 
 

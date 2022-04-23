@@ -78,14 +78,14 @@ from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMASPACE_, _cubic_, \
                              _scipy_, _0_0, _90_0, _180_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
-from pygeodesy.points import LatLon_
-from pygeodesy.props import Property_RO
+from pygeodesy.points import LatLon_, Property_RO
+# from pygeodesy.props import Property_RO  # from .points
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.01.03'
+__version__ = '22.04.14'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
@@ -146,7 +146,7 @@ def _axyllis4(atype, llis, m=1, off=True):
     return _as, atype(xis), atype(yis), llis
 
 
-def _insufficientError(need, Error=HeightError, **name_value):
+def _insufficientError(need, Error=HeightError, **name_value):  # PYCHOK no cover
     # create an insufficient Error instance
     t = _COMMASPACE_(_insufficient_, str(need))
     return Error(txt=t, **name_value)
@@ -258,7 +258,7 @@ class _HeightBase(_Named):  # imported by .geoids
         if not t:
             # raise SciPyWarnings, but not if
             # scipy has been imported already
-            if throwarnings:
+            if throwarnings:  # PYCHOK no cover
                 import sys
                 if _scipy_ not in sys.modules:
                     import warnings
@@ -847,8 +847,13 @@ class HeightIDWflatLocal(_HeightIDW):
         self._datum_setter(datum, knots)
 
     def _distances(self, x, y):  # (x, y) radians
-        _r2_ = self._datum.ellipsoid._hubeny2_
-        return self._distances_angular_(_r2_, x, y)  # radians**2
+        return self._distances_angular_(self._hubeny_2, x, y)  # radians**2
+
+    @Property_RO
+    def _hubeny_2(self):
+        '''(INTERNAL) Get and cache the C{.datum.ellipsoid._hubeny_2} method.
+        '''
+        return self.datum.ellipsoid._hubeny_2
 
     if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
@@ -1152,7 +1157,7 @@ class HeightLSQBiSpline(_HeightBase):
                 raise LenError(HeightLSQBiSpline, weight=m, knots=n)
             w = map2(float, w)
             m = min(w)
-            if m <= 0:
+            if m <= 0:  # PYCHOK no cover
                 w = Fmt.SQUARE(weight=w.find(m))
                 raise HeightError(w, m)
         try:

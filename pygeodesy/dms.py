@@ -57,14 +57,15 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
        non-ascii characters and if so, I{not} C{unicode}.
 '''
 
-from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, neg as _neg  # in .ups
+from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, \
+                             neg as _neg, _umod_360  # in .ups
 from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, _ValueError, \
                             _xkwds, _xkwds_get
-from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, _e_, _E_, \
-                             _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, _N_, _NE_, _NS_, _NSEW_, \
-                             _NW_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, _QUOTE1_, _QUOTE2_, \
-                             _radians_, _S_, _SE_, _SPACE_, _SW_, _W_, _0_, \
-                             _0_0, _0_5, _60_0, _360_0, _3600_0
+from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, _e_, \
+                             _E_, _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, _N_, _NE_, \
+                             _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, \
+                             _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, \
+                             _W_, _0_, _0_0, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
 
@@ -75,7 +76,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.03.27'
+__version__ = '22.04.22'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -148,12 +149,6 @@ def _fstrzs(t, **unused):
     '''(INTERNAL) Pass-thru version of C{.streprs.fstrzs}.
     '''
     return t
-
-
-def _mod360(deg):  # or .utily.wrap360
-    '''(INTERNAL) Non-negative C{deg} modulo 360.
-    '''
-    return (deg % _360_0) or _0_0  # see comments in .karney._remod
 
 
 def _split3(strDMS, suffix=_NSEW_):
@@ -260,7 +255,7 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
 
        @JSname: I{toBrng}.
     '''
-    return _toDMS(_mod360(bearing), form, prec, sep, 1, NN, s_D_M_S)
+    return _toDMS(_umod_360(bearing), form, prec, sep, 1, NN, s_D_M_S)
 
 
 def _clip(angle, limit, units):
@@ -326,7 +321,7 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
 
        @see: Function L{pygeodesy.toDMS}.
     '''
-    b = _mod360(bearing)
+    b = _umod_360(bearing)
     return _toDMS(b, form, prec, sep, 1, compassPoint(b), s_D_M_S)
 
 
@@ -334,7 +329,8 @@ def compassPoint(bearing, prec=3):
     '''Convert bearing to a compass point.
 
        @arg bearing: Bearing from North (compass C{degrees360}).
-       @kwarg prec: Optional precision (1 for cardinal or basic winds,
+       @kwarg prec: Precision, number of compass point characters:
+                    1 for cardinal or basic winds,
                     2 for intercardinal or ordinal or principal winds,
                     3 for secondary-intercardinal or half-winds or
                     4 for quarter-winds).
@@ -368,7 +364,7 @@ def compassPoint(bearing, prec=3):
             # not round(), i.e. half-even rounding in Python 3+,
             # but round-away-from-zero as int(b + 0.5) iff b is
             # non-negative, otherwise int(b + copysign0(_0_5, b))
-            w *= int(_mod360(bearing) * m / _360_0 + _0_5) % m
+            w *= int(_umod_360(bearing) * m / _360_0 + _0_5) % m
             return _WINDS[w]
         t = _invalid_
     except (IndexError, TypeError, ValueError) as x:
@@ -866,10 +862,10 @@ def precision(form, prec=None):
        @arg form: L{F_D}, L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN},
                   L{F_SEC}, L{F_D60}, L{F__E}, L{F__F}, L{F__G}
                   or L{F_RAD} (C{str}).
-       @kwarg prec: Optional number of decimal digits (0..9 or C{None}
-                    for default).  Trailing zero decimals are stripped
-                    for B{C{prec}} values of 1 and above, but kept for
-                    negative B{C{prec}}.
+       @kwarg prec: Number of decimal digits (0..9 or C{None} for
+                    default).  Trailing zero decimals are stripped
+                    for B{C{prec}} values of 1 and above, but kept
+                    for negative B{C{prec}}.
 
        @return: Previous precision for the B{C{form}} (C{int}).
 

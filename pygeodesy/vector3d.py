@@ -13,7 +13,7 @@ from pygeodesy.errors import IntersectionError, _TypeError, _ValueError, \
 from pygeodesy.fmath import fdot, fsum, fsum1_
 # from pygeodesy.fsums import fsum, fsum1_  # from .fmath
 from pygeodesy.formy import _radical2
-from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, MISSING, NN, \
+from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, INT0, MISSING, NN, \
                              _COMMA_, _concentric_, _datum_, _h_, _height_, \
                              _intersection_, _name_, _near_, _negative_, \
                              _no_, _too_, _xyz_, _y_, _z_, _0_0, _1_0
@@ -29,7 +29,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.01.17'
+__version__ = '22.04.22'
 
 
 class Vector3d(Vector3dBase):
@@ -208,7 +208,7 @@ class Vector3d(Vector3dBase):
            @arg points: The path or polygon points (C{Cartesian}, L{Vector3d},
                         C{Vector3Tuple} or C{Vector4Tuple}[]).
            @kwarg closed: Optionally, close the path or polygon (C{bool}).
-           @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+           @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
            @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)}
                     with the C{closest}, the C{start} and the C{end} point each
@@ -289,7 +289,7 @@ class Vector3d(Vector3dBase):
         '''
         return _MODS.vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
 
-    def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS, z=0):
+    def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS, z=INT0):
         '''Trilaterate this and two other circles, each given as a (2-D) center
            and a radius.
 
@@ -451,7 +451,7 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
        @arg end2: End point of the second line (C{Cartesian}, L{Vector3d},
                   C{Vector3Tuple} or C{Vector4Tuple}).
        @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
                                intersection points and optional, additional B{C{Vector}}
                                keyword arguments, otherwise B{C{start1}}'s (sub-)class.
@@ -588,7 +588,7 @@ def iscolinearWith(point, point1, point2, eps=EPS, useZ=True):
        @arg point1: First point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
        @arg point2: Second point (L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
        @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y} and C{z}.
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
 
        @return: C{True} if B{C{point}} is colinear B{C{point1}} and B{C{point2}},
                         C{False} otherwise.
@@ -613,7 +613,7 @@ def nearestOn(point, point1, point2, within=True, useZ=True, Vector=None, **Vect
        @kwarg within: If C{True} return the closest point between both given
                       points, otherwise the closest point on the extended line
                       through both points (C{bool}).
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
        @kwarg Vector: Class to return closest point (C{Cartesian}, L{Vector3d}
                       or C{Vector3Tuple}) or C{None}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
@@ -676,7 +676,7 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
        @arg points: The path or polygon points (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}[]).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
-       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=0} (C{bool}).
+       @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
                                closest point and optional, additional B{C{Vector}}
                                keyword arguments, otherwise B{C{point}}'s (sub-)class.
@@ -737,8 +737,8 @@ def _otherV3d(useZ=True, NN_OK=True, i=None, **name_v):  # in .CartesianEllipsoi
     if useZ and isinstance(v, Vector3dBase):
         return v if NN_OK or v.name else v.copy(name=_name_i(name, i))
     try:
-        return Vector3d(v.x, v.y, (v.z if useZ else _0_0), name=_name_i(name, i))
-    except AttributeError:  # no _x_ or _y_ attr
+        return Vector3d(v.x, v.y, (v.z if useZ else INT0), name=_name_i(name, i))
+    except AttributeError:  # no .x, .y or .z attr
         pass
     raise _xotherError(Vector3d(0, 0, 0), v, name=_name_i(name, i), up=2)
 
@@ -887,6 +887,19 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                          center3=center3, radius3=radius3)
 
 
+def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
+    '''(INTERNAL) Get an C{(h, d, name)} 3-tuple.
+    '''
+    h = height or getattr(xyz, _height_, None) \
+               or getattr(xyz, _h_, None) \
+               or getattr(ll,  _height_, None)
+
+    d = datum or getattr(xyz, _datum_, None) \
+              or getattr(ll,  _datum_, None)
+
+    return h, d, getattr(xyz, _name_, NN)
+
+
 def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
@@ -903,21 +916,6 @@ def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
         raise Error(txt=str(x), **d)
 
     return x, y, z, n
-
-
-def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
-    '''(INTERNAL) Get an C{(x, y, z, h, d, name)} 6-tuple.
-    '''
-    x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
-
-    h = height or getattr(xyz, _height_, None) \
-               or getattr(xyz, _h_, None) \
-               or getattr(ll,  _height_, None)
-
-    d = datum or getattr(xyz, _datum_, None) \
-              or getattr(ll,  _datum_, None)
-
-    return x, y, z, h, d, n
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)

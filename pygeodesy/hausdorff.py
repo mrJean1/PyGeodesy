@@ -73,7 +73,7 @@ from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             thomas_, vincentys_, _scale_rad
-from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _i_, _j_, \
+from pygeodesy.interns import INF, NINF, NN, _datum_, _distanceTo_, _i_, _j_, \
                              _points_, _units_, _0_0
 from pygeodesy.iters import points2
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.10.05'
+__version__ = '22.04.14'
 
 
 class HausdorffError(PointsError):
@@ -646,10 +646,9 @@ class HausdorffFlatLocal(HausdorffRadians):
              L{HausdorffHubeny}, L{HausdorffThomas} and
              L{HausdorffKarney}.
     '''
-    _datum    = _WGS84
-    _hubeny2_ =  None
-    _units    = _Str_radians2
-    _wrap     =  False
+    _datum = _WGS84
+    _units = _Str_radians2
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffFlatLocal}/L{HausdorffHubeny} calculator.
@@ -675,7 +674,6 @@ class HausdorffFlatLocal(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
         self._datum_setter(datum)
-        self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
     if _FOR_DOCS:
         directed  = Hausdorff.directed
@@ -686,7 +684,13 @@ class HausdorffFlatLocal(HausdorffRadians):
            in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
-        return self._hubeny2_(p2.phi, p1.phi, d)
+        return self._hubeny_2(p2.phi, p1.phi, d)
+
+    @Property_RO
+    def _hubeny_2(self):
+        '''(INTERNAL) Get and cache the C{.datum.ellipsoid._hubeny_2} method.
+        '''
+        return self.datum.ellipsoid._hubeny_2
 
 
 class HausdorffFlatPolar(HausdorffRadians):
@@ -922,7 +926,7 @@ def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
     # chance of an early break in the inner j loop
     rr = randomrangenerator(seed) if seed else range
 
-    hd = -INF
+    hd = NINF
     hi = hj = m = mn = 0
     md = _0_0
 

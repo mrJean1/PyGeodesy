@@ -94,7 +94,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.04.06'
+__version__ = '22.04.14'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -585,8 +585,8 @@ class Elliptic(_Named):
     def reset(self, k2=0, alpha2=0, kp2=None, alphap2=None):  # MCCABE 13
         '''Reset the modulus, parameter and the complementaries.
 
-           @kwarg k2: Modulus squared (C{float}, -INF <= k^2 <= 1).
-           @kwarg alpha2: Parameter squared (C{float}, -INF <= α^2 <= 1).
+           @kwarg k2: Modulus squared (C{float}, NINF <= k^2 <= 1).
+           @kwarg alpha2: Parameter squared (C{float}, NINF <= α^2 <= 1).
            @kwarg kp2: Complementary modulus squared (C{float}, k'^2 >= 0).
            @kwarg alphap2: Complementary parameter squared (C{float}, α'^2 >= 0).
 

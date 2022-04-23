@@ -33,7 +33,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.04.11'
+__version__ = '22.04.22'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -180,8 +180,8 @@ class Aer(_NamedBase):
         '''Return a string representation of this AER as azimuth
            (bearing), elevation and slant range.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between AERs (C{str}).
 
            @return: This AER as "[A:degrees360, E:degrees90, R:meter]" (C{str}).
@@ -194,8 +194,8 @@ class Aer(_NamedBase):
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this ENU/NED/AER.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between NEDs (C{str}).
 
            @return: This AER as "[degrees360, degrees90, meter]" (C{str}).
@@ -440,9 +440,9 @@ class Ned(_NamedBase):
     def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this NED.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between items (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: This NED as "[N:meter, E:meter, D:meter]" (C{str}).
         '''
@@ -454,8 +454,8 @@ class Ned(_NamedBase):
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this NED.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between NEDs (C{str}).
 
            @return: This NED as "[meter, meter, meter]" (C{str}).
@@ -799,9 +799,9 @@ class XyzLocal(Vector3d):
     def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this ENU/NED/XYZ.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between items (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: This XYZ/ENU as "[E:meter, N:meter, U:meter]",
                     "[N:meter, E:meter, D:meter]" respectively
@@ -815,9 +815,9 @@ class XyzLocal(Vector3d):
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this ENU/XYZ.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between items (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: This XYZ/ENU as "[meter, meter, meter]" (C{str}).
         '''

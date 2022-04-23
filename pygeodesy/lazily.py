@@ -121,7 +121,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
-                                 'isbool', 'isclass', 'iscomplex', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
+                                 'isbool', 'isclass', 'iscomplex', 'isfinite', 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
                                  'isnan', 'isnear0', 'isnear1', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signOf', 'splice', 'ub2str', 'unsigned0'),
@@ -132,7 +132,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
-                     deprecated=('OK',  # DEPRECATED constants
+                     deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
@@ -353,7 +353,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.03.08'
+__version__ = '22.04.21'
 
 
 def _ALL_OTHER(*objs):

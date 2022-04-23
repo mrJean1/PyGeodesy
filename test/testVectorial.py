@@ -4,13 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.20'
+__version__ = '22.04.22'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, \
                       circin6, circum3, circum4_, \
-                      fstr, intersection3d3 as i3d, IntersectionError, \
+                      fstr, intersection3d3, IntersectionError, \
                       isnear0, meeus2, radii11, sphericalNvector, \
                       soddy4, trilaterate2d2, trilaterate3d2, \
                       vector2d, vector3d, Vector3d as V3d, VectorError
@@ -21,22 +21,22 @@ class Tests(TestsBase):
 
     def testIntersection3d3(self):
 
-        self.subtitle(vector3d, i3d.__name__.capitalize())
+        self.subtitle(vector3d, intersection3d3.__name__.capitalize())
 
         # <https://www.MathOpenRef.com/coordintersection.html>
         s1, e1 = V3d(15, 10, 1), V3d(49, 25, 2)
         s2, e2 = V3d(29, 5, 3),  V3d(32, 32, 4)
-        self.test('(30, 17)', i3d(s1, e1, s2, e2, useZ=False), '(Vector3d(30.30584, 16.75258, 0.0), 0, 0)')
+        self.test('(30, 17)', intersection3d3(s1, e1, s2, e2, useZ=False), '(Vector3d(30.30584, 16.75258, 0.0), 0, 0)')
         s2 = V3d(7, 10, 5)
-        self.test('(-1,  3)', i3d(s1, e1, s2, e2, useZ=False), '(Vector3d(-1.0429, 2.92225, 0.0), -1, -2)')
+        self.test('(-1,  3)', intersection3d3(s1, e1, s2, e2, useZ=False), '(Vector3d(-1.0429, 2.92225, 0.0), -1, -2)')
         s2 = V3d(62, 32, 6)
-        self.test('(65, 32)', i3d(s1, e1, s2, e2, useZ=False), '(Vector3d(64.86667, 32.0, 0.0), 1, -2)')
+        self.test('(65, 32)', intersection3d3(s1, e1, s2, e2, useZ=False), '(Vector3d(64.86667, 32.0, 0.0), 1, -2)')
         try:
             s2 = V3d(32 - (49 - 15), 32 - (25 - 10), 7)
-            self.test('(-2, 17)', i3d(s1, e1, s2, e2, useZ=False), IntersectionError.__name__)
+            self.test('(-2, 17)', intersection3d3(s1, e1, s2, e2, useZ=False), IntersectionError.__name__)
         except Exception as x:
             self.test('(-2, 17)', x.__class__, IntersectionError)
-        self.test('(49, 25)', i3d(s1, e1, e1, e1, useZ=False), '(Vector3d(49.0, 25.0, 0.0), 0, 0)')
+        self.test('(49, 25)', intersection3d3(s1, e1, e1, e1, useZ=False), '(Vector3d(49.0, 25.0, 0.0), 0, 0)')
 
     def testNvectorBase(self, module, **kwds):
 
@@ -104,7 +104,7 @@ class Tests(TestsBase):
             try:
                 self.test('0', v.dividedBy(0), VectorError.__name__)
             except Exception as x:
-                self.test('0', str(x), 'factor (0): float division by zero')
+                self.test('0', str(x), 'divisor (0): float division by zero')
 
             t = vector3d.intersections2(Nvector(   0, 0, 0), 500,
                                         Nvector(1000, 0, 0), 500, sphere=False)

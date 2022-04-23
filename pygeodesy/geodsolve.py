@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.02.20'
+__version__ = '22.04.22'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -233,7 +233,7 @@ class _GeodesicSolveBase(_GeodesicBase):
 
     @Property
     def prec(self):
-        '''Get the precision, number of decimal digits (C{int}).
+        '''Get the precision, number of (decimal) digits (C{int}).
         '''
         return self._prec
 
@@ -288,7 +288,7 @@ class _GeodesicSolveBase(_GeodesicBase):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: GeodesicSolve items (C{str}).
         '''
@@ -601,7 +601,7 @@ class GeodesicLineSolve(_GeodesicSolveBase):
     def Position(self, s12, *unused):
         '''Find the position on the line given B{C{s12}}.
 
-           @arg s12: Distance from the first point to the second C({meter}).
+           @arg s12: Distance from the first point to the second (C{meter}).
 
            @return: A C{dict} with 12 items C{lat1, lon1, azi1, lat2, lon2,
                     azi2, m12, a12, s12, M12, M21, S12}, possibly C{a12=NAN}.

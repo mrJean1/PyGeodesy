@@ -10,23 +10,24 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.errors import _xkwds_not  # _xkwds
-from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
-                             _convergence_, _datum_, _distance_, _E_, \
-                             _easting_, _end_, _epoch_, _fi_, _j_, _h_, \
-                             _height_, _hemipole_, _lam_, _lat_, _lon_, \
-                             _n_, _northing_, _number_, _outside_, _phi_, \
-                             _point_, _points_, _precision_, _radius_, \
-                             _reframe_, _scale_, _start_, _x_, _y_, _z_, \
-                             _zone_, _1_, _2_
+from pygeodesy.interns import INT0, NN, _a_, _A_, _angle_, _B_, _band_, \
+                             _C_, _convergence_, _datum_, _distance_, \
+                             _E_, _easting_, _end_, _epoch_, _fi_, _j_, \
+                             _h_, _height_, _hemipole_, _lam_, _lat_, \
+                             _lon_, _n_, _northing_, _number_, _outside_, \
+                             _phi_, _point_, _points_, _precision_, \
+                             _radius_, _reframe_, _scale_, _start_, _x_, \
+                             _y_, _z_, _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _Pass
+# from pygeodesy.props import property_RO  # from .units
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             FIx, Height, Int, Lam, Lat, Lon, Meter, \
                             Meter2, Northing, Number_, Phi, Precision_, \
-                            Radians, Radius, Scalar, Str
+                            property_RO, Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.12.28'
+__version__ = '22.04.22'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -556,16 +557,16 @@ class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
 
 
 class Vector2Tuple(_NamedTuple):
-    '''2-Tuple C{(x, y)} of (geocentric) components, both in
-       C{meter} or C{units}.
+    '''2-Tuple C{(x, y)} of (geocentric) components, each in
+       C{meter} or the same C{units}.
     '''
     _Names_ = (_x_,    _y_)
     _Units_ = ( Scalar, Scalar)
 
-    def to3Tuple(self, z):
+    def to3Tuple(self, z=INT0):
         '''Extend this L{Vector2Tuple} to a L{Vector3Tuple}.
 
-           @arg z: The Z component add (C{scalar}).
+           @kwarg z: The Z component add (C{scalar}).
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -576,7 +577,7 @@ class Vector2Tuple(_NamedTuple):
 
 class Vector3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, z)} of (geocentric) components, all in
-       C{meter} or C{units}.
+       C{meter} or the same C{units}.
     '''
     _Names_ = (_x_,    _y_,    _z_)
     _Units_ = ( Scalar, Scalar, Scalar)
@@ -592,13 +593,32 @@ class Vector3Tuple(_NamedTuple):
         '''
         return self._xtend(Vector4Tuple, h)
 
+    @property_RO
+    def xyz(self):
+        '''Get X, Y and Z components (C{Vector3Tuple}).
+        '''
+        return self
+
 
 class Vector4Tuple(_NamedTuple):  # .nvector.py
     '''4-Tuple C{(x, y, z, h)} of (geocentric) components, all
-       in C{meter} or C{units}.
+       in C{meter} or the same C{units}.
     '''
     _Names_ = (_x_,    _y_,    _z_,    _h_)
     _Units_ = ( Scalar, Scalar, Scalar, Height)
+
+    def to3Tuple(self):
+        '''Reduce this L{Vector4Tuple} to a L{Vector3Tuple}.
+
+           @return: A L{Vector3Tuple}C{(x, y, z)}.
+        '''
+        return self.xyz
+
+    @property_RO
+    def xyz(self):
+        '''Get X, Y and Z components (L{Vector3Tuple}).
+        '''
+        return Vector3Tuple(*self[:3])
 
 # **) MIT License
 #

@@ -90,12 +90,12 @@
   <p><a href="pygeodesy.azimuthal.EquidistantExact-class.html" 
   class="link">EquidistantExact</a> and <a 
   href="pygeodesy.azimuthal.GnomonicExact-class.html" 
-  class="link">GnomonicExact</a> are based on exact geodesic <a 
+  class="link">GnomonicExact</a> are based on exact geodesic classes <a 
   href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
   class="link">GeodesicExact</a> and <a 
   href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-  class="link">GeodesicLineExact</a>, Python versions of <i>Karney</i>'s 
-  C++ original <a 
+  class="link">GeodesicLineExact</a>, Python versions of <i>Charles 
+  Karney</i>'s C++ original <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
   target="_top">GeodesicExact</a>, respectively <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html"
@@ -103,17 +103,17 @@
   <p>Using <a href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
   class="link">EquidistantGeodSolve</a> requires <i>Karney</i>'s utility <a
   href="https://GeographicLib.SourceForge.io/html/GeodSolve.1.html" 
-  target="_top">GeodSolve</a> to be available and set in env variable 
+  target="_top">GeodSolve</a> to be executable and set in env variable 
   <code>PYGEODESY_GEODSOLVE</code>, see module <a 
   href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> for 
   more details.</p>
   <p><a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
   class="link">EquidistantKarney</a> and <a 
   href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
-  class="link">GnomonicKarney</a> require <i>Charles Karney</i>'s Python <a
+  class="link">GnomonicKarney</a> require <i>Karney</i>'s Python package <a
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> package to be installed.</p>
-  <p>Other azimuthal classes implement only (**) <a 
+  target="_top">geographiclib</a> to be installed.</p>
+  <p>Other azimuthal classes implement only (***) <a 
   href="https://Pubs.USGS.gov/pp/1395/report.pdf" target="_top">Snyder's 
   FORMULAS FOR THE SPHERE</a> and use those for any datum, spherical and 
   ellipsoidal.  The radius used for the latter is the ellipsoid's <i>mean 
@@ -134,7 +134,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.04.11
+        22.04.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -196,11 +196,39 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Equidistant-class.html" class="summary-name">Equidistant</a><br />
-      Azimuthal equidistant projection for the sphere**, see <a 
+      Azimuthal equidistant projection for the sphere***, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 195-197</a> and <a 
         href="https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html"
         target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._AzimuthalGeodesic-class.html" class="summary-name">_AzimuthalGeodesic</a><br />
+      (INTERNAL) Base class for azimuthal projections using <a 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        target="_top">Karney Geodesic</a> or exact geodesic classes <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._EquidistantBase-class.html" class="summary-name">_EquidistantBase</a><br />
+      (INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+        class="link">EquidistantExact</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+        class="link">EquidistantGeodSolve</a> and <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.
     </td>
   </tr>
 <tr>
@@ -253,11 +281,25 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Gnomonic-class.html" class="summary-name">Gnomonic</a><br />
-      Azimuthal gnomonic projection for the sphere**, see <a 
+      Azimuthal gnomonic projection for the sphere***, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 164-168</a> and <a 
         href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._GnomonicBase-class.html" class="summary-name">_GnomonicBase</a><br />
+      (INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.GnomonicExact-class.html" 
+        class="link">GnomonicExact</a>, <a 
+        href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+        class="link">GnomonicGeodSolve</a> and <a 
+        href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+        class="link">GnomonicKarney</a>.
     </td>
   </tr>
 <tr>
@@ -310,7 +352,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" class="summary-name">LambertEqualArea</a><br />
-      Lambert-equal-area projection for the sphere** (aka <a 
+      Lambert-equal-area projection for the sphere*** (aka <a 
         href="https://WikiPedia.org/wiki/Lambert_azimuthal_equal-area_projection"
         target="_top">Lambert zenithal equal-area projection</a>, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
@@ -324,7 +366,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Orthographic-class.html" class="summary-name">Orthographic</a><br />
-      Orthographic projection for the sphere**, see <a 
+      Orthographic projection for the sphere***, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 148-153</a> and <a 
         href="https://MathWorld.Wolfram.com/OrthographicProjection.html" 
@@ -336,7 +378,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Stereographic-class.html" class="summary-name">Stereographic</a><br />
-      Stereographic projection for the sphere**, see <a 
+      Stereographic projection for the sphere***, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 157-160</a> and <a 
         href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
@@ -500,8 +542,14 @@
           class="link">Equidistant</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.karney.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>, <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
+        <code>Geodesic</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -566,8 +614,14 @@
           class="link">Gnomonic</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.karney.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>, <a 
+        href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
+        class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
+        <code>Geodesic</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -605,7 +659,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:23 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:56 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -59,8 +59,8 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module interns</h1><p class="nomargin-top"></p>
-<p>Single-instance <code>float</code>s and <code>str</code>ings, 
-  <code>intern</code>'ed across modules.</p>
+<p>Single-instance <code>float</code> and <code>str</code>ing constants, 
+  <code>intern</code>'ed across <code>pygeodesy</code> modules.</p>
   <p>Functions <a href="pygeodesy.interns-module.html#float_" 
   class="link">pygeodesy.float_</a> and <a 
   href="pygeodesy.interns-module.html#machine" 
@@ -68,7 +68,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.04.09
+        22.04.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -101,8 +101,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="float_"></a><span class="summary-sig-name">float_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Yield all positional <b><code>xs</code></b> as <code>float</code>.</td>
+          <td><span class="summary-sig"><a name="float_"></a><span class="summary-sig-name">float_</span>(<span class="summary-sig-arg">*fs</span>)</span><br />
+      Yield all positional <b><code>fs</code></b> as <code>float</code>.</td>
           <td align="right" valign="top">
             
             
@@ -206,20 +206,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="4.4408920985e-16">4.4408920985e-16</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197e-16">8.881784197e-16</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code>
     </td>
   </tr>
@@ -234,7 +220,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code>
+        <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="4.4408920985e-16">4.4408920985e-16</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197e-16">8.881784197e-16</code>
     </td>
   </tr>
 <tr>
@@ -248,8 +241,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="INT0"></a><span class="summary-name">INT0</span> = <code title="0">0</code><br />
-      hash(x)
+        <a name="INT0"></a><span class="summary-name">INT0</span> = <code title="0">0</code>
     </td>
   </tr>
 <tr>
@@ -270,7 +262,21 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="NINF"></a><span class="summary-name">NINF</span> = <code title="-inf">-inf</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code>
     </td>
   </tr>
 <tr>
@@ -292,13 +298,6 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="PI4"></a><span class="summary-name">PI4</span> = <code title="12.5663706144">12.5663706144</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code>
     </td>
   </tr>
 <tr>
@@ -383,7 +382,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:23 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:57 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

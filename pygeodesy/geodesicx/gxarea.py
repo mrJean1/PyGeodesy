@@ -28,7 +28,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '21.11.30'
+__version__ = '22.04.22'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -390,7 +390,7 @@ class GeodesicAreaExact(_NamedBase):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: Area items (C{str}).
         '''
@@ -511,7 +511,7 @@ class _Accumulator(_NamedBase):
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
                         of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: Accumulator (C{str}).
         '''

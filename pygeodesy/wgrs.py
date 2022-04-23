@@ -16,10 +16,9 @@ also U{World Geographic Reference System
 # from pygeodesy.basics import isstr  # from .named
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, _float, \
-                             _height_, _radius_, _SPACE_, \
-                             _0to9_, _0_5, _0_001, _1_0, _2_0, \
-                             _60_0, _90_0, _1000_0
+from pygeodesy.interns import NN, _AtoZnoIO_, _float, _height_, \
+                             _radius_, _SPACE_, _0to9_, _0_5, _0_001, \
+                             _1_0, _2_0, _60_0, _90_EPS_2, _1000_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import isstr, nameof, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
@@ -32,7 +31,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '22.01.17'
+__version__ = '22.04.14'
 
 _Base    =  10
 _BaseLen =  4
@@ -144,9 +143,9 @@ class Georef(Str):
         else:  # assume LatLon
             try:
                 lat, lon, h = _2fllh(cll.lat, cll.lon)
-                h = getattr(cll, _height_, h)
             except AttributeError:
                 raise _xStrError(Georef, cll=cll)  # Error=WGRSError
+            h  = getattr(cll, _height_, h)
             g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             ll = lat, lon  # original lat, lon
 
@@ -213,7 +212,7 @@ class Georef(Str):
            of the supplied C{LatLon} class.
 
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg height: Optional height ({meter}).
+           @kwarg height: Optional height (C{meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
 
@@ -351,8 +350,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon, _ = _2fllh(lat, lon)
-    if lat == _90_0:
-        lat *= EPS1_2
+    lat = _90_EPS_2(lat)
 
     xt, xd, x = _2divmod3(lon, _LonOrig_M_)
     yt, yd, y = _2divmod3(lat, _LatOrig_M_)

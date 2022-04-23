@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, map1, _MGRS_TILE, _to4lldn, _to3zBhp, \
                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '22.01.17'
+__version__ = '22.04.14'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -171,7 +171,7 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
 
-       @raise TypeError: Invalid B({C{datum}}.
+       @raise TypeError: Invalid B{C{datum}}.
 
        @raise UTMUPSError: UTM or UPS validation failed.
 

@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, isnon0, map1
+from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
@@ -23,7 +23,7 @@ from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _concentric_, _datum_, _distant_, \
                              _exceed_PI_radians_, _name_, _near_, \
-                             _too_, _1_0, _180_0, _360_0
+                             _too_, _1_0, _180_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple
@@ -219,7 +219,7 @@ class LatLonSphericalBase(LatLonBase):
         # final bearing is the reverse of the other, initial one;
         # .initialBearingTo is inside .-Nvector and .-Trigonometry
         b = other.initialBearingTo(self, wrap=wrap, raiser=raiser)
-        return (b + _180_0) % _360_0  # == wrap360 since b >= 0
+        return _umod_360(b + _180_0)
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling

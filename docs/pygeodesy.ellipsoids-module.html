@@ -78,7 +78,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.04.11
+        22.04.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -1215,7 +1215,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
       Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, 
       f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      A=6367449.14582342, L=10001965.72931272, R1=6371008.77141506, 
+      A=6367449.14582341, L=10001965.72931272, R1=6371008.77141506, 
       R2=6371007.18091847, R3=6371000.79000916, Rbiaxial=6367453.63451633, 
       Rtriaxial=6372797.5559594)
     </td>
@@ -1254,11 +1254,11 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The (1st) eccentricity (<code>float</code> or <code>0</code>), <i
-          class="math">sqrt(1 - (b / a)**2)</i>.</dd>
+        <dd>The <i>unsigned</i>, (1st) eccentricity (<code>float</code> or 
+          <code>0</code>), <i class="math">sqrt(1 - (b / a)**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is always non-negative and <code>0</code> for 
+        The result is always <i>non-negative</i> and <code>0</code> for 
         <i>near-spherical</i> ellipsoids.
       </p>
 </div></td></tr></table>
@@ -1287,8 +1287,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> or 
-          <code>0</code>), <i class="math">1 - (b / a)**2</i>.</dd>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">1 - (b / 
+          a)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1321,8 +1322,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> or 
-          <code>0</code>), <i class="math">(a / b)**2 - 1</i>.</dd>
+        <dd>The <i>signed</i>, 2nd eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">(a / 
+          b)**2 - 1</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1355,9 +1357,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code> or 
-          <code>0</code>), <i class="math">(a**2 - b**2) / (a**2 + 
-          b**2)</i>.</dd>
+        <dd>The <i>signed</i>, 3rd eccentricity <i>squared</i> 
+          (<code>float</code> or <code>0</code>), <i class="math">(a**2 - 
+          b**2) / (a**2 + b**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1458,8 +1460,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 2nd flattening (<code>float</code> or <code>0</code>), <i 
-          class="math">(a - b) / b</i>.</dd>
+        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+          <code>0</code>), <i class="math">(a - b) / b</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1492,8 +1494,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd flattening (<code>float</code> or <code>0</code>), <i 
-          class="math">(a - b) / (a + b)</i>.</dd>
+        <dd>The <i>signed</i>, 3rd flattening (<code>float</code> or 
+          <code>0</code>), <i class="math">(a - b) / (a + b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1643,8 +1645,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> &lt; 
-          1), <i class="math">f * (2 - f)</i>.</dd>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> &lt; 1), <i class="math">f * (2 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1683,9 +1685,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> &gt; -1 
-          or <code>INF</code>), <i class="math">f * (2 - f) / (1 - 
-          f)**2</i>.</dd>
+        <dd>The <i>signed</i>, 2nd eccentricity <i>squared</i> 
+          (<code>float</code> &gt; -1 or <code>INF</code>), <i 
+          class="math">f * (2 - f) / (1 - f)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1721,8 +1723,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code>), <i 
-          class="math">f * (2 - f) / (1 + (1 - f)**2)</i>.</dd>
+        <dd>The <i>signed</i>, 3rd eccentricity <i>squared</i> 
+          (<code>float</code>), <i class="math">f * (2 - f) / (1 + (1 - 
+          f)**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1824,8 +1827,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 2nd flattening (<code>float</code> or <code>INF</code>), <i 
-          class="math">f / (1 - f)</i>.</dd>
+        <dd>The <i>signed</i>, 2nd flattening (<code>float</code> or 
+          <code>INF</code>), <i class="math">f / (1 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1864,8 +1867,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
           <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd flattening (-1 &lt;= <code>float</code> &lt; 1), <i 
-          class="math">f / (2 - f)</i>.</dd>
+        <dd>The <i>signed</i>, 3rd flattening (-1 &lt;= <code>float</code> 
+          &lt; 1), <i class="math">f / (2 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1903,8 +1906,9 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> or 
-          -INF), <i class="math">4 * n / (1 + n)**2</i>.</dd>
+        <dd>The <i>signed</i>, (1st) eccentricity <i>squared</i> 
+          (<code>float</code> or NINF), <i class="math">4 * n / (1 + 
+          n)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The result is positive for <i>oblate</i>, negative for 
@@ -1939,7 +1943,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or -INF), <i class="math">2 * 
+        <dd>The flattening (<code>float</code> or NINF), <i class="math">2 * 
           n / (1 + n)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2052,7 +2056,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:23 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:56 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

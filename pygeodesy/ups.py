@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.03.02'
+__version__ = '22.04.22'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -272,8 +272,8 @@ class Ups(UtmUpsBase):
            Note that UPS coordinates are rounded, not truncated (unlike
            MGRS grid references).
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:value pairs (C{str}).
            @kwarg B: Optionally, include polar band letter (C{bool}).
            @kwarg cs: Optionally, include gamma meridian convergence and
@@ -299,7 +299,7 @@ class Ups(UtmUpsBase):
            Note that UPS coordinates are rounded, not truncated (unlike
            MGRS grid references).
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include and polar band letter (C{bool}).

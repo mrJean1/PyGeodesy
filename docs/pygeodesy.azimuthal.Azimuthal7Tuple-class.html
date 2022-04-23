@@ -100,9 +100,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="antipodal"></a><span class="summary-sig-name">antipodal</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the antipodal <code>lat</code> and <code>lon</code> of this 
-      tuple.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html#antipodal" class="summary-sig-name">antipodal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">azimuth</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return this tuple with the antipodal <code>lat</code> and 
+      <code>lon</code>.</td>
           <td align="right" valign="top">
             
             
@@ -151,7 +152,6 @@
       <code>index</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
@@ -188,39 +188,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== CLASS VARIABLES ==================== -->
-<a name="section-ClassVariables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variables</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('x', 'y', 'lat', 'lon', 'azimuth', 'scale', 'datum')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">azimuth</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">scale</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code></code><br />
-      Tuple specifying the <code>name</code> of each 
-      <code>Named-Tuple</code> item.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="(&lt;class 'pygeodesy.units.Easting'&gt;,
- &lt;class 'pygeodesy.units.Northing'&gt;,
- &lt;class 'pygeodesy.units.Lat_'&gt;,
- &lt;class 'pygeodesy.units.Lon_'&gt;,
- &lt;class 'pygeodesy.units.Bearing'&gt;,
- &lt;class 'pygeodesy.units.Scalar'&gt;,
- &lt;function _Pass at 0x7fe9404a9950&gt;)"><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Easting'&gt;<code class="variable-op">, </code>&lt;class 'pygeodes<code class="variable-ellipsis">...</code></code><br />
-      Tuple defining the <code>units</code> of the value of each 
-      <code>Named-Tuple</code> item.
-    </td>
-  </tr>
-</table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -249,62 +216,38 @@
     </td>
   </tr>
 </table>
-<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
-<a name="section-ClassVariableDetails"></a>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variable Details</span></td>
+    <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="_Names_"></a>
+<a name="antipodal"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">_Names_</h3>
-  <p>Tuple specifying the <code>name</code> of each 
-  <code>Named-Tuple</code> item.</p>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipodal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">azimuth</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this tuple with the antipodal <code>lat</code> and 
+  <code>lon</code>.</p>
   <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Specify at least 2 item names.
-      </p>
-</div>  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">azimuth</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">scale</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="_Units_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">_Units_</h3>
-  <p>Tuple defining the <code>units</code> of the value of each 
-  <code>Named-Tuple</code> item.</p>
-  <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
-      </p>
-</div>  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code>&lt;class 'pygeodesy.units.Easting'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Northing'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Lat_'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Lon_'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Bearing'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
- &lt;function _Pass at 0x7fe9404a9950&gt;<code class="variable-group">)</code>
-</pre></td></tr></table>
-</dd>
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>azimuth</code></strong> - Optional azimuth, overriding the current azimuth (<code>compass 
+          degrees360</code>).</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -340,7 +283,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:24 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:14:57 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

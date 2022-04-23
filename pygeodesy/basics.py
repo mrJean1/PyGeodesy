@@ -12,10 +12,11 @@ del division
 
 from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
                              _TypesError, _ValueError, _xkwds_get
-from pygeodesy.interns import EPS0, MISSING, NEG0, NN, _by_, _DOT_, \
-                             _invalid_, _N_A_, _name_, _not_finite_, \
-                             _not_scalar_, _SPACE_, _UNDER_, _utf_8_, \
-                             _version_, _0_0, _1_0
+from pygeodesy.interns import EPS0, INT0, MISSING, NEG0, NN, \
+                             _by_, _DOT_, _invalid_, _N_A_, _name_, \
+                             _not_finite_, _not_scalar_, _SPACE_, \
+                             _UNDER_, _utf_8_, _version_, _0_0, \
+                             _1_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -28,7 +29,7 @@ except ImportError:  # Python 2-
         return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.03.28'
+__version__ = '22.04.22'
 
 _below_     = 'below'
 _ELLIPSIS4_ = '....'
@@ -226,6 +227,19 @@ def isint(obj, both=False):
     return False
 
 
+def isint0(obj, both=False):
+    '''Check for L{INT0} or C{int(0)} value.
+
+       @arg obj: The object (any C{type}).
+       @kwarg both: If C{true}, also check C{float(0)} (C{bool}).
+
+       @return: C{True} if B{C{obj}} is L{INT0}, C{int(0)} or
+                C{float(0)}, C{False} otherwise.
+    '''
+    return (obj is INT0 or obj is int(0) or bool(both and
+       (not obj) and isint(obj, both=True))) and not isbool(obj)
+
+
 try:
     from keyword import iskeyword  # Python 2.7+
 except ImportError:
@@ -309,7 +323,7 @@ def isscalar(obj):
 
        @return: C{True} if B{C{obj}} is C{scalar}, C{False} otherwise.
     '''
-    return isinstance(obj, _Scalars)
+    return isinstance(obj, _Scalars) and not isbool(obj)
 
 
 def issequence(obj, *excluded):
@@ -494,6 +508,12 @@ def ub2str(ub):
     if isinstance(ub, _Bytes):
         ub = str(ub.decode(_utf_8_))
     return ub
+
+
+def _umod_360(deg):
+    '''(INTERNAL) Non-negative C{deg} modulo 360, basic C{.utily.wrap360}.
+    '''
+    return (deg % _360_0) or _0_0  # see comments in .karney._remod
 
 
 def unsigned0(x):

@@ -8,14 +8,15 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import copysign0, neg, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, neg, _umod_360, \
+                            _xinstanceof, _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
 from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _easting_, _lat_, _lon_, _m_, _name_, \
                              _northing_, _reciprocal_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _90_0, _360_0
+                             _0_0, _0_5, _1_0, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
@@ -27,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.02.24'
+__version__ = '22.04.22'
 
 
 def _CS0(cs0):
@@ -287,9 +288,9 @@ class CassiniSoldner(_NamedBase):
         '''
         g = self.geodesic
 
-        n = self._meridian.Position(northing)
-        r = g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
-        z = (r.azi2 + _360_0) % _360_0
+        n =  self._meridian.Position(northing)
+        r =  g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
+        z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
         # include azimuth of easting direction and reciprocal of
         # azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
@@ -300,7 +301,7 @@ class CassiniSoldner(_NamedBase):
     def toRepr(self, prec=6, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
 
            @return: This projection as C{"<classname>(lat0, lon0, ...)"}
                     (C{str}).
@@ -310,8 +311,8 @@ class CassiniSoldner(_NamedBase):
     def toStr(self, prec=6, sep=_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.
 
-           @kwarg prec: Optional number of decimal, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg sep: Separator to join (C{str}).
 
            @return: This projection as C{"lat0 lon0"} (C{str}).
         '''
@@ -444,8 +445,8 @@ class Css(_NamedBase):
     def toRepr(self, prec=6, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:values (C{str}).
            @kwarg m: Optional unit of the height, default meter (C{str}).
            @kwarg C: Optionally, include name of projection (C{bool}).
@@ -465,10 +466,10 @@ class Css(_NamedBase):
     def toStr(self, prec=6, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
-           @kwarg prec: Optional number of decimal, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
-           @kwarg m: Optional height units, default C{meter} (C{str}).
+           @kwarg m: Height units, default C{meter} (C{str}).
 
            @return: This position as C{"easting nothing"} C{str} in
                     C{meter} plus C{" height"} and C{'m'} if height

@@ -4,12 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.10.11'
+__version__ = '22.04.12'
 
 from base import TestsBase, geographiclib
 
 from pygeodesy import EPS, PI, PI2, PI_2, \
-                      acre2ha, acre2m2, atan2d, chain2m, \
+                      acre2ha, acre2m2, atan2d, chain2m, cot_, cotd_, \
                       degrees90, degrees180, degrees360, degrees2m, \
                       fathom2m, ft2m, furlong2m, \
                       grades400, degrees2grades, grades2degrees, grades2radians, \
@@ -175,6 +175,13 @@ class Tests(TestsBase):
                 s, c = sincosd(a)
                 g = max(g, abs(sr - s), abs(cr - c))
                 f = max(f, abs(sd - s), abs(cd - c))
+
+        if sr:  # coverage
+            c, _ = cot_(r, r)  # .next() or __next__()
+            self.test('cot_ ', c, cr / sr, prec=12)
+        if sd:  # coverage
+            c, _ = cotd_(a, a)  # .next() or __next__()
+            self.test('cotd_', c, cd / sd, prec=12)
 
         EPS_ = EPS * 8
         self.test('sincos2',  e, EPS_, known=e < EPS_)

@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.02.24'
+__version__ = '22.04.18'
 
 from base import isPython2, startswith, TestsBase
 
@@ -89,7 +89,7 @@ class Tests(TestsBase):
         self.test('fmul', p.fsum(), f.fsum(), prec=8, nt=1)
 
         t = 1, 1e101, 1, -1e101
-        for i in range(1, 11):
+        for i in range(1, 9):
             a = Fsum(*t)
             self.test('len' + str(i), len(a), len(a))
             b = a.fcopy()
@@ -104,7 +104,9 @@ class Tests(TestsBase):
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
             self.testCopy(a, '_fint2', '_fprs', '_fprs2', '_n', '_ps', deep=True)
-        self.test('len', len(a), 4096, nt=1)
+        self.test('len', len(a), 513)
+        t = a.partials
+        self.test('partials', t, t, nt=1)
 
         c = a - b
         self.test('FSum0', c.fsum(), 0.0)
@@ -118,18 +120,18 @@ class Tests(TestsBase):
         self.test('FSum0', t.fsum(), 0.0)
         a.fsub_(*a._ps)
         self.test('FSum0', a.fsum(), 0.0)
-        self.test('Fsum#', len(a), 4097)
+        self.test('Fsum#', len(a), 514)
         self.test('Fsum#', len(a._ps), 1)
         self.test('FSum.', a, 'fsums.Fsum[4097] (0.0, 0)', known=not a)
 
         self.test('FsumI', c.imag, 0.0)
         self.test('FsumR', c.real, float(c))
 
-        self.test('radd', float(2 + b),  '2050.0')
-        self.test('rdiv', float(2 / b),  '9.77e-04', prec=-2)
-        self.test('rmul', float(2 * b),  '4096.0')
+        self.test('radd', float(2 + b),  '514.0')
+        self.test('rdiv', float(2 / b),  '3.91e-03', prec=-2)
+        self.test('rmul', float(2 * b),  '1024.0')
         self.test('rpow', float(2**a),      '1.0')
-        self.test('rsub', float(2 - b), '-2046.0')
+        self.test('rsub', float(2 - b), '-510.0')
         z = getsizeof(t)
         self.test('sizeof', z, 372, known=100 < z < 600)  # or 456 Python 2.
         try:

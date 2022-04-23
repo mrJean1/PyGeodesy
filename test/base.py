@@ -14,7 +14,7 @@ from os import getenv
 from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
-from time import time
+from time import gmtime, time
 
 try:
     if float(getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.02.20'
+__version__ = '22.04.16'
 
 try:
     import geographiclib
@@ -124,13 +124,18 @@ except ImportError:
 class RandomLatLon(object):
     '''Random LatLon(lat, lon) generator.
     '''
+    _random = None
+
     def __init__(self, LatLon, lat_=170, lon_=350):  # +/- ranges
         self._LatLon = LatLon
         self._lat_ = lat_
         self._lon_ = lon_
 
-        from random import random
-        self._random = random
+        if self._random is None:
+            import random
+            y, m, d = gmtime()[:3]
+            random.seed((y * 13 + m) * 32 + d)
+            RandomLatLon._random = random.random
 
     def __call__(self, **LatLon_kwds):
         return self._LatLon((self._random() - 0.5) * self._lat_,

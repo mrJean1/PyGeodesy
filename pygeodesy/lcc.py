@@ -47,7 +47,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.04.07'
+__version__ = '22.04.22'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -286,9 +286,9 @@ class Conic(_NamedEnumItem):
     def toStr(self, prec=8, name=NN):  # PYCHOK expected
         '''Return this conic as a string.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg name: Override name (C{str}) or C{None} to exclude the
-                        conic's name.
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg name: Override name (C{str}) or C{None} to exclude
+                        this conic's name.
 
            @return: Conic attributes (C{str}).
         '''
@@ -563,8 +563,8 @@ class Lcc(_NamedBase):
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Optional separator between name:values (C{str}).
            @kwarg m: Optional unit of the height, default meter (C{str}).
            @kwarg C: Optionally, include name of conic and datum (C{bool}).
@@ -581,7 +581,7 @@ class Lcc(_NamedBase):
     def toStr(self, prec=0, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
-           @kwarg prec: Optional number of decimal, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg m: Optional height units, default C{meter} (C{str}).

@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.03.03'
+__version__ = '22.04.22'
 
 
 class LatLonBase(_NamedBase):
@@ -667,7 +667,7 @@ class LatLonBase(_NamedBase):
     def heightStr(self, prec=-2, m=_m_):
         '''Return this B{C{height}} as C{str}ing.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
            @kwarg m: Optional unit of the height (C{str}).
 
            @see: Function L{pygeodesy.hstr}.
@@ -697,6 +697,12 @@ class LatLonBase(_NamedBase):
         '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
         '''
         return self.datum.isEllipsoidal if self._datum else None
+
+    @Property_RO
+    def isEllipsoidalLatLon(self):
+        '''Get C{LatLon} base.
+        '''
+        return False
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point, I{ignoring} height.
@@ -809,7 +815,7 @@ class LatLonBase(_NamedBase):
     def latlon2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{degrees}, rounded.
 
-           @kwarg ndigits: Number of decimal digits (C{int}).
+           @kwarg ndigits: Number of (decimal) digits (C{int}).
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}, both C{float}
                     and rounded away from zero.
@@ -932,7 +938,7 @@ class LatLonBase(_NamedBase):
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.
 
-           @kwarg ndigits: Number of decimal digits (C{int}).
+           @kwarg ndigits: Number of (decimal) digits (C{int}).
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}, both C{float}
                     and rounded away from zero.

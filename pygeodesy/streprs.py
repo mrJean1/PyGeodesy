@@ -10,34 +10,17 @@ from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
                              _EQUAL_, _H_, _invalid_, _N_, _name_, _not_, \
-                             _PERCENT_, _OKd_, _scalar_, _SPACE_, _STAR_, \
-                             _UNDER_, _0_, _0_0, _0_001, _0_01, _0_1, _1_0
+                             _PERCENT_, _scalar_, _SPACE_, _STAR_, _UNDER_, \
+                             _0_, _0_0, _0_001, _0_01, _0_1, _1_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.03.04'
+__version__ = '22.04.22'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
-
-
-def _pct(fmt):
-    '''(INTERNAL) Prefix C{%} if needed.
-    '''
-    return fmt if _PERCENT_ in fmt else NN(_PERCENT_, fmt)
-
-
-def _0wd(*w_i):  # in .osgr, .wgrs
-    '''(INTERNAL) Int formatter'.
-    '''
-    return '%0*d' % w_i
-
-
-def _0wpF(*w_p_f):  # in .dms, .osgr
-    '''(INTERNAL) Float deg, min, sec formatter'.
-    '''
-    return '%0*.*f' % w_p_f  # XXX was F
+_OKd_   = '._-'  # acceptable name characters
 
 
 class _Fmt(str):  # in .streprs
@@ -160,42 +143,6 @@ _FfEeGg = (Fmt.F, Fmt.f, Fmt.E, Fmt.e) + _Gg  # float formats
 _Fspec_ = NN('[%[<flags>][<width>]', _DOTSTAR_, ']', _BAR_.join(_FfEeGg))  # in testStreprs
 
 
-def _streprs(prec, objs, fmt, ints, force, strepr):
-    '''(INTERNAL) Helper for C{fstr}, C{pairs}, C{reprs} and C{strs}
-    '''
-    # <https://docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting>
-    if fmt in _FfEeGg:
-        fGg = fmt in _Gg
-        fmt = NN(_PERCENT_, _DOT_, abs(prec), fmt)
-
-    elif fmt.startswith(_PERCENT_):
-        fGg = False
-        try:  # to make sure fmt is valid
-            f = fmt.replace(_DOTSTAR_, Fmt.DOT(abs(prec)))
-            _ = f % (_0_0,)
-        except (TypeError, ValueError):
-            raise _ValueError(fmt=fmt, txt=_not_(repr(_DOTSTAR_)))
-        fmt = f
-
-    else:
-        raise _ValueError(fmt=fmt, txt=_not_(repr(_Fspec_)))
-
-    for o in objs:
-        if force or isinstance(o, float):
-            t = fmt % (float(o),)
-            if ints and (isint(o, both=True) or  # for ...
-                         # corner case testLcc lon0=-96.0
-                         t.rstrip(_0_).endswith(_DOT_)):
-                t = t.split(_DOT_)[0]
-            elif prec > 1:
-                t = fstrzs(t, ap1z=fGg)
-        elif strepr:
-            t = strepr(o)
-        else:
-            raise _IsnotError(_scalar_, floats=o)
-        yield t
-
-
 def anstr(name, OKd=_OKd_, sub=_UNDER_):
     '''Make a valid name of alphanumeric and OKd characters.
 
@@ -216,13 +163,13 @@ def anstr(name, OKd=_OKd_, sub=_UNDER_):
     return sub.join(s.strip().split())
 
 
-def attrs(inst, *names, **Nones_True_pairs_kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
+def attrs(inst, *names, **Nones_True__pairs_kwds):  # prec=6, fmt=Fmt.F, ints=False, Nones=True, sep=_EQUAL_
     '''Get instance attributes as I{name=value} strings, with C{float}s
        formatted by function L{fstr}.
 
        @arg inst: The instance (any C{type}).
-       @arg names: The attribute names (C{str}s).
-       @kwarg Nones_True_pairs_kwds: Keyword argument for function L{pairs}, except
+       @arg names: The attribute names, all other positional (C{str}).
+       @kwarg Nones_True__pairs_kwds: Keyword argument for function L{pairs}, except
               C{B{Nones}=True} to in-/exclude missing or C{None}-valued attributes.
 
        @return: A C{tuple(B{sep}.join(t) for t in zip(B{names}, reprs(values, ...)))}
@@ -237,8 +184,20 @@ def attrs(inst, *names, **Nones_True_pairs_kwds):  # prec=6, fmt=Fmt.F, ints=Fal
     def _Nones_kwds(Nones=True, **kwds):
         return Nones, kwds
 
-    Nones, kwds = _Nones_kwds(**Nones_True_pairs_kwds)
+    Nones, kwds = _Nones_kwds(**Nones_True__pairs_kwds)
     return pairs(_items(inst, names, Nones), **kwds)
+
+
+def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights
+    '''(INTERNAL) Set applicable C{bool} properties/attributes.
+    '''
+    for n, v in name_value_pairs.items():
+        b = getattr(inst, n, None)
+        if b is None:  # invalid bool attr
+            t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
+            raise _AttributeError(t, txt=_not_('applicable'))
+        if v in (False, True) and v != b:
+            setattr(inst, NN(_UNDER_, n), v)
 
 
 def enstr2(easting, northing, prec, *extras):
@@ -400,6 +359,12 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
     return tuple(sep.join(t) for t in zip(map(str, n), v))
 
 
+def _pct(fmt):
+    '''(INTERNAL) Prefix C{%} if needed.
+    '''
+    return fmt if _PERCENT_ in fmt else NN(_PERCENT_, fmt)
+
+
 def reprs(objs, prec=6, fmt=Fmt.F, ints=False):
     '''Convert objects to C{repr} strings, with C{float}s handled like L{fstr}.
 
@@ -413,6 +378,42 @@ def reprs(objs, prec=6, fmt=Fmt.F, ints=False):
        @return: A C{tuple(map(fstr|repr, objs))} of C{str}s.
     '''
     return tuple(_streprs(prec, objs, fmt, ints, False, repr)) if objs else ()
+
+
+def _streprs(prec, objs, fmt, ints, force, strepr):
+    '''(INTERNAL) Helper for C{fstr}, C{pairs}, C{reprs} and C{strs}
+    '''
+    # <https://docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting>
+    if fmt in _FfEeGg:
+        fGg = fmt in _Gg
+        fmt = NN(_PERCENT_, _DOT_, abs(prec), fmt)
+
+    elif fmt.startswith(_PERCENT_):
+        fGg = False
+        try:  # to make sure fmt is valid
+            f = fmt.replace(_DOTSTAR_, Fmt.DOT(abs(prec)))
+            _ = f % (_0_0,)
+        except (TypeError, ValueError):
+            raise _ValueError(fmt=fmt, txt=_not_(repr(_DOTSTAR_)))
+        fmt = f
+
+    else:
+        raise _ValueError(fmt=fmt, txt=_not_(repr(_Fspec_)))
+
+    for o in objs:
+        if force or isinstance(o, float):
+            t = fmt % (float(o),)
+            if ints and (isint(o, both=True) or  # for ...
+                         # corner case testLcc lon0=-96.0
+                         t.rstrip(_0_).endswith(_DOT_)):
+                t = t.split(_DOT_)[0]
+            elif prec > 1:
+                t = fstrzs(t, ap1z=fGg)
+        elif strepr:
+            t = strepr(o)
+        else:
+            raise _IsnotError(_scalar_, floats=o)
+        yield t
 
 
 def strs(objs, prec=6, fmt=Fmt.F, ints=False):
@@ -439,20 +440,20 @@ def unstr(named, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    t = reprs(args, fmt=Fmt.g) + pairs(sorted(kwds.items()))
+    t = reprs(args, fmt=Fmt.g) + pairs(sorted(kwds.items()), fmt=Fmt.g)
     return Fmt.PAREN(named, _COMMASPACE_.join(t))
 
 
-def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights
-    '''(INTERNAL) Set applicable C{bool} properties/attributes.
+def _0wd(*w_i):  # in .osgr, .wgrs
+    '''(INTERNAL) Int formatter'.
     '''
-    for n, v in name_value_pairs.items():
-        b = getattr(inst, n, None)
-        if b is None:  # invalid bool attr
-            t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
-            raise _AttributeError(t, txt=_not_('applicable'))
-        if v in (False, True) and v != b:
-            setattr(inst, NN(_UNDER_, n), v)
+    return '%0*d' % w_i
+
+
+def _0wpF(*w_p_f):  # in .dms, .osgr
+    '''(INTERNAL) Float deg, min, sec formatter'.
+    '''
+    return '%0*.*f' % w_p_f  # XXX was F
 
 
 def _xattrs(insto, other, *attrs):

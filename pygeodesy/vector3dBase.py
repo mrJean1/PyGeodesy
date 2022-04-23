@@ -8,31 +8,28 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1, \
-                            _xinstanceof
+from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, map1
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
-from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
-from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, sincos2
-from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, _coincident_, \
-                             _colinear_, _COMMASPACE_, _1_0
+from pygeodesy.fmath import euclid_, fdot, fsum1_, hypot_, hypot2_
+# from pygeodesy.fsums import fsum1_  # from .fmath
+from pygeodesy.interns import EPS, EPS0, INT0, NN, PI, PI2, _coincident_, \
+                             _colinear_, _COMMASPACE_, _float0, _y_, _z_, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
-from pygeodesy.namedTuples import Vector3Tuple, Vector4Tuple
+from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
-# from pygeodesy.utily import sincos2  # from .formy
+# from pygeodesy.utily import sincos2  # in Vector3dBase.rotate below
 
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.02.23'
-
-_fromll_ = '_fromll'  # UNDERSCORE
+__version__ = '22.04.22'
 
 
-class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
+class Vector3dBase(_NamedBase):
     '''(INTERNAL) Generic 3-D vector base class.
 
        In a geodesy context, these may be used to represent:
@@ -44,20 +41,22 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     '''
     _crosserrors = True  # un/set by .errors.crosserrors
 
-    _fromll = None  # original latlon, '_fromll'
-    _x      = 0     # X component
-    _y      = 0     # Y component
-    _z      = 0     # Z component
+    _ll = None  # original latlon, '_fromll'
+    _x  = 0     # X component
+    _y  = 0     # Y component
+    _z  = 0     # Z component
 
-    def __init__(self, x_xyz, y=0, z=0, ll=None, name=NN):
+    def __init__(self, x_xyz, y=INT0, z=INT0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
 
            The vector may be normalised or use x, y, z for position and
            distance from earth centre or height relative to the surface
            of the earth' sphere or ellipsoid.
 
-           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
-                       (C{Cartesian}, C{Nvector}, L{Vector3d} or L{Vector3Tuple}).
+           @arg x_xyz: X component of vector (C{scalar}) or a (3-D) vector
+                       (C{Cartesian}, L{Ecef9Tuple}, C{Nvector}, L{Vector3d},
+                       L{Vector3Tuple}, L{Vector4Tuple} or a C{tuple} or
+                       C{list} of 3+ C{scalar} values).
            @kwarg y: Y component of vector (C{scalar}), ignored if B{C{x_xyz}}
                      is not C{scalar}, otherwise same units as B{C{x_xyz}}.
            @kwarg z: Z component of vector (C{scalar}), ignored if B{C{x_xyz}}
@@ -67,12 +66,12 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise VectorError: Invalid B{C{x_xyz}}.
         '''
-        try:
-            self._x, self._y, self._z = (x_xyz, y, z) if isscalar(x_xyz) else x_xyz.xyz
-        except (AttributeError, TypeError, ValueError) as x:
-            raise VectorError(x=x_xyz, y=y, z=z, txt=str(x))
+        if isscalar(x_xyz):
+            self._xyz(x_xyz, y, z)
+        else:
+            self.xyz = x_xyz
         if ll:
-            self._fromll = ll
+            self._ll = ll
         if name:
             self.name = name
 
@@ -106,9 +105,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return -1 if self.length < other.length else (
-               +1 if self.length > other.length else 0)
+        n = self.others(other).length
+        return -1 if self.length < n else (
+               +1 if self.length > n else 0)
 
     cmp = __cmp__
 
@@ -125,7 +124,6 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-#       self.others(other)
         return self.isequalTo(other, eps=EPS0)
 
     def __floordiv__(self, other):  # PYCHOK no cover
@@ -145,8 +143,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return self.length >= other.length
+        return self.length >= self.others(other).length
 
 #   def __getitem__(self, key):
 #       '''Return C{item} at index or slice C{[B{key}]}.
@@ -162,8 +159,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return self.length > other.length
+        return self.length > self.others(other).length
 
     def __iadd__(self, other):
         '''Add this and an other vector I{in-place}, C{this += B{other}}.
@@ -172,8 +168,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.xyz = self.plus(other).xyz
-        return self
+        return self._xyz(self.plus(other))
 
     def __imatmul__(self, other):  # PYCHOK Python 3.5+
         '''Cross multiply this and an other vector I{in-place}, C{this @= B{other}}.
@@ -184,8 +179,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
         '''
-        self.xyz = self.cross(other).xyz
-        return self
+        return self._xyz(self.cross(other))
 
     def __imul__(self, scalar):
         '''Multiply this vector by a scalar I{in-place}, C{this *= B{scalar}}.
@@ -194,8 +188,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Non-scalar B{C{scalar}}.
         '''
-        self.xyz = self.times(scalar).xyz
-        return self
+        return self._xyz(self.times(scalar))
 
     def __int__(self):  # PYCHOK no cover
         '''Not implemented.'''
@@ -208,8 +201,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.xyz = self.minus(other).xyz
-        return self
+        return self._xyz(self.minus(other))
 
     def __itruediv__(self, scalar):
         '''Divide this vector by a scalar I{in-place}, C{this /= B{scalar}}.
@@ -218,8 +210,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Non-scalar B{C{scalar}}.
         '''
-        self.xyz = self.dividedBy(scalar).xyz
-        return self
+        return self._xyz(self.dividedBy(scalar))
 
     def __le__(self, other):  # Python 3+
         '''Is this vector shorter than or equal to an other vector?
@@ -230,8 +221,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return self.length <= other.length
+        return self.length <= self.others(other).length
 
 #   def __len__(self):
 #       '''Return C{3}, always.
@@ -247,8 +237,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return self.length < other.length
+        return self.length < self.others(other).length
 
     def __matmul__(self, other):  # PYCHOK Python 3.5+
         '''Compute the cross product of this and an other vector, C{this @ B{other}}.
@@ -315,8 +304,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return other.cross(self)
+        return self.others(other).cross(self)
 
     def __rmod__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -341,8 +329,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-        return other.minus(self)
+        return self.others(other).minus(self)
 
     def __rtruediv__(self, scalar):  # PYCHOK no cover
         '''Not implemented.'''
@@ -407,14 +394,16 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return a
 
     def apply(self, fun2, other_x, *y_z, **fun2_kwds):
-        '''Apply a function component-wise to this and an other vector.
+        '''Apply a 2-argument function component-pairwise to this and
+           an other vector.
 
-           @arg fun2: 2-Argument callable (C{any(scalar, scalar}).
-           @arg other_x: An other vector factors (L{Vector3dBase},
-                         L{Vector3Tuple}, L{Vector4Tuple},
-                         L{Ecef9Tuple} cartesian) or X scale
-                         factor (C{scalar}).
-           @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}).
+           @arg fun2: 2-Argument callable (C{any(scalar, scalar}),
+                      return a C{scalar} or L{INT0} result.
+           @arg other_x: Other X component (C{scalar}) or a vector
+                         with X, Y and Z components (C{Cartesian},
+                         L{Ecef9Tuple}, C{Nvector}, L{Vector3d},
+                         L{Vector3Tuple} or L{Vector4Tuple}).
+           @arg y_z: Other Y and Z components, positional (C{scalar}, C{scalar}).
            @kwarg fun2_kwds: Optional keyword arguments for B{C{fun2}}.
 
            @return: New, applied vector (L{Vector3d}).
@@ -430,15 +419,18 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         else:
             _f2 = fun2
 
-        xyz = _other_xyz3(other_x, y_z)
-        xyz = (_f2(a, b) for a, b in zip(self.xyz, xyz))
-        return self.classof(*xyz)
+        x_y_z = _other_x_y_z3(other_x, y_z)
+        x_y_z = (_f2(a, b) for a, b in zip(self.xyz, x_y_z))
+        return self.classof(*x_y_z)
 
-    def cross(self, other, raiser=None):  # raiser=NN
+    def cross(self, other, raiser=None, eps0=EPS):  # raiser=NN
         '''Compute the cross product of this and an other vector.
 
            @arg other: The other vector (L{Vector3d}).
-           @kwarg raiser: Optional, L{CrossError} label if raised (C{str}).
+           @kwarg raiser: Optional, L{CrossError} label if raised (C{str},
+                          non-L{NN}).
+           @kwarg eps0: Near-zero tolerance (C{scalar}), same units as
+                        C{x}, C{y}, and C{z}.
 
            @return: Cross product (L{Vector3d}).
 
@@ -447,16 +439,17 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
+        other = self.others(other)
 
-        x, y, z = self.xyz
-        x, y, z = ((y * other.z - z * other.y),
-                   (z * other.x - x * other.z),
-                   (x * other.y - y * other.x))
+        x = fsum1_(self.y * other.z, -self.z * other.y)
+        y = fsum1_(self.z * other.x, -self.x * other.z)
+        z = fsum1_(self.x * other.y, -self.y * other.x)
 
-        if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
-            t = _coincident_ if self.isequalTo(other) else _colinear_
-            r = getattr(other, _fromll_, None) or other
+        if raiser and self.crosserrors and eps0 > 0 \
+                  and max(map1(abs, x, y, z)) < eps0:
+            t =  self.isequalTo(other, eps=eps0)
+            t = _coincident_ if t else _colinear_
+            r =  other._fromll or other
             raise CrossError(raiser, r, txt=t)
 
         return self.classof(x, y, z)
@@ -473,22 +466,22 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         self._crosserrors = bool(raiser)
 
-    def dividedBy(self, factor):
+    def dividedBy(self, divisor):
         '''Divide this vector by a scalar.
 
-           @arg factor: The divisor (C{scalar}).
+           @arg divisor: The divisor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: Non-scalar B{C{factor}}.
+           @raise TypeError: Non-scalar B{C{divisor}}.
 
-           @raise VectorError: Invalid or zero B{C{factor}}.
+           @raise VectorError: Invalid or zero B{C{divisor}}.
         '''
-        f = Scalar(factor=factor)
+        d = Scalar(divisor=divisor)
         try:
-            return self.times(_1_0 / f)
+            return self._times(_1_0 / d)
         except (ValueError, ZeroDivisionError) as x:
-            raise VectorError(factor=factor, txt=str(x))
+            raise VectorError(divisor=divisor, txt=str(x))
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -499,12 +492,8 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        if other is self:
-            d = self.length2
-        else:
-            self.others(other)
-            d = fdot(self.xyz, *other.xyz)
-        return d
+        return self.length2 if other is self else \
+               fdot(self.xyz, *self.others(other).xyz)
 
     @deprecated_method
     def equals(self, other, units=False):  # PYCHOK no cover
@@ -514,7 +503,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     @Property_RO
     def euclid(self):
-        '''Approximate the length (norm, magnitude) of this vector (C{Float}).
+        '''I{Approximate} the length (norm, magnitude) of this vector (C{Float}).
 
            @see: Properties C{length} and C{length2} and function
                  L{pygeodesy.euclid_}.
@@ -522,7 +511,7 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return Float(euclid=euclid_(self.x, self.y, self.z))
 
     def equirectangular(self, other):
-        '''Approximate the different between this and an other vector.
+        '''I{Approximate} the different between this and an other vector.
 
            @arg other: Vector to subtract (C{Vector3dBase}).
 
@@ -534,6 +523,18 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         d = self.minus(other)
         return Float(equirectangular=hypot2_(d.x, d.y, d.z))
+
+    @Property
+    def _fromll(self):
+        '''(INTERNAL) Get the latlon reference (C{LatLon}) or C{None}.
+        '''
+        return self._ll
+
+    @_fromll.setter  # PYCHOK setter!
+    def _fromll(self, ll):
+        '''(INTERNAL) Set the latlon reference (C{LatLon}) or C{None}.
+        '''
+        self._ll = ll or None
 
     def intermediateTo(self, other, fraction, **unused):  # height=None, wrap=False
         '''Locate the vector at a given fraction between (or along) this
@@ -548,32 +549,31 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         f = Scalar(fraction=fraction)
-        if isnear0(f):
+        if isnear0(f):  # PYCHOK no cover
             r = self
         else:
             r = self.others(other)
             if not isnear1(f):  # self * (1 - f) + r * f
-                r = self.plus(r.minus(self).times(f))
+                r = self.plus(r.minus(self)._times(f))
         return r
 
     def isconjugateTo(self, other, minum=1, eps=EPS):
         '''Determine whether this and an other vector are conjugates.
 
-           @arg other: The other vector (L{Vector3d}, C{Vector3Tuple} or
-                       C{Vector4Tuple}).
-           @kwarg minum: Minimal number of conjugates (C{int}, 0..3).
+           @arg other: The other vector (C{Cartesian}, L{Ecef9Tuple},
+                       L{Vector3d}, C{Vector3Tuple} or C{Vector4Tuple}).
+           @kwarg minum: Minimal number of conjugates required (C{int}, 0..3).
            @kwarg eps: Tolerance for equality and conjugation (C{scalar}),
                        same units as C{x}, C{y}, and C{z}.
 
-           @return: C{True} if C{x}, C{y} and C{z} of this match the other
-                    vector's or at least C{B{minum}} have opposite signs.
+           @return: C{True} if both vector's components either match
+                    or at least C{B{minum}} have opposite signs.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
 
            @see: Method C{isequalTo}.
         '''
         self.others(other)
-
         n = 0
         for a, b in zip(self.xyz, other.xyz):
             if abs(a + b) < eps and ((a < 0 and b > 0) or
@@ -676,7 +676,6 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
-
         return self.classof(self.x + other.x,
                             self.y + other.y,
                             self.z + other.z)
@@ -686,10 +685,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def rotate(self, axis, theta):
         '''Rotate this vector around an axis by a specified angle.
 
-           See U{Rotation matrix from axis and angle
-           <https://WikiPedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle>}
-           and U{Quaternion-derived rotation matrix
-           <https://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
+           See U{Rotation matrix from axis and angle<https://WikiPedia.org/wiki/
+           Rotation_matrix#Rotation_matrix_from_axis_and_angle>} and
+           U{Quaternion-derived rotation matrix<https://WikiPedia.org/wiki/
+           Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
            @arg axis: The axis being rotated around (L{Vector3d}).
            @arg theta: The angle of rotation (C{radians}).
@@ -701,14 +700,16 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         p = self.unit().xyz  # point being rotated
         r = self.others(axis=axis).unit()  # axis being rotated around
 
-        s, c = sincos2(theta)  # rotation angle
+        s, c = _MODS.utily.sincos2(theta)  # rotation angle
 
         ax, ay, az = r.xyz  # quaternion-derived rotation matrix
         bx, by, bz = r.times(_1_0 - c).xyz
         sx, sy, sz = r.times(s).xyz
-        return self.classof(fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy),
-                            fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx),
-                            fdot(p, az * bx - sy, az * by + sx, az * bz + c))
+
+        x = fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy)
+        y = fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx)
+        z = fdot(p, az * bx - sy, az * by + sx, az * bz + c)
+        return self.classof(x, y, z)
 
     @deprecated_method
     def rotateAround(self, axis, theta):  # PYCHOK no cover
@@ -724,16 +725,20 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
-        s = Scalar(factor=factor)
+        return self._times(Scalar(factor=factor))
+
+    def _times(self, s):
+        '''(INTERNAL) Helper for C{.dividedBy} and C{.times}.
+        '''
         return self.classof(self.x * s, self.y * s, self.z * s)
 
     def times_(self, other_x, *y_z):
-        '''Multiply this vector's components by separate scalars.
+        '''Multiply this vector's components by separate X, Y and Z factors.
 
-           @arg other_x: An other vector factors (L{Vector3dBase},
-                         L{Vector3Tuple}, L{Vector4Tuple},
-                         L{Ecef9Tuple} cartesian) or X scale
-                         factor (C{scalar}).
+           @arg other_x: X scale factor (C{scalar}) or a vector's
+                         X, Y, and Z components as scale factors
+                         (C{Cartesian}, L{Ecef9Tuple}, C{Nvector},
+                         L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple}).
            @arg y_z: Y and Z scale factors (C{scalar}, C{scalar}),
                      ignored if B{C{other_x}} is not C{scalar}.
 
@@ -741,24 +746,24 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
         '''
-        x, y, z = _other_xyz3(other_x, y_z)
+        x, y, z = _other_x_y_z3(other_x, y_z)
         return self.classof(self.x * x, self.y * y, self.z * z)
 
-    @deprecated_method
-    def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Nvector.philam}.
+#   @deprecated_method
+#   def to2ab(self):  # PYCHOK no cover
+#       '''DEPRECATED, use property C{Nvector.philam}.
+#
+#          @return: A L{PhiLam2Tuple}C{(phi, lam)}.
+#       '''
+#       return _MODS.formy.n_xyz2philam(self.x, self.y, self.z)
 
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-        '''
-        return n_xyz2philam(self.x, self.y, self.z)
-
-    @deprecated_method
-    def to2ll(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{Nvector.latlon}.
-
-           @return: A L{LatLon2Tuple}C{(lat, lon)}.
-        '''
-        return n_xyz2latlon(self.x, self.y, self.z)
+#   @deprecated_method
+#   def to2ll(self):  # PYCHOK no cover
+#       '''DEPRECATED, use property C{Nvector.latlon}.
+#
+#          @return: A L{LatLon2Tuple}C{(lat, lon)}.
+#       '''
+#       return _MODS.formy.n_xyz2latlon(self.x, self.y, self.z)
 
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
@@ -769,9 +774,9 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this vector.
 
-           @kwarg prec: Optional number of decimal places (C{int}).
-           @kwarg fmt: Optional, enclosing format to use (C{str}).
-           @kwarg sep: Optional separator between components (C{str}).
+           @kwarg prec: Number of decimal places (C{int}).
+           @kwarg fmt: Enclosing format to use (C{str}).
+           @kwarg sep: Separator between components (C{str}).
 
            @return: Vector as "(x, y, z)" (C{str}).
         '''
@@ -797,10 +802,10 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         n = self.length
         if n > EPS0 and abs(n - _1_0) > EPS0:
             u = self._xnamed(self.dividedBy(n))
-            u._overwrite(length=_1_0, length2=_1_0, _united=u)
+            u._update(False, length=_1_0, length2=_1_0, _united=u)
         else:
             u = self.copy()
-            u._overwrite(_united=u)
+            u._update(False, _united=u)
         if self._fromll:
             u._fromll = self._fromll
         return u
@@ -828,16 +833,33 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     @xyz.setter  # PYCHOK setter!
     def xyz(self, xyz):
-        '''Set the X, Y and Z components, if different (L{Vector3dBase}, L{Vector3Tuple} or L{Vector4Tuple}).
+        '''Set the X, Y and Z components (C{Cartesian}, L{Ecef9Tuple},
+           C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple}
+           or a C{tuple} or C{list} of 3+ C{scalar} values).
         '''
-        _xinstanceof(Vector3dBase, Vector3Tuple, Vector4Tuple, xyz=xyz)
-        self.x, self.y, self.z = xyz.x, xyz.y, xyz.z
+        if type(xyz) in (tuple, list) and len(xyz) > 2:
+            self._xyz(*xyz[:3])
+        else:
+            self._xyz(xyz)
+
+    def _xyz(self, x_xyz, *y_z):
+        '''(INTERNAL) Set the C{_x}, C{_y} and C{_z} attributes.
+        '''
+        if len(self.__dict__) > 3:  # any other than initial ._x, ._y and ._z attrs
+            self._update(True)
+        try:
+            self._x, \
+            self._y, \
+            self._z = map1(_float0, x_xyz, *y_z) if y_z else x_xyz.xyz
+        except (AttributeError, TypeError, ValueError) as x:
+            raise VectorError(txt=str(x), **_xyzkwds(y_z, x_xyz=x_xyz))
+        return self
 
     @Property_RO
     def x2y2z2(self):
-        '''Get the X, Y and Z components I{squared} (C{Vector3Tuple}C{(x2, y2, z2)}).
+        '''Get the X, Y and Z components I{squared} (3-tuple C{(x**2, y**2, z**2)}).
         '''
-        return Vector3Tuple(self.x**2, self.y**2, self.z**2, name=self.name)
+        return self.x**2, self.y**2, self.z**2
 
     @Property
     def y(self):
@@ -870,18 +892,25 @@ class Vector3dBase(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             self._z = z
 
 
-def _other_xyz3(other_x, y_z):
-    '''(INTERNAL) Helper.
+def _other_x_y_z3(other_x, y_z):
+    '''(INTERNAL) Helper for C{Vector3dBase.apply} and C{Vector3dBase.times_}.
     '''
     try:
-        if y_z:
-            y, z = y_z
-            x = Scalar(x=other_x)
-        else:
-            x, y, z = other_x.x, other_x.y, other_x.z
+        return map1(_float0, other_x, *y_z) if y_z else \
+               (other_x.x, other_x.y, other_x.z)  # not .xyz!
     except (AttributeError, TypeError, ValueError) as x:
-        raise _InvalidError(other_x=other_x, y_z=y_z, txt=str(x))
-    return x, y, z
+        raise _InvalidError(txt=str(x), **_xyzkwds(y_z, other_x=other_x))
+
+
+def _xyzkwds(y_z, **xyz):  # PYCHOK no cover
+    '''(INTERANL) Helper for C{_other_x_y_z3} and C{Vector3dBase._xyz}.
+    '''
+    if y_z:
+        d = dict(zip((_y_, _z_), y_z))  # if y_z else {}
+        for x in xyz.values():
+            d.update(x=x)
+            return d
+    return xyz
 
 # **) MIT License
 #

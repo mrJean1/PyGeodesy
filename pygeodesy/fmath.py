@@ -22,7 +22,7 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.03.10'
+__version__ = '22.04.16'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -716,7 +716,7 @@ def sqrt0(x2):
 
 
 def sqrt3(x2):
-    '''Compute the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
+    '''Compute the square root, I{cubed} M{sqrt(x2)**3} or M{sqrt(x2**3)}.
 
        @arg x2: Value (C{scalar}).
 

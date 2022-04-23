@@ -14,9 +14,10 @@ from pygeodesy.errors import TRFError as _TRFError
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _scalar_, _SPACE_, _UNDER_
+from pygeodesy.interns import EPS, EPS_2, NN, R_M, _COMMASPACE_, _scalar_, _SPACE_, \
+                             _UNDER_, _1_0
 from pygeodesy.interns import _easting_, _end_, _hemipole_, _negative_, _northing_, \
-                              _sep_, _start_, _value_, _zone_  # PYCHOK used!
+                              _sep_, _start_, _value_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, isLazy
 from pygeodesy.ltp import LocalCartesian
 from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
@@ -29,9 +30,10 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.03.30'
+__version__ = '22.04.19'
 
-OK     = 'OK'  # DEPRECATED
+EPS1_2 = _1_0 - EPS_2  # DEPRECATED
+OK     = 'OK'          # DEPRECATED
 _WGS84 = _UTM = object()
 
 
@@ -307,7 +309,7 @@ def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
 
 
 @deprecated_function
-def joined(*words, **sep):  # sep=NN
+def joined(*words, **sep):  # PYCHOK no cover
     '''DEPRECATED, use C{NN(...)}, C{NN.join_} or C{B{sep}.join}.
     '''
     return sep.get(_sep_, NN).join(map(str, words))
@@ -413,7 +415,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 
 
 @deprecated_function
-def unsign0(x):
+def unsign0(x):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.unsigned0}.
     '''
     from pygeodesy.basics import unsigned0  # _MODS.basics.unsigned0

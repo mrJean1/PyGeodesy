@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.03.01'
+__version__ = '22.04.22'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -615,11 +615,11 @@ class _GeoidBase(_HeightBase):
     def toStr(self, prec=3, sep=_COMMASPACE_):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
 
-           @kwarg prec: Optional number of decimal digits (0..9 or
-                        C{None} for default).  Trailing zero decimals
-                        are stripped for B{C{prec}} values of 1 and above,
-                        but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator (C{str}).
+           @kwarg prec: Number of decimal digits (0..9 or C{None} for
+                        default).  Trailing zero decimals are stripped
+                        for B{C{prec}} values of 1 and above, but kept
+                        for negative B{C{prec}} values.
+           @kwarg sep: Separator to join (C{str}).
 
            @return: Geoid name and attributes (C{str}).
         '''

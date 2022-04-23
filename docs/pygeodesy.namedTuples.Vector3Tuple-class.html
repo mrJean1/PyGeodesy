@@ -76,7 +76,7 @@
 
 <hr />
 <p>3-Tuple <code>(x, y, z)</code> of (geocentric) components, all in 
-  <code>meter</code> or <code>units</code>.</p>
+  <code>meter</code> or the same <code>units</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -146,7 +146,6 @@
       <code>index</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
@@ -183,35 +182,6 @@
     </td>
   </tr>
 </table>
-<!-- ==================== CLASS VARIABLES ==================== -->
-<a name="section-ClassVariables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variables</span></td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.namedTuples.Vector3Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('x', 'y', 'z')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-group">)</code></code><br />
-      Tuple specifying the <code>name</code> of each 
-      <code>Named-Tuple</code> item.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.namedTuples.Vector3Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="(&lt;class 'pygeodesy.units.Scalar'&gt;,
- &lt;class 'pygeodesy.units.Scalar'&gt;,
- &lt;class 'pygeodesy.units.Scalar'&gt;)"><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy<code class="variable-ellipsis">...</code></code><br />
-      Tuple defining the <code>units</code> of the value of each 
-      <code>Named-Tuple</code> item.
-    </td>
-  </tr>
-</table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -220,6 +190,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Vector3Tuple-class.html#xyz" class="summary-name">xyz</a><br />
+      Get X, Y and Z components (<code>Vector3Tuple</code>).
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
@@ -284,58 +262,36 @@
 </td></tr></table>
 </div>
 <br />
-<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
-<a name="section-ClassVariableDetails"></a>
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variable Details</span></td>
+    <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="_Names_"></a>
+<a name="xyz"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">_Names_</h3>
-  <p>Tuple specifying the <code>name</code> of each 
-  <code>Named-Tuple</code> item.</p>
+  <h3 class="epydoc">xyz</h3>
+  <p>Get X, Y and Z components (<code>Vector3Tuple</code>).</p>
   <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Specify at least 2 item names.
-      </p>
-</div>  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-group">)</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="_Units_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">_Units_</h3>
-  <p>Tuple defining the <code>units</code> of the value of each 
-  <code>Named-Tuple</code> item.</p>
-  <dl class="fields">
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
-      </p>
-</div>  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code>&lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
- &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-group">)</code>
-</pre></td></tr></table>
-</dd>
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get X, Y and Z components (<code>Vector3Tuple</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -371,7 +327,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Apr 11 11:04:26 2022
+    Generated by Epydoc 3.0.1 on Sat Apr 23 11:15:03 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

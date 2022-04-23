@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.04.09'
+__version__ = '22.04.22'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -340,7 +340,7 @@ class _EcefBase(_NamedBase):
     def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this C{Ecef*} as a string.
 
-           @kwarg prec: Optional precision, number of decimal digits (0..9).
+           @kwarg prec: Precision, number of decimal digits (0..9).
 
            @return: This C{Ecef*} representation (C{str}).
         '''
@@ -476,7 +476,7 @@ class EcefKarney(_EcefBase):
                     e = E.a
                 else:
                     e = E.b2_a
-                sa, ca, h = _sch3(sqrt(q * E._e12), sqrt(p))
+                sa, ca, h = _sch3(sqrt(q * E._1_e12), sqrt(p))
                 if z < 0:
                     sa = neg(sa)  # for tiny negative z, not for prolate
                 h *= neg(e / E.e2abs)

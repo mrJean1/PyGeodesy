@@ -88,8 +88,8 @@ from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             thomas_, vincentys_, _scale_rad
-from pygeodesy.interns import EPS, EPS1, INF, NN, _datum_, _distanceTo_, _DOT_, \
-                             _n_, _points_, _units_
+from pygeodesy.interns import EPS, EPS1, INF, NINF, NN, _datum_, _distanceTo_, \
+                             _DOT_, _n_, _points_, _units_
 from pygeodesy.iters import points2 as _points2
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.11.28'
+__version__ = '22.04.14'
 
 
 def _fraction(fraction, n):
@@ -662,10 +662,9 @@ class FrechetFlatLocal(FrechetRadians):
              L{FrechetDistanceTo}, L{FrechetExact}, L{FrechetHubeny},
              L{FrechetKarney} and L{FrechetThomas}.
     '''
-    _datum    = _WGS84
-    _hubeny2_ =  None
-    _units    = _Str_radians2
-    _wrap     =  False
+    _datum = _WGS84
+    _units = _Str_radians2
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetFlatLocal}/L{FrechetHubeny} calculator/interpolator.
@@ -689,7 +688,6 @@ class FrechetFlatLocal(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
         self._datum_setter(datum)
-        self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
     if _FOR_DOCS:
         discrete = Frechet.discrete
@@ -699,7 +697,13 @@ class FrechetFlatLocal(FrechetRadians):
            in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
-        return self._hubeny2_(p2.phi, p1.phi, d)
+        return self._hubeny_2(p2.phi, p1.phi, d)
+
+    @Property_RO
+    def _hubeny_2(self):
+        '''(INTERNAL) Get and cache the C{.datum.ellipsoid._hubeny_2} method.
+        '''
+        return self.datum.ellipsoid._hubeny_2
 
 
 class FrechetFlatPolar(FrechetRadians):
@@ -947,7 +951,7 @@ def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
                 elif j < 0:  # i == 0
                     raise IndexError
                 else:  # i == j == 0
-                    t = (-INF, i, j, r)
+                    t = (NINF, i, j, r)
 
                 d = dF(i, j)
                 if d > t[0]:

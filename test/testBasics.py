@@ -4,12 +4,12 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '21.11.04'
+__version__ = '22.04.21'
 
 from base import TestsBase
 
-from pygeodesy import INF, NAN, NEG0, clips, halfs2, \
-                      isint, isfinite, isneg0, isscalar, \
+from pygeodesy import INF, INT0, NAN, NEG0, clips, halfs2, \
+                      isint, isint0, isfinite, isneg0, isscalar, \
                       map1, property_RO, splice
 from pygeodesy.basics import _xdup
 
@@ -45,6 +45,11 @@ class Tests(TestsBase):
             self.test('isint(%s)'     % (t,), isint(f, both=True), x)
             self.test('isint(%s+0.5)' % (t,), isint(f + 0.5, both=True), y)
             self.test('isscalar(%s)'  % (t,), isscalar(f), s)
+
+        self.test('isint0(INT0)', isint0(INT0), True, nl=1)
+        self.test('isint0(None)', isint0(None), False)
+        self.test('isint0(0)',    isint0(0), True)
+        self.test('isint0(0.0)',  isint0(0, both=True), True)
 
         self.test('isneg0(NEG0)', isneg0(NEG0), True)
         self.test('isneg0(0.0)',  isneg0(0.0), False)
