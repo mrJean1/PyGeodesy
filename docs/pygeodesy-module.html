@@ -408,6 +408,11 @@
         class="link">pygeodesy.Fsum</a>.
       </li>
       <li>
+        <code>PYGEODESY_GEOGRAPHICLIB</code> - see module <a 
+        href="pygeodesy.karney-module.html" 
+        class="link">pygeodesy.karney</a>.
+      </li>
+      <li>
         <code>PYGEODESY_WARNINGS</code> - see module <a 
         href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
         and function <a 
@@ -447,7 +452,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.04.22
+        22.05.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1351,6 +1356,20 @@
         <code>northing</code> in <code>meters</code> and the 
         <code>azimuth</code> of easting direction and 
         <code>reciprocal</code> of azimuthal northing scale, both in 
+        <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.css.EasNorAziRkEqu6Tuple-class.html" class="summary-name">EasNorAziRkEqu6Tuple</a><br />
+      6-Tuple <code>(easting, northing, azimuth, reciprocal, equatorarc, 
+        equatorazimuth)</code> for the Cassini-Soldner location with 
+        <code>easting</code> and <code>northing</code> in 
+        <code>meters</code> and the <code>azimuth</code> of easting 
+        direction, <code>reciprocal</code> of azimuthal northing scale, 
+        <code>equatorarc</code> and <code>equatorazimuth</code>, all in 
         <code>degrees</code>.
     </td>
   </tr>
@@ -6567,7 +6586,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fathom2m" class="summary-sig-name">fathom2m</a>(<span class="summary-sig-arg">fathoms</span>)</span><br />
-      Convert <i>UK</i> fathom to meter.</td>
+      Convert <i>Imperial</i> fathom to meter.</td>
           <td align="right" valign="top">
             
             
@@ -6975,6 +6994,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fremainder" class="summary-sig-name">fremainder</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Remainder in range <code>[-<b>y / 2</b>, <b>y / 2</b>]</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fstr" class="summary-sig-name">fstr</a>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
@@ -7086,8 +7123,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>,
-        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert <i>International</i> or <i>US Survey</i> feet to meter.</td>
+        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
+      <b><code>feet</code></b> to meter.</td>
           <td align="right" valign="top">
             
             
@@ -7287,7 +7326,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f80c8b17050&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd000186450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -7929,7 +7968,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <code>Inf</code> and <code>NaN</code> values.</td>
+      Check for non-finite <code>scalar</code> value.</td>
           <td align="right" valign="top">
             
             
@@ -8105,6 +8144,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isninf" class="summary-sig-name">isninf</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check for NINF, negative <code>INF</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
       Is <b><code>x</code></b> non-zero?</td>
@@ -8176,7 +8232,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issequence" class="summary-sig-name">issequence</a>(<span class="summary-sig-arg">obj</span>,
-        <span class="summary-sig-arg">*excluded</span>)</span><br />
+        <span class="summary-sig-arg">*excls</span>)</span><br />
       Check for sequence types.</td>
           <td align="right" valign="top">
             
@@ -8535,7 +8591,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2fathom" class="summary-sig-name">m2fathom</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to <i>UK</i> fathoms.</td>
+      Convert meter to <i>Imperial</i> fathoms.</td>
           <td align="right" valign="top">
             
             
@@ -8552,9 +8608,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>,
-        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert meter to <i>International</i> or <i>US Survey</i> feet 
-      (<code>ft</code>).</td>
+        <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert meter to <i>International</i>, <i>US Survey</i> or 
+      <i>French</i> feet (<code>ft</code>).</td>
           <td align="right" valign="top">
             
             
@@ -9871,6 +9928,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="remainder"></a><span class="summary-sig-name">remainder</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Mimick Python 3.7+ <code>math.remainder</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#reprs" class="summary-sig-name">reprs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
@@ -10129,7 +10204,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#sincos2d" class="summary-sig-name">sincos2d</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sincos2d" class="summary-sig-name">sincos2d</a>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">**adeg</span>)</span><br />
       Return the <code>sine</code> and <code>cosine</code> of an angle in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -10543,7 +10619,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toLcc" class="summary-sig-name">toLcc</a>(<span class="summary-sig-arg">latlon</span>,
-        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conics.WRF_Lb</span>,
+        <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
@@ -11388,7 +11464,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.4.22'"><code class="variable-quote">'</code><code class="variable-string">22.4.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.5.5'"><code class="variable-quote">'</code><code class="variable-string">22.5.5</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11403,7 +11479,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="Conics"></a><span class="summary-name">Conics</span> = <code title="Conics(Conic)">Conics(Conic)</code><br />
+        <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4\
+5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso\
+ids.WGS84, transform=Transforms.WGS84)">Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined conics (<code>enum-like</code>).
     </td>
   </tr>
@@ -12033,7 +12111,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953446921">3440.06953446921</code><br />
+        <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953100162">3440.06953100162</code><br />
       Mean (spherical) earth radius (<code>NM</code>, nautical miles).
     </td>
   </tr>
@@ -12041,7 +12119,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.753395372691">3958.753395372691</code><br />
+        <a name="R_SM"></a><span class="summary-name">R_SM</span> = <code title="3958.7613160486508">3958.7613160486508</code><br />
       Mean (spherical) earth radius (<code>SM</code>, statute miles).
     </td>
   </tr>
@@ -12107,7 +12185,11 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="Transforms"></a><span class="summary-name">Transforms</span> = <code title="Transforms(Transform)">Transforms(Transform)</code><br />
+        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t\
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined transforms (<code>enum-like</code>).
     </td>
   </tr>
@@ -15350,8 +15432,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
-          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
+          <b><code>radius</code></b> or equatorial and polar radii) or 
+          <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
@@ -17107,7 +17189,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td>
   </tr></table>
   
-  <p>Convert <i>UK</i> fathom to meter.</p>
+  <p>Convert <i>Imperial</i> fathom to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17122,7 +17204,10 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#toise2m" 
-        class="link">toise2m</a>.
+        class="link">toise2m</a>, <a 
+        href="https://WikiPedia.org/wiki/Fathom" target="_top">Fathom</a> 
+        and <a href="https://WikiPedia.org/wiki/Klafter" 
+        target="_top">Klafter</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -18013,6 +18098,44 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   </dl>
 </td></tr></table>
 </div>
+<a name="fremainder"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fremainder</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Remainder in range <code>[-<b>y / 2</b>, <b>y / 2</b>]</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Numerator (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Modulus, denominator (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Remainder (<code>scalar</code>, preserving signed 0.0) or 
+          <code>NAN</code> for any non-finite <b><code>x</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Infinite or near-zero <b><code>y</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib/" 
+        target="_top">Math.remainder</a> and Python 3.7+ <a 
+        href="https://docs.Python.org/3/library/math.html#math.remainder" 
+        target="_top">math.remainder</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="fstr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -18234,20 +18357,23 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>&nbsp;(<span class="sig-arg">feet</span>,
-        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert <i>International</i> or <i>US Survey</i> feet to meter.</p>
+  <p>Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
+  <b><code>feet</code></b> to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> feet (<code>bool</code>), 
-          <i>International</i> feet otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if (<code>True</code>).</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if (<code>True</code>), 
+          <i>International</i> foot otherwise.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
@@ -18638,7 +18764,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f80c8b17050&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd000186450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19994,15 +20120,16 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td>
   </tr></table>
   
-  <p>Check for <code>Inf</code> and <code>NaN</code> values.</p>
+  <p>Check for non-finite <code>scalar</code> value.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>False</code> if <b><code>obj</code></b> is <code>INF</code>
-          or <code>NAN</code>, <code>True</code> otherwise.</dd>
+        <dd><code>False</code> if <b><code>obj</code></b> is 
+          <code>INF</code>, <code>NINF</code> or <code>NAN</code>, 
+          <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>obj</code></b>.</li>
@@ -20166,6 +20293,32 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   </dl>
 </td></tr></table>
 </div>
+<a name="isninf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isninf</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for NINF, negative <code>INF</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>x</code></b> is <code>NINF</code> 
+          or <code>-inf</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isnon0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -20293,7 +20446,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">issequence</span>&nbsp;(<span class="sig-arg">obj</span>,
-        <span class="sig-arg">*excluded</span>)</span>
+        <span class="sig-arg">*excls</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20305,7 +20458,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>excluded</code></strong> - Optional exclusions (<code>type</code>).</li>
+        <li><strong class="pname"><code>excls</code></strong> - Classes to exclude (<code>type</code>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is a sequence, 
@@ -21102,7 +21255,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>UK</i> fathoms.</p>
+  <p>Convert meter to <i>Imperial</i> fathoms.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21117,7 +21270,10 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#m2toise" 
-        class="link">m2toise</a>.
+        class="link">m2toise</a>, <a 
+        href="https://WikiPedia.org/wiki/Fathom" target="_top">Fathom</a> 
+        and <a href="https://WikiPedia.org/wiki/Klafter" 
+        target="_top">Klafter</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -21129,21 +21285,23 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>&nbsp;(<span class="sig-arg">meter</span>,
-        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>International</i> or <i>US Survey</i> feet 
-  (<code>ft</code>).</p>
+  <p>Convert meter to <i>International</i>, <i>US Survey</i> or 
+  <i>French</i> feet (<code>ft</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> feet (<code>bool</code>), 
-          <i>International</i> feet otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if (<code>True</code>).</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if (<code>True</code>), 
+          <i>International</i> foot otherwise.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>feet</code> (<code>float</code>).</dd>
@@ -23633,8 +23791,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
-          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
+          <b><code>radius</code></b> or equatorial and polar radii) or 
+          <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
@@ -24431,7 +24589,8 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sincos2d</span>&nbsp;(<span class="sig-arg">deg</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sincos2d</span>&nbsp;(<span class="sig-arg">deg</span>,
+        <span class="sig-arg">**adeg</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24444,10 +24603,12 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>adeg</code></strong> - Optional correction (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (<code>sin(<b>deg</b>)</code>, 
-          <code>cos(<b>deg</b>)</code>).</dd>
+        <dd>2-Tuple (<code>sin(<b>deg_</b>)</code>, 
+          <code>cos(<b>deg_</b>)</code>, <code><b>deg_</b> = <b>deg</b> + 
+          <b>adeg</b></code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -25484,7 +25645,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLcc</span>&nbsp;(<span class="sig-arg">latlon</span>,
-        <span class="sig-arg">conic</span>=<span class="sig-default">Conics.WRF_Lb</span>,
+        <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
@@ -27351,6 +27512,26 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
   </dl>
 </td></tr></table>
 </div>
+<a name="Conics"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Conics</h3>
+  Registered, predefined conics (<code>enum-like</code>).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ids.WGS84, transform=Transforms.WGS84)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Datums"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -27400,6 +27581,28 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span clas
   </dl>
 </td></tr></table>
 </div>
+<a name="Transforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Transforms</h3>
+  Registered, predefined transforms (<code>enum-like</code>).
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -27432,7 +27635,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 23 13:34:18 2022
+    Generated by Epydoc 3.0.1 on Wed May  4 16:33:49 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -209,7 +209,7 @@ class Transform(_NamedEnumItem):
                          tx=-self.tx, ty=-self.ty, tz=-self.tz,
                          sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
 
-    def toStr(self, prec=5, name=NN):  # PYCHOK expected
+    def toStr(self, prec=5, name=NN, **unused):  # PYCHOK expected
         '''Return this transform as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
@@ -406,9 +406,10 @@ class Datum(_NamedEnumItem):
         '''
         return self._ellipsoid.isSpherical
 
-    def toStr(self, name=NN, **unused):  # PYCHOK expected
+    def toStr(self, sep=_COMMASPACE_, name=NN, **unused):  # PYCHOK expected
         '''Return this datum as a string.
 
+           @kwarg sep: Separator to join (C{str}).
            @kwarg name: Override name (C{str}) or C{None} to exclude
                         this datum's name.
 
@@ -419,7 +420,7 @@ class Datum(_NamedEnumItem):
         for a in (_ellipsoid_, _transform_):
             v = getattr(self, a)
             t.append(NN(Fmt.EQUAL(a, v.classname), _s_, _DOT_, v.name))
-        return _COMMASPACE_.join(t)
+        return sep.join(t)
 
     @Property_RO
     def transform(self):

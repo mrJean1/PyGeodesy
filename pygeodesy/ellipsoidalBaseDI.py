@@ -30,7 +30,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.04.15'
+__version__ = '22.04.27'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
@@ -343,9 +343,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             s = s.copy(name=n)
         if e is not c:
             e = e.copy(name=n)
-        r = NearestOn8Tuple(c, c3.distance, f, j, s, e, c3.initial, c3.final)
-        r._iteration = m  # ._iteration for tests
-        return r
+        return NearestOn8Tuple(c, c3.distance, f, j, s, e, c3.initial, c3.final,
+                               iteration=m)  # ._iteration for tests
 
 
 class _Box(object):
@@ -563,8 +562,8 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
             b1 = not b1
         b2, _ = _b_d(s2, end2, wrap, t)
 
-    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1, name=n)
-    r._iteration = t._iteration  # _NamedTuple._iteration
+    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1,
+                                            iteration=t._iteration, name=n)
     return Intersection3Tuple(r, (o1 if ll1 else _o(o1, b1, 1, s1, t, e)),
                                  (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))
 
@@ -611,9 +610,8 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
     _vi2 = _MODS.vector3d._intersects2
 
     def _latlon4(t, h, n, c):
-        r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c, name=n)
-        r._iteration = t.iteration  # ._iteration for tests
-        return r
+        return _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c,
+                                                   iteration=t.iteration, name=n)
 
     r1 = Radius_(radius1=radius1)
     r2 = Radius_(radius2=radius2)
@@ -775,8 +773,8 @@ def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
         h = v.z  # nearest
     elif isscalar(height):
         h = height
-    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p, name=n)
-    r._iteration = t.iteration  # for tests
+    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=p,
+                                            iteration=t.iteration, name=n)
     return r, f, e  # fraction or None
 
 

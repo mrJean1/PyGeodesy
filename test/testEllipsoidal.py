@@ -4,14 +4,14 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.05.03'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
-                      Datums, ellipsoidalVincenty as V, fstr, IntersectionError, \
+                      Datums, fstr, IntersectionError, \
                       latlonDMS, latlonDMS_, m2SM, normDMS, PI, PI_4, R_M, \
                       RefFrames, VincentyError, wrap360
 
@@ -20,7 +20,7 @@ from math import radians
 
 class Tests(_TestsLL, _TestsV):
 
-    def testEllipsoidal(self, module, Cartesian, Nvector, X=False):
+    def testEllipsoidal(self, module, Cartesian, Nvector, V=False, X=False, **unused):
         # ellipsoidal modules tests
 
         self.subtitle(module, 'Ellipsoidal')
@@ -135,21 +135,22 @@ class Tests(_TestsLL, _TestsV):
 
         # <https://GitHub.com/DieuwerH/AE3537/blob/master/PyGeodesyTesting.py>
         s = Cartesian(3145.5036885, 5387.14337206, 3208.93193301).toLatLon()  # WGS84 XXX m, Km, other?
-        self.test('sat', s, '82.545852°N, 059.719736°E, -6353121.71m' if Nvector or module is V else
+        self.test('sat', s, '82.545852°N, 059.719736°E, -6353121.71m' if Nvector or V else
                             '82.219069°N, 059.719736°E, -6353120.97m')  # XXX neg height?
         d = LatLon(51.99888889, 4.37333333, height=134.64, name='DopTrackStation')
         self.test('dop', d, '51.998889°N, 004.373333°E, +134.64m')
         d = d.distanceTo(s)
-        x ='3806542.943647' if Nvector else ('3817991.074015' if module is V else '3802238.504989')
+        x ='3806542.943647' if Nvector else ('3817991.074015' if V else '3802238.504989')
         self.test('distance', d, x, known=abs(float(x) - d) < 5e-6)
 
         if hasattr(LatLon, 'nearestOn8'):
             b = LatLon(45, 1), LatLon(45, 20), LatLon(46, 20), LatLon(46, 1)
-            t = LatLon(1, 1).nearestOn8(b, height=0)   # ellipsoidalVincenty: 4874369.989421, -Karney: 4874369.98942, degrees2m(44) == 4892583.508323744, degrees2m(44, lat=23) == 4503646.865333374
-            self.test('neareston8', t, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4874278.515478, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E), 0.0, 0.0)', known=not X)
-            self.test('iteration', t.iteration, 0)
+            t = LatLon(1, 1).nearestOn8(b, height=0)   # degrees2m(44) == 4892583.508323744, degrees2m(44, lat=23) == 4503646.865333374
+            self.test('neareston8', t.toStr(prec=5), '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4871366.31512, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 020°00′00.0″E), 0.0, 0.0)' if X
+                                                else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4874369.98942, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E), 0.0, 0.0)')
+            self.test('iteration', t.iteration, 1 if X else 0)
             t = LatLon(45.5, 20.5).nearestOn8(b, height=0)
-            self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1.501069, 2, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)', known=not X)
+            self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1.501069, 2, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)')
             self.test('iteration', t.iteration, t.iteration)
 
     def testKarney(self, module, datum, X=False, GS=False):
@@ -203,7 +204,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('.azi1', d.azi1, 161.067669986160, fmt='%.12f', known=abs(d.azi1 - 161.067669986160) < 1e-11)
         self.test('.lat2', d.lat2,  40.960, fmt='%.3f')
         self.test('.lon2', d.lon2,  -5.500, fmt='%.3f')
-        self.test('.azi2', d.azi2,  18.825195123247, fmt='%.12f')
+        self.test('.azi2', d.azi2,  18.825195123247, fmt='%.12f', known=abs(d.azi2 -  18.825195123248) < 1e-12)
         self.test('.s12',  d.s12, 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
@@ -392,7 +393,7 @@ class Tests(_TestsLL, _TestsV):
         NewYork = LatLon(40.7791472, -73.9680804, datum=d)
         m = Boston.distanceTo(NewYork)
         self.test('distanceToMP', m, '298396.057', fmt='%.3f')
-        self.test('distanceToSM', m2SM(m), 185.414, fmt='%.3f')
+        self.test('distanceToSM', m2SM(m), 185.415, fmt='%.3f')
 
         p = LatLon(0, 0, datum=d)
         q = LatLon(0, 1, datum=d)
@@ -591,7 +592,8 @@ class Tests(_TestsLL, _TestsV):
             self.test('(-2, 17)', m.intersection3(s1, e1, s2, e2), IntersectionError.__name__)
         except Exception as x:
             self.test('(-2, 17)', x.__class__, IntersectionError)
-        self.test('(49, 25)', m.intersection3(s1, e1, e1, e2), '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=k)
+        t = m.intersection3(s1, e1, e1, e2)
+        self.test('(49, 25)', t, '(LatLon(49°00′00.0″N, 025°00′00.0″E), 0, 0)', known=t.outside2 in (0, -2))
 
         # courtesy of U{sbonaime<https://GitHub.com/mrJean1/PyGeodesy/issues/58>}
         s1, s2 = m.LatLon(8, 0), m.LatLon(0, 8.4)
@@ -706,6 +708,7 @@ if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalExact as X, \
                           ellipsoidalNvector as N, \
+                          ellipsoidalVincenty as V, \
                           Equidistant, EquidistantExact, \
                           EquidistantGeodSolve, EquidistantKarney
 
@@ -715,7 +718,7 @@ if __name__ == '__main__':
     t.testLatLon(N, Nv=True)
     t.testVectorial(N)
 
-    t.testEllipsoidal(V, V.Cartesian, None)
+    t.testEllipsoidal(V, V.Cartesian, None, V=True)
     t.testLatLon(V)
     t.testNOAA(V)
     t.testIntersection3(V, V=True)
@@ -725,7 +728,7 @@ if __name__ == '__main__':
 
     if geographiclib:
         from pygeodesy import ellipsoidalKarney as K
-        t.testEllipsoidal(K, K.Cartesian, None)
+        t.testEllipsoidal(K, K.Cartesian, None, K=True)
         t.testLatLon(K, X=False)
         t.testNOAA(K)
         t.testIntersection3(K, K=True)  # ... 1 micrometer
@@ -736,7 +739,7 @@ if __name__ == '__main__':
 
     if GeodSolve:
         from pygeodesy import ellipsoidalGeodSolve as GS
-        t.testEllipsoidal(GS, GS.Cartesian, None)
+        t.testEllipsoidal(GS, GS.Cartesian, None, G=True)
         t.testLatLon(GS, GS=True)
         t.testNOAA(GS)
         t.testIntersection3(GS, GS=True)  # ... 1 micrometer

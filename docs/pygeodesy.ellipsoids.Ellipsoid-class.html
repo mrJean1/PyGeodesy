@@ -797,7 +797,6 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
-      <code><a href="pygeodesy.named._NamedEnumItem-class.html#__ne__">__ne__</a></code>,
       <code><a href="pygeodesy.named._NamedEnumItem-class.html#unregister">unregister</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
@@ -975,8 +974,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b_a" class="summary-name">b_a</a><br />
       Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-      (<code>float</code>), <i class="math">b / a</i> == <i class="math">1 
-      - f</i>.
+      (<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.
     </td>
   </tr>
 <tr>
@@ -1211,6 +1209,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f1" class="summary-name">f1</a><br />
+      Get the <i>1 - flattening</i> (<code>float</code>), <i 
+      class="math">f1 == 1 - f == b / a</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f2" class="summary-name">f2</a><br />
       Get the <i>2nd flattening</i> (<code>float</code>), <i 
       class="math">(a - b) / b == f / (1 - f)</i>, <code>0</code> for 
@@ -1292,9 +1299,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#KsOrder" class="summary-name">KsOrder</a><br />
-      Property to get and set the <i>Kr&#252;ger</i> series' order 
-      (<code>int</code>), see properties <code>AlphaKs</code>, 
-      <code>BetaKs</code>.
+      (INTERNAL) Class <code>property</code> with retrievable name.
     </td>
   </tr>
 <tr>
@@ -1559,6 +1564,9 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
       <code><a href="pygeodesy.named._NamedEnumItem-class.html#name">name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -3406,14 +3414,12 @@ target="_top">Alpha series coefficients</a>
 <tr><td>
   <h3 class="epydoc">b_a</h3>
   <p>Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-  (<code>float</code>), <i class="math">b / a</i> == <i class="math">1 - 
-  f</i>.</p>
+  (<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">b_a(<span class="summary-sig-arg">self</span>)</span>
         - Get the ratio <i>polar</i> over <i>equatorial</i> radius 
-(<code>float</code>), <i class="math">b / a</i> == <i class="math">1 - 
-f</i>.
+(<code>float</code>), <i class="math">b / a == f1 == 1 - f</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -3425,7 +3431,11 @@ f</i>.
         - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#f1" 
+        class="link">f1</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="b2"></a>
 <div>
@@ -4121,6 +4131,36 @@ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
   </dl>
 </td></tr></table>
 </div>
+<a name="f1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">f1</h3>
+  <p>Get the <i>1 - flattening</i> (<code>float</code>), <i class="math">f1
+  == 1 - f == b / a</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">f1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>1 - flattening</i> (<code>float</code>), <i class="math">f1 == 1
+- f == b / a</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b_a" 
+        class="link">b_a</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="f2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4350,9 +4390,7 @@ spherical otherwise.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">KsOrder</h3>
-  <p>Property to get and set the <i>Kr&#252;ger</i> series' order 
-  (<code>int</code>), see properties <code>AlphaKs</code>, 
-  <code>BetaKs</code>.</p>
+  <p>(INTERNAL) Class <code>property</code> with retrievable name.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">KsOrder(<span class="summary-sig-arg">self</span>)</span>
@@ -5213,7 +5251,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 23 13:34:19 2022
+    Generated by Epydoc 3.0.1 on Wed May  4 16:33:51 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

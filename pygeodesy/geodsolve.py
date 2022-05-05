@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -473,8 +473,6 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''
         return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 
-    _LineTemp = Line  # like .karney.Geodesic and .geodesicx.gx.GeodesicExact
-
 
 class GeodesicLineSolve(_GeodesicSolveBase):
     '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
@@ -634,16 +632,17 @@ if __name__ == '__main__':
     printf('ArcPosition: %s %r', p == r, p)
 
 # % python3 -m pygeodesy.geodsolve
+
 # version: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve: GeographicLib version 1.51
-#
+
 # Direct: GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
 # Direct3: Destination3Tuple(lat=51.884565, lon=-1.141173, final=107.189397)
-#
+
 # Inverse: GDict(M12=0.64473, M21=0.645046, S12=40041368848742.53125, a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, s12=5551759.400319)
 # Inverse1: 49.94131021789904
 # Inverse3: Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
-#
-# Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375,  a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
+
+# Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
 # ArcPosition: False GDict(M12=0.650911, M21=0.651229, S12=39735074737272.734375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, s12=5499999.948497)
 
 # **) MIT License

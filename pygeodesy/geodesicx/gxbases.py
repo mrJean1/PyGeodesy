@@ -21,7 +21,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.04.22'
+__version__ = '22.04.29'
 
 # valid C{nC4}s and C{C4Order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -32,7 +32,7 @@ _TINY = sqrt(_MIN)  # PYCHOK exported
 class Caps(object):  # PYCHOK
     '''(INTERNAL) Overriden by C{Caps} below.
     '''
-    EMPTY          =  0        # formerly ka NONE
+    EMPTY          =  0        # formerly aka NONE
     LATITUDE       =  1 << 7   # compute latitude C{lat2} (0x80)
     LONGITUDE      =  1 << 8   # compute longitude C{lon2}
     AZIMUTH        =  1 << 9   # azimuths C{azi1} and C{azi2}
@@ -43,23 +43,24 @@ class Caps(object):  # PYCHOK
     AREA           =  1 << 14  # compute area C{S12} (0x4000)
 
     STANDARD       =  AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE
-    ALL            =  0x7F80   # without LONG_UNROLL, REVERSE2 and _DEBUG_*
+    ALL            =  0x7F80   # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
 
-    LONG_UNROLL    =  1 << 15  # unroll C{lon2} in GeodesicExact.Direct
-    REVERSE2       =  1 << 16  # reverse C{azi2}
+    LINE_OFF       =  1 << 15  # Line without updates from parent GeodesicExact
+    LONG_UNROLL    =  1 << 16  # unroll C{lon2} in GeodesicExact.Direct
+    REVERSE2       =  1 << 17  # reverse C{azi2}
 
-    _ANGLE_ONLY    =  1 << 17  # angular distance C{a12} only
-    _SALPs_CALPs   =  1 << 18  # (INTERNAL) GeodesicExact._GenInverse
+    _ANGLE_ONLY    =  1 << 18  # angular distance C{a12} only
+    _SALPs_CALPs   =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
 
-    _DEBUG_AREA    =  1 << 19  # (INTERNAL) include Line details
-    _DEBUG_DIRECT  =  1 << 20  # (INTERNAL) include Direct details
-    _DEBUG_INVERSE =  1 << 21  # (INTERNAL) include Inverse details
-    _DEBUG_LINE    =  1 << 22  # (INTERNAL) include Line details
+    _DEBUG_AREA    =  1 << 20  # (INTERNAL) include Line details
+    _DEBUG_DIRECT  =  1 << 21  # (INTERNAL) include Direct details
+    _DEBUG_INVERSE =  1 << 22  # (INTERNAL) include Inverse details
+    _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
     _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
                      _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
 
     _OUT_ALL       =  ALL
-    _OUTMASK       =  ALL | LONG_UNROLL | REVERSE2  | _DEBUG_ALL
+    _OUTMASK       =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
 
     _AZIMUTH_DISTANCE                     = AZIMUTH | DISTANCE
     _AZIMUTH_LATITUDE_LONGITUDE           = AZIMUTH | LATITUDE | LONGITUDE
@@ -109,6 +110,7 @@ class _GeodesicBase(_NamedBase):  # in .geodsolve
     EMPTY         = Caps.EMPTY  # aka NONE
     GEODESICSCALE = Caps.GEODESICSCALE
     LATITUDE      = Caps.LATITUDE
+    LINE_OFF      = Caps.LINE_OFF
     LONGITUDE     = Caps.LONGITUDE
     LONG_UNROLL   = Caps.LONG_UNROLL
     REDUCEDLENGTH = Caps.REDUCEDLENGTH
@@ -206,7 +208,7 @@ def _sincos12(sin1, cos1, sin2, cos2, noneg=False):  # PYCHOK shared
     s = sin2 * cos1 - sin1 * cos2
     c = cos2 * cos1 + sin1 * sin2
     if noneg and s < 0:
-        s = _0_0  # max(s, _0_0)
+        s = _0_0  # max(s, _0_0) or NEG0?
     return s, c
 
 

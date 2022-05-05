@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.12'
+__version__ = '22.04.30'
 
 from base import TestsBase, geographiclib
 
@@ -182,7 +182,6 @@ class Tests(TestsBase):
         if sd:  # coverage
             c, _ = cotd_(a, a)  # .next() or __next__()
             self.test('cotd_', c, cd / sd, prec=12)
-
         EPS_ = EPS * 8
         self.test('sincos2',  e, EPS_, known=e < EPS_)
         self.test('sincos2d', d, EPS_, known=d < EPS_)
@@ -200,7 +199,7 @@ class Tests(TestsBase):
         self.test('m2iFt', m2ft(187441),  614963.91, prec=2)
         self.test('m2iFt', m2ft(757050), 2483759.84, prec=2)
         self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, prec=2)
-        self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.87, prec=2)
+        self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.88, prec=2)
 
         for f, m in ((acre2ha,     '0.404686'), (acre2m2, '4046.856422'),
                      (chain2m,    '20.116800'), (fathom2m,   '1.828800'),

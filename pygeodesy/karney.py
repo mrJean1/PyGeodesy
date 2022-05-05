@@ -10,6 +10,10 @@ that package is installed.
 The I{wrapped} class methods return a L{GDict} instance offering access to the C{dict} items either
 by C{key} or by C{attribute} name.
 
+With env variable C{PYGEODESY_GEOGRAPHICLIB} left undefined or set to C{"2"}, this module and
+L{pygeodesy.geodesicx} will use U{GeographicLib 2.0<https://GeographicLib.SourceForge.io/C++/doc/>}
+transcoding, otherwise C{1.52} or older.
+
 Karney-based functionality
 ==========================
 
@@ -102,27 +106,27 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
 
-from pygeodesy.basics import copysign0, _isfinite as _math_isfinite, unsigned0, \
-                            _xgeographiclib, _xImportError, isodd  # PYCHOK shared
+from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, unsigned0, \
+                             _xgeographiclib, _xImportError, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
+from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
+                            hypot as _hypot  # PYCHOK shared
 from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
-from pygeodesy.interns import NAN, NN, _DOT_, _lat1_, _lat2_, _lon2_, \
-                             _0_0, _1_0, _2_0, _16_0, _180_0, _N_180_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
-                           _NamedTuple, _Pass, unstr  # PYCHOK shared
+from pygeodesy.interns import NAN, NN, _DOT_, _2_, _lat1_, _lat2_, _lon2_, \
+                             _0_0, _1_0, _16_0, _180_0, _N_180_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+from pygeodesy.named import callername, classname, _Dict, modulename, _NamedBase, \
+                           _NamedTuple, _Pass  # PYCHOK shared
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO
-# from pygeodesy.streps import unstr  # from .named
+# from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
-from pygeodesy.utily import atan2d, unroll180, wrap360
-
-from math import fmod as _fmod
+from pygeodesy.utily import atan2d, sincos2d, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -136,6 +140,7 @@ _S12_  = 'S12'
 
 _1_16th = _1_0 / _16_0
 _EWGS84 = _WGS84.ellipsoid  # PYCHOK used!
+_K_2_0  = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 
 
 def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx and .geodsolve
@@ -209,8 +214,8 @@ class GDict(_Dict):
         return self._toTuple(Direct9Tuple, dflt)
 
     def toGeodSolve12Tuple(self, dflt=NAN):  # PYCHOK 12 args
-        '''Convert this L{GDict} result to a 12-Tuple, compatible with
-           I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+        '''Convert this L{GDict} result to a 12-Tuple, compatible with I{Karney}'s
+           U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
            result.
 
            @kwarg dflt: Default value for missing items (C{any}).
@@ -295,8 +300,9 @@ class _Wrapped(object):
             '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/html/
                python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
             '''
-            _debug =  0  # like .geodesicx.bases._GeodesicBase
-            _E     = _EWGS84
+            _debug   =  0  # like .geodesicx.bases._GeodesicBase
+            _E       = _EWGS84
+            LINE_OFF =  0  # in .azimuthal._GnomonicBase and .css.CassiniSoldner
 
             def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):  # PYCHOK signature
                 '''New C{Geodesic} instance.
@@ -355,6 +361,12 @@ class _Wrapped(object):
                 '''
                 return self._E
 
+            @Property_RO
+            def f1(self):  # in .css.CassiniSoldner.reset
+                '''Get the geodesic's ellipsoid I{1 - flattening} (C{float}).
+                '''
+                return getattr(self, '_f1', self.ellipsoid.f1)
+
             def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12,
                                                   outmask=_Geodesic.STANDARD):
                 '''(INTERNAL) Get C{._GenDirect} result as C{GDict}.
@@ -408,15 +420,12 @@ class _Wrapped(object):
                 '''
                 return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
 
-            _LineTemp = Line  # for .azimuthal._GnomonicBase.reverse, matching
-            # PYCHOK .geodesicx.GeodesictExact._LineTemp and -._GDictDirect
-
         # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
         # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__
         # Geodesic.Line.__doc__    = _Geodesic.Line.__doc__
         return Geodesic
 
-    @Property_RO
+    @Property_RO  # MCCABE 16
     def GeodesicLine(self):
         '''Get the I{wrapped} C{GeodesicLine} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
@@ -434,12 +443,42 @@ class _Wrapped(object):
                 except (TypeError, ValueError) as x:
                     _raiseX(self, x, lat1, lon1, azi1, *caps)
 
+            @Property_RO
+            def a1(self):
+                '''Get the I{equatorial arc} (C{degrees}), the arc length between
+                   the northward equatorial crossing and point C{(lat1, lon1)}.
+
+                   @see: U{EquatorialArc<https://GeographicLib.SourceForge.io/
+                         C++/doc/classGeographicLib_1_1GeodesicLine.html>}
+                '''
+                try:
+                    return _atan2d(self._ssig1, self._csig1)
+                except AttributeError:
+                    return NAN  # see .geodesicx.gxline._GeodesicLineExact
+
+            equatorarc = a1
+
             def ArcPosition(self, a12, *outmask):
                 try:
                     d = _GeodesicLine.ArcPosition(self, a12, *outmask)
                 except (TypeError, ValueError) as x:
                     _raiseX(self, x, a12, *outmask)
                 return GDict(d)
+
+            @Property_RO
+            def azi0(self):  # see .css.CassiniSoldner.forward4
+                '''Get the I{equatorial azimuth} (C{degrees}), the azimuth of the
+                   geodesic line as it crosses the equator in a northward direction.
+
+                   @see: U{EquatorialAzimuth<https://GeographicLib.SourceForge.io/
+                         C++/doc/classGeographicLib_1_1GeodesicLine.html>}
+                '''
+                try:
+                    return _atan2d(self._salp0, self._calp0)
+                except AttributeError:
+                    return NAN  # see .geodesicx.gxline._GeodesicLineExact
+
+            equatorazimuth = azi0
 
             def Position(self, s12, *outmask):
                 try:
@@ -475,68 +514,88 @@ class _Wrapped(object):
         g.Math = Math
         return g
 
-    @Property_RO
+    @Property_RO  # MCCABE 13
     def Math(self):
         '''Get the C{Math} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is
            installed, otherwise C{None}.
         '''
         try:
-            M = self.geographiclib.Math
-            # replace karney. with Math. functions
-            k = _MODS.karney
-            k._around   = M.AngRound
-            k._diff182  = M.AngDiff
-            k._fix90    = M.LatFix
-            k._norm180  = M.AngNormalize
-            k._sum2     = M.sum
-            try:  # geographiclib 1.52
-                k._isfinite = M.isfinite
-            except AttributeError:  # 2.0
-                k._isfinite = _math_isfinite
-            try:  # geographiclib 1.49
-                k._remainder = M.remainder
-            except AttributeError:
-                pass
-        except ImportError:
+            g = self.geographiclib
+            M = g.Math
+            if g.__version_info__ < (2,):
+                if _K_2_0:
+                    M = None
+#           elif not _K_2_0:  # XXX 2.0?
+#               _K_2_0 = False
+        except (AttributeError, ImportError):
             M = None
         return M
 
-_wrapped = _Wrapped()  # PYCHOK singleton, .datum
+_wrapped = _Wrapped()  # PYCHOK singleton, .datum, .test/base.py
 
 
-def _around(x):
-    '''Coarsen a scalar to zero.
+def _around(x):  # in .utily.sincos2d
+    '''I{Coarsen} a scalar by rounding small values to underflow to C{0.0}.
 
        @return: Coarsened value (C{float}).
-    '''
-    M = _wrapped.Math
-    if M:
-        return M.AngRound(x)
 
+       @see: I{Karney}'s U{Math.AngRound<https://SourceForge.net/p/
+       geographiclib/code/ci/release/tree/python/geographiclib/geomath.py>}
+    '''
+    try:
+        return _wrapped.Math.AngRound(x)
+    except AttributeError:
+        pass
     if x:
         y = _1_16th - abs(x)
         if y > 0:  # abs(x) < _1_16th
-            x = copysign0(_1_16th - y, x)
+            x = _copysign(_1_16th - y, x)
     else:
         x = _0_0  # -0 to 0
     return x
 
 
-def _diff182(deg0, deg):  # mimick Math.AngDiff
+def _atan2d(y, x):
+    '''Return C{atan2(B{y}, B{x})} in C{degrees}.
+    '''
+    try:
+        return _wrapped.Math.atan2d(y, x)
+    except AttributeError:
+        return atan2d(y, x)
+
+
+def _cbrt(x):
+    '''Return C{cubic root(B{x})}.
+    '''
+    try:
+        return _wrapped.Math.cbrt(x)
+    except AttributeError:
+        return cbrt(x)
+
+
+def _diff182(deg0, deg):
     '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
 
        @return: 2-Tuple C{(delta_angle, residual)} in C{degrees}.
     '''
-    M = _wrapped.Math
-    if M:
-        return M.AngDiff(deg0, deg)
-
-    d, t = _sum2(_norm180(-deg0), _norm180(deg))
-    d = _norm180(d)
-    if t > 0 and d == _180_0:
-        d = _N_180_0
-    return _sum2(d, t)
+    try:
+        return _wrapped.Math.AngDiff(deg0, deg)
+    except AttributeError:
+        pass
+    if _K_2_0:  # geographiclib 2.0
+        d, t = _sum2(fremainder(-deg0, _360_0),
+                     fremainder( deg,  _360_0))
+        d, t = _sum2(fremainder( d,    _360_0), t)
+        if d in (_0_0, _180_0, -_180_0):
+            d = _copysign(d, -t if t else (deg - deg0))
+    else:
+        d, t = _sum2(_norm180(-deg0), _norm180(deg))
+        d = _norm180(d)
+        if t > 0 and d == _180_0:
+            d = _N_180_0
+        d, t = _sum2(d, t)
+    return d, t
 
 
 # def _Equidistant(equidistant, exact=False, geodsolve=False):
@@ -557,8 +616,10 @@ def _fix90(deg):  # mimick Math.LatFix
 
        @return: Angle C{degrees} or NAN.
     '''
-    M = _wrapped.Math
-    return M.LatFix(deg) if M else (NAN if abs(deg) > 90 else deg)
+    try:
+        return _wrapped.Math.LatFix(deg)
+    except AttributeError:
+        return NAN if abs(deg) > 90 else deg
 
 
 def _isfinite(x):  # mimick Math.AngNormalize
@@ -566,8 +627,10 @@ def _isfinite(x):  # mimick Math.AngNormalize
 
        @return: C{True} if finite.
     '''
-    M = _wrapped.Math
-    return M.isfinite(x) if M else _math_isfinite(x)  # (abs(x) <= _MAX)
+    try:
+        return _wrapped.Math.isfinite(x)
+    except AttributeError:
+        return _math_isfinite(x)  # and abs(x) <= _MAX
 
 
 def _norm180(deg):  # mimick Math.AngNormalize
@@ -575,8 +638,25 @@ def _norm180(deg):  # mimick Math.AngNormalize
 
        @return: Reduced angle C{degrees}.
     '''
-    M = _wrapped.Math
-    return M.AngNormalize(deg) if M else _remod(deg, _360_0, _180_0)
+    try:
+        return _wrapped.Math.AngNormalize(deg)
+    except AttributeError:
+        pass
+    d = fremainder(deg, _360_0)
+    if d in (_180_0, -_180_0):
+        d = _copysign(_180_0, deg) if _K_2_0 else _180_0
+    return d
+
+
+def _norm2(x, y):  # mimick Math.norm
+    '''Normalize C{B{x}} and C{B{y}}.
+
+       @return: 2-Tuple of C{(B{x}, B{y})}, normalized.
+    '''
+    try:
+        return _wrapped.Math.norm(x, y)
+    except AttributeError:
+        return norm2(x, y)
 
 
 def _polygon(geodesic, points, closed, line, wrap):
@@ -608,48 +688,43 @@ def _polygon(geodesic, points, closed, line, wrap):
 def _remainder(x, y):
     '''Remainder of C{x / y}.
 
-       @return: Remainder in the range M{[-y / 2, y / 2]}.
+       @return: Remainder in the range M{[-y / 2, y / 2]}, preserving signed 0.0.
     '''
-    M = _wrapped.Math
-    if M:
-        try:  # geographiclib 1.49
-            return M.remainder(x, y)
-        except AttributeError:
-            pass
-
-    return _remod(x, y, 0) if _isfinite(x) else NAN
+    try:
+        return _wrapped.Math.remainder(x, y)
+    except AttributeError:
+        return fremainder(x, y)
 
 
-def _remod(x, y, y_2):
-    '''(INTERNAL) Remainder/modulo in the range C{[-B{y_2}, B{y_2}]}.
+if _K_2_0:
+    from math import cos as _cos, sin as _sin
+
+    def _sincos2(rad):
+        return _sin(rad), _cos(rad)
+else:
+    from pygeodesy.utily import sincos2 as _sincos2  # PYCHOK shared
+
+
+def _sincos2d(deg):
+    '''Return sine and cosine of an angle in C{degrees}.
+
+       @return: 2-Tuple C{(sin(B{deg}), cos(B{deg}))}.
     '''
-    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6 and
-    # with Python 3.10.2 on macOS 12.2.1 M1 arm64 native
-    #  fmod( 0,   360) ==  0.0
-    #  fmod( 360, 360) ==  0.0
-    #  fmod(-0,   360) ==  0.0
-    #  fmod(-0.0, 360) == -0.0
-    #  fmod(-360, 360) == -0.0
-    # however, using the % operator ...
-    #    0   % 360 == 0
-    #  360   % 360 == 0
-    #  360.0 % 360 == 0.0
-    #   -0   % 360 == 0
-    # -360   % 360 == 0   == (-360)   % 360
-    #   -0.0 % 360 == 0.0 ==   (-0.0) % 360
-    # -360.0 % 360 == 0.0 == (-360.0) % 360
+    try:
+        return _wrapped.Math.sincosd(deg)
+    except AttributeError:
+        return sincos2d(deg)
 
-    # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
-    # == +0.0.  This fixes this bug.  See also Math::AngNormalize
-    # in the C++ library, Math.sincosd has a similar fix.
-    if x:
-        if _isfinite(x):
-            h =  y_2 if y_2 else (y / _2_0)
-            z = _fmod(x, y)
-            x = (z + y) if z < -h else (z if z < h else (z - y))
-        else:  # PYCHOK no cover
-            x = NAN
-    return x  # maintain -0.0 signed
+
+def _sincos2de(deg, t):
+    '''Return sine and cosine of a corrected angle in C{degrees}.
+
+       @return: 2-Tuple C{(sin(B{deg}), cos(B{deg}))}.
+    '''
+    try:
+        return _wrapped.Math.sincosde(deg, t)
+    except AttributeError:
+        return sincos2d(deg, adeg=t)
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2
@@ -661,10 +736,10 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 
        @see: U{Algorithm 3.1<https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>}.
     '''
-    M = _wrapped.Math
-    if M:
-        return M.sum(u, v)
-
+    try:
+        return _wrapped.Math.sum(u, v)
+    except AttributeError:
+        pass
     s = u + v
     r = s - v
     t = s - r
@@ -691,19 +766,20 @@ def _sum2_(s, t, *vs):
 
        @note: NOT "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
+    _s2, _u0 = _sum2, unsigned0
     for v in vs:
         if v:
-            t, u = _sum2(t, v)  # start at least-
+            t, u = _s2(t, v)  # start at the least-
             if s:
-                s, t = _sum2(s, t)  # significant end
+                s, t = _s2(s, t)  # significant end
                 if s:
-                    t += u  # accumulate u to t
+                    t += u  # accumulate u into t
 #               elif t:  # s == 0 implies t == 0
-#                   raise _AssertionError(t=t, txt=_not(_0_))
+#                   raise _AssertionError(t=t, txt=_not_(_0_))
                 else:
-                    s = unsigned0(u)  # result is u, t = 0
+                    s = _u0(u)  # result is u, t = 0
             else:
-                s, t = unsigned0(t), u
+                s, t = _u0(t), u
     return s, t
 
 

@@ -13,6 +13,10 @@ from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fsum_, hypot, hypot_, hypot2_, norm_, signOf, sqrt3, sqrt_a
 
 from math import acos, asin, atan, atan2, sqrt
+from sys import version_info as _version_info
+# hypot issue in Python 3.8 and 3.9 plus 2.7 32-bit on Windows
+_hypot_known = (3, 8) <= _version_info[:2] <= (3, 9) or (isWindows and
+               (2, 7) == _version_info[:2])
 
 
 class Tests(TestsBase):
@@ -65,7 +69,7 @@ class Tests(TestsBase):
         y2 = y1 + 1e-16
         h1 = hypot(x, y1)
         h2 = hypot(x, y2)
-        self.test('hypot', signOf(y2 - y1), signOf(h2 - h1), known=isWindows)  # (3, 7) < sys.version_info[:2] < (3, 10))
+        self.test('hypot', signOf(y2 - y1), signOf(h2 - h1), known=_hypot_known)
         self.test('sqrt_a', sqrt_a(h1, y1), x, prec=13)
         self.test('sqrt_a', sqrt_a(h2, y2), x, prec=13)
 

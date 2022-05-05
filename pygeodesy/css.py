@@ -8,27 +8,30 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import copysign0, neg, _umod_360, \
-                            _xinstanceof, _xsubclassof
+from pygeodesy.basics import neg, _umod_360, \
+                             _xinstanceof, _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
 from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _easting_, _lat_, _lon_, _m_, _name_, \
                              _northing_, _reciprocal_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _90_0
+                             _0_0, _0_5, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.karney import _atan2d, _copysign, _diff182, \
+                             _norm2, _norm180, _sincos2d
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, LatLon4Tuple, _LL4Tuple
-from pygeodesy.props import deprecated_Property_RO, Property_RO
+from pygeodesy.props import deprecated_Property_RO, Property, \
+                                       Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
-from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
-                            Northing, Scalar
+from pygeodesy.units import Bearing, Degrees, Easting, Height, \
+                            Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.04.22'
+__version__ = '22.05.03'
 
 
 def _CS0(cs0):
@@ -55,6 +58,7 @@ class CassiniSoldner(_NamedBase):
     '''
     _cb0      = _0_0
     _datum    = _WGS84  # L{Datum}
+    _geodesic =  None
     _latlon0  = ()
     _meridian =  None
     _sb0      = _0_0
@@ -69,10 +73,6 @@ class CassiniSoldner(_NamedBase):
            @kwarg name: Optional name (C{str}).
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
-
-           @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} not installed or
-                               not found.
 
            @example:
 
@@ -90,37 +90,51 @@ class CassiniSoldner(_NamedBase):
 
         self.reset(lat0, lon0)
 
-    @Property_RO
+    @Property
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
+    @datum.setter  # PYCHOK setter!
+    def datum(self, datum):
+        '''Set the datum or ellipsoid (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+           or L{a_f2Tuple}) or C{None} for the default.
+        '''
+        d = CassiniSoldner._datum if datum is None else \
+              _xellipsoidal(datum=_ellipsoidal_datum(datum, name=self.name))
+        if self._datum != d:
+            self._datum = d
+            self.geodesic = None if self._geodesic is None else self.isExact
+
     def _datumatch(self, latlon):
         '''Check for matching datum ellipsoids.
 
-           @raise CSSError: Ellipsoidal mismatch of B{C{latlon}} and this projection.
+           @raise CSSError: Ellipsoid mismatch of B{C{latlon}} and this projection.
         '''
-        _xdatum(self.datum, latlon.datum, Error=CSSError)
+        d = getattr(latlon, _datum_, None)
+        if d:
+            _xdatum(self.datum, d, Error=CSSError)
 
     @Property_RO
     def equatoradius(self):
-        '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
+        '''Get the ellipsoid's equatorial radius, semi-axis (C{meter}).
         '''
         return self.geodesic.a
 
     @Property_RO
     def flattening(self):
-        '''Get the geodesic's flattening (C{float}).
+        '''Get the ellipsoid's flattening (C{float}).
         '''
         return self.geodesic.f
 
-    def forward(self, lat, lon):
+    def forward(self, lat, lon, name=NN):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
+           @kwarg name: Name inlieu of this projection's name (C{str}).
 
            @return: An L{EasNor2Tuple}C{(easting, northing)}.
 
@@ -129,8 +143,8 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        t = self.forward4(lat, lon)
-        return EasNor2Tuple(t.easting, t.northing, name=self.name)
+        t = self.forward6(lat, lon, name=name)
+        return EasNor2Tuple(t.easting, t.northing, name=t.name)
 
     def forward4(self, lat, lon, name=NN):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
@@ -143,80 +157,140 @@ class CassiniSoldner(_NamedBase):
            @return: An L{EasNorAziRk4Tuple}C{(easting, northing,
                     azimuth, reciprocal)}.
 
-           @see: Method L{CassiniSoldner.forward}, L{CassiniSoldner.reverse}
-                 and L{CassiniSoldner.reverse4}.
+           @see: Method L{CassiniSoldner.forward}, L{CassiniSoldner.forward6},
+                 L{CassiniSoldner.reverse} and L{CassiniSoldner.reverse4}.
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        g, M = self.datum.ellipsoid._geodesic_Math2
+        t = self.forward6(lat, lon, name=name)
+        return EasNorAziRk4Tuple(t.easting, t.northing,
+                                 t.azimuth, t.reciprocal, name=t.name)
 
-        lat = Lat_(lat, Error=CSSError)
-        d = M.AngDiff(self.lon0, Lon_(lon, Error=CSSError))[0]  # _2sum
-        r = g.Inverse(lat, -abs(d), lat, abs(d))
+    def forward6(self, lat, lon, name=NN):
+        '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
+           easting and northing.
+
+           @arg lat: Latitude of the location (C{degrees90}).
+           @arg lon: Longitude of the location (C{degrees180}).
+           @kwarg name: Name inlieu of this projection's name (C{str}).
+
+           @return: An L{EasNorAziRkEqu6Tuple}C{(easting, northing,
+                    azimuth, reciprocal, equatorarc, equatorazimuth)}.
+
+           @see: Method L{CassiniSoldner.forward}, L{CassiniSoldner.forward4},
+                 L{CassiniSoldner.reverse} and L{CassiniSoldner.reverse4}.
+
+           @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
+        '''
+        g = self.geodesic
+
+        lat  =  Lat_(lat, Error=CSSError)
+        d, _ = _diff182(self.lon0, Lon_(lon, Error=CSSError))  # _2sum
+        D    =  abs(d)
+
+        r = g.Inverse(lat, -D, lat, D)
         z1, a = r.azi1, (r.a12 * _0_5)
         z2, e = r.azi2, (r.s12 * _0_5)
-        if e == 0:
-            z = M.AngDiff(z1, z2)[0] * _0_5  # _2sum
-            c = -90 if abs(d) > 90 else 90
+        if e == 0:  # PYCHOK no cover
+            z = _diff182(z1, z2)[0] * _0_5  # _2sum
+            c = _copysign(_90_0, 90 - D)  # -90 if D > 90 else 90
             z1, z2 = c - z, c + z
         if d < 0:
             a, e, z2 = neg(a), neg(e), z1
 
-        # z: azimuth of easting direction
-        z = M.AngNormalize(z2)
-        p = g.Line(lat, d, z, g.DISTANCE | g.GEODESICSCALE)
-        # rk: reciprocal of azimuthal northing scale
+        z = _norm180(z2)  # azimuth of easting direction
+        p =  g.Line(lat, d, z, g.DISTANCE | g.GEODESICSCALE | g.LINE_OFF)
+        # reciprocal of azimuthal northing scale
         rk = p.ArcPosition(neg(a), g.GEODESICSCALE).M21
         # rk = p._GenPosition(True, -a, g.DISTANCE)[7]
 
-        # s, c = M.sincosd(p.EquatorialAzimuth())
-        s, c = M.sincosd(M.atan2d(p._salp0, p._calp0))
-        sb1 = copysign0(c, lat)  # -c if lat < 0 else c
-        cb1 = copysign0(s, 90 - abs(d))  # -abs(s) if abs(d) > 90 else abs(s)
-        d = M.atan2d(sb1 * self._cb0 - cb1 * self._sb0,
-                     cb1 * self._cb0 + sb1 * self._sb0)
+        s, c = _sincos2d(p.azi0)  # aka equatorazimuth
+        sb1  = _copysign(c, lat)
+        cb1  = _copysign(s, 90 - D)  # -abs(s) if D > 90 else abs(s)
+        d    = _atan2d(sb1 * self._cb0 - cb1 * self._sb0,
+                       cb1 * self._cb0 + sb1 * self._sb0)
         n = self._meridian.ArcPosition(d, g.DISTANCE).s12
         # n = self._meridian._GenPosition(True, d, g.DISTANCE)[4]
-        return EasNorAziRk4Tuple(e, n, z, rk, name=name or self.name)
+        return EasNorAziRkEqu6Tuple(e, n, z, rk, p.a1, p.azi0,
+                                    name=name or self.name)
 
-    @Property_RO
+    @Property
     def geodesic(self):
-        '''Get this projection's I{wrapped} U{Karney Geodesic
+        '''Get this projection's I{wrapped,Karney} U{Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided package U{geographiclib
-           <https://PyPI.org/project/geographiclib>} is installed.
+           <https://PyPI.org/project/geographiclib>} is installed,
+           otherwise L{GeodesicExact} instance.
         '''
-        return self.datum.ellipsoid.geodesic
+        g = self._geodesic
+        if g is None:
+            try:
+                g = self.datum.ellipsoid.geodesic
+            except ImportError:
+                g = self.datum.ellipsoid.geodesicx
+            self._geodesic = g
+        return g
+
+    @geodesic.setter  # PYCHOK setter!
+    def geodesic(self, exact):
+        '''Set this projection's geodesic (C{bool}) to L{GeodesicExact}
+           or I{wrapped Karney}'s or C{None} for the default.
+
+           @raise ImportError: Package U{geographiclib<https://PyPI.org/
+                               project/geographiclib>} not installed or
+                               not found and C{B{exact}=False}.
+        '''
+        if exact is None:
+            self._geodesic = None
+        elif exact:
+            self._geodesic = self.datum.ellipsoid.geodesicx
+        else:
+            self._geodesic = self.datum.ellipsoid.geodesic
+        self.reset(*self.latlon0)
+
+    @Property_RO
+    def isExact(self):
+        '''Return C{True} if this projection's geodesic is L{GeodesicExact}.
+        '''
+        return isinstance(self.geodesic, _MODS.geodesicx.GeodesicExact)
 
     @Property_RO
     def lat0(self):
         '''Get the center latitude (C{degrees90}).
         '''
-        return self._latlon0.lat
+        return self.latlon0.lat
 
     @property
     def latlon0(self):
-        '''Get the center lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}) in (C{degrees90}, (C{degrees180}).
+        '''Get the center lat- and longitude (L{LatLon2Tuple}C{(lat, lon)})
+           in (C{degrees90}, (C{degrees180}).
         '''
         return self._latlon0
 
     @latlon0.setter  # PYCHOK setter!
     def latlon0(self, latlon0):
-        '''Set the center lat- and longitude (L{LatLon2Tuple}, ellipsoidal C{LatLon} or L{LatLon4Tuple}).
+        '''Set the center lat- and longitude (ellipsoidal C{LatLon},
+           L{LatLon2Tuple}, L{LatLon4Tuple} or a C{tuple} or C{list}
+           with the C{lat}- and C{lon}gitude in C{degrees}).
 
-           @raise CSSError: Invalid B{C{latlon0}} or ellipsoidal mismatch
+           @raise CSSError: Invalid B{C{latlon0}} or ellipsoid mismatch
                             of B{C{latlon0}} and this projection.
         '''
-        _xinstanceof(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
-        if hasattr(latlon0, _datum_):
-            self._datumatch(latlon0)
-        self.reset(latlon0.lat, latlon0.lon)
+        if type(latlon0) in (tuple, list) and len(latlon0) > 1:
+            lat0, lon0 = latlon0[:2]
+        else:
+            try:
+                lat0, lon0 = latlon0.lat, latlon0.lon
+                self._datumatch(latlon0)
+            except (AttributeError, TypeError, ValueError) as x:
+                raise CSSError(latlon0=latlon0, txt=str(x))
+        self.reset(lat0, lon0)
 
     @Property_RO
     def lon0(self):
         '''Get the center longitude (C{degrees180}).
         '''
-        return self._latlon0.lon
+        return self.latlon0.lon
 
     @deprecated_Property_RO
     def majoradius(self):  # PYCHOK no cover
@@ -231,16 +305,15 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        self._update(True)  # force reset
+        _update_all(self)
 
-        g, M = self.datum.ellipsoid._geodesic_Math2
-
+        g = self.geodesic
         self._meridian = m = g.Line(Lat_(lat0=lat0, Error=CSSError),
                                     Lon_(lon0=lon0, Error=CSSError), _0_0,
-                                    g.STANDARD | g.DISTANCE_IN)
+                                    g.STANDARD | g.DISTANCE_IN | g.LINE_OFF)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
-        s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
-        self._sb0, self._cb0 = M.norm(s * (_1_0 - g.f), c)
+        s, c = _sincos2d(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
+        self._sb0, self._cb0 = _norm2(s * g.f1, c)
 
     def reverse(self, easting, northing, LatLon=None, **LatLon_kwds):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
@@ -286,8 +359,7 @@ class CassiniSoldner(_NamedBase):
            @see: Method L{CassiniSoldner.reverse}, L{CassiniSoldner.forward}
                  and L{CassiniSoldner.forward4}.
         '''
-        g = self.geodesic
-
+        g =  self.geodesic
         n =  self._meridian.Position(northing)
         r =  g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
         z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
@@ -343,10 +415,6 @@ class Css(_NamedBase):
 
            @raise CSSError: If B{C{e}} or B{C{n}} is invalid.
 
-           @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} not installed or
-                               not found.
-
            @raise TypeError: If B{C{cs0}} is not L{CassiniSoldner}.
 
            @raise ValueError: Invalid B{C{h}}.
@@ -371,11 +439,41 @@ class Css(_NamedBase):
 
     azimuth = azi
 
-    @Property_RO
+    @Property
     def cs0(self):
         '''Get the projection (L{CassiniSoldner}).
         '''
         return self._cs0 or Css._CS0
+
+    @cs0.setter  # PYCHOK setter!
+    def cs0(self, cs0):
+        '''Set the I{Cassini-Soldner} projection.
+
+           @arg cs0: The projection (L{CassiniSoldner}).
+
+           @raise TypeError: Invalid B{C{cs0}}.
+        '''
+        cs0 = _CS0(cs0)
+        if cs0 != self._cs0:
+            _update_all(self)
+            self._cs0 = cs0
+
+#   def dup(self, name=NN, **e_n_h_cs0):  # PYCHOK signature
+#       '''Duplicate this position with some attributes modified.
+#
+#          @kwarg e_n_h_cs0: Use keyword argument C{B{e}=...}, C{B{n}=...},
+#                            C{B{h}=...} and/or C{B{cs0}=...} to override
+#                            the current C{easting}, C{northing} C{height}
+#                            or C{cs0} projectio, respectively.
+#       '''
+#       def _args_kwds(e=None, n=None, **kwds):
+#           return (e, n), kwds
+#
+#       kwds = _xkwds(e_n_h_cs0, e=self.easting, n=self.northing,
+#                                h=self.height, cs0=self.cs0,
+#                                name=name or self.name)
+#       args, kwds = _args_kwds(**kwds)
+#       return self.__class__(*args, **kwds)  # .classof
 
     @Property_RO
     def easting(self):
@@ -487,6 +585,17 @@ class EasNorAziRk4Tuple(_NamedTuple):
     '''
     _Names_ = (_easting_, _northing_, _azimuth_, _reciprocal_)
     _Units_ = ( Easting,   Northing,   Bearing,   Scalar)
+
+
+class EasNorAziRkEqu6Tuple(_NamedTuple):
+    '''6-Tuple C{(easting, northing, azimuth, reciprocal, equatorarc,
+       equatorazimuth)} for the Cassini-Soldner location with
+       C{easting} and C{northing} in C{meters} and the C{azimuth} of
+       easting direction, C{reciprocal} of azimuthal northing scale,
+       C{equatorarc} and C{equatorazimuth}, all in C{degrees}.
+    '''
+    _Names_ = EasNorAziRk4Tuple._Names_ + ('equatorarc', 'equatorazimuth')
+    _Units_ = EasNorAziRk4Tuple._Units_ + ( Degrees,      Bearing)
 
 
 class LatLonAziRk4Tuple(_NamedTuple):

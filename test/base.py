@@ -31,8 +31,8 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, basics, clips, DeprecationWarnings, isLazy, \
-                      issubclassof, iterNumpy2over, LazyImportError, \
+from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, \
+                      isLazy, issubclassof, iterNumpy2over, LazyImportError, \
                       map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.04.16'
+__version__ = '22.05.03'
 
 try:
     import geographiclib
@@ -73,11 +73,11 @@ except NameError:  # Python 3+
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 _SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
-_SPACE_ = ' '
+_SPACE_ = interns._SPACE_
 
-_W_opts = sys.warnoptions or ''
+_W_opts = sys.warnoptions or NN
 if _W_opts:
-    _W_opts = '-W ' + ' -W '.join(_W_opts)
+    _W_opts = _SPACE_(*(_SPACE_('-W', _) for _ in _W_opts))
 
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX
@@ -468,9 +468,15 @@ def versions():
         from pygeodesy.interns import _pythonarchine
 
         vs = 'PyGeodesy', PyGeodesy_version, _pythonarchine(sep=_SPACE_)
-        for t in (coverage, geographiclib, numpy, scipy):
+        for t in (coverage, numpy, scipy, geographiclib):
             if t:
                 vs += t.__name__, t.__version__
+
+        if geographiclib:
+            from pygeodesy.karney import _K_2_0, _wrapped
+            if _wrapped.Math:
+                vs += 'geoMath',
+            vs += ('_K_2_0' if _K_2_0 else '_K_1_0'),
 
         # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
         #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS

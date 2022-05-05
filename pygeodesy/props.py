@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.04.02'
+__version__ =  '22.04.27'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -264,6 +264,16 @@ class property_RO(_PropertyBase):
                 inst.__dict__.pop(uname)
 
 
+class _NamedProperty(property):
+    '''(INTERNAL) Class C{property} with retrievable name.
+    '''
+    @Property_RO
+    def name(self):
+        '''Get the name of this C{property} (C{str}).
+        '''
+        return self.fget.__name__
+
+
 def property_doc_(doc):
     '''Decorator for a standard C{property} with basic documentation.
 
@@ -287,7 +297,7 @@ def property_doc_(doc):
         '''(INTERNAL) Return the documented C{property}.
         '''
         t = 'get and set' if doc.startswith(_SPACE_) else NN
-        return property(method, None, None, NN('Property to ', t, doc))
+        return _NamedProperty(method, None, None, NN('Property to ', t, doc))
 
     return _documented_property
 

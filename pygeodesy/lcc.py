@@ -39,7 +39,8 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
                             _NamedEnum, _NamedEnumItem, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LL4Tuple, PhiLam2Tuple
-from pygeodesy.props import deprecated_method, Property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                           _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -47,7 +48,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -61,7 +62,7 @@ class Conic(_NamedEnumItem):
     '''
     _auth  = NN    # authorization (C{str})
     _datum = None  # datum (L{Datum})
-    _name  = NN    # conic (L{Conic})
+    _name  = NN    # Conic.__name__, set below
 
     _e  = _0_0  # ellipsoid excentricity (C{float})
     _E0 = _0_0  # false easting (C{float})
@@ -283,7 +284,7 @@ class Conic(_NamedEnumItem):
 
         return c
 
-    def toStr(self, prec=8, name=NN):  # PYCHOK expected
+    def toStr(self, prec=8, name=NN, **unused):  # PYCHOK expected
         '''Return this conic as a string.
 
            @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
@@ -399,7 +400,7 @@ class LCCError(_ValueError):
 class Lcc(_NamedBase):
     '''Lambert conformal conic East-/Northing location.
     '''
-    _conic    =  None  # Lambert projection (L{Conic})
+    _conic    =  Conics.WRF_Lb  # Lambert projection (L{Conic})
     _easting  = _0_0   # Easting (C{float})
     _height   =  0     # height (C{meter})
     _northing = _0_0   # Northing (C{float})
@@ -424,8 +425,8 @@ class Lcc(_NamedBase):
 
             >>> lb = Lcc(448251, 5411932.0001)
         '''
-        _xinstanceof(Conic, conic=conic)
-        self._conic = conic
+        if conic not in (None, Lcc._conic):
+            self.conic = conic
         self._easting  = Easting(e,  falsed=conic.E0 > 0, Error=LCCError)
         self._northing = Northing(n, falsed=conic.N0 > 0, Error=LCCError)
         if h:
@@ -433,11 +434,41 @@ class Lcc(_NamedBase):
         if name:
             self.name = name
 
-    @Property_RO
+    @Property
     def conic(self):
         '''Get the conic projection (L{Conic}).
         '''
         return self._conic
+
+    @conic.setter  # PYCHOK setter!
+    def conic(self, conic):
+        '''Set the conic projection.
+
+           @arg conic: The projection (L{Conic}).
+
+           @raise TypeError: Invalid B{C{conic}}.
+        '''
+        _xinstanceof(Conic, conic=conic)
+        if conic != self._conic:
+            _update_all(self)
+            self._conic = conic
+
+#   def dup(self, name=NN, **e_n_h_conic):  # PYCHOK signature
+#       '''Duplicate this location with some attributes modified.
+#
+#          @kwarg e_n_h_conic: Use keyword argument C{B{e}=...}, C{B{n}=...},
+#                              C{B{h}=...} and/or C{B{conic}=...} to override
+#                              the current C{easting}, C{northing} C{height}
+#                               or C{conic} projection, respectively.
+#       '''
+#       def _args_kwds(e=None, n=None, **kwds):
+#           return (e, n), kwds
+#
+#       kwds = _xkwds(e_n_h_conic, e=self.easting, n=self.northing,
+#                                  h=self.height, conic=self.conic,
+#                                  name=name or self.name)
+#       args, kwds = _args_kwds(**kwds)
+#       return self.__class__(*args, **kwds)  # .classof
 
     @Property_RO
     def easting(self):
@@ -549,7 +580,7 @@ class Lcc(_NamedBase):
         t_ = pow(r_ / c._aF, c._1_n)
 
         x = c._xdef(t_)  # XXX c._lam0
-        while True:
+        for self._iteration in range(10):  # max 4 trips
             p, x = x, c._xdef(t_ * c._pdef(x))
             if abs(x - p) < 1e-9:  # XXX EPS too small?
                 break

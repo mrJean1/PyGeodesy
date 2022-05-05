@@ -29,7 +29,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.04.21'
+__version__ = '22.04.27'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -172,9 +172,9 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         if isnear0(N):
             raise ValueError(_SPACE_(_concyclic_, (m, n, N)))
 
-        t = n, m, _1_0, _N_1_0
-        x = Fdot(t,  C.x, H1.x, C.y, H1.y).fover(N)
-        y = Fdot(t, H1.y,  C.y, C.x, H1.x).fover(N)
+        t =  n, m, _1_0, _N_1_0
+        x =  Fdot(t,  C.x, H1.x, C.y, H1.y).fover(N)
+        y =  Fdot(t, H1.y,  C.y, C.x, H1.x).fover(N)
         z = _zidw(A, B, C, x, y) if useZ else INT0
 
         clas = Clas or pointA.classof
@@ -232,8 +232,8 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
 
     def _cV3(d, r, A, B, C, useZ, V3, **kwds):
         s, c = sincos2(r)
-        x = A.x + d * s
-        y = A.y + d * c
+        x =  A.x + d * s
+        y =  A.y + d * c
         z = _zidw(A, B, C, x, y) if useZ else INT0
         return V3(x, y, z, **kwds)
 
@@ -504,8 +504,8 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         k = fsum1(ks)
         if isnear0(k):
             raise ValueError(Fmt.EQUAL(K=k))
-        x = Fdot(ks, A.x, B.x, C.x).fover(k)
-        y = Fdot(ks, A.y, B.y, C.y).fover(k)
+        x =  Fdot(ks, A.x, B.x, C.x).fover(k)
+        y =  Fdot(ks, A.y, B.y, C.y).fover(k)
         z = _zidw(A, B, C, x, y) if useZ else INT0
 
         clas = Clas or pointA.classof
@@ -820,9 +820,8 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
 def _zidw(A, B, C, x, y):
     # interpolate z or coplanar with A, B and C?
     t = A.z, B.z, C.z
-    v = Vector3d(x, y, fmean(t))
-    m = v.minus
-    return fidw(t, (m(A).length, m(B).length, m(C).length))
+    m = Vector3d(x, y, fmean(t)).minus
+    return fidw(t, (m(T).length for T in (A, B, C)))
 
 # **) MIT License
 #

@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -1757,78 +1757,74 @@ del _intCs  # trash ints cache
 # _upperright = 90, 180, 13.6050  # egm96-5.pgm
 # _upperright = 90, 180, 13.0980  # egm84-15.pgm
 
-# % python pygeodesy/geoids.py [-Karney] ../geoids/egm*.pgm
+
+# % python3 -m pygeodesy.geoids [-Karney] ../testGeoids/egm*.pgm
 #
-# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226),
-#                               highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911), mean=-1.317, stdev=29.244,
-#                               kind=3, dtype='ushort', endian='>H', hits=0, knots=233301600, sizeB=466603604
-# _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
-#                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
-#                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
-#                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
-#                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
+# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, 147.367, 85.839), lowest(4.7, 78.767, -106.911)
+#
+# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
 #
-# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33),
-#                              highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911), mean=-1.317, stdev=29.244,
-#                              kind=3, dtype='ushort', endian='>H', hits=0, knots=1038240, sizeB=2076896
-# _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
-#                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
-#                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
-#                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
-#                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
+# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, 148.75, 81.33), lowest(4.75, 79.25, -107.34)
+#
+# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
 # Timbuktu GeoidKarney('egm84-15.pgm').height(16.776, -3.009): 31.2979 vs 31.2979
 #
-# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163),
-#                             highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911), mean=-1.317, stdev=29.244,
-#                             kind=3, dtype='ushort', endian='>H', hits=0, knots=9335520, sizeB=18671448
-# _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
-#                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
-#                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(),
-#                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
-#                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
+# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163), highest(-8.167, 147.25, 85.422), lowest(4.667, 78.833, -107.043)
+#
+# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
 
-# % python pygeodesy/geoids.py -PGM ../geoids/egm*.pgm
+
+# % python3 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
 #
-# GeoidPGM('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226),
-#                            highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911), mean=-1.317, stdev=29.244,
-#                            kind=3, smooth=0, dtype=dtype('float64'), endian='>u2', knots=233301600, nBytes=1866412800, sizeB=466603604, scipy='1.2.1', numpy='1.16.1'
-# _PGM('../geoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid',
-#                                  Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003,
-#                                  Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003,
-#                                  URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
-#                                  dlat=-0.016666666666666666, dlon=0.016666666666666666, egm=None, flon=0, glon=180, knots=233301600, nlat=10801, nlon=21600,
-#                                  pgm='../geoids/egm2008-1.pgm', rlat=-60.0, rlon=60.0, sizeB=466603604, skip=404, slat=90, u2B=2, wlon=0.0
+# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, 147.367, 85.839), lowest(4.7, 78.767, -106.911)
+#
+# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
+# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
+#
+# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, 148.75, 81.33), lowest(4.75, 79.25, -107.34)
+#
+# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
+# Timbuktu GeoidKarney('egm84-15.pgm').height(16.776, -3.009): 31.2979 vs 31.2979
+#
+# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163), highest(-8.167, 147.25, 85.422), lowest(4.667, 78.833, -107.043)
+#
+# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
+# Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
+
+
+# % python2 -m pygeodesy.geoids -PGM ../testGeoids/egm*.pgm
+#
+# GeoidPGM('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911)
+#
+# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
 #
-# GeoidPGM('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33),
-#                           highest(-4.5, -31.25, 81.33), lowest(4.75, -100.75, -107.34), mean=-0.855, stdev=29.183,
-#                           kind=3, smooth=0, dtype=dtype('float64'), endian='>u2', knots=1038240, nBytes=8305920, sizeB=2076896, scipy='1.2.1', numpy='1.16.1'
-# _PGM('../geoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid',
-#                                 Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02,
-#                                 Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003,
-#                                 URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
-#                                 dlat=-0.25, dlon=0.25, egm=None, flon=0, glon=180, knots=1038240, nlat=721, nlon=1440,
-#                                 pgm='../geoids/egm84-15.pgm', rlat=-4.0, rlon=4.0, sizeB=2076896, skip=416, slat=90, u2B=2, wlon=0.0
+# GeoidPGM('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, -31.25, 81.33), lowest(4.75, -100.75, -107.34)
+#
+# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidPGM('egm84-15.pgm').height(16.775833, -3.009444): 31.2979 vs 31.2979
 # Timbuktu GeoidPGM('egm84-15.pgm').height(16.776, -3.009): 31.2975 vs 31.2979
 #
-# GeoidPGM('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, -0.0, 17.179),
-#                          highest(-8.167, -32.75, 85.422), lowest(4.667, -101.167, -107.043), mean=-1.438, stdev=29.227,
-#                          kind=3, smooth=0, dtype=dtype('float64'), endian='>u2', knots=9335520, nBytes=74684160, sizeB=18671448, scipy='1.2.1', numpy='1.16.1'
-# _PGM('../geoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid',
-#                                Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003,
-#                                Offset=-108.0, Origin=(90, 0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003,
-#                                URL='https://Earth-Info.NGA.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84', crop4=(-90.0, -180.0, 90.0, 180.0),
-#                                dlat=-0.08333333333333333, dlon=0.08333333333333333, egm=None, flon=0, glon=180, knots=9335520, nlat=2161, nlon=4320,
-#                                pgm='../geoids/egm96-5.pgm', rlat=-12.0, rlon=12.0, sizeB=18671448, skip=408, slat=90, u2B=2, wlon=0.0
+# GeoidPGM('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, -0.0, 17.179), highest(-8.167, -32.75, 85.422), lowest(4.667, -101.167, -107.043)
+#
+# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
+#
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.775833, -3.009444): 28.7065 vs 28.7067
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.776, -3.009): 28.7064 vs 28.7067

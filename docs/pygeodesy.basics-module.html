@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.04.22
+        22.05.04
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -239,7 +239,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for <code>Inf</code> and <code>NaN</code> values.</td>
+      Check for non-finite <code>scalar</code> value.</td>
           <td align="right" valign="top">
             
             
@@ -381,6 +381,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isninf" class="summary-sig-name">isninf</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check for NINF, negative <code>INF</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
       Is <b><code>x</code></b> non-zero?</td>
@@ -434,7 +451,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#issequence" class="summary-sig-name">issequence</a>(<span class="summary-sig-arg">obj</span>,
-        <span class="summary-sig-arg">*excluded</span>)</span><br />
+        <span class="summary-sig-arg">*excls</span>)</span><br />
       Check for sequence types.</td>
           <td align="right" valign="top">
             
@@ -562,6 +579,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#neg_" class="summary-sig-name">neg_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Negate all of <code>xs</code> with <a 
       href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="remainder"></a><span class="summary-sig-name">remainder</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Mimick Python 3.7+ <code>math.remainder</code>.</td>
           <td align="right" valign="top">
             
             
@@ -862,15 +897,16 @@
     </td>
   </tr></table>
   
-  <p>Check for <code>Inf</code> and <code>NaN</code> values.</p>
+  <p>Check for non-finite <code>scalar</code> value.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>False</code> if <b><code>obj</code></b> is <code>INF</code>
-          or <code>NAN</code>, <code>True</code> otherwise.</dd>
+        <dd><code>False</code> if <b><code>obj</code></b> is 
+          <code>INF</code>, <code>NINF</code> or <code>NAN</code>, 
+          <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>obj</code></b>.</li>
@@ -1034,6 +1070,32 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="isninf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isninf</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for NINF, negative <code>INF</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>x</code></b> is <code>NINF</code> 
+          or <code>-inf</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isnon0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1126,7 +1188,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">issequence</span>&nbsp;(<span class="sig-arg">obj</span>,
-        <span class="sig-arg">*excluded</span>)</span>
+        <span class="sig-arg">*excls</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1138,7 +1200,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>excluded</code></strong> - Optional exclusions (<code>type</code>).</li>
+        <li><strong class="pname"><code>excls</code></strong> - Classes to exclude (<code>type</code>), all positional.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is a sequence, 
@@ -1479,7 +1541,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 23 13:34:18 2022
+    Generated by Epydoc 3.0.1 on Wed May  4 16:33:49 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

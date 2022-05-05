@@ -235,7 +235,8 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
     _Units_ = ( Lat,   Lon,   Height,  _Pass)
 
 
-def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
+def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None,
+                                       iteration=None, name=NN):
     '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
     '''
     if LatLon is None:  # ignore LatLon_kwds
@@ -249,6 +250,8 @@ def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None, name=NN):
         if LatLon_kwds:
             kwds.update(LatLon_kwds)
         r = LatLon(lat, lon, **kwds)
+    if iteration is not None:  # like .named._namedTuple.__new__
+        r._iteration = iteration
     return r
 
 

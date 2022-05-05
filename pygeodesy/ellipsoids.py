@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -552,9 +552,11 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def b_a(self):
-        '''Get the ratio I{polar} over I{equatorial} radius (C{float}), M{b / a} == M{1 - f}.
+        '''Get the ratio I{polar} over I{equatorial} radius (C{float}), M{b / a == f1 == 1 - f}.
+
+           @see: Property L{f1}.
         '''
-        return self._assert(self.b / self.a, b_a=_1_0 - self.f, f0=_1_0)
+        return self._assert(self.b / self.a, b_a=self.f1, f0=_1_0)
 
     @Property_RO
     def b2(self):
@@ -954,6 +956,14 @@ class Ellipsoid(_NamedEnumItem):
         return self._f_
 
     @Property_RO
+    def f1(self):
+        '''Get the I{1 - flattening} (C{float}), M{f1 == 1 - f == b / a}.
+
+           @see: Property L{b_a}.
+        '''
+        return Float(f1=_1_0 - self.f)
+
+    @Property_RO
     def f2(self):
         '''Get the I{2nd flattening} (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical, see C{a_b2f2}.
         '''
@@ -1023,6 +1033,7 @@ class Ellipsoid(_NamedEnumItem):
         if r < EPS0:  # EPS
             raise _ValueError(xyz=xyz, txt=_null_)
 
+        i = None
         a, b = self.a, self.b
         if self.isSpherical:
             v = v.times(a / r)
@@ -1039,7 +1050,7 @@ class Ellipsoid(_NamedEnumItem):
                 v = v.times_(t, t, 0)  # force z=0.0
                 h = x - a  # equatorial
             else:  # normal in 1st quadrant
-                x, y = _normal2(x, y, self)
+                x, y, i = _normal3(x, y, self)
                 t, v = v, v.times_(x, x, y)
                 h = t.minus(v).length
 
@@ -1051,7 +1062,8 @@ class Ellipsoid(_NamedEnumItem):
             v = v.times(t)
             h = r * (_1_0 - t)
 
-        return Vector4Tuple(v.x, v.y, v.z, h, name=self.height4.__name__)
+        return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,
+                            name=self.height4.__name__)
 
     def _hubeny_2(self, phi2, phi1, lam21):
         '''(INTERNAL) like function C{pygeodesy.flatLocal_}/C{pygeodesy.hubeny_}
@@ -1953,42 +1965,6 @@ def n2e2(n):
                    (NINF if     t  < EPS else (_4_0 * n / t)))
 
 
-def _normal2(px, py, E):  # in .height4 above
-    '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
-    '''
-    a, b = E.a, E.b
-    if min(px, py, a, b) < EPS0:
-        raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
-
-    a2 = a - b * E.b_a
-    b2 = b - a * E.a_b
-    tx = ty = _SQRT2_2
-    for _ in range(9):  # max 5
-        ex = a2 * tx**3
-        ey = b2 * ty**3
-
-        qx = px - ex
-        qy = py - ey
-        q  = hypot(qx, qy)
-        if q < EPS0:  # PYCHOK no cover
-            break
-        r = hypot(ex - tx * a, ey - ty * b) / q
-
-        sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
-        sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
-        t = hypot(ty, tx)
-        if t < EPS0:  # PYCHOK no cover
-            break
-        tx = tx / t  # /= chokes PyChecker
-        ty = ty / t
-        if max(abs(sx - tx), abs(sy - ty)) < EPS:
-            break
-
-    tx *= a / px
-    ty *= b / py
-    return tx, ty  # x and y as fractions
-
-
 def n2f(n):
     '''Return C{f}, the I{flattening} for a given I{3rd flattening}.
 
@@ -2015,6 +1991,42 @@ def n2f_(n):
        @see: L{n2f} and L{f2f_}.
     '''
     return f2f_(n2f(n))
+
+
+def _normal3(px, py, E):  # in .height4 above
+    '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
+    '''
+    a, b = E.a, E.b
+    if min(px, py, a, b) < EPS0:
+        raise _AssertionError(px=px, py=py, a=a, b=b, E=E)
+
+    a2 = a - b * E.b_a
+    b2 = b - a * E.a_b
+    tx = ty = _SQRT2_2
+    for i in range(10):  # max 5
+        ex = a2 * tx**3
+        ey = b2 * ty**3
+
+        qx = px - ex
+        qy = py - ey
+        q  = hypot(qx, qy)
+        if q < EPS0:  # PYCHOK no cover
+            break
+        r = hypot(ex - tx * a, ey - ty * b) / q
+
+        sx, tx = tx, min(_1_0, max(0, (ex + qx * r) / a))
+        sy, ty = ty, min(_1_0, max(0, (ey + qy * r) / b))
+        t = hypot(ty, tx)
+        if t < EPS0:  # PYCHOK no cover
+            break
+        tx = tx / t  # /= chokes PyChecker
+        ty = ty / t
+        if max(abs(sx - tx), abs(sy - ty)) < EPS:
+            break
+
+    tx *= a / px
+    ty *= b / py
+    return tx, ty, i  # x and y as fractions
 
 
 class Ellipsoids(_NamedEnum):

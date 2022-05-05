@@ -192,6 +192,7 @@ plus during development:
 
  - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
+ - C{PYGEODESY_GEOGRAPHICLIB} - see module L{pygeodesy.karney}.
  - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{pygeodesy.DeprecationWarnings}.
  - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
 
@@ -532,7 +533,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.04.22'
+__version__ = '22.05.05'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

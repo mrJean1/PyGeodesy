@@ -13,7 +13,7 @@ iterating over the array rows, create an instance of a given C{LatLon}
 class "on-the-fly" for each row with the row's lat- and longitude.
 
 The original C{NumPy} array is read-accessed only and never duplicated,
-except to create a I{subset} of the original array to be returned.
+except to return a I{subset} of the original array.
 
 For example, to process a C{NumPy} array, wrap the array by instantiating
 class L{Numpy2LatLon} and specifying the column index for the lat- and
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.04.22'
+__version__ = '22.04.28'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -83,12 +83,10 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
     #
     # __slots__ = (_lat_, _lon_, _height_, _datum_, _name_)
-    # Property_RO = property_RO  # no __dict__ with __slots__
+    # Property_RO = property_RO  # no __dict__ with __slots__!
     #
     # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
     # but only 48-64 bytes without in Python 2.7.18+ and Python 3+.
-
-    _ATTRS_ = None  # see function _isLatLon_ below
 
     def __init__(self, lat, lon, name=NN, height=0, datum=None):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
@@ -200,13 +198,13 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                              name=self.intermediateTo.__name__)
         return r
 
-    @Property_RO
+    @Property_RO  # PYCHOK no cover
     def isEllipsoidal(self):
         '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
         '''
         return self.datum.isEllipsoidal if self.datum else None
 
-    @Property_RO
+    @Property_RO  # PYCHOK no cover
     def isEllipsoidalLatLon(self):
         '''Get C{LatLon} base.
         '''
@@ -233,7 +231,7 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
                    self.lon == other.lon
 
     @Property_RO
-    def isSpherical(self):
+    def isSpherical(self):  # PYCHOK no cover
         '''Check whether this point is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self.datum else None
@@ -414,11 +412,12 @@ def _isLatLon(inst):
 def _isLatLon_(LL):
     '''(INTERNAL) Check a (sub-)class of C{LatLon_}.
     '''
-    if LatLon_._ATTRS_ is None:  # cached pseudo-__slots__
-        LatLon_._ATTRS_ = tuple(LatLon_(0, 0).__dict__.keys())
-
     return issubclassof(LL, LatLon_) or (isclass(LL) and
-            all(hasattr(LL, a) for a in LatLon_._ATTRS_))
+            all(hasattr(LL, a) for a in _ALL_ATTRS_))
+
+
+# get all pseudo-slots for class C{LatLon_}
+_ALL_ATTRS_ = tuple(LatLon_(0, 0).__dict__.keys())
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -433,7 +432,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return any(self._findall(point, ()))
 
-    def copy(self, deep=False):
+    def copy(self, deep=False):  # PYCHOK no cover
         '''Make a shallow or deep copy of this instance.
 
            @kwarg deep: If C{True} make a deep, otherwise a
@@ -448,14 +447,14 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return sum(1 for _ in self._findall(point, ()))  # NOT len()!
 
-    def dup(self, **items):
+    def dup(self, **items):  # PYCHOK no cover
         '''Duplicate this instance, I{without replacing items}.
 
-           @kwarg items: No attributes (C{none}).
+           @kwarg items: No attributes (I{not allowed}).
 
            @return: The duplicate (C{This} (sub-)class).
 
-           @raise _TypeError: Any B{C{items}} invalid.
+           @raise TypeError: Any B{C{items}} invalid.
         '''
         if items:
             t = _SPACE_(classname(self), _immutable_)
@@ -484,10 +483,8 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Find the first matching point index.
         '''
         for i in self._findall(point, start_end):
-            break
-        else:
-            i = -1
-        return i
+            return i
+        return -1
 
     def _findall(self, point, start_end):  # PYCHOK no cover
         '''(INTERNAL) I{Must be implemented/overloaded}.
@@ -499,7 +496,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         # Luciano Ramalho, "Fluent Python", page 290+, O'Reilly, 2016
         if isinstance(index, slice):
-            # XXX an numpy.array slice is a view, not a copy
+            # XXX an numpy.[nd]array slice is a view, not a copy
             return self.__class__(self._array[index], **self._slicekwds())
         else:
             return self.point(self._array[index])
@@ -590,11 +587,6 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) I{Should be overloaded}.
         '''
         return {}
-
-    def _zeros(self, *zeros):
-        '''(INTERNAL) Check for near-zero values.
-        '''
-        return all(abs(z) <= self._epsilon for z in zeros)
 
 
 class _Array2LatLon(_Basequence):  # immutable, on purpose
@@ -708,12 +700,12 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             except (TypeError, ValueError):
                 raise _IsnotError(_valid_, latlon=latlon)
 
-        _ilat,  _ilon  = self._ilat,  self._ilon
-        _array, _zeros = self._array, self._zeros
+        _ilat,  _ilon = self._ilat,  self._ilon
+        _array, _eps  = self._array, self._epsilon
         for i in self._range(*start_end):
             row = _array[i]
-            if _zeros(row[_ilat] - lat,
-                      row[_ilon] - lon):
+            if abs(row[_ilat] - lat) <= _eps and \
+               abs(row[_ilon] - lon) <= _eps:
                 yield i
 
     def findall(self, latlon, *start_end):
@@ -946,10 +938,11 @@ class LatLon2psxy(_Basequence):
 
             _x_y_ll3 = self.point  # PYCHOK expected
 
-        _array, _zeros = self._array, self._zeros
+        _array, _eps = self._array, self._epsilon
         for i in self._range(*start_end):
             xi, yi, _ = _x_y_ll3(_array[i])
-            if _zeros(xi - x, yi - y):
+            if abs(xi - x) <= _eps and \
+               abs(yi - y) <= _eps:
                 yield i
 
     def findall(self, xy, *start_end):
@@ -1367,7 +1360,7 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
 
        @see: Class L{FIx} and method L{FIx.fractional}.
     '''
-    if LatLon and Vector:
+    if LatLon and Vector:  # PYCHOK no cover
         kwds = _xkwds(kwds, fi=fi, LatLon=LatLon, Vector=Vector)
         raise _TypeError(txt=fractional.__name__, **kwds)
     try:
@@ -1397,7 +1390,7 @@ def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
             if fin:
                 j %= fin
         q = points[j]
-        if r >= EPS1:
+        if r >= EPS1:  # PYCHOK no cover
             p = q
         elif wrap is not None:  # in (True, False)
             p = p.intermediateTo(q, r, wrap=wrap)
@@ -1528,7 +1521,7 @@ def isconvex_(points, adjust=False, wrap=True):
                 return 0
             s = -1
 
-        elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:
+        elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:  # PYCHOK no cover
             # colinear u-turn: x3, y3 not on the
             # opposite side of x2, y2 as x1, y1
             t = Fmt.SQUARE(points=i)

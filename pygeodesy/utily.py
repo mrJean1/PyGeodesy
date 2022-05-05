@@ -10,22 +10,34 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint, isnear0
-from pygeodesy.interns import EPS, EPS0, INF, PI, PI2, PI_2, R_M, \
+from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0
+from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
                              _edge_, _radians_, _semi_circular_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _90_0, _N_90_0, _180_0, \
-                             _N_180_0, _360_0, _400_0
+                             _0_0, _0_5, _1_0, _N_1_0, _90_0, _N_90_0, \
+                             _180_0, _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.04.19'
+__version__ = '22.05.04'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1__90 = _1_0 / _90_0  # 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
 _2__PI = _1_0 /  PI_2  # 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+
+# constants named as "_M_UNIT" meaning "meter per unit"
+_M_CHAIN     =   20.1168  # yard2m(1) * 22
+_M_FATHOM    =    1.8288  # yard2m(1) * 2 or _M_NM * 1e-3
+_M_FOOT_FR   =    0.3248  # French pied-du-Roi or pied
+_M_FOOT_INTL =    0.3048  # Int'l 10_000 / (254 * 12)
+_M_FOOT_USRV =    0.3048006096012192  # US Survey 1200 / 3937
+_M_FURLONG   =  201.168   # 220 * yard2m(1)
+_M_NM        = 1852.0     # nautical mile
+_M_SM        = 1609.344   # statute mile
+_M_TOISE     =    1.949   # French toise, 6 pied-du-Roi
+_M_YARD_UK   =    0.9144  # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
 
 
 def acos1(x):
@@ -101,6 +113,8 @@ def atan2d(y, x, reverse=False):
         d = copysign0(_180_0, y) - degrees(atan2(y, -x))
     elif x > 0:  # q = 0
         d = degrees(atan2(y, x)) if y else _0_0
+    elif isnan(x) or isnan(y):
+        return NAN
     else:  # x == 0
         d = _N_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
     if reverse:
@@ -117,7 +131,7 @@ def chain2m(chains):
 
        @raise ValueError: Invalid B{C{chains}}.
     '''
-    return Float(chains=chains) * 20.1168  # == 22 * yard2m(1)
+    return Float(chains=chains) * _M_CHAIN
 
 
 def circle4(earth, lat):
@@ -154,8 +168,7 @@ def cot(rad, **error_kwds):
     '''
     s, c = sincos2(rad)
     if isnear0(s):
-        kwds = _MODS.errors._xkwds(error_kwds, cot=rad)
-        raise  _MODS.errors._ValueError(**kwds)
+        raise _valueError(cot, rad, **error_kwds)
     return c / s
 
 
@@ -185,8 +198,7 @@ def cotd(deg, **error_kwds):
     '''
     s, c = sincos2d(deg)
     if isnear0(s):
-        kwds = _MODS.errors._xkwds(error_kwds, cotd=deg)
-        raise  _MODS.errors._ValueError(**kwds)
+        raise _valueError(cotd, deg, **error_kwds)
     return c / s
 
 
@@ -255,7 +267,7 @@ def degrees2m(deg, radius=R_M, lat=0):
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}
-                or ellipsoidal and polar radii) or C{0} for
+                or equatorial and polar radii) or C{0.0} for
                 near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
@@ -268,11 +280,11 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @see: Function L{radians2m} and L{m2degrees}.
     '''
-    return radians2m(Lam_(deg=deg, clip=0), radius=radius, lat=lat)
+    return _radians2m(Lam_(deg=deg, clip=0), radius, lat)
 
 
 def fathom2m(fathoms):
-    '''Convert I{UK} fathom to meter.
+    '''Convert I{Imperial} fathom to meter.
 
        @arg fathoms: Value in fathoms (C{scalar}).
 
@@ -280,26 +292,26 @@ def fathom2m(fathoms):
 
        @raise ValueError: Invalid B{C{fathoms}}.
 
-       @see: Function L{toise2m}.
+       @see: Function L{toise2m}, U{Fathom<https://WikiPedia.org/wiki/Fathom>}
+             and U{Klafter<https://WikiPedia.org/wiki/Klafter>}.
     '''
-    # 1.8288 == 2 * yard2m(1)
-    return Float(fathoms=fathoms) * 1.8288
+    return Float(fathoms=fathoms) * _M_FATHOM
 
 
-def ft2m(feet, usurvey=False):
-    '''Convert I{International} or I{US Survey} feet to meter.
+def ft2m(feet, usurvey=False, pied=False):
+    '''Convert I{International}, I{US Survey} or I{French} B{C{feet}} to meter.
 
        @arg feet: Value in feet (C{scalar}).
-       @kwarg usurvey: Convert I{US Survey} feet (C{bool}),
-                       I{International} feet otherwise.
+       @kwarg usurvey: Convert I{US Survey} foot if (C{True}).
+       @kwarg pied: Convert French I{pied-du-Roi} if (C{True}),
+                    I{International} foot otherwise.
 
        @return: Value in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    # US Survey 1200 / 3937 == 0.3048006096012192
-    # Int'l 0.3048 == 254 * 12 / 10_000
-    return Feet(feet) * (0.3048006096 if usurvey else 0.3048)
+    return Feet(feet) * (_M_FOOT_USRV if usurvey else
+                        (_M_FOOT_FR   if pied    else _M_FOOT_INTL))
 
 
 def furlong2m(furlongs):
@@ -311,8 +323,7 @@ def furlong2m(furlongs):
 
        @raise ValueError: Invalid B{C{furlongs}}.
     '''
-    # 201.168 = 220 * yard2m(1)
-    return Float(furlongs=furlongs) * 201.168
+    return Float(furlongs=furlongs) * _M_FURLONG
 
 
 def grades(rad):
@@ -364,7 +375,7 @@ def m2chain(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 0.049709695378986715  # == 1 / 20.1168
+    return Meter(meter) / _M_CHAIN  # * 0.049709695378986715
 
 
 def m2degrees(distance, radius=R_M, lat=0):
@@ -393,7 +404,7 @@ def m2degrees(distance, radius=R_M, lat=0):
 
 
 def m2fathom(meter):
-    '''Convert meter to I{UK} fathoms.
+    '''Convert meter to I{Imperial} fathoms.
 
        @arg meter: Value in meter (C{scalar}).
 
@@ -401,25 +412,28 @@ def m2fathom(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
 
-       @see: Function L{m2toise}.
+       @see: Function L{m2toise}, U{Fathom<https://WikiPedia.org/wiki/Fathom>}
+             and U{Klafter<https://WikiPedia.org/wiki/Klafter>}.
     '''
-    return Meter(meter) * 0.546806649  # == 1 / 1.8288
+    return Meter(meter) / _M_FATHOM  # * 0.546806649
 
 
-def m2ft(meter, usurvey=False):
-    '''Convert meter to I{International} or I{US Survey} feet (C{ft}).
+def m2ft(meter, usurvey=False, pied=False):
+    '''Convert meter to I{International}, I{US Survey} or I{French} feet (C{ft}).
 
        @arg meter: Value in meter (C{scalar}).
-       @kwarg usurvey: Convert to I{US Survey} feet (C{bool}),
-                       I{International} feet otherwise.
+       @kwarg usurvey: Convert to I{US Survey} foot if (C{True}).
+       @kwarg pied: Convert to French I{pied-du-Roi} if (C{True}),
+                    I{International} foot otherwise.
 
        @return: Value in C{feet} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    # US Survey == 3937 / 1200  == 3.2808333333333333
-    # Int'l 10_000 / (254 * 12) == 3.2808398950131235
-    return Meter(meter) * (3.280833333 if usurvey else 3.280839895)
+    # * 3.2808333333333333, US Survey 3937 / 1200
+    # * 3.2808398950131235, Int'l 10_000 / (254 * 12)
+    return Meter(meter) / (_M_FOOT_USRV if usurvey else
+                          (_M_FOOT_FR   if pied    else _M_FOOT_INTL))
 
 
 def m2furlong(meter):
@@ -431,7 +445,7 @@ def m2furlong(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 0.00497096954  # == 1 / 201.168
+    return Meter(meter) / _M_FURLONG  # * 0.00497096954
 
 
 def m2km(meter):
@@ -443,7 +457,7 @@ def m2km(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 1.0e-3
+    return Meter(meter) * 1.0e-3  # / _M_KM == 1000
 
 
 def m2NM(meter):
@@ -455,7 +469,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 5.39956804e-4  # == 1 / 1852
+    return Meter(meter) / _M_NM  # * 5.39956804e-4
 
 
 def m2radians(distance, radius=R_M, lat=0):
@@ -493,7 +507,7 @@ def m2SM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 6.21369949e-4  # == _1_0 / 1609.344
+    return Meter(meter) / _M_SM  # * 6.21369949e-4 == 1 / 1609.344
 
 
 def m2toise(meter):
@@ -507,7 +521,7 @@ def m2toise(meter):
 
        @see: Function L{m2fathom}.
     '''
-    return Meter(meter) * 0.513083632632119  # == 1 / 1.949
+    return Meter(meter) / _M_TOISE  # * 0.513083632632119
 
 
 def m2yard(meter):
@@ -519,7 +533,41 @@ def m2yard(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 1.0936132983377078  # == 10_000 / (254 * 12 * 3)
+    return Meter(meter) / _M_YARD_UK  # * 1.0936132983377078
+
+
+def radians2m(rad, radius=R_M, lat=0):
+    '''Convert an angle to a distance along the equator or
+       along the parallel at an other (geodetic) latitude.
+
+       @arg rad: The angle (C{radians}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}).
+       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
+
+       @return: Distance (C{meter}, same units as B{C{radius}}
+                or equatorial and polar radii) or C{0.0} for
+                near-polar B{C{lat}}.
+
+       @raise RangeError: Latitude B{C{lat}} outside valid range and
+                          L{pygeodesy.rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{radius}}.
+
+       @raise ValueError: Invalid B{C{rad}}, B{C{radius}} or
+                          B{C{lat}}.
+
+       @see: Function L{degrees2m} and L{m2radians}.
+    '''
+    return _radians2m(Lam(rad=rad, clip=0), radius, lat)
+
+
+def _radians2m(rad, radius, lat):
+    '''(INTERNAL) Helper for C{degrees2m} and C{radians2m}.
+    '''
+    m = circle4(radius, lat).radius
+    return _0_0 if m < EPS0 else (rad * m)
 
 
 def radiansPI(deg):
@@ -552,46 +600,21 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2, PI2)
 
 
-def radians2m(rad, radius=R_M, lat=0):
-    '''Convert an angle to a distance along the equator or
-       along the parallel at an other (geodetic) latitude.
-
-       @arg rad: The angle (C{radians}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
-       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
-
-       @return: Distance (C{meter}, same units as B{C{radius}}
-                or ellipsoidal and polar radii) or C{0} for
-                near-polar B{C{lat}}.
-
-       @raise RangeError: Latitude B{C{lat}} outside valid range and
-                          L{pygeodesy.rangerrors} set to C{True}.
-
-       @raise TypeError: Invalid B{C{radius}}.
-
-       @raise ValueError: Invalid B{C{rad}}, B{C{radius}} or
-                          B{C{lat}}.
-
-       @see: Function L{degrees2m} and L{m2radians}.
+def _sin0cos2(q, r, sign):
+    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{0 <= B{q} <= 3}
+       and C{sin} zero I{signed} with B{C{sign}}.
     '''
-    m = circle4(radius, lat).radius
-    return _0_0 if m < EPS0 else (Lam(rad=rad, clip=0) * m)
-
-
-def _sincos2(q, r):
-    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant M{0 <= q <= 3}.
-    '''
-    if r < EPS:  # XXX EPS0
-        s, c = _0_0, _1_0
-    elif r < PI_2:
+    if r < PI_2:
         s, c = sin(r), cos(r)
+        t = s, c, -s, -c, s
     else:  # r == PI_2
-        s, c = _1_0, _0_0
-    t = s, c, -s, -c, s
+        t = _1_0, _0_0, _N_1_0, _0_0, _1_0
+#   else:  # r == 0, testUtility failures
+#       t = _0_0, _1_0, _0_0, _N_1_0, _0_0
 #   q &= 3
-    return t[q], t[q + 1]
+    s = t[q]     or (NEG0 if sign < 0 else _0_0)
+    c = t[q + 1] or _0_0
+    return s, c
 
 
 def sincos2(rad):
@@ -608,10 +631,14 @@ def sincos2(rad):
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
-    q = int(rad * _2__PI)  # int(math.floor)
-    if rad < 0:
-        q -= 1
-    return _sincos2(q & 3, rad - q * PI_2)
+    if _isfinite(rad):
+        q = int(rad * _2__PI)  # int(math.floor)
+        if q < 0:
+            q -= 1
+        t = _sin0cos2(q & 3, rad - q * PI_2, rad)
+    else:
+        t =  NAN, NAN
+    return t
 
 
 def sincos2_(*rads):
@@ -629,12 +656,14 @@ def sincos2_(*rads):
         yield c
 
 
-def sincos2d(deg):
+def sincos2d(deg, **adeg):
     '''Return the C{sine} and C{cosine} of an angle in C{degrees}.
 
        @arg deg: Angle (C{degrees}).
+       @kwarg adeg: Optional correction (C{degrees}).
 
-       @return: 2-Tuple (C{sin(B{deg})}, C{cos(B{deg})}).
+       @return: 2-Tuple (C{sin(B{deg_})}, C{cos(B{deg_})}, C{B{deg_} =
+                B{deg} + B{adeg}}).
 
        @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
@@ -643,10 +672,18 @@ def sincos2d(deg):
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              include/GeographicLib/Math.hpp#l558>}.
     '''
-    q = int(deg * _1__90)  # int(math.floor)
-    if deg < 0:
-        q -= 1
-    return _sincos2(q & 3, radians(deg - q * _90_0))
+    if _isfinite(deg):
+        q = int(deg * _1__90)  # int(math.floor)
+        if q < 0:
+            q -= 1
+        d = deg - q * _90_0
+        if adeg:
+            t = _MODS.errors._xkwds_get(adeg, adeg=_0_0)
+            d = _MODS.karney._around(d + t)
+        t = _sin0cos2(q & 3, radians(d), deg)
+    else:
+        t =  NAN, NAN
+    return t
 
 
 def sincos2d_(*degs):
@@ -699,7 +736,7 @@ def tand(deg, **error_kwds):
     '''
     s, c = sincos2d(deg)
     if isnear0(c):
-        raise _MODS.errors._ValueError(tand.__name__, deg, **error_kwds)
+        raise _valueError(tand, deg, **error_kwds)
     return s / c
 
 
@@ -738,7 +775,7 @@ def toise2m(toises):
 
        @see: Function L{fathom2m}.
     '''
-    return Float(toises=toises) * 1.949
+    return Float(toises=toises) * _M_TOISE
 
 
 def unroll180(lon1, lon2, wrap=True):
@@ -790,6 +827,13 @@ def unrollPI(rad1, rad2, wrap=True):
         if u != r:
             return u, rad1 + u
     return r, rad2
+
+
+def _valueError(where, x, **kwds):
+    '''(INTERNAL) Return a C{_ValueError}.
+    '''
+    x = _MODS.streprs.Fmt.PAREN(where.__name__, x)
+    return _MODS.errors._ValueError(x, **kwds)
 
 
 def _wrap(angle, wrap, modulo):
@@ -880,8 +924,7 @@ def yard2m(yards):
 
        @raise ValueError: Invalid B{C{yards}}.
     '''
-    # 0.9144 == 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
-    return Float(yards=yards) * 0.9144
+    return Float(yards=yards) * _M_YARD_UK
 
 # **) MIT License
 #

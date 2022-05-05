@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.04.22'
+__version__ = '22.04.28'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -365,6 +365,7 @@ class _Named(object):
 class _NamedBase(_Named):
     '''(INTERNAL) Base class with name.
     '''
+    _iteration = None  # Iteration number (C{int}) or C{None}
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -375,6 +376,13 @@ class _NamedBase(_Named):
         '''Default C{str(self)}.
         '''
         return self.toStr()
+
+    @property_RO
+    def iteration(self):
+        '''Get the iteration number (C{int}) or
+           C{None} if not available/applicable.
+        '''
+        return self._iteration
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -756,12 +764,12 @@ class _NamedEnumItem(_NamedBase):
     '''
     _enum = None
 
-    def __ne__(self, other):
-        '''Compare this and an other item.
-
-           @return: C{True} if different, C{False} otherwise.
-        '''
-        return not self.__eq__(other)
+#   def __ne__(self, other):  # XXX fails for Lcc.conic = conic!
+#       '''Compare this and an other item.
+#
+#          @return: C{True} if different, C{False} otherwise.
+#       '''
+#       return not self.__eq__(other)
 
     def _instr(self, name, prec, *attrs, **kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
@@ -837,14 +845,15 @@ class _NamedTuple(tuple, _Named):
     '''
     _validated = False  # set to True I{per sub-class!}
 
-    def __new__(cls, arg, *args, **name_only):
+    def __new__(cls, arg, *args, **iteration_name):
         '''New L{_NamedTuple} initialized with B{C{positional}} arguments.
 
            @arg arg: Tuple items (C{tuple}, C{list}, ...) or first tuple
                      item of several more in other positional arguments.
            @arg args: Tuple items (C{any}), all positional arguments.
-           @kwarg name_only: Only C{B{name}='name'} is used, all other
-                             keyword arguments are I{silently} ignored.
+           @kwarg iteration_name: Only keyword arguments C{B{iteration}=None}
+                                  and C{B{name}=NN} are used, any other are
+                                  I{silently} ignored.
 
            @raise LenError: Unequal number of positional arguments and
                             number of item C{_Names_} or C{_Units_}.
@@ -864,10 +873,8 @@ class _NamedTuple(tuple, _Named):
         if n != N:
             raise LenError(self.__class__, args=n, _Names_=N)
 
-        if name_only:  # name=NN
-            n = name_only.get(_name_, NN)
-            if n:
-                self.name = n
+        if iteration_name:
+            self._kwdself(**iteration_name)
         return self
 
     def __delattr__(self, name):
@@ -949,9 +956,18 @@ class _NamedTuple(tuple, _Named):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
+        '''Get the iteration number (C{int}) or
+           C{None} if not available/applicable.
         '''
         return self._iteration
+
+    def _kwdself(self, iteration=None, name=NN, **unused):
+        '''(INTERNAL) Set C{__new__} keyword arguments.
+        '''
+        if iteration is not None:
+            self._iteration = iteration
+        if name:
+            self.name = name
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, fmt=Fmt.F, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).

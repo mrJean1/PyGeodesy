@@ -87,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.04.14'
+__version__ = '22.04.27'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -271,7 +271,7 @@ class ExactTransverseMercator(_NamedBase):
     _datum     =  None  # Datum
     _E         =  None  # Ellipsoid
     _extendp   =  True  # use extended domain
-    _iteration =  None  # ._sigmaInv and ._zetaInv
+#   _iteration =  None  # ._sigmaInv and ._zetaInv
     _k0        = _1_0   # central scale factor
     _lon0      = _0_0   # central meridian
     _mu        = _0_0   # ._E.e2, 1st eccentricity squared
@@ -495,9 +495,7 @@ class ExactTransverseMercator(_NamedBase):
         if _lon:
             x, g = neg_(x, g)
 
-        r = EasNorExact4Tuple(x, y, g, k)
-        r._iteration = self._iteration
-        return r
+        return EasNorExact4Tuple(x, y, g, k, iteration=self._iteration)
 
     def _Inv3(self, psi, dlam, _3_mv_e, _e_TAYTOL):  # (xi, deta, _3_mv, _TAYTOL2)
         '''(INTERNAL) Partial C{zetaInv0} or C{sigmaInv0}.
@@ -702,9 +700,8 @@ class ExactTransverseMercator(_NamedBase):
             lon, g = neg_(lon, g)
 
         lon += self.lon0 if lon0 is None else _norm180(lon0)
-        r = LatLonExact4Tuple(lat, _norm180(lon), g, k)  # _norm180(lat)
-        r._iteration = self._iteration
-        return r
+        return LatLonExact4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
+                                       iteration=self._iteration)
 
     def _scaled(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{scaled}.

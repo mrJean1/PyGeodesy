@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.04.22'
+__version__ = '22.04.26'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -135,7 +135,7 @@ def _sch3(y, x):
     return s, c, h
 
 
-def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN):  # in .ltp, @see: .vector3d
+def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN):  # in .ltp
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:

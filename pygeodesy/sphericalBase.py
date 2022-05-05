@@ -15,20 +15,21 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
-from pygeodesy.cartesianBase import CartesianBase
+from pygeodesy.cartesianBase import CartesianBase, property_doc_
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
-from pygeodesy.errors import IntersectionError
+# from pygeodesy.errors import IntersectionError  # from .latlonBase
 from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _concentric_, _datum_, _distant_, \
                              _exceed_PI_radians_, _name_, _near_, \
                              _too_, _1_0, _180_0
-from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
+from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
+                                _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
-from pygeodesy.props import property_doc_
+# from pygeodesy.props import property_doc_  # frpm .cartesianBase
 from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_
 from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
@@ -36,7 +37,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '21.12.28'
+__version__ = '22.04.27'
 
 
 def _angular(distance, radius):  # PYCHOK for export

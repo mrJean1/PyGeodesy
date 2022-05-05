@@ -7,16 +7,16 @@ Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
 L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import len2, map2
-from pygeodesy.errors import IntersectionError, _TypeError, _ValueError, \
-                             VectorError, _xError, _xkwds, _xkwds_popitem
-from pygeodesy.fmath import fdot, fsum, fsum1_
+# from pygeodesy.basics import len2  # from .fmath
+from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
+                            _xError, _xkwds, _xkwds_popitem
+from pygeodesy.fmath import fdot, fsum, fsum1_, len2
 # from pygeodesy.fsums import fsum, fsum1_  # from .fmath
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, INT0, MISSING, NN, \
                              _COMMA_, _concentric_, _datum_, _h_, _height_, \
                              _intersection_, _name_, _near_, _negative_, \
-                             _no_, _too_, _xyz_, _y_, _z_, _0_0, _1_0
+                             _no_, _too_, _z_, _0_0, _1_0
 from pygeodesy.iters import Fmt, PointsIter
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _xnamed, _xotherError
@@ -29,7 +29,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.04.22'
+__version__ = '22.04.26'
 
 
 class Vector3d(Vector3dBase):
@@ -402,20 +402,20 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
     ab = a.cross(b)
     d  = abs(c.dot(ab))
     e  = max(EPS0, eps or _0_0)
-    if d > EPS0 and ab.length > e:
-        d = d / ab.length
+    if d > EPS0 and ab.length > e:  # PYCHOK no cover
+        d = d / ab.length  # /= chokes PyChecker
         if d > e:  # argonic, skew lines distance
             raise IntersectionError(skew_d=d, txt=_no_(_intersection_))
 
     # co-planar, non-skew lines
     ab2 = ab.length2
     if ab2 < e:  # colinear, parallel or null line(s)
-        x = a.length2 > b.length2
-        if x:  # make a shortest
+        x = b.length2 < a.length2
+        if x:  # make C{a} the shortest
             a,  b  = b,  a
             s1, s2 = s2, s1
             e1, e2 = e2, e1
-        if b.length2 < e:  # both null
+        if b.length2 < e:  # PYCHOK no cover
             if c.length < e:
                 return s1, 0, 0
             elif e2.minus(e1).length < e:
@@ -557,11 +557,11 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
         y = _1_0 - (x / r1)**2
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2
-        elif y < 0:
+        elif y < 0:  # PYCHOK no cover
             raise IntersectionError(_negative_)
         else:  # abutting
             y = _0_0
-    elif o < 0:
+    elif o < 0:  # PYCHOK no cover
         t = d if too_d is None else too_d
         raise IntersectionError(_too_(Fmt.distant(t)))
     else:  # abutting
@@ -898,24 +898,6 @@ def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
               or getattr(ll,  _datum_, None)
 
     return h, d, getattr(xyz, _name_, NN)
-
-
-def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
-    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
-    '''
-    try:
-        t = xyz.x, xyz.y, xyz.z
-        n = getattr(xyz, _name_, NN)
-    except AttributeError:
-        t = xyz, y, z
-        n = NN
-    try:
-        x, y, z = map2(float, t)
-    except (TypeError, ValueError) as x:
-        d = dict(zip((_xyz_, _y_, _z_), t))
-        raise Error(txt=str(x), **d)
-
-    return x, y, z, n
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)

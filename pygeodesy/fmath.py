@@ -6,23 +6,23 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isint, isnear0, isscalar, len2
-from pygeodesy.errors import _IsnotError, LenError, _TypeError, \
-                             _ValueError, _xError
-from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_
-from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, PI, PI_2, PI_4, \
-                             _few_, _h_, _negative_, _not_scalar_, \
-                             _singular_, _too_, _0_0, _0_5, _1_0, _N_1_0, \
-                             _1_5, _2_0, _3_0
+from pygeodesy.basics import copysign0, _isfinite, isint, isnear0, isscalar, \
+                             len2, remainder as _remainder
+from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
+                             _xError
+from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_, unstr
+from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NAN, PI, PI_2, PI_4, \
+                             _few_, _h_, _negative_, _not_scalar_, _singular_, \
+                             _too_, _0_0, _0_5, _1_0, _N_1_0, _1_5, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
-# from pygeodesy.streprs import Fmt  # from .fsums
+# from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_
 
 from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.04.16'
+__version__ = '22.04.25'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -524,8 +524,53 @@ except ImportError:
             return r
 
 
-if _sys_version_info2 < (3, 8):  # PYCHOK no cover
+def fremainder(x, y):
+    '''Remainder in range C{[-B{y / 2}, B{y / 2}]}.
 
+       @arg x: Numerator (C{scalar}).
+       @arg y: Modulus, denominator (C{scalar}).
+
+       @return: Remainder (C{scalar}, preserving signed
+                0.0) or C{NAN} for any non-finite B{C{x}}.
+
+       @raise ValueError: Infinite or near-zero B{C{y}}.
+
+       @see: I{Karney}'s U{Math.remainder<https://PyPI.org/
+             project/geographiclib/>} and Python 3.7+
+             U{math.remainder<https://docs.Python.org/3/
+             library/math.html#math.remainder>}.
+    '''
+    # with Python 2.7.16 and 3.7.3 on macOS 10.13.6 and
+    # with Python 3.10.2 on macOS 12.2.1 M1 arm64 native
+    #  fmod( 0,   360) ==  0.0
+    #  fmod( 360, 360) ==  0.0
+    #  fmod(-0,   360) ==  0.0
+    #  fmod(-0.0, 360) == -0.0
+    #  fmod(-360, 360) == -0.0
+    # however, using the % operator ...
+    #    0   % 360 == 0
+    #  360   % 360 == 0
+    #  360.0 % 360 == 0.0
+    #   -0   % 360 == 0
+    # -360   % 360 == 0   == (-360)   % 360
+    #   -0.0 % 360 == 0.0 ==   (-0.0) % 360
+    # -360.0 % 360 == 0.0 == (-360.0) % 360
+
+    # On Windows 32-bit with python 2.7, math.fmod(-0.0, 360)
+    # == +0.0.  This fixes this bug.  See also Math::AngNormalize
+    # in the C++ library, Math.sincosd has a similar fix.
+    if _isfinite(x):
+        try:
+            r = _remainder(x, y) if x else x
+        except Exception as e:
+            t = fremainder.__name__
+            raise _xError(e, unstr(t, x, y))
+    else:  # handle x INF and NINF as NAN
+        r = NAN
+    return r
+
+
+if _sys_version_info2 < (3, 8):  # PYCHOK no cover
     from math import hypot  # OK in Python 3.7-
 
     def hypot_(*xs):
@@ -554,7 +599,6 @@ if _sys_version_info2 < (3, 8):  # PYCHOK no cover
         return (h * sqrt(x2)) if x2 else _0_0
 
 elif _sys_version_info2 < (3, 10):
-
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
     # U{agdhruv<https://GitHub.com/geopy/geopy/issues/466>},
     # U{cffk<https://Bugs.Python.org/issue43088>} and module

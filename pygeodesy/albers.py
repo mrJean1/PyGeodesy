@@ -27,8 +27,7 @@ from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
-from pygeodesy.props import deprecated_Property_RO, Property_RO, \
-                            property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
@@ -38,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.03.26'
+__version__ = '22.03.27'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -110,27 +109,26 @@ class _AlbersBase(_NamedBase):
        @see: I{Karney}'s C++ class U{AlbersEqualArea<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1AlbersEqualArea.html>}, method C{Init}.
     '''
-    _datum     = _WGS84
-    _iteration =  None
-    _k0        =  None  # scale
-    _k0n0      =  None  # (INTERNAL) k0 * no
-    _k02       =  None  # (INTERNAL) k0**2
-    _k02n0     =  None  # (INTERNAL) k02 * n0
-    _lat0      =  None  # lat origin
-    _lat1      =  None  # let 1st parallel
-    _lat2      =  None  # lat 2nd parallel
-    _m0        = _0_0   # if polar else sqrt(m02)
-    _m02       =  None  # (INTERNAL) cached
-    _n0        =  None  # (INTERNAL) cached
-    _nrho0     = _0_0   # if polar else m0 * E.a
-    _polar     =  False
-    _qx        =  None  # (INTERNAL) cached
-    _qZ        =  None  # (INTERNAL) cached
-    _qZa2      =  None  # (INTERNAL) qZ * E.a**2
-    _scxi0     =  None  # (INTERNAL) sec(xi)
-    _sign      = +1
-    _sxi0      =  None  # (INTERNAL) sin(xi)
-    _txi0      =  None  # (INTERNAL) tan(xi)
+    _datum = _WGS84
+    _k0    =  None  # scale
+    _k0n0  =  None  # (INTERNAL) k0 * no
+    _k02   =  None  # (INTERNAL) k0**2
+    _k02n0 =  None  # (INTERNAL) k02 * n0
+    _lat0  =  None  # lat origin
+    _lat1  =  None  # let 1st parallel
+    _lat2  =  None  # lat 2nd parallel
+    _m0    = _0_0   # if polar else sqrt(m02)
+    _m02   =  None  # (INTERNAL) cached
+    _n0    =  None  # (INTERNAL) cached
+    _nrho0 = _0_0   # if polar else m0 * E.a
+    _polar =  False
+    _qx    =  None  # (INTERNAL) cached
+    _qZ    =  None  # (INTERNAL) cached
+    _qZa   =  None  # (INTERNAL) qZ * E.a**2
+    _scxi0 =  None  # (INTERNAL) sec(xi)
+    _sign  = +1
+    _sxi0  =  None  # (INTERNAL) sin(xi)
+    _txi0  =  None  # (INTERNAL) tan(xi)
 
     def __init__(self, sa1, ca1, sa2, ca2, k, datum, name):
         '''(INTERNAL) New C{AlbersEqualArea...} instance.
@@ -274,12 +272,6 @@ class _AlbersBase(_NamedBase):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.datum.ellipsoid.a
-
-    @property_RO
-    def iteration(self):
-        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
-        '''
-        return self._iteration
 
     @Property_RO
     def flattening(self):

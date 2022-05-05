@@ -59,7 +59,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
-                            property_doc_, property_RO
+                            property_doc_
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
                             Northing, Scalar, Scalar_
@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.04.22'
+__version__ = '22.04.30'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -93,10 +93,9 @@ class _AzimuthalBase(_NamedBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>} or the
        C{PyGeodesy} versions thereof L{EquidistantKarney} respectively L{GnomonicKarney}.
     '''
-    _datum     = _WGS84  # L{Datum}
-    _iteration =  None   # iteration number for L{GnomonicKarney}
-    _latlon0   =  LatLon2Tuple(_0_0, _0_0)  # lat0, lon0 (L{LatLon2Tuple})
-    _sc0       = _0_0, _1_0  # 2-Tuple C{sincos2d(lat0)}
+    _datum   = _WGS84  # L{Datum}
+    _latlon0 =  LatLon2Tuple(_0_0, _0_0)  # lat0, lon0 (L{LatLon2Tuple})
+    _sc0     = _0_0, _1_0  # 2-Tuple C{sincos2d(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -131,12 +130,6 @@ class _AzimuthalBase(_NamedBase):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.datum.ellipsoid.a
-
-    @property_RO
-    def iteration(self):
-        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
-        '''
-        return self._iteration
 
     @Property_RO
     def flattening(self):
@@ -813,9 +806,9 @@ class _GnomonicBase(_AzimuthalGeodesic):
 
         a *= _EPS_K
         m  = self._mask
-        g  = self.geodesic._LineTemp(self.lat0, self.lon0, z, m)
+        g  = self.geodesic
 
-        P  = g.Position
+        P  = g.Line(self.lat0, self.lon0, z, m | g.LINE_OFF).Position
         S2 = Fsum(s).fsum2_
         for i in range(1, _TRIPS):
             r = P(s, m)

@@ -94,7 +94,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.04.14'
+__version__ = '22.05.04'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -121,7 +121,7 @@ class Elliptic(_Named):
     _alpha2    = 0
     _alphap2   = 0
     _eps       = EPS
-    _iteration = None
+    _iteration = None  # Iteration number (C{int}) or C{None}
     _k2        = 0
     _kp2       = 0
 

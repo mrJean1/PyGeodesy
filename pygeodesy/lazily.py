@@ -122,15 +122,16 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'iscomplex', 'isfinite', 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
-                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isnon0', 'isodd', 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'map1', 'map2', 'neg', 'neg_',
+                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd', 'isscalar',
+                                 'issequence', 'isstr', 'issubclassof',
+                                 'len2', 'map1', 'map2', 'neg', 'neg_', 'remainder',
                                  'signOf', 'splice', 'ub2str', 'unsigned0'),
                    cartesianBase=(),  # module only
                            clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
-                                 'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple'),
+                                 'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple', 'EasNorAziRkEqu6Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
@@ -177,7 +178,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
-                                 'fpowers', 'fprod', 'frange', 'freduce',
+                                 'fpowers', 'fprod', 'frange', 'freduce', 'fremainder',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                  'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a'),
                           formy=('Radical2Tuple',
@@ -353,7 +354,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.04.21'
+__version__ = '22.05.04'
 
 
 def _ALL_OTHER(*objs):
@@ -611,7 +612,13 @@ if __name__ == '__main__':
     t1 = timeit(t1, number=1000000)
     t2 = timeit(t2, number=1000000)
     v = _Python_(_sys.version)
-    printf('%.8f vs %.8f: %.3fX slower, %s', t1, t2, t1 / t2, v)
+    printf('%.8f import vs %.8f _ALL_MODS: %.3fX slower, %s', t1, t2, t1 / t2, v)
+
+# % python3 -W ignore -m pygeodesy.lazily
+# 0.31915954 import vs 0.06120746 _ALL_MODS: 5.214X slower, Python 3.10.4
+
+# % python2 -m pygeodesy.lazily
+# 1.15583587 import vs 0.09665585 _ALL_MODS: 11.958X slower, Python 2.7.18
 
 # _ALL_MODS above in t2 is 5X to 12X faster than t1 with
 #  Python 2.7.18 and 3.10.2 (on M1 Apple Silicon).  The

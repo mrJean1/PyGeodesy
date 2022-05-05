@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.04.22'
+__version__ = '22.04.27'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -103,11 +103,10 @@ class OSGRError(_ValueError):
 class Osgr(_NamedBase):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
-    _datum     = _OSGB36  # default datum (L{Datum})
-    _easting   =  0       # Easting (C{meter})
-    _iteration =  None    # iteration number (C{int})
-    _latlon    =  None    # cached B{C{_toLatlon}}
-    _northing  =  0       # Nothing (C{meter})
+    _datum    = _OSGB36  # default datum (L{Datum})
+    _easting  =  0       # Easting (C{meter})
+    _latlon   =  None    # cached B{C{_toLatlon}}
+    _northing =  0       # Nothing (C{meter})
 
     def __init__(self, easting, northing, datum=None, name=NN):
         '''New L{Osgr} National Grid Reference.

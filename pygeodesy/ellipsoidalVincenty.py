@@ -58,26 +58,28 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn, \
                                      _WGS84
 from pygeodesy.ellipsoidalBaseDI import fsum_, isnear0, LatLonEllipsoidalBaseDI, \
                                        _TOL_M, _intersection3, _intersections2
-from pygeodesy.errors import _ValueError, _xkwds
+from pygeodesy.errors import _and, _ValueError, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 # from pygeodesy.fsums import fsum_  # from .ellipsoidalBaseDI
-from pygeodesy.interns import EPS, NN, _ambiguous_, _antipodal_, \
+from pygeodesy.interns import EPS, NN, \
+                             _ambiguous_, _antipodal_, _COLONSPACE_, \
                              _convergence_, _no_, _SPACE_, _to_, \
                              _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
                              _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
-from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.points import Fmt, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
+# from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import Number_, Scalar_
 from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.01.17'
+__version__ = '22.04.27'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -136,8 +138,8 @@ class LatLon(LatLonEllipsoidalBaseDI):
        L{LatLon.iterations}.
     '''
     _epsilon    = 1e-12  # radians, about 6 um
-    _iteration  = None   # iteration number
-    _iterations = 100    # max 100 vs Veness' 500
+#   _iteration  = None   # iteration number from .named._NamedBase
+    _iterations = 101    # default max, 100 vs Veness' 500
 
     @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
@@ -173,7 +175,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def iterations(self):
         '''Get the iteration limit (C{int}).
         '''
-        return self._iterations
+        return self._iterations - 1
 
     @iterations.setter  # PYCHOK setter!
     def iterations(self, limit):
@@ -185,7 +187,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
-        self._iterations = Number_(limit, name=_limit_, low=4, high=500)
+        self._iterations = Number_(limit, name=_limit_, low=4, high=500) + 1
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Vincenty}-based cartesian (ECEF)
@@ -238,14 +240,14 @@ class LatLon(LatLonEllipsoidalBaseDI):
             A, B = _p2(c2a * E.e22)
 
         s = d = distance / (E.b * A)
-        for self._iteration in range(1, self._iterations + 1):
+        for self._iteration in range(1, self._iterations):  # 1-origin
             ss, cs = sincos2(s)
             c2sm = cos(s12 + s)
             s_, s = s, d + _ds(B, cs, ss, c2sm)
             if abs(s - s_) < self._epsilon:
                 break
         else:
-            raise VincentyError(_no_(_convergence_), txt=repr(self))  # self.toRepr()
+            raise VincentyError(self._no_convergence(), txt=repr(self))  # self.toRepr()
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -284,14 +286,14 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)
-        for self._iteration in range(1, self._iterations + 1):
+        for self._iteration in range(1, self._iterations):  # 1-origin
             ll_ = ll
             sll, cll = sincos2(ll)
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
-                if self.isantipodeTo(other, eps=self._epsilon):
-                    t = '%r %s%s %r' % (self, _antipodal__, _to_, other)
+                if self.isantipodeTo(other, eps=self.epsilon):
+                    t = self._is_to(other, True)
                     raise VincentyError(_ambiguous_, txt=t)
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(_0_0, 0, 0)
@@ -314,12 +316,9 @@ class LatLon(LatLonEllipsoidalBaseDI):
 #           # under Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
 #           # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
-#              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
-#                                  _antipodal__, other))
+#              raise VincentyError(_ambiguous_, self._is_to(other, True))
         else:
-            t = _antipodal__ if self.isantipodeTo(other, eps=self._epsilon) else NN
-            t = '%r %s%s %r' % (self, t, _to_, other)
-            raise VincentyError(_no_(_convergence_), txt=t)
+            raise VincentyError(self._no_convergence(), txt=self._is_to(other))
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)
@@ -337,6 +336,19 @@ class LatLon(LatLonEllipsoidalBaseDI):
         else:
             f = r = _0_0
         return Distance3Tuple(d, f, r, name=self.name)
+
+    def _is_to(self, other, *anti):
+        '''(INTERNAL) Return I{'<self> [antipodal] to <other>'} text (C{str}).
+        '''
+        t = _antipodal__ if anti or self.isantipodeTo(other, eps=self.epsilon) else NN
+        return _SPACE_(repr(self), NN(t, _to_), repr(other))
+
+    def _no_convergence(self):
+        '''(INTERNAL) Return I{'no convergence: ...'} text (C{str}).
+        '''
+        t = (Fmt.PARENSPACED(*t) for t in ((LatLon.epsilon.name,    self.epsilon),
+                                           (LatLon.iterations.name, self.iterations)))
+        return _COLONSPACE_(_no_(_convergence_), _and(*t))
 
 
 def _c2sm2(c2sm):

@@ -11,30 +11,24 @@ if not division:
 del division
 
 from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
-                             _TypesError, _ValueError, _xkwds_get
-from pygeodesy.interns import EPS0, INT0, MISSING, NEG0, NN, \
-                             _by_, _DOT_, _invalid_, _N_A_, _name_, \
-                             _not_finite_, _not_scalar_, _SPACE_, \
-                             _UNDER_, _utf_8_, _version_, _0_0, \
-                             _1_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
+                             _TypesError, _ValueError, _xError, _xkwds_get
+from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
+                             _by_, _DOT_, _INF_, _invalid_, _N_A_, _name_, \
+                             _NAN_, _SPACE_, _UNDER_, _utf_8_, _version_, \
+                             _0_0, _0_5, _1_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
-try:
-    from math import isfinite as _isfinite  # in .ellipsoids, .fsums
-except ImportError:  # Python 2-
-
-    def _isfinite(x):  # mimick math.isfinite
-        return not (isinf(x) or isnan(x))
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.04.22'
+__version__ = '22.05.04'
 
-_below_     = 'below'
-_ELLIPSIS4_ = '....'
-_odd_       = 'odd'
-_required_  = 'required'
+_below_       = 'below'
+_ELLIPSIS4_   = '....'
+_INF_NAN_NINF = {INF: _INF_, NAN: _NAN_, NINF: 'NINF'}
+_odd_         = 'odd'
+_required_    = 'required'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints, Real as _Scalars
@@ -174,21 +168,30 @@ def iscomplex(obj):
 
 
 def isfinite(obj):
-    '''Check for C{Inf} and C{NaN} values.
+    '''Check for non-finite C{scalar} value.
 
        @arg obj: Value (C{scalar}).
 
-       @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
-                C{True} otherwise.
+       @return: C{False} if B{C{obj}} is C{INF}, C{NINF}
+                or C{NAN}, C{True} otherwise.
 
        @raise TypeError: Non-scalar B{C{obj}}.
     '''
     try:
-        return _isfinite(obj)
-    except TypeError as x:
-        raise _TypeError(_not_scalar_, obj, txt=str(x))
-    except Exception as x:  # ValueError
-        raise _ValueError(_not_finite_, obj, txt=str(x))
+        return (obj not in _INF_NAN_NINF) or _isfinite(obj)
+    except Exception as x:
+        P = _MODS.streprs.Fmt.PAREN
+        raise _xError(x, P(isfinite.__name__, obj))
+
+
+try:
+    from math import isfinite as _isfinite  # in .ellipsoids, .fsums, .karney
+except ImportError:  # Python 3.1-
+
+    def _isfinite(x):
+        '''Mimick Python 3.2+ C{math.isfinite}.
+        '''
+        return not (isinf(x) or isnan(x))
 
 
 try:
@@ -291,6 +294,17 @@ def isneg0(x):
 #                            and str(x).startswith(_MINUS_)
 
 
+def isninf(x):
+    '''Check for L{NINF}, negative C{INF}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if B{C{x}} is C{NINF} or C{-inf},
+                C{False} otherwise.
+    '''
+    return x is NINF or ((not isfinite(x)) and x < 0)
+
+
 def isnon0(x, eps0=EPS0):
     '''Is B{C{x}} non-zero?
 
@@ -326,18 +340,17 @@ def isscalar(obj):
     return isinstance(obj, _Scalars) and not isbool(obj)
 
 
-def issequence(obj, *excluded):
+def issequence(obj, *excls):
     '''Check for sequence types.
 
        @arg obj: The object (any C{type}).
-       @arg excluded: Optional exclusions (C{type}).
+       @arg excls: Classes to exclude (C{type}), all positional.
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
        @return: C{True} if B{C{obj}} is a sequence, C{False} otherwise.
     '''
-    return False if (excluded and isinstance(obj,  excluded)) else \
-                                  isinstance(obj, _Seqs)
+    return isinstance(obj, _Seqs) and not (excls and isinstance(obj, excls))
 
 
 def isstr(obj):
@@ -424,6 +437,27 @@ def neg_(*xs):
        @return: A C{tuple(neg(x) for x in B{xs})}.
     '''
     return tuple(map(neg, xs))  # like map1
+
+
+try:
+    from math import remainder
+except ImportError:  # Python 3.6-
+    from math import fmod as _fmod
+
+    def remainder(x, y):
+        '''Mimick Python 3.7+ C{math.remainder}.
+        '''
+        if isnan(y):
+            x =  NAN
+        elif x and not isnan(x):
+            y =  abs(y)
+            x = _fmod(x, y)
+            h = _0_5 * y
+            if x < -h:
+                x += y
+            elif x >= h:
+                x -= y
+        return x  # keep signed 0.0
 
 
 def _signOf(x, off):
@@ -513,7 +547,7 @@ def ub2str(ub):
 def _umod_360(deg):
     '''(INTERNAL) Non-negative C{deg} modulo 360, basic C{.utily.wrap360}.
     '''
-    return (deg % _360_0) or _0_0  # see comments in .karney._remod
+    return (deg % _360_0) or _0_0
 
 
 def unsigned0(x):
@@ -639,7 +673,12 @@ def _xversion(package, where, *required, **name):  # in .karney
     '''
     n = len(required)
     if n:
-        t = map2(int, package.__version__.split(_DOT_))
+        try:
+            t = package.__version_info__
+        except AttributeError:
+            t = package.__version__.strip()
+            t = t.replace(_DOT_, _SPACE_).split()[:3]
+        t = map2(int, t)
         if t[:n] < required:
             t = _SPACE_(package.__name__, _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
