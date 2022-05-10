@@ -5,7 +5,7 @@ u'''Floating point and other formatting utilities.
 
 '''
 
-from pygeodesy.basics import isint, isscalar
+from pygeodesy.basics import isint, isscalar, istuplist
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
@@ -79,7 +79,7 @@ class Fstr(str):
             return _SPACE_(n, _PERCENT_, repr(arg))
 
         prec = 6  # default std %f and %F
-        if isinstance(arg, (tuple, list)):
+        if istuplist(arg):
             n = len(arg)
             if n == 1:
                 arg = arg[0]

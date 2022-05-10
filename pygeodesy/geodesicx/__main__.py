@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '21.11.28'
+__version__ = '22.05.10'
 
 
 def _C4stats(nC4=None):  # PYCHOK no cover
@@ -13,12 +13,12 @@ def _C4stats(nC4=None):  # PYCHOK no cover
     '''
     from pygeodesy import GeodesicExact
 
-    gX = GeodesicExact(C4Order=nC4)
-    cs = gX._coeffs(nC4=gX.C4Order)
-    ss = set(cs)
-    pc = int(len(ss) * 100 / len(cs))
+    gX = GeodesicExact(C4order=nC4)
+    cs = gX._coeffs(gX.C4order)
+    ss = set(cs)  # without duplicates
+    pc = '%.1f%%' % (len(ss) * 100.0 / len(cs))
     cx = gX._C4x
-    return dict(C4Order=nC4, C4len=len(cs), C4set=len(ss), C4set100=pc, C4x=len(cx))
+    return dict(C4order=gX.C4order, C4len=len(cs), C4set=len(ss), C4set_len=pc, C4x=len(cx))
 
 
 def _main():  # PYCHOK no cover

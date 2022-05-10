@@ -14,7 +14,7 @@ Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2021) and licensed
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib<https://
 GeographicLib.SourceForge.io>} documentation.
 
@@ -60,7 +60,7 @@ which maintains accuracy near C{phi = pi/2}.  Such changes are noted in the code
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isnear0, neg, neg_, _xinstanceof
+from pygeodesy.basics import isnear0, neg, neg_, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import Elliptic, EllipticError
 from pygeodesy.errors import _incompatible
@@ -71,8 +71,8 @@ from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
                              _1_EPS, _EPSmin, _lat_, _lon_, _no_, \
                              _northing_, _scale_, _0_0, _0_1, _0_5, \
                              _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
-from pygeodesy.karney import _diff182, _fix90, _norm180
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.karney import _ALL_LAZY, _diff182, _fix90, _norm180, _signBit
+# from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _NamedBase, _NamedTuple, _update_all
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, property_doc_
@@ -87,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.04.27'
+__version__ = '22.05.09'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -458,9 +458,9 @@ class ExactTransverseMercator(_NamedBase):
         # Explicitly enforce the parity
         backside = _lat = _lon = False
         if not self.extendp:
-            if lat < 0:
+            if _signBit(lat):
                 _lat, lat = True, -lat
-            if lon < 0:
+            if _signBit(lon):
                 _lon, lon = True, -lon
             if lon > _90_0:
                 lon = _180_0 - lon
@@ -672,9 +672,9 @@ class ExactTransverseMercator(_NamedBase):
         eta = x / self._k0_a
         backside = _lat = _lon = False
         if not self.extendp:  # enforce the parity
-            if y < 0:
+            if _signBit(xi):
                 _lat, xi  = True, -xi
-            if x < 0:
+            if _signBit(eta):
                 _lon, eta = True, -eta
             if xi > self._Eu.cE:  # PYCHOK no cover
                 xi = self._xi_backside(xi)
@@ -856,7 +856,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         e, cnu2, lam = self._E.e, cnu**2, True
         # Overflow value like atan(overflow) = pi/2
-        t1 = t2 = copysign0(_OVERFLOW, snu)
+        t1 = t2 = (-_OVERFLOW) if _signBit(snu) else _OVERFLOW
         # Lee 54.17 but write
         # atanh(snu * dnv)      = asinh(snu * dnv / sqrt(cnu^2 + _mv * snu^2 * snv^2))
         # atanh(_e * snu / dnv) = asinh(_e * snu / sqrt(_mu * cnu^2 + _mv * cnv^2))

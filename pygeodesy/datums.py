@@ -69,7 +69,7 @@ guide-coordinate-systems-great-britain.pdf>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, neg_, _xinstanceof
+from pygeodesy.basics import isscalar, istuplist, neg_, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, \
                                  Ellipsoids, Vector3Tuple
 # from pygeodesy.errors import _IsnotError  # from .fmath
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.05.04'
+__version__ = '22.05.06'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -441,10 +441,10 @@ def _En2(earth, name):
     elif isinstance(earth, a_f2Tuple):
         n = NN(_UNDER_, name or earth.name)
         E = Ellipsoid(earth.a, earth.b, name=n)
-    elif isinstance(earth, (tuple, list)) and len(earth) == 2:  # no cover
+    elif istuplist(earth, 2):
+        a, f = earth[:2]
         n = NN(_UNDER_, name or getattr(earth, _name_, NN))
-        a_f = a_f2Tuple(earth)  # *earth
-        E = Ellipsoid(a_f.a, a_f.b, name=n)  # PYCHOK .a
+        E = Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
     return E, n

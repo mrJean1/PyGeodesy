@@ -5,11 +5,11 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.11.24'
+__version__ = '22.05.08'
 
 from base import GeodSolve, geographiclib, TestsBase
 
-from pygeodesy import LatLon_, karney, NEG0, unroll180, wrap180
+from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
 from pygeodesy.interns import _0_0, _360_0
 
 # some tests from <https://PyPI.org/project/geographiclib>
@@ -145,8 +145,8 @@ class Tests(TestsBase):
             self.test(' wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))
 
         # compare geomath.Math.sum with mimicked _sum2
-        def _fsum2_(*xs):
-            return karney._sum2_(0.0, *xs)
+        def _fsum2_(x, *xs):
+            return karney._sum2_(x, 0.0, *xs)
 
         n = _fsum2_.__name__
         s, t = _fsum2_(7, 1e100, -7, -1e100, 9e-20, -8e-20)

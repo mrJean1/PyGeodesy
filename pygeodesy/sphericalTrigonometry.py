@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.04.20'
+__version__ = '22.05.08'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -851,8 +851,9 @@ def areaOf(points, radius=R_M, wrap=True):
               polygon'<https://MathOverflow.net/questions/97711/
               the-area-of-spherical-polygons>}, 3rd Answer.
 
-       @see: Funxtions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
-             L{ellipsoidalKarney.areaOf} and L{pygeodesy.excessKarney}.
+       @see: Functions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
+             L{pygeodesy.excessKarney}, L{ellipsoidalExact.areaOf} and
+             L{ellipsoidalKarney.areaOf}.
 
        @example:
 

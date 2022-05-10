@@ -148,6 +148,7 @@ _azi2_                = 'azi2'               # PYCHOK expected
 _azimuth_             = 'azimuth'            # PYCHOK expected
 _b_                   = 'b'                  # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
+_BACKSLASH_      = Str_('\\')                # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
 _BAR_            = Str_('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
@@ -463,6 +464,7 @@ _0_5    = _float(   0.5)     # PYCHOK expected
 _1_0    = _float(   1)       # PYCHOK expected
 _1_0_T  = _1_0,              # PYCHOK 1-tuple
 _1_5    = _float(   1.5)     # PYCHOK expected
+_1_75   = _float(   1.75)    # PYCHOK expected
 _2_0    = _float(   2)       # PYCHOK expected
 _3_0    = _float(   3)       # PYCHOK expected
 _4_0    = _float(   4)       # PYCHOK expected
@@ -526,6 +528,10 @@ _EPSmin   = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
 _EPSqrt   = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol   = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
+# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
+_1__90    = _float(_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+_2__PI    = _float(_2_0 /  PI)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2 = _float(sqrt(_2_0) + 1)
@@ -548,7 +554,7 @@ R_M       = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{met
 
 
 def _90_EPS_2(lat):
-    '''(INTERNAL) Off-90.0 for .gars and .wgrs.
+    '''(INTERNAL) Off -90.0 for .gars and .wgrs.
     '''
     if lat == _90_0:
         lat -= _90_0 * EPS_2
@@ -686,7 +692,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.04.22'
+__version__ = '22.05.07'
 
 
 # **) MIT License

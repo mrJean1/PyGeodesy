@@ -56,6 +56,7 @@ pygeodesy.meeus2	pygeodesy-module.html#meeus2
 pygeodesy.isodd	pygeodesy-module.html#isodd
 pygeodesy.fStrzs	pygeodesy-module.html#fStrzs
 pygeodesy.INF	pygeodesy-module.html#INF
+pygeodesy.istuplist	pygeodesy-module.html#istuplist
 pygeodesy.unroll180	pygeodesy-module.html#unroll180
 pygeodesy.F_DEG	pygeodesy-module.html#F_DEG
 pygeodesy.radiansPI	pygeodesy-module.html#radiansPI
@@ -454,6 +455,7 @@ pygeodesy.PI3_2	pygeodesy-module.html#PI3_2
 pygeodesy.grades2radians	pygeodesy-module.html#grades2radians
 pygeodesy.isNumpy2	pygeodesy-module.html#isNumpy2
 pygeodesy.normDMS	pygeodesy-module.html#normDMS
+pygeodesy.signBit	pygeodesy-module.html#signBit
 pygeodesy.freduce	pygeodesy-module.html#freduce
 pygeodesy.__main__	pygeodesy.__main__-module.html
 pygeodesy.__main__._main	pygeodesy.__main__-module.html#_main
@@ -478,17 +480,17 @@ pygeodesy.albers.sqrt3	pygeodesy.fmath-module.html#sqrt3
 pygeodesy.albers._Ks	pygeodesy.albers-module.html#_Ks
 pygeodesy.albers.deprecated_Property_RO	pygeodesy.props-module.html#deprecated_Property_RO
 pygeodesy.albers._xkwds	pygeodesy.errors-module.html#_xkwds
-pygeodesy.albers._Lon	pygeodesy.albers-module.html#_Lon
+pygeodesy.albers.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.albers.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.albers._Lat	pygeodesy.albers-module.html#_Lat
-pygeodesy.albers.fsum_	pygeodesy.fsums-module.html#fsum_
+pygeodesy.albers.fsum1_	pygeodesy.fsums-module.html#fsum1_
 pygeodesy.albers.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.albers._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.albers._TOL0	pygeodesy.albers-module.html#_TOL0
 pygeodesy.albers._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.albers._NUMIT0	pygeodesy.albers-module.html#_NUMIT0
 pygeodesy.albers._TERMS	pygeodesy.albers-module.html#_TERMS
-pygeodesy.albers.atan2d	pygeodesy.utily-module.html#atan2d
+pygeodesy.albers._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.azimuthal	pygeodesy.azimuthal-module.html
 pygeodesy.azimuthal._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.azimuthal._xdatum	pygeodesy.errors-module.html#_xdatum
@@ -546,13 +548,14 @@ pygeodesy.basics._xgeographiclib	pygeodesy.basics-module.html#_xgeographiclib
 pygeodesy.basics._odd_	pygeodesy.basics-module.html#_odd_
 pygeodesy.basics.splice	pygeodesy.basics-module.html#splice
 pygeodesy.basics.remainder	pygeodesy.basics-module.html#remainder
-pygeodesy.basics.isodd	pygeodesy.basics-module.html#isodd
+pygeodesy.basics._below_	pygeodesy.basics-module.html#_below_
 pygeodesy.basics.iscomplex	pygeodesy.basics-module.html#iscomplex
 pygeodesy.basics.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.basics._required_	pygeodesy.basics-module.html#_required_
 pygeodesy.basics._isfinite	pygeodesy.basics-module.html#_isfinite
 pygeodesy.basics.isnear1	pygeodesy.basics-module.html#isnear1
 pygeodesy.basics.isnear0	pygeodesy.basics-module.html#isnear0
+pygeodesy.basics.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.basics._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.basics.isninf	pygeodesy.basics-module.html#isninf
 pygeodesy.basics.isidentifier	pygeodesy.basics-module.html#isidentifier
@@ -560,7 +563,8 @@ pygeodesy.basics.iskeyword	pygeodesy.basics-module.html#iskeyword
 pygeodesy.basics._signOf	pygeodesy.basics-module.html#_signOf
 pygeodesy.basics._xversion	pygeodesy.basics-module.html#_xversion
 pygeodesy.basics._xor	pygeodesy.basics-module.html#_xor
-pygeodesy.basics._below_	pygeodesy.basics-module.html#_below_
+pygeodesy.basics._xversion_info	pygeodesy.basics-module.html#_xversion_info
+pygeodesy.basics.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.basics._umod_360	pygeodesy.basics-module.html#_umod_360
 pygeodesy.basics._xImportError	pygeodesy.basics-module.html#_xImportError
 pygeodesy.basics.isstr	pygeodesy.basics-module.html#isstr
@@ -576,6 +580,7 @@ pygeodesy.basics.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.basics.isneg0	pygeodesy.basics-module.html#isneg0
 pygeodesy.basics.__package__	pygeodesy.basics-module.html#__package__
 pygeodesy.basics._xError	pygeodesy.errors-module.html#_xError
+pygeodesy.basics.signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.basics.isint	pygeodesy.basics-module.html#isint
 pygeodesy.basics.isclass	pygeodesy.basics-module.html#isclass
 pygeodesy.basics.isinf	pygeodesy.basics-module.html#isinf
@@ -622,6 +627,7 @@ pygeodesy.clipy.len2	pygeodesy.basics-module.html#len2
 pygeodesy.clipy.clipSH	pygeodesy.clipy-module.html#clipSH
 pygeodesy.clipy.points2	pygeodesy.iters-module.html#points2
 pygeodesy.css	pygeodesy.css-module.html
+pygeodesy.css.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.css.toCss	pygeodesy.css-module.html#toCss
 pygeodesy.css._sincos2d	pygeodesy.karney-module.html#_sincos2d
 pygeodesy.css._diff182	pygeodesy.karney-module.html#_diff182
@@ -633,6 +639,7 @@ pygeodesy.css._norm2	pygeodesy.karney-module.html#_norm2
 pygeodesy.css.neg	pygeodesy.basics-module.html#neg
 pygeodesy.css.deprecated_Property_RO	pygeodesy.props-module.html#deprecated_Property_RO
 pygeodesy.css._xkwds	pygeodesy.errors-module.html#_xkwds
+pygeodesy.css._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.css._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.css._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
 pygeodesy.css._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
@@ -666,6 +673,7 @@ pygeodesy.datums._ED50_	pygeodesy.datums-module.html#_ED50_
 pygeodesy.datums.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.datums._Identity_	pygeodesy.datums-module.html#_Identity_
 pygeodesy.datums._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
+pygeodesy.datums.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.datums._BD72_	pygeodesy.datums-module.html#_BD72_
 pygeodesy.datums._NTF_	pygeodesy.datums-module.html#_NTF_
 pygeodesy.datums._MGI_	pygeodesy.datums-module.html#_MGI_
@@ -1161,8 +1169,9 @@ pygeodesy.elliptic.__package__	pygeodesy.elliptic-module.html#__package__
 pygeodesy.elliptic._RG2	pygeodesy.elliptic-module.html#_RG2
 pygeodesy.elliptic.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.elliptic._TolRG0	pygeodesy.elliptic-module.html#_TolRG0
-pygeodesy.elliptic._RF2	pygeodesy.elliptic-module.html#_RF2
 pygeodesy.elliptic.hypot1	pygeodesy.fmath-module.html#hypot1
+pygeodesy.elliptic._RF2	pygeodesy.elliptic-module.html#_RF2
+pygeodesy.elliptic.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.elliptic.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.elliptic._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.elliptic._TolRD	pygeodesy.elliptic-module.html#_TolRD
@@ -1177,7 +1186,7 @@ pygeodesy.elliptic.__all__	pygeodesy.elliptic-module.html#__all__
 pygeodesy.elliptic._TRIPS	pygeodesy.elliptic-module.html#_TRIPS
 pygeodesy.elliptic.neg	pygeodesy.basics-module.html#neg
 pygeodesy.elliptic.map2	pygeodesy.basics-module.html#map2
-pygeodesy.elliptic.copysign0	pygeodesy.basics-module.html#copysign0
+pygeodesy.elliptic._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.elliptic._RF3	pygeodesy.elliptic-module.html#_RF3
 pygeodesy.elliptic._xyz	pygeodesy.elliptic-module.html#_xyz
 pygeodesy.elliptic._RD	pygeodesy.elliptic-module.html#_RD
@@ -1246,7 +1255,6 @@ pygeodesy.etm.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.etm._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.etm._TRIPS	pygeodesy.etm-module.html#_TRIPS
 pygeodesy.etm._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
-pygeodesy.etm._TAYTOL	pygeodesy.etm-module.html#_TAYTOL
 pygeodesy.etm._parseUTM5	pygeodesy.utm-module.html#_parseUTM5
 pygeodesy.etm._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.etm.hypot	pygeodesy.fmath-module.html#hypot
@@ -1255,7 +1263,7 @@ pygeodesy.etm._TOL_10	pygeodesy.etm-module.html#_TOL_10
 pygeodesy.etm.__all__	pygeodesy.etm-module.html#__all__
 pygeodesy.etm.neg	pygeodesy.basics-module.html#neg
 pygeodesy.etm.atan2d	pygeodesy.utily-module.html#atan2d
-pygeodesy.etm.hypot1	pygeodesy.fmath-module.html#hypot1
+pygeodesy.etm._TAYTOL	pygeodesy.etm-module.html#_TAYTOL
 pygeodesy.etm._to7zBlldfn	pygeodesy.utm-module.html#_to7zBlldfn
 pygeodesy.etm.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.etm.isnear0	pygeodesy.basics-module.html#isnear0
@@ -1265,7 +1273,7 @@ pygeodesy.etm.parseETM5	pygeodesy.etm-module.html#parseETM5
 pygeodesy.etm._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.etm.deprecated_property_RO	pygeodesy.props-module.html#deprecated_property_RO
 pygeodesy.etm.toEtm8	pygeodesy.etm-module.html#toEtm8
-pygeodesy.etm.copysign0	pygeodesy.basics-module.html#copysign0
+pygeodesy.etm.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.etm.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.etm._toXtm8	pygeodesy.utm-module.html#_toXtm8
 pygeodesy.etm._cmlon	pygeodesy.utm-module.html#_cmlon
@@ -1278,6 +1286,7 @@ pygeodesy.etm.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.etm.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.etm.fsum1_	pygeodesy.fsums-module.html#fsum1_
 pygeodesy.etm._norm180	pygeodesy.karney-module.html#_norm180
+pygeodesy.etm._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.fmath	pygeodesy.fmath-module.html
 pygeodesy.fmath._0_4142	pygeodesy.fmath-module.html#_0_4142
 pygeodesy.fmath.hypot2_	pygeodesy.fmath-module.html#hypot2_
@@ -1596,7 +1605,6 @@ pygeodesy.geodesicx.gx._atan2d_reverse	pygeodesy.utily-module.html#atan2d
 pygeodesy.geodesicx.gx._MAXIT2	pygeodesy.geodesicx.gx-module.html#_MAXIT2
 pygeodesy.geodesicx.gx._ellipsoid	pygeodesy.karney-module.html#_ellipsoid
 pygeodesy.geodesicx.gx.fsum_	pygeodesy.fsums-module.html#fsum_
-pygeodesy.geodesicx.gx._1_75	pygeodesy.geodesicx.gx-module.html#_1_75
 pygeodesy.geodesicx.gx._Astroid	pygeodesy.geodesicx.gx-module.html#_Astroid
 pygeodesy.geodesicx.gx._THR1	pygeodesy.geodesicx.gx-module.html#_THR1
 pygeodesy.geodesicx.gx.unroll180	pygeodesy.utily-module.html#unroll180
@@ -1607,19 +1615,23 @@ pygeodesy.geodesicx.gx._xor	pygeodesy.basics-module.html#_xor
 pygeodesy.geodesicx.gx._hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.geodesicx.gx.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.geodesicx.gx._TOL016	pygeodesy.geodesicx.gx-module.html#_TOL016
-pygeodesy.geodesicx.gx._sincos2de	pygeodesy.karney-module.html#_sincos2de
 pygeodesy.geodesicx.gx.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesicx.gx._update_glXs	pygeodesy.geodesicx.gxline-module.html#_update_glXs
+pygeodesy.geodesicx.gx._sin1cos2	pygeodesy.geodesicx.gxbases-module.html#_sin1cos2
 pygeodesy.geodesicx.gx._TOL3	pygeodesy.geodesicx.gx-module.html#_TOL3
 pygeodesy.geodesicx.gx._xnC4	pygeodesy.geodesicx.gxbases-module.html#_xnC4
 pygeodesy.geodesicx.gx._MAXIT1	pygeodesy.geodesicx.gx-module.html#_MAXIT1
+pygeodesy.geodesicx.gx._atan12	pygeodesy.geodesicx.gx-module.html#_atan12
 pygeodesy.geodesicx.gx._coSeries	pygeodesy.geodesicx.gxbases-module.html#_coSeries
 pygeodesy.geodesicx.gx.unsigned0	pygeodesy.basics-module.html#unsigned0
+pygeodesy.geodesicx.gx._sincos2de	pygeodesy.karney-module.html#_sincos2de
 pygeodesy.geodesicx.gx._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos12
 pygeodesy.geodesicx.gx.__package__	pygeodesy.geodesicx.gx-module.html#__package__
 pygeodesy.geodesicx.gx._sincos2	pygeodesy.karney-module.html#_sincos2
+pygeodesy.geodesicx.gx.fsum1_	pygeodesy.fsums-module.html#fsum1_
 pygeodesy.geodesicx.gx._around	pygeodesy.karney-module.html#_around
 pygeodesy.geodesicx.gx._copysign	pygeodesy.geodesicx.gx-module.html#copysign
+pygeodesy.geodesicx.gx._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.geodesicx.gxarea	pygeodesy.geodesicx.gxarea-module.html
 pygeodesy.geodesicx.gxarea._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.geodesicx.gxarea._remainder	pygeodesy.karney-module.html#_remainder
@@ -1634,48 +1646,51 @@ pygeodesy.geodesicx.gxarea.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.geodesicx.gxarea._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.geodesicx.gxbases	pygeodesy.geodesicx.gxbases-module.html
 pygeodesy.geodesicx.gxbases._polynomial	pygeodesy.geodesicx.gxbases-module.html#_polynomial
+pygeodesy.geodesicx.gxbases._hypot	pygeodesy.fmath-module.html#hypot
+pygeodesy.geodesicx.gxbases._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.geodesicx.gxbases._nC4s	pygeodesy.geodesicx.gxbases-module.html#_nC4s
-pygeodesy.geodesicx.gxbases._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
+pygeodesy.geodesicx.gxbases.__package__	pygeodesy.geodesicx.gxbases-module.html#__package__
 pygeodesy.geodesicx.gxbases._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos12
 pygeodesy.geodesicx.gxbases._sum2_	pygeodesy.karney-module.html#_sum2_
+pygeodesy.geodesicx.gxbases._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.geodesicx.gxbases.Caps	pygeodesy.geodesicx.gxbases-module.html#Caps
 pygeodesy.geodesicx.gxbases._TINY	pygeodesy.geodesicx.gxbases-module.html#_TINY
 pygeodesy.geodesicx.gxbases._f2	pygeodesy.geodesicx.gxbases-module.html#_f2
 pygeodesy.geodesicx.gxbases.isodd	pygeodesy.basics-module.html#isodd
-pygeodesy.geodesicx.gxbases._coSeries	pygeodesy.geodesicx.gxbases-module.html#_coSeries
+pygeodesy.geodesicx.gxbases._sin1cos2	pygeodesy.geodesicx.gxbases-module.html#_sin1cos2
 pygeodesy.geodesicx.gxbases._or	pygeodesy.errors-module.html#_or
 pygeodesy.geodesicx.gxbases._all_caps	pygeodesy.geodesicx.gxbases-module.html#_all_caps
 pygeodesy.geodesicx.gxbases._xnC4	pygeodesy.geodesicx.gxbases-module.html#_xnC4
-pygeodesy.geodesicx.gxbases.__package__	pygeodesy.geodesicx.gxbases-module.html#__package__
+pygeodesy.geodesicx.gxbases._coSeries	pygeodesy.geodesicx.gxbases-module.html#_coSeries
 pygeodesy.geodesicx.gxline	pygeodesy.geodesicx.gxline-module.html
 pygeodesy.geodesicx.gxline._sincos2d	pygeodesy.karney-module.html#_sincos2d
-pygeodesy.geodesicx.gxline._hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.geodesicx.gxline._fix90	pygeodesy.karney-module.html#_fix90
+pygeodesy.geodesicx.gxline.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesicx.gxline._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.geodesicx.gxline._atan2d	pygeodesy.karney-module.html#_atan2d
 pygeodesy.geodesicx.gxline._atan2d_reverse	pygeodesy.utily-module.html#atan2d
 pygeodesy.geodesicx.gxline._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos12
 pygeodesy.geodesicx.gxline._glXs	pygeodesy.geodesicx.gxline-module.html#_glXs
+pygeodesy.geodesicx.gxline.__package__	pygeodesy.geodesicx.gxline-module.html#__package__
 pygeodesy.geodesicx.gxline.fsum_	pygeodesy.fsums-module.html#fsum_
 pygeodesy.geodesicx.gxline._sincos2	pygeodesy.karney-module.html#_sincos2
 pygeodesy.geodesicx.gxline._update_all	pygeodesy.props-module.html#_update_all
 pygeodesy.geodesicx.gxline.fsum1_	pygeodesy.fsums-module.html#fsum1_
 pygeodesy.geodesicx.gxline._update_glXs	pygeodesy.geodesicx.gxline-module.html#_update_glXs
 pygeodesy.geodesicx.gxline._norm2	pygeodesy.karney-module.html#_norm2
+pygeodesy.geodesicx.gxline._sin1cos2	pygeodesy.geodesicx.gxbases-module.html#_sin1cos2
 pygeodesy.geodesicx.gxline._around	pygeodesy.karney-module.html#_around
-pygeodesy.geodesicx.gxline.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesicx.gxline._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.geodesicx.gxline._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.geodesicx.gxline._all_caps	pygeodesy.geodesicx.gxbases-module.html#_all_caps
-pygeodesy.geodesicx.gxline.__package__	pygeodesy.geodesicx.gxline-module.html#__package__
 pygeodesy.geodesicx.gxline._coSeries	pygeodesy.geodesicx.gxbases-module.html#_coSeries
 pygeodesy.geodsolve	pygeodesy.geodsolve-module.html
 pygeodesy.geodsolve.unroll180	pygeodesy.utily-module.html#unroll180
 pygeodesy.geodsolve.fstrzs	pygeodesy.streprs-module.html#fstrzs
 pygeodesy.geodsolve.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.geodsolve.printf	pygeodesy.lazily-module.html#printf
-pygeodesy.geodsolve._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.geodsolve._cmd_stdin_	pygeodesy.geodsolve-module.html#_cmd_stdin_
+pygeodesy.geodsolve._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.geodsolve.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.geodsolve._ellipsoid	pygeodesy.karney-module.html#_ellipsoid
 pygeodesy.geodsolve.ub2str	pygeodesy.basics-module.html#ub2str
@@ -1873,6 +1888,7 @@ pygeodesy.interns._AiryModified_	pygeodesy.interns-module.html#_AiryModified_
 pygeodesy.interns._zone_	pygeodesy.interns-module.html#_zone_
 pygeodesy.interns._not_scalar_	pygeodesy.interns-module.html#_not_scalar_
 pygeodesy.interns._PERCENTDOTSTAR_	pygeodesy.interns-module.html#_PERCENTDOTSTAR_
+pygeodesy.interns._sx_	pygeodesy.interns-module.html#_sx_
 pygeodesy.interns._COLON_	pygeodesy.interns-module.html#_COLON_
 pygeodesy.interns._k0_	pygeodesy.interns-module.html#_k0_
 pygeodesy.interns._COLONSPACE_	pygeodesy.interns-module.html#_COLONSPACE_
@@ -2003,6 +2019,7 @@ pygeodesy.interns._SQRT2_2	pygeodesy.interns-module.html#_SQRT2_2
 pygeodesy.interns._i_	pygeodesy.interns-module.html#_i_
 pygeodesy.interns._5_0	pygeodesy.interns-module.html#_5_0
 pygeodesy.interns._Bessel1841_	pygeodesy.interns-module.html#_Bessel1841_
+pygeodesy.interns._2__PI	pygeodesy.interns-module.html#_2__PI
 pygeodesy.interns._initial_	pygeodesy.interns-module.html#_initial_
 pygeodesy.interns._32_0	pygeodesy.interns-module.html#_32_0
 pygeodesy.interns._valid_	pygeodesy.interns-module.html#_valid_
@@ -2047,7 +2064,7 @@ pygeodesy.interns._COMMA_	pygeodesy.interns-module.html#_COMMA_
 pygeodesy.interns._ispolar_	pygeodesy.interns-module.html#_ispolar_
 pygeodesy.interns._degrees2_	pygeodesy.interns-module.html#_degrees2_
 pygeodesy.interns._ELLIPSIS_	pygeodesy.interns-module.html#_ELLIPSIS_
-pygeodesy.interns._W_	pygeodesy.interns-module.html#_W_
+pygeodesy.interns._meter_	pygeodesy.interns-module.html#_meter_
 pygeodesy.interns._scipy_	pygeodesy.interns-module.html#_scipy_
 pygeodesy.interns._N_180_0	pygeodesy.interns-module.html#_N_180_0
 pygeodesy.interns._lat0_	pygeodesy.interns-module.html#_lat0_
@@ -2061,7 +2078,7 @@ pygeodesy.interns._0_5	pygeodesy.interns-module.html#_0_5
 pygeodesy.interns._MGRS_	pygeodesy.interns-module.html#_MGRS_
 pygeodesy.interns._0_0	pygeodesy.interns-module.html#_0_0
 pygeodesy.interns._0_1	pygeodesy.interns-module.html#_0_1
-pygeodesy.interns._meter_	pygeodesy.interns-module.html#_meter_
+pygeodesy.interns._W_	pygeodesy.interns-module.html#_W_
 pygeodesy.interns._NAD83_	pygeodesy.interns-module.html#_NAD83_
 pygeodesy.interns._start_	pygeodesy.interns-module.html#_start_
 pygeodesy.interns._easting_	pygeodesy.interns-module.html#_easting_
@@ -2083,7 +2100,7 @@ pygeodesy.interns._H_	pygeodesy.interns-module.html#_H_
 pygeodesy.interns._to_	pygeodesy.interns-module.html#_to_
 pygeodesy.interns._python_	pygeodesy.interns-module.html#_python_
 pygeodesy.interns._Py3List	pygeodesy.interns-module.html#_Py3List
-pygeodesy.interns._sx_	pygeodesy.interns-module.html#_sx_
+pygeodesy.interns._180_0	pygeodesy.interns-module.html#_180_0
 pygeodesy.interns._range_	pygeodesy.interns-module.html#_range_
 pygeodesy.interns._by_	pygeodesy.interns-module.html#_by_
 pygeodesy.interns._areaOf_	pygeodesy.interns-module.html#_areaOf_
@@ -2133,6 +2150,7 @@ pygeodesy.interns._z_	pygeodesy.interns-module.html#_z_
 pygeodesy.interns._concentric_	pygeodesy.interns-module.html#_concentric_
 pygeodesy.interns._angle_	pygeodesy.interns-module.html#_angle_
 pygeodesy.interns._M_	pygeodesy.interns-module.html#_M_
+pygeodesy.interns._1__90	pygeodesy.interns-module.html#_1__90
 pygeodesy.interns._60_0	pygeodesy.interns-module.html#_60_0
 pygeodesy.interns._3_	pygeodesy.interns-module.html#_3_
 pygeodesy.interns._nearestOn2_	pygeodesy.interns-module.html#_nearestOn2_
@@ -2141,6 +2159,7 @@ pygeodesy.interns._phi_	pygeodesy.interns-module.html#_phi_
 pygeodesy.interns._d_	pygeodesy.interns-module.html#_d_
 pygeodesy.interns._RCURLY_	pygeodesy.interns-module.html#_RCURLY_
 pygeodesy.interns._V_	pygeodesy.interns-module.html#_V_
+pygeodesy.interns._1_75	pygeodesy.interns-module.html#_1_75
 pygeodesy.interns._360_0	pygeodesy.interns-module.html#_360_0
 pygeodesy.interns._NAN_	pygeodesy.interns-module.html#_NAN_
 pygeodesy.interns._O_	pygeodesy.interns-module.html#_O_
@@ -2159,6 +2178,7 @@ pygeodesy.interns._feet_	pygeodesy.interns-module.html#_feet_
 pygeodesy.interns.NN	pygeodesy.interns-module.html#NN
 pygeodesy.interns._gamma_	pygeodesy.interns-module.html#_gamma_
 pygeodesy.interns._y_	pygeodesy.interns-module.html#_y_
+pygeodesy.interns._BACKSLASH_	pygeodesy.interns-module.html#_BACKSLASH_
 pygeodesy.interns._inside_	pygeodesy.interns-module.html#_inside_
 pygeodesy.interns._floatuple	pygeodesy.interns-module.html#_floatuple
 pygeodesy.interns._Clarke1866_	pygeodesy.interns-module.html#_Clarke1866_
@@ -2188,7 +2208,6 @@ pygeodesy.interns._enabled_	pygeodesy.interns-module.html#_enabled_
 pygeodesy.interns._SouthPole_	pygeodesy.interns-module.html#_SouthPole_
 pygeodesy.interns._SPACE_	pygeodesy.interns-module.html#_SPACE_
 pygeodesy.interns._northing_	pygeodesy.interns-module.html#_northing_
-pygeodesy.interns._180_0	pygeodesy.interns-module.html#_180_0
 pygeodesy.interns._semi_circular_	pygeodesy.interns-module.html#_semi_circular_
 pygeodesy.interns._attribute_	pygeodesy.interns-module.html#_attribute_
 pygeodesy.interns.PI3_2	pygeodesy.interns-module.html#PI3_2
@@ -2221,7 +2240,6 @@ pygeodesy.karney._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.karney._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.karney.classname	pygeodesy.named-module.html#classname
 pygeodesy.karney._azi2_	pygeodesy.karney-module.html#_azi2_
-pygeodesy.karney._or	pygeodesy.errors-module.html#_or
 pygeodesy.karney._xgeographiclib	pygeodesy.basics-module.html#_xgeographiclib
 pygeodesy.karney._sincos2d	pygeodesy.karney-module.html#_sincos2d
 pygeodesy.karney._diff182	pygeodesy.karney-module.html#_diff182
@@ -2252,9 +2270,11 @@ pygeodesy.karney.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.karney._polygon	pygeodesy.karney-module.html#_polygon
 pygeodesy.karney._azi1_	pygeodesy.karney-module.html#_azi1_
 pygeodesy.karney._hypot	pygeodesy.fmath-module.html#hypot
+pygeodesy.karney._xversion_info	pygeodesy.basics-module.html#_xversion_info
 pygeodesy.karney._Lon	pygeodesy.karney-module.html#_Lon
 pygeodesy.karney._sincos2de	pygeodesy.karney-module.html#_sincos2de
 pygeodesy.karney._xImportError	pygeodesy.basics-module.html#_xImportError
+pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
 pygeodesy.karney.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.karney.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.karney._sum2_	pygeodesy.karney-module.html#_sum2_
@@ -2268,7 +2288,6 @@ pygeodesy.karney._M12_	pygeodesy.karney-module.html#_M12_
 pygeodesy.karney._math_isfinite	pygeodesy.basics-module.html#_isfinite
 pygeodesy.karney._around	pygeodesy.karney-module.html#_around
 pygeodesy.karney._copysign	pygeodesy.geodesicx.gx-module.html#copysign
-pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
 pygeodesy.karney._S12_	pygeodesy.karney-module.html#_S12_
 pygeodesy.karney._K_2_0	pygeodesy.karney-module.html#_K_2_0
 pygeodesy.latlonBase	pygeodesy.latlonBase-module.html
@@ -2711,11 +2730,11 @@ pygeodesy.props._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.props._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.props.__package__	pygeodesy.props-module.html#__package__
 pygeodesy.props._Warnings	pygeodesy.props-module.html#_Warnings
-pygeodesy.props.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.props._dont_use_	pygeodesy.props-module.html#_dont_use_
 pygeodesy.props._W_DEV	pygeodesy.props-module.html#_W_DEV
 pygeodesy.props._qualified	pygeodesy.props-module.html#_qualified
 pygeodesy.props.deprecated_method	pygeodesy.props-module.html#deprecated_method
+pygeodesy.props.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.props.deprecated_Property_RO	pygeodesy.props-module.html#deprecated_Property_RO
 pygeodesy.props._deprecated	pygeodesy.props-module.html#_deprecated
 pygeodesy.props.DeprecationWarnings	pygeodesy.props-module.html#DeprecationWarnings
@@ -2930,6 +2949,7 @@ pygeodesy.streprs._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.streprs.Fmt	pygeodesy.streprs-module.html#Fmt
 pygeodesy.streprs.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.streprs._streprs	pygeodesy.streprs-module.html#_streprs
+pygeodesy.streprs.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.streprs._boolkwds	pygeodesy.streprs-module.html#_boolkwds
 pygeodesy.streprs.attrs	pygeodesy.streprs-module.html#attrs
 pygeodesy.streprs._Fspec_	pygeodesy.streprs-module.html#_Fspec_
@@ -3083,7 +3103,6 @@ pygeodesy.utily.cot_	pygeodesy.utily-module.html#cot_
 pygeodesy.utily.radians	pygeodesy.utily-module.html#radians
 pygeodesy.utily.acre2m2	pygeodesy.utily-module.html#acre2m2
 pygeodesy.utily.radiansPI_2	pygeodesy.utily-module.html#radiansPI_2
-pygeodesy.utily._1__90	pygeodesy.utily-module.html#_1__90
 pygeodesy.utily.isnan	pygeodesy.basics-module.html#isnan
 pygeodesy.utily.__all__	pygeodesy.utily-module.html#__all__
 pygeodesy.utily.toise2m	pygeodesy.utily-module.html#toise2m
@@ -3141,7 +3160,6 @@ pygeodesy.utily.radians2m	pygeodesy.utily-module.html#radians2m
 pygeodesy.utily.isint	pygeodesy.basics-module.html#isint
 pygeodesy.utily.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.utily.wrapPI_2	pygeodesy.utily-module.html#wrapPI_2
-pygeodesy.utily._2__PI	pygeodesy.utily-module.html#_2__PI
 pygeodesy.utily.m2radians	pygeodesy.utily-module.html#m2radians
 pygeodesy.utily._M_SM	pygeodesy.utily-module.html#_M_SM
 pygeodesy.utily.chain2m	pygeodesy.utily-module.html#chain2m
@@ -3380,6 +3398,7 @@ pygeodesy.vector3dBase.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.vector3dBase._InvalidError	pygeodesy.errors-module.html#_InvalidError
 pygeodesy.vector3dBase._float0	pygeodesy.interns-module.html#_float0
 pygeodesy.vector3dBase.isnear1	pygeodesy.basics-module.html#isnear1
+pygeodesy.vector3dBase.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.webmercator	pygeodesy.webmercator-module.html
 pygeodesy.webmercator._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.webmercator.isscalar	pygeodesy.basics-module.html#isscalar
@@ -3475,7 +3494,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -3486,7 +3505,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -4045,7 +4063,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -4056,7 +4074,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.azimuthal.Azimuthal7Tuple.antipodal	pygeodesy.azimuthal.Azimuthal7Tuple-class.html#antipodal
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
@@ -5032,7 +5049,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5043,7 +5060,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5078,7 +5094,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5089,7 +5105,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5122,7 +5137,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5133,7 +5148,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5268,7 +5282,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5279,7 +5293,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5312,7 +5325,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5323,7 +5336,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5356,7 +5368,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5367,7 +5379,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5495,7 +5506,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5506,7 +5517,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5734,7 +5744,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -5745,7 +5755,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -5920,7 +5929,6 @@ pygeodesy.named._NamedTuple._validated	pygeodesy.named._NamedTuple-class.html#_v
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
@@ -6128,7 +6136,7 @@ pygeodesy.ecef.EcefMatrix._validate	pygeodesy.ecef.EcefMatrix-class.html#_valida
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
@@ -6150,9 +6158,8 @@ pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.ecef.EcefMatrix._column_2	pygeodesy.ecef.EcefMatrix-class.html#_column_2
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.ecef.EcefMatrix.__deepcopy__	pygeodesy.ecef.EcefMatrix-class.html#__deepcopy__
-pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.ecef.EcefMatrix._Names_	pygeodesy.ecef.EcefMatrix-class.html#_Names_
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.ecef.EcefMatrix.unrotate	pygeodesy.ecef.EcefMatrix-class.html#unrotate
@@ -6391,7 +6398,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -6402,7 +6409,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -6435,7 +6441,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -6446,7 +6452,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -8901,7 +8906,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -8912,7 +8917,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -8945,7 +8949,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -8956,7 +8960,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -9099,7 +9102,6 @@ pygeodesy.ellipsoids.Ellipsoid.f1	pygeodesy.ellipsoids.Ellipsoid-class.html#f1
 pygeodesy.ellipsoids.Ellipsoid.f2	pygeodesy.ellipsoids.Ellipsoid-class.html#f2
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.ellipsoids.Ellipsoid.circle4	pygeodesy.ellipsoids.Ellipsoid-class.html#circle4
-pygeodesy.ellipsoids.Ellipsoid._geodesic_Math2	pygeodesy.ellipsoids.Ellipsoid-class.html#_geodesic_Math2
 pygeodesy.ellipsoids.Ellipsoid.auxAuthalic	pygeodesy.ellipsoids.Ellipsoid-class.html#auxAuthalic
 pygeodesy.ellipsoids.Ellipsoid.eccentricity2nd2	pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2
 pygeodesy.ellipsoids.Ellipsoid.a2_	pygeodesy.ellipsoids.Ellipsoid-class.html#a2_
@@ -9264,7 +9266,6 @@ pygeodesy.ellipsoids.Ellipsoid.f1	pygeodesy.ellipsoids.Ellipsoid-class.html#f1
 pygeodesy.ellipsoids.Ellipsoid.f2	pygeodesy.ellipsoids.Ellipsoid-class.html#f2
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.ellipsoids.Ellipsoid.circle4	pygeodesy.ellipsoids.Ellipsoid-class.html#circle4
-pygeodesy.ellipsoids.Ellipsoid._geodesic_Math2	pygeodesy.ellipsoids.Ellipsoid-class.html#_geodesic_Math2
 pygeodesy.ellipsoids.Ellipsoid.auxAuthalic	pygeodesy.ellipsoids.Ellipsoid-class.html#auxAuthalic
 pygeodesy.ellipsoids.Ellipsoid.eccentricity2nd2	pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity2nd2
 pygeodesy.ellipsoids.Ellipsoid.f_	pygeodesy.ellipsoids.Ellipsoid-class.html#f_
@@ -9320,7 +9321,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
@@ -9333,7 +9334,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.ellipsoids.a_f2Tuple.b	pygeodesy.ellipsoids.a_f2Tuple-class.html#b
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.ellipsoids.a_f2Tuple.f_	pygeodesy.ellipsoids.a_f2Tuple-class.html#f_
@@ -9345,7 +9345,6 @@ pygeodesy.ellipsoids.a_f2Tuple._Units_	pygeodesy.ellipsoids.a_f2Tuple-class.html
 pygeodesy.elliptic.Elliptic	pygeodesy.elliptic.Elliptic-class.html
 pygeodesy.named._Named.__str__	pygeodesy.named._Named-class.html#__str__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
-pygeodesy.elliptic.Elliptic._sncndnBulirsch	pygeodesy.elliptic.Elliptic-class.html#_sncndnBulirsch
 pygeodesy.elliptic.Elliptic._k2	pygeodesy.elliptic.Elliptic-class.html#_k2
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
@@ -9358,6 +9357,7 @@ pygeodesy.elliptic.Elliptic.deltaE	pygeodesy.elliptic.Elliptic-class.html#deltaE
 pygeodesy.elliptic.Elliptic.deltaF	pygeodesy.elliptic.Elliptic-class.html#deltaF
 pygeodesy.elliptic.Elliptic.deltaG	pygeodesy.elliptic.Elliptic-class.html#deltaG
 pygeodesy.elliptic.Elliptic.deltaH	pygeodesy.elliptic.Elliptic-class.html#deltaH
+pygeodesy.elliptic.Elliptic._sncndnBulirsch3	pygeodesy.elliptic.Elliptic-class.html#_sncndnBulirsch3
 pygeodesy.elliptic.Elliptic._alphap2	pygeodesy.elliptic.Elliptic-class.html#_alphap2
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
 pygeodesy.elliptic.Elliptic.fPi	pygeodesy.elliptic.Elliptic-class.html#fPi
@@ -9442,7 +9442,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -9453,7 +9453,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -9547,7 +9546,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -9558,7 +9557,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -9756,7 +9754,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -9767,7 +9765,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -10235,7 +10232,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -10246,7 +10243,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -10325,7 +10321,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -10336,7 +10332,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -11490,7 +11485,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -11501,7 +11496,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -11556,7 +11550,7 @@ pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.geodesicx.gx.GeodesicExact._GDictInverse	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_GDictInverse
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.geodesicx.gx.GeodesicExact._E	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_E
-pygeodesy.geodesicx.gx.GeodesicExact._C4f_k2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_C4f_k2
+pygeodesy.geodesicx.gx.GeodesicExact._n6PI	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_n6PI
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.geodesicx.gx.GeodesicExact.ellipsoid	pygeodesy.geodesicx.gx.GeodesicExact-class.html#ellipsoid
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
@@ -11567,16 +11561,17 @@ pygeodesy.geodesicx.gx.GeodesicExact._sinf1cos2d	pygeodesy.geodesicx.gx.Geodesic
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodesicx.gx.GeodesicExact._e2a2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_e2a2
-pygeodesy.geodesicx.gx.GeodesicExact._Lambda5	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Lambda5
+pygeodesy.geodesicx.gx.GeodesicExact._Lambda6	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Lambda6
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.geodesicx.gx.GeodesicExact._dn	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_dn
 pygeodesy.geodesicx.gx.GeodesicExact.Area	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Area
+pygeodesy.geodesicx.gx.GeodesicExact._Newton6	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Newton6
 pygeodesy.geodesicx.gx.GeodesicExact.C4f	pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4f
+pygeodesy.geodesicx.gx.GeodesicExact._C4f_k2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_C4f_k2
 pygeodesy.geodesicx.gx.GeodesicExact.c2x	pygeodesy.geodesicx.gx.GeodesicExact-class.html#c2x
 pygeodesy.geodesicx.gx.GeodesicExact.flattening	pygeodesy.geodesicx.gx.GeodesicExact-class.html#flattening
 pygeodesy.geodesicx.gx.GeodesicExact.Direct3	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Direct3
 pygeodesy.geodesicx.gx.GeodesicExact.Line	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Line
-pygeodesy.geodesicx.gx.GeodesicExact._Newton10	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Newton10
 pygeodesy.geodesicx.gx.GeodesicExact._InverseStart6	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_InverseStart6
 pygeodesy.geodesicx.gx.GeodesicExact.ArcDirect	pygeodesy.geodesicx.gx.GeodesicExact-class.html#ArcDirect
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
@@ -11592,22 +11587,21 @@ pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.geodesicx.gx.GeodesicExact._GenInverse	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_GenInverse
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
+pygeodesy.geodesicx.gx.GeodesicExact._Length5	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Length5
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.geodesicx.gx.GeodesicExact._InverseArea	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_InverseArea
-pygeodesy.geodesicx.gx.GeodesicExact._f_180	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_f_180
+pygeodesy.geodesicx.gx.GeodesicExact.Polygon	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon
 pygeodesy.geodesicx.gx.GeodesicExact.Inverse1	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Inverse1
 pygeodesy.geodesicx.gx.GeodesicExact._C4x	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_C4x
 pygeodesy.geodesicx.gx.GeodesicExact.Inverse3	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Inverse3
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.geodesicx.gx.GeodesicExact._e2_f1	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_e2_f1
-pygeodesy.geodesicx.gx.GeodesicExact._eF_reset_e2_f1_cH	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_eF_reset_e2_f1_cH
 pygeodesy.geodesicx.gx.GeodesicExact.InverseLine	pygeodesy.geodesicx.gx.GeodesicExact-class.html#InverseLine
 pygeodesy.geodesicx.gx.GeodesicExact.ArcDirectLine	pygeodesy.geodesicx.gx.GeodesicExact-class.html#ArcDirectLine
-pygeodesy.geodesicx.gx.GeodesicExact._Lengths5	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_Lengths5
 pygeodesy.geodesicx.gx.GeodesicExact.c2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.geodesicx.gx.GeodesicExact.b	pygeodesy.geodesicx.gx.GeodesicExact-class.html#b
@@ -11616,29 +11610,30 @@ pygeodesy.named._NamedBase.iteration	pygeodesy.named._NamedBase-class.html#itera
 pygeodesy.geodesicx.gx.GeodesicExact._coeffs	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_coeffs
 pygeodesy.geodesicx.gx.GeodesicExact.n	pygeodesy.geodesicx.gx.GeodesicExact-class.html#n
 pygeodesy.geodesicx.gx.GeodesicExact._eF_reset_k2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_eF_reset_k2
-pygeodesy.geodesicx.gx.GeodesicExact._n_6PI	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_n_6PI
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.geodesicx.gx.GeodesicExact.f1	pygeodesy.geodesicx.gx.GeodesicExact-class.html#f1
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.geodesicx.gx.GeodesicExact.Polygon	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon
+pygeodesy.geodesicx.gx.GeodesicExact.C4order	pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4order
 pygeodesy.geodesicx.gx.GeodesicExact._GenDirect	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_GenDirect
+pygeodesy.geodesicx.gx.GeodesicExact._eF_reset_e2f1cH	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_eF_reset_e2f1cH
 pygeodesy.geodesicx.gx.GeodesicExact.__init__	pygeodesy.geodesicx.gx.GeodesicExact-class.html#__init__
 pygeodesy.geodesicx.gx.GeodesicExact.C4Order	pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4Order
 pygeodesy.geodesicx.gx.GeodesicExact.ep2	pygeodesy.geodesicx.gx.GeodesicExact-class.html#ep2
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.named._NamedBase._iteration	pygeodesy.named._NamedBase-class.html#_iteration
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
+pygeodesy.geodesicx.gx.GeodesicExact._f180	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_f180
 pygeodesy.geodesicx.gx.GeodesicExact.a	pygeodesy.geodesicx.gx.GeodesicExact-class.html#a
 pygeodesy.geodesicx.gx.GeodesicExact.Direct	pygeodesy.geodesicx.gx.GeodesicExact-class.html#Direct
 pygeodesy.geodesicx.gx.GeodesicExact._nC4	pygeodesy.geodesicx.gx.GeodesicExact-class.html#_nC4
 pygeodesy.geodesicx.gx.GeodesicLineExact	pygeodesy.geodesicx.gx.GeodesicLineExact-class.html
 pygeodesy.named._NamedBase.__str__	pygeodesy.named._NamedBase-class.html#__str__
-pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.geodesicx.gxline._GeodesicLineExact._k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_k2
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
+pygeodesy.geodesicx.gxline._GeodesicLineExact._D0k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D0k2
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.geodesicx.gxline._GeodesicLineExact.azi1_sincos2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1_sincos2
+pygeodesy.geodesicx.gxline._GeodesicLineExact._GDictPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_GDictPosition
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.geodesicx.gxline._GeodesicLineExact.toStr	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#toStr
 pygeodesy.geodesicx.gxline._GeodesicLineExact.SetDistance	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance
@@ -11661,23 +11656,24 @@ pygeodesy.geodesicx.gxline._GeodesicLineExact._GenPosition	pygeodesy.geodesicx.g
 pygeodesy.geodesicx.gxline._GeodesicLineExact._D1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._lon1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lon1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.s13	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#s13
-pygeodesy.geodesicx.gxline._GeodesicLineExact._H0_e2_f1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_H0_e2_f1
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodesicx.gxline._GeodesicLineExact._somg1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_somg1
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
+pygeodesy.geodesicx.gxline._GeodesicLineExact._caps_DISTANCE_IN	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_caps_DISTANCE_IN
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.geodesicx.gxline._GeodesicLineExact._eF	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_eF
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.geodesicx.gxline._GeodesicLineExact._H0e2_f1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_H0e2_f1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._cchi1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_cchi1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._dn1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_dn1
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
-pygeodesy.geodesicx.gxline._GeodesicLineExact._E0_b	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_E0_b
+pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.geodesicx.gxline._GeodesicLineExact.geodesic	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#geodesic
+pygeodesy.geodesicx.gxline._GeodesicLineExact._E0b	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_E0b
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.geodesicx.gxline._GeodesicLineExact._GDictPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_GDictPosition
 pygeodesy.geodesicx.gxline._GeodesicLineExact._lat1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lat1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._ssig1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_ssig1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.SetArc	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc
@@ -11698,16 +11694,15 @@ pygeodesy.geodesicx.gxline._GeodesicLineExact._gX	pygeodesy.geodesicx.gxline._Ge
 pygeodesy.geodesicx.gxline._GeodesicLineExact.lon1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#lon1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._stau1_ctau1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_stau1_ctau1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._update	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_update
+pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.geodesicx.gxline._GeodesicLineExact._lon1_norm180	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lon1_norm180
-pygeodesy.geodesicx.gxline._GeodesicLineExact._A4_e2a2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_A4_e2a2
 pygeodesy.geodesicx.gxline._GeodesicLineExact.azi0_sincos2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi0_sincos2
 pygeodesy.geodesicx.gx.GeodesicLineExact.__init__	pygeodesy.geodesicx.gx.GeodesicLineExact-class.html#__init__
-pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
+pygeodesy.geodesicx.gxline._GeodesicLineExact.azi1_sincos2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1_sincos2
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.geodesicx.gxline._GeodesicLineExact.equatorazimuth	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#equatorazimuth
 pygeodesy.geodesicx.gxline._GeodesicLineExact.a1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._a13	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_a13
-pygeodesy.geodesicx.gxline._GeodesicLineExact._D0_k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D0_k2
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.geodesicx.gxline._GeodesicLineExact._calp1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_calp1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.ArcPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition
@@ -11846,12 +11841,12 @@ pygeodesy.geodesicx.gxarea.GeodesicAreaExact.lon0	pygeodesy.geodesicx.gxarea.Geo
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.geodesicx.gxline._GeodesicLineExact	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html
 pygeodesy.named._NamedBase.__str__	pygeodesy.named._NamedBase-class.html#__str__
-pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.geodesicx.gxline._GeodesicLineExact._k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_k2
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
+pygeodesy.geodesicx.gxline._GeodesicLineExact._D0k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D0k2
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.geodesicx.gxline._GeodesicLineExact.azi1_sincos2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1_sincos2
+pygeodesy.geodesicx.gxline._GeodesicLineExact._GDictPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_GDictPosition
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.geodesicx.gxline._GeodesicLineExact.toStr	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#toStr
 pygeodesy.geodesicx.gxline._GeodesicLineExact.caps	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#caps
@@ -11860,37 +11855,38 @@ pygeodesy.geodesicx.gxline._GeodesicLineExact.Position	pygeodesy.geodesicx.gxlin
 pygeodesy.geodesicx.gxline._GeodesicLineExact.lat1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#lat1
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._NamedBase._iteration	pygeodesy.named._NamedBase-class.html#_iteration
-pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
+pygeodesy.geodesicx.gxline._GeodesicLineExact._lat1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lat1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._ssig1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_ssig1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._E1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_E1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._azi1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_azi1
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.geodesicx.gxline._GeodesicLineExact._B41	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_B41
-pygeodesy.geodesicx.gxline._GeodesicLineExact.azi0	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi0
+pygeodesy.geodesicx.gxline._GeodesicLineExact._salp1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_salp1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.azi1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.a13	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a13
 pygeodesy.geodesicx.gxline._GeodesicLineExact._GenPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_GenPosition
 pygeodesy.geodesicx.gxline._GeodesicLineExact._D1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._lon1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lon1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.s13	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#s13
-pygeodesy.geodesicx.gxline._GeodesicLineExact._H0_e2_f1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_H0_e2_f1
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.geodesicx.gxline._GeodesicLineExact._somg1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_somg1
+pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
+pygeodesy.geodesicx.gxline._GeodesicLineExact._caps_DISTANCE_IN	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_caps_DISTANCE_IN
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.geodesicx.gxline._GeodesicLineExact._eF	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_eF
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.geodesicx.gxline._GeodesicLineExact._H0e2_f1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_H0e2_f1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._cchi1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_cchi1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._dn1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_dn1
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
-pygeodesy.geodesicx.gxline._GeodesicLineExact._E0_b	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_E0_b
-pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
+pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.geodesicx.gxline._GeodesicLineExact.geodesic	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#geodesic
+pygeodesy.geodesicx.gxline._GeodesicLineExact._E0b	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_E0b
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.geodesicx.gxline._GeodesicLineExact._GDictPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_GDictPosition
-pygeodesy.geodesicx.gxline._GeodesicLineExact._lat1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lat1
+pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.geodesicx.gxline._GeodesicLineExact.SetArc	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetArc
 pygeodesy.geodesicx.gxline._GeodesicLineExact._C4a	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_C4a
@@ -11905,22 +11901,21 @@ pygeodesy.geodesicx.gxline._GeodesicLineExact._caps	pygeodesy.geodesicx.gxline._
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.geodesicx.gxline._GeodesicLineExact.SetDistance	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#SetDistance
 pygeodesy.named._NamedBase.iteration	pygeodesy.named._NamedBase-class.html#iteration
-pygeodesy.geodesicx.gxline._GeodesicLineExact._salp1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_salp1
+pygeodesy.geodesicx.gxline._GeodesicLineExact.azi0	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi0
 pygeodesy.geodesicx.gxline._GeodesicLineExact._salp0	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_salp0
 pygeodesy.geodesicx.gxline._GeodesicLineExact._gX	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_gX
 pygeodesy.geodesicx.gxline._GeodesicLineExact.lon1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#lon1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._stau1_ctau1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_stau1_ctau1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._update	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_update
+pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.geodesicx.gxline._GeodesicLineExact._lon1_norm180	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_lon1_norm180
-pygeodesy.geodesicx.gxline._GeodesicLineExact._A4_e2a2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_A4_e2a2
 pygeodesy.geodesicx.gxline._GeodesicLineExact._comg1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_comg1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.__init__	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#__init__
-pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
+pygeodesy.geodesicx.gxline._GeodesicLineExact.azi1_sincos2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#azi1_sincos2
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.geodesicx.gxline._GeodesicLineExact.equatorazimuth	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#equatorazimuth
 pygeodesy.geodesicx.gxline._GeodesicLineExact.a1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#a1
 pygeodesy.geodesicx.gxline._GeodesicLineExact._a13	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_a13
-pygeodesy.geodesicx.gxline._GeodesicLineExact._D0_k2	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_D0_k2
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.geodesicx.gxline._GeodesicLineExact._calp1	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#_calp1
 pygeodesy.geodesicx.gxline._GeodesicLineExact.ArcPosition	pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition
@@ -12250,7 +12245,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -12261,7 +12256,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -12410,7 +12404,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -12421,7 +12415,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -12873,7 +12866,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -12884,7 +12877,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -14667,7 +14659,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -14678,7 +14670,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -14690,8 +14681,10 @@ pygeodesy.karney.Direct9Tuple._Units_	pygeodesy.karney.Direct9Tuple-class.html#_
 pygeodesy.karney.GDict	pygeodesy.karney.GDict-class.html
 pygeodesy.karney.GDict.toGeodSolve12Tuple	pygeodesy.karney.GDict-class.html#toGeodSolve12Tuple
 pygeodesy.karney.GDict._toTuple	pygeodesy.karney.GDict-class.html#_toTuple
-pygeodesy.karney.GDict.toDirect9Tuple	pygeodesy.karney.GDict-class.html#toDirect9Tuple
 pygeodesy.karney.GDict.toInverse10Tuple	pygeodesy.karney.GDict-class.html#toInverse10Tuple
+pygeodesy.karney.GDict.toDirect9Tuple	pygeodesy.karney.GDict-class.html#toDirect9Tuple
+pygeodesy.karney.GDict._iteration	pygeodesy.karney.GDict-class.html#_iteration
+pygeodesy.karney.GDict.iteration	pygeodesy.karney.GDict-class.html#iteration
 pygeodesy.karney.GeodSolve12Tuple	pygeodesy.karney.GeodSolve12Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
@@ -14716,7 +14709,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -14727,7 +14720,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -14761,7 +14753,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -14773,7 +14765,6 @@ pygeodesy.karney.Inverse10Tuple.toGDict	pygeodesy.karney.Inverse10Tuple-class.ht
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -15263,7 +15254,6 @@ pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -15328,7 +15318,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.ltpTuples.Attitude4Tuple.tyr3d	pygeodesy.ltpTuples.Attitude4Tuple-class.html#tyr3d
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
@@ -15340,7 +15330,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -15503,7 +15492,6 @@ pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -15566,7 +15554,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -15577,7 +15565,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -15601,7 +15588,6 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.ltpTuples.Local9Tuple.east	pygeodesy.ltpTuples.Local9Tuple-class.html#east
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
 pygeodesy.ltpTuples.Local9Tuple.elevation	pygeodesy.ltpTuples.Local9Tuple-class.html#elevation
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.ltpTuples.Local9Tuple.toXyz	pygeodesy.ltpTuples.Local9Tuple-class.html#toXyz
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
@@ -15735,7 +15721,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -15746,7 +15732,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -15762,7 +15747,6 @@ pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -15809,7 +15793,6 @@ pygeodesy.ltpTuples.Xyz4Tuple._toXyz	pygeodesy.ltpTuples.Xyz4Tuple-class.html#_t
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
@@ -16073,7 +16056,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16084,7 +16067,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16118,7 +16100,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16129,7 +16111,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16291,7 +16272,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
@@ -16302,7 +16283,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16335,7 +16315,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16346,7 +16326,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16379,7 +16358,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16390,7 +16369,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16414,7 +16392,7 @@ pygeodesy.named._NamedTuple.__getattr__	pygeodesy.named._NamedTuple-class.html#_
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.namedTuples.Bounds4Tuple._Names_	pygeodesy.namedTuples.Bounds4Tuple-class.html#_Names_
 pygeodesy.named._NamedTuple.__setattr__	pygeodesy.named._NamedTuple-class.html#__setattr__
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._NamedTuple.__new__	pygeodesy.named._NamedTuple-class.html#__new__
 pygeodesy.named._NamedTuple._validated	pygeodesy.named._NamedTuple-class.html#_validated
 pygeodesy.namedTuples.Bounds4Tuple.overlap	pygeodesy.namedTuples.Bounds4Tuple-class.html#overlap
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
@@ -16424,7 +16402,7 @@ pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
 pygeodesy.namedTuples.Bounds4Tuple.enclosures	pygeodesy.namedTuples.Bounds4Tuple-class.html#enclosures
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16432,7 +16410,6 @@ pygeodesy.named._NamedTuple.iterunits	pygeodesy.named._NamedTuple-class.html#ite
 pygeodesy.named._NamedTuple.iteritems	pygeodesy.named._NamedTuple-class.html#iteritems
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
-pygeodesy.named._NamedTuple.__new__	pygeodesy.named._NamedTuple-class.html#__new__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
@@ -16469,7 +16446,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16480,7 +16457,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16513,7 +16489,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16524,7 +16500,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16557,7 +16532,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16568,7 +16543,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16601,7 +16575,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16612,7 +16586,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16645,7 +16618,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16656,7 +16629,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16689,7 +16661,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16700,7 +16672,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16733,7 +16704,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16744,7 +16715,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16777,7 +16747,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16788,7 +16758,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16801,7 +16770,6 @@ pygeodesy.namedTuples.LatLon2Tuple	pygeodesy.namedTuples.LatLon2Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
-pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
@@ -16823,7 +16791,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16834,7 +16802,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16847,7 +16815,6 @@ pygeodesy.namedTuples.LatLon3Tuple	pygeodesy.namedTuples.LatLon3Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
-pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
@@ -16868,7 +16835,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16879,7 +16846,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16912,7 +16879,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16923,7 +16890,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -16956,7 +16922,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -16967,7 +16933,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17000,7 +16965,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17011,7 +16976,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17044,7 +17008,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17056,7 +17020,6 @@ pygeodesy.namedTuples.LatLonPrec3Tuple.to5Tuple	pygeodesy.namedTuples.LatLonPrec
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17089,7 +17052,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17100,7 +17063,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17133,7 +17095,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17144,7 +17106,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17177,7 +17138,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17188,7 +17149,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17221,7 +17181,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17232,7 +17192,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17265,7 +17224,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17276,7 +17235,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17309,7 +17267,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17320,7 +17278,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17333,7 +17290,6 @@ pygeodesy.namedTuples.PhiLam2Tuple	pygeodesy.namedTuples.PhiLam2Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
-pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
@@ -17355,7 +17311,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17366,7 +17322,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17379,7 +17335,6 @@ pygeodesy.namedTuples.PhiLam3Tuple	pygeodesy.namedTuples.PhiLam3Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
-pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
@@ -17400,7 +17355,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17411,7 +17366,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17444,7 +17399,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17455,7 +17410,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17488,7 +17442,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17499,7 +17453,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17532,7 +17485,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17543,7 +17496,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17576,7 +17528,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17587,7 +17539,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17620,7 +17571,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17631,7 +17582,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17664,7 +17614,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17675,7 +17625,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17708,7 +17657,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17719,7 +17668,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17752,7 +17700,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17763,7 +17711,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17796,7 +17743,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17807,7 +17754,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17840,7 +17786,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17851,7 +17797,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17885,7 +17830,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17896,7 +17841,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17909,7 +17853,6 @@ pygeodesy.namedTuples.Vector3Tuple	pygeodesy.namedTuples.Vector3Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
-pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.named._NamedTuple._validate	pygeodesy.named._NamedTuple-class.html#_validate
 pygeodesy.namedTuples.Vector3Tuple.xyz	pygeodesy.namedTuples.Vector3Tuple-class.html#xyz
@@ -17931,7 +17874,7 @@ pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17942,7 +17885,7 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
+pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -17977,7 +17920,7 @@ pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple.__str__	pygeodesy.named._NamedTuple-class.html#__str__
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -17988,7 +17931,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18455,7 +18397,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18466,7 +18408,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18634,7 +18575,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18645,7 +18586,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18679,7 +18619,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18690,7 +18630,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18723,7 +18662,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18734,7 +18673,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18767,7 +18705,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18778,7 +18716,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18811,7 +18748,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18822,7 +18759,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -18855,7 +18791,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -18866,7 +18802,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -19994,7 +19929,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -20005,7 +19940,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21667,7 +21601,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21678,7 +21612,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21711,7 +21644,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21722,7 +21655,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21755,7 +21687,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21766,7 +21698,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21799,7 +21730,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21810,7 +21741,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21843,7 +21773,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21854,7 +21784,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -21887,7 +21816,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -21898,7 +21827,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
@@ -22165,7 +22093,7 @@ pygeodesy.named._NamedTuple._xtend	pygeodesy.named._NamedTuple-class.html#_xtend
 pygeodesy.named._NamedTuple.dup	pygeodesy.named._NamedTuple-class.html#dup
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
-pygeodesy.named._NamedTuple.__getitem__	pygeodesy.named._NamedTuple-class.html#__getitem__
+pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.toStr	pygeodesy.named._NamedTuple-class.html#toStr
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._NamedTuple.units	pygeodesy.named._NamedTuple-class.html#units
@@ -22176,7 +22104,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
-pygeodesy.named._NamedTuple._iteration	pygeodesy.named._NamedTuple-class.html#_iteration
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.iteration	pygeodesy.named._NamedTuple-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name

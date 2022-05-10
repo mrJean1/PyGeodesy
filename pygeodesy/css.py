@@ -8,8 +8,8 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import neg, _umod_360, \
-                             _xinstanceof, _xsubclassof
+from pygeodesy.basics import istuplist, neg, _umod_360, _xinstanceof, \
+                            _xsubclassof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
@@ -18,8 +18,8 @@ from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _northing_, _reciprocal_, _SPACE_, \
                              _0_0, _0_5, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
-from pygeodesy.karney import _atan2d, _copysign, _diff182, \
-                             _norm2, _norm180, _sincos2d
+from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
+                             _norm180, _signBit, _sincos2d
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
@@ -31,7 +31,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.05.03'
+__version__ = '22.05.09'
 
 
 def _CS0(cs0):
@@ -195,7 +195,7 @@ class CassiniSoldner(_NamedBase):
             z = _diff182(z1, z2)[0] * _0_5  # _2sum
             c = _copysign(_90_0, 90 - D)  # -90 if D > 90 else 90
             z1, z2 = c - z, c + z
-        if d < 0:
+        if _signBit(d):
             a, e, z2 = neg(a), neg(e), z1
 
         z = _norm180(z2)  # azimuth of easting direction
@@ -276,7 +276,7 @@ class CassiniSoldner(_NamedBase):
            @raise CSSError: Invalid B{C{latlon0}} or ellipsoid mismatch
                             of B{C{latlon0}} and this projection.
         '''
-        if type(latlon0) in (tuple, list) and len(latlon0) > 1:
+        if istuplist(latlon0, 2):
             lat0, lon0 = latlon0[:2]
         else:
             try:
@@ -315,12 +315,13 @@ class CassiniSoldner(_NamedBase):
         s, c = _sincos2d(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
         self._sb0, self._cb0 = _norm2(s * g.f1, c)
 
-    def reverse(self, easting, northing, LatLon=None, **LatLon_kwds):
+    def reverse(self, easting, northing, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
            lat- and longitude.
 
            @arg easting: Easting of the location (C{meter}).
            @arg northing: Northing of the location (C{meter}).
+           @kwarg name: Name inlieu of this projection's name (C{str}).
            @kwarg LatLon: Optional, ellipsoidal class to return the
                           geodetic location as (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional (C{LatLon}) keyword arguments,
@@ -333,16 +334,16 @@ class CassiniSoldner(_NamedBase):
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
 
-           @see: Method L{CassiniSoldner.reverse4}, L{CassiniSoldner.forward}
-                 and L{CassiniSoldner.forward4}.
+           @see: Method L{CassiniSoldner.reverse4}, L{CassiniSoldner.forward}.
+                 L{CassiniSoldner.forward4} and L{CassiniSoldner.forward6}.
         '''
-        r = self.reverse4(easting, northing)
+        r = self.reverse4(easting, northing, name=name)
         if LatLon is None:
-            r = LatLon2Tuple(r.lat, r.lon, name=self.name)  # PYCHOK expected
+            r = LatLon2Tuple(r.lat, r.lon, name=r.name)  # PYCHOK expected
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
-            kwds = _xkwds(LatLon_kwds, datum=self.datum)
-            r = self._xnamed(LatLon(r.lat, r.lon, **kwds))  # PYCHOK expected
+            kwds = _xkwds(LatLon_kwds, datum=self.datum, name=r.name)
+            r = LatLon(r.lat, r.lon, **kwds)  # PYCHOK expected
             self._datumatch(r)
         return r
 
@@ -363,8 +364,8 @@ class CassiniSoldner(_NamedBase):
         n =  self._meridian.Position(northing)
         r =  g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
         z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
-        # include azimuth of easting direction and reciprocal of
-        # azimuthal northing scale (see C++ member Direct() 5/6
+        # include z azimuth of easting direction and rk reciprocal
+        # of azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
         return LatLonAziRk4Tuple(r.lat2, r.lon2, z, r.M12, name=name or self.name)
 

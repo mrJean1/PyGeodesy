@@ -9,9 +9,9 @@ of class L{GeodesicExact} or of I{wrapped} class C{Geodesic}
 I{Karney}'s Python U{geographiclib
 <https://GeographicLib.SourceForge.io/1.52/python/index.html>}
 
-Copyright (C) Charles Karney (2012-2021) <Charles@Karney.com>
-and licensed under the MIT/X11 License.  For more information,
-see U{GeographicLib<https://GeographicLib.SourceForge.io>}.
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
+and licensed under the MIT/X11 License.  For more information, see the
+U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -28,7 +28,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.04.22'
+__version__ = '22.05.09'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -81,8 +81,8 @@ class GeodesicAreaExact(_NamedBase):
         if not polyline:  # perimeter and area
             self._mask |=  g.AREA | g.LONG_UNROLL
             self._Area  = _Accumulator(name='_Area')
-        if g.debug:  # inherit debug as verbosity
-            self.verbose = True
+        if g.debug:  # PYCHOK no cover
+            self.verbose = True  # debug as verbosity
         if name:
             self.name = name
 
@@ -406,7 +406,7 @@ class GeodesicAreaExact(_NamedBase):
         return self._verbose
 
     @verbose.setter  # PYCHOK setter!
-    def verbose(self, verbose):
+    def verbose(self, verbose):  # PYCHOK no cover
         '''Set the C{verbose} option.
 
           @arg verbose: Print a message after each

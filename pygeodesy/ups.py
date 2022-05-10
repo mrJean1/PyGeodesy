@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.04.22'
+__version__ = '22.05.09'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -241,8 +241,8 @@ class Ups(UtmUpsBase):
         x, y = self.eastingnorthing2(falsed=not unfalse)
 
         r = hypot(x, y)
-        t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else EPS0
-        t = E.es_tauf((1 / t - t) * _0_5)
+        t = (r * E.es_c / (self.scale0 * E.a * _2_0)) if r > 0 else EPS0
+        t = E.es_tauf((_1_0 / t - t) * _0_5)
         a = atan(t)
         if self._pole == _N_:
             b, c = atan2(x, -y), 1
@@ -449,11 +449,11 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     t = tan(radians(a))
     T = E.es_taupf(t)
     r = hypot1(T) + abs(T)
-    if T >= _0_0:
+    if T >=  0:
         r = _0_0 if A else _1_0 / r
 
     k0 = getattr(Ups, '_scale0', _K0_UPS)  # Ups is class or None
-    r *= 2 * k0 * E.a / E.es_c
+    r *= k0 * E.a * _2_0 / E.es_c
 
     k = k0 if A else _scale(E, r, t)
     c = lon  # [-180, 180) from .upsZoneBand5

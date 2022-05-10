@@ -5,11 +5,11 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.03.02'
+__version__ = '22.04.07'
 
 from base import GeodSolve, geographiclib, isPython2, TestsBase
 
-from pygeodesy import classname, Ellipsoid, GeodesicLineExact, map2, NN
+from pygeodesy import classname, Ellipsoid, GDict, GeodesicLineExact, map2, NN
 from pygeodesy.interns import DIG, _DOT_
 
 _G = '%%.%sg' % (DIG,)
@@ -38,31 +38,35 @@ class Tests(TestsBase):
             if x is not None:
                 k = (abs(v - x) / (x or 1)) < e  # rel error
                 self.test(_DOT_(name, n), v, x, fmt=_G, known=k, nl=nl)
-            nl = 0
+                nl = 0
 
-    def testDirect(self, E):
+    def testDirect(self, E, debug=False):
         self.subtitle(geodesicx, 'DirectX vs ...')
         # GeographicLib.GeodesicExact example, results from GeoSolve Direct
-        rCpp = dict(lat1=40.6, lon1=-73.799999999999997, azi1=51.0,
-                    lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886,
-                    s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486,
-                    M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094)
+        rCpp = GDict(lat1=40.6, lon1=-73.799999999999997, azi1=51.0,
+                     lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886,
+                     s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486,
+                     M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094)
 
         gX = E.geodesicx
+        gX.debug = debug
         rX = gX.Direct(40.6, -73.8, 51, 5.5e6, gX.ALL)
-        self.testDiffs('C++', rX, rCpp, 0)
+        self.testDiffs('C++X', rX, rCpp, 0)
+        self.test('iteration', rX.iteration, rX.iteration)
         gs = gX,
 
         if geographiclib:
             gP = E.geodesic
             rP = gP.Direct(40.6, -73.8, 51, 5.5e6, gP.ALL)
             self.testDiffs('Python', rX, rP, 1)
+            self.test('iteration', rP.iteration, rP.iteration)
             gs += gP,
 
         if GeodSolve:
             gS = E.geodsolve
             rS = gS.Direct(40.6, -73.8, 51, 5.5e6, gS.ALL)
             self.testDiffs('GeodSolve', rX, rS, 1)
+            self.test('iteration', rS.iteration, rS.iteration)
             gs += gS,
 
             # extreme ob- and prolate
@@ -96,59 +100,67 @@ class Tests(TestsBase):
             self.test(n, t.toGDict(), r, known=True)
 
         t = gX.ArcDirect(40.6, -73.8, 51, 49.8)  # coverage
-        self.testDiffs(gX.ArcDirect.__name__, t, dict(lat1=40.6, lon1=-73.8,
-                                                      lat2=51.7876867, lon2=-0.641731,
-                                                      azi1=51.0, azi2=107.5820825,
-                                                      a12=49.8, s12=5536073.734393), 1, e=1e-7)
+        self.testDiffs(gX.ArcDirect.__name__, t, GDict(lat1=40.6, lon1=-73.8,
+                                                       lat2=51.7876867, lon2=-0.641731,
+                                                       azi1=51.0, azi2=107.5820825,
+                                                       a12=49.8, s12=5536073.734393), 1, e=1e-7)
+        self.test('iteration', t.iteration, t.iteration)
 
-        t = str(gX.ArcDirectLine(40.6, -73.8, 51, 49.8, gX.STANDARD))  # coverage
-        self.test(gX.ArcDirectLine.__name__, t, t, nl=1)
+        t = gX.ArcDirectLine(40.6, -73.8, 51, 49.8, gX.STANDARD)  # coverage
+        s = str(t)
+        self.test(gX.ArcDirectLine.__name__, s, s, nl=1)
+        self.test('iteration', t.iteration, t.iteration)
 
         t = GeodesicLineExact(gX, 40.6, -73.8, 51, caps=gX.ALL, name='Test')  # coverage
         self.test(GeodesicLineExact.__name__, t, gX.Line(40.6, -73.8, 51), nl=1)
+        self.test('iteration', t.iteration, t.iteration)
 
-    def testInverse(self, E):
+    def testInverse(self, E, debug=False):
         self.subtitle(geodesicx, 'InverseX vs ...')
         # GeographicLib.GeodesicExact example, results from instrumented GeoSolve Inverse
-        rCpp = dict(a=6378137, f=3.35281066474748e-03,
-                    e=8.181919084262149e-02, e2=6.694379990141316e-03,
-                    ep2=6.739496742276434e-03, f1=9.966471893352525e-01,
-                    c2x=4.058973249931476e+13, c2=4.058973249931476e+13,
-                    sig12=8.716402960622249e-01,
-                    slam12=9.578224948453149e-01, clam12=2.873605198497121e-01,
-                    sbet1=-7.82676535388952e-01, cbet1=6.224286633434762e-01,
-                    sbet2=-6.49513671781464e-01, cbet2=7.603499129801756e-01,
-                    ssig1=-9.716339593508425e-01, csig1=-2.364898497530187e-01, dn1=1.002062122905103,
-                    ssig2=-8.063222953935967e-01, csig2=5.914764204524144e-01, dn2=1.001420580015174,
-                    salp1=7.793257472478793e-01, calp1=6.266190067948263e-01,
-                    salp2=9.520131366060522e-01, calp2=-3.060571641532119e-01,
-                    somg12=9.583181997903982e-01, comg12=2.857030415492466e-01,
-                    A4=1.299900770381802e+11, B41=-1.574868160309433e-01, B42=3.939014756725822e-01,
-                    k2=4.373072977143198e-03, alp12=-9.882559303867356e-01,
-                    v=3.919390853535099e-17, dv=1.605102632009351,
-                    iter=3, eFk2=-4.373072977143198e-03, eFa2=-6.739496742276434e-03,
-                    eFcD=7.841136961631642e-01, eFcE=1.572512222993233e+00, eFcH=7.836521215162365e-01,
-                    lat1=40.6, lon1=-73.799999999999997, azi1=51.198882845579824,
-                    lat2=51.6, lon2=-0.5, azi2=107.821776735514248,
-                    s12=5551759.4003186841, a12=49.941310217899037,
-                    m12=4877684.6027061976, M12=0.64472969205948238,
-                    M21=0.64504567852134398, S12=40041368848742.531)
+        rCpp = GDict(a=6378137, f=3.35281066474748e-03,
+                     e=8.181919084262149e-02, e2=6.694379990141316e-03,
+                     ep2=6.739496742276434e-03, f1=9.966471893352525e-01,
+                     c2x=4.058973249931476e+13, c2=4.058973249931476e+13,
+                     sig12=8.716402960622249e-01,
+                     slam12=9.578224948453149e-01, clam12=2.873605198497121e-01,
+                     sbet1=-7.82676535388952e-01, cbet1=6.224286633434762e-01,
+                     sbet2=-6.49513671781464e-01, cbet2=7.603499129801756e-01,
+                     ssig1=-9.716339593508425e-01, csig1=-2.364898497530187e-01, dn1=1.002062122905103,
+                     ssig2=-8.063222953935967e-01, csig2=5.914764204524144e-01, dn2=1.001420580015174,
+                     salp1=7.793257472478793e-01, calp1=6.266190067948263e-01,
+                     salp2=9.520131366060522e-01, calp2=-3.060571641532119e-01,
+                     somg12=9.583181997903982e-01, comg12=2.857030415492466e-01,
+                     A4=1.299900770381802e+11, B41=-1.574868160309433e-01, B42=3.939014756725822e-01,
+                     k2=4.373072977143198e-03, alp12=-9.882559303867356e-01,
+                     v=3.919390853535099e-17, dv=1.605102632009351,
+                     iter=3, eFk2=-4.373072977143198e-03, eFa2=-6.739496742276434e-03,
+                     eFcD=7.841136961631642e-01, eFcE=1.572512222993233e+00, eFcH=7.836521215162365e-01,
+                     lat1=40.6, lon1=-73.799999999999997, azi1=51.198882845579824,
+                     lat2=51.6, lon2=-0.5, azi2=107.821776735514248,
+                     s12=5551759.4003186841, a12=49.941310217899037,
+                     m12=4877684.6027061976, M12=0.64472969205948238,
+                     M21=0.64504567852134398, S12=40041368848742.531)
 
         gX = E.geodesicx
+        gX.debug = debug
         rX = gX.Inverse(40.6, -73.8, 51.6, -0.5, gX.ALL)
-        self.testDiffs('C++', rX, rCpp, 0)
+        self.testDiffs('C++X', rX, rCpp, 0)
+        self.test('iteration', rX.iteration, rX.iteration)
         gs = gX,
 
         if geographiclib:
             gP = E.geodesic
             rP = gP.Inverse(40.6, -73.8, 51.6, -0.5, gP.ALL)
             self.testDiffs('Python', rX, rP, 1)
+            self.test('iteration', rP.iteration, rP.iteration)
             gs += gP,
 
         if GeodSolve:
             gS = E.geodsolve
             rS = gS.Inverse(40.6, -73.8, 51.6, -0.5, gS.ALL)
             self.testDiffs('GeodSolve', rX, rS, 1)
+            self.test('iteration', rS.iteration, rS.iteration)
             gs += gS,
             # extreme ob- and prolate
             for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e12 AssertionError
@@ -220,14 +232,17 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     from pygeodesy import Ellipsoids, geodesicx, geodsolve, karney
+    from sys import argv
+
+    _debug = '-d' in argv or '--debug' in argv
 
     t = Tests(__file__, __version__, geodesicx)
 
     E = Ellipsoids.WGS84
 
-    t.testDirect(E)
+    t.testDirect(E, debug=_debug)
 
-    t.testInverse(E)
+    t.testInverse(E, debug=_debug)
 
     t.testPolygon(geodesicx, E.geodesicx, nC4=24)
     t.testPolygon(geodesicx, E.geodesicx, nC4=27)

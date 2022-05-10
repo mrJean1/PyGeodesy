@@ -760,7 +760,7 @@ class FIx(Float_):
             f = Float_.__new__(cls, i, low=_0_0)
         elif r > EPS1:
             f = Float_.__new__(cls, i + 1, high=n, **name_Error)
-        if n:
+        if n:  # non-zero and non-None
             f._fin = n
         return f
 

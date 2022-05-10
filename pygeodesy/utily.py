@@ -13,19 +13,15 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0
 from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
                              _edge_, _radians_, _semi_circular_, _SPACE_, \
-                             _0_0, _0_5, _1_0, _N_1_0, _90_0, _N_90_0, \
-                             _180_0, _N_180_0, _360_0, _400_0
+                             _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, _90_0, \
+                             _N_90_0, _180_0, _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.05.04'
-
-# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1__90 = _1_0 / _90_0  # 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI = _1_0 /  PI_2  # 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+__version__ = '22.05.06'
 
 # constants named as "_M_UNIT" meaning "meter per unit"
 _M_CHAIN     =   20.1168  # yard2m(1) * 22

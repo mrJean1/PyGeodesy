@@ -123,15 +123,15 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'iscomplex', 'isfinite', 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
                                  'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd', 'isscalar',
-                                 'issequence', 'isstr', 'issubclassof',
+                                 'issequence', 'isstr', 'issubclassof', 'istuplist',
                                  'len2', 'map1', 'map2', 'neg', 'neg_', 'remainder',
-                                 'signOf', 'splice', 'ub2str', 'unsigned0'),
+                                 'signBit', 'signOf', 'splice', 'ub2str', 'unsigned0'),
                    cartesianBase=(),  # module only
                            clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
-                                 'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple', 'EasNorAziRkEqu6Tuple'),
+                                 'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
@@ -354,7 +354,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.05.04'
+__version__ = '22.05.09'
 
 
 def _ALL_OTHER(*objs):

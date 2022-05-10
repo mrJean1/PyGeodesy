@@ -21,7 +21,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '22.01.17'
+__version__ = '22.05.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -108,6 +108,10 @@ def areaOf(points, datum=_WGS84, wrap=True):
        @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalGeodSolve.areaOf},
              L{ellipsoidalKarney.areaOf}, L{sphericalNvector.areaOf} and
              L{sphericalTrigonometry.areaOf}.
+
+       @note: The U{area of a polygon enclosing a pole<https://GeographicLib.SourceForge.io/
+              C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}
+              can be found by adding half the datum's ellipsoid surface area to the polygon's area.
     '''
     return abs(_polygon(datum.ellipsoid.geodesicx, points, True, False, wrap))
 

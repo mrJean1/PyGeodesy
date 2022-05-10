@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.04.28'
+__version__ = '22.05.08'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1195,8 +1195,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
               ill-suited for regions exceeding several hundred Km
               or Miles or with near-polar latitudes.
 
-       @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf}
-             and L{ellipsoidalKarney.areaOf}.
+       @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf},
+             L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
     '''
     a, _ = _area2(points, adjust, wrap)
     return abs(a) if radius is None else (abs(a) * Radius(radius)**2)

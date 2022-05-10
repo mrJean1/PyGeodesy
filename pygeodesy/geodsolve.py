@@ -11,8 +11,8 @@ of the C{GeodSolve} executable.
 
 from pygeodesy.basics import map2, ub2str, _xinstanceof
 from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _GeodesicBase
-from pygeodesy.interns import DIG, NN, _0_, _COMMASPACE_, _EQUAL_, \
-                             _SLASH_, _SPACE_
+from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, \
+                             _EQUAL_, _SPACE_
 from pygeodesy.interns import _not_  # PYCHOK used!
 from pygeodesy.karney import callername, _ellipsoid, _EWGS84, GDict, \
                              GeodesicError, GeodSolve12Tuple
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.05.04'
+__version__ = '22.05.08'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -42,7 +42,7 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
     '''(INTERNAL) Cmd line, stdin and caller as sC{str}.
     '''
     c = Fmt.PAREN(callername(up=3))
-    t = (c,) if stdin is None else (_SLASH_, str(stdin), c)
+    t = (c,) if stdin is None else (_BACKSLASH_, str(stdin), c)
     return _SPACE_.join(cmd + t)
 
 
@@ -137,7 +137,8 @@ class _GeodesicSolveBase(_GeodesicBase):
             self._print(_COMMASPACE_.join(map(Fmt.EQUAL, n, map(fstrzs, v))))
         if floats:
             v = map(float, v)
-        return GDict(zip(n, v))
+        r = GDict(zip(n, v))
+        return self._iter2tion(r, r)
 
     @Property
     def GeodSolve(self):
@@ -410,8 +411,9 @@ class GeodesicSolve(_GeodesicSolveBase):
 
            @return: L{Destination3Tuple}C{(lat, lon, final)}.
         '''
-        d = self._GDictInvoke(self._cmdDirect, False, lat1, lon1, azi1, s12)
-        return Destination3Tuple(float(d.lat2), float(d.lon2), wrap360(d.azi2))
+        r = self._GDictInvoke(self._cmdDirect, False, lat1, lon1, azi1, s12)
+        return Destination3Tuple(float(r.lat2), float(r.lon2), wrap360(r.azi2),
+                                 iteration=r._iteration)  # None, always
 
     def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, *unused):  # for .geodesicx.gxarea
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
@@ -437,9 +439,9 @@ class GeodesicSolve(_GeodesicSolveBase):
         # see .FrechetKarney.distance, .HausdorffKarney._distance
         # and .HeightIDWkarney._distances
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
-        d = self._GDictInvoke(self._cmdInverse, False, lat1, lon1, lat2, lon2)
+        r = self._GDictInvoke(self._cmdInverse, False, lat1, lon1, lat2, lon2)
         # XXX self.DISTANCE needed for 'a12'?
-        return abs(float(d.a12))
+        return abs(float(r.a12))
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
         '''Return the distance in C{meter} and the forward and
@@ -447,8 +449,9 @@ class GeodesicSolve(_GeodesicSolveBase):
 
            @return: L{Distance3Tuple}C{(distance, initial, final)}.
         '''
-        d = self._GDictInvoke(self._cmdInverse, False, lat1, lon1, lat2, lon2)
-        return Distance3Tuple(float(d.s12), wrap360(d.azi1), wrap360(d.azi2))
+        r = self._GDictInvoke(self._cmdInverse, False, lat1, lon1, lat2, lon2)
+        return Distance3Tuple(float(r.s12), wrap360(r.azi1), wrap360(r.azi2),
+                              iteration=r._iteration)
 
     def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
         '''Set up an L{GeodesicLineSolve} to compute several points
@@ -611,10 +614,14 @@ __all__ += _ALL_DOCS(_GeodesicSolveBase)
 
 if __name__ == '__main__':
 
+    from sys import argv
+
+    _verbose = '--verbose' in argv  # or '-v' in argv
+
     gS = GeodesicSolve(name='Test')
+    gS.verbose = _verbose
     if gS.GeodSolve in (_PYGEODESY_GEODSOLVE_, None):  # not set
         gS.GeodSolve = '/opt/local/Cellar/geographiclib/1.51/bin/GeodSolve'  # HomeBrew
-    # gS.verbose = True
     printf('version: %s', gS.version)
 
     r = gS.Direct(40.6, -73.8, 51, 5.5e6)
@@ -625,7 +632,7 @@ if __name__ == '__main__':
     printf('Inverse1: %r', gS.Inverse1(40.6, -73.8, 51.6, -0.5))  # 49.94131021789904
     printf('Inverse3: %r', gS.Inverse3(40.6, -73.8, 51.6, -0.5))  # Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
 
-    glS = GeodesicLineSolve(gS, 40.6, -73.8, 51)
+    glS = GeodesicLineSolve(gS, 40.6, -73.8, 51, name='LineTest')
     p = glS.Position(5.5e6)
     printf('Position:    %s  %r', p == r, p, nl=1)
     p = glS.ArcPosition(49.475527)
@@ -643,6 +650,41 @@ if __name__ == '__main__':
 # Inverse3: Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
 
 # Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
+# ArcPosition: False GDict(M12=0.650911, M21=0.651229, S12=39735074737272.734375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, s12=5499999.948497)
+
+
+# % python3 -m pygeodesy.geodsolve --verbose
+
+# GeodesicSolve 'Test' 1: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve --version (invoke)
+# GeodesicSolve 'Test' 1: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve: GeographicLib version 1.51 (0)
+# GeodesicSolve 'Test' 2: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve --version (invoke)
+# GeodesicSolve 'Test' 2: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve: GeographicLib version 1.51 (0)
+# version: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve: GeographicLib version 1.51
+# GeodesicSolve 'Test' 3: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct)
+# GeodesicSolve 'Test' 3: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886, s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486, M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094 (0)
+
+# Direct: GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
+# GeodesicSolve 'Test' 4: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct3)
+# GeodesicSolve 'Test' 4: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886, s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486, M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094 (0)
+# Direct3: Destination3Tuple(lat=51.884565, lon=-1.141173, final=107.189397)
+# GeodesicSolve 'Test' 5: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse)
+# GeodesicSolve 'Test' 5: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
+
+# Inverse: GDict(M12=0.64473, M21=0.645046, S12=40041368848742.53125, a12=49.94131, azi1=51.198883, azi2=107.821777, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, m12=4877684.602706, s12=5551759.400319)
+# GeodesicSolve 'Test' 6: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
+# GeodesicSolve 'Test' 6: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
+# Inverse1: 49.94131021789904
+# GeodesicSolve 'Test' 7: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
+# GeodesicSolve 'Test' 7: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.198882845579824, lat2=51.600000000000001, lon2=-0.5, azi2=107.821776735514248, s12=5551759.4003186841, a12=49.941310217899037, m12=4877684.6027061976, M12=0.64472969205948238, M21=0.64504567852134398, S12=40041368848742.531 (0)
+# Inverse3: Distance3Tuple(distance=5551759.400319, initial=51.198883, final=107.821777)
+# GeodesicLineSolve 'LineTest' 1: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve --version (invoke)
+# GeodesicLineSolve 'LineTest' 1: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve: GeographicLib version 1.51 (0)
+# GeodesicLineSolve 'LineTest' 2: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f -L 40.600000000000001 -73.799999999999997 51 \ 5500000.0 (Position)
+# GeodesicLineSolve 'LineTest' 2: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564505606761, lon2=-1.141172861200829, azi2=107.189397162605886, s12=5500000.0, a12=49.475527463251467, m12=4844148.703101486, M12=0.65091056699808603, M21=0.65122865892196558, S12=39735075134877.094 (0)
+
+# Position:    True  GDict(M12=0.650911, M21=0.651229, S12=39735075134877.09375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141173, m12=4844148.703101, s12=5500000.0)
+# GeodesicLineSolve 'LineTest' 3: /opt/local/Cellar/geographiclib/1.51/bin/GeodSolve -E -p 10 -f -L 40.600000000000001 -73.799999999999997 51 -a \ 49.475527 (ArcPosition)
+# GeodesicLineSolve 'LineTest' 3: lat1=40.600000000000001, lon1=-73.799999999999997, azi1=51.0, lat2=51.884564642403383, lon2=-1.141173575785132, azi2=107.189396600393266, s12=5499999.9484971622, a12=49.475527, m12=4844148.6695613619, M12=0.6509105731232524, M21=0.65122866504506427, S12=39735074737272.734 (0)
 # ArcPosition: False GDict(M12=0.650911, M21=0.651229, S12=39735074737272.734375, a12=49.475527, azi1=51.0, azi2=107.189397, lat1=40.6, lat2=51.884565, lon1=-73.8, lon2=-1.141174, m12=4844148.669561, s12=5499999.948497)
 
 # **) MIT License

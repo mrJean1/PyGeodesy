@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.04.27'
+__version__ =  '22.05.09'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -363,6 +363,59 @@ def _deprecated_module(name):  # PYCHOK no cover
     '''
     if _W_DEV:
         _throwarning('module', name, _dont_use_)
+
+
+if _W_DEV:
+    class deprecated_property(_PropertyBase):
+        '''Decorator for a DEPRECATED C{property} or C{Property}.
+        '''
+        def __init__(self, method):
+            '''Decorator for a DEPRECATED C{property} or C{Property} getter.
+            '''
+            doc = _docof(method)
+
+            def _fget(inst):  # PYCHOK no cover
+                '''Get the C{property} or C{Property} value.
+                '''
+                q = _qualified(inst, self.name)
+                _throwarning(property.__name__, q, doc)
+                return self.method(inst)  # == method
+
+            _PropertyBase.__init__(self, method, _fget, None, doc=doc)
+
+        def setter(self, method):
+            '''Decorator for a DEPRECATED C{property} or C{Property} setter.
+
+               @arg method: The callable being decorated as this C{Property}'s C{setter}.
+
+               @note: Setting a new property value always clears the previously I{cached}
+                      or I{memoized} value I{after} invoking the B{C{method}}.
+            '''
+            if not callable(method):
+                _PropertyBase.setter(self, method)  # PYCHOK no cover
+
+            if _FOR_DOCS:  # XXX force method.__doc__ into epydoc
+                _PropertyBase.__init__(self, self.method, self.method, method)
+            else:
+
+                def _fset(inst, val):
+                    '''Set the C{property} or C{Property} value.
+                    '''
+                    q = _qualified(inst, self.name)
+                    _throwarning(property.__name__, q, _docof(method))
+                    method(inst, val)
+                    # self._update(inst)  # un-cache this item
+
+                # class Property <https://docs.Python.org/3/howto/descriptor.html>
+                _PropertyBase.__init__(self, self.method, self._fget, _fset)
+            return self
+else:
+    class deprecated_property(property):  # PYCHOK expected
+        '''Decorator for a DEPRECATED C{property} or C{Property}.
+        '''
+        pass
+
+deprecated_Property = deprecated_property
 
 
 def deprecated_Property_RO(method):

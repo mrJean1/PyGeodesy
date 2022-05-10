@@ -452,7 +452,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.05.05
+        22.05.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -7326,7 +7326,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd000186450&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f82f827aad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8269,6 +8269,24 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
         <span class="summary-sig-arg">*Supers</span>)</span><br />
       Check whether a class is a sub-class of some other class(es).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#istuplist" class="summary-sig-name">istuplist</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Check for tuple or list types and minumal length.</td>
           <td align="right" valign="top">
             
             
@@ -9991,6 +10009,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#signBit" class="summary-sig-name">signBit</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return <code>signbit(<b>x</b>)</code>, like C++.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#signOf" class="summary-sig-name">signOf</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Return sign of <code>x</code> as <code>int</code>.</td>
           <td align="right" valign="top">
@@ -11464,7 +11499,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.5.5'"><code class="variable-quote">'</code><code class="variable-string">22.5.5</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.5.11'"><code class="variable-quote">'</code><code class="variable-string">22.5.11</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12869,7 +12904,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <a href="pygeodesy.sphericalNvector-module.html#areaOf" 
         class="link">sphericalNvector.areaOf</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
-        class="link">sphericalTrigonometry.areaOf</a> and <a 
+        class="link">sphericalTrigonometry.areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalExact-module.html#areaOf" 
+        class="link">ellipsoidalExact.areaOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">ellipsoidalKarney.areaOf</a>.
       </p>
@@ -18764,7 +18801,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd000186450&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f82f827aad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20525,6 +20562,35 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>Sub</code></b> is not a class or if no 
           <b><code>Supers</code></b> are given or none of those are a 
           class.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="istuplist"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">istuplist</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">minum</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for tuple or list types and minumal length.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>minum</code></strong> - Minimal <code>len</code> required C({int}).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is 
+          <code>tuple</code> or <code>list</code> with <code>len</code> at 
+          least <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -24139,6 +24205,28 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="signBit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">signBit</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>signbit(<b>x</b>)</code>, like C++.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code><b>x</b> &lt; 0</code> or 
+          <code>NEG0</code> (<code>bool</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="signOf"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -27635,7 +27723,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  4 16:33:49 2022
+    Generated by Epydoc 3.0.1 on Tue May 10 13:16:35 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

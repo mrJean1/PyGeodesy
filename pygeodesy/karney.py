@@ -107,26 +107,27 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 '''
 
 from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, unsigned0, \
-                             _xgeographiclib, _xImportError, isodd  # PYCHOK shared
+                             _xgeographiclib, _xImportError, _xversion_info, \
+                              isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
 from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
                             hypot as _hypot  # PYCHOK shared
-from pygeodesy.errors import _AssertionError, _or, _ValueError, _xkwds  # PYCHOK shared
+# from pygeodesy.errors import _ValueError, _xkwds  # from .named
 from pygeodesy.interns import NAN, NN, _DOT_, _2_, _lat1_, _lat2_, _lon2_, \
                              _0_0, _1_0, _16_0, _180_0, _N_180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import callername, classname, _Dict, modulename, _NamedBase, \
-                           _NamedTuple, _Pass  # PYCHOK shared
+                           _NamedTuple, _Pass, _ValueError, _xkwds  # PYCHOK shared
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import Property, Property_RO
+from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
 from pygeodesy.utily import atan2d, sincos2d, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.05.04'
+__version__ = '22.05.09'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
@@ -182,6 +183,8 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
         r = GDict(zip(self._Names_, self))
         if updates:
             r.update(updates)
+        if self._iteration is not None:
+            r._iteration = self._iteration
         return r
 
 
@@ -195,13 +198,22 @@ class Direct9Tuple(_GTuple):
     _Units_ = (_Azi,  _Lat,   _Lon,   _Azi,   _M,    _Pass, _Pass, _Pass, _M2)
 
 
-class GDict(_Dict):
+class GDict(_Dict):  # XXX _NamedDict
     '''Basic C{dict} with both key I{and} attribute access
        to the C{dict} items.
 
        Results of all C{geodesic} methods are returned as a
        L{GDict} instance.
     '''
+    _iteration = None  # Iteration number (C{int}) or C{None}
+
+    @property_RO
+    def iteration(self):  # see .named._NamedBase
+        '''Get the iteration number (C{int}) or
+           C{None} if not available/applicable.
+        '''
+        return self._iteration
+
     def toDirect9Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 9-tuple, like I{Karney}'s
            method C{geographiclib.geodesic.Geodesic._GenDirect}.
@@ -239,7 +251,8 @@ class GDict(_Dict):
     def _toTuple(self, nTuple, dflt):
         '''(INTERNAL) Convert this C{GDict} to an B{C{nTuple}}.
         '''
-        return nTuple(getattr(self, n, dflt) for n in nTuple._Names_)  # *(getattr ...)
+        t = tuple(getattr(self, n, dflt) for n in nTuple._Names_)
+        return nTuple(t, iteration=self._iteration)
 
 
 class GeodesicError(_ValueError):
@@ -401,9 +414,9 @@ class _Wrapped(object):
                 # see .FrechetKarney.distance, .HausdorffKarney._distance
                 # and .HeightIDWkarney._distances
                 _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
-                d = self.Inverse(lat1, lon1, lat2, lon2)
+                r = self.Inverse(lat1, lon1, lat2, lon2)
                 # XXX self.DISTANCE needed for 'a12'?
-                return abs(d.a12)
+                return abs(r.a12)
 
             def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
                 '''Return the distance in C{meter} and the forward and
@@ -411,8 +424,8 @@ class _Wrapped(object):
 
                    @return: L{Distance3Tuple}C{(distance, initial, final)}.
                 '''
-                d = self.Inverse(lat1, lon1, lat2, lon2, _INVERSE3)
-                return Distance3Tuple(d.s12, wrap360(d.azi1), wrap360(d.azi2))
+                r = self.Inverse(lat1, lon1, lat2, lon2, _INVERSE3)
+                return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2))
 
             def Line(self, lat1, lon1, azi1, *caps):
                 '''Set up a L{GeodesicLine} to compute several points on a
@@ -523,11 +536,11 @@ class _Wrapped(object):
         try:
             g = self.geographiclib
             M = g.Math
-            if g.__version_info__ < (2,):
+            if _xversion_info(g) < (2,):
                 if _K_2_0:
                     M = None
-#           elif not _K_2_0:  # XXX 2.0?
-#               _K_2_0 = False
+#           elif not _K_2_0:  # XXX set 2.0?
+#               _K_2_0 = True
         except (AttributeError, ImportError):
             M = None
         return M
@@ -697,12 +710,19 @@ def _remainder(x, y):
 
 
 if _K_2_0:
+    from pygeodesy.basics import signBit as _signBit
     from math import cos as _cos, sin as _sin
 
     def _sincos2(rad):
         return _sin(rad), _cos(rad)
+
 else:
     from pygeodesy.utily import sincos2 as _sincos2  # PYCHOK shared
+
+    def _signBit(x):
+        '''(INTERNAL) GeographicLin 1.52-.
+        '''
+        return x < 0
 
 
 def _sincos2d(deg):
@@ -758,7 +778,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 def _sum2_(s, t, *vs):
     '''Accumulate any B{C{vs}} into a previous C{_sum2(s, t)}.
 
-       @return: 2-Tuple C{(B{s} + B{t} + B{vs}, residual)}.
+       @return: 2-Tuple C{(B{s} + B{t} + sum(B{vs}), residual)}.
 
        @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
              html/Accumulator_8hpp_source.html>} comments for more details and

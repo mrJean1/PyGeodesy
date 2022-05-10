@@ -22,7 +22,7 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.05.04'
+__version__ = '22.05.09'
 
 _below_       = 'below'
 _ELLIPSIS4_   = '....'
@@ -381,6 +381,18 @@ def issubclassof(Sub, *Supers):
     return None
 
 
+def istuplist(obj, minum=0):
+    '''Check for tuple or list types and minumal length.
+
+       @arg obj: The object (any C{type}).
+       @kwarg minum: Minimal C{len} required C({int}).
+
+       @return: C{True} if B{C{obj}} is C{tuple} or C{list} with
+                C{len} at least B{C{minum}}, C{False} otherwise.
+    '''
+    return type(obj) in (tuple, list) and len(obj) >= (minum or 0)
+
+
 def len2(items):
     '''Make built-in function L{len} work for generators, iterators,
        etc. since those can only be started exactly once.
@@ -458,6 +470,14 @@ except ImportError:  # Python 3.6-
             elif x >= h:
                 x -= y
         return x  # keep signed 0.0
+
+
+def signBit(x):
+    '''Return C{signbit(B{x})}, like C++.
+
+       @return: C{True} if C{B{x} < 0} or C{NEG0} (C{bool}).
+    '''
+    return x < 0 or isneg0(x)
 
 
 def _signOf(x, off):
@@ -673,18 +693,25 @@ def _xversion(package, where, *required, **name):  # in .karney
     '''
     n = len(required)
     if n:
-        try:
-            t = package.__version_info__
-        except AttributeError:
-            t = package.__version__.strip()
-            t = t.replace(_DOT_, _SPACE_).split()[:3]
-        t = map2(int, t)
+        t = _xversion_info(package)
         if t[:n] < required:
             t = _SPACE_(package.__name__, _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
                        _required_, _by_, _xwhere(where, **name))
             raise ImportError(t)
     return package
+
+
+def _xversion_info(package):  # in .karney
+    '''(INTERNAL) Get the C{package.__version_info__} as a 2- or
+       3-tuple C{(major, minor, revision)} if C{int}s.
+    '''
+    try:
+        t = package.__version_info__
+    except AttributeError:
+        t = package.__version__.strip()
+        t = t.replace(_DOT_, _SPACE_).split()[:3]
+    return map2(int, t)
 
 
 def _xwhere(where, **name):

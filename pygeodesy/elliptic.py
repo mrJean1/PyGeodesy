@@ -24,7 +24,7 @@ Following is a copy of I{Karney}'s U{EllipticFunction.hpp
 <https://GeographicLib.SourceForge.io/html/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2021)
+Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
@@ -83,7 +83,8 @@ from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
                              _f_, _no_, _SPACE_, _0_0, _0_125, _0_25, \
                              _0_5, _1_0, _2_0, _N_2_0, _3_0, _4_0, \
                              _5_0, _6_0, _8_0, _180_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.karney import _ALL_LAZY, _signBit
+# from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _Named, _NamedTuple, unstr
 from pygeodesy.props import Property_RO, property_RO, _update_all
 # from pygeodesy.streprs import unstr  # from .named
@@ -94,7 +95,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.05.04'
+__version__ = '22.05.09'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -235,7 +236,7 @@ class Elliptic(_Named):
            @raise EllipticError: No convergence.
         '''
         # Function is periodic with period pi
-        t = atan2(-stau, -ctau) if ctau < 0 else atan2(stau, ctau)
+        t = atan2(-stau, -ctau) if _signBit(ctau) else atan2(stau, ctau)
         return self.fEinv(t * self.cE / PI_2) - t
 
     def deltaF(self, sn, cn, dn):
@@ -298,7 +299,7 @@ class Elliptic(_Named):
             n = NN(_delta_, fX.__name__[1:])
             raise _callError(n, sn, cn, dn)
 
-        if cn < 0:
+        if _signBit(cn):
             cn, sn = -cn, -sn
         return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
 
@@ -552,7 +553,7 @@ class Elliptic(_Named):
             n = NN(_f_, deltaX.__name__[5:])
             raise _callError(n, sn, cn, dn)
 
-        if cn < 0:  # enforce usual trig-like symmetries
+        if _signBit(cn):  # enforce usual trig-like symmetries
             xi = _2_0 * cX - fX(sn, cn, dn)
         elif cn > 0:
             xi = fX(sn, cn, dn)
@@ -705,10 +706,10 @@ class Elliptic(_Named):
 
            @raise EllipticError: No convergence.
         '''
-        self._iteration = 0
+        self._iteration = 0  # reset
         # Bulirsch's sncndn routine, p 89.
         if self.kp2:
-            c, d, mn_ = self._sncndnBulirsch
+            c, d, mn_ = self._sncndnBulirsch3
             dn = _1_0
             x *= (c * d) if d else c
             sn, cn = sincos2(x)
@@ -720,26 +721,24 @@ class Elliptic(_Named):
                     c *= dn
                     dn = (n + a) / (m + a)
                     a  = c / m
-                sn = copysign0(_1_0 / hypot1(c), sn)
+                sn = copysign0(_1_0 / hypot1(c), sn)  # _signBit(sn)
                 cn = c * sn
-                if d:  # PYCHOK no cover
+                if d and _signBit(self.kp2):  # PYCHOK no cover
                     cn, dn = dn, cn
                     sn = sn / d  # /= d chokes PyChecker
         else:
             sn = tanh(x)
             cn = dn = _1_0 / cosh(x)
 
-        r = Elliptic3Tuple(sn, cn, dn)
-        r._iteration = self._iteration
-        return r
+        return Elliptic3Tuple(sn, cn, dn, iteration=self._iteration)
 
     @Property_RO
-    def _sncndnBulirsch(self):
+    def _sncndnBulirsch3(self):
         '''(INTERNAL) Get and cache Bulirsch' 3-tuple C{(c, d, mn_)}.
         '''
         # Bulirsch's sncndn routine, p 89.
         d, mc = 0, self.kp2
-        if mc < 0:  # PYCHOK no cover
+        if _signBit(mc):  # PYCHOK no cover
             d  = _1_0 - mc
             mc =  neg(mc / d)
             d  =  sqrt(d)
@@ -751,7 +750,7 @@ class Elliptic(_Named):
             mn.append((a, mc))
             c = (a + mc) * _0_5
             if abs(a - mc) <= t:
-                self._iteration += i
+                self._iteration += i  # accumulate
                 break
             mc *=  a
             a   =  c

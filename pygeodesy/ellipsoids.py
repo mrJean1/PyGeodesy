@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.05.04'
+__version__ = '22.05.09'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -389,16 +389,18 @@ class Ellipsoid(_NamedEnumItem):
     def area(self):
         '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2}.
 
-           @see: Properties L{areax}, L{c2} and L{R2}.
+           @see: Properties L{areax}, L{c2} and L{R2} and functions
+                 L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
         '''
         return Meter2(area=self.c2 * PI4)
 
     @Property_RO
     def areax(self):
-        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2x},
-           more accurate for very I{oblate} ellipsoids.
+        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2x}, more
+           accurate for very I{oblate} ellipsoids.
 
-           @see: Properties L{area}, L{c2x}, L{R2x} and class L{GeodesicExact}.
+           @see: Properties L{area}, L{c2x} and L{R2x}, class L{GeodesicExact} and
+                 functions L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
         '''
         return Meter2(areax=self.c2x * PI4)
 
@@ -979,13 +981,6 @@ class Ellipsoid(_NamedEnumItem):
         # if not self.isEllipsoidal:
         #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
         return _MODS.karney._wrapped.Geodesic(self)
-
-    @Property_RO
-    def _geodesic_Math2(self):
-        '''(INTERNAL) Get this ellipsoid's I{wrapped Karney} C{Geodesic}
-           and I{Karney}'s C{Math} class, see L{geodesic}.
-        '''
-        return self.geodesic, _MODS.karney._wrapped.Math
 
     @Property_RO
     def geodesicx(self):

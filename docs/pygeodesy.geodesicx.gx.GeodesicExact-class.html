@@ -99,6 +99,7 @@ gxbases._GeodesicBase --+
         <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">C4order</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">C4Order</span>=<span class="summary-sig-default">None</span>)</span><br />
       New <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
       class="link">GeodesicExact</a> instance.</td>
@@ -166,28 +167,6 @@ gxbases._GeodesicBase --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Area" class="summary-sig-name">Area</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">polyline</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Set up a <a 
-      href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-      class="link">GeodesicAreaExact</a> to compute area and perimeter of a
-      polygon.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon" class="summary-sig-name">Polygon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">polyline</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Set up a <a 
@@ -413,6 +392,28 @@ gxbases._GeodesicBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#Polygon" class="summary-sig-name">Polygon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">polyline</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Set up a <a 
+      href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+      class="link">GeodesicAreaExact</a> to compute area and perimeter of a
+      polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
@@ -536,8 +537,16 @@ gxbases._GeodesicBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4Order" class="summary-name">C4Order</a><br />
+        <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4order" class="summary-name">C4order</a><br />
       Get the series expansion order (<code>int</code>, 24, 27 or 30).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4Order" class="summary-name">C4Order</a><br />
+      DEPRECATED, use property <code>C4order</code>.
     </td>
   </tr>
 <tr>
@@ -646,6 +655,7 @@ gxbases._GeodesicBase --+
         <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">C4order</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">C4Order</span>=<span class="sig-default">None</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -668,13 +678,14 @@ gxbases._GeodesicBase --+
           <b><code>a_ellipsoid</code></b> is specified as 
           <code>scalar</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>C4Order</code></strong> - Optional series expansion order (<code>int</code>), see property 
-          <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4Order"
-          class="link">C4Order</a>, default <code>30</code>.</li>
+        <li><strong class="pname"><code>C4order</code></strong> - Optional series expansion order (<code>int</code>), see property 
+          <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4order"
+          class="link">C4order</a>, default <code>30</code>.</li>
+        <li><strong class="pname"><code>C4Order</code></strong> - DEPRECATED, use keyword argument <b><code>C4order</code></b>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.karney.GeodesicError-class.html">GeodesicError</a></strong></code> - Invalid <b><code>C4Order</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.karney.GeodesicError-class.html">GeodesicError</a></strong></code> - Invalid <b><code>C4order</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -835,46 +846,6 @@ gxbases._GeodesicBase --+
       </p>
 </div></td></tr></table>
 </div>
-<a name="Polygon"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Polygon</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">polyline</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Set up a <a 
-  href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-  class="link">GeodesicAreaExact</a> to compute area and perimeter of a 
-  polygon.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>polyline</code></strong> - If <code>True</code> perimeter only, otherwise area and perimeter
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a 
-          href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-          class="link">GeodesicAreaExact</a> instance.</dd>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        The <b><code>debug</code></b> setting is passed as 
-        <code>verbose</code> to the returned <a 
-        href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
-        class="link">GeodesicAreaExact</a> instance.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="C4f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -898,7 +869,7 @@ gxbases._GeodesicBase --+
         <li><strong class="pname"><code>eps</code></strong> - Polynomial factor (<code>float</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>C4Order</code>-Tuple of <code>C4x(<b>eps</b>)</code> 
+        <dd><code>C4order</code>-Tuple of <code>C4x(<b>eps</b>)</code> 
           coefficients.</dd>
   </dl>
 </td></tr></table>
@@ -1245,6 +1216,46 @@ gxbases._GeodesicBase --+
       </p>
 </div></td></tr></table>
 </div>
+<a name="Polygon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Polygon</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">polyline</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a 
+  href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+  class="link">GeodesicAreaExact</a> to compute area and perimeter of a 
+  polygon.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>polyline</code></strong> - If <code>True</code> perimeter only, otherwise area and perimeter
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a 
+          href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+          class="link">GeodesicAreaExact</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <b><code>debug</code></b> setting is passed as 
+        <code>verbose</code> to the returned <a 
+        href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html" 
+        class="link">GeodesicAreaExact</a> instance.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1391,26 +1402,46 @@ gxbases._GeodesicBase --+
   </dl>
 </td></tr></table>
 </div>
-<a name="C4Order"></a>
+<a name="C4order"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">C4Order</h3>
+  <h3 class="epydoc">C4order</h3>
   <p>Get the series expansion order (<code>int</code>, 24, 27 or 30).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">C4order(<span class="summary-sig-arg">self</span>)</span>
         - Get the series expansion order (<code>int</code>, 24, 27 or 30).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>,
+    <dd class="value"><span class="summary-sig">C4order(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">order</span>)</span>
         - Set the series expansion order.
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
         - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="C4Order"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">C4Order</h3>
+  <p>DEPRECATED, use property <code>C4order</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED, use property <code>C4order</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">C4Order(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">order</span>)</span>
+        - DEPRECATED, use property <code>C4order</code>.
     </dd>
   </dl>
 </td></tr></table>
@@ -1629,7 +1660,7 @@ class="math">f / (2 - f) == (a - b) / (a + b)</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  4 16:33:52 2022
+    Generated by Epydoc 3.0.1 on Tue May 10 13:16:37 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

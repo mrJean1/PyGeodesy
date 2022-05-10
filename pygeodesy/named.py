@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.04.28'
+__version__ = '22.05.08'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -121,12 +121,12 @@ class _Dict(dict):
         '''
         return self.toStr()
 
-    def set_(self, **attrs):  # PYCHOK signature
+    def set_(self, **items):  # PYCHOK signature
         '''Add one or several new items or replace existing ones.
 
-           @kwarg attrs: One or more C{name=value} pairs.
+           @kwarg items: One or more C{name=value} pairs.
         '''
-        dict.update(self, attrs)
+        dict.update(self, items)
 
     def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
         '''Like C{repr(dict)} but with C{name} prefix and with
@@ -378,7 +378,7 @@ class _NamedBase(_Named):
         return self.toStr()
 
     @property_RO
-    def iteration(self):
+    def iteration(self):  # see .karney.GDict
         '''Get the iteration number (C{int}) or
            C{None} if not available/applicable.
         '''
@@ -896,13 +896,13 @@ class _NamedTuple(tuple, _Named):
             return tuple.__getitem__(self, self._Names_.index(name))
         except IndexError:
             raise _IndexError(_DOT_(self.classname, Fmt.ANGLE(_name_)), name)
-        except ValueError:
+        except ValueError:  # e.g. _iteration
             return tuple.__getattribute__(self, name)
 
-    def __getitem__(self, item):  # index, slice, etc.
-        '''Get the value of an item by B{C{index}}.
-        '''
-        return tuple.__getitem__(self, item)
+#   def __getitem__(self, index):  # index, slice, etc.
+#       '''Get the item(s) at an B{C{index}} or slice.
+#       '''
+#       return tuple.__getitem__(self, index)
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -916,7 +916,7 @@ class _NamedTuple(tuple, _Named):
             raise _TypeError(_DOT_(self.classname, name), value, txt=_immutable_)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
-        else:
+        else:  # e.g. _iteration
             tuple.__setattr__(self, name, value)
 
     def __str__(self):
