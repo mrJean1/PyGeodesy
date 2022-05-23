@@ -4,7 +4,7 @@
 u'''Some basic C{rhumbx} vs C++ C{RhumbSolve} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.05.21'
+__version__ = '22.05.22'
 
 from base import startswith, TestsBase
 
@@ -54,7 +54,7 @@ class Tests(TestsBase):
                    s12=5500000, S12=44054189889953.1)
 
         r = R.Direct(40.6, -73.8, 51, 5.5e6, R.ALL)  # from JFK about NE
-        self.testDiffs('GDict', r, rX, 1)
+        self.testDiffs('GDict', r, rX, 1, e=1e-11)  # Windows lon2=0.2555..23445
 #       self.test('iteration', r.iteration, r.iteration)
 
         Rl = R.Line(40.6, -73.8, 51, 5.5e6)  # coverage
