@@ -6,7 +6,7 @@ u'''I{Karney}'s Universal Polar Stereographic (UPS) projection.
 Classes L{Ups} and L{UPSError} and functions L{parseUPS5}, L{toUps8} and L{upsZoneBand5}.
 
 A pure Python implementation, partially transcoded from C++ class U{PolarStereographic
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 by I{Charles Karney}.
 
 The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.05.09'
+__version__ = '22.05.14'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -52,7 +52,7 @@ _K1_UPS  = Scalar(_1_0)   # rescale point scale factor
 def _scale(E, rho, tau):
     # compute the point scale factor, ala Karney
     t = hypot1(tau)
-    return Scalar((rho / E.a) * t * sqrt0(E.e12 + E.e2 / t**2))
+    return Scalar((rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
 
 
 def _toBand(a_lat, b_lon):  # see utm._toBand
@@ -289,7 +289,7 @@ class Ups(UtmUpsBase):
                     I{or} seconds (C{str}).
 
            @note: Pseudo zone zero (C{"00"}) for UPS follows I{Karney}'s U{zone UPS
-                  <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return self._toRepr(fmt, B, cs, prec, sep)
 
@@ -315,7 +315,7 @@ class Ups(UtmUpsBase):
                     I{either} degrees, minutes I{or} seconds (C{str}).
 
            @note: Zone zero (C{"00"}) for UPS follows I{Karney}'s U{zone UPS
-                  <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return self._toStr(self.pole, B, cs, prec, sep)  # PYCHOK pole
 
@@ -432,7 +432,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
                           is invalid.
 
        @see: I{Karney}'s C++ class U{UPS
-             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UPS.html>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UPS.html>}.
     '''
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = upsZoneBand5(lat, lon, strict=strict)  # PYCHOK UtmUpsLatLon5Tuple

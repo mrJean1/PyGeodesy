@@ -21,7 +21,7 @@ from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.05.06'
+__version__ = '22.05.14'
 
 # constants named as "_M_UNIT" meaning "meter per unit"
 _M_CHAIN     =   20.1168  # yard2m(1) * 22
@@ -98,7 +98,7 @@ def atan2d(y, x, reverse=False):
        optionally reversed (by 180 degrees for C{azi2}).
 
        @see: I{Karney}'s C++ function U{Math.atan2d
-             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
     '''
     if abs(y) > abs(x) > 0:
         if y < 0:  # q = 3
@@ -178,8 +178,11 @@ def cot_(*rads, **error_kwds):
 
        @raise ValueError: See L{pygeodesy.cot}.
     '''
-    for r in rads:
-        yield cot(r, **error_kwds)
+    try:
+        for r in rads:
+            yield cot(r)
+    except ValueError:
+        raise _valueError(cot_, r, **error_kwds)
 
 
 def cotd(deg, **error_kwds):
@@ -208,8 +211,11 @@ def cotd_(*degs, **error_kwds):
 
        @raise ValueError: See L{pygeodesy.cotd}.
     '''
-    for d in degs:
-        yield cotd(d, **error_kwds)
+    try:
+        for d in degs:
+            yield cotd(d)
+    except ValueError:
+        raise _valueError(cotd_, d, **error_kwds)
 
 
 def degrees90(rad):
@@ -620,7 +626,7 @@ def sincos2(rad):
 
        @return: 2-Tuple (C{sin(B{rad})}, C{cos(B{rad})}).
 
-       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
+       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              python/geographiclib/geomath.py#l155>} and C++ U{sincosd
@@ -661,7 +667,7 @@ def sincos2d(deg, **adeg):
        @return: 2-Tuple (C{sin(B{deg_})}, C{cos(B{deg_})}, C{B{deg_} =
                 B{deg} + B{adeg}}).
 
-       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
+       @see: U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
              <https://SourceForge.net/p/geographiclib/code/ci/release/tree/
              python/geographiclib/geomath.py#l155>} and C++ U{sincosd
@@ -785,7 +791,7 @@ def unroll180(lon1, lon2, wrap=True):
                 C{degrees}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
-             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
     if wrap and abs(d) > _180_0:
@@ -815,7 +821,7 @@ def unrollPI(rad1, rad2, wrap=True):
                 C{radians}).
 
        @see: Capability C{LONG_UNROLL} in U{GeographicLib
-             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
     if wrap and abs(r) > PI:

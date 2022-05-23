@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.11.18'
+__version__ = '22.05.14'
 
 from base import GeodSolve, TestsBase
 
@@ -42,7 +42,7 @@ class Tests(TestsBase):
 
         self.testCopy(g)
 
-        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>
         t = g.forward(27.99, 86.93, 8820)  # Mt Everest
         self.test('forward', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.0')
         self.test('forward', fstr(t[0:3], prec=1), '302271.4, 5635928.4, 2979666.1')
@@ -55,7 +55,7 @@ class Tests(TestsBase):
         self.test('iteration', t.iteration, t.iteration)
         self.test('name', t.name, 'Test')
 
-        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>
         t = g.reverse(302e3, 5636e3, 2980e3)
         self.test('reverse', fstr(t[0:3], prec=1), '302000.0, 5636000.0, 2980000.0')
         self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 9027.03', known=Sudano and _known(t, 27.99, 9027))
@@ -66,7 +66,7 @@ class Tests(TestsBase):
         self.test('forward', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.0')
         self.test('forward', fstr(t[0:3], prec=2), '302271.43, 5635928.37, 2979666.13')
 
-        # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/CartConvert.1.html>
         t = g.forward(33.3, 44.4, 6000)
         self.test('forward', fstr(t[3:6], prec=2), '33.3, 44.4, 6000.0')
         self.test('forward', fstr(t[0:3], prec=2), '3816209.6, 3737108.55, 3485109.57')
@@ -77,7 +77,7 @@ class Tests(TestsBase):
         self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
-        # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/CartConvert.1.html>
         t = g.reverse(30000, 30000, 0)
         self.test('reverse', fstr(t[0:3], prec=1), '30000.0, 30000.0, 0.0')
         self.test('reverse', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726', known=not Karney)

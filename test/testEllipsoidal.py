@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.05.03'
+__version__ = '22.05.19'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -624,41 +624,42 @@ class Tests(_TestsLL, _TestsV):
         q = m.LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
 
         t = p.intersections2(0.0312705 * R_M, q, 0.0421788 * R_M)  # radians to meter
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X), known=V)   # V and isPython2
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), _x(GS or K or X), known=V)   # V and isPython2
 
         t = m.intersections2(p, 0.0312705 * R_M, q, 0.0421788 * R_M,  # radians to meter
                              equidistant=Eq, LatLon=m.LatLon)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), _x(GS or K or X))
+        self.test(n,           latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))  # XXX force DeprecationWarning
 
         r = PI_4 * R_M
         t = m.intersections2(m.LatLon(30, 0), r, m.LatLon(-30, 0), r, equidistant=Eq, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '00.0°N, 035.3478°W, 00.0°S, 035.3478°E' if K or X
-                                                          else '00.0°S, 035.4073°W, 00.0°S, 035.4073°E', known=True)  # 0.0
-                                                             # '00.0°N, 035.2644°W, 00.0°N, 035.2644°E'  # PYCHOK cf. sph.Trig
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '00.0°N, 035.3478°W, 00.0°S, 035.3478°E' if K or X
+                                                           else '00.0°S, 035.4073°W, 00.0°S, 035.4073°E', known=True)  # 0.0
+                                                              # '00.0°N, 035.2644°W, 00.0°N, 035.2644°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
         t = m.intersections2(m.LatLon(0, 40), r, m.LatLon(0, -40), r, equidistant=Eq, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '22.657°N, 000.0°E, 22.657°S, 000.0°E' if K or X
-                                                          else '22.756°N, 000.0°W, 22.756°S, 000.0°W', known=True)  # 0.0
-                                                             # '22.622°N, 000.0°E, 22.622°S, 000.0°E'  # PYCHOK cf. sph.Trig
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '22.657°N, 000.0°E, 22.657°S, 000.0°E' if K or X
+                                                           else '22.756°N, 000.0°W, 22.756°S, 000.0°W', known=True)  # 0.0
+                                                              # '22.622°N, 000.0°E, 22.622°S, 000.0°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
         r = R_M * PI / 3
         t = m.intersections2(m.LatLon(30, 30), r, m.LatLon(-30, -30), r, equidistant=Eq, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '29.4898°N, 040.1785°W, 29.4898°S, 040.1785°E' if GS or K or X
-                                                          else '29.2359°N, 040.2625°W, 29.2359°S, 040.2625°E', knonw=e < 1.5)
-                                                             # '14.6128°N, 026.1109°W, 14.6128°S, 026.1109°E'  # PYCHOK cf. sph.Trig
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '29.4898°N, 040.1785°W, 29.4898°S, 040.1785°E' if GS or K or X
+                                                           else '29.2359°N, 040.2625°W, 29.2359°S, 040.2625°E', knonw=e < 1.5)
+                                                              # '14.6128°N, 026.1109°W, 14.6128°S, 026.1109°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
         r = R_M * PI / 4
         t = m.intersections2(m.LatLon(0, 0), r, m.LatLon(0, 22.567), r / 2, equidistant=Eq, LatLon=m.LatLon)
         e, s = _100p2(t, r, q, p)
-        self.test(n, latlonDMS(t, form=F_D, prec=4, sep=', '), '02.7402°S, 044.885°E, 02.7402°N, 044.885°E' if GS or K or X
-                                                          else '01.1557°S, 045.0894°E, 01.1557°N, 045.0894°E', knonw=e < 2.0)
-                                                             # '00.0001°S, 045.0°E,    0.00001°N, 045.0°E'  # PYCHOK cf. sph.Trig
+        self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), '02.7402°S, 044.885°E, 02.7402°N, 044.885°E' if GS or K or X
+                                                           else '01.1557°S, 045.0894°E, 01.1557°N, 045.0894°E', knonw=e < 2.0)
+                                                              # '00.0001°S, 045.0°E,    0.00001°N, 045.0°E'  # PYCHOK cf. sph.Trig
         self.test(n, s, s)
 
         # centers at 2 opposite corners of a "square" and

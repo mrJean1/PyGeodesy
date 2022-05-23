@@ -4,14 +4,14 @@
 u'''A pure Python version of I{Karney}'s C{Exact Transverse Mercator} (ETM) projection.
 
 Classes L{Etm}, L{ETMError} and L{ExactTransverseMercator}, transcoded from I{Karney}'s
-C++ class U{TransverseMercatorExact<https://GeographicLib.SourceForge.io/html/
+C++ class U{TransverseMercatorExact<https://GeographicLib.SourceForge.io/C++/doc/
 classGeographicLib_1_1TransverseMercatorExact.html>} (abbreviated as C{TMExact} below).
 
 Class L{ExactTransverseMercator} provides C{Exact Transverse Mercator} projections
 while instances of class L{Etm} represent ETM C{(easting, nothing)} locations.
 
 Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
-<https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8hpp_source.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
 file C{Header}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022) and licensed
@@ -87,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.05.09'
+__version__ = '22.05.14'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -264,7 +264,7 @@ class Etm(Utm):
 
 class ExactTransverseMercator(_NamedBase):
     '''A Python version of Karney's U{TransverseMercatorExact
-       <https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html>}
+       <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html>}
        C++ class, a numerically exact transverse Mercator projection, here referred to as
        C{TMExact}.
     '''

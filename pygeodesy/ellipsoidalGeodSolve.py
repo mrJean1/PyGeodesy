@@ -7,7 +7,7 @@ Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
 (ECEF) L{Cartesian} classes and functions L{areaOf}, L{intersections2},
 L{isclockwise}, L{nearestOn} and L{perimeterOf} based on module
 L{geodsolve}, a wrapper invoking I{Karney}'s U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} utility.
+<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} utility.
 '''
 
 # from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
@@ -22,7 +22,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '22.01.17'
+__version__ = '22.05.14'
 
 
 class Cartesian(CartesianEllipsoidalBase):

@@ -31,7 +31,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.05.09'
+__version__ = '22.05.14'
 
 
 def _CS0(cs0):
@@ -54,7 +54,7 @@ class CSSError(_ValueError):
 
 class CassiniSoldner(_NamedBase):
     '''Cassini-Soldner projection, a Python version of I{Karney}'s C++ class U{CassiniSoldner
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>}.
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>}.
     '''
     _cb0      = _0_0
     _datum    = _WGS84  # L{Datum}
@@ -217,7 +217,7 @@ class CassiniSoldner(_NamedBase):
     @Property
     def geodesic(self):
         '''Get this projection's I{wrapped,Karney} U{Geodesic
-           <https://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed,
            otherwise L{GeodesicExact} instance.
@@ -366,7 +366,7 @@ class CassiniSoldner(_NamedBase):
         z = _umod_360(r.azi2)  # -180 <= r.azi2 < 180 ... 0 <= z < 360
         # include z azimuth of easting direction and rk reciprocal
         # of azimuthal northing scale (see C++ member Direct() 5/6
-        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geodesic.html>)
         return LatLonAziRk4Tuple(r.lat2, r.lon2, z, r.M12, name=name or self.name)
 
     toLatLon = reverse  # XXX not reverse4

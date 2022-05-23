@@ -40,7 +40,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_method, Property_RO
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '22.05.08'
+__version__ = '22.05.14'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -93,7 +93,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     @Property_RO
     def geodesic(self):
         '''Get this C{LatLon}'s I{wrapped} U{Karney Geodesic
-           <https://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed.
         '''

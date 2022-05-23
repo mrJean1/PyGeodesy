@@ -62,20 +62,22 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeodesicExact</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-   object --+            
-            |            
- <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
-                |        
- <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
-                    |    
-gxbases._GeodesicBase --+
-                        |
-                       <strong class="uidshort">GeodesicExact</strong>
+  object --+                
+           |                
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+               |            
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                   |        
+    karney._CapsBase --+    
+                       |    
+   gxbases._GeodesicBase --+
+                           |
+                          <strong class="uidshort">GeodesicExact</strong>
 </pre>
 
 <hr />
 <p>A pure Python version of <i>Karney</i>'s C++ class <a 
-  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
   target="_top">GeodesicExact</a>, modeled after <i>Karney</i>'s Python 
   class <a 
   href="https://GeographicLib.SourceForge.io/html/python/code.html#module-geographiclib.geodesic"
@@ -472,7 +474,7 @@ gxbases._GeodesicBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>gxbases._GeodesicBase</code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
       <code>ALL</code>,
       <code>AREA</code>,
       <code>AZIMUTH</code>,
@@ -521,7 +523,7 @@ gxbases._GeodesicBase --+
     </td><td class="summary">
         <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#c2x" class="summary-name">c2x</a><br />
       Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-      (<code>meter**2</code>).
+      (<code>meter</code> <i>squared</i>).
     </td>
   </tr>
 <tr>
@@ -530,7 +532,7 @@ gxbases._GeodesicBase --+
     </td><td class="summary">
         <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#c2" class="summary-name">c2</a><br />
       Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-      (<code>meter**2</code>).
+      (<code>meter</code> <i>squared</i>).
     </td>
   </tr>
 <tr>
@@ -579,6 +581,15 @@ gxbases._GeodesicBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#e22" class="summary-name">e22</a><br />
+      Get the ellipsoid's <i>2nd eccentricity squared</i> 
+      (<code>float</code>), <i class="math">e2 / (1 - e2)</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#f" class="summary-name">f</a><br />
       Get the ellipsoid's <i>flattening</i> (<code>float</code>), <i 
       class="math">(a - b) / a</i>, <code>0</code> for spherical, negative 
@@ -614,15 +625,13 @@ gxbases._GeodesicBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>gxbases._GeodesicBase</code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
       <code>debug</code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
-      <code><a href="pygeodesy.named._NamedBase-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
@@ -734,9 +743,9 @@ gxbases._GeodesicBase --+
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.ArcDirect</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.ArcDirect</a>.
       </p>
 </div></td></tr></table>
@@ -799,9 +808,9 @@ gxbases._GeodesicBase --+
       </ul>
       <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.ArcDirectLine</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.ArcDirectLine</a>.
       </p>
 </div></td></tr></table>
@@ -914,9 +923,9 @@ gxbases._GeodesicBase --+
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.Direct</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.Direct</a>.
       </p>
 </div></td></tr></table>
@@ -1004,9 +1013,9 @@ gxbases._GeodesicBase --+
       </ul>
       <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.DirectLine</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.DirectLine</a>.
       </p>
 </div></td></tr></table>
@@ -1063,9 +1072,9 @@ gxbases._GeodesicBase --+
       </ul>
       <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.InverseLine</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.InverseLine</a>.
       </p>
 </div></td></tr></table>
@@ -1155,9 +1164,9 @@ gxbases._GeodesicBase --+
       </ul>
       <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.InverseLine</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.InverseLine</a>.
       </p>
 </div></td></tr></table>
@@ -1209,9 +1218,9 @@ gxbases._GeodesicBase --+
       </p>
       <p><strong>See Also:</strong>
         C++ <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact.Line</a> and Python <a 
-        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html"
         target="_top">Geodesic.Line</a>.
       </p>
 </div></td></tr></table>
@@ -1357,12 +1366,12 @@ gxbases._GeodesicBase --+
 <tr><td>
   <h3 class="epydoc">c2x</h3>
   <p>Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-  (<code>meter**2</code>).</p>
+  (<code>meter</code> <i>squared</i>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">c2x(<span class="summary-sig-arg">self</span>)</span>
         - Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-(<code>meter**2</code>).
+(<code>meter</code> <i>squared</i>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1383,12 +1392,12 @@ gxbases._GeodesicBase --+
 <tr><td>
   <h3 class="epydoc">c2</h3>
   <p>Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-  (<code>meter**2</code>).</p>
+  (<code>meter</code> <i>squared</i>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">c2x(<span class="summary-sig-arg">self</span>)</span>
         - Get the ellipsoid's <i>authalic</i> earth radius <i>squared</i> 
-(<code>meter**2</code>).
+(<code>meter</code> <i>squared</i>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1502,6 +1511,32 @@ gxbases._GeodesicBase --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ep2</h3>
+  <p>Get the ellipsoid's <i>2nd eccentricity squared</i> 
+  (<code>float</code>), <i class="math">e2 / (1 - e2)</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ep2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's <i>2nd eccentricity squared</i> (<code>float</code>), 
+<i class="math">e2 / (1 - e2)</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">e22</h3>
   <p>Get the ellipsoid's <i>2nd eccentricity squared</i> 
   (<code>float</code>), <i class="math">e2 / (1 - e2)</i>.</p>
   <dl class="fields">
@@ -1660,7 +1695,7 @@ class="math">f / (2 - f) == (a - b) / (a + b)</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 10 13:16:37 2022
+    Generated by Epydoc 3.0.1 on Mon May 23 11:21:58 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

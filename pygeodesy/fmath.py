@@ -13,7 +13,7 @@ from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
 from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_, unstr
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NAN, PI, PI_2, PI_4, \
                              _few_, _h_, _negative_, _not_scalar_, _singular_, \
-                             _too_, _0_0, _0_5, _1_0, _N_1_0, _1_5, _2_0, _3_0
+                             _too_, _0_0, _0_5, _1_0, _1_3rd, _2_3rd, _N_1_0, _1_5
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_
@@ -22,12 +22,10 @@ from math import sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.04.25'
+__version__ = '22.05.12'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
-_1_3rd  = _1_0 / _3_0
-_2_3rd  = _2_0 / _3_0
 
 
 class Fdot(Fsum):
@@ -469,10 +467,10 @@ try:
     from math import prod as fprod  # Python 3.8
 except ImportError:
 
-    def fprod(xs, start=_1_0):
+    def fprod(xs, start=1):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-           @arg xs: Terms to be multiplied as an iterable, list,
+           @arg xs: Terms to be multiplied, an iterable, list,
                     tuple, etc. (C{scalar}s).
            @kwarg start: Initial term, also the value returned
                          for an empty B{C{xs}} (C{scalar}).

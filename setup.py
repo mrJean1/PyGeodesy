@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.04.02'
+__version__ = '22.05.15'
 
 
 def _c2(*names):
@@ -80,7 +80,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'precision-running-summation', 'precision-summation', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
-             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
+             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'Rhumb',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',

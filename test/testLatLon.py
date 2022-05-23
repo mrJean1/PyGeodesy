@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.11'
+__version__ = '22.05.19'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -32,11 +32,11 @@ class Tests(TestsBase):
         self.test('isSpherical', p.isSpherical, Sph)
 
         self.test('lat/lonDMS', p, '52.20472°N, 000.14056°E')  # 52.20472°N, 000.14056°E
-        self.test('lat/lonDMS F_DM', p.toStr(F_DM, 3),  '''52°12.283'N, 000°08.434'E''')
-        self.test('lat/lonDMS F_DM', p.toStr(F_DM, 4),  '''52°12.2832'N, 000°08.4336'E''')
-        self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, 0), '''52°12'17"N, 000°08'26"E''')
-        self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, 1), '''52°12'17.0"N, 000°08'26.0"E''')
-        self.test('lat/lonDMS F_RAD', p.toStr(F_RAD, 6), '0.911144N, 0.002453E')
+        self.test('lat/lonDMS F_DM', p.toStr(F_DM, prec=3),  '''52°12.283'N, 000°08.434'E''')
+        self.test('lat/lonDMS F_DM', p.toStr(F_DM, prec=4),  '''52°12.2832'N, 000°08.4336'E''')
+        self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, prec=0), '''52°12'17"N, 000°08'26"E''')
+        self.test('lat/lonDMS F_DMS', p.toStr(F_DMS, prec=1), '''52°12'17.0"N, 000°08'26.0"E''')
+        self.test('lat/lonDMS F_RAD', p.toStr(F_RAD, prec=6), '0.911144N, 0.002453E')
 
         q = LatLon(*map(degrees, p.philam))
         self.test('isequalTo', q.isequalTo(p), True)
@@ -207,8 +207,8 @@ class Tests(TestsBase):
             d = p.destination(7794, 300.7)
             self.test('destination', d, '51.513546°N, 000.098345°W' if Sph
                                    else '51.513526°N, 000.098038°W')  # 51.5135°N, 0.0983°W ???
-            self.test('destination', d.toStr(F_DMS, 0), '51°30′49″N, 000°05′54″W' if Sph
-                                                   else '51°30′49″N, 000°05′53″W')
+            self.test('destination', d.toStr(F_DMS, prec=0), '51°30′49″N, 000°05′54″W' if Sph
+                                                        else '51°30′49″N, 000°05′53″W')
             # <https://www.EdWilliams.org/avform.htm#LL>
             d = LAX.destination(100, 66, radius=R_NM) if Sph else LAX.destination(100, 66)
             self.test('destination', d.toStr(F_DM, prec=0), "34°37′N, 116°33′W" if Sph

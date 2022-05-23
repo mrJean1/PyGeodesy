@@ -9,7 +9,7 @@ locations or separate lat-/longitudes using different interpolation methods
 and C{geoid} model files.
 
 L{GeoidKarney} is a transcoding of I{Charles Karney}'s C++ class U{Geoid
-<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
+<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>} to pure Python.
 The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
 <https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>} and
 require those packages to be installed.
@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.05.04'
+__version__ = '22.05.14'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -806,16 +806,16 @@ def _T(*cs):
 
 class GeoidKarney(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
-       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/html/
+       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
        <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
-       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
+       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidcache>}
        in pure Python, transcoded from I{Karney}'s U{C++ class Geoid
-       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
+       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinterp>}.
 
        Use any of the geoid U{egm84-, egm96- or egm2008-*.pgm
-       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
+       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>}
        datasets.
     '''
     _C0 = _F(372), _F(240), _F(372)  # n, _ and s common denominators
@@ -1214,7 +1214,7 @@ class GeoidKarney(_GeoidBase):
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
-       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/html/
+       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets but based on C{SciPy}
        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/
@@ -1223,14 +1223,14 @@ class GeoidPGM(_GeoidBase):
        scipy.interpolate.interp2d.html>} interpolation.
 
        Use any of the U{egm84-, egm96- or egm2008-*.pgm
-       <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
+       <https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst>}
        datasets.  However, unless cropped, an entire C{egm*.pgm} dataset
        is loaded into the C{SciPy} U{RectBivariateSpline<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html>}
        or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
        scipy.interpolate.interp2d.html>} interpolator and converted from
        2-byte C{int} to 8-byte C{dtype float64}.  Therefore, internal memory
-       usage is 4x the U{egm*.pgm<https://GeographicLib.SourceForge.io/html/
+       usage is 4x the U{egm*.pgm<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html#geoidinst>} file size and may exceed the available memory,
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
@@ -1631,7 +1631,7 @@ def egmGeoidHeights(GeoidHeights_dat):
     '''Generate geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       U{Test data for Geoids<https://GeographicLib.SourceForge.io/html/
+       U{Test data for Geoids<https://GeographicLib.SourceForge.io/C++/doc/
        geoid.html#testgeoid>}.
 
        @arg GeoidHeights_dat: The un-gz-ed C{GeoidHeights.dat} file

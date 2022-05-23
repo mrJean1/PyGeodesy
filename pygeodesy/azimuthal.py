@@ -11,12 +11,12 @@ and L{gnomonic}.
 
 L{EquidistantExact} and L{GnomonicExact} are based on exact geodesic classes
 L{GeodesicExact} and L{GeodesicLineExact}, Python versions of I{Charles Karney}'s
-C++ original U{GeodesicExact<https://GeographicLib.SourceForge.io/html/
+C++ original U{GeodesicExact<https://GeographicLib.SourceForge.io/C++/doc/
 classGeographicLib_1_1GeodesicExact.html>}, respectively U{GeodesicLineExact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html>}.
 
 Using L{EquidistantGeodSolve} requires I{Karney}'s utility U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} to be
+<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be
 executable and set in env variable C{PYGEODESY_GEODSOLVE}, see module
 L{geodsolve} for more details.
 
@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.04.30'
+__version__ = '22.05.14'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -90,7 +90,7 @@ class _AzimuthalBase(_NamedBase):
 
        @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
        html/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>} or the
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>} or the
        C{PyGeodesy} versions thereof L{EquidistantKarney} respectively L{GnomonicKarney}.
     '''
     _datum   = _WGS84  # L{Datum}
@@ -430,7 +430,7 @@ def equidistant(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN)
 
 class _AzimuthalGeodesic(_AzimuthalBase):
     '''(INTERNAL) Base class for azimuthal projections using U{Karney Geodesic
-       <https://GeographicLib.SourceForge.io/html/python/code.html>} or
+       <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>} or
        exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
     '''
     _mask = 0
@@ -516,7 +516,7 @@ class _EquidistantBase(_AzimuthalGeodesic):
 
 class EquidistantExact(_EquidistantBase):
     '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>},
        based on exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
 
        An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
@@ -556,7 +556,7 @@ class EquidistantExact(_EquidistantBase):
 
 class EquidistantGeodSolve(_EquidistantBase):
     '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>},
        based on (exact) geodesic I{wrappers} L{GeodesicSolve} and L{GeodesicLineSolve} and intended
        I{for testing purposes only}.
 
@@ -589,7 +589,7 @@ class EquidistantGeodSolve(_EquidistantBase):
 
 class EquidistantKarney(_EquidistantBase):
     '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>},
        requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
 
        @see: L{EquidistantExact}.
@@ -618,7 +618,7 @@ class EquidistantKarney(_EquidistantBase):
     @Property_RO
     def geodesic(self):
         '''Get this projection's I{wrapped} U{Karney Geodesic
-           <https://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed.
         '''
@@ -827,10 +827,10 @@ class _GnomonicBase(_AzimuthalGeodesic):
 
 class GnomonicExact(_GnomonicBase):
     '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>},
        based on exact geodesic classes L{GeodesicExact} and L{GeodesicLineExact}.
 
-       @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/html/
+       @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/C++/doc/
              classGeographicLib_1_1Gnomonic.html>}, especially the B{Warning}.
     '''
     def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
@@ -860,7 +860,7 @@ class GnomonicExact(_GnomonicBase):
 
 class GnomonicGeodSolve(_GnomonicBase):
     '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>},
        based on (exact) geodesic I{wrappers} L{GeodesicSolve} and L{GeodesicLineSolve} and
        intended I{for testing purposes only}.
 
@@ -893,7 +893,7 @@ class GnomonicGeodSolve(_GnomonicBase):
 
 class GnomonicKarney(_GnomonicBase):
     '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>},
        requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
 
        @see: L{GnomonicExact}.
@@ -922,7 +922,7 @@ class GnomonicKarney(_GnomonicBase):
     @Property_RO
     def geodesic(self):
         '''Get this projection's I{wrapped} U{Karney Geodesic
-           <https://GeographicLib.SourceForge.io/html/python/code.html>}, provided package
+           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}, provided package
            U{geographiclib<https://PyPI.org/project/geographiclib>} is installed.
         '''
         return self.datum.ellipsoid.geodesic

@@ -9,8 +9,8 @@ Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 zones.
 
-A pure Python implementation transcoded from I{Charles Karney}'s C++ class
-U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>},
+A pure Python implementation transcoded from I{Charles Karney}'s C++ class U{UTMUPS
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>},
 including coverage of UPS as zone C{0}.
 '''
 
@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '22.04.02'
+__version__ = '22.5.14'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -149,7 +149,7 @@ def decode2(epsg):
        @raise EPSGError: Invalid B{C{epsg}}.
 
        @note: Coverage of UPS as zone C{0} follows I{Karney}'s function U{UTMUPS::DecodeEPSG
-              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
     '''
     if isinstance(epsg, Epsg):
         z, h = epsg.zone, epsg.hemisphere
@@ -196,7 +196,7 @@ def encode(zone, hemipole=NN, band=NN):
        @raise EPSGError: Invalid B{C{zone}}, B{C{hemipole}} or B{C{band}}.
 
        @note: Coverage of UPS as zone C{0} follows I{Karney}'s function U{UTMUPS::EncodeEPSG
-              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
     '''
     try:
         z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .utmupsBase

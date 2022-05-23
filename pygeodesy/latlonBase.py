@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.04.22'
+__version__ = '22.05.20'
 
 
 class LatLonBase(_NamedBase):
@@ -1156,31 +1156,28 @@ class LatLonBase(_NamedBase):
         return self.toVector(Vector=Nvector, h=self.height if h is None else h,
                                             ll=self, **Nvector_kwds)
 
-    def toStr(self, form=F_DMS, prec=None, m=_m_, sep=_COMMASPACE_, **s_D_M_S):  # PYCHOK expected
-        '''Convert this point to a "lat, lon [+/-height]" string,
-           formatted in the given form.
+    def toStr(self, form=F_DMS, joined=_COMMASPACE_, m=_m_, **prec_sep_s_D_M_S):  # PYCHOK expected
+        '''Convert this point to a "lat, lon[, +/-height]" string, formatted
+           in the given C{B{form}at}.
 
-           @kwarg form: Format specifier (C{str} or L{F_D}, L{F_DM}, L{F_DMS},
-                        L{F_DEG}, L{F_MIN}, L{F_SEC}, L{F_D60}, L{F__E},
-                        L{F__F}, L{F__G}, L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_},
-                        L{F_DEG_}, L{F_MIN_}, L{F_SEC_}, L{F_D60_}, L{F__E_},
-                        L{F__F_}, L{F__G_}, L{F_RAD_}, L{F_D__}, L{F_DM__},
-                        L{F_DMS__}, L{F_DEG__}, L{F_MIN__}, L{F_SEC__}, L{F_D60__},
-                        L{F__E__}, L{F__F__}, L{F__G__} or L{F_RAD__})
-           @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
-                        Trailing zero decimals are stripped for B{C{prec}}
-                        values of 1 and above, but kept for negative B{C{prec}}.
+           @kwarg form: The lat-/longitude C{B{form}at} to use (C{str}), see
+                        functions L{pygeodesy.latDMS} or L{pygeodesy.lonDMS}.
+           @kwarg joined: Separator to join the lat-, longitude and heigth
+                          strings (C{str} or C{None} or C{NN} for non-joined).
            @kwarg m: Optional unit of the height (C{str}), use C{None} to
                      exclude height from the returned string.
-           @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
-           @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                           and/or C{B{s_S}=str} to override the degrees, minutes
-                           respectively seconds symbol, defaults L{S_DEG}, L{S_MIN}
-                           respectively L{S_SEC}.
+           @kwarg prec_sep_s_D_M_S: Optional C{B{prec}ision}, C{B{sep}arator},
+                      B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}} keyword
+                      arguments, see function L{pygeodesy.latDMS} or
+                      L{pygeodesy.lonDMS}.
 
-           @return: This point in the specified B{C{form}} (C{str}).
+           @return: This point in the specified C{B{form}at}, etc. (C{str} or
+                    a 2- or 3-tuple C{(lat_str, lon_str[, height_str])} if
+                    C{B{joined}=NN} or C{B{joined}=None}).
 
-           @see: Function L{pygeodesy.degDMS} for B{C{form}} and B{C{s_D_M_S}}.
+           @see: Function L{pygeodesy.latDMS} or L{pygeodesy.lonDMS} for more
+                 details about keyword arguments C{B{form}at}, C{B{prec}ision},
+                 C{B{sep}arator}, B{C{s_D}}, B{C{s_M}}, B{C{s_S}} and B{C{s_DMS}}.
 
            @example:
 
@@ -1188,11 +1185,11 @@ class LatLonBase(_NamedBase):
             >>> LatLon(51.4778, -0.0016).toStr(F_D)  # 51.4778°N, 000.0016°W
             >>> LatLon(51.4778, -0.0016, 42).toStr()  # 51°28′40″N, 000°00′06″W, +42.00m
         '''
-        t = (latDMS(self.lat, form=form, prec=prec, **s_D_M_S),
-             lonDMS(self.lon, form=form, prec=prec, **s_D_M_S))
+        t = (latDMS(self.lat, form=form, **prec_sep_s_D_M_S),
+             lonDMS(self.lon, form=form, **prec_sep_s_D_M_S))
         if self.height and m is not None:
             t += (self.heightStr(m=m),)
-        return sep.join(t)
+        return joined.join(t) if joined else t
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's

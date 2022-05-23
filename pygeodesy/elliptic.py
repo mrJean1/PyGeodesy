@@ -4,7 +4,7 @@
 u'''I{Karney}'s elliptic functions and integrals.
 
 Class L{Elliptic} transcoded from I{Charles Karney}'s C++ class U{EllipticFunction
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1EllipticFunction.html>}
 to pure Python, including symmetric integrals L{Elliptic.fRC}, L{Elliptic.fRD},
 L{Elliptic.fRF}, L{Elliptic.fRG} and L{Elliptic.fRJ} as C{static methods}.
 
@@ -21,7 +21,7 @@ Python method names follow the C++ member functions, I{except}:
    letter or an underscore if private.
 
 Following is a copy of I{Karney}'s U{EllipticFunction.hpp
-<https://GeographicLib.SourceForge.io/html/EllipticFunction_8hpp_source.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
@@ -86,7 +86,7 @@ from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
 from pygeodesy.karney import _ALL_LAZY, _signBit
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _Named, _NamedTuple, unstr
-from pygeodesy.props import Property_RO, property_RO, _update_all
+from pygeodesy.props import Property_RO, _update_all
 # from pygeodesy.streprs import unstr  # from .named
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
@@ -95,7 +95,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.05.09'
+__version__ = '22.05.22'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -119,12 +119,11 @@ class Elliptic(_Named):
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1EllipticFunction.html#details>}.
     '''
-    _alpha2    = 0
-    _alphap2   = 0
-    _eps       = EPS
-    _iteration = None  # Iteration number (C{int}) or C{None}
-    _k2        = 0
-    _kp2       = 0
+    _alpha2  = 0
+    _alphap2 = 0
+    _eps     = EPS
+    _k2      = 0
+    _kp2     = 0
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
         '''Constructor, specifying the C{modulus} and C{parameter}.
@@ -561,16 +560,6 @@ class Elliptic(_Named):
             xi = cX
         return copysign0(xi, sn)
 
-    @property_RO
-    def iteration(self):
-        '''Get the most recent C{Elliptic.fEinv} or C{Elliptic.sncndn}
-           iteration number (C{int}) or C{None} if not available/applicable.
-
-           @note: The interation number may be an aggregate number over
-                  several, nested functions.
-        '''
-        return self._iteration
-
     @Property_RO
     def k2(self):
         '''Get k^2, the square of the modulus (C{float}).
@@ -599,7 +588,7 @@ class Elliptic(_Named):
                   that these conditions are met to enable accuracy to be
                   maintained, e.g., when C{k} is very close to unity.
         '''
-        _update_all(self, Elliptic.iteration._uname)
+        _update_all(self, _Named.iteration._uname)
 
         self._k2  = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
         self._kp2 = Scalar_(kp2=((_1_0 - k2) if kp2 is None else kp2), Error=EllipticError)

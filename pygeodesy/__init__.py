@@ -7,8 +7,8 @@ methods for geodetic (lat-/longitude) and geocentric (U{ECEF<https://WikiPedia.o
 cartesian) coordinates.
 
 Transcoded from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness
-(C) 2005-2019} and from several U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
-by I{Charles F.F. Karney (C) 2008-2021} and published under the same U{MIT License
+(C) 2005-2022} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
+by I{Charles F.F. Karney (C) 2008-2022} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney},
@@ -25,15 +25,15 @@ U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geo
 the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
 U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and I{Karney}'s Python
 U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
-<https://GeographicLib.SourceForge.io/html/index.html>}.
+<https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>},
 U{ECEF<https://WikiPedia.org/wiki/ECEF>} (Earth-Centered, Earth-Fixed cartesian),
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 (Universal Polar Stereographic), U{UTM
 <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}
 and Universal Transverse Mercator) and U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
 (Pseudo-Mercator) coordinates, U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
 (NATO Military Grid Reference System) and U{OSGR
@@ -46,7 +46,7 @@ and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
 
 Other modules provide U{Albers equal-area<https://GeographicLib.SourceForge.io/
 html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
 and other I{azimuthal} projections, Lambert I{conformal conic} projections and
 positions, functions to clip a path or polygon of C{LatLon} points using the
 U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the
@@ -93,7 +93,7 @@ and C{trilaterate5} require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} to be executable.
+<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable.
 
 Documentation
 =============
@@ -109,9 +109,9 @@ Tests
 
 The tests have been run with Python 3.10.4 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 2.0), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
 1.51, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python
-2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} 1.51, all on macOS 12.3.1
+2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} 1.51, all on macOS 12.3.1
 Monterey and in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line
 option C{-W always} and env var C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only those tests
 are included in the distribution files.
@@ -123,7 +123,7 @@ Test coverage has been measured with U{coverage<https://PyPI.org/project/coverag
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>}
 1.21.2), Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{numpy
 <https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18
-(U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}).  The complete coverage report in HTML and
+(U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}).  The complete coverage report in HTML and
 a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.10.4 or 3.9.9 (and U{geographiclib<https://PyPI.org/project/geographiclib>}
@@ -269,15 +269,15 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" I{without} symbol, I{without} suffix (C{str}).
 
 @var DIG:      System's M{float decimal digits} = 15 (C{int}).
-@var INF:      Infinity (C{float}), see L{NINF} and functions L{pygeodesy.isinf}, L{pygeodesy.isfinite}.
-@var INT0:     C{int(0)}, missing Z-components, C{if z is B{INT0}}, see functions L{pygeodesy.isint0}, L{pygeodesy.meeus2}
+@var INF:      Infinity (C{float}), see functions L{pygeodesy.isinf}, L{pygeodesy.isfinite} and C{NINF}.
+@var INT0:     C{int(0)}, missing Z-components, C{if B{z}=B{INT0}}, see functions L{pygeodesy.isint0}, L{pygeodesy.meeus2}
 @var MANT_DIG: System's M{float mantissa bits} = 53 (C{int}).
 @var MANTIS:   DEPRECATED, use C{MANT_DIG}.
 @var MAX:      System's M{float max} ≈ 1.798e+308 (C{float}).
 @var MIN:      System's M{float min} ≈ 2.225e-308 (C{float}).
 @var NAN:      Not-A-Number (C{float}), see function L{pygeodesy.isnan}.
 @var NEG0:     Negative 0.0 (C{float}), see function L{pygeodesy.isneg0}.
-@var NINF:     Negative infinity (C{float}), see L{INF}.
+@var NINF:     Negative infinity (C{float}), see function L{pygeodesy.isninf} and C{INF}.
 @var NN:       Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
 @var OK:       DEPRECATED, do not use.
 
@@ -302,8 +302,9 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var S_DEG: Degrees symbol, default C{"°"}
 @var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
 @var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
-@var S_RAD: Radians symbol, default C{""} aka C{NN}
-@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka C{NN}
+@var S_RAD: Radians symbol, default C{""} aka L{pygeodesy.NN}
+@var S_DMS: If C{True} include, otherwise cancel all DMS symbols, default C{True}.
+@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka L{pygeodesy.NN}
 
 @var Conics:     Registered, predefined conics (C{enum-like}).
 @var Datums:     Registered, predefined datums (C{enum-like}).
@@ -404,6 +405,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.resections            as resections             # PYCHOK exported
+    import pygeodesy.rhumbx                as rhumbx                 # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
     import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK exported
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
@@ -479,6 +481,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.resections            import *  # PYCHOK __all__
+    from pygeodesy.rhumbx                import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
 #   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
@@ -533,7 +536,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.05.11'
+__version__ = '22.05.22'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

@@ -4,7 +4,7 @@
 # Test namedTuples module.
 
 __all__ = ('Tests',)
-__version__ = '22.02.04'
+__version__ = '22.05.15'
 
 from base import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -13,13 +13,14 @@ from pygeodesy.frechet import Frechet6Tuple
 from pygeodesy.fsums import _Float_Int
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _COMMASPACE_, _DOT_
-from pygeodesy.karney import _GTuple, _Lat, _Lon
+from pygeodesy.karney import _GTuple, _Lat as kLat, _Lon as kLon
 from pygeodesy.named import _Pass
 from pygeodesy.namedTuples import _NamedTuple
+from pygeodesy.rhumbx import _Lat as rLat, _Lon as rLon
 from pygeodesy.units import _NamedUnit
 
 _Units_ = '_Units_'
-_Xcepts = (FIx, _Float_Int, _Ks, _Lat, _Lon, _Pass)
+_Xcepts = (FIx, _Float_Int, kLat, kLon, _Ks, _Pass, rLat, rLon)
 
 
 class Tests(TestsBase):

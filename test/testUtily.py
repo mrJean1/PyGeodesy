@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.30'
+__version__ = '22.05.12'
 
 from base import TestsBase, geographiclib
 
@@ -177,10 +177,10 @@ class Tests(TestsBase):
                 f = max(f, abs(sd - s), abs(cd - c))
 
         if sr:  # coverage
-            c, _ = cot_(r, r)  # .next() or __next__()
+            c, _ = cot_(r, r)  # PYCHOK .next() or __next__()
             self.test('cot_ ', c, cr / sr, prec=12)
         if sd:  # coverage
-            c, _ = cotd_(a, a)  # .next() or __next__()
+            c, _ = cotd_(a, a)  # PYCHOK .next() or __next__()
             self.test('cotd_', c, cd / sd, prec=12)
         EPS_ = EPS * 8
         self.test('sincos2',  e, EPS_, known=e < EPS_)

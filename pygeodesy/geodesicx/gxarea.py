@@ -17,7 +17,8 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isodd, unsigned0  # from .karney
-from pygeodesy.interns import NAN, NN, _COMMASPACE_, _0_0, _0_5
+from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
+                             _0_0, _0_5, _720_0
 from pygeodesy.karney import GeodesicError, _diff182, isodd, \
                             _norm180, _remainder, _sum2_, unsigned0
 from pygeodesy.lazily import _ALL_DOCS, printf
@@ -28,19 +29,19 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.05.09'
+__version__ = '22.05.14'
 
 
 class GeodesicAreaExact(_NamedBase):
     '''Area and perimeter of a geodesic polygon, an enhanced
        version of I{Karney}'s Python class U{PolygonArea
-       <https://GeographicLib.SourceForge.io/html/python/
+       <https://GeographicLib.SourceForge.io/C++/doc/python/
        code.html#module-geographiclib.polygonarea>} using
        the more accurate surface area.
 
        @note: The name of this class C{*Exact} is a misnomer, see
               I{Karney}'s comments at C++ attribute U{GeodesicExact._c2
-              <https://GeographicLib.SourceForge.io/html/
+              <https://GeographicLib.SourceForge.io/C++/doc/
               GeodesicExact_8cpp_source.html>}.
     '''
     _Area    =  None
@@ -198,8 +199,8 @@ class GeodesicAreaExact(_NamedBase):
             # Since we only need the parity of the result we
             # can use std::remquo but this is buggy with g++
             # 4.8.3 and requires C++11.  So instead we do:
-            lon1 = fmod(  lon1, 720)  # r.lon1
-            lon2 = fmod(r.lon2, 720)
+            lon1 = fmod(  lon1, _720_0)  # r.lon1
+            lon2 = fmod(r.lon2, _720_0)
             # int(True) == 1, int(False) == 0
             r.set_(xing=int(lon2 > 360 or -360 < lon2 <= 0) -
                         int(lon1 > 360 or -360 < lon1 <= 0))

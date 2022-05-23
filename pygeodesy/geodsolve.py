@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Wrapper to invoke I{Karney}'s U{GeodSolve
-<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>} utility
+<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} utility
 as an (exact) geodesic, but intended I{for testing purposes only}.
 
 Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2d, unroll180, wrap360
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.05.08'
+__version__ = '22.05.14'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -142,14 +142,14 @@ class _GeodesicSolveBase(_GeodesicBase):
 
     @Property
     def GeodSolve(self):
-        '''Get the U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+        '''Get the U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
            executable (C{filename}).
         '''
         return self._GeodSolve
 
     @GeodSolve.setter  # PYCHOK setter!
     def GeodSolve(self, path):
-        '''Set the U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+        '''Set the U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
            executable (C{filename}).
 
            @arg path: The (fully qualified) path to the C{GeodSolve} executable (C{str}).
@@ -341,8 +341,8 @@ class _GeodesicSolveBase(_GeodesicBase):
 
 
 class GeodesicSolve(_GeodesicSolveBase):
-    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
-       as an C{Exact} version of I{Karney}'s Python class U{Geodesic<https://GeographicLib.SourceForge.io/html/
+    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
+       as an C{Exact} version of I{Karney}'s Python class U{Geodesic<https://GeographicLib.SourceForge.io/C++/doc/
        python/code.html#geographiclib.geodesic.Geodesic>}.
 
        @note: Use property C{GeodSolve} or env variable C{PYGEODESY_GEODSOLVE} to specify the (fully
@@ -471,15 +471,15 @@ class GeodesicSolve(_GeodesicSolveBase):
                   the limit C{ε → 0+}.
 
            @see: C++ U{GeodesicExact.Line
-                 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html>}
-                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/html/python/code.html>}.
+                 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
+                 and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
         '''
         return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, name=self.name)
 
 
 class GeodesicLineSolve(_GeodesicSolveBase):
-    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
-       as an C{Exact} version of I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/html/
+    '''Wrapper to invoke I{Karney}'s U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
+       as an C{Exact} version of I{Karney}'s Python class U{GeodesicLine<https://GeographicLib.SourceForge.io/C++/doc/
        python/code.html#geographiclib.geodesicline.GeodesicLine>}.
 
        @note: Use property C{GeodSolve} or env variable C{PYGEODESY_GEODSOLVE} to specify the (fully

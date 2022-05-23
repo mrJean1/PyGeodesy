@@ -440,12 +440,10 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">**s_D_M_S_kwds</span>)</span><br />
-      This <a href="pygeodesy.points.LatLon_-class.html" 
-      class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
-      &lt;degrees&gt;&quot;.</td>
+        <span class="summary-sig-arg">joined</span>=<span class="summary-sig-default">', '</span>,
+        <span class="summary-sig-arg">**prec_sep_s_D_M_S_kwds</span>)</span><br />
+      Convert this point to a &quot;lat, lon[, height][, name][, ...]&quot;
+      string, formatted in the given <code><b>form</b>at</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1107,73 +1105,54 @@ object --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">**s_D_M_S_kwds</span>)</span>
+        <span class="sig-arg">joined</span>=<span class="sig-default">', '</span>,
+        <span class="sig-arg">**prec_sep_s_D_M_S_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>This <a href="pygeodesy.points.LatLon_-class.html" 
-  class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
-  &lt;degrees&gt;&quot;.</p>
+  <p>Convert this point to a &quot;lat, lon[, height][, name][, ...]&quot; 
+  string, formatted in the given <code><b>form</b>at</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>form</code></strong> - Format specifier (<code>str</code> or F_D, <a 
-          href="pygeodesy-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy-module.html#F_DMS" class="link">F_DMS</a>, <a 
-          href="pygeodesy-module.html#F_DEG" class="link">F_DEG</a>, <a 
-          href="pygeodesy-module.html#F_MIN" class="link">F_MIN</a>, <a 
-          href="pygeodesy-module.html#F_SEC" class="link">F_SEC</a>, <a 
-          href="pygeodesy-module.html#F_D60" class="link">F_D60</a>, <a 
-          href="pygeodesy-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy-module.html#F_RAD" class="link">F_RAD</a>, <a 
-          href="pygeodesy-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy-module.html#F_DM_" class="link">F_DM_</a>, <a 
-          href="pygeodesy-module.html#F_DMS_" class="link">F_DMS_</a>, <a 
-          href="pygeodesy-module.html#F_DEG_" class="link">F_DEG_</a>, <a 
-          href="pygeodesy-module.html#F_MIN_" class="link">F_MIN_</a>, <a 
-          href="pygeodesy-module.html#F_SEC_" class="link">F_SEC_</a>, <a 
-          href="pygeodesy-module.html#F_D60_" class="link">F_D60_</a>, <a 
-          href="pygeodesy-module.html#F__E_" class="link">F__E_</a>, <a 
-          href="pygeodesy-module.html#F__F_" class="link">F__F_</a>, <a 
-          href="pygeodesy-module.html#F__G_" class="link">F__G_</a>, <a 
-          href="pygeodesy-module.html#F_RAD_" class="link">F_RAD_</a>, <a 
-          href="pygeodesy-module.html#F_D__" class="link">F_D__</a>, <a 
-          href="pygeodesy-module.html#F_DM__" class="link">F_DM__</a>, <a 
-          href="pygeodesy-module.html#F_DMS__" class="link">F_DMS__</a>, <a
-          href="pygeodesy-module.html#F_DEG__" class="link">F_DEG__</a>, <a
-          href="pygeodesy-module.html#F_MIN__" class="link">F_MIN__</a>, <a
-          href="pygeodesy-module.html#F_SEC__" class="link">F_SEC__</a>, <a
-          href="pygeodesy-module.html#F_D60__" class="link">F_D60__</a>, <a
-          href="pygeodesy-module.html#F__E__" class="link">F__E__</a>, <a 
-          href="pygeodesy-module.html#F__F__" class="link">F__F__</a>, <a 
-          href="pygeodesy-module.html#F__G__" class="link">F__G__</a> or <a
-          href="pygeodesy-module.html#F_RAD__" class="link">F_RAD__</a>)</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
-          (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the degrees, minutes respectively seconds symbol, 
-          defaults S_DEG, S_MIN respectively S_SEC.</li>
+        <li><strong class="pname"><code>form</code></strong> - The lat-/longitude <code><b>form</b>at</code> to use 
+          (<code>str</code>), see functions <a 
+          href="pygeodesy.dms-module.html#latDMS" 
+          class="link">pygeodesy.latDMS</a> or <a 
+          href="pygeodesy.dms-module.html#lonDMS" 
+          class="link">pygeodesy.lonDMS</a>.</li>
+        <li><strong class="pname"><code>joined</code></strong> - Separator to join the lat-, longitude, heigth, name and other 
+          strings (<code>str</code> or <code>None</code> or <code>NN</code>
+          for non-joined).</li>
+        <li><strong class="pname"><code>prec_sep_s_D_M_S_kwds</code></strong> - Optional <code><b>prec</b>ision</code>, 
+          <code><b>sep</b>arator</code>, <b><code>s_D</code></b>, 
+          <b><code>s_M</code></b>, <b><code>s_S</code></b>, 
+          <b><code>s_DMS</code></b> and possibly other keyword arguments, 
+          see functions <a href="pygeodesy.dms-module.html#latDMS" 
+          class="link">pygeodesy.latDMS</a> or <a 
+          href="pygeodesy.dms-module.html#lonDMS" 
+          class="link">pygeodesy.lonDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This instance in the specified <b><code>form</code></b> 
-          (<code>str</code>).</dd>
+        <dd>This point in the specified <code><b>form</b>at</code>, etc. 
+          (<code>str</code> or a 2- or 3+tuple <code>(lat_str, lon_str[, 
+          height_str][, name_str][, ...])</code> if 
+          <code><b>joined</b>=NN</code> or <code><b>joined</b>=None</code> 
+          and with the <code>height_str</code> and <code>name_str</code> 
+          only included if non-zero respectively non-empty).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.dms-module.html#degDMS" 
-        class="link">pygeodesy.degDMS</a> for <b><code>form</code></b> and 
-        <b><code>s_D_M_S</code></b>.
+        Function <a href="pygeodesy.dms-module.html#latDMS" 
+        class="link">pygeodesy.latDMS</a> or <a 
+        href="pygeodesy.dms-module.html#lonDMS" 
+        class="link">pygeodesy.lonDMS</a> for more details about keyword 
+        arguments <code><b>form</b>at</code>, 
+        <code><b>prec</b>ision</code>, <code><b>sep</b>arator</code>, 
+        <b><code>s_D</code></b>, <b><code>s_M</code></b>, 
+        <b><code>s_S</code></b> and <b><code>s_DMS</code></b>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1433,7 +1412,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 10 13:16:38 2022
+    Generated by Epydoc 3.0.1 on Mon May 23 11:21:59 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

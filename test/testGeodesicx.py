@@ -5,7 +5,7 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.04.07'
+__version__ = '22.04.14'
 
 from base import GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -70,7 +70,7 @@ class Tests(TestsBase):
             gs += gS,
 
             # extreme ob- and prolate
-            for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e12 AssertionError
+            for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e21 AssertionError
                 try:
                     f *= 0.1
                     rX = gX.classof(E.a, f).Direct(40.6, -73.8, 51, 5.5e6, gX.ALL)
@@ -163,7 +163,7 @@ class Tests(TestsBase):
             self.test('iteration', rS.iteration, rS.iteration)
             gs += gS,
             # extreme ob- and prolate
-            for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e12 AssertionError
+            for f in range(-7, 10):  # -9, -8 throw an Ellipsoid.e21 AssertionError
                 try:
                     f *= 0.1
                     rX = gX.classof(E.a, f).Inverse(40.6, -73.8, 51.6, -0.5, gX.ALL)

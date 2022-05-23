@@ -144,7 +144,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_D60__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
-                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
+                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_DMS', 'S_RAD', 'S_SEP',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                  'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
@@ -206,7 +206,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'fsum', 'fsum_', 'fsum1', 'fsum1_',),
                            gars=('Garef', 'GARSError'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
-                                 'Caps', 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
+                                 'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=('GeodesicSolve', 'GeodesicLineSolve'),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
@@ -227,7 +227,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         interns=_interns_a_l_l_,
                           iters=('LatLon2PsxyIter', 'PointsIter', 'points2',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
-                         karney=('Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
+                         karney=('Caps', 'Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
                      latlonBase=(),  # module only
                          lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -262,6 +262,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cassini', 'collins5', 'pierlot', 'tienstra7',
                                  'snellius3', 'wildberger3',
                                  'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
+                         rhumbx=('Rhumb', 'RhumbError', 'RhumbLine', 'RhumbOrder2Tuple', 'Rhumb7Tuple'),
                   sphericalBase=(),  # module only
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
@@ -326,35 +327,68 @@ class _ALL_MODS(object):
         return _DOT_(self.__class__.__name__, name)
 
     def __getattr__(self, name):
+        '''Get a C{pygeodesy} module or attribute by B{C{name}}.
+
+           @arg name: Unqualified module or attribute name (C{str}).
+        '''
         try:
             n = _DOT_(_pygeodesy_, name)
-            m =  import_module(n, _pygeodesy_)
+            return self.getmodule(n)
         except ImportError as x:
             raise LazyImportError(str(x), txt=_doesn_t_exist_)
-        return self._insert(name, m)
 
     def __setattr__(self, name, value):  # PYCHOK no cover
         t = _EQUALSPACED_(self._DOT_(name), repr(value))
         raise AttributeError(_COLONSPACE_(t, _immutable_))
 
-    def _insert(self, name, module):  # see _lazy_import2 below
-        try:  # after .props.Property_RO.__get__
-            if name not in self.__dict__:
-                self.__dict__[name] = module
-        except (AttributeError, KeyError):
-            pass
-        return module
+    def getattr(self, module_name, name, *dflt):
+        '''Get an attribute of a C{pygeodesy} module.
+
+           @arg module_name: Un- or qualified module name (C{str}).
+           @arg name: Attribute name (C{str}).
+
+           @return: The C{pygeodesy} module's attribute.
+
+           @raise AttributeError: No attribute with that B{C{name}}.
+
+           @raise ImportError: Importing B{C{module_name}} failed.
+        '''
+        n = module_name
+        if n.split(_DOT_, 1)[0] != _pygeodesy_:
+            n = _DOT_(_pygeodesy_, n)
+        m = self.getmodule(n)
+        return m if name in (None, NN) else (
+               getattr(m, name, *dflt) if dflt else getattr(m, name))
+
+    def getmodule(self, name):
+        '''Get a C{pygeodesy} module.
+
+           @arg name: Qualified module name (C{str}).
+
+           @return: The C{pygeodesy} module.
+
+           @raise ImportError: Importing module B{C{name}} failed.
+        '''
+        return import_module(name, _pygeodesy_)
+
+#   def _imported(self, name, module):  # in _lazy_import2 below
+#       try:
+#           if name not in _sys.modules:
+#               _sys.modules[name] = module
+#       except (AttributeError, KeyError):
+#           pass
+#       return module
 
     def items(self):  # no module named 'items'
         '''Yield the modules imported so far.
         '''
-        for n, m in self.__dict__.items():
+        for n, m in _sys.modules.items():
             yield n, m
 
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.05.09'
+__version__ = '22.05.17'
 
 
 def _ALL_OTHER(*objs):
@@ -475,7 +509,7 @@ def _lazy_import2(package_name):  # MCCABE 15
             pkg = getattr(imported, _p_a_c_k_a_g_e_, None)
             if pkg not in packages:  # invalid package
                 raise LazyImportError(_DOT_(mod, _p_a_c_k_a_g_e_), pkg)
-            _ALL_MODS._insert(mod, imported)
+            # _ALL_MODS._imported(mod, imported)
             # import the module or module attribute
             if attr:
                 imported = getattr(imported, attr, MISSING)
@@ -612,17 +646,15 @@ if __name__ == '__main__':
     t1 = timeit(t1, number=1000000)
     t2 = timeit(t2, number=1000000)
     v = _Python_(_sys.version)
-    printf('%.8f import vs %.8f _ALL_MODS: %.3fX slower, %s', t1, t2, t1 / t2, v)
+    printf('%.8f import vs %.8f _ALL_MODS: %.3fX, %s', t1, t2, t2 / t1, v)
 
 # % python3 -W ignore -m pygeodesy.lazily
-# 0.31915954 import vs 0.06120746 _ALL_MODS: 5.214X slower, Python 3.10.4
+# 0.32745546 import vs 4.37243521 _ALL_MODS: 13.353X, Python 3.10.4
 
 # % python2 -m pygeodesy.lazily
-# 1.15583587 import vs 0.09665585 _ALL_MODS: 11.958X slower, Python 2.7.18
+# 1.17561793 import vs 2.12187600 _ALL_MODS: 1.805X, Python 2.7.18
 
-# _ALL_MODS above in t2 is 5X to 12X faster than t1 with
-#  Python 2.7.18 and 3.10.2 (on M1 Apple Silicon).  The
-#  implementation below is far too verbose to be worthwhile.
+# The implementation below is far too verbose to be worthwhile.
 
 # class _Property_RO(property):
 #     '''(INTERNAL) Sub-set of L{pygeodesy.props.Property_RO}.

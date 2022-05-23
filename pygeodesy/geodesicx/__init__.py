@@ -2,27 +2,26 @@
 # -*- coding: utf-8 -*-
 
 u'''A pure Python version of I{Karney}'s C++ classes U{GeodesicExact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicExact.html>}
+<https://GeographicLib.SourceForge.io/C++/classGeographicLib_1_1GeodesicExact.html>}
 and U{GeodesicLineExact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GeodesicLineExact.html>}.
+<https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html>}.
 
-For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/html/index.html>}
-documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/html/annotated.html>}
+For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
+documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
 and the background information on the page U{Geodesics on an ellipsoid of revolution
-<https://GeographicLib.SourceForge.io/html/geodesic.html#geodseries>}.
+<https://GeographicLib.SourceForge.io/C++/doc/geodesic.html#geodseries>}.
 
 Also, compare C{GeodesicExact} and C{GeodesicLineExact} to I{standard} classes C{Geodesic}
 respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographiclib
-<https://GeographicLib.SourceForge.io/html/other.html#python>}.
+<https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}.
 '''
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
 from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # PYCHOK exported
-from pygeodesy.geodesicx.gxbases import Caps, GeodesicError  # PYCHOK exported
-# from pygeodesy.karney import GeodesicError  # from .geodesicx.bases
+from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
-__all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(GeodesicError)
-__version__ = '22.03.25'
+__all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
+__version__ = '22.05.14'
 
 # **) MIT License
 #

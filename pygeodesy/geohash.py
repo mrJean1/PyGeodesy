@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.11.28'
+__version__ = '22.05.14'
 
 
 class _GH(object):
@@ -829,7 +829,7 @@ def precision(res1, res2=None):
        @raise GeohashError: Invalid B{C{res1}} or B{C{res2}}.
 
        @see: C++ class U{Geohash
-             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geohash.html>}.
     '''
     r = Degrees_(res1=res1, low=_0_0, Error=GeohashError)
     if res2 is None:
@@ -871,7 +871,7 @@ def resolution2(prec1, prec2=None):
        @raise GeohashError: Invalid B{C{prec1}} or B{C{prec2}}.
 
        @see: I{Karney}'s C++ class U{Geohash
-             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geohash.html>}.
     '''
     res1, res2 = _360_0, _180_0  # note ... lon, lat!
 

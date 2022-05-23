@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.04.01'
+__version__ = '22.05.22'
 
 from base import TestsBase
 
@@ -46,7 +46,7 @@ class Tests(TestsBase):
 
         self.test('eps4', eps4, eps4, fmt='%.9e', nl=1)
 
-        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1EllipticFunction.html>
         e = Elliptic(0.1)
         self.test('k2',  e.k2,  '0.1000000',   fmt='%.7f')
         self.test('kp2', e.kp2, '0.9000000',   fmt='%.7f')
@@ -123,13 +123,14 @@ class Tests(TestsBase):
         self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f')  # E(0.99)?
 
         e.reset(0, 0)
-        self.test('reset', len(e.__dict__), 4, nl=1)
+        self.test('reset', len(e.__dict__), 5, nl=1)
 
-        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),    '0.0, 1.0, 1.0')
-        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '1.0, -0.0, 1.0', known=True)
+        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),     '0.0, 1.0, 1.0')
+        t = fstr(e.sncndn(PI_2), prec=9)
+        self.test('sncndn(x)', t, '1.0, 0.0, 1.0', known=t == '1.0, -0.0, 1.0')
         e.reset(1, 1)
-        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),    '0.0, 1.0, 1.0')
-        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
+        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9),     '0.0, 1.0, 1.0')
+        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9),  '0.917152336, 0.398536815, 0.398536815')
         self.test('sncndn(x)', type(e.sncndn(PI_4)), Elliptic3Tuple)
         self.testCopy(e)
 

@@ -11,16 +11,15 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # from pygeodesy.basics import isodd  # from .karney
 from pygeodesy.errors import _or, _xkwds_get
 from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
-from pygeodesy.karney import GeodesicError, isodd, _hypot, \
-                            _NamedBase, Property, _sum2_
+from pygeodesy.karney import Caps, _CapsBase, GeodesicError, \
+                             isodd, _hypot, _sum2_
 from pygeodesy.lazily import _ALL_DOCS
-# from pygeodesy.named import _NamedBase  # from .karney
 # from pygeodesy.props import Property  # from .karney
 
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.05.10'
+__version__ = '22.05.18'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -29,97 +28,9 @@ _TINY = sqrt(_MIN)  # PYCHOK exported
 # assert (_TINY * EPS) > 0 and (_TINY + EPS) == EPS
 
 
-class Caps(object):  # PYCHOK
-    '''(INTERNAL) Overriden by C{Caps} below.
-    '''
-    EMPTY          =  0        # formerly aka NONE
-    LATITUDE       =  1 << 7   # compute latitude C{lat2} (0x80)
-    LONGITUDE      =  1 << 8   # compute longitude C{lon2}
-    AZIMUTH        =  1 << 9   # azimuths C{azi1} and C{azi2}
-    DISTANCE       =  1 << 10  # compute distance C{s12}
-    DISTANCE_IN    =  1 << 11  # allow distance C{s12} in Direct
-    REDUCEDLENGTH  =  1 << 12  # compute reduced length C{m12}
-    GEODESICSCALE  =  1 << 13  # compute geodesic scales C{M12} and C{M21}
-    AREA           =  1 << 14  # compute area C{S12} (0x4000)
-
-    STANDARD       =  AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE
-    ALL            =  0x7F80   # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
-
-    LINE_OFF       =  1 << 15  # Line without updates from parent GeodesicExact
-    LONG_UNROLL    =  1 << 16  # unroll C{lon2} in GeodesicExact.Direct
-    REVERSE2       =  1 << 17  # reverse C{azi2}
-
-    _ANGLE_ONLY    =  1 << 18  # angular distance C{a12} only
-    _SALPs_CALPs   =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
-
-    _DEBUG_AREA    =  1 << 20  # (INTERNAL) include Line details
-    _DEBUG_DIRECT  =  1 << 21  # (INTERNAL) include Direct details
-    _DEBUG_INVERSE =  1 << 22  # (INTERNAL) include Inverse details
-    _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
-    _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
-                     _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
-
-    _OUT_ALL       =  ALL
-    _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
-
-    _DISTANCE_IN_OUT                      = DISTANCE_IN & _OUT_MASK
-
-    _AZIMUTH_DISTANCE                     = AZIMUTH | DISTANCE
-    _AZIMUTH_LATITUDE_LONGITUDE           = AZIMUTH | LATITUDE | LONGITUDE
-    _LINE                                 = AZIMUTH | LATITUDE | LONG_UNROLL
-    _REDUCEDLENGTH_GEODESICSCALE          = REDUCEDLENGTH | GEODESICSCALE
-#   _REDUCEDLENGTH_GEODESICSCALE_DISTANCE = REDUCEDLENGTH | GEODESICSCALE | DISTANCE
-
-Caps = Caps()  # PYCHOK singleton
-'''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic
-capabilities (C{caps}) and expected results (C{outmask}).
-
-C{AREA} - compute area C{S12},
-
-C{AZIMUTH} - include azimuths C{azi1} and C{azi2},
-
-C{DISTANCE} - compute distance C{s12},
-
-C{DISTANCE_IN} - allow distance C{s12} in C{.Direct},
-
-C{EMPTY} - nothing, formerly aka C{NONE},
-
-C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
-
-C{LATITUDE} - compute latitude C{lat2},
-
-C{LONGITUDE} - compute longitude C{lon2},
-
-C{LONG_UNROLL} - unroll C{lon2} in C{.Direct},
-
-C{REDUCEDLENGTH} - compute reduced length C{m12},
-
-C{REVERSE2} - reverse C{azi2},
-
-and C{ALL} - all of the above.
-
-C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
-
-
-class _GeodesicBase(_NamedBase):  # in .geodsolve
+class _GeodesicBase(_CapsBase):  # in .geodsolve
     '''(INTERNAL) Base class for C{[_]Geodesic*Exact}.
     '''
-    ALL           = Caps.ALL
-    AREA          = Caps.AREA
-    AZIMUTH       = Caps.AZIMUTH
-    DISTANCE      = Caps.DISTANCE
-    DISTANCE_IN   = Caps.DISTANCE_IN
-    EMPTY         = Caps.EMPTY  # aka NONE
-    GEODESICSCALE = Caps.GEODESICSCALE
-    LATITUDE      = Caps.LATITUDE
-    LINE_OFF      = Caps.LINE_OFF
-    LONGITUDE     = Caps.LONGITUDE
-    LONG_UNROLL   = Caps.LONG_UNROLL
-    REDUCEDLENGTH = Caps.REDUCEDLENGTH
-    STANDARD      = Caps.STANDARD
-
-    _debug        = 0  # or Caps._DEBUG_...
-
 #   def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
 #       '''Return this C{GeodesicExact*} items string.
 #
@@ -131,20 +42,6 @@ class _GeodesicBase(_NamedBase):  # in .geodsolve
 #          @return: C{GeodesicExact*} (C{str}).
 #       '''
 #       return Fmt.PAREN(self.named, self.toStr(prec=prec, sep=sep))
-
-    @Property
-    def debug(self):
-        '''Get the C{debug} option (C{bool}).
-        '''
-        return bool(self._debug)
-
-    @debug.setter  # PYCHOK setter!
-    def debug(self, debug):
-        '''Set the C{debug} option.
-
-           @arg debug: Include more details in results (C{bool}).
-        '''
-        self._debug = Caps._DEBUG_ALL if debug else 0
 
     def _iter2tion(self, r, s):
         '''(INTERNAL) Copy C{C{s}.iter} into C{B{r}._iteration}.
@@ -164,7 +61,7 @@ def _all_caps(_caps, caps):  # PYCHOK shared
     return (_caps & caps) == caps
 
 
-def _coSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
+def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     '''(INTERNAL) I{Karney}'s cosine series expansion using U{Clenshaw
        summation<https://WikiPedia.org/wiki/Clenshaw_algorithm>}.
     '''
@@ -191,19 +88,6 @@ def _f2(hi, lo):  # in .geodesicx._C4_24, _27 and _30
     '''(INTERNAL) For C{_coeffs}.
     '''
     return _ldexp(_f(hi), 52) + _f(lo)
-
-
-def _polynomial(x, c4s, i, j):  # PYCHOK shared
-    '''(INTERNAL) Like C{GeographicLib.Math.hpp.polyval} but with a
-       different signature and cascaded summation as C{karney._fsum2}.
-
-       @return: M{sum(c4s[k] * x**(j - k - 1) for k in range(i, j)}
-    '''
-    s, t = c4s[i], _0_0
-    _s2_ = _sum2_
-    for c4 in c4s[i+1:j]:
-        s, t = _s2_(s * x, t * x, c4)
-    return s  # + t
 
 
 def _sincos12(sin1, cos1, sin2, cos2, sineg0=False):  # PYCHOK shared

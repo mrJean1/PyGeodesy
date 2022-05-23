@@ -11,7 +11,7 @@ and I{Universal Polar Stereographic} (U{UPS
 coordinates.
 
 A pure Python implementation, partially transcoded from C++ class U{UTMUPS
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}.
 '''
 
@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, map1, _MGRS_TILE, _to4lldn, _to3zBhp, \
                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '22.04.14'
+__version__ = '22.05.14'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -176,7 +176,7 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
        @raise UTMUPSError: UTM or UPS validation failed.
 
        @see: Classes L{Utm} and L{Ups} and I{Karney}'s U{UTMUPS
-             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
     '''
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm

@@ -8,8 +8,8 @@ and spherical earth models using precision trigonometric, vector-based,
 exact, elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
-Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
-and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2021*
+Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2022*
+and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2022*
 and published under the same `MIT License`_.
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
@@ -148,7 +148,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: May 11, 2022.*
+*Last updated: May 22, 2022.*
 
 License
 =======

@@ -23,7 +23,7 @@ This module includes some of I{Charles Karney}'s U{'Transverse Mercator with an
 accuracy of a few nanometers'<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
 (building on Krüger's U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
-U{TransverseMercator<https://GeographicLib.SourceForge.io/html/
+U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
 classGeographicLib_1_1TransverseMercator.html>}.
 
 Some other references are U{Universal Transverse Mercator coordinate system
@@ -63,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.04.22'
+__version__ = '22.05.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -142,7 +142,7 @@ def _false2(e, n, h):
     '''(INTERNAL) False easting and northing.
     '''
     # Karney, "Test data for the transverse Mercator projection (2009)"
-    # <https://GeographicLib.SourceForge.io/html/transversemercator.html>
+    # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html>
     # and <https://Zenodo.org/record/32470#.W4LEJS2ZON8>
     e += _FalseEasting  # make e relative to central meridian
     if h == _S_:

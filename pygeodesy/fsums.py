@@ -27,7 +27,7 @@ from pygeodesy.basics import iscomplex, _isfinite, isinf, isint, isnan, \
                              isscalar, map1, neg, signOf, _signOf
 from pygeodesy.errors import _OverflowError, _TypeError, _ValueError, \
                              _xError2, _xkwds_get, _ZeroDivisionError
-from pygeodesy.interns import INT0, NN, _COMMASPACE_, _DASH_, _EQUAL_, \
+from pygeodesy.interns import INT0, NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
                              _from_, _iadd_, _not_finite_, _not_scalar_, \
                              _PERCENT_, _PLUS_, _SLASH_, _SPACE_, _STAR_, \
                              _0_0, _1_0, _N_1_0
@@ -40,7 +40,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.04.22'
+__version__ = '22.05.19'
 
 _eq_ = _EQUAL_ * 2  # _DEQUAL_
 _ge_ = '>='
@@ -50,7 +50,6 @@ _lt_ = '<'  # _LANGLE_
 _ne_ = '!='
 
 _add_      = _PLUS_
-_arg_      = 'arg'
 _floordiv_ = _SLASH_ * 2
 _fset_     = _EQUAL_
 _integer_  = 'integer'

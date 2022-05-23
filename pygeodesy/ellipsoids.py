@@ -69,7 +69,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NINF, NN, PI4, PI_2, 
                              _incompatible_, _invalid_, _Krassovski1940_, _Krassowsky1940_, \
                              _meridional_, _lat_, _negative_, _not_finite_, _null_, _vs_, \
                              _prime_vertical_, _radius_, _Sphere_, _SPACE_, _SQRT2_2, \
-                             _WGS72_, _WGS84_, _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
+                             _WGS72_, _WGS84_, _0_0, _0_5, _1_0, _2_0, _4_0, _90_0  # _1_16th
 from pygeodesy.interns import _0_25, _3_0, _8_0, _24_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
@@ -84,7 +84,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, m2SM, 
 
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
-R_M  = Radius(R_M =R_M)            # mean (spherical) earth radius (C{meter})
+R_M  = Radius(R_M = R_M)           # mean (spherical) earth radius (C{meter})
 R_MA = Radius(R_MA=_F(6378137.0))  # equatorial earth radius (C{meter}), WGS84, EPSG:3785
 R_MB = Radius(R_MB=_F(6356752.3))  # polar earth radius (C{meter}), WGS84, EPSG:3785
 R_KM = Radius(R_KM=_F(m2km(R_M)))  # mean (spherical) earth radius (C{KM}, kilo meter)
@@ -100,11 +100,11 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.05.09'
+__version__ = '22.05.17'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
-# see U{WGS84_f()<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Constants.html>}
+# see U{WGS84_f()<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>}
 _f__WGS84 = Float(f_=_1_0 / (1000000000 / 298257223563))  # 298.25722356299997 vs 298.257223563
 
 
@@ -282,7 +282,7 @@ class Ellipsoid(_NamedEnumItem):
                 d.update(Error=_ValueError, txt=_incompatible_)
             self._assert(_1_0 / f,  f_=f_, **d)
             self._assert(_1_0 / f_, f =f,  **d)
-        self._assert(self.b2_a2, e12=self.e12, eps=EPS)
+        self._assert(self.b2_a2, e21=self.e21, eps=EPS)
 
     def __eq__(self, other):
         '''Compare this and an other ellipsoid.
@@ -305,13 +305,13 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def a2(self):
-        '''Get the I{equatorial} radius I{squared} (C{meter**2}), M{a**2}.
+        '''Get the I{equatorial} radius I{squared} (C{meter} I{squared}), M{a**2}.
         '''
         return Meter2(a2=self.a**2)
 
     @Property_RO
     def a2_(self):
-        '''Get the inverse of the I{equatorial} radius I{squared} (C{meter**2}), M{1 / a**2}.
+        '''Get the inverse of the I{equatorial} radius I{squared} (C{meter} I{squared}), M{1 / a**2}.
         '''
         return Float(a2_=_1_0 / self.a2)
 
@@ -339,7 +339,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def a2_b2(self):
         '''Get the ratio I{equatorial} over I{polar} radius I{squared} (C{float}),
-           M{(a / b)**2} == M{1 / (1 - e**2)} == M{1 / (1 - e2)} == M{1 / e12}.
+           M{(a / b)**2} == M{1 / (1 - e**2)} == M{1 / (1 - e2)} == M{1 / e21}.
         '''
         return Float(a2_b2=self.a_b**2 if self.f else _1_0)
 
@@ -352,16 +352,19 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def A(self):
         '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
+
+           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/
+                 a-highly-accurate-world-wide-algorithm-for-the-transverse...>}.
         '''
         A, n = self.a, self.n
         if n:
-            n1_A = (_1_0 + n) * 1048576 / A
-            if n1_A:  # use 6 n**2 terms, half-way between the _KsOrder's 4, 6, 8
-                # <https://GeographicLib.SourceForge.io/html/tmseries30.html>
-                # <https://GeographicLib.SourceForge.io/html/transversemercator.html> and
+            d = (n + _1_0) * 1048576 / A
+            if d:  # use 6 n**2 terms, half-way between the _KsOrder's 4, 6, 8
+                # <https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>
+                # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html> and
                 # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf> (3)
                 # A *= fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441) / 1048576) / (1 + n)
-                A = Radius(A=Fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441).fover(n1_A))
+                A = Radius(A=Fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441).fover(d))
         return A
 
     @Property_RO
@@ -372,7 +375,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def AlphaKs(self):
-        '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}C{-tuple}).
+        '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
         return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # PYCHOK semicolon
             #   n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
@@ -387,7 +390,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def area(self):
-        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2}.
+        '''Get the ellipsoid's surface area (C{meter} I{squared}), M{4 * PI * c2}.
 
            @see: Properties L{areax}, L{c2} and L{R2} and functions
                  L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
@@ -396,7 +399,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def areax(self):
-        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * c2x}, more
+        '''Get the ellipsoid's surface area (C{meter} I{squared}), M{4 * PI * c2x}, more
            accurate for very I{oblate} ellipsoids.
 
            @see: Properties L{area}, L{c2x} and L{R2x}, class L{GeodesicExact} and
@@ -578,7 +581,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def b2_a2(self):
         '''Get the ratio I{polar} over I{equatorial} radius I{squared} (C{float}), M{(b / a)**2}
-           == M{(1 - f)**2} == M{1 - e**2} == C{e12}.
+           == M{(1 - f)**2} == M{1 - e**2} == C{e21}.
         '''
         return Float(b2_a2=self.b_a**2 if self.f else _1_0)
 
@@ -591,7 +594,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def BetaKs(self):
-        '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (C{KsOrder}C{-tuple}).
+        '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
         return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # PYCHOK semicolon
             #   n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
@@ -611,12 +614,12 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def c2(self):
-        '''Get the I{authalic} earth radius I{squared} (C{meter**2}).
+        '''Get the I{authalic} earth radius I{squared} (C{meter} I{squared}).
 
 
            @see: Properties L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation 60
                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area()
-                 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>},
+                 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html>},
                  U{Authalic radius<https://WikiPedia.org/wiki/Earth_radius#Authalic_radius>}, U{Surface area
                  <https://WikiPedia.org/wiki/Ellipsoid>} and U{surface area
                  <https://www.Numericana.com/answer/geometry.htm#oblate>}.
@@ -625,11 +628,11 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def c2x(self):
-        '''Get the I{authalic} earth radius I{squared} (C{meter**2}), more accurate for very I{oblate}
+        '''Get the I{authalic} earth radius I{squared} (C{meter} I{squared}), more accurate for very I{oblate}
            ellipsoids.
 
            @see: Properties L{c2}, L{areax}, L{R2x}, L{Rauthalicx}, class L{GeodesicExact} and I{Karney}'s comments at C++
-                 attribute U{GeodesicExact._c2<https://GeographicLib.SourceForge.io/html/GeodesicExact_8cpp_source.html>}.
+                 attribute U{GeodesicExact._c2<https://GeographicLib.SourceForge.io/C++/doc/GeodesicExact_8cpp_source.html>}.
         '''
         return self._c2f(True)
 
@@ -664,10 +667,10 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: Definition of U{I{p} and I{z} under B{Parametric (or
-                 reduced) latitude}<https://WikiPedia.org/wiki/Latitude>}
-                 and I{Karney's} C++ U{CircleRadius and CircleHeight
-                 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>}.
+           @see: Definition of U{I{p} and I{z} under B{Parametric (or reduced) latitude}
+                 <https://WikiPedia.org/wiki/Latitude>}, I{Karney's} C++ U{CircleRadius and CircleHeight
+                 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html>}
+                 and method C{Rlat}.
         '''
         lat = Lat(lat)
         if lat:
@@ -738,6 +741,16 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return Float(e=sqrt(self.e2abs) if self.e2 else _0_0)
 
+    @deprecated_Property_RO
+    def e12(self):  # see property L{_e2_
+        '''DEPRECATED, use property C{e21}.'''
+        return self.e21
+
+#   @Property_RO
+#   def _e12(self):  # see property ._elliptic_e12
+#       # (INTERNAL) until e12 above can be replaced.
+#       return self.e2 / (_1_0 - self.e2)  # see I{Karney}'s Ellipsoid._e12 = e2 / (1 - e2)
+
     @Property_RO
     def e2(self):
         '''Get the I{signed, (1st) eccentricity squared} (C{float}), M{f * (2 - f)
@@ -752,13 +765,14 @@ class Ellipsoid(_NamedEnumItem):
         return abs(self.e2)
 
     @Property_RO
-    def e12(self):
+    def e21(self):
         '''Get 1 less I{1st eccentricity squared} (C{float}), M{1 - e**2}
-           == M{(1 - f)**2} == M{b**2 / a**2}, see C{b2_a2}.
+           == M{1 - e2} == M{(1 - f)**2} == M{b**2 / a**2}, see C{b2_a2}.
         '''
-        return self._assert((_1_0 - self.f)**2, e12=_1_0 - self.e2, f0=_1_0)  # 1 - e2
+        return self._assert((_1_0 - self.f)**2, e21=_1_0 - self.e2, f0=_1_0)
 
-    _1_e12 = a2_b2  # M{1 / e12} == M{1 / (1 - e**2)}
+#   _e2m   = e21  # see I{Karney}'s Ellipsoid._e2m = 1 - _e2
+    _1_e21 = a2_b2  # M{1 / e21} == M{1 / (1 - e**2)}
 
     @Property_RO
     def e22(self):
@@ -812,7 +826,14 @@ class Ellipsoid(_NamedEnumItem):
         return _MODS.ecef._4Ecef(self, Ecef)
 
     @Property_RO
-    def _elliptic_e22(self):
+    def _elliptic_e12(self):  # see I{Karney}'s Ellipsoid._e12
+        '''(INTERNAL) Elliptic helper for C{rhumbx.Rhumb}.
+        '''
+        e12 = self.e2 / (_1_0 - self.e2)  # NOT DEPRECATED .e12!
+        return _MODS.elliptic.Elliptic(-e12)
+
+    @Property_RO
+    def _elliptic_e22(self):  # aka ._elliptic_ep2
         '''(INTERNAL) Elliptic helper for C{auxRectifying}, C{L}, C{Llat}.
         '''
         return _MODS.elliptic.Elliptic(-self.e22abs)  # complex
@@ -872,7 +893,7 @@ class Ellipsoid(_NamedEnumItem):
     def _es_atanh(self, x):
         '''(INTERNAL) Helper for .es_atanh, ._es_taupf2 and ._exp_es_atanh.
         '''
-        es = self.es
+        es = self.es  # signOf(es) == signOf(f)
         return es * (atanh(es * x) if es > 0 else  # .isOblate
                     (-atan(es * x) if es < 0 else  # .isProlate
                      _0_0))  # .isSpherical
@@ -895,7 +916,7 @@ class Ellipsoid(_NamedEnumItem):
         t = Scalar(taup=taup)
         if self.f:  # .isEllipsoidal
             a = abs(t)
-            T = t * (self._exp_es_atanh_1 if a > 70 else self._1_e12)
+            T = t * (self._exp_es_atanh_1 if a > 70 else self._1_e21)
             if abs(T * _EPSqrt) < _2_0:  # handles +/- INF and NAN
                 s = (a * _TOL) if a > _1_0 else _TOL
                 for T, _, d in self._es_tauf3(t, T):
@@ -909,13 +930,15 @@ class Ellipsoid(_NamedEnumItem):
            9 Newton iterations, converging rapidly except when C{delta}
            toggles on +/-1.12e-16 or +/-4.47e-16, see C{.utm.Utm._toLLEB}.
         '''
-        F = Fsum(T)  # τ0
-        e = self._1_e12
+        e = self._1_e21
+        _F2_ = Fsum(T).fsum2_  # τ0
+        _h1  = hypot1
+        _tf2 = self._es_taupf2
         for i in range(1, 10):  # max 2, mean 1.999, 1.963 or 1.954
-            a, h = self._es_taupf2(T)
-            d = (taup - a) * (e + T**2) / (hypot1(a) * h)
-            # = (taup - a) / hypot1(a) * ((e + T**2) / h)
-            T, d = F.fsum2_(d)  # τi, (τi - τi-1)
+            a, h = _tf2(T)
+            d = (taup - a) * (e + T**2) / (_h1(a) * h)
+            # = (taup - a) / hypot1(a) / ((e + T**2) / h)
+            T, d = _F2_(d)  # τi, (τi - τi-1)
             yield T, i, d
 
     def es_taupf(self, tau):
@@ -974,7 +997,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def geodesic(self):
         '''Get this ellipsoid's I{wrapped Karney} U{Geodesic
-           <https://GeographicLib.SourceForge.io/html/python/code.html>},
+           <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed.
         '''
@@ -993,7 +1016,7 @@ class Ellipsoid(_NamedEnumItem):
     @Property_RO
     def geodsolve(self):
         '''Get this ellipsoid's L{GeodesicSolve}, the I{wrapper} around utility
-           U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>},
+           U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>},
            provided the path to the C{GeodSolve} executable is specified with env
            variable C{PYGEODESY_GEODSOLVE}.
         '''
@@ -1104,7 +1127,7 @@ class Ellipsoid(_NamedEnumItem):
            @return: I{Krüger} series coefficients (L{KsOrder}C{-tuple}).
 
            @see: I{Karney}'s 30-th order U{TMseries30
-                 <https://GeographicLib.SourceForge.io/html/tmseries30.html>}.
+                 <https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>}.
         '''
         k = self.KsOrder
         if self.n:
@@ -1139,7 +1162,7 @@ class Ellipsoid(_NamedEnumItem):
     def L(self):
         '''Get the I{quarter meridian} C{L}, aka the C{polar distance}
            along a meridian between the equator and a pole (C{meter}),
-           M{b * Elliptic(-e2 / (1 - e2)).E} or M{a * PI / 2}.
+           M{b * Elliptic(-e2 / (1 - e2)).E} or M{b * PI / 2}.
         '''
         r = self._elliptic_e22.cE if self.f else PI_2
         return Distance(L=self.b * r)
@@ -1225,6 +1248,19 @@ class Ellipsoid(_NamedEnumItem):
     flattening1st = f
     flattening2nd = f2
     flattening3rd = n
+
+#   @Property_RO
+#   def Q(self):
+#       '''Get the I{meridian arc unit} C{Q}, the mean, meridional length I{per radian} C({float}).
+#
+#          @note: C{Q * PI / 2} ≈ C{L}, the I{quarter meridian}.
+#
+#          @see: Property C{A} and U{Engsager, K., Poder, K.<https://StudyLib.net/doc/7443565/
+#                a-highly-accurate-world-wide-algorithm-for-the-transverse...>}.
+#       '''
+#       n = self.n
+#       d = (n + _1_0) / self.a
+#       return Float(Q=Fhorner(n**2, _1_0, _0_25, _1_16th, _0_25).fover(d) if d else self.b)
 
     @deprecated_Property_RO
     def quarteradius(self):  # PYCHOK no cover
@@ -1340,6 +1376,14 @@ class Ellipsoid(_NamedEnumItem):
         g = sqrt(self.a * self.b) if self.f else self.a
         return Radius(Rgeometric=g)
 
+    @Property_RO
+    def rhumbx(self):
+        '''Get this ellipsoid's L{Rhumb}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        return _MODS.rhumbx.Rhumb(self, name=self.name)
+
     def Rlat(self, lat):
         '''I{Approximate} the earth radius of (geodetic) latitude.
 
@@ -1356,7 +1400,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @note: C{Rlat(B{90})} equals C{Rpolar}.
 
-           @see: Method C{Rparallel}.
+           @see: Method C{circle4}.
         '''
         # r = a - (a - b) * |lat| / 90
         r = self.a
@@ -1456,7 +1500,7 @@ class Ellipsoid(_NamedEnumItem):
             r = self.e2s2(sin(a))
             if r > EPS02:
                 n = self.a / sqrt(r)
-                m = n * self.e12 / r  # PYCHOK attr
+                m = n * self.e21 / r  # PYCHOK attr
             else:
                 m = n = _0_0  # PYCHOK attr
         else:
@@ -1920,8 +1964,8 @@ def f2f2(f):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = _1_0 - f
-    return Float(f2=_0_0 if _spherical_f(f) else
-                   (INF if  abs(t) < EPS else (f / t)))  # PYCHOK type
+    return Float(f2=_0_0 if _spherical_f(f) else (INF if abs(t) < EPS
+                                            else (f / t)))  # PYCHOK type
 
 
 def f2n(f):
@@ -1955,7 +1999,7 @@ def n2e2(n):
 
        @see: U{Flattening<https://WikiPedia.org/wiki/Flattening>}.
     '''
-    t = (_1_0 + n)**2
+    t = (n + _1_0)**2
     return Float(e2=_0_0 if abs(n) < EPS else
                    (NINF if     t  < EPS else (_4_0 * n / t)))
 

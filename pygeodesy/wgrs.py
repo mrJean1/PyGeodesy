@@ -7,7 +7,7 @@ Classes L{Georef} and L{WGRSError} and several functions to encode,
 decode and inspect WGRS references.
 
 Transcoded from I{Charles Karney}'s C++ class U{Georef
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>},
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Georef.html>},
 but with modified C{precision} and extended with C{height} and C{radius}.  See
 also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
@@ -31,7 +31,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '22.04.14'
+__version__ = '22.05.14'
 
 _Base    =  10
 _BaseLen =  4

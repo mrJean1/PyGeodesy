@@ -21,55 +21,59 @@ Karney-based functionality
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
     L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
-    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/html/
+    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1AlbersEqualArea.html>}
 
-  - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/html/
+  - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1CassiniSoldner.html>}
 
-  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/html/
+  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1Geocentric.html>}
 
-  - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/html/
+  - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1EllipticFunction.html>}
 
   - L{EquidistantExact}, L{EquidistantGeodSolve}, L{EquidistantKarney} -- U{AzimuthalEquidistant
-    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>}
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
 
   - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
-    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}
 
   - L{GeodesicAreaExact}, L{PolygonArea} -- U{PolygonArea<https://GeographicLib.SourceForge.io/
     html/classGeographicLib_1_1PolygonAreaT.html>}
 
-  - L{GeodesicExact}, L{GeodesicLineExact} -- U{GeodesicExact<https://GeographicLib.SourceForge.io/
-    html/classGeographicLib_1_1GeodesicExact.html>}, U{GeodesicLineExact<https://GeographicLib.SourceForge.io/
-    html/classGeographicLib_1_1GeodesicLineExact.html>}
+  - L{GeodesicExact}, L{GeodesicLineExact} -- U{GeodesicExact<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1GeodesicExact.html>}, U{GeodesicLineExact<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1GeodesicLineExact.html>}
 
-  - L{GeoidKarney} -- U{Geoid<https://GeographicLib.SourceForge.io/html/geoid.html>}
+  - L{GeoidKarney} -- U{Geoid<https://GeographicLib.SourceForge.io/C++/doc/geoid.html>}
 
-  - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/html/
+  - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1Georef.html>}
 
   - L{GnomonicExact}, L{GnomonicGeodSolve}, L{GnomonicKarney} -- U{Gnomonic
-    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>}
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>}
 
-  - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
+  - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1LocalCartesian.html>}
 
-  - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/html/
+  - L{Rhumb}, L{RhumbLine} -- U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
+    U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
+    U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
+
+  - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1PolarStereographic.html>}
 
-  - L{Utm} -- U{TransverseMercator<https://GeographicLib.SourceForge.io/html/
+  - L{Utm} -- U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1TransverseMercator.html>}
 
-  - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
+  - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1UTMUPS.html>}
 
-  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d} -- U{
-    Math<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}
+  - L{pygeodesy.atand}, L{pygeodesy.atan2d}, L{pygeodesy.sincos2}, L{pygeodesy.sincos2d}, L{pygeodesy.tand} -- U{
+    Math<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
 
-are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/annotated.html>}.
+are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}.
 
 2. These C{pygeodesy} modules and classes
 
@@ -78,7 +82,7 @@ are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://Geogra
     L{GnomonicKarney}, L{HeightIDWkarney}
 
 are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
-C{geodesic} or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}.
+C{geodesic} or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
 
 3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections and trilaterations
 
@@ -108,43 +112,40 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 
 from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, unsigned0, \
                              _xgeographiclib, _xImportError, _xversion_info, \
-                              isodd  # PYCHOK shared
+                             _xinstanceof, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
 from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
                             hypot as _hypot  # PYCHOK shared
 # from pygeodesy.errors import _ValueError, _xkwds  # from .named
-from pygeodesy.interns import NAN, NN, _DOT_, _2_, _lat1_, _lat2_, _lon2_, \
-                             _0_0, _1_0, _16_0, _180_0, _N_180_0, _360_0
+from pygeodesy.interns import NAN, NN, _DOT_, _2_, _lat1_, _lat2_, _lon1_, _lon2_, \
+                             _s12_, _S12_, _0_0, _180_0, _N_180_0, _360_0, _1_16th
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import callername, classname, _Dict, modulename, _NamedBase, \
                            _NamedTuple, _Pass, _ValueError, _xkwds  # PYCHOK shared
-from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
+from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple, \
+                           LatLon2Tuple  # PYCHOK shared .rhumbx
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
-from pygeodesy.utily import atan2d, sincos2d, unroll180, wrap360
+from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.05.09'
+__version__ = '22.05.22'
 
 _a12_  = 'a12'
 _azi1_ = 'azi1'
 _azi2_ = 'azi2'
-_lon1_ = 'lon1'
 _m12_  = 'm12'
 _M12_  = 'M12'
 _M21_  = 'M21'
-_s12_  = 's12'
-_S12_  = 'S12'
 
-_1_16th = _1_0 / _16_0
 _EWGS84 = _WGS84.ellipsoid  # PYCHOK used!
 _K_2_0  = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 
 
-def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx and .geodsolve
+def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx, .geodsolve, .rhumbx
     '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}.
     '''
     return Ellipsoid2(a_ellipsoid, f, name=name) if f is not None else \
@@ -188,6 +189,116 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
         return r
 
 
+class Caps(object):  # PYCHOK
+    '''(INTERNAL) Overriden by C{Caps} below.
+    '''
+    EMPTY          =  0        # formerly aka NONE
+    LATITUDE       =  1 << 7   # compute latitude C{lat2}
+    LONGITUDE      =  1 << 8   # compute longitude C{lon2}
+    AZIMUTH        =  1 << 9   # azimuths C{azi1} and C{azi2}
+    DISTANCE       =  1 << 10  # compute distance C{s12}
+    DISTANCE_IN    =  1 << 11  # allow distance C{s12} in Direct
+    REDUCEDLENGTH  =  1 << 12  # compute reduced length C{m12}
+    GEODESICSCALE  =  1 << 13  # compute geodesic scales C{M12} and C{M21}
+    AREA           =  1 << 14  # compute area C{S12}
+
+    STANDARD       =  AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE
+    ALL            =  0x7F80   # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
+
+    LINE_OFF       =  1 << 15  # Line without updates from parent GeodesicExact
+    LONG_UNROLL    =  1 << 16  # unroll C{lon2} in GeodesicExact.Direct
+    REVERSE2       =  1 << 17  # reverse C{azi2}
+
+    LATITUDE_LONGITUDE         = LATITUDE | LONGITUDE
+    LATITUDE_LONGITUDE_AREA    = LATITUDE | LONGITUDE | AREA
+
+    AZIMUTH_DISTANCE           = AZIMUTH | DISTANCE
+    AZIMUTH_DISTANCE_AREA      = AZIMUTH | DISTANCE | AREA
+
+    _ANGLE_ONLY    =  1 << 18  # angular distance C{a12} only
+    _SALPs_CALPs   =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
+
+    _DEBUG_AREA    =  1 << 20  # (INTERNAL) include Line details
+    _DEBUG_DIRECT  =  1 << 21  # (INTERNAL) include Direct details
+    _DEBUG_INVERSE =  1 << 22  # (INTERNAL) include Inverse details
+    _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
+    _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
+                     _DEBUG_LINE | _ANGLE_ONLY | _SALPs_CALPs
+    _OUT_ALL       =  ALL
+    _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
+
+    _AZIMUTH_LATITUDE_LONGITUDE           =  AZIMUTH | LATITUDE | LONGITUDE
+    _DEBUG_DIRECT_LINE                    = _DEBUG_DIRECT | _DEBUG_LINE
+    _DISTANCE_IN_OUT                      =  DISTANCE_IN & _OUT_MASK
+    _LINE                                 =  AZIMUTH | LATITUDE | LONG_UNROLL
+    _REDUCEDLENGTH_GEODESICSCALE          =  REDUCEDLENGTH | GEODESICSCALE
+#   _REDUCEDLENGTH_GEODESICSCALE_DISTANCE =  REDUCEDLENGTH | GEODESICSCALE | DISTANCE
+
+Caps = Caps()  # PYCHOK singleton
+'''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic
+capabilities (C{caps}) and expected results (C{outmask}).
+
+C{AREA} - compute area C{S12},
+
+C{AZIMUTH} - include azimuths C{azi1} and C{azi2},
+
+C{DISTANCE} - compute distance C{s12},
+
+C{DISTANCE_IN} - allow distance C{s12} in C{.Direct},
+
+C{EMPTY} - nothing, formerly aka C{NONE},
+
+C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
+
+C{LATITUDE} - compute latitude C{lat2},
+
+C{LONGITUDE} - compute longitude C{lon2},
+
+C{LONG_UNROLL} - unroll C{lon2} in C{.Direct},
+
+C{REDUCEDLENGTH} - compute reduced length C{m12},
+
+C{REVERSE2} - reverse C{azi2},
+
+and C{ALL} - all of the above.
+
+C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
+
+
+class _CapsBase(_NamedBase):  # in .geodesicx.gxbases, .rhumbx
+    '''(INTERNAL) Base class for C{[_]Geodesic*Exact}.
+    '''
+    ALL           = Caps.ALL
+    AREA          = Caps.AREA
+    AZIMUTH       = Caps.AZIMUTH
+    DISTANCE      = Caps.DISTANCE
+    DISTANCE_IN   = Caps.DISTANCE_IN
+    EMPTY         = Caps.EMPTY  # aka NONE
+    GEODESICSCALE = Caps.GEODESICSCALE
+    LATITUDE      = Caps.LATITUDE
+    LINE_OFF      = Caps.LINE_OFF
+    LONGITUDE     = Caps.LONGITUDE
+    LONG_UNROLL   = Caps.LONG_UNROLL
+    REDUCEDLENGTH = Caps.REDUCEDLENGTH
+    STANDARD      = Caps.STANDARD
+
+    _debug        = 0  # or Caps._DEBUG_...
+
+    @property
+    def debug(self):
+        '''Get the C{debug} option (C{bool}).
+        '''
+        return bool(self._debug)
+
+    @debug.setter  # PYCHOK setter!
+    def debug(self, debug):
+        '''Set the C{debug} option.
+
+           @arg debug: If C{True} include more details in L{GDict} results (C{bool}).
+        '''
+        self._debug = Caps._DEBUG_ALL if debug else 0
+
+
 class Direct9Tuple(_GTuple):
     '''9-Tuple C{(a12, lat2, lon2, azi2, s12, m12, M12, M21, S12)} with arc
        length C{a12}, angles C{lat2}, C{lon2} and azimuth C{azi2} in C{degrees},
@@ -227,7 +338,7 @@ class GDict(_Dict):  # XXX _NamedDict
 
     def toGeodSolve12Tuple(self, dflt=NAN):  # PYCHOK 12 args
         '''Convert this L{GDict} result to a 12-Tuple, compatible with I{Karney}'s
-           U{GeodSolve<https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}
+           U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
            result.
 
            @kwarg dflt: Default value for missing items (C{any}).
@@ -247,6 +358,16 @@ class GDict(_Dict):  # XXX _NamedDict
                     salp2, calp2, m12, M12, M21, S12)}.
         '''
         return self._toTuple(Inverse10Tuple, dflt)
+
+    def toRhumb7Tuple(self, dflt=NAN):
+        '''Convert this L{GDict} result to a 7-tuple.
+
+           @kwarg dflt: Default value for missing items (C{any}).
+
+           @return: L{Rhumb7Tuple}C{(lat1, lon1, lat2, lon2,
+                    azi12, s12, S12)}.
+        '''
+        return self._toTuple(_MODS.rhumbx.Rhumb7Tuple, dflt)
 
     def _toTuple(self, nTuple, dflt):
         '''(INTERNAL) Convert this C{GDict} to an B{C{nTuple}}.
@@ -268,7 +389,7 @@ class GeodSolve12Tuple(_GTuple):
        C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
        reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared}  and geodesic
        scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
-       <https://GeographicLib.SourceForge.io/html/GeodSolve.1.html>}.
+       <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
     '''
     # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
     _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)
@@ -310,7 +431,7 @@ class _Wrapped(object):
         _INVERSE3 = _Geodesic.AZIMUTH | _Geodesic.DISTANCE
 
         class Geodesic(_Geodesic):
-            '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/html/
+            '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/C++/doc/
                python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
             '''
             _debug   =  0  # like .geodesicx.bases._GeodesicBase
@@ -447,7 +568,7 @@ class _Wrapped(object):
         _GeodesicLine = self.geographiclib.GeodesicLine
 
         class GeodesicLine(_GeodesicLine):
-            '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/html/
+            '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/C++/doc/
                python/code.html#geographiclib.geodesicline.GeodesicLine>} wrapper.
             '''
             def __init__(self, lat1, lon1, azi1, *caps):
@@ -646,6 +767,17 @@ def _isfinite(x):  # mimick Math.AngNormalize
         return _math_isfinite(x)  # and abs(x) <= _MAX
 
 
+def _norm2(x, y):  # mimick Math.norm
+    '''Normalize C{B{x}} and C{B{y}}.
+
+       @return: 2-Tuple of C{(B{x}, B{y})}, normalized.
+    '''
+    try:
+        return _wrapped.Math.norm(x, y)
+    except AttributeError:
+        return norm2(x, y)
+
+
 def _norm180(deg):  # mimick Math.AngNormalize
     '''Reduce angle in C{degrees} to (-180,180].
 
@@ -659,17 +791,6 @@ def _norm180(deg):  # mimick Math.AngNormalize
     if d in (_180_0, -_180_0):
         d = _copysign(_180_0, deg) if _K_2_0 else _180_0
     return d
-
-
-def _norm2(x, y):  # mimick Math.norm
-    '''Normalize C{B{x}} and C{B{y}}.
-
-       @return: 2-Tuple of C{(B{x}, B{y})}, normalized.
-    '''
-    try:
-        return _wrapped.Math.norm(x, y)
-    except AttributeError:
-        return norm2(x, y)
 
 
 def _polygon(geodesic, points, closed, line, wrap):
@@ -696,6 +817,19 @@ def _polygon(geodesic, points, closed, line, wrap):
 
     # gP.Compute returns (number_of_points, perimeter, signed area)
     return gP.Compute(False, True)[1 if line else 2]
+
+
+def _polynomial(x, cs, i, j):  # PYCHOK shared
+    '''(INTERNAL) Like C{GeographicLib.Math.hpp.polyval} but with a
+       different signature and cascaded summation as C{karney._sum2_}.
+
+       @return: M{sum(cs[k] * x**(j - k - 1) for k in range(i, j)}
+    '''
+    s, t = cs[i], _0_0
+    _s2_ = _sum2_
+    for c in cs[i+1:j]:
+        s, t = _s2_(s * x, t * x, c)
+    return s  # + t
 
 
 def _remainder(x, y):
@@ -801,6 +935,15 @@ def _sum2_(s, t, *vs):
             else:
                 s, t = _u0(t), u
     return s, t
+
+
+def _tand(x):
+    '''Return C{tan(B{x})} in C{degrees}.
+    '''
+    try:
+        return _wrapped.Math.tand(x)
+    except AttributeError:
+        return tand(x)
 
 
 def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2

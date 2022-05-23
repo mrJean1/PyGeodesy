@@ -29,15 +29,15 @@ from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
                                       LatLonEllipsoidalBase, _nearestOn
 # from pygeodesy.errors import _xkwds  # from .ltpTuples
-# from pygeodesy.fmath import fdot  # from .ltpTuples
+# from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-from pygeodesy.ltpTuples import Aer as _Aer, fdot, Ned as _Ned, \
-                                Ned3Tuple as _Ned3Tuple, sincos2d_, \
-                               _xinstanceof, _xkwds, _xnamed  # PYCHOK indent
+from pygeodesy.ltpTuples import Aer as _Aer, Ned3Tuple as _Ned3Tuple, \
+                                Ned as _Ned, sincos2d_, _xinstanceof, \
+                                _xkwds, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
-from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
+from pygeodesy.nvectorBase import fdot, NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
@@ -46,7 +46,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.04.22'
+__version__ = '22.05.12'
 
 
 class Cartesian(CartesianEllipsoidalBase):

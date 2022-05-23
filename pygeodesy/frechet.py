@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '22.04.14'
+__version__ = '22.05.14'
 
 
 def _fraction(fraction, n):
@@ -796,7 +796,7 @@ class FrechetKarney(FrechetExact):
     '''Compute the C{Frechet} distance based on the I{angular}
        distance in C{degrees} from I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://GeographicLib.SourceForge.io/html/python/code.html>}
+       <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}
        Inverse method.
 
        @see: L{FrechetCosineAndoyerLambert}, L{FrechetCosineForsytheAndoyerLambert},

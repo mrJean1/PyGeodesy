@@ -5,7 +5,7 @@ u'''Test properties.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.01.08'
+__version__ = '22.05.13'
 
 from base import TestsBase
 
@@ -22,6 +22,7 @@ class Tests(TestsBase):
 
             _p = 0
             _q = 1
+            _u = None  # reset by ._updated
 
             @Property_RO
             def P(self):
@@ -40,6 +41,12 @@ class Tests(TestsBase):
             def q(self, q):
                 self._q = q
 
+            @property_RO
+            def u(self):
+                u = self._u  # PYCHOK T._u
+                self._u = 'U'
+                return u
+
         t = T(*args)
         self.test('P1', t.P, 1)
         self.test('p1', t.p, 2)
@@ -52,6 +59,9 @@ class Tests(TestsBase):
         self.test('q2', t.q, 2)
         self.test('q3', 'q' in t.__dict__, True)
 
+        self.test('u1', t.u, None)
+        self.test('u2', t.u, 'U')
+
         T.P._update(t)
         self.test('P3', t.P, 4)
         self.test('p3', t.p, 5)
@@ -59,6 +69,10 @@ class Tests(TestsBase):
         T.q._update(t)
         self.test('q4', 'q' in t.__dict__, False)
         self.test('q5', t.q, 2)
+
+        T.u._update(t)
+        self.test('u3', t.u, None)
+        self.test('u4', t.u, 'U')
 
         class E(Base):
 

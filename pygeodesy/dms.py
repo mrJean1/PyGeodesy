@@ -50,8 +50,9 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @var S_DEG: Degrees symbol, default C{"°"}
 @var S_MIN: Minutes symbol, default C{"′"} aka I{PRIME}
 @var S_SEC: Seconds symbol, default C{"″"} aka I{DOUBLE_PRIME}
-@var S_RAD: Radians symbol, default C{""} aka C{pygeodesy.NN}
-@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka C{pygeodesy.NN}
+@var S_RAD: Radians symbol, default C{""} aka L{pygeodesy.NN}
+@var S_DMS: If C{True} include, otherwise cancel all DMS symbols, default C{True}.
+@var S_SEP: Separator between C{deg°|min′|sec″|suffix}, default C{""} aka L{pygeodesy.NN}
 
 @note: In Python 2-, L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} may be multi-byte,
        non-ascii characters and if so, I{not} C{unicode}.
@@ -59,14 +60,14 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, \
                              neg as _neg, _umod_360  # in .ups
-from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, _ValueError, \
-                            _xkwds, _xkwds_get
-from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, _e_, \
-                             _E_, _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, _N_, _NE_, \
+from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, _TypeError, \
+                            _ValueError, _xkwds, _xkwds_get
+from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
+                             _e_, _E_, _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, _N_, _NE_, \
                              _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, \
                              _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, \
                              _W_, _0_, _0_0, _0_5, _60_0, _360_0, _3600_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
 
 from math import modf, radians
@@ -76,11 +77,13 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.04.22'
+__version__ = '22.05.20'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
 _deg_min_     = 'deg+min'
+_keyword_     = 'keyword'
+_of_          = 'of'
 _SDIGITS_     = '-0123456789+'
 _sexagecimal_ = 'sexagecimal'
 _SEXAGECIMUL  =  1.e4  # sexagecimal C{D.MMSSss} into decimal C{DMMSS.ss}
@@ -107,13 +110,14 @@ _F_symb = set((F_D, F_DM, F_DMS, _deg_min_))  # == {} pychok -Tb
 S_DEG = _DEGREES_ = '°'  # ord() = 176
 S_MIN = _MINUTES_ = '′'  # PRIME
 S_SEC = _SECONDS_ = '″'  # DOUBLE_PRIME
-S_RAD =  NN  # radians symbol ""
-S_SEP =  NN  # separator between deg|min|sec|suffix ""
-S_NUL =  NN  # empty string, kept INTERNAL
+S_RAD = _RADIANS_ = NN   # PYCHOK radians symbol ""
+S_DMS =  True  # include DMS symbols
+S_SEP =  NN    # separator between deg|min|sec|suffix ""
+S_NUL =  NN    # empty string, kept INTERNAL
 
 # note: ord(_DEGREES_) == ord('°') == 176, ord('˚') == 730
 _S_norm = {S_DEG: _DEGREES_, '˚': _DEGREES_, '^': _DEGREES_,  # _d_: _DEGREES_,
-           S_MIN: _MINUTES_, '’': _MINUTES_, _QUOTE1_: _MINUTES_,
+           S_MIN: _MINUTES_, '’': _MINUTES_, _QUOTE1_: _MINUTES_,  # _r_: _RADIANS_
            S_SEC: _SECONDS_, '”': _SECONDS_, _QUOTE2_: _SECONDS_}
 
 _WINDS = (_N_, 'NbE', 'NNE', 'NEbN', _NE_, 'NEbE', 'ENE', 'EbN',
@@ -122,17 +126,20 @@ _WINDS = (_N_, 'NbE', 'NNE', 'NEbN', _NE_, 'NEbE', 'ENE', 'EbN',
           _W_, 'WbN', 'WNW', 'NWbW', _NW_, 'NWbN', 'NNW', 'NbW')
 
 
-def _D603(sep, s_D=_DOT_, s_M=None, s_S=S_NUL, **unused):
+def _D603(sep, s_D=_DOT_, s_M=None, s_S=S_NUL, s_DMS=S_DMS, **unused):
     '''(INTERNAL) Get the overridden or default pseudo-C{DMS} symbols.
     '''
-    M = sep if s_M is None else s_M
-    return s_D, (M or S_NUL), s_S
+    if s_DMS:
+        M = sep if s_M is None else s_M
+        return s_D, (M or S_NUL), s_S
+    else:  # no overriden symbols
+        return _DOT_, sep, S_NUL
 
 
-def _DMS3(form, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, **unused):
+def _DMS3(form, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, s_DMS=S_DMS, **unused):
     '''(INTERNAL) Get the overridden or default C{DMS} symbols.
     '''
-    return (s_D, s_M, s_S) if form in _F_symb else (S_NUL, S_NUL, S_NUL)
+    return (s_D, s_M, s_S) if s_DMS and form in _F_symb else (S_NUL, S_NUL, S_NUL)
 
 
 def _dms3(d, ddd, p, w):
@@ -176,7 +183,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
         suff =  NN  # no suffix if signed
     else:  # suffixed
         sign =  NN  # no sign if suffixed
-        if suff and sep:
+        if suff and sep:  # no sep if no suffix
             suff = NN(sep, suff)
     try:
         F    = _F_case[form]  # .strip()
@@ -244,10 +251,11 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
-       @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override DMS symbols, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
+       @kwarg sep: Separator between degrees, minutes, seconds, suffix (C{str}).
+       @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str},
+                       C{B{s_S}=str} and C{B{s_DMS}=True} to override any or
+                       cancel all DMS symbols, defaults L{S_DEG}, L{S_MIN}
+                       respectively L{S_SEC}.
 
        @return: Compass degrees per the specified B{C{form}} (C{str}).
 
@@ -312,10 +320,11 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
+       @kwarg sep: Separator between degrees, minutes, seconds, suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override DMS symbols, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
+                       C{B{s_S}=str} and C{B{s_DMS}=True} to override any or
+                       cancel all DMS symbols, defaults L{S_DEG}, L{S_MIN}
+                       respectively L{S_SEC}.
 
        @return: Compass degrees and point in the specified form (C{str}).
 
@@ -415,7 +424,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     return NN(n, t, s)  # NOT unicode in Python 2-
 
 
-def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
+def latDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
     '''Convert latitude to a string, optionally suffixed with N or S.
 
        @arg deg: Latitude to be formatted (C{scalar degrees}).
@@ -430,10 +439,11 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
+       @kwarg sep: Separator between degrees, minutes, seconds, suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override DMS symbols, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
+                       C{B{s_S}=str} and C{B{s_DMS}=True} to override any or
+                       cancel all DMS symbols, defaults L{S_DEG}, L{S_MIN}
+                       respectively L{S_SEC}.
 
        @return: Degrees in the specified form (C{str}).
 
@@ -445,63 +455,80 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
     return _toDMS(deg, form, prec, sep, 2, p, s_D_M_S)
 
 
-def latlonDMS(lls, form=F_DMS, prec=None, sep=None, **s_D_M_S):
+def latlonDMS(lls, **m_form_prec_sep_s_D_M_S):
     '''Convert one or more C{LatLon} instances to strings.
 
-       @arg lls: Single or a list, sequence, tuple, etc. (C{LatLon}s).
-       @kwarg form: Format specifier for B{C{deg}} (C{str} or L{F_D},
-                    L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
-                    L{F_D60}, L{F__E}, L{F__F}, L{F__G}, L{F_RAD},
-                    L{F_D_}, L{F_DM_}, L{F_DMS_}, L{F_DEG_}, L{F_MIN_},
-                    L{F_SEC_}, L{F_D60_}, L{F__E_}, L{F__F_}, L{F__G_},
-                    L{F_RAD_}, L{F_D__}, L{F_DM__}, L{F_DMS__}, L{F_DEG__},
-                    L{F_MIN__}, L{F_SEC__}, L{F_D60__}, L{F__E__},
-                    L{F__F__}, L{F__G__} or L{F_RAD__}).
-       @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
-                    Trailing zero decimals are stripped for B{C{prec}}
-                    values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
-       @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override DMS symbols, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
+       @arg lls: Single or list, sequence, tuple, etc. (C{LatLon}s).
+       @kwarg m_form_prec_sep_s_D_M_S: Optional C{B{m}eter}, C{B{form}at},
+               C{B{prec}ision}, I{DEPRECATED} B{C{sep}}, B{C{s_D}}, B{C{s_M}},
+               B{C{s_S}} and B{C{s_DMS}} keyword arguments, see method
+               C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
+               L{pygeodesy.lonDMS}.
 
-       @return: A C{str} or C{tuple} if B{C{sep}=None} or C{NN} and if
-                B{C{lls}} is a list, sequence, tuple, etc.
+       @return: A C{tuple} of C{str}s if B{C{lls}} is a list, sequence,
+                tuple, etc. of C{LatLon} instances or a single C{str}
+                if B{C{lls}} is a single C{LatLon}.
 
        @see: Functions L{pygeodesy.latDMS}, L{pygeodesy.latlonDMS_},
-             L{pygeodesy.lonDMS} and L{pygeodesy.toDMS}.
+             L{pygeodesy.lonDMS} and L{pygeodesy.toDMS} and method
+             C{LatLon.toStr}.
+
+       @note: Keyword argument C{B{sep}=None} to return a C{str}ing
+              instead of the C{tuple}, has been I{DEPRECATED}, use
+              C{B{sep}.join(B{latlonDMS_}(...))}.
     '''
-    if issequence(lls):
-        t = tuple(ll.toStr(form=form, prec=prec, **s_D_M_S) for ll in lls)
-        if sep:
+    sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
+    if isinstance(lls, _MODS.latlonBase.LatLonBase):
+        t = lls.toStr(**kwds)
+    elif issequence(lls):
+        t = tuple(ll.toStr(**kwds) for ll in lls)
+        if sep:  # XXX TO BE REMOVED
             t = sep.join(t)
     else:
-        t = lls.toStr(form=form, prec=prec, **s_D_M_S)
+        raise _TypeError(lls=lls, **m_form_prec_sep_s_D_M_S)
     return t
 
 
-def latlonDMS_(*lls, **form_prec_sep_s_D_M_S):
+def latlonDMS_(*lls, **m_form_prec_sep_s_D_M_S):
     '''Convert one or more C{LatLon} instances to strings.
 
        @arg lls: The instances, all positional arguments (C{LatLon}s).
-       @kwarg form_prec_sep_s_D_M_S: Optional B{C{form}}at, B{C{prec}}ision,
-                                     B{C{sep}}arator, B{C{s_D}}, B{C{s_M}}
-                                     and B{C{s_S}} keyword arguments, see
-                                     function L{latlonDMS}.
+       @kwarg m_form_prec_sep_s_D_M_S: Optional C{B{m}eter}, C{B{form}at},
+               C{B{prec}ision}, I{DEPRECATED} B{C{sep}}, B{C{s_D}}, B{C{s_M}},
+               B{C{s_S}} and B{C{s_DMS}} keyword arguments, see method
+               C{LatLon.toStr} and functions L{pygeodesy.latDMS} and
+               L{pygeodesy.lonDMS}.
 
-       @return: A C{str} or C{tuple} if C{B{sep}=None} or C{NN} and if
-                more than one B{C{lls}} is given.
+       @return: A C{tuple} of C{str}s if 2 or more C{LatLon} instances
+                or a single C{str} if only a single C{LatLon} instance
+                is given in B{C{lls}}.
 
        @see: Function L{pygeodesy.latlonDMS}.
+
+       @note: Keyword argument C{B{sep}=None} to return a C{str}ing
+              instead of the C{tuple}, has been I{DEPRECATED}, use
+              C{B{sep}.join(B{latlonDMS_}(...))}.
     '''
+    sep, kwds = _latlonDMS_sep2(latlonDMS, **m_form_prec_sep_s_D_M_S)
     if not lls:
-        raise _ValueError(lls=lls, **form_prec_sep_s_D_M_S)
+        raise _ValueError(lls=lls, **m_form_prec_sep_s_D_M_S)
     elif len(lls) < 2:
-        lls = lls[0]
-    return latlonDMS(lls, **form_prec_sep_s_D_M_S)
+        lls, sep = lls[0], None
+    t = latlonDMS(lls, **kwds)
+    return sep.join(t) if sep else t
 
 
-def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
+def _latlonDMS_sep2(where, sep=None, **kwds):
+    '''DEPRECATED, instead use: %r.join(%s(...))'''
+    if sep:
+        k = _SPACE_(_keyword_, _arg_, Fmt.EQUAL(sep=repr(sep)), _of_)
+        n =  where.__name__
+        t = _latlonDMS_sep2.__doc__ % (sep, n)
+        _MODS.props._throwarning(k, n, t)
+    return sep, kwds
+
+
+def lonDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
     '''Convert longitude to a string, optionally suffixed with E or W.
 
        @arg deg: Longitude to be formatted (C{scalar degrees}).
@@ -516,10 +543,11 @@ def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP, **s_D_M_S):
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
+       @kwarg sep: Separator between degrees, minutes, seconds, suffix (C{str}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override DMS symbols, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.
+                       C{B{s_S}=str} and C{B{s_DMS}=True} to override any or
+                       cancel all DMS symbols, defaults L{S_DEG}, L{S_MIN}
+                       respectively L{S_SEC}.
 
        @return: Degrees in the specified form (C{str}).
 
@@ -574,14 +602,14 @@ def normDMS(strDMS, norm=None, **s_D_M_S):
 def parseDDDMMSS(strDDDMMSS, suffix=_NSEW_, sep=S_SEP, clip=0, sexagecimal=False):  # MCCABE 14
     '''Parse a lat- or longitude represention forms as [D]DDMMSS in degrees.
 
-       @arg strDDDMMSS: Degrees in any of several forms (C{str}) and types
-                        (C{float}, C{int}, other).
+       @arg strDDDMMSS: Degrees in any of several forms (C{str}) and types (C{float},
+                        C{int}, other).
        @kwarg suffix: Optional, valid compass points (C{str}, C{tuple}).
-       @kwarg sep: Optional separator between "[D]DD", "MM" and "SS" (L{S_SEP}).
+       @kwarg sep: Optional separator between "[D]DD", "MM", "SS", B{C{suffix}} (L{S_SEP}).
        @kwarg clip: Optionally, limit value to range C{-/+B{clip}} (C{degrees}).
-       @kwarg sexagecimal: If C{True}, convert C{"D.MMSS"} or C{float(D.MMSS)}
-                           to C{base-60} "MM" and "SS" digits.  See C{form}s
-                           L{F_D60}, L{F_D60_} and L{F_D60__}.
+       @kwarg sexagecimal: If C{True}, convert C{"D.MMSS"} or C{float(D.MMSS)} to
+                           C{base-60} "MM" and "SS" digits.  See C{form}s L{F_D60},
+                           L{F_D60_} and L{F_D60__}.
 
        @return: Degrees (C{float}).
 
@@ -717,7 +745,7 @@ def parseDMS(strDMS, suffix=_NSEW_, sep=S_SEP, clip=0, **s_D_M_S):  # MCCABE 14
        @arg strDMS: Degrees in any of several forms (C{str}) and
                     types (C{float}, C{int}, other).
        @kwarg suffix: Optional, valid compass points (C{str}, C{tuple}).
-       @kwarg sep: Optional separator between deg°, min′ and sec″ (C{''}).
+       @kwarg sep: Optional separator between deg°, min′, sec″, B{C{suffix}} (C{''}).
        @kwarg clip: Optionally, limit value to range C{-/+B{clip}} (C{degrees}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
                        minutes, C{B{s_M}=str} and/or seconds C{B{s_S}=str}.
@@ -746,7 +774,7 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
 
        @arg strLat: Latitude in any of several forms (C{str} or C{degrees}).
        @arg strLon: Longitude in any of several forms (C{str} or C{degrees}).
-       @kwarg sep: Optional separator between deg°, min′ and sec″ (C{''}).
+       @kwarg sep: Optional separator between deg°, min′, sec″, suffix (C{''}).
        @kwarg clipLat: Limit latitude to range C{-/+B{clipLat}} (C{degrees}).
        @kwarg clipLon: Limit longitude to range C{-/+B{clipLon}} (C{degrees}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
@@ -772,7 +800,7 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
 
 
 def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S):
-    '''Parse a string C{"lat lon [h]"} representing lat-, longitude in
+    '''Parse a string C{"lat, lon [, h]"} representing lat-, longitude in
        C{degrees} and optional height in C{meter}.
 
        The lat- and longitude value must be separated by a separator
@@ -784,7 +812,7 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
 
        @arg strllh: Latitude, longitude[, height] (C{str}, ...).
        @kwarg height: Optional, default height (C{meter}) or C{None}.
-       @kwarg sep: Optional separator between C{"lat lon [h]"} (C{str}).
+       @kwarg sep: Optional separator between C{"lat lon [h] suffix"} (C{str}).
        @kwarg clipLat: Limit latitude to range C{-/+B{clipLat}} (C{degrees}).
        @kwarg clipLon: Limit longitude to range C{-/+B{clipLon}} (C{degrees}).
        @kwarg s_D_M_S: Optional, alternate symbol for degrees C{B{s_D}=str},
@@ -899,21 +927,22 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=_PLUS_, **
        @kwarg prec: Number of decimal digits (0..9 or C{None} for default).
                     Trailing zero decimals are stripped for B{C{prec}}
                     values of 1 and above, but kept for negative B{C{prec}}.
-       @kwarg sep: Separator between degrees, minutes, seconds and suffix (C{str}).
+       @kwarg sep: Separator between degrees, minutes, seconds, suffix (C{str}).
        @kwarg ddd: Number of digits for B{C{deg}°} (2 or 3).
        @kwarg neg: Prefix for negative B{C{deg}} (C{'-'}).
        @kwarg pos: Prefix for positive B{C{deg}} and signed B{C{form}} (C{'+'}).
        @kwarg s_D_M_S: Optional keyword arguments C{B{s_D}=str}, C{B{s_M}=str}
-                       and/or C{B{s_S}=str} to override the DMS symbol for the
-                       degrees, minutes respectively seconds value, defaults
-                       L{S_DEG}, L{S_MIN} respectively L{S_SEC}.  See B{Notes}
-                       below.
+                       C{B{s_S}=str} and C{B{s_DMS}=True} to override any or
+                       cancel all DMS symbols, defaults L{S_DEG}, L{S_MIN}
+                       respectively L{S_SEC}.  See B{Notes} below.
 
        @return: Degrees in the specified form (C{str}).
 
        @note: The degrees, minutes and seconds (DMS) symbol can be overridden in
               this and other C{*DMS} functions by using optional keyword argments
-              C{B{s_D}="d"}, C{B{s_M}="'"} respectively C{B{s_S}='"'}.
+              C{B{s_D}="d"}, C{B{s_M}="'"} respectively C{B{s_S}='"'}.  Using
+              keyword argument B{C{s_DMS}=None} cancels all C{DMS} symbols to
+              C{B{S_NUL}=NN}.
 
        @note: Sexagecimal format B{C{F_D60}} supports overridable pseudo-DMS symbols
               positioned at C{"[D]DD<B{s_D}>MM<B{s_M}>SS<B{s_S}>"} with defaults

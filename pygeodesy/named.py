@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.05.08'
+__version__ = '22.05.22'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -146,8 +146,10 @@ class _Dict(dict):
 class _Named(object):
     '''(INTERNAL) Root class for named objects.
     '''
+    _iteration   = None   # iteration number (C{int}) or C{None}
     _name        = NN     # name (C{str})
     _classnaming = False  # prefixed (C{bool})
+    _updates     = 0      # cached Property/property updates
 
     def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -254,6 +256,16 @@ class _Named(object):
         if name:
             d.rename(name=name)
         return d
+
+    @property_RO
+    def iteration(self):  # see .karney.GDict
+        '''Get the most recent iteration number (C{int}) or C{None}
+           if not available or not applicable.
+
+           @note: The interation number may be an aggregate number over
+                  several, nested functions.
+        '''
+        return self._iteration
 
     @property_doc_(''' the name (C{str}).''')
     def name(self):
@@ -365,8 +377,6 @@ class _Named(object):
 class _NamedBase(_Named):
     '''(INTERNAL) Base class with name.
     '''
-    _iteration = None  # Iteration number (C{int}) or C{None}
-
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
@@ -376,13 +386,6 @@ class _NamedBase(_Named):
         '''Default C{str(self)}.
         '''
         return self.toStr()
-
-    @property_RO
-    def iteration(self):  # see .karney.GDict
-        '''Get the iteration number (C{int}) or
-           C{None} if not available/applicable.
-        '''
-        return self._iteration
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -421,14 +424,14 @@ class _NamedBase(_Named):
 
         raise _xotherError(self, other, name=name, up=up + 1)
 
-    def toRepr(self, sep=_COMMASPACE_, **kwds):  # PYCHOK expected
+    def toRepr(self, **kwds):  # PYCHOK expected
         '''(INTERNAL) I{Could be overloaded}.
 
            @kwarg kwds: Optional, C{toStr} keyword arguments.
 
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
-        t = self.toStr(sep=sep, **kwds).lstrip('([{').rstrip('}])')
+        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
 #       if self.name:
 #           t =  NN(Fmt.EQUAL(name=repr(self.name)), sep, t)
         return Fmt.PAREN(self.classname, t)  # XXX (self.named, t)
@@ -458,12 +461,15 @@ class _NamedBase(_Named):
         if updated:
             _update_all(self, *attrs)
         if prop_ROs:
-            d = self.__dict__
+            d, u = self.__dict__, 0
             for n, v in prop_ROs.items():
                 if _hasProperty(self, n, Property_RO):
                     d[n] = v
+                    u   += 1
                 else:
                     raise _AssertionError(n, v, txt=repr(self))
+            if u:
+                self._updates += u
 
 
 class _NamedDict(_Dict, _Named):

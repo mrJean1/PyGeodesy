@@ -4,7 +4,7 @@
 u'''I{Geocentric} Earth-Centered, Earth-Fixed (ECEF) coordinates.
 
 Geocentric conversions transcoded from I{Charles Karney}'s C++ class U{Geocentric
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
 into pure Python class L{EcefKarney}, class L{EcefSudano} based on I{John Sudano}'s
 U{paper<https://www.ResearchGate.net/publication/
 3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>},
@@ -15,7 +15,7 @@ classes L{EcefFarrell22} and L{EcefFarrell22} from I{Jay A. Farrell}'s U{Table 2
 <https://Books.Google.com/books?id=fW4foWASY6wC>}, page 29-30.
 
 Following is a copy of I{Karney}'s U{Detailed Description
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}.
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}.
 
 Convert between geodetic coordinates C{lat}-, C{lon}gitude and height C{h}
 (measured vertically from the surface of the ellipsoid) to geocentric C{x},
@@ -45,17 +45,17 @@ revolution<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85, 105-117
 his method in U{An analytical method to transform geocentric into geodetic
 coordinates<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85,
 105-117.  See U{Geocentric coordinates
-<https://GeographicLib.SourceForge.io/html/geocentric.html>} for more information.
+<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
 
 The errors in these routines are close to round-off.  Specifically, for points
 within 5,000 km of the surface of the ellipsoid (either inside or outside the
 ellipsoid), the error is bounded by 7 nm (7 nanometers) for the WGS84 ellipsoid.
-See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentric.html>}
+See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>}
 for further information on the errors.
 
 @see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s
 C++ class U{LocalCartesian
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>},
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
 providing conversion to and from I{local} cartesian cordinates in a I{local tangent
 plane} as opposed to I{geocentric} (ECEF) ones.
 '''
@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.04.26'
+__version__ = '22.05.14'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -250,7 +250,7 @@ class _EcefBase(_NamedBase):
             sa, ca, sb, cb = sincos2d_(lat, lon)
 
         n = E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
-        z = (h + n * E.e12) * sa
+        z = (h + n * E.e21) * sa
         x = (h + n) * ca
 
         m = self._Matrix(sa, ca, sb, cb) if M else None
@@ -350,7 +350,7 @@ class _EcefBase(_NamedBase):
 class EcefKarney(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
        Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
        methods.
 
        @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
@@ -415,7 +415,7 @@ class EcefKarney(_EcefBase):
             # Treat prolate spheroids by swapping R and Z here and by
             # switching the arguments to phi = atan2(...) at the end.
             p = (R / E.a)**2
-            q = E.e12 * (z / E.a)**2
+            q = E.e21 * (z / E.a)**2
             if E.isProlate:
                 p, q = q, p
             r = p + q - E.e4
@@ -460,7 +460,7 @@ class EcefKarney(_EcefBase):
                 else:
                     k2 += E.e2
                 sa, ca, h = _sch3(z / k1, R / k2)
-                h *= k1 - E.e12
+                h *= k1 - E.e21
                 C  = 2
 
             else:  # e = E.e4 * q == 0 and r <= 0
@@ -476,7 +476,7 @@ class EcefKarney(_EcefBase):
                     e = E.a
                 else:
                     e = E.b2_a
-                sa, ca, h = _sch3(sqrt(q * E._1_e12), sqrt(p))
+                sa, ca, h = _sch3(sqrt(q * E._1_e21), sqrt(p))
                 if z < 0:
                     sa = neg(sa)  # for tiny negative z, not for prolate
                 h *= neg(e / E.e2abs)
@@ -651,7 +651,7 @@ class EcefSudano(_EcefBase):
         h = hypot(x, y)  # Rh
         d = e - h
 
-        a = atan2(z, h * E.e12)
+        a = atan2(z, h * E.e21)
         sa, ca = sincos2(abs(a))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
         # replacing Rn from Eq (A-4) with n = E.a / ca:
@@ -684,7 +684,7 @@ class EcefSudano(_EcefBase):
             a = copysign0(asin(sa), z)
         h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
         # since Sudano's Eq (7) doesn't provide the correct height
-        # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
+        # h = (abs(z) + h - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
 
         r = Ecef9Tuple(x, y, z, degrees90(a), atan2d(y, x), h,
                                 C, None, self.datum,
@@ -942,7 +942,7 @@ class EcefMatrix(_NamedTuple):
         _xinstanceof(EcefMatrix, other=other)
 
         # like LocalCartesian.MatrixMultiply, transposed(self) X other
-        # <https://GeographicLib.SourceForge.io/html/LocalCartesian_8cpp_source.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/LocalCartesian_8cpp_source.html>
         M = (fdot(self[r::3], *other[c::3]) for r in range(3) for c in range(3))
         return _xnamed(EcefMatrix(*M), EcefMatrix.multiply.__name__)
 
@@ -1048,7 +1048,7 @@ class Ecef9Tuple(_NamedTuple):
         '''Get the longitude in C{radians [-PI*3/2..+PI*3/2]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
 
-           @see: U{Karney<https://GeographicLib.SourceForge.io/html/geocentric.html>},
+           @see: U{Karney<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>},
                  U{Vermeille<https://Search.ProQuest.com/docview/847292978>} 2011, pp 112-113, 116
                  and U{Featherstone, et.al.<https://Search.ProQuest.com/docview/872827242>}, p 7.
         '''

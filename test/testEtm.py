@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.04.12'
+__version__ = '22.05.14'
 
 from base import TestsBase
 
@@ -80,7 +80,7 @@ class Tests(TestsBase):
         self.test('gamma',    g,       '0.194038', prec=6)
         self.test('scale',    k,       '0.999608', prec=6)
 
-        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>
         # lat, lon, _, _ = xtm.reverse(22051449.037349, -7131237.022729)
         lat, lon, g, k = xtm.reverse(29735142.378357, 4235043.607933)
         self.test('lat', lat, '-2.00000000', prec=8)

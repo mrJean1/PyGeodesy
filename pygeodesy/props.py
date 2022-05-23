@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.05.09'
+__version__ =  '22.05.21'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -62,15 +62,17 @@ def _update_all(inst, *attrs, **Base):
             for n, p in C.__dict__.items():
                 if n in d and isinstance(p, B) and p.name == n:
                     p._update(inst, C)
-        p = d.pop  # remove specified attributes
+        _p = d.pop  # remove specified attributes
         for a in attrs:  # PYCHOK no cover
             if hasattr(inst, a):
-                p(a, None)
+                _p(a, None)
             else:
                 n = _MODS.named.classname(inst, prefixed=True)
                 a = _DOT_(n, _SPACE_(a, _invalid_))
                 raise _AssertionError(a, txt=repr(inst))
         u -= len(d)
+        if u:
+            inst._updates += u
     return u  # updated
 
 
@@ -265,7 +267,7 @@ class property_RO(_PropertyBase):
 
 
 class _NamedProperty(property):
-    '''(INTERNAL) Class C{property} with retrievable name.
+    '''Class C{property} with retrievable name.
     '''
     @Property_RO
     def name(self):
@@ -409,7 +411,8 @@ if _W_DEV:
                 # class Property <https://docs.Python.org/3/howto/descriptor.html>
                 _PropertyBase.__init__(self, self.method, self._fget, _fset)
             return self
-else:
+
+else:  # PYCHOK no cover
     class deprecated_property(property):  # PYCHOK expected
         '''Decorator for a DEPRECATED C{property} or C{Property}.
         '''

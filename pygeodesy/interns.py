@@ -140,6 +140,7 @@ _ambiguous_           = 'ambiguous'          # PYCHOK expected
 _AMPERSAND_      = Str_('&')                 # PYCHOK expected
 # _AND_               = _AMPERSAND_          # PYCHOK expected
 _and_                 = 'and'                # PYCHOK expected
+_arg_                 = 'arg'                # PYCHOK expected
 _at_                  = 'at'                 # PYCHOK expected
 _AT_             = Str_('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
@@ -257,6 +258,7 @@ _linear_              = 'linear'             # PYCHOK expected
 #_LPAREN_             = '('                  # PYCHOK expected
 _lon_                 = 'lon'                # PYCHOK expected
 _lon0_                = 'lon0'               # PYCHOK expected
+_lon1_                = 'lon1'               # PYCHOK expected
 _lon2_                = 'lon2'               # PYCHOK expected
 #_LSQUARE_            = '['                  # PYCHOK LBRACK
 _ltp_                 = 'ltp'                # PYCHOK expected
@@ -339,6 +341,8 @@ _rIn_                 = 'rIn'                # PYCHOK expected
 #_RSQUARE_            = ']'                  # PYCHOK RBRACK
 _s_                   = 's'                  # PYCHOK expected
 _S_                   = 'S'                  # PYCHOK expected
+_s12_                 = 's12'                # PYCHOK expected
+_S12_                 = 'S12'                # PYCHOK expected
 _scalar_              = 'scalar'             # PYCHOK expected
 _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
@@ -505,14 +509,14 @@ try:
 #   RADIX    =        _float_info.radix      # PYTHON system's float base
     del               _float_info
 except ImportError:  # PYCHOK no cover
-    DIG      =  15  # PYCHOK system's 64-bit float decimal digits
+    DIG      =  15    # PYCHOK system's 64-bit float decimal digits
     EPS      = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
-    MANT_DIG =  53  # PYCHOK float mantissa bits ≈ 53 (C{int})
+    MANT_DIG =  53    # PYCHOK float mantissa bits ≈ 53 (C{int})
     MAX      = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
 #   MAX_EXP  =  1024  # 308 base 10
     MIN      = _float(pow(_2_0, -1021))  # PYCHOK ≈ 10**-308
 #   MIN_EXP  = -1021  # -307 base 10
-#   RADIX    =  2  # base
+#   RADIX    =  2     # base
 
 EPS0      = _float(EPS**2)          # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2, see function L{isnear0}
 EPS02     = _float(EPS**4)          # PYCHOK near-zero-squared comparison 2.430865e-63
@@ -532,25 +536,33 @@ _EPStol   = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * 
 _1__90    = _float(_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
 _2__PI    = _float(_2_0 /  PI)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
+_1_16th   = _float(_1_0 / _16_0)    # PYCHOK in .ellipsoids, .karney
+_1_3rd    = _float(_1_0 /  _3_0)    # PYCHOK in .fmath
+_2_3rd    = _float(_2_0 /  _3_0)    # PYCHOK in .fmath
+
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2 = _float(sqrt(_2_0) + 1)
 _SQRT2_2  = _float(sqrt(_0_5))      # PYCHOK = 0.7071067811865476 == sqrt(2) / 2
 
-INF       = _float(_INF_)           # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-INT0      = _Int(0)                 # PYCHOK unique int(0) instance, see .fsums, useZ=False
-NAN       = _float(_NAN_)           # PYCHOK Not-A-Number, see function L{isnan}
-NEG0      = _N_0_0                  # PYCHOK NEGative 0.0, see function L{isneg0}
-NINF      = _float(-INF)            # PYCHOK Negative INFinity
+try:
+    from math import inf as INF, nan as NAN  # PYCHOK in Python 3+
+except ImportError:  # Python 2-
+    INF = _float(_INF_)      # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+    NAN = _float(_NAN_)      # PYCHOK Not-A-Number, see function L{isnan}
 
-PI2       = _float(PI * _2_0)       # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI_2      = _float(PI / _2_0)       # PYCHOK Half PI, M{PI / 2}
-PI3       = _float(PI * _3_0)       # PYCHOK Three PI, M{PI * 3}
-PI3_2     = _float(PI * _1_5)       # PYCHOK PI and a half, M{PI * 3 / 2}
-PI4       = _float(PI * _4_0)       # PYCHOK Four PI, M{PI * 4}
-PI_4      = _float(PI / _4_0)       # PYCHOK Quarter PI, M{PI / 4}
+INT0    = _Int(0)            # PYCHOK unique int(0) instance, see .fsums, useZ=False
+NEG0    = _N_0_0             # PYCHOK NEGative 0.0, see function L{isneg0}
+NINF    = _float(-INF)       # PYCHOK Negative INFinity
 
-R_M       = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
+PI2     = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI_2    = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
+PI3     = _float(PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
+PI3_2   = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
+PI4     = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
+PI_4    = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+
+R_M     = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 
 def _90_EPS_2(lat):
@@ -692,7 +704,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.05.07'
+__version__ = '22.05.19'
 
 
 # **) MIT License

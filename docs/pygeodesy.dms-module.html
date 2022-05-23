@@ -84,7 +84,7 @@
         <code>unicode</code>.
       </p>
       <p><strong>Version:</strong>
-        22.04.22
+        22.05.20
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -221,7 +221,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Convert latitude to a string, optionally suffixed with N or S.</td>
@@ -241,10 +241,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#latlonDMS" class="summary-sig-name">latlonDMS</a>(<span class="summary-sig-arg">lls</span>,
-        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
+        <span class="summary-sig-arg">**m_form_prec_sep_s_D_M_S</span>)</span><br />
       Convert one or more <code>LatLon</code> instances to strings.</td>
           <td align="right" valign="top">
             
@@ -262,7 +259,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#latlonDMS_" class="summary-sig-name">latlonDMS_</a>(<span class="summary-sig-arg">*lls</span>,
-        <span class="summary-sig-arg">**form_prec_sep_s_D_M_S</span>)</span><br />
+        <span class="summary-sig-arg">**m_form_prec_sep_s_D_M_S</span>)</span><br />
       Convert one or more <code>LatLon</code> instances to strings.</td>
           <td align="right" valign="top">
             
@@ -281,7 +278,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Convert longitude to a string, optionally suffixed with E or W.</td>
@@ -394,7 +391,7 @@
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
-      Parse a string <code>&quot;lat lon [h]&quot;</code> representing 
+      Parse a string <code>&quot;lat, lon [, h]&quot;</code> representing 
       lat-, longitude in <code>degrees</code> and optional height in 
       <code>meter</code>.</td>
           <td align="right" valign="top">
@@ -513,8 +510,17 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''">''</code><br />
-      Radians symbol, default <code>&quot;&quot;</code> aka 
-      <code>pygeodesy.NN</code>
+      Radians symbol, default <code>&quot;&quot;</code> aka <a 
+      href="pygeodesy-module.html#NN" class="link">pygeodesy.NN</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="S_DMS"></a><span class="summary-name">S_DMS</span> = <code title="True">True</code><br />
+      If <code>True</code> include, otherwise cancel all DMS symbols, 
+      default <code>True</code>.
     </td>
   </tr>
 <tr>
@@ -523,7 +529,8 @@
     </td><td class="summary">
         <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''">''</code><br />
       Separator between <code>deg&#176;|min&#8242;|sec&#8243;|suffix</code>, default 
-      <code>&quot;&quot;</code> aka <code>pygeodesy.NN</code>
+      <code>&quot;&quot;</code> aka <a href="pygeodesy-module.html#NN" 
+      class="link">pygeodesy.NN</a>
     </td>
   </tr>
 <tr>
@@ -908,15 +915,15 @@
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override DMS symbols, defaults <a 
-          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
-          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
-          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
-          class="link">S_SEC</a>.</li>
+          <code><b>s_M</b>=str</code>, <code><b>s_S</b>=str</code> and 
+          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
+          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
+          class="link">S_MIN</a> respectively <a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees per the specified <b><code>form</code></b> 
@@ -1070,15 +1077,15 @@
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override DMS symbols, defaults <a 
-          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
-          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
-          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
-          class="link">S_SEC</a>.</li>
+          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
+          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
+          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
+          class="link">S_MIN</a> respectively <a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Compass degrees and point in the specified form 
@@ -1200,7 +1207,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latDMS</span>&nbsp;(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
@@ -1262,15 +1269,15 @@
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override DMS symbols, defaults <a 
-          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
-          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
-          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
-          class="link">S_SEC</a>.</li>
+          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
+          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
+          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
+          class="link">S_MIN</a> respectively <a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1294,10 +1301,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlonDMS</span>&nbsp;(<span class="sig-arg">lls</span>,
-        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**s_D_M_S</span>)</span>
+        <span class="sig-arg">**m_form_prec_sep_s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1308,69 +1312,23 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - Single or a list, sequence, tuple, etc. (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>form</code></strong> - Format specifier for <b><code>deg</code></b> (<code>str</code> or
-          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
-          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
-          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
-          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
-          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
-          href="pygeodesy.dms-module.html#F_D60" class="link">F_D60</a>, <a
-          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
-          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
-          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
-          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
-          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
-          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
-          <a href="pygeodesy.dms-module.html#F_DEG_" 
-          class="link">F_DEG_</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
-          <a href="pygeodesy.dms-module.html#F_SEC_" 
-          class="link">F_SEC_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60_" class="link">F_D60_</a>, 
-          <a href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>,
-          <a href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>,
-          <a href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>,
-          <a href="pygeodesy.dms-module.html#F_RAD_" 
-          class="link">F_RAD_</a>, <a 
-          href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>, <a
-          href="pygeodesy.dms-module.html#F_DM__" class="link">F_DM__</a>, 
-          <a href="pygeodesy.dms-module.html#F_DMS__" 
-          class="link">F_DMS__</a>, <a 
-          href="pygeodesy.dms-module.html#F_DEG__" 
-          class="link">F_DEG__</a>, <a 
-          href="pygeodesy.dms-module.html#F_MIN__" 
-          class="link">F_MIN__</a>, <a 
-          href="pygeodesy.dms-module.html#F_SEC__" 
-          class="link">F_SEC__</a>, <a 
-          href="pygeodesy.dms-module.html#F_D60__" 
-          class="link">F_D60__</a>, <a 
-          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
-          <a href="pygeodesy.dms-module.html#F__F__" 
-          class="link">F__F__</a>, <a 
-          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
-          or <a href="pygeodesy.dms-module.html#F_RAD__" 
-          class="link">F_RAD__</a>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Number of decimal digits (0..9 or <code>None</code> for default).
-          Trailing zero decimals are stripped for <b><code>prec</code></b> 
-          values of 1 and above, but kept for negative 
-          <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
-          (<code>str</code>).</li>
-        <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override DMS symbols, defaults <a 
-          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
-          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
-          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
-          class="link">S_SEC</a>.</li>
+        <li><strong class="pname"><code>lls</code></strong> - Single or list, sequence, tuple, etc. (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
+          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
+          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
+          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
+          <b><code>s_DMS</code></b> keyword arguments, see method 
+          <code>LatLon.toStr</code> and functions <a 
+          href="pygeodesy.dms-module.html#latDMS" 
+          class="link">pygeodesy.latDMS</a> and <a 
+          href="pygeodesy.dms-module.html#lonDMS" 
+          class="link">pygeodesy.lonDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>str</code> or <code>tuple</code> if 
-          <b><code>sep</code>=None</b> or <code>NN</code> and if 
-          <b><code>lls</code></b> is a list, sequence, tuple, etc.</dd>
+        <dd>A <code>tuple</code> of <code>str</code>s if 
+          <b><code>lls</code></b> is a list, sequence, tuple, etc. of 
+          <code>LatLon</code> instances or a single <code>str</code> if 
+          <b><code>lls</code></b> is a single <code>LatLon</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.dms-module.html#latDMS" 
@@ -1380,7 +1338,14 @@
         href="pygeodesy.dms-module.html#lonDMS" 
         class="link">pygeodesy.lonDMS</a> and <a 
         href="pygeodesy.dms-module.html#toDMS" 
-        class="link">pygeodesy.toDMS</a>.
+        class="link">pygeodesy.toDMS</a> and method 
+        <code>LatLon.toStr</code>.
+      </p>
+      <p><strong>Note:</strong>
+        Keyword argument <code><b>sep</b>=None</code> to return a 
+        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        <i>DEPRECATED</i>, use 
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1392,7 +1357,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlonDMS_</span>&nbsp;(<span class="sig-arg">*lls</span>,
-        <span class="sig-arg">**form_prec_sep_s_D_M_S</span>)</span>
+        <span class="sig-arg">**m_form_prec_sep_s_D_M_S</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1404,21 +1369,32 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lls</code></strong> - The instances, all positional arguments (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>form_prec_sep_s_D_M_S</code></strong> - Optional <b><code>form</code></b>at, 
-          <b><code>prec</code></b>ision, <b><code>sep</code></b>arator, 
-          <b><code>s_D</code></b>, <b><code>s_M</code></b> and 
-          <b><code>s_S</code></b> keyword arguments, see function <a 
-          href="pygeodesy.dms-module.html#latlonDMS" 
-          class="link">latlonDMS</a>.</li>
+        <li><strong class="pname"><code>m_form_prec_sep_s_D_M_S</code></strong> - Optional <code><b>m</b>eter</code>, <code><b>form</b>at</code>, 
+          <code><b>prec</b>ision</code>, <i>DEPRECATED</i> 
+          <b><code>sep</code></b>, <b><code>s_D</code></b>, 
+          <b><code>s_M</code></b>, <b><code>s_S</code></b> and 
+          <b><code>s_DMS</code></b> keyword arguments, see method 
+          <code>LatLon.toStr</code> and functions <a 
+          href="pygeodesy.dms-module.html#latDMS" 
+          class="link">pygeodesy.latDMS</a> and <a 
+          href="pygeodesy.dms-module.html#lonDMS" 
+          class="link">pygeodesy.lonDMS</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>str</code> or <code>tuple</code> if 
-          <code><b>sep</b>=None</code> or <code>NN</code> and if more than 
-          one <b><code>lls</code></b> is given.</dd>
+        <dd>A <code>tuple</code> of <code>str</code>s if 2 or more 
+          <code>LatLon</code> instances or a single <code>str</code> if 
+          only a single <code>LatLon</code> instance is given in 
+          <b><code>lls</code></b>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#latlonDMS" 
         class="link">pygeodesy.latlonDMS</a>.
+      </p>
+      <p><strong>Note:</strong>
+        Keyword argument <code><b>sep</b>=None</code> to return a 
+        <code>str</code>ing instead of the <code>tuple</code>, has been 
+        <i>DEPRECATED</i>, use 
+        <code><b>sep</b>.join(<b>latlonDMS_</b>(...))</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1431,7 +1407,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">lonDMS</span>&nbsp;(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**s_D_M_S</span>)</span>
   </h3>
@@ -1493,15 +1469,15 @@
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override DMS symbols, defaults <a 
-          href="pygeodesy.dms-module.html#S_DEG" class="link">S_DEG</a>, <a
-          href="pygeodesy.dms-module.html#S_MIN" class="link">S_MIN</a> 
-          respectively <a href="pygeodesy.dms-module.html#S_SEC" 
-          class="link">S_SEC</a>.</li>
+          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
+          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
+          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
+          class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
+          class="link">S_MIN</a> respectively <a 
+          href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Degrees in the specified form (<code>str</code>).</dd>
@@ -1582,9 +1558,9 @@
           (<code>float</code>, <code>int</code>, other).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot; and 
-          &quot;SS&quot; (<a href="pygeodesy.dms-module.html#S_SEP" 
-          class="link">S_SEP</a>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between &quot;[D]DD&quot;, &quot;MM&quot;, 
+          &quot;SS&quot;, <b><code>suffix</code></b> (<a 
+          href="pygeodesy.dms-module.html#S_SEP" class="link">S_SEP</a>).</li>
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>sexagecimal</code></strong> - If <code>True</code>, convert <code>&quot;D.MMSS&quot;</code> or 
@@ -1682,7 +1658,8 @@
           (<code>float</code>, <code>int</code>, other).</li>
         <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass points (<code>str</code>, 
           <code>tuple</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242;, sec&#8243;, 
+          <b><code>suffix</code></b> (<code>''</code>).</li>
         <li><strong class="pname"><code>clip</code></strong> - Optionally, limit value to range <code>-/+<b>clip</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional, alternate symbol for degrees 
@@ -1749,7 +1726,8 @@
           <code>degrees</code>).</li>
         <li><strong class="pname"><code>strLon</code></strong> - Longitude in any of several forms (<code>str</code> or 
           <code>degrees</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242; and sec&#8243; (<code>''</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between deg&#176;, min&#8242;, sec&#8243;, suffix 
+          (<code>''</code>).</li>
         <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
@@ -1808,8 +1786,8 @@
     </td>
   </tr></table>
   
-  <p>Parse a string <code>&quot;lat lon [h]&quot;</code> representing lat-,
-  longitude in <code>degrees</code> and optional height in 
+  <p>Parse a string <code>&quot;lat, lon [, h]&quot;</code> representing 
+  lat-, longitude in <code>degrees</code> and optional height in 
   <code>meter</code>.</p>
   <p>The lat- and longitude value must be separated by a separator 
   character.  If height is present it must follow, separated by another 
@@ -1822,8 +1800,8 @@
         <li><strong class="pname"><code>strllh</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code>) or 
           <code>None</code>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between <code>&quot;lat lon [h]&quot;</code> 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between <code>&quot;lat lon [h] 
+          suffix&quot;</code> (<code>str</code>).</li>
         <li><strong class="pname"><code>clipLat</code></strong> - Limit latitude to range <code>-/+<b>clipLat</b></code> 
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>clipLon</code></strong> - Limit longitude to range <code>-/+<b>clipLon</b></code> 
@@ -2031,16 +2009,16 @@
           Trailing zero decimals are stripped for <b><code>prec</code></b> 
           values of 1 and above, but kept for negative 
           <b><code>prec</code></b>.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds and suffix 
+        <li><strong class="pname"><code>sep</code></strong> - Separator between degrees, minutes, seconds, suffix 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Number of digits for <b><code>deg</code>&#176;</b> (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Prefix for negative <b><code>deg</code></b> (<code>'-'</code>).</li>
         <li><strong class="pname"><code>pos</code></strong> - Prefix for positive <b><code>deg</code></b> and signed 
           <b><code>form</code></b> (<code>'+'</code>).</li>
         <li><strong class="pname"><code>s_D_M_S</code></strong> - Optional keyword arguments <code><b>s_D</b>=str</code>, 
-          <code><b>s_M</b>=str</code> and/or <code><b>s_S</b>=str</code> to
-          override the DMS symbol for the degrees, minutes respectively 
-          seconds value, defaults <a href="pygeodesy.dms-module.html#S_DEG"
+          <code><b>s_M</b>=str</code> <code><b>s_S</b>=str</code> and 
+          <code><b>s_DMS</b>=True</code> to override any or cancel all DMS 
+          symbols, defaults <a href="pygeodesy.dms-module.html#S_DEG" 
           class="link">S_DEG</a>, <a href="pygeodesy.dms-module.html#S_MIN"
           class="link">S_MIN</a> respectively <a 
           href="pygeodesy.dms-module.html#S_SEC" class="link">S_SEC</a>.  
@@ -2056,7 +2034,9 @@
         this and other <code>*DMS</code> functions by using optional 
         keyword argments <code><b>s_D</b>=&quot;d&quot;</code>, 
         <code><b>s_M</b>=&quot;'&quot;</code> respectively 
-        <code><b>s_S</b>='&quot;'</code>.
+        <code><b>s_S</b>='&quot;'</code>.  Using keyword argument 
+        <b><code>s_DMS</code>=None</b> cancels all <code>DMS</code> symbols
+        to <code><b>S_NUL</b>=NN</code>.
         </li>
         <li>
         Sexagecimal format <b><code>F_D60</code></b> supports overridable 
@@ -2112,7 +2092,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 10 13:16:35 2022
+    Generated by Epydoc 3.0.1 on Mon May 23 11:21:56 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

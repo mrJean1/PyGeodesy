@@ -8,7 +8,7 @@ L{LocalError} and L{Attitude} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
-      <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
+      <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 
 from pygeodesy.basics import isscalar, issubclassof, map1, _umod_360
@@ -17,33 +17,37 @@ from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _TypesError, _ValueError, _xkwds
 # from pygeodesy.fmath import fdot  # from .vector3d
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.interns import EPS, NN, _COMMASPACE_, _lat0_, _lon0_, _ltp_, \
-                             _M_, _name_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0
-from pygeodesy.interns import _ecef_, _N_1_0  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import EPS, INT0, NN, _COMMASPACE_, _ecef_, _height_, \
+                             _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, \
+                             _too_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0, \
+                             _N_1_0  # PYCHOK used!
+# from pygeodesy.lazily import _ALL_LAZY  # from .streprs
 from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
                                _NamedBase, _XyzLocals4, _XyzLocals5, Xyz4Tuple
 # from pygeodesy.named import _NamedBase  # from .ltpTuples
 # from pygeodesy.namedTuples import Vector3Tuple  # from .vector3d
 from pygeodesy.props import Property, property_doc_, Property_RO
-from pygeodesy.streprs import Fmt, strs
+from pygeodesy.streprs import _ALL_LAZY, Fmt, strs
 from pygeodesy.units import Bearing, Degrees, Meter
-from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, \
-                            wrap180, wrap360
+from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wrap360
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.04.22'
+__version__ = '22.05.14'
 
-_Xyz_  = 'Xyz'
+_height0_ = _height_ + _0_
+_narrow_  = 'narrow'
+_wide_    = 'wide'
+_Xyz_     = 'Xyz'
 
 
 def _fov_2(**fov):
-    # Half a field-of-view in degrees
-    f = Degrees(**fov) * _0_5
+    # Half a field-of-view angle in C{degrees}.
+    f = Degrees(Error=LocalError, **fov) * _0_5
     if EPS < f < _90_0:
         return f
-    raise _ValueError(**fov)
+    t = _invalid_ if f < 0 else _too_(_wide_ if f > EPS else _narrow_)
+    raise LocalError(txt=t, **fov)
 
 
 class Attitude(_NamedBase):
@@ -54,7 +58,7 @@ class Attitude(_NamedBase):
     _tilt = Degrees(tilt=_0_0)
     _yaw  = Bearing(yaw =_0_0)
 
-    def __init__(self, alt_attitude=0, tilt=0, yaw=0, roll=0, name=NN):
+    def __init__(self, alt_attitude=INT0, tilt=INT0, yaw=INT0, roll=INT0, name=NN):
         '''New L{Attitude}.
 
            @kwarg alt_attitude: An altitude (C{meter}) above earth or an attitude
@@ -139,7 +143,7 @@ class Attitude(_NamedBase):
         sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)
         return ((ca * cb,  ca * sb * sg, -sa * cg,  ca * sb * cg,  sa * sg),
                 (sa * cb,  sa * sb * sg,  ca * cg,  sa * sb * cg, -ca * sg),
-                (    -sb,  cb * sg,                 cb * cg))
+                (    -sb,       cb * sg,                 cb * cg))
 
     def rotate(self, x_xyz, y=None, z=None, Vector=None, **Vector_kwds):
         '''Transform a (local) cartesian by this attitude's matrix.
@@ -242,9 +246,7 @@ class Frustum(_NamedBase):
            @arg vfov: Vertical field-of-view (C{degrees180}).
            @kwarg ltp: Optional I{local tangent plane} (L{Ltp}).
 
-           @raise UnitError: Invalid B{C{hfov}} or B{C{vfov}}.
-
-           @raise ValueError: Invalid B{C{hfov}} or B{C{vfov}}.
+           @raise LocalError: Invalid B{C{hfov}} or B{C{vfov}}.
         '''
         self._h_2 = h = _fov_2(hfov=hfov)
         self._v_2 =     _fov_2(vfov=vfov)
@@ -384,7 +386,7 @@ class LocalCartesian(_NamedBase):
     '''Conversion between geodetic C{(lat, lon, height)} and I{local cartesian}
        C{(x, y, z)} coordinates with I{geodetic} origin C{(lat0, lon0, height0)},
        transcoded from I{Karney}'s C++ class U{LocalCartesian
-       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due
        North.  The plane C{z = -height0} is tangent to the ellipsoid.
@@ -397,7 +399,7 @@ class LocalCartesian(_NamedBase):
     _ecef = EcefKarney(_WGS84)
     _t0   = None  # origin (..., lat0, lon0, height0, ...) L{Ecef9Tuple}
 
-    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, name=NN):
         '''New L{LocalCartesian} converter.
 
            @kwarg latlonh0: Either a C{LatLon}, L{Ltp}, L{Ecef9Tuple} or
@@ -549,7 +551,7 @@ class LocalCartesian(_NamedBase):
         '''
         return self._t0.M
 
-    def reset(self, latlonh0=0, lon0=0, height0=0, name=NN):
+    def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, name=NN):
         '''Reset the (geodetic) origin.
 
            @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
@@ -608,7 +610,7 @@ class LocalCartesian(_NamedBase):
 
            @return: This L{LocalCartesian} representation (C{str}).
         '''
-        return self.attrs(_lat0_, _lon0_, 'height0', _M_, 'ecef', _name_, prec=prec)
+        return self.attrs(_lat0_, _lon0_, _height0_, _M_, _ecef_, _name_, prec=prec)
 
     @Property_RO
     def _xyz0(self):
@@ -670,7 +672,7 @@ class Ltp(LocalCartesian):
             self.reset(self._t0)
 
 
-def tyr3d(tilt=0, yaw=0, roll=0, Vector=Vector3d, **Vector_kwds):
+def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):
     '''Convert an attitude oriention into a (3-D) direction vector.
 
        @kwarg tilt: Pitch, elevation from horizontal (C{degrees}), negative down
@@ -687,7 +689,7 @@ def tyr3d(tilt=0, yaw=0, roll=0, Vector=Vector3d, **Vector_kwds):
              and function L{pygeodesy.hartzell} argument C{los}.
     '''
     d = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
-    return d if Vector is Vector3d else (
+    return d if Vector is type(d) else (
            Vector3Tuple(d.x, d.y, d.z, name=d.name) if Vector is None else
                  Vector(d.x, d.y, d.z, **_xkwds(Vector_kwds, name=d.name)))  # PYCHOK indent
 

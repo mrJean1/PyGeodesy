@@ -236,9 +236,9 @@ class Osgr(_NamedBase):
 
         s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
         v = a_F0 / sqrt(s)  # nu
-        r = v * E.e12 / s  # rho = a_F0 * E.e12 / pow(s, 1.5) == a_F0 * E.e12 / (s * sqrt(s))
+        r = v * E.e21 / s  # rho = a_F0 * E.e21 / pow(s, 1.5) == a_F0 * E.e21 / (s * sqrt(s))
 
-        vr = v / r  # == s / E.e12 == s * E._1_e12
+        vr = v / r  # == s / E.e21 == s * E._1_e21
         x2 = vr - _1_0  # η2
         ta = tan(a)
 
@@ -485,7 +485,7 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
 
     s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0); r = v / r
     v = E.a * _F0 / sqrt(s)  # nu
-    r = s * E._1_e12  # nu / rho == v / (v * E.e12 / s) == s / E.e12 == s * E._1_e12
+    r = s * E._1_e21  # nu / rho == v / (v * E.e21 / s) == s / E.e21 == s * E._1_e21
 
     x2 = r - _1_0  # η2
     ta = tan(a)

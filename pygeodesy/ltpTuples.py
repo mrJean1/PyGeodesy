@@ -13,27 +13,26 @@ L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypesError, _xkwds
-from pygeodesy.fmath import fdot, hypot, hypot_  # PYCHOK shared
-from pygeodesy.interns import NN, _4_, _azimuth_, _COMMASPACE_, \
-                             _down_, _east_, _ecef_, _elevation_, \
-                             _height_, _lat_, _lon_, _ltp_, _M_, \
-                             _name_, _north_, _up_, _x_, _xyz_, \
-                             _y_, _z_, _0_0, _90_0, _N_90_0
+from pygeodesy.fmath import hypot, hypot_
+from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
+                             _down_, _east_, _ecef_, _elevation_, _height_, \
+                             _lat_, _lon_, _ltp_, _M_, _name_, _north_, _up_, \
+                             _x_, _xyz_, _y_, _z_, _0_0, _90_0, _N_90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_class, deprecated_method, \
                             deprecated_Property_RO, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, \
-                            Lon, Meter, Meter_
+from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, Lon, \
+                            Meter, Meter_
 from pygeodesy.utily import atan2d, atan2b, sincos2d_
 from pygeodesy.vector3d import Vector3d
 
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.04.22'
+__version__ = '22.05.12'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -1154,7 +1153,7 @@ class Footprint5Tuple(_NamedTuple):
 
        @note: Misspelling of C{upperight} and C{loweright} is I{intentional}.
     '''
-    _Names_ = ('center', 'upperleft', 'upperight', 'loweright', 'lowerleft')
+    _Names_ = (_center_, 'upperleft', 'upperight', 'loweright', 'lowerleft')
     _Units_ = (_Pass,    _Pass,       _Pass,       _Pass,       _Pass)
 
 # **) MIT License
