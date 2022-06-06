@@ -4,7 +4,7 @@
 # Test namedTuples module.
 
 __all__ = ('Tests',)
-__version__ = '22.05.15'
+__version__ = '22.05.27'
 
 from base import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -12,15 +12,15 @@ from pygeodesy.albers import _Ks
 from pygeodesy.frechet import Frechet6Tuple
 from pygeodesy.fsums import _Float_Int
 from pygeodesy.hausdorff import Hausdorff6Tuple
-from pygeodesy.interns import _COMMASPACE_, _DOT_
-from pygeodesy.karney import _GTuple, _Lat as kLat, _Lon as kLon
+from pygeodesy.interns import _DOT_
+from pygeodesy.karney import _GTuple  # Lat as kLat, Lon as kLon
 from pygeodesy.named import _Pass
 from pygeodesy.namedTuples import _NamedTuple
-from pygeodesy.rhumbx import _Lat as rLat, _Lon as rLon
+# from pygeodesy.rhumbx import Lat as rLat, Lon as rLon
 from pygeodesy.units import _NamedUnit
 
 _Units_ = '_Units_'
-_Xcepts = (FIx, _Float_Int, kLat, kLon, _Ks, _Pass, rLat, rLon)
+_Xcepts = (FIx, _Float_Int, _Ks, _Pass)  # kLat, kLon, rLat, rLon
 
 
 class Tests(TestsBase):
@@ -53,7 +53,7 @@ class Tests(TestsBase):
         u = '%s(%s)' % (T.__name__, ', '.join(u))
         self.test(m, u, u)  # the items as name=units
 
-        c = _COMMASPACE_(m, t.__class__.__name__)
+        c = _DOT_(m, t.__class__.__name__)
         for n in T._Names_:  # coverage
             x = str(getattr(t, n))
             self.test(_DOT_(c, n), x, x)
@@ -72,7 +72,7 @@ class Tests(TestsBase):
         self.testValidated(_NamedTuple, False)
 
     def testValidated(self, T, x):
-        n = _COMMASPACE_(T.__module__, _DOT_(T.__name__, '_validated'))
+        n = _DOT_(T.__module__, _DOT_(T.__name__, '_validated'))
         self.test(n , T._validated, x)
 
 

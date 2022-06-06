@@ -5,18 +5,18 @@ u'''Test I{local tangent plane} (LTP) classes, tuples and conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.04.17'
+__version__ = '22.05.27'
 
-from base import TestsBase
+from base import startswith, TestsBase
 
 from pygeodesy import Aer, Enu, fstr, Local9Tuple, Ltp, Ned, XyzLocal
 from pygeodesy.ellipsoidalKarney import Cartesian, LatLon
 from pygeodesy.interns import _DOT_
 
 
-def _truncate(txt):
-    if len(txt) > 512:
-        txt = txt[:512] + ' ...'
+def _truncate(txt, n=392):
+    if len(txt) > n:
+        txt = txt[:n]  # ...
     return txt
 
 
@@ -45,7 +45,7 @@ class Tests(TestsBase):
 
             r = getattr(c.xyzLocal, 'to' + N)(Loc, name=N)  # C back to Loc
             t = _truncate(r.toStr(prec=2))
-            self.test(_DOT_(C.__name__, 'xyzLocal.to' + N), t, s)
+            self.test(_DOT_(C.__name__, 'xyzLocal.to' + N), t, s, known=startswith)
 
         for C in (Cartesian, LatLon):
             n = C.__name__

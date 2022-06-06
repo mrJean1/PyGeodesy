@@ -95,6 +95,9 @@ Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{Equi
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable.
 
+Module L{rhumbsolve} depends on I{Karney}'s C++ utility U{RhumbSolve
+<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable.
+
 Documentation
 =============
 
@@ -111,7 +114,7 @@ The tests have been run with Python 3.10.4 (with U{geographiclib<https://PyPI.or
 2.0), Python 3.9.6 (with U{numpy<https://PyPI.org/project/numpy>} 1.21.2), Python 3.8.10 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
 1.51, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python
-2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} 1.51, all on macOS 12.3.1
+2.7.18 (with U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} 1.51, all on macOS 12.4
 Monterey and in 64-bit only.  The tests are run with and without C{lazy import} for Python 3 and with command line
 option C{-W always} and env var C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only those tests
 are included in the distribution files.
@@ -143,7 +146,7 @@ with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-1
 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python
 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-2.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-3.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS
 X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>}
 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or
@@ -159,7 +162,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.4, both in 64-bit on macOS 12.3.1 Monterey.
+using Python 3.10.4, both in 64-bit on macOS 12.4 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -179,6 +182,7 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
  - C{PYGEODESY_NOTIMPLEMENTED} - __special__ methods return C{NotImplemented} if set to "std".
+ - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumbsolve}.
 
  - C{PYGEODESY_BEARING_STD_REPR} - see method L{pygeodesy.Bearing}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
@@ -391,6 +395,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.interns               as interns                # PYCHOK exported
     import pygeodesy.iters                 as iters                  # PYCHOK exported
     import pygeodesy.karney                as karney                 # PYCHOK exported
+    import pygeodesy.ktm                   as ktm                    # PYCHOK exported
     import pygeodesy.latlonBase            as latlonBase             # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
@@ -405,11 +410,13 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.resections            as resections             # PYCHOK exported
+    import pygeodesy.rhumbsolve            as rhumbsolve             # PYCHOK exported
     import pygeodesy.rhumbx                as rhumbx                 # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
     import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK exported
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
+    import pygeodesy.solveBase             as solveBase              # PYCHOK exported
     import pygeodesy.streprs               as streprs                # PYCHOK exported
     import pygeodesy.trf                   as trf                    # PYCHOK exported
     import pygeodesy.units                 as units                  # PYCHOK exported
@@ -468,6 +475,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.interns               import *  # PYCHOK __all__
     from pygeodesy.iters                 import *  # PYCHOK __all__
     from pygeodesy.karney                import *  # PYCHOK __all__
+    from pygeodesy.ktm                   import *  # PYCHOK __all__
 #   from pygeodesy.latlonBase            import *  # PYCHOK __(_)__
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
@@ -481,11 +489,13 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.resections            import *  # PYCHOK __all__
+    from pygeodesy.rhumbsolve            import *  # PYCHOK __all__
     from pygeodesy.rhumbx                import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
 #   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
+#   from pygeodesy.solveBase             import *  # PYCHOK __(_)__
     from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
     from pygeodesy.units                 import *  # PYCHOK __all__
@@ -536,7 +546,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.05.22'
+__version__ = '22.06.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

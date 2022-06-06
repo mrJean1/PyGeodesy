@@ -11,13 +11,13 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.errors import _xkwds_not  # _xkwds
 from pygeodesy.interns import INT0, NN, _a_, _A_, _angle_, _B_, _band_, \
-                             _C_, _convergence_, _datum_, _distance_, \
-                             _E_, _easting_, _end_, _epoch_, _fi_, _j_, \
-                             _h_, _height_, _hemipole_, _lam_, _lat_, \
-                             _lon_, _n_, _northing_, _number_, _outside_, \
-                             _phi_, _point_, _points_, _precision_, \
-                             _radius_, _reframe_, _scale_, _start_, _x_, \
-                             _y_, _z_, _zone_, _1_, _2_
+                             _C_, _convergence_, _datum_, _distance_, _E_, \
+                             _easting_, _end_, _epoch_, _fi_, _j_, _h_, \
+                             _height_, _hemipole_, _lam_, _lat_, _lon_, \
+                             _n_, _northing_, _number_, _outside_, _phi_, \
+                             _point_, _points_, _precision_, _radius_, \
+                             _reframe_, _scale_, _start_, _x_, _y_, _z_, \
+                             _zone_, _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _Pass
 # from pygeodesy.props import property_RO  # from .units
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             property_RO, Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.04.22'
+__version__ = '22.05.30'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'
@@ -35,6 +35,7 @@ _elel_     = 'll'
 _final_    = 'final'
 _fraction_ = 'fraction'
 _initial_  = 'initial'
+_normal_   = 'normal'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -156,6 +157,14 @@ class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
     '''
     _Names_ = (_easting_, _northing_, _height_)
     _Units_ = ( Easting,   Northing,   Height)
+
+
+class Forward4Tuple(_NamedTuple):
+    '''4-Tuple C{(easting, northing, convergence, scale)} in
+       C{meter}, C{meter}, C{degrees} and C{scalar}.
+    '''
+    _Names_ = (_easting_, _northing_, _convergence_, _scale_)
+    _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
 
 
 class Intersection3Tuple(_NamedTuple):  # .css.py, .lcc.py
@@ -324,6 +333,15 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
     _Units_ = (_Pass,      Meter,      Degrees)
 
 
+class NearestOn4Tuple(_NamedTuple):
+    '''4-Tuple C{(lat, lon, distance, normal)} with the C{lat}- and
+       C{lon}gitude of the nearest point, the C{distance} in C{meter}
+       and the azimuth of the C{normal}, perpendicular line.
+    '''
+    _Names_ = (_lat_, _lon_, _distance_, _normal_)
+    _Units_ = ( Lat,   Lon,   Meter,      Bearing)
+
+
 class NearestOn5Tuple(_NamedTuple):
     '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
        except C{height}.  The C{distance} is the L{pygeodesy.equirectangular}
@@ -451,6 +469,16 @@ class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     '''
     _Names_ = (_number_, _points_)
     _Units_ = ( Number_, _Pass)
+
+
+class Reverse4Tuple(_NamedTuple):
+    '''4-Tuple C{(lat, lon, convergence, scale)} with C{lat}- and
+       C{lon}gitude in C{degrees}, I{gamma} meridian C{convergence}
+       at point in C{degrees180} and I{k} C{scale} of projection
+       at point C{scalar}.
+    '''
+    _Names_ = (_lat_, _lon_, _convergence_, _scale_)
+    _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
 
 
 class Triangle7Tuple(_NamedTuple):

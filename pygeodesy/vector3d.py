@@ -7,12 +7,12 @@ Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
 L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
-# from pygeodesy.basics import len2  # from .fmath
+from pygeodesy.basics import isnear0, isscalar, len2
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xError, _xkwds, _xkwds_popitem
-from pygeodesy.fmath import fdot, fsum, fsum1_, len2
+from pygeodesy.fmath import euclid, fdot, fsum, fsum1_, hypot
 # from pygeodesy.fsums import fsum, fsum1_  # from .fmath
-from pygeodesy.formy import _radical2
+# from pygeodesy.formy import _radical2  # in _intersects2 below
 from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, INT0, MISSING, NN, \
                              _COMMA_, _concentric_, _datum_, _h_, _height_, \
                              _intersection_, _name_, _near_, _negative_, \
@@ -24,24 +24,40 @@ from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
                                   NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
 # from pygeodesy.streprs import Fmt  # from .iters
 from pygeodesy.units import _fi_j2, Radius, Radius_
+from pygeodesy.utily import atan2b, sincos2d
+# from pygeodesy.vector2d import ....  # in .... below
 from pygeodesy.vector3dBase import Vector3dBase
 
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.04.26'
+__version__ = '22.06.02'
 
 
 class Vector3d(Vector3dBase):
     '''Extended 3-D vector.
 
        In a geodesy context, these may be used to represent:
-        - n-vector representing a normal to a point on earth's surface
         - earth-centered, earth-fixed cartesian (ECEF)
+        - n-vector representing a normal to a point on earth's surface
         - great circle normal to vector
         - motion vector on earth's surface
         - etc.
     '''
+
+    def bearing(self, useZ=True):
+        '''Get the "bearing" of this vector.
+
+           @kwarg useZ: If C{True}, use the Z component, otherwise
+                        consider the Y as +Z axis.
+
+           @return: Bearing (compass C{degrees}), the counter-clockwise
+                    angle off the +Z axis.
+        '''
+        x, y = self.x, self.y
+        if useZ:
+            x, y = hypot(x, y), self.z
+        return atan2b(x, y)
 
     def circin6(self, point2, point3, eps=EPS4):
         '''Return the radius and center of the I{inscribed} aka I{In- circle}
@@ -383,17 +399,43 @@ class Vector3d(Vector3dBase):
                              center3=center3, radius3=radius3)
 
 
-def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
-    # (INTERNAL) Intersect two lines, see L{intersection} above,
+def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
+    # (INTERNAL) Intersect two lines, see L{intersection3d3} below,
     # separated to allow callers to embellish any exceptions
 
-    def _outside(t, d2):  # -1 before start#, +1 after end#
-        return -1 if t < 0 else (+1 if t > d2 else 0)  # XXX d2 + eps?
+    def _outside(t, d2, o):  # -o before start#, +o after end#
+        return -o if t < 0 else (o if t > d2 else 0)  # XXX d2 + eps?
 
-    s1 = _otherV3d(useZ=useZ, start1=start1)
-    e1 = _otherV3d(useZ=useZ, end1=end1)
-    s2 = _otherV3d(useZ=useZ, start2=start2)
-    e2 = _otherV3d(useZ=useZ, end2=end2)
+    def _ritri2(s1, b1, s2, useZ):
+        # Get the C{s1'} and C{e1'}, corners of a right-angle
+        # triangle with the hypotenuse thru C{s1} at bearing
+        # C{b1} and the right angle at C{s2}
+        dx, dy, d = s2.minus(s1).xyz
+        if useZ and not isnear0(d):  # not supported
+            raise IntersectionError(useZ=d, bearing=b1)
+        s, c = sincos2d(b1)
+        if s and c:
+            dx *= c / s
+            dy *= s / c
+            e1 = Vector3d(s2.x,      s1.y + dx, s1.z)
+            s1 = Vector3d(s1.x + dy, s2.y,      s1.z)
+        else:  # orthongonal
+            d  = euclid(dx, dy)
+            e1 = Vector3d(s1.x + s * d, s1.y + c * d, s1.z)
+        return s1, e1
+
+    s1 = x = _otherV3d(useZ=useZ, start1=start1)
+    s2 =     _otherV3d(useZ=useZ, start2=start2)
+    b1 = isscalar(end1)
+    if b1:
+        s1, e1 = _ritri2(s1, end1, s2, useZ)
+    else:
+        e1 = _otherV3d(useZ=useZ, end1=end1)
+    b2 = isscalar(end2)
+    if b2:
+        s2, e2 = _ritri2(s2, end2, x, useZ)
+    else:
+        e2 = _otherV3d(useZ=useZ, end2=end2)
 
     a  = e1.minus(s1)
     b  = e2.minus(s2)
@@ -415,6 +457,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
             a,  b  = b,  a
             s1, s2 = s2, s1
             e1, e2 = e2, e1
+            b1, b2 = b2, b1
         if b.length2 < e:  # PYCHOK no cover
             if c.length < e:
                 return s1, 0, 0
@@ -425,31 +468,33 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):
             t = s1.minus(s2).dot(b)
             v = s2.plus(b.times(t / b.length2))
             if s1.minus(v).length < e:
-                o = _outside(t, b.length2)
-                return (v, o, 0) if x else (v, 0, (o * 2))
+                o = 0 if b2 else _outside(t, b.length2, 1 if x else 2)
+                return (v, o, 0) if x else (v, 0, o)
         raise IntersectionError(length2=ab2, txt=_no_(_intersection_))
 
-    cb =  c.cross(b)
-    t  =  cb.dot(ab)
-    o1 = _outside(t, ab2)
-    v  =  s1.plus(a.times(t / ab2))
-    o2 = _outside(v.minus(s2).dot(b), b.length2) * 2
+    cb = c.cross(b)
+    t  = cb.dot(ab)
+    o1 = 0 if b1 else _outside(t, ab2, 1)
+    v  = s1.plus(a.times(t / ab2))
+    o2 = 0 if b2 else _outside(v.minus(s2).dot(b), b.length2, 2)
     return v, o1, o2
 
 
 def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
                                               **Vector_and_kwds):
-    '''Compute the intersection point of two lines, each defined by or
-       through a start and end point (3-D).
+    '''Compute the intersection point of two lines, each defined by two
+       points or by a point and a bearing.
 
        @arg start1: Start point of the first line (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg end1: End point of the first line (C{Cartesian}, L{Vector3d},
-                  C{Vector3Tuple} or C{Vector4Tuple}).
+                  C{Vector3Tuple} or C{Vector4Tuple}) or the bearing at
+                  B{C{start1}} (compass C{degrees}).
        @arg start2: Start point of the second line (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg end2: End point of the second line (C{Cartesian}, L{Vector3d},
-                  C{Vector3Tuple} or C{Vector4Tuple}).
+                  C{Vector3Tuple} or C{Vector4Tuple}) or the bearing at
+                  B{C{start2}} (Ccompass C{degrees}).
        @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
@@ -458,6 +503,8 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with
                 C{point} an instance of B{C{Vector}} or B{C{start1}}'s (sub-)class.
+
+       @note: The C{outside} values is C{0} for lines specified by point and bearing.
 
        @raise IntersectionError: Invalid, skew, non-co-planar or otherwise
                                  non-intersecting lines.
@@ -553,7 +600,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
     # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
     # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
     if o > EPS:  # overlapping, r1, r2 == R, r
-        x = _radical2(d, r1, r2).xline
+        x = _MODS.formy._radical2(d, r1, r2).xline
         y = _1_0 - (x / r1)**2
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2

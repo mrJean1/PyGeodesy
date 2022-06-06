@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '22.05.27'
 
 from base import TestsBase
 
@@ -25,12 +25,14 @@ class Tests(TestsBase):
 
     def testDeprecated(self, LatLon):
 
-        c = HeightIDW  # == HeightIDWeuclidean in Python 3.7+
-        self.test(c.__name__, issubclass(c, HeightIDWeuclidean), True)
-        c = HeightIDW2  # == HeightIDWequirectangular in Python 3.7+
-        self.test(c.__name__, issubclass(c, HeightIDWequirectangular), True)
-        c = HeightIDW3  # == HeightIDWhaversine in Python 3.7+
-        self.test(c.__name__, issubclass(c, HeightIDWhaversine), True)
+        ks = tuple(LatLon(k, k, height=k) for k in range(17))
+        c = HeightIDW(ks)  # == HeightIDWeuclidean in Python 3.7+
+        self.test(c.__class__.__name__, isinstance(c, HeightIDWeuclidean), True, nl=1)
+        c = HeightIDW2(ks)  # == HeightIDWequirectangular in Python 3.7+
+        self.test(c.__class__.__name__, isinstance(c, HeightIDWequirectangular), True)
+        c = HeightIDW3(ks)  # == HeightIDWhaversine in Python 3.7+
+        self.test(c.__class__.__name__, isinstance(c, HeightIDWhaversine), True, nt=1)
+        del ks
 
         p = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaof', areaof(p, radius=R_MA), '7.086883e+09', fmt='%.6e')

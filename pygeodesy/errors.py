@@ -506,7 +506,7 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
 
 
 def _xdatum(datum1, datum2, Error=None):
-    '''(INTERNAL) Check for datum or ellipsoid mis-match.
+    '''(INTERNAL) Check for datum, ellipsoid or rhumb mis-match.
     '''
     if Error:
         E1, E2 = datum1.ellipsoid, datum2.ellipsoid

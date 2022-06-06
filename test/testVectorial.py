@@ -4,14 +4,14 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.22'
+__version__ = '22.05.30'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, \
-                      circin6, circum3, circum4_, \
-                      fstr, intersection3d3, IntersectionError, \
-                      isnear0, meeus2, radii11, sphericalNvector, \
+                      circin6, circum3, circum4_, fstr, \
+                      intersection3d3, IntersectionError, isnear0, \
+                      meeus2, radii11, sincos2d, sphericalNvector, \
                       soddy4, trilaterate2d2, trilaterate3d2, \
                       vector2d, vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
@@ -37,6 +37,20 @@ class Tests(TestsBase):
         except Exception as x:
             self.test('(-2, 17)', x.__class__, IntersectionError)
         self.test('(49, 25)', intersection3d3(s1, e1, e1, e1, useZ=False), '(Vector3d(49.0, 25.0, 0.0), 0, 0)')
+
+        # bearing test
+        s1 = V3d(0, 10)
+        s2 = V3d(20, 0)
+        r, m = 50, 0.0
+        for d in range(0, 361, 3):
+            v  = V3d(*sincos2d(d)).times(r)
+            b1 = v.minus(s1).bearing(useZ=False)
+            b2 = v.minus(s2).bearing(useZ=False)
+            p  = intersection3d3(s1, b1, s2, b2).point
+            e  = p.minus(v).length / r
+            m  = max(e, m)
+            self.test('at %d' % (d,), p, v, known=e <= m, nl=not d)
+        self.test('max error', m, m, fmt='%.10e')
 
     def testNvectorBase(self, module, **kwds):
 

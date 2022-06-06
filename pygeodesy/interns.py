@@ -130,6 +130,10 @@ _3_                   = '3'                  # PYCHOK expected
 _4_                   = '4'                  # PYCHOK expected
 _a_                   = 'a'                  # PYCHOK expected
 _A_                   = 'A'                  # PYCHOK expected
+_a12_                 = 'a12'                # PYCHOK expected
+_azi1_                = 'azi1'               # PYCHOK expected
+_azi12_               = 'azi12'              # PYCHOK expected
+_azi2_                = 'azi2'               # PYCHOK expected
 _Airy1830_            = 'Airy1830'           # PYCHOK expected
 _AiryModified_        = 'AiryModified'       # PYCHOK expected
 _an_                  = 'an'                 # PYCHOK expected
@@ -264,6 +268,9 @@ _lon2_                = 'lon2'               # PYCHOK expected
 _ltp_                 = 'ltp'                # PYCHOK expected
 _m_                   = 'm'                  # PYCHOK expected
 _M_                   = 'M'                  # PYCHOK expected
+_m12_                 = 'm12'                # PYCHOK expected
+_M12_                 = 'M12'                # PYCHOK expected
+_M21_                 = 'M21'                # PYCHOK expected
 _mean_                = 'mean'               # PYCHOK expected
 _meanOf_              = 'meanOf'             # PYCHOK expected
 _meridional_          = 'meridional'         # PYCHOK expected
@@ -540,6 +547,7 @@ _1_16th   = _float(_1_0 / _16_0)    # PYCHOK in .ellipsoids, .karney
 _1_3rd    = _float(_1_0 /  _3_0)    # PYCHOK in .fmath
 _2_3rd    = _float(_2_0 /  _3_0)    # PYCHOK in .fmath
 
+_K0_UTM   = _float( 0.9996)         # PYCHOK in .etm, .ktm, .utm, UTM scale, central meridian
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2 = _float(sqrt(_2_0) + 1)
@@ -704,7 +712,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.05.19'
+__version__ = '22.06.04'
 
 
 # **) MIT License

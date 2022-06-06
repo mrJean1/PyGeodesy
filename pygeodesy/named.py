@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.05.22'
+__version__ = '22.05.23'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -838,8 +838,7 @@ class _NamedTuple(tuple, _Named):
        @note: This class is similar to Python's C{namedtuple},
               but statically defined, lighter and limited.
     '''
-    _iteration = None  # Iteration number (C{int}) or C{None}
-    _Names_    = ()  # item names, non-identifier, no leading underscore
+    _Names_ = ()  # item names, non-identifier, no leading underscore
     '''Tuple specifying the C{name} of each C{Named-Tuple} item.
 
        @note: Specify at least 2 item names.
@@ -959,13 +958,6 @@ class _NamedTuple(tuple, _Named):
             yield n, v
 
     iteritems = items
-
-    @property_RO
-    def iteration(self):
-        '''Get the iteration number (C{int}) or
-           C{None} if not available/applicable.
-        '''
-        return self._iteration
 
     def _kwdself(self, iteration=None, name=NN, **unused):
         '''(INTERNAL) Set C{__new__} keyword arguments.

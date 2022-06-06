@@ -10,19 +10,16 @@ inside the C{pygeodesy} package.
 Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
 '''
-from pygeodesy.errors import TRFError as _TRFError
-from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
-                              HeightIDWeuclidean as _HeightIDWeuclidean, \
-                              HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import EPS, EPS_2, NN, R_M, _COMMASPACE_, _scalar_, _SPACE_, \
-                             _UNDER_, _1_0
-from pygeodesy.interns import _easting_, _end_, _hemipole_, _negative_, _northing_, \
-                              _sep_, _start_, _value_, _zone_
+from pygeodesy.interns import EPS, EPS_2, NAN, NN, R_M, _azi12_, _COMMASPACE_, \
+                             _convergence_, _easting_, _end_, _hemipole_, _lat_, \
+                             _lat1_, _lat2_, _lon_, _lon1_, _lon2_, _negative_, \
+                             _northing_, _s12_, _S12_, _scale_, _scalar_, _sep_, \
+                             _SPACE_, _start_, _UNDER_, _value_, _zone_, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, isLazy
-from pygeodesy.ltp import LocalCartesian
-from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
 from pygeodesy.named import _NamedTuple, _Pass
-from pygeodesy.units import Easting, Northing, Number_, Scalar_, Str
+from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
+from pygeodesy.units import Degrees, Easting, Lat, Lon, Northing, Number_, \
+                            Scalar, Scalar_, Str
 if isLazy:  # XXX force import of all deprecated modules
     import pygeodesy.deprecated.bases as bases, \
            pygeodesy.deprecated.datum as datum, \
@@ -30,98 +27,184 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.04.19'
+__version__ = '22.06.04'
 
 EPS1_2 = _1_0 - EPS_2  # DEPRECATED
 OK     = 'OK'          # DEPRECATED
 _WGS84 = _UTM = object()
 
 
-# DEPRECATED classes, for export only
-class ClipCS3Tuple(_NamedTuple):  # PYCHOK no cover
+class _DeprecatedNamedTuple(_NamedTuple):
+    '''(INTERNAL) Base class for DEPRECATED C{_NamedTuple} classes.
+    '''
+    def __new__(cls, *args, **kwds):
+        deprecated_class(cls)
+        return _NamedTuple.__new__(cls, *args, **kwds)
+
+
+# DEPRECATED classes, for export and backward compatibility only
+class ClipCS3Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
     '''3-Tuple C{(start, end, index)}.  DEPRECATED, see function L{pygeodesy.clipCS3}.
     '''
     _Names_ = (_start_, _end_, 'index')
     _Units_ = (_Pass,   _Pass,  Number_)
 
-    def __new__(cls, start, end, ndex, name=NN):
-        deprecated_class(cls)
-        return _NamedTuple.__new__(cls, start, end, ndex, name=name)
 
-
-class EcefCartesian(LocalCartesian):
+def EcefCartesian(*args, **kwds):
     '''DEPRECATED, use class L{LocalCartesian}.
-
-       @note: This class is named I{incorrectly}, since it provides conversion to
-              and from I{local} cartesian coordinates in a I{local tangent plane}
-              and I{not geocentric} (ECEF) ones, as the name suggests.
     '''
-    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
-        deprecated_class(self.__class__)
-        LocalCartesian.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
+    LocalCartesian = _MODS.ltp.LocalCartesian
 
-    @deprecated_method
-    def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
-        '''DEPRECATED, use method L{LocalCartesian.forward}.
+    class EcefCartesian(LocalCartesian):
+        '''DEPRECATED, use class L{LocalCartesian}.
 
-           @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
-                    M, datum)} with I{local} C{(x, y, z)} coordinates for the given
-                    I{geodetic} ones C{(lat, lon, height)}, case C{C=0} always,
-                    optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
+           @note: This class is named I{incorrectly}, since it provides conversion to
+                  and from I{local} cartesian coordinates in a I{local tangent plane}
+                  and I{not geocentric} (ECEF) ones, as the name suggests.
         '''
-        t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
-        return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
-                                                    0, t.M, t.ecef.datum,
-                                                    name=t.name or self.name)
+        def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
+            deprecated_class(self.__class__)
+            LocalCartesian.__init__(self, latlonh0=latlonh0, lon0=lon0, height0=height0, ecef=ecef, name=name)
 
-    @deprecated_method
-    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
-        '''DEPRECATED, use method L{LocalCartesian.reverse}.
+        @deprecated_method
+        def forward(self, latlonh, lon=None, height=0, M=False, name=NN):
+            '''DEPRECATED, use method L{LocalCartesian.forward}.
 
-           @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
-                    M, datum)} with I{geodetic} coordinates C{(lat, lon, height)} for
-                    the given I{local} ones C{(x, y, z)}, case C{C}, optionally
-                    I{concatenated} L{EcefMatrix} C{M} and C{datum}.
-        '''
-        t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M, name=name)
-        return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
-                                                    t.ecef.C, t.M, t.ecef.datum,
-                                                    name=t.name or self.name)
+               @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
+                        M, datum)} with I{local} C{(x, y, z)} coordinates for the given
+                        I{geodetic} ones C{(lat, lon, height)}, case C{C=0} always,
+                        optionally I{concatenated} L{EcefMatrix} C{M} and C{datum}.
+            '''
+            t = LocalCartesian.forward(self, latlonh, lon=lon, height=height, M=M, name=name)
+            return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                                        0, t.M, t.ecef.datum,
+                                                        name=t.name or self.name)
+
+        @deprecated_method
+        def reverse(self, xyz, y=None, z=None, M=False, name=NN):
+            '''DEPRECATED, use method L{LocalCartesian.reverse}.
+
+               @return: I{Incorrectly}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C,
+                        M, datum)} with I{geodetic} coordinates C{(lat, lon, height)} for
+                        the given I{local} ones C{(x, y, z)}, case C{C}, optionally
+                        I{concatenated} L{EcefMatrix} C{M} and C{datum}.
+            '''
+            t = LocalCartesian.reverse(self, xyz, y=y, z=z, M=M, name=name)
+            return _MODS.ecef.Ecef9Tuple(t.x, t.y, t.z, t.lat, t.lon, t.height,
+                                                        t.ecef.C, t.M, t.ecef.datum,
+                                                        name=t.name or self.name)
+
+    _MODS.deprecated.EcefCartesian = EcefCartesian
+    return EcefCartesian(*args, **kwds)
 
 
-class HeightIDW(_HeightIDWeuclidean):  # PYCHOK no cover
+class EasNorExact4Tuple(_DeprecatedNamedTuple):
+    '''DEPRECATED< use class L{Forward4Tuple}.
+    '''
+    _Names_ = (_easting_, _northing_, _convergence_, _scale_)
+    _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
+
+
+def HeightIDW(knots, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{HeightIDWeuclidean}.
     '''
-    def __init__(self, knots, adjust=True, beta=2, name=NN):
-        deprecated_class(self.__class__)
-        _HeightIDWeuclidean.__init__(self, knots, adjust=adjust, beta=beta, name=name)
+    HeightIDWeuclidean = _MODS.heights.HeightIDWeuclidean
+
+    class HeightIDW(HeightIDWeuclidean):
+        '''DEPRECATED, use class L{HeightIDWeuclidean}.
+        '''
+        def __init__(self, knots, adjust=True, beta=2, name=NN):
+            deprecated_class(self.__class__)
+            HeightIDWeuclidean.__init__(self, knots, adjust=adjust, beta=beta, name=name)
+
+    _MODS.deprecated.HeightIDW = HeightIDW
+    return HeightIDW(knots, **kwds)
 
 
-class HeightIDW2(_HeightIDWequirectangular):  # PYCHOK no cover
+def HeightIDW2(knots, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{HeightIDWequirectangular}.
     '''
-    def __init__(self, knots, adjust=True, wrap=False, name=NN):
-        deprecated_class(self.__class__)
-        _HeightIDWequirectangular.__init__(self, knots, adjust=adjust, wrap=wrap, name=name)
+    HeightIDWequirectangular = _MODS.heights.HeightIDWequirectangular
+
+    class HeightIDW2(HeightIDWequirectangular):
+        '''DEPRECATED, use class L{HeightIDWequirectangular}.
+        '''
+        def __init__(self, knots, adjust=True, wrap=False, name=NN):
+            deprecated_class(self.__class__)
+            HeightIDWequirectangular.__init__(self, knots, adjust=adjust, wrap=wrap, name=name)
+
+    _MODS.deprecated.HeightIDW2 = HeightIDW2
+    return HeightIDW2(knots, **kwds)
 
 
-class HeightIDW3(_HeightIDWhaversine):  # PYCHOK no cover
+def HeightIDW3(knots, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{HeightIDWhaversine}.
     '''
-    def __init__(self, knots, beta=2, wrap=False, name=NN):
-        deprecated_class(self.__class__)
-        _HeightIDWhaversine.__init__(self, knots, beta=beta, wrap=wrap, name=name)
+    HeightIDWhaversine = _MODS.heights.HeightIDWhaversine
+
+    class HeightIDW3(HeightIDWhaversine):
+        '''DEPRECATED, use class L{HeightIDWhaversine}.
+        '''
+        def __init__(self, knots, beta=2, wrap=False, name=NN):
+            deprecated_class(self.__class__)
+            HeightIDWhaversine.__init__(self, knots, beta=beta, wrap=wrap, name=name)
+
+    _MODS.deprecated.HeightIDW3 = HeightIDW3
+    return HeightIDW3(knots, **kwds)
 
 
-class RefFrameError(_TRFError):  # PYCHOK no cover
+class LatLonExact4Tuple(_DeprecatedNamedTuple):
+    '''DEPRECATED, used class L{Reverse4Tuple}.
+    '''
+    _Names_ = (_lat_, _lon_, _convergence_, _scale_)
+    _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
+
+
+def RefFrameError(*args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{TRFError}.
     '''
-    def __init__(self, *name_value, **txt_name_values):
-        deprecated_class(self.__class__)
-        _TRFError.__init__(self, *name_value, **txt_name_values)
+    TRFError = _MODS.errors.TRFError
+
+    class RefFrameError(TRFError):
+        '''DEPRECATED, use class L{TRFError}.
+        '''
+        def __init__(self, *name_value, **txt_name_values):
+            deprecated_class(self.__class__)
+            TRFError.__init__(self, *name_value, **txt_name_values)
+
+    _MODS.deprecated.RefFrameError = RefFrameError
+    return RefFrameError(*args, **kwds)
 
 
-class UtmUps4Tuple(_NamedTuple):  # PYCHOK no cover
+class Rhumb7Tuple(_DeprecatedNamedTuple):
+    '''DEPRECATED, use class L{Rhumb8Tuple} ignoring item C{a12}.
+    '''
+    _Names_ = (_lat1_, _lon1_, _lat2_, _lon2_, _azi12_, _s12_, _S12_)
+    _Units_ = (_Pass,  _Pass,  _Pass,  _Pass,  _Pass,   _Pass, _Pass)
+
+    @deprecated_method
+    def toDirect9Tuple(self, **kwds):
+        return self.toRhumb8Tuple().toDirect9Tuple(self, **kwds)
+
+    @deprecated_method
+    def toGDict(self, **kwds):
+        return self.toRhumb8Tuple().toGDict(**kwds)
+
+    @deprecated_method
+    def toInverse10Tuple(self, **kwds):
+        return self.toRhumb8Tuple().toInverse10Tuple(self, **kwds)
+
+    @deprecated_method
+    def toRhumb8Tuple(self, dflt=NAN):
+        return _MODS.rhumbx.Rhumb8Tuple(self + (dflt,), name=self.name)
+
+    def _to7Tuple(self, **unused):
+        '''(INTERNAL) see L{Rhumb8Tuple._to7Tuple}.
+        '''
+        return self
+
+
+class UtmUps4Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
     '''OBSOLETE, expect a L{UtmUps5Tuple} from method C{Mgrs.toUtm(utm=None)}.
 
        4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
@@ -129,10 +212,6 @@ class UtmUps4Tuple(_NamedTuple):  # PYCHOK no cover
     '''
     _Names_ = (_zone_, _hemipole_, _easting_, _northing_)  # band
     _Units_ = ( Str,    Str,        Easting,   Northing)
-
-    def __new__(cls, zone, hemipole, easting, northing, name=NN):
-        deprecated_class(cls)
-        return _NamedTuple.__new__(cls, zone, hemipole, easting, northing, name=name)
 
 
 @deprecated_function

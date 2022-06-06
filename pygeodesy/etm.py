@@ -67,41 +67,32 @@ from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1_
 from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
-                             _COMMASPACE_, _convergence_, _easting_, \
-                             _1_EPS, _EPSmin, _lat_, _lon_, _no_, \
-                             _northing_, _scale_, _0_0, _0_1, _0_5, \
-                             _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
+                             _COMMASPACE_, _convergence_, _1_EPS, _EPSmin, \
+                             _K0_UTM, _near_, _no_, _spherical_, _0_0, _0_1, \
+                             _0_5, _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
 from pygeodesy.karney import _ALL_LAZY, _diff182, _fix90, _norm180, _signBit
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
-from pygeodesy.named import _NamedBase, _NamedTuple, _update_all
+from pygeodesy.named import _NamedBase, _update_all
+from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, property_doc_
 #                          _update_all  # from .named
 from pygeodesy.streprs import pairs, unstr
-from pygeodesy.units import Degrees, Easting, Float, Lat, Lon, Northing, \
-                            Scalar, Scalar_
+from pygeodesy.units import Float, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
-from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, _toBand, _toXtm8, \
+from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
                           _to7zBlldfn, Utm, UTMError
 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.05.14'
+__version__ = '22.06.04'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
 _TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _2_0 * _TAYTOL
 _TRIPS    =  21  # 7 might be sufficient
-
-
-class EasNorExact4Tuple(_NamedTuple):
-    '''4-Tuple C{(easting, northing, convergence, scale)} in
-       C{meter}, C{meter}, C{degrees} and C{scalar}.
-    '''
-    _Names_ = (_easting_, _northing_, _convergence_, _scale_)
-    _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
 
 
 class ETMError(UTMError):
@@ -268,14 +259,14 @@ class ExactTransverseMercator(_NamedBase):
        C++ class, a numerically exact transverse Mercator projection, here referred to as
        C{TMExact}.
     '''
-    _datum     =  None  # Datum
-    _E         =  None  # Ellipsoid
-    _extendp   =  True  # use extended domain
-#   _iteration =  None  # ._sigmaInv and ._zetaInv
-    _k0        = _1_0   # central scale factor
-    _lon0      = _0_0   # central meridian
-    _mu        = _0_0   # ._E.e2, 1st eccentricity squared
-    _mv        = _1_0   # _1_0 - ._mu
+    _datum     =  None    # Datum
+    _E         =  None    # Ellipsoid
+    _extendp   =  True    # use extended domain
+#   _iteration =  None    # ._sigmaInv and ._zetaInv
+    _k0        = _K0_UTM  # central scale factor
+    _lon0      = _0_0     # central meridian
+    _mu        = _0_0     # ._E.e2, 1st eccentricity squared
+    _mv        = _1_0     # _1_0 - ._mu
 
     def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
@@ -328,8 +319,8 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise TypeError: Invalid or near-spherical B{C{datum}}.
         '''
-        d = _ellipsoidal_datum(datum, name=self.name, raiser=True)
-        self._reset(datum)
+        d = _ellipsoidal_datum(datum, name=self.name)  # raiser=True)
+        self._reset(d)
         self._datum = d
 
     @Property_RO
@@ -442,9 +433,7 @@ class ExactTransverseMercator(_NamedBase):
            @kwarg lon0: Central meridian of the projection (C{degrees}),
                         overriding the default.
 
-           @return: L{EasNorExact4Tuple}C{(easting, northing,
-                    convergence, scale)} in C{meter}, C{meter},
-                    C{degrees} and C{scalar}.
+           @return: L{Forward4Tuple}C{(easting, northing, convergence, scale)}.
 
            @see: C{void TMExact::Forward(real lon0, real lat, real lon,
                                          real &x, real &y,
@@ -495,7 +484,7 @@ class ExactTransverseMercator(_NamedBase):
         if _lon:
             x, g = neg_(x, g)
 
-        return EasNorExact4Tuple(x, y, g, k, iteration=self._iteration)
+        return Forward4Tuple(x, y, g, k, iteration=self._iteration)
 
     def _Inv3(self, psi, dlam, _3_mv_e, _e_TAYTOL):  # (xi, deta, _3_mv, _TAYTOL2)
         '''(INTERNAL) Partial C{zetaInv0} or C{sigmaInv0}.
@@ -534,8 +523,10 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = Scalar_(k0=k0, Error=ETMError, low=_TOL_10, high=_1_0)
-        ExactTransverseMercator._k0_a._update(self)  # redo ._k0_a
+        k0 = Scalar_(k0=k0, Error=ETMError, low=_TOL_10, high=_1_0)
+        if self.k0 != k0:
+            ExactTransverseMercator._k0_a._update(self)  # redo ._k0_a
+            self._k0 = k0
 
     @Property_RO
     def _k0_a(self):
@@ -639,7 +630,7 @@ class ExactTransverseMercator(_NamedBase):
         mv = _1_0 - mu
         if isnear0(E.e) or isnear0(mu, eps0=EPS02) \
                         or isnear0(mv, eps0=EPS02):
-            raise ETMError(e=E.e, e2=mu, txt=repr(datum))
+            raise ETMError(ellipsoid=E, txt=_near_(_spherical_))
 
         if self._datum or self._E:
             _i = ExactTransverseMercator.iteration._uname
@@ -657,8 +648,7 @@ class ExactTransverseMercator(_NamedBase):
            @kwarg lon0: Central meridian of the projection (C{degrees}),
                         overriding the default.
 
-           @return: L{LatLonExact4Tuple}C{(lat, lon, convergence, scale)}
-                    in C{degrees}, C{degrees180}, C{degrees} and C{scalar}.
+           @return: L{Reverse4Tuple}C{(lat, lon, convergence, scale)}.
 
            @see: C{void TMExact::Reverse(real lon0, real x, real y,
                                          real &lat, real &lon,
@@ -700,8 +690,8 @@ class ExactTransverseMercator(_NamedBase):
             lon, g = neg_(lon, g)
 
         lon += self.lon0 if lon0 is None else _norm180(lon0)
-        return LatLonExact4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
-                                       iteration=self._iteration)
+        return Reverse4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
+                                   iteration=self._iteration)
 
     def _scaled(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{scaled}.
@@ -970,14 +960,6 @@ class ExactTransverseMercator(_NamedBase):
         if ll:
             g_k += atand(tau), degrees(lam)
         return g_k  # or (g, k, lat, lon)
-
-
-class LatLonExact4Tuple(_NamedTuple):
-    '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
-       C{degrees180}, C{degrees} and C{scalar}.
-    '''
-    _Names_ = (_lat_, _lon_, _convergence_, _scale_)
-    _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
 
 
 def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):

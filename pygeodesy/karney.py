@@ -115,55 +115,53 @@ from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, unsigned0, 
                              _xinstanceof, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
-from pygeodesy.fmath import cbrt, fremainder, norm2, unstr, \
-                            hypot as _hypot  # PYCHOK shared
-# from pygeodesy.errors import _ValueError, _xkwds  # from .named
-from pygeodesy.interns import NAN, NN, _DOT_, _2_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                             _s12_, _S12_, _0_0, _180_0, _N_180_0, _360_0, _1_16th
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
-from pygeodesy.named import callername, classname, _Dict, modulename, _NamedBase, \
-                           _NamedTuple, _Pass, _ValueError, _xkwds  # PYCHOK shared
-from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple, \
-                           LatLon2Tuple  # PYCHOK shared .rhumbx
-from pygeodesy.props import Property, Property_RO, property_RO
+from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
+                             _or  # PYCHOK shared
+from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
+from pygeodesy.interns import NAN, NN, _2_, _a12_, _azi2_, _DOT_, _lat2_, _lon2_, \
+                             _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
+                             _0_0, _180_0, _N_180_0, _360_0, _1_16th
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
+from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
+                           _NamedTuple, _Pass
+from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
+from pygeodesy.props import deprecated_method, Property, Property_RO, property_RO
 # from pygeodesy.streps import unstr  # from .fmath
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
-                            Meter as _M, Meter2 as _M2, _1mm as _TOL_M  # PYCHOK shared
+                            Meter as _M, Meter2 as _M2, Number_, \
+                            Precision_, _1mm as _TOL_M  # PYCHOK shared
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.05.22'
+__version__ = '22.06.01'
 
-_a12_  = 'a12'
-_azi1_ = 'azi1'
-_azi2_ = 'azi2'
-_m12_  = 'm12'
-_M12_  = 'M12'
-_M21_  = 'M21'
-
-_EWGS84 = _WGS84.ellipsoid  # PYCHOK used!
-_K_2_0  = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
+_area_      = 'area'
+_EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
+_K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
+_perimeter_ = 'perimeter'
 
 
-def _ellipsoid(a_ellipsoid, f, name=NN, raiser=True):  # in .geodesicx.gx, .geodsolve, .rhumbx
+class _Lat(Lat):
+    '''(INTERNAL) Latitude B{C{lat}}.
+    '''
+    def __init__(self, *lat, **Error_name):
+        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
+        Lat.__new__(_Lat, *lat, **kwds)
+
+
+class _Lon(Lon):
+    '''(INTERNAL) Longitude B{C{lon}}.
+    '''
+    def __init__(self, *lon, **Error_name):
+        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
+        Lon.__new__(_Lon, *lon, **kwds)
+
+
+def _ellipsoid(a_ellipsoid, f=None, name=NN, raiser=True):  # in .geodesicx.gx, .geodsolve, .rhumbx
     '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}.
     '''
     return Ellipsoid2(a_ellipsoid, f, name=name) if f is not None else \
           _ellipsoidal_datum(a_ellipsoid, name=name, raiser=raiser).ellipsoid
-
-
-def _Lat(*lat, **Error_name):
-    '''(INTERNAL) Latitude B{C{lat}}.
-    '''
-    kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
-    return Lat(*lat, **kwds)
-
-
-def _Lon(*lon, **Error_name):
-    '''(INTERNAL) Longitude B{C{lon}}.
-    '''
-    kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
-    return Lon(*lon, **kwds)
 
 
 def _raiseX(inst, x, *args):  # PYCHOK no cover
@@ -189,6 +187,15 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
         return r
 
 
+class Area3Tuple(_NamedTuple):  # in .geodesicx.gxarea
+    '''3-Tuple C{(number, perimeter, area)} with the C{number}
+       of points on the polygon or polyline, the C{perimeter} in
+       C{meter} and the C{area} in C{meter} I{squared}.
+    '''
+    _Names_ = (_number_, _perimeter_, _area_)
+    _Units_ = ( Number_, _M,          _M2)
+
+
 class Caps(object):  # PYCHOK
     '''(INTERNAL) Overriden by C{Caps} below.
     '''
@@ -205,8 +212,8 @@ class Caps(object):  # PYCHOK
     STANDARD       =  AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE
     ALL            =  0x7F80   # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
 
-    LINE_OFF       =  1 << 15  # Line without updates from parent GeodesicExact
-    LONG_UNROLL    =  1 << 16  # unroll C{lon2} in GeodesicExact.Direct
+    LINE_OFF       =  1 << 15  # Line without updates from parent geodesic or rhumb
+    LONG_UNROLL    =  1 << 16  # unroll C{lon2} in .Direct and .Position
     REVERSE2       =  1 << 17  # reverse C{azi2}
 
     LATITUDE_LONGITUDE         = LATITUDE | LONGITUDE
@@ -235,8 +242,8 @@ class Caps(object):  # PYCHOK
 #   _REDUCEDLENGTH_GEODESICSCALE_DISTANCE =  REDUCEDLENGTH | GEODESICSCALE | DISTANCE
 
 Caps = Caps()  # PYCHOK singleton
-'''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic
-capabilities (C{caps}) and expected results (C{outmask}).
+'''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic or
+rhumb capabilities (C{caps}) and expected results (C{outmask}).
 
 C{AREA} - compute area C{S12},
 
@@ -249,6 +256,8 @@ C{DISTANCE_IN} - allow distance C{s12} in C{.Direct},
 C{EMPTY} - nothing, formerly aka C{NONE},
 
 C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
+
+C{LINE_OFF} - Line without updates from parent geodesic or rhumb.
 
 C{LATITUDE} - compute latitude C{lat2},
 
@@ -282,7 +291,26 @@ class _CapsBase(_NamedBase):  # in .geodesicx.gxbases, .rhumbx
     REDUCEDLENGTH = Caps.REDUCEDLENGTH
     STANDARD      = Caps.STANDARD
 
+    _caps         = 0  # None
     _debug        = 0  # or Caps._DEBUG_...
+
+    @Property_RO
+    def caps(self):
+        '''Get the capabilities (bit-or'ed C{Caps}).
+        '''
+        return self._caps
+
+    def caps_(self, caps):
+        '''Check the available capabilities.
+
+           @arg caps: Bit-or'ed combination of L{Caps} values
+                      for all capabilities to be checked.
+
+           @return: C{True} if I{all} B{C{caps}} are available,
+                    C{False} otherwise (C{bool}).
+        '''
+        caps &= Caps._OUT_ALL
+        return (self.caps & caps) == caps
 
     @property
     def debug(self):
@@ -297,6 +325,14 @@ class _CapsBase(_NamedBase):  # in .geodesicx.gxbases, .rhumbx
            @arg debug: If C{True} include more details in L{GDict} results (C{bool}).
         '''
         self._debug = Caps._DEBUG_ALL if debug else 0
+
+    def _iter2tion(self, r, s):
+        '''(INTERNAL) Copy C{C{s}.iter} into C{B{r}._iteration}.
+        '''
+        i = _xkwds_get(s, iter=None)
+        if i is not None:
+            self._iteration = r._iteration = i
+        return r
 
 
 class Direct9Tuple(_GTuple):
@@ -346,7 +382,7 @@ class GDict(_Dict):  # XXX _NamedDict
            @return: L{GeodSolve12Tuple}C{(lat1, lon1, azi1, lat2, lon2, azi2,
                     s12, a12, m12, M12, M21, S12)}.
         '''
-        return self._toTuple(GeodSolve12Tuple, dflt)
+        return self._toTuple(_MODS.geodsolve.GeodSolve12Tuple, dflt)
 
     def toInverse10Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 10-tuple, like I{Karney}'s
@@ -359,15 +395,33 @@ class GDict(_Dict):  # XXX _NamedDict
         '''
         return self._toTuple(Inverse10Tuple, dflt)
 
+    @deprecated_method
     def toRhumb7Tuple(self, dflt=NAN):
-        '''Convert this L{GDict} result to a 7-tuple.
+        '''DEPRECATED, used method C{toRhumb8Tuple}.
+
+           @return: A I{DEPRECATED} L{Rhumb7Tuple}.
+        '''
+        return self._toTuple(_MODS.deprecated.Rhumb7Tuple, dflt)
+
+    def toRhumb8Tuple(self, dflt=NAN):
+        '''Convert this L{GDict} result to a 8-tuple.
 
            @kwarg dflt: Default value for missing items (C{any}).
 
-           @return: L{Rhumb7Tuple}C{(lat1, lon1, lat2, lon2,
+           @return: L{Rhumb8Tuple}C{(lat1, lon1, lat2, lon2,
+                    azi12, s12, S12, a12)}.
+        '''
+        return self._toTuple(_MODS.rhumbx.Rhumb8Tuple, dflt)
+
+    def toRhumbSolve7Tuple(self, dflt=NAN):
+        '''Convert this L{GDict} result to a 8-tuple.
+
+           @kwarg dflt: Default value for missing items (C{any}).
+
+           @return: L{RhumbSolve7Tuple}C{(lat1, lon1, lat2, lon2,
                     azi12, s12, S12)}.
         '''
-        return self._toTuple(_MODS.rhumbx.Rhumb7Tuple, dflt)
+        return self._toTuple(_MODS.rhumbsolve.RhumbSolve7Tuple, dflt)
 
     def _toTuple(self, nTuple, dflt):
         '''(INTERNAL) Convert this C{GDict} to an B{C{nTuple}}.
@@ -381,19 +435,6 @@ class GeodesicError(_ValueError):
        or other L{pygeodesy.geodesicx} or L{pygeodesy.karney} issues.
     '''
     pass
-
-
-class GeodSolve12Tuple(_GTuple):
-    '''12-Tuple C{(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, M12, M21, S12)} with
-       angles C{lat1}, C{lon1}, C{azi1}, C{lat2}, C{lon2} and C{azi2} and arc C{a12} all in
-       C{degrees}, initial C{azi1} and final C{azi2} forward azimuths, distance C{s12} and
-       reduced length C{m12} in C{meter}, area C{S12} in C{meter} I{squared}  and geodesic
-       scale factors C{M12} and C{M21}, both C{scalar}, see U{GeodSolve
-       <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}.
-    '''
-    # from GeodSolve --help option -f ... lat1 lon1 azi1 lat2 lon2 azi2 s12 a12 m12 M12 M21 S12
-    _Names_ = (_lat1_, _lon1_, _azi1_, _lat2_, _lon2_, _azi2_, _s12_, _a12_, _m12_, _M12_, _M21_, _S12_)
-    _Units_ = (_Lat,   _Lon,   _Azi,   _Lat,   _Lon,   _Azi,   _M,    _Deg,  _Pass, _Pass, _Pass, _M2)
 
 
 class Inverse10Tuple(_GTuple):
@@ -721,7 +762,7 @@ def _diff182(deg0, deg):
         d, t = _sum2(fremainder(-deg0, _360_0),
                      fremainder( deg,  _360_0))
         d, t = _sum2(fremainder( d,    _360_0), t)
-        if d in (_0_0, _180_0, -_180_0):
+        if d in (_0_0, _180_0, _N_180_0):
             d = _copysign(d, -t if t else (deg - deg0))
     else:
         d, t = _sum2(_norm180(-deg0), _norm180(deg))
@@ -958,6 +999,9 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     else:
         lon2 = _norm180(lon2)
     return (lon2 - lon1), lon2
+
+
+__all__ += _ALL_DOCS(_CapsBase)
 
 # **) MIT License
 #

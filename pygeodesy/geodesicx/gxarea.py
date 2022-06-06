@@ -19,7 +19,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # from pygeodesy.basics import isodd, unsigned0  # from .karney
 from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
                              _0_0, _0_5, _720_0
-from pygeodesy.karney import GeodesicError, _diff182, isodd, \
+from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, isodd, \
                             _norm180, _remainder, _sum2_, unsigned0
 from pygeodesy.lazily import _ALL_DOCS, printf
 from pygeodesy.named import callername, _Dict, _NamedBase, pairs
@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.05.14'
+__version__ = '22.05.25'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -157,11 +157,13 @@ class GeodesicAreaExact(_NamedBase):
                         instead of returning the area for the rest of the
                         earth.
 
-           @return: 3-Tuple C{(number, perimeter (meter), area (meter*2))}.
-                    The C{perimeter} includes the length of a final edge,
-                    connecting the current to the initial point, if this
-                    polygon was initialized with C{polyline=False}.  And
-                    C{area=NAN} for perimeter only, C{polyline=True}.
+           @return: L{Area3Tuple}C{(number, perimeter, area)} with the
+                    number of points, the perimeter in C{meter} and the
+                    area in C{meter**2}.  The perimeter includes the
+                    length of a final edge, connecting the current to
+                    the initial point, if this polygon was initialized
+                    with C{polyline=False}.  For perimeter only, i.e.
+                    C{polyline=True}, area is C{NAN}.
 
            @note: Arbitrarily complex polygons are allowed.  In the case
                   of self-intersecting polygons, the area is accumulated
@@ -186,7 +188,7 @@ class GeodesicAreaExact(_NamedBase):
             r = None
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, lat0=self.lat0, lon0=self.lon0)
-        return n, p, a
+        return Area3Tuple(n, p, a)
 
     def _Direct(self, azi, s):
         '''(INTERNAL) Edge helper.
@@ -327,7 +329,7 @@ class GeodesicAreaExact(_NamedBase):
                         instead of returning the area for the rest of the
                         earth.
 
-           @return: 3-Tuple C{(number, perimeter (meter), area (meter*2))}.
+           @return: L{Area3Tuple}C{(number, perimeter, area)}.
 
            @raise GeodesicError: No points.
         '''
@@ -347,7 +349,7 @@ class GeodesicAreaExact(_NamedBase):
             p +=  r.s12
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, azi=azi, s=s)
-        return n, p, a
+        return Area3Tuple(n, p, a)
 
     def TestPoint(self, lat, lon, reverse=False, sign=True):
         '''Compute the properties for a tentative, additional vertex
@@ -362,7 +364,7 @@ class GeodesicAreaExact(_NamedBase):
                         instead of returning the area for the rest of the
                         earth.
 
-           @return: 3-Tuple C{(number, perimeter (meter), area (meter*2))}.
+           @return: L{Area3Tuple}C{(number, perimeter, area)}.
         '''
         n = self.num + 1
         if n < 2:
@@ -383,7 +385,7 @@ class GeodesicAreaExact(_NamedBase):
                 a, r = NAN, None
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, lat=lat, lon=lon)
-        return n, p, a
+        return Area3Tuple(n, p, a)
 
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{GeodesicExactArea} as string.

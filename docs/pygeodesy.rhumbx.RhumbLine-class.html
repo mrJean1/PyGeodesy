@@ -67,7 +67,7 @@
                |            
 <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
                    |        
-    karney._CapsBase --+    
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+    
                        |    
               <a href="pygeodesy.rhumbx._RhumbLine-class.html">_RhumbLine</a> --+
                            |
@@ -80,10 +80,16 @@
   class="link">RhumbLine</a> facilitates the determination of points on a 
   single rhumb line.  The starting point (<code>lat1</code>, 
   <code>lon1</code>) and the azimuth <code>azi12</code> are specified once.
-  Calls to method <a href="pygeodesy.rhumbx._RhumbLine-class.html#Position"
-  class="link">RhumbLine.Position</a> return the location of an other point
-  and optionally the distance <code>s12</code> along the rhumb line and the
-  corresponding area <code>S12</code> under the rhumb line.</p>
+  Method <a href="pygeodesy.rhumbx._RhumbLine-class.html#Position" 
+  class="link">RhumbLine.Position</a> returns the location of an other 
+  point and optionally the distance <code>s12</code> along the rhumb line 
+  and the corresponding area <code>S12</code> under the rhumb line.</p>
+  <p>The intersection of two rhumb lines can be found with method <a 
+  href="pygeodesy.rhumbx._RhumbLine-class.html#intersection2" 
+  class="link">RhumbLine.intersection2</a>.  Similarly, method <a 
+  href="pygeodesy.rhumbx._RhumbLine-class.html#nearestOn4" 
+  class="link">RhumbLine.nearestOn4</a> computes the nearest point on a 
+  rhumb line.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -122,7 +128,13 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.rhumbx._RhumbLine-class.html">_RhumbLine</a></code></b>:
       <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#Position">Position</a></code>,
       <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#__del__">__del__</a></code>,
+      <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#distance2">distance2</a></code>,
+      <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#intersection2">intersection2</a></code>,
+      <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#nearestOn4">nearestOn4</a></code>,
       <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
@@ -166,20 +178,20 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
-      <code>ALL</code>,
-      <code>AREA</code>,
-      <code>AZIMUTH</code>,
-      <code>DISTANCE</code>,
-      <code>DISTANCE_IN</code>,
-      <code>EMPTY</code>,
-      <code>GEODESICSCALE</code>,
-      <code>LATITUDE</code>,
-      <code>LINE_OFF</code>,
-      <code>LONGITUDE</code>,
-      <code>LONG_UNROLL</code>,
-      <code>REDUCEDLENGTH</code>,
-      <code>STANDARD</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#ALL">ALL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AREA">AREA</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AZIMUTH">AZIMUTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE">DISTANCE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE_IN">DISTANCE_IN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#EMPTY">EMPTY</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#GEODESICSCALE">GEODESICSCALE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LATITUDE">LATITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_OFF">LINE_OFF</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONGITUDE">LONGITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONG_UNROLL">LONG_UNROLL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH">REDUCEDLENGTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD">STANDARD</a></code>
       </p>
     </td>
   </tr>
@@ -205,8 +217,9 @@
       <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#lon1">lon1</a></code>,
       <code><a href="pygeodesy.rhumbx._RhumbLine-class.html#rhumb">rhumb</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
-      <code>debug</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -310,7 +323,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 23 11:21:59 2022
+    Generated by Epydoc 3.0.1 on Sun Jun  5 18:22:44 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

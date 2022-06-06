@@ -61,19 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class GeodesicSolve</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-         object --+                    
-                  |                    
-       <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
-                      |                
-       <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
-                          |            
-           karney._CapsBase --+        
-                              |        
-geodesicx.gxbases._GeodesicBase --+    
-                                  |    
-                 <a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a> --+
-                                      |
-                                     <strong class="uidshort">GeodesicSolve</strong>
+       object --+                        
+                |                        
+     <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                    
+                    |                    
+     <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                
+                        |                
+         <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+            
+                            |            
+<a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">solveBase._SolveLineSolveBase</a> --+        
+                                |        
+             <a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a> --+    
+                                    |    
+                   <a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a> --+
+                                        |
+                                       <strong class="uidshort">GeodesicSolve</strong>
 </pre>
 
 <hr />
@@ -106,27 +108,6 @@ geodesicx.gxbases._GeodesicBase --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      New <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
-      class="link">GeodesicSolve</a> instance.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -177,28 +158,6 @@ geodesicx.gxbases._GeodesicBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="Direct"></a><span class="summary-sig-name">Direct</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi1</span>,
-        <span class="summary-sig-arg">s12</span>,
-        <span class="summary-sig-arg">*unused</span>)</span><br />
-      Return the <code>Direct</code> result.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodsolve.GeodesicSolve-class.html#Direct3" class="summary-sig-name">Direct3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
@@ -206,51 +165,6 @@ geodesicx.gxbases._GeodesicBase --+
         <span class="summary-sig-arg">s12</span>)</span><br />
       Return the destination lat, lon and reverse azimuth (final bearing) 
       in <code>degrees</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="Inverse"></a><span class="summary-sig-name">Inverse</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">*unused</span>)</span><br />
-      Return the <code>Inverse</code> result.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="Inverse1"></a><span class="summary-sig-name">Inverse1</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return the non-negative, <i>angular</i> distance in 
-      <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -308,8 +222,19 @@ geodesicx.gxbases._GeodesicBase --+
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a></code></b>:
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#invoke">invoke</a></code>,
       <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Direct">Direct</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Inverse">Inverse</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#Inverse1">Inverse1</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#__init__">__init__</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">solveBase._SolveLineSolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#invoke">invoke</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
@@ -353,20 +278,20 @@ geodesicx.gxbases._GeodesicBase --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
-      <code>ALL</code>,
-      <code>AREA</code>,
-      <code>AZIMUTH</code>,
-      <code>DISTANCE</code>,
-      <code>DISTANCE_IN</code>,
-      <code>EMPTY</code>,
-      <code>GEODESICSCALE</code>,
-      <code>LATITUDE</code>,
-      <code>LINE_OFF</code>,
-      <code>LONGITUDE</code>,
-      <code>LONG_UNROLL</code>,
-      <code>REDUCEDLENGTH</code>,
-      <code>STANDARD</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#ALL">ALL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AREA">AREA</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AZIMUTH">AZIMUTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE">DISTANCE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE_IN">DISTANCE_IN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#EMPTY">EMPTY</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#GEODESICSCALE">GEODESICSCALE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LATITUDE">LATITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_OFF">LINE_OFF</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONGITUDE">LONGITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONG_UNROLL">LONG_UNROLL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH">REDUCEDLENGTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD">STANDARD</a></code>
       </p>
     </td>
   </tr>
@@ -382,21 +307,24 @@ geodesicx.gxbases._GeodesicBase --+
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html">_GeodesicSolveBase</a></code></b>:
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#Exact">Exact</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#GeodSolve">GeodSolve</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#ellipsoid">ellipsoid</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#f">f</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#invokation">invokation</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#prec">prec</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#reverse2">reverse2</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#status">status</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#unroll">unroll</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#verbose">verbose</a></code>,
-      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#version">version</a></code>
+      <code><a href="pygeodesy.geodsolve._GeodesicSolveBase-class.html#GeodSolve">GeodSolve</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>karney._CapsBase</code></b>:
-      <code>debug</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html">solveBase._SolveLineSolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#Exact">Exact</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#f">f</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#invokation">invokation</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#prec">prec</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#reverse2">reverse2</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#status">status</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#unroll">unroll</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#verbose">verbose</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveLineSolveBase-class.html#version">version</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -423,45 +351,6 @@ geodesicx.gxbases._GeodesicBase --+
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New <a href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
-  class="link">GeodesicSolve</a> instance.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a_ellipsoid</code></strong> - An ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
-          class="link">Ellipsoid</a>) or datum (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
-          or the equatorial radius of the ellipsoid (<code>scalar</code>, 
-          conventionally in <code>meter</code>), see <b><code>f</code></b>.</li>
-        <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>) if 
-          <b><code>a_ellipsoid</code></b> is specified as 
-          <code>scalar</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="Area"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -679,7 +568,7 @@ geodesicx.gxbases._GeodesicBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 23 11:21:58 2022
+    Generated by Epydoc 3.0.1 on Sun Jun  5 18:22:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

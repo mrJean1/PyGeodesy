@@ -34,13 +34,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.geodesicx.gxbases import _all_caps, Caps, _cosSeries, \
-                                        _GeodesicBase, _sincos12, \
-                                        _sin1cos2, _TINY
+from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
+                                        _sincos12, _sin1cos2, _TINY
 from pygeodesy.interns import NAN, _COMMASPACE_, _0_0, _1_0, _180_0, \
                              _2__PI  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
-from pygeodesy.karney import _around, _atan2d, _copysign, GDict, \
+from pygeodesy.karney import _around, _atan2d, Caps, _copysign, GDict, \
                              _fix90, _K_2_0, _norm2, _norm180, \
                              _sincos2, _sincos2d, _xinstanceof
 from pygeodesy.props import Property_RO, _update_all
@@ -50,7 +49,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '22.05.22'
+__version__ = '22.05.23'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -71,7 +70,6 @@ class _GeodesicLineExact(_GeodesicBase):
     '''
     _a13   = _s13 = NAN
     _azi1  = _0_0
-    _caps  =  0  # not initilized
     _cchi1 =  NAN
     _dn1   =  NAN
     _gX    =  None  # Exact only
@@ -224,23 +222,6 @@ class _GeodesicLineExact(_GeodesicBase):
         '''(INTERNAL) Cached/memoized.
         '''
         return self.geodesic._C4f_k2(self._k2)
-
-    @Property_RO
-    def caps(self):
-        '''Get the capabilities (bit-or'ed C{Caps}).
-        '''
-        return self._caps
-
-    def caps_(self, caps):
-        '''Check the available capabilities.
-
-           @arg caps: Bit-or'ed combination of L{Caps} values
-                      for all capabilities to be checked.
-
-           @return: C{True} if I{all} B{C{caps}} are available,
-                    C{False} otherwise (C{bool}).
-        '''
-        return _all_caps(self.caps, caps)
 
     @Property_RO
     def _caps_DISTANCE_IN(self):

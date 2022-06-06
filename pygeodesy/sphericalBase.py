@@ -37,7 +37,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.04.27'
+__version__ = '22.05.26'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -297,8 +297,8 @@ class LatLonSphericalBase(LatLonBase):
         return (a2 - a1), db, dp
 
     def rhumbBearingTo(self, other):
-        '''Return the initial bearing (forward azimuth) from this to
-           an other point along a rhumb (loxodrome) line.
+        '''Return the bearing (azimuth) from this to an other
+           point along a rhumb (loxodrome) line.
 
            @arg other: The other point (spherical C{LatLon}).
 
@@ -316,9 +316,8 @@ class LatLonSphericalBase(LatLonBase):
         return atan2b(db, dp)
 
     def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
-        '''Return the destination point having travelled along a rhumb
-           (loxodrome) line from this point the given distance on the
-           given bearing.
+        '''Return the destination point having travelled the given distance
+           along a rhumb (loxodrome) line at the given bearing from this point.
 
            @arg distance: Distance travelled (C{meter}, same units as
                           B{C{radius}}).
@@ -361,8 +360,8 @@ class LatLonSphericalBase(LatLonBase):
         return self.classof(degrees90(a2), degrees180(b2), height=h)
 
     def rhumbDistanceTo(self, other, radius=R_M):
-        '''Return the distance from this to an other point along a rhumb
-           (loxodrome) line.
+        '''Return the distance from this to an other point along
+           a rhumb (loxodrome) line.
 
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.

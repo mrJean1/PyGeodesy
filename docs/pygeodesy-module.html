@@ -214,6 +214,10 @@
     utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
     target="_top">GeodSolve</a> to be executable.</p>
+    <p>Module <a href="pygeodesy.rhumbsolve-module.html" 
+    class="link">rhumbsolve</a> depends on <i>Karney</i>'s C++ utility <a 
+    href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
+    target="_top">RhumbSolve</a> to be executable.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -238,7 +242,7 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and Python 2.7.18 (with <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 12.3.1 Monterey and in 
+    target="_top">GeodSolve</a> 1.51, all on macOS 12.4 Monterey and in 
     64-bit only.  The tests are run with and without <code>lazy 
     import</code> for Python 3 and with command line option <code>-W 
     always</code> and env var <code>PYGEODESY_WARNINGS=on</code> for all 
@@ -298,7 +302,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 12.1-2.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
+    on macOS 12.1-3.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -319,7 +323,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.4, both in 64-bit on macOS 
-    12.3.1 Monterey.</p>
+    12.4 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -358,6 +362,11 @@
       <li>
         <code>PYGEODESY_NOTIMPLEMENTED</code> - __special__ methods return 
         <code>NotImplemented</code> if set to &quot;std&quot;.
+      </li>
+      <li>
+        <code>PYGEODESY_RHUMBSOLVE</code> - see module <a 
+        href="pygeodesy.rhumbsolve-module.html" 
+        class="link">pygeodesy.rhumbsolve</a>.
       </li>
       <li>
         <code>PYGEODESY_BEARING_STD_REPR</code> - see method <a 
@@ -452,7 +461,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.05.22
+        22.06.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -564,6 +573,9 @@
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Charles F.F. Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <code>geodesic</code>, wrapped.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ktm-module.html">pygeodesy.ktm</a></strong>: <em class="summary">A pure Python version of I{Karney}'sC++ class U{TransverseMercator
+&lt;https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html&gt;}
+based on I{Kr&#252;ger} series.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -608,12 +620,21 @@
         class="link">triSide2</a> and <a 
         href="pygeodesy.resections-module.html#triSide4" 
         class="link">triSide4</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.rhumbsolve-module.html">pygeodesy.rhumbsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
+        target="_top">RhumbSolve</a> utility as an (exact) rhumb or rhumb 
+        line, but intended <i>for testing purposes only</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx-module.html">pygeodesy.rhumbx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
-        href="https://GeographicLib.SourceForge.io/C++/classGeographicLib_1_1Rhumb.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html"
         target="_top">Rhumb</a> and <a 
-        href="https://GeographicLib.SourceForge.io/C++/classGeographicLib_1_1RhumbLine.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
         target="_top">RhumbLine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Simplify or linearize a path.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.solveBase-module.html">pygeodesy.solveBase</a></strong>: <em class="summary">(INTERNAL) Module with base classes for <a 
+        href="pygeodesy.geodsolve-module.html" 
+        class="link">pygeodesy.geodsolve</a> and <a 
+        href="pygeodesy.rhumbsolve-module.html" 
+        class="link">pygeodesy.rhumbsolve</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical geodesy bases.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector-module.html">pygeodesy.sphericalNvector</a></strong>: <em class="summary">Spherical, <code>N-vector</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
@@ -890,6 +911,17 @@
         class="link">AlbersEqualAreaSouth</a> or <a 
         href="pygeodesy.albers.Albers7Tuple-class.html" 
         class="link">Albers7Tuple</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.karney.Area3Tuple-class.html" class="summary-name">Area3Tuple</a><br />
+      3-Tuple <code>(number, perimeter, area)</code> with the 
+        <code>number</code> of points on the polygon or polyline, the 
+        <code>perimeter</code> in <code>meter</code> and the 
+        <code>area</code> in <code>meter</code> <i>squared</i>.
     </td>
   </tr>
 <tr>
@@ -1382,10 +1414,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.etm.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
-      4-Tuple <code>(easting, northing, convergence, scale)</code> in 
-        <code>meter</code>, <code>meter</code>, <code>degrees</code> and 
-        <code>scalar</code>.
+        <a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
+      DEPRECATED&lt; use class <a 
+        href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
+        class="link">Forward4Tuple</a>.
     </td>
   </tr>
 <tr>
@@ -1422,16 +1454,6 @@
         <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
         <code>x</code>, <code>y</code>, <code>z</code> and 
         <a href=pygeodesy.heights-module.html><code>height</code></a> in <code>meter</code>, conventionally.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.deprecated.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.ltp.LocalCartesian-class.html" 
-        class="link">LocalCartesian</a>.
     </td>
   </tr>
 <tr>
@@ -1774,6 +1796,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Forward4Tuple-class.html" class="summary-name">Forward4Tuple</a><br />
+      4-Tuple <code>(easting, northing, convergence, scale)</code> in 
+        <code>meter</code>, <code>meter</code>, <code>degrees</code> and 
+        <code>scalar</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.fmath.Fpolynomial-class.html" class="summary-name">Fpolynomial</a><br />
       Precision polynomial evaluation.
     </td>
@@ -2049,7 +2081,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
+        <a href="pygeodesy.geodsolve.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
       12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
@@ -2535,36 +2567,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.HeightIDW-class.html" class="summary-name">HeightIDW</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
-        class="link">HeightIDWeuclidean</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.deprecated.HeightIDW2-class.html" class="summary-name">HeightIDW2</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
-        class="link">HeightIDWequirectangular</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.deprecated.HeightIDW3-class.html" class="summary-name">HeightIDW3</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.heights.HeightIDWhaversine-class.html" 
-        class="link">HeightIDWhaversine</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" class="summary-name">HeightIDWcosineAndoyerLambert</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
@@ -2821,6 +2823,27 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ktm.KTMError-class.html" class="summary-name">KTMError</a><br />
+      Error raised for <a 
+        href="pygeodesy.ktm.KTransverseMercator-class.html" 
+        class="link">KTransverseMercator</a> and <a 
+        href="pygeodesy.ktm.KTransverseMercator-class.html#forward" 
+        class="link">KTransverseMercator.forward</a> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ktm.KTransverseMercator-class.html" class="summary-name">KTransverseMercator</a><br />
+      Transverse Mercator projection based ons Kr&#252;ger's method which evaluates the
+projection and its inverse in terms of a series.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.lcc.LCCError-class.html" class="summary-name">LCCError</a><br />
       Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.
@@ -2950,10 +2973,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.etm.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
-      4-Tuple <code>(lat, lon, convergence, scale)</code> in 
-        <code>degrees180</code>, <code>degrees180</code>, 
-        <code>degrees</code> and <code>scalar</code>.
+        <a href="pygeodesy.deprecated.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
+      DEPRECATED, used class <a 
+        href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
+        class="link">Reverse4Tuple</a>.
     </td>
   </tr>
 <tr>
@@ -3213,6 +3236,17 @@
         the <code>distance</code> and <code>angle</code> to the 
         <code>closest</code> point are in <code>meter</code> respectively 
         compass <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.NearestOn4Tuple-class.html" class="summary-name">NearestOn4Tuple</a><br />
+      4-Tuple <code>(lat, lon, distance, normal)</code> with the 
+        <code>lat</code>- and <code>lon</code>gitude of the nearest point, 
+        the <code>distance</code> in <code>meter</code> and the azimuth of 
+        the <code>normal</code>, perpendicular line.
     </td>
   </tr>
 <tr>
@@ -3581,16 +3615,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.deprecated.RefFrameError-class.html" class="summary-name">RefFrameError</a><br />
-      DEPRECATED, use class <a 
-        href="pygeodesy.errors.TRFError-class.html" 
-        class="link">TRFError</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.resections.ResectionError-class.html" class="summary-name">ResectionError</a><br />
       Error raised for issues in <a 
         href="pygeodesy.resections-module.html" 
@@ -3612,6 +3636,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Reverse4Tuple-class.html" class="summary-name">Reverse4Tuple</a><br />
+      4-Tuple <code>(lat, lon, convergence, scale)</code> with 
+        <code>lat</code>- and <code>lon</code>gitude in 
+        <code>degrees</code>, <i>gamma</i> meridian 
+        <code>convergence</code> at point in <code>degrees180</code> and 
+        <i>k</i> <code>scale</code> of projection at point 
+        <code>scalar</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.rhumbx.Rhumb-class.html" class="summary-name">Rhumb</a><br />
       Class to solve of the <i>direct</i> and <i>inverse rhumb</i> 
         problems, accurately.
@@ -3621,13 +3658,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumbx.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
-      7-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12)</code> with
-        lat- <code>lat1</code>, <code>lat2</code> and longitudes 
-        <code>lon1_init__</code>, <code>lon2</code> of both points, the 
-        azimuth of the rhumb line <code>azi12</code>, the rhumb distance 
-        <code>s12</code> and the area <code>S12</code> under the rhumb 
-        line.
+        <a href="pygeodesy.deprecated.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
+        class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" class="summary-name">Rhumb8Tuple</a><br />
+      8-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12, a12)</code>
+        with lat- <code>lat1</code>, <code>lat2</code> and longitudes 
+        <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
+        the rhumb line <code>azi12</code>, the distance <code>s12</code>, 
+        the area <code>S12</code> under the rhumb line and the angular 
+        distance <code>a12</code> between both points.
     </td>
   </tr>
 <tr>
@@ -3653,9 +3700,46 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.rhumbsolve.RhumbLineSolve-class.html" class="summary-name">RhumbLineSolve</a><br />
+      Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
+        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
+        class <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
+        class="link">pygeodesy.RhumbLine</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.rhumbx.RhumbOrder2Tuple-class.html" class="summary-name">RhumbOrder2Tuple</a><br />
       2-Tuple <code>(RAorder, TMorder)</code> with a <i>Rhumb Area</i> 
         and <i>Transverse Mercator</i> order, both <code>int</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumbsolve.RhumbSolve-class.html" class="summary-name">RhumbSolve</a><br />
+      Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html"
+        target="_top">RhumbSolve</a>, the <code>Exact</code> version of 
+        class <a href="pygeodesy.rhumbx.Rhumb-class.html" 
+        class="link">pygeodesy.Rhumb</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumbsolve.RhumbSolve7Tuple-class.html" class="summary-name">RhumbSolve7Tuple</a><br />
+      7-Tuple <code>(lat1, lon1, lat2, lon2, azi12, s12, S12)</code> with
+        lat- <code>lat1</code>, <code>lat2</code> and longitudes 
+        <code>lon1</code>, <code>lon2</code> of both points, the azimuth of
+        the rhumb line <code>azi12</code>, the distance <code>s12</code> 
+        and the area <code>S12</code> under the rhumb line between both 
+        points.
     </td>
   </tr>
 <tr>
@@ -4136,6 +4220,105 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#DeprecationWarnings" class="summary-sig-name">DeprecationWarnings</a>()</span><br />
       Have any <code>DeprecationWarning</code>s been reported or raised?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="EcefCartesian"></a><span class="summary-sig-name">EcefCartesian</span>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use class <a 
+      href="pygeodesy.ltp.LocalCartesian-class.html" 
+      class="link">LocalCartesian</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="HeightIDW"></a><span class="summary-sig-name">HeightIDW</span>(<span class="summary-sig-arg">knots</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use class <a 
+      href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
+      class="link">HeightIDWeuclidean</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="HeightIDW2"></a><span class="summary-sig-name">HeightIDW2</span>(<span class="summary-sig-arg">knots</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use class <a 
+      href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
+      class="link">HeightIDWequirectangular</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="HeightIDW3"></a><span class="summary-sig-name">HeightIDW3</span>(<span class="summary-sig-arg">knots</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use class <a 
+      href="pygeodesy.heights.HeightIDWhaversine-class.html" 
+      class="link">HeightIDWhaversine</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="RefFrameError"></a><span class="summary-sig-name">RefFrameError</span>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      DEPRECATED, use class <a href="pygeodesy.errors.TRFError-class.html" 
+      class="link">TRFError</a>.</td>
           <td align="right" valign="top">
             
             
@@ -7381,7 +7564,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb0485c8ed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed588037d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -7717,8 +7900,8 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
-      Compute the intersection point of two lines, each defined by or 
-      through a start and end point (3-D).</td>
+      Compute the intersection point of two lines, each defined by two 
+      points or by a point and a bearing.</td>
           <td align="right" valign="top">
             
             
@@ -9519,8 +9702,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">_UTM</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">object()</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">object()</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.utm-module.html#parseUTM5" 
@@ -10796,7 +10979,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">object()</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.utm-module.html#toUtm8" 
@@ -11551,7 +11734,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.5.22'"><code class="variable-quote">'</code><code class="variable-string">22.5.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.6.6'"><code class="variable-quote">'</code><code class="variable-string">22.6.6</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18864,7 +19047,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb0485c8ed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed588037d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19575,8 +19758,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Compute the intersection point of two lines, each defined by or 
-  through a start and end point (3-D).</p>
+  <p>Compute the intersection point of two lines, each defined by two 
+  points or by a point and a bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19587,7 +19770,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<code>Cartesian</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
+          <code>Vector4Tuple</code>) or the bearing at 
+          <b><code>start1</code></b> (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<code>Cartesian</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
@@ -19595,7 +19779,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<code>Cartesian</code>, <a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
-          <code>Vector4Tuple</code>).</li>
+          <code>Vector4Tuple</code>) or the bearing at 
+          <b><code>start2</code></b> (Ccompass <code>degrees</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for skew line distance and length (<code>EPS</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
@@ -19615,7 +19800,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Invalid, skew, non-co-planar or otherwise non-intersecting lines.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>outside</code> values is <code>0</code> for lines 
+        specified by point and bearing.
+      </p>
+      <p><strong>See Also:</strong>
         <a href="https://MathWorld.Wolfram.com/Line-LineIntersection.html" 
         target="_top">Line-line intersection</a> and <a 
         href="https://MathWorld.Wolfram.com/Line-LineDistance.html" 
@@ -23201,8 +23390,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>&nbsp;(<span class="sig-arg">strUTM</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">_UTM</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">object()</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">object()</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -23736,7 +23925,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>args</code></strong> - Values to be converted to <code>str</code> and concatenated 
           (<code>any</code> types).</li>
         <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional , trailing blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
         <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
     </ul></dd>
   </dl>
@@ -23769,7 +23958,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>fmt</code></strong> - C-style formating text (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Values to be formatted (<code>any</code> types).</li>
         <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional , trailing blank lines (<code>int</code>).</li>
+        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
         <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
     </ul></dd>
   </dl>
@@ -26010,7 +26199,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>&nbsp;(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">object()</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -27759,7 +27948,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 23 11:21:56 2022
+    Generated by Epydoc 3.0.1 on Sun Jun  5 18:22:41 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

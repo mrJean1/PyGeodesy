@@ -135,10 +135,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
-                                 'ClipCS3Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
-                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
-                                 'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs',  # ... except ellipsoidal, spherical flavors
-                                 'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
+                                 'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
+                                 'LatLonExact4Tuple', 'RefFrameError', 'Rhumb7Tuple', 'UtmUps4Tuple',
+                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
+                                 'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
+                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
                                  'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
                                  'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
@@ -172,7 +173,6 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
-                                 'EasNorExact4Tuple', 'LatLonExact4Tuple',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
@@ -207,7 +207,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                            gars=('Garef', 'GARSError'),
                       geodesicx=('gx', 'gxarea', 'gxline',  # modules
                                  'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
-                      geodsolve=('GeodesicSolve', 'GeodesicLineSolve'),
+                      geodsolve=('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                         geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                  'PGMError', 'GeoidHeight5Tuple'),
@@ -227,7 +227,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         interns=_interns_a_l_l_,
                           iters=('LatLon2PsxyIter', 'PointsIter', 'points2',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
-                         karney=('Caps', 'Direct9Tuple', 'GDict', 'GeodesicError', 'GeodSolve12Tuple', 'Inverse10Tuple'),
+                         karney=('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'GeodesicError', 'Inverse10Tuple'),
+                            ktm=('KTMError', 'KTransverseMercator'),
                      latlonBase=(),  # module only
                          lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -235,17 +236,19 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple',
                                  'Local9Tuple', 'Ned', 'Ned3Tuple', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
-                          named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
+                          named=('callername', 'classname', 'classnaming', 'modulename',
+                                 'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
                                  'Destination2Tuple', 'Destination3Tuple',
                                  'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
-                                 'EasNor2Tuple', 'EasNor3Tuple', 'Intersection3Tuple',
+                                 'EasNor2Tuple', 'EasNor3Tuple', 'Forward4Tuple', 'Intersection3Tuple',
                                  'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
                                  'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
                                  'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
-                                 'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn5Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
+                                 'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn4Tuple',
+                                 'NearestOn5Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
                                  'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
-                                 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
+                                 'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                  'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                  'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
                     nvectorBase=(),  # module only
@@ -262,11 +265,13 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cassini', 'collins5', 'pierlot', 'tienstra7',
                                  'snellius3', 'wildberger3',
                                  'triAngle', 'triAngle4', 'triSide', 'triSide2', 'triSide4'),
-                         rhumbx=('Rhumb', 'RhumbError', 'RhumbLine', 'RhumbOrder2Tuple', 'Rhumb7Tuple'),
+                     rhumbsolve=('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple'),
+                         rhumbx=('Rhumb', 'RhumbError', 'RhumbLine', 'RhumbOrder2Tuple', 'Rhumb8Tuple'),
                   sphericalBase=(),  # module only
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
+                      solveBase=(),  # module only
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'Transform7Tuple',
                                  'date2epoch', 'epoch2date', 'trfXform'),
@@ -369,7 +374,10 @@ class _ALL_MODS(object):
 
            @raise ImportError: Importing module B{C{name}} failed.
         '''
-        return import_module(name, _pygeodesy_)
+        try:
+            return _sys.modules[name]
+        except KeyError:
+            return import_module(name, _pygeodesy_)
 
 #   def _imported(self, name, module):  # in _lazy_import2 below
 #       try:
@@ -388,7 +396,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.05.17'
+__version__ = '22.06.04'
 
 
 def _ALL_OTHER(*objs):
@@ -594,7 +602,7 @@ def print_(*args, **nl_nt_prefix_end_file_flush_sep):  # PYCHOK no cover
        @arg args: Values to be converted to C{str} and
                   concatenated (C{any} types).
        @kwarg nl=0: Number of leading blank lines (C{int}).
-       @kwarg nt=0: Number of additional , trailing blank lines (C{int}).
+       @kwarg nt=0: Number of additional, trailing blank lines (C{int}).
        @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
 
        @note: Python 3+ keyword arguments C{end}, C{file} and C{flush}
@@ -611,7 +619,7 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep):
        @arg fmt: C-style formating text (C{str}).
        @arg args: Values to be formatted (C{any} types).
        @kwarg nl=0: Number of leading blank lines (C{int}).
-       @kwarg nt=0: Number of additional , trailing blank lines (C{int}).
+       @kwarg nt=0: Number of additional, trailing blank lines (C{int}).
        @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
 
        @note: Python 3+ keyword arguments C{end}, C{file}, C{flush}
@@ -649,10 +657,10 @@ if __name__ == '__main__':
     printf('%.8f import vs %.8f _ALL_MODS: %.3fX, %s', t1, t2, t2 / t1, v)
 
 # % python3 -W ignore -m pygeodesy.lazily
-# 0.32745546 import vs 4.37243521 _ALL_MODS: 13.353X, Python 3.10.4
+# 0.33003067 import vs 0.59858337 _ALL_MODS: 1.814X, Python 3.10.4
 
 # % python2 -m pygeodesy.lazily
-# 1.17561793 import vs 2.12187600 _ALL_MODS: 1.805X, Python 2.7.18
+# 1.19996715 import vs 1.39310884 _ALL_MODS: 1.161X, Python 2.7.18
 
 # The implementation below is far too verbose to be worthwhile.
 

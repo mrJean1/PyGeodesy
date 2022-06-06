@@ -40,9 +40,10 @@ from pygeodesy.errors import RangeError, _ValueError, \
                             _xkwds_get, _xkwds_not
 from pygeodesy.fmath import fdot3, hypot, hypot1
 from pygeodesy.interns import EPS, EPS0, MISSING, NN, \
-                             _by_, _COMMASPACE_, _convergence_, _no_, \
-                             _NS_, _outside_, _range_, _S_, _SPACE_, \
-                             _UTM_, _V_, _X_, _zone_, _0_0, _0_0001
+                             _by_, _COMMASPACE_, _convergence_, \
+                             _K0_UTM, _no_, _NS_, _outside_, _range_, \
+                             _S_, _SPACE_, _UTM_, _V_, _X_, _zone_, \
+                             _0_0, _0_0001
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -63,14 +64,13 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.05.14'
+__version__ = '22.06.04'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
 _FalseEasting  =  Scalar(  500e3)  # falsed offset (C{meter})
 _FalseNorthing =  Scalar(10000e3)  # falsed offset (C{meter})
-_K0_UTM        =  Scalar(0.9996)   # UTM scale, central meridian
 
 
 class UTMError(_ValueError):

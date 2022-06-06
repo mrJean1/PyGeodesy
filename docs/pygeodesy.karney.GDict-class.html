@@ -161,8 +161,45 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.karney.GDict-class.html#toRhumb7Tuple" class="summary-sig-name">toRhumb7Tuple</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">nan</span>)</span><br />
+      DEPRECATED, used method <code>toRhumb8Tuple</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.karney.GDict-class.html#toRhumb8Tuple" class="summary-sig-name">toRhumb8Tuple</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">nan</span>)</span><br />
       Convert this <a href="pygeodesy.karney.GDict-class.html" 
-      class="link">GDict</a> result to a 7-tuple.</td>
+      class="link">GDict</a> result to a 8-tuple.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.karney.GDict-class.html#toRhumbSolve7Tuple" class="summary-sig-name">toRhumbSolve7Tuple</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">nan</span>)</span><br />
+      Convert this <a href="pygeodesy.karney.GDict-class.html" 
+      class="link">GDict</a> result to a 8-tuple.</td>
           <td align="right" valign="top">
             
             
@@ -336,7 +373,7 @@ object --+
         <li><strong class="pname"><code>dflt</code></strong> - Default value for missing items (<code>any</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><a href="pygeodesy.karney.GeodSolve12Tuple-class.html" 
+        <dd><a href="pygeodesy.geodsolve.GeodSolve12Tuple-class.html" 
           class="link">GeodSolve12Tuple</a><code>(lat1, lon1, azi1, lat2, 
           lon2, azi2, s12, a12, m12, M12, M21, S12)</code>.</dd>
   </dl>
@@ -387,17 +424,74 @@ object --+
     </td>
   </tr></table>
   
+  <p>DEPRECATED, used method <code>toRhumb8Tuple</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <i>DEPRECATED</i> <a 
+          href="pygeodesy.deprecated.Rhumb7Tuple-class.html" 
+          class="link">Rhumb7Tuple</a>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toRhumb8Tuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRhumb8Tuple</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default">nan</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
   <p>Convert this <a href="pygeodesy.karney.GDict-class.html" 
-  class="link">GDict</a> result to a 7-tuple.</p>
+  class="link">GDict</a> result to a 8-tuple.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>dflt</code></strong> - Default value for missing items (<code>any</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><a href="pygeodesy.rhumbx.Rhumb7Tuple-class.html" 
-          class="link">Rhumb7Tuple</a><code>(lat1, lon1, lat2, lon2, azi12,
-          s12, S12)</code>.</dd>
+        <dd><a href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
+          class="link">Rhumb8Tuple</a><code>(lat1, lon1, lat2, lon2, azi12,
+          s12, S12, a12)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toRhumbSolve7Tuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRhumbSolve7Tuple</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default">nan</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <a href="pygeodesy.karney.GDict-class.html" 
+  class="link">GDict</a> result to a 8-tuple.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>dflt</code></strong> - Default value for missing items (<code>any</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.rhumbsolve.RhumbSolve7Tuple-class.html" 
+          class="link">RhumbSolve7Tuple</a><code>(lat1, lon1, lat2, lon2, 
+          azi12, s12, S12)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -469,7 +563,7 @@ available/applicable.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 23 11:21:58 2022
+    Generated by Epydoc 3.0.1 on Sun Jun  5 18:22:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

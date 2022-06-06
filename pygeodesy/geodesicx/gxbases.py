@@ -9,17 +9,16 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 # from pygeodesy.basics import isodd  # from .karney
-from pygeodesy.errors import _or, _xkwds_get
+# from pygeodesy.errors import _or  # from .karney
 from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
-from pygeodesy.karney import Caps, _CapsBase, GeodesicError, \
-                             isodd, _hypot, _sum2_
-from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.karney import _CapsBase, GeodesicError, \
+                              isodd, _hypot, _or, _sum2_
 # from pygeodesy.props import Property  # from .karney
 
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.05.18'
+__version__ = '22.06.01'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -42,23 +41,7 @@ class _GeodesicBase(_CapsBase):  # in .geodsolve
 #          @return: C{GeodesicExact*} (C{str}).
 #       '''
 #       return Fmt.PAREN(self.named, self.toStr(prec=prec, sep=sep))
-
-    def _iter2tion(self, r, s):
-        '''(INTERNAL) Copy C{C{s}.iter} into C{B{r}._iteration}.
-        '''
-        i = _xkwds_get(s, iter=None)
-        if i is not None:
-            self._iteration = r._iteration = i
-        return r
-
-
-def _all_caps(_caps, caps):  # PYCHOK shared
-    '''(INTERNAL) Check all available capabilities: C{True}
-       if I{all} B{C{caps}} are available in B{C{_caps}},
-       C{False} otherwise (C{bool}).
-    '''
-    caps &= Caps._OUT_ALL
-    return (_caps & caps) == caps
+    pass
 
 
 def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
@@ -126,8 +109,6 @@ def _xnC4(**name_nC4):
         raise GeodesicError(n, nC4, txt=_not_(_or(*map(str, _nC4s))))
     return _nC4s[nC4]
 
-
-__all__ += _ALL_DOCS(Caps)
 
 # **) MIT License
 #

@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.05.17'
+__version__ = '22.06.03'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -254,6 +254,8 @@ class Ellipsoid(_NamedEnumItem):
                 f = f_ = 0
                 b = a  # superfluous
 
+            if not f < _1_0:  # sanity check, see .ecef.Ecef.__init__
+                raise ValueError(_SPACE_(_f_, _invalid_))
             if not _isfinite(b):
                 raise ValueError(_SPACE_(_b_, _not_finite_))
 
@@ -261,8 +263,6 @@ class Ellipsoid(_NamedEnumItem):
                 b  =  a
                 f  = _f_0_0
                 f_ = _f__0_0
-            elif f > EPS1:  # sanity check, see .ecef.Ecef.__init__
-                raise ValueError(_SPACE_(_f_, _invalid_))
 
         except (TypeError, ValueError) as x:
             d = _xkwds_not(None, b=b, f_=f_, f=f)
@@ -639,17 +639,15 @@ class Ellipsoid(_NamedEnumItem):
     def _c2f(self, c2x):
         '''(INTERNAL) Helper for C{.c2} and C{.c2x}.
         '''
-        f = self.f
+        f, c2 = self.f, self.b2
         if f:
-            c2, e = self.b2, self.e
+            e = self.e
             if e > EPS0:
                 if f > 0:  # .isOblate
                     c2 *= (asinh(sqrt(self.e22abs)) if c2x else atanh(e)) / e
                 elif f < 0:  # .isProlate
                     c2 *= atan(e) / e  # XXX asin?
             c2 = Meter2(c2=(self.a2 + c2) * _0_5)
-        else:
-            c2 = self.a2
         return c2
 
     def circle4(self, lat):
@@ -1167,6 +1165,12 @@ class Ellipsoid(_NamedEnumItem):
         r = self._elliptic_e22.cE if self.f else PI_2
         return Distance(L=self.b * r)
 
+    @Property_RO
+    def _L_90(self):
+        '''Get the I{quarter meridian} per degree (C{meter}), M{self.L / 90}.
+        '''
+        return self.L / _90_0
+
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
            between the equator and a (geodetic) latitude, see C{L}.
@@ -1375,6 +1379,17 @@ class Ellipsoid(_NamedEnumItem):
         '''
         g = sqrt(self.a * self.b) if self.f else self.a
         return Radius(Rgeometric=g)
+
+    @Property_RO
+    def rhumbsolve(self):
+        '''Get this ellipsoid's L{RhumbSolve}, the I{wrapper} around utility
+           U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>},
+           provided the path to the C{RhumbSolve} executable is specified with env
+           variable C{PYGEODESY_RHUMBSOLVE}.
+        '''
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        return _MODS.rhumbsolve.RhumbSolve(self, name=self.name)
 
     @Property_RO
     def rhumbx(self):
