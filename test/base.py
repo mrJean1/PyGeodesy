@@ -450,7 +450,6 @@ def type2str(obj, attr, **renamed):
         t = ' module'
     elif isinstance(t, property):  # type(t) is property
         t = t.__class__.__name__
-        print(t, renamed)
         if renamed:
             t = renamed.get(t, t)
         t = _SPACE_ + t
