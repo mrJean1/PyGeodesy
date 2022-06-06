@@ -54,6 +54,9 @@ Karney-based functionality
   - L{GnomonicExact}, L{GnomonicGeodSolve}, L{GnomonicKarney} -- U{Gnomonic
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>}
 
+  - L{KTransverseMercator} - U{TransverseMercator
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
+
   - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1LocalCartesian.html>}
 
@@ -77,7 +80,7 @@ are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://Geogra
 
 2. These C{pygeodesy} modules and classes
 
-  - L{ellipsoidalGeodSolve}, L{ellipsoidalKarney}, L{geodsolve}, L{karney}
+  - L{ellipsoidalGeodSolve}, L{ellipsoidalKarney}, L{geodsolve}, L{karney}, L{rhumbsolve}
   - L{EquidistantKarney}, L{FrechetKarney}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{GnomonicGeodSolve},
     L{GnomonicKarney}, L{HeightIDWkarney}
 
@@ -133,7 +136,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.06.01'
+__version__ = '22.06.06'
 
 _area_      = 'area'
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!

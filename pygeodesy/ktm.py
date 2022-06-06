@@ -48,8 +48,8 @@ from pygeodesy.basics import copysign0, isodd, istuplist, neg
 from pygeodesy.errors import _or, _ValueError, _xkwds_get
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
-                             _K0_UTM, _not_, _singular_, _0_0, _0_5, \
-                             _1_0, _90_0, _180_0
+                             _K0_UTM, _not_, _singular_, _UNDER_, \
+                             _0_0, _0_5, _1_0, _90_0, _180_0
 from pygeodesy.karney import _atan2d, _diff182, Ellipsoid2, \
                              _ellipsoidal_datum, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _signBit
@@ -65,7 +65,7 @@ from pygeodesy.utily import atand, sincos2d_
 from math import atan2, asinh, cos, cosh, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.06.04'
+__version__ = '22.06.06'
 
 
 class KTMError(_ValueError):
@@ -231,7 +231,7 @@ class KTransverseMercator(_NamedBase):
                 etap = NINF if slam < 0 else INF
                 xip, k = _0_0, INF
                 g = copysign0(_90_0, slam)
-        else:
+        else:  # PYCHOK no cover
             xip, etap = PI_2, _0_0
             g, k = lon, E.es_c
         y, x, t, z = self._yxgk4(xip, etap, self._Alp)
@@ -355,25 +355,26 @@ class KTransverseMercator(_NamedBase):
 
            @arg kwds: Optional, overriding keyword arguments.
         '''
-        d = dict(ellipsoid=self.ellipsoid.name, k0=self.k0, TMorder=self.TMorder)
+        d = dict(ellipsoid=self.ellipsoid, k0=self.k0, TMorder=self.TMorder)
         if self.name:
             d.update(name=self.name)
         return _COMMASPACE_.join(_MODS.streprs.pairs(d, **kwds))
 
     def _yxgk4(self, xi, eta, c):
-        '''(INTERNAL) Clenshaw summation.
+        '''(INTERNAL) Complex Clenshaw summation
+           with C{B{c}=_Alp} or C{=-_Bet}.
         '''
         s0, sh0 = sin(xi * 2), sinh(eta * 2)
         c0, ch0 = cos(xi * 2), cosh(eta * 2)
-        a = complex(c0 * ch0 * 2, -s0 * sh0 * 2)
 
-        y0 = y1 = z0 = z1 = complex(0)  # 0j0
+        y0 = y1 = z0 = z1 = complex(0)  # 0+j0
         n  = self.TMorder  # == len(c) - 1?
         if isodd(n):
             cn = c[n]
-            y0 = complex(cn)  # j0
+            y0 = complex(cn)  # +j0
             z0 = complex(cn * (n * 2))
             n -= 1
+        a = complex(c0 * ch0, -s0 * sh0) * 2
         while n > 0:
             cn = c[n]
             y1 = a * y0 - y1 + cn
@@ -393,10 +394,12 @@ class KTransverseMercator(_NamedBase):
         return y1.real, y1.imag, g, k
 
 
-def _Xellipsoid(a_earth_f, Error):  # in .rhumbx
+def _Xellipsoid(a_earth_f, Error, name=_UNDER_):  # in .rhumbx
+    '''(INTERNAL) Get an ellipsoid.
+    '''
     try:
-        E = Ellipsoid2(*a_earth_f) if istuplist(a_earth_f, minum=2) else \
-           _ellipsoidal_datum(a_earth_f, raiser=False).ellipsoid
+        E = Ellipsoid2(*a_earth_f[:2], name=name) if istuplist(a_earth_f, minum=2) else \
+           _ellipsoidal_datum(a_earth_f, name=name).ellipsoid
     except Exception as x:
         raise Error(str(x))
     return E

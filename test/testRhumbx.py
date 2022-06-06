@@ -251,27 +251,27 @@ class Tests(TestsBase):
             s += z
         t = _COMMASPACE_(*pairs(dict(min=n, mean=s.fmean(), stdev=s.fstdev(), max=m, iteration=j), prec=6))
         self.test('azi..', t, t)
-        r._xTM.TMorder = 8  # coverage
-        t = r._xTM.toRepr()
+        t = r._xTM.toRepr()  # coverage
         self.test('_xTM', t, t)
 
         # <https://www.MathWorks.com/help/map/ref/rhxrh.html>
         R = Rhumb(R_M, 0)  # sphere
+        R.TMorder = 5
         r = R.Line(10, -56,  35)
-        i = R.Line( 0, -10, 310)
-        p = r.intersection2(i)
+        s = R.Line( 0, -10, 310)
+        p = r.intersection2(s)
         t = p.toRepr()
         self.test('intersection2', t, '(26.9774, -43.4088)', nl=1, known=True)
         t = r.nearestOn4(p.lat, p.lon).toRepr()
         self.test('nearestOn4', t, t)
-        t = i.nearestOn4(p.lat, p.lon).toRepr()
+        t = s.nearestOn4(p.lat, p.lon).toRepr()
         self.test('nearestOn4', t, t)
-        r._xTM.TMorder = 5  # coverage
-        t = r._xTM.toRepr()
+        t = r._xTM.toRepr()  # coverage
         self.test('_xTM', t, t)
 
         # <https://lost-contact.MIT.edu/afs/inf.ed.ac.uk/group/teaching/matlab-help/R2018a/help/map/calculate-intersection-of-rhumb-line-tracks.html>
         R = Rhumb(R_M, 0)  # sphere
+        R.TMorder = 7
         r = R.Line(37, -76,  90)
         s = R.Line(15, -17, 315)
         p = r.intersection2(s)
@@ -281,8 +281,7 @@ class Tests(TestsBase):
         self.test('nearestOn4', t, t)
         t = s.nearestOn4(p.lat, p.lon).toRepr()
         self.test('nearestOn4', t, t)
-        r._xTM.TMorder = 7  # coverage
-        t = r._xTM.toRepr()
+        t = r._xTM.toRepr()  # coverage
         self.test('_xTM', t, t)
 
         if RhumbSolve:  # coverage
