@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A pure Python version of I{Karney}'sC++ class U{TransverseMercator
+u'''A pure Python version of I{Karney}'s C++ class U{TransverseMercator
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
 based on I{Krüger} series.  See also I{Karney}'s utility U{TransverseMercatorProj
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html>}.
@@ -20,20 +20,20 @@ JHS154/JHS154_liite1.pdf>}.
 This is a straight transcription of the formulas in this paper with the
 following exceptions:
 
-- Use of 6th order series instead of 4th order series. This reduces the error
-to about 5 nm for the UTM range of coordinates (instead of 200 nm), with a speed
-penalty of only 1%,
+ - Use of 6th order series instead of 4th order series. This reduces the error
+   to about 5 nm for the UTM range of coordinates (instead of 200 nm), with a speed
+   penalty of only 1%,
 
-- Use Newton's method instead of plain iteration to solve for latitude in terms
-of isometric latitude in the Reverse method,
+ - Use Newton's method instead of plain iteration to solve for latitude in terms
+   of isometric latitude in the Reverse method,
 
-- Use of Horner's representation for evaluating polynomials and Clenshaw's method
-for summing trigonometric series,
+ - Use of Horner's representation for evaluating polynomials and Clenshaw's method
+   for summing trigonometric series,
 
-- Several modifications of the formulas to improve the numerical accuracy,
+ - Several modifications of the formulas to improve the numerical accuracy,
 
-- Evaluating the convergence and scale using the expression for the projection
-or its inverse.
+ - Evaluating the convergence and scale using the expression for the projection
+   or its inverse.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -82,7 +82,7 @@ class KTransverseMercator(_NamedBase):
        90}, about +/- 82.6 degrees for WGS84, where I{e} is the eccentricity.  Beyond
        this point, the series ceases to converge and the results from this method
        will be garbage.  I{To be on the safe side, don't use this method if the
-       angular distance from the central meridian exceeds I{(1 - 2e) x 90}, about 75
+       angular distance from the central meridian exceeds (1 - 2e) x 90}, about 75
        degrees for the WGS84 ellipsoid.
 
        Class L{ExactTransverseMercator} is an alternative implementation of the
@@ -191,7 +191,7 @@ class KTransverseMercator(_NamedBase):
            @arg lon: Longitude of point (C{degrees180}).
            @arg lon0: Central meridian of the projection (C{degrees180}).
            @kwarg name: Optional name (C{str}).
-           @kwarg raiser: Throw a L{KMTError} at singulaties (C{bool}),
+           @kwarg raiser: Throw a L{KTMError} at singulaties (C{bool}),
                           otherwise return C{NAN}.
 
            @return: L{Forward4Tuple}C{(easting, northing, convergence, scale)}

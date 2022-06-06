@@ -581,7 +581,7 @@ class _RhumbLine(_RhumbBase):
 
            @note: Each iteration involves a round trip to this rhumb line's
                   I{ellipsoidal} L{ExactTransverseMercator} or I{spherical}
-                  L{TransverseMercator} projection and invoking function
+                  L{KTransverseMercator} projection and invoking function
                   L{intersection3d3} in that domain.
         '''
         _xinstanceof(other, RhumbLine)

@@ -429,7 +429,7 @@ def tilde(path):
     return path.replace(_pseudo_home_dir, '~')
 
 
-def type2str(obj, attr):
+def type2str(obj, attr, **renamed):
     '''Return the type name of an object attribute.
     '''
     t = getattr(obj, attr, None)
@@ -449,7 +449,11 @@ def type2str(obj, attr):
     elif ismodule(t):
         t = ' module'
     elif isinstance(t, property):  # type(t) is property
-        t = _SPACE_ + t.__class__.__name__
+        t = t.__class__.__name__
+        print(t, renamed)
+        if renamed:
+            t = renamed.get(t, t)
+        t = _SPACE_ + t
     elif isinstance(t, _Strs):
         t = ' str'
     else:

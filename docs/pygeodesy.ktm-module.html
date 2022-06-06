@@ -59,46 +59,52 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module ktm</h1><p class="nomargin-top"></p>
-<pre class="literalblock">
-A pure Python version of I{Karney}'sC++ class U{TransverseMercator
-&lt;https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html&gt;}
-based on I{Kr&#252;ger} series.  See also I{Karney}'s utility U{TransverseMercatorProj
-&lt;https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html&gt;}.
-
-Following and further below is a copy of I{Karney}'s U{TransverseMercator.hpp
-&lt;https://GeographicLib.SourceForge.io/C++/doc/TransverseMercator_8hpp_source.html&gt;}
-file C{Header}.
-
-This implementation follows closely JHS 154, ETRS89 - I{j&#228;rjestelm&#228;&#228;n liittyv&#228;t
-karttaprojektiot, tasokoordinaatistot ja karttalehtijako} (Map projections, plane
-coordinates, and map sheet index for ETRS89), published by JUHTA, Finnish Geodetic
-Institute, and the National Land Survey of Finland (2006).  The relevant section
-is available as the U{2008 PDF file&lt;http://Docs.JHS-suositukset.FI/jhs-suositukset/
-JHS154/JHS154_liite1.pdf&gt;}.
-
-This is a straight transcription of the formulas in this paper with the
-following exceptions:
-
-- Use of 6th order series instead of 4th order series. This reduces the error
-to about 5 nm for the UTM range of coordinates (instead of 200 nm), with a speed
-penalty of only 1%,
-
-- Use Newton's method instead of plain iteration to solve for latitude in terms
-of isometric latitude in the Reverse method,
-
-- Use of Horner's representation for evaluating polynomials and Clenshaw's method
-for summing trigonometric series,
-
-- Several modifications of the formulas to improve the numerical accuracy,
-
-- Evaluating the convergence and scale using the expression for the projection
-or its inverse.
-
-Copyright (C) U{Charles Karney&lt;mailto:Charles@Karney.com&gt;} (2008-2022)
-and licensed under the MIT/X11 License.  For more information, see the
-U{GeographicLib&lt;https://GeographicLib.SourceForge.io&gt;} documentation.
-
-</pre>
+<p>A pure Python version of <i>Karney</i>'s C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
+  target="_top">TransverseMercator</a> based on <i>Kr&#252;ger</i> series.  See 
+  also <i>Karney</i>'s utility <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html"
+  target="_top">TransverseMercatorProj</a>.</p>
+  <p>Following and further below is a copy of <i>Karney</i>'s <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercator_8hpp_source.html"
+  target="_top">TransverseMercator.hpp</a> file <code>Header</code>.</p>
+  <p>This implementation follows closely JHS 154, ETRS89 - <i>j&#228;rjestelm&#228;&#228;n
+  liittyv&#228;t karttaprojektiot, tasokoordinaatistot ja karttalehtijako</i> 
+  (Map projections, plane coordinates, and map sheet index for ETRS89), 
+  published by JUHTA, Finnish Geodetic Institute, and the National Land 
+  Survey of Finland (2006).  The relevant section is available as the <a 
+  href="http://Docs.JHS-suositukset.FI/jhs-suositukset/JHS154/JHS154_liite1.pdf"
+  target="_top">2008 PDF file</a>.</p>
+  <p>This is a straight transcription of the formulas in this paper with 
+  the following exceptions:</p>
+  <ul>
+    <li>
+      Use of 6th order series instead of 4th order series. This reduces the
+      error to about 5 nm for the UTM range of coordinates (instead of 200 
+      nm), with a speed penalty of only 1%,
+    </li>
+    <li>
+      Use Newton's method instead of plain iteration to solve for latitude 
+      in terms of isometric latitude in the Reverse method,
+    </li>
+    <li>
+      Use of Horner's representation for evaluating polynomials and 
+      Clenshaw's method for summing trigonometric series,
+    </li>
+    <li>
+      Several modifications of the formulas to improve the numerical 
+      accuracy,
+    </li>
+    <li>
+      Evaluating the convergence and scale using the expression for the 
+      projection or its inverse.
+    </li>
+  </ul>
+  <p>Copyright (C) <a href="mailto:Charles@Karney.com" 
+  target="_top">Charles Karney</a> (2008-2022) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.SourceForge.io" 
+  target="_top">GeographicLib</a> documentation.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
@@ -129,8 +135,8 @@ U{GeographicLib&lt;https://GeographicLib.SourceForge.io&gt;} documentation.
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ktm.KTransverseMercator-class.html" class="summary-name">KTransverseMercator</a><br />
-      Transverse Mercator projection based ons Kr&#252;ger's method which evaluates the
-projection and its inverse in terms of a series.
+      Transverse Mercator projection based ons Kr&#252;ger's method which 
+        evaluates the projection and its inverse in terms of a series.
     </td>
   </tr>
 </table>
@@ -181,7 +187,7 @@ projection and its inverse in terms of a series.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun  6 10:31:16 2022
+    Generated by Epydoc 3.0.1 on Mon Jun  6 11:35:01 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
