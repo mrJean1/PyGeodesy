@@ -6,7 +6,7 @@ u'''A pure Python version of I{Karney}'s C++ classes U{Rhumb
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>}.
 
 Class L{RhumbLine} has been enhanced with methods C{intersection2} and C{nearestOn4} to find
-the intersection of two rhumb lines, repestively the nearest point on a rumb line.
+the intersection of two rhumb lines, respectively the nearest point on a rumb line.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>},
@@ -49,7 +49,7 @@ from pygeodesy.utily import sincos2_, sincos2d
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.06.05'
+__version__ = '22.06.08'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -98,8 +98,8 @@ class Rhumb(_RhumbBase):
         '''New L{Rhumb}.
 
            @kwarg a_earth: This rhumb's earth (L{Ellipsoid}, L{Ellipsoid2},
-                           L{a_f2Tuple}, L{Datum}, 2-tuple (C{a, f})) or the
-                           equatorial radius (C{scalar}).
+                           L{a_f2Tuple}, L{Datum}, 2-tuple C{(a, f)}) or the
+                           (equatorial) radius (C{scalar}).
            @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
                      a C{scalar}, ignored otherwise.
            @kwarg exact: If C{True}, use an addition theorem for elliptic integrals
@@ -125,11 +125,12 @@ class Rhumb(_RhumbBase):
 
     def _DConformal2Rectifying(self, chix, chiy):
         return _1_0 + _sincosSeries(True, chix, chiy,
-                *self._DRectifying2ConformalAc2)
+                *self._DRectifying2ConformalA2)
 
     @Property_RO
-    def _DRectifying2ConformalAc2(self):
-        return self._Xs2(_AlpCoeffs, self.TMorder)
+    def _DRectifying2ConformalA2(self):
+        m = self.TMorder
+        return _Xs(_AlpCoeffs, m, self.ellipsoid), m
 
     def Direct(self, lat1, lon1, azi12, s12, outmask=Caps.LATITUDE_LONGITUDE):
         '''Solve the I{direct rhumb} problem, optionally with the area.
@@ -214,11 +215,12 @@ class Rhumb(_RhumbBase):
 
     def _DRectifying2Conformal(self, mux, muy):  # radians
         return _1_0 - _sincosSeries(True, mux, muy,
-                *self._DRectifying2ConformalBc2)
+                *self._DRectifying2ConformalB2)
 
     @Property_RO
-    def _DRectifying2ConformalBc2(self):
-        return self._Xs2(_BetCoeffs, self.TMorder)
+    def _DRectifying2ConformalB2(self):
+        m = self.TMorder
+        return _Xs(_BetCoeffs, m, self.ellipsoid), m
 
     def _DRectifying2Isometric(self, mux, muy):  # degrees
         E = self.ellipsoid
@@ -249,7 +251,7 @@ class Rhumb(_RhumbBase):
     @ellipsoid.setter  # PYCHOK setter!
     def ellipsoid(self, a_earth_f):
         '''Set this rhumb's ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum},
-           L{a_f2Tuple} or 2-tuple C{(a, f)}).
+           L{a_f2Tuple}, 2-tuple C{(a, f)}) or the (equatorial) radius (C{scalar}).
         '''
         E = _Xellipsoid(a_earth_f, RhumbError)
         if self._E != E:
@@ -384,7 +386,7 @@ class Rhumb(_RhumbBase):
 
     def _MeanSinXid(self, psix, psiy):  # degrees
         x, y = radians(psix), radians(psiy)
-        t = _sincosSeries(False, _gd(x), _gd(y), *self._Rc2)
+        t = _sincosSeries(False, _gd(x), _gd(y), *self._RA2)
         return _Dlog(cosh(x), cosh(y)) * _Dcosh(x, y) + t * _Dgd(x, y)
 
     def orders(self, RAorder=None, TMorder=None):
@@ -405,6 +407,13 @@ class Rhumb(_RhumbBase):
             self.TMorder = TMorder
         return t
 
+    @Property_RO
+    def _RA2(self):
+        # for WGS84: (0, -0.0005583633519275459, -3.743803759172812e-07,  -4.633682270824446e-10,
+        # RAorder 6:     -7.709197397676237e-13, -1.5323287106694307e-15, -3.462875359099873e-18)
+        m = self.RAorder
+        return _Xs(_RACoeffs, m, self.ellipsoid, RA=True), m
+
     @Property
     def RAorder(self):
         '''Get the I{Rhumb Area} order (C{int}, 4, 5, 6, 7 or 8).
@@ -415,16 +424,10 @@ class Rhumb(_RhumbBase):
     def RAorder(self, order):
         '''Get the I{Rhumb Area} order (C{int}, 4, 5, 6, 7 or 8).
         '''
-        n = _Xorder(_RCoeffs, RhumbError, RAorder=order)
+        n = _Xorder(_RACoeffs, RhumbError, RAorder=order)
         if self._mRA != n:
             _update_all_rls(self)
             self._mRA = n
-
-    @Property_RO
-    def _Rc2(self):
-        # for WGS84: (0, -0.0005583633519275459, -3.743803759172812e-07,  -4.633682270824446e-10,
-        # RAorder 6:     -7.709197397676237e-13, -1.5323287106694307e-15, -3.462875359099873e-18)
-        return self._Xs2(_RCoeffs, self.RAorder, RA=True)
 
     def _S12d(self, lon12, psi2, psi1):  # degrees
         '''(INTERNAL) Compute the area C{S12}.
@@ -467,13 +470,6 @@ class Rhumb(_RhumbBase):
         d = dict(ellipsoid=self.ellipsoid, RAorder=self.RAorder,
                      exact=self.exact,     TMorder=self.TMorder)
         return sep.join(pairs(d, prec=prec))
-
-    def _Xs2(self, _Coeffs, m, RA=False):
-        '''(INTERNAL) Compute the C{R}, C{A} or C{B} terms for
-           I{_sincosSeries}, return 2-tuple C{(terms, order)}
-           with C{B{m} + 1} C{terms} and C{order B{m}}.
-        '''
-        return _Xs(_Coeffs, m, self._E, RA=RA), m
 
 
 class RhumbError(_ValueError):
@@ -567,7 +563,7 @@ class _RhumbLine(_RhumbBase):
         '''Find the intersection of this and an other rhumb line.
 
            @arg other: The other rhumb line ({RhumbLine}).
-           @kwarg tol: Longitudinal convergence tolerance (C{degrees}).
+           @kwarg tol: Tolerance for longitudinal convergence (C{degrees}).
            @kwarg eps: Tolerance for L{intersection3d3} (C{EPS}).
 
            @return: A L{LatLon2Tuple}{(lat, lon)} with the C{lat}- and
@@ -580,9 +576,9 @@ class _RhumbLine(_RhumbBase):
                  and function L{pygeodesy.intersection3d3}.
 
            @note: Each iteration involves a round trip to this rhumb line's
-                  I{ellipsoidal} L{ExactTransverseMercator} or I{spherical}
-                  L{KTransverseMercator} projection and invoking function
-                  L{intersection3d3} in that domain.
+                  L{ExactTransverseMercator} or L{KTransverseMercator}
+                  projection and invoking function L{intersection3d3} in
+                  that domain.
         '''
         _xinstanceof(other, RhumbLine)
         _xdatum(self.rhumb, other.rhumb, Error=RhumbError)
@@ -590,17 +586,17 @@ class _RhumbLine(_RhumbBase):
             # set initial origin and halfway point
             p = LatLon2Tuple(favg(self.lat1, other.lat1),
                              favg(self.lon1, other.lon1))
-            _xTM4 =  self._xTM.reverse  # ellipsoidal or spherical
+            _xTM4 =  self.xTM.reverse  # ellipsoidal or spherical
             _i3d3 = _MODS.vector3d._intersect3d3  # NOT .intersection3d3!
             for i in range(1, _TRIPS):
                 v = _i3d3(self._xTM3d(p),  self.azi12,
                          other._xTM3d(p), other.azi12, useZ=False, **eps)[0]
                 t = _xTM4(v.x, v.y, lon0=p.lon)  # PYCHOK Reverse4Tuple
                 d =  euclid(t.lon - p.lon, t.lat)  # PYCHOK t.lat + p.lat - p.lat
+                p =  LatLon2Tuple(t.lat + p.lat, t.lon)  # PYCHOK p.
                 if d < tol:
-                    return LatLon2Tuple(t.lat + p.lat, t.lon, iteration=i,  # PYCHOK p
+                    return LatLon2Tuple(p.lat, p.lon, iteration=i,  # PYCHOK p.
                                         name=self.intersection2.__name__)
-                p = LatLon2Tuple(t.lat + p.lat, t.lon)  # PYCHOK p
         except Exception as x:
             raise IntersectionError(_no_(_intersection_), txt=str(x))
         t = _no_(_convergence_, Fmt.PAREN(d))
@@ -758,7 +754,8 @@ class _RhumbLine(_RhumbBase):
            @return: C{RhumbLine} (C{str}).
         '''
         d = dict(rhumb=self.rhumb, lat1=self.lat1, lon1=self.lon1,
-                                   azi12=self.azi12, exact=self.exact)
+                                   azi12=self.azi12, exact=self.exact,
+                                   TMorder=self.TMorder, xTM=self.xTM)
         return sep.join(pairs(d, prec=prec))
 
     @property_RO
@@ -768,17 +765,18 @@ class _RhumbLine(_RhumbBase):
         return self.rhumb.TMorder
 
     @Property_RO
-    def _xTM(self):
-        '''(INTERNAL) Get this rhumb line's C{eTM} or C{kTM}.
+    def xTM(self):
+        '''Get this rhumb line's I{Transverse Mercator} projection (L{ExactTransverseMercator}
+           if I{exact} and I{ellipsoidal}, L{KTransverseMercator} otherwise).
         '''
         E = self.ellipsoid
-        return _MODS.etm.ExactTransverseMercator(E) if E.isEllipsoidal else \
+        return _MODS.etm.ExactTransverseMercator(E) if E.isEllipsoidal and self.exact else \
                _MODS.ktm.KTransverseMercator(E, TMorder=self.TMorder)
 
     def _xTM3d(self, latlon0, z=INT0):
         '''(INTERNAL) Convert this C{latlon1 - latlon0} to C{Vector3d}.
         '''
-        t = self._xTM.forward(self.lat1 - latlon0.lat, self.lon1, lon0=latlon0.lon)
+        t = self.xTM.forward(self.lat1 - latlon0.lat, self.lon1, lon0=latlon0.lon)
         return _MODS.vector3d.Vector3d(t.easting, t.northing, z)
 
 
@@ -1002,14 +1000,14 @@ def _gd(x):
     return atan(sinh(x))
 
 
-def _sincosSeries(sinp, x, y, c, n):
-    # N.B. n >= 0 and c[] has n+1 elements 0..n,
-    #      of which c[0] is ignored.
+def _sincosSeries(sinp, x, y, C, n):
+    # N.B. C[] has n+1 elements of which
+    #      C[0] is ignored and n >= 0
     # Use Clenshaw summation to evaluate
     #   m = (g(x) + g(y)) / 2        -- mean value
     #   s = (g(x) - g(y)) / (x - y)  -- average slope
     # where
-    #   g(x) = sum(c[j] * SC(2 * j * x), j = 1..n)
+    #   g(x) = sum(C[j] * SC(2 * j * x), j = 1..n)
     #   SC = sinp ? sin : cos
     #   CS = sinp ? cos : sin
     # ...
@@ -1023,26 +1021,26 @@ def _sincosSeries(sinp, x, y, c, n):
     A2, A3  = (-s * _4_0), m
     b2 = b1 = (_0_0,) * 4
     if n > 0:
-        b1 = c[n], _0_0, _0_0, c[n]
+        b1 = C[n], _0_0, _0_0, C[n]
     for j in range(n - 1, 0, -1):
-        b1, b2, cj = b2, b1, c[j]  # c[0] unused
-        # b1 = A * b2 - b1 + c[j] * I
+        b1, b2, Cj = b2, b1, C[j]  # C[0] unused
+        # b1 = A * b2 - b1 + C[j] * I
         B0, B1, B2, B3 = b2
-        b1 = (fsum1_(A0 * B0, A1 * B2, -b1[0], cj),
+        b1 = (fsum1_(A0 * B0, A1 * B2, -b1[0], Cj),
               fsum1_(A0 * B1, A1 * B3, -b1[1]),
               fsum1_(A2 * B0, A3 * B2, -b1[2]),
-              fsum1_(A2 * B1, A3 * B3, -b1[3], cj))
+              fsum1_(A2 * B1, A3 * B3, -b1[3], Cj))
     # Here are the full expressions for m and s
     # f01, f02, f11, f12 = (0, 0, cd * sp,  2 * sd * cp) if sinp else \
     #                      (1, 0, cd * cp, -2 * sd * sp)
-    # m = -b2[1] * f02 + (c[0] - b2[0]) * f01 + b1[0] * f11 + b1[1] * f12
-    # s = -b2[2] * f01 + (c[0] - b2[3]) * f02 + b1[2] * f11 + b1[3] * f12
+    # m = -b2[1] * f02 + (C[0] - b2[0]) * f01 + b1[0] * f11 + b1[1] * f12
+    # s = -b2[2] * f01 + (C[0] - b2[3]) * f02 + b1[2] * f11 + b1[3] * f12
     s = fsum1_(b1[2] * cd * sp,  b1[3] * sd * cp * _2_0) if sinp else \
         fsum1_(b1[2] * cd * cp, -b1[3] * sd * sp * _2_0, -b2[2])
     return s
 
 
-_RCoeffs = {  # Generated by Maxima on 2015-05-15 08:24:04-04:00
+_RACoeffs = {  # Generated by Maxima on 2015-05-15 08:24:04-04:00
  4: (  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 4
      691, 7860, -20160, 18900, 0, 56700,  # R[0]/n^0, polynomial(n), order 4
      1772, -5340, 6930, -4725, 14175,  # R[1]/n^1, polynomial(n), order 3

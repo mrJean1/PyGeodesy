@@ -40,7 +40,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.05.19'
+__version__ = '22.06.07'
 
 _eq_ = _EQUAL_ * 2  # _DEQUAL_
 _ge_ = '>='
@@ -183,7 +183,7 @@ class Fsum(_Named):
        precision floating point summation.  Accumulation may continue after I{intermediate}
        summuation, aka I{running} summation.
 
-       @note: Accumulated values may be C{scalar} or other L{Fsum} instances with C{scalar}
+       @note: Accumulated values may be other L{Fsum} or C{scalar} instances with C{scalar}
               meaning type C{float}, C{int} or any C{type} convertible into a single-instance
               C{float}.
 

@@ -4,7 +4,7 @@
 u'''Some basic C{rhumbx} vs C++ C{RhumbSolve} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.06.05'
+__version__ = '22.06.08'
 
 from base import RhumbSolve, startswith, TestsBase
 
@@ -217,7 +217,7 @@ class Tests(TestsBase):
         R.exact = x = 1
         self.test('R.exact', R.exact, bool(x), nl=1)
         self.test('R.Line.exact', Rl.exact, bool(x))
-        self.test('R.Line', repr(Rl), '''RhumbLine(azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=Rhumb(RAorder=6, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
+        self.test('R.Line', repr(Rl), '''RhumbLine(TMorder=6, azi12=3.0, exact=True, lat1=1.0, lon1=2.0, rhumb=Rhumb(RAorder=6, TMorder=6, ellipsoid=Ellipsoid(name='WGS84',''', known=startswith)
         t = R.orders(4, 8)
         self.test(R.orders.__name__, str(t), '(6, 6)')
         t = R.orders(6, 6)
@@ -225,6 +225,7 @@ class Tests(TestsBase):
 
         m = n = j = 0
         s = Fwelford()
+        R.TMorder = 7
         r = R.Line(20, 0, 0, R.LINE_OFF)
         for d in range(0, 361, 3):
             r.azi12 = d
@@ -251,12 +252,12 @@ class Tests(TestsBase):
             s += z
         t = _COMMASPACE_(*pairs(dict(min=n, mean=s.fmean(), stdev=s.fstdev(), max=m, iteration=j), prec=6))
         self.test('azi..', t, t)
-        t = r._xTM.toRepr()  # coverage
-        self.test('_xTM', t, t)
+        t = r.xTM.toRepr()  # coverage
+        self.test('xTM', t, t)
 
         # <https://www.MathWorks.com/help/map/ref/rhxrh.html>
         R = Rhumb(R_M, 0)  # sphere
-        R.TMorder = 5
+#       R.TMorder = 5
         r = R.Line(10, -56,  35)
         s = R.Line( 0, -10, 310)
         p = r.intersection2(s)
@@ -266,12 +267,12 @@ class Tests(TestsBase):
         self.test('nearestOn4', t, t)
         t = s.nearestOn4(p.lat, p.lon).toRepr()
         self.test('nearestOn4', t, t)
-        t = r._xTM.toRepr()  # coverage
-        self.test('_xTM', t, t)
+        t = r.xTM.toRepr()  # coverage
+        self.test('xTM', t, t)
 
         # <https://lost-contact.MIT.edu/afs/inf.ed.ac.uk/group/teaching/matlab-help/R2018a/help/map/calculate-intersection-of-rhumb-line-tracks.html>
         R = Rhumb(R_M, 0)  # sphere
-        R.TMorder = 7
+#       R.TMorder = 7
         r = R.Line(37, -76,  90)
         s = R.Line(15, -17, 315)
         p = r.intersection2(s)
@@ -281,8 +282,8 @@ class Tests(TestsBase):
         self.test('nearestOn4', t, t)
         t = s.nearestOn4(p.lat, p.lon).toRepr()
         self.test('nearestOn4', t, t)
-        t = r._xTM.toRepr()  # coverage
-        self.test('_xTM', t, t)
+        t = r.xTM.toRepr()  # coverage
+        self.test('xTM', t, t)
 
         if RhumbSolve:  # coverage
             for S in (E.rhumbsolve.Line(1, 2, 3), RhumbLineSolve(E.rhumbsolve, 1, 2, 3)):

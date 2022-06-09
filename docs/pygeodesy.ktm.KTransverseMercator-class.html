@@ -119,6 +119,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ktm.KTransverseMercator-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a_earth</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">k0</span>=<span class="summary-sig-default">0.9996</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**TMorder</span>)</span><br />
@@ -139,44 +140,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="flattening"></a><span class="summary-sig-name">flattening</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Get the <code>ellipsoid</code>'s flattening (<code>float</code>).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="f"></a><span class="summary-sig-name">f</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Get the <code>ellipsoid</code>'s flattening (<code>float</code>).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ktm.KTransverseMercator-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
       Forward projection, from geographic to transverse Mercator.</td>
@@ -198,7 +165,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ktm.KTransverseMercator-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Reverse projection, from transverse Mercator to geographic.</td>
           <td align="right" valign="top">
@@ -302,7 +269,31 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ktm.KTransverseMercator-class.html#flattening" class="summary-name">flattening</a><br />
+      Get the <code>ellipsoid</code>'s flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ktm.KTransverseMercator-class.html#f" class="summary-name">f</a><br />
+      Get the <code>ellipsoid</code>'s flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ktm.KTransverseMercator-class.html#k0" class="summary-name">k0</a><br />
+      Class <code>property</code> with retrievable name.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ktm.KTransverseMercator-class.html#lon0" class="summary-name">lon0</a><br />
       Class <code>property</code> with retrievable name.
     </td>
   </tr>
@@ -352,6 +343,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">a_earth</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">k0</span>=<span class="sig-default">0.9996</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**TMorder</span>)</span>
@@ -380,6 +372,7 @@
         <li><strong class="pname"><code>f</code></strong> - The ellipsoid's flattening (<code>scalar</code>), iff 
           <b><code>a_earth</code></b> is a <code>scalar</code>, ignored 
           otherwise.</li>
+        <li><strong class="pname"><code>lon0</code></strong> - The central meridian (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>k0</code></strong> - Central scale factor (<code>scalar</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>TMorder</code></strong> - Optional keyword argument <b><code>TMorder</code></b>, see 
@@ -406,7 +399,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -452,7 +445,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -597,6 +590,54 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="flattening"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">flattening</h3>
+  <p>Get the <code>ellipsoid</code>'s flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>ellipsoid</code>'s flattening (<code>float</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">f</h3>
+  <p>Get the <code>ellipsoid</code>'s flattening (<code>float</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>ellipsoid</code>'s flattening (<code>float</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="k0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -615,6 +656,26 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
         <span class="summary-sig-arg">k0</span>)</span>
         - Set the central scale factor (<code>float</code>), aka 
 <i><code>scale0</code></i>.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lon0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lon0</h3>
+  <p>Class <code>property</code> with retrievable name.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the central meridian (<code>degrees180</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lon0</span>)</span>
+        - Set the central meridian (<code>degrees180</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -678,7 +739,7 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun  6 11:41:31 2022
+    Generated by Epydoc 3.0.1 on Thu Jun  9 08:21:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

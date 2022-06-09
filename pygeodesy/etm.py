@@ -5,10 +5,12 @@ u'''A pure Python version of I{Karney}'s C{Exact Transverse Mercator} (ETM) proj
 
 Classes L{Etm}, L{ETMError} and L{ExactTransverseMercator}, transcoded from I{Karney}'s
 C++ class U{TransverseMercatorExact<https://GeographicLib.SourceForge.io/C++/doc/
-classGeographicLib_1_1TransverseMercatorExact.html>} (abbreviated as C{TMExact} below).
+classGeographicLib_1_1TransverseMercatorExact.html>}, abbreviated as C{TMExact} below.
 
-Class L{ExactTransverseMercator} provides C{Exact Transverse Mercator} projections
-while instances of class L{Etm} represent ETM C{(easting, nothing)} locations.
+Class L{ExactTransverseMercator} provides C{Exact Transverse Mercator} projections while
+instances of class L{Etm} represent ETM C{(easting, northing)} locations.  See also
+I{Karney}'s utility U{TransverseMercatorProj<https://GeographicLib.SourceForge.io/C++/doc/
+TransverseMercatorProj.1.html>}.
 
 Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
@@ -70,7 +72,8 @@ from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
                              _COMMASPACE_, _convergence_, _1_EPS, _EPSmin, \
                              _K0_UTM, _near_, _no_, _spherical_, _0_0, _0_1, \
                              _0_5, _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
-from pygeodesy.karney import _ALL_LAZY, _diff182, _fix90, _norm180, _signBit
+from pygeodesy.karney import _ALL_LAZY, _diff182, _fix90, _norm180, \
+                             _signBit, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _NamedBase, _update_all
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
@@ -78,7 +81,7 @@ from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, property_doc_
 #                          _update_all  # from .named
 from pygeodesy.streprs import pairs, unstr
-from pygeodesy.units import Float, Scalar_
+from pygeodesy.units import Degrees, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
 from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
                           _to7zBlldfn, Utm, UTMError
@@ -86,12 +89,12 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.06.04'
+__version__ = '22.06.09'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
-_TOL_10   = _0_1 * EPS
 _TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _2_0 * _TAYTOL
+_TOL_10   = _0_1 * EPS
 _TRIPS    =  21  # 7 might be sufficient
 
 
@@ -444,21 +447,19 @@ class ExactTransverseMercator(_NamedBase):
         '''
         lat    = _fix90(lat)
         lon, _ = _diff182((self.lon0 if lon0 is None else lon0), lon)
-        # Explicitly enforce the parity
-        backside = _lat = _lon = False
-        if not self.extendp:
-            if _signBit(lat):
-                _lat, lat = True, -lat
-            if _signBit(lon):
-                _lon, lon = True, -lon
-            if lon > _90_0:
+        if self.extendp:
+            backside = _lat = _lon = False
+        else:  # enforce the parity
+            lat, _lat = _unsigned2(lat)
+            lon, _lon = _unsigned2(lon)
+            backside  =  lon > 90
+            if backside:  # PYCHOK no cover
                 lon = _180_0 - lon
                 if lat == 0:
                     _lat = True
-                backside = True
 
         # u,v = coordinates for the Thompson TM, Lee 54
-        if lat == _90_0:
+        if lat == 90:
             u = self._Eu.cK
             v = self._iteration = 0
         elif lat == 0 and lon == self._1_e_90:  # PYCHOK no cover
@@ -468,17 +469,15 @@ class ExactTransverseMercator(_NamedBase):
             tau, lam = tan(radians(lat)), radians(lon)
             u, v = self._zetaInv(self._E.es_taupf(tau), lam)
 
-        sncndn6 = self._sncndn6(u, v)
+        sncndn6    = self._sncndn6(u, v)
         xi, eta, _ = self._sigma3(v, *sncndn6)
+        g, k       = self._zetaScaled(sncndn6, ll=False) \
+                     if lat != 90 else (lon, self._k0)
         if backside:
+            g  = _180_0 - g
             xi  = self._xi_backside(xi)
         y = xi  * self._k0_a
         x = eta * self._k0_a
-
-        g, k = self._zetaScaled(sncndn6, ll=False) \
-               if lat != _90_0 else (lon, self._k0)
-        if backside:
-            g = _180_0 - g
         if _lat:
             y, g = neg_(y, g)
         if _lon:
@@ -546,7 +545,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(Float(lon0=lon0, Error=ETMError))
+        self._lon0 = _norm180(Degrees(lon0=lon0, Error=ETMError))
 
     @deprecated_property_RO
     def majoradius(self):  # PYCHOK no cover
@@ -660,15 +659,14 @@ class ExactTransverseMercator(_NamedBase):
         # undoes the steps in .forward.
         xi  = y / self._k0_a
         eta = x / self._k0_a
-        backside = _lat = _lon = False
-        if not self.extendp:  # enforce the parity
-            if _signBit(xi):
-                _lat, xi  = True, -xi
-            if _signBit(eta):
-                _lon, eta = True, -eta
-            if xi > self._Eu.cE:  # PYCHOK no cover
+        if self.extendp:
+            backside = _lat = _lon = False
+        else:  # enforce the parity
+            eta, _lon = _unsigned2(eta)
+            xi,  _lat = _unsigned2(xi)
+            backside  =  xi > self._Eu.cE
+            if backside:  # PYCHOK no cover
                 xi = self._xi_backside(xi)
-                backside = True
 
         # u,v = coordinates for the Thompson TM, Lee 54
         if xi or eta != self._Ev.cKE:
@@ -833,7 +831,7 @@ class ExactTransverseMercator(_NamedBase):
     def _xi_backside(self, xi):
         '''(INTERNAL) Return B{C{xi}} for the I{backside}.
         '''
-        return _2_0 * self._Eu.cE - xi
+        return self._Eu.cE * _2_0 - xi
 
     def _zeta3(self, unused, snu, cnu, dnu, snv, cnv, dnv):  # _sigma3 signature
         '''(INTERNAL) C{zeta}.

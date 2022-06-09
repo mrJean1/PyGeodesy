@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.05.06'
+__version__ = '22.06.08'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -433,18 +433,18 @@ def _En2(earth, name):
     '''(INTERNAL) Helper for C{_ellipsoid} and C{_ellipsoidal_datum}.
     '''
     if isinstance(earth, (Ellipsoid, Ellipsoid2)):
-        E = earth
-        n = NN(_UNDER_, name or E.name)
+        E =  earth
+        n = _uname(name or E.name)
     elif isinstance(earth, Datum):
-        E = earth.ellipsoid
-        n = NN(_UNDER_, name or earth.name)
+        E =  earth.ellipsoid
+        n = _uname(name or earth.name)
     elif isinstance(earth, a_f2Tuple):
-        n = NN(_UNDER_, name or earth.name)
-        E = Ellipsoid(earth.a, earth.b, name=n)
+        n = _uname(name or earth.name)
+        E =  Ellipsoid(earth.a, earth.b, name=n)
     elif istuplist(earth, 2):
         a, f = earth[:2]
-        n = NN(_UNDER_, name or getattr(earth, _name_, NN))
-        E = Ellipsoid(a, f=f, name=n)
+        n = _uname(name or getattr(earth, _name_, NN))
+        E =  Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
     return E, n
@@ -490,15 +490,21 @@ def _spherical_datum(earth, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
     '''
     if isscalar(earth):
-        n = NN(_UNDER_, name)
-        r = Radius_(earth, Error=TypeError)
-        E = Ellipsoid(r, r, name=n)
-        d = Datum(E, transform=Transforms.Identity, name=n)
+        n = _uname(name)
+        r =  Radius_(earth, Error=TypeError)
+        E =  Ellipsoid(r, r, name=n)
+        d =  Datum(E, transform=Transforms.Identity, name=n)
     else:
         d = _ellipsoidal_datum(earth, name=name)
     if raiser and not d.isSpherical:
         raise _IsnotError(_spherical_, earth=earth)
     return d
+
+
+def _uname(name):
+    '''(INTERNAL) Prefix C{name} with I{underscore}.
+    '''
+    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
 
 
 class Datums(_NamedEnum):

@@ -18,10 +18,10 @@ There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
 LatLon_ and a geocentric Cartesian_ class with methods and functions to
 compute distance, surface area, perimeter, initial and final bearing,
 intermediate and nearest points, circle intersections, path intersections,
-3-point resections, trilateration (by intersection, by overlap and in 3d),
-conversions and unrolling, among other things.  For more information and
-further details see the documentation_, the descriptions of
-`Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
+3-point resections, rhumb and rhumb lines, trilateration (by intersection,
+by overlap and in 3d), conversions and unrolling, among other things.  For
+more information and further details see the documentation_, the descriptions
+of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
 `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and
 `C++ GeographicLib`_.
 
@@ -151,7 +151,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: June 06, 2022.*
+*Last updated: June 09, 2022.*
 
 License
 =======

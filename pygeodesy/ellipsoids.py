@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.06.03'
+__version__ = '22.06.07'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -421,7 +421,7 @@ class Ellipsoid(_NamedEnumItem):
                                 eps=eps, f0=f0, **name_value))
 
     def auxAuthalic(self, lat, inverse=False):
-        '''Compute the I{authalic} auxiliary latitude or inverse thereof.
+        '''Compute the I{authalic} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{authalic}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{authalic} and
@@ -440,7 +440,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxAuthalic)
 
     def auxConformal(self, lat, inverse=False):
-        '''Compute the I{conformal} auxiliary latitude or inverse thereof.
+        '''Compute the I{conformal} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{conformal}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{conformal} and
@@ -459,7 +459,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxConformal)
 
     def auxGeocentric(self, lat, inverse=False):
-        '''Compute the I{geocentric} auxiliary latitude or inverse thereof.
+        '''Compute the I{geocentric} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{geocentric}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the geocentric and
@@ -478,7 +478,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxGeocentric)
 
     def auxIsometric(self, lat, inverse=False):
-        '''Compute the I{isometric} auxiliary latitude or inverse thereof.
+        '''Compute the I{isometric} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{isometric}) latitude (C{degrees}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{isometric} and
@@ -503,7 +503,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxIsometric, clip=0)
 
     def auxParametric(self, lat, inverse=False):
-        '''Compute the I{parametric} auxiliary latitude or inverse thereof.
+        '''Compute the I{parametric} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{parametric}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{parametric} and
@@ -523,7 +523,7 @@ class Ellipsoid(_NamedEnumItem):
     auxReduced = auxParametric  # synonyms
 
     def auxRectifying(self, lat, inverse=False):
-        '''Compute the I{rectifying} auxiliary latitude or inverse thereof.
+        '''Compute the I{rectifying} auxiliary latitude or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{rectifying}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{rectifying} and
@@ -923,16 +923,16 @@ class Ellipsoid(_NamedEnumItem):
             t = Scalar(tauf=T)
         return t
 
-    def _es_tauf3(self, taup, T):  # in .utm.Utm._toLLEB
-        '''(INTERNAL) Yield a 3-tuple C{(T, iteration, delta)} for up to
-           9 Newton iterations, converging rapidly except when C{delta}
+    def _es_tauf3(self, taup, T, N=9):  # in .utm.Utm._toLLEB
+        '''(INTERNAL) Yield a 3-tuple C{(T, iteration, delta)} for at most
+           B{C{N}} Newton iterations, converging rapidly except when C{delta}
            toggles on +/-1.12e-16 or +/-4.47e-16, see C{.utm.Utm._toLLEB}.
         '''
         e = self._1_e21
         _F2_ = Fsum(T).fsum2_  # τ0
         _h1  = hypot1
         _tf2 = self._es_taupf2
-        for i in range(1, 10):  # max 2, mean 1.999, 1.963 or 1.954
+        for i in range(1, N + 1):  # max 2, mean 1.999, 1.963 or 1.954
             a, h = _tf2(T)
             d = (taup - a) * (e + T**2) / (_h1(a) * h)
             # = (taup - a) / hypot1(a) / ((e + T**2) / h)

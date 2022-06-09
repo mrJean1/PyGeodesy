@@ -113,7 +113,7 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
 
-from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, unsigned0, \
+from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, neg, unsigned0, \
                              _xgeographiclib, _xImportError, _xversion_info, \
                              _xinstanceof, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
@@ -136,7 +136,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.06.06'
+__version__ = '22.06.08'
 
 _area_      = 'area'
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
@@ -1002,6 +1002,12 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     else:
         lon2 = _norm180(lon2)
     return (lon2 - lon1), lon2
+
+
+def _unsigned2(x):
+    '''(INTERNAL) Unsign B{C{x}}.
+    '''
+    return (neg(x), True) if _signBit(x) else (x, False)
 
 
 __all__ += _ALL_DOCS(_CapsBase)
