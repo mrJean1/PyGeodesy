@@ -111,8 +111,8 @@ scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).  The complete
 coverage report in HTML and a PDF summary are included in the
 distribution files.
 
-The tests also ran with Python 3.10.4 or 3.9.9 (and geographiclib_ 1.52)
-on `Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17
+The tests also ran with Python 3.10.5 (and geographiclib_ 2.0) on
+`Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17
 (all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in 64-
 and/or 32-bit.
 

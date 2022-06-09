@@ -129,8 +129,8 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.9.6 (wit
 (U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}).  The complete coverage report in HTML and
 a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.10.4 or 3.9.9 (and U{geographiclib<https://PyPI.org/project/geographiclib>}
-1.52) on U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python
+The tests also ran with Python 3.10.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0)
+on U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python
 3.9.6, 3.8.0 and 2.7.17 (all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on
 U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
 
