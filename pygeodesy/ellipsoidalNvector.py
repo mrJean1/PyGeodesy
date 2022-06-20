@@ -33,9 +33,8 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-from pygeodesy.ltpTuples import Aer as _Aer, Ned3Tuple as _Ned3Tuple, \
-                                Ned as _Ned, sincos2d_, _xinstanceof, \
-                                _xkwds, _xnamed
+from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, sincos2d_, \
+                               _xinstanceof, _xkwds, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
 from pygeodesy.nvectorBase import fdot, NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
@@ -46,7 +45,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.05.12'
+__version__ = '22.06.20'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -456,7 +455,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
 
 class Ned(_Ned):
-    '''DEPRECATED, use L{pygeodesy.Ned}.'''
+    '''DEPRECATED, use class L{pygeodesy.Ned}.'''
 
     def __init__(self, north, east, down, name=NN):
         deprecated_class(self.__class__)
@@ -464,7 +463,7 @@ class Ned(_Ned):
 
     @deprecated_method  # PYCHOK expected
     def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):
-        '''DEPRECATED, use L{ltpTuples.Aer}.
+        '''DEPRECATED, use class L{pygeodesy.Ned}.
 
            Return a string representation of this NED vector as
            length, bearing and elevation.
@@ -722,8 +721,8 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
         e  = sb * d * ce
         d *= se
 
-    r = _Ned3Tuple(n, e, -d) if Ned is None else \
-               Ned(n, e, -d)
+    r = _MODS.deprecated.Ned3Tuple(n, e, -d) if Ned is None else \
+                               Ned(n, e, -d)
     return _xnamed(r, name)
 
 

@@ -102,7 +102,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.XyzLocal-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xyz</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
@@ -300,10 +300,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.XyzLocal-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
-      Return a string representation of this ENU/XYZ.</td>
+        <span class="summary-sig-arg">**prec_fmt_sep</span>)</span><br />
+      Return a string representation of this XYZ.</td>
           <td align="right" valign="top">
             
             
@@ -624,7 +622,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xyz</span>,
+        <span class="sig-arg">x_xyz</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">0.0</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">0.0</span>,
         <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
@@ -641,8 +639,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xyz</code></strong> - Scalar X component (<code>meter</code>), <code>east</code> or a 
-          local (<a href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+        <li><strong class="pname"><code>x_xyz</code></strong> - Scalar X component (<code>meter</code>), <code>positive 
+          east</code> or a local (<a 
+          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
           class="link">XyzLocal</a>, <a 
           href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
           class="link">Xyz4Tuple</a>, <a 
@@ -651,11 +650,11 @@
           class="link">Enu4Tuple</a>, <a 
           href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Scalar Y component (<code>meter</code>) if scalar 
-          <b><code>xyz</code></b>, <code>north</code>.</li>
-        <li><strong class="pname"><code>z</code></strong> - Scalar Z component if scalar <b><code>xyz</code></b>, normal 
-          <code>up</code> from the surface of the ellipsoid or sphere 
-          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Scalar Y component (<code>meter</code>) for scalar 
+          <b><code>x_xyz</code></b>, <code>positive north</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Scalar Z component for scalar <b><code>x_xyz</code></b>, normal 
+          <code>positive up</code> from the surface of the ellipsoid or 
+          sphere (<code>meter</code>).</li>
         <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i>, (geodetic) origin (<a 
           href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
           href="pygeodesy.ltp.LocalCartesian-class.html" 
@@ -663,8 +662,8 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>xyz</code></b>, <b><code>ltp</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>x</code></b>, <b><code>y</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>x_xyz</code></b> or <b><code>ltp</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid scalar <b><code>x_xyz</code></b>, <b><code>y</code></b> or 
         <b><code>z</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -1001,26 +1000,25 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">3</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
+        <span class="sig-arg">**prec_fmt_sep</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return a string representation of this ENU/XYZ.</p>
+  <p>Return a string representation of this XYZ.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Number of (decimal) digits, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec_fmt_sep</code></strong> - Keyword arguments <code><b>prec</b>=3</code> for the number of 
+          (decimal) digits, unstripped (<code>int</code>), 
+          <code><b>fmt</b>='[]'</code> the enclosing backets format 
+          (<code>str</code>) and separator <code><b>sep</b>=', '</code> to 
+          join (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This XYZ/ENU as &quot;[meter, meter, meter]&quot; 
-          (<code>str</code>).</dd>
+        <dd>This XYZ as &quot;[meter, meter, meter]&quot; (<code>str</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -1499,7 +1497,7 @@ class="link">XyzLocal</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun  9 10:31:36 2022
+    Generated by Epydoc 3.0.1 on Mon Jun 20 10:18:47 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

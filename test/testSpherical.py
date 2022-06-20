@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.06.20'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -151,24 +151,26 @@ class Tests(_TestsLL, _TestsV):
             p = LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
             q = LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
             t = p.intersections2(0.0312705, q, 0.0421788, radius=None, height=0)  # radii in radians
-            self.test(n, latlonDMS(t, form=F_D, sep=', ', prec=6), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            s = ', '.join(latlonDMS(t, form=F_D, prec=6))
+            self.test(n, s, '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            s = ', '.join(latlonDMS(t, form=F_DEG_, prec=9))
             # 36.989311051533505, -88.15142628069133, 38.2383796094578, -92.39048549120287
-            self.test(n, latlonDMS(t, form=F_DEG_, sep=', ', prec=9), '36.989310429, -088.151425243, 38.238379679, -092.390486808', known=True)
+            self.test(n, s, '36.989310429, -088.151425243, 38.238379679, -092.390486808', known=True)
 
             t = LatLon(30, 0).intersections2(PI_4, LatLon(-30, 0), PI_4, radius=None)  # radii in radians
-            s = latlonDMS(t, form=F_D, sep=', ')
+            s = ', '.join(latlonDMS(t, form=F_D))
             self.test(n, s, '00.0°N, 035.26439°W, 00.0°N, 035.26439°E', known='S, ' in s)
 
             t = LatLon(0, 40).intersections2(PI_4, LatLon(0, -40), PI_4, radius=None)  # radii in radians
-            s = latlonDMS(t, form=F_D, sep=', ')
+            s = ', '.join(latlonDMS(t, form=F_D))
             self.test(n, s, '22.622036°N, 000.0°E, 22.622036°S, 000.0°E', known='W' in s)
 
             t = LatLon(30, 20).intersections2(PI_4, LatLon(-30, -20), PI_4, radius=None)  # radii in radians
-            s = latlonDMS(t, form=F_D, sep=', ')
+            s = ', '.join(latlonDMS(t, form=F_D))
             self.test(n, s, '14.612841°N, 026.110934°W, 14.612841°S, 026.110934°E')
 
             t = LatLon(0, 0).intersections2(PI_4, LatLon(0, 22.5), PI_4 / 2, radius=None)  # abutting
-            s = latlonDMS(t, form=F_D, sep=', ')
+            s = ', '.join(latlonDMS(t, form=F_D))
             self.test(n, s, '00.000001°S, 045.0°E, 00.000001°N, 045.0°E', known=True)  # N-S
 
             # centers at 2 opposite corners of a "square" and
@@ -181,9 +183,9 @@ class Tests(_TestsLL, _TestsV):
                 r = radians(2 * d) * R_M
                 t = p.intersections2(r, q, r, radius=R_M)
                 if t[0] is t[1]:
-                    s = latlonDMS(t[:1], form=F_D, sep=', ') + ' abutting'
+                    s = ', '.join(latlonDMS(t[:1], form=F_D)) + ' abutting'
                 else:
-                    s = latlonDMS(t, form=F_D, sep=', ')
+                    s = ', '.join(latlonDMS(t, form=F_D))
                 d = '%s %d' % (n, d)
                 self.test(d, s, s)
                 _, s = _100p2(t, r, q, p)
@@ -203,7 +205,7 @@ class Tests(_TestsLL, _TestsV):
                     d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                     if d2 < d:
                         d, i1, i2 = d2, i2, i1
-                    s = '%s  d %g meter' % (latlonDMS((i1, i2), form=F_D, sep=', '), d)
+                    s = '%s  d %g meter' % (', '.join(latlonDMS((i1, i2), form=F_D)), d)
                     self.test(n, s, s)
                     if d > d_m:
                         raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='over')

@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '22.03.02'
+__version__ = '22.06.20'
 
 from base import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -142,7 +142,8 @@ class Tests(TestsBase):
             m = _mod_line(m, py[:L])
             n = py[L + len(_LINK):i + len(_N)]
             t = ' '.join(py[L:c + len(_B_)].split())
-            self.test(m, t, _Ndict.get(n, 'signature'))
+            # DEPRECATED Ned3Tuple in DEPRECATED .ellipsoidalNvector.toNed
+            self.test(m, t, _Ndict.get(n, 'signature'), known=n == 'Ned3Tuple')
 
     def testNamed_xtend(self, namedTuples):
         self.subtitle(namedTuples, 'ing %s ' % ('xtend',))

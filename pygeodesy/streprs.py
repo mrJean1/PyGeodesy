@@ -5,7 +5,7 @@ u'''Floating point and other formatting utilities.
 
 '''
 
-from pygeodesy.basics import isint, isscalar, istuplist
+from pygeodesy.basics import isint, isscalar, istuplist, _zip
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
@@ -17,7 +17,7 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.04.22'
+__version__ = '22.06.15'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 _OKd_   = '._-'  # acceptable name characters
@@ -352,11 +352,11 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
         elif not isinstance(items, (list, tuple)):
             items = tuple(items)
         # can't unzip empty items tuple, list, etc.
-        n, v = zip(*items) if items else ((), ())
+        n, v = _zip(*items) if items else ((), ())  # strict=True
     except (TypeError, ValueError):
         raise _IsnotError(dict.__name__, '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
-    return tuple(sep.join(t) for t in zip(map(str, n), v))
+    return tuple(sep.join(t) for t in _zip(map(str, n), v))  # strict=True
 
 
 def _pct(fmt):
@@ -485,10 +485,13 @@ def _xattrs(insto, other, *attrs):
     return insto
 
 
-def _xzipairs(lefts, rights, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):
-    '''(INTERNAL) Zip C{lefts} and C{rights} into a C{str}.
+def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):
+    '''(INTERNAL) Zip C{names} and C{values} into a C{str}, joined and bracketed.
     '''
-    t = sep.join(pair_fmt(*t) for t in zip(lefts, rights))
+    try:
+        t = sep.join(pair_fmt(*t) for t in _zip(names, values))  # strict=True
+    except Exception as x:
+        raise _ValueError(names=names, values=values, txt=str(x))
     return (fmt % (t,)) if fmt else t
 
 # **) MIT License

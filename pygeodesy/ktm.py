@@ -42,14 +42,15 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isodd, istuplist, neg, neg_
+from pygeodesy.basics import copysign0, isfinite, isint, isodd, \
+                             istuplist, neg, neg_
 from pygeodesy.datums import Ellipsoid2, _spherical_datum
-# from pygeodesy.ellipsoids import Ellipsoid2  # from .datum
+# from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
 from pygeodesy.errors import _or, _ValueError, _xkwds_get
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
                              _K0_UTM, _not_, _singular_, _UNDER_, \
-                             _0_0, _0_5, _1_0, _90_0, _180_0
+                             _0_0, _1_0, _90_0, _180_0
 from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _unsigned2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -61,10 +62,10 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atand, sincos2d_
 
-from math import atan2, asinh, cos, cosh, sin, sinh, sqrt, tanh
+from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.06.08'
+__version__ = '22.06.19'
 
 
 class KTMError(_ValueError):
@@ -74,7 +75,7 @@ class KTMError(_ValueError):
 
 
 class KTransverseMercator(_NamedBase):
-    '''Transverse Mercator projection based ons Krüger's method which evaluates the
+    '''Transverse Mercator projection based on Krüger's method which evaluates the
        projection and its inverse in terms of a series.
 
        There's a singularity in the projection at I{phi = 0, lam - lam0 = +/- (1 - e)
@@ -101,24 +102,27 @@ class KTransverseMercator(_NamedBase):
        convergence is the bearing of grid North, the C{y axis}, measured clockwise
        from true North.
     '''
-    _E    = _EWGS84
-    _k0   = _K0_UTM  # central scale factor
-    _lon0 = _0_0     # central meridian
-    _mTM  =  6
+    _E      = _EWGS84
+    _k0     = _K0_UTM  # central scale factor
+    _lon0   = _0_0     # central meridian
+    _mTM    =  6
+    _raiser =  False   # throw Error
 
-    def __init__(self, a_earth=_EWGS84, f=None, lon0=0, k0=_K0_UTM, name=NN, **TMorder):
+    def __init__(self, a_earth=_EWGS84, f=None, lon0=0, k0=_K0_UTM, name=NN,
+                                                raiser=False, **TMorder):
         '''New L{KTransverseMercator}.
 
            @kwarg a_earth: This rhumb's earth (L{Ellipsoid}, L{Ellipsoid2},
                            L{a_f2Tuple}, L{Datum}, 2-tuple (C{a, f})) or the
-                           equatorial radius (C{scalar}).
+                           equatorial radius (C{scalar}, C{meter}).
            @kwarg f: The ellipsoid's flattening (C{scalar}), iff B{C{a_earth}} is
                      a C{scalar}, ignored otherwise.
            @kwarg lon0: The central meridian (C{degrees180}).
            @kwarg k0: Central scale factor (C{scalar}).
            @kwarg name: Optional name (C{str}).
-           @kwarg TMorder: Optional keyword argument B{C{TMorder}}, see property
-                           C{TMorder}.
+           @kwarg raiser: If C{True}, throw a L{KTMError} for C{forward}
+                          singularities (C{bool}).
+           @kwarg TMorder: Keyword argument B{C{TMorder}}, see property C{TMorder}.
 
            @raise KTMError: Invalid B{C{a_earth}}, B{C{f}} or B{C{TMorder}}.
         '''
@@ -126,13 +130,14 @@ class KTransverseMercator(_NamedBase):
             self.ellipsoid = a_earth, f
         elif a_earth not in (_EWGS84, None):
             self.ellipsoid = a_earth
-        if lon0:
-            self.lon0 = lon0
+        self.lon0 = lon0
         self.k0 = k0
         if name:  # PYCHOK no cover
             self.name = name
+        if raiser:
+            self.raiser = True
         if TMorder:
-            self.TMorder = _xkwds_get(TMorder, TMorder=6)
+            self.TMorder = _xkwds_get(TMorder, TMorder=KTransverseMercator._mTM)
 
     @Property_RO
     def _Alp(self):
@@ -140,20 +145,25 @@ class KTransverseMercator(_NamedBase):
 
     @Property_RO
     def _b1(self):
+        n  =  self.ellipsoid.n
         m  =  self.TMorder // 2
         B1 = _B1Coeffs[m]
         m +=  1
-        n_ =  self.ellipsoid.n
-        return _polynomial(n_**2, B1, 0, m) / (B1[m] * (n_ + _1_0))
+        return _polynomial(n**2, B1, 0, m) / (B1[m] * (n + _1_0))
 
     @Property_RO
     def _Bet(self):
         C = _Xs(_BetCoeffs, self.TMorder, self.ellipsoid)
         return tuple(map(neg, C))  # negated!
 
+    @Property_RO
+    def _cmath_polar(self):
+        from cmath import polar
+        return polar
+
     @Property
     def ellipsoid(self):
-        '''Get the ellipsoid (L{Ellipsoid}) or C{None}.
+        '''Get the ellipsoid (L{Ellipsoid}).
         '''
         return self._E
 
@@ -183,22 +193,22 @@ class KTransverseMercator(_NamedBase):
 
     f = flattening
 
-    def forward(self, lat, lon, lon0=None, name=NN, raiser=False):
+    def forward(self, lat, lon, lon0=None, name=NN):
         '''Forward projection, from geographic to transverse Mercator.
 
            @arg lat: Latitude of point (C{degrees90}).
            @arg lon: Longitude of point (C{degrees180}).
            @arg lon0: Central meridian of the projection (C{degrees180}).
            @kwarg name: Optional name (C{str}).
-           @kwarg raiser: Throw a L{KTMError} at singulaties (C{bool}),
-                          otherwise return C{NAN}.
 
            @return: L{Forward4Tuple}C{(easting, northing, convergence, scale)}
                     with C{easting} and C{northing} in C{meter}, unfalsed, the
                     I{gamma} meridian C{convergence} at point in C{degrees180}
-                    and I{k} C{scale} of projection at point C{scalar}.
+                    and I{k} C{scale} of projection at point C{scalar}.  Any
+                    value may be C{NAN}, C{NINF} or C{INF} for singularities.
 
-           @raise KTMError:
+           @raise KTMError: For singularities, iff property C{raiser} is
+                            C{True}.
         '''
         lat, _lat = _unsigned2(_fix90(lat))
         lon, _    = _diff182((self.lon0 if lon0 is None else lon0), lon)
@@ -220,7 +230,7 @@ class KTransverseMercator(_NamedBase):
                 etap = asinh(slam / h)  # atanh(sin(lam) / cosh(psi))
                 g = _atan2d(slam * tp, clam * hypot1(tp))  # Krueger p 22 (44)
                 k =  sqrt(E.e21 + E.e2 * cphi**2) * hypot1(t) / h
-            elif raiser:
+            elif self.raiser:
                 raise KTMError(lat=lat, lon=lon, lon0=lon0, txt=_singular_)
             else:  # PYCHOK no cover
                 xip, etap = _0_0, (NINF if slam < 0 else INF)
@@ -287,6 +297,19 @@ class KTransverseMercator(_NamedBase):
         '''
         self._lon0 = _norm180(Degrees(lon0=lon0, Error=KTMError))
 
+    @property_doc_(''' raise a L{KTMError} for C{forward} singularities (C{bool}).''')
+    def raiser(self):
+        '''Get the error setting (C{bool}).
+        '''
+        return self._raiser
+
+    @raiser.setter  # PYCHOK setter!
+    def raiser(self, raiser):
+        '''Set the error setting (C{bool}), to C{True} to throw a L{KTMError}
+           for C{forward} singularities.
+        '''
+        self._raiser = bool(raiser)
+
     def reverse(self, x, y, lon0=None, name=NN):
         '''Reverse projection, from transverse Mercator to geographic.
 
@@ -345,10 +368,10 @@ class KTransverseMercator(_NamedBase):
     def TMorder(self, order):
         '''Set the I{Transverse Mercator} order (C{int}, 4, 5, 6, 7 or 8).
         '''
-        n = _Xorder(_AlpCoeffs, KTMError, TMorder=order)
-        if self._mTM != n:
+        m = _Xorder(_AlpCoeffs, KTMError, TMorder=order)
+        if self._mTM != m:
             _update_all(self)
-            self._mTM = n
+            self._mTM = m
 
     def toStr(self, **kwds):
         '''Return a C{str} representation.
@@ -364,6 +387,7 @@ class KTransverseMercator(_NamedBase):
         '''(INTERNAL) Complex Clenshaw summation
            with C{B{C}=_Alp} or C{B{C}=-_Bet}.
         '''
+        x = complex(xi_, eta_)
         if self.flattening:  # isEllipsoidal
             s0, sh0 = sin(xi_ * 2), sinh(eta_ * 2)
             c0, ch0 = cos(xi_ * 2), cosh(eta_ * 2)
@@ -375,7 +399,9 @@ class KTransverseMercator(_NamedBase):
                 y0 = complex(Cn)  # +j0
                 z0 = complex(Cn * (n * 2))
                 n -= 1
-            a = complex(c0 * ch0, -s0 * sh0) * 2  # cos(zeta * 2) * 2
+            s = complex(s0 * ch0,  c0 * sh0)  # sin(zeta * 2)
+            c = complex(c0 * ch0, -s0 * sh0)  # cos(zeta * 2)
+            a = c * 2  # cos(zeta * 2) * 2
             while n > 0:
                 Cn = C[n]
                 y1 = a * y0 - y1 + Cn
@@ -385,19 +411,18 @@ class KTransverseMercator(_NamedBase):
                 y0 = a * y1 - y0 + Cn
                 z0 = a * z1 - z0 + Cn * (n * 2)
                 n -= 1
-            a *= _0_5  # cos(zeta * 2)
-            z1 = _1_0 - z1 + a * z0
-            g  = _atan2d(z1.imag, z1.real)
-            k  =  abs(z1)
-
-            a  = complex(s0 * ch0, c0 * sh0)  # sin(zeta * 2)
-            y1 = complex(xi_, eta_) + a * y0
-            y, x = y1.real, y1.imag
-
+            # assert n == 0
+            x += y0 * s
+            c *= z0
+            c -= z1 - _1_0
+            if isfinite(c.real) and isfinite(c.imag):
+                k, g = abs(c), _atan2d(c.imag, c.real)
+            else:
+                k, g = self._cmath_polar(c)
+                g = degrees(g)
         else:  # isSpherical
-            y, x =  xi_,  eta_
             g, k = _0_0, _1_0
-        return y, x, g, k
+        return x.real, x.imag, g, k
 
 
 def _Xellipsoid(a_earth_f, Error, name=_UNDER_):  # in .rhumbx
@@ -414,15 +439,11 @@ def _Xellipsoid(a_earth_f, Error, name=_UNDER_):  # in .rhumbx
 def _Xorder(_Coeffs, Error, **Xorder):  # in .rhumbx
     '''(INTERNAL) Validate C{RAorder} or C{TMorder}.
     '''
-    try:
-        Xorder, order = Xorder.popitem()
-        n = int(order)
-        if n not in _Coeffs:
-            t = sorted(map(str, _Coeffs.keys()))
-            raise ValueError(_not_(_or(*t)))
-    except (IndexError, TypeError, ValueError) as x:
-        raise Error(Xorder, order, txt=str(x))
-    return n
+    X, m = Xorder.popitem()
+    if m in _Coeffs and isint(m):
+        return m
+    t = sorted(map(str, _Coeffs.keys()))
+    raise Error(X, m, txt=_not_(_or(*t)))
 
 
 def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
@@ -435,11 +456,11 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
                        ((m + 3) *  m)) // 2
     n = E.n
     if n:
-        n_, X = n, [0]  # X[0] never used, it ...
-        # ... is just an integration constant, so
-        # it cancels when evaluating a definite
-        # integral.  Don't bother computing it, it's
-        # not used when invoking C{_sincosSeries}.
+        n_, X = n, [0]  # X[0] never used, it is just an
+        # integration constant, it cancels when evaluating
+        # a definite integral.  Don't bother computing it,
+        # it is not used in C{KTransverseMercator._yxgk4}
+        # above nor in C{rhumbx._sincosSeries}.
         i = (m + 2) if RA else 0
         for r in range(m - 1, -1, -1):  # [m-1 ... 0]
             j = i + r + 1
@@ -537,6 +558,13 @@ _BetCoeffs = {  # Generated by Maxima on 2015-05-14 22:55:13-04:00
 }
 
 assert set(_AlpCoeffs.keys()) == set(_BetCoeffs.keys())
+
+if __name__ == '__main__':
+
+    from pygeodesy.interns import _usage
+    from sys import argv, exit as _exit
+
+    _exit(_usage(*argv).replace('.ktm', '.etm -series'))
 
 # **) MIT License
 #

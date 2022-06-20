@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '21.11.28'
+__version__ = '22.06.18'
 
 
 def _main():  # PYCHOK no cover
@@ -14,6 +14,7 @@ def _main():  # PYCHOK no cover
 
     try:
         from pygeodesy import _isfrozen, isLazy, pygeodesy_abspath, version
+        from pygeodesy.basics import _xgeographiclib, _xnumpy, _xscipy
         from pygeodesy.interns import _COMMASPACE_, _floats, _pygeodesy_abspath_, \
                                       _pythonarchine, _SPACE_, _usage, _version_
         from pygeodesy.lazily import _a_l_l_, _all_imports, printf
@@ -29,25 +30,18 @@ def _main():  # PYCHOK no cover
                                      ('_floats',      len(_floats)),
                                      (_a_l_l_, len(_all_imports())))]
 
-        def _name_version(pkg):
-            return _SPACE_(pkg.__name__, pkg.__version__)
+        def _nv(_xpkg, v):
+            try:
+                pkg = _xpkg(_main)
+            except ImportError:
+                pkg = None
+            if pkg is not None:
+                v.append(_SPACE_(pkg.__name__, pkg.__version__))
 
         v = _pythonarchine()
-        try:
-            import geographiclib
-            v.append(_name_version(geographiclib))
-        except ImportError:
-            pass
-        try:
-            import numpy
-            v.append(_name_version(numpy))
-        except ImportError:
-            pass
-        try:
-            import scipy
-            v.append(_name_version(scipy))
-        except ImportError:
-            pass
+        _nv(_xgeographiclib, v)
+        _nv(_xnumpy, v)
+        _nv(_xscipy, v)
 
         x = os_path.basename(pygeodesy_abspath)
         printf('%s%s (%s)', x, _COMMASPACE_.join(p), _COMMASPACE_.join(v))

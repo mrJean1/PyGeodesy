@@ -14,7 +14,7 @@ standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, len2, _xcopy, _xdup
+                             issubclassof, len2, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.05.23'
+__version__ = '22.06.15'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -954,7 +954,7 @@ class _NamedTuple(tuple, _Named):
 
            @see: Method C{.units}.
         '''
-        for n, v in zip(self._Names_, self):
+        for n, v in _zip(self._Names_, self):  # strict=True
             yield n, v
 
     iteritems = items
@@ -1019,7 +1019,7 @@ class _NamedTuple(tuple, _Named):
 
            @see: Method C{.items}.
         '''
-        for n, v, U in zip(self._Names_, self, self._Units_):
+        for n, v, U in _zip(self._Names_, self, self._Units_):  # strict=True
             if not (v is None or U is None
                               or (isclass(U) and
                                   isinstance(v, U) and

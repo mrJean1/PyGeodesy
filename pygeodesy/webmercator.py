@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '22.04.22'
+__version__ = '22.06.15'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -218,7 +218,8 @@ class Wm(_NamedBase):
            @raise WebMercatorError: Invalid B{C{radius}}.
         '''
         t = self.toStr(prec=prec, sep=None, radius=radius)
-        return _xzipairs((_x_, _y_, _radius_), t, sep=sep, fmt=fmt)
+        n = (_x_, _y_, _radius_)[:len(t)]
+        return _xzipairs(n, t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=3, fmt=Fmt.F, sep=_SPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.

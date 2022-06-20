@@ -8,7 +8,8 @@ Pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, istuplist, map1
+from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, istuplist, \
+                             map1, _zip
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
 from pygeodesy.fmath import euclid_, fdot, fsum1_, hypot_, hypot2_
 # from pygeodesy.fsums import fsum1_  # from .fmath
@@ -17,7 +18,8 @@ from pygeodesy.interns import EPS, EPS0, INT0, NN, PI, PI2, _coincident_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 from pygeodesy.namedTuples import Vector3Tuple
-from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_, _update_all
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
 # from pygeodesy.utily import sincos2  # in Vector3dBase.rotate below
@@ -25,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.05.06'
+__version__ = '22.06.16'
 
 
 class Vector3dBase(_NamedBase):
@@ -41,9 +43,9 @@ class Vector3dBase(_NamedBase):
     _crosserrors = True  # un/set by .errors.crosserrors
 
     _ll = None  # original latlon, '_fromll'
-    _x  = 0     # X component
-    _y  = 0     # Y component
-    _z  = 0     # Z component
+    _x  = INT0  # X component
+    _y  = INT0  # Y component
+    _z  = INT0  # Z component
 
     def __init__(self, x_xyz, y=INT0, z=INT0, ll=None, name=NN):
         '''New L{Vector3d} or C{Vector3dBase} instance.
@@ -419,7 +421,7 @@ class Vector3dBase(_NamedBase):
             _f2 = fun2
 
         x_y_z = _other_x_y_z3(other_x, y_z)
-        x_y_z = (_f2(a, b) for a, b in zip(self.xyz, x_y_z))
+        x_y_z = (_f2(a, b) for a, b in _zip(self.xyz, x_y_z))  # strict=True
         return self.classof(*x_y_z)
 
     def cross(self, other, raiser=None, eps0=EPS):  # raiser=NN
@@ -820,8 +822,8 @@ class Vector3dBase(_NamedBase):
         '''Set the X component, if different (C{float}).
         '''
         x = Float(x=x)
-        if self.x != x:
-            self._update(True)
+        if self._x != x:
+            _update_all(self)
             self._x = x
 
     @Property
@@ -845,7 +847,7 @@ class Vector3dBase(_NamedBase):
         '''(INTERNAL) Set the C{_x}, C{_y} and C{_z} attributes.
         '''
         if len(self.__dict__) > 3:  # any other than initial ._x, ._y and ._z attrs
-            self._update(True)
+            _update_all(self)
         try:
             self._x, \
             self._y, \
@@ -871,8 +873,8 @@ class Vector3dBase(_NamedBase):
         '''Set the Y component, if different (C{float}).
         '''
         y = Float(y=y)
-        if self.y != y:
-            self._update(True)
+        if self._y != y:
+            _update_all(self)
             self._y = y
 
     @Property
@@ -886,8 +888,8 @@ class Vector3dBase(_NamedBase):
         '''Set the Z component, if different (C{float}).
         '''
         z = Float(z=z)
-        if self.z != z:
-            self._update(True)
+        if self._z != z:
+            _update_all(self)
             self._z = z
 
 
@@ -905,7 +907,7 @@ def _xyzkwds(y_z, **xyz):  # PYCHOK no cover
     '''(INTERANL) Helper for C{_other_x_y_z3} and C{Vector3dBase._xyz}.
     '''
     if y_z:
-        d = dict(zip((_y_, _z_), y_z))  # if y_z else {}
+        d = dict(_zip((_y_, _z_), y_z))  # if y_z else {}, strict=True
         for x in xyz.values():
             d.update(x=x)
             return d

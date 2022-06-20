@@ -26,14 +26,14 @@ from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
                                _NamedBase, _XyzLocals4, _XyzLocals5, Xyz4Tuple
 # from pygeodesy.named import _NamedBase  # from .ltpTuples
 # from pygeodesy.namedTuples import Vector3Tuple  # from .vector3d
-from pygeodesy.props import Property, property_doc_, Property_RO
+from pygeodesy.props import Property, property_doc_, Property_RO, _update_all
 from pygeodesy.streprs import _ALL_LAZY, Fmt, strs
 from pygeodesy.units import Bearing, Degrees, Meter
 from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wrap360
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.05.14'
+__version__ = '22.06.16'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -99,8 +99,9 @@ class Attitude(_NamedBase):
     @alt.setter  # PYCHOK setter!
     def alt(self, alt):  # PYCHOK no cover
         a = Meter(alt=alt, Error=AttitudeError)
-        self._update(a != self.alt)
-        self._alt = a
+        if self._alt != a:
+            _update_all(self)
+            self._alt = a
 
     altitude = alt
 
@@ -130,8 +131,9 @@ class Attitude(_NamedBase):
     @roll.setter  # PYCHOK setter!
     def roll(self, roll):
         r = Degrees(roll=roll, wrap=wrap180, Error=AttitudeError)
-        self._update(r != self.roll)
-        self._roll = r
+        if self._roll != r:
+            _update_all(self)
+            self._roll = r
 
     bank = roll
 
@@ -181,8 +183,9 @@ class Attitude(_NamedBase):
     @tilt.setter  # PYCHOK setter!
     def tilt(self, tilt):
         t = Degrees(tilt=tilt, wrap=wrap180, Error=AttitudeError)
-        self._update(t != self.tilt)
-        self._tilt = t
+        if self._tilt != t:
+            _update_all(self)
+            self._tilt = t
 
     elevation = pitch = tilt
 
@@ -216,8 +219,9 @@ class Attitude(_NamedBase):
     @yaw.setter  # PYCHOK setter!
     def yaw(self, yaw):
         y = Bearing(yaw=yaw, Error=AttitudeError)
-        self._update(y == self.yaw)
-        self._yaw = y
+        if self._yaw != y:
+            _update_all(self)
+            self._yaw = y
 
     bearing = heading = yaw
 
@@ -274,7 +278,7 @@ class Frustum(_NamedBase):
                        frustum's C{ltp}.
 
            @return: A L{Footprint5Tuple}C{(center, upperleft, upperight, loweright,
-                    lowerleft)} with the C{center} and 4 corners each an L{Xyz4Tuple}.
+                    lowerleft)} with the C{center} and 4 corners, each an L{Xyz4Tuple}.
 
            @raise TypeError: Invalid B{C{ltp}}.
 
@@ -567,7 +571,7 @@ class LocalCartesian(_NamedBase):
                               C{scalar} for C{scalar} B{C{latlonh0}} or
                               invalid or if B{C{height0}} invalid.
         '''
-        self._update(True)  # force reset
+        _update_all(self)  # force reset
 
         lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0,
                                         suffix=_0_, Error=LocalError, name=name)

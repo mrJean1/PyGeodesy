@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.06.07'
+__version__ = '22.06.17'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -293,7 +293,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self is other or (isinstance(other, Ellipsoid) and
                                   self.a == other.a and
-                                 (self.b == other.b or self.f == other.f))
+                                 (self.f == other.f or self.b == other.b))
 
     @Property_RO
     def a(self):
@@ -955,9 +955,12 @@ class Ellipsoid(_NamedEnumItem):
     def _es_taupf2(self, tau):
         '''(INTERNAL) Return 2-tuple C{(es_taupf(tau), hypot1(tau))}.
         '''
-        h = hypot1(tau)
-        s = sinh(self._es_atanh(tau / h))
-        a = hypot1(s) * tau - h * s
+        if _isfinite(tau):
+            h = hypot1(tau)
+            s = sinh(self._es_atanh(tau / h))
+            a = hypot1(s) * tau - h * s
+        else:
+            a, h = tau, INF
         return a, h
 
     @Property_RO

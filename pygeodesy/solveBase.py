@@ -4,7 +4,7 @@
 u'''(INTERNAL) Module with base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumbsolve}.
 '''
 
-from pygeodesy.basics import map2, ub2str
+from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, _EQUAL_, \
                              _not_, _SPACE_
@@ -12,7 +12,7 @@ from pygeodesy.karney import Caps, _CapsBase, _ellipsoid, _EWGS84, GDict, \
                              Precision_, unroll180
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
 from pygeodesy.named import callername, notOverloaded
-from pygeodesy.props import Property, Property_RO, property_RO
+from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 # from pygeodesy.units import Precision_  # from .karney
 # from pygeodesy.utily import unroll180  # from .karney
@@ -20,7 +20,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.05.29'
+__version__ = '22.06.16'
 
 _Error_ = 'Error'
 _ERROR_ = 'ERROR'
@@ -90,8 +90,9 @@ class _SolveLineSolveBase(_CapsBase):
            @arg Exact: If C{True} use I{exact} version (C{bool}).
         '''
         Exact = bool(Exact)
-        self._update(Exact != self.Exact)
-        self._Exact = Exact
+        if self._Exact != Exact:
+            _update_all(self)
+            self._Exact = Exact
 
     @Property_RO
     def f(self):
@@ -109,7 +110,7 @@ class _SolveLineSolveBase(_CapsBase):
         t = self._invoke(cmd, stdin=i).lstrip().split()  # 12-/+ tuple
         if len(t) > N:  # PYCHOK no cover
             # unzip instrumented name=value pairs to names and values
-            n, v = zip(*(p.split(_EQUAL_) for p in t[:-N]))
+            n, v = _zip(*(p.split(_EQUAL_) for p in t[:-N]))  # strict=True
             v += tuple(t[-N:])
             n += Names
         else:
@@ -118,7 +119,7 @@ class _SolveLineSolveBase(_CapsBase):
             self._print(_COMMASPACE_.join(map(Fmt.EQUAL, n, map(fstrzs, v))))
         if floats:
             v = map(float, v)
-        r = GDict(zip(n, v))
+        r = GDict(_zip(n, v))  # strict=True
         return self._iter2tion(r, r)
 
     @property_RO
@@ -205,8 +206,9 @@ class _SolveLineSolveBase(_CapsBase):
                   B{prec} - 12} or at most C{millimeter} I{squared}.
         '''
         prec = Precision_(prec=prec, high=DIG)
-        self._update(prec != self.prec)
-        self._prec = prec
+        if self._prec != prec:
+            _update_all(self)
+            self._prec = prec
 
     def _print(self, line):  # PYCHOK no cover
         '''(INTERNAL) Print a status line.
@@ -228,23 +230,26 @@ class _SolveLineSolveBase(_CapsBase):
            @arg reverse2: If C{True} reverse C{azi2} (C{bool}).
         '''
         reverse2 = bool(reverse2)
-        self._update(reverse2 != self.reverse2)
-        self._reverse2 = reverse2
+        if self._reverse2 != reverse2:
+            _update_all(self)
+            self._reverse2 = reverse2
 
     def _setSolve(self, path, **Solve_path):
         '''(INTERNAL) Set the executable C{path}.
         '''
         hold = self._Solve_path
-        self._update(path != hold)
-        self._Solve_path = path
+        if hold != path:
+            _update_all(self)
+            self._Solve_path = path
         try:
             _ = self.version  # test path and ...
             if self.status:  # ... return code
                 raise self._Error(status=self.status, txt=_not_(_0_), **Solve_path)
             hold = path
         finally:  # restore in case of error
-            self._update(hold != self._Solve_path)
-            self._Solve_path = hold
+            if self._Solve_path != hold:
+                _update_all(self)
+                self._Solve_path = hold
 
     @property_RO
     def status(self):
@@ -267,8 +272,9 @@ class _SolveLineSolveBase(_CapsBase):
                         otherwise don't (C{bool}).
         '''
         unroll = bool(unroll)
-        self._update(unroll != self.unroll)
-        self._unroll = unroll
+        if self._unroll != unroll:
+            _update_all(self)
+            self._unroll = unroll
 
     @property
     def verbose(self):

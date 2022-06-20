@@ -1,7 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Some, basic definitions and functions.
+u'''Some, basic definitions, functions and dependencies.
+
+Use env variable C{PYGEODESY_XPACKAGES} to avoid import of dependencies
+C{geographiclib}, C{numpy} and/or C{scipy}.  Set C{PYGEODESY_XPACKAGES}
+to a comma-separated list of package names to be excluded from import.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
@@ -13,22 +17,26 @@ del division
 from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
                              _TypesError, _ValueError, _xError, _xkwds_get
 from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
-                             _by_, _DOT_, _INF_, _invalid_, _N_A_, _name_, \
-                             _NAN_, _SPACE_, _UNDER_, _utf_8_, _version_, \
+                             _by_, _DOT_, _enquote, _EQUAL_, _in_, _INF_, \
+                             _invalid_, _N_A_, _name_, _NAN_, _SPACE_, \
+                             _splituple, _UNDER_, _utf_8_, _version_, \
                              _0_0, _0_5, _1_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
+                             _getenv, _sys_version_info2
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.05.09'
+__version__ = '22.06.19'
 
 _below_       = 'below'
 _ELLIPSIS4_   = '....'
 _INF_NAN_NINF = {INF: _INF_, NAN: _NAN_, NINF: 'NINF'}
 _odd_         = 'odd'
 _required_    = 'required'
+_PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
+_XPACKAGES    = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints, Real as _Scalars
@@ -164,7 +172,18 @@ def iscomplex(obj):
        @return: C{True} if B{C{obj}} is C{complex},
                 C{False} otherwise.
     '''
+    # hasattr('conjugate'), hasattr('real') and hasattr('imag')
     return isinstance(obj, complex)  # numbers.Complex?
+
+
+try:
+    from math import isfinite as _isfinite  # in .ellipsoids, .fsums, .karney
+except ImportError:  # Python 3.1-
+
+    def _isfinite(x):
+        '''Mimick Python 3.2+ C{math.isfinite}.
+        '''
+        return not (isinf(x) or isnan(x))
 
 
 def isfinite(obj):
@@ -178,20 +197,13 @@ def isfinite(obj):
        @raise TypeError: Non-scalar B{C{obj}}.
     '''
     try:
-        return (obj not in _INF_NAN_NINF) or _isfinite(obj)
+        return (obj not in _INF_NAN_NINF) and _isfinite(obj)
     except Exception as x:
-        P = _MODS.streprs.Fmt.PAREN
-        raise _xError(x, P(isfinite.__name__, obj))
-
-
-try:
-    from math import isfinite as _isfinite  # in .ellipsoids, .fsums, .karney
-except ImportError:  # Python 3.1-
-
-    def _isfinite(x):
-        '''Mimick Python 3.2+ C{math.isfinite}.
-        '''
-        return not (isinf(x) or isnan(x))
+        if not iscomplex(obj):
+            P = _MODS.streprs.Fmt.PAREN
+            raise _xError(x, P(isfinite.__name__, obj))
+    # _isfinite(complex) thows TypeError
+    return isfinite(obj.real) and isfinite(obj.imag)
 
 
 try:
@@ -615,6 +627,7 @@ def _xgeographiclib(where, *required):
     '''(INTERNAL) Import C{geographiclib} and check required version
     '''
     try:
+        _xpackage(_xgeographiclib)
         import geographiclib
     except ImportError as x:
         raise _xImportError(x, where)
@@ -648,10 +661,21 @@ def _xnumpy(where, *required):
     '''(INTERNAL) Import C{numpy} and check required version
     '''
     try:
+        _xpackage(_xnumpy)
         import numpy
     except ImportError as x:
         raise _xImportError(x, where)
     return _xversion(numpy, where, *required)
+
+
+def _xpackage(_xpkg):
+    '''(INTERNAL) Check dependency to be excluded.
+    '''
+    n = _xpkg.__name__[2:]
+    if n in _XPACKAGES:
+        x = _SPACE_(n, _in_, _PYGEODESY_XPACKAGES_)
+        e = _enquote(_getenv(_PYGEODESY_XPACKAGES_, NN))
+        raise ImportError(_EQUAL_(x, e))
 
 
 def _xor(x, *xs):
@@ -666,6 +690,7 @@ def _xscipy(where, *required):
     '''(INTERNAL) Import C{scipy} and check required version
     '''
     try:
+        _xpackage(_xscipy)
         import scipy
     except ImportError as x:
         raise _xImportError(x, where)
@@ -717,12 +742,19 @@ def _xversion_info(package):  # in .karney
 def _xwhere(where, **name):
     '''(INTERNAL) Get the fully qualified name.
     '''
-    from pygeodesy.named import modulename
-    m = modulename(where, prefixed=True)
-    n = name.get(_name_, NN)
+    m = _MODS.named.modulename(where, prefixed=True)
+    n =  name.get(_name_, NN)
     if n:
         m = _DOT_(m, n)
     return m
+
+
+if _sys_version_info2 < (3, 10):
+    _zip = zip  # PYCHOK exported
+else:  # Python 3.10+
+
+    def _zip(*args):
+        return zip(*args, strict=True)
 
 # **) MIT License
 #

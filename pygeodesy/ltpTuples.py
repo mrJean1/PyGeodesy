@@ -21,8 +21,8 @@ from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
-from pygeodesy.props import deprecated_class, deprecated_method, \
-                            deprecated_Property_RO, Property_RO, property_RO
+from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
+                            Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Degrees_, Height, Lat, Lon, \
                             Meter, Meter_
@@ -32,10 +32,12 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.05.12'
+__version__ = '22.06.20'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
+_enu_        = 'enu'
+_ned_        = 'ned'
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
 _tilt_       = 'tilt'
@@ -47,6 +49,19 @@ def _er2gr(e, r):
     '''
     c = cos(radians(e))
     return Meter_(groundrange=r * c)
+
+
+def _toStr2(inst, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_):
+    '''(INTERNAL) Get attribute name and value strings, joined and bracketed.
+    '''
+    a = inst._toStr  # 'aer', 'enu', 'ned', 'xyz'
+    t = getattr(inst, a + _4_)[:len(a)]
+    t = strs(t, prec=3 if prec is None else prec)
+    if sep:
+        t = sep.join(t)
+        if fmt:
+            t = fmt(t)
+    return a, t
 
 
 def _4Tuple2Cls(inst, Cls, Cls_kwds):
@@ -190,18 +205,19 @@ class Aer(_NamedBase):
              fstr( self.slantrange, prec=3 if prec is None else prec))
         return _xzipairs(self._toStr.upper(), t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this ENU/NED/AER.
+    def toStr(self, **prec_fmt_sep):  # PYCHOK expected
+        '''Return a string representation of this AER.
 
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between NEDs (C{str}).
+           @kwarg prec_fmt_sep: Keyword arguments C{B{prec}=3} for the
+                                number of (decimal) digits, unstripped
+                                (C{int}), C{B{fmt}='[]'} the enclosing
+                                backets format (C{str}) and separator
+                                C{B{sep}=', '} to join (C{str}).
 
            @return: This AER as "[degrees360, degrees90, meter]" (C{str}).
         '''
-        a = self._toStr
-        t = getattr(self, a + _4_)[:len(a)]
-        return fmt(sep.join(strs(t, prec=prec)))
+        _, t = _toStr2(self, **prec_fmt_sep)
+        return t
 
     def toXyz(self, Xyz=None, **Xyz_kwds):
         '''Get the local I{X, Y, Z} (XYZ) components.
@@ -249,7 +265,7 @@ class Aer(_NamedBase):
     def xyzLocal(self):
         '''Get this AER as an L{XyzLocal}.
         '''
-        return XyzLocal(self.xyz4)
+        return XyzLocal(self.xyz4, name=self.name)
 
     @Property_RO
     def y(self):
@@ -322,7 +338,7 @@ class Ned(_NamedBase):
     _east  = _0_0   # east, XyzLocal.y (C{meter}).
     _ltp   =  None  # local tangent plane (C{Ltp}), origin
     _north = _0_0   # north, XyzLocal.x (C{meter})
-    _toStr = 'ned'
+    _toStr = _ned_
 
     def __init__(self, ned, east=_0_0, down=_0_0, ltp=None, name=NN):
         '''New L{Ned} vector.
@@ -411,7 +427,7 @@ class Ned(_NamedBase):
     @deprecated_Property_RO
     def ned(self):
         '''DEPRECATED, use property C{ned4}.'''
-        return Ned3Tuple(self.north, self.east, self.down, name=self.name)
+        return _MODS.deprecated.Ned3Tuple(self.north, self.east, self.down, name=self.name)
 
     @Property_RO
     def ned4(self):
@@ -445,23 +461,22 @@ class Ned(_NamedBase):
 
            @return: This NED as "[N:meter, E:meter, D:meter]" (C{str}).
         '''
-        a = self._toStr
-        t = getattr(self, a + _4_)[:len(a)]
-        t = strs(t, prec=3 if prec is None else prec)
+        a, t = _toStr2(self, prec=prec, fmt=NN, sep=NN)
         return _xzipairs(a.upper(), t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
+    def toStr(self, **prec_fmt_sep):  # PYCHOK expected
         '''Return a string representation of this NED.
 
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between NEDs (C{str}).
+           @kwarg prec_fmt_sep: Keyword arguments C{B{prec}=3} for the
+                                number of (decimal) digits, unstripped
+                                (C{int}), C{B{fmt}='[]'} the enclosing
+                                backets format (C{str}) and separator
+                                C{B{sep}=', '} to join (C{str}).
 
            @return: This NED as "[meter, meter, meter]" (C{str}).
         '''
-        a = self._toStr
-        t = getattr(self, a + _4_)[:len(a)]
-        return fmt(sep.join(strs(t, prec=prec)))
+        _, t = _toStr2(self, **prec_fmt_sep)
+        return t
 
     @deprecated_method
     def toVector3d(self):
@@ -511,7 +526,7 @@ class Ned(_NamedBase):
     def xyzLocal(self):
         '''Get this NED as an L{XyzLocal}.
         '''
-        return XyzLocal(self.xyz4)
+        return XyzLocal(self.xyz4, name=self.name)
 
     @Property_RO
     def y(self):
@@ -524,17 +539,6 @@ class Ned(_NamedBase):
         '''Get the Z component (C{meter}).
         '''
         return Meter(z=-self._down)  # negated
-
-
-class Ned3Tuple(_NamedTuple):  # was in .ellipsoidalNvector
-    '''3-Tuple C{(north, east, down)}.  DEPRECATED, use L{pygeodesy.Ned4Tuple}.
-    '''
-    _Names_ = (_north_, _east_,  _down_)
-    _Units_ = ( Meter,   Meter,   Meter)
-
-    def __new__(cls, north, east, down, name=NN):
-        deprecated_class(cls)
-        return _NamedTuple.__new__(cls, north, east, down, name=name)
 
 
 class Ned4Tuple(_NamedTuple):
@@ -565,29 +569,32 @@ class XyzLocal(Vector3d):
     _ltp   =  None  # local tangent plane (C{Ltp}), origin
     _toStr = _xyz_
 
-    def __init__(self, xyz, y=_0_0, z=_0_0, ltp=None, name=NN):
+    def __init__(self, x_xyz, y=_0_0, z=_0_0, ltp=None, name=NN):
         '''New L{XyzLocal}.
 
-           @arg xyz: Scalar X component (C{meter}), C{east} or a local (L{XyzLocal},
-                     L{Xyz4Tuple}, L{Enu}, L{Enu4Tuple}, L{Local9Tuple}).
-           @kwarg y: Scalar Y component (C{meter}) if scalar B{C{xyz}}, C{north}.
-           @kwarg z: Scalar Z component if scalar B{C{xyz}}, normal C{up} from the
-                     surface of the ellipsoid or sphere (C{meter}).
+           @arg x_xyz: Scalar X component (C{meter}), C{positive east} or
+                       a local (L{XyzLocal}, L{Xyz4Tuple}, L{Enu},
+                       L{Enu4Tuple}, L{Local9Tuple}).
+           @kwarg y: Scalar Y component (C{meter}) for scalar B{C{x_xyz}},
+                     C{positive north}.
+           @kwarg z: Scalar Z component for scalar B{C{x_xyz}}, normal
+                     C{positive up} from the surface of the ellipsoid
+                     or sphere (C{meter}).
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
 
-           @raise TypeError: Invalid B{C{xyz}}, B{C{ltp}}.
+           @raise TypeError: Invalid B{C{x_xyz}} or B{C{ltp}}.
 
-           @raise UnitError: Invalid B{C{x}}, B{C{y}} or B{C{z}}.
+           @raise UnitError: Invalid scalar B{C{x_xyz}}, B{C{y}} or B{C{z}}.
         '''
         try:
-            self._x, self._y, self._z = xyz.x, xyz.y, xyz.z
+            self._x, self._y, self._z = x_xyz.x, x_xyz.y, x_xyz.z
             _xinstanceof(XyzLocal, Xyz4Tuple, Enu, Enu4Tuple, Local9Tuple, Ned,
-                      **{self._toStr: xyz})
-            p = getattr(xyz, _ltp_, ltp)
-            n = getattr(xyz, _name_, name)
+                      **{self._toStr: x_xyz})
+            p = getattr(x_xyz, _ltp_, ltp)
+            n = name or getattr(x_xyz, _name_, NN)
         except AttributeError:
-            self._x = Meter(x=xyz or _0_0)
+            self._x = Meter(x=x_xyz or _0_0)
             self._y = Meter(y=y or _0_0)
             self._z = Meter(z=z or _0_0)
             p, n = ltp, name
@@ -806,23 +813,22 @@ class XyzLocal(Vector3d):
                     "[N:meter, E:meter, D:meter]" respectively
                     "[X:meter, Y:meter, Z:meter]" (C{str}).
         '''
-        a = self._toStr
-        t = getattr(self, a + _4_)[:len(a)]
-        t = strs(t, prec=3 if prec is None else prec)
+        a, t = _toStr2(self, prec=prec, fmt=NN, sep=NN)
         return _xzipairs(a.upper(), t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this ENU/XYZ.
+    def toStr(self, **prec_fmt_sep):  # PYCHOK expected
+        '''Return a string representation of this XYZ.
 
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Separator to join (C{str}).
+           @kwarg prec_fmt_sep: Keyword arguments C{B{prec}=3} for the
+                                number of (decimal) digits, unstripped
+                                (C{int}), C{B{fmt}='[]'} the enclosing
+                                backets format (C{str}) and separator
+                                C{B{sep}=', '} to join (C{str}).
 
-           @return: This XYZ/ENU as "[meter, meter, meter]" (C{str}).
+           @return: This XYZ as "[meter, meter, meter]" (C{str}).
         '''
-        a = self._toStr
-        t = getattr(self, a + _4_)[:len(a)]
-        return fmt(sep.join(strs(t, prec=prec)))
+        _, t = _toStr2(self, **prec_fmt_sep)
+        return t
 
     def toXyz(self, Xyz=None, **Xyz_kwds):
         '''Get the local I{X, Y, Z} (XYZ) components.
@@ -872,7 +878,7 @@ class XyzLocal(Vector3d):
 #       '''Get the Y component (C{meter}).
 #       '''
 #       return self._y
-#
+
 #   @Property_RO
 #   def z(self):  # see: Vector3d.z
 #       '''Get the Z component (C{meter}).
@@ -898,7 +904,7 @@ class Xyz4Tuple(_NamedTuple):
     def xyzLocal(self):
         '''Get this L{Xyz4Tuple} as an L{XyzLocal}.
         '''
-        return XyzLocal(self)
+        return XyzLocal(self, name=self.name)
 
 
 class Enu(XyzLocal):
@@ -907,7 +913,7 @@ class Enu(XyzLocal):
        @see: U{East, North, Up (ENU)<https://GSSC.ESA.int/navipedia/index.php/
              Transformations_between_ECEF_and_ENU_coordinates>} coordinates.
     '''
-    _toStr = 'enu'
+    _toStr = _enu_
 
     def __init__(self, enu, north=_0_0, up=_0_0, ltp=None, name=NN):
         '''New L{Enu}.
@@ -929,7 +935,7 @@ class Enu(XyzLocal):
 
 #   @Property_RO
 #   def xyzLocal(self):
-#        return XyzLocal(self)
+#        return XyzLocal(self, name=self.name)
 
 
 class Enu4Tuple(_NamedTuple):
@@ -1139,7 +1145,7 @@ class Local9Tuple(_NamedTuple):
     def xyzLocal(self):
         '''Get this L{Local9Tuple} as an L{XyzLocal}.
         '''
-        return XyzLocal(self)
+        return XyzLocal(self, name=self.name)
 
 
 _XyzLocals4 =  XyzLocal, Enu, Ned, Aer  # PYCHOK in .ltp
@@ -1148,8 +1154,8 @@ _XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
 
 class Footprint5Tuple(_NamedTuple):
     '''5-Tuple C{(center, upperleft, upperight, loweright, lowerleft)}
-       with the C{center} and 4 corners of a I{local} projection of a
-       C{Frustum}, each an L{Xyz4Tuple}.
+       with the C{center} and 4 corners of the I{local} projection of
+       a C{Frustum}, each an L{Xyz4Tuple}.
 
        @note: Misspelling of C{upperight} and C{loweright} is I{intentional}.
     '''

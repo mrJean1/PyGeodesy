@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.06.02'
+__version__ = '22.06.17'
 
 
 class Vector3d(Vector3dBase):
@@ -374,6 +374,8 @@ class Vector3d(Vector3dBase):
            @raise IntersectionError: Near-concentric, -colinear, too distant or
                                      non-intersecting spheres or C{numpy} issue.
 
+           @raise NumPyError: Some C{numpy} issue.
+
            @raise TypeError: Invalid B{C{center2}} or B{C{center3}}.
 
            @raise UnitError: Invalid B{C{radius}}, B{C{radius2}} or B{C{radius3}}.
@@ -389,10 +391,10 @@ class Vector3d(Vector3dBase):
         '''
         try:
             c1 = _otherV3d(center=self, NN_OK=False)
-            return _MODS.vector2d._trilaterate3d2(c1,      Radius_(radius, low=eps),
-                                                  center2, radius2,
-                                                  center3, radius3,
-                                                  eps=eps, clas=self.classof)
+            return _MODS.vector2d._trilaterate3d2(c1, Radius_(radius, low=eps),
+                                             center2, radius2,
+                                             center3, radius3,
+                                             eps=eps, clas=self.classof)
         except (AssertionError, TypeError, ValueError) as x:
             raise _xError(x, center=self,     radius=radius,
                              center2=center2, radius2=radius2,

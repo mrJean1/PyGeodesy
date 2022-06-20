@@ -30,7 +30,7 @@ from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, property_RO
+                            property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import _unrollon, unrollPI
@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.05.20'
+__version__ = '22.06.16'
 
 
 class LatLonBase(_NamedBase):
@@ -49,9 +49,9 @@ class LatLonBase(_NamedBase):
        ellipsoidal earth models.
     '''
     _datum  = None  # L{Datum}, to be overriden
-    _height = 0     # height (C{meter}), default
-    _lat    = 0     # latitude (C{degrees})
-    _lon    = 0     # longitude (C{degrees})
+    _height = 0  # height (C{meter}), default
+    _lat    = 0  # latitude (C{degrees})
+    _lon    = 0  # longitude (C{degrees})
 
     def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.
@@ -627,8 +627,9 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{height}}.
         '''
         h = Height(height)
-        self._update(h != self.height)
-        self._height = h
+        if self._height != h:
+            _update_all(self)
+            self._height = h
 
     def height4(self, earth=None, normal=True, LatLon=None, **LatLon_kwds):
         '''Compute the height above or below and the projection on this datum's
@@ -770,8 +771,9 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{lat}}.
         '''
         lat = Lat(lat)  # parseDMS(lat, suffix=_NS_, clip=90)
-        self._update(lat != self._lat)
-        self._lat = lat
+        if self._lat != lat:
+            _update_all(self)
+            self._lat = lat
 
     @Property
     def latlon(self):
@@ -806,11 +808,10 @@ class LatLonBase(_NamedBase):
             else:
                 h = self.height
 
-        lat = Lat(latlonh[0])  # parseDMS2(latlonh[0], latlonh[1])
-        lon = Lon(latlonh[1])
-        self._update(lat != self._lat or
-                     lon != self._lon or h != self.height)
-        self._lat, self._lon, self._height = lat, lon, h
+        llh = Lat(latlonh[0]), Lon(latlonh[1]), h  # parseDMS2(latlonh[0], latlonh[1])
+        if (self._lat, self._lon, self._height) != llh:
+            _update_all(self)
+            self._lat, self._lon, self._height = llh
 
     def latlon2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{degrees}, rounded.
@@ -854,8 +855,9 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{lon}}.
         '''
         lon = Lon(lon)  # parseDMS(lon, suffix=_EW_, clip=180)
-        self._update(lon != self._lon)
-        self._lon = lon
+        if self._lon != lon:
+            _update_all(self)
+            self._lon = lon
 
     @Property_RO
     def _ltp(self):

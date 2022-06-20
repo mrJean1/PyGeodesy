@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '21.12.30'
+__version__ = '22.06.20'
 
 from base import TestsBase
 
@@ -184,9 +184,9 @@ class Tests(TestsBase):
             try:
                 t = intersections2(d, -d, r, -d, d, r, datum=datum)
                 if t[0] is t[1]:
-                    s = latlonDMS(t[:1], prec=4, sep=', ') + ' abutting'
+                    s = ', '.join(latlonDMS(t[:1], prec=4)) + ' abutting'
                 else:
-                    s = latlonDMS(t, prec=4, sep=', ')
+                    s = ', '.join(latlonDMS(t, prec=4))
                 self.test(n, s, s)
             except IntersectionError as x:
                 self.test(n, str(x), '2-tuple', known=True)

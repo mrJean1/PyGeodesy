@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.05.19'
+__version__ = '22.06.20'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -31,13 +31,13 @@ class Tests(_TestsLL, _TestsV):
         self.test('isEllipsoidal', p.isEllipsoidal, True)
         self.test('isSpherical', p.isSpherical, False)
 
-        d = p.convertDatum(Datums.OSGB36)
+        d = p.toDatum(Datums.OSGB36)
         self.test('isEllipsoidal', d.isEllipsoidal, True)
         self.test('isSpherical', d.isSpherical, False)
 
-        self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
-        self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
-        self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
+        self.test('toDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
+        self.test('toDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
+        self.test('toDatum', p.toDatum(p.datum), p)  # i.e. p.copy()
 
         if isPython35:
             # using eval avoids SyntaxError with Python 3.4-,
@@ -169,8 +169,8 @@ class Tests(_TestsLL, _TestsV):
         self.test('coincident', m, 0.0)
 
         if hasattr(LatLon, 'toCartesian'):
-            c = Cleveland_OH.convertDatum(Datums.OSGB36)
-            self.test('convertDatum', c.datum.name, 'OSGB36')
+            c = Cleveland_OH.toDatum(Datums.OSGB36)
+            self.test('toDatum', c.datum.name, 'OSGB36')
             try:
                 m = Newport_RI.distanceTo(c)
                 self.test('ValueError1', m, ValueError.__name__)
@@ -246,8 +246,8 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo', m, '866455.43292', fmt='%.5f')
 
         if hasattr(LatLon, 'toCartesian'):
-            c = Cleveland_OH.convertDatum(Datums.OSGB36)
-            self.test('convertDatum', c.datum.name, 'OSGB36')
+            c = Cleveland_OH.toDatum(Datums.OSGB36)
+            self.test('toDatum', c.datum.name, 'OSGB36')
             try:
                 m = Newport_RI.distanceTo(c)
                 self.test('ValueError1', None, ValueError.__name__)
@@ -629,7 +629,7 @@ class Tests(_TestsLL, _TestsV):
         t = m.intersections2(p, 0.0312705 * R_M, q, 0.0421788 * R_M,  # radians to meter
                              equidistant=Eq, LatLon=m.LatLon)
         self.test(n, ', '.join(latlonDMS(t, form=F_D, prec=4)), _x(GS or K or X))
-        self.test(n,           latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))  # XXX force DeprecationWarning
+#       self.test(n,           latlonDMS(t, form=F_D, prec=4, sep=', '), _x(GS or K or X))  # XXX force DeprecationWarning
 
         r = PI_4 * R_M
         t = m.intersections2(m.LatLon(30, 0), r, m.LatLon(-30, 0), r, equidistant=Eq, LatLon=m.LatLon)
@@ -674,9 +674,9 @@ class Tests(_TestsLL, _TestsV):
             try:  # see .testSpherical
                 t = m.intersections2(p, r, q, r, equidistant=Eq, LatLon=m.LatLon)
                 if t[0] is t[1]:
-                    s = latlonDMS(t[:1], form=F_D, prec=4, sep=', ') + ' abutting'
+                    s = ', '.join(latlonDMS(t[:1], form=F_D, prec=4)) + ' abutting'
                 else:
-                    s = latlonDMS(t, form=F_D, prec=4, sep=', ')
+                    s = ', '.join(latlonDMS(t, form=F_D, prec=4))
                 self.test(d, s, s)
                 _, s = _100p2(t, r, q, p)
                 self.test(d, s, s)
@@ -696,7 +696,7 @@ class Tests(_TestsLL, _TestsV):
                 d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                 if d2 < d:
                     d, i1, i2 = d2, i2, i1
-                s = latlonDMS_(i1, i2, form=F_D, sep=', ')
+                s = ', '.join(latlonDMS_(i1, i2, form=F_D))
                 s = '%s  d %g meter (iteration %d)' % (s, d, i1.iteration)
                 self.test(n, s, s)
                 if d > d_m:  # Equidistant >> EquidistantKarney, see .testAzimuthal

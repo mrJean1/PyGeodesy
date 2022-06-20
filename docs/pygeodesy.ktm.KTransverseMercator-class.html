@@ -71,7 +71,7 @@
 </pre>
 
 <hr />
-<p>Transverse Mercator projection based ons Kr&#252;ger's method which 
+<p>Transverse Mercator projection based on Kr&#252;ger's method which 
   evaluates the projection and its inverse in terms of a series.</p>
   <p>There's a singularity in the projection at <i>phi = 0, lam - lam0 = 
   +/- (1 - e) 90</i>, about +/- 82.6 degrees for WGS84, where <i>e</i> is 
@@ -122,6 +122,7 @@
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">k0</span>=<span class="summary-sig-default">0.9996</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**TMorder</span>)</span><br />
       New <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
       class="link">KTransverseMercator</a>.</td>
@@ -144,8 +145,7 @@
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">lon0</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Forward projection, from geographic to transverse Mercator.</td>
           <td align="right" valign="top">
             
@@ -244,7 +244,7 @@
         <a href="pygeodesy.ktm.KTransverseMercator-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
       Get the ellipsoid (<a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a>) or <code>None</code>.
+      class="link">Ellipsoid</a>).
     </td>
   </tr>
 <tr>
@@ -301,6 +301,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ktm.KTransverseMercator-class.html#raiser" class="summary-name">raiser</a><br />
+      Class <code>property</code> with retrievable name.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ktm.KTransverseMercator-class.html#TMorder" class="summary-name">TMorder</a><br />
       Get the <i>Transverse Mercator</i> order (<code>int</code>, 4, 5, 6, 
       7 or 8).
@@ -346,6 +354,7 @@
         <span class="sig-arg">lon0</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">k0</span>=<span class="sig-default">0.9996</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**TMorder</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
@@ -368,15 +377,19 @@
           class="link">a_f2Tuple</a>, <a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           2-tuple (<code>a, f</code>)) or the equatorial radius 
-          (<code>scalar</code>).</li>
+          (<code>scalar</code>, <code>meter</code>).</li>
         <li><strong class="pname"><code>f</code></strong> - The ellipsoid's flattening (<code>scalar</code>), iff 
           <b><code>a_earth</code></b> is a <code>scalar</code>, ignored 
           otherwise.</li>
         <li><strong class="pname"><code>lon0</code></strong> - The central meridian (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>k0</code></strong> - Central scale factor (<code>scalar</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>TMorder</code></strong> - Optional keyword argument <b><code>TMorder</code></b>, see 
-          property <code>TMorder</code>.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw a <a 
+          href="pygeodesy.ktm.KTMError-class.html" 
+          class="link">KTMError</a> for <code>forward</code> singularities 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>TMorder</code></strong> - Keyword argument <b><code>TMorder</code></b>, see property 
+          <code>TMorder</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -400,8 +413,7 @@
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">lon0</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -416,9 +428,6 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude of point (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - Central meridian of the projection (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - Throw a <a href="pygeodesy.ktm.KTMError-class.html" 
-          class="link">KTMError</a> at singulaties (<code>bool</code>), 
-          otherwise return <code>NAN</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
@@ -427,10 +436,13 @@
           <code>northing</code> in <code>meter</code>, unfalsed, the 
           <i>gamma</i> meridian <code>convergence</code> at point in 
           <code>degrees180</code> and <i>k</i> <code>scale</code> of 
-          projection at point <code>scalar</code>.</dd>
+          projection at point <code>scalar</code>.  Any value may be 
+          <code>NAN</code>, <code>NINF</code> or <code>INF</code> for 
+          singularities.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ktm.KTMError-class.html">KTMError</a></strong></code></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ktm.KTMError-class.html">KTMError</a></strong></code> - For singularities, iff property <code>raiser</code> is 
+        <code>True</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -513,12 +525,12 @@
 <tr><td>
   <h3 class="epydoc">ellipsoid</h3>
   <p>Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
-  class="link">Ellipsoid</a>) or <code>None</code>.</p>
+  class="link">Ellipsoid</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
         - Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-class="link">Ellipsoid</a>) or <code>None</code>.
+class="link">Ellipsoid</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>,
@@ -680,6 +692,28 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="raiser"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">raiser</h3>
+  <p>Class <code>property</code> with retrievable name.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">raiser(<span class="summary-sig-arg">self</span>)</span>
+        - Get the error setting (<code>bool</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">raiser(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">raiser</span>)</span>
+        - Set the error setting (<code>bool</code>), to <code>True</code> to throw a 
+<a href="pygeodesy.ktm.KTMError-class.html" class="link">KTMError</a> for 
+<code>forward</code> singularities.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="TMorder"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -739,7 +773,7 @@ class="link">a_f2Tuple</a> or 2-tuple <code>(a, f)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun  9 10:31:36 2022
+    Generated by Epydoc 3.0.1 on Mon Jun 20 10:18:47 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

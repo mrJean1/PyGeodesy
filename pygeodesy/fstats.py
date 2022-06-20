@@ -7,7 +7,7 @@ L{pygeodesy.Fsum}, precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, _xinstanceof, _xsubclassof
+from pygeodesy.basics import isodd, _xinstanceof, _xsubclassof, _zip
 from pygeodesy.errors import _xError
 from pygeodesy.fmath import hypot2, sqrt
 from pygeodesy.fsums import _2float, Fmt, Fsum
@@ -22,7 +22,7 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from math import sqrt  # pow  from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '22.01.19'
+__version__ = '22.06.15'
 
 _Float  =  Fsum, float
 _Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta
@@ -666,7 +666,7 @@ class Flinear(_FstatsNamed):
             S = self._S
             X = self._X
             Y = self._Y
-            for x, y in zip(_2Floats(xs), _2Floats(ys, ys=True)):
+            for x, y in _zip(_2Floats(xs), _2Floats(ys, ys=True)):  # strict=True
                 n1 = n
                 n += 1
                 if n1 > 0:

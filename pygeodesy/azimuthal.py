@@ -59,7 +59,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
-                            property_doc_
+                            property_doc_, _update_all
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
                             Northing, Scalar, Scalar_
@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.05.14'
+__version__ = '22.06.16'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -212,7 +212,7 @@ class _AzimuthalBase(_NamedBase):
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        self._update(True)  # zap caches
+        _update_all(self)  # zap caches
         self._reset(lat0, lon0)
 
     def _reset(self, lat0, lon0):

@@ -25,7 +25,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.05.31'
+__version__ = '22.06.19'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -103,7 +103,7 @@ class _GeodesicSolveBase(_SolveBase):
 
     @Property_RO
     def _u_option(self):
-        return '-u' if self.unroll else ()
+        return ('-u',) if self.unroll else ()
 
 
 class GeodesicSolve(_GeodesicSolveBase):

@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             property_RO, Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.05.30'
+__version__ = '22.06.16'
 
 # __DUNDER gets mangled in class
 _closest_  = 'closest'

@@ -230,11 +230,13 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.10.4 (with <a 
+    <p>The tests have been run with Python 3.10.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0), Python 3.9.6 (with <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
-    Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a>, 2.0, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4 
+    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
+    1.8.1), Python 3.9.6, Python 3.8.10 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
     target="_top">GeodSolve</a> 1.51, <a 
@@ -245,10 +247,10 @@
     target="_top">GeodSolve</a> 1.51, all on macOS 12.4 Monterey and in 
     64-bit only.  The tests are run with and without <code>lazy 
     import</code> for Python 3 and with command line option <code>-W 
-    always</code> and env var <code>PYGEODESY_WARNINGS=on</code> for all 
-    Python versions.  The results of only those tests are included in the 
-    distribution files.</p>
-    <p>Python 3.10.4 and 3.9.6 run on Apple Silicon (<code>arm64</code> 
+    default</code> and env variable <code>PYGEODESY_WARNINGS=on</code> for 
+    all Python versions.  The results of only those tests are included in 
+    the distribution files.</p>
+    <p>Python 3.10.5 and 3.9.6 run on Apple M1 Silicon (<code>arm64</code> 
     <i>natively</i>), all other Python versions run on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (<code>&quot;arm64_x86_64&quot;</code>, see function <a 
@@ -256,11 +258,13 @@
     class="link">pygeodesy.machine</a>).</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.10.4 (with <a 
+    4.5.4 using Python 3.10.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0), Python 3.9.6 (with <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.21.2), 
-    Python 3.8.10 (with <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 2.0, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4 
+    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
+    1.8.1), Python 3.9.6, Python 3.8.10 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
@@ -282,7 +286,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.10.1-3, 3.9.1, 3.8.7, 
+    <p>Previously, the tests were run with Python 3.10.1-4, 3.9.1, 3.8.7, 
     3.7.1, 2.7.15, <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.1 
     (Python 3.6.9) and <a href="https://PyPy.org" target="_top">PyPy</a> 
     7.1.1 (Python 2.7.13) (and <a 
@@ -426,7 +430,10 @@
         href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
         and function <a 
         href="pygeodesy.props-module.html#DeprecationWarnings" 
-        class="link">pygeodesy.DeprecationWarnings</a>.
+        class="link">pygeodesy.DeprecationWarnings</a>. _ 
+        <code>PYGEODESY_XPACKAGES</code> - see module <a 
+        href="pygeodesy.basics-module.html" 
+        class="link">pygeodesy.basics</a>.
       </li>
       <li>
         <code>PYTHONDEVMODE</code> - see modules <a 
@@ -461,7 +468,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.06.09
+        22.06.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -477,7 +484,7 @@
         version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Albers Equal-Area projections.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal-module.html">pygeodesy.azimuthal</a></strong>: <em class="summary">Equidistant, Equal-Area, and other Azimuthal projections.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Some, basic definitions and functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Some, basic definitions, functions and dependencies.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
@@ -1134,7 +1141,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
-      3-Tuple <code>(start, end, index)</code>.
+      DEPRECATED, see function <a 
+        href="pygeodesy.deprecated-module.html#clipCS3" 
+        class="link">pygeodesy.clipCS3</a>.
     </td>
   </tr>
 <tr>
@@ -1362,7 +1371,9 @@
     </td><td class="summary">
         <a href="pygeodesy.etm.ETMError-class.html" class="summary-name">ETMError</a><br />
       Exact Transverse Mercator (ETM) parse, projection or other <a 
-        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue.
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue or 
+        <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+        class="link">ExactTransverseMercator</a> conversion failure.
     </td>
   </tr>
 <tr>
@@ -1415,7 +1426,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
-      DEPRECATED&lt; use class <a 
+      DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
         class="link">Forward4Tuple</a>.
     </td>
@@ -1786,7 +1797,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html" class="summary-name">Footprint5Tuple</a><br />
       5-Tuple <code>(center, upperleft, upperight, loweright, 
-        lowerleft)</code> with the <code>center</code> and 4 corners of a 
+        lowerleft)</code> with the <code>center</code> and 4 corners of the
         <i>local</i> projection of a <code>Frustum</code>, each an <a 
         href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
         class="link">Xyz4Tuple</a>.
@@ -2836,7 +2847,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ktm.KTransverseMercator-class.html" class="summary-name">KTransverseMercator</a><br />
-      Transverse Mercator projection based ons Kr&#252;ger's method which 
+      Transverse Mercator projection based on Kr&#252;ger's method which 
         evaluates the projection and its inverse in terms of a series.
     </td>
   </tr>
@@ -3296,8 +3307,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ltpTuples.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
-      3-Tuple <code>(north, east, down)</code>.
+        <a href="pygeodesy.deprecated.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+        class="link">pygeodesy.Ned4Tuple</a>.
     </td>
   </tr>
 <tr>
@@ -7564,7 +7577,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe2c80e89d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7c80742850&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8971,7 +8984,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#machine" class="summary-sig-name">machine</a>()</span><br />
       Return standard <code>platform.machine</code>, but distinguishing 
-      Intel from Intel <i>emulation</i> on Apple Silicon (on macOS only).</td>
+      Intel <i>native</i> from Intel <i>emulation</i> on Apple Silicon (on 
+      macOS only).</td>
           <td align="right" valign="top">
             
             
@@ -11734,7 +11748,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.6.9'"><code class="variable-quote">'</code><code class="variable-string">22.6.9</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.6.22'"><code class="variable-quote">'</code><code class="variable-string">22.6.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19047,7 +19061,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe2c80e89d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7c80742850&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21789,11 +21803,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return standard <code>platform.machine</code>, but distinguishing 
-  Intel from Intel <i>emulation</i> on Apple Silicon (on macOS only).</p>
+  Intel <i>native</i> from Intel <i>emulation</i> on Apple Silicon (on 
+  macOS only).</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Machine <code>'arm64'</code> for Apple Silicon <i>native</i>, 
-          <code>'x86_64'</code> for Intel <i>native</i>, Intel 
+          <code>'x86_64'</code> for Intel <i>native</i>, 
           <code>&quot;arm64_x86_64&quot;</code> for Intel <i>emulation</i>,
           etc. (<code>str</code> with <code>comma</code>s replaced by 
           <code>underscore</code>s).</dd>
@@ -25935,7 +25950,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>zone</code></b> or near-spherical or incompatible 
         <b><code>datum</code></b> or <code>ellipsoid</code>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>lat</code></b> outside the valid UTM bands or if 
@@ -27948,7 +27963,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun  9 10:31:32 2022
+    Generated by Epydoc 3.0.1 on Mon Jun 20 10:18:45 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -21,8 +21,8 @@ from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple, \
                                   Vector3Tuple  # PYCHOK .ellipsoidalBase
-from pygeodesy.props import deprecated_method, Property, \
-                            Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_, _update_all
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.units import Height  # from .namedTuples
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 from math import sqrt
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.05.14'
+__version__ = '22.06.16'
 
 
 class CartesianBase(Vector3d):
@@ -159,8 +159,9 @@ class CartesianBase(Vector3d):
                 raise _IsnotError(_ellipsoidal_, datum=datum)
             elif d.isSpherical and not datum.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
-        self._update(datum != d)
-        self._datum = datum
+        if d != datum:
+            _update_all(self)
+            self._datum = datum
 
     def destinationXyz(self, delta, Cartesian=None, **Cartesian_kwds):
         '''Calculate the destination using a I{local} delta from this cartesian.
@@ -237,8 +238,9 @@ class CartesianBase(Vector3d):
            @raise ValueError: Invalid B{C{height}}.
         '''
         h = Height(height)
-        self._update(h != self.height)
-        self._height = h
+        if self.height != h:
+            _update_all(self)
+            self._height = h
 
     @Property_RO
     def _height4(self):

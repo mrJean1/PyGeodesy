@@ -27,7 +27,7 @@ from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
 from pygeodesy.karney import _diff182, _norm180, _signBit
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
-from pygeodesy.props import deprecated_Property_RO, Property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO, _update_all
 # from pygeodesy.streprs import Fmt  # from .fsums
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.05.14'
+__version__ = '22.06.16'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -442,8 +442,9 @@ class _AlbersBase(_NamedBase):
            @note: This allows a I{latitude of conformality} to be specified.
         '''
         k0 = _Ks(k=k) / self.forward(lat, _0_0).scale
-        self._update(k0 != self._k0)
-        self._k0_(k0)
+        if self._k0 != k0:
+            _update_all(self)
+            self._k0_(k0)
 
     def reverse(self, x, y, lon0=0, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an east- and northing location to geodetic lat- and longitude.

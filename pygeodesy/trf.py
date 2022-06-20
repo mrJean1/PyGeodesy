@@ -48,7 +48,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import map1, _xinstanceof
+from pygeodesy.basics import map1, _xinstanceof, _zip
 from pygeodesy.datums import _ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
 from pygeodesy.errors import _IsnotError, TRFError
@@ -67,7 +67,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.05.12'
+__version__ = '22.06.15'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -297,7 +297,7 @@ def _2Transform(n1_n2, epoch, _Forward_Inverse):
     X = _trfXs[n1_n2]
     e = epoch - X.epoch  # fractional delta years
     d = dict((n, (x + r * e) * _Forward_Inverse) for
-              n,  x,  r in zip(Transform7Tuple._Names_, X.xform, X.rates))
+              n,  x,  r in _zip(Transform7Tuple._Names_, X.xform, X.rates))  # strict=True
     return Transform(**d)
 
 

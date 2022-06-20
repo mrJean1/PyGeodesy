@@ -30,7 +30,8 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
-from pygeodesy.props import deprecated_method, property_doc_, Property_RO
+from pygeodesy.props import deprecated_method, property_doc_, \
+                            Property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
@@ -39,15 +40,15 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.05.12'
+__version__ = '22.06.16'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
-    _datum = None  # L{Datum}, overriden
-    _h     = 0     # height (C{meter})
-    _H     = NN    # height prefix (C{str}), '↑' in JS version
+    _datum = None         # L{Datum}, overriden
+    _h     = Height(h=0)  # height (C{meter})
+    _H     = NN           # height prefix (C{str}), '↑' in JS version
 
     def __init__(self, x_xyz, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
@@ -111,8 +112,9 @@ class NvectorBase(Vector3d):  # XXX kept private
            @raise VectorError: If B{C{h}} invalid.
         '''
         h = Height(h=h, Error=VectorError)
-        self._update(h != self._h)
-        self._h = h
+        if self._h != h:
+            _update_all(self)
+            self._h = h
 
     @property_doc_(''' the height prefix (C{str}).''')
     def H(self):

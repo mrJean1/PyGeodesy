@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '22.04.19'
+__version__ = '22.06.20'
 
 from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -79,7 +79,7 @@ class Tests(TestsBase):
             return '%0*.3f%%' % (w + 4,r)
 
         def _max(i, r, t=''):
-            s = latlonDMS(i, form=F_D, prec=-6, sep=', ')
+            s = ', '.join(latlonDMS(i, form=F_D, prec=-6))
             return '%s  %s, %s of Random%s' % (s, _100p(i.lat, r.lat, 2),
                                                   _100p(i.lon, r.lon, 3), t)
 
@@ -105,7 +105,7 @@ class Tests(TestsBase):
                         d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                         if d2 < d:
                             d, i1, i2 = d2, i2, i1
-                        s = latlonDMS_(i1, i2, form=F_D, prec=-6, sep=', ')
+                        s = ', '.join(latlonDMS_(i1, i2, form=F_D, prec=-6))
                         s = '%s  d %g meter  %s' % (s, d, a)
                         self.test(n, s, s)
                         if E is not None:

@@ -372,6 +372,7 @@ _sx_                  = 'sx'                 # PYCHOK expected
 _sy_                  = 'sy'                 # PYCHOK expected
 _sz_                  = 'sz'                 # PYCHOK expected
 _tbd_                 = 'tbd'                # PYCHOK expected
+_TILDE_               = '~'                  # PYCHOK expected
 _till_                = 'till'               # PYCHOK expected
 _to_                  = 'to'                 # PYCHOK expected
 _too_         = _Prefix('too')               # PYCHOK expected
@@ -573,6 +574,14 @@ PI_4    = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 R_M     = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 
+def _enquote(txt, quote=_QUOTE2_):  # in .basics
+    '''(INTERNAL) Enquote a string if containing whitespace.
+    '''
+    if len(txt.split()) > 1:
+        txt = NN(quote, txt, quote)
+    return txt
+
+
 def _90_EPS_2(lat):
     '''(INTERNAL) Off -90.0 for .gars and .wgrs.
     '''
@@ -617,13 +626,12 @@ def _load_lib(name):
 
 
 def machine():
-    '''Return standard C{platform.machine}, but distinguishing Intel from
-       Intel I{emulation} on Apple Silicon (on macOS only).
+    '''Return standard C{platform.machine}, but distinguishing Intel I{native}
+       from Intel I{emulation} on Apple Silicon (on macOS only).
 
        @return: Machine C{'arm64'} for Apple Silicon I{native}, C{'x86_64'}
-                for Intel I{native}, Intel C{"arm64_x86_64"} for Intel
-                I{emulation}, etc. (C{str} with C{comma}s replaced by
-                C{underscore}s).
+                for Intel I{native}, C{"arm64_x86_64"} for Intel I{emulation},
+                etc. (C{str} with C{comma}s replaced by C{underscore}s).
     '''
     return _platform2()[1]
 
@@ -661,6 +669,14 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
     return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
+def _splituple(strs, *sep_splits):  # in .basics
+    '''(INTERNAL) Split a string into a C{tuple} of stripped strings.
+    '''
+    t = (strs.split(*sep_splits) if sep_splits else
+         strs.split(_COMMA_))    if strs else ()
+    return tuple(s.strip() for s in t if s)
+
+
 def _sysctl_uint(name):
     '''(INTERNAL) Get an unsigned int sysctl item by name, use on macOS ONLY!
     '''
@@ -676,16 +692,17 @@ def _sysctl_uint(name):
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
 
-def _usage(file_py):
-    '''(INTERNAL) Build "usage: python ..." cmd line for module B{C{file_py}}.
+def _usage(file_py, *args):
+    '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
     import os, sys  # PYCHOK imports
     p = NN(_python_, sys.version_info[0])
     m = os.path.dirname(file_py).replace(os.getcwd(), _ELLIPSIS_) \
                                 .replace(os.sep, _DOT_).strip()
-    if len(m.split()) > 1:
-        m = NN(_QUOTE2_, m, _QUOTE2_)  # == streprs.Fmt.QUOTE2(m)
-    return NN('usage', _SPACE_(_COLON_, p, '-m', m))
+    b, x = os.path.splitext(os.path.basename(file_py))
+    if x == '.py' and b != '__main__':
+        m = _DOT_(m, b)
+    return NN('usage', _SPACE_(_COLON_, p, '-m', _enquote(m), *args))
 
 
 def _version2(version, n=2):
@@ -698,7 +715,7 @@ def _version2(version, n=2):
             except (TypeError, ValueError):
                 pass
 
-    t = tuple(_int(*version.split(_DOT_, 2))) + (0,) * n
+    t = tuple(_int(*_splituple(version, _DOT_, 2))) + (0,) * n
     return t[:n]
 
 
@@ -712,7 +729,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.06.04'
+__version__ = '22.06.19'
 
 
 # **) MIT License

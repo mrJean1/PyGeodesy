@@ -27,11 +27,11 @@ from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
 from pygeodesy.props import deprecated_method, Property_RO, \
-                            property_doc_, property_RO
+                            property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.05.04'
+__version__ = '22.06.16'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -274,8 +274,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         _xinstanceof(Datum, datum=datum)
         if not datum.isEllipsoidal:
             raise _IsnotError(_ellipsoidal_, datum=datum)
-        self._update(datum != self._datum)
-        self._datum = datum
+        if self._datum != datum:
+            _update_all(self)
+            self._datum = datum
 
     def distanceTo2(self, other):
         '''I{Approximate} the distance and (initial) bearing between this

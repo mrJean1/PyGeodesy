@@ -115,7 +115,7 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 
 from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, neg, unsigned0, \
                              _xgeographiclib, _xImportError, _xversion_info, \
-                             _xinstanceof, isodd  # PYCHOK shared
+                             _xinstanceof, _zip, isodd  # PYCHOK shared
 from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
 from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
@@ -136,7 +136,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.06.08'
+__version__ = '22.06.15'
 
 _area_      = 'area'
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
@@ -182,7 +182,7 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
 
            @kwarg updates: Optional items to apply (C{nam=value} pairs)
         '''
-        r = GDict(zip(self._Names_, self))
+        r = GDict(_zip(self._Names_, self))  # strict=True
         if updates:
             r.update(updates)
         if self._iteration is not None:
@@ -750,6 +750,12 @@ def _cbrt(x):
         return _wrapped.Math.cbrt(x)
     except AttributeError:
         return cbrt(x)
+
+
+def _copyBit(x, y):
+    '''Like C{copysign0(B{x}, B{y})}, with C{B{x} > 0}.
+    '''
+    return (-x) if _signBit(y) else x
 
 
 def _diff182(deg0, deg):

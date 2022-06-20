@@ -297,7 +297,9 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.etm.ETMError-class.html">pygeodesy.etm.ETMError</a></strong>:
       <em class="summary">Exact Transverse Mercator (ETM) parse, projection or other <a 
-        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue.</em>
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue or 
+        <a href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+        class="link">ExactTransverseMercator</a> conversion failure.</em>
     </li>
     </ul>
     </li>
@@ -984,7 +986,7 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ktm.KTransverseMercator-class.html">pygeodesy.ktm.KTransverseMercator</a></strong>:
-      <em class="summary">Transverse Mercator projection based ons Kr&#252;ger's method which 
+      <em class="summary">Transverse Mercator projection based on Kr&#252;ger's method which 
         evaluates the projection and its inverse in terms of a series.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
@@ -1108,7 +1110,7 @@
         tangent plane</i>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
-      <em class="summary">DEPRECATED, use <a href="pygeodesy.ltpTuples.Ned-class.html" 
+      <em class="summary">DEPRECATED, use class <a href="pygeodesy.ltpTuples.Ned-class.html" 
         class="link">pygeodesy.Ned</a>.</em>
     </li>
     </ul>
@@ -1868,7 +1870,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html">pygeodesy.ltpTuples.Footprint5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(center, upperleft, upperight, loweright, 
-        lowerleft)</code> with the <code>center</code> and 4 corners of a 
+        lowerleft)</code> with the <code>center</code> and 4 corners of the
         <i>local</i> projection of a <code>Frustum</code>, each an <a 
         href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
         class="link">Xyz4Tuple</a>.</em>
@@ -2037,9 +2039,6 @@
         <code>initial</code> and the <code>final</code> bearing at the 
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned3Tuple-class.html">pygeodesy.ltpTuples.Ned3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(north, east, down)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
@@ -2236,10 +2235,12 @@
         classes.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
+      <em class="summary">DEPRECATED, see function <a 
+        href="pygeodesy.deprecated-module.html#clipCS3" 
+        class="link">pygeodesy.clipCS3</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html">pygeodesy.deprecated.EasNorExact4Tuple</a></strong>:
-      <em class="summary">DEPRECATED&lt; use class <a 
+      <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
         class="link">Forward4Tuple</a>.</em>
     </li>
@@ -2247,6 +2248,11 @@
       <em class="summary">DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
         class="link">Reverse4Tuple</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Ned3Tuple-class.html">pygeodesy.deprecated.Ned3Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+        class="link">pygeodesy.Ned4Tuple</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
@@ -3061,7 +3067,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html">pygeodesy.ltpTuples.Footprint5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(center, upperleft, upperight, loweright, 
-        lowerleft)</code> with the <code>center</code> and 4 corners of a 
+        lowerleft)</code> with the <code>center</code> and 4 corners of the
         <i>local</i> projection of a <code>Frustum</code>, each an <a 
         href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
         class="link">Xyz4Tuple</a>.</em>
@@ -3230,9 +3236,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>initial</code> and the <code>final</code> bearing at the 
         reference respectively the <code>closest</code> point, both in 
         compass <code>degrees</code>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned3Tuple-class.html">pygeodesy.ltpTuples.Ned3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(north, east, down)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned4Tuple-class.html">pygeodesy.ltpTuples.Ned4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(north, east, down, ltp)</code>, all in 
@@ -3429,10 +3432,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         classes.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(start, end, index)</code>.</em>
+      <em class="summary">DEPRECATED, see function <a 
+        href="pygeodesy.deprecated-module.html#clipCS3" 
+        class="link">pygeodesy.clipCS3</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.EasNorExact4Tuple-class.html">pygeodesy.deprecated.EasNorExact4Tuple</a></strong>:
-      <em class="summary">DEPRECATED&lt; use class <a 
+      <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.namedTuples.Forward4Tuple-class.html" 
         class="link">Forward4Tuple</a>.</em>
     </li>
@@ -3440,6 +3445,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
         class="link">Reverse4Tuple</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Ned3Tuple-class.html">pygeodesy.deprecated.Ned3Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+        class="link">pygeodesy.Ned4Tuple</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Rhumb7Tuple-class.html">pygeodesy.deprecated.Rhumb7Tuple</a></strong>:
       <em class="summary">DEPRECATED, use class <a 
@@ -3565,7 +3575,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jun  9 10:31:30 2022
+    Generated by Epydoc 3.0.1 on Mon Jun 20 10:18:44 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

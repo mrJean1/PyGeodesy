@@ -136,7 +136,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
-                                 'LatLonExact4Tuple', 'RefFrameError', 'Rhumb7Tuple', 'UtmUps4Tuple',
+                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
@@ -234,7 +234,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=('Attitude', 'AttitudeError', 'Frustum', 'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
                       ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple',
-                                 'Local9Tuple', 'Ned', 'Ned3Tuple', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
+                                 'Local9Tuple', 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename',
                                  'nameof', 'notImplemented', 'notOverloaded'),
@@ -396,7 +396,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.06.04'
+__version__ = '22.06.20'
 
 
 def _ALL_OTHER(*objs):

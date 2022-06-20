@@ -36,6 +36,10 @@ from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, \
                       map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
+_SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
+_SPACE_ = interns._SPACE_
+_TILDE_ = interns._TILDE_
+
 __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
@@ -43,10 +47,10 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.05.28'
+__version__ = '22.06.18'
 
 try:
-    import geographiclib
+    geographiclib = basics._xgeographiclib(basics, 1, 50)
 except ImportError:
     geographiclib = None
 
@@ -71,9 +75,7 @@ except NameError:  # Python 3+
     _Strs = str
 
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
-_pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
-_SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
-_SPACE_ = interns._SPACE_
+_pseudo_home_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
 
 _W_opts = sys.warnoptions or NN
 if _W_opts:
@@ -139,8 +141,9 @@ class RandomLatLon(object):
             RandomLatLon._random = random.random
 
     def __call__(self, **LatLon_kwds):
-        return self._LatLon((self._random() - 0.5) * self._lat_,
-                            (self._random() - 0.5) * self._lon_, **LatLon_kwds)
+        lat = (self._random() - 0.5) * self._lat_
+        lon = (self._random() - 0.5) * self._lon_
+        return self._LatLon(lat, lon, **LatLon_kwds)
 
 
 class TestsBase(object):
@@ -426,7 +429,7 @@ def secs2str(secs):
 def tilde(path):
     '''Return a shortened path, especially Pythonista.
     '''
-    return path.replace(_pseudo_home_dir, '~')
+    return path.replace(_pseudo_home_dir, _TILDE_)
 
 
 def type2str(obj, attr, **renamed):

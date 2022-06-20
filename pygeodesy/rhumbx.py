@@ -21,7 +21,7 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isnan, _xinstanceof
+from pygeodesy.basics import copysign0, isnan, _xinstanceof, _zip
 from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, _xkwds
 # from pygeodesy.etm import ExactTransverseMercator  # in ._eTM below
 from pygeodesy.fmath import euclid, favg, hypot, hypot1
@@ -1089,7 +1089,7 @@ if __name__ == '__main__':
 
     def _re(fmt, r3, x3):
         e3 = []
-        for r, x in zip(r3, x3):
+        for r, x in _zip(r3, x3):  # strict=True
             e = abs(r - x) / abs(x)
             e3.append('%.g' % (e,))
         print((fmt % r3) + ' errors: ' + ', '.join(e3))

@@ -6,8 +6,8 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _isfinite, isint, isnear0, isscalar, \
-                             len2, remainder as _remainder
+from pygeodesy.basics import _copysign, copysign0, _isfinite, isint, isnear0, \
+                              isscalar, len2, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError
 from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_, unstr
@@ -18,11 +18,11 @@ from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_
 
-from math import sqrt  # pow
+from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.05.12'
+__version__ = '22.06.14'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -105,31 +105,40 @@ class Fpolynomial(Fsum):
             self.fadd(_map_a_x_b(cs[1:], fpowers(x, n), Fpolynomial))
 
 
-def cbrt(x3):
-    '''Compute the cube root M{x3**(1/3)}.
+try:
+    from math import cbrt  # Python 3.11+
 
-       @arg x3: Value (C{scalar}).
+    def cbrt2(x3):
+        '''Compute the cube root I{squared} M{x3**(2/3)}.
+        '''
+        return cbrt(x3)**2  # cbrt(-0.0*2) == -0.0
 
-       @return: Cubic root (C{float}).
+except ImportError:  # Python 3.10-
 
-       @see: Functions L{cbrt2} and L{sqrt3}.
-    '''
-    # <https://archive.lib.MSU.edu/crcmath/math/math/r/r021.htm>
-    # simpler and more accurate than Ken Turkowski's CubeRoot, see
-    # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-    return copysign0(pow(abs(x3), _1_3rd), x3)
+    def cbrt(x3):
+        '''Compute the cube root M{x3**(1/3)}.
 
+           @arg x3: Value (C{scalar}).
 
-def cbrt2(x3):
-    '''Compute the cube root I{squared} M{x3**(2/3)}.
+           @return: Cubic root (C{float}).
 
-       @arg x3: Value (C{scalar}).
+           @see: Functions L{cbrt2} and L{sqrt3}.
+        '''
+        # <https://archive.lib.MSU.edu/crcmath/math/math/r/r021.htm>
+        # simpler and more accurate than Ken Turkowski's CubeRoot, see
+        # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
+        return _copysign(pow(fabs(x3), _1_3rd), x3)  # cbrt(-0.0) == -0.0
 
-       @return: Cube root I{squared} (C{float}).
+    def cbrt2(x3):  # PYCHOK attr
+        '''Compute the cube root I{squared} M{x3**(2/3)}.
 
-       @see: Functions L{cbrt} and L{sqrt3}.
-    '''
-    return pow(abs(x3), _2_3rd)  # XXX pow(abs(x3), _1_3rd)**2
+           @arg x3: Value (C{scalar}).
+
+           @return: Cube root I{squared} (C{float}).
+
+           @see: Functions L{cbrt} and L{sqrt3}.
+        '''
+        return pow(fabs(x3), _2_3rd)  # XXX pow(fabs(x3), _1_3rd)**2
 
 
 def euclid(x, y):
@@ -143,7 +152,7 @@ def euclid(x, y):
 
        @see: Function L{euclid_}.
     '''
-    x, y = abs(x), abs(y)
+    x, y = fabs(x), fabs(y)
     if y > x:
         x, y = y, x
     return x + y * _0_4142  # XXX * _0_5 before 20.10.02
@@ -160,7 +169,7 @@ def euclid_(*xs):
        @see: Function L{euclid}.
     '''
     e = _0_0
-    for x in sorted(map(abs, xs)):  # XXX not reverse=True
+    for x in sorted(map(fabs, xs)):  # XXX not reverse=True
         # e = euclid(x, e)
         if x > e:
             e, x = x, e
@@ -175,7 +184,7 @@ def facos1(x):
        @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
              ShaderFastLibs/blob/master/ShaderFastMathLib.h>}.
     '''
-    a = abs(x)
+    a = fabs(x)
     if a < EPS0:
         r = PI_2
     elif a < EPS1:
@@ -199,7 +208,7 @@ def fasin1(x):  # PYCHOK no cover
 def fatan(x):
     '''Fast approximation of C{atan(B{x})}.
     '''
-    a = abs(x)
+    a = fabs(x)
     if a < _1_0:
         r = fatan1(a) if a else _0_0
     elif a > _1_0:
@@ -234,7 +243,7 @@ def fatan2(y, x):
              master/Source/Shaders/Builtin/Functions/fastApproximateAtan.glsl>}
              and L{fatan1}.
     '''
-    b, a = abs(y), abs(x)
+    b, a = fabs(y), fabs(x)
     if a < b:
         r = (PI_2 - fatan1(a / b)) if a else PI_2
     elif b < a:
@@ -611,9 +620,9 @@ elif _sys_version_info2 < (3, 10):
            @return: C{sqrt(B{x}**2 + B{y}**2)} (C{float}).
         '''
         if x:
-            h = sqrt(fsum1_(x**2, y**2)) if y else abs(x)
+            h = sqrt(x**2 + y**2) if y else fabs(x)
         elif y:
-            h = abs(y)
+            h = fabs(y)
         else:
             h = _0_0
         return h
@@ -637,7 +646,7 @@ def _h_x2(xs):
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h  = float(max(map(abs, xs)))
+            h  = float(max(map(fabs, xs)))
             x2 = fsum(_x2s(xs, h)) if h > EPS02 else _0_0
             return h, x2
 
@@ -663,8 +672,12 @@ def hypot2(x, y):
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
     if x:
-        x2 = x**2
-        h2 = fsum1_(x2, y**2) if y else x2
+        if y:
+            if fabs(x) < fabs(y):
+                x, y = y, x
+            h2 = x**2 * ((y / x)**2 + _1_0)
+        else:
+            h2 = x**2
     elif y:
         h2 = y**2
     else:
@@ -794,22 +807,22 @@ def sqrt_a(h, b):
     try:
         if not (isscalar(h) and isscalar(b)):
             raise TypeError(_not_scalar_)
-        elif abs(h) < abs(b):
+        elif fabs(h) < fabs(b):
             raise ValueError('abs(h) < abs(b)')
 
         if isnear0(h):  # PYCHOK no cover
-            c, b = abs(h), abs(b)
+            c, b = fabs(h), fabs(b)
             d = c - b
-            s = sqrt((c + b) * d) if d > 0 else _0_0
-            a = copysign0(s, h)
+            a = copysign0(sqrt((c + b) * d), h) if d > 0 else _0_0
         else:
             c =  float(h)
             s = _1_0 - (b / c)**2
             a = (sqrt(s) * c) if 0 < s < 1 else (c if s else _0_0)
-        return a
 
     except Exception as x:
         raise _xError(x, h=h, b=b)
+
+    return a
 
 # **) MIT License
 #

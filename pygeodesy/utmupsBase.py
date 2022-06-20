@@ -19,13 +19,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, \
-                            Property_RO, property_RO
+                            Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.12.28'
+__version__ = '22.06.16'
 
 _MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
 _UPS_BANDS = _A_, _B_, 'Y', 'Z'  # UPS polar bands
@@ -222,8 +222,8 @@ class UtmUpsBase(_NamedBase):
         '''Set the (ellipsoidal) datum L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
         '''
         d = _ellipsoidal_datum(datum)
-        if d != self.datum:
-            self._update(True)
+        if self._datum != d:
+            _update_all(self)
             self._datum = d
 
     @Property_RO

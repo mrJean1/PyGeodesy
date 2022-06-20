@@ -1,11 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-# The setuptools script to build, install and test a PyGeodesy distribution.
+# The setuptools script to build, test and install a PyGeodesy
+# distribution.
 
-# Tested with 64-bit Python 2.7.13-18, 3.6.1-2, 3.7.0-6 and 3.8.0-5
-# (using setuptools 28.8.0), but only on macOS 10.12.3-6 Sierra,
-# 10.13.0-6 High Sierra, 10.15.5-7 Catalina and 11.0-6 (10.16) Big Sur
+# Tested with 64-bit Python 3.11.0b2, 3.10.1-5, 3.9.6, 3.8.10,
+# 3.7.0, 3.6.4-5, 3.5.3, 2.7,13 and 2.6.9 on macOS 10.12 Sierra,
+# 10.1 High Sierra, 10.15.5-7 Catalina, 11.0-2 (10.16) Big Sur and
+# 12.0-4 (10.16) Monterey on Intel (x86_64), Intel emulation
+# ("arm64_x86_64") and/or Apple-Silicon M1 native (arm64) and
+# with Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1 and 11.3-4
+# and on iPhone 15.5.
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -22,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.06.06'
+__version__ = '22.06.18'
 
 
 def _c2(*names):
@@ -71,7 +76,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS',
              'lstsq', 'LTP', 'lune',
-             'mean', 'memoize', 'Mercator', 'Meeus', 'MGRS',
+             'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
