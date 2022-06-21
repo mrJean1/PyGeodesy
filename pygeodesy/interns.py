@@ -12,6 +12,13 @@ _pl2List      =  None  # cached _platform2 lists
 _Py3List      =  None  # cached _pythonarchine lists
 
 
+def _ALL_MODS():
+    '''(INTERNAL) Avoid circular import.
+    '''
+    from pygeodesy.lazily import _ALL_MODS
+    return _ALL_MODS
+
+
 class _Dash(str):
     '''(INTERNAL) Extended C{str} for prefix_DASH_.
     '''
@@ -77,8 +84,7 @@ class _Range(str):
         '''
         Fmt = _Range._Fmt
         if Fmt is None:
-            from pygeodesy.lazily import _ALL_MODS
-            Fmt = _Range._Fmt = _ALL_MODS.streprs.Fmt
+            Fmt = _Range._Fmt = _ALL_MODS().streprs.Fmt
 
         r = NN(Fmt.f(lo, prec=prec), sep,
                Fmt.f(hi, prec=prec))
@@ -429,11 +435,27 @@ def _dunder_name(inst, *dflt):
 
 
 def float_(*fs):
-    '''Yield all positional B{C{fs}} as C{float}.
+    '''Get scalars as C{float} or I{intern} C{float}.
+
+       @arg fs: One more values (C{scalar}), all positional.
+
+       @return: Single C{float} if only one B{C{fs}} is given,
+                otherwise a tuple of C{float}s.
+
+       @raise TypeError: Some B{C{fs}} not C{scalar}.
     '''
-    for f in fs:
-        f = float(f)
-        yield _floats.get(f, f)
+    _f = _floats.get
+    fl = []
+    try:
+        for i, f in enumerate(fs):
+            f = float(f)
+            fl.append(_f(f, f))
+    except Exception as x:
+        _MODS = _ALL_MODS()
+        Error = _MODS.errors._xError
+        Fmt   = _MODS.streprs.Fmt
+        raise Error(x, Fmt.SQUARE(fs=i), f)
+    return fl[0] if len(fl) == 1 else tuple(fl)
 
 
 def _float(f):  # in .datums, .ellipsoids, ...
@@ -729,7 +751,7 @@ __all__ = ('DIG',
            'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
            'Str_',  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.06.19'
+__version__ = '22.06.21'
 
 
 # **) MIT License
