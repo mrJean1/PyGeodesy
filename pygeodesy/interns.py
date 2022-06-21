@@ -84,7 +84,8 @@ class _Range(str):
         '''
         Fmt = _Range._Fmt
         if Fmt is None:
-            Fmt = _Range._Fmt = _ALL_MODS().streprs.Fmt
+            _MODS = _ALL_MODS()
+            _Range._Fmt = Fmt = _MODS.streprs.Fmt
 
         r = NN(Fmt.f(lo, prec=prec), sep,
                Fmt.f(hi, prec=prec))
@@ -361,6 +362,7 @@ _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
 _semi_circular_       = 'semi-circular'      # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
+_sets_                = 'sets'               # PYCHOK expected
 _singular_            = 'singular'           # PYCHOK expected
 _SLASH_          = Str_('/')                 # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
@@ -434,17 +436,20 @@ def _dunder_name(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def float_(*fs):
+def float_(*fs, **sets):
     '''Get scalars as C{float} or I{intern} C{float}.
 
        @arg fs: One more values (C{scalar}), all positional.
+       @kwarg sets: Use keyword argument C{B{sets}=True} to
+                    C{intern} each B{C{fs}}, otherwise don't.
 
        @return: Single C{float} if only one B{C{fs}} is given,
                 otherwise a tuple of C{float}s.
 
        @raise TypeError: Some B{C{fs}} not C{scalar}.
     '''
-    _f = _floats.get
+    _f = _floats.setdefault if sets.get(_sets_, False) else \
+         _floats.get
     fl = []
     try:
         for i, f in enumerate(fs):

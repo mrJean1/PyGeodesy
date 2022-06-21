@@ -1898,6 +1898,7 @@ pygeodesy.interns._GRS80_	pygeodesy.interns-module.html#_GRS80_
 pygeodesy.interns._till_	pygeodesy.interns-module.html#_till_
 pygeodesy.interns._supported_	pygeodesy.interns-module.html#_supported_
 pygeodesy.interns._AiryModified_	pygeodesy.interns-module.html#_AiryModified_
+pygeodesy.interns._sets_	pygeodesy.interns-module.html#_sets_
 pygeodesy.interns._azi12_	pygeodesy.interns-module.html#_azi12_
 pygeodesy.interns._not_scalar_	pygeodesy.interns-module.html#_not_scalar_
 pygeodesy.interns._PERCENTDOTSTAR_	pygeodesy.interns-module.html#_PERCENTDOTSTAR_

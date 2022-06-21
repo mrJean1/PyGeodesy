@@ -5,11 +5,11 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.04.21'
+__version__ = '22.06.21'
 
 from base import TestsBase
 
-from pygeodesy import clips, interns, isinf, isnan, EPS, EPS0, EPS02, \
+from pygeodesy import clips, float_, interns, isinf, isnan, EPS, EPS0, EPS02, \
                       EPS1, EPS2, EPS_2, EPS4, INF, INT0, NAN, NEG0, NINF, NN
 
 from os import getcwd
@@ -103,6 +103,11 @@ class Tests(TestsBase):
         _90_EPS_2 = interns._90_EPS_2
         self.test(_90_EPS_2.__name__, _90_EPS_2(90) < 90, True)
         self.test(_90_EPS_2.__name__, _90_EPS_2(90) > 89.999999, True)
+
+        t = float_(1, 2, 3)
+        self.test(float_.__name__, t, '(1.0, 2.0, 3.0)')
+        t = float_(3.14, sets=True)
+        self.test(float_.__name__, t is float(3.14), True)
 
 
 if __name__ == '__main__':
