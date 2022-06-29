@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.06.20'
+__version__ = '22.06.29'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -268,7 +268,7 @@ class Tests(_TestsLL, _TestsV):
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)
-        b = p.rhumbBearingTo(q)
+        b = p.rhumbBearingTo(q)  # rhumbAzimuthTo
         self.test('rhumbBearingTo', b, 116.722, fmt='%.3f')  # 116.7
 
         d = p.rhumbDestination(40300, 116.7)

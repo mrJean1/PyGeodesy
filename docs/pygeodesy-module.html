@@ -468,7 +468,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.06.22
+        22.06.29
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3336,7 +3336,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.NumPyError-class.html" class="summary-name">NumPyError</a><br />
-      Error raised for <code>NumPy</code> errors.
+      Error raised for <code>NumPy</code> issues.
     </td>
   </tr>
 <tr>
@@ -3779,7 +3779,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.errors.SciPyError-class.html" class="summary-name">SciPyError</a><br />
-      Error raised for <code>SciPy</code> errors.
+      Error raised for <code>SciPy</code> issues.
     </td>
   </tr>
 <tr>
@@ -7579,7 +7579,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9eb05b0950&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7faea85288d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8104,6 +8104,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="isclose"></a><span class="summary-sig-name">isclose</span>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">rel_tol</span>=<span class="summary-sig-default">1e-12</span>,
+        <span class="summary-sig-arg">abs_tol</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
+      Like <code>math.isclose</code>, but with defaults such that 
+      <code>isclose(0, EPS0)</code> is <code>True</code> by default.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iscolinearWith" class="summary-sig-name">iscolinearWith</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
@@ -8221,7 +8242,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for non-finite <code>scalar</code> value.</td>
+      Check a finite <code>scalar</code> or <code>complex</code> value.</td>
           <td align="right" valign="top">
             
             
@@ -9954,7 +9975,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#print_" class="summary-sig-name">print_</a>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
-      Python 3-style <code>print</code> function.</td>
+      Python 3+ <code>print</code>-like formatting and printing.</td>
           <td align="right" valign="top">
             
             
@@ -9972,8 +9993,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#printf" class="summary-sig-name">printf</a>(<span class="summary-sig-arg">fmt</span>,
         <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
-      C-style <code>printf</code> function.</td>
+        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span><br />
+      <code>Printf-style</code> and Python 3+ <code>print</code>-like 
+      formatting and printing.</td>
           <td align="right" valign="top">
             
             
@@ -11750,7 +11772,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.6.22'"><code class="variable-quote">'</code><code class="variable-string">22.6.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.6.29'"><code class="variable-quote">'</code><code class="variable-string">22.6.29</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19097,7 +19119,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9eb05b0950&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7faea85288d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20459,11 +20481,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for non-finite <code>scalar</code> value.</p>
+  <p>Check a finite <code>scalar</code> or <code>complex</code> value.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code> or <code>complex</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>False</code> if <b><code>obj</code></b> is 
@@ -20471,7 +20493,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>True</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>obj</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar and non-complex <b><code>obj</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -23969,22 +23991,24 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Python 3-style <code>print</code> function.</p>
+  <p>Python 3+ <code>print</code>-like formatting and printing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Values to be converted to <code>str</code> and concatenated 
-          (<code>any</code> types).</li>
-        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to be converted to <code>str</code> and joined by 
+          <b><code>sep</code></b> (<code>any</code> type, all positional).</li>
+        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
+          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
+          the number of trailing blank lines (<code>int</code>), 
+          <code><b>prefix</b>=NN</code> to be inserted before the formatted
+          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
+          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
+          <code><b>file</b></code> and <code><b>flush</b></code>.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Number of bytes written.</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ keyword arguments <code>end</code>, <code>file</code> and
-        <code>flush</code> are silently ignored.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="printf"></a>
 <div>
@@ -23995,29 +24019,40 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">printf</span>&nbsp;(<span class="sig-arg">fmt</span>,
         <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span>
+        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>C-style <code>printf</code> function.</p>
+  <p><code>Printf-style</code> and Python 3+ <code>print</code>-like 
+  formatting and printing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fmt</code></strong> - C-style formating text (<code>str</code>).</li>
-        <li><strong class="pname"><code>args</code></strong> - Values to be formatted (<code>any</code> types).</li>
-        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - <a 
+          href="https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">Printf-style</a> format specification 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to be formatted (<code>any</code> types, all 
+          positional).</li>
+        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep_kwds</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
+          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
+          the number of trailing blank lines (<code>int</code>), 
+          <code><b>prefix</b>=NN</code> to be inserted before the formatted
+          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
+          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
+          <code><b>file</b></code> and <code><b>flush</b></code>.  Any 
+          remaining <code><b>kwds</b></code> are <a 
+          href="https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">printf-style</a> keyword arguments to be formatted,
+          <i>iff no <b><code>args</code></b> are present</i>.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Number of bytes written.</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ keyword arguments <code>end</code>, <code>file</code>, 
-        <code>flush</code> and <code>sep</code> are silently ignored.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="property_doc_"></a>
 <div>
@@ -26457,7 +26492,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal or spherical) 
           geodetic <code>LatLon</code> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude (<code>degrees</code> or <code>None</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>), overridden by the 
+          <b><code>latlon</code></b>'s equatorial radius.</li>
         <li><strong class="pname"><code>Wm</code></strong> - Optional class to return the WM coordinate (<a 
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
@@ -27999,7 +28035,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 21 07:26:37 2022
+    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:18 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

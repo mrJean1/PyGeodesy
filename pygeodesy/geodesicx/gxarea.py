@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.05.25'
+__version__ = '22.06.24'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -410,10 +410,8 @@ class GeodesicAreaExact(_NamedBase):
 
     @verbose.setter  # PYCHOK setter!
     def verbose(self, verbose):  # PYCHOK no cover
-        '''Set the C{verbose} option.
-
-          @arg verbose: Print a message after each
-                        method invokation (C{bool}).
+        '''Set the C{verbose} option (C{bool}) to print
+           a message after each method invokation.
         '''
         self._verbose = bool(verbose)
 

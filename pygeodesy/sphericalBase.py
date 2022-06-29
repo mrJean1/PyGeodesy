@@ -15,7 +15,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
-from pygeodesy.cartesianBase import CartesianBase
+from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
 # from pygeodesy.errors import IntersectionError  # from .latlonBase
@@ -27,17 +27,17 @@ from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
 from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
                                 _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.namedTuples import Bearing2Tuple
+# from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
 from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
-from pygeodesy.props import property_doc_, _update_all
+from pygeodesy.props import deprecated_method, property_doc_, _update_all
 from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_
-from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
+from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
 
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.06.16'
+__version__ = '22.06.29'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -184,14 +184,10 @@ class LatLonSphericalBase(LatLonBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum I{without conversion}.
+        '''Set this point's datum I{without conversion} (L{Datum}, L{Ellipsoid},
+           L{Ellipsoid2}, L{a_f2Tuple}) or C{scalar} spherical earth radius).
 
-           @arg datum: New spherical datum (L{Datum}, L{Ellipsoid},
-                       L{Ellipsoid2}, L{a_f2Tuple}) or C{scalar}
-                       earth radius).
-
-           @raise TypeError: If B{C{datum}} invalid or not
-                             not spherical.
+           @raise TypeError: If B{C{datum}} invalid or not not spherical.
         '''
         d = _spherical_datum(datum, name=self.name, raiser=True)
         if self._datum != d:
@@ -297,15 +293,18 @@ class LatLonSphericalBase(LatLonBase):
         dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
         return (a2 - a1), db, dp
 
-    def rhumbBearingTo(self, other):
-        '''Return the bearing (azimuth) from this to an other
-           point along a rhumb (loxodrome) line.
+    def rhumbAzimuthTo(self, other, radius=R_M, exact=False):
+        '''Return the azimuth (bearing) of a rhumb line (loxodrome)
+           between this and an other (spherical) point.
 
            @arg other: The other point (spherical C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
 
-           @return: Initial bearing (compass C{degrees360}).
+           @return: Rhumb azimuth (compass C{degrees180}).
 
-           @raise TypeError: The B{C{other}} point is not spherical.
+           @raise TypeError: The B{C{other}} point is incompatible or
+                             B{C{radius}} is invalid.
 
            @example:
 
@@ -313,19 +312,30 @@ class LatLonSphericalBase(LatLonBase):
             >>> q = LatLon(50.964, 1.853)
             >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
+        if exact:  # use series, always
+            z = LatLonBase.rhumbAzimuthTo(self, other, exact=False, radius=radius)
+        else:
+            _, db, dp = self._rhumb3(other)
+            z = atan2d(db, dp)  # see .rhumbx.Rhumb.Inverse
+        return z
+
+    @deprecated_method
+    def rhumbBearingTo(self, other):
+        '''DEPRECATED, use method C{.rhumbAzimuthTo}.'''
         _, db, dp = self._rhumb3(other)
         return atan2b(db, dp)
 
-    def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
+    def rhumbDestination(self, distance, bearing, radius=R_M, height=None, exact=False):
         '''Return the destination point having travelled the given distance
-           along a rhumb (loxodrome) line at the given bearing from this point.
+           from this point along a rhumb line (loxodrome) at the given bearing.
 
            @arg distance: Distance travelled (C{meter}, same units as
-                          B{C{radius}}).
+                          B{C{radius}}), can be negative.
            @arg bearing: Bearing from this point (compass C{degrees360}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg height: Optional height, overriding the default height
                           (C{meter}, same unit as B{C{radius}}).
+           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -339,38 +349,45 @@ class LatLonSphericalBase(LatLonBase):
 
            @JSname: I{rhumbDestinationPoint}
         '''
-        r = _angular(distance, radius)
+        b = Bearing_(bearing)
+        if exact:  # use series, always
+            r = LatLonBase.rhumbDestination(self, distance, b, exact=False,
+                                            radius=radius, height=height)
+        else:
+            r = _angular(distance, radius)
 
-        a1, b1 = self.philam
-        sb, cb = sincos2(Bearing_(bearing))
+            a1, b1 = self.philam
+            sb, cb = sincos2(b)
 
-        da = r * cb
-        a2 = a1 + da
-        # normalize latitude if past pole
-        if a2 > PI_2:
-            a2 =  PI - a2
-        elif a2 < -PI_2:
-            a2 = -PI - a2
+            da = r * cb
+            a2 = a1 + da
+            # normalize latitude if past pole
+            if a2 > PI_2:
+                a2 =  PI - a2
+            elif a2 < -PI_2:
+                a2 = -PI - a2
 
-        dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
-        # E-W course becomes ill-conditioned with 0/0
-        q  = (da / dp) if abs(dp) > EPS else cos(a1)
-        b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
+            dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
+            # q becomes ill-conditioned on E-W course 0/0
+            q  = (da / dp) if abs(dp) > EPS else cos(a1)
+            b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
 
-        h = self.height if height is None else Height(height)
-        return self.classof(degrees90(a2), degrees180(b2), height=h)
+            h = self.height if height is None else Height(height)
+            r = self.classof(degrees90(a2), degrees180(b2), height=h)
+        return r
 
-    def rhumbDistanceTo(self, other, radius=R_M):
+    def rhumbDistanceTo(self, other, radius=R_M, exact=False):
         '''Return the distance from this to an other point along
            a rhumb (loxodrome) line.
 
            @arg other: The other point (spherical C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
+           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
 
            @return: Distance (C{meter}, the same units as B{C{radius}}
                     or C{radians} if B{C{radius}} is C{None}).
 
-           @raise TypeError: The B{C{other}} point is not spherical.
+           @raise TypeError: The B{C{other}} point is incompatible.
 
            @raise ValueError: Invalid B{C{radius}}.
 
@@ -380,24 +397,33 @@ class LatLonSphericalBase(LatLonBase):
             >>> q = LatLon(50.964, 1.853)
             >>> d = p.rhumbDistanceTo(q)  # 403100
         '''
-        # see <https://www.EdWilliams.org/avform.htm#Rhumb>
-        da, db, dp = self._rhumb3(other)
+        if exact:  # use series, always
+            r = LatLonBase.rhumbDistanceTo(self, other, exact=False, radius=radius)
+            if radius is None:  # angular distance in radians
+                r = r / self.datum.ellipsoid.a  # /= chokes PyChecker
+        else:
+            # see <https://www.EdWilliams.org/avform.htm#Rhumb>
+            da, db, dp = self._rhumb3(other)
 
-        # on Mercator projection, longitude distances shrink
-        # by latitude; the 'stretch factor' q becomes ill-
-        # conditioned along E-W line (0/0); use an empirical
-        # tolerance to avoid it
-        q = (da / dp) if abs(dp) > EPS else cos(self.phi)
-        r = hypot(da, q * db)
-        return r if radius is None else (Radius(radius) * r)
+            # on Mercator projection, longitude distances shrink
+            # by latitude; the 'stretch factor' q becomes ill-
+            # conditioned along E-W line (0/0); use an empirical
+            # tolerance to avoid it
+            q = (da / dp) if abs(dp) > EPS else cos(self.phi)
+            r = hypot(da, q * db)
+            if radius is not None:
+                r *= Radius(radius)
+        return r
 
-    def rhumbMidpointTo(self, other, height=None):
+    def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False):
         '''Return the (loxodromic) midpoint between this and
            an other point.
 
            @arg other: The other point (spherical LatLon).
            @kwarg height: Optional height, overriding the mean height
                           (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
 
            @return: The midpoint (spherical C{LatLon}).
 
@@ -412,30 +438,34 @@ class LatLonSphericalBase(LatLonBase):
             >>> m = p.rhumb_midpointTo(q)
             >>> m.toStr()  # '51.0455°N, 001.5957°E'
         '''
-        self.others(other)
+        if exact:  # use series, always
+            r = LatLonBase.rhumbMidpointTo(self, other, exact=False,
+                                           radius=radius, height=height)
+        else:
+            self.others(other)
+            # see <https://MathForum.org/library/drmath/view/51822.html>
+            a1, b1 = self.philam
+            a2, b2 = other.philam
+            if abs(b2 - b1) > PI:
+                b1 += PI2  # crossing anti-meridian
 
-        # see <https://MathForum.org/library/drmath/view/51822.html>
-        a1, b1 = self.philam
-        a2, b2 = other.philam
-        if abs(b2 - b1) > PI:
-            b1 += PI2  # crossing anti-meridian
+            a3 = favg(a1, a2)
+            b3 = favg(b1, b2)
 
-        a3 = favg(a1, a2)
-        b3 = favg(b1, b2)
-
-        f1 = tanPI_2_2(a1)
-        if isnon0(f1):
-            f2 = tanPI_2_2(a2)
-            f = f2 / f1
-            if isnon0(f):
-                f = log(f)
+            f1 = tanPI_2_2(a1)
+            if isnon0(f1):
+                f2 = tanPI_2_2(a2)
+                f = f2 / f1
                 if isnon0(f):
-                    f3 = tanPI_2_2(a3)
-                    b3 = fdot(map1(log, f1, f2, f3),
-                                       -b2, b1, b2 - b1) / f
+                    f = log(f)
+                    if isnon0(f):
+                        f3 = tanPI_2_2(a3)
+                        b3 = fdot(map1(log, f1, f2, f3),
+                                           -b2, b1, b2 - b1) / f
 
-        h = self._havg(other) if height is None else Height(height)
-        return self.classof(degrees90(a3), degrees180(b3), height=h)
+            h = self._havg(other) if height is None else Height(height)
+            r = self.classof(degrees90(a3), degrees180(b3), height=h)
+        return r
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including

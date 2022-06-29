@@ -87,7 +87,7 @@
         module.
       </p>
       <p><strong>Version:</strong>
-        22.06.20
+        22.06.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -123,7 +123,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lazily-module.html#print_" class="summary-sig-name">print_</a>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
-      Python 3-style <code>print</code> function.</td>
+      Python 3+ <code>print</code>-like formatting and printing.</td>
           <td align="right" valign="top">
             
             
@@ -141,8 +141,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lazily-module.html#printf" class="summary-sig-name">printf</a>(<span class="summary-sig-arg">fmt</span>,
         <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span><br />
-      C-style <code>printf</code> function.</td>
+        <span class="summary-sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span><br />
+      <code>Printf-style</code> and Python 3+ <code>print</code>-like 
+      formatting and printing.</td>
           <td align="right" valign="top">
             
             
@@ -194,22 +195,24 @@
     </td>
   </tr></table>
   
-  <p>Python 3-style <code>print</code> function.</p>
+  <p>Python 3+ <code>print</code>-like formatting and printing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>args</code></strong> - Values to be converted to <code>str</code> and concatenated 
-          (<code>any</code> types).</li>
-        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to be converted to <code>str</code> and joined by 
+          <b><code>sep</code></b> (<code>any</code> type, all positional).</li>
+        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
+          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
+          the number of trailing blank lines (<code>int</code>), 
+          <code><b>prefix</b>=NN</code> to be inserted before the formatted
+          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
+          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
+          <code><b>file</b></code> and <code><b>flush</b></code>.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Number of bytes written.</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ keyword arguments <code>end</code>, <code>file</code> and
-        <code>flush</code> are silently ignored.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="printf"></a>
 <div>
@@ -220,29 +223,40 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">printf</span>&nbsp;(<span class="sig-arg">fmt</span>,
         <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep</span>)</span>
+        <span class="sig-arg">**nl_nt_prefix_end_file_flush_sep_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>C-style <code>printf</code> function.</p>
+  <p><code>Printf-style</code> and Python 3+ <code>print</code>-like 
+  formatting and printing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fmt</code></strong> - C-style formating text (<code>str</code>).</li>
-        <li><strong class="pname"><code>args</code></strong> - Values to be formatted (<code>any</code> types).</li>
-        <li><strong class="pname"><code>nl=0</code></strong> - Number of leading blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>nt=0</code></strong> - Number of additional, trailing blank lines (<code>int</code>).</li>
-        <li><strong class="pname"><code>prefix=NN</code></strong> - To be inserted before the formatted text (<code>str</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - <a 
+          href="https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">Printf-style</a> format specification 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Arguments to be formatted (<code>any</code> types, all 
+          positional).</li>
+        <li><strong class="pname"><code>nl_nt_prefix_end_file_flush_sep_kwds</code></strong> - Keyword arguments <code><b>nl</b>=0</code> for the number of 
+          leading blank lines (<code>int</code>), <code><b>nt</b>=0</code> 
+          the number of trailing blank lines (<code>int</code>), 
+          <code><b>prefix</b>=NN</code> to be inserted before the formatted
+          text (<code>str</code>) and Python 3+ <code>print</code> keyword 
+          arguments <code><b>end</b></code>, <code><b>sep</b></code>, 
+          <code><b>file</b></code> and <code><b>flush</b></code>.  Any 
+          remaining <code><b>kwds</b></code> are <a 
+          href="https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">printf-style</a> keyword arguments to be formatted,
+          <i>iff no <b><code>args</code></b> are present</i>.</li>
     </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Number of bytes written.</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Python 3+ keyword arguments <code>end</code>, <code>file</code>, 
-        <code>flush</code> and <code>sep</code> are silently ignored.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -276,7 +290,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 21 07:26:37 2022
+    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:18 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

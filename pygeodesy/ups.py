@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.05.14'
+__version__ = '22.06.26'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -137,10 +137,8 @@ class Ups(UtmUpsBase):
 
     @band.setter  # PYCHOK setter!
     def band(self, band):
-        '''Set or reset the I{polar} band.
-
-           @arg band: The I{polar} band letter (C{'A'|'B'|'Y'|'Z'})
-                      or C{None} or C{""} to reset.
+        '''Set or reset the I{polar} band letter (C{'A'|'B'|'Y'|'Z'})
+           or C{None} or C{""} to reset.
 
            @raise TypeError: Invalid B{C{band}}.
 
@@ -345,9 +343,10 @@ class Ups(UtmUpsBase):
         '''
         u = self._utm
         if u is None or u.zone != zone or falsed != u.falsed:
-            ll = self.toLatLon(LatLon=None, unfalse=True)
-            self._utm = _MODS.utm.toUtm8(ll, Utm=_MODS.utm.Utm, falsed=falsed,
-                                             name=self.name, zone=zone)
+            ll  =  self.toLatLon(LatLon=None, unfalse=True)
+            utm = _MODS.utm
+            self._utm = utm.toUtm8(ll, Utm=utm.Utm, falsed=falsed,
+                                       name=self.name, zone=zone)
         return self._utm
 
     @Property_RO

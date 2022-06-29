@@ -31,7 +31,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.06.16'
+__version__ = '22.06.26'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -105,9 +105,7 @@ class CartesianEllipsoidalBase(CartesianBase):
 
     @reframe.setter  # PYCHOK setter!
     def reframe(self, reframe):
-        '''Set or clear this cartesian's reference frame.
-
-           @arg reframe: Reference frame (L{RefFrame}) or C{None}.
+        '''Set or clear this cartesian's reference frame (L{RefFrame}) or C{None}.
 
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''
@@ -264,9 +262,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum I{without conversion}.
-
-           @arg datum: New datum (L{Datum}).
+        '''Set this point's datum I{without conversion} (L{Datum}).
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}
                              or not ellipsoidal.
@@ -380,10 +376,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @epoch.setter  # PYCHOK setter!
     def epoch(self, epoch):
-        '''Set or clear this point's observed epoch.
-
-           @arg epoch: Observed epoch, a fractional calendar year
-                       (L{Epoch}, C{scalar}) or C{None}.
+        '''Set or clear this point's observed epoch, a fractional
+           calendar year (L{Epoch}, C{scalar}) or C{None}.
 
            @raise TRFError: Invalid B{C{epoch}}.
         '''
@@ -691,9 +685,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @reframe.setter  # PYCHOK setter!
     def reframe(self, reframe):
-        '''Set or clear this point's reference frame.
-
-           @arg reframe: Reference frame (L{RefFrame}) or C{None}.
+        '''Set or clear this point's reference frame (L{RefFrame}) or C{None}.
 
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''

@@ -12,17 +12,16 @@ I{OR} set env var C{PYTHONDEVMODE} to C{1} or any non-empyty
 string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
 or any other non-empty string.
 '''
-from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
-                             _COLON_, _COMMA_, _COMMASPACE_, \
-                             _datum_, _ellipsoidal_, _EQUAL_, \
-                             _incompatible_, _invalid_, _len_, \
-                             _name_, _no_, _not_, _or_, _SPACE_, \
-                             _specified_, _UNDER_, _value_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _getenv, _PYTHON_X_DEV
+from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
+                             _COLONSPACE_, _COMMASPACE_, _datum_, _ellipsoidal_, \
+                             _EQUAL_, _incompatible_, _invalid_, _len_, _name_, \
+                             _no_, _not_, _or_, _SPACE_, _spaced, _specified_, \
+                             _UNDER_, _value_, _vs_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _pairs, \
+                             _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.04.09'
+__version__ = '22.06.28'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -30,7 +29,6 @@ _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
-__vs__       = ' vs '  # _vsSPACED_
 _with_       = 'with'
 
 try:
@@ -95,6 +93,13 @@ class _IndexError(IndexError):
     '''
     def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(IndexError, self, name_value, **txt_name_values)
+
+
+class _KeyError(KeyError):
+    '''(INTERNAL) Format a C{KeyError} without exception chaining.
+    '''
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
+        _error_init(KeyError, self, name_value, **txt_name_values)
 
 
 class _NameError(NameError):
@@ -178,12 +183,12 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
-        PAREN = _MODS.streprs.Fmt.PAREN
-        x = _xkwds_pop(lens_txt, txt=_invalid_)
+        x  = _xkwds_pop(lens_txt, txt=_invalid_)
         ns, vs = zip(*sorted(lens_txt.items()))
         ns = _COMMASPACE_.join(ns)
-        vs = __vs__.join(map(str, vs))
-        t  = _SPACE_(PAREN(where.__name__, ns), _len_, vs)
+        t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
+        vs = _spaced(_vs_).join(map(str, vs))
+        t  = _SPACE_(t, _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
 
@@ -197,7 +202,7 @@ class LimitError(_ValueError):
 
 
 class NumPyError(_ValueError):
-    '''Error raised for C{NumPy} errors.
+    '''Error raised for C{NumPy} issues.
     '''
     pass
 
@@ -232,7 +237,7 @@ class TriangleError(_ValueError):  # in .resections, .vector2d
 
 
 class SciPyError(PointsError):
-    '''Error raised for C{SciPy} errors.
+    '''Error raised for C{SciPy} issues.
     '''
     pass
 
@@ -335,15 +340,13 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif len(name_value) > 1:
         t = _or(*sorted(fmt_name_value % t for t in zip(name_value[0::2],
                                                         name_value[1::2])))
-    elif name_value:
-        t = str(name_value[0])
     else:
-        t = _SPACE_(_name_value_, str(MISSING))
+        t = str(name_value[0]) if name_value else _SPACE_(_name_value_, MISSING)
 
     if txt is not None:
-        c = _COMMA_ if _COLON_ in t else _COLON_
-        x =  str(txt) or _invalid_
-        t =  NN(t, c, _SPACE_, x)
+        C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
+#       x =  str(txt) or _invalid_
+        t =  C(t, txt or _invalid_)
 #   else:
 #       x = NN  # XXX or t?
     Error.__init__(inst, t)
@@ -398,10 +401,10 @@ def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=
        @return: An B{C{Error}} instance.
     '''
     try:
-        e = Error(**txt_name_values)
+        e =  Error(**txt_name_values)
     except TypeError:  # std *Error takes no keyword arguments
         e = _ValueError(**txt_name_values)
-        e = Error(str(e))
+        e =  Error(str(e))
         _error_chain(e)
         _error_under(e)
     return e
@@ -541,6 +544,7 @@ _X2Error = {AssertionError:      _AssertionError,
             AttributeError:      _AttributeError,
             ImportError:         _ImportError,
             IndexError:          _IndexError,
+            KeyError:            _KeyError,
             NameError:           _NameError,
             NotImplementedError: _NotImplementedError,
             OverflowError:       _OverflowError,
@@ -607,8 +611,7 @@ except AttributeError:
 
 def _xkwds_Error(where, kwds, name_txt, txt=_default_):
     # Helper for _xkwds_get, _xkwds_pop and _xkwds_popitem below
-    pairs = _MODS.streprs.pairs
-    f = _COMMASPACE_.join(pairs(kwds) + pairs(name_txt))
+    f = _COMMASPACE_.join(_pairs(kwds) + _pairs(name_txt))
     f = _MODS.streprs.Fmt.PAREN(where.__name__, f)
     t = _multiple_ if name_txt else _no_
     t = _SPACE_(t, _EQUAL_(_name_, txt), _kwargs_)

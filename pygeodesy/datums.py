@@ -80,7 +80,7 @@ from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _float as _F, _GRS80_, _Intl1924_, _Krassovski1940_, \
                              _NAD27_, _Krassowsky1940_, _NAD83_, _name_, _s_, \
                              _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, \
-                             _tx_, _ty_, _tz_, _UNDER_, _WGS72_, _WGS84_, \
+                             _tx_, _ty_, _tz_, _under_name, _WGS72_, _WGS84_, \
                              _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.06.08'
+__version__ = '22.06.28'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -434,16 +434,16 @@ def _En2(earth, name):
     '''
     if isinstance(earth, (Ellipsoid, Ellipsoid2)):
         E =  earth
-        n = _uname(name or E.name)
+        n = _under_name(name or E.name)
     elif isinstance(earth, Datum):
         E =  earth.ellipsoid
-        n = _uname(name or earth.name)
+        n = _under_name(name or earth.name)
     elif isinstance(earth, a_f2Tuple):
-        n = _uname(name or earth.name)
+        n = _under_name(name or earth.name)
         E =  Ellipsoid(earth.a, earth.b, name=n)
     elif istuplist(earth, 2):
         a, f = earth[:2]
-        n = _uname(name or getattr(earth, _name_, NN))
+        n = _under_name(name or getattr(earth, _name_, NN))
         E =  Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
@@ -490,7 +490,7 @@ def _spherical_datum(earth, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
     '''
     if isscalar(earth):
-        n = _uname(name)
+        n = _under_name(name)
         r =  Radius_(earth, Error=TypeError)
         E =  Ellipsoid(r, r, name=n)
         d =  Datum(E, transform=Transforms.Identity, name=n)
@@ -499,12 +499,6 @@ def _spherical_datum(earth, name=NN, raiser=False):
     if raiser and not d.isSpherical:
         raise _IsnotError(_spherical_, earth=earth)
     return d
-
-
-def _uname(name):
-    '''(INTERNAL) Prefix C{name} with I{underscore}.
-    '''
-    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
 
 
 class Datums(_NamedEnum):

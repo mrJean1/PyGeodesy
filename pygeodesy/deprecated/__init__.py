@@ -28,7 +28,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.06.20'
+__version__ = '22.06.28'
 
 EPS1_2 = _1_0 - EPS_2  # DEPRECATED
 OK     = 'OK'          # DEPRECATED
@@ -45,15 +45,13 @@ class _DeprecatedNamedTuple(_NamedTuple):
 
 # DEPRECATED classes, for export and backward compatibility only
 class ClipCS3Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
-    '''DEPRECATED, see function L{pygeodesy.clipCS3}.
-    '''
+    '''DEPRECATED, see function L{pygeodesy.clipCS3}.'''
     _Names_ = (_start_, _end_, 'index')
     _Units_ = (_Pass,   _Pass,  Number_)
 
 
 def EcefCartesian(*args, **kwds):
-    '''DEPRECATED, use class L{LocalCartesian}.
-    '''
+    '''DEPRECATED, use class L{LocalCartesian}.'''
     LocalCartesian = _MODS.ltp.LocalCartesian
 
     class EcefCartesian(LocalCartesian):
@@ -100,20 +98,17 @@ def EcefCartesian(*args, **kwds):
 
 
 class EasNorExact4Tuple(_DeprecatedNamedTuple):
-    '''DEPRECATED, use class L{Forward4Tuple}.
-    '''
+    '''DEPRECATED, use class L{Forward4Tuple}.'''
     _Names_ = (_easting_, _northing_, _convergence_, _scale_)
     _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
 
 
 def HeightIDW(knots, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use class L{HeightIDWeuclidean}.
-    '''
+    '''DEPRECATED, use class L{HeightIDWeuclidean}.'''
     HeightIDWeuclidean = _MODS.heights.HeightIDWeuclidean
 
     class HeightIDW(HeightIDWeuclidean):
-        '''DEPRECATED, use class L{HeightIDWeuclidean}.
-        '''
+        '''DEPRECATED, use class L{HeightIDWeuclidean}.'''
         def __init__(self, knots, adjust=True, beta=2, name=NN):
             deprecated_class(self.__class__)
             HeightIDWeuclidean.__init__(self, knots, adjust=adjust, beta=beta, name=name)
@@ -123,13 +118,11 @@ def HeightIDW(knots, **kwds):  # PYCHOK no cover
 
 
 def HeightIDW2(knots, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use class L{HeightIDWequirectangular}.
-    '''
+    '''DEPRECATED, use class L{HeightIDWequirectangular}.'''
     HeightIDWequirectangular = _MODS.heights.HeightIDWequirectangular
 
     class HeightIDW2(HeightIDWequirectangular):
-        '''DEPRECATED, use class L{HeightIDWequirectangular}.
-        '''
+        '''DEPRECATED, use class L{HeightIDWequirectangular}.'''
         def __init__(self, knots, adjust=True, wrap=False, name=NN):
             deprecated_class(self.__class__)
             HeightIDWequirectangular.__init__(self, knots, adjust=adjust, wrap=wrap, name=name)
@@ -139,8 +132,7 @@ def HeightIDW2(knots, **kwds):  # PYCHOK no cover
 
 
 def HeightIDW3(knots, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use class L{HeightIDWhaversine}.
-    '''
+    '''DEPRECATED, use class L{HeightIDWhaversine}.'''
     HeightIDWhaversine = _MODS.heights.HeightIDWhaversine
 
     class HeightIDW3(HeightIDWhaversine):
@@ -155,22 +147,19 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
 
 
 class LatLonExact4Tuple(_DeprecatedNamedTuple):
-    '''DEPRECATED, used class L{Reverse4Tuple}.
-    '''
+    '''DEPRECATED, used class L{Reverse4Tuple}.'''
     _Names_ = (_lat_, _lon_, _convergence_, _scale_)
     _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
 
 
 class Ned3Tuple(_DeprecatedNamedTuple):  # was in .ellipsoidalNvector
-    '''DEPRECATED, use class L{pygeodesy.Ned4Tuple}.
-    '''
+    '''DEPRECATED, use class L{pygeodesy.Ned4Tuple}.'''
     _Names_ = (_north_, _east_,  _down_)
     _Units_ = ( Meter,   Meter,   Meter)
 
 
 def RefFrameError(*args, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use class L{TRFError}.
-    '''
+    '''DEPRECATED, use class L{TRFError}.'''
     TRFError = _MODS.errors.TRFError
 
     class RefFrameError(TRFError):
@@ -185,8 +174,7 @@ def RefFrameError(*args, **kwds):  # PYCHOK no cover
 
 
 class Rhumb7Tuple(_DeprecatedNamedTuple):
-    '''DEPRECATED, use class L{Rhumb8Tuple} ignoring item C{a12}.
-    '''
+    '''DEPRECATED, use class L{Rhumb8Tuple} ignoring item C{a12}.'''
     _Names_ = (_lat1_, _lon1_, _lat2_, _lon2_, _azi12_, _s12_, _S12_)
     _Units_ = (_Pass,  _Pass,  _Pass,  _Pass,  _Pass,   _Pass, _Pass)
 
@@ -224,15 +212,13 @@ class UtmUps4Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
 
 @deprecated_function
 def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.anstr}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.anstr}.'''
     return _MODS.streprs.anstr(name, OKd=OKd, sub=sub)
 
 
 @deprecated_function
 def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.areaOf}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.areaOf}.'''
     return _MODS.points.areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
 
 
@@ -254,25 +240,21 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # PYCHOK
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the I{clipped} path.
     '''
-    from pygeodesy.clipy import clipCS4  # _MODS.clipy.clipCS4
-    for p1, p2, _, j in clipCS4(points, lowerleft, upperright,
-                                        closed=closed, inull=inull):
+    for p1, p2, _, j in _MODS.clipy.clipCS4(points, lowerleft, upperright,
+                                                    closed=closed, inull=inull):
         yield ClipCS3Tuple(p1, p2, j)
 
 
 @deprecated_function
 def clipDMS(deg, limit):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.clipDegrees}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.clipDegrees}.'''
     return _MODS.dms.clipDegrees(deg, limit)
 
 
 @deprecated_function
 def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.clips}.
-    '''
-    from pygeodesy.basics import clips  # _MODS.basics.clips
-    return clips(bstr, limit=limit, white=white)
+    '''DEPRECATED, use function L{pygeodesy.clips}.'''
+    return _MODS.basics.clips(bstr, limit=limit, white=white)
 
 
 @deprecated_function
@@ -284,10 +266,8 @@ def collins(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds):
 
 @deprecated_function
 def copysign(x, y):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.copysign0}.
-    '''
-    from pygeodesy.basics import copysign0  # _MODS.basics.copysign0
-    return copysign0(x, y)
+    '''DEPRECATED, use function L{pygeodesy.copysign0}.'''
+    return _MODS.basics.copysign0(x, y)
 
 
 @deprecated_function
@@ -310,8 +290,7 @@ def encodeEPSG(zone, hemipole=NN, band=NN):  # PYCHOK no cover
 
 @deprecated_function
 def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.enstr2}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.enstr2}.'''
     return _MODS.streprs.enstr2(easting, northing, prec, *extras)
 
 
@@ -326,8 +305,7 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
 
 @deprecated_function
 def false2f(value, name=_value_, false=True, Error=ValueError):  # PYCHOK no cover
-    '''DEPRECATED, use function L{falsed2f}.
-    '''
+    '''DEPRECATED, use function L{falsed2f}.'''
     return falsed2f(falsed=false, Error=Error, **{name: value})
 
 
@@ -361,51 +339,43 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
 @deprecated_function
 def fStr(floats, prec=6, fmt=_MODS.streprs.Fmt.f, ints=False, sep=_COMMASPACE_):  # PYCHOK no cover
-    '''DEPRECATED, use function L{fstr}.
-    '''
+    '''DEPRECATED, use function L{fstr}.'''
     return _MODS.streprs.fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
 
 
 @deprecated_function
 def fStrzs(floatstr):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.fstrzs}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.fstrzs}.'''
     return _MODS.streprs.fstrzs(floatstr)
 
 
 @deprecated_function
 def hypot3(x, y, z):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.hypot_}.
-    '''
-    from pygeodesy.fmath import hypot_  # _MODS.fmath.hypot_
-    return hypot_(x, y, z)
+    '''DEPRECATED, use function L{pygeodesy.hypot_}.'''
+    return _MODS.fmath.hypot_(x, y, z)
 
 
 @deprecated_function
 def inStr(inst, *args, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.instr}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.instr}.'''
     return _MODS.streprs.instr(inst, *args, **kwds)
 
 
 @deprecated_function
 def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.isenclosedBy}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.isenclosedBy}.'''
     return _MODS.points.isenclosedBy(point, points, wrap=wrap)
 
 
 @deprecated_function
 def joined(*words, **sep):  # PYCHOK no cover
-    '''DEPRECATED, use C{NN(...)}, C{NN.join_} or C{B{sep}.join}.
-    '''
+    '''DEPRECATED, use C{NN(...)}, C{NN.join_} or C{B{sep}.join}.'''
     return sep.get(_sep_, NN).join(map(str, words))
 
 
 @deprecated_function
 def joined_(*words, **sep):  # PYCHOK no cover
-    '''DEPRECATED, use C{_SPACE_(...)}, C{_SPACE_.join_} or C{B{sep}.join}, sep=" ".
-    '''
+    '''DEPRECATED, use C{_SPACE_(...)}, C{_SPACE_.join_} or C{B{sep}.join}, sep=" ".'''
     return sep.get(_sep_, _SPACE_).join(map(str, words))
 
 
@@ -444,15 +414,13 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):  # PYCHOK no cover
 
 @deprecated_function
 def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function L{perimeterOf}.
-    '''
+    '''DEPRECATED, use function L{perimeterOf}.'''
     return _MODS.points.perimeterOf(points, closed=closed, adjust=adjust, radius=radius, wrap=wrap)
 
 
 @deprecated_function
 def polygon(points, closed=True, base=None):  # PYCHOK no cover
-    '''DEPRECATED, use function L{points2}.
-    '''
+    '''DEPRECATED, use function L{points2}.'''
     from pygeodesy.deprecated.bases import points2  # PYCHOK import
     return points2(points, closed=closed, base=base)
 
@@ -465,8 +433,7 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 
        @raise Error: Invalid B{C{value}}.
     '''
-    from pygeodesy.basics import isint  # _MODS.basics.isint
-    C_ = Number_ if isint(low) else Scalar_
+    C_ = Number_ if _MODS.basics.isint(low) else Scalar_
     return C_(value, name=name, Error=Error, low=low, high=high)
 
 
@@ -474,15 +441,14 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.simplifyRW}.
     '''
-    from pygeodesy.simplify import simplifyRW  # _MODS.siimplify.simplifyRW
-    return simplifyRW(points, pipe, radius=radius, shortest=shortest, indices=indices, **options)
+    return _MODS.simplify.simplifyRW(points, pipe, radius=radius, shortest=shortest,
+                                                   indices=indices, **options)
 
 
 @deprecated_function
 def tienstra(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds):
     '''DEPRECATED, use function L{pygeodesy.tienstra7}.'''
-    from pygeodesy.resections import tienstra7  # _MODS.resections.tienstra7
-    return tienstra7(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds)
+    return _MODS.resections.tienstra7(pointA, pointB, pointC, alpha, **beta_gamma_useZ_Clas_and_kwds)
 
 
 @deprecated_function
@@ -503,16 +469,13 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
 
 @deprecated_function
 def unsign0(x):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.unsigned0}.
-    '''
-    from pygeodesy.basics import unsigned0  # _MODS.basics.unsigned0
-    return unsigned0(x)
+    '''DEPRECATED, use function L{pygeodesy.unsigned0}.'''
+    return _MODS.basics.unsigned0(x)
 
 
 @deprecated_function
 def unStr(name, *args, **kwds):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.unstr}.
-    '''
+    '''DEPRECATED, use function L{pygeodesy.unstr}.'''
     return _MODS.streprs.unstr(name, *args, **kwds)
 
 

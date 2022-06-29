@@ -13,24 +13,24 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 from pygeodesy.basics import isnear0, _xinstanceof
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84
 from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
-from pygeodesy.fmath import cbrt, hypot_, hypot2  # hypot
+from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
 from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
                              _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.namedTuples import Height, LatLon4Tuple, Vector4Tuple, \
-                                  Vector3Tuple  # PYCHOK .ellipsoidalBase
+from pygeodesy.namedTuples import Bearing2Tuple, Height, LatLon4Tuple, Vector4Tuple, \
+                                  Vector3Tuple  # PYCHOK .ellipsoidal-, .sphericalBase
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, _update_all
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.units import Height  # from .namedTuples
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
 
-from math import sqrt
+# from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.06.16'
+__version__ = '22.06.29'
 
 
 class CartesianBase(Vector3d):
@@ -146,9 +146,8 @@ class CartesianBase(Vector3d):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this cartesian's C{datum} I{without conversion}.
-
-           @arg datum: New datum (L{Datum}), ellipsoidal or spherical.
+        '''Set this cartesian's C{datum} I{without conversion}
+           (L{Datum}), ellipsoidal or spherical.
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
@@ -229,9 +228,7 @@ class CartesianBase(Vector3d):
 
     @height.setter  # PYCHOK setter!
     def height(self, height):
-        '''Set the height.
-
-           @arg height: New height (C{meter}).
+        '''Set the height (C{meter}).
 
            @raise TypeError: Invalid B{C{height}} C{type}.
 

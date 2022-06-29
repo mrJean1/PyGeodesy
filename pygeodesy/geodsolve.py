@@ -25,7 +25,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.06.19'
+__version__ = '22.06.26'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -79,9 +79,7 @@ class _GeodesicSolveBase(_SolveBase):
     @GeodSolve.setter  # PYCHOK setter!
     def GeodSolve(self, path):
         '''Set the U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}
-           executable (C{filename}).
-
-           @arg path: The (fully qualified) path to the C{GeodSolve} executable (C{str}).
+           executable (C{filename}), the (fully qualified) path to the C{GeodSolve} executable.
 
            @raise GeodesicError: Invalid B{C{path}}, B{C{path}} doesn't exist or
                                  isn't the C{GeodSolve} executable.

@@ -89,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '22.05.14'
+__version__ = '22.06.25'
 
 
 class HausdorffError(PointsError):
@@ -202,11 +202,9 @@ class Hausdorff(_Named):
 
     @seed.setter  # PYCHOK setter!
     def seed(self, seed):
-        '''Set the random sampling seed.
-
-           @arg seed: Valid L{Random(seed)} or C{None}, C{0} or
-                      C{False} for no U{random sampling<https://
-                      Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+        '''Set the random sampling seed (C{Random(seed)}) or
+           C{None}, C{0} or C{False} for no U{random sampling
+           <https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
 
            @raise HausdorffError: Invalid B{C{seed}}.
         '''
@@ -246,9 +244,7 @@ class Hausdorff(_Named):
 
     @units.setter  # PYCHOK setter!
     def units(self, units):
-        '''Set the distance units.
-
-           @arg units: New units name (C{Unit} or C{str}).
+        '''Set the distance units (C{Unit} or C{str}).
 
            @raise TypeError: Invalid B{C{units}}.
         '''

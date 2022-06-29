@@ -29,9 +29,9 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 from pygeodesy.basics import halfs2, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _AtoZnoIO_, _band_, \
-                             _COMMASPACE_, _datum_, _easting_, \
-                             _northing_, _SPACE_, _zone_, _0_5
+from pygeodesy.interns import NN, _AtoZnoIO_, _band_, _COMMASPACE_, \
+                             _datum_, _easting_, _northing_, _SPACE_, \
+                             _splituple, _zone_, _0_5
 from pygeodesy.interns import _0_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
@@ -46,7 +46,7 @@ from pygeodesy.utmupsBase import _hemi
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.04.22'
+__version__ = '22.06.26'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -213,9 +213,7 @@ class Mgrs(_NamedBase):
 
     @resolution.setter  # PYCHOK setter!
     def resolution(self, resolution):
-        '''Set the resolution of this L{Mgrs} instance.
-
-           @arg resolution: Cell size (C{meter}, power of 10).
+        '''Set the resolution of this L{Mgrs} instance, as cell size (C{meter}, power of 10).
 
            @raise MGRSError: Invalid B{C{resolution}}.
         '''
@@ -423,7 +421,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         return float(m[:5])
 
     def _MGRS(strMGRS, datum, Mgrs, name):
-        m = tuple(strMGRS.replace(',', ' ').strip().split())
+        m = _splituple(strMGRS)
         if len(m) == 1:  # 01ABC1234512345'
             m = _mg(_RE.MGRS, m[0])
             m = m[:2] + halfs2(m[2])

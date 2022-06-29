@@ -30,7 +30,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.06.15'
+__version__ = '22.06.24'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -207,9 +207,8 @@ class _Named(object):
 
     @classnaming.setter  # PYCHOK setter!
     def classnaming(self, prefixed):
-        '''Set the class naming for C{[module.].class} names.
-
-           @arg prefixed: Include the module name (C{bool}).
+        '''Set the class naming for C{[module.].class} names (C{bool}),
+           to C{True} to include the module name.
         '''
         self._classnaming = bool(prefixed)
 
@@ -275,9 +274,7 @@ class _Named(object):
 
     @name.setter  # PYCHOK setter!
     def name(self, name):
-        '''Set the name.
-
-           @arg name: New name (C{str}).
+        '''Set the name (C{str}).
 
            @raise NameError: Can't rename, use method L{rename}.
         '''
@@ -796,9 +793,7 @@ class _NamedEnumItem(_NamedBase):
 
     @name.setter  # PYCHOK setter!
     def name(self, name):
-        '''Set the name, unless already registered.
-
-           @arg name: New name (C{str}).
+        '''Set the name, unless already registered (C{str}).
         '''
         if self._enum:
             raise _NameError(str(name), self, txt=_registered_)  # XXX _TypeError

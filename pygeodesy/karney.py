@@ -136,7 +136,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.06.15'
+__version__ = '22.06.26'
 
 _area_      = 'area'
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
@@ -323,9 +323,8 @@ class _CapsBase(_NamedBase):  # in .geodesicx.gxbases, .rhumbx
 
     @debug.setter  # PYCHOK setter!
     def debug(self, debug):
-        '''Set the C{debug} option.
-
-           @arg debug: If C{True} include more details in L{GDict} results (C{bool}).
+        '''Set the C{debug} option (C{bool}) to include
+           more details in L{GDict} results.
         '''
         self._debug = Caps._DEBUG_ALL if debug else 0
 
@@ -509,9 +508,8 @@ class _Wrapped(object):
 
             @debug.setter  # PYCHOK setter!
             def debug(self, debug):
-                '''Set the C{debug} option.
-
-                   @arg debug: Include more details in results (C{bool}).
+                '''Set the C{debug} option (C{bool}) to include
+                   more details in L{GDict} results.
                 '''
                 self._debug = _MODS.geodesicx.Caps._DEBUG_ALL if debug else 0
 

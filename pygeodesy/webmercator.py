@@ -23,9 +23,9 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_M, R_MA, R_MB
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
-from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
-                             _easting_, _ellipsoidal_, _northing_, \
-                             _radius_, _SPACE_
+from pygeodesy.interns import NN, PI_2, _COMMASPACE_, _easting_, \
+                             _ellipsoidal_, _northing_, _radius_, \
+                             _SPACE_, _splituple
 from pygeodesy.interns import _x_, _y_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '22.06.15'
+__version__ = '22.06.26'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -287,10 +287,10 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
         >>> u.toRepr()  # [E:448251, N:5411932]
     '''
     def _WM(strWM, radius, Wm, name):
-        w = strWM.replace(_COMMA_, _SPACE_).strip().split()
+        w = _splituple(strWM)
 
         if len(w) == 2:
-            w += [radius]
+            w += (radius,)
         elif len(w) != 3:
             raise ValueError
         x, y, r = map(float, w)
@@ -308,7 +308,8 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal or
                     spherical) geodetic C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees} or C{None}).
-       @kwarg radius: Optional earth radius (C{meter}).
+       @kwarg radius: Optional earth radius (C{meter}), overridden
+                      by the B{C{latlon}}'s equatorial radius.
        @kwarg Wm: Optional class to return the WM coordinate (L{Wm})
                   or C{None}.
        @kwarg name: Optional name (C{str}).

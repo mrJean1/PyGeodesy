@@ -33,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wra
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.06.16'
+__version__ = '22.06.24'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -664,9 +664,7 @@ class Ltp(LocalCartesian):
 
     @ecef.setter  # PYCHOK setter!
     def ecef(self, ecef):
-        '''Set this LTP's ECEF converter.
-
-           @arg ecef: New ECEF converter (C{Ecef...} I{instance}).
+        '''Set this LTP's ECEF converter (C{Ecef...} I{instance}).
 
            @raise TypeError: Invalid B{C{ecef}}.
         '''

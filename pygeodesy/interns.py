@@ -12,13 +12,6 @@ _pl2List      =  None  # cached _platform2 lists
 _Py3List      =  None  # cached _pythonarchine lists
 
 
-def _ALL_MODS():
-    '''(INTERNAL) Avoid circular import.
-    '''
-    from pygeodesy.lazily import _ALL_MODS
-    return _ALL_MODS
-
-
 class _Dash(str):
     '''(INTERNAL) Extended C{str} for prefix_DASH_.
     '''
@@ -75,18 +68,12 @@ class _Python_(str):  # overwritten by singleton below
 class _Range(str):
     '''(INTERNAL) Extended C{str} for C{range} strings.
     '''
-    _Fmt = None  # cached .streprs.Fmt
-
     def __call__(self, lo, hi, lopen=False, ropen=False,
                                prec=0, sep=_COMMASPACE_):
         '''Return the range as C{"(lo, hi)"}, C{"(lo, hi]"},
            C{"[lo, hi)"} or C{"[lo, hi]"}.
         '''
-        Fmt = _Range._Fmt
-        if Fmt is None:
-            _MODS = _ALL_MODS()
-            _Range._Fmt = Fmt = _MODS.streprs.Fmt
-
+        from pygeodesy.streprs import Fmt
         r = NN(Fmt.f(lo, prec=prec), sep,
                Fmt.f(hi, prec=prec))
         if lopen:
@@ -192,6 +179,7 @@ _deg_                 = 'deg'                # PYCHOK expected
 _degrees_             = 'degrees'            # PYCHOK expected
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
 _DEQUALSPACED_   = Str_(' == ')              # PYCHOK expected
+_DIG_                 = 'DIG'                # PYCHOK expected
 _distance_            = 'distance'           # PYCHOK expected
 _distanceTo_          = 'distanceTo'         # PYCHOK expected
 _distant_     = _Prefix('distant')           # PYCHOK expected
@@ -215,6 +203,11 @@ _end_                 = 'end'                # PYCHOK expected
 _epoch_               = 'epoch'              # PYCHOK expected
 _EPS_                 = 'EPS'                # PYCHOK expected
 _EPS0_                = 'EPS0'               # PYCHOK expected
+_EPS02_               = 'EPS02'              # PYCHOK expected
+_EPS1_                = 'EPS1'               # PYCHOK expected
+_EPS2_                = 'EPS2'               # PYCHOK expected
+_EPS_2_               = 'EPS_2'              # PYCHOK expected
+_EPS4_                = 'EPS4'               # PYCHOK expected
 _EQUAL_          = Str_('=')                 # PYCHOK expected
 _EQUALSPACED_    = Str_(' = ')               # PYCHOK expected
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
@@ -244,6 +237,7 @@ _INF_                 = 'INF'                # PYCHOK expected
 _infinite_            = 'infinite'           # PYCHOK _not_finite_
 _initial_             = 'initial'            # PYCHOK expected
 _inside_              = 'inside'             # PYCHOK expected
+_INT0_                = 'INT0'               # PYCHOK expected
 _intersection_        = 'intersection'       # PYCHOK expected
 _Intl1924_            = 'Intl1924'           # PYCHOK expected
 _invalid_             = 'invalid'            # PYCHOK expected
@@ -278,12 +272,15 @@ _M_                   = 'M'                  # PYCHOK expected
 _m12_                 = 'm12'                # PYCHOK expected
 _M12_                 = 'M12'                # PYCHOK expected
 _M21_                 = 'M21'                # PYCHOK expected
+_MANT_DIG_            = 'MANT_DIG'           # PYCHOK expected
+_MAX_                 = 'MAX'                # PYCHOK expected
 _mean_                = 'mean'               # PYCHOK expected
 _meanOf_              = 'meanOf'             # PYCHOK expected
 _meridional_          = 'meridional'         # PYCHOK expected
 _meter_               = 'meter'              # PYCHOK expected
 _meter2_              = 'meter2'             # PYCHOK SQUARED
 _MGRS_                = 'MGRS'               # PYCHOK expected
+_MIN_                 = 'MIN'                # PYCHOK expected
 _MINUS_               = _DASH_               # PYCHOK expected
 _module_              = 'module'             # PYCHOK expected
 _n_                   = 'n'                  # PYCHOK expected
@@ -296,11 +293,14 @@ _name_                = 'name'               # PYCHOK expected
 _NAN_                 = 'NAN'                # PYCHOK expected
 _near_          = _Dash('near')              # PYCHOK expected
 _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
+_NEG0_                = 'NEG0'               # PYCHOK expected
+_NINF_                = 'NINF'               # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
 _NL_             = Str_('\n')                # PYCHOK expected
 _NL_hash_        = Str_(_NL_ + '# ')         # PYCHOK expected
 _NL_NL_          = Str_(_NL_ + _NL_)         # PYCHOK expected
 _NL_var_         = Str_(_NL_ + '@var ')      # PYCHOK expected
+_NN_                  = 'NN'                 # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
@@ -324,6 +324,13 @@ _PERCENT_             = '%'                  # PYCHOK expected
 _PERCENTDOTSTAR_      = '%.*'                # PYCHOK _DOT_(_PERCENT_, _STAR_)
 _perimeterOf_         = 'perimeterOf'        # PYCHOK expected
 _phi_                 = 'phi'                # PYCHOK expected
+_PI_                  = 'PI'                 # PYCHOK expected
+_PI2_                 = 'PI2'                # PYCHOK expected
+_PI_2_                = 'PI_2'               # PYCHOK expected
+_PI3_                 = 'PI3'                # PYCHOK expected
+_PI3_2_               = 'PI3_2'              # PYCHOK expected
+_PI4_                 = 'PI4'                # PYCHOK expected
+_PI_4_                = 'PI_4'               # PYCHOK expected
 _PLUS_           = Str_('+')                 # PYCHOK expected
 _PLUSMINUS_           = _PLUS_ + _MINUS_     # PYCHOK expected
 _point_               = 'point'              # PYCHOK expected
@@ -399,7 +406,6 @@ _valid_               = 'valid'              # PYCHOK expected
 _value_               = 'value'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
-# __vs__              = ' vs '               # PYCHOK vsSPACED
 _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
@@ -456,10 +462,10 @@ def float_(*fs, **sets):
             f = float(f)
             fl.append(_f(f, f))
     except Exception as x:
-        _MODS = _ALL_MODS()
-        Error = _MODS.errors._xError
-        Fmt   = _MODS.streprs.Fmt
-        raise Error(x, Fmt.SQUARE(fs=i), f)
+        from pygeodesy.lazily import _ALL_MODS
+        _E, t = _ALL_MODS.errors._xError2(x)
+        _fs_i = _ALL_MODS.streprs.Fmt.SQUARE(fs=i)
+        raise _E(_fs_i, f, txt=t)
     return fl[0] if len(fl) == 1 else tuple(fl)
 
 
@@ -601,12 +607,12 @@ PI_4    = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 R_M     = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 
-def _enquote(txt, quote=_QUOTE2_):  # in .basics
-    '''(INTERNAL) Enquote a string if containing whitespace.
+def _enquote(strs, quote=_QUOTE2_):  # in .basics
+    '''(INTERNAL) Enquote a string containing whitespace.
     '''
-    if len(txt.split()) > 1:
-        txt = NN(quote, txt, quote)
-    return txt
+    if len(strs.split()) > 1:
+        strs = NN(quote, strs, quote)
+    return strs
 
 
 def _90_EPS_2(lat):
@@ -696,11 +702,18 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
     return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
+def _spaced(arg, *args):
+    '''(INTERNAL) Enclosed in C{_SPACE_}s.
+    '''
+    return NN(_SPACE_, (_SPACE_(arg, *args) if args else arg), _SPACE_)
+
+
 def _splituple(strs, *sep_splits):  # in .basics
-    '''(INTERNAL) Split a string into a C{tuple} of stripped strings.
+    '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
+       string into a C{tuple} of stripped strings.
     '''
     t = (strs.split(*sep_splits) if sep_splits else
-         strs.split(_COMMA_))    if strs else ()
+         strs.replace(_COMMA_, _SPACE_).split()) if strs else ()
     return tuple(s.strip() for s in t if s)
 
 
@@ -719,7 +732,13 @@ def _sysctl_uint(name):
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
 
-def _usage(file_py, *args):
+def _under_name(name):  # in .datums
+    '''(INTERNAL) Prefix C{name} with I{underscore}.
+    '''
+    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
+
+
+def _usage(file_py, *args):  # in .etm
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
     import os, sys  # PYCHOK imports
@@ -747,16 +766,16 @@ def _version2(version, n=2):
 
 
 MANTIS  =   MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
-__all__ = ('DIG',
-           _EPS_, _EPS0_, 'EPS02', 'EPS1', 'EPS2', 'EPS_2', 'EPS4',
-           'INF', 'INT0',
-           'MANT_DIG', 'MAX', 'MIN',  # don't include 'MISSING'!
+__all__ = (_DIG_,
+           _EPS_, _EPS0_, _EPS02_, _EPS1_, _EPS2_, _EPS_2_, _EPS4_,
+           _INF_, _INT0_,
            'MANTIS',  # DEPRECATED
-           'NAN', 'NEG0', 'NINF', 'NN',
-           'PI', 'PI2', 'PI_2', 'PI3', 'PI3_2', 'PI4', 'PI_4',
-           'Str_',  # classes
+           _MANT_DIG_, _MAX_, _MIN_,  # don't include _MISSING_!
+           _NAN_, _NEG0_, _NINF_, _NN_,
+           _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
+            Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.06.21'
+__version__ = '22.06.28'
 
 
 # **) MIT License

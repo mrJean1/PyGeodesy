@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.06.17'
+__version__ = '22.06.26'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1146,9 +1146,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @KsOrder.setter  # PYCHOK setter!
     def KsOrder(self, order):
-        '''Set the I{Krüger} series' order.
-
-           @arg order: New I{Krüger} series' order (C{int} 4, 6 or 8).
+        '''Set the I{Krüger} series' order (C{int} 4, 6 or 8).
 
            @raise ValueError: Invalid B{C{order}}.
         '''

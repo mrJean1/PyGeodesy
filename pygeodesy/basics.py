@@ -18,7 +18,7 @@ from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
                              _TypesError, _ValueError, _xError, _xkwds_get
 from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
                              _by_, _DOT_, _enquote, _EQUAL_, _in_, _INF_, \
-                             _invalid_, _N_A_, _name_, _NAN_, _SPACE_, \
+                             _invalid_, _N_A_, _name_, _NAN_, _NINF_, _SPACE_, \
                              _splituple, _UNDER_, _utf_8_, _version_, \
                              _0_0, _0_5, _1_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
@@ -28,11 +28,12 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.06.19'
+__version__ = '22.06.26'
 
 _below_       = 'below'
+_cannot_      = 'cannot'
 _ELLIPSIS4_   = '....'
-_INF_NAN_NINF = {INF: _INF_, NAN: _NAN_, NINF: 'NINF'}
+_INF_NAN_NINF = {INF: _INF_, NAN: _NAN_, NINF: _NINF_}
 _odd_         = 'odd'
 _required_    = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
@@ -79,7 +80,7 @@ try:
             from traceback import extract_tb
             tb = exc_info()[2]  # 3-tuple (type, value, traceback)
             t4 = extract_tb(tb, 1)[0]  # 4-tuple (file, line, name, 'import ...')
-            t = _SPACE_('cannot', t4[3] or _N_A_)
+            t = _SPACE_(_cannot_, t4[3] or _N_A_)
             del tb, t4
         return t
 
@@ -164,6 +165,27 @@ else:
     from inspect import isclass  # PYCHOK re-import
 
 
+try:
+    from math import isclose as _isclose
+except ImportError:  # Python 3.4-
+
+    def _isclose(a, b, rel_tol=1e-9, abs_tol=0):
+        '''Mimick Python 3.5+ C{math.isclose}.
+        '''
+        t, d = abs_tol, abs(a - b)
+        if d > t:
+            r = max(abs(a), abs(b)) * rel_tol
+            t = max(r, t)
+        return d <= t
+
+
+def isclose(a, b, rel_tol=1e-12, abs_tol=EPS0):
+    '''Like C{math.isclose}, but with defaults such
+       that C{isclose(0, EPS0)} is C{True} by default.
+    '''
+    return _isclose(a, b, rel_tol=rel_tol, abs_tol=abs_tol)
+
+
 def iscomplex(obj):
     '''Check whether an object is C{complex}.
 
@@ -187,23 +209,22 @@ except ImportError:  # Python 3.1-
 
 
 def isfinite(obj):
-    '''Check for non-finite C{scalar} value.
+    '''Check a finite C{scalar} or C{complex} value.
 
-       @arg obj: Value (C{scalar}).
+       @arg obj: Value (C{scalar} or C{complex}).
 
        @return: C{False} if B{C{obj}} is C{INF}, C{NINF}
                 or C{NAN}, C{True} otherwise.
 
-       @raise TypeError: Non-scalar B{C{obj}}.
+       @raise TypeError: Non-scalar and non-complex B{C{obj}}.
     '''
     try:
         return (obj not in _INF_NAN_NINF) and _isfinite(obj)
     except Exception as x:
-        if not iscomplex(obj):
-            P = _MODS.streprs.Fmt.PAREN
-            raise _xError(x, P(isfinite.__name__, obj))
-    # _isfinite(complex) thows TypeError
-    return isfinite(obj.real) and isfinite(obj.imag)
+        if iscomplex(obj):  # _isfinite(complex) thows TypeError
+            return isfinite(obj.real) and isfinite(obj.imag)
+        P = _MODS.streprs.Fmt.PAREN
+        raise _xError(x, P(isfinite.__name__, obj))
 
 
 try:

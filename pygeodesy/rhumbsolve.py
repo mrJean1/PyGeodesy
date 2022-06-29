@@ -14,8 +14,7 @@ of the C{RhumbSolve} executable.
 from pygeodesy.interns import NAN, NN, _azi12_, _lat2_, _lon2_, _s12_, _S12_, \
                              _UNDER_, _90_0, _180_0, _N_180_0, _not_  # PYCHOK used!
 from pygeodesy.karney import GDict, _norm180, _sincos2d, _xinstanceof, wrap360
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _getenv, printf
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO
 from pygeodesy.rhumbx import Caps, RhumbError, Rhumb8Tuple  # PYCHOK used!
@@ -23,7 +22,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '22.05.31'
+__version__ = '22.06.26'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 
@@ -54,9 +53,7 @@ class _RhumbSolveBase(_SolveBase):
     @RhumbSolve.setter  # PYCHOK setter!
     def RhumbSolve(self, path):
         '''Set the U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
-           executable (C{filename}).
-
-           @arg path: The (fully qualified) path to the C{RhumbSolve} executable (C{str}).
+           executable (C{filename}), the (fully qualified) path to the C{RhumbSolve} executable.
 
            @raise RhumbError: Invalid B{C{path}}, B{C{path}} doesn't exist or isn't
                               the C{RhumbSolve} executable.

@@ -4,12 +4,12 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '22.04.25'
+__version__ = '22.06.24'
 
 from base import TestsBase
 
-from pygeodesy import INF, INT0, NAN, NEG0, NINF, clips, halfs2, \
-                      isint, isint0, isfinite, isneg0, isninf, isscalar, \
+from pygeodesy import EPS, EPS0, INF, INT0, NAN, NEG0, NINF, clips, halfs2, \
+                      isclose, isfinite, isint, isint0, isneg0, isninf, isscalar, \
                       map1, property_RO, remainder, splice
 from pygeodesy.basics import _xdup
 
@@ -47,6 +47,9 @@ class Tests(TestsBase):
             self.test('isint(%s+0.5)' % (t,), isint(f + 0.5, both=True), y)
             self.test('isninf(%s)'    % (t,), isninf(f), n)
             self.test('isscalar(%s)'  % (t,), isscalar(f), s)
+
+        self.test('isfinite(complex)', isfinite(complex(1, 2)), True, nl=1)
+        self.test('isfinite(complex)', isfinite(complex(1, NAN)), False)
 
         self.test('isint0(INT0)',  isint0(INT0), True, nl=1)
         self.test('isint0(False)', isint0(False), False)
@@ -126,6 +129,9 @@ class Tests(TestsBase):
             except Exception as e:
                 r =  str(e)
             self.test('remainder%s' % ((a, b),), r, x)
+
+        self.test('isclose', isclose(0, EPS0), True)
+        self.test('isclose', isclose(0, EPS), False)
 
 
 if __name__ == '__main__':

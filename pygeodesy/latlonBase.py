@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.06.16'
+__version__ = '22.06.29'
 
 
 class LatLonBase(_NamedBase):
@@ -618,9 +618,7 @@ class LatLonBase(_NamedBase):
 
     @height.setter  # PYCHOK setter!
     def height(self, height):
-        '''Set the height.
-
-           @arg height: New height (C{meter}).
+        '''Set the height (C{meter}).
 
            @raise TypeError: Invalid B{C{height}} C{type}.
 
@@ -764,9 +762,7 @@ class LatLonBase(_NamedBase):
 
     @lat.setter  # PYCHOK setter!
     def lat(self, lat):
-        '''Set the latitude.
-
-           @arg lat: New latitude (C{str[N|S]} or C{degrees}).
+        '''Set the latitude (C{str[N|S]} or C{degrees}).
 
            @raise ValueError: Invalid B{C{lat}}.
         '''
@@ -783,11 +779,9 @@ class LatLonBase(_NamedBase):
 
     @latlon.setter  # PYCHOK setter!
     def latlon(self, latlonh):
-        '''Set the lat- and longitude and optionally the height.
-
-           @arg latlonh: New lat-, longitude and height (2- or
-                         3-tuple or comma- or space-separated C{str}
-                         of C{degrees90}, C{degrees180} and C{meter}).
+        '''Set the lat- and longitude and optionally the height
+           (2- or 3-tuple or comma- or space-separated C{str}
+           of C{degrees90}, C{degrees180} and C{meter}).
 
            @raise TypeError: Height of B{C{latlonh}} not C{scalar} or
                              B{C{latlonh}} not C{list} or C{tuple}.
@@ -848,9 +842,7 @@ class LatLonBase(_NamedBase):
 
     @lon.setter  # PYCHOK setter!
     def lon(self, lon):
-        '''Set the longitude.
-
-           @arg lon: New longitude (C{str[E|W]} or C{degrees}).
+        '''Set the longitude (C{str[E|W]} or C{degrees}).
 
            @raise ValueError: Invalid B{C{lon}}.
         '''
@@ -1016,6 +1008,139 @@ class LatLonBase(_NamedBase):
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
+    def _rhumb1(self, exact, radius):
+        '''(INTERNAL) Get the C{rhumb} for this point's datum (ellipsoid)
+           or for the B{C{radius}} if not C{None}.
+        '''
+        E = self.datum.ellipsoid if radius is None else \
+           _MODS.datums._spherical_datum(radius, raiser=True).ellipsoid
+        return E.rhumbx if exact else _MODS.rhumbx.Rhumb(E, exact=False,
+                                                            name=E.name)
+
+    def rhumbAzimuthTo(self, other, exact=False, radius=None):
+        '''Return the azimuth (bearing) of a rhumb line (loxodrome)
+           between this and an other (ellipsoidal) point.
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False}.
+           @kwarg radius: Optional mean earth radius (C{meter}), overriding
+                          this point's datum (ellipsoid).
+
+           @return: Rhumb azimuth (compass C{degrees360}).
+
+           @raise TypeError: The B{C{other}} point is incompatible or
+                             B{C{radius}} is invalid.
+        '''
+        self.others(other)
+        r =  self._rhumb1(exact, radius)
+        C = _MODS.rhumbx.Caps
+        return r.Inverse(self.lat, self.lon, other.lat, other.lon,
+                                             outmask=C.AZIMUTH).azi12
+
+    def rhumbDestination(self, distance, bearing, exact=False, radius=None, height=None):
+        '''Return the destination point having travelled the given distance
+           from this point along a rhumb line (loxodrome) at the given bearing.
+
+           @arg distance: Distance travelled (C{meter}, same units as this
+                          point's datum (ellipsoid) axes or B{C{radius}},
+                          may be negative.
+           @arg bearing: Bearing from this point (compass C{degrees360}).
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False}.
+           @kwarg radius: Optional mean earth radius (C{meter}), overriding
+                          this point's datum (ellipsoid).
+           @kwarg height: Optional height, overriding the default height
+                          (C{meter}).
+
+           @return: The destination point (ellipsoidal C{LatLon}).
+
+           @raise TypeError: Invalid B{C{radius}}.
+
+           @raise ValueError: Invalid B{C{distance}}, B{C{bearing}},
+                              B{C{radius}} or B{C{height}}.
+
+           @JSname: I{rhumbDestinationPoint}
+        '''
+        r = self._rhumb1(exact, radius)
+        d = r.Direct(self.lat, self.lon, bearing, distance)
+        h = self.height if height is None else Height(height)
+        return self.classof(d.lat2, d.lon2, height=h)
+
+    def rhumbDistanceTo(self, other, exact=False, radius=None):
+        '''Return the distance from this to an other point along
+           a rhumb line (loxodrome).
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False}.
+           @kwarg radius: Optional mean earth radius (C{meter}), overriding
+                          this point's datum (ellipsoid).
+
+           @return: Distance (C{meter}, the same units as this point's
+                    datum (ellipsoid) axes or B{C{radius}}.
+
+           @raise TypeError: The B{C{other}} point is incompatible or
+                             B{C{radius}} is invalid.
+
+           @raise ValueError: Invalid B{C{radius}}.
+        '''
+        self.others(other)
+        r =  self._rhumb1(exact, radius)
+        C = _MODS.rhumbx.Caps
+        return r.Inverse(self.lat, self.lon, other.lat, other.lon,
+                                             outmask=C.DISTANCE).s12
+
+    def rhumbLine(self, azi12=None, exact=False, name=NN, radius=None, **caps):
+        '''Get a rhumb line through this point.
+
+           @kwarg azi12: The azimuth of the rhumb line (compass C{degrees}).
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False}.
+           @kwarg name: Optional name (C{str}).
+           @kwarg radius: Optional mean earth radius (C{meter}), overriding
+                          this point's datum (ellipsoid).
+           @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
+                        specifying the required capabilities of the rhumb
+                        line, overriding the default C{Caps.STANDARD}.
+
+           @return: A L{RhumbLine} instance.
+
+           @raise TypeError: Invalid B{C{radius}}.
+
+           @see: Class L{Rhumb}, property L{Rhumb.exact}, method
+                 L{Rhumb.DirectLine} and class L{RhumbLine} for further details.
+        '''
+        r = self._rhumb1(exact, radius)
+        return r.DirectLine(self.lat, self.lon, azi12=azi12,
+                            name=name or self.name, **caps)
+
+    def rhumbMidpointTo(self, other, exact=False, radius=None, height=None):
+        '''Return the (loxodromic) midpoint between this and
+           an other point.
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg exact: If C{True}, use the I{exact} L{Rhumb} (C{bool}),
+                         default C{False}.
+           @kwarg radius: Optional mean earth radius (C{meter}), overriding
+                          this point's datum (ellipsoid).
+           @kwarg height: Optional height, overriding the mean height
+                          (C{meter}).
+
+           @return: The midpoint (C{LatLon}).
+
+           @raise TypeError: The B{C{other}} point is incompatible or
+                             B{C{radius}} is invalid.
+
+           @raise ValueError: Invalid B{C{height}}.
+        '''
+        self.others(other)
+        r = self._rhumb1(exact, radius)
+        d = r.Inverse(self.lat, self.lon, other.lat, other.lon)
+        d = r.Direct( self.lat, self.lon, d.azi12, d.s12 * _0_5)
+        h = self._havg(other) if height is None else Height(height)
+        return self.classof(d.lat2, d.lon2, height=h)
+
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
            U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
@@ -1081,7 +1206,7 @@ class LatLonBase(_NamedBase):
         if E:
             for p in (p, c):
                 e = getattr(p, LatLonBase.Ecef.name, None)
-                if e not in (None, E):
+                if e not in (None, E):  # PYCHOK no cover
                     n, _ = name_point.popitem()
                     if i is not None:
                         Fmt.SQUARE(n, i)

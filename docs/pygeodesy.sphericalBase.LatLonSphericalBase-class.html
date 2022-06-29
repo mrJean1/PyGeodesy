@@ -220,10 +220,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbAzimuthTo" class="summary-sig-name">rhumbAzimuthTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the azimuth (bearing) of a rhumb line (loxodrome) between this
+      and an other (spherical) point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbBearingTo" class="summary-sig-name">rhumbBearingTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the bearing (azimuth) from this to an other point along a 
-      rhumb (loxodrome) line.</td>
+      DEPRECATED, use method <code>.rhumbAzimuthTo</code>.</td>
           <td align="right" valign="top">
             
             
@@ -243,9 +263,10 @@
         <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the destination point having travelled the given distance 
-      along a rhumb (loxodrome) line at the given bearing from this point.</td>
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the destination point having travelled the given distance from
+      this point along a rhumb line (loxodrome) at the given bearing.</td>
           <td align="right" valign="top">
             
             
@@ -263,7 +284,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDistanceTo" class="summary-sig-name">rhumbDistanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the distance from this to an other point along a rhumb 
       (loxodrome) line.</td>
           <td align="right" valign="top">
@@ -283,7 +305,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo" class="summary-sig-name">rhumbMidpointTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
       Return the (loxodromic) midpoint between this and an other point.</td>
           <td align="right" valign="top">
             
@@ -375,6 +399,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#radii11">radii11</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine">rhumbLine</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
@@ -735,6 +760,53 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="rhumbAzimuthTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbAzimuthTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the azimuth (bearing) of a rhumb line (loxodrome) between this 
+  and an other (spherical) point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Rhumb azimuth (compass <code>degrees180</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
+        <b><code>radius</code></b> is invalid.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo">latlonBase.LatLonBase.rhumbAzimuthTo</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.127, 1.338)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(50.964, 1.853)
+<span class="py-prompt">&gt;&gt;&gt; </span>b = p.rhumbBearingTo(q)  <span class="py-comment"># 116.7</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="rhumbBearingTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -750,27 +822,14 @@
     </td>
   </tr></table>
   
-  <p>Return the bearing (azimuth) from this to an other point along a rhumb
-  (loxodrome) line.</p>
+  <p>DEPRECATED, use method <code>.rhumbAzimuthTo</code>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
+    <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Initial bearing (compass <code>degrees360</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not spherical.</li>
+        <li><code>@deprecated_method</code></li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(51.127, 1.338)
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(50.964, 1.853)
-<span class="py-prompt">&gt;&gt;&gt; </span>b = p.rhumbBearingTo(q)  <span class="py-comment"># 116.7</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="rhumbDestination"></a>
 <div>
@@ -783,24 +842,28 @@
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">bearing</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the destination point having travelled the given distance along
-  a rhumb (loxodrome) line at the given bearing from this point.</p>
+  <p>Return the destination point having travelled the given distance from 
+  this point along a rhumb line (loxodrome) at the given bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
+          <b><code>radius</code></b>), can be negative.</li>
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
           (<code>meter</code>, same unit as <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (spherical <code>LatLon</code>).</dd>
@@ -809,6 +872,9 @@
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>bearing</code></b>, 
         <b><code>radius</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination">latlonBase.LatLonBase.rhumbDestination</a>
+    </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -829,7 +895,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -843,6 +910,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, the same units as 
@@ -850,9 +920,12 @@
           <b><code>radius</code></b> is <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not spherical.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo">latlonBase.LatLonBase.rhumbDistanceTo</a>
+    </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -871,7 +944,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbMidpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -884,6 +959,10 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The midpoint (spherical <code>LatLon</code>).</dd>
@@ -892,6 +971,9 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not spherical.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
     </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo">latlonBase.LatLonBase.rhumbMidpointTo</a>
+    </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1001,7 +1083,14 @@ class="link">Datum</a>).
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>)</span>
-        - Set this point's datum <i>without conversion</i>.
+        - Set this point's datum <i>without conversion</i> (<a 
+href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, <a 
+href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+class="link">Ellipsoid</a>, <a 
+href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+class="link">Ellipsoid2</a>, <a 
+href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+class="link">a_f2Tuple</a>) or <code>scalar</code> spherical earth radius).
     </dd>
   </dl>
 </td></tr></table>
@@ -1038,7 +1127,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 21 07:26:39 2022
+    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:21 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

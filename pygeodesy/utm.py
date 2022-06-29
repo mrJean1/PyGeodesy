@@ -64,7 +64,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.06.04'
+__version__ = '22.06.26'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -337,10 +337,8 @@ class Utm(UtmUpsBase):
 
     @band.setter  # PYCHOK setter!
     def band(self, band):
-        '''Set or reset the I{latitudinal} band.
-
-           @arg band: The I{latitudinal} band letter (C{'C'|..|'X'})
-                      or C{None} or C{""} to reset.
+        '''Set or reset the I{latitudinal} band letter (C{'C'|..|'X'})
+           or C{None} or C{""} to reset.
 
            @raise TypeError: Invalid B{C{band}}.
 
@@ -586,10 +584,11 @@ class Utm(UtmUpsBase):
         '''
         u = self._ups
         if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
-            ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
-            self._ups = u = _MODS.ups.toUps8(ll, Ups=_MODS.ups.Ups,
-                                                 falsed=falsed, pole=pole,
-                                                 strict=False, name=self.name)
+            ll  =  self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
+            ups = _MODS.ups
+            self._ups = u = ups.toUps8(ll, Ups=ups.Ups,
+                                           falsed=falsed, pole=pole,
+                                           strict=False, name=self.name)
         return u
 
     def toUtm(self, zone, eps=EPS, falsed=True, **unused):

@@ -23,28 +23,24 @@ A C{lazy import} of a top-level module inherently loads all sub-modules
 imported by that top-level module.
 '''
 from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
-                             _areaOf_, _attribute_, _COLONSPACE_, \
+                             _areaOf_, _attribute_, _by_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, \
                              _dunder_name, _enabled_, _EQUALSPACED_, \
-                             _immutable_, _isclockwise_, _ispolar_, \
-                             _module_, _NL_, _no_, _not_, _or_, \
-                             _perimeterOf_, _Python_, _pygeodesy_abspath_, \
-                             _sep_, _SPACE_, _UNDER_, _version_
+                             _from_, _immutable_, _isclockwise_, _ispolar_, \
+                             _module_, _NL_, _no_, _not_, _or_, _perimeterOf_, \
+                             _Python_, _pygeodesy_abspath_, _SPACE_, \
+                             _spaced, _UNDER_, _version_
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
 import sys as _sys  # in .props
-try:
-    from importlib import import_module
-except ImportError:  # no import_module in Python 2.6-
-
-    def import_module(name, package=None):  # PYCHOK
-        raise LazyImportError(name=name, package=package,
-                              txt=_no_(import_module.__name__))
 
 _a_l_l_            = '__all__'
+_as__              = _spaced('as')
 _FOR_DOCS          = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _imports_          = 'imports'
+_lazily_           = 'lazily'
+_line_             = 'line'
 _p_a_c_k_a_g_e_    = '__package__'
 _pygeodesy_        = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
@@ -55,6 +51,14 @@ _sys_version_info2 = _sys.version_info[:2]  # in .fmath, .geodsolve
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy in .__init__
+
+try:
+    from importlib import import_module
+except ImportError:  # Python 2.6-
+
+    def import_module(name, package=None):
+        raise LazyImportError(name=name, package=package,
+                              txt=_no_(import_module.__name__))
 
 
 class LazyImportError(ImportError):
@@ -70,15 +74,16 @@ class _Dict(dict):
     def add(self, key, value, *values):
         '''Add C{[key] = value}, typically C{[attr] = mod}.
 
-           @raise AssertionError: The B{C{key}} already
-                                  exists with different
-                                  B{C{value}}.
+           @raise AssertionError: The B{C{key}} already exists
+                                  with a different B{C{value}}.
         '''
         if key in self:
             val = self[key]  # duplicate OK
             if val != value and val not in values:  # PYCHOK no cover
                 k = _ALL_MODS.streprs.Fmt.SQUARE(_imports_, key)
-                raise AssertionError('%s: %r, not %r' % (k, val, value))
+                t = _COLONSPACE_(k,       repr(val))
+                t = _COMMASPACE_(t, _not_(repr(value)))
+                raise AssertionError(t)
         else:
             self[key] = value
 
@@ -88,7 +93,7 @@ class _NamedEnum_RO(dict):
     '''
 #   _name = NN  # also first kwd, __init__(_name=...)
 
-    def _DOT_(self, attr):
+    def _DOT_(self, attr):  # PYCHOK no cover
         return _DOT_(self._name, attr)  # PYCHOK _name
 
     def __getattr__(self, attr):
@@ -121,9 +126,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
-                                 'isbool', 'isclass', 'iscomplex', 'isfinite', 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
-                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd', 'isscalar',
-                                 'issequence', 'isstr', 'issubclassof', 'istuplist',
+                                 'isbool', 'isclass', 'isclose', 'iscomplex',
+                                 'isfinite', 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
+                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd',
+                                 'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
                                  'len2', 'map1', 'map2', 'neg', 'neg_', 'remainder',
                                  'signBit', 'signOf', 'splice', 'ub2str', 'unsigned0'),
                    cartesianBase=(),  # module only
@@ -396,18 +402,18 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.06.20'
+__version__ = '22.06.28'
 
 
 def _ALL_OTHER(*objs):
     '''(INTERNAL) Get class and function B{C{objs}} for __all__.
     '''
-    from pygeodesy import interns  # PYCHOK import
+    _interns = _ALL_MODS.interns  # from pygeodesy import interns
 
     def _dun(o):
         n = _dunder_name(o).rsplit(_DOT_, 1)[-1]
-        i = NN(_UNDER_, n, _UNDER_)  # intern'd
-        return getattr(interns, i, n)
+        i =  NN(_UNDER_, n, _UNDER_)  # intern'd
+        return getattr(_interns, i, n)
 
     return tuple(map(_dun, objs))
 
@@ -433,27 +439,30 @@ def _all_imports(**more):
     #  from pygeodesy import <attr>           - [<attr>] = <attr>
     #  from <module> import <attr> as <name>  - [<name>] = <module>.<attr>
     imports = _Dict()
-    imports_add = imports.add
+    _add = imports.add
 
     for ALL in (_ALL_LAZY, _ALL_OVERRIDDEN, more):
         for mod, attrs in ALL.items():
             if isinstance(attrs, tuple) and not mod.startswith(_UNDER_):
-                imports_add(mod, mod)
+                _add(mod, mod)
                 for attr in attrs:
-                    attr, _, as_attr = attr.partition(' as ')
+                    attr, _, as_attr = attr.partition(_as__)
                     if as_attr:
-                        imports_add(as_attr, _DOT_(mod, attr), *_sub_packages)
+                        _add(as_attr, _DOT_(mod, attr), *_sub_packages)
                     else:
-                        imports_add(attr, mod)
+                        _add(attr, mod)
     return imports
 
 
 def _all_missing2(_all_):
     '''(INTERNAL) Get diffs between pygeodesy.__all__ and lazily._all_imports.
     '''
+    def _diff(one, two):
+        return _COMMASPACE_.join(a for a in one if a not in two)
+
     _alzy = _all_imports(**_NamedEnum_RO((a, ()) for a in _ALL_INIT))
-    return ((_DOT_('lazily', _all_imports.__name__), _COMMASPACE_.join(a for a in _all_ if a not in _alzy)),
-            (_DOT_(_pygeodesy_, _a_l_l_),            _COMMASPACE_.join(a for a in _alzy if a not in _all_)))
+    return ((_DOT_(_lazily_, _all_imports.__name__), _diff(_all_, _alzy)),
+            (_DOT_(_pygeodesy_, _a_l_l_),            _diff(_alzy, _all_)))
 
 
 def _caller3(up):  # in .named
@@ -468,7 +477,7 @@ def _caller3(up):  # in .named
             f.f_lineno)  # line number
 
 
-def _lazy_import2(package_name):  # MCCABE 15
+def _lazy_import2(package_name):  # MCCABE 14
     '''Check for and set up C{lazy import}.
 
        @arg package_name: The name of the package (C{str}) performing
@@ -495,7 +504,7 @@ def _lazy_import2(package_name):  # MCCABE 15
              U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
     '''
     if package_name != _pygeodesy_ or _sys_version_info2 < (3, 7):  # not supported before 3.7
-        t = _no_(_DOT_(package_name, _lazy_import2.__name__))
+        t = _no_(_DOT_(package_name, _lazy_import2.__name__))  # PYCHOK no cover
         raise LazyImportError(t, txt=_Python_(_sys.version))
 
     package, parent = _lazy_init2(_pygeodesy_)
@@ -523,29 +532,28 @@ def _lazy_import2(package_name):  # MCCABE 15
                 imported = getattr(imported, attr, MISSING)
             elif name != mod:
                 imported = getattr(imported, name, MISSING)
-            if imported is MISSING:
-                raise LazyImportError(_no_(_attribute_),
-                                      txt=_DOT_(mod, attr or name))
+            if imported is MISSING:  # PYCHOK no cover
+                t = _DOT_(mod, attr or name)
+                raise LazyImportError(_no_(_attribute_), txt=t)
 
         elif name in (_a_l_l_,):  # XXX '_d_i_r_', '_m_e_m_b_e_r_s_'?
             imported = _ALL_INIT + tuple(imports.keys())
             mod = NN
-        else:
-            raise LazyImportError(_no_(_module_, _or_, _attribute_),
-                                  txt=_DOT_(parent, name))
+        else:  # PYCHOK no cover
+            t = _no_(_module_, _or_, _attribute_)
+            raise LazyImportError(t, txt=_DOT_(parent, name))
 
         setattr(package, name, imported)
         if isLazy > 1:
-            z = NN
-            if mod and mod != name:
-                z = ' from .%s' % (mod,)
+            t = _DOT_(_spaced(_from_), mod) if mod and mod != name else NN
             if isLazy > 2:
                 try:  # see C{_caller3}
                     _, f, s = _caller3(2)
-                    z = '%s by %s line %d' % (z, f, s)
+                    t = _SPACE_(t, _by_, f, _line_, s)
                 except ValueError:
                     pass
-            printf('# lazily imported %s%s', _DOT_(parent, name), z)
+            t = NN(_DOT_(parent, name), t)
+            printf('# %s imported %s', _lazily_, t)
 
         return imported  # __getattr__
 
@@ -573,7 +581,7 @@ def _lazy_init2(package_name):
 
     z = _getenv(_PYGEODESY_LAZY_IMPORT_, None)
     if z is None:  # _PYGEODESY_LAZY_IMPORT_ not set
-        isLazy = 1  # ... but on by default on 3.7
+        isLazy = 1  # ... but only by default on 3.7
     else:
         z = z.strip()  # like PYTHONVERBOSE et.al.
         isLazy = int(z) if z.isdigit() else (1 if z else 0)
@@ -586,7 +594,7 @@ def _lazy_init2(package_name):
         package = import_module(package_name)
         parent = package.__spec__.parent  # __spec__ only in Python 3.7+
         if parent != package_name:  # assert
-            t = _COMMASPACE_(parent, _not_(package_name))
+            t = _COMMASPACE_(parent, _not_(package_name))  # PYCHOK no cover
             raise AttributeError(_EQUALSPACED_('parent', t))
 
     except (AttributeError, ImportError) as x:
@@ -596,46 +604,73 @@ def _lazy_init2(package_name):
     return package, parent
 
 
+def _pairs(*args, **kwds):  # in .errors, .ktm
+    # from pygeodesy.streprs import pairs
+    return _ALL_MODS.streprs.pairs(*args, **kwds)
+
+
 def print_(*args, **nl_nt_prefix_end_file_flush_sep):  # PYCHOK no cover
-    '''Python 3-style C{print} function.
+    '''Python 3+ C{print}-like formatting and printing.
 
-       @arg args: Values to be converted to C{str} and
-                  concatenated (C{any} types).
-       @kwarg nl=0: Number of leading blank lines (C{int}).
-       @kwarg nt=0: Number of additional, trailing blank lines (C{int}).
-       @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
+       @arg args: Arguments to be converted to C{str} and joined by B{C{sep}}
+                  (C{any} type, all positional).
+       @kwarg nl_nt_prefix_end_file_flush_sep: Keyword arguments C{B{nl}=0}
+                 for the number of leading blank lines (C{int}), C{B{nt}=0}
+                 the number of trailing blank lines (C{int}), C{B{prefix}=NN}
+                 to be inserted before the formatted text (C{str}) and Python
+                 3+ C{print} keyword arguments C{B{end}}, C{B{sep}}, C{B{file}}
+                 and C{B{flush}}.
 
-       @note: Python 3+ keyword arguments C{end}, C{file} and C{flush}
-              are silently ignored.
+       @return: Number of bytes written.
     '''
-    sep = nl_nt_prefix_end_file_flush_sep.get(_sep_, _SPACE_)
-    txt = sep.join(map(str, args))
-    printf(txt, **nl_nt_prefix_end_file_flush_sep)
+    return printf(NN, *args, **nl_nt_prefix_end_file_flush_sep)
 
 
-def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep):
-    '''C-style C{printf} function.
+def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
+    '''C{Printf-style} and Python 3+ C{print}-like formatting and printing.
 
-       @arg fmt: C-style formating text (C{str}).
-       @arg args: Values to be formatted (C{any} types).
-       @kwarg nl=0: Number of leading blank lines (C{int}).
-       @kwarg nt=0: Number of additional, trailing blank lines (C{int}).
-       @kwarg prefix=NN: To be inserted before the formatted text (C{str}).
+       @arg fmt: U{Printf-style<https://Docs.Python.org/3/library/stdtypes.html#
+                 printf-style-string-formatting>} format specification (C{str}).
+       @arg args: Arguments to be formatted (C{any} types, all positional).
+       @kwarg nl_nt_prefix_end_file_flush_sep_kwds: Keyword arguments C{B{nl}=0}
+                 for the number of leading blank lines (C{int}), C{B{nt}=0} the
+                 number of trailing blank lines (C{int}), C{B{prefix}=NN} to
+                 be inserted before the formatted text (C{str}) and Python 3+
+                 C{print} keyword arguments C{B{end}}, C{B{sep}}, C{B{file}} and
+                 C{B{flush}}.  Any remaining C{B{kwds}} are U{printf-style
+                 <https://Docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting>}
+                 keyword arguments to be formatted, I{iff no B{C{args}} are present}.
 
-       @note: Python 3+ keyword arguments C{end}, C{file}, C{flush}
-              and C{sep} are silently ignored.
+       @return: Number of bytes written.
     '''
-    def _kwds(nl=0, nt=0, prefix=NN, **kwds):  # XXX end?
-        nl = (_NL_ * nl) if nl else NN
-        nt = (_NL_ * nt) if nt else NN
-        return nl, nt, prefix, kwds
+    b, e, s, f, fl, p, kwds = _xprint6(**nl_nt_prefix_end_file_flush_sep_kwds)
+    try:
+        if args:
+            t = (fmt % args) if fmt else s.join(map(str, args))
+        elif kwds:  # PYCHOK no cover
+            t = (fmt % kwds) if fmt else s.join(_pairs(kwds, prec=p))
+        else:  # PYCHOK no cover
+            t =  fmt
+    except Exception as x:
+        _E, t = _ALL_MODS.errors._xError2(x)
+        unstr = _ALL_MODS.streprs.unstr
+        raise _E(t, txt=unstr(printf.__name__, fmt, *args, **
+                        nl_nt_prefix_end_file_flush_sep_kwds))
+    n = f.write(NN(b, t, e))
+    if fl:
+        f.flush()
+    return n
 
-    nl, nt, prefix, _ = _kwds(**nl_nt_prefix_end_file_flush_sep)
-    if args:
-        fmt %= args
-#   elif kwds:
-#       fmt %= kwds
-    print(NN(nl, prefix, fmt, nt))
+
+def _xprint6(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
+                                            end=_NL_, flush=False, **kwds):
+    '''(INTERNAL) Unravel the C{printf} and remaining keyword arguments.
+    '''
+    if nl > 0:
+        prefix = NN(_NL_ * nl, prefix)
+    if nt > 0:
+        end = NN(end, _NL_ * nt)
+    return prefix, end, sep, file, flush, prec, kwds
 
 
 if __name__ == '__main__':
@@ -657,103 +692,13 @@ if __name__ == '__main__':
     printf('%.8f import vs %.8f _ALL_MODS: %.3fX, %s', t1, t2, t2 / t1, v)
 
 # % python3 -W ignore -m pygeodesy.lazily
+# 0.32402850 import vs 0.58554467 _ALL_MODS: 1.807X, Python 3.10.5
+
+# % python3 -W ignore -m pygeodesy.lazily
 # 0.33003067 import vs 0.59858337 _ALL_MODS: 1.814X, Python 3.10.4
 
 # % python2 -m pygeodesy.lazily
 # 1.19996715 import vs 1.39310884 _ALL_MODS: 1.161X, Python 2.7.18
-
-# The implementation below is far too verbose to be worthwhile.
-
-# class _Property_RO(property):
-#     '''(INTERNAL) Sub-set of L{pygeodesy.props.Property_RO}.
-#     '''
-#     def __init__(self, method):
-#         self.method   = method
-#         self.name = n = method.__name__
-#         d = _N_A_ if not _FOR_DOCS else \
-#             '(INTERNAL) Get and cache module L{%s}.' % (n,)
-#         property.__init__(self, self._fget, None, self._fdel, d)
-#
-#     def _fdel(self, inst):  # PYCHOK no cover
-#         '''Zap the I{cached/memoized} C{property} value.
-#         '''
-#         self._update(inst, None)   # PYCHOK no cover
-#
-#     def _fget(self, inst):  # getter
-#         '''Get and I{cache/memoize} the C{property} value.
-#         '''
-#         try:  # to get the value cached in instance' __dict__
-#             return inst.__dict__[self.name]
-#         except KeyError:
-#             # cache the value in the instance' __dict__
-#             inst.__dict__[self.name] = val = self.method(inst)
-#             return val
-#
-#     def __get__(self, inst, *unused):  # PYCHOK 2 vs 3 args
-#         if inst is None:
-#             return self
-#         try:  # to get the cached value immediately
-#             return inst.__dict__[self.name]
-#         except (AttributeError, KeyError):
-#             return self._fget(inst)
-#
-#     def _update(self, inst, *unused):  # PYCHOK no cover
-#         '''(INTERNAL) Zap the I{cached/memoized} C{inst.__dict__[name]} item.
-#         '''
-#         inst.__dict__.pop(self.name, None)  # name, NOT _name
-#
-#     def deleter(self, fdel):  # PYCHOK no cover
-#         '''Throws a C{LazyImportError}, always.
-#         '''
-#         raise self._Error(_invalid_, self.deleter, fdel)
-#
-#     def getter(self, fget):  # PYCHOK no cover
-#         '''Throws a C{LazyImportError}, always.
-#         '''
-#         raise self._Error(_invalid_, self.getter, fget)
-#
-#     def reload(self):  # PYCHOK no cover
-#         '''Zap all cached module, forcing a reload.
-#         '''
-#         _ALL_MODS.props._update_all(_ALL_MODS, Base=_Property_RO)
-#
-#     def setter(self, fset):  # PYCHOK no cover
-#         '''Throws a C{LazyImportError}, always.
-#         '''
-#         raise self._Error(_immutable_, self.setter, fset)
-#
-#     def _Error(self, kind, xter, farg):  # PYCHOK no cover
-#         '''(INTERNAL) Return a C{LazyImportError} instance.
-#         '''
-#         e = _SPACE_(kind, self.__class__.__name__)
-#         n = _DOT_(self.name, xter.__name__)
-#         t = _SPACE_(n, farg.__name__)
-#         return LazyImportError(e, txt=t)
-
-# class _ALL_MODS(object):
-#     '''(INTERNAL) Memoized imports of about half the L{pygeodesy} modules.
-#     '''
-#     @_Property_RO
-#     def albers(self):
-#         import pygeodesy.albers as m
-#         return m
-#
-#     @_Property_RO
-#     def azimuthal(self):
-#         import pygeodesy.azimuthal as m
-#         return m
-#
-#     @_Property_RO
-#     def cartesianBase(self):
-#         import pygeodesy.cartesianBase as m
-#         return m
-#
-#     # ... etc.
-#
-#     @_Property_RO
-#     def webmercator(self):
-#         import pygeodesy.webmercator as m
-#         return m
 
 # **) MIT License
 #

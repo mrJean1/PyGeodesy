@@ -85,7 +85,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.05.14'
+__version__ = '22.06.24'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
@@ -493,9 +493,7 @@ class _HeightIDW(_HeightBase):
 
     @beta.setter  # PYCHOK setter!
     def beta(self, beta):
-        '''Set the inverse distance power.
-
-           @arg beta: New inverse distance power (C{int} 1, 2, or 3).
+        '''Set the inverse distance power (C{int} 1, 2, or 3).
 
            @raise HeightError: Invalid B{C{beta}}.
         '''

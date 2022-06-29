@@ -69,9 +69,10 @@ from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1_
 from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
-                             _COMMASPACE_, _convergence_, _1_EPS, _K0_UTM, \
-                             _near_, _no_, _spherical_, _0_0, _0_1, _0_5, \
-                             _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
+                             _COMMASPACE_, _convergence_, _DASH_, _1_EPS, \
+                             _K0_UTM, _near_, _no_, _SPACE_, _spherical_, \
+                             _usage, _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+                             _4_0, _90_0, _180_0
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
                              _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .elliptic
@@ -80,7 +81,7 @@ from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, _update_all, \
                             property_doc_
-from pygeodesy.streprs import pairs, unstr
+from pygeodesy.streprs import fstr, pairs, unstr
 from pygeodesy.units import Degrees, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
 from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
@@ -89,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.06.19'
+__version__ = '22.06.28'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -1128,15 +1129,13 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
 if __name__ == '__main__':  # MCCABE 13
 
-    from pygeodesy.interns import _usage
-    from pygeodesy.streprs import _SPACE_, fstr
     from sys import argv, exit as _exit
 
     # mimick some of I{Karney}'s utility U{TransverseMercatorProj
     # <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html>}
     _f = _r = _s = _t = False
     _as = argv[1:]
-    while _as and _as[0].startswith('-'):
+    while _as and _as[0].startswith(_DASH_):
         _a = _as.pop(0)
         if len(_a) < 2:
             _exit('%s: option %r invalid' % (_usage(*argv), _a))

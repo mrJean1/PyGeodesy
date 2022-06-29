@@ -48,7 +48,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.05.04'
+__version__ = '22.06.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -442,9 +442,7 @@ class Lcc(_NamedBase):
 
     @conic.setter  # PYCHOK setter!
     def conic(self, conic):
-        '''Set the conic projection.
-
-           @arg conic: The projection (L{Conic}).
+        '''Set the conic projection (L{Conic}).
 
            @raise TypeError: Invalid B{C{conic}}.
         '''

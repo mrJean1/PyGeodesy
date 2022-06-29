@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.05.19'
+__version__ = '22.06.26'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -471,9 +471,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
     @epsilon.setter  # PYCHOK setter!
     def epsilon(self, tol):
-        '''Set the tolerance for equality tests.
-
-           @arg tol: New tolerance (C{scalar}).
+        '''Set the tolerance for equality tests (C{scalar}).
 
            @raise TypeError: Non-scalar B{C{tol}}.
 

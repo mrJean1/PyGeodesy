@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '22.03.08'
+__version__ = '22.06.27'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
                  PythonX, type2str
@@ -14,6 +14,7 @@ lazily = pygeodesy.lazily
 _all_  = pygeodesy.__all__
 
 import os
+# import sys
 
 _cmd = PythonX + " -c 'import pygeodesy, sys; " \
                       "sys.exit(0 if pygeodesy.isLazy == %s else 1)'"
@@ -57,6 +58,10 @@ class Tests(TestsBase):
 
         for n, m in lazily._ALL_MODS.items():  # coverage
             self.test(n, m, m)
+
+#       p = pygeodesy.printf
+#       t = p('to %(std)s, flushed', nl=1, std='stdout', file=sys.stdout, flush=True)
+#       self.test('%s to stdout, flushed' % (p.__name__,), t, t)
 
 
 if __name__ == '__main__':

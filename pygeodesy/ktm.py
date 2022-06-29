@@ -53,19 +53,19 @@ from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
                              _0_0, _1_0, _90_0, _180_0
 from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _unsigned2
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_LAZY, _pairs
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
                            _update_all
-# from pygeodesy.streprs import pairs  # _MODS in .toStr
+# from pygeodesy.streprs import pairs as _pairs  # from .lazily
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atand, sincos2d_
 
 from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.06.19'
+__version__ = '22.06.26'
 
 
 class KTMError(_ValueError):
@@ -381,7 +381,7 @@ class KTransverseMercator(_NamedBase):
         d = dict(ellipsoid=self.ellipsoid, k0=self.k0, TMorder=self.TMorder)
         if self.name:  # PYCHOK no cover
             d.update(name=self.name)
-        return _COMMASPACE_.join(_MODS.streprs.pairs(d, **kwds))
+        return _COMMASPACE_.join(_pairs(d, **kwds))
 
     def _yxgk4(self, xi_, eta_, C):
         '''(INTERNAL) Complex Clenshaw summation

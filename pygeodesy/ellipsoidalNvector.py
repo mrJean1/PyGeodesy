@@ -45,7 +45,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.06.20'
+__version__ = '22.06.26'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -474,10 +474,10 @@ class Ned(_Ned):
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
-        F_D, toDMS = _MODS.dms.F_D, _MODS.dms.toDMS
+        dms = _MODS.dms
         t = (fstr(self.slantrange, prec=3 if prec is None else prec),
-            toDMS(self.azimuth,   form=F_D, prec=prec, ddd=0),
-            toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
+             dms.toDMS(self.azimuth,   form=dms.F_D, prec=prec, ddd=0),
+             dms.toDMS(self.elevation, form=dms.F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
 

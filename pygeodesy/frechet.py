@@ -105,7 +105,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '22.05.14'
+__version__ = '22.06.25'
 
 
 def _fraction(fraction, n):
@@ -237,12 +237,9 @@ class Frechet(_Named):
 
     @fraction.setter  # PYCHOK setter!
     def fraction(self, fraction):
-        '''Set the index fraction (C{float} or C{1}).
-
-           @arg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                          interpolate intermediate B{C{points}} or use
-                          C{None}, C{0} or C{1} for no intermediate
-                          B{C{points}} and no I{fractional} indices.
+        '''Set the index fraction (C{float} in C{EPS}..L{EPS1}) to interpolate
+           intermediate B{C{points}} or use C{None}, C{0} or C{1} for no
+           intermediate B{C{points}} and no I{fractional} indices.
 
            @raise FrechetError: Invalid B{C{fraction}}.
         '''
@@ -293,9 +290,7 @@ class Frechet(_Named):
 
     @units.setter  # PYCHOK setter!
     def units(self, units):
-        '''Set the distance units.
-
-           @arg units: New units (C{Unit} or C{str}).
+        '''Set the distance units (C{Unit} or C{str}).
 
            @raise TypeError: Invalid B{C{units}}.
         '''

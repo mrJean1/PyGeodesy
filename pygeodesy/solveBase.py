@@ -20,7 +20,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.06.16'
+__version__ = '22.06.24'
 
 _Error_ = 'Error'
 _ERROR_ = 'ERROR'
@@ -85,9 +85,8 @@ class _SolveLineSolveBase(_CapsBase):
 
     @Exact.setter  # PYCHOK setter!
     def Exact(self, Exact):
-        '''Set the Solve's C{exact} setting (C{bool}).
-
-           @arg Exact: If C{True} use I{exact} version (C{bool}).
+        '''Set the Solve's C{exact} setting (C{bool}),
+           if C{True} use I{exact} version.
         '''
         Exact = bool(Exact)
         if self._Exact != Exact:
@@ -196,10 +195,8 @@ class _SolveLineSolveBase(_CapsBase):
 
     @prec.setter  # PYCHOK setter!
     def prec(self, prec):
-        '''Set the precision for C{angles} in C{degrees}, like C{lat},
-           C{lon}, C{azimuth} and C{arc}.
-
-           @arg prec: Number of decimal digits (C{int}, C{0}..L{DIG}).
+        '''Set the precision for C{angles} in C{degrees}, like C{lat}, C{lon},
+           C{azimuth} and C{arc} in number of decimal digits (C{int}, C{0}..L{DIG}).
 
            @note: The precision for C{distance = B{prec} - 5} or up to
                   10 decimal digits for C{nanometer} and for C{area =
@@ -225,9 +222,7 @@ class _SolveLineSolveBase(_CapsBase):
 
     @reverse2.setter  # PYCHOK setter!
     def reverse2(self, reverse2):
-        '''Set the direction for C{azi2} (C{bool}).
-
-           @arg reverse2: If C{True} reverse C{azi2} (C{bool}).
+        '''Set the direction for C{azi2} (C{bool}), if C{True} reverse C{azi2}.
         '''
         reverse2 = bool(reverse2)
         if self._reverse2 != reverse2:
@@ -266,10 +261,7 @@ class _SolveLineSolveBase(_CapsBase):
 
     @unroll.setter  # PYCHOK setter!
     def unroll(self, unroll):
-        '''Set unroll'ing for C{lon2} (C{bool}).
-
-           @arg unroll: If C{True} unroll C{lon2},
-                        otherwise don't (C{bool}).
+        '''Set unroll'ing for C{lon2} (C{bool}), if C{True} unroll C{lon2}, otherwise don't.
         '''
         unroll = bool(unroll)
         if self._unroll != unroll:
@@ -284,10 +276,8 @@ class _SolveLineSolveBase(_CapsBase):
 
     @verbose.setter  # PYCHOK setter!
     def verbose(self, verbose):
-        '''Set the C{verbose} option.
-
-          @arg verbose: Print a message around each
-                        C{RhumbSolve} invokation (C{bool}).
+        '''Set the C{verbose} option (C{bool}), C{True} prints
+           a message around each C{RhumbSolve} invokation.
         '''
         self._verbose = bool(verbose)
 

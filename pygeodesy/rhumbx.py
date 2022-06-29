@@ -22,15 +22,17 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnan, _xinstanceof, _zip
-from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, _xkwds
+from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, \
+                            _xkwds, _xkwds_get
 # from pygeodesy.etm import ExactTransverseMercator  # in ._eTM below
 from pygeodesy.fmath import euclid, favg, hypot, hypot1
 from pygeodesy.fsums import Fmt, fsum1_, pairs
-from pygeodesy.interns import INT0, NAN, NN, PI_2, _azi12_, _COMMASPACE_, \
-                             _convergence_, _ellipsoidal_, _EPSqrt as _TOL, \
-                             _intersection_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                             _no_, _not_, _s12_, _S12_, _UNDER_, _0_0, _0_5, \
-                             _1_0, _2_0, _4_0, _90_0, _180_0, _720_0  # PYCHOK used!
+from pygeodesy.interns import INT0, NAN, NN, PI_2, _azi12_, _coincident_, \
+                             _COMMASPACE_, _convergence_, _ellipsoidal_, \
+                             _EPSqrt as _TOL, _intersection_, _lat1_, _lat2_, \
+                             _lon1_, _lon2_, _no_, _not_, _s12_, _S12_, _UNDER_, \
+                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0, _180_0, \
+                             _720_0  # PYCHOK used!
 from pygeodesy.karney import _a12_, _atan2d, Caps, _CapsBase as _RhumbBase, \
                              _diff182, Direct9Tuple, _EWGS84, _fix90, GDict, \
                              _GTuple, Inverse10Tuple, _norm180, _tand
@@ -49,7 +51,7 @@ from pygeodesy.utily import sincos2_, sincos2d
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.06.08'
+__version__ = '22.06.29'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -138,19 +140,20 @@ class Rhumb(_RhumbBase):
            @arg lat1: Latitude of the first point (C{degrees90}).
            @arg lon1: Longitude of the first point (C{degrees180}).
            @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
-           @arg s12: Distance along the rhumb line from points 1 to
-                     the second point (C{meter}), can be negative.
+           @arg s12: Distance along the rhumb line from the given to
+                     the destination point (C{meter}), can be negative.
 
-           @return: L{GDict} with 2 up to 9 items C{azi12, s12, S12, lat2,
-                    lon2, lat1, lon1} with latitude C{lat2} and longitude
-                    C{lon2} of the other point in C{degrees} and the area
-                    C{S12} under the rhumb line in C{meter} I{squared}.
+           @return: L{GDict} with 2 up to 8 items C{lat2, lon2, a12, S12,
+                    lat1, lon1, azi12, s12} with the destination point's
+                    latitude C{lat2} and longitude C{lon2} in C{degrees},
+                    the rhumb angle C{a12} in C{degrees} and area C{S12}
+                    under the rhumb line in C{meter} I{squared}.
 
            @note: If B{C{s12}} is large enough that the rhumb line crosses
                   a pole, the longitude of the second point is indeterminate
                   and C{NAN} is returned for C{lon2} and area C{S12}.
 
-                  If the first point is a pole, the cosine of its latitude is
+                  If the given point is a pole, the cosine of its latitude is
                   taken to be C{epsilon}**-2 (where C{epsilon} is 2.0**-52.
                   This position is extremely close to the actual pole and
                   allows the calculation to be carried out in finite terms.
@@ -172,12 +175,17 @@ class Rhumb(_RhumbBase):
         '''
         return self.Direct(lat1, lon1, azi12, s12, outmask=outmask).toRhumb8Tuple()
 
-    def DirectLine(self, lat1, lon1, azi12, name=NN):  # caps=Caps.STANDARD
+    def DirectLine(self, lat1, lon1, azi12, name=NN, **caps):  # caps=Caps.STANDARD
         '''Define a L{RhumbLine} in terms of the I{direct} rhumb problem.
 
            @arg lat1: Latitude of the first point (C{degrees90}).
            @arg lon1: Longitude of the first point (C{degrees180}).
            @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
+           @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
+                        specifying the required capabilities for the rhumb
+                        line, overriding the default C{Caps.STANDARD}.  Use
+                        C{Caps.LINE_OFF} if updates to this B{C{rhumb}}
+                        should I{not} be reflected in the rhumb line.
 
            @return: A L{RhumbLine} instance and invoke its method
                     L{RhumbLine.Position} to compute each point.
@@ -185,8 +193,9 @@ class Rhumb(_RhumbBase):
            @note: Updates to this rhumb are reflected in the returned
                   rhumb line.
         '''
+        caps = _xkwds_get(caps, caps=self._debug)
         return RhumbLine(self, lat1=lat1, lon1=lon1, azi12=azi12,
-                               caps=self._debug, name=name or self.name)
+                               caps=caps, name=name or self.name)
 
     def _DIsometric(self, latx, laty):  # degrees
         phix = radians(latx)
@@ -274,11 +283,9 @@ class Rhumb(_RhumbBase):
 
     @exact.setter  # PYCHOK setter!
     def exact(self, exact):
-        '''Set the I{exact} option (C{bool}).
-
-           @arg exact: If C{True}, use I{exact} rhumb calculations, if C{False}
-                       results are less precise for more oblate or more prolate
-                       ellipsoids with M{abs(flattening) > 0.01} (C{bool}).
+        '''Set the I{exact} option (C{bool}).  If C{True}, use I{exact} rhumb
+           calculations, if C{False} results are less precise for more oblate
+           or more prolate ellipsoids with M{abs(flattening) > 0.01} (C{bool}).
 
            @see: Option U{B{-s}<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
                  and U{ACCURACY<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html#ACCURACY>}.
@@ -303,12 +310,12 @@ class Rhumb(_RhumbBase):
            @arg lat2: Latitude of the second point (C{degrees90}).
            @arg lon2: Longitude of the second point (C{degrees180}).
 
-           @return: L{GDict} with 5 to 8 items C{lat1, lon2, lat2, lon2,
-                    azi12, s12, S12, a12}, the azimuth C{azi12} of the rhumb
-                    line in compass C{degrees} between C{-180} and C{+180},
-                    the rhumb angle C{a12} and distance C{s12} between both
-                    points in C{degrees} respectively C{meter} and the area
-                    C{S12} under the rhumb line in C{meter} I{squared}.
+           @return: L{GDict} with 5 to 8 items C{azi12, s12, a12, S12,
+                    lat1, lon1, lat2, lon2}, the rhumb line's azimuth C{azi12}
+                    in compass C{degrees} between C{-180} and C{+180}, the
+                    distance C{s12} and rhumb angle C{a12} between both points
+                    in C{meter} respectively C{degrees} and the area C{S12}
+                    under the rhumb line in C{meter} I{squared}.
 
            @note: The shortest rhumb line is found.  If the end points are
                   on opposite meridians, there are two shortest rhumb lines
@@ -382,7 +389,7 @@ class Rhumb(_RhumbBase):
         return RhumbLine(self, lat1=lat1, lon1=lon1, azi12=r.azi12,
                                caps=self._debug, name=name or self.name)
 
-    Line = DirectLine  # synonymous
+    Line = DirectLine  # synonyms
 
     def _MeanSinXid(self, psix, psiy):  # degrees
         x, y = radians(psix), radians(psiy)
@@ -422,7 +429,7 @@ class Rhumb(_RhumbBase):
 
     @RAorder.setter  # PYCHOK setter!
     def RAorder(self, order):
-        '''Get the I{Rhumb Area} order (C{int}, 4, 5, 6, 7 or 8).
+        '''Set the I{Rhumb Area} order (C{int}, 4, 5, 6, 7 or 8).
         '''
         n = _Xorder(_RACoeffs, RhumbError, RAorder=order)
         if self._mRA != n:
@@ -522,9 +529,7 @@ class _RhumbLine(_RhumbBase):
 
     @azi12.setter  # PYCHOK setter!
     def azi12(self, azi12):
-        '''Set this rhumb line's I{azimuth}.
-
-           @arg azi12: The new I{azimuth} (compass C{degrees}).
+        '''Set this rhumb line's I{azimuth} (compass C{degrees}).
         '''
         z = _norm180(azi12)
         if z != self._azi12:
@@ -583,6 +588,8 @@ class _RhumbLine(_RhumbBase):
         _xinstanceof(other, RhumbLine)
         _xdatum(self.rhumb, other.rhumb, Error=RhumbError)
         try:
+            if other is self:
+                raise ValueError(_coincident_)
             # set initial origin and halfway point
             p = LatLon2Tuple(favg(self.lat1, other.lat1),
                              favg(self.lon1, other.lon1))

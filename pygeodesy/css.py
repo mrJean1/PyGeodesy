@@ -31,7 +31,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.05.14'
+__version__ = '22.06.26'
 
 
 def _CS0(cs0):
@@ -448,9 +448,7 @@ class Css(_NamedBase):
 
     @cs0.setter  # PYCHOK setter!
     def cs0(self, cs0):
-        '''Set the I{Cassini-Soldner} projection.
-
-           @arg cs0: The projection (L{CassiniSoldner}).
+        '''Set the I{Cassini-Soldner} projection (L{CassiniSoldner}).
 
            @raise TypeError: Invalid B{C{cs0}}.
         '''

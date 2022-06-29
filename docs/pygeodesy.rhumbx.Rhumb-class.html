@@ -195,7 +195,8 @@
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">azi12</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**caps</span>)</span><br />
       Define a <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
       class="link">RhumbLine</a> in terms of the <i>direct</i> rhumb 
       problem.</td>
@@ -347,7 +348,8 @@
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">azi12</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**caps</span>)</span><br />
       Define a <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
       class="link">RhumbLine</a> in terms of the <i>direct</i> rhumb 
       problem.</td>
@@ -641,23 +643,25 @@
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>s12</code></strong> - Distance along the rhumb line from points 1 to the second point 
-          (<code>meter</code>), can be negative.</li>
+        <li><strong class="pname"><code>s12</code></strong> - Distance along the rhumb line from the given to the destination 
+          point (<code>meter</code>), can be negative.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> with 2 up to 9 items <code>azi12, s12, 
-          S12, lat2, lon2, lat1, lon1</code> with latitude 
-          <code>lat2</code> and longitude <code>lon2</code> of the other 
-          point in <code>degrees</code> and the area <code>S12</code> under
-          the rhumb line in <code>meter</code> <i>squared</i>.</dd>
+          class="link">GDict</a> with 2 up to 8 items <code>lat2, lon2, 
+          a12, S12, lat1, lon1, azi12, s12</code> with the destination 
+          point's latitude <code>lat2</code> and longitude 
+          <code>lon2</code> in <code>degrees</code>, the rhumb angle 
+          <code>a12</code> in <code>degrees</code> and area 
+          <code>S12</code> under the rhumb line in <code>meter</code> 
+          <i>squared</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         If <b><code>s12</code></b> is large enough that the rhumb line 
         crosses a pole, the longitude of the second point is indeterminate 
         and <code>NAN</code> is returned for <code>lon2</code> and area 
         <code>S12</code>.
-        <p>If the first point is a pole, the cosine of its latitude is 
+        <p>If the given point is a pole, the cosine of its latitude is 
         taken to be <code>epsilon</code>**-2 (where <code>epsilon</code> is
         2.0**-52. This position is extremely close to the actual pole and 
         allows the calculation to be carried out in finite terms.</p>
@@ -709,7 +713,8 @@
         <span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">azi12</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**caps</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -725,6 +730,13 @@
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional, bit-or'ed combination of <a 
+          href="pygeodesy.rhumbx-module.html#Caps" class="link">Caps</a> 
+          values specifying the required capabilities for the rhumb line, 
+          overriding the default <code>Caps.STANDARD</code>.  Use 
+          <code>Caps.LINE_OFF</code> if updates to this 
+          <b><code>rhumb</code></b> should <i>not</i> be reflected in the 
+          rhumb line.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
@@ -767,12 +779,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.GDict-class.html" 
-          class="link">GDict</a> with 5 to 8 items <code>lat1, lon2, lat2, 
-          lon2, azi12, s12, S12, a12</code>, the azimuth <code>azi12</code>
-          of the rhumb line in compass <code>degrees</code> between 
-          <code>-180</code> and <code>+180</code>, the rhumb angle 
-          <code>a12</code> and distance <code>s12</code> between both 
-          points in <code>degrees</code> respectively <code>meter</code> 
+          class="link">GDict</a> with 5 to 8 items <code>azi12, s12, a12, 
+          S12, lat1, lon1, lat2, lon2</code>, the rhumb line's azimuth 
+          <code>azi12</code> in compass <code>degrees</code> between 
+          <code>-180</code> and <code>+180</code>, the distance 
+          <code>s12</code> and rhumb angle <code>a12</code> between both 
+          points in <code>meter</code> respectively <code>degrees</code> 
           and the area <code>S12</code> under the rhumb line in 
           <code>meter</code> <i>squared</i>.</dd>
   </dl>
@@ -873,7 +885,8 @@
         <span class="sig-arg">lat1</span>,
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">azi12</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**caps</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -889,6 +902,13 @@
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional, bit-or'ed combination of <a 
+          href="pygeodesy.rhumbx-module.html#Caps" class="link">Caps</a> 
+          values specifying the required capabilities for the rhumb line, 
+          overriding the default <code>Caps.STANDARD</code>.  Use 
+          <code>Caps.LINE_OFF</code> if updates to this 
+          <b><code>rhumb</code></b> should <i>not</i> be reflected in the 
+          rhumb line.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
@@ -1105,7 +1125,7 @@ class="link">a_f2Tuple</a>, 2-tuple <code>(a, f)</code>) or the
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">RAorder(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">order</span>)</span>
-        - Get the <i>Rhumb Area</i> order (<code>int</code>, 4, 5, 6, 7 or 8).
+        - Set the <i>Rhumb Area</i> order (<code>int</code>, 4, 5, 6, 7 or 8).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -1173,7 +1193,7 @@ class="link">a_f2Tuple</a>, 2-tuple <code>(a, f)</code>) or the
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 21 07:26:39 2022
+    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:21 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

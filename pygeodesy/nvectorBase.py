@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.06.16'
+__version__ = '22.06.26'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -103,9 +103,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @h.setter  # PYCHOK setter!
     def h(self, h):
-        '''Set the height above surface.
-
-           @arg h: New height (C{meter}).
+        '''Set the height above surface (C{meter}).
 
            @raise TypeError: If B{C{h}} invalid.
 
@@ -124,9 +122,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @H.setter  # PYCHOK setter!
     def H(self, H):
-        '''Set the height prefix.
-
-           @arg H: New height prefix (C{str}).
+        '''Set the height prefix (C{str}).
         '''
         self._H = str(H) if H else NN
 

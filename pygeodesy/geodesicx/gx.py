@@ -59,7 +59,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.06.01'
+__version__ = '22.06.26'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -281,9 +281,7 @@ class GeodesicExact(_GeodesicBase):
 
     @C4order.setter  # PYCHOK .setter!
     def C4order(self, order):
-        '''Set the series expansion order.
-
-           @arg order: New order (C{int}, 24, 27 or 30).
+        '''Set the series expansion order (C{int}, 24, 27 or 30).
 
            @raise GeodesicError: Invalid B{C{order}}.
         '''

@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.05.21'
+__version__ =  '22.06.28'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -503,9 +503,9 @@ def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''
     from warnings import warn
 
-    line =  doc.split(_NL_NL_, 1)[0].split()
+    line =  doc.split(_NL_NL_, 1)[0].strip()
     name = _MODS.streprs.Fmt.CURLY(L=name)
-    text = _SPACE_(kind, name, _has_been_, *line)
+    text = _SPACE_(kind, name, _has_been_, *line.split())
     kwds = _xkwds(stacklevel, stacklevel=3)
     # XXX invoke warn or raise DeprecationWarning(text)
     warn(text, category=DeprecationWarning, **kwds)

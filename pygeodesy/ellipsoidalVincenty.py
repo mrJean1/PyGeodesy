@@ -65,8 +65,7 @@ from pygeodesy.interns import EPS, NN, \
                              _ambiguous_, _antipodal_, _COLONSPACE_, \
                              _convergence_, _no_, _SPACE_, _to_, \
                              _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _ALL_OTHER
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import Fmt, ispolar  # PYCHOK exported
@@ -79,7 +78,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.04.27'
+__version__ = '22.06.26'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -161,9 +160,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
     @epsilon.setter  # PYCHOK setter!
     def epsilon(self, epsilon):
-        '''Set the convergence epsilon.
-
-           @arg epsilon: New epsilon (C{radians}).
+        '''Set the convergence epsilon (C{radians}).
 
            @raise TypeError: Non-scalar B{C{epsilon}}.
 
@@ -179,9 +176,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
     @iterations.setter  # PYCHOK setter!
     def iterations(self, limit):
-        '''Set the iteration limit.
-
-           @arg limit: New iteration limit (C{int}).
+        '''Set the iteration limit (C{int}).
 
            @raise TypeError: Non-scalar B{C{limit}}.
 

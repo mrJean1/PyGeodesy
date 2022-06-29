@@ -936,6 +936,114 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbAzimuthTo" class="summary-sig-name">rhumbAzimuthTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the azimuth (bearing) of a rhumb line (loxodrome) between this
+      and an other (ellipsoidal) point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination" class="summary-sig-name">rhumbDestination</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the destination point having travelled the given distance from
+      this point along a rhumb line (loxodrome) at the given bearing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDistanceTo" class="summary-sig-name">rhumbDistanceTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the distance from this to an other point along a rhumb line 
+      (loxodrome).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine" class="summary-sig-name">rhumbLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">azi12</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**caps</span>)</span><br />
+      Get a rhumb line through this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo" class="summary-sig-name">rhumbMidpointTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the (loxodromic) midpoint between this and an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo" class="summary-sig-name">thomasTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -3198,6 +3306,232 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="rhumbAzimuthTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbAzimuthTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the azimuth (bearing) of a rhumb line (loxodrome) between this 
+  and an other (ellipsoidal) point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
+          point's datum (ellipsoid).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Rhumb azimuth (compass <code>degrees360</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
+        <b><code>radius</code></b> is invalid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rhumbDestination"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the destination point having travelled the given distance from 
+  this point along a rhumb line (loxodrome) at the given bearing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as this 
+          point's datum (ellipsoid) axes or <b><code>radius</code></b>, may
+          be negative.</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
+          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
+          (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The destination point (ellipsoidal <code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>bearing</code></b>, 
+        <b><code>radius</code></b> or <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>JS name:</strong>
+        <i>rhumbDestinationPoint</i>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rhumbDistanceTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the distance from this to an other point along a rhumb line 
+  (loxodrome).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
+          point's datum (ellipsoid).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, the same units as this point's 
+          datum (ellipsoid) axes or <b><code>radius</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
+        <b><code>radius</code></b> is invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="rhumbLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">azi12</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**caps</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get a rhumb line through this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>azi12</code></strong> - The azimuth of the rhumb line (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
+          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional, bit-or'ed combination of <a 
+          href="pygeodesy-module.html#Caps" class="link">Caps</a> values 
+          specifying the required capabilities of the rhumb line, 
+          overriding the default <code>Caps.STANDARD</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
+          class="link">RhumbLine</a> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.rhumbx.Rhumb-class.html" 
+        class="link">Rhumb</a>, property <a 
+        href="pygeodesy.rhumbx.Rhumb-class.html#exact" 
+        class="link">Rhumb.exact</a>, method <a 
+        href="pygeodesy.rhumbx.Rhumb-class.html#DirectLine" 
+        class="link">Rhumb.DirectLine</a> and class <a 
+        href="pygeodesy.rhumbx.RhumbLine-class.html" 
+        class="link">RhumbLine</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="rhumbMidpointTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbMidpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the (loxodromic) midpoint between this and an other point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
+          href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
+          (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
+          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The midpoint (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
+        <b><code>radius</code></b> is invalid.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="thomasTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3828,7 +4162,7 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>)</span>
-        - Set the height.
+        - Set the height (<code>meter</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -3948,7 +4282,7 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span>
-        - Set the latitude.
+        - Set the latitude (<code>str[N|S]</code> or <code>degrees</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -3972,7 +4306,9 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">latlonh</span>)</span>
-        - Set the lat- and longitude and optionally the height.
+        - Set the lat- and longitude and optionally the height (2- or 3-tuple or 
+comma- or space-separated <code>str</code> of <code>degrees90</code>, 
+<code>degrees180</code> and <code>meter</code>).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -4024,7 +4360,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lon</span>)</span>
-        - Set the longitude.
+        - Set the longitude (<code>str[E|W]</code> or <code>degrees</code>).
     </dd>
   </dl>
 </td></tr></table>
@@ -4205,7 +4541,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jun 21 07:26:39 2022
+    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:20 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
