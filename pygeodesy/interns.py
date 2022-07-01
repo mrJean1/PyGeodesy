@@ -125,9 +125,7 @@ _4_                   = '4'                  # PYCHOK expected
 _a_                   = 'a'                  # PYCHOK expected
 _A_                   = 'A'                  # PYCHOK expected
 _a12_                 = 'a12'                # PYCHOK expected
-_azi1_                = 'azi1'               # PYCHOK expected
-_azi12_               = 'azi12'              # PYCHOK expected
-_azi2_                = 'azi2'               # PYCHOK expected
+_area_                = 'area'               # PYCHOK expected
 _Airy1830_            = 'Airy1830'           # PYCHOK expected
 _AiryModified_        = 'AiryModified'       # PYCHOK expected
 _an_                  = 'an'                 # PYCHOK expected
@@ -136,13 +134,15 @@ _antipodal_           = 'antipodal'          # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
 _ambiguous_           = 'ambiguous'          # PYCHOK expected
 _AMPERSAND_      = Str_('&')                 # PYCHOK expected
-# _AND_               = _AMPERSAND_          # PYCHOK expected
 _and_                 = 'and'                # PYCHOK expected
+# _AND_               = _AMPERSAND_          # PYCHOK expected
 _arg_                 = 'arg'                # PYCHOK expected
 _at_                  = 'at'                 # PYCHOK expected
 _AT_             = Str_('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
+_azi1_                = 'azi1'               # PYCHOK expected
+_azi12_               = 'azi12'              # PYCHOK expected
 _azi2_                = 'azi2'               # PYCHOK expected
 _azimuth_             = 'azimuth'            # PYCHOK expected
 _b_                   = 'b'                  # PYCHOK expected
@@ -172,6 +172,7 @@ _conversion_          = 'conversion'         # PYCHOK expected
 _convex_              = 'convex'             # PYCHOK expected
 _cubic_               = 'cubic'              # PYCHOK expected
 _d_                   = 'd'                  # PYCHOK expected
+_D_                   = 'D'                  # PYCHOK expected
 _DASH_           = Str_('-')                 # PYCHOK == _MINUS_
 _datum_               = 'datum'              # PYCHOK expected
 _decode3_             = 'decode3'            # PYCHOK expected
@@ -775,7 +776,7 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.06.28'
+__version__ = '22.06.30'
 
 
 # **) MIT License

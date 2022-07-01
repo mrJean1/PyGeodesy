@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
+from pygeodesy.basics import isnear0, isnon0, isscalar, map1, _umod_360
 from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
@@ -23,29 +23,31 @@ from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _concentric_, _datum_, _distant_, \
                              _exceed_PI_radians_, _name_, _near_, \
-                             _too_, _1_0, _180_0
+                             _too_, _0_0, _0_5, _1_0, _180_0
 from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
                                 _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
 from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
 from pygeodesy.props import deprecated_method, property_doc_, _update_all
-from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_
+from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_, \
+                            Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
-                            sincos2, tanPI_2_2, wrapPI
+                            sincos2, tanPI_2_2, wrap360, wrapPI
 
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.06.29'
+__version__ = '22.07.01'
 
 
-def _angular(distance, radius):  # PYCHOK for export
+def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
     '''(INTERNAL) Return the angular distance in C{radians}.
 
        @raise UnitError: Invalid B{C{distance}} or B{C{radius}}.
     '''
-    return Radians_(distance / Radius_(radius=radius), low=EPS)
+    r = _1_0 if radius is None else Radius_(radius=radius)
+    return Radians_(distance / r, low=low)
 
 
 def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
@@ -278,7 +280,7 @@ class LatLonSphericalBase(LatLonBase):
             r.rename(name)
         return r
 
-    def _rhumb3(self, other):
+    def _rhumb3(self, other, r=False):
         '''(INTERNAL) Rhumb_ helper function.
 
            @arg other: The other point (spherical C{LatLon}).
@@ -291,17 +293,27 @@ class LatLonSphericalBase(LatLonBase):
         # line across the anti-meridian
         db = wrapPI(b2 - b1)
         dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
-        return (a2 - a1), db, dp
+        da = a2 - a1
+        if r:
+            # on Mercator projection, longitude distances shrink
+            # by latitude; the 'stretch factor' q becomes ill-
+            # conditioned along E-W line (0/0); use an empirical
+            # tolerance to avoid it
+            q  = (da / dp) if abs(dp) > EPS else cos(self.phi)
+            da = hypot(da, q * db)  # angular distance radians
+        return da, db, dp
 
     def rhumbAzimuthTo(self, other, radius=R_M, exact=False):
         '''Return the azimuth (bearing) of a rhumb line (loxodrome)
            between this and an other (spherical) point.
 
            @arg other: The other point (spherical C{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
+           @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
+                         C{False} for backward compatibility.
 
-           @return: Rhumb azimuth (compass C{degrees180}).
+           @return: Rhumb line azimuth (compass C{degrees180}).
 
            @raise TypeError: The B{C{other}} point is incompatible or
                              B{C{radius}} is invalid.
@@ -322,20 +334,22 @@ class LatLonSphericalBase(LatLonBase):
     @deprecated_method
     def rhumbBearingTo(self, other):
         '''DEPRECATED, use method C{.rhumbAzimuthTo}.'''
-        _, db, dp = self._rhumb3(other)
-        return atan2b(db, dp)
+        return wrap360(self.rhumbAzimuthTo(other))  # [0..360)
 
     def rhumbDestination(self, distance, bearing, radius=R_M, height=None, exact=False):
         '''Return the destination point having travelled the given distance
            from this point along a rhumb line (loxodrome) at the given bearing.
 
-           @arg distance: Distance travelled (C{meter}, same units as
-                          B{C{radius}}), can be negative.
-           @arg bearing: Bearing from this point (compass C{degrees360}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @arg distance: Distance travelled (C{meter}, same units as B{C{radius}}),
+                          may be negative if C{B{exact}=True}.
+           @arg bearing: Bearing (azimuth) at this point (compass C{degrees360}).
+           @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
+                          C{B{exact}=True}.
            @kwarg height: Optional height, overriding the default height
                           (C{meter}, same unit as B{C{radius}}).
-           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
+           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
+                         C{False} for backward compatibility.
 
            @return: The destination point (spherical C{LatLon}).
 
@@ -349,15 +363,16 @@ class LatLonSphericalBase(LatLonBase):
 
            @JSname: I{rhumbDestinationPoint}
         '''
-        b = Bearing_(bearing)
         if exact:  # use series, always
-            r = LatLonBase.rhumbDestination(self, distance, b, exact=False,
-                                            radius=radius, height=height)
-        else:
-            r = _angular(distance, radius)
+            r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,
+                                                  radius=radius, height=height)
+        else:  # radius=None from .rhumbMidpointTo
+            r = radius if radius in (R_M, None) or isscalar(radius) else \
+               _spherical_datum(radius, raiser=True).ellipsoid.a  # spherical only
+            r = _angular(distance, r, low=_0_0)  # distance=0 from .rhumbMidpointTo
 
             a1, b1 = self.philam
-            sb, cb = sincos2(b)
+            sb, cb = sincos2(Bearing_(bearing))
 
             da = r * cb
             a2 = a1 + da
@@ -378,11 +393,14 @@ class LatLonSphericalBase(LatLonBase):
 
     def rhumbDistanceTo(self, other, radius=R_M, exact=False):
         '''Return the distance from this to an other point along
-           a rhumb (loxodrome) line.
+           a rhumb line (loxodrome).
 
            @arg other: The other point (spherical C{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
+           @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) if
+                          C{B{exact}=True}.
+           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
+                         C{False} for backward compatibility.
 
            @return: Distance (C{meter}, the same units as B{C{radius}}
                     or C{radians} if B{C{radius}} is C{None}).
@@ -403,33 +421,34 @@ class LatLonSphericalBase(LatLonBase):
                 r = r / self.datum.ellipsoid.a  # /= chokes PyChecker
         else:
             # see <https://www.EdWilliams.org/avform.htm#Rhumb>
-            da, db, dp = self._rhumb3(other)
-
-            # on Mercator projection, longitude distances shrink
-            # by latitude; the 'stretch factor' q becomes ill-
-            # conditioned along E-W line (0/0); use an empirical
-            # tolerance to avoid it
-            q = (da / dp) if abs(dp) > EPS else cos(self.phi)
-            r = hypot(da, q * db)
+            r, _, _ = self._rhumb3(other, r=True)
             if radius is not None:
                 r *= Radius(radius)
         return r
 
-    def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False):
-        '''Return the (loxodromic) midpoint between this and
-           an other point.
+    def rhumbMidpointTo(self, other, height=None, radius=R_M,
+                                     exact=False, fraction=_0_5):
+        '''Return the (loxodromic) midpoint on the rhumb line between
+           this and an other point.
 
            @arg other: The other point (spherical LatLon).
            @kwarg height: Optional height, overriding the mean height
                           (C{meter}).
-           @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg exact: If C{True}, use the I{series} L{Rhumb} (C{bool}).
+           @kwarg radius: Optional mean earth radius (C{meter}),
+                          overriding the default C{R_M}.
+           @kwarg radius: Earth radius (C{meter}) or earth model (L{Datum},
+                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg exact: If C{True}, use class L{Rhumb} (C{bool}), default
+                         C{False} for backward compatibility.
+           @kwarg fraction: Midpoint location from this point (C{scalar}),
+                            may negative if C{B{exact}=True}.
 
-           @return: The midpoint (spherical C{LatLon}).
+           @return: The (mid)point at the given B{C{fraction}} along
+                    the rhumb line (spherical C{LatLon}).
 
-           @raise TypeError: The B{C{other}} point is not spherical.
+           @raise TypeError: The B{C{other}} point is incompatible.
 
-           @raise ValueError: Invalid B{C{height}}.
+           @raise ValueError: Invalid B{C{height}} or B{C{fraction}}
 
            @example:
 
@@ -440,8 +459,15 @@ class LatLonSphericalBase(LatLonBase):
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbMidpointTo(self, other, exact=False,
-                                           radius=radius, height=height)
-        else:
+                           radius=radius, height=height, fraction=fraction)
+        elif fraction is not _0_5:
+            f = Scalar_(fraction=fraction)  # low=_0_0
+            r, db, dp = self._rhumb3(other, r=True)  # radians
+            z = atan2b(db, dp)
+            h = self._havg(other, f=f) if height is None else height
+            r = self.rhumbDestination(r * f, z, radius=None, height=h)
+
+        else:  # for backward compatibility
             self.others(other)
             # see <https://MathForum.org/library/drmath/view/51822.html>
             a1, b1 = self.philam
@@ -455,7 +481,7 @@ class LatLonSphericalBase(LatLonBase):
             f1 = tanPI_2_2(a1)
             if isnon0(f1):
                 f2 = tanPI_2_2(a2)
-                f = f2 / f1
+                f  = f2 / f1
                 if isnon0(f):
                     f = log(f)
                     if isnon0(f):

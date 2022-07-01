@@ -858,14 +858,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#equatoradius" class="summary-name">equatoradius</a><br />
-      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2" class="summary-name">a2</a><br />
       Get the <i>equatorial</i> radius <i>squared</i> (<code>meter</code> 
       <i>squared</i>), <i class="math">a**2</i>.
@@ -964,14 +956,6 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" class="summary-name">b</a><br />
-      Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius" class="summary-name">polaradius</a><br />
       Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </td>
   </tr>
@@ -1189,6 +1173,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#equatoradius" class="summary-name">equatoradius</a><br />
+      Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es" class="summary-name">es</a><br />
       Get the <i>signed (1st) eccentricity</i> (<code>float</code>).
     </td>
@@ -1398,6 +1390,14 @@
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#flattening3rd" class="summary-name">flattening3rd</a><br />
       Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
       / (2 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius" class="summary-name">polaradius</a><br />
+      Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -3064,30 +3064,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="equatoradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">equatoradius</h3>
-  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="a2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3418,30 +3394,6 @@ ellipsoids.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b</h3>
-  <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="polaradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">polaradius</h3>
   <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
@@ -4102,6 +4054,30 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see
   </dl>
 </td></tr></table>
 </div>
+<a name="equatoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">equatoradius</h3>
+  <p>Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="es"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4707,6 +4683,30 @@ a</i>, <code>0</code> for spherical, negative for prolate.
     <dd class="value"><span class="summary-sig">n(<span class="summary-sig-arg">self</span>)</span>
         - Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f / (2 
 - f) == (a - b) / (a + b)</i>, see <code>a_b2n</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="polaradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">polaradius</h3>
+  <p>Get the <i>polar</i> radius, semi-axis (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5391,7 +5391,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:19 2022
+    Generated by Epydoc 3.0.1 on Fri Jul  1 12:23:27 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

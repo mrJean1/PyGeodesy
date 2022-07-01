@@ -959,12 +959,12 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbDestination" class="summary-sig-name">rhumbDestination</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">bearing</span>,
+        <span class="summary-sig-arg">azimuth</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return the destination point having travelled the given distance from
-      this point along a rhumb line (loxodrome) at the given bearing.</td>
+      this point along a rhumb line (loxodrome) at the given azimuth.</td>
           <td align="right" valign="top">
             
             
@@ -1002,12 +1002,13 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbLine" class="summary-sig-name">rhumbLine</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">azi12</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">azimuth_other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**caps</span>)</span><br />
-      Get a rhumb line through this point.</td>
+      Get a rhumb line through this point at a given azimuth or through 
+      this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -1027,8 +1028,10 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the (loxodromic) midpoint between this and an other point.</td>
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Return the (loxodromic) midpoint on the rhumb line between this and 
+      an other point.</td>
           <td align="right" valign="top">
             
             
@@ -3332,8 +3335,14 @@
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
           (<code>bool</code>), default <code>False</code>.</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
-          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding this point's datum.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Rhumb azimuth (compass <code>degrees360</code>).</dd>
@@ -3354,7 +3363,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">bearing</span>,
+        <span class="sig-arg">azimuth</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -3365,19 +3374,25 @@
   </tr></table>
   
   <p>Return the destination point having travelled the given distance from 
-  this point along a rhumb line (loxodrome) at the given bearing.</p>
+  this point along a rhumb line (loxodrome) at the given azimuth.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as this 
           point's datum (ellipsoid) axes or <b><code>radius</code></b>, may
           be negative.</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>azimuth</code></strong> - Azimuth (bearing) at this point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
           (<code>bool</code>), default <code>False</code>.</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
-          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding this point's datum.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
           (<code>meter</code>).</li>
     </ul></dd>
@@ -3386,7 +3401,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>bearing</code></b>, 
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>azimuth</code></b>, 
         <b><code>radius</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
@@ -3421,8 +3436,14 @@
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
           (<code>bool</code>), default <code>False</code>.</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
-          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding this point's datum.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, the same units as this point's 
@@ -3444,10 +3465,10 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbLine</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">azi12</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">azimuth_other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**caps</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -3455,39 +3476,49 @@
     </td>
   </tr></table>
   
-  <p>Get a rhumb line through this point.</p>
+  <p>Get a rhumb line through this point at a given azimuth or through this
+  and an other point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>azi12</code></strong> - The azimuth of the rhumb line (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>azimuth_other</code></strong> - The azimuth of the rhumb line (compass) <code>degrees</code> or 
+          the other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
           (<code>bool</code>), default <code>False</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding this point's datum.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
-          point's datum (ellipsoid).</li>
-        <li><strong class="pname"><code>caps</code></strong> - Optional, bit-or'ed combination of <a 
-          href="pygeodesy-module.html#Caps" class="link">Caps</a> values 
-          specifying the required capabilities of the rhumb line, 
-          overriding the default <code>Caps.STANDARD</code>.</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional <code>caps</code>, see <a 
+          href="pygeodesy.rhumbx.RhumbLine-class.html" 
+          class="link">RhumbLine</a> <code><b>caps</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
           class="link">RhumbLine</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b> or 
+        B<code><code>azimuth_other</code></code> not a <code>scalar</code> 
+        nor a <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Class <a href="pygeodesy.rhumbx.Rhumb-class.html" 
-        class="link">Rhumb</a>, property <a 
-        href="pygeodesy.rhumbx.Rhumb-class.html#exact" 
-        class="link">Rhumb.exact</a>, method <a 
+        Classes <a href="pygeodesy.rhumbx.RhumbLine-class.html" 
+        class="link">RhumbLine</a> and <a 
+        href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a>, 
+        property <a href="pygeodesy.rhumbx.Rhumb-class.html#exact" 
+        class="link">Rhumb.exact</a> and methods <a 
         href="pygeodesy.rhumbx.Rhumb-class.html#DirectLine" 
-        class="link">Rhumb.DirectLine</a> and class <a 
-        href="pygeodesy.rhumbx.RhumbLine-class.html" 
-        class="link">RhumbLine</a> for further details.
+        class="link">Rhumb.DirectLine</a> and <a 
+        href="pygeodesy.rhumbx.Rhumb-class.html#InverseLine" 
+        class="link">Rhumb.InverseLine</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3502,14 +3533,16 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the (loxodromic) midpoint between this and an other point.</p>
+  <p>Return the (loxodromic) midpoint on the rhumb line between this and an
+  other point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3517,17 +3550,26 @@
         <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>exact</i> <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
           (<code>bool</code>), default <code>False</code>.</li>
-        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding this 
-          point's datum (ellipsoid).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding this point's datum.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may be 
+          negative or greater than 1.0.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The midpoint (<code>LatLon</code>).</dd>
+        <dd>The midpoint at the given <b><code>fraction</code></b> along the 
+          rhumb line (<code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
         <b><code>radius</code></b> is invalid.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <b><code>fraction</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -4541,7 +4583,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:20 2022
+    Generated by Epydoc 3.0.1 on Fri Jul  1 12:23:28 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

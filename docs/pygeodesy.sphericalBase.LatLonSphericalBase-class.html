@@ -286,8 +286,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return the distance from this to an other point along a rhumb 
-      (loxodrome) line.</td>
+      Return the distance from this to an other point along a rhumb line 
+      (loxodrome).</td>
           <td align="right" valign="top">
             
             
@@ -307,8 +307,10 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return the (loxodromic) midpoint between this and an other point.</td>
+        <span class="summary-sig-arg">exact</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Return the (loxodromic) midpoint on the rhumb line between this and 
+      an other point.</td>
           <td align="right" valign="top">
             
             
@@ -783,13 +785,21 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use class <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>).</li>
+          (<code>bool</code>), default <code>False</code> for backward 
+          compatibility.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Rhumb azimuth (compass <code>degrees180</code>).</dd>
+        <dd>Rhumb line azimuth (compass <code>degrees180</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible or 
@@ -856,14 +866,24 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
-          <b><code>radius</code></b>), can be negative.</li>
-        <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+          <b><code>radius</code></b>), may be negative if 
+          <code><b>exact</b>=True</code>.</li>
+        <li><strong class="pname"><code>bearing</code></strong> - Bearing (azimuth) at this point (compass 
+          <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) if <code><b>exact</b>=True</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the default height 
           (<code>meter</code>, same unit as <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use class <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>).</li>
+          (<code>bool</code>), default <code>False</code> for backward 
+          compatibility.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The destination point (spherical <code>LatLon</code>).</dd>
@@ -903,16 +923,24 @@
     </td>
   </tr></table>
   
-  <p>Return the distance from this to an other point along a rhumb 
-  (loxodrome) line.</p>
+  <p>Return the distance from this to an other point along a rhumb line 
+  (loxodrome).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) if <code><b>exact</b>=True</code>.</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use class <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>).</li>
+          (<code>bool</code>), default <code>False</code> for backward 
+          compatibility.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, the same units as 
@@ -946,30 +974,45 @@
         <span class="sig-arg">other</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">exact</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the (loxodromic) midpoint between this and an other point.</p>
+  <p>Return the (loxodromic) midpoint on the rhumb line between this and an
+  other point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use the <i>series</i> <a 
+        <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>), overriding the 
+          default <code>R_M</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Earth radius (<code>meter</code>) or earth model (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>exact</code></strong> - If <code>True</code>, use class <a 
           href="pygeodesy.rhumbx.Rhumb-class.html" class="link">Rhumb</a> 
-          (<code>bool</code>).</li>
+          (<code>bool</code>), default <code>False</code> for backward 
+          compatibility.</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may 
+          negative if <code><b>exact</b>=True</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The midpoint (spherical <code>LatLon</code>).</dd>
+        <dd>The (mid)point at the given <b><code>fraction</code></b> along 
+          the rhumb line (spherical <code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not spherical.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is incompatible.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <b><code>fraction</code></b></li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#rhumbMidpointTo">latlonBase.LatLonBase.rhumbMidpointTo</a>
@@ -1127,7 +1170,7 @@ class="link">a_f2Tuple</a>) or <code>scalar</code> spherical earth radius).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 29 14:50:21 2022
+    Generated by Epydoc 3.0.1 on Fri Jul  1 12:23:29 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

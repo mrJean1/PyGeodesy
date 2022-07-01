@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.06.28'
+__version__ = '22.07.01'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -490,10 +490,14 @@ def _spherical_datum(earth, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
     '''
     if isscalar(earth):
-        n = _under_name(name)
-        r =  Radius_(earth, Error=TypeError)
-        E =  Ellipsoid(r, r, name=n)
-        d =  Datum(E, transform=Transforms.Identity, name=n)
+        E = Datums.Sphere.ellipsoid
+        if earth == E.a == E.b and not name:
+            d =  Datums.Sphere
+        else:
+            r =  Radius_(earth, Error=TypeError)  # invalid datum
+            n = _under_name(name)
+            E =  Ellipsoid(r, r, name=n)
+            d =  Datum(E, transform=Transforms.Identity, name=n)
     else:
         d = _ellipsoidal_datum(earth, name=name)
     if raiser and not d.isSpherical:

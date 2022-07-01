@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.06.26'
+__version__ = '22.07.01'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -143,6 +143,7 @@ class a_f2Tuple(_NamedTuple):
 
            @arg a: Equatorial radius (C{scalar} > 0).
            @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
+           @kwarg name: Optional name (C{str}).
 
            @return: An L{a_f2Tuple}C{(a, f)} instance.
 
@@ -836,6 +837,8 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return _MODS.elliptic.Elliptic(-self.e22abs)  # complex
 
+    equatoradius = a  # Requatorial
+
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
 
@@ -1253,6 +1256,8 @@ class Ellipsoid(_NamedEnumItem):
     flattening1st = f
     flattening2nd = f2
     flattening3rd = n
+
+    polaradius = b  # Rpolar
 
 #   @Property_RO
 #   def Q(self):

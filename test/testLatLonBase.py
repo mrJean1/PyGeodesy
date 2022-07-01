@@ -4,7 +4,7 @@
 # Test LatLon base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.06.29'
+__version__ = '21.07.01'
 
 from base import GeodSolve, TestsBase
 
@@ -66,25 +66,43 @@ class Tests(TestsBase):
         if not Base:  # coverage
             t = clips(p.rhumbLine(30).toStr(), limit=150)
             self.test('rhumbLine', t, t, nl=1)
-
-            # same rhumb test as testSpherical, using rhumbx.Rhumb[Line]
-            p = LatLon(51.127, 1.338)
             q = LatLon(50.964, 1.853)
+            t = clips(p.rhumbLine(q).toStr(), limit=150)
+            self.test('rhumbLine', t, t)
+
+            # same rhumb test as testSpherical, invoking rhumbx.Rhumb[Line]
+            # with exact=False for all tests and the differences between
+            # the ellipsoidal and spherical cases are due to the ellipsoid.
+            p = LatLon(51.127, 1.338)
             z = p.rhumbAzimuthTo(q, exact=Sph)
             self.test('rhumbAzimuthTo', z, 107.563 if Sph else 116.661, fmt='%.3f')
 
             d = p.rhumbDestination(40300, 116.7, exact=Sph)
-            self.test('rhumbDestination', d, '51.489197°N, 001.358606°E' if Sph
+            self.test('rhumbDestination', d, '50.964155°N, 001.853°E' if Sph
                                         else '50.964234°N, 001.851383°E')
             self.test('rhumbDestination', isinstance(d, LatLon), True)
 
-            d = p.rhumbDistanceTo(q, exact=Sph)
+            d = p.rhumbDistanceTo(q, exact=Sph)  # force rhumbx.Rhumb[Line]
             self.test('rhumbDistanceTo', d, 42186.1 if Sph else 40413.1, fmt='%.1f')
 
-            m = p.rhumbMidpointTo(q, exact=Sph)
-            self.test('rhumbMidpointo', m, '51.069759°N, 001.625988°E' if Sph
-                                      else '51.045501°N, 001.595726°E')
+            m = p.rhumbMidpointTo(q, exact=Sph)  # ditto
+            self.test('rhumbMidpointo-0.5', m, '51.069759°N, 001.625988°E' if Sph
+                                          else '51.045501°N, 001.595726°E')
             self.test('rhumbMidpointo', isinstance(m, LatLon), True)
+            m = p.rhumbMidpointTo(q, exact=Sph, fraction=0)  # ditto
+            self.test('rhumbMidpointo-0.0', m, '51.127°N, 001.338°E')
+            m = p.rhumbMidpointTo(q, exact=Sph, fraction=0.25)  # ditto
+            self.test('rhumbMidpointo-0.25', m, '51.09838°N, 001.482038°E' if Sph
+                                           else '51.08625°N, 001.46692°E')
+            m = p.rhumbMidpointTo(q, exact=Sph, fraction=0.75)  # ditto
+            self.test('rhumbMidpointo-0.75', m, '51.041139°N, 001.769848°E' if Sph
+                                           else '51.00475°N, 001.724419°E')
+            m = p.rhumbMidpointTo(q, exact=Sph, fraction=1)  # ditto
+            self.test('rhumbMidpointo-1.0', m, '51.012519°N, 001.913619°E' if Sph
+                                          else '50.964°N, 001.853°E')
+            m = p.rhumbMidpointTo(q, exact=Sph, fraction=2)  # ditto
+            self.test('rhumbMidpointo-2.0', m, '50.898038°N, 002.48782°E' if Sph
+                                          else '50.800995°N, 002.366201°E')
 
 
 if __name__ == '__main__':

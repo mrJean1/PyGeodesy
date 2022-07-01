@@ -10,14 +10,14 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.errors import _xkwds_not  # _xkwds
-from pygeodesy.interns import INT0, NN, _a_, _A_, _angle_, _B_, _band_, \
-                             _C_, _convergence_, _datum_, _distance_, _E_, \
-                             _easting_, _end_, _epoch_, _fi_, _j_, _h_, \
-                             _height_, _hemipole_, _lam_, _lat_, _lon_, \
-                             _n_, _northing_, _number_, _outside_, _phi_, \
-                             _point_, _points_, _precision_, _radius_, \
-                             _reframe_, _scale_, _start_, _x_, _y_, _z_, \
-                             _zone_, _1_, _2_
+from pygeodesy.interns import INT0, NN, _a_, _A_, _area_, _angle_, _b_, _B_, \
+                             _band_, _c_, _C_, _convergence_, _datum_, _D_, \
+                             _distance_, _E_, _easting_, _end_, _epoch_, _fi_, \
+                             _j_, _h_, _height_, _hemipole_, _initial_, _lam_, \
+                             _lat_, _lon_, _n_, _northing_, _number_, _outside_, \
+                             _phi_, _point_, _precision_, _radius_, _points_, \
+                             _reframe_, _scale_, _start_, _x_, _y_, _z_, _zone_, \
+                             _1_, _2_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _Pass
 # from pygeodesy.props import property_RO  # from .units
@@ -27,15 +27,15 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             property_RO, Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.06.16'
+__version__ = '22.06.30'
 
 # __DUNDER gets mangled in class
-_closest_  = 'closest'
-_elel_     = 'll'
-_final_    = 'final'
-_fraction_ = 'fraction'
-_initial_  = 'initial'
-_normal_   = 'normal'
+_closest_     = 'closest'
+_destination_ = 'destination'
+_elel_        = 'll'
+_final_       = 'final'
+_fraction_    = 'fraction'
+_normal_      = 'normal'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -99,7 +99,7 @@ class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
     '''2-Tuple C{(destination, final)}, C{destination} in C{LatLon}
        and C{final} bearing in compass C{degrees360}.
     '''
-    _Names_ = ('destination', _final_)
+    _Names_ = (_destination_, _final_)
     _Units_ = (_Pass,          Bearing)
 
 
@@ -487,7 +487,7 @@ class Triangle7Tuple(_NamedTuple):
        C{c} in C{meter} and the C{area} of a spherical triangle in
        I{square} C{meter}.
     '''
-    _Names_ = (_A_,     _a_,   _B_,     'b',   _C_,     'c',   'area')
+    _Names_ = (_A_,     _a_,   _B_,     _b_,   _C_,     _c_,   _area_)
     _Units_ = ( Degrees, Meter, Degrees, Meter, Degrees, Meter, Meter2)
 
 
@@ -497,7 +497,7 @@ class Triangle8Tuple(_NamedTuple):
        deficit} C{D} and I{spherical excess} C{E} of a spherical
        triangle, all in C{radians}.
     '''
-    _Names_ = (_A_,     _a_,     _B_,     'b',     _C_,     'c',     'D',     _E_)
+    _Names_ = (_A_,     _a_,     _B_,     _b_,     _C_,     _c_,     _D_,     _E_)
     _Units_ = ( Radians, Radians, Radians, Radians, Radians, Radians, Radians, Radians)
 
 

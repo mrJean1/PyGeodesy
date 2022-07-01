@@ -200,8 +200,15 @@ plus during development:
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
  - C{PYGEODESY_GEOGRAPHICLIB} - see module L{pygeodesy.karney}.
  - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{pygeodesy.DeprecationWarnings}.
- _ C{PYGEODESY_XPACKAGES} - see module L{pygeodesy.basics}.
+ - C{PYGEODESY_XPACKAGES} - see module L{pygeodesy.basics}.
  - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
+
+and:
+
+ - C{PYGEODESY_INIT__ALL__} - to avoid importing all C{pygeodesy} modules unnecessarily (in Python 2
+   or with C{PYGEODESY_LAZY_IMPORT} turned off), set env variable C{PYGEODESY_INIT__ALL__} to anything
+   other than C{"__all__"}.  However, importing C{pygeodesy} items must then be qualified with the
+   module name, for example C{ from pygeodesy.ellipsoidalExact import LatLon }
 
 License
 =======
@@ -329,6 +336,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 from os.path import abspath, basename, dirname
 import sys
 
+_init__all__      = True
 # <https://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
 _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
@@ -347,15 +355,17 @@ else:
         # be imported (and checked by PyChecker, etc.)
         sys.path.insert(0, pygeodesy_abspath)  # XXX __path__[0]
 
-    try:
-        # lazily requires Python 3.7+, see lazily.__doc__
-        from pygeodesy.lazily import LazyImportError, _lazy_import2  # PYCHOK expected
+    try:  # lazily requires Python 3.7+, see lazily.__doc__
+        from pygeodesy.lazily import _a_l_l_, _getenv, LazyImportError, \
+                                     _lazy_import2  # PYCHOK expected
         _, __getattr__ = _lazy_import2(_pygeodesy_)  # PYCHOK expected
+        _init__all__   = _getenv('PYGEODESY_INIT__ALL__', _a_l_l_) == _a_l_l_
+        del _a_l_l_, _getenv
 
     except (ImportError, LazyImportError, NotImplementedError):
         _lazy_import2 = None
 
-if not _lazy_import2:  # import and set __all__
+if _init__all__ and not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
     import pygeodesy.albers                as albers                 # PYCHOK exported
@@ -547,9 +557,12 @@ if not _lazy_import2:  # import and set __all__
         return tuple(set(ns))  # remove duplicates
 
     __all__ = _all(globals())  # or locals()
+else:
+    __all__ = ()
+    _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.06.29'
+__version__ = '22.07.02'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

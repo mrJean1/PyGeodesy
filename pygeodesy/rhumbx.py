@@ -22,17 +22,16 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnan, _xinstanceof, _zip
-from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, \
-                            _xkwds, _xkwds_get
+from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, _xkwds
 # from pygeodesy.etm import ExactTransverseMercator  # in ._eTM below
 from pygeodesy.fmath import euclid, favg, hypot, hypot1
 from pygeodesy.fsums import Fmt, fsum1_, pairs
 from pygeodesy.interns import INT0, NAN, NN, PI_2, _azi12_, _coincident_, \
                              _COMMASPACE_, _convergence_, _ellipsoidal_, \
                              _EPSqrt as _TOL, _intersection_, _lat1_, _lat2_, \
-                             _lon1_, _lon2_, _no_, _not_, _s12_, _S12_, _UNDER_, \
-                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0, _180_0, \
-                             _720_0  # PYCHOK used!
+                             _lon1_, _lon2_, _no_, _not_, _s12_, _S12_, \
+                             _under_name, _0_0, _0_5, _1_0, _2_0, _4_0, \
+                             _90_0, _180_0, _720_0  # PYCHOK used!
 from pygeodesy.karney import _a12_, _atan2d, Caps, _CapsBase as _RhumbBase, \
                              _diff182, Direct9Tuple, _EWGS84, _fix90, GDict, \
                              _GTuple, Inverse10Tuple, _norm180, _tand
@@ -51,7 +50,7 @@ from pygeodesy.utily import sincos2_, sincos2d
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.06.29'
+__version__ = '22.07.01'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -181,11 +180,7 @@ class Rhumb(_RhumbBase):
            @arg lat1: Latitude of the first point (C{degrees90}).
            @arg lon1: Longitude of the first point (C{degrees180}).
            @arg azi12: Azimuth of the rhumb line (compass C{degrees}).
-           @kwarg caps: Optional, bit-or'ed combination of L{Caps} values
-                        specifying the required capabilities for the rhumb
-                        line, overriding the default C{Caps.STANDARD}.  Use
-                        C{Caps.LINE_OFF} if updates to this B{C{rhumb}}
-                        should I{not} be reflected in the rhumb line.
+           @kwarg caps: Optional C{caps}, see L{RhumbLine} C{B{caps}}.
 
            @return: A L{RhumbLine} instance and invoke its method
                     L{RhumbLine.Position} to compute each point.
@@ -193,9 +188,8 @@ class Rhumb(_RhumbBase):
            @note: Updates to this rhumb are reflected in the returned
                   rhumb line.
         '''
-        caps = _xkwds_get(caps, caps=self._debug)
         return RhumbLine(self, lat1=lat1, lon1=lon1, azi12=azi12,
-                               caps=caps, name=name or self.name)
+                               name=name or self.name, **caps)
 
     def _DIsometric(self, latx, laty):  # degrees
         phix = radians(latx)
@@ -371,13 +365,14 @@ class Rhumb(_RhumbBase):
         '''
         return self.Inverse(lat1, lon1, azi12, s12, outmask=outmask).toRhumb8Tuple()
 
-    def InverseLine(self, lat1, lon1, lat2, lon2, name=NN):  # caps=Caps.STANDARD
+    def InverseLine(self, lat1, lon1, lat2, lon2, name=NN, **caps):  # caps=Caps.STANDARD
         '''Define a L{RhumbLine} in terms of the I{inverse} rhumb problem.
 
            @arg lat1: Latitude of the first point (C{degrees90}).
            @arg lon1: Longitude of the first point (C{degrees180}).
            @arg lat2: Latitude of the second point (C{degrees90}).
            @arg lon2: Longitude of the second point (C{degrees180}).
+           @kwarg caps: Optional C{caps}, see L{RhumbLine} C{B{caps}}.
 
            @return: A L{RhumbLine} instance and invoke its method
                     L{RhumbLine.Position} to compute each point.
@@ -387,7 +382,7 @@ class Rhumb(_RhumbBase):
         '''
         r = self.Inverse(lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH)
         return RhumbLine(self, lat1=lat1, lon1=lon1, azi12=r.azi12,
-                               caps=self._debug, name=name or self.name)
+                               name=name or self.name, **caps)
 
     Line = DirectLine  # synonyms
 
@@ -498,18 +493,18 @@ class _RhumbLine(_RhumbBase):
     def __init__(self, rhumb, lat1, lon1, azi12, caps=0, name=NN):  # case=Caps.?
         '''New C{RhumbLine}.
         '''
-        if (caps & Caps._DEBUG_DIRECT_LINE):
-            self._debug |= caps & Caps._DEBUG_DIRECT_LINE
         _xinstanceof(Rhumb, rhumb=rhumb)
-        self._lat1 = _Lat(lat1=_fix90(lat1))
-        self._lon1 = _Lon(lon1=       lon1)
+        self._lat1   = _Lat(lat1=_fix90(lat1))
+        self._lon1   = _Lon(lon1=       lon1)
+        self._debug |= (caps | rhumb._debug) & Caps._DEBUG_DIRECT_LINE
         if azi12:  # non-zero
             self.azi12 = azi12
         self._caps = caps
         if not (caps & Caps.LINE_OFF):
             _rls.append(self)
-        if name:
-            self.name=name or rhumb.name
+        n = name or rhumb.name
+        if n:
+            self.name=n
         self._rhumb = rhumb  # last
 
     def __del__(self):  # XXX use weakref?
@@ -798,7 +793,7 @@ class RhumbLine(_RhumbLine):
        the rhumb line.
 
        The intersection of two rhumb lines can be found with method
-       L{RhumbLine.intersection2}.  Similarly, method L{RhumbLine.nearestOn4}
+       L{RhumbLine.intersection2} and method L{RhumbLine.nearestOn4}
        computes the nearest point on a rhumb line.
     '''
     def __init__(self, rhumb, lat1=0, lon1=0, azi12=None, caps=0, name=NN):  # case=Caps.?
@@ -815,7 +810,7 @@ class RhumbLine(_RhumbLine):
            @kwarg name: Optional name (C{str}).
         '''
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
-            rhumb = rhumb.copy(deep=False, name=NN(_UNDER_, rhumb.name))
+            rhumb = rhumb.copy(deep=False, name=_under_name(rhumb.name))
         _RhumbLine.__init__(self, rhumb, lat1, lon1, azi12, caps=caps, name=name)
 
 

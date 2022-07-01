@@ -4,12 +4,13 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.08.24'
+__version__ = '22.07.01'
 
 from base import TestsBase
 
 from pygeodesy import Datum, Datums, Ellipsoid, Ellipsoids, \
-                      Transform, Transforms
+                      R_M, Transform, Transforms
+from pygeodesy.datums import _spherical_datum
 
 
 class Tests(TestsBase):
@@ -38,6 +39,9 @@ class Tests(TestsBase):
         T = Transforms.ED50
         t = T.inverse().inverse("ED50_")
         self.test('ED50.inverse().inverse()', t == T, True)
+
+        S = Datums.Sphere
+        self.test(S.name, _spherical_datum(R_M) is S, True)
 
 
 if __name__ == '__main__':

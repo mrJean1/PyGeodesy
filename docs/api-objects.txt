@@ -218,6 +218,7 @@ pygeodesy.parseMGRS	pygeodesy-module.html#parseMGRS
 pygeodesy.isclass	pygeodesy-module.html#isclass
 pygeodesy.hstr	pygeodesy-module.html#hstr
 pygeodesy.f2e32	pygeodesy-module.html#f2e32
+pygeodesy._init__all__	pygeodesy-module.html#_init__all__
 pygeodesy.fasin1	pygeodesy-module.html#fasin1
 pygeodesy.cbrt	pygeodesy-module.html#cbrt
 pygeodesy.limiterrors	pygeodesy-module.html#limiterrors
@@ -324,6 +325,7 @@ pygeodesy.isnon0	pygeodesy-module.html#isnon0
 pygeodesy.parse3llh	pygeodesy-module.html#parse3llh
 pygeodesy.clipSH	pygeodesy-module.html#clipSH
 pygeodesy.false2f	pygeodesy-module.html#false2f
+pygeodesy._a_l_l_	pygeodesy-module.html#_a_l_l_
 pygeodesy.hypot1	pygeodesy-module.html#hypot1
 pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
 pygeodesy.ispolar	pygeodesy-module.html#ispolar
@@ -412,6 +414,7 @@ pygeodesy.nearestOn	pygeodesy-module.html#nearestOn
 pygeodesy.hubeny	pygeodesy-module.html#hubeny
 pygeodesy.clipRadians	pygeodesy-module.html#clipRadians
 pygeodesy.parseETM5	pygeodesy-module.html#parseETM5
+pygeodesy.unStr	pygeodesy-module.html#unStr
 pygeodesy.snellius3	pygeodesy-module.html#snellius3
 pygeodesy.isclockwise	pygeodesy-module.html#isclockwise
 pygeodesy.NN	pygeodesy-module.html#NN
@@ -456,7 +459,6 @@ pygeodesy.isint	pygeodesy-module.html#isint
 pygeodesy.tyr3d	pygeodesy-module.html#tyr3d
 pygeodesy.isinf	pygeodesy-module.html#isinf
 pygeodesy._all	pygeodesy-module.html#_all
-pygeodesy.unStr	pygeodesy-module.html#unStr
 pygeodesy.toise2m	pygeodesy-module.html#toise2m
 pygeodesy.PI3_2	pygeodesy-module.html#PI3_2
 pygeodesy.grades2radians	pygeodesy-module.html#grades2radians
@@ -2214,6 +2216,7 @@ pygeodesy.interns._RCURLY_	pygeodesy.interns-module.html#_RCURLY_
 pygeodesy.interns._V_	pygeodesy.interns-module.html#_V_
 pygeodesy.interns._1_75	pygeodesy.interns-module.html#_1_75
 pygeodesy.interns._360_0	pygeodesy.interns-module.html#_360_0
+pygeodesy.interns._D_	pygeodesy.interns-module.html#_D_
 pygeodesy.interns._enquote	pygeodesy.interns-module.html#_enquote
 pygeodesy.interns._NAN_	pygeodesy.interns-module.html#_NAN_
 pygeodesy.interns._O_	pygeodesy.interns-module.html#_O_
@@ -2222,6 +2225,7 @@ pygeodesy.interns._pl2List	pygeodesy.interns-module.html#_pl2List
 pygeodesy.interns._python_	pygeodesy.interns-module.html#_python_
 pygeodesy.interns._WGS84_	pygeodesy.interns-module.html#_WGS84_
 pygeodesy.interns._0_001	pygeodesy.interns-module.html#_0_001
+pygeodesy.interns._SPACE_	pygeodesy.interns-module.html#_SPACE_
 pygeodesy.interns._std_	pygeodesy.interns-module.html#_std_
 pygeodesy.interns._prime_vertical_	pygeodesy.interns-module.html#_prime_vertical_
 pygeodesy.interns._EPSqrt	pygeodesy.interns-module.html#_EPSqrt
@@ -2265,7 +2269,7 @@ pygeodesy.interns._enabled_	pygeodesy.interns-module.html#_enabled_
 pygeodesy.interns._LatLon_	pygeodesy.interns-module.html#_LatLon_
 pygeodesy.interns._M12_	pygeodesy.interns-module.html#_M12_
 pygeodesy.interns._SouthPole_	pygeodesy.interns-module.html#_SouthPole_
-pygeodesy.interns._SPACE_	pygeodesy.interns-module.html#_SPACE_
+pygeodesy.interns._area_	pygeodesy.interns-module.html#_area_
 pygeodesy.interns._northing_	pygeodesy.interns-module.html#_northing_
 pygeodesy.interns._semi_circular_	pygeodesy.interns-module.html#_semi_circular_
 pygeodesy.interns._attribute_	pygeodesy.interns-module.html#_attribute_
@@ -2349,7 +2353,6 @@ pygeodesy.karney._raiseX	pygeodesy.karney-module.html#_raiseX
 pygeodesy.karney._sincos2	pygeodesy.karney-module.html#_sincos2
 pygeodesy.karney._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.karney._math_isfinite	pygeodesy.basics-module.html#_isfinite
-pygeodesy.karney._area_	pygeodesy.karney-module.html#_area_
 pygeodesy.karney._around	pygeodesy.karney-module.html#_around
 pygeodesy.karney.__all__	pygeodesy.karney-module.html#__all__
 pygeodesy.karney._copysign	pygeodesy.geodesicx.gx-module.html#copysign
@@ -2389,6 +2392,7 @@ pygeodesy.latlonBase	pygeodesy.latlonBase-module.html
 pygeodesy.latlonBase._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.latlonBase._xdatum	pygeodesy.errors-module.html#_xdatum
 pygeodesy.latlonBase._circin6	pygeodesy.vector2d-module.html#_circin6
+pygeodesy.latlonBase.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.latlonBase.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.latlonBase.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.latlonBase.cosineLaw	pygeodesy.formy-module.html#cosineLaw
@@ -2664,9 +2668,9 @@ pygeodesy.namedTuples.__all__	pygeodesy.namedTuples-module.html#__all__
 pygeodesy.namedTuples._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.namedTuples._elel_	pygeodesy.namedTuples-module.html#_elel_
 pygeodesy.namedTuples._final_	pygeodesy.namedTuples-module.html#_final_
-pygeodesy.namedTuples._initial_	pygeodesy.namedTuples-module.html#_initial_
 pygeodesy.namedTuples._xkwds_not	pygeodesy.errors-module.html#_xkwds_not
 pygeodesy.namedTuples._normal_	pygeodesy.namedTuples-module.html#_normal_
+pygeodesy.namedTuples._destination_	pygeodesy.namedTuples-module.html#_destination_
 pygeodesy.namedTuples.__package__	pygeodesy.namedTuples-module.html#__package__
 pygeodesy.namedTuples.map1	pygeodesy.basics-module.html#map1
 pygeodesy.namedTuples._LL4Tuple	pygeodesy.namedTuples-module.html#_LL4Tuple
@@ -2929,6 +2933,7 @@ pygeodesy.rhumbx._Datan	pygeodesy.rhumbx-module.html#_Datan
 pygeodesy.rhumbx._Dsinh	pygeodesy.rhumbx-module.html#_Dsinh
 pygeodesy.rhumbx._Dgdinv	pygeodesy.rhumbx-module.html#_Dgdinv
 pygeodesy.rhumbx._tand	pygeodesy.karney-module.html#_tand
+pygeodesy.rhumbx._under_name	pygeodesy.interns-module.html#_under_name
 pygeodesy.rhumbx._Xorder	pygeodesy.ktm-module.html#_Xorder
 pygeodesy.rhumbx._Dcosh	pygeodesy.rhumbx-module.html#_Dcosh
 pygeodesy.rhumbx._zip	pygeodesy.basics-module.html#_zip
@@ -2949,7 +2954,6 @@ pygeodesy.rhumbx.Caps	pygeodesy.rhumbx-module.html#Caps
 pygeodesy.rhumbx.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.rhumbx.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.rhumbx._rls	pygeodesy.rhumbx-module.html#_rls
-pygeodesy.rhumbx._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.rhumbx._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.rhumbx._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.rhumbx._RACoeffs	pygeodesy.rhumbx-module.html#_RACoeffs
@@ -3015,6 +3019,7 @@ pygeodesy.sphericalBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.sphericalBase._xattrs	pygeodesy.streprs-module.html#_xattrs
 pygeodesy.sphericalBase.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.sphericalBase._angular	pygeodesy.sphericalBase-module.html#_angular
+pygeodesy.sphericalBase.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.sphericalBase.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.sphericalBase.deprecated_method	pygeodesy.props-module.html#deprecated_method
 pygeodesy.sphericalBase.__all__	pygeodesy.sphericalBase-module.html#__all__
@@ -3025,6 +3030,7 @@ pygeodesy.sphericalBase._trilaterate5	pygeodesy.latlonBase-module.html#_trilater
 pygeodesy.sphericalBase.__package__	pygeodesy.sphericalBase-module.html#__package__
 pygeodesy.sphericalBase._rads3	pygeodesy.sphericalBase-module.html#_rads3
 pygeodesy.sphericalBase._update_all	pygeodesy.props-module.html#_update_all
+pygeodesy.sphericalBase.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.sphericalBase.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.sphericalBase._umod_360	pygeodesy.basics-module.html#_umod_360
 pygeodesy.sphericalBase._spherical_datum	pygeodesy.datums-module.html#_spherical_datum

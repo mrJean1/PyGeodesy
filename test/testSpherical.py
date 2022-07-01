@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.06.29'
+__version__ = '22.07.01'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -279,8 +279,18 @@ class Tests(_TestsLL, _TestsV):
         self.test('rhumbDistanceTo', d, 40307.8, fmt='%.1f')  # XXX 40310 ?
 
         m = p.rhumbMidpointTo(q)
-        self.test('rhumbMidpointo', m, '51.0455°N, 001.595727°E')
+        self.test('rhumbMidpointo-0.5', m, '51.0455°N, 001.595727°E')
         self.test('rhumbMidpointo', isinstance(m, LatLon), True)
+        m = p.rhumbMidpointTo(q, fraction=0)
+        self.test('rhumbMidpointo-0.0', m, '51.127°N, 001.338°E')
+        m = p.rhumbMidpointTo(q, fraction=0.25)
+        self.test('rhumbMidpointo-0.25', m, '51.08625°N, 001.46692°E')
+        m = p.rhumbMidpointTo(q, fraction=0.75)
+        self.test('rhumbMidpointo-0.75', m, '51.00475°N, 001.72442°E')
+        m = p.rhumbMidpointTo(q, fraction=1)
+        self.test('rhumbMidpointo-1.0', m, '50.964°N, 001.853°E')
+        m = p.rhumbMidpointTo(q, fraction=2)
+        self.test('rhumbMidpointo-2.0', m, '50.801°N, 002.366196°E')
 
         b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
         self.test('areaOf', module.areaOf(b), '8.66605875e+09', fmt='%.8e')  # 8666058750.718977
