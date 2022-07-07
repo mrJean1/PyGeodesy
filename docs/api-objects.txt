@@ -2936,9 +2936,9 @@ pygeodesy.rhumbx	pygeodesy.rhumbx-module.html
 pygeodesy.rhumbx._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.rhumbx._xdatum	pygeodesy.errors-module.html#_xdatum
 pygeodesy.rhumbx._Datan	pygeodesy.rhumbx-module.html#_Datan
+pygeodesy.rhumbx._Dtant	pygeodesy.rhumbx-module.html#_Dtant
 pygeodesy.rhumbx._Dsinh	pygeodesy.rhumbx-module.html#_Dsinh
 pygeodesy.rhumbx._Dgdinv	pygeodesy.rhumbx-module.html#_Dgdinv
-pygeodesy.rhumbx._Dtan_	pygeodesy.rhumbx-module.html#_Dtan_
 pygeodesy.rhumbx._under_name	pygeodesy.interns-module.html#_under_name
 pygeodesy.rhumbx._Xorder	pygeodesy.ktm-module.html#_Xorder
 pygeodesy.rhumbx._Dcosh	pygeodesy.rhumbx-module.html#_Dcosh
@@ -20170,7 +20170,7 @@ pygeodesy.rhumbx.Rhumb.ellipsoid	pygeodesy.rhumbx.Rhumb-class.html#ellipsoid
 pygeodesy.rhumbx.Rhumb._B2	pygeodesy.rhumbx.Rhumb-class.html#_B2
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.rhumbx.Rhumb._RA2	pygeodesy.rhumbx.Rhumb-class.html#_RA2
-pygeodesy.rhumbx.Rhumb._exact	pygeodesy.rhumbx.Rhumb-class.html#_exact
+pygeodesy.rhumbx.Rhumb._DRectifyingt	pygeodesy.rhumbx.Rhumb-class.html#_DRectifyingt
 pygeodesy.rhumbx.Rhumb.toStr	pygeodesy.rhumbx.Rhumb-class.html#toStr
 pygeodesy.rhumbx.Rhumb._DConformal2Rectifying	pygeodesy.rhumbx.Rhumb-class.html#_DConformal2Rectifying
 pygeodesy.karney._CapsBase.LONGITUDE	pygeodesy.karney._CapsBase-class.html#LONGITUDE
@@ -20179,7 +20179,6 @@ pygeodesy.rhumbx.Rhumb.exact	pygeodesy.rhumbx.Rhumb-class.html#exact
 pygeodesy.rhumbx.Rhumb.RAorder	pygeodesy.rhumbx.Rhumb-class.html#RAorder
 pygeodesy.rhumbx.Rhumb.TMorder	pygeodesy.rhumbx.Rhumb-class.html#TMorder
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
-pygeodesy.rhumbx.Rhumb._DRectifying_	pygeodesy.rhumbx.Rhumb-class.html#_DRectifying_
 pygeodesy.karney._CapsBase._iter2tion	pygeodesy.karney._CapsBase-class.html#_iter2tion
 pygeodesy.karney._CapsBase.debug	pygeodesy.karney._CapsBase-class.html#debug
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
@@ -20227,6 +20226,7 @@ pygeodesy.rhumbx.Rhumb._DRectifying2Conformal	pygeodesy.rhumbx.Rhumb-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.karney._CapsBase.GEODESICSCALE	pygeodesy.karney._CapsBase-class.html#GEODESICSCALE
+pygeodesy.rhumbx.Rhumb._exact	pygeodesy.rhumbx.Rhumb-class.html#_exact
 pygeodesy.rhumbx.Rhumb._DIsometric2Rectifyingd	pygeodesy.rhumbx.Rhumb-class.html#_DIsometric2Rectifyingd
 pygeodesy.karney._CapsBase.LINE_OFF	pygeodesy.karney._CapsBase-class.html#LINE_OFF
 pygeodesy.rhumbx.Rhumb.orders	pygeodesy.rhumbx.Rhumb-class.html#orders
@@ -20235,10 +20235,10 @@ pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnami
 pygeodesy.rhumbx.Rhumb._DRectifying2Isometricd	pygeodesy.rhumbx.Rhumb-class.html#_DRectifying2Isometricd
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.rhumbx.Rhumb._S12d	pygeodesy.rhumbx.Rhumb-class.html#_S12d
+pygeodesy.rhumbx.Rhumb._DIsometrict	pygeodesy.rhumbx.Rhumb-class.html#_DIsometrict
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.rhumbx.Rhumb.a	pygeodesy.rhumbx.Rhumb-class.html#a
 pygeodesy.karney._CapsBase.REDUCEDLENGTH	pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH
-pygeodesy.rhumbx.Rhumb._DIsometric_	pygeodesy.rhumbx.Rhumb-class.html#_DIsometric_
 pygeodesy.rhumbx.Rhumb.Direct	pygeodesy.rhumbx.Rhumb-class.html#Direct
 pygeodesy.named._Named._updates	pygeodesy.named._Named-class.html#_updates
 pygeodesy.karney._CapsBase.LATITUDE	pygeodesy.karney._CapsBase-class.html#LATITUDE

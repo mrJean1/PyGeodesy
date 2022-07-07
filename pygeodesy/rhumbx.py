@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.07.06'
+__version__ = '22.07.07'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -196,7 +196,7 @@ class Rhumb(_RhumbBase):
         return RhumbLine(self, lat1=lat1, lon1=lon1, azi12=azi12,
                                name=name or self.name, **caps)
 
-    def _DIsometric_(self, phix, phiy, tphix, tphiy, _Dtan_phix_phiy):
+    def _DIsometrict(self, phix, phiy, tphix, tphiy, _Dtan_phix_phiy):
         E = self.ellipsoid
         return _Dtan_phix_phiy   * _Dasinh(tphix, tphiy) - \
                _Dsin(phix, phiy) * _DeatanhE(sin(phix), sin(phiy), E)
@@ -205,15 +205,15 @@ class Rhumb(_RhumbBase):
         if self.exact:
             E = self.ellipsoid
             phix, phiy, tphix, tphiy = _Eaux4(E.auxIsometric, psix, psiy)
-            t = _Dtan_(phix - phiy, tphix, tphiy)
-            r = self._DRectifying_(           tphix, tphiy, t) / \
-                self._DIsometric_(phix, phiy, tphix, tphiy, t)
+            t = _Dtant(phix - phiy, tphix, tphiy)
+            r = self._DRectifyingt(           tphix, tphiy, t) / \
+                self._DIsometrict(phix, phiy, tphix, tphiy, t)
         else:
             x, y = radians(psix), radians(psiy)
             r = self._DConformal2Rectifying(_gd(x), _gd(y)) * _Dgd(x, y)
         return r
 
-    def _DRectifying_(self, tphix, tphiy, _Dtan_phix_phiy):
+    def _DRectifyingt(self, tphix, tphiy, _Dtan_phix_phiy):
         E = self.ellipsoid
         tbetx = E.f1 *  tphix
         tbety = E.f1 *  tphiy
@@ -228,9 +228,9 @@ class Rhumb(_RhumbBase):
         E = self.ellipsoid
         phix, phiy, tphix, tphiy = _Eaux4(E.auxRectifying, mux, muy)
         if self.exact:
-            t = _Dtan_(phix - phiy, tphix, tphiy)
-            r = self._DIsometric_(phix, phiy, tphix, tphiy, t) / \
-                self._DRectifying_(           tphix, tphiy, t)
+            t = _Dtant(phix - phiy, tphix, tphiy)
+            r = self._DIsometrict(phix, phiy, tphix, tphiy, t) / \
+                self._DRectifyingt(           tphix, tphiy, t)
         else:
             r = self._DRectifying2Conformal(radians(mux), radians(muy)) * \
                      _Dgdinv(E.es_taupf(tphix), E.es_taupf(tphiy))
@@ -559,7 +559,7 @@ class _RhumbLine(_RhumbBase):
         return self.rhumb.exact
 
     def intersection2(self, other, tol=_TOL, **eps):
-        '''Find the intersection of this and an other rhumb line.
+        '''Iteratively find the intersection of this and an other rhumb line.
 
            @arg other: The other rhumb line ({RhumbLine}).
            @kwarg tol: Tolerance for longitudinal convergence (C{degrees}).
@@ -633,7 +633,8 @@ class _RhumbLine(_RhumbBase):
         return self.ellipsoid.auxRectifying(self.lat1)
 
     def nearestOn4(self, lat, lon, tol=_TOL, **eps):
-        '''Find the point on this rhumb line nearest to a given point.
+        '''Iteratively locate the point on this rhumb line nearest to
+           the given point.
 
            @arg lat: Latitude of the point (C{degrees}).
            @arg lon: Longitude of the point (C{degrees}).
@@ -999,10 +1000,10 @@ def _Dsinh(x, y):
 
 
 def _Dtan(x, y):  # PYCHOK no cover
-    return _Dtan_(x - y, tan(x), tan(y))
+    return _Dtant(x - y, tan(x), tan(y))
 
 
-def _Dtan_(dxy, tx, ty):
+def _Dtant(dxy, tx, ty):
     txy = tx * ty
     r   = txy + _1_0
     if dxy:  # 2 * txy > -1 == 2 * txy + 1 > 0 == txy + r > 0 == txy > -r
@@ -1049,10 +1050,10 @@ def _sincosSeries(sinp, x, y, C, n):
         # b1 = a * b2 - b1 + C[j] * I
         m0, m1, m2, m3 = b2
         n0, n1, n2, n3 = map(_neg, b1)
-        b1 = (_fsum1_(a0 * m0, a1 * m2, n0, Cj),
-              _fsum1_(a0 * m1, a1 * m3, n1),
-              _fsum1_(a2 * m0, a3 * m2, n2),
-              _fsum1_(a2 * m1, a3 * m3, n3, Cj))
+        b1 = (_fsum1_(a0 * m0, a1 * m2, n0, Cj, floats=True),
+              _fsum1_(a0 * m1, a1 * m3, n1,     floats=True),
+              _fsum1_(a2 * m0, a3 * m2, n2,     floats=True),
+              _fsum1_(a2 * m1, a3 * m3, n3, Cj, floats=True))
     # Here are the full expressions for m and s
     # f01, f02, f11, f12 = (0, 0, cd * sp,  2 * sd * cp) if sinp else \
     #                      (1, 0, cd * cp, -2 * sd * sp)
@@ -1060,8 +1061,8 @@ def _sincosSeries(sinp, x, y, C, n):
     # s = -b2[2] * f01 + (C[0] - b2[3]) * f02 + b1[2] * f11 + b1[3] * f12
     cd *=  b1[2]
     sd *=  b1[3] * _2_0
-    s   = _fsum1_(cd * sp,      sd * cp) if sinp else \
-          _fsum1_(cd * cp, _neg(sd * sp), _neg(b2[2]))
+    s   = _fsum1_(cd * sp,      sd * cp, floats=True) if sinp else \
+          _fsum1_(cd * cp, _neg(sd * sp), _neg(b2[2]), floats=True)
     return s
 
 

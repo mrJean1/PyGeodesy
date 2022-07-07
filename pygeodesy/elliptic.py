@@ -95,7 +95,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.05.22'
+__version__ = '22.07.07'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -417,7 +417,7 @@ class Elliptic(_Named):
         phi = PI * y / E2  # phi in [-pi/2, pi/2)
         Phi = Fsum(phi)
         # first order correction
-        phi = Phi.fsum_(self.eps * sin(_2_0 * phi) / _N_2_0)
+        phi = Phi.fsum_(self.eps * sin(phi * _2_0) / _N_2_0)
         # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>

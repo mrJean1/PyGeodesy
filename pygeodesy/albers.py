@@ -483,10 +483,10 @@ class _AlbersBase(_NamedBase):
 
         drho = den = nrho0 + hypot(nx, y1)  # 0 implies origin with polar aspect
         if den:
-            drho = fsum1_(x * nx, _N_2_0 * y_ * nrho0, y_ * ny) * k0 / den
+            drho = fsum1_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
         # dsxia = scxi0 * dsxi
-        dsxia = -self._scxi0 * (_2_0 * nrho0 + n0 * drho) * drho / self._qZa2
-        t = _1_0 - dsxia * (_2_0 * txi0 + dsxia)
+        dsxia = -self._scxi0 * (nrho0 * _2_0 + n0 * drho) * drho / self._qZa2
+        t = _1_0 - dsxia * (txi0 * _2_0 + dsxia)
         txi = (txi0 + dsxia) / (sqrt(t) if t > EPS02 else EPS0)
 
         ta  = self._tanf(txi)

@@ -28,7 +28,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.04.21'
+__version__ = '22.07.07'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -476,7 +476,7 @@ def _radii11ABC(point1, point2, point3, useZ=True):
                 #    = r1 * sqrt(r2 * r3 / r1 / s)
                 ci = r1 * sqrt(r2 * r3_r1 / s)
                 # co = a * b * c / (4 * ci * s)
-                t  = _4_0 * s * ci
+                t  = ci * s * _4_0
                 co = (a * b * c / t) if t > EPS0 else INF
                 r1, r2, r3 = rs  # original order
                 t = Radii11Tuple(r1, r2, r3, co, ci, si, so, a, b, c, s)

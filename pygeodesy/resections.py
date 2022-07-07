@@ -163,6 +163,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 
         x = H1.x - H2.x
         y = H1.y - H2.y
+        # x, y, _ = H1.minus(H2).xyz
         if isnear0(x) or isnear0(y):
             raise ValueError(_SPACE_(_concyclic_, (x, y)))
 
