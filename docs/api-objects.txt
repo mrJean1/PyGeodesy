@@ -2700,6 +2700,7 @@ pygeodesy.nvectorBase._trilaterate	pygeodesy.nvectorBase-module.html#_trilaterat
 pygeodesy.nvectorBase.NN	pygeodesy.nvectorBase-module.html#NN
 pygeodesy.nvectorBase._xyzhdn3	pygeodesy.vector3d-module.html#_xyzhdn3
 pygeodesy.nvectorBase.EPS_2	pygeodesy.nvectorBase-module.html#EPS_2
+pygeodesy.nvectorBase._N_2_0	pygeodesy.nvectorBase-module.html#_N_2_0
 pygeodesy.nvectorBase.fidw	pygeodesy.fmath-module.html#fidw
 pygeodesy.nvectorBase.__package__	pygeodesy.nvectorBase-module.html#__package__
 pygeodesy.nvectorBase._xother3	pygeodesy.named-module.html#_xother3

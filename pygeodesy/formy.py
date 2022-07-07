@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.04.22'
+__version__ = '22.07.07'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -915,7 +915,7 @@ def hartzell(pov, los=None, earth=_WGS84, **LatLon_and_kwds):
     # a2 and b2 factored out, b2 == a2 and b2 / a2 == 1
     r = fsum_(b2 * w2,  c2 * v2,      -v2 * z2,      vy * wz * 2,
               c2 * u2, -u2 * z2,      -w2 * x2,      ux * wz * 2,
-             -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2)
+             -w2 * y2, -u2 * y2 * q2, -v2 * x2 * q2, ux * vy * 2 * q2, floats=True)
     if r > 0:
         r = bc * sqrt(r)
     elif r < 0:  # LOS pointing away from or missing the earth

@@ -24,7 +24,7 @@ from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
                              _bearing_, _coincident_, _COMMASPACE_, \
                              _distance_, _intersection_, _no_, _NorthPole_, \
                              _points_, _pole_, _SPACE_, _SouthPole_, \
-                             _1_, _2_, _3_, _2_0
+                             _1_, _2_, _3_, _N_2_0, _2_0
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import notImplemented, _xother3
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.06.26'
+__version__ = '22.07.07'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -657,8 +657,8 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS_2:
             # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
-            x = fsum_(r12, -r22, d**2) / (_2_0 * d)  # n1->intersection x- and ...
-            y = fsum_(r12, -r32, i**2, j**2, -2 * x * i) / (_2_0 * j)  # ... y-component
+            x = fsum_(r12, -r22, d**2) / (d * _2_0)  # n1->intersection x- and ...
+            y = fsum_(r12, -r32, i**2, j**2, _N_2_0 * x * i) / (j * _2_0)  # ... y-component
             # courtesy of U{AleixDev<https://GitHub.com/mrJean1/PyGeodesy/issues/43>}
             z = fsum_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
             if z > EPS:

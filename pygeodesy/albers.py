@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.06.16'
+__version__ = '22.07.07'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -183,7 +183,7 @@ class _AlbersBase(_NamedBase):
                    - sa0m**2 * e2 * (2 + (_1_0 + e2) * sa0) / (e21 * sa02_)  # == B + A
                 dAB = 2 * e2 * (2 - e2 * (_1_0 + sa02)) / (e21 * sa02_**2 * sca02)
                 u_du = fsum1_(s1_qZ *  g, -D,  g * BA) \
-                     / fsum1_(s1_qZ * dg, dD, dg * BA, g * dAB)  # == u/du
+                     / fsum1_(s1_qZ * dg, dD, dg * BA, g * dAB, floats=True)  # == u/du
                 ta0, d = Ta02_(-u_du * (sca0 * sca02))
                 if abs(d) < tol:
                     break
@@ -539,13 +539,13 @@ class _AlbersBase(_NamedBase):
         axi, bxi, sxi = self._a_b_sxi3((ca1, sa1, ta1, scb12),
                                        (ca2, sa2, ta2, scb22))
 
-        dsxi = (esa12 / esa1_2 + self._Datanhee(sa2, sa1)) * dsn / (_2_0 * self._qx)
-        C = fsum1_(sxi * dtb12 / dsxi, scb22, scb12) / (_2_0 * scb22 * scb12)
+        dsxi = (esa12 / esa1_2 + self._Datanhee(sa2, sa1)) * dsn / (self._qx * _2_0)
+        C = fsum1_(sxi * dtb12 / dsxi, scb22, scb12) / (scb22 * scb12 * _2_0)
 
         sa12 =  fsum1_(sa1, sa2, sa1 * sa2)
-        axi *= (_1_0 + e2 * sa12) / (_1_0 + sa12)
+        axi *= (e2 * sa12 + _1_0) / (sa12 + _1_0)
         bxi *=  e2 * fsum1_(sa1, sa2, esa12) / esa1_2 + E.e21 * self._D2atanhee(sa1, sa2)
-        s1_qZ = dsn * (axi * self._qZ - bxi) / (_2_0 * dtb12)
+        s1_qZ = dsn * (axi * self._qZ - bxi) / (dtb12 * _2_0)
         return s1_qZ, C
 
     def _tanf(self, txi):  # called by .Ellipsoid.auxAuthalic

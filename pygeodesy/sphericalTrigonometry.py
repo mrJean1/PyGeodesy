@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.05.08'
+__version__ = '22.07.07'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -1301,7 +1301,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
-    r = fsum(_rads(_T00.PointsIter(points, loop=1), closed, wrap))
+    r = fsum(_rads(_T00.PointsIter(points, loop=1), closed, wrap), floats=True)
     return r if radius is None else (Radius(radius) * r)
 
 
@@ -1378,7 +1378,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
     B, r = _A_r(b, *r)
     C, _ = _A_r(c, *r)
 
-    D = fsum_(PI2, -a, -b, -c)  # deficit aka defect
+    D = fsum_(PI2, -a, -b, -c, floats=True)  # deficit aka defect
     E = excessGirard(A, B, C)   if excess in (excessGirard, True) else (
         excessLHuilier(a, b, c) if excess in (excessLHuilier, False) else
         excessAbc(*max((A, b, c), (B, c, a), (C, a, b))))

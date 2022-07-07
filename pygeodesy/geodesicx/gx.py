@@ -44,8 +44,8 @@ from pygeodesy.geodesicx.gxline import _GeodesicLineExact, pairs, _update_glXs
 from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, _2__PI, \
                              _COMMASPACE_, _convergence_, _DOT_, _EPSqrt, _no_, \
                              _SQRT2_2, _UNDER_, _0_0, _0_001, _0_01, _0_1, _0_5, \
-                             _N_1_0, _1_0, _1_75, _2_0, _3_0, _4_0, _6_0, _8_0, \
-                             _16_0, _90_0, _180_0, _1000_0
+                             _N_1_0, _1_0, _1_75, _N_2_0, _2_0, _3_0, _4_0, _6_0, \
+                             _8_0, _16_0, _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
                              _ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
                              _hypot, _K_2_0, _norm2, _norm180, _polynomial, \
@@ -59,7 +59,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.06.26'
+__version__ = '22.07.07'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1277,7 +1277,7 @@ def _Astroid(x, y):
     '''
     p = x**2
     q = y**2
-    r = fsum_(_1_0, q, p, -_2_0)
+    r = fsum_(_1_0, q, p, _N_2_0, floats=True)
     if q or r > 0:
         r = r / _6_0  # /= chokes PyChecker
         # avoid possible division by zero when r = 0

@@ -29,7 +29,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.04.27'
+__version__ = '22.07.07'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -501,7 +501,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         dB = _deg_ks(_triAngle(a, c, b), sb, ks, _B_)
         dC = _deg_ks(_triAngle(a, b, c), sc, ks, _C_)
 
-        k = fsum1(ks)
+        k = fsum1(ks, floats=True)
         if isnear0(k):
             raise ValueError(Fmt.EQUAL(K=k))
         x =  Fdot(ks, A.x, B.x, C.x).fover(k)
@@ -794,7 +794,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         r1 = s2 * q3_s3  # s2!
         r2 = s1 * q3_s3  # s1!
         Qs = Fsum(*q)  # == hypot2_(a, b, c)
-        ss = fsum1(s)
+        ss = fsum1(s, floats=True)
         s += float(Qs * _0_5),  # tuple!
         C0 = Fdot(s, q1, q2, q3, -ss)
         r3 = C0.fover(-s3)

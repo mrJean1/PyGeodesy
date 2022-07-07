@@ -46,7 +46,7 @@ from pygeodesy.basics import copysign0, isint, isodd, neg, neg_
 # from pygeodesy.datums import _spherical_datum  # in KTransverseMercator.ellipsoid.setter
 from pygeodesy.errors import _or, _ValueError, _xkwds_get
 from pygeodesy.fmath import fsum1_ , hypot, hypot1
-# from pygeodesy.fsums import fsum1+  # from .fmath
+# from pygeodesy.fsums import fsum1_  # from .fmath
 from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
                              _K0_UTM, _not_, _singular_, _0_0, _1_0, \
                              _90_0, _180_0, _0_0s
@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.07.04'
+__version__ = '22.07.07'
 
 
 class KTMError(_ValueError):
@@ -424,13 +424,13 @@ def _c(a, b0, b1, Cn):
     '''(INTERNAL) Accurately compute complex M{a * b0 - b1 + Cn}
        with complex args C{a}, C{b0} and C{b1} and scalar C{Cn}.
 
-       @see: U{_Py_c_prod{https://GitHub.com/python/cpython/blob/
-             main/Objects/complexobject.c>}.
+       @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
+             cpython/blob/main/Objects/complexobject.c>}.
 
        @note: Python function C{cmath.fsum} no longer exists although
               it is still mentioned in Note 4 of the comments before
-              function U{math_fsum<https://GitHub.com/python/cpython/
-              blob/main/Modules/mathmodule.c>}.
+              CPython function U{math_fsum<https://GitHub.com/python/
+              cpython/blob/main/Modules/mathmodule.c>}.
     '''
     r = fsum1_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn, floats=True)
     j = fsum1_(a.real * b0.imag,  a.imag * b0.real, -b1.imag,     floats=True)

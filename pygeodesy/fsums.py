@@ -1653,7 +1653,7 @@ except ImportError:
         return Fsum(name=_fsum.__name__)._facc(xs)._fprs
 
 
-def fsum(xs, **floats):
+def fsum(xs, floats=False):
     '''Precision floating point summation based on or like Python's C{math.fsum}.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
@@ -1674,7 +1674,7 @@ def fsum(xs, **floats):
 
        @see: Class L{Fsum} and methods L{Fsum.fsum} and L{Fsum.fadd}.
     '''
-    return _fsum(_2floats(xs, **_floats(floats))) if xs else _0_0
+    return _fsum(_2floats(xs, floats=floats)) if xs else _0_0
 
 
 def fsum_(*xs, **floats):
@@ -1692,7 +1692,7 @@ def fsum_(*xs, **floats):
     return _fsum(_2floats(xs, origin=1, **_floats(floats))) if xs else _0_0
 
 
-def fsum1(xs, **floats):
+def fsum1(xs, floats=False):
     '''Precision floating point summation of a few values, 1-primed.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
@@ -1704,7 +1704,7 @@ def fsum1(xs, **floats):
 
        @see: Function C{fsum}.
     '''
-    return _fsum(_2floats(xs, primed=True, **_floats(floats))) if xs else _0_0
+    return _fsum(_2floats(xs, primed=True, floats=floats)) if xs else _0_0
 
 
 def fsum1_(*xs, **floats):
