@@ -21,7 +21,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '22.05.08'
+__version__ = '22.07.07'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -118,7 +118,7 @@ def areaOf(points, datum=_WGS84, wrap=True):
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Interatively compute the intersection point of two paths, each defined
+    '''Iteratively compute the intersection point of two paths, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and a
        bearing from North.
 

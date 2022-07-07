@@ -32,7 +32,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.07.04'
+__version__ = '22.07.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -440,7 +440,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def intersection3(self, end1, other, end2, height=None, wrap=True,
                                           equidistant=None, tol=_TOL_M):
-        '''Interatively compute the intersection point of two paths, each
+        '''Iteratively compute the intersection point of two paths, each
            defined by two points or a start point and bearing from North.
 
            @arg end1: End point of this path (C{LatLon}) or the initial
@@ -497,7 +497,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def intersections2(self, radius1, other, radius2, height=None, wrap=True,
                                                  equidistant=None, tol=_TOL_M):
-        '''Interatively compute the intersection points of two circles,
+        '''Iteratively compute the intersection points of two circles,
            each defined by a center point and a radius.
 
            @arg radius1: Radius of this circle (C{meter}, conventionally).
@@ -571,7 +571,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
-        '''Interatively locate the closest point on the geodesic between
+        '''Iteratively locate the closest point on the geodesic between
            two other (ellipsoidal) points.
 
            @arg point1: Start point (C{LatLon}).

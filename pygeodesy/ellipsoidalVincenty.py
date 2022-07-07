@@ -78,7 +78,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.06.26'
+__version__ = '22.07.07'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -397,7 +397,7 @@ def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Interatively compute the intersection point of two paths, each defined
+    '''Iteratively compute the intersection point of two paths, each defined
        by two (ellipsoidal) points or by an (ellipsoidal) start point and a
        bearing from North.
 
