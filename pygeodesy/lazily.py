@@ -26,20 +26,22 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, \
                              _dunder_name, _enabled_, _EQUALSPACED_, \
-                             _from_, _immutable_, _isclockwise_, _ispolar_, \
-                             _module_, _NL_, _no_, _not_, _or_, _perimeterOf_, \
-                             _Python_, _pygeodesy_abspath_, _SPACE_, \
-                             _spaced, _UNDER_, _version_
+                             _from_, _immutable_, _isclockwise_, \
+                             _ispolar_, _module_, _NL_, _no_, _not_, _or_, \
+                             _perimeterOf_, _Python_, _pygeodesy_abspath_, \
+                             _SPACE_, _UNDER_, _version_
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
 import sys as _sys  # in .props
 
 _a_l_l_            = '__all__'
-_as__              = _spaced('as')
+_as__              = _SPACE_(NN, 'as', NN)
 _FOR_DOCS          = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
+_from_DOT_         = _SPACE_(NN, _from_, _DOT_)
 _imports_          = 'imports'
 _lazily_           = 'lazily'
+_lazily_imported_  = _SPACE_('#', _lazily_, 'imported', NN)
 _line_             = 'line'
 _p_a_c_k_a_g_e_    = '__package__'
 _pygeodesy_        = 'pygeodesy'
@@ -142,7 +144,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
-                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'UtmUps4Tuple',
+                                 'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
                                  'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
@@ -279,7 +281,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                       solveBase=(),  # module only
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
-                            trf=('RefFrame', 'RefFrames', 'Transform7Tuple',
+                            trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
@@ -402,7 +404,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.06.28'
+__version__ = '22.07.05'
 
 
 def _ALL_OTHER(*objs):
@@ -545,15 +547,16 @@ def _lazy_import2(package_name):  # MCCABE 14
 
         setattr(package, name, imported)
         if isLazy > 1:
-            t = _DOT_(_spaced(_from_), mod) if mod and mod != name else NN
+            t = NN(_lazily_imported_, _DOT_(parent, name))
+            if mod and mod != name:
+                t = NN(t, _from_DOT_, mod)
             if isLazy > 2:
                 try:  # see C{_caller3}
                     _, f, s = _caller3(2)
                     t = _SPACE_(t, _by_, f, _line_, s)
                 except ValueError:
                     pass
-            t = NN(_DOT_(parent, name), t)
-            printf('# %s imported %s', _lazily_, t)
+            print(t)  # XXX printf
 
         return imported  # __getattr__
 

@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.07.01'
+__version__ = '22.07.05'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -109,17 +109,19 @@ _OSGB36_     = 'OSGB36'
 _Potsdam_    = 'Potsdam'
 _TokyoJapan_ = 'TokyoJapan'
 
+_r_s1 = radians(1 / _3600_0)  # 1 degree second to radians
+
 
 def _r_s2(s_):
     '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
     '''
-    return _F(radians(s_ / _3600_0)), s_
+    return _F(_r_s1 * s_), s_
 
 
 class Transform(_NamedEnumItem):
     '''Helmert transformation.
 
-       @see: L{Transform7Tuple}.
+       @see: L{Helmert7Tuple}.
     '''
     tx = _0_0  # x translation (C{meter})
     ty = _0_0  # y translation (C{meter})
@@ -441,7 +443,7 @@ def _En2(earth, name):
     elif isinstance(earth, a_f2Tuple):
         n = _under_name(name or earth.name)
         E =  Ellipsoid(earth.a, earth.b, name=n)
-    elif istuplist(earth, 2):
+    elif istuplist(earth, minum=2):
         a, f = earth[:2]
         n = _under_name(name or getattr(earth, _name_, NN))
         E =  Ellipsoid(a, f=f, name=n)
@@ -459,8 +461,11 @@ def _ellipsoid(earth, name=NN):  # in .trf
     return E
 
 
-def _ellipsoidal_datum(earth, name=NN, raiser=False):
-    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2} or C{a_f2Tuple}.
+def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=False):
+    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2},
+       C{a_f2Tuple}, 2-tuple or 2-list B{C{earth}} model.
+
+       @kwarg raiser: If C{True}, raise an B{C{Error}} if not ellipsoidal.
     '''
     if isinstance(earth, Datum):
         d = earth
@@ -470,13 +475,13 @@ def _ellipsoidal_datum(earth, name=NN, raiser=False):
             _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, earth=earth)
         d = Datum(E, transform=Transforms.Identity, name=n)
     if raiser and not d.isEllipsoidal:
-        raise _IsnotError(_ellipsoidal_, earth=earth)
+        raise _IsnotError(_ellipsoidal_, earth=earth, Error=Error)
     return d
 
 
 def _mean_radius(radius, *lats):
     '''(INTERNAL) Compute the mean radius of a L{Datum} from an L{Ellipsoid},
-       L{Ellipsoid2} or scalar earth C{radius} for several latitudes.
+       L{Ellipsoid2} or scalar earth C{radius} over several latitudes.
     '''
     if isscalar(radius):
         r =  Radius_(radius, low=0, Error=TypeError)
@@ -486,22 +491,25 @@ def _mean_radius(radius, *lats):
     return r
 
 
-def _spherical_datum(earth, name=NN, raiser=False):
-    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
+def _spherical_datum(earth, Error=TypeError, name=NN, raiser=False):
+    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2},
+       C{a_f2Tuple}, 2-tuple, 2-list B{C{earth}} model or C{scalar} radius.
+
+       @kwarg raiser: If C{True}, raise an B{C{Error}} if not spherical.
     '''
     if isscalar(earth):
         E = Datums.Sphere.ellipsoid
         if earth == E.a == E.b and not name:
             d =  Datums.Sphere
         else:
-            r =  Radius_(earth, Error=TypeError)  # invalid datum
+            r =  Radius_(earth, Error=Error)  # invalid datum
             n = _under_name(name)
             E =  Ellipsoid(r, r, name=n)
             d =  Datum(E, transform=Transforms.Identity, name=n)
     else:
-        d = _ellipsoidal_datum(earth, name=name)
+        d = _ellipsoidal_datum(earth, Error=Error, name=name)
     if raiser and not d.isSpherical:
-        raise _IsnotError(_spherical_, earth=earth)
+        raise _IsnotError(_spherical_, earth=earth, Error=Error)
     return d
 
 

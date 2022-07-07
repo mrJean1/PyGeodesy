@@ -483,7 +483,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.07.02
+        22.07.07
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2797,6 +2797,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.trf.Helmert7Tuple-class.html" class="summary-name">Helmert7Tuple</a><br />
+      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
+        transform parameters with translations <code>tx</code>, 
+        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
+        scale <code>s</code> in <code>ppb</code> and rotations 
+        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
+        <code>milliarcseconds</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.units.Int-class.html" class="summary-name">Int</a><br />
       Named <code>int</code>.
     </td>
@@ -3721,7 +3734,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.rhumbx.RhumbLine-class.html" class="summary-name">RhumbLine</a><br />
-      Compute one or more points on a single rhumb line.
+      Compute one or several points on a single rhumb line.
     </td>
   </tr>
 <tr>
@@ -3900,13 +3913,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
-      7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
-        transformation with translations <code>tx</code>, <code>ty</code> 
-        and <code>tz</code> in <code>millimeter</code>, scale 
-        <code>s</code> in <code>ppb</code> and rotations <code>sx</code>, 
-        <code>sy</code> and <code>sz</code> in 
-        <code>milliarcseconds</code>.
+        <a href="pygeodesy.deprecated.Transform7Tuple-class.html" class="summary-name">Transform7Tuple</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
+        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        arguments.
     </td>
   </tr>
 <tr>
@@ -7321,7 +7332,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">xs</span>,
+        <span class="summary-sig-arg">**floats</span>)</span><br />
       Precision floating point summation based on or like Python's 
       <code>math.fsum</code>.</td>
           <td align="right" valign="top">
@@ -7339,7 +7351,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1" class="summary-sig-name">fsum1</a>(<span class="summary-sig-arg">xs</span>,
+        <span class="summary-sig-arg">**floats</span>)</span><br />
       Precision floating point summation of a few values, 1-primed.</td>
           <td align="right" valign="top">
             
@@ -7356,7 +7369,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum1_" class="summary-sig-name">fsum1_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**floats</span>)</span><br />
       Precision floating point summation of a few arguments, 1-primed.</td>
           <td align="right" valign="top">
             
@@ -7373,7 +7387,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**floats</span>)</span><br />
       Precision floating point summation of all positional arguments.</td>
           <td align="right" valign="top">
             
@@ -7594,7 +7609,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9d686f99d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f78d040bb50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11787,7 +11802,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.7.2'"><code class="variable-quote">'</code><code class="variable-string">22.7.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.7.7'"><code class="variable-quote">'</code><code class="variable-string">22.7.7</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18590,7 +18605,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>&nbsp;(<span class="sig-arg">xs</span>,
+        <span class="sig-arg">**floats</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18605,6 +18621,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -18636,7 +18654,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1</span>&nbsp;(<span class="sig-arg">xs</span>,
+        <span class="sig-arg">**floats</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18650,6 +18669,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. of values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -18666,7 +18687,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum1_</span>&nbsp;(<span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**floats</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18680,6 +18702,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -18696,7 +18720,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>&nbsp;(<span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**floats</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18710,6 +18735,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances), all positional.</li>
+        <li><strong class="pname"><code>floats</code></strong> - Optionally, set <code><b>floats</b>=True</code> iff <i>all</i> 
+          <b><code>xs</code></b> are known to be <code>float</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Precision <code>fsum</code> (<code>float</code>).</dd>
@@ -19134,7 +19161,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9d686f99d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f78d040bb50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26604,8 +26631,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>epoch</code></strong> - Epoch, a fractional calendar year (<code>scalar</code> or 
           <code>str</code>) or <code>None</code> for 
           <code><b>reframe2</b>.epoch</code>.</li>
-        <li><strong class="pname"><code>xform</code></strong> - Helmert transform (<code>Tranform7Tuple</code>).</li>
-        <li><strong class="pname"><code>rates</code></strong> - Helmert transform (<code>Tranform7Tuple</code>).</li>
+        <li><strong class="pname"><code>xform</code></strong> - Helmert transform parameters (<code>Helmert7Tuple</code>).</li>
+        <li><strong class="pname"><code>rates</code></strong> - Helmert rate parameters (<code>Helmert7Tuple</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -28050,7 +28077,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jul  1 12:23:26 2022
+    Generated by Epydoc 3.0.1 on Wed Jul  6 14:27:23 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

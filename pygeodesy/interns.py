@@ -607,6 +607,20 @@ PI_4    = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_M     = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
+_0_0sts = {}  # tuples of 4, 5, 6, 7, 8 or 9 zeros
+
+
+def _0_0s(n):
+    '''(INTERNAL) Get a I{cached} tuple of B{C{n}} zeros.
+    '''
+    try:  # t = _0_0s.setdefault(n, ...)
+        t = _0_0sts[n]
+    except KeyError:
+        t = (_0_0,) * n
+        if n < 10:
+            _0_0sts[n] = t
+    return t
+
 
 def _enquote(strs, quote=_QUOTE2_):  # in .basics
     '''(INTERNAL) Enquote a string containing whitespace.
@@ -703,12 +717,6 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
     return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
-def _spaced(arg, *args):
-    '''(INTERNAL) Enclosed in C{_SPACE_}s.
-    '''
-    return NN(_SPACE_, (_SPACE_(arg, *args) if args else arg), _SPACE_)
-
-
 def _splituple(strs, *sep_splits):  # in .basics
     '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
        string into a C{tuple} of stripped strings.
@@ -776,7 +784,7 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.06.30'
+__version__ = '22.07.05'
 
 
 # **) MIT License

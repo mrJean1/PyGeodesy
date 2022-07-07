@@ -12,15 +12,16 @@ bases}.  Likewise for C{datum} and C{nvector}.
 '''
 from pygeodesy.interns import EPS, EPS_2, NAN, NN, R_M, _azi12_, _COMMASPACE_, \
                              _convergence_, _down_, _east_, _easting_, _end_, \
-                             _hemipole_, _lat_, _lat1_, _lat2_, _lon_, _lon1_, \
-                             _lon2_, _negative_, _north_, _northing_, _s12_, \
-                             _S12_, _scale_, _scalar_, _sep_, _SPACE_, _start_, \
+                             _float, _hemipole_, _lat_, _lat1_, _lat2_, _lon_, \
+                             _lon1_, _lon2_, _negative_, _north_, _northing_, \
+                             _s_, _s12_, _S12_, _scale_, _scalar_, _sep_, _SPACE_, \
+                             _start_, _sx_, _sy_, _sz_, _tx_,  _ty_,  _tz_, \
                              _UNDER_, _value_, _zone_, _1_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, isLazy
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
-from pygeodesy.units import Degrees, Easting, Lat, Lon, Meter, Northing, Number_, \
-                            Scalar, Scalar_, Str
+from pygeodesy.units import Degrees, Easting, Float, Lat, Lon, Meter, Northing, \
+                            Number_, Scalar, Scalar_, Str
 if isLazy:  # XXX force import of all deprecated modules
     import pygeodesy.deprecated.bases as bases, \
            pygeodesy.deprecated.datum as datum, \
@@ -28,7 +29,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.06.28'
+__version__ = '22.07.05'
 
 EPS1_2 = _1_0 - EPS_2  # DEPRECATED
 OK     = 'OK'          # DEPRECATED
@@ -198,6 +199,17 @@ class Rhumb7Tuple(_DeprecatedNamedTuple):
         '''(INTERNAL) see L{Rhumb8Tuple._to7Tuple}.
         '''
         return self
+
+
+class Transform7Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
+    '''DEPRECATED, use class L{Helmert7Tuple} without keyword arguments.'''
+    _Names_ = (_tx_,  _ty_,  _tz_,  _s_,   _sx_,  _sy_,  _sz_)
+    _Units_ = ( Float, Float, Float, Float, Float, Float, Float)
+
+    def __new__(cls, tx=0, ty=0, tz=0, s=0,
+                     sx=0, sy=0, sz=0, name=NN):
+        t = map(_float, (tx, ty, tz, s, sx, sy, sz))
+        return _DeprecatedNamedTuple.__new__(cls, *t, name=name)
 
 
 class UtmUps4Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover

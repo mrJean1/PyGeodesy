@@ -28,7 +28,7 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.06.26'
+__version__ = '22.07.04'
 
 _below_       = 'below'
 _cannot_      = 'cannot'

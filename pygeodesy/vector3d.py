@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.06.17'
+__version__ = '22.07.03'
 
 
 class Vector3d(Vector3dBase):
@@ -401,14 +401,14 @@ class Vector3d(Vector3dBase):
                              center3=center3, radius3=radius3)
 
 
-def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
+def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16 in .rhumbx._RhumbLine
     # (INTERNAL) Intersect two lines, see L{intersection3d3} below,
     # separated to allow callers to embellish any exceptions
 
     def _outside(t, d2, o):  # -o before start#, +o after end#
         return -o if t < 0 else (o if t > d2 else 0)  # XXX d2 + eps?
 
-    def _ritri2(s1, b1, s2, useZ):
+    def _rightangle2(s1, b1, s2, useZ):
         # Get the C{s1'} and C{e1'}, corners of a right-angle
         # triangle with the hypotenuse thru C{s1} at bearing
         # C{b1} and the right angle at C{s2}
@@ -421,21 +421,21 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
             dy *= s / c
             e1 = Vector3d(s2.x,      s1.y + dx, s1.z)
             s1 = Vector3d(s1.x + dy, s2.y,      s1.z)
-        else:  # orthongonal
-            d  = euclid(dx, dy)
+        else:  # orthogonal
+            d  = euclid(dx, dy)  # hypot?
             e1 = Vector3d(s1.x + s * d, s1.y + c * d, s1.z)
         return s1, e1
 
     s1 = x = _otherV3d(useZ=useZ, start1=start1)
     s2 =     _otherV3d(useZ=useZ, start2=start2)
     b1 = isscalar(end1)
-    if b1:
-        s1, e1 = _ritri2(s1, end1, s2, useZ)
+    if b1:  # bearing, make an e1
+        s1, e1 = _rightangle2(s1, end1, s2, useZ)
     else:
         e1 = _otherV3d(useZ=useZ, end1=end1)
     b2 = isscalar(end2)
-    if b2:
-        s2, e2 = _ritri2(s2, end2, x, useZ)
+    if b2:  # bearing, make an e2
+        s2, e2 = _rightangle2(s2, end2, x, useZ)
     else:
         e2 = _otherV3d(useZ=useZ, end2=end2)
 

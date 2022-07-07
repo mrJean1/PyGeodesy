@@ -42,18 +42,17 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isfinite, isint, isodd, \
-                             istuplist, neg, neg_
-from pygeodesy.datums import Ellipsoid2, _spherical_datum
-# from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
+from pygeodesy.basics import copysign0, isint, isodd, neg, neg_
+# from pygeodesy.datums import _spherical_datum  # in KTransverseMercator.ellipsoid.setter
 from pygeodesy.errors import _or, _ValueError, _xkwds_get
-from pygeodesy.fmath import hypot, hypot1
+from pygeodesy.fmath import fsum1_ , hypot, hypot1
+# from pygeodesy.fsums import fsum1+  # from .fmath
 from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
-                             _K0_UTM, _not_, _singular_, _UNDER_, \
-                             _0_0, _1_0, _90_0, _180_0
+                             _K0_UTM, _not_, _singular_, _0_0, _1_0, \
+                             _90_0, _180_0, _0_0s
 from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _unsigned2
-from pygeodesy.lazily import _ALL_LAZY, _pairs
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _pairs
 # from pygeodesy.named import _NamedBase  # from .karney
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import property_doc_, Property, Property_RO, \
@@ -62,10 +61,11 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atand, sincos2d_
 
+from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.06.26'
+__version__ = '22.07.04'
 
 
 class KTMError(_ValueError):
@@ -137,7 +137,7 @@ class KTransverseMercator(_NamedBase):
         if raiser:
             self.raiser = True
         if TMorder:
-            self.TMorder = _xkwds_get(TMorder, TMorder=KTransverseMercator._mTM)
+            self.TMorder = _xkwds_get(TMorder, TMorder=self._mTM)
 
     @Property_RO
     def _Alp(self):
@@ -145,21 +145,20 @@ class KTransverseMercator(_NamedBase):
 
     @Property_RO
     def _b1(self):
-        n  =  self.ellipsoid.n
-        m  =  self.TMorder // 2
-        B1 = _B1Coeffs[m]
-        m +=  1
-        return _polynomial(n**2, B1, 0, m) / (B1[m] * (n + _1_0))
+        n = self.ellipsoid.n
+        if n:  # isEllipsoidal
+            m  =  self.TMorder // 2
+            B1 = _B1Coeffs[m]
+            m +=  1
+            b1 = _polynomial(n**2, B1, 0, m) / (B1[m] * (n + _1_0))
+        else:  # isSpherical
+            b1 = _1_0  # B1[m - 1] / B1[m1] == 1, always
+        return b1
 
     @Property_RO
     def _Bet(self):
         C = _Xs(_BetCoeffs, self.TMorder, self.ellipsoid)
-        return tuple(map(neg, C))  # negated!
-
-    @Property_RO
-    def _cmath_polar(self):
-        from cmath import polar
-        return polar
+        return tuple(map(neg, C)) if self.f else C  # negated if isEllispoidal
 
     @Property
     def ellipsoid(self):
@@ -172,7 +171,7 @@ class KTransverseMercator(_NamedBase):
         '''Set this rhumb's ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum},
            L{a_f2Tuple} or 2-tuple C{(a, f)}).
         '''
-        E = _Xellipsoid(a_earth_f, KTMError)
+        E = _MODS.datums._spherical_datum(a_earth_f, Error=KTMError).ellipsoid
         if self._E != E:
             _update_all(self)
             self._E = E
@@ -266,7 +265,7 @@ class KTransverseMercator(_NamedBase):
            @raise KTMError: Invalid B{C{k0}}.
         '''
         k0 = Scalar_(k0=k0, Error=KTMError, low=_TOL_10, high=_1_0)
-        if self._k0 != k0:
+        if self._k0 != k0:  # PYCHOK no cover
             KTransverseMercator._k0_a1._update(self)  # redo ._k0_a1
             KTransverseMercator._k0_b1._update(self)  # redo ._k0_b1
             self._k0 = k0
@@ -388,7 +387,7 @@ class KTransverseMercator(_NamedBase):
            with C{B{C}=_Alp} or C{B{C}=-_Bet}.
         '''
         x = complex(xi_, eta_)
-        if self.flattening:  # isEllipsoidal
+        if self.f:  # isEllipsoidal
             s0, sh0 = sin(xi_ * 2), sinh(eta_ * 2)
             c0, ch0 = cos(xi_ * 2), cosh(eta_ * 2)
 
@@ -403,37 +402,39 @@ class KTransverseMercator(_NamedBase):
             c = complex(c0 * ch0, -s0 * sh0)  # cos(zeta * 2)
             a = c * 2  # cos(zeta * 2) * 2
             while n > 0:
-                Cn = C[n]
-                y1 = a * y0 - y1 + Cn
-                z1 = a * z0 - z1 + Cn * (n * 2)
+                Cn =  C[n]  # complex(C[n])
+                y1 = _c(a, y0, y1, Cn)
+                z1 = _c(a, z0, z1, Cn * (n * 2))
                 n -= 1
-                Cn = C[n]
-                y0 = a * y1 - y0 + Cn
-                z0 = a * z1 - z0 + Cn * (n * 2)
+                Cn =  C[n]  # complex(C[n])
+                y0 = _c(a, y1, y0, Cn)
+                z0 = _c(a, z1, z0, Cn * (n * 2))
                 n -= 1
             # assert n == 0
-            x += y0 * s
-            c *= z0
-            c -= z1 - _1_0
-            if isfinite(c.real) and isfinite(c.imag):
-                k, g = abs(c), _atan2d(c.imag, c.real)
-            else:
-                k, g = self._cmath_polar(c)
-                g = degrees(g)
+            x = _c(s, y0, -x, _0_0)
+            c = _c(c, z0, z1, _1_0)
+            # C{cmath.phase} for INF, NAN, etc.
+            g, k = degrees(phase(c)), abs(c)
         else:  # isSpherical
             g, k = _0_0, _1_0
         return x.real, x.imag, g, k
 
 
-def _Xellipsoid(a_earth_f, Error, name=_UNDER_):  # in .rhumbx
-    '''(INTERNAL) Get an ellipsoid.
+def _c(a, b0, b1, Cn):
+    '''(INTERNAL) Accurately compute complex M{a * b0 - b1 + Cn}
+       with complex args C{a}, C{b0} and C{b1} and scalar C{Cn}.
+
+       @see: U{_Py_c_prod{https://GitHub.com/python/cpython/blob/
+             main/Objects/complexobject.c>}.
+
+       @note: Python function C{cmath.fsum} no longer exists although
+              it is still mentioned in Note 4 of the comments before
+              function U{math_fsum<https://GitHub.com/python/cpython/
+              blob/main/Modules/mathmodule.c>}.
     '''
-    try:
-        E = Ellipsoid2(*a_earth_f[:2], name=name) if istuplist(a_earth_f, minum=2) else \
-           _spherical_datum(a_earth_f, name=name).ellipsoid
-    except Exception as x:
-        raise Error(str(x))
-    return E
+    r = fsum1_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn, floats=True)
+    j = fsum1_(a.real * b0.imag,  a.imag * b0.real, -b1.imag,     floats=True)
+    return complex(r, j)
 
 
 def _Xorder(_Coeffs, Error, **Xorder):  # in .rhumbx
@@ -454,22 +455,22 @@ def _Xs(_Coeffs, m, E, RA=False):  # in .rhumbx
     Cs = _Coeffs[m]
     assert len(Cs) == (((m + 1) * (m + 4)) if RA else
                        ((m + 3) *  m)) // 2
-    n = E.n
-    if n:
-        n_, X = n, [0]  # X[0] never used, it is just an
-        # integration constant, it cancels when evaluating
-        # a definite integral.  Don't bother computing it,
-        # it is not used in C{KTransverseMercator._yxgk4}
-        # above nor in C{rhumbx._sincosSeries}.
+    n = n_ = E.n
+    if n:  # isEllipsoidal
+        X = [0]  # X[0] never used, it's just an integration
+        # constant, it cancels when evaluating a definite
+        # integral.  Don't bother computing it, it is not
+        # used in C{KTransverseMercator._yxgk4} above nor
+        # in C{rhumbx._sincosSeries}.
         i = (m + 2) if RA else 0
         for r in range(m - 1, -1, -1):  # [m-1 ... 0]
             j = i + r + 1
             X.append(_polynomial(n, Cs, i, j) * n_ / Cs[j])
-            i   = j + 1
+            i = j + 1
             n_ *= n
-        X = tuple(X)
-    else:  # spherical
-        X = (_0_0,) * (m + 1)
+        X =  tuple(X)
+    else:  # isSpherical
+        X = _0_0s(m + 1)
     return X
 
 

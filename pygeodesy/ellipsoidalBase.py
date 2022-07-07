@@ -25,13 +25,14 @@ from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
                              _reframe_, _SPACE_, _0_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.lcc import toLcc  # from .cartesianBase
 # from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.06.26'
+__version__ = '22.07.04'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

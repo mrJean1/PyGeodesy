@@ -23,6 +23,7 @@ from pygeodesy.namedTuples import Bearing2Tuple, Height, LatLon4Tuple, Vector4Tu
                                   Vector3Tuple  # PYCHOK .ellipsoidal-, .sphericalBase
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, _update_all
+# from pygeodesy.resections impoty cassini, collins5, pierlot, tienstra7
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.units import Height  # from .namedTuples
 from pygeodesy.vector3d import Vector3d, _xyzhdn3
@@ -30,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.06.29'
+__version__ = '22.07.04'
 
 
 class CartesianBase(Vector3d):

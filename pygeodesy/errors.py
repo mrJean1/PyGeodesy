@@ -13,15 +13,16 @@ string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
 or any other non-empty string.
 '''
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
-                             _COLONSPACE_, _COMMASPACE_, _datum_, _ellipsoidal_, \
-                             _EQUAL_, _incompatible_, _invalid_, _len_, _name_, \
-                             _no_, _not_, _or_, _SPACE_, _spaced, _specified_, \
-                             _UNDER_, _value_, _vs_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, _pairs, \
-                             _PYTHON_X_DEV
+                             _COLONSPACE_, _COMMASPACE_, _datum_, \
+                             _ellipsoidal_, _EQUAL_, _incompatible_, \
+                             _invalid_, _len_, _name_, _no_, _not_, \
+                             _or_, _SPACE_, _specified_, _UNDER_, \
+                             _value_, _vs_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
+                             _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.06.28'
+__version__ = '22.07.03'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -29,6 +30,7 @@ _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
+_vs__        = _SPACE_(NN, _vs_, NN)
 _with_       = 'with'
 
 try:
@@ -187,7 +189,7 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
         ns, vs = zip(*sorted(lens_txt.items()))
         ns = _COMMASPACE_.join(ns)
         t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
-        vs = _spaced(_vs_).join(map(str, vs))
+        vs = _vs__.join(map(str, vs))
         t  = _SPACE_(t, _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 

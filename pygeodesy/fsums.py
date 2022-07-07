@@ -92,7 +92,14 @@ def _2float(index=None, **name_value):
     raise E(n, v, txt=t)
 
 
-def _2floats(xs, origin=0, primed=False, sub=False):
+def _floats(floats=False, **unused):
+    '''(INERNAL) Unravel the optional C{floats} keyword argument for
+       functions C{fsum}, C{fsum_}, C{fsum1}, and C{fsum1_} below.
+    '''
+    return floats
+
+
+def _2floats(xs, origin=0, primed=False, sub=False, floats=False):
     '''(INTERNAL) Yield all B{C{xs}} as C{float}s.
     '''
     _2f = _2float
@@ -100,7 +107,9 @@ def _2floats(xs, origin=0, primed=False, sub=False):
         yield _1_0
     i = origin
     for x in xs:
-        if isinstance(x, Fsum):
+        if floats:
+            yield x
+        elif isinstance(x, Fsum):
             ps = x._ps
             if ps:
                 if sub:
@@ -1644,11 +1653,13 @@ except ImportError:
         return Fsum(name=_fsum.__name__)._facc(xs)._fprs
 
 
-def fsum(xs):
+def fsum(xs, **floats):
     '''Precision floating point summation based on or like Python's C{math.fsum}.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
                 L{Fsum} instances).
+       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+                      B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
@@ -1663,46 +1674,52 @@ def fsum(xs):
 
        @see: Class L{Fsum} and methods L{Fsum.fsum} and L{Fsum.fadd}.
     '''
-    return _fsum(_2floats(xs)) if xs else _0_0
+    return _fsum(_2floats(xs, **_floats(floats))) if xs else _0_0
 
 
-def fsum_(*xs):
+def fsum_(*xs, **floats):
     '''Precision floating point summation of all positional arguments.
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances),
                 all positional.
+       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+                      B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}.
     '''
-    return _fsum(_2floats(xs, origin=1)) if xs else _0_0
+    return _fsum(_2floats(xs, origin=1, **_floats(floats))) if xs else _0_0
 
 
-def fsum1(xs):
+def fsum1(xs, **floats):
     '''Precision floating point summation of a few values, 1-primed.
 
        @arg xs: Iterable, list, tuple, etc. of values (C{scalar} or
                 L{Fsum} instances).
+       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+                      B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}.
     '''
-    return _fsum(_2floats(xs, primed=True)) if xs else _0_0
+    return _fsum(_2floats(xs, primed=True, **_floats(floats))) if xs else _0_0
 
 
-def fsum1_(*xs):
+def fsum1_(*xs, **floats):
     '''Precision floating point summation of a few arguments, 1-primed.
 
        @arg xs: Values to be added (C{scalar} or L{Fsum} instances),
                 all positional.
+       @kwarg floats: Optionally, set C{B{floats}=True} iff I{all}
+                      B{C{xs}} are known to be C{float}.
 
        @return: Precision C{fsum} (C{float}).
 
        @see: Function C{fsum}
     '''
-    return _fsum(_2floats(xs, origin=1, primed=True)) if xs else _0_0
+    return _fsum(_2floats(xs, origin=1, primed=True, **_floats(floats))) if xs else _0_0
 
 
 # **) MIT License

@@ -15,7 +15,6 @@ from pygeodesy.basics import isscalar, isstr, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _incompatible, IntersectionError, _TypeError, \
                              _ValueError, _xdatum, _xError, _xkwds, _xkwds_not
-# from pygeodesy.fmath import favg  # _MODS.fmath.favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
@@ -42,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.07.01'
+__version__ = '22.07.03'
 
 
 class LatLonBase(_NamedBase):
@@ -1009,14 +1008,14 @@ class LatLonBase(_NamedBase):
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 
-    def _rhumb1(self, exact, radius):
+    def _rhumb2(self, exact, radius):
         '''(INTERNAL) Get the C{rhumb} for this point's datum  or for
            the earth model or earth B{C{radius}} if not C{None}.
         '''
-        E = self.datum.ellipsoid if radius is None else \
-           _spherical_datum(radius).ellipsoid  # ellipsoidal OK
-        return E.rhumbx if exact else _MODS.rhumbx.Rhumb(E, exact=False,
-                                                            name=E.name)
+        D = self.datum if radius is None else _spherical_datum(radius)  # ellipsoidal OK
+        r = D.ellipsoid.rhumbx if exact else \
+           _MODS.rhumbx.Rhumb(D, exact=False, name=D.name)
+        return r, D
 
     def rhumbAzimuthTo(self, other, exact=False, radius=None):
         '''Return the azimuth (bearing) of a rhumb line (loxodrome)
@@ -1035,7 +1034,7 @@ class LatLonBase(_NamedBase):
                              B{C{radius}} is invalid.
         '''
         self.others(other)
-        r =  self._rhumb1(exact, radius)
+        r, _ =  self._rhumb2(exact, radius)
         C = _MODS.rhumbx.Caps
         return r.Inverse(self.lat, self.lon, other.lat, other.lon,
                                              outmask=C.AZIMUTH).azi12
@@ -1065,10 +1064,10 @@ class LatLonBase(_NamedBase):
 
            @JSname: I{rhumbDestinationPoint}
         '''
-        r = self._rhumb1(exact, radius)
+        r, D = self._rhumb2(exact, radius)
         d = r.Direct(self.lat, self.lon, azimuth, distance)
         h = self.height if height is None else Height(height)
-        return self.classof(d.lat2, d.lon2, height=h)
+        return self.classof(d.lat2, d.lon2, datum=D, height=h)
 
     def rhumbDistanceTo(self, other, exact=False, radius=None):
         '''Return the distance from this to an other point along
@@ -1090,7 +1089,7 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{radius}}.
         '''
         self.others(other)
-        r =  self._rhumb1(exact, radius)
+        r, _ = self._rhumb2(exact, radius)
         C = _MODS.rhumbx.Caps
         return r.Inverse(self.lat, self.lon, other.lat, other.lon,
                                              outmask=C.DISTANCE).s12
@@ -1117,7 +1116,7 @@ class LatLonBase(_NamedBase):
            @see: Classes L{RhumbLine} and L{Rhumb}, property L{Rhumb.exact}
                  and methods L{Rhumb.DirectLine} and L{Rhumb.InverseLine}.
         '''
-        r = self._rhumb1(exact, radius)
+        r, _ = self._rhumb2(exact, radius)
         a = azimuth_other
         if isscalar(a):
             r = r.DirectLine(self.lat, self.lon, a,
@@ -1155,12 +1154,12 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{height}} or B{C{fraction}}.
         '''
         self.others(other)
-        r = self._rhumb1(exact, radius)
+        r, D = self._rhumb2(exact, radius)
         f = Scalar(fraction=fraction)
         d = r.Inverse(self.lat, self.lon, other.lat, other.lon)
         d = r.Direct( self.lat, self.lon, d.azi12, d.s12 * f)
         h = self._havg(other, f=f) if height is None else Height(height)
-        return self.classof(d.lat2, d.lon2, height=h)
+        return self.classof(d.lat2, d.lon2, datum=D, height=h)
 
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using

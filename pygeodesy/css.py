@@ -31,7 +31,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.06.26'
+__version__ = '22.07.04'
 
 
 def _CS0(cs0):

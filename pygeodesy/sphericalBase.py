@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, isnon0, isscalar, map1, _umod_360
+from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
 from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
@@ -29,7 +29,8 @@ from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
 from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
-from pygeodesy.props import deprecated_method, property_doc_, _update_all
+from pygeodesy.props import deprecated_method, property_doc_, \
+                            property_RO, _update_all
 from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_, \
                             Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
@@ -38,7 +39,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.07.01'
+__version__ = '22.07.03'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -157,7 +158,7 @@ class LatLonSphericalBase(LatLonBase):
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
         if datum not in (None, self.datum):
-            self._datum = _spherical_datum(datum, name=self.name, raiser=True)
+            self.datum = datum
 
     def bearingTo2(self, other, wrap=False, raiser=False):
         '''Return the initial and final bearing (forward and reverse
@@ -280,6 +281,12 @@ class LatLonSphericalBase(LatLonBase):
             r.rename(name)
         return r
 
+    @property_RO
+    def _radius(self):
+        '''(INTERNAL) Get this sphere's radius.
+        '''
+        return self.datum.ellipsoid.equatoradius
+
     def _rhumb3(self, other, r=False):
         '''(INTERNAL) Rhumb_ helper function.
 
@@ -367,8 +374,11 @@ class LatLonSphericalBase(LatLonBase):
             r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,
                                                   radius=radius, height=height)
         else:  # radius=None from .rhumbMidpointTo
-            r = radius if radius in (R_M, None) or isscalar(radius) else \
-               _spherical_datum(radius, raiser=True).ellipsoid.a  # spherical only
+            if radius in (None, self._radius):
+                d, r = self.datum, radius
+            else:
+                d = _spherical_datum(radius, raiser=True)  # spherical only
+                r =  d.ellipsoid.equatoradius
             r = _angular(distance, r, low=_0_0)  # distance=0 from .rhumbMidpointTo
 
             a1, b1 = self.philam
@@ -388,7 +398,7 @@ class LatLonSphericalBase(LatLonBase):
             b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
 
             h = self.height if height is None else Height(height)
-            r = self.classof(degrees90(a2), degrees180(b2), height=h)
+            r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h)
         return r
 
     def rhumbDistanceTo(self, other, radius=R_M, exact=False):
@@ -418,7 +428,7 @@ class LatLonSphericalBase(LatLonBase):
         if exact:  # use series, always
             r = LatLonBase.rhumbDistanceTo(self, other, exact=False, radius=radius)
             if radius is None:  # angular distance in radians
-                r = r / self.datum.ellipsoid.a  # /= chokes PyChecker
+                r = r / self._radius  # /= chokes PyChecker
         else:
             # see <https://www.EdWilliams.org/avform.htm#Rhumb>
             r, _, _ = self._rhumb3(other, r=True)
@@ -489,8 +499,10 @@ class LatLonSphericalBase(LatLonBase):
                         b3 = fdot(map1(log, f1, f2, f3),
                                            -b2, b1, b2 - b1) / f
 
+            d = self.datum if radius in (None, self._radius) else \
+               _spherical_datum(radius, name=self.name, raiser=True)
             h = self._havg(other) if height is None else Height(height)
-            r = self.classof(degrees90(a3), degrees180(b3), height=h)
+            r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h)
         return r
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature

@@ -1170,15 +1170,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1191,6 +1182,15 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1471,7 +1471,7 @@
         class="link">RhumbLine</a></em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbLine-class.html">pygeodesy.rhumbx.RhumbLine</a></strong>:
-      <em class="summary">Compute one or more points on a single rhumb line.</em>
+      <em class="summary">Compute one or several points on a single rhumb line.</em>
     </li>
     </ul>
     </li>
@@ -1918,6 +1918,14 @@
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.Helmert7Tuple-class.html" onclick="show_private();">pygeodesy.trf.Helmert7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
+        transform parameters with translations <code>tx</code>, 
+        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
+        scale <code>s</code> in <code>ppb</code> and rotations 
+        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
+        <code>milliarcseconds</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
         <code>point</code> and <code>outside1</code>, the position of the 
@@ -2123,14 +2131,6 @@
         triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
         <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
-      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
-        transformation with translations <code>tx</code>, <code>ty</code> 
-        and <code>tz</code> in <code>millimeter</code>, scale 
-        <code>s</code> in <code>ppb</code> and rotations <code>sx</code>, 
-        <code>sy</code> and <code>sz</code> in 
-        <code>milliarcseconds</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
         angles at triangle corners <code>A</code>, <code>B</code> and 
@@ -2258,6 +2258,12 @@
       <em class="summary">DEPRECATED, use class <a 
         href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
+        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
       <em class="summary">OBSOLETE, expect a <a 
@@ -3115,6 +3121,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.Helmert7Tuple-class.html" onclick="show_private();">pygeodesy.trf.Helmert7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
+        transform parameters with translations <code>tx</code>, 
+        <code>ty</code> and <code>tz</code> in <code>millimeter</code>, 
+        scale <code>s</code> in <code>ppb</code> and rotations 
+        <code>sx</code>, <code>sy</code> and <code>sz</code> in 
+        <code>milliarcseconds</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Intersection3Tuple-class.html">pygeodesy.namedTuples.Intersection3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(point, outside1, outside2)</code> of an intersection
         <code>point</code> and <code>outside1</code>, the position of the 
@@ -3320,14 +3334,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         triangle sides <code>a</code>, <code>b</code> and <code>c</code> in
         <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf.Transform7Tuple-class.html">pygeodesy.trf.Transform7Tuple</a></strong>:
-      <em class="summary">7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> Helmert 
-        transformation with translations <code>tx</code>, <code>ty</code> 
-        and <code>tz</code> in <code>millimeter</code>, scale 
-        <code>s</code> in <code>ppb</code> and rotations <code>sx</code>, 
-        <code>sy</code> and <code>sz</code> in 
-        <code>milliarcseconds</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.resections.TriAngle4Tuple-class.html">pygeodesy.resections.TriAngle4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(radA, radB, radC, rIn)</code> with the interior 
         angles at triangle corners <code>A</code>, <code>B</code> and 
@@ -3456,6 +3462,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         href="pygeodesy.rhumbx.Rhumb8Tuple-class.html" 
         class="link">Rhumb8Tuple</a> ignoring item <code>a12</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.Transform7Tuple-class.html">pygeodesy.deprecated.Transform7Tuple</a></strong>:
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.trf.Helmert7Tuple-class.html" class="link" 
+        onclick="show_private();">Helmert7Tuple</a> without keyword 
+        arguments.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
       <em class="summary">OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
@@ -3575,7 +3587,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jul  1 12:23:26 2022
+    Generated by Epydoc 3.0.1 on Wed Jul  6 14:27:23 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

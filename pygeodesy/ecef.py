@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.05.27'
+__version__ = '22.07.04'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'

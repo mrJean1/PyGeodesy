@@ -22,7 +22,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.06.14'
+__version__ = '22.07.06'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -371,13 +371,13 @@ def fidw(xs, ds, beta=2):
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
             ds = tuple(d**b for d in ds)
-            d  = fsum(ds)
+            d  = fsum(ds, floats=True)
             if isnear0(d):  # PYCHOK no cover
                 n = Fmt.PAREN(fsum='ds')
                 raise _ValueError(n, d, txt=_singular_)
             x = Fdot(xs, *ds).fover(d)
         else:  # b == 0
-            x = fsum(xs) / n  # fmean(xs)
+            x = fsum(xs, floats=True) / n  # fmean(xs)
     elif d < 0:  # PYCHOK no cover
         n = Fmt.SQUARE(ds=ds.index(d))
         raise _ValueError(n, d, txt=_negative_)
@@ -647,7 +647,7 @@ def _h_x2(xs):
         n, xs = len2(xs)
         if n > 0:
             h  = float(max(map(fabs, xs)))
-            x2 = fsum(_x2s(xs, h)) if h > EPS02 else _0_0
+            x2 = fsum(_x2s(xs, h), floats=True) if h > EPS02 else _0_0
             return h, x2
 
     raise _ValueError(xs=xs, txt=_too_(_few_))

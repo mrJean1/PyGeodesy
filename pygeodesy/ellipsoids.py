@@ -70,7 +70,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NINF, NN, PI4, PI_2, 
                              _meridional_, _lat_, _negative_, _not_finite_, _null_, _vs_, \
                              _prime_vertical_, _radius_, _Sphere_, _SPACE_, _SQRT2_2, \
                              _WGS72_, _WGS84_, _0_0, _0_5, _1_0, _2_0, _4_0, _90_0  # _1_16th
-from pygeodesy.interns import _0_25, _3_0, _8_0, _24_0  # PYCHOK used!
+from pygeodesy.interns import _0_25, _3_0, _8_0, _24_0, _0_0s  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.07.01'
+__version__ = '22.07.04'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1138,7 +1138,7 @@ class Ellipsoid(_NamedEnumItem):
             ns = fpowers(self.n, k)
             ks = tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
         else:
-            ks = (_0_0,) * k
+            ks = _0_0s(k)
         return ks
 
     @property_doc_(''' the I{Krüger} series' order (C{int}), see properties C{AlphaKs}, C{BetaKs}.''')

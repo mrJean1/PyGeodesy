@@ -30,7 +30,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.04.27'
+__version__ = '22.07.04'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'

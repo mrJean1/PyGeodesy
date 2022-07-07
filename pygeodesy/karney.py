@@ -137,7 +137,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.06.30'
+__version__ = '22.07.03'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -428,7 +428,8 @@ class GDict(_Dict):  # XXX _NamedDict
     def _toTuple(self, nTuple, dflt):
         '''(INTERNAL) Convert this C{GDict} to an B{C{nTuple}}.
         '''
-        t = tuple(getattr(self, n, dflt) for n in nTuple._Names_)
+        _g = getattr
+        t  = tuple(_g(self, n, dflt) for n in nTuple._Names_)
         return nTuple(t, iteration=self._iteration)
 
 
