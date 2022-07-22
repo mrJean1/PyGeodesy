@@ -25,7 +25,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.06.26'
+__version__ = '22.07.09'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -49,6 +49,7 @@ class _GeodesicSolveBase(_SolveBase):
     _Error         =  GeodesicError
     _Names_Direct  = \
     _Names_Inverse =  GeodSolve12Tuple._Names_
+    _Solve_name    = 'GeodSolve'
     _Solve_path    = _getenv(_PYGEODESY_GEODSOLVE_, _PYGEODESY_GEODSOLVE_)
 
     @Property_RO
@@ -84,7 +85,7 @@ class _GeodesicSolveBase(_SolveBase):
            @raise GeodesicError: Invalid B{C{path}}, B{C{path}} doesn't exist or
                                  isn't the C{GeodSolve} executable.
         '''
-        self._setSolve(path, GeodSolve=path)
+        self._setSolve(path)
 
     def toStr(self, **prec_sep):  # PYCHOK signature
         '''Return this C{GeodesicSolve} as string.

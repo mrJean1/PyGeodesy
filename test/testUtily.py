@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.05.12'
+__version__ = '22.07.08'
 
 from base import TestsBase, geographiclib
 
@@ -203,10 +203,10 @@ class Tests(TestsBase):
 
         for f, m in ((acre2ha,     '0.404686'), (acre2m2, '4046.856422'),
                      (chain2m,    '20.116800'), (fathom2m,   '1.828800'),
-                     (furlong2m, '201.168000'), (toise2m,    '1.949000'),
+                     (furlong2m, '201.168000'), (toise2m,    '1.949044'),
                      (yard2m,      '0.914400'), (m2chain,    '0.049710'),
                      (m2fathom,    '0.546807'), (m2furlong,  '0.004971'),
-                     (m2toise,     '0.513084'), (m2yard,     '1.093613')):
+                     (m2toise,     '0.513072'), (m2yard,     '1.093613')):
             self.test(f.__name__, f(1), m, prec=6)
 
         self.test('degrees2m', fstr(degrees2m(90), prec=4),        '10007557.1761')

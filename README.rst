@@ -76,8 +76,8 @@ Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
 on *Karney*\'s C++ utility GeodSolve_ to be executable.
 
-Module ``rhumbsolve`` depends on *Karney*\'s C++ utility RhumbSolve_
-to be executable.
+Module ``rhumbsolve`` needs *Karney*\'s C++ utility RhumbSolve_ to
+be executable.
 
 Documentation
 =============
@@ -151,7 +151,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 07, 2022.*
+*Last updated: July 21, 2022.*
 
 License
 =======

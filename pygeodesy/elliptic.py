@@ -95,13 +95,13 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.07.07'
+__version__ = '22.07.08'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
 _1_64th      = _1_0 / 64  # pow(2.0, -6)
-_TolRD       =  pow(EPS * 0.002, _0_125)
-_TolRF       =  pow(EPS * 0.030, _0_125)
+_TolRD       =  pow(EPS * 0.002, _0_125)  # 8th root: quadquadratic?, octic?, ocrt?
+_TolRF       =  pow(EPS * 0.030, _0_125)  # 4th root: biquadratic, quartic, qurt?
 _TolRG0      = _TolJAC  * 2.7
 _TRIPS       =  31  # Max depth, 7 might be sufficient
 
@@ -394,9 +394,9 @@ class Elliptic(_Named):
         if abs(deg) < _180_0:
             e = _0_0
         else:  # PYCHOK no cover
-            e    =  ceil(deg / _360_0 - _0_5)
-            deg -= _360_0 * e
-            e   *= _4_0 * self.cE
+            e    = ceil(deg / _360_0 - _0_5)
+            deg -= e * _360_0
+            e   *= self.cE * _4_0
         sn, cn = sincos2d(deg)
         return self.fE(sn, cn, self.fDelta(sn, cn)) + e
 
@@ -626,7 +626,7 @@ class Elliptic(_Named):
                 kp2 = self.kp2
                 if kp2:  # <https://DLMF.NIST.gov/19.25.E2>
                     rj   = _RJ(self, _0_0, kp2, _1_0, alphap2, _3_0)
-                    cPi  = cH = cG = self.cK
+                    cPi  =  cH = cG = self.cK
                     cG  += (alpha2 - self.k2) * rj  # G(alpha2, k)
                     cH  -=  alphap2 * rj  # H(alpha2, k)
                     cPi +=  alpha2  * rj  # Pi(alpha2, k)
@@ -741,9 +741,9 @@ class Elliptic(_Named):
             if abs(a - mc) <= t:
                 self._iteration += i  # accumulate
                 break
-            mc *=  a
-            a   =  c
-            t   = _TolJAC * a
+            mc *= a
+            a   = c
+            t   = a * _TolJAC
         else:  # PYCHOK no cover
             raise _convergenceError(t, None, kp=self.kp, kp2=self.kp2)
         return c, d, tuple(reversed(mn))  # mn reversed!
@@ -883,7 +883,7 @@ def _RC(unused, x, y):
         d = -d
         r = atan(sqrt(d / x)) if x > 0 else PI_2
     elif d == _0_0:  # XXX d < EPS0? or EPS02 or _EPSmin
-        r, d = _1_0, y
+        d, r = y, _1_0
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
         r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))
     elif y < 0:  # <https://DLMF.NIST.gov/19.2.E20>
@@ -1055,8 +1055,8 @@ def _RJ(inst, x, y, z, p, *over):
     E2p =  E2 * p
     S  *= _6_0
     return _horner(S, Am * sqrt(An), E2,
-                   Fsum(_4_0 * p3, xyz, E2p * _2_0),
-                   Fsum(_3_0 * p3, E2p, xyz * _2_0).fmul(p),
+                   Fsum(p3 * _4_0, xyz, E2p * _2_0),
+                   Fsum(p3 * _3_0, E2p, xyz * _2_0).fmul(p),
                    xyz * p2, *over)
 
 

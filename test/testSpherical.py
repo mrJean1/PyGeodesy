@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.07.01'
+__version__ = '22.07.08'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -384,8 +384,14 @@ class Tests(_TestsLL, _TestsV):
             self.test('nearestOn', t, '01.5°N, 001.5°E, +149.99m')
             t = LatLon(1, 2).nearestOn3([a, b])[0].toStr(form=F_D, prec=1)
             self.test('nearestOn3', t, '01.5°N, 001.5°E, +149.99m')
-            t = a.midpointTo(b).toStr(form=F_D, prec=1)
-            self.test('midpointTo', t, '01.5°N, 001.5°E, +150.00m')
+
+        if hasattr(LatLon, 'midpointTo'):
+            a = LatLon(52.205, 0.119, height=100)
+            b = LatLon(48.857, 2.351, height=200)
+            t = a.midpointTo(b).toStr(form=F_D, prec=4)
+            self.test('midpointTo', t, '50.5363°N, 001.2746°E, +150.00m')
+            t = a.midpointTo(b, fraction=0.5).toStr(form=F_D, prec=4)
+            self.test('intermediateTo', t, '50.5363°N, 001.2746°E, +150.00m')
 
 
 if __name__ == '__main__':

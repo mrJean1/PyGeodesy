@@ -32,7 +32,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.06.20'
+__version__ = '22.07.12'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -727,7 +727,7 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}, B{C{Cartesian}} or
                              B{C{Cartesian_kwds}} argument.
         '''
-        ltp = _MODS.ltp._xLtp(self.ltp if ltp is None else ltp)
+        ltp = _MODS.ltp._xLtp(ltp, self.ltp)
         if Cartesian is None:
             r = ltp._local2ecef(self, nine=True)
         else:
@@ -765,7 +765,7 @@ class XyzLocal(Vector3d):
            @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or
                              B{C{LatLon_kwds}} argument.
         '''
-        ltp = _MODS.ltp._xLtp(self.ltp if ltp is None else ltp)
+        ltp = _MODS.ltp._xLtp(ltp, self.ltp)
         r = ltp._local2ecef(self, nine=True)
         if LatLon is None:
             r = _xnamed(r, self.name or ltp.name)
@@ -904,7 +904,7 @@ class Xyz4Tuple(_NamedTuple):
     def xyzLocal(self):
         '''Get this L{Xyz4Tuple} as an L{XyzLocal}.
         '''
-        return XyzLocal(self, name=self.name)
+        return XyzLocal(self, ltp=self.ltp, name=self.name)  # PYCHOK .ltp
 
 
 class Enu(XyzLocal):
@@ -1155,12 +1155,54 @@ _XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
 class Footprint5Tuple(_NamedTuple):
     '''5-Tuple C{(center, upperleft, upperight, loweright, lowerleft)}
        with the C{center} and 4 corners of the I{local} projection of
-       a C{Frustum}, each an L{Xyz4Tuple}.
+       a C{Frustum}, each an L{Xyz4Tuple}, L{XyzLocal}, C{LatLon}, etc.
 
        @note: Misspelling of C{upperight} and C{loweright} is I{intentional}.
     '''
     _Names_ = (_center_, 'upperleft', 'upperight', 'loweright', 'lowerleft')
     _Units_ = (_Pass,    _Pass,       _Pass,       _Pass,       _Pass)
+
+    def toLatLon5(self, ltp=None, LatLon=None, **LatLon_kwds):
+        '''Convert this footprint's C{center} and 4 corners to I{geodetic}
+           C{LatLon(lat, lon, height)}s or C{LatLon3-} or C{-4Tuple}s.
+
+           @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
+                       footprint's C{center} or C{frustrum} C{ltp}.
+           @kwarg LatLon: Optional I{geodetic} class (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if C{B{LatLon} is None}.
+
+           @return: A L{Footprint5Tuple} of 5 C{B{LatLon}(lat, lon,
+                    **B{LatLon_kwds})} instances or if C{B{LatLon} is None},
+                    5 L{LatLon3Tuple}C{(lat, lon, height)}s respectively
+                    5 L{LatLon4Tuple}C{(lat, lon, height, datum)}s depending
+                    on keyword argument C{datum} is un-/specified.
+
+           @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or B{C{LatLon_kwds}}.
+
+           @see: Methods L{XyzLocal.toLatLon} and L{Footprint5Tuple.xyzLocal5}.
+        '''
+        kwds = _xkwds(LatLon_kwds, ltp=_MODS.ltp._xLtp(ltp, self.center.ltp),  # PYCHOK .center
+                                   LatLon=LatLon, name=self.name,)
+        return Footprint5Tuple(t.toLatLon(**kwds) for t in self.xyzLocal5())
+
+    def xyzLocal5(self, ltp=None):
+        '''Return this footprint's C{center} and 4 corners as 5 L{XyzLocal}s.
+
+           @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding
+                       the {center} and corner C{ltp}s.
+
+           @return: A L{Footprint5Tuple} of 5 L{XyzLocal} instances.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+        '''
+        if ltp is None:
+            p =  self
+        else:
+            p = _MODS.ltp._xLtp(ltp)
+            p =  tuple(Xyz4Tuple(t.x, t.y, t.z, p) for t in self)
+        return Footprint5Tuple(t.xyzLocal for t in p)
+
 
 # **) MIT License
 #

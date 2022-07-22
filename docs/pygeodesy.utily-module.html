@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.05.14
+        22.07.08
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -463,9 +463,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
-      <b><code>feet</code></b> to meter.</td>
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
+      <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</td>
           <td align="right" valign="top">
             
             
@@ -626,9 +627,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert meter to <i>International</i>, <i>US Survey</i> or 
-      <i>French</i> feet (<code>ft</code>).</td>
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert meter to <i>International</i>, <i>US Survey</i>, 
+      <i>French</i> or or <i>German</i> feet (<code>ft</code>).</td>
           <td align="right" valign="top">
             
             
@@ -1720,22 +1722,24 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>&nbsp;(<span class="sig-arg">feet</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
-  <b><code>feet</code></b> to meter.</p>
+  <p>Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
+  <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if (<code>True</code>).</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if (<code>True</code>), 
-          <i>International</i> foot otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - Convert German <i>Fuss</i> if <code>True</code>, otherwise 
+          <i>International</i> feet to <code>meter</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
@@ -2007,22 +2011,25 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>&nbsp;(<span class="sig-arg">meter</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>International</i>, <i>US Survey</i> or 
-  <i>French</i> feet (<code>ft</code>).</p>
+  <p>Convert meter to <i>International</i>, <i>US Survey</i>, <i>French</i>
+  or or <i>German</i> feet (<code>ft</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if (<code>True</code>).</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if (<code>True</code>), 
-          <i>International</i> foot otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if <code>True</code> else 
+          ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - Convert to German <i>Fuss</i> if <code>True</code>, otherwise to 
+          <i>International</i> foot.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>feet</code> (<code>float</code>).</dd>
@@ -2974,7 +2981,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  7 10:17:05 2022
+    Generated by Epydoc 3.0.1 on Fri Jul 22 15:58:12 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

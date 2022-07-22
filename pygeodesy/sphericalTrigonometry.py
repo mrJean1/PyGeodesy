@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.07.07'
+__version__ = '22.07.08'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -377,6 +377,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{fraction}} or B{C{height}}.
 
+           @see: Methods C{midpointTo} and C{rhumbMidpointTo}.
+
            @example:
 
             >>> p1 = LatLon(52.205, 0.119)
@@ -564,12 +566,14 @@ class LatLon(LatLonSphericalBase):
         '''DEPRECATED, use method C{isenclosedBy}.'''
         return self.isenclosedBy(points)
 
-    def midpointTo(self, other, height=None, wrap=False):
+    def midpointTo(self, other, height=None, fraction=_0_5, wrap=False):
         '''Find the midpoint between this and an other point.
 
            @arg other: The other point (L{LatLon}).
            @kwarg height: Optional height for midpoint, overriding
                           the mean height (C{meter}).
+           @kwarg fraction: Midpoint location from this point (C{scalar}),
+                            may be negative or greater than 1.0.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Midpoint (L{LatLon}).
@@ -578,30 +582,36 @@ class LatLon(LatLonSphericalBase):
 
            @raise ValueError: Invalid B{C{height}}.
 
+           @see: Methods C{intermediateTo} and C{rhumbMidpointTo}.
+
            @example:
 
             >>> p1 = LatLon(52.205, 0.119)
             >>> p2 = LatLon(48.857, 2.351)
             >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
-        self.others(other)
+        if fraction is _0_5:
+            self.others(other)
 
-        # see <https://MathForum.org/library/drmath/view/51822.html>
-        a1, b1 = self.philam
-        a2, b2 = other.philam
+            # see <https://MathForum.org/library/drmath/view/51822.html>
+            a1, b1 = self.philam
+            a2, b2 = other.philam
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
+            db, b2 = unrollPI(b1, b2, wrap=wrap)
 
-        sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(a1, a2, db)
+            sa1, ca1, sa2, ca2, sdb, cdb = sincos2_(a1, a2, db)
 
-        x = ca2 * cdb + ca1
-        y = ca2 * sdb
+            x = ca2 * cdb + ca1
+            y = ca2 * sdb
 
-        a = atan2(sa1 + sa2, hypot(x, y))
-        b = atan2(y, x) + b1
+            a = atan2(sa1 + sa2, hypot(x, y))
+            b = atan2(y, x) + b1
 
-        h = self._havg(other) if height is None else Height(height)
-        return self.classof(degrees90(a), degrees180(b), height=h)
+            h = self._havg(other) if height is None else Height(height)
+            r = self.classof(degrees90(a), degrees180(b), height=h)
+        else:
+            r = self.intermediateTo(other, fraction, height=height, wrap=wrap)
+        return r
 
     def nearestOn(self, point1, point2, radius=R_M, **options):
         '''Locate the point between two points closest to this point.

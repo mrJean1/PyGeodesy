@@ -59,13 +59,13 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
                            _update_all
 # from pygeodesy.streprs import pairs as _pairs  # from .lazily
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
-from pygeodesy.utily import atand, sincos2d_
+from pygeodesy.utily import atand, sincos2, sincos2d_
 
 from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.07.07'
+__version__ = '22.07.08'
 
 
 class KTMError(_ValueError):
@@ -383,13 +383,19 @@ class KTransverseMercator(_NamedBase):
         return _COMMASPACE_.join(_pairs(d, **kwds))
 
     def _yxgk4(self, xi_, eta_, C):
-        '''(INTERNAL) Complex Clenshaw summation
-           with C{B{C}=_Alp} or C{B{C}=-_Bet}.
+        '''(INTERNAL) Complex Clenshaw summation with
+           C{B{C}=_Alp} or C{B{C}=-_Bet}, negated!
         '''
+        def _sinhcosh2(x):
+            return sinh(x), cosh(x)
+
         x = complex(xi_, eta_)
         if self.f:  # isEllipsoidal
-            s0, sh0 = sin(xi_ * 2), sinh(eta_ * 2)
-            c0, ch0 = cos(xi_ * 2), cosh(eta_ * 2)
+            s,  c  =  sincos2(  xi_  * 2)
+            sh, ch = _sinhcosh2(eta_ * 2)
+            n = -s
+            s = complex(s * ch, c * sh)  # sin(zeta * 2)
+            c = complex(c * ch, n * sh)  # cos(zeta * 2)
 
             y0 = y1 = z0 = z1 = complex(0)  # 0+j0
             n  = self.TMorder  # == len(C) - 1
@@ -398,25 +404,26 @@ class KTransverseMercator(_NamedBase):
                 y0 = complex(Cn)  # +j0
                 z0 = complex(Cn * (n * 2))
                 n -= 1
-            s = complex(s0 * ch0,  c0 * sh0)  # sin(zeta * 2)
-            c = complex(c0 * ch0, -s0 * sh0)  # cos(zeta * 2)
             a = c * 2  # cos(zeta * 2) * 2
             while n > 0:
-                Cn =  C[n]  # complex(C[n])
+                Cn =  C[n]
                 y1 = _c(a, y0, y1, Cn)
                 z1 = _c(a, z0, z1, Cn * (n * 2))
                 n -= 1
-                Cn =  C[n]  # complex(C[n])
+                Cn =  C[n]
                 y0 = _c(a, y1, y0, Cn)
                 z0 = _c(a, z1, z0, Cn * (n * 2))
                 n -= 1
             # assert n == 0
             x = _c(s, y0, -x, _0_0)
             c = _c(c, z0, z1, _1_0)
-            # C{cmath.phase} for INF, NAN, etc.
-            g, k = degrees(phase(c)), abs(c)
+
+            # Gauss-Schreiber to Gauss-Krueger TM
+            # C{cmath.phase} handles INF, NAN, etc.
+            g, k =  degrees(phase(c)), abs(c)
         else:  # isSpherical
             g, k = _0_0, _1_0
+
         return x.real, x.imag, g, k
 
 
@@ -427,10 +434,10 @@ def _c(a, b0, b1, Cn):
        @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
              cpython/blob/main/Objects/complexobject.c>}.
 
-       @note: Python function C{cmath.fsum} no longer exists although
-              it is still mentioned in Note 4 of the comments before
-              CPython function U{math_fsum<https://GitHub.com/python/
-              cpython/blob/main/Modules/mathmodule.c>}.
+       @note: Python function C{cmath.fsum} is mentioned in Note 4
+              of the comments before CPython function U{math_fsum
+              <https://GitHub.com/python/cpython/blob/main/Modules/
+              mathmodule.c>}, but is no longer available.
     '''
     r = fsum1_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn, floats=True)
     j = fsum1_(a.real * b0.imag,  a.imag * b0.real, -b1.imag,     floats=True)

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.05.19'
+__version__ = '22.07.09'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -200,7 +200,8 @@ class Tests(TestsBase):
 
         if hasattr(LatLon, 'midpointTo'):
             m = p.midpointTo(q)
-            self.test('midpointTo', m, '50.536327°N, 001.274614°E')  # 50.5363°N, 001.2746°E
+            self.test('midpointTo', m, '50.536327°N, 001.274614°E' if Sph or Nv  # 50.5363°N, 001.2746°E
+                                  else '50.536583°N, 001.274507°E')
 
         if hasattr(LatLon, 'destination'):
             p = LatLon(51.4778, -0.0015)

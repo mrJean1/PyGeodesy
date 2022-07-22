@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '22.5.14'
+__version__ = '22.07.14'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -170,7 +170,7 @@ def decode2(epsg):
                 z, h = _UPS_ZONE, _S_
 
             else:
-                raise ValueError
+                raise ValueError(NN)
         except (TypeError, ValueError) as x:
             raise EPSGError(epsg=epsg, txt=str(x))
 

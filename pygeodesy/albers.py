@@ -15,7 +15,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, neg
+from pygeodesy.basics import neg, neg_
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import hypot, hypot1, sqrt3
@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.07.07'
+__version__ = '22.07.12'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -50,6 +50,12 @@ class AlbersError(_ValueError):
        L{AlbersEqualAreaSouth} or L{Albers7Tuple} issue.
     '''
     pass
+
+
+def _1_x21(x):
+    '''(INTERNAL) Return M{1 / (x**2 + 1)}.
+    '''
+    return _1_0 / (x**2 + _1_0)
 
 
 def _Dsn(x, y, sx, sy):
@@ -68,7 +74,8 @@ def _Dsn(x, y, sx, sy):
     if t > 0:
         s = sx + sy
         if s:
-            d = (x + y) * ((sx * sy) / t)**2 / s
+            t = sx * sy / t
+            d = t**2 * (x + y) / s
     elif x != y:
         d = (sx - sy) / (x - y)
     return d
@@ -114,7 +121,7 @@ class _AlbersBase(_NamedBase):
     _polar =  False
     _qx    =  None  # (INTERNAL) cached
     _qZ    =  None  # (INTERNAL) cached
-    _qZa   =  None  # (INTERNAL) qZ * E.a**2
+    _qZa2  =  None  # (INTERNAL) qZ * E.a**2
     _scxi0 =  None  # (INTERNAL) sec(xi)
     _sign  = +1
     _sxi0  =  None  # (INTERNAL) sin(xi)
@@ -145,7 +152,7 @@ class _AlbersBase(_NamedBase):
         if sa1 < 0:  # and sa2 < 0:
             self._sign = -1
             # internally, tangent latitude positive
-            sa1, sa2 = -sa1, neg(sa2)
+            sa1, sa2 = neg_(sa1, sa2)
         if sa1 > sa2:  # make phi1 < phi2
             sa1, sa2 = sa2, sa1
             ca1, ca2 = ca2, ca1
@@ -193,7 +200,7 @@ class _AlbersBase(_NamedBase):
         self._txi0  = txi0 =  self._txif(ta0)
         self._scxi0 =         hypot1(txi0)
         self._sxi0  = sxi0 =  txi0 / self._scxi0
-        self._m02   = m02  = _1_0 / (_1_0 + (b_a * ta0)**2)
+        self._m02   = m02  = _1_x21(b_a * ta0)
         self._n0    = n0   =  ta0 / hypot1(ta0)
         if polar:
             self._polar = True
@@ -201,7 +208,7 @@ class _AlbersBase(_NamedBase):
         else:
             self._m0    = sqrt(m02)  # == nrho0 / E.a
             self._nrho0 = E.a * self._m0  # == E.a * sqrt(m02)
-        self._k0_(_1_0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
+        self._k0s(_1_0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
         self._lat0 = _Lat(lat0=self._sign * atand(ta0))
 
     def _a_b_sxi3(self, *ca_sa_ta_scb_4s):
@@ -212,7 +219,7 @@ class _AlbersBase(_NamedBase):
             cxi, sxi, _ = self._cstxif3(ta)
             if sa > 0:
                 sa += _1_0
-                a  += (cxi / ca)**2 * sa / (_1_0 + sxi)
+                a  += (cxi / ca)**2 * sa / (sxi + _1_0)
                 b  +=  scb * ca**2 / sa
             else:
                 sa =  _1_0 - sa
@@ -228,10 +235,13 @@ class _AlbersBase(_NamedBase):
            x                                    if f = 0.
         '''
         E = self.datum.ellipsoid
-        if E.isOblate:
-            x = atanh(x * E.e) / E.e
-        elif E.isProlate:
-            x = atan2(abs(x) * E.e, copysign0(_1_0, x)) / E.e
+        if E.f > 0:  # .isOblate
+            x =  atanh( x * E.e) / E.e
+        elif E.f < 0:  # .isProlate
+            x = (atan2(-x * E.e, _N_1_0) if x < 0 else
+                 atan2( x * E.e,   _1_0)) / E.e
+#       else:
+#           pass  # x = x
         return x
 
     def _atanhx1(self, x):
@@ -289,7 +299,7 @@ class _AlbersBase(_NamedBase):
         '''
         e2 = self.datum.ellipsoid.e2
 
-        if (abs(x) + abs(y)) * e2 < _0_5:
+        if ((abs(x) + abs(y)) * e2) < _0_5:
             e = z = _1_0
             k = 1
             C_  = Fsum().fsum_
@@ -367,7 +377,7 @@ class _AlbersBase(_NamedBase):
         sth, cth = sincos2(th)  # XXX sin, cos
         if n0:
             x  = sth / n0
-            y  = (_1_0 - cth) if cth < 0 else (sth**2 / (_1_0 + cth))
+            y  = (_1_0 - cth) if cth < 0 else (sth**2 / (cth + _1_0))
             y *= nrho0 / n0
         else:
             x =  self._k02 * b
@@ -390,7 +400,7 @@ class _AlbersBase(_NamedBase):
 
     isPolar = ispolar  # synonym
 
-    def _k0_(self, k):
+    def _k0s(self, k):
         '''(INTERNAL) Set C{._k0}, C{._k02}, etc.
         '''
         self._k0    = k  = _Ks(k0=k)
@@ -444,7 +454,7 @@ class _AlbersBase(_NamedBase):
         k0 = _Ks(k=k) / self.forward(lat, _0_0).scale
         if self._k0 != k0:
             _update_all(self)
-            self._k0_(k0)
+            self._k0s(k0)
 
     def reverse(self, x, y, lon0=0, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an east- and northing location to geodetic lat- and longitude.
@@ -565,18 +575,18 @@ class _AlbersBase(_NamedBase):
             sca2 =  ta2 + _1_0
             eta2 = (_1_0 - e2 * ta2 / sca2)**2
             txia = _txif(ta)
-            s3qx =  sqrt3(sca2 / (_1_0 + txia**2)) * qx
+            s3qx =  sqrt3(sca2 * _1_x21(txia)) * qx
             ta, d = Ta2_((txi - txia) * s3qx * eta2)
             if abs(d) < tol:
                 return ta
         raise AlbersError(iteration=_NUMIT, txt=_no_(Fmt.convergence(tol)))
 
-    def _txif(self, ta):  # called from .Ellipsoid.auxAuthalic
+    def _txif(self, ta):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-xi from tan-phi}.
         '''
         E = self.datum.ellipsoid
 
-        ca2 = _1_0 / (_1_0 + ta**2)
+        ca2 = _1_x21(ta)
         sa  =  sqrt(ca2) * abs(ta)  # enforce odd parity
 
         es1    =  E.e2 * sa

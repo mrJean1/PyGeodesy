@@ -193,10 +193,49 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toUps" class="summary-sig-name">toUps</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert this MGRS grid reference to a UPS coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert this MGRS grid reference to a UTM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toUtmUps" class="summary-sig-name">toUtmUps</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert this MGRS grid reference to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -252,8 +291,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#band" class="summary-name">band</a><br />
-      Get the <i>latitudinal</i> band (<code>str, 
-      'A'|'B'|..|'W'|'X'</code>).
+      Get the <i>latitudinal</i> <code>'C'|..|'W'|'X'</code> or 
+      <i>polar</i> <code>'A'|'B'|'Y'|'Z'</code>) band (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -261,7 +300,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#bandLatitude" class="summary-name">bandLatitude</a><br />
-      Get the band latitude (<code>degrees90</code> or <code>None</code>).
+      Get the band latitude (<code>degrees90</code>).
     </td>
   </tr>
 <tr>
@@ -277,7 +316,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.mgrs.Mgrs-class.html#en100k" class="summary-name">en100k</a><br />
+        <a href="pygeodesy.mgrs.Mgrs-class.html#EN" class="summary-name">EN</a><br />
       Get the 2-character grid EN digraph (<code>str</code>).
     </td>
   </tr>
@@ -293,8 +332,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#en100k" class="summary-name">en100k</a><br />
+      DEPRECATED, use property <code>EN</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#easting" class="summary-name">easting</a><br />
-      Gets the easting (<code>meter</code>).
+      Gets the easting (<code>meter</code> within grid tile).
     </td>
   </tr>
 <tr>
@@ -311,8 +358,33 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#isUPS" class="summary-name">isUPS</a><br />
+      Is this MGRS in a (polar) UPS zone (<code>bool</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#isUTM" class="summary-name">isUTM</a><br />
+      Is this MGRS in a (non-polar) UTM zone (<code>bool</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#northing" class="summary-name">northing</a><br />
-      Get the northing (<code>meter</code>).
+      Get the northing (<code>meter</code> within grid tile).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#northingBottom" class="summary-name">northingBottom</a><br />
+      Get northing of the band bottom (<code>meter</code>), extended to 
+      include entirety of bottom-most 100 km tile.
     </td>
   </tr>
 <tr>
@@ -327,8 +399,25 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#tile" class="summary-name">tile</a><br />
+      Get the MGRS grid tile size (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html#zone" class="summary-name">zone</a><br />
-      Get the longitudal zone (<code>int</code>, 1..60).
+      Get the longitudal zone (<code>int</code>, 1..60 or 0 for polar).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.mgrs.Mgrs-class.html#zoneB" class="summary-name">zoneB</a><br />
+      Get the (longitudal) zone and (latitudinal) band letter 
+      (<code>str</code>).
     </td>
   </tr>
   <tr>
@@ -388,11 +477,15 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>zone</code></strong> - 6&#176; longitudinal zone (<code>int</code>), 1..60 covering 
           180&#176;W..180&#176;E.</li>
-        <li><strong class="pname"><code>en100k</code></strong> - Two-letter EN digraph (<code>str</code>), 100 km grid square.</li>
-        <li><strong class="pname"><code>easting</code></strong> - Easting (<code>meter</code>), within 100 km grid square.</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing (<code>meter</code>), within 100 km grid square.</li>
+        <li><strong class="pname"><code>en100k</code></strong> - Two-letter EN digraph (<code>str</code>), 100 km grid tile using 
+          <i>only</i> the <i>AA</i> or <i>MGRS-New</i> (row) <a 
+          href="http://Wikipedia.org/wiki/Military_Grid_Reference_System" 
+          target="_top">lettering scheme</a>.</li>
+        <li><strong class="pname"><code>easting</code></strong> - Easting (<code>meter</code>), within 100 km grid tile.</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing (<code>meter</code>), within 100 km grid tile.</li>
         <li><strong class="pname"><code>band</code></strong> - Optional, 8&#176; <i>latitudinal</i> band (<code>str</code>), 
-          'C'|..|'X' covering 80&#176;S..84&#176;N (without 'I' and 'O').</li>
+          'C'|..|'X' covering 80&#176;S..84&#176;N (without 'I' and 'O') or 
+          <i>polar</i> region 'A'|''B']'Y'|'Z'.</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional this reference's datum (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -407,7 +500,7 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid MGRS grid reference, <b><code>zone</code></b>, 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - Invalid MGRS grid reference, <b><code>zone</code></b>, 
         <b><code>en100k</code></b>, <b><code>easting</code></b>, 
         <b><code>northing</code></b> or <b><code>band</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
@@ -454,7 +547,7 @@
           class="link">Mgrs</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -588,6 +681,45 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toUps"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this MGRS grid reference to a UPS coordinate.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
+          href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>center</code></strong> - Optionally, center easting and northing by the resolution 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Ups</code></b> instance or if <code><b>Ups</b> is 
+          None</code> a <a 
+          href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
+          class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
+          northing, band)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - This MGRS is a <i>non-polar</i> UTM reference.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toUtm"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -620,6 +752,49 @@
           href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
           class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
           northing, band)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - This MGRS is a <i>polar</i> UPS reference.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toUtmUps"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
+        <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this MGRS grid reference to a UTM or UPS coordinate.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Utm</code></strong> - Optional class to return the UTM coordinate (<a 
+          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
+          href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>center</code></strong> - Optionally, center easting and northing by the resolution 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Utm</code></b> or <b><code>Ups</code></b> instance or 
+          if <code><b>Utm</b> or <b>Ups</b> is None</code> a <a 
+          href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
+          class="link">UtmUps5Tuple</a><code>(zone, hemipole, easting, 
+          northing, band)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -639,12 +814,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the <i>latitudinal</i> band (<code>str, 
-  'A'|'B'|..|'W'|'X'</code>).</p>
+  <p>Get the <i>latitudinal</i> <code>'C'|..|'W'|'X'</code> or <i>polar</i>
+  <code>'A'|'B'|'Y'|'Z'</code>) band (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>latitudinal</i> band (<code>str, 'A'|'B'|..|'W'|'X'</code>).
+        - Get the <i>latitudinal</i> <code>'C'|..|'W'|'X'</code> or <i>polar</i> 
+<code>'A'|'B'|'Y'|'Z'</code>) band (<code>str</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -664,12 +840,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">bandLatitude</h3>
-  <p>Get the band latitude (<code>degrees90</code> or 
-  <code>None</code>).</p>
+  <p>Get the band latitude (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">bandLatitude(<span class="summary-sig-arg">self</span>)</span>
-        - Get the band latitude (<code>degrees90</code> or <code>None</code>).
+        - Get the band latitude (<code>degrees90</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -709,16 +884,16 @@ class="link">Datum</a>).
   </dl>
 </td></tr></table>
 </div>
-<a name="en100k"></a>
+<a name="EN"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">en100k</h3>
+  <h3 class="epydoc">EN</h3>
   <p>Get the 2-character grid EN digraph (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">EN(<span class="summary-sig-arg">self</span>)</span>
         - Get the 2-character grid EN digraph (<code>str</code>).
     </dd>
     <dt>Set method:</dt>
@@ -742,8 +917,32 @@ class="link">Datum</a>).
   <p>Get the 2-character grid EN digraph (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
+    <dd class="value"><span class="summary-sig">EN(<span class="summary-sig-arg">self</span>)</span>
         - Get the 2-character grid EN digraph (<code>str</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="en100k"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">en100k</h3>
+  <p>DEPRECATED, use property <code>EN</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">en100k(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED, use property <code>EN</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -763,11 +962,11 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">easting</h3>
-  <p>Gets the easting (<code>meter</code>).</p>
+  <p>Gets the easting (<code>meter</code> within grid tile).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Gets the easting (<code>meter</code>).
+        - Gets the easting (<code>meter</code> within grid tile).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -809,17 +1008,91 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="isUPS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isUPS</h3>
+  <p>Is this MGRS in a (polar) UPS zone (<code>bool</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isUPS(<span class="summary-sig-arg">self</span>)</span>
+        - Is this MGRS in a (polar) UPS zone (<code>bool</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isUTM"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isUTM</h3>
+  <p>Is this MGRS in a (non-polar) UTM zone (<code>bool</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isUTM(<span class="summary-sig-arg">self</span>)</span>
+        - Is this MGRS in a (non-polar) UTM zone (<code>bool</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="northing"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">northing</h3>
-  <p>Get the northing (<code>meter</code>).</p>
+  <p>Get the northing (<code>meter</code> within grid tile).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (<code>meter</code>).
+        - Get the northing (<code>meter</code> within grid tile).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="northingBottom"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">northingBottom</h3>
+  <p>Get northing of the band bottom (<code>meter</code>), extended to 
+  include entirety of bottom-most 100 km tile.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">northingBottom(<span class="summary-sig-arg">self</span>)</span>
+        - Get northing of the band bottom (<code>meter</code>), extended to include 
+entirety of bottom-most 100 km tile.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -855,17 +1128,66 @@ class="link">Mgrs</a> instance, as cell size (<code>meter</code>, power of
   </dl>
 </td></tr></table>
 </div>
+<a name="tile"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">tile</h3>
+  <p>Get the MGRS grid tile size (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">tile(<span class="summary-sig-arg">self</span>)</span>
+        - Get the MGRS grid tile size (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="zone"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the longitudal zone (<code>int</code>, 1..60).</p>
+  <p>Get the longitudal zone (<code>int</code>, 1..60 or 0 for polar).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
-        - Get the longitudal zone (<code>int</code>, 1..60).
+        - Get the longitudal zone (<code>int</code>, 1..60 or 0 for polar).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="zoneB"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">zoneB</h3>
+  <p>Get the (longitudal) zone and (latitudinal) band letter 
+  (<code>str</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">zoneB(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (longitudal) zone and (latitudinal) band letter (<code>str</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -911,7 +1233,7 @@ class="link">Mgrs</a> instance, as cell size (<code>meter</code>, power of
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  7 10:17:07 2022
+    Generated by Epydoc 3.0.1 on Fri Jul 22 15:58:14 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -12,28 +12,29 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0
 from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
-                             _edge_, _radians_, _semi_circular_, _SPACE_, \
-                             _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, _90_0, \
-                             _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+                             _edge_, _float as _F, _radians_, _semi_circular_, \
+                             _SPACE_, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
+                             _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.05.14'
+__version__ = '22.07.08'
 
-# constants named as "_M_UNIT" meaning "meter per unit"
-_M_CHAIN     =   20.1168  # yard2m(1) * 22
-_M_FATHOM    =    1.8288  # yard2m(1) * 2 or _M_NM * 1e-3
-_M_FOOT_FR   =    0.3248  # French pied-du-Roi or pied
-_M_FOOT_INTL =    0.3048  # Int'l 10_000 / (254 * 12)
-_M_FOOT_USRV =    0.3048006096012192  # US Survey 1200 / 3937
-_M_FURLONG   =  201.168   # 220 * yard2m(1)
-_M_NM        = 1852.0     # nautical mile
-_M_SM        = 1609.344   # statute mile
-_M_TOISE     =    1.949   # French toise, 6 pied-du-Roi
-_M_YARD_UK   =    0.9144  # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
+# read constant name "_M_UNIT" as "meter per unit"
+_M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
+_M_FATHOM    = _F(   1.8288)     # yard2m(1) * 2 or _M_NM * 1e-3
+_M_FOOT_GE   = _F(   0.31608)    # German Fuss (1 / 3.1637560111364)
+_M_FOOT_FR   = _F(   0.3248406)  # French Pied-du-Roi or pied (1 / 3.0784329298739)
+_M_FOOT_INTL = _F(   0.3048)     # Int'l (1 / 3.2808398950131 = 10_000 / (254 * 12))
+_M_FOOT_USRV = _F(   0.3048006096012192)  # US Survey (1200 / 3937)
+_M_FURLONG   = _F( 201.168)      # 220 * yard2m(1) == 10 * m2chain(1)
+_M_NM        = _F(1852.0)        # nautical mile
+_M_SM        = _F(1609.344)      # statute mile
+_M_TOISE     = _F(   1.9490436)  # French toise, 6 pieds (6 / 3.0784329298739)
+_M_YARD_UK   = _F(   0.9144)     # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
 
 
 def acos1(x):
@@ -300,20 +301,23 @@ def fathom2m(fathoms):
     return Float(fathoms=fathoms) * _M_FATHOM
 
 
-def ft2m(feet, usurvey=False, pied=False):
-    '''Convert I{International}, I{US Survey} or I{French} B{C{feet}} to meter.
+def ft2m(feet, usurvey=False, pied=False, fuss=False):
+    '''Convert I{International}, I{US Survey}, I{French} or I{German}
+       B{C{feet}} to C{meter}.
 
        @arg feet: Value in feet (C{scalar}).
-       @kwarg usurvey: Convert I{US Survey} foot if (C{True}).
-       @kwarg pied: Convert French I{pied-du-Roi} if (C{True}),
-                    I{International} foot otherwise.
+       @kwarg usurvey: Convert I{US Survey} foot if C{True} else ...
+       @kwarg pied: Convert French I{pied-du-Roi} if C{True} else ...
+       @kwarg fuss: Convert German I{Fuss} if C{True}, otherwise
+                    I{International} feet to C{meter}.
 
        @return: Value in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
     return Feet(feet) * (_M_FOOT_USRV if usurvey else
-                        (_M_FOOT_FR   if pied    else _M_FOOT_INTL))
+                        (_M_FOOT_FR   if pied    else
+                        (_M_FOOT_GE   if fuss    else _M_FOOT_INTL)))
 
 
 def furlong2m(furlongs):
@@ -420,13 +424,15 @@ def m2fathom(meter):
     return Meter(meter) / _M_FATHOM  # * 0.546806649
 
 
-def m2ft(meter, usurvey=False, pied=False):
-    '''Convert meter to I{International}, I{US Survey} or I{French} feet (C{ft}).
+def m2ft(meter, usurvey=False, pied=False, fuss=False):
+    '''Convert meter to I{International}, I{US Survey}, I{French} or
+       or I{German} feet (C{ft}).
 
        @arg meter: Value in meter (C{scalar}).
-       @kwarg usurvey: Convert to I{US Survey} foot if (C{True}).
-       @kwarg pied: Convert to French I{pied-du-Roi} if (C{True}),
-                    I{International} foot otherwise.
+       @kwarg usurvey: Convert to I{US Survey} foot if C{True} else ...
+       @kwarg pied: Convert to French I{pied-du-Roi} if C{True} else ...
+       @kwarg fuss: Convert to German I{Fuss} if C{True}, otherwise to
+                    I{International} foot.
 
        @return: Value in C{feet} (C{float}).
 
@@ -435,7 +441,8 @@ def m2ft(meter, usurvey=False, pied=False):
     # * 3.2808333333333333, US Survey 3937 / 1200
     # * 3.2808398950131235, Int'l 10_000 / (254 * 12)
     return Meter(meter) / (_M_FOOT_USRV if usurvey else
-                          (_M_FOOT_FR   if pied    else _M_FOOT_INTL))
+                          (_M_FOOT_FR   if pied    else
+                          (_M_FOOT_GE   if fuss    else _M_FOOT_INTL)))
 
 
 def m2furlong(meter):

@@ -276,6 +276,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="intermediateTo"></a><span class="summary-sig-name">intermediateTo</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">fraction</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      (INTERNAL) <i>Must be overloaded</i>, see function 
+      <code>notOverloaded</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3" class="summary-sig-name">intersection3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">other</span>,
@@ -311,6 +333,27 @@
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
       Iteratively compute the intersection points of two circles, each 
       defined by a center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#midpointTo" class="summary-sig-name">midpointTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">0.5</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Find the midpoint on a geodesic between this and an other point.</td>
           <td align="right" valign="top">
             
             
@@ -469,7 +512,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert this <code>LatLon</code> point to an MGRS coordinate.</td>
           <td align="right" valign="top">
             
@@ -525,8 +569,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps" class="summary-sig-name">toUps</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">N</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert this <code>LatLon</code> point to a UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -562,7 +607,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps" class="summary-sig-name">toUtmUps</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert this <code>LatLon</code> point to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -1375,6 +1421,49 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="midpointTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">fraction</span>=<span class="sig-default">0.5</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Find the midpoint on a geodesic between this and an other point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for midpoint, overriding the mean height 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Midpoint location from this point (<code>scalar</code>), may be 
+          negative or greater than 1.0.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Midpoint (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <code>intermediateTo</code> and 
+        <code>rhumbMidpointTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="nearestOn"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1676,7 +1765,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1690,6 +1780,8 @@
         <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, try to <i>un</i>-center MGRS to its 
           <code>lowerleft</code> (<code>bool</code>) or by 
           <code><b>center</b> meter</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>pole</code></strong> - Optional top/center for the MGRS UPS projection 
+          (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS coordinate (<a href="pygeodesy.mgrs.Mgrs-class.html" 
@@ -1697,8 +1789,8 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
-        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm"
-        class="link">toUtm</a> and <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps"
+        class="link">toUtmUps</a> and <a 
         href="pygeodesy.mgrs.Mgrs-class.html#toLatLon" 
         class="link">Mgrs.toLatLon</a>.
       </p>
@@ -1793,8 +1885,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">N</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1808,6 +1901,9 @@
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
           (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
         <li><strong class="pname"><code>falsed</code></strong> - False easting and northing (<code>bool</code>).</li>
+        <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, <i>un</i>-center the UPS to its 
+          <code>lowerleft</code> (<code>bool</code>) or by 
+          <code><b>center</b> meter</code> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<a href="pygeodesy.ups.Ups-class.html" 
@@ -1862,7 +1958,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1875,17 +1972,14 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of UPS (stereographic) projection 
           (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
+        <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, <i>un</i>-center the UTM or UPS to its 
+          <code>lowerleft</code> (<code>bool</code>) or by 
+          <code><b>center</b> meter</code> (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
           class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
           class="link">Ups</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Result in <a href="pygeodesy.utm.Utm-class.html" 
-        class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
-        class="link">Ups</a>.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utmups-module.html#toUtmUps8" 
@@ -2270,7 +2364,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  7 10:17:06 2022
+    Generated by Epydoc 3.0.1 on Fri Jul 22 15:58:13 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -6,8 +6,8 @@ u'''(INTERNAL) Module with base classes for L{pygeodesy.geodsolve} and L{pygeode
 
 from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.errors import _AssertionError, _xkwds_get
-from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, _EQUAL_, \
-                             _not_, _SPACE_
+from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, \
+                             _enquote, _EQUAL_, _not_, _SPACE_
 from pygeodesy.karney import Caps, _CapsBase, _ellipsoid, _EWGS84, GDict, \
                              Precision_, unroll180
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
@@ -20,7 +20,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.06.24'
+__version__ = '22.07.09'
 
 _Error_ = 'Error'
 _ERROR_ = 'ERROR'
@@ -45,6 +45,7 @@ class _SolveLineSolveBase(_CapsBase):
     _Names_Inverse = ()
     _prec          =  Precision_(prec=DIG)
     _reverse2      =  False
+    _Solve_name    =  NN  # executable basename
     _Solve_path    =  NN  # executable path
     _status        =  None
     _text_True     =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
@@ -239,7 +240,8 @@ class _SolveLineSolveBase(_CapsBase):
         try:
             _ = self.version  # test path and ...
             if self.status:  # ... return code
-                raise self._Error(status=self.status, txt=_not_(_0_), **Solve_path)
+                S_p = Solve_path or {self._Solve_name: _enquote(path)}
+                raise self._Error(status=self.status, txt=_not_(_0_), **S_p)
             hold = path
         finally:  # restore in case of error
             if self._Solve_path != hold:
@@ -291,7 +293,7 @@ class _SolveLineSolveBase(_CapsBase):
 class _SolveBase(_SolveLineSolveBase):
     '''(NTERNAL) Base class for C{_GeodesicSolveBase} and C{_RhumbSolveBase}.
     '''
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, name=NN):
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, path=NN, name=NN):
         '''New C{Solve} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -299,6 +301,8 @@ class _SolveBase(_SolveLineSolveBase):
                              conventionally in C{meter}), see B{C{f}}.
            @arg f: The flattening of the ellipsoid (C{scalar}) if B{C{a_ellipsoid}}
                    is specified as C{scalar}.
+           @kwarg path: Optionally, the (fully qualified) path to the C{GeodSolve}
+                        or C{RhumbSolve} executable (C{filename}).
            @kwarg name: Optional name (C{str}).
 
            @raise TypeError: Invalid B{C{a_ellipsoid}} or B{C{f}}.
@@ -307,6 +311,8 @@ class _SolveBase(_SolveLineSolveBase):
             self._E = _ellipsoid(a_ellipsoid, f, name=name)
         if name:
             self.name = name
+        if path:
+            self._setSolve(path)
 
     @Property_RO
     def _cmdDirect(self):

@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.07.07'
+__version__ = '22.07.09'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -588,7 +588,7 @@ class _RhumbLine(_RhumbBase):
             _diff =  euclid  # approximate length
             _i3d3 = _intersect3d3  # NOT .vector3d.intersection3d3
             _LL2T =  LatLon2Tuple
-            _xTM4 =  self.xTM.reverse  # ellipsoidal or spherical
+            _xTMr =  self.xTM.reverse  # ellipsoidal or spherical
             _s_3d, s_az =  self._xTM3d,  self.azi12
             _o_3d, o_az = other._xTM3d, other.azi12
             # use halfway point as initial estimate
@@ -597,7 +597,7 @@ class _RhumbLine(_RhumbBase):
             for i in range(1, _TRIPS):
                 v = _i3d3(_s_3d(p), s_az,  # point + bearing
                           _o_3d(p), o_az, useZ=False, **eps)[0]
-                t = _xTM4(v.x, v.y, lon0=p.lon)  # PYCHOK Reverse4Tuple
+                t = _xTMr(v.x, v.y, lon0=p.lon)  # PYCHOK Reverse4Tuple
                 d = _diff(t.lon - p.lon, t.lat)  # PYCHOK t.lat + p.lat - p.lat
                 p = _LL2T(t.lat + p.lat, t.lon)  # PYCHOK t.lon + p.lon = lon0
                 if d < tol:
@@ -673,7 +673,7 @@ class _RhumbLine(_RhumbBase):
 
     @Property_RO
     def _r1rad(self):  # PYCHOK no cover
-        '''(INTERNAL) Get this rhumb line's I{icircle radius} (C{meter}).
+        '''(INTERNAL) Get this rhumb line's parallel I{circle radius} (C{meter}).
         '''
         return radians(self.ellipsoid.circle4(self.lat1).radius)
 

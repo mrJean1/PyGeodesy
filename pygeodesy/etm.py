@@ -90,12 +90,12 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.07.07'
+__version__ = '22.07.22'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
-_TAYTOL2  = _2_0 * _TAYTOL
-_TOL_10   = _0_1 * EPS
+_TAYTOL2  = _TAYTOL * _2_0
+_TOL_10   =  EPS * _0_1
 _TRIPS    =  21  # C++ 10
 
 
@@ -785,10 +785,11 @@ class ExactTransverseMercator(_NamedBase):
             #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
             k2 = fsum1_(mu, mv, mv * tau**2)
             q2 = (mv * snv**2 + cnudnv**2) / d2
-            k = (sqrt(k2) * sqrt(q2)) if k2 > 0 and q2 > 0 else _0_0
+            k = (sqrt(k2) * sqrt(q2) * self.k0) if \
+                     (k2 > 0 and q2 > 0) else _0_0
         else:
             k = _OVERFLOW
-        return g, (k * self.k0)
+        return g, k
 
     def _sigma3(self, v, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{sigma}.
@@ -1077,7 +1078,8 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
     return r
 
 
-def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
+def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
+                                         name=NN, strict=True,
                                          zone=None, **cmoff):
     '''Convert a lat-/longitude point to an ETM coordinate.
 
@@ -1091,6 +1093,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
                    (L{Etm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
        @kwarg name: Optional B{C{Utm}} name (C{str}).
+       @kwarg strict: Restrict B{C{lat}} to UTM ranges (C{bool}).
        @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
        @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
                      from the zone's central meridian (C{bool}).
@@ -1119,7 +1122,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
     '''
     z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
                                              falsed, name, zone,
-                                             ETMError, **cmoff)
+                                             strict, ETMError, **cmoff)
     lon0 = _cmlon(z) if f else None
     x, y, g, k = d.exactTM.forward(lat, lon, lon0=lon0)
 

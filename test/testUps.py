@@ -8,37 +8,38 @@ __version__ = '22.02.11'
 
 from base import TestsBase
 
-from pygeodesy import degDMS, F_DMS, parseUTMUPS5, strs, toUps8, toUtmUps8, ups, Ups
+from pygeodesy import degDMS, F_DMS, parseUTMUPS5, strs, toUps8, toUtmUps8, ups, Ups, UtmUps
 
 
 class Tests(TestsBase):
 
     def testUps(self, LL):
-        u = Ups(0, 'N', 448251, 5411932.0001)
+        u = Ups(0, 'N', 448251, 5411932.0001)  # NOT Ups
         self.test('Ups', u.toStr(4), '00 N 448251.0 5411932.0001')
 
-        u = Ups(0, 'N', 448251.795, 5411932.678, falsed=False)
+        u = Ups(0, 'N', 448251.795, 5411932.678, falsed=False)  # NOT Ups
         self.test('Ups', u, '00 N 448252 5411933')
         self.test('Ups', u.toStr(prec=3), '00 N 448251.795 5411932.678')
         self.test('Ups', u.toStr(prec=1, B=True, cs=True), '00Z N 448251.8 5411932.7 n/a n/a')
         self.test('Ups2', u.toRepr(), '[Z:00, H:N, E:448252, N:5411933]')
 #       self.test('Ups2', u.toStr2(), '[Z:00, H:N, E:448252, N:5411933]')
 
-        ll = u.toLatLon(LL, unfalse=False)  # UTM 48.85820000°N, 002.29450000°E
-        self.test('Ups.toLatLon', ll, '43.684097°N, 175.265195°E')
-        self.test('Ups.toLatLon', ll.toStr(form=F_DMS),  '43°41′02.75″N, 175°15′54.7″E')
-
         # u = ll.toUps(falsed=False)  # UTM N 448251.795205746 5411932.67761691
         # self.test('LL.toUps', u, 'N 448252 5411933')
         # self.test('LL.toUps', u.toStr(prec=3), 'N 448251.795 5411932.678')
         # self.test('LL.toUps', u.toStr2(B=True, cs=True), '[Z:00Z P:N E:448252 N:5411933 C:+175.26519494° S:1.17547892]')
 
+        u  = UtmUps(60, 'N', 360176.69112, 4838249.4217, falsed=True)
+        ll = u.toLatLon(LL, unfalse=False)  # UTM 48.85820000°N, 002.29450000°E
+        self.test('UtmUps.toLatLon', ll, '43.610051°N, 004.46308°E')
+        self.test('UtmUps.toLatLon', ll.toStr(form=F_DMS), '43°36′36.18″N, 004°27′47.09″E')
+
         m = u.toMgrs()
-        self.test('Ups.toMgrs', m, '60T UP 60176 38249')
+        self.test('UtmUps.toMgrs', m, '60T UP 60176 38249')
         t = u.toUps()
-        self.test('Ups.toUps', t, '00 N 448252 5411933')
+        self.test('UtmUps.toUps', t, '00 N 2448252 7411933')  # UTM to UPS ???
         t = u.toUtm(u.zone)
-        self.test('Ups.toUtm', t, '60 N 360177 4838249')
+        self.test('UtmUps.toUtm', t, '60 N 360177 4838249')
 
         # TM8358-2 pg 3-7 ID 1
         u = toUps8('84 17 14.042N', '132 14 52.761W')  # -132.247988889

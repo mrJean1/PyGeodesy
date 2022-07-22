@@ -4,9 +4,9 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.07.22'
 
-from base import TestsBase
+from base import startswith, TestsBase
 
 from pygeodesy import mgrs
 
@@ -77,6 +77,7 @@ class Tests(TestsBase):
         self.test('toUtm(None)', t, "(31, 'N', 448251.0, 5411932.0, 'U')")  # UtmUps5Tuple
         for a, x in (('easting',  48251.0),
                      ('northing', 11932.0),
+                     ('EN', 'DQ'),
                      ('en100k', 'DQ'),
                      ('digraph', 'DQ'),
                      ('zone', 31),
@@ -95,10 +96,32 @@ class Tests(TestsBase):
                             (76.0,  1.0, '31X DE 45999 36099'),  # Svalbard
                             (76.0, 13.0, '33X VE 45999 36099'),
                             (76.0, 25.0, '35X ME 45999 36099'),
-                            (76.0, 37.0, '37X DE 45999 36099')):
+                            (76.0, 37.0, '37X DE 45999 36099'),
+                            (84.0, 42.0, '00Z GC 46127 04524')):  # polar
             p = LatLon(lat, lon)
-            m = p.toUtm().toMgrs()
+            m = p.toUtmUps().toMgrs()
             self.test('toUtm(%s).toMgrs' % (p,), m, x)
+
+        m = mgrs.parseMGRS('YUB17770380')  # GeoConvert
+        self.test('MgrsY', str(m), '00Y UB 17770 03800', nl=1)
+        self.test('MgrsY', repr(m), '[Z:00Y, G:UB, E:17770, N:03800]')
+        t = m.toUtmUps(center=True)
+        self.test('toUtmUps', str(t), '00 N 1617775 1403805')
+        self.test('toUtmUps', repr(t), '[Z:00Y, H:N, E:1617775, N:1403805]')
+        t = m.toLatLon()  # always centered
+        self.test('toLatLon', str(t), "(83.627518, -32.664231, Datum(name='WGS84', ", known=startswith)
+        self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=83.627518, lon=-32.664231, ", known=startswith)
+
+        # courtesy of U{CF-FHB-X<https://GitHub.com/mrJean1/PyGeodesy/issues/70>}
+        m = mgrs.parseMGRS('BFS7751499182')  # NOT VERIFIED
+        self.test('MgrsB', str(m), '00B FS 77514 99182', nl=1)
+        self.test('MgrsB', repr(m), '[Z:00B, G:FS, E:77514, N:99182]')
+        t = m.toUtmUps(center=False)
+        self.test('toUtmUps', str(t), '00 S 2377514 2499182')
+        self.test('toUtmUps', repr(t), '[Z:00B, H:S, E:2377514, N:2499182]')
+        t = m.toLatLon()  # always centered
+        self.test('toLatLon', str(t), "(-84.367192, 37.098959, Datum(name='WGS84', ", known=startswith)
+        self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=-84.367192, lon=37.098959, ", known=startswith)
 
 
 if __name__ == '__main__':

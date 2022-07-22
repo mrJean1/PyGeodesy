@@ -22,7 +22,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '22.06.26'
+__version__ = '22.07.09'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 
@@ -33,6 +33,7 @@ class _RhumbSolveBase(_SolveBase):
     _Error         =  RhumbError
     _Names_Direct  = _lat2_, _lon2_, _S12_
     _Names_Inverse = _azi12_, _s12_, _S12_
+    _Solve_name    = 'RhumbSolve'
     _Solve_path    = _getenv(_PYGEODESY_RHUMBSOLVE_, _PYGEODESY_RHUMBSOLVE_)
 
     @Property_RO
@@ -58,7 +59,7 @@ class _RhumbSolveBase(_SolveBase):
            @raise RhumbError: Invalid B{C{path}}, B{C{path}} doesn't exist or isn't
                               the C{RhumbSolve} executable.
         '''
-        self._setSolve(path, RhumbSolve=path)
+        self._setSolve(path)
 
     @Property_RO
     def _s_option(self):  # == not -E for GeodSolve

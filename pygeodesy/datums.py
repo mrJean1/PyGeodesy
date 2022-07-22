@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.07.05'
+__version__ = '22.07.13'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -234,18 +234,17 @@ class Transform(_NamedEnumItem):
 
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
+        xyz1 = x, y, z, _1_0
+        s1   = self.s1
         if inverse:
-            _xyz = neg_(_1_0, x, y, z)
-            _s1  = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
-        else:
-            _xyz = _1_0, x, y, z
-            _s1  =  self.s1
-        # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
-        #               .ty + x * .rz + y * .s1 - z * .rx,
-        #               .tz - x * .ry + y * .rx + z * .s1)
-        return Vector3Tuple(fdot(_xyz, self.tx,      _s1, -self.rz,  self.ry),
-                            fdot(_xyz, self.ty,  self.rz,      _s1, -self.rx),
-                            fdot(_xyz, self.tz, -self.ry,  self.rx,      _s1),
+            xyz1 = neg_(*xyz1)
+            s1  -= _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
+        # x', y', z' = (x * .s1 - y * .rz + z * .ry + .tx,
+        #               x * .rz + y * .s1 - z * .rx + .ty,
+        #              -x * .ry + y * .rx + z * .s1 + .tz)
+        return Vector3Tuple(fdot(xyz1,       s1, -self.rz,  self.ry, self.tx),
+                            fdot(xyz1,  self.rz,       s1, -self.rx, self.ty),
+                            fdot(xyz1, -self.ry,  self.rx,       s1, self.tz),
                             name=self.name)
 
 

@@ -31,7 +31,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.07.04'
+__version__ = '22.07.13'
 
 
 def _CS0(cs0):
@@ -122,11 +122,15 @@ class CassiniSoldner(_NamedBase):
         '''
         return self.geodesic.a
 
+    a = equatoradius
+
     @Property_RO
     def flattening(self):
         '''Get the ellipsoid's flattening (C{float}).
         '''
         return self.geodesic.f
+
+    f = flattening
 
     def forward(self, lat, lon, name=NN):
         '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
@@ -220,14 +224,15 @@ class CassiniSoldner(_NamedBase):
            <https://GeographicLib.SourceForge.io/C++/doc/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed,
-           otherwise L{GeodesicExact} instance.
+           otherwise a L{GeodesicExact} instance.
         '''
         g = self._geodesic
         if g is None:
+            E = self.datum.ellipsoid
             try:
-                g = self.datum.ellipsoid.geodesic
+                g = E.geodesic
             except ImportError:
-                g = self.datum.ellipsoid.geodesicx
+                g = E.geodesicx
             self._geodesic = g
         return g
 
@@ -240,12 +245,9 @@ class CassiniSoldner(_NamedBase):
                                project/geographiclib>} not installed or
                                not found and C{B{exact}=False}.
         '''
-        if exact is None:
-            self._geodesic = None
-        elif exact:
-            self._geodesic = self.datum.ellipsoid.geodesicx
-        else:
-            self._geodesic = self.datum.ellipsoid.geodesic
+        E = self.datum.ellipsoid
+        self._geodesic = None if exact is None else (
+                         E.geodesicx if exact else E.geodesic)
         self.reset(*self.latlon0)
 
     @Property_RO

@@ -45,7 +45,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.06.26'
+__version__ = '22.07.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -373,7 +373,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         # bearing is (signed) angle between gc1 & gc2
 #         return degrees360(gc1.angleTo(gc2, vSign=v1))
 
-    def intermediateTo(self, other, fraction, height=None, **unused):  # wrap=False
+    def intermediateTo(self, other, fraction, height=None, **unused):  # PYCHOK wrap=False
         '''Return the point at given fraction between this and
            an other point.
 

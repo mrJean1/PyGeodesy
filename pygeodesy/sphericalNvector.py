@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.07.07'
+__version__ = '22.07.08'
 
 _paths_ = 'paths'
 
@@ -408,6 +408,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise Valuerror: Points coincide or invalid B{C{height}}.
 
+           @see: Methods C{midpointTo} and C{rhumbMidpointTo}.
+
            @example:
 
             >>> p = LatLon(52.205, 0.119)
@@ -550,16 +552,20 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''DEPRECATED, use method C{iswithin}.'''
         return self.iswithin(point1, point2)
 
-    def midpointTo(self, other, height=None):
+    def midpointTo(self, other, height=None, fraction=_0_5):
         '''Find the midpoint between this and an other point.
 
            @arg other: The other point (L{LatLon}).
            @kwarg height: Optional height at the midpoint, overriding
                           the mean height (C{meter}).
+           @kwarg fraction: Midpoint location from this point (C{scalar}),
+                            may be negative or greater than 1.0.
 
            @return: Midpoint (L{LatLon}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @see: Methods C{intermediateTo} and C{rhumbMidpointTo}.
 
            @example:
 
@@ -567,11 +573,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p2 = LatLon(48.857, 2.351)
             >>> m = p1.midpointTo(p2)  # '50.5363°N, 001.2746°E'
         '''
-        self.others(other)
+        if fraction is _0_5:
+            self.others(other)
 
-        m = self.toNvector().plus(other.toNvector())
-        h = self._havg(other) if height is None else height
-        return m.toLatLon(height=h, LatLon=self.classof)
+            m = self.toNvector().plus(other.toNvector())
+            h = self._havg(other) if height is None else height
+            r = m.toLatLon(height=h, LatLon=self.classof)
+        else:
+            r = self.intermediateTo(other, fraction, height=height)
+        return r
 
     def nearestOn(self, point1, point2, height=None, within=True, wrap=False):
         '''Locate the point on the great circle arc between two

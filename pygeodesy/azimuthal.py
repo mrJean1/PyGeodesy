@@ -42,7 +42,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isnon0, _umod_360, _xinstanceof
+from pygeodesy.basics import isnon0, _umod_360, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
@@ -52,7 +52,7 @@ from pygeodesy.fmath import euclid, Fsum, hypot
 from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
                              _azimuth_, _datum_, _lat_, _lon_, \
                              _no_, _scale_, _SPACE_, _x_, _y_, \
-                             _0_0, _0_1, _0_5, _1_0, _2_0
+                             _0_0, _0_1, _0_5, _1_0, _N_1_0, _2_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import antipode, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.06.16'
+__version__ = '22.07.12'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -358,13 +358,13 @@ class Equidistant(_AzimuthalBase):
                   the projection center C{(lat0, lon0)}.
         '''
         def _k_t(c):
-            t = abs(c) < EPS1
+            k = _N_1_0 if c < 0 else _1_0
+            t =  abs(c) < EPS1
             if t:
                 a = acos(c)
                 s = sin(a)
-                k = (a / s) if s else copysign0(_1_0, c)
-            else:  # PYCHOK no cover
-                k = copysign0(_1_0, c)
+                if s:
+                    k = a / s
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -805,16 +805,16 @@ class _GnomonicBase(_AzimuthalGeodesic):
                 return (q * r.M12 - r.m12) * r.M12  # negated
 
         a *= _EPS_K
-        m  = self._mask
-        g  = self.geodesic
+        m  =  self._mask
+        g  =  self.geodesic
 
-        P  = g.Line(self.lat0, self.lon0, z, m | g.LINE_OFF).Position
-        S2 = Fsum(s).fsum2_
+        P   = g.Line(self.lat0, self.lon0, z, m | g.LINE_OFF).Position
+        S2_ = Fsum(s).fsum2_
         for i in range(1, _TRIPS):
             r = P(s, m)
             if abs(d) < a:
                 break
-            s, d = S2(_d(r, q))
+            s, d = S2_(_d(r, q))
         else:  # PYCHOK no cover
             self._iteration = _TRIPS
             raise AzimuthalError(x=x, y=y, txt=_no_(Fmt.convergence(a)))
@@ -981,7 +981,7 @@ class LambertEqualArea(_AzimuthalBase):
         '''
         def _c(c):
             c *= _0_5
-            return (_2_0 * asin1(c)) if c > EPS else None
+            return (asin1(c) * _2_0) if c > EPS else None
 
         return self._reverse(x, y, name, _c, True, **LatLon_and_kwds)
 

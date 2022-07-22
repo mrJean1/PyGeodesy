@@ -95,7 +95,7 @@ Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{Equi
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable.
 
-Module L{rhumbsolve} depends on I{Karney}'s C++ utility U{RhumbSolve
+Module L{rhumbsolve} needs I{Karney}'s C++ utility U{RhumbSolve
 <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable.
 
 Documentation
@@ -562,7 +562,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.07.07'
+__version__ = '22.07.21'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

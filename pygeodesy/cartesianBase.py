@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.07.04'
+__version__ = '22.07.12'
 
 
 class CartesianBase(Vector3d):
@@ -152,16 +152,15 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
-        datum = _spherical_datum(datum, name=self.name)
-        d = self.datum
-        if d is not None:
-            if d.isEllipsoidal and not datum.isEllipsoidal:
+        d = _spherical_datum(datum, name=self.name)
+        if self._datum:  # is not None
+            if self._datum.isEllipsoidal and not d.isEllipsoidal:
                 raise _IsnotError(_ellipsoidal_, datum=datum)
-            elif d.isSpherical and not datum.isSpherical:
+            elif self._datum.isSpherical and not d.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
-        if d != datum:
+        if self._datum != d:
             _update_all(self)
-            self._datum = datum
+            self._datum = d
 
     def destinationXyz(self, delta, Cartesian=None, **Cartesian_kwds):
         '''Calculate the destination using a I{local} delta from this cartesian.
@@ -236,7 +235,7 @@ class CartesianBase(Vector3d):
            @raise ValueError: Invalid B{C{height}}.
         '''
         h = Height(height)
-        if self.height != h:
+        if self._height != h:
             _update_all(self)
             self._height = h
 
@@ -578,7 +577,7 @@ class CartesianBase(Vector3d):
         if LatLon:  # class or .classof
             h = r.height if height is None else Height(height)
             r = LatLon(r.lat, r.lon, datum=r.datum, height=h,
-                                **_xkwds(LatLon_kwds, name=r.name))
+                                  **_xkwds(LatLon_kwds, name=r.name))
         _xdatum(r.datum, d)
         return r
 
@@ -598,7 +597,7 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = self._ltp if ltp is None else _MODS.ltp._xLtp(ltp)
+        p = _MODS.ltp._xLtp(ltp, self._ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):
@@ -633,7 +632,7 @@ class CartesianBase(Vector3d):
             >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
         d = _spherical_datum(datum or self.datum, name=self.name)
-        r =  self._N_vector.xyzh if d == self.datum else self._n_xyzh4(d)
+        r =  self._N_vector.xyzh if self.datum == d else self._n_xyzh4(d)
 
         if Nvector is not None:
             kwds = _xkwds(Nvector_kwds, h=r.h, datum=d)

@@ -215,7 +215,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
     target="_top">GeodSolve</a> to be executable.</p>
     <p>Module <a href="pygeodesy.rhumbsolve-module.html" 
-    class="link">rhumbsolve</a> depends on <i>Karney</i>'s C++ utility <a 
+    class="link">rhumbsolve</a> needs <i>Karney</i>'s C++ utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
     target="_top">RhumbSolve</a> to be executable.</p>
   <h1 class="heading">Documentation</h1>
@@ -483,7 +483,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.07.07
+        22.07.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1815,7 +1815,9 @@
         lowerleft)</code> with the <code>center</code> and 4 corners of the
         <i>local</i> projection of a <code>Frustum</code>, each an <a 
         href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
-        class="link">Xyz4Tuple</a>.
+        class="link">Xyz4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+        class="link">XyzLocal</a>, <code>LatLon</code>, etc.
     </td>
   </tr>
 <tr>
@@ -3168,7 +3170,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.mgrs.MGRSError-class.html" class="summary-name">MGRSError</a><br />
+        <a href="pygeodesy.errors.MGRSError-class.html" class="summary-name">MGRSError</a><br />
       Military Grid Reference System (MGRS) parse or other <a 
         href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> issue.
     </td>
@@ -7407,9 +7409,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
-      <b><code>feet</code></b> to meter.</td>
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
+      <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</td>
           <td align="right" valign="top">
             
             
@@ -7609,7 +7612,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa3d8515ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8a481035d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8928,9 +8931,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert meter to <i>International</i>, <i>US Survey</i> or 
-      <i>French</i> feet (<code>ft</code>).</td>
+        <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert meter to <i>International</i>, <i>US Survey</i>, 
+      <i>French</i> or or <i>German</i> feet (<code>ft</code>).</td>
           <td align="right" valign="top">
             
             
@@ -10938,6 +10942,7 @@
         <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
       Convert a lat-/longitude point to an ETM coordinate.</td>
@@ -10978,11 +10983,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utm</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utmups</span>,
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Mgrs_kwds</span>)</span><br />
-      Convert a UTM coordinate to an MGRS grid reference.</td>
+      Convert a UTM or UPS coordinate to an MGRS grid reference.</td>
           <td align="right" valign="top">
             
             
@@ -11073,6 +11078,7 @@
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
       Convert a lat-/longitude point to a UTM coordinate.</td>
@@ -11802,7 +11808,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.7.7'"><code class="variable-quote">'</code><code class="variable-string">22.7.7</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.7.21'"><code class="variable-quote">'</code><code class="variable-string">22.7.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -18755,22 +18761,24 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>&nbsp;(<span class="sig-arg">feet</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert <i>International</i>, <i>US Survey</i> or <i>French</i> 
-  <b><code>feet</code></b> to meter.</p>
+  <p>Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
+  <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if (<code>True</code>).</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if (<code>True</code>), 
-          <i>International</i> foot otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert <i>US Survey</i> foot if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert French <i>pied-du-Roi</i> if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - Convert German <i>Fuss</i> if <code>True</code>, otherwise 
+          <i>International</i> feet to <code>meter</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
@@ -19161,7 +19169,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa3d8515ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8a481035d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21687,22 +21695,25 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>&nbsp;(<span class="sig-arg">meter</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>International</i>, <i>US Survey</i> or 
-  <i>French</i> feet (<code>ft</code>).</p>
+  <p>Convert meter to <i>International</i>, <i>US Survey</i>, <i>French</i>
+  or or <i>German</i> feet (<code>ft</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if (<code>True</code>).</li>
-        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if (<code>True</code>), 
-          <i>International</i> foot otherwise.</li>
+        <li><strong class="pname"><code>usurvey</code></strong> - Convert to <i>US Survey</i> foot if <code>True</code> else ...</li>
+        <li><strong class="pname"><code>pied</code></strong> - Convert to French <i>pied-du-Roi</i> if <code>True</code> else 
+          ...</li>
+        <li><strong class="pname"><code>fuss</code></strong> - Convert to German <i>Fuss</i> if <code>True</code>, otherwise to 
+          <i>International</i> foot.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>feet</code> (<code>float</code>).</dd>
@@ -23336,19 +23347,21 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>strMGRS</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31U DQ 48251 11932'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 31U DQ 48251 11932</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '31U DQ 48251 11932'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31UDQ4825111932'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>repr(m)  <span class="py-comment"># [Z:31U, G:DQ, E:48251, N:11932]</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD0970538646'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 42S XD 09705 38646</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 09705 38646'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD9738'</span>)  <span class="py-comment"># Km</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 42S XD 97000 38000</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 97000 38000'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'YUB17770380'</span>)  <span class="py-comment"># polar</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '00Y UB 17770 03800'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -26019,6 +26032,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**cmoff</span>)</span>
   </h3>
@@ -26048,6 +26062,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UTM ranges 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
           <code>str</code>).</li>
         <li><strong class="pname"><code>cmoff</code></strong> - DEPRECATED, use <b><code>falsed</code></b>.  Offset longitude 
@@ -26133,7 +26149,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">utm</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">utmups</span>,
         <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Mgrs_kwds</span>)</span>
@@ -26143,40 +26159,34 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert a UTM coordinate to an MGRS grid reference.</p>
+  <pre class="literalblock">
+Convert a UTM or UPS coordinate to an MGRS grid reference.
+
+@arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups]).
+@kwarg Mgrs: Optional class to return the MGRS grid reference
+             (L{Mgrs}) or C{None}.
+@kwarg name: Optional B{C{Mgrs}} name (C{str}).
+@kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
+                  arguments, ignored if C{B{Mgrs} is None}.
+
+@return: The MGRS grid reference as B{C{Mgrs}} or if
+         C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
+         digraph, easting, northing, band, datum)}.
+
+@raise MGRSError: Invalid B{C{utmups}}.
+
+@raise TypeError: If B{C{utmups}} is not L{Utm} nor L{Etm}
+                  nor L{Ups}.
+
+@example:
+
+ &gt;&gt;&gt; u = Utm(31, 'N', 448251, 5411932)
+ &gt;&gt;&gt; m = u.toMgrs()  # 31U DQ 48251 11932
+
+</pre>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>utm</code></strong> - A UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
-          class="link">Utm</a> or <a href="pygeodesy.etm.Etm-class.html" 
-          class="link">Etm</a>).</li>
-        <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
-          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
-          <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
-          ignored if <code><b>Mgrs</b> is None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
-          <code><b>Mgrs</b> is None</code> as an <a 
-          href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
-          class="link">Mgrs6Tuple</a><code>(zone, digraph, easting, 
-          northing, band, datum)</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>utm</code></b> is not <a 
-        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> nor <a 
-        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.mgrs.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>utm</code></b>.</li>
-    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>u = Utm(31, <span class="py-string">'N'</span>, 448251, 5411932)
-<span class="py-prompt">&gt;&gt;&gt; </span>m = u.toMgrs()  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toOsgr"></a>
 <div>
@@ -26364,6 +26374,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**cmoff</span>)</span>
   </h3>
@@ -26393,6 +26404,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>None</code>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Utm</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UTM ranges 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>zone</code></strong> - Optional UTM zone to enforce (<code>int</code> or 
           <code>str</code>).</li>
         <li><strong class="pname"><code>cmoff</code></strong> - DEPRECATED, use <b><code>falsed</code></b>.  Offset longitude 
@@ -27407,10 +27420,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>coord</code></strong> - The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
-          class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Utm</a>, <a href="pygeodesy.etm.Etm-class.html" 
+          class="link">Etm</a>, <a href="pygeodesy.ups.Ups-class.html" 
           class="link">Ups</a> or <code>5+Tuple</code>).</li>
         <li><strong class="pname"><code>falsed</code></strong> - <code>5+Tuple</code> easting and northing are falsed 
-          (<code>bool</code>).</li>
+          (<code>bool</code>), ignored otherwise.</li>
         <li><strong class="pname"><code>MGRS</code></strong> - Increase easting and northing ranges (<code>bool</code>).</li>
         <li><strong class="pname"><code>Error</code></strong> - Optional error to raise, overriding the default (<a 
           href="pygeodesy.utmups.UTMUPSError-class.html" 
@@ -28077,7 +28091,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  7 10:17:05 2022
+    Generated by Epydoc 3.0.1 on Fri Jul 22 15:58:12 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

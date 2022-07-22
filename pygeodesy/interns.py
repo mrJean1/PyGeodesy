@@ -415,7 +415,9 @@ _x_                   = 'x'                  # PYCHOK expected
 _X_                   = 'X'                  # PYCHOK expected
 _xyz_                 = 'xyz'                # PYCHOK expected
 _y_                   = 'y'                  # PYCHOK expected
+_Y_                   = 'Y'                  # PYCHOK expected
 _z_                   = 'z'                  # PYCHOK expected
+_Z_                   = 'Z'                  # PYCHOK expected
 _zone_                = 'zone'               # PYCHOK expected
 
 _EW_                  = _E_  + _W_           # PYCHOK common cardinals
@@ -784,7 +786,7 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.07.05'
+__version__ = '22.07.19'
 
 
 # **) MIT License

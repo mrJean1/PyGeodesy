@@ -29,7 +29,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.07.07'
+__version__ = '22.07.11'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -272,7 +272,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
 
         H = clas(H.x, H.y, H.z, **kwds)
         a = B.minus(C).length
-        return Collins5Tuple(P, H, a, b, c)
+        return Collins5Tuple(P, H, a, b, c, name=collins5.__name__)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
@@ -410,7 +410,7 @@ def snellius3(a, b, degC, alpha, beta):
 
         pa = _triSide(b, pc, fsum_(PI, -ra, -x))
         pb = _triSide(a, pc, fsum_(PI, -rb, -y))
-        return Survey3Tuple(pa, pb, pc)
+        return Survey3Tuple(pa, pb, pc, name=snellius3.__name__)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, degC=degC, alpha=alpha, beta=beta, txt=str(x))
@@ -510,8 +510,9 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         z = _zidw(A, B, C, x, y) if useZ else INT0
 
         clas = Clas or pointA.classof
-        P = clas(x, y, z, **_xkwds(Clas_kwds, name=tienstra7.__name__))
-        return Tienstra7Tuple(P, dA, dB, dC, a, b, c)
+        n = tienstra7.__name__
+        P = clas(x, y, z, **_xkwds(Clas_kwds, name=n))
+        return Tienstra7Tuple(P, dA, dB, dC, a, b, c, name=n)
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
@@ -608,7 +609,7 @@ def triAngle4(a, b, c):
             rB, rC = rC, rB
         if ab:
             rA, rB = rB, rA
-        return TriAngle4Tuple(rA, rB, rC, r)
+        return TriAngle4Tuple(rA, rB, rC, r, name=triAngle4.__name__)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, c=c, txt=str(x))
@@ -701,7 +702,7 @@ def _triSide2(b, c, radB):
     else:
         rA = fsum_(PI, -rB, -asin1(c * sB / b))
         a = sin(rA) * b / sB
-    return TriSide2Tuple(a, rA)
+    return TriSide2Tuple(a, rA, name=triSide2.__name__)
 
 
 def triSide4(radA, radB, c):
@@ -735,7 +736,8 @@ def triSide4(radA, radB, c):
         if sc < EPS0 or min(sa, sb) < 0:
             raise ValueError(_invalid_)
         sc = c / sc
-        return TriSide4Tuple((sa * sc), (sb * sc), rC, (sa * sb * sc))
+        return TriSide4Tuple((sa * sc), (sb * sc), rC, (sa * sb * sc),
+                             name=triSide4.__name__)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(radA=radA, radB=radB, c=c, txt=str(x))
@@ -812,7 +814,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         pb = _vpa(r2, r3, q1, q3_s3)
         pc = favg(_triSide2(b, pa, ra).a,
                   _triSide2(a, pb, rb).a)
-        return Survey3Tuple(pa, pb, pc)
+        return Survey3Tuple(pa, pb, pc, name=wildberger3.__name__)
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, c=c, alpha=alpha, beta=beta, R3=R3, txt=str(x))

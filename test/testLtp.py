@@ -5,7 +5,7 @@ u'''Test I{local tangent plane} (LTP) classes .
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.12.30'
+__version__ = '22.07.12'
 
 from base import TestsBase
 
@@ -98,10 +98,16 @@ class Tests(TestsBase):
         self.test('hfov', f.hfov, 90.0)
         self.test('vfov', f.vfov, 90.0)
 
-        t = f.footprint5(1000, -90).toStr()
+        p = f.footprint5(1000, -90)
+        t = p.toStr()
         self.test('footprint', t, t)
+        t = p.xyzLocal5().toStr()
+        self.test('footprint.xyzLocal5', t, t)
+        t = p.toLatLon5(ltp=Ltp(), LatLon=LatLon_).toStr()
+        self.test('footprint.toLatLon5', t, t)
+
         t = f.footprint5(1000, -90, 0, 44.99).toStr()
-        self.test('footprint', t, t)
+        self.test('footprint', t, t, nl=1)
 
         f = Frustum(45, 45)  # ltp=None
         t = f.footprint5(1000, -90, 0, 22.5).toStr()

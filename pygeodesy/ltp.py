@@ -33,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wra
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.06.24'
+__version__ = '22.07.12'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -343,7 +343,7 @@ class Frustum(_NamedBase):
         xy5 = ((x, y),) + _xy2(a, e - self._v_2,  self._h_2,  self._tan_h_2, r) \
                         + _xy2(a, e + self._v_2, -self._h_2, -self._tan_h_2, r)  # swapped
         # turn center and corners by yaw, clockwise
-        p = self.ltp if ltp is None else _xLtp(ltp)
+        p = self.ltp if ltp is None else ltp  # None OK
         return Footprint5Tuple(_xyz5(b, xy5, z, p))  # *_xyz5
 
     @Property_RO
@@ -696,9 +696,11 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):
                  Vector(d.x, d.y, d.z, **_xkwds(Vector_kwds, name=d.name)))  # PYCHOK indent
 
 
-def _xLtp(ltp):
+def _xLtp(ltp, *dflt):
     '''(INTERNAL) Validate B{C{ltp}}.
     '''
+    if dflt and ltp is None:
+        ltp = dflt[0]
     if isinstance(ltp, (LocalCartesian, Ltp)):
         return ltp
     raise _TypesError(_ltp_, ltp, Ltp, LocalCartesian)

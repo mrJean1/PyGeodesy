@@ -24,26 +24,29 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import modulename
 from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
+from pygeodesy.units import Northing, _100km
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
-from pygeodesy.utmupsBase import Fmt, map1, _MGRS_TILE, _to4lldn, _to3zBhp, \
-                                _UPS_ZONE, _UPS_ZONE_STR, \
-                                _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, _WGS84
+from pygeodesy.utmupsBase import Fmt, map1, _to4lldn, _to3zBhp, \
+                                _UPS_ZONE, _UPS_ZONE_STR, _UTMUPS_ZONE_MIN, \
+                                _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
 __version__ = '22.05.14'
 
-_UPS_N_MAX = 27 * _MGRS_TILE
-_UPS_N_MIN = 13 * _MGRS_TILE
-_UPS_S_MAX = 32 * _MGRS_TILE
-_UPS_S_MIN =  8 * _MGRS_TILE
+_MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
-_UTM_C_MAX =   9 * _MGRS_TILE
-_UTM_C_MIN =   1 * _MGRS_TILE
-_UTM_N_MAX =  95 * _MGRS_TILE
-_UTM_N_MIN =   0 * _MGRS_TILE
-_UTM_S_MAX = 100 * _MGRS_TILE
-_UTM_S_MIN =  10 * _MGRS_TILE
+_UPS_N_MAX = Northing( 27 * _MGRS_TILE)
+_UPS_N_MIN = Northing( 13 * _MGRS_TILE)
+_UPS_S_MAX = Northing( 32 * _MGRS_TILE)
+_UPS_S_MIN = Northing(  8 * _MGRS_TILE)
+
+_UTM_C_MAX = Northing(  9 * _MGRS_TILE)
+_UTM_C_MIN = Northing(  1 * _MGRS_TILE)
+_UTM_N_MAX = Northing( 95 * _MGRS_TILE)
+_UTM_N_MIN = Northing(  0 * _MGRS_TILE)
+_UTM_S_MAX = Northing(100 * _MGRS_TILE)
+_UTM_S_MIN = Northing( 10 * _MGRS_TILE)
 
 _UTM_N_SHIFT = _UTM_S_MAX - _UTM_N_MIN  # South minus North UTM northing
 
@@ -58,10 +61,10 @@ class _UpsMinMax(object):  # XXX _NamedEnum or _NamedTuple
 
 class _UtmMinMax(object):  # XXX _NamedEnum or _NamedTuple
     # UTM ranges for Northern, Southern hemisphere
-    eMax =  _UTM_C_MAX, _UTM_C_MAX
-    eMin =  _UTM_C_MIN, _UTM_C_MIN
-    nMax =  _UTM_N_MAX, (_UTM_N_MAX + _UTM_N_SHIFT)
-    nMin = (_UTM_S_MIN - _UTM_N_SHIFT), _UTM_S_MIN
+    eMax = _UTM_C_MAX, _UTM_C_MAX
+    eMin = _UTM_C_MIN, _UTM_C_MIN
+    nMax = _UTM_N_MAX, Northing(_UTM_N_MAX + _UTM_N_SHIFT)
+    nMin =  Northing(_UTM_S_MIN - _UTM_N_SHIFT), _UTM_S_MIN
 
 
 class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
@@ -187,8 +190,10 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
 def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
     '''Check a UTM or UPS coordinate.
 
-       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
-       @kwarg falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
+       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Etm}, L{Ups}
+                   or C{5+Tuple}).
+       @kwarg falsed: C{5+Tuple} easting and northing are falsed
+                      (C{bool}), ignored otherwise.
        @kwarg MGRS: Increase easting and northing ranges (C{bool}).
        @kwarg Error: Optional error to raise, overriding the default
                      (L{UTMUPSError}).

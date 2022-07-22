@@ -42,7 +42,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.06.26'
+__version__ = '22.07.22'
 
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
@@ -71,12 +71,12 @@ class UPSError(_ValueError):
 class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
-#   _band        =  NN        # polar band ('A', 'B', 'Y' or 'Z')
-    _Bands       = _Bands     # polar Band letters (tuple)
-    _Error       =  UPSError  # Error class
-    _pole        =  NN        # UPS projection top/center ('N' or 'S')
-#   _scale       =  None      # point scale factor (C{scalar})
-    _scale0      = _K0_UPS    # central scale factor (C{scalar})
+#   _band   =  NN        # polar band ('A', 'B', 'Y' or 'Z')
+    _Bands  = _Bands     # polar Band letters (tuple)
+    _Error  =  UPSError  # Error class
+    _pole   =  NN        # UPS projection top/center ('N' or 'S')
+#   _scale  =  None      # point scale factor (C{scalar})
+    _scale0 = _K0_UPS    # central scale factor (C{scalar})
 
     def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
                                    datum=_WGS84, falsed=True,
@@ -152,12 +152,6 @@ class Ups(UtmUpsBase):
         '''
         f = _Falsing if self.falsed else 0
         return EasNor2Tuple(f, f)
-
-    @Property_RO
-    def _mgrs(self):
-        '''(INTERNAL) Cache for L{toMgrs}.
-        '''
-        return self.toUtm(None).toMgrs()
 
     def parse(self, strUPS, name=NN):
         '''Parse a string to a similar L{Ups} instance.
@@ -251,18 +245,6 @@ class Ups(UtmUpsBase):
         ll._convergence = b * c  # gamma
         ll._scale = _scale(E, r, t) if r > 0 else self.scale0
         self._latlon5args(ll, _toBand, unfalse)
-
-    def toMgrs(self):
-        '''Convert this UPS coordinate to an MGRS grid reference.
-
-           @return: The MGRS grid reference (L{Mgrs}).
-
-           @see: Methods L{Ups.toUtm} and L{Utm.toMgrs}.
-
-           @note: If not specified, the I{polar} C{band} is computed
-                  from the (geodetic) latitude and the C{datum}.
-        '''
-        return self._mgrs
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
@@ -447,9 +429,8 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
 
     t = tan(radians(a))
     T = E.es_taupf(t)
-    r = hypot1(T) + abs(T)
-    if T >=  0:
-        r = _0_0 if A else _1_0 / r
+    r = (hypot1(T) - T) if T < 0 else (_0_0 if A else _1_0 /
+        (hypot1(T) + T))
 
     k0 = getattr(Ups, '_scale0', _K0_UPS)  # Ups is class or None
     r *= k0 * E.a * _2_0 / E.es_c

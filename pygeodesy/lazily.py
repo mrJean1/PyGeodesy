@@ -177,7 +177,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
-                                 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
+                                 'MGRSError', 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
@@ -243,7 +243,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             ltp=('Attitude', 'AttitudeError', 'Frustum', 'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
                       ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple',
                                  'Local9Tuple', 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
-                           mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
+                           mgrs=('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename',
                                  'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
@@ -404,7 +404,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.07.05'
+__version__ = '22.07.18'
 
 
 def _ALL_OTHER(*objs):

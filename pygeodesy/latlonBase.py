@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.07.03'
+__version__ = '22.07.12'
 
 
 class LatLonBase(_NamedBase):
@@ -1271,7 +1271,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{ltp}}.
         '''
-        p = self._ltp if ltp is None else _MODS.ltp._xLtp(ltp)
+        p = _MODS.ltp._xLtp(ltp, self._ltp)
         return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
 
     def toLtp(self, Ecef=None):

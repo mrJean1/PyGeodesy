@@ -78,7 +78,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.07.07'
+__version__ = '22.07.14'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -235,11 +235,12 @@ class LatLon(LatLonEllipsoidalBaseDI):
             A, B = _p2(c2a * E.e22)
 
         s = d = distance / (E.b * A)
-        for self._iteration in range(1, self._iterations):  # 1-origin
+        for i in range(1, self._iterations):  # 1-origin
             ss, cs = sincos2(s)
             c2sm = cos(s12 + s)
-            s_, s = s, d + _ds(B, cs, ss, c2sm)
+            s_, s = s, (d + _ds(B, cs, ss, c2sm))
             if abs(s - s_) < self._epsilon:
+                self._iteration = i
                 break
         else:
             raise VincentyError(self._no_convergence(), txt=repr(self))  # self.toRepr()
@@ -281,8 +282,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)
-        for self._iteration in range(1, self._iterations):  # 1-origin
-            ll_ = ll
+        for i in range(1, self._iterations):  # 1-origin
             sll, cll = sincos2(ll)
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
@@ -290,14 +290,16 @@ class LatLon(LatLonEllipsoidalBaseDI):
                 if self.isantipodeTo(other, eps=self.epsilon):
                     t = self._is_to(other, True)
                     raise VincentyError(_ambiguous_, txt=t)
+                self._iteration = i
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(_0_0, 0, 0)
 
             cs = s1s2 + c1c2 * cll
-            s = atan2(ss, cs)
+            s  = atan2(ss, cs)
 
-            sa = c1c2 * sll / ss
+            sa  = c1c2 * sll / ss
             c2a = _1_0 - sa**2
+            ll_ = ll
             if isnear0(c2a):
                 c2a = _0_0  # equatorial line
                 ll = dl + E.f * sa * s
@@ -306,6 +308,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
                 ll = dl + _dl(E.f, c2a, sa, s, cs, ss, c2sm)
 
             if abs(ll - ll_) < self._epsilon:
+                self._iteration = i
                 break
 #           # omitted and applied only after failure to converge below, see footnote
 #           # under Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
@@ -355,7 +358,7 @@ def _c2sm2(c2sm):
 def _dl(f, c2a, sa, s, cs, ss, c2sm):
     '''(INTERNAL) Dl.
     '''
-    C = f / _16_0 * c2a * (_4_0 + f * (_4_0 - _3_0 * c2a))
+    C = f / _16_0 * c2a * (f * (_4_0 - _3_0 * c2a) + _4_0)
     return (_1_0 - C) * f * sa * (s + C * ss * (c2sm +
                                       C * cs * _c2sm2(c2sm)))
 
@@ -365,9 +368,9 @@ def _ds(B, cs, ss, c2sm):
     '''
     if B:
         c2sm2 = _c2sm2(c2sm)
-        ss2 = (_4_0 * ss**2 - _3_0) * (_2_0 * c2sm2 - _1_0)
-        B *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
-                          B / _6_0 *  c2sm  * ss2))
+        ss2 = (_4_0 * ss**2 - _3_0) * (c2sm2 * _2_0 - _1_0)
+        B  *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
+                           B / _6_0 *  c2sm  * ss2))
     return B
 
 
@@ -384,7 +387,7 @@ def _r3(a, f):
     '''
     t = (_1_0 - f) * tan(radians(a))
     c =  _1_0 / hypot1(t)
-    s =  t * c
+    s =   t * c
     return c, s, t
 
 

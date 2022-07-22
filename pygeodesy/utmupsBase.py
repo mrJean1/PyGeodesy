@@ -11,10 +11,11 @@ from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, _xkwds
+from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
+                             _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _float, _invalid_, \
                              _N_, _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
-                             _0_0, _0_5, _180_0
+                             _Y_, _Z_, _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -22,13 +23,13 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
-from pygeodesy.utily import wrap90, wrap360
+from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.06.16'
+__version__ = '22.07.22'
 
-_MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
-_UPS_BANDS = _A_, _B_, 'Y', 'Z'  # UPS polar bands
+_UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
+# _UTM_BANDS = _MODS.utm._Bands
 
 _UTM_LAT_MAX  = _float( 84)          # PYCHOK for export (C{degrees})
 _UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
@@ -36,12 +37,12 @@ _UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
 _UPS_LAT_MAX  = _UTM_LAT_MAX - _0_5  # PYCHOK includes 30' UTM overlap
 _UPS_LAT_MIN  = _UTM_LAT_MIN + _0_5  # PYCHOK includes 30' UTM overlap
 
-_UTM_ZONE_MAX        =  60  # PYCHOK for export
-_UTM_ZONE_MIN        =   1  # PYCHOK for export
-_UTM_ZONE_OFF_MAX    =  60  # PYCHOK max Central meridian offset (C{degrees})
+_UTM_ZONE_MAX     =  60  # PYCHOK for export
+_UTM_ZONE_MIN     =   1  # PYCHOK for export
+_UTM_ZONE_OFF_MAX =  60  # PYCHOK max Central meridian offset (C{degrees})
 
-_UPS_ZONE            = _UTM_ZONE_MIN - 1     # PYCHOK for export
-_UPS_ZONE_STR        =  Fmt.zone(_UPS_ZONE)  # PYCHOK for export
+_UPS_ZONE     = _UTM_ZONE_MIN - 1     # PYCHOK for export
+_UPS_ZONE_STR =  Fmt.zone(_UPS_ZONE)  # PYCHOK for export
 
 _UTMUPS_ZONE_INVALID = -4             # PYCHOK for export too
 _UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too, by .units.py
@@ -107,7 +108,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
                 B = zone[-1:]
                 z = int(zone[:-1])
             elif zone.upper() in _UPS_BANDS:  # single letter
-                B = zone
+                B =  zone
                 z = _UPS_ZONE
 
         if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
@@ -122,7 +123,7 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
 
         t = _invalid_
     except (AttributeError, IndexError, TypeError, ValueError) as x:
-        t = str(x)  # no Python 3+ exception chaining
+        t =  str(x)  # no Python 3+ exception chaining
     raise Error(zone=zone, band=B, hemipole=hemipole, txt=t)
 
 
@@ -138,7 +139,7 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     x = wrap360(lon + _180_0)  # use wrap360 to get ...
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
     lon = x - _180_0  # ... lon [-180, 180) i.e. -180 <= lon < 180
-    return Zone(z), wrap90(lat), lon
+    return Zone(z), lat, lon
 
 
 class UtmUpsBase(_NamedBase):
@@ -239,7 +240,7 @@ class UtmUpsBase(_NamedBase):
         return EasNor2Tuple(self.easting, self.northing)
 
     def eastingnorthing2(self, falsed=True):
-        '''Return easting and northing, falsed or unfalsed.
+        '''Return easting and northing, both falsed or unfalsed.
 
            @kwarg falsed: If C{True} return easting and northing falsed
                           (C{bool}), otherwise unfalsed.
@@ -308,6 +309,25 @@ class UtmUpsBase(_NamedBase):
         self._latlon = ll
 
     @Property_RO
+    def _lowerleft(self):  # by .ellipsoidalBase._lowerleft
+        '''Get this UTM or UPS C{un}-centered (L{Utm} or L{Ups}) to its C{lowerleft}.
+        '''
+        return _lowerleft(self, 0)
+
+    @Property_RO
+    def _mgrs(self):
+        '''(INTERNAL) Cache for method L{toMgrs}.
+        '''
+        return _toMgrs(self)
+
+    @Property_RO
+    def _mgrs_lowerleft(self):
+        '''(INTERNAL) Cache for method L{toMgrs}, I{un}-centered.
+        '''
+        utmups = self._lowerleft
+        return self._mgrs if utmups is self else _toMgrs(utmups)
+
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
@@ -347,6 +367,24 @@ class UtmUpsBase(_NamedBase):
         '''
         notOverloaded(self, **kwds)
 
+    def toMgrs(self, center=False):
+        '''Convert this UTM or ups coordinate to an MGRS grid reference.
+
+           @kwarg center: If C{True}, I{un}-center this UTM or UPS to
+                          its C{lowerleft} (C{bool}) or by C{B{center}
+                          meter} (C{scalar}).
+
+           @return: The MGRS grid reference (L{Mgrs}).
+
+           @see: Function L{pygeodesy.toMgrs} in module L{mgrs} for more details.
+
+           @note: If not specified, the I{latitudinal} C{band} is computed from
+                  the (geodetic) latitude and the C{datum}.
+        '''
+        return self._mgrs if center in (False, 0, _0_0) else (
+               self._mgrs_lowerleft if center in (True,) else
+              _toMgrs(_lowerleft(self, center)))  # PYCHOK indent
+
     def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected
         '''(INTERNAL) Return a representation for this ETM/UTM/UPS coordinate.
         '''
@@ -368,6 +406,32 @@ class UtmUpsBase(_NamedBase):
         return t if sep is None else sep.join(t)
 
 
+def _lowerleft(utmups, center):  # by .ellipsoidalBase._lowerleft
+    '''(INTERNAL) I{Un}-center a B{C{utmups}} to its C{lowerleft} by
+       C{B{center} meter} or by a I{guess} if B{C{center}} is C{0}.
+    '''
+    if center:
+        e = n = -center
+    else:
+        c = 5  # center
+        for _ in range(3):
+            c *= 10  # 50, 500, 5000
+            t  = c * 2
+            e = int(utmups.easting  % t)
+            n = int(utmups.northing % t)
+            if (e == c and n in (c, c - 1)) or \
+               (n == c and e in (c, c - 1)):
+                break
+        else:
+            return utmups  # unchanged
+
+    r = _xkwds_not(None, datum=utmups.datum, scale=utmups.scale,
+                         convergence=utmups.convergence)
+    return utmups.classof(utmups.zone, utmups.hemisphere,
+                          utmups.easting - e, utmups.northing - n,
+                          band=utmups.band, falsed=utmups.falsed, **r)
+
+
 def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
     '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
        consisting of C{"zone[band] hemisphere/pole easting northing"}.
@@ -384,15 +448,15 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
     def _UTMUPS5(strUTMUPS, UPS, band, sep):
         u = strUTMUPS.lstrip()
         if UPS and not u.startswith(_UPS_ZONE_STR):
-            raise ValueError
+            raise ValueError(_not_(_UPS_ZONE_STR))
 
         u = u.replace(sep, _SPACE_).strip().split()
         if len(u) < 4:
-            raise ValueError
+            raise ValueError(_not_(sep))
 
         z, h = u[:2]
         if h[:1].upper() not in _NS_:
-            raise ValueError
+            raise ValueError(_SPACE_(h, _not_(_NS_)))
 
         if z.isdigit():
             z, B = int(z), band
@@ -403,13 +467,19 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
                     z, B = int(z[:i]), z[i:]
                     break
             else:
-                raise ValueError
+                raise ValueError(z)
 
         e, n = map(float, u[2:4])
         return z, h.upper(), e, n, B.upper()
 
     return _parseX(_UTMUPS5, strUTMUPS, UPS, band, sep,
                              strUTMUPS=strUTMUPS, Error=Error)
+
+
+def _toMgrs(utmups):
+    '''(INTERNAL) Convert a L{Utm} or L{Ups} to an L{Mgrs} instance.
+    '''
+    return _MODS.mgrs.toMgrs(utmups, datum=utmups.datum, name=utmups.name)
 
 
 __all__ += _ALL_DOCS(UtmUpsBase)

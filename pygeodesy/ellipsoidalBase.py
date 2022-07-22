@@ -13,26 +13,27 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
-from pygeodesy.cartesianBase import CartesianBase, Vector3Tuple
+from pygeodesy.cartesianBase import CartesianBase, _ellipsoidal_  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
                             _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds, \
                              _xkwds_get, _xkwds_not
-from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
+# from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
-                             _conversion_, _datum_, _DOT_, _N_, _no_, \
-                             _reframe_, _SPACE_, _0_0
-from pygeodesy.latlonBase import LatLonBase, _trilaterate5
+                             _conversion_, _datum_, _DOT_, _no_, _reframe_, \
+                             _SPACE_, _0_0, _0_5
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5, Vector3Tuple
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.lcc import toLcc  # from .cartesianBase
-# from pygeodesy.namedTuples import Vector3Tuple  # from .cartesianBase
+# from pygeodesy.lcc import toLcc  # from ._MODS
+# from pygeodesy.named import notOverloaded  # from ._MODS
+# from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
 from pygeodesy.props import deprecated_method, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.07.07'
+__version__ = '22.07.19'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -44,7 +45,7 @@ class CartesianEllipsoidalBase(CartesianBase):
 #   def __matmul__(self, other):  # PYCHOK Python 3.5+
 #       '''Return C{NotImplemented} for C{c_ = c @ datum}, C{c_ = c @ reframe} and C{c_ = c @ Transform}.
 #       '''
-#       from pygeodesy.trf import RefFrame
+#       RefFrame = _MODS.trf.RefFrame
 #       return NotImplemented if isinstance(other, (Datum, RefFrame, Transform)) else \
 #             _NotImplemented(self, other)
 
@@ -213,7 +214,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 #   def __matmul__(self, other):  # PYCHOK Python 3.5+
 #       '''Return C{NotImplemented} for C{ll_ = ll @ datum} and C{ll_ = ll @ reframe}.
 #       '''
-#       from pygeodesy.trf import RefFrame
+#       RefFrame = _MODS.trf.RefFrame
 #       return NotImplemented if isinstance(other, (Datum, RefFrame)) else \
 #             _NotImplemented(self, other)
 
@@ -438,6 +439,11 @@ class LatLonEllipsoidalBase(LatLonBase):
             LatLonEllipsoidalBase._geoidHeight2._update(self)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
 
+    def intermediateTo(self, other, fraction, height=None, wrap=False):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        _MODS.named.notOverloaded(self, other, fraction, height=height, wrap=wrap)
+
     def intersection3(self, end1, other, end2, height=None, wrap=True,
                                           equidistant=None, tol=_TOL_M):
         '''Iteratively compute the intersection point of two paths, each
@@ -568,6 +574,26 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         lcc = _MODS.lcc
         return lcc.toLcc(self, height=self.height, Lcc=lcc.Lcc, name=self.name)
+
+    def midpointTo(self, other, height=None, fraction=_0_5, wrap=False):
+        '''Find the midpoint on a geodesic between this and an other point.
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg height: Optional height for midpoint, overriding the
+                          mean height (C{meter}).
+           @kwarg fraction: Midpoint location from this point (C{scalar}),
+                            may be negative or greater than 1.0.
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Midpoint (C{LatLon}).
+
+           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+
+           @raise ValueError: Invalid B{C{height}}.
+
+           @see: Methods C{intermediateTo} and C{rhumbMidpointTo}.
+        '''
+        return self.intermediateTo(other, fraction, height=height, wrap=wrap)
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
@@ -765,18 +791,20 @@ class LatLonEllipsoidalBase(LatLonBase):
         return self._lcc if not toLcc_kwds else _MODS.lcc.toLcc(
                self, **_xkwds(toLcc_kwds, name=self.name))
 
-    def toMgrs(self, center=False):
+    def toMgrs(self, center=False, pole=NN):
         '''Convert this C{LatLon} point to an MGRS coordinate.
 
            @kwarg center: If C{True}, try to I{un}-center MGRS
                           to its C{lowerleft} (C{bool}) or by
                           C{B{center} meter} (C{scalar}).
+           @kwarg pole: Optional top/center for the MGRS UPS
+                        projection (C{str}, 'N[orth]' or 'S[outh]').
 
            @return: The MGRS coordinate (L{Mgrs}).
 
-           @see: Method L{toUtm} and L{Mgrs.toLatLon}.
+           @see: Method L{toUtmUps} and L{Mgrs.toLatLon}.
         '''
-        return self.toUtm(center=center).toMgrs(center=False)
+        return self.toUtmUps(center=center, pole=pole).toMgrs(center=False)
 
     def toOsgr(self, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
@@ -831,12 +859,15 @@ class LatLonEllipsoidalBase(LatLonBase):
             ll = self.copy(name=name) if name else self
         return ll
 
-    def toUps(self, pole=_N_, falsed=True):
+    def toUps(self, pole=NN, falsed=True, center=False):
         '''Convert this C{LatLon} point to a UPS coordinate.
 
            @kwarg pole: Optional top/center of (stereographic)
                         projection (C{str}, 'N[orth]' or 'S[outh]').
            @kwarg falsed: False easting and northing (C{bool}).
+           @kwarg center: If C{True}, I{un}-center the UPS
+                          to its C{lowerleft} (C{bool}) or
+                          by C{B{center} meter} (C{scalar}).
 
            @return: The UPS coordinate (L{Ups}).
 
@@ -848,7 +879,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             ups = _MODS.ups
             u = ups.toUps8(self, datum=self.datum, Ups=ups.Ups,
                                  pole=pole, falsed=falsed)
-        return u
+        return _lowerleft(u, center)
 
     def toUtm(self, center=False):
         '''Convert this C{LatLon} point to a UTM coordinate.
@@ -861,23 +892,18 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Method L{Mgrs.toUtm} and function L{pygeodesy.toUtm8}.
         '''
-        if center in (False, 0, _0_0):
-            u = self._utm
-        elif center in (True,):
-            u = self._utm._lowerleft
-        else:
-            u = _MODS.utm._lowerleft(self._utm, center)
-        return u
+        return _lowerleft(self._utm, center)
 
-    def toUtmUps(self, pole=NN):
+    def toUtmUps(self, pole=NN, center=False):
         '''Convert this C{LatLon} point to a UTM or UPS coordinate.
 
            @kwarg pole: Optional top/center of UPS (stereographic)
                         projection (C{str}, 'N[orth]' or 'S[outh]').
+           @kwarg center: If C{True}, I{un}-center the UTM or UPS to
+                          its C{lowerleft} (C{bool}) or by C{B{center}
+                          meter} (C{scalar}).
 
            @return: The UTM or UPS coordinate (L{Utm} or L{Ups}).
-
-           @raise TypeError: Result in L{Utm} or L{Ups}.
 
            @see: Function L{pygeodesy.toUtmUps8}.
         '''
@@ -886,16 +912,16 @@ class LatLonEllipsoidalBase(LatLonBase):
         elif self._upsOK(pole):
             u = self._ups
         else:  # no cover
-            from pygeodesy.utmups import toUtmUps8, Utm, Ups  # utmups = _MODS.utmups
-            u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
-                                pole=pole, name=self.name)
-            if isinstance(u, Utm):
+            utmups = _MODS.utmups
+            u = utmups.toUtmUps8(self, datum=self.datum, pole=pole, name=self.name,
+                                       Utm=utmups.Utm, Ups=utmups.Ups)
+            if isinstance(u, utmups.Utm):
                 self._update(False, _utm=u)  # PYCHOK kwds
-            elif isinstance(u, Ups):
+            elif isinstance(u, utmups.Ups):
                 self._update(False, _ups=u)  # PYCHOK kwds
             else:
-                _xinstanceof(Utm, Ups, toUtmUps8=u)
-        return u
+                _xinstanceof(utmups.Utm, utmups.Ups, toUtmUps8=u)
+        return _lowerleft(u, center)
 
     def toWm(self, **toWm_kwds):
         '''Convert this C{LatLon} point to a WM coordinate.
@@ -1020,6 +1046,18 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as webmercator (L{Wm}).
         '''
         return _MODS.webmercator.toWm(self)
+
+
+def _lowerleft(utmups, center):
+    '''(INTERNAL) Optionally I{un}-center C{utmups}.
+    '''
+    if center in (False, 0, _0_0):
+        u = utmups
+    elif center in (True,):
+        u = utmups._lowerleft
+    else:
+        u = _MODS.utmupsBase._lowerleft(utmups, center)
+    return u
 
 
 def _nearestOn(point, point1, point2, within=True, height=None, wrap=True,

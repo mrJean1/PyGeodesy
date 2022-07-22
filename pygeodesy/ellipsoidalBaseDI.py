@@ -30,7 +30,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.07.04'
+__version__ = '22.07.08'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'
@@ -242,7 +242,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
 
-           @see: Methods L{distanceTo3} and L{destination}.
+           @see: Methods L{distanceTo3}, L{destination}, C{midpointTo} and
+                 C{rhumbMidpointTo}.
         '''
         f = Scalar(fraction=fraction)
         if isnear0(f):

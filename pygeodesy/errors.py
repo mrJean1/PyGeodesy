@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.07.03'
+__version__ = '22.07.18'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -199,6 +199,12 @@ class LimitError(_ValueError):
        the B{C{limit}} in functions L{pygeodesy.equirectangular} and
        L{pygeodesy.equirectangular_} and several C{nearestOn*} and
        C{simplify*} functions or methods.
+    '''
+    pass
+
+
+class MGRSError(_ValueError):
+    '''Military Grid Reference System (MGRS) parse or other L{Mgrs} issue.
     '''
     pass
 
@@ -480,7 +486,9 @@ def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=Pars
 
     except RangeError as x:
         E, t = type(x), str(x)
-    except (AttributeError, IndexError, TypeError, ValueError) as x:
+    except Exception as x:
+        if _exception_chaining:
+            raise
         E, t = ParseError, str(x)
     raise _InvalidError(**_xkwds(name_values_Error, Error=E, txt=t))
 
