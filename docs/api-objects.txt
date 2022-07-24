@@ -3257,6 +3257,7 @@ pygeodesy.units	pygeodesy.units-module.html
 pygeodesy.units._2000km	pygeodesy.units-module.html#_2000km
 pygeodesy.units._xUnit	pygeodesy.units-module.html#_xUnit
 pygeodesy.units.issubclassof	pygeodesy.basics-module.html#issubclassof
+pygeodesy.units._toDMS	pygeodesy.dms-module.html#_toDMS
 pygeodesy.units.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.units.isstr	pygeodesy.basics-module.html#isstr
 pygeodesy.units._IsnotError	pygeodesy.errors-module.html#_IsnotError
@@ -3264,7 +3265,7 @@ pygeodesy.units._xUnits	pygeodesy.units-module.html#_xUnits
 pygeodesy.units.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.units.__all__	pygeodesy.units-module.html#__all__
 pygeodesy.units._Str_NN	pygeodesy.units-module.html#_Str_NN
-pygeodesy.units._toDMS	pygeodesy.dms-module.html#_toDMS
+pygeodesy.units._1um	pygeodesy.units-module.html#_1um
 pygeodesy.units.modulename	pygeodesy.named-module.html#modulename
 pygeodesy.units._Str_meter	pygeodesy.units-module.html#_Str_meter
 pygeodesy.units._1mm	pygeodesy.units-module.html#_1mm

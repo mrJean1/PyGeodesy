@@ -111,9 +111,11 @@ class Tests(TestsBase):
         t = m.toLatLon()  # always centered
         self.test('toLatLon', str(t), "(83.627518, -32.664231, Datum(name='WGS84', ", known=startswith)
         self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=83.627518, lon=-32.664231, ", known=startswith)
+        m = LatLon(83.627518, -32.664231).toMgrs()
+        self.test('toMgrsX!', str(m), '25X EN 04160 86523')  # not '00Y UB 17770 03800'
 
         # courtesy of U{CF-FHB-X<https://GitHub.com/mrJean1/PyGeodesy/issues/70>}
-        m = mgrs.parseMGRS('BFS7751499182')  # NOT VERIFIED
+        m = mgrs.parseMGRS('BFS7751499182')  # GeoConvert
         self.test('MgrsB', str(m), '00B FS 77514 99182', nl=1)
         self.test('MgrsB', repr(m), '[Z:00B, G:FS, E:77514, N:99182]')
         t = m.toUtmUps(center=False)
@@ -122,6 +124,34 @@ class Tests(TestsBase):
         t = m.toLatLon()  # always centered
         self.test('toLatLon', str(t), "(-84.367192, 37.098959, Datum(name='WGS84', ", known=startswith)
         self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=-84.367192, lon=37.098959, ", known=startswith)
+        m = LatLon(-84.367192, 37.098959).toMgrs()
+        self.test('toMgrsB', str(m), '00B FS 77514 99182')
+
+        # DMA TM 8358.1 Appendix B <https://Apps.DTIC.mil/sti/pdfs/ADA247651.pdf>
+        m = mgrs.parseMGRS('45SXT4791')  # GeoConvert
+        self.test('MgrsS', str(m), '45S XT 47000 91000', nl=1)
+        self.test('MgrsS', repr(m), '[Z:45S, G:XT, E:47000, N:91000]')
+        t = m.toUtmUps(center=True)
+        self.test('toUtmUps', str(t), '45 N 647500 3791500')
+        self.test('toUtmUps', repr(t), '[Z:45S, H:N, E:647500, N:3791500]')
+        t = m.toLatLon()  # always centered
+        self.test('toLatLon', str(t), "(34.254177, 88.601932, Datum(name='WGS84', ", known=startswith)
+        self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=34.254177, lon=88.601932, ", known=startswith)
+        m = LatLon(34.254177, 88.601932).toMgrs()
+        self.test('toMgrsS', str(m), '45S XT 47499 91499')
+
+        # DMA TM 8358.1 Appendix B <https://Apps.DTIC.mil/sti/pdfs/ADA247651.pdf>
+        m = mgrs.parseMGRS('YXK3543')  # GeoConvert
+        self.test('MgrsY', str(m), '00Y XK 35000 43000', nl=1)
+        self.test('MgrsY', repr(m), '[Z:00Y, G:XK, E:35000, N:43000]')
+        t = m.toUtmUps(center=True)
+        self.test('toUtmUps', str(t), '00 N 1735500 2243500')
+        self.test('toUtmUps', repr(t), '[Z:00Y, H:N, E:1735500, N:2243500]')
+        t = m.toLatLon()  # always centered
+        self.test('toLatLon', str(t), "(86.762629, -132.632821, Datum(name='WGS84', ", known=startswith)
+        self.test('toLatLon', repr(t), "LatLonDatum5Tuple(lat=86.762629, lon=-132.632821, ", known=startswith)
+        m = LatLon(86.762629, -132.632821).toMgrs()
+        self.test('toMgrsY', str(m), '00Y XK 35499 43500', nt=1)
 
 
 if __name__ == '__main__':

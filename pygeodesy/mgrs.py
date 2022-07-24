@@ -3,8 +3,8 @@
 
 u'''Military Grid Reference System (MGRS/NATO) references.
 
-Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and
-L{MGRSError} and functions L{parseMGRS} and L{toMgrs}.
+Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and L{MGRSError}
+and functions L{parseMGRS} and L{toMgrs}.
 
 Pure Python implementation of MGRS / UTM / UPS conversion functions using
 an ellipsoidal earth model, in part transcoded from JavaScript originals by
@@ -12,15 +12,18 @@ I{(C) Chris Veness 2014-2016} published under the same MIT Licence**, see
 U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
 U{Module mgrs<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>}.
 
-The MGRS/NATO grid references provides geocoordinate references covering
-the entire globe, based on UTM and UPS projections.
+The MGRS/NATO grid references provide geocoordinate references covering the entire
+globe, based on UTM and UPS projections.
 
-MGRS references comprise a grid zone designation, a 100 km grid tile
-identification, and an easting and northing (in C{meter}).
+MGRS references comprise a grid zone designation (GZD), a 100 km grid (square)
+tile identification, and an easting and northing (in C{meter}).  The GZD consists
+of a longitudinal zone (or column) number and latitudinal band (row) letter.  Each
+zone (column) is 6 degrees wide and each band (row) is 8 degrees high, except the
+top one 'X' is 12 degrees tall.
 
-See also U{United States National Grid
-<https://www.FGDC.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>}
-and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_reference_system>}.
+See also the U{United States National Grid<https://www.FGDC.gov/standards/projects/
+FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>} and U{Military Grid
+Reference System<https://WikiPedia.org/wiki/Military_grid_reference_system>}.
 '''
 
 from pygeodesy.basics import halfs2, _xinstanceof
@@ -29,14 +32,15 @@ from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, _A_, _AtoZnoIO_, _band_, _B_, _COMMASPACE_, \
                              _datum_, _easting_, _northing_, _not_, _SPACE_, \
-                             _splituple, _Y_, _Z_, _zone_, _0_5, _N_90_0
+                             _splituple, _W_, _Y_, _Z_, _zone_, _0_, \
+                             _0_5, _N_90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, Property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
 from pygeodesy.units import Easting, Northing, Str, _100km
-from pygeodesy.units import _2000km  # PYCHOK used!
+from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_LAT_MAX, \
                          _UTM_ZONE_MAX, _UTM_ZONE_MIN
@@ -44,7 +48,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_LAT_MAX, \
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.07.22'
+__version__ = '22.07.23'
 
 # <https://GitHub.com/hrbrmstr/mgrs/blob/master/src/mgrs.c>
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -67,22 +71,22 @@ class _RE(object):
     '''(INTERNAL) Lazily compiled regex-es.
     '''
     @Property_RO
-    def MGRS_UPS(self):  # split an MGRS polar string "AEN1235..." into 3 parts
+    def MGRS_UPS(self):  # split an MGRS polar string "BEN1235..." into 3 parts
         import re  # PYCHOK warning locale.Error
         return re.compile('([ABYZ]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
 
     @Property_RO
-    def MGRS_UTM(self):  # split an MGRS string "12CEN1235..." into 3 parts
+    def MGRS_UTM(self):  # split an MGRS string "12BEN1235..." into 3 parts
         import re  # PYCHOK warning locale.Error
         return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
 
     @Property_RO
-    def ZBG_UPS(self):  # split an MGRS polar string "12AEN" into 2 parts
+    def ZBEN_UPS(self):  # split an MGRS polar string "BEN" into 2 parts
         import re  # PYCHOK warning locale.Error
         return re.compile('([ABYZ]{1})([A-Z]{2})', re.IGNORECASE)
 
     @Property_RO
-    def ZBG_UTM(self):  # split an MGRS string "12ABC" into 2 parts
+    def ZBEN_UTM(self):  # split an MGRS string "12BEN" into 2 parts
         import re  # PYCHOK warning locale.Error
         return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)
 
@@ -112,9 +116,9 @@ class Mgrs(_NamedBase):
                         <http://Wikipedia.org/wiki/Military_Grid_Reference_System>}.
            @arg easting: Easting (C{meter}), within 100 km grid tile.
            @arg northing: Northing (C{meter}), within 100 km grid tile.
-           @kwarg band: Optional, 8° I{latitudinal} band (C{str}), 'C'|..|'X'
+           @kwarg band: Optional, 8° I{latitudinal} band (C{str}), 'C'|..|'W'|'X'
                         covering 80°S..84°N (without 'I' and 'O') or I{polar}
-                        region 'A'|''B']'Y'|'Z'.
+                        region 'A'|'B' at the south or 'Y'|'Z' at the north pole.
            @kwarg datum: Optional this reference's datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg resolution: Optional resolution, cell size (C{meter}) or C{0}.
@@ -153,7 +157,8 @@ class Mgrs(_NamedBase):
 
     @Property_RO
     def band(self):
-        '''Get the I{latitudinal} C{'C'|..|'W'|'X'} or I{polar} C{'A'|'B'|'Y'|'Z'}) band (C{str}).
+        '''Get the I{latitudinal} C{'C'|..|'W'|'X'} or I{polar}
+           C{'A'|'B'|'Y'|'Z'}) band letter (C{str}).
         '''
         return self._band
 
@@ -411,9 +416,12 @@ class Mgrs(_NamedBase):
         # add enough 2,000 km blocks to get into required band
         e += self.easting
         n += self.northing
-        while n < self.northingBottom:
-            n += _2000km
-
+        if self.isUTM:
+            b = (self.northingBottom - n) / _2000km
+            if b > 0:
+                b  = int(b + 1)
+                b  = min(b, (3 if self.band == _W_ else 4))
+                n += b * _2000km
         if center:
             c = self.resolution * _0_5
             if c:
@@ -428,13 +436,13 @@ class Mgrs(_NamedBase):
 
     @Property_RO
     def zone(self):
-        '''Get the longitudal zone (C{int}, 1..60 or 0 for polar).
+        '''Get the I{longitudinal} zone (C{int}, 1..60 or 0 for polar).
         '''
         return self._zone
 
     @Property_RO
     def zoneB(self):
-        '''Get the (longitudal) zone and (latitudinal) band letter (C{str}).
+        '''Get the I{longitudinal} zone digits and I{latitudinal} band letter (C{str}).
         '''
         return NN(Fmt.zone(self.zone), self.band)
 
@@ -502,11 +510,12 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         >>> m = mgrs.parseMGRS('YUB17770380')  # polar
         >>> str(m)  # '00Y UB 17770 03800'
     '''
-    def _mg(s, RE_UTM, RE_UPS):  # return re.match groups
-        m = RE_UTM.match(s)
+    def _mg(s, re_UTM, re_UPS):  # return re.match groups
+        s = s.lstrip(_0_)
+        m = re_UTM.match(s)
         if m:
             return m.groups()
-        m = RE_UPS.match(s)
+        m = re_UPS.match(s)
         if m:
             m = m.groups()
             t = '00' + m[0]
@@ -520,24 +529,24 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
 
     def _MGRS(strMGRS, datum, Mgrs, name):
         m = _splituple(strMGRS)
-        if len(m) == 1:  # 01ABC1234512345'
+        if len(m) == 1:  # [01]BEN1234512345'
             m = _mg(m[0], _RE.MGRS_UTM, _RE.MGRS_UPS)
             m = m[:2] + halfs2(m[2])
-        elif len(m) == 2:  # 01ABC 1234512345'
-            m = _mg(m[0], _RE.ZBG_UTM, _RE.ZBG_UPS) + halfs2(m[1])
-        elif len(m) == 3:  # 01ABC 12345 12345'
-            m = _mg(m[0], _RE.ZBG_UTM, _RE.ZBG_UPS) + m[1:]
-        if len(m) != 4:  # 01A BC 1234 12345
+        elif len(m) == 2:  # [01]BEN 1234512345'
+            m = _mg(m[0], _RE.ZBEN_UTM, _RE.ZBEN_UPS) + halfs2(m[1])
+        elif len(m) == 3:  # [01]BEN 12345 12345'
+            m = _mg(m[0], _RE.ZBEN_UTM, _RE.ZBEN_UPS) + m[1:]
+        if len(m) != 4:  # [01]B EN 12345 12345
             raise ValueError
         e, n = map(_s2m, m[2:])
 
-        z, EN = m[0], m[1].upper()
+        zB, EN = m[0], m[1].upper()
         if Mgrs is None:
-            r = Mgrs4Tuple(z, EN, e, n, name=name)
+            r = Mgrs4Tuple(zB, EN, e, n, name=name)
         else:
             p = max(map(len, m[2:]))  # precision 1..5
             m = 10**(5 - p)  # resolution in meter
-            r = Mgrs(z, EN, e, n, datum=datum, resolution=m, name=name)
+            r = Mgrs(zB, EN, e, n, datum=datum, resolution=m, name=name)
         return r
 
     return _parseX(_MGRS, strMGRS, datum, Mgrs, name,
@@ -603,9 +612,28 @@ def _um100km2(m):
     '''(INTERNAL) An MGRS east-/northing truncated to micrometer (um)
        precision and to grid tile C{M} and C{m}eter within the tile.
     '''
-    m = int(m * 1.e+6) * 1.e-6  # micrometer
+    m = int(m / _1um) * _1um  # micrometer
     M, m = divmod(m, _100km)
     return int(M), m
+
+
+if __name__ == '__main__':
+
+    from pygeodesy.ellipsoidalVincenty import LatLon
+    from pygeodesy.lazily import printf
+
+    e = n = 0
+    for lat in range(-89, 90, 1):
+        for lon in range(-173, 180, 1):
+            m = LatLon(lat, lon).toMgrs()
+            t = m.toLatLon(LatLon=LatLon)
+            d = max(abs(t.lat - lat), abs(t.lon - lon))
+            if d > 1e-9:
+                e += 1
+                printf('%s: %s %s vs %s %.6e', e, m, t.latlon, (float(lat), float(lon)), d)
+            n += 1
+    p = e * 100.0 / n
+    printf('%s/%s failures (%.2f%%)', (e if e else 'no'), n, p)
 
 # **) MIT License
 #
