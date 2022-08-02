@@ -95,6 +95,10 @@ Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{Equi
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable.
 
+To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s C++ utility
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must
+be executable.
+
 Module L{rhumbsolve} needs I{Karney}'s C++ utility U{RhumbSolve
 <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable.
 
@@ -110,31 +114,31 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests have been run with Python 3.10.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>},
-2.0, U{numpy<https://PyPI.org/project/numpy>} 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.8.1),
-Python 3.9.6, Python 3.8.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52, U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} 1.51, U{numpy<https://PyPI.org/project/numpy>}
-1.19.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} 1.51, all on macOS 12.4 Monterey and in 64-bit
-only.  The tests are run with and without C{lazy import} for Python 3 and with command line option C{-W default}
-and env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of only those tests are included
-in the distribution files.
+The tests ran with Python 3.11.0b5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python
+3.10.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.22.4,
+U{scipy<https://PyPI.org/project/scipy>} 1.8.1, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
+1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), Python 3.9.6, Python 3.8.10 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
+<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 12.5 Monterey and in 64-bit only.
 
-Python 3.10.5 and 3.9.6 run on Apple M1 Silicon (C{arm64} I{natively}), all other Python versions run on Intel
-(C{x86_64}) or Intel I{emulation} (C{"arm64_x86_64"}, see function L{pygeodesy.machine}).
+All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
+C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.5 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.22.4 and
-U{scipy<https://PyPI.org/project/scipy>} 1.8.1), Python 3.9.6, Python 3.8.10 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.52, U{numpy <https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
-<https://PyPI.org/project/scipy>} 1.5.2) and Python 2.7.18 (U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}).  The complete coverage report in HTML and
-a PDF summary are included in the distribution files.
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.5, 3.9.6
+and 2.7.18.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-The tests also ran with Python 3.10.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0)
-on U{Debian 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python
-3.9.6, 3.8.0 and 2.7.17 (all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on
-U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
+Python 3.11.0b5, 3.10.5 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on Intel
+(C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}"), see function L{pygeodesy.machine}.
+
+The tests also ran with Python 3.10.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
+11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17 (all
+with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows Server 2012R2
+<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
@@ -148,11 +152,11 @@ with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-1
 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python
 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-3.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS
 X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>}
-(with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or
-iPhone10, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2
+(with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10
+and/or iPhone12, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2
 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and with 32-bit
 Python 2.6.6 on Windows XP SP3.
 
@@ -164,7 +168,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.4, both in 64-bit on macOS 12.4 Monterey.
+using Python 3.10.4, both in 64-bit on macOS 12.5 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -181,10 +185,12 @@ Env vars
 The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
+ - C{PYGEODESY_GEOCONVERT} - see module L{pygeodesy.mgrs}.
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
  - C{PYGEODESY_NOTIMPLEMENTED} - __special__ methods return C{NotImplemented} if set to "std".
  - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumbsolve}.
+ - C{PYGEODESY_UPS_POLES} - see modules L{pygeodesy.ups} and L{pygeodesy.mgrs}.
 
  - C{PYGEODESY_BEARING_STD_REPR} - see method L{pygeodesy.Bearing}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
@@ -562,7 +568,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.07.22'
+__version__ = '22.08.02'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

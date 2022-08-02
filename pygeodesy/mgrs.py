@@ -3,27 +3,35 @@
 
 u'''Military Grid Reference System (MGRS/NATO) references.
 
-Military Grid Reference System (MGRS/NATO) classes L{Mgrs} and L{MGRSError}
-and functions L{parseMGRS} and L{toMgrs}.
+Classes L{Mgrs}, L{Mgrs4Tuple} and L{Mgrs6Tuple} and functions L{parseMGRS}
+and L{toMgrs}.
 
-Pure Python implementation of MGRS / UTM / UPS conversion functions using
-an ellipsoidal earth model, in part transcoded from JavaScript originals by
-I{(C) Chris Veness 2014-2016} published under the same MIT Licence**, see
-U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and
-U{Module mgrs<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>}.
-
-The MGRS/NATO grid references provide geocoordinate references covering the entire
-globe, based on UTM and UPS projections.
+Pure Python implementation of MGRS, UTM and UPS conversion functions using an
+ellipsoidal earth model, in part transcoded from JavaScript originals by I{(C)
+Chris Veness 2014-2016} published under the same MIT Licence**, see U{MGRS
+<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and U{Module
+mgrs<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>}.
 
 MGRS references comprise a grid zone designation (GZD), a 100 km grid (square)
-tile identification, and an easting and northing (in C{meter}).  The GZD consists
-of a longitudinal zone (or column) number and latitudinal band (row) letter.  Each
-zone (column) is 6 degrees wide and each band (row) is 8 degrees high, except the
-top one 'X' is 12 degrees tall.
+tile identification and an easting and northing (in C{meter}).  The GZD consists
+of a longitudinal zone (or column) I{number} and latitudinal band (row) I{letter}
+in the UTM region between 80°S and 84°N.  Each zone (column) is 6° wide and each
+band (row) is 8° high, except top band 'X' is 12° tall.  In UPS polar regions
+below 80°S and above 84°N the GZD contains only a single I{letter}, C{'A'} or
+C{'B'} near the south and C{'Y'} or C{'Z'} around the north pole (for west
+respectively east longitudes).
 
 See also the U{United States National Grid<https://www.FGDC.gov/standards/projects/
 FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf>} and U{Military Grid
 Reference System<https://WikiPedia.org/wiki/Military_grid_reference_system>}.
+
+See module L{pygeodesy.ups} for env variable C{PYGEODESY_UPS_POLES} determining
+the UPS encoding I{at} the south and north pole.
+
+Set env variable C{PYGEODESY_GEOCONVERT} to the (fully qualified) path of the
+C{GeoConvert} executable to run this module as I{python[3] -m pygeodesy.mgrs}
+and compare the MGRS results with those from I{Karney}'s utility U{GeoConvert
+<https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>}.
 '''
 
 from pygeodesy.basics import halfs2, _xinstanceof
@@ -31,32 +39,29 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, _A_, _AtoZnoIO_, _band_, _B_, _COMMASPACE_, \
-                             _datum_, _easting_, _northing_, _not_, _SPACE_, \
-                             _splituple, _W_, _Y_, _Z_, _zone_, _0_, \
-                             _0_5, _N_90_0
+                             _datum_, _easting_, _invalid_, _northing_, _not_, \
+                             _SPACE_, _splituple, _W_, _Y_, _Z_, _zone_, _0_, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
-from pygeodesy.props import deprecated_property_RO, Property_RO
+from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
 from pygeodesy.units import Easting, Northing, Str, _100km
 from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
-from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_LAT_MAX, \
-                         _UTM_ZONE_MAX, _UTM_ZONE_MIN
+from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.07.23'
+__version__ = '22.08.01'
 
-# <https://GitHub.com/hrbrmstr/mgrs/blob/master/src/mgrs.c>
+_AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
-_B2UPS  = {_A_: _N_90_0, _Y_: _UTM_LAT_MAX,  # UPS band bottom latitudes,
-           _B_: _N_90_0, _Z_: _UTM_LAT_MAX}  # PYCHOK see .utm._to3zBlat
+# <https://GitHub.com/hrbrmstr/mgrs/blob/master/src/mgrs.c>
 _FeUPS  = {_A_: 8, _B_: 20, _Y_:  8, _Z_: 20}  # falsed offsets (C{_100kms})
 _FnUPS  = {_A_: 8, _B_:  8, _Y_: 13, _Z_: 13}  # falsed offsets (C{_100kms})
-_JtoZx_ = 'JKLPQRSTUXYZ'  # _AtoZnoDEIMNOVW.fromJ
+_JtoZx_ = 'JKLPQRSTUXYZZ'  # _AtoZnoDEIMNOVW.fromJ, duplicate Z
 # 100 km grid tile UTM column (E) letters, repeating every third zone
 _LeUTM  = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
 # 100 km grid tile UPS column (E) letters for each polar zone
@@ -65,32 +70,6 @@ _LeUPS  = {_A_: _JtoZx_, _B_: 'ABCFGHJKLPQR', _Y_: _JtoZx_, _Z_: 'ABCFGHJ'}
 _LnUTM  = _AtoZnoIO_.tillV, _AtoZnoIO_.fromF.tillV + _AtoZnoIO_.tillE  # grid N rows
 _LnUPS  = {_A_: _AtoZnoIO_, _B_: _AtoZnoIO_, _Y_: _AtoPx_, _Z_: _AtoPx_}
 _polar_ = _SPACE_('polar', _zone_)
-
-
-class _RE(object):
-    '''(INTERNAL) Lazily compiled regex-es.
-    '''
-    @Property_RO
-    def MGRS_UPS(self):  # split an MGRS polar string "BEN1235..." into 3 parts
-        import re  # PYCHOK warning locale.Error
-        return re.compile('([ABYZ]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
-
-    @Property_RO
-    def MGRS_UTM(self):  # split an MGRS string "12BEN1235..." into 3 parts
-        import re  # PYCHOK warning locale.Error
-        return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
-
-    @Property_RO
-    def ZBEN_UPS(self):  # split an MGRS polar string "BEN" into 2 parts
-        import re  # PYCHOK warning locale.Error
-        return re.compile('([ABYZ]{1})([A-Z]{2})', re.IGNORECASE)
-
-    @Property_RO
-    def ZBEN_UTM(self):  # split an MGRS string "12BEN" into 2 parts
-        import re  # PYCHOK warning locale.Error
-        return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)
-
-_RE = _RE()  # PYCHOK singleton
 
 
 class Mgrs(_NamedBase):
@@ -106,26 +85,28 @@ class Mgrs(_NamedBase):
     _resolution =  0      # MGRS cell size (C{meter})
     _zone       =  0      # longitudinal or polar zone (C{int}), 0..60
 
-    def __init__(self, zone, en100k, easting, northing, band=NN,
-                             datum=_WGS84, resolution=0, name=NN):
+    def __init__(self, zone=0, EN=NN, easting=0, northing=0, band=NN,
+                               datum=_WGS84, resolution=0, name=NN):
         '''New L{Mgrs} Military grid reference.
 
-           @arg zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
-           @arg en100k: Two-letter EN digraph (C{str}), 100 km grid tile using
-                        I{only} the I{AA} or I{MGRS-New} (row) U{lettering scheme
-                        <http://Wikipedia.org/wiki/Military_Grid_Reference_System>}.
-           @arg easting: Easting (C{meter}), within 100 km grid tile.
-           @arg northing: Northing (C{meter}), within 100 km grid tile.
-           @kwarg band: Optional, 8° I{latitudinal} band (C{str}), 'C'|..|'W'|'X'
-                        covering 80°S..84°N (without 'I' and 'O') or I{polar}
-                        region 'A'|'B' at the south or 'Y'|'Z' at the north pole.
-           @kwarg datum: Optional this reference's datum (L{Datum}, L{Ellipsoid},
+           @arg zone: The 6° I{longitudinal} zone (C{int}), 1..60 covering
+                      180°W..180°E or C{0} for I{polar} regions or (C{str})
+                      with the zone number and I{latitudinal} band letter.
+           @arg EN: Two-letter EN digraph (C{str}), grid tile I{using only}
+                    the I{AA} aka I{MGRS-New} (row) U{lettering scheme
+                    <http://Wikipedia.org/wiki/Military_Grid_Reference_System>}.
+           @kwarg easting: Easting (C{meter}), within 100 km grid tile.
+           @kwarg northing: Northing (C{meter}), within 100 km grid tile.
+           @kwarg band: Optional, I{latitudinal} band or I{polar} region letter
+                        (C{str}), 'C'|..|'X' covering 80°S..84°N (no 'I'|'O'),
+                        'A'|'B' at the south or 'Y'|'Z' at the north pole.
+           @kwarg datum: This reference's datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg resolution: Optional resolution, cell size (C{meter}) or C{0}.
            @kwarg name: Optional name (C{str}).
 
-           @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}},
-                             B{C{easting}}, B{C{northing}} or B{C{band}}.
+           @raise MGRSError: Invalid B{C{zone}}, B{C{EN}}, B{C{easting}},
+                             B{C{northing}}, B{C{band}} or B{C{resolution}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
@@ -133,32 +114,39 @@ class Mgrs(_NamedBase):
 
             >>> from pygeodesy import Mgrs
             >>> m = Mgrs('31U', 'DQ', 48251, 11932)  # 31U DQ 48251 11932
+            >>> m = Mgrs()  # defaults to south pole
+            >>> m.toLatLon()  # ... lat=-90.0, lon=0.0, datum=...
         '''
         if name:
             self.name = name
 
-        self._zone, self._band, self._bandLat = _to3zBlat(zone, band, Error=MGRSError)
+        if not (zone or EN or band):
+            EN, band = _AN_, _B_  # default, south pole
         try:
-            en = str(en100k)
+            self._zone, self._band, self._bandLat = _to3zBlat(zone, band, Error=MGRSError)
+            en = str(EN)
             if len(en) != 2 or not en.isalpha():
-                raise IndexError  # caught below
+                raise ValueError  # caught below
             self._EN = en.upper()
-            self._EN2m()  # check E and N
-        except (IndexError, TypeError, ValueError):
-            raise MGRSError(en100k=en100k, zone=zone)
+            _ = self._EN2m  # check E and N
+        except (IndexError, KeyError, TypeError, ValueError):
+            raise MGRSError(band=band, EN=EN, zone=zone)
 
         self._easting  = Easting(easting,   Error=MGRSError)
         self._northing = Northing(northing, Error=MGRSError)
-        if datum not in (None, self._datum):
-            self._datum = _ellipsoidal_datum(datum, name=name)
+        if datum not in (None, Mgrs._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)  # XXX raiser=True
 
         if resolution:
             self.resolution = resolution
 
-    @Property_RO
+    def __str__(self):
+        return self.toStr(sep=_SPACE_)
+
+    @property_RO
     def band(self):
-        '''Get the I{latitudinal} C{'C'|..|'W'|'X'} or I{polar}
-           C{'A'|'B'|'Y'|'Z'}) band letter (C{str}).
+        '''Get the I{latitudinal} band C{'C'|..|'X'} (no C{'I'|'O'})
+           or I{polar} region C{'A'|'B'|'Y'|'Z'}) letter (C{str}).
         '''
         return self._band
 
@@ -166,13 +154,7 @@ class Mgrs(_NamedBase):
     def bandLatitude(self):
         '''Get the band latitude (C{degrees90}).
         '''
-        a = self._bandLat
-        if a is None:
-            if self.isUPS:
-                self._bandLat = a = _B2UPS[self.band]
-            else:  # must have been set
-                raise _AssertionError(band=self.band, Lat=a)
-        return a
+        return self._bandLat
 
     @Property_RO
     def datum(self):
@@ -180,29 +162,36 @@ class Mgrs(_NamedBase):
         '''
         return self._datum
 
-    @Property_RO
-    def EN(self):
-        '''Get the 2-character grid EN digraph (C{str}).
-        '''
-        return self._EN
-
-    digraph = EN
-
     @deprecated_property_RO
-    def en100k(self):  # PYCHOK no cover
+    def digraph(self):
         '''DEPRECATED, use property C{EN}.'''
         return self.EN
 
+    @property_RO
+    def EN(self):
+        '''Get the 2-letter grid tile (C{str}).
+        '''
+        return self._EN
+
+    @deprecated_property_RO
+    def en100k(self):
+        '''DEPRECATED, use property C{EN}.'''
+        return self.EN
+
+    @Property_RO
     def _EN2m(self):
-        '''(INTERNAL) Convert grid letters to east-/northing meter.
+        '''(INTERNAL) Get the grid 2-tuple (easting, northing) in C{meter}.
+
+           @note: Raises AssertionError, IndexError or KeyError: Invalid
+                  C{zone} number,r C{EN} letter or I{polar} region letter.
         '''
         EN = self.EN
         if self.isUTM:
             i = self.zone - 1
-            # get easting from E column (note, +1 because
-            # eastings start at 166e3 due to 500 km false origin)
+            # get easting from the E column (note, +1 because
+            # easting starts at 166e3 due to 500 km falsing)
             e = _LeUTM[i % 3].index(EN[0]) + 1
-            # similarly, get northing from N row
+            # similarly, get northing from the N row
             n = _LnUTM[i % 2].index(EN[1])
         elif self.isUPS:
             B =  self.band
@@ -212,15 +201,16 @@ class Mgrs(_NamedBase):
             raise _AssertionError(zone=self.zone)
         return float(e * _100km), float(n * _100km)  # meter
 
-    @Property_RO
+    @property_RO
     def easting(self):
-        '''Gets the easting (C{meter} within grid tile).
+        '''Get the easting (C{meter} within grid tile).
         '''
         return self._easting
 
     @Property_RO
     def eastingnorthing(self):
-        '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)}).
+        '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)})
+           I{within} the MGRS grid tile, both in C{meter}.
         '''
         return EasNor2Tuple(self.easting, self.northing)
 
@@ -236,7 +226,7 @@ class Mgrs(_NamedBase):
         '''
         return _UTM_ZONE_MIN <= self._zone <= _UTM_ZONE_MAX
 
-    @Property_RO
+    @property_RO
     def northing(self):
         '''Get the northing (C{meter} within grid tile).
         '''
@@ -244,8 +234,7 @@ class Mgrs(_NamedBase):
 
     @Property_RO
     def northingBottom(self):
-        '''Get northing of the band bottom (C{meter}), extended
-           to include entirety of bottom-most 100 km tile.
+        '''Get the northing of the band bottom (C{meter}).
         '''
         a = self.bandLatitude
         u = toUtm8(a, 0, datum=self.datum, Utm=None) if self.isUTM else \
@@ -279,20 +268,19 @@ class Mgrs(_NamedBase):
 
            @raise MGRSError: Invalid B{C{resolution}}.
         '''
-        try:
-            if resolution and resolution > 0:
+        if resolution:  # and resolution > 0
+            try:
                 r = int(log10(resolution))
-                if r > 5:
+                if 0 > r or r > 5:
                     raise ValueError
-                r = 10**r
-            else:
-                r = 0
-        except (ValueError, TypeError):
-            raise MGRSError(resolution=resolution)
-        self._resolution = r
+                self._resolution = 10**r
+            except (ValueError, TypeError):
+                raise MGRSError(resolution=resolution)
+        else:
+            self._resolution = 0
 
     @Property_RO
-    def tile(self):
+    def tilesize(self):
         '''Get the MGRS grid tile size (C{meter}).
         '''
         assert _MODS.utmups._MGRS_TILE is _100km
@@ -321,35 +309,49 @@ class Mgrs(_NamedBase):
         u = self.toUtmUps(center=center)
         return u.toLatLon(LatLon=LatLon, **toLatLon_kwds)
 
-    def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
-           @kwarg prec: Number of digits (C{int}), 4:Km, 10:m.
+           @kwarg prec: Precisio (C{int}), see method L{Mgrs.toStr}.
            @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Separator between name:values (C{str}).
-           @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
+
+           @return: This Mgrs as "[Z:[dd]B, G:EN, E:easting, N:northing]"
+                    (C{str}), with C{B{sep} ", "}.
+
+           @note: MGRS grid references are truncated, not rounded (unlike
+                  UTM/UPS coordinates).
+
+           @raise ValueError: Invalid B{C{prec}}.
         '''
         t = self.toStr(prec=prec, sep=None)
         return _xzipairs('ZGEN', t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=10, sep=_SPACE_):  # PYCHOK expected
-        '''Return a string representation of this MGRS grid reference.
+    def toStr(self, prec=0, sep=NN):  # PYCHOK expected
+        '''Return this MGRS grid reference as a string.
 
-           Note that MGRS grid references are truncated, not rounded
-           (unlike UTM coordinates).
-
-           @kwarg prec: Number of digits (C{int}), 4:Km, 10:m.
+           @kwarg prec: Precision, the number of I{decimal} digits (C{int}) or if
+                        negative, the number of I{units to drop}, like MGRS U{PRECISION
+                        <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
 
-           @return: This Mgrs as "00B EN easting northing" (C{str}).
+           @return: This Mgrs as "[dd]B EN easting northing" (C{str})
+                    with C{B{sep} " "}.
+
+           @note: MGRS grid references are truncated, not rounded (unlike UTM/UPS).
 
            @raise ValueError: Invalid B{C{prec}}.
 
            @example:
 
+            >>> from pygeodesy import Mgrs, NN, parseMGRS
             >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
             >>> m.toStr()  # '31U DQ 48251 11932'
+            >>> m = parseMGRS('BAN1234567890')
+            >>> str(m)  # 'B AN 12345 67890'
+            >>> m.toStr()  # 'BAN1234567890'
+            >>> m.toStr(prec=-2)  # 'BAN123678'
         '''
         zB = self.zoneB
         t  = enstr2(self._easting, self._northing, prec, zB, self.EN)
@@ -411,15 +413,15 @@ class Mgrs(_NamedBase):
     def _toUtmUps(self, U, center):
         '''(INTERNAL) Helper for C{.toUps} and C{.toUtm}.
         '''
-        e, n = self._EN2m()
-        # 100 km grid tile row letters repeat every 2,000 km north;
-        # add enough 2,000 km blocks to get into required band
+        e, n = self._EN2m
         e += self.easting
         n += self.northing
         if self.isUTM:
+            # 100 km row letters repeat every 2,000 km north;
+            # add 2,000 km blocks to get into required band
             b = (self.northingBottom - n) / _2000km
             if b > 0:
-                b  = int(b + 1)
+                b  = int(b) + 1
                 b  = min(b, (3 if self.band == _W_ else 4))
                 n += b * _2000km
         if center:
@@ -428,62 +430,129 @@ class Mgrs(_NamedBase):
                 e += c
                 n += c
         z =  self.zone
-        h = _hemi(self.bandLatitude)  # if self.band < _N_
+        h = _hemi(self.bandLatitude)  # _S_ if self.band < _N_ else _N_
         B =  self.band
         m =  self.name
         return UtmUps5Tuple(z, h, e, n, B, name=m, Error=MGRSError) if U is None \
                      else U(z, h, e, n, B, name=m, datum=self.datum)
 
-    @Property_RO
+    @property_RO
     def zone(self):
-        '''Get the I{longitudinal} zone (C{int}, 1..60 or 0 for polar).
+        '''Get the I{longitudinal} zone (C{int}), 1..60 or 0 for I{polar}.
         '''
         return self._zone
 
     @Property_RO
     def zoneB(self):
-        '''Get the I{longitudinal} zone digits and I{latitudinal} band letter (C{str}).
+        '''Get the I{polar} region letter or the I{longitudinal} zone digits
+           plus I{latitudinal} band letter (C{str}).
         '''
-        return NN(Fmt.zone(self.zone), self.band)
+        return self.band if self.isUPS else NN(Fmt.zone(self.zone), self.band)
 
 
 class Mgrs4Tuple(_NamedTuple):
-    '''4-Tuple C{(zone, digraph, easting, northing)}, C{zone} and
-       C{digraph} as C{str}, C{easting} and C{northing} in C{meter}.
+    '''4-Tuple C{(zone, EN, easting, northing)}, C{zone} and grid
+       tile C{EN} as C{str}, C{easting} and C{northing} in C{meter}.
+
+       @note: The C{zone} consists of either the I{longitudinal} zone
+              number plus the I{latitudinal} band letter or only the
+              I{polar} region letter.
     '''
-    _Names_ = (_zone_, 'digraph', _easting_, _northing_)
-    _Units_ = ( Str,    Str,       Easting,   Northing)
+    _Names_ = (_zone_, 'EN', _easting_, _northing_)
+    _Units_ = ( Str,    Str,  Easting,   Northing)
 
-    def __new__(cls, z, di, e, n, Error=MGRSError, name=NN):
-        if Error is not None:
-            e = Easting( e, Error=Error)
-            n = Northing(n, Error=Error)
-        return _NamedTuple.__new__(cls, z, di, e, n, name=name)
+    @deprecated_property_RO
+    def digraph(self):
+        '''DEPRECATED, use attribute C{EN}.'''
+        return self.EN  # PYCHOK or [1]
 
-    def to6Tuple(self, band, datum):
+    def toMgrs(self, **Mgrs_and_kwds):
+        '''Return this L{Mgrs4Tuple} as an L{Mgrs} instance.
+        '''
+        return self.to6Tuple(NN, _WGS84).toMgrs(**Mgrs_and_kwds)
+
+    def to6Tuple(self, band=NN, datum=_WGS84):
         '''Extend this L{Mgrs4Tuple} to a L{Mgrs6Tuple}.
 
-           @arg band: The band to add (C{str} or C{None}).
-           @arg datum: The datum to add (L{Datum} or C{None}).
+           @kwarg band: The band (C{str}).
+           @kwarg datum: The datum (L{Datum}).
 
-           @return: An L{Mgrs6Tuple}C{(zone, digraph, easting,
+           @return: An L{Mgrs6Tuple}C{(zone, EN, easting,
                     northing, band, datum)}.
         '''
-        return self._xtend(Mgrs6Tuple, band, datum)
+        z = self.zone  # PYCHOK or [0]
+        B = z[-1:]
+        if B.isalpha():
+            z = z[:-1] or Fmt.zone(0)
+            t = Mgrs6Tuple(z, self.EN, self.easting, self.northing,  # PYCHOK attrs
+                              band or B, datum, name=self.name)
+        else:
+            t = self._xtend(Mgrs6Tuple, band, datum)
+        return t
 
 
-class Mgrs6Tuple(_NamedTuple):  # XXX only used in the line above
-    '''6-Tuple C{(zone, digraph, easting, northing, band, datum)},
-       C{zone}, C{digraph} and C{band} as C{str}, C{easting} and
-       C{northing} in C{meter} and C{datum} a L{Datum}.
+class Mgrs6Tuple(_NamedTuple):  # XXX only used above
+    '''6-Tuple C{(zone, EN, easting, northing, band, datum)}, with
+       C{zone}, grid tile C{EN} and C{band} as C{str}, C{easting}
+       and C{northing} in C{meter} and C{datum} a L{Datum}.
+
+       @note: The C{zone} is the I{longitudinal} zone C{"01".."60"}
+              or C{"00"} for I{polar} regions and C{band} is the
+              I{latitudinal} band or I{polar} region letter.
     '''
     _Names_ = Mgrs4Tuple._Names_ + (_band_, _datum_)
     _Units_ = Mgrs4Tuple._Units_ + ( Str,   _Pass)
 
+    @deprecated_property_RO
+    def digraph(self):
+        '''DEPRECATED, use attribute C{EN}.'''
+        return self.EN  # PYCHOK or [1]
+
+    def toMgrs(self, Mgrs=Mgrs, **Mgrs_kwds):
+        '''Return this L{Mgrs6Tuple} as an L{Mgrs} instance.
+        '''
+        kwds = dict(self.items())
+        if self.name:
+            kwds.update(name=self.name)
+        if Mgrs_kwds:
+            kwds.update(Mgrs_kwds)
+        return Mgrs(**kwds)
+
+
+class _RE(object):
+    '''(INTERNAL) Lazily compiled C{re}gex-es to parse MGRS strings.
+    '''
+    _EN = '([A-Z]{2})'            # 2-letter grid tile designation
+    _en = '([0-9]+)'              # easting_northing digits, 2-10
+    _pB = '([ABYZ]{1})'           # polar region letter, pseudo-zone 0
+    _zB = '([0-9]{1,2}[C-X]{1})'  # zone number and band letter, no I|O
+
+    @Property_RO
+    def pB_EN(self):  # split polar "BEN" into 2 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile(_RE._pB + _RE._EN, re.IGNORECASE)
+
+    @Property_RO
+    def pB_EN_en(self):  # split polar "BEN1235..." into 3 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile(_RE._pB + _RE._EN + _RE._en, re.IGNORECASE)
+
+    @Property_RO
+    def zB_EN(self):  # split "1[2]BEN" into 2 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile(_RE._zB + _RE._EN, re.IGNORECASE)
+
+    @Property_RO
+    def zB_EN_en(self):  # split "1[2]BEN1235..." into 3 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile(_RE._zB + _RE._EN + _RE._en, re.IGNORECASE)
+
+_RE = _RE()  # PYCHOK singleton
+
 
 def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
     '''Parse a string representing a MGRS grid reference,
-       consisting of C{"zoneBand, grid, easting, northing"}.
+       consisting of C{"[zone]Band, EN, easting, northing"}.
 
        @arg strMGRS: MGRS grid reference (C{str}).
        @kwarg datum: Optional datum to use (L{Datum}).
@@ -493,7 +562,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
 
        @return: The MGRS grid reference as B{C{Mgrs}} or if
                 C{B{Mgrs} is None} as an L{Mgrs4Tuple}C{(zone,
-                digraph, easting, northing)}.
+                EN, easting, northing)}.
 
        @raise MGRSError: Invalid B{C{strMGRS}}.
 
@@ -503,49 +572,52 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         >>> str(m)  # '31U DQ 48251 11932'
         >>> m = parseMGRS('31UDQ4825111932')
         >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
-        >>> m = mgrs.parseMGRS('42SXD0970538646')
+        >>> m = parseMGRS('42SXD0970538646')
         >>> str(m)  # '42S XD 09705 38646'
-        >>> m = mgrs.parseMGRS('42SXD9738')  # Km
+        >>> m = parseMGRS('42SXD9738')  # Km
         >>> str(m)  # '42S XD 97000 38000'
-        >>> m = mgrs.parseMGRS('YUB17770380')  # polar
-        >>> str(m)  # '00Y UB 17770 03800'
+        >>> m = parseMGRS('YUB17770380')  # polar
+        >>> str(m)  # 'Y UB 17770 03800'
     '''
     def _mg(s, re_UTM, re_UPS):  # return re.match groups
-        s = s.lstrip(_0_)
         m = re_UTM.match(s)
         if m:
             return m.groups()
-        m = re_UPS.match(s)
+        m = re_UPS.match(s.lstrip(_0_))
         if m:
-            m = m.groups()
-            t = '00' + m[0]
-            return (t,) + m[1:]
-        raise ValueError
+            return m.groups()
+#           m = m.groups()
+#           t = '00' + m[0]
+#           return (t,) + m[1:]
+        raise ValueError(_SPACE_(repr(s), _invalid_))
 
     def _s2m(g):  # e or n string to float meter
-        # convert to meter if less than 5 digits
-        m = g + '00000'
+        m = g + '00000'  # 5-digit precision
         return float(m[:5])
 
     def _MGRS(strMGRS, datum, Mgrs, name):
-        m = _splituple(strMGRS)
+        m = _splituple(strMGRS.strip())
         if len(m) == 1:  # [01]BEN1234512345'
-            m = _mg(m[0], _RE.MGRS_UTM, _RE.MGRS_UPS)
+            m = _mg(m[0], _RE.zB_EN_en, _RE.pB_EN_en)
             m = m[:2] + halfs2(m[2])
         elif len(m) == 2:  # [01]BEN 1234512345'
-            m = _mg(m[0], _RE.ZBEN_UTM, _RE.ZBEN_UPS) + halfs2(m[1])
+            m = _mg(m[0], _RE.zB_EN, _RE.pB_EN) + halfs2(m[1])
         elif len(m) == 3:  # [01]BEN 12345 12345'
-            m = _mg(m[0], _RE.ZBEN_UTM, _RE.ZBEN_UPS) + m[1:]
+            m = _mg(m[0], _RE.zB_EN, _RE.pB_EN) + m[1:]
         if len(m) != 4:  # [01]B EN 12345 12345
             raise ValueError
+
+        zB, EN = m[0].upper(), m[1].upper()
+        if zB[-1:] in 'IO':
+            raise ValueError(_SPACE_(repr(m[0]), _invalid_))
         e, n = map(_s2m, m[2:])
 
-        zB, EN = m[0], m[1].upper()
+        p = max(map(len, m[2:]))  # precision 1..5
+        m = 10**(5 - p)  # resolution in meter
         if Mgrs is None:
             r = Mgrs4Tuple(zB, EN, e, n, name=name)
+            _ = r.toMgrs(resolution=m)  # for validation
         else:
-            p = max(map(len, m[2:]))  # precision 1..5
-            m = 10**(5 - p)  # resolution in meter
             r = Mgrs(zB, EN, e, n, datum=datum, resolution=m, name=name)
         return r
 
@@ -556,7 +628,7 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
 def toMgrs(utmups, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
     '''Convert a UTM or UPS coordinate to an MGRS grid reference.
 
-       @arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups]).
+       @arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups}).
        @kwarg Mgrs: Optional class to return the MGRS grid reference
                     (L{Mgrs}) or C{None}.
        @kwarg name: Optional B{C{Mgrs}} name (C{str}).
@@ -565,7 +637,7 @@ def toMgrs(utmups, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
 
        @return: The MGRS grid reference as B{C{Mgrs}} or if
                 C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
-                digraph, easting, northing, band, datum)}.
+                EN, easting, northing, band, datum)}.
 
        @raise MGRSError: Invalid B{C{utmups}}.
 
@@ -620,20 +692,48 @@ def _um100km2(m):
 if __name__ == '__main__':
 
     from pygeodesy.ellipsoidalVincenty import LatLon
-    from pygeodesy.lazily import printf
+    from pygeodesy.lazily import _getenv, printf
+
+    from os import access as _access, linesep as _NL, X_OK as _X_OK
+
+    # <https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html>
+    _GeoConvert = _getenv('PYGEODESY_GEOCONVERT', '/opt/local/bin/GeoConvert')
+    if _access(_GeoConvert, _X_OK):
+        GC_m = _GeoConvert, '-m'  # -m converts latlon to MGRS
+        printf(' using: %s ...', _SPACE_.join(GC_m))
+        from pygeodesy.solveBase import _popen2
+    else:
+        GC_m = _popen2 = None
 
     e = n = 0
-    for lat in range(-89, 90, 1):
-        for lon in range(-173, 180, 1):
-            m = LatLon(lat, lon).toMgrs()
-            t = m.toLatLon(LatLon=LatLon)
-            d = max(abs(t.lat - lat), abs(t.lon - lon))
-            if d > 1e-9:
-                e += 1
-                printf('%s: %s %s vs %s %.6e', e, m, t.latlon, (float(lat), float(lon)), d)
-            n += 1
+    try:
+        for lat in range(-90, 91, 1):
+            printf('%6s: lat %s ...', n, lat, end=NN, flush=True)
+            nl = _NL
+            for lon in range(-180, 181, 1):
+                m = LatLon(lat, lon).toMgrs()
+                if _popen2:
+                    t = '%s %s' % (lat, lon)
+                    g = _popen2(GC_m, stdin=t)[1]
+                    t =  m.toStr()  # sep=NN
+                    if t != g:
+                        e += 1
+                        printf('%s%6s: %s: %r vs %r (lon %s)', nl, -e, m, t, g, lon)
+                        nl = NN
+                t = m.toLatLon(LatLon=LatLon)
+                d = max(abs(t.lat - lat), abs(t.lon - lon))
+                if d > 1e-9 and -90 < lat < 90 and -180 < lon < 180:
+                    e += 1
+                    printf('%s%6s: %s: %s vs %s %.6e', nl, -e, m, t.latlon, (float(lat), float(lon)), d)
+                    nl = NN
+                n += 1
+            if nl:
+                print(' OK')
+    except KeyboardInterrupt:
+        printf(nl)
+
     p = e * 100.0 / n
-    printf('%s/%s failures (%.2f%%)', (e if e else 'no'), n, p)
+    printf('%6s: %s errors (%.2f%%)', n, (e if e else 'no'), p)
 
 # **) MIT License
 #

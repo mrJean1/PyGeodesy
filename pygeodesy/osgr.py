@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.04.27'
+__version__ = '22.08.02'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -279,15 +279,19 @@ class Osgr(_NamedBase):
         r._iteration = ll._iteration
         return _xnamed(r, nameof(ll))
 
-    def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
+    def toRepr(self, prec=5, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
-           @kwarg prec: Number of digits (C{int}).
+           @kwarg prec: Number of digits (C{int}), see method L{Osgr.toStr}.
            @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Separator to join (C{str}).
 
            @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
                     "[OSGR:meter,meter]" if B{C{prec}} is non-positive.
+
+           @note: OSGR grid references are truncated, not rounded (unlike UTM).
+
+           @raise ValueError: Invalid B{C{prec}}.
         '''
         t = self.toStr(prec=prec, sep=None)
         if prec > 0:
@@ -298,19 +302,18 @@ class Osgr(_NamedBase):
                 t = fmt % (t,)
         return t
 
-    def toStr(self, prec=10, sep=_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=5, sep=_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
-           Note that OSGR coordinates are truncated, not rounded
-           (unlike UTM grid references).
-
-           @kwarg prec: Optional number of digits (C{int}).
+           @kwarg prec: The number of digits (C{int}).
            @kwarg sep: Optional separator to join (C{str}) or C{None}
                        to return an unjoined C{tuple} of C{str}s.
 
            @return: This OSGR as C{"EN easting northing"} or as
                     C{"easting,northing"} if B{C{prec}} is non-positive
                     (C{str}).
+
+           @note: OSGR grid references are truncated, not rounded (unlike UTM).
 
            @raise ValueError: Invalid B{C{prec}}.
 
@@ -333,11 +336,10 @@ class Osgr(_NamedBase):
             if 0 > E or E > 6 or \
                0 > N or N > 12:
                 return NN
-            N = 19 - N
+            N  =  19 - N
             EN = _i2c( N - (N % 5) + (E + 10) // 5) + \
                  _i2c((N * 5) % 25 + (E % 5))
-
-            t = enstr2(e, n, prec, EN)
+            t = enstr2(e, n, prec - 5, EN)
             s = sep
 
         elif -6 < prec < 0:

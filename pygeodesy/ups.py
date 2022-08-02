@@ -9,12 +9,17 @@ A pure Python implementation, partially transcoded from C++ class U{PolarStereog
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 by I{Charles Karney}.
 
-The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
-system is used in conjuction with U{UTM
-<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}
-for locations on the polar regions of the earth.  UPS covers areas south of 79.5°S
-and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N by 30' at
-each end).
+The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>} system
+is used in conjuction with U{UTM<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} for locations on the polar regions of the
+earth.  UPS covers areas south of 79.5°S and north of 83.5°N, slightly overlapping the UTM
+range from 80°S to 84°N by 30' at each end.
+
+Env variable C{PYGEODESY_UPS_POLES} determines the UPS zones for latitude 90°S and 90°N.
+By default, the encoding follows U{Appendix B-3 of DMA TM8358.1<https://web.Archive.org/
+web/20161226192038/http://earth-info.nga.mil/GandG/publications/tm8358.1/pdf/TM8358_1.pdf>},
+using only zones C{'B'} respectively C{'Z'} and digraph C{'AN'}.  If C{PYGEODESY_UPS_POLES}
+is set to anything other than C{"std"}, zones C{'A'} and C{'Y'} are used for negative, west
+longitudes at latitude 90°S respectively 90°N (for backward compatibility).
 '''
 
 # from pygeodesy.basics import neg as _neg  # from .dms
@@ -24,8 +29,8 @@ from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import EPS, EPS0, NN, _COMMASPACE_, _EPSmin as _Tol90, \
                              _N_, _inside_, _pole_, _range_, _S_, _SPACE_, \
-                             _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+                             _std_, _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
@@ -42,11 +47,17 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.07.22'
+__version__ = '22.07.31'
 
-_Falsing = Meter(2000e3)  # false easting and northing (C{meter})
-_K0_UPS  = Scalar(0.994)  # central UPS scale factor
-_K1_UPS  = Scalar(_1_0)   # rescale point scale factor
+_BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
+_Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
+_K0_UPS  =  Scalar(0.994)  # central UPS scale factor
+_K1_UPS  =  Scalar(_1_0)   # rescale point scale factor
+
+
+def _isnear90(a):
+    # Return C{True} is a is near 90 (degrees)
+    return abs(a - _90_0) < _Tol90
 
 
 def _scale(E, rho, tau):
@@ -55,11 +66,10 @@ def _scale(E, rho, tau):
     return Scalar((rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
 
 
-def _toBand(a_lat, b_lon):  # see utm._toBand
-    '''(INTERNAL) Get the I{polar} Band letter from
-       the signs of (phi, lam) or (lat, lon).
+def _toBand(lat, lon):  # see utm._toBand
+    '''(INTERNAL) Get the I{polar} Band letter for a (lat, lon).
     '''
-    return _Bands[(0 if a_lat < 0 else 2) + (0 if b_lon < 0 else 1)]
+    return _Bands[(0 if lat < 0 else 2) + (0 if -180 < lon < 0 else 1)]
 
 
 class UPSError(_ValueError):
@@ -72,23 +82,24 @@ class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
 #   _band   =  NN        # polar band ('A', 'B', 'Y' or 'Z')
-    _Bands  = _Bands     # polar Band letters (tuple)
+    _Bands  = _Bands     # polar Band letters (C{tuple})
     _Error  =  UPSError  # Error class
     _pole   =  NN        # UPS projection top/center ('N' or 'S')
 #   _scale  =  None      # point scale factor (C{scalar})
     _scale0 = _K0_UPS    # central scale factor (C{scalar})
 
-    def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
-                                   datum=_WGS84, falsed=True,
-                                   convergence=None, scale=None, name=NN):
+    def __init__(self, zone=0, pole=_N_, easting=_Falsing,  # PYCHOK expected
+                                         northing=_Falsing, band=NN,
+                                         datum=_WGS84, falsed=True,
+                                         convergence=None, scale=None, name=NN):
         '''New L{Ups} UPS coordinate.
 
-           @arg zone: UPS zone (C{int}, zero) or zone with/-out I{polar} Band
-                      letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
-           @arg pole: Top/center of (stereographic) projection (C{str},
-                      C{'N[orth]'} or C{'S[outh]'}).
-           @arg easting: Easting, see B{C{falsed}} (C{meter}).
-           @arg northing: Northing, see B{C{falsed}} (C{meter}).
+           @kwarg zone: UPS zone (C{int}, zero) or zone with/-out I{polar} Band
+                        letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
+           @kwarg pole: Top/center of (stereographic) projection (C{str},
+                        C{'N[orth]'} or C{'S[outh]'}).
+           @kwarg easting: Easting, see B{C{falsed}} (C{meter}).
+           @kwarg northing: Northing, see B{C{falsed}} (C{meter}).
            @kwarg band: Optional, I{polar} Band (C{str}, 'A'|'B'|'Y'|'Z').
            @kwarg datum: Optional, this coordinate's datum (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
@@ -324,12 +335,12 @@ class Ups(UtmUpsBase):
            @return: The UTM coordinate (L{Utm}).
         '''
         u = self._utm
-        if u is None or u.zone != zone or falsed != u.falsed:
+        if u is None or u.zone != zone or falsed != bool(u.falsed):
             ll  =  self.toLatLon(LatLon=None, unfalse=True)
             utm = _MODS.utm
-            self._utm = utm.toUtm8(ll, Utm=utm.Utm, falsed=falsed,
-                                       name=self.name, zone=zone)
-        return self._utm
+            self._utm = u = utm.toUtm8(ll, Utm=utm.Utm, falsed=falsed,
+                                           name=self.name, zone=zone)
+        return u
 
     @Property_RO
     def zone(self):
@@ -368,12 +379,9 @@ def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
     if z != _UPS_ZONE or (B and B not in _Bands):
         raise UPSError(strUPS=strUPS, zone=z, band=B)
 
-    if Ups is None:
-        r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError, name=name)
-    else:
-        r = Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
-        r = _xnamed(r, name)
-    return r
+    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError) if Ups is None \
+            else Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
+    return _xnamed(r, name)
 
 
 def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
@@ -422,28 +430,28 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     E = d.ellipsoid
 
     p = str(pole or p)[:1].upper()
-    N = p == _N_  # is north
+    S = p == _S_  # at south[pole]
 
-    a = lat if N else -lat
-    A = abs(a - _90_0) < _Tol90  # at pole
+    a = -lat if S else lat
+    P = _isnear90(a)  # at pole
 
     t = tan(radians(a))
     T = E.es_taupf(t)
-    r = (hypot1(T) - T) if T < 0 else (_0_0 if A else _1_0 /
+    r = (hypot1(T) - T) if T < 0 else (_0_0 if P else _1_0 /
         (hypot1(T) + T))
 
     k0 = getattr(Ups, '_scale0', _K0_UPS)  # Ups is class or None
     r *= k0 * E.a * _2_0 / E.es_c
 
-    k = k0 if A else _scale(E, r, t)
-    c = lon  # [-180, 180) from .upsZoneBand5
+    k  = k0 if P else _scale(E, r, t)
+    c  = lon  # [-180, 180) from .upsZoneBand5
     x, y = sincos2d(c)
     x *= r
     y *= r
-    if N:
-        y = _neg(y)
-    else:
+    if S:
         c = _neg(c)
+    else:
+        y = _neg(y)
 
     if falsed:
         x += _Falsing
@@ -455,8 +463,8 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     else:
         if z != _UPS_ZONE and not strict:
             z = _UPS_ZONE  # ignore UTM zone
-        r = _xnamed(Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
-                                            convergence=c, scale=k), n)
+        r = Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
+                            convergence=c, scale=k, name=n)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see utm._toXtm8
             r._latlon5args(latlon, _toBand, falsed)  # XXX weakref(latlon)?
             latlon._convergence = c
@@ -479,7 +487,11 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is the C{'N'|'S'} pole,
-                the UPS projection top/center.
+                the UPS projection top/center and C{lon} [-180..180).
+
+       @note: The C{lon} is set to C{0} if B{C{lat}} is C{-90} or
+              C{90}, see env variable C{PYGEODESY_UPS_POLES} in
+              module L{pygeodesy.ups}.
 
        @raise RangeError: If B{C{strict}} and B{C{lat}} in the UTM
                           and not the UPS range or if B{C{lat}} or
@@ -489,6 +501,9 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''
     z, lat, lon = _to3zll(*parseDMS2(lat, lon))
+    if _BZ_UPS and lon < 0 and _isnear90(abs(lat)):  # DMA TM8358.1 only ...
+        lon = 0  # ... zones B and Z at 90°S and 90°N, see also GeoConvert
+
     if lat < _UPS_LAT_MIN:  # includes 30' overlap
         z, B, p = _UPS_ZONE, _toBand(lat, lon), _S_
 
@@ -496,7 +511,7 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
         z, B, p = _UPS_ZONE, _toBand(lat, lon), _N_
 
     elif strict:
-        r = _range_(_UPS_LAT_MIN, _UPS_LAT_MAX)
+        r = _range_(_UPS_LAT_MIN, _UPS_LAT_MAX, prec=1)
         t = _SPACE_(_inside_, _UTM_, _range_, r)
         raise RangeError(lat=degDMS(lat), txt=t)
 

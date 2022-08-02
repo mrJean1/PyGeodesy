@@ -7,9 +7,9 @@ Functions L{pygeodesy.float_} and L{pygeodesy.machine}.
 '''
 from math import pi as PI, sqrt
 
-_COMMASPACE_  = ', '   # overriden below
-_pl2List      =  None  # cached _platform2 lists
-_Py3List      =  None  # cached _pythonarchine lists
+_COMMASPACE_ = ', '   # overriden below
+_pl2List     =  None  # cached _platform2 lists
+_Py3List     =  None  # cached _pythonarchine lists
 
 
 class _Dash(str):
@@ -295,12 +295,11 @@ _NAN_                 = 'NAN'                # PYCHOK expected
 _near_          = _Dash('near')              # PYCHOK expected
 _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
 _NEG0_                = 'NEG0'               # PYCHOK expected
-_NINF_                = 'NINF'               # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
+_NINF_                = 'NINF'               # PYCHOK expected
 _NL_             = Str_('\n')                # PYCHOK expected
-_NL_hash_        = Str_(_NL_ + '# ')         # PYCHOK expected
-_NL_NL_          = Str_(_NL_ + _NL_)         # PYCHOK expected
-_NL_var_         = Str_(_NL_ + '@var ')      # PYCHOK expected
+_NLATvar_        = Str_(_NL_ + '@var ')      # PYCHOK expected
+_NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK expected
 _NN_                  = 'NN'                 # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
@@ -314,7 +313,7 @@ _null_                = 'null'               # PYCHOK expected
 _number_              = 'number'             # PYCHOK expected
 _numpy_               = 'numpy'              # PYCHOK expected
 _Nv00_                = 'Nv00'               # PYCHOK expected
-_O_                   = 'O'                  # PYCHOK letter "Oh"
+_O_                   = 'O'                  # PYCHOK letter "Oh", not zero
 _on_                  = 'on'                 # PYCHOK expected
 _opposite_            = 'opposite'           # PYCHOK expected
 _or_                  = 'or'                 # PYCHOK expected
@@ -687,7 +686,7 @@ def machine():
 
 
 def _platform2(sep=NN):
-    '''(INTERNAL) et platform architecture and machine as C{2-list} or C{str}.
+    '''(INTERNAL) Get platform architecture and machine as C{2-list} or C{str}.
     '''
     global _pl2List
     if _pl2List is None:
@@ -719,7 +718,7 @@ def _pythonarchine(sep=NN):  # in test/base.py versions
     return sep.join(_Py3List) if sep else _Py3List  # 3- or 4-list
 
 
-def _splituple(strs, *sep_splits):  # in .basics
+def _splituple(strs, *sep_splits):  # in .basics, .mgrs
     '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
        string into a C{tuple} of stripped strings.
     '''
@@ -781,12 +780,12 @@ __all__ = (_DIG_,
            _EPS_, _EPS0_, _EPS02_, _EPS1_, _EPS2_, _EPS_2_, _EPS4_,
            _INF_, _INT0_,
            'MANTIS',  # DEPRECATED
-           _MANT_DIG_, _MAX_, _MIN_,  # don't include _MISSING_!
+           _MANT_DIG_, _MAX_, _MIN_,  # do NOT include _MISSING_!
            _NAN_, _NEG0_, _NINF_, _NN_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
-            float_.__name__, machine.__name__)  # imported by .lazily
-__version__ = '22.07.19'
+            float_.__name__, machine.__name__)  # in .lazily
+__version__ = '22.08.01'
 
 
 # **) MIT License

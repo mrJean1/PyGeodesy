@@ -35,21 +35,20 @@ from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
 import sys as _sys  # in .props
 
-_a_l_l_            = '__all__'
-_as__              = _SPACE_(NN, 'as', NN)
-_FOR_DOCS          = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
-_from_DOT_         = _SPACE_(NN, _from_, _DOT_)
-_imports_          = 'imports'
-_lazily_           = 'lazily'
-_lazily_imported_  = _SPACE_('#', _lazily_, 'imported', NN)
-_line_             = 'line'
-_p_a_c_k_a_g_e_    = '__package__'
-_pygeodesy_        = 'pygeodesy'
+_a_l_l_                 = '__all__'
+_FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
+_from_DOT__             = _SPACE_(NN, _from_, _DOT_)
+_imports_               = 'imports'
+_lazily_                = 'lazily'
+_lazily_imported__      = _SPACE_('#', _lazily_, 'imported', NN)
+_line_                  = 'line'
+_p_a_c_k_a_g_e_         = '__package__'
+_pygeodesy_             = 'pygeodesy'
 _PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
-_PYTHON_X_DEV      =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
-                     _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
-_sub_packages      = 'deprecated' , 'geodesicx'
-_sys_version_info2 = _sys.version_info[:2]  # in .fmath, .geodsolve
+_PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2+
+                          _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
+_sub_packages           = 'deprecated', 'geodesicx'
+_sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy in .__init__
@@ -133,7 +132,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd',
                                  'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
                                  'len2', 'map1', 'map2', 'neg', 'neg_', 'remainder',
-                                 'signBit', 'signOf', 'splice', 'ub2str', 'unsigned0'),
+                                 'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                    cartesianBase=(),  # module only
                            clipy=('ClipError',
                                  'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
@@ -404,7 +403,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.07.18'
+__version__ = '22.08.02'
 
 
 def _ALL_OTHER(*objs):
@@ -448,7 +447,7 @@ def _all_imports(**more):
             if isinstance(attrs, tuple) and not mod.startswith(_UNDER_):
                 _add(mod, mod)
                 for attr in attrs:
-                    attr, _, as_attr = attr.partition(_as__)
+                    attr, _, as_attr = attr.partition(' as ')
                     if as_attr:
                         _add(as_attr, _DOT_(mod, attr), *_sub_packages)
                     else:
@@ -547,9 +546,9 @@ def _lazy_import2(package_name):  # MCCABE 14
 
         setattr(package, name, imported)
         if isLazy > 1:
-            t = NN(_lazily_imported_, _DOT_(parent, name))
+            t = NN(_lazily_imported__, _DOT_(parent, name))
             if mod and mod != name:
-                t = NN(t, _from_DOT_, mod)
+                t = NN(t, _from_DOT__, mod)
             if isLazy > 2:
                 try:  # see C{_caller3}
                     _, f, s = _caller3(2)
@@ -694,11 +693,11 @@ if __name__ == '__main__':
     v = _Python_(_sys.version)
     printf('%.8f import vs %.8f _ALL_MODS: %.3fX, %s', t1, t2, t2 / t1, v)
 
-# % python3 -W ignore -m pygeodesy.lazily
-# 0.32402850 import vs 0.58554467 _ALL_MODS: 1.807X, Python 3.10.5
+# % python3.11 -W ignore -m pygeodesy.lazily
+# 0.31956017 import vs 0.52837638 _ALL_MODS: 1.653X, Python 3.11.0b5
 
-# % python3 -W ignore -m pygeodesy.lazily
-# 0.33003067 import vs 0.59858337 _ALL_MODS: 1.814X, Python 3.10.4
+# % python3.10 -W ignore -m pygeodesy.lazily
+# 0.31828208 import vs 0.58981700 _ALL_MODS: 1.853X, Python 3.10.5
 
 # % python2 -m pygeodesy.lazily
 # 1.19996715 import vs 1.39310884 _ALL_MODS: 1.161X, Python 2.7.18

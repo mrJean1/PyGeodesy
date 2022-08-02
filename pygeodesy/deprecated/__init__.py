@@ -29,7 +29,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.07.05'
+__version__ = '22.08.01'
 
 EPS1_2 = _1_0 - EPS_2  # DEPRECATED
 OK     = 'OK'          # DEPRECATED
@@ -303,7 +303,7 @@ def encodeEPSG(zone, hemipole=NN, band=NN):  # PYCHOK no cover
 @deprecated_function
 def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.enstr2}.'''
-    return _MODS.streprs.enstr2(easting, northing, prec, *extras)
+    return _MODS.streprs.enstr2(easting, northing, (int(prec) // 2 - 5), *extras)
 
 
 @deprecated_function

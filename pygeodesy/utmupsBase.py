@@ -15,7 +15,7 @@ from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _float, _invalid_, \
                              _N_, _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
-                             _Y_, _Z_, _0_0, _0_5, _180_0
+                             _Y_, _Z_, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.07.22'
+__version__ = '22.07.27'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -36,6 +36,9 @@ _UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
 
 _UPS_LAT_MAX  = _UTM_LAT_MAX - _0_5  # PYCHOK includes 30' UTM overlap
 _UPS_LAT_MIN  = _UTM_LAT_MIN + _0_5  # PYCHOK includes 30' UTM overlap
+
+_UPS_LATS = {_A_: _N_90_0, _Y_: _UTM_LAT_MAX,  # UPS band bottom latitudes,
+             _B_: _N_90_0, _Z_: _UTM_LAT_MAX}  # PYCHOK see .Mgrs.bandLatitude
 
 _UTM_ZONE_MAX     =  60  # PYCHOK for export
 _UTM_ZONE_MIN     =   1  # PYCHOK for export
@@ -138,8 +141,7 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     '''
     x = wrap360(lon + _180_0)  # use wrap360 to get ...
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
-    lon = x - _180_0  # ... lon [-180, 180) i.e. -180 <= lon < 180
-    return Zone(z), lat, lon
+    return Zone(z), lat, (x - _180_0)  # ... -180 <= lon < 180
 
 
 class UtmUpsBase(_NamedBase):

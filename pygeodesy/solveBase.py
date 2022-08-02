@@ -20,10 +20,11 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.07.09'
+__version__ = '22.08.02'
 
-_Error_ = 'Error'
-_ERROR_ = 'ERROR'
+_Error_    = 'Error'
+_ERROR_    = 'ERROR'
+_text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
 
 
 def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
@@ -32,6 +33,18 @@ def _cmd_stdin_(cmd, stdin):  # PYCHOK no cover
     c = Fmt.PAREN(callername(up=3))
     t = (c,) if stdin is None else (_BACKSLASH_, str(stdin), c)
     return _SPACE_.join(cmd + t)
+
+
+def _popen2(cmd, stdin=None):  # in .mgrs, .test.base, .test.testMgrs
+    '''(INTERNAL) Invoke C{B{cmd} tuple} and return C{exitcode}
+       and all output to C{stdout/-err}.
+    '''
+    p = _Popen(cmd, creationflags=0,
+                  # executable=sys.executable, shell=True,
+                    stdin=_PIPE, stdout=_PIPE, stderr=_STDOUT,
+                 **_text_True)  # PYCHOK kwArgs
+    r = p.communicate(stdin)[0]
+    return p.returncode, ub2str(r).strip()
 
 
 class _SolveLineSolveBase(_CapsBase):
@@ -48,7 +61,6 @@ class _SolveLineSolveBase(_CapsBase):
     _Solve_name    =  NN  # executable basename
     _Solve_path    =  NN  # executable path
     _status        =  None
-    _text_True     =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
     _unroll        =  False
     _verbose       =  False
 
@@ -165,24 +177,15 @@ class _SolveLineSolveBase(_CapsBase):
         if self.verbose:  # PYCHOK no cover
             t = _cmd_stdin_(cmd, stdin)
             self._print(t)
-        try:
-            p = _Popen(cmd, creationflags=0,
-                          # executable   =sys.executable,
-                          # shell        =True,
-                            stdin        =_PIPE,
-                            stdout       =_PIPE,  # PYCHOK kwArgs
-                            stderr       =_STDOUT,
-                          **self._text_True)
-            # invoke and write to stdin
-            r = ub2str(p.communicate(stdin)[0])
+        try:  # invoke and write to stdin
+            s, r = _popen2(cmd, stdin)
             if len(r) < 6 or r[:5] in (_Error_, _ERROR_):
                 raise ValueError(r)
-
-            self._status = p.returncode
         except (IOError, OSError, TypeError, ValueError) as x:
             raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin),
                               txt=str(x))
-        return r.strip()
+        self._status = s
+        return r
 
     @property_RO
     def _p_option(self):

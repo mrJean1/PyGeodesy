@@ -29,7 +29,7 @@ from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '22.02.25'
+__version__ = '22.07.31'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -147,20 +147,19 @@ def elevation2(lat, lon, timeout=2.0):
 
        @raise ValueError: Invalid B{C{timeout}}.
 
-       @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}}
-              is invalid or outside the C{Conterminous US (CONUS)}, if
-              conversion failed or if the query timed out.  The C{"error"} is
-              the C{HTTP-, IO-, SSL-} or other C{-Error} as a string (C{str}).
+       @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}} is
+              invalid or outside the C{Conterminous US (CONUS)}, if conversion
+              failed or if the query timed out.  The C{"error"} is the C{HTTP-,
+              IO-, SSL-} or other C{-Error} as a string (C{str}).
 
-       @see: U{USGS National Map<https://NationalMap.gov/epqs>},
-             the U{FAQ<https://www.USGS.gov/faqs/what-are-projection-
-             horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems>},
-             U{geoid.py<https://Gist.GitHub.com/pyRobShrk>}, module
-             L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
+       @see: U{USGS Elevation Point Query Service<https://NationalMap.gov/epqs>}, the
+             U{FAQ<https://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-
+             datum-units-and-resolution-3dep-standard-dems>}, U{geoid.py<https://Gist.GitHub.com/
+             pyRobShrk>}, module L{geoids}, classes L{GeoidG2012B}, L{GeoidKarney} and
              L{GeoidPGM}.
     '''
-    try:
-        x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # 'https://NationalMap.gov/epqs/pqs.php'
+    try:    # alt 'https://NED.USGS.gov/epqs/pqs.php'
+        x = _qURL('https://NationalMap.USGS.gov/epqs/pqs.php',
                          x=Lon(lon).toStr(prec=6),
                          y=Lat(lat).toStr(prec=6),
                          units='Meters',  # 'Feet', capitalized

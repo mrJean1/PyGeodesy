@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.07.25'
 
 from base import TestsBase
 
@@ -51,8 +51,8 @@ class Tests(TestsBase):
         m = Utm('31U', 'N', 448251, 5411932).toMgrs()
         self.test('toMgrs2', m, '31U DQ 48251 11932')
 
-        t = u.toUps(pole=u.pole)
-        self.test('toUps', t, '00 S -7702368 -395110')  # XXX invalid?
+#       t = u.toUps(pole=u.pole)
+#       self.test('toUps', t, '00 S -7702368 -395110')  # XXX invalid?
 
         t = u.toUtm(14)
         self.test('toUtm14', t, '14 S -27436 8512042')  # XXX invalid?

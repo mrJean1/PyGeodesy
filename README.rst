@@ -76,6 +76,9 @@ Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
 on *Karney*\'s C++ utility GeodSolve_ to be executable.
 
+To compare ``MGRS`` results from modules ``mgrs`` and ``testMgrs`` with
+*Karney*\'s C++ utility GeoConvert_, the latter must be executable.
+
 Module ``rhumbsolve`` needs *Karney*\'s C++ utility RhumbSolve_ to
 be executable.
 
@@ -91,25 +94,26 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.10.5 (with geographiclib_ 2.0,
-numpy_ 1.22.4 and scipy_ 1.8.1), Python 3.9.6, Python 3.8.10 (with
-geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
-and Python 2.7.18 (with GeodSolve_ 1.51), all on macOS 12.4 Monterey
-and in 64-bit only.  The tests are run with and without ``lazy import``
-for Python 3 and with command line option ``-W default`` and env
-variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The
-results of only those tests are included in the distribution files.
+The tests ran with Python 3.11.0b5 (with geographiclib_ 2.0), Python
+3.10.5 (with geographiclib_ 2.0, numpy_ 1.22.4, scipy_ 1.8.1, GeoConvert_
+1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10
+(with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
+and Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
+GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), all on macOS 12.5
+Monterey and in 64-bit only.
 
-Python 3.10.5 and 3.9.6 run on Apple M1 Silicon (arm64 *natively*),
-all other Python versions run on Intel (x86_64) or Intel *emulation*
-(\"arm64_x86_64\", see function ``pygeodesy.machine``).
-
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.5
-(with geographiclib_ 2.0, numpy_ 1.22.4 and scipy_ 1.8.1), Python 3.9.6,
-Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2
-and scipy_ 1.5.2) and Python 2.7.18 (with GeodSolve_ 1.51).  The complete
-coverage report in HTML and a PDF summary are included in the distribution
+All tests ran with and without ``lazy import`` for Python 3 and with command
+line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
+Python versions.  The results of those tests are included in the distribution
 files.
+
+Python 3.11.0b5, 3.10.5 and 3.9.6 run on Apple M1 Silicon (``arm64``),
+*natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel
+*emulation* (\"``arm64_x86_64``\"), see function `pygeodesy.machine`_.
+
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.5,
+3.9.6 and 2.7.18.  The complete coverage report in HTML and a PDF summary
+are included in the distribution files.
 
 The tests also ran with Python 3.10.5 (and geographiclib_ 2.0) on
 `Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17
@@ -128,13 +132,13 @@ or 1.19.5) on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6,
 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and
 scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0
 (Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3)
-on macOS 12.1-3.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3,
+on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3,
 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS
 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite,
 with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0)
-on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with
-Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in
-64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and 32-bit
+on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12,
+with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all
+in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and 32-bit
 Python 2.6.6 on Windows XP SP3.
 
 Notes
@@ -142,7 +146,7 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.4, both in 64-bit on macOS 12.4
+and with Flake8_ using Python 3.10.4, both in 64-bit on macOS 12.5
 Monterey.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
@@ -151,7 +155,7 @@ module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 22, 2022.*
+*Last updated: Aug 02, 2022.*
 
 License
 =======
@@ -213,6 +217,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Flake8: https://PyPI.org/project/flake8
 .. _Frechet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
+.. _GeoConvert: https://GeographicLib.SourceForge.io/html/utilities.html
 .. _GeodSolve: https://GeographicLib.SourceForge.io/html/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
@@ -240,6 +245,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _PyCodeStyle: https://PyPI.org/project/pycodestyle
 .. _PyFlakes: https://PyPI.org/project/pyflakes
 .. _PyGeodesy: https://PyPI.org/project/PyGeodesy
+.. _pygeodesy.machine: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.interns-module.html#machine
 .. _PyInstaller: https://PyPI.org/project/pyinstaller
 .. _PyPI: https://PyPI.org/project/PyGeodesy
 .. _PyPy: https://PyPy.org

@@ -4,14 +4,16 @@
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
 
-from base import clips, coverage, isiOS, isPython3, PyGeodesy_dir, PythonX, \
-                 secs2str, test_dir, tilde, versions, _W_opts  # PYCHOK expected
+from base import clips, coverage, isiOS, NN, PyGeodesy_dir, \
+                 PythonX, secs2str, test_dir, _TILDE_, tilde, \
+                 versions, _W_opts  # PYCHOK expected
+from pygeodesy.basics import str2ub, ub2str
 
 from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '22.06.18'
+__version__ = '22.08.02'
 
 if isiOS:  # MCCABE 14
 
@@ -47,11 +49,12 @@ if isiOS:  # MCCABE 14
             else:  # append traceback
                 x = [t for t in format_exception(*x)
                              if 'runpy.py", line' not in t]
-                print(''.join(map(tilde, x)).rstrip())
+                print(NN.join(map(tilde, x)).rstrip())
                 x = 1  # count as a failure
-        sys.argv, sys.stdout, sys.stderr = sys3
+        finally:
+            sys.argv, sys.stdout, sys.stderr = sys3
 
-        r = _decoded(std.getvalue())
+        r = ub2str(std.getvalue())
 
         std.close()
         std = None  # del std
@@ -61,44 +64,43 @@ if isiOS:  # MCCABE 14
             x = r.count('FAILED, expected')
         return x, r
 
-    PythonX_O = basename(PythonX)
+    PythonX_ = basename(PythonX)
 
 else:  # non-iOS
-
+    from base import isPython37
     from subprocess import PIPE, STDOUT, Popen
 
-    # replace home dir with ~
-    PythonX_O = PythonX.replace(environ.get('HOME', '~'), '~')
+    Popen_kwds = dict(creationflags=0, executable=sys.executable,
+                    # shell=True,
+                      stdin=None, stdout=PIPE, stderr=STDOUT)
+    if isPython37:  # Python 3.7+
+        Popen_kwds.update(text=True)
+
     pythonC_ = (PythonX,)  # python cmd tuple
     if not __debug__:
-        PythonX_O += ' -O'
-        pythonC_  += ('-O',)
+        pythonC_ += ('-O',)
     if _W_opts:  # include -W options
-        PythonX_O += ' ' + _W_opts
-        pythonC_  +=      (_W_opts,)
+        pythonC_ += (_W_opts,)
+
+    # replace home dir with _TILDE_
+    PythonX_ = ' '.join(pythonC_).replace(environ.get('HOME', _TILDE_), _TILDE_)
+
     if coverage:
         pythonC_ += tuple('-m coverage run -a'.split())
 
     def run2(test, *opts):  # PYCHOK expected
-        '''Invoke one test module and return
-           the exit status and console output.
+        '''Invoke one test module and return the
+           exit status and stdout/-err output.
         '''
         c = pythonC_ + (test,) + opts
-        p = Popen(c, creationflags=0,
-                     executable   =sys.executable,
-                   # shell        =True,
-                     stdin        =None,
-                     stdout       =PIPE,  # XXX
-                     stderr       =STDOUT)  # XXX
-
-        r = _decoded(p.communicate()[0])
-
+        p = Popen(c, **Popen_kwds)
+        r = ub2str(p.communicate()[0])  # no .strip()
         # the exit status reflects the number of
         # test failures in the tested module
         return p.returncode, r
 
 # shorten Python path [-O]
-PythonX_O = clips(PythonX_O, 32)
+PythonX_ = clips(PythonX_, 32)
 
 # command line options
 _failedonly = False
@@ -109,20 +111,6 @@ _verbose    = False
 
 _Total = 0  # total tests
 _FailX = 0  # failed tests
-
-if isPython3:
-    def _decoded(r):
-        return r.decode('utf-8') if isinstance(r, bytes) else r
-
-    def _encoded(r):
-        return r.encode('utf-8') if isinstance(r, str) else r
-
-else:  # avoids UnicodeDecodeError
-    def _decoded(r):  # PYCHOK redefined
-        return r
-
-    def _encoded(r):  # PYCHOK redefined
-        return r
 
 
 def _exit(last, text, exit):
@@ -144,7 +132,7 @@ def _prefix2(prev):
         if p.startswith('  0.'):
             p = '   .' + p[4:]
     else:
-        p = ''
+        p = NN
     return p, t
 
 
@@ -153,7 +141,7 @@ def _run(prefix, test, *opts):  # MCCABE 13
     '''
     global _Total, _FailX
 
-    t = '%srunning %s %s' % (prefix, PythonX_O, tilde(test))
+    t = '%srunning %s %s' % (prefix, PythonX_, tilde(test))
     if access(test, F_OK):
 
         print(t)
@@ -197,15 +185,15 @@ def _testlines(r):
     '''(INTERNAL) Yield test lines.
     '''
     for t in r.split(NL):
-        if 'FAILED,' in t or 'passed' in t or 'SKIPPED' in t:
+        if 'FAILED,' in t or 'passed' in t or 'skipped' in t:
             yield t.rstrip()
-    yield ''
+    yield NN
 
 
 def _write(text):
     '''(INTERNAL) Write text to results.
     '''
-    _results.write(_encoded(text))
+    _results.write(str2ub(text))
 
 
 if __name__ == '__main__':  # MCCABE 19
@@ -227,7 +215,7 @@ if __name__ == '__main__':  # MCCABE 19
             _failedonly = True
         elif '-prefix'.startswith(arg):
             _prefix = True
-        elif '-raiser'.startswith(arg):
+        elif '-raiser'.startswith(arg):  # also .base.Test.__init__
             _raiser = True  # break on error
         elif '-results'.startswith(arg):
             _results = True
@@ -258,7 +246,7 @@ if __name__ == '__main__':  # MCCABE 19
             p, t = _prefix2(t)
             _run(p, *arg.split())
     except KeyboardInterrupt:
-        _exit('', '^C', 9)
+        _exit(NN, '^C', 9)
     except SystemExit:
         pass
     p, t = _prefix2(t)
@@ -268,14 +256,14 @@ if __name__ == '__main__':  # MCCABE 19
         t = '%s (%.3f tps)' % (t, _Total / s)
 
     if _FailX:
-        s = '' if _FailX == 1 else 's'
+        s = NN if _FailX == 1 else 's'
         x = '%d (of %d) test%s FAILED' % (_FailX, _Total, s)
     elif _Total > 0:
         x = 'all %d tests OK' % (_Total,)
     else:
         x = 'all OK'
 
-    t = '%s%s %s: %s (%s) %s' % (p, argv0, PythonX_O, x, v, t)
+    t = '%s%s %s: %s (%s) %s' % (p, argv0, PythonX_, x, v, t)
     _exit(t, t, 2 if _FailX else 0)
 
 # **) MIT License

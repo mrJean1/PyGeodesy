@@ -10,7 +10,7 @@
 # from copy import copy as _xcopy
 from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
-from os import getenv
+from os import X_OK, access, getenv  # environ
 from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
@@ -31,7 +31,7 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, \
+from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, isint, \
                       isLazy, issubclassof, iterNumpy2over, LazyImportError, \
                       map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
@@ -47,7 +47,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.06.18'
+__version__ = '22.08.01'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -84,6 +84,9 @@ if _W_opts:
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX
 
+endswith   = str.endswith
+startswith = str.startswith
+
 # isiOS is used by some tests known to fail on iOS only
 isiOS      = sys.platform == 'ios'  # public
 ismacOS    = sys.platform == 'darwin'  # public
@@ -91,15 +94,9 @@ isNix      = uname()[0] in ('Linux', 'linux')
 isPyPy     = '[PyPy ' in sys.version  # platform.python_implementation() == 'PyPy'
 isPython2  = sys.version_info[0] == 2
 isPython3  = sys.version_info[0] == 3
-isPython35 = sys.version_info[:2] >= (3, 5)  # for testCartesian
-isPython37 = sys.version_info[:2] >= (3, 7)  # for testLazy
+isPython35 = sys.version_info[:2] >= (3, 5)  # in .testCartesian
+isPython37 = sys.version_info[:2] >= (3, 7)  # in .run, .testLazy
 isWindows  = sys.platform[:3] == 'win'
-
-GeodSolve  = getenv('PYGEODESY_GEODSOLVE', None)
-RhumbSolve = getenv('PYGEODESY_RHUMBSOLVE', None)
-
-endswith   = str.endswith
-startswith = str.startswith
 
 try:
     # use distro only for Linux, not macOS, etc.
@@ -127,12 +124,15 @@ except ImportError:
 class RandomLatLon(object):
     '''Random LatLon(lat, lon) generator.
     '''
-    _random = None
+    _random  = None
+    _ndigits = None
 
-    def __init__(self, LatLon, lat_=170, lon_=350):  # +/- ranges
+    def __init__(self, LatLon, lat_=170, lon_=350, ndigits=None):  # +/- ranges
         self._LatLon = LatLon
-        self._lat_ = lat_
-        self._lon_ = lon_
+        self._lat = lat_
+        self._lon = lon_
+        if ndigits and isint(ndigits):
+            self._ndigits = ndigits
 
         if self._random is None:
             import random
@@ -141,9 +141,16 @@ class RandomLatLon(object):
             RandomLatLon._random = random.random
 
     def __call__(self, **LatLon_kwds):
-        lat = (self._random() - 0.5) * self._lat_
-        lon = (self._random() - 0.5) * self._lon_
+        lat = self._random_round(self._lat)
+        lon = self._random_round(self._lon)
         return self._LatLon(lat, lon, **LatLon_kwds)
+
+    def _random_round(self, scale):
+        r = (self._random() - 0.5) * scale
+        n =  self._ndigits
+        if n is not None:
+            r = round(r, n)  # ndigits=None
+        return r
 
 
 class TestsBase(object):
@@ -159,7 +166,7 @@ class TestsBase(object):
     _testX    =  False  # slow Exact test
     _time     =  0
     _verbose  =  True  # print all tests, otherwise failures only
-    _versions =  NN  # cached versions() string
+    _versions =  NN  # cached versions() string, set below
 
     failed  = 0
     known   = 0
@@ -168,16 +175,14 @@ class TestsBase(object):
 
     def __init__(self, testfile, version, module=None, verbose=True,
                                           raiser=False, testX=False):
-        if not self._versions:  # get versions once
-            TestsBase._versions = versions()
-        self._file = testfile
-        self._name = basename(testfile)
+        self._file    = testfile
+        self._name    = basename(testfile)
         self.title(self._name, version, module=module)
-        self._time = time()
         self._verbose = verbose
-        self._raiser = raiser if raiser else '-raiser'.startswith(sys.argv[-1])
-        self._testX = testX if testX else ('-testX' in sys.argv[1:] or
-                                           '-Exact' in sys.argv[1:])
+        self._raiser  = raiser if raiser else '-raiser'.startswith(sys.argv[-1])
+        self._testX   = testX if testX else ('-testX' in sys.argv[1:] or
+                                             '-Exact' in sys.argv[1:])
+        self._time    = time()
 
     def errors(self):
         '''Return the number of tests failures,
@@ -378,6 +383,19 @@ class TestError(RuntimeError):  # ValueError's are often caught
         RuntimeError.__init__(self, fmt % args)
 
 
+def _getenv_path(envar):
+    '''(INTERNAL) Get and validate the path of an executable.
+    '''
+    p = getenv(envar, None) or None
+    if p and not access(p, X_OK):
+        # zap the envar to avoid double messages
+        # when invoked as C{python -m test.base}
+        # environ[envar] = NN
+        print('env %s=%r not executable' % (envar, p))
+        p = None
+    return p
+
+
 def _get_kwds(fmt='%s', prec=0, known=False, **kwds):
     '''(INTERNAL) Get C{fmt}, C{known} and other C{kwds}.
     '''
@@ -405,6 +423,19 @@ else:  # non-iOS
         '''Get the iOS version information.
         '''
         return (NN, (NN, NN, NN), NN)
+
+
+def _name_version(path):
+    '''(INTERNAL) Get the C{(name, version)} of an executable.
+    '''
+    if path:
+        from pygeodesy.solveBase import _popen2
+        try:
+            _, r = _popen2((path, '--version'))
+            return basename(path), r.split()[-1]
+        except (IndexError, IOError, OSError):
+            pass
+    return ()
 
 
 def secs2str(secs):
@@ -485,6 +516,9 @@ def versions():
                 vs += 'geoMath',
             vs += ('_K_2_0' if _K_2_0 else '_K_1_0'),
 
+        for t in (GeoConvert, GeodSolve, RhumbSolve):
+            vs += _name_version(t)
+
         # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
         #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
         # - win32_ver is ('XP', ..., 'SP3', ...) on Windows XP SP3
@@ -517,6 +551,11 @@ def versions():
 
     return TestsBase._versions
 
+
+GeoConvert = _getenv_path('PYGEODESY_GEOCONVERT')
+GeodSolve  = _getenv_path('PYGEODESY_GEODSOLVE')
+RhumbSolve = _getenv_path('PYGEODESY_RHUMBSOLVE')
+# versions()  # get versions once
 
 if __name__ == '__main__':
 

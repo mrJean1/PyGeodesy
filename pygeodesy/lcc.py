@@ -48,7 +48,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.06.24'
+__version__ = '22.08.01'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -663,11 +663,11 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import _NL_, _NL_var_
+    from pygeodesy.interns import _NL_, _NLATvar_
 
     # __doc__ of this file, force all into registery
     t = _NL_ + Conics.toRepr(all=True)
-    print(_NL_var_.join(t.split(_NL_)))
+    print(_NLATvar_.join(t.split(_NL_)))
 
 # **) MIT License
 #

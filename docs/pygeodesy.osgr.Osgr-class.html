@@ -149,7 +149,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">5</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       Return a string representation of this OSGR coordinate.</td>
@@ -169,7 +169,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">5</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">' '</span>)</span><br />
       Return a string representation of this OSGR coordinate.</td>
           <td align="right" valign="top">
@@ -436,7 +436,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">5</span>,
         <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
   </h3>
@@ -449,7 +449,9 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Number of digits (<code>int</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Number of digits (<code>int</code>), see method <a 
+          href="pygeodesy.osgr.Osgr-class.html#toStr" 
+          class="link">Osgr.toStr</a>.</li>
         <li><strong class="pname"><code>fmt</code></strong> - Enclosing backets format (<code>str</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>).</li>
     </ul></dd>
@@ -457,11 +459,18 @@
         <dd>This OSGR (<code>str</code>) &quot;[G:00B, E:meter, 
           N:meter]&quot; or &quot;[OSGR:meter,meter]&quot; if 
           <b><code>prec</code></b> is non-positive.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        OSGR grid references are truncated, not rounded (unlike UTM).
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toStr"></a>
 <div>
@@ -471,7 +480,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">5</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default">' '</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -480,12 +489,10 @@
   </tr></table>
   
   <p>Return a string representation of this OSGR coordinate.</p>
-  <p>Note that OSGR coordinates are truncated, not rounded (unlike UTM grid
-  references).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The number of digits (<code>int</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>) or 
           <code>None</code> to return an unjoined <code>tuple</code> of 
           <code>str</code>s.</li>
@@ -502,7 +509,10 @@
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        OSGR grid references are truncated, not rounded (unlike UTM).
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>r = Osgr(651409, 313177)
 <span class="py-prompt">&gt;&gt;&gt; </span>str(r)  <span class="py-comment"># TG 5140 1317</span>
@@ -652,7 +662,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jul 24 11:09:52 2022
+    Generated by Epydoc 3.0.1 on Tue Aug  2 16:07:07 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -214,6 +214,11 @@
     utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
     target="_top">GeodSolve</a> to be executable.</p>
+    <p>To compare <code>MGRS</code> results from modules <a 
+    href="pygeodesy.mgrs-module.html" class="link">mgrs</a> and 
+    <code>testMgrs</code> with <i>Karney</i>'s C++ utility <a 
+    href="https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html" 
+    target="_top">GeoConvert</a>, the latter must be executable.</p>
     <p>Module <a href="pygeodesy.rhumbsolve-module.html" 
     class="link">rhumbsolve</a> needs <i>Karney</i>'s C++ utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
@@ -230,48 +235,50 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.10.5 (with <a 
+    <p>The tests ran with Python 3.11.0b5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a>, 2.0, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4 
-    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.8.1), Python 3.9.6, Python 3.8.10 (with <a 
+    target="_top">geographiclib</a> 2.0), Python 3.10.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 2.0, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4, 
+    <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.8.1,
+    <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeoConvert</a> 1.51, <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeodSolve</a> 1.51 and <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">RhumbSolve</a> 1.51), Python 3.9.6, Python 3.8.10 (with 
+    <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52, <a 
-    href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and Python 2.7.18 (with <a 
-    href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> 1.51, all on macOS 12.4 Monterey and in 
-    64-bit only.  The tests are run with and without <code>lazy 
-    import</code> for Python 3 and with command line option <code>-W 
-    default</code> and env variable <code>PYGEODESY_WARNINGS=on</code> for 
-    all Python versions.  The results of only those tests are included in 
-    the distribution files.</p>
-    <p>Python 3.10.5 and 3.9.6 run on Apple M1 Silicon (<code>arm64</code> 
-    <i>natively</i>), all other Python versions run on Intel 
-    (<code>x86_64</code>) or Intel <i>emulation</i> 
-    (<code>&quot;arm64_x86_64&quot;</code>, see function <a 
-    href="pygeodesy.interns-module.html#machine" 
-    class="link">pygeodesy.machine</a>).</p>
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.50, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
+    <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.2,
+    <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeoConvert</a> 1.51, <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">GeodSolve</a> 1.51 and <a 
+    href="https://GeographicLib.SourceForge.io/html/utilities.html" 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 12.5 Monterey and in 
+    64-bit only.</p>
+    <p>All tests ran with and without <code>lazy import</code> for Python 3
+    and with command line option <code>-W default</code> and env variable 
+    <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
+    results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.10.5 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4 
-    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.8.1), Python 3.9.6, Python 3.8.10 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
-    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.5.2) and Python 2.7.18 (<a 
-    href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-    target="_top">GeodSolve</a>).  The complete coverage report in HTML and
-    a PDF summary are included in the distribution files.</p>
+    4.5.4 using Python 3.10.5, 3.9.6 and 2.7.18.  The complete coverage 
+    report in HTML and a PDF summary are included in the distribution 
+    files.</p>
+    <p>Python 3.11.0b5, 3.10.5 and 3.9.6 ran on Apple M1 Silicon 
+    (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
+    Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
+    (&quot;<code>arm64_x86_64</code>&quot;), see function <a 
+    href="pygeodesy.interns-module.html#machine" 
+    class="link">pygeodesy.machine</a>.</p>
     <p>The tests also ran with Python 3.10.5 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
@@ -306,13 +313,13 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 12.1-3.1 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
+    on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista3.2</a> (with geographiclib 1.50 or 1.49 and 
-    numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6 and/or 
-    iPhone10, with <a href="https://OMZ-Software.com/pythonista" 
+    numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
+    and/or iPhone12, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
     on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 
     10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.</p>
@@ -327,7 +334,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.4, both in 64-bit on macOS 
-    12.4 Monterey.</p>
+    12.5 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -352,6 +359,10 @@
         class="link">pygeodesy.errors</a>.
       </li>
       <li>
+        <code>PYGEODESY_GEOCONVERT</code> - see module <a 
+        href="pygeodesy.mgrs-module.html" class="link">pygeodesy.mgrs</a>.
+      </li>
+      <li>
         <code>PYGEODESY_GEODSOLVE</code> - see module <a 
         href="pygeodesy.geodsolve-module.html" 
         class="link">pygeodesy.geodsolve</a>.
@@ -371,6 +382,12 @@
         <code>PYGEODESY_RHUMBSOLVE</code> - see module <a 
         href="pygeodesy.rhumbsolve-module.html" 
         class="link">pygeodesy.rhumbsolve</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_UPS_POLES</code> - see modules <a 
+        href="pygeodesy.ups-module.html" class="link">pygeodesy.ups</a> and
+        <a href="pygeodesy.mgrs-module.html" 
+        class="link">pygeodesy.mgrs</a>.
       </li>
       <li>
         <code>PYGEODESY_BEARING_STD_REPR</code> - see method <a 
@@ -483,7 +500,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.07.22
+        22.08.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3235,9 +3252,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs4Tuple-class.html" class="summary-name">Mgrs4Tuple</a><br />
-      4-Tuple <code>(zone, digraph, easting, northing)</code>, 
-        <code>zone</code> and <code>digraph</code> as <code>str</code>, 
-        <code>easting</code> and <code>northing</code> in 
+      4-Tuple <code>(zone, EN, easting, northing)</code>, 
+        <code>zone</code> and grid tile <code>EN</code> as 
+        <code>str</code>, <code>easting</code> and <code>northing</code> in
         <code>meter</code>.
     </td>
   </tr>
@@ -3246,8 +3263,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs6Tuple-class.html" class="summary-name">Mgrs6Tuple</a><br />
-      6-Tuple <code>(zone, digraph, easting, northing, band, 
-        datum)</code>, <code>zone</code>, <code>digraph</code> and 
+      6-Tuple <code>(zone, EN, easting, northing, band, datum)</code>, 
+        with <code>zone</code>, grid tile <code>EN</code> and 
         <code>band</code> as <code>str</code>, <code>easting</code> and 
         <code>northing</code> in <code>meter</code> and <code>datum</code> 
         a <a href="pygeodesy.datums.Datum-class.html" 
@@ -5423,7 +5440,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">bstr</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">sb</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
         <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
       Clip a string to the given length limit.</td>
@@ -6174,7 +6191,7 @@
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">prec</span>,
         <span class="summary-sig-arg">*extras</span>)</span><br />
-      Return easting, northing string representations.</td>
+      Return an easting, northing string representations.</td>
           <td align="right" valign="top">
             
             
@@ -7612,7 +7629,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f79d04695d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff2a068c8d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9692,7 +9709,7 @@
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
-      <code>&quot;zoneBand, grid, easting, northing&quot;</code>.</td>
+      <code>&quot;[zone]Band, EN, easting, northing&quot;</code>.</td>
           <td align="right" valign="top">
             
             
@@ -10701,6 +10718,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="str2ub"></a><span class="summary-sig-name">str2ub</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      NOP, pass thru.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#strs" class="summary-sig-name">strs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
@@ -11350,9 +11384,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">ub</span>)</span><br />
-      Convert <code>unicode</code> or <code>bytes</code> to 
-      <code>str</code>.</td>
+          <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      NOP, pass thru.</td>
           <td align="right" valign="top">
             
             
@@ -11808,7 +11841,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.7.22'"><code class="variable-quote">'</code><code class="variable-string">22.7.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.2'"><code class="variable-quote">'</code><code class="variable-string">22.8.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14596,7 +14629,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>&nbsp;(<span class="sig-arg">bstr</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>&nbsp;(<span class="sig-arg">sb</span>,
         <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
         <span class="sig-arg">white</span>=<span class="sig-default">''</span>)</span>
   </h3>
@@ -14609,12 +14642,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bstr</code></strong> - String (<code>bytes</code> or <code>str</code>).</li>
+        <li><strong class="pname"><code>sb</code></strong> - String (<code>str</code> or <code>bytes</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
         <li><strong class="pname"><code>white</code></strong> - Optionally, replace all whitespace (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The clipped or unclipped <b><code>bstr</code></b>.</dd>
+        <dd>The clipped or unclipped <b><code>sb</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -16082,8 +16115,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         or other <code>-Error</code> as a string (<code>str</code>).
       </p>
       <p><strong>See Also:</strong>
-        <a href="https://NationalMap.gov/epqs" target="_top">USGS National 
-        Map</a>, the <a 
+        <a href="https://NationalMap.gov/epqs" target="_top">USGS Elevation
+        Point Query Service</a>, the <a 
         href="https://www.USGS.gov/faqs/what-are-projection-horizontal-and-vertical-datum-units-and-resolution-3dep-standard-dems"
         target="_top">FAQ</a>, <a href="https://Gist.GitHub.com/pyRobShrk" 
         target="_top">geoid.py</a>, module <a 
@@ -16170,24 +16203,31 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return easting, northing string representations.</p>
+  <p>Return an easting, northing string representations.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>).</li>
         <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (<code>meter</code>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>, 2..10).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Precision, the number of <i>decimal</i> digits (<code>int</code>)
+          or if negative, the number of <i>units to drop</i>, like MGRS <a 
+          href="https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION"
+          target="_top">PRECISION</a>.</li>
         <li><strong class="pname"><code>extras</code></strong> - Optional leading items (<code>str</code>s).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><b><code>extras</code></b> + 2-Tuple <code>(eastingStr, 
-          northingStr)</code>.</dd>
+        <dd><b><code>extras</code></b> + 2-tuple <code>(str(<b>easting</b>), 
+          str(<b>northing</b>))</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The <b><code>easting</code></b> and <b><code>northing</code></b> 
+        values are <i>truncated, not rounded</i>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="epoch2date"></a>
 <div>
@@ -19169,7 +19209,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f79d04695d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff2a068c8d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23327,7 +23367,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Parse a string representing a MGRS grid reference, consisting of 
-  <code>&quot;zoneBand, grid, easting, northing&quot;</code>.</p>
+  <code>&quot;[zone]Band, EN, easting, northing&quot;</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -23343,7 +23383,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
           <code><b>Mgrs</b> is None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
-          class="link">Mgrs4Tuple</a><code>(zone, digraph, easting, 
+          class="link">Mgrs4Tuple</a><code>(zone, EN, easting, 
           northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -23356,12 +23396,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '31U DQ 48251 11932'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31UDQ4825111932'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>repr(m)  <span class="py-comment"># [Z:31U, G:DQ, E:48251, N:11932]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD0970538646'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'42SXD0970538646'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 09705 38646'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD9738'</span>)  <span class="py-comment"># Km</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'42SXD9738'</span>)  <span class="py-comment"># Km</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 97000 38000'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'YUB17770380'</span>)  <span class="py-comment"># polar</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '00Y UB 17770 03800'</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'YUB17770380'</span>)  <span class="py-comment"># polar</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 'Y UB 17770 03800'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -26159,34 +26199,42 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Convert a UTM or UPS coordinate to an MGRS grid reference.
-
-@arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups]).
-@kwarg Mgrs: Optional class to return the MGRS grid reference
-             (L{Mgrs}) or C{None}.
-@kwarg name: Optional B{C{Mgrs}} name (C{str}).
-@kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
-                  arguments, ignored if C{B{Mgrs} is None}.
-
-@return: The MGRS grid reference as B{C{Mgrs}} or if
-         C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
-         digraph, easting, northing, band, datum)}.
-
-@raise MGRSError: Invalid B{C{utmups}}.
-
-@raise TypeError: If B{C{utmups}} is not L{Utm} nor L{Etm}
-                  nor L{Ups}.
-
-@example:
-
- &gt;&gt;&gt; u = Utm(31, 'N', 448251, 5411932)
- &gt;&gt;&gt; m = u.toMgrs()  # 31U DQ 48251 11932
-
-</pre>
+  <p>Convert a UTM or UPS coordinate to an MGRS grid reference.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>utmups</code></strong> - A UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>, <a href="pygeodesy.etm.Etm-class.html" 
+          class="link">Etm</a> or <a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Ups</a>).</li>
+        <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
+          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
+          ignored if <code><b>Mgrs</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
+          <code><b>Mgrs</b> is None</code> as an <a 
+          href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
+          class="link">Mgrs6Tuple</a><code>(zone, EN, easting, northing, 
+          band, datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>utmups</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>utmups</code></b> is not <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> nor <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> nor <a 
+        href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = Utm(31, <span class="py-string">'N'</span>, 448251, 5411932)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = u.toMgrs()  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toOsgr"></a>
 <div>
@@ -27313,7 +27361,8 @@ Convert a UTM or UPS coordinate to an MGRS grid reference.
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
           class="link">UtmUpsLatLon5Tuple</a><code>(zone, band, hemipole, 
           lat, lon)</code> where <code>hemipole</code> is the 
-          <code>'N'|'S'</code> pole, the UPS projection top/center.</dd>
+          <code>'N'|'S'</code> pole, the UPS projection top/center and 
+          <code>lon</code> [-180..180).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - If <b><code>strict</code></b> and <b><code>lat</code></b> in the 
@@ -27324,7 +27373,13 @@ Convert a UTM or UPS coordinate to an MGRS grid reference.
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>lon</code> is set to <code>0</code> if 
+        <b><code>lat</code></b> is <code>-90</code> or <code>90</code>, see
+        env variable <code>PYGEODESY_UPS_POLES</code> in module <a 
+        href="pygeodesy.ups-module.html" class="link">pygeodesy.ups</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="utmZoneBand2"></a>
 <div>
@@ -28091,7 +28146,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jul 24 11:09:49 2022
+    Generated by Epydoc 3.0.1 on Tue Aug  2 16:07:02 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

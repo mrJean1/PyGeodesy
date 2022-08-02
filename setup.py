@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.06.18'
+__version__ = '22.08.01'
 
 
 def _c2(*names):
@@ -63,10 +63,9 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Euclidean', 'ExactTM', 'excess',
              'Farrell', 'Farrell-Barth', 'flattening', 'Field-Of-View', 'fmath',
              'footprint', 'Forsythe', 'FOV', 'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum',
-             'GARS', 'geocentric', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
+             'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
-             'georef', 'Girard', 'gnomonic',
-             'gons', 'grades', 'gradians',
+             'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians',
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
@@ -74,14 +73,12 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Jarque-Bera', 'Jekel', 'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
-             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS',
-             'lstsq', 'LTP', 'lune',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'lstsq', 'LTP', 'lune',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
-             'perimeter', 'Peucker', 'Pierlot', 'pitch',
-             'Point-Of-View', 'polar', 'POV',
+             'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'POV',
              'precision-running-summation', 'precision-summation', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
@@ -137,6 +134,7 @@ setup(name='PyGeodesy',
                    _c2('Programming Language', 'Python', '3.8'),
                    _c2('Programming Language', 'Python', '3.9'),
                    _c2('Programming Language', 'Python', '3.10'),
+                   _c2('Programming Language', 'Python', '3.11'),
                    _c2('Topic', 'Software Development'),
                    _c2('Topic', 'Scientific/Engineering', 'GIS'),
       ],  # PYCHOK indent

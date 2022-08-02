@@ -4,11 +4,12 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.02.11'
+__version__ = '22.07.27'
 
-from base import TestsBase
+from base import endswith, TestsBase
 
-from pygeodesy import degDMS, F_DMS, parseUTMUPS5, strs, toUps8, toUtmUps8, ups, Ups, UtmUps
+from pygeodesy import degDMS, F_DMS, parseUTMUPS5, RangeError, strs, \
+                      toUps8, toUtmUps8, ups, Ups, UtmUps
 
 
 class Tests(TestsBase):
@@ -36,8 +37,11 @@ class Tests(TestsBase):
 
         m = u.toMgrs()
         self.test('UtmUps.toMgrs', m, '60T UP 60176 38249')
-        t = u.toUps()
-        self.test('UtmUps.toUps', t, '00 N 2448252 7411933')  # UTM to UPS ???
+        try:
+            t = u.toUps()
+            self.test('toUps', str(u), RangeError.__name__)
+        except Exception as x:
+            self.test('toUps', str(x), 'inside UTM range [-79.5, 83.5]', known=endswith)
         t = u.toUtm(u.zone)
         self.test('UtmUps.toUtm', t, '60 N 360177 4838249')
 
@@ -178,6 +182,12 @@ class Tests(TestsBase):
             ll = u.toLatLon(LL)
             t = ' '.join(strs(ll.latlon, prec=10))
             self.test('NGA-10.3-' + i, t, x, known=i == '3')
+
+        u = LL(83.6, 0).toUps()  # coverage
+        self.test('toUps', str(u.toUps()), '00 N 2000000 1288738')
+        self.test('toUtm', str(u.toUtm(2)), '02 N 611555 10703765')
+        u = Ups()  # default kwds
+        self.test('toUtm', repr(u), '[Z:00Z, H:N, E:2000000, N:2000000]')
 
 
 if __name__ == '__main__':

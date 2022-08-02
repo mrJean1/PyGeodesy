@@ -60,13 +60,14 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module mgrs</h1><p class="nomargin-top"></p>
 <p>Military Grid Reference System (MGRS/NATO) references.</p>
-  <p>Military Grid Reference System (MGRS/NATO) classes <a 
-  href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and <a 
-  href="pygeodesy.errors.MGRSError-class.html" class="link">MGRSError</a> 
+  <p>Classes <a href="pygeodesy.mgrs.Mgrs-class.html" 
+  class="link">Mgrs</a>, <a href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
+  class="link">Mgrs4Tuple</a> and <a 
+  href="pygeodesy.mgrs.Mgrs6Tuple-class.html" class="link">Mgrs6Tuple</a> 
   and functions <a href="pygeodesy.mgrs-module.html#parseMGRS" 
   class="link">parseMGRS</a> and <a 
   href="pygeodesy.mgrs-module.html#toMgrs" class="link">toMgrs</a>.</p>
-  <p>Pure Python implementation of MGRS / UTM / UPS conversion functions 
+  <p>Pure Python implementation of MGRS, UTM and UPS conversion functions 
   using an ellipsoidal earth model, in part transcoded from JavaScript 
   originals by <i>(C) Chris Veness 2014-2016</i> published under the same 
   MIT Licence**, see <a 
@@ -74,23 +75,35 @@
   target="_top">MGRS</a> and <a 
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html"
   target="_top">Module mgrs</a>.</p>
-  <p>The MGRS/NATO grid references provide geocoordinate references 
-  covering the entire globe, based on UTM and UPS projections.</p>
   <p>MGRS references comprise a grid zone designation (GZD), a 100 km grid 
-  (square) tile identification, and an easting and northing (in 
+  (square) tile identification and an easting and northing (in 
   <code>meter</code>).  The GZD consists of a longitudinal zone (or column)
-  number and latitudinal band (row) letter.  Each zone (column) is 6 
-  degrees wide and each band (row) is 8 degrees high, except the top one 
-  'X' is 12 degrees tall.</p>
+  <i>number</i> and latitudinal band (row) <i>letter</i> in the UTM region 
+  between 80&#176;S and 84&#176;N.  Each zone (column) is 6&#176; wide and each band (row)
+  is 8&#176; high, except top band 'X' is 12&#176; tall.  In UPS polar regions below 
+  80&#176;S and above 84&#176;N the GZD contains only a single <i>letter</i>, 
+  <code>'A'</code> or <code>'B'</code> near the south and <code>'Y'</code> 
+  or <code>'Z'</code> around the north pole (for west respectively east 
+  longitudes).</p>
   <p>See also the <a 
   href="https://www.FGDC.gov/standards/projects/FGDC-standards-projects/usng/fgdc_std_011_2001_usng.pdf"
   target="_top">United States National Grid</a> and <a 
   href="https://WikiPedia.org/wiki/Military_grid_reference_system" 
   target="_top">Military Grid Reference System</a>.</p>
+  <p>See module <a href="pygeodesy.ups-module.html" 
+  class="link">pygeodesy.ups</a> for env variable 
+  <code>PYGEODESY_UPS_POLES</code> determining the UPS encoding <i>at</i> 
+  the south and north pole.</p>
+  <p>Set env variable <code>PYGEODESY_GEOCONVERT</code> to the (fully 
+  qualified) path of the <code>GeoConvert</code> executable to run this 
+  module as <i>python[3] -m pygeodesy.mgrs</i> and compare the MGRS results
+  with those from <i>Karney</i>'s utility <a 
+  href="https://GeographicLib.sourceforge.io/C++/doc/GeoConvert.1.html" 
+  target="_top">GeoConvert</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.07.23
+        22.08.01
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -114,9 +127,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs4Tuple-class.html" class="summary-name">Mgrs4Tuple</a><br />
-      4-Tuple <code>(zone, digraph, easting, northing)</code>, 
-        <code>zone</code> and <code>digraph</code> as <code>str</code>, 
-        <code>easting</code> and <code>northing</code> in 
+      4-Tuple <code>(zone, EN, easting, northing)</code>, 
+        <code>zone</code> and grid tile <code>EN</code> as 
+        <code>str</code>, <code>easting</code> and <code>northing</code> in
         <code>meter</code>.
     </td>
   </tr>
@@ -125,8 +138,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs6Tuple-class.html" class="summary-name">Mgrs6Tuple</a><br />
-      6-Tuple <code>(zone, digraph, easting, northing, band, 
-        datum)</code>, <code>zone</code>, <code>digraph</code> and 
+      6-Tuple <code>(zone, EN, easting, northing, band, datum)</code>, 
+        with <code>zone</code>, grid tile <code>EN</code> and 
         <code>band</code> as <code>str</code>, <code>easting</code> and 
         <code>northing</code> in <code>meter</code> and <code>datum</code> 
         a <a href="pygeodesy.datums.Datum-class.html" 
@@ -153,7 +166,7 @@
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
-      <code>&quot;zoneBand, grid, easting, northing&quot;</code>.</td>
+      <code>&quot;[zone]Band, EN, easting, northing&quot;</code>.</td>
           <td align="right" valign="top">
             
             
@@ -227,7 +240,7 @@
   </tr></table>
   
   <p>Parse a string representing a MGRS grid reference, consisting of 
-  <code>&quot;zoneBand, grid, easting, northing&quot;</code>.</p>
+  <code>&quot;[zone]Band, EN, easting, northing&quot;</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -243,7 +256,7 @@
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
           <code><b>Mgrs</b> is None</code> as an <a 
           href="pygeodesy.mgrs.Mgrs4Tuple-class.html" 
-          class="link">Mgrs4Tuple</a><code>(zone, digraph, easting, 
+          class="link">Mgrs4Tuple</a><code>(zone, EN, easting, 
           northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -256,12 +269,12 @@
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '31U DQ 48251 11932'</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'31UDQ4825111932'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>repr(m)  <span class="py-comment"># [Z:31U, G:DQ, E:48251, N:11932]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD0970538646'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'42SXD0970538646'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 09705 38646'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'42SXD9738'</span>)  <span class="py-comment"># Km</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'42SXD9738'</span>)  <span class="py-comment"># Km</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '42S XD 97000 38000'</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>m = mgrs.parseMGRS(<span class="py-string">'YUB17770380'</span>)  <span class="py-comment"># polar</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># '00Y UB 17770 03800'</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>m = parseMGRS(<span class="py-string">'YUB17770380'</span>)  <span class="py-comment"># polar</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>str(m)  <span class="py-comment"># 'Y UB 17770 03800'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -282,34 +295,42 @@
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Convert a UTM or UPS coordinate to an MGRS grid reference.
-
-@arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups]).
-@kwarg Mgrs: Optional class to return the MGRS grid reference
-             (L{Mgrs}) or C{None}.
-@kwarg name: Optional B{C{Mgrs}} name (C{str}).
-@kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
-                  arguments, ignored if C{B{Mgrs} is None}.
-
-@return: The MGRS grid reference as B{C{Mgrs}} or if
-         C{B{Mgrs} is None} as an L{Mgrs6Tuple}C{(zone,
-         digraph, easting, northing, band, datum)}.
-
-@raise MGRSError: Invalid B{C{utmups}}.
-
-@raise TypeError: If B{C{utmups}} is not L{Utm} nor L{Etm}
-                  nor L{Ups}.
-
-@example:
-
- &gt;&gt;&gt; u = Utm(31, 'N', 448251, 5411932)
- &gt;&gt;&gt; m = u.toMgrs()  # 31U DQ 48251 11932
-
-</pre>
+  <p>Convert a UTM or UPS coordinate to an MGRS grid reference.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>utmups</code></strong> - A UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html" 
+          class="link">Utm</a>, <a href="pygeodesy.etm.Etm-class.html" 
+          class="link">Etm</a> or <a href="pygeodesy.ups.Ups-class.html" 
+          class="link">Ups</a>).</li>
+        <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
+          href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Mgrs</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>Mgrs_kwds</code></strong> - Optional, additional <b><code>Mgrs</code></b> keyword arguments, 
+          ignored if <code><b>Mgrs</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
+          <code><b>Mgrs</b> is None</code> as an <a 
+          href="pygeodesy.mgrs.Mgrs6Tuple-class.html" 
+          class="link">Mgrs6Tuple</a><code>(zone, EN, easting, northing, 
+          band, datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.MGRSError-class.html">MGRSError</a></strong></code> - Invalid <b><code>utmups</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>utmups</code></b> is not <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> nor <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> nor <a 
+        href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = Utm(31, <span class="py-string">'N'</span>, 448251, 5411932)
+<span class="py-prompt">&gt;&gt;&gt; </span>m = u.toMgrs()  <span class="py-comment"># 31U DQ 48251 11932</span></pre>
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -343,7 +364,7 @@ Convert a UTM or UPS coordinate to an MGRS grid reference.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jul 24 11:09:50 2022
+    Generated by Epydoc 3.0.1 on Tue Aug  2 16:07:02 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

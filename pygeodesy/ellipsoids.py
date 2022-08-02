@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.07.12'
+__version__ = '22.08.01'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -2169,14 +2169,14 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import _COMMA_, _NL_, _NL_hash_, _NL_var_
+    from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_, _NLHASH_
     from pygeodesy.named import nameof
 
     for E in (Ellipsoids.WGS84, Ellipsoids.GRS80,  # NAD83,
               Ellipsoids.Sphere, Ellipsoids.SpherePopular,
               Ellipsoid(Ellipsoids.WGS84.b, Ellipsoids.WGS84.a, name='_Prolate')):
         e = f2n(E.f) - E.n
-        t = NN(_COMMA_, _NL_hash_, _SPACE_)(E.toStr(prec=10),  # re-callable
+        t = NN(_COMMA_, _NLHASH_, _SPACE_)(E.toStr(prec=10),  # re-callable
                'e=%s, f_=%s, f=%s, n=%s (%s)' % (fstr(E.e,  prec=13, fmt=Fmt.e),
                                                  fstr(E.f_, prec=13, fmt=Fmt.e),
                                                  fstr(E.f,  prec=13, fmt=Fmt.e),
@@ -2186,11 +2186,11 @@ if __name__ == '__main__':
                '%s= (%s)'  % (Ellipsoid.BetaKs.name,  fstr(E.BetaKs,  prec=20),),
                '%s= %s'    % (nameof(Ellipsoid.KsOrder),   E.KsOrder),  # property
                '%s=  (%s)' % (Ellipsoid.Mabcd.name,   fstr(E.Mabcd,   prec=20),))
-        print('%s%s: %s' % (_NL_hash_, _DOT_(E.classname, E.name), t))
+        print('%s%s: %s' % (_NLHASH_, _DOT_(E.classname, E.name), t))
 
     # __doc__ of this file, force all into registry
     t = [NN] + Ellipsoids.toRepr(all=True).split(_NL_)
-    print(_NL_var_.join(i.strip(_COMMA_) for i in t))
+    print(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #

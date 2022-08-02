@@ -19,8 +19,8 @@ from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
 from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
                              _by_, _DOT_, _enquote, _EQUAL_, _in_, _INF_, \
                              _invalid_, _N_A_, _name_, _NAN_, _NINF_, _SPACE_, \
-                             _splituple, _UNDER_, _utf_8_, _version_, \
-                             _0_0, _0_5, _1_0, _360_0
+                             _splituple, _UNDER_, _version_, _0_0, _0_5, \
+                             _1_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys_version_info2
 
@@ -28,16 +28,16 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.07.04'
+__version__ = '22.08.02'
 
-_below_       = 'below'
-_cannot_      = 'cannot'
-_ELLIPSIS4_   = '....'
-_INF_NAN_NINF = {INF: _INF_, NAN: _NAN_, NINF: _NINF_}
-_odd_         = 'odd'
-_required_    = 'required'
+_below_               = 'below'
+_cannot_              = 'cannot'
+_ELLIPSIS4_           = '....'
+_INF_NAN_NINF         = {INF: _INF_, NAN: _NAN_, NINF: _NINF_}
+_odd_                 = 'odd'
+_required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
-_XPACKAGES    = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
+_XPACKAGES            = _splituple(_getenv(_PYGEODESY_XPACKAGES_, NN))
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints, Real as _Scalars
@@ -66,6 +66,12 @@ try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     _Strs  = basestring, str  # XXX , bytes
 
+    def _NOP(x):
+        '''NOP, pass thru.'''
+        return x
+
+    str2ub = ub2str = _NOP  # avoids UnicodeDecodeError
+
     def _Xstr(exc):  # PYCHOK no cover
         '''I{Invoke only with caught ImportError} B{C{exc}}.
 
@@ -85,27 +91,43 @@ try:
         return t
 
 except NameError:  # Python 3+
+    from pygeodesy.interns import _utf_8_
+
     _Bytes = bytes, bytearray
     _Strs  = str,  # tuple
     _Xstr  = str
 
+    def str2ub(sb):
+        '''Convert C{str} to C{unicode bytes}.
+        '''
+        if isinstance(sb, _Strs):
+            sb = sb.encode(_utf_8_)
+        return sb
 
-def clips(bstr, limit=50, white=NN):
+    def ub2str(ub):
+        '''Convert C{unicode bytes} to C{str}.
+        '''
+        if isinstance(ub, _Bytes):
+            ub = str(ub.decode(_utf_8_))
+        return ub
+
+
+def clips(sb, limit=50, white=NN):
     '''Clip a string to the given length limit.
 
-       @arg bstr: String (C{bytes} or C{str}).
+       @arg sb: String (C{str} or C{bytes}).
        @kwarg limit: Length limit (C{int}).
        @kwarg white: Optionally, replace all whitespace (C{str}).
 
-       @return: The clipped or unclipped B{C{bstr}}.
+       @return: The clipped or unclipped B{C{sb}}.
     '''
-    T = type(bstr)
-    if len(bstr) > limit > 8:
-        h = limit // 2
-        bstr = T(_ELLIPSIS4_).join((bstr[:h], bstr[-h:]))
+    T = type(sb)
+    if len(sb) > limit > 8:
+        h  = limit // 2
+        sb = T(_ELLIPSIS4_).join((sb[:h], sb[-h:]))
     if white:  # replace whitespace
-        bstr = T(white).join(bstr.split())
-    return bstr
+        sb = T(white).join(sb.split())
+    return sb
 
 
 def copysign0(x, y):
@@ -587,14 +609,6 @@ def splice(iterable, n=2, **fill):
             yield t[slice(i, None, n)]
     else:
         yield t
-
-
-def ub2str(ub):
-    '''Convert C{unicode} or C{bytes} to C{str}.
-    '''
-    if isinstance(ub, _Bytes):
-        ub = str(ub.decode(_utf_8_))
-    return ub
 
 
 def _umod_360(deg):

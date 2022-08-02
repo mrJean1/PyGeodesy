@@ -12,7 +12,7 @@ choices, see function L{DeprecationWarnings} below.
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, MISSING, _N_A_, _NL_NL_, \
+                             _invalid_, MISSING, _N_A_, _NL_, \
                              _SPACE_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _FOR_DOCS, _PYTHON_X_DEV, _sys
@@ -20,11 +20,12 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.06.28'
+__version__ =  '22.08.01'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
 _has_been_   = 'has been'
+_NLNL_       = _NL_ * 2
 _Warnings    =  0
 _W_DEV       = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
                 and _getenv('PYGEODESY_WARNINGS', NN)
@@ -503,7 +504,7 @@ def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''
     from warnings import warn
 
-    line =  doc.split(_NL_NL_, 1)[0].strip()
+    line =  doc.split(_NLNL_, 1)[0].strip()
     name = _MODS.streprs.Fmt.CURLY(L=name)
     text = _SPACE_(kind, name, _has_been_, *line.split())
     kwds = _xkwds(stacklevel, stacklevel=3)

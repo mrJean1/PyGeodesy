@@ -93,7 +93,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.07.13'
+__version__ = '22.08.01'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -593,12 +593,12 @@ _WGS84 = Datums.WGS84  # PYCHOK exported internally
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import _COMMA_, _NL_, _NL_var_
+    from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
 
     # __doc__ of this file, force all into registery
     for r in (Datums, Transforms):
         t = [NN] + r.toRepr(all=True).split(_NL_)
-        print(_NL_var_.join(i.strip(_COMMA_) for i in t))
+        print(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #

@@ -9,18 +9,17 @@ from pygeodesy.basics import isint, isscalar, istuplist, _zip
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
-                             _EQUAL_, _H_, _invalid_, _N_, _name_, _not_, \
-                             _PERCENT_, _scalar_, _SPACE_, _STAR_, _UNDER_, \
-                             _0_, _0_0, _0_001, _0_01, _0_1, _1_0
+                             _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
+                             _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
+                             _0_0, _10_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.06.15'
+__version__ = '22.08.01'
 
-_E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
-_OKd_   = '._-'  # acceptable name characters
+_OKd_ = '._-'  # acceptable name characters
 
 
 class _Fmt(str):  # in .streprs
@@ -201,27 +200,31 @@ def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights
 
 
 def enstr2(easting, northing, prec, *extras):
-    '''Return easting, northing string representations.
+    '''Return an easting, northing string representations.
 
        @arg easting: Easting from false easting (C{meter}).
        @arg northing: Northing from from false northing (C{meter}).
-       @arg prec: Precision in number of digits (C{int}, 2..10).
+       @arg prec: Precision, the number of I{decimal} digits (C{int}) or if
+                  negative, the number of I{units to drop}, like MGRS U{PRECISION
+                  <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
        @arg extras: Optional leading items (C{str}s).
 
-       @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
+       @return: B{C{extras}} + 2-tuple C{(str(B{easting}), str(B{northing}))}.
 
        @raise ValueError: Invalid B{C{prec}}.
+
+       @note: The B{C{easting}} and B{C{northing}} values are I{truncated, not rounded}.
     '''
     try:  # like .dms.compassPoint
-        w = int(prec) // 2
-        if 0 < w <= len(_E_4_E0):
-            s = _E_4_E0[w - 1]  # 10**(5 - w)
-            return extras + (_0wd(w, int(easting  * s)),
-                             _0wd(w, int(northing * s)))
-        t = _invalid_
+        p = int(prec)
+        w = 5 + p
+        if w < 0:  # or w > 11?
+            raise ValueError
+        p = _10_0**p  # truncate
+        return extras + (_0wd(w, int(easting  * p)),
+                         _0wd(w, int(northing * p)))
     except (TypeError, ValueError) as x:
-        t =  str(x)
-    raise _ValueError(easting=easting, northing=northing, prec=prec, txt=t)
+        raise _ValueError(easting=easting, northing=northing, prec=prec, txt=str(x))
 
 
 def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):

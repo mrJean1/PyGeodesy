@@ -69,7 +69,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.07.12'
+__version__ = '22.07.25'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -1073,7 +1073,7 @@ class Stereographic(_AzimuthalBase):
 
         return self._forward(lat, lon, name, _k_t)
 
-    @property_doc_('''optional, central scale factor (C{scalar}).''')
+    @property_doc_(''' optional, central scale factor (C{scalar}).''')
     def k0(self):
         '''Get the central scale factor (C{scalar}).
         '''
