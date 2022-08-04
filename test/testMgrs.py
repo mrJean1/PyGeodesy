@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.08.02'
+__version__ = '22.08.03'
 
 from base import basename, GeoConvert, RandomLatLon, startswith, TestsBase
 
@@ -83,7 +83,7 @@ class Tests(TestsBase):
                      ('band', 'U'),
                      ('bandLatitude', 48),
                      ('eastingnorthing', '(48251.0, 11932.0)'),
-                     ('resolution', 1),
+                     ('resolution', 1.0),
                      ('tilesize', 100e3)):
             self.test(a, getattr(p, a), x)
 
@@ -110,13 +110,24 @@ class Tests(TestsBase):
         n = m.__class__.__name__
         t = m.toStr(prec=-4)
         self.test(n, t, 'BAN00', nl=1)
-        m = parseMGRS(t, Mgrs=None, name='SouthPole')
-        n = m.__class__.__name__
-        self.test(n, str(m), "('B', 'AN', 0.0, 0.0)")
-        self.test(n, repr(m), "SouthPole(zone='B', EN='AN', easting=0.0, northing=0.0)")
-        t = m.toMgrs().toLatLon()
+        t = parseMGRS(t, Mgrs=None, name='SouthPole')
+        n = t.__class__.__name__
+        self.test(n, str(t), "('B', 'AN', 0.0, 0.0)")
+        self.test(n, repr(t), "SouthPole(zone='B', EN='AN', easting=0.0, northing=0.0)")
+        self.test('digraph', t.digraph, t.EN)  # DEPRECATED
+        t = t.toMgrs().toLatLon()
         self.test('toMgrs.toLatLon', repr(t), "SouthPole(lat=-90.0, lon=0.0, datum=Datum(name='WGS84', ", known=startswith)
-        self.test('digraph', m.digraph, m.EN)  # DEPRECATED
+
+        m = parseMGRS('BAN0000', name='SouthPole')
+        u = m.toUps()
+        n = u.__class__.__name__
+        self.test(n, u.toStr(), '00 S 2000000 2000000', nl=1)
+        u = m.toUps(center=True)
+        n = u.__class__.__name__
+        self.test(n, u.toStr(), '00 S 2000500 2000500')
+        m = parseMGRS('BAN000000000000', name='SouthPole')
+        n = m.__class__.__name__
+        self.test(n, m.resolution, '0.1')
 
         m = parseMGRS('YUB17770380')  # GeoConvert
         n = m.__class__.__name__

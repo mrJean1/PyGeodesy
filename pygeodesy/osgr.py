@@ -56,17 +56,15 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.08.02'
-
-_100_000 =  int(_100km)  # 100 km (int C{meter})
-_5040_0  = _float(5040)
+__version__ = '22.08.03'
 
 _A0 = Phi_(49)              # NatGrid true origin latitude, 49°N
 _B0 = Lam_(-2)              # NatGrid true origin longitude, 2°W
-_E0 = Easting(400e3)        # Easting of true origin (C{meter})
-_N0 = Northing(-_100km)     # Northing of true origin (C{meter})
+_E0 = Easting(4 * _100km)   # Easting of true origin (C{meter})
+_N0 = Northing(  -_100km)   # Northing of true origin (C{meter})
 _F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
 
+_5040_0      = _float(5040)
 _OSGB36      =  Datums.OSGB36  # Airy130 ellipsoid
 _no_toDatum_ = 'no .toDatum'
 _ord_A       =  ord(_A_)
@@ -330,8 +328,8 @@ class Osgr(_NamedBase):
 
         e, n, s = self._easting, self._northing, _COMMA_
         if prec > 0:
-            E, e = divmod(e, _100_000)
-            N, n = divmod(n, _100_000)
+            E, e = divmod(e, _100km)
+            N, n = divmod(n, _100km)
             E, N = int(E), int(N)
             if 0 > E or E > 6 or \
                0 > N or N > 12:

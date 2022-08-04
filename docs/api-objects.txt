@@ -2599,6 +2599,7 @@ pygeodesy.ltpTuples._xyz2aer4	pygeodesy.ltpTuples-module.html#_xyz2aer4
 pygeodesy.mgrs	pygeodesy.mgrs-module.html
 pygeodesy.mgrs.deprecated_property_RO	pygeodesy.props-module.html#deprecated_property_RO
 pygeodesy.mgrs._JtoZx_	pygeodesy.mgrs-module.html#_JtoZx_
+pygeodesy.mgrs._FnUPS	pygeodesy.mgrs-module.html#_FnUPS
 pygeodesy.mgrs.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.mgrs._AN_	pygeodesy.mgrs-module.html#_AN_
 pygeodesy.mgrs._LnUPS	pygeodesy.mgrs-module.html#_LnUPS
@@ -2623,7 +2624,6 @@ pygeodesy.mgrs.toUtm8	pygeodesy.utm-module.html#toUtm8
 pygeodesy.mgrs._hemi	pygeodesy.utmupsBase-module.html#_hemi
 pygeodesy.mgrs._to3zBlat	pygeodesy.utm-module.html#_to3zBlat
 pygeodesy.mgrs._LeUPS	pygeodesy.mgrs-module.html#_LeUPS
-pygeodesy.mgrs._FnUPS	pygeodesy.mgrs-module.html#_FnUPS
 pygeodesy.mgrs._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.mgrs._parseX	pygeodesy.errors-module.html#_parseX
 pygeodesy.mgrs._LeUTM	pygeodesy.mgrs-module.html#_LeUTM
@@ -2753,7 +2753,6 @@ pygeodesy.nvectorBase._MODS	pygeodesy.nvectorBase-module.html#_MODS
 pygeodesy.osgr	pygeodesy.osgr-module.html
 pygeodesy.osgr._ord_A	pygeodesy.osgr-module.html#_ord_A
 pygeodesy.osgr._parseX	pygeodesy.errors-module.html#_parseX
-pygeodesy.osgr._100_000	pygeodesy.osgr-module.html#_100_000
 pygeodesy.osgr._ll2datum	pygeodesy.osgr-module.html#_ll2datum
 pygeodesy.osgr._float	pygeodesy.interns-module.html#_float
 pygeodesy.osgr._B0	pygeodesy.osgr-module.html#_B0
@@ -2782,11 +2781,11 @@ pygeodesy.osgr.__all__	pygeodesy.osgr-module.html#__all__
 pygeodesy.osgr._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.osgr.enstr2	pygeodesy.streprs-module.html#enstr2
 pygeodesy.osgr._A0	pygeodesy.osgr-module.html#_A0
+pygeodesy.osgr.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.osgr._M	pygeodesy.osgr-module.html#_M
 pygeodesy.osgr.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.osgr.map1	pygeodesy.basics-module.html#map1
 pygeodesy.osgr._E0	pygeodesy.osgr-module.html#_E0
-pygeodesy.osgr.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.points	pygeodesy.points-module.html
 pygeodesy.points.isenclosedBy	pygeodesy.points-module.html#isenclosedBy
 pygeodesy.points._xkwds	pygeodesy.errors-module.html#_xkwds

@@ -39,14 +39,15 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, _A_, _AtoZnoIO_, _band_, _B_, _COMMASPACE_, \
-                             _datum_, _easting_, _invalid_, _northing_, _not_, \
-                             _SPACE_, _splituple, _W_, _Y_, _Z_, _zone_, _0_, _0_5
+                             _datum_, _DOT_, _easting_, _invalid_, _northing_, \
+                             _not_, _SPACE_, _splituple, _W_, _Y_, _Z_, _zone_, \
+                             _0_, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
-from pygeodesy.units import Easting, Northing, Str, _100km
+from pygeodesy.units import Easting, Meter, Northing, Str, _100km
 from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
@@ -54,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 from math import log10
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.08.01'
+__version__ = '22.08.03'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -82,7 +83,7 @@ class Mgrs(_NamedBase):
     _easting    =  0      # Easting (C{meter}), within 100 km grid tile
     _EN         =  NN     # EN digraph (C{str}), 100 km grid tile
     _northing   =  0      # Northing (C{meter}), within 100 km grid tile
-    _resolution =  0      # MGRS cell size (C{meter})
+    _resolution =  0      # from L{parseMGRS}, centering (C{meter})
     _zone       =  0      # longitudinal or polar zone (C{int}), 0..60
 
     def __init__(self, zone=0, EN=NN, easting=0, northing=0, band=NN,
@@ -102,7 +103,7 @@ class Mgrs(_NamedBase):
                         'A'|'B' at the south or 'Y'|'Z' at the north pole.
            @kwarg datum: This reference's datum (L{Datum}, L{Ellipsoid},
                          L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg resolution: Optional resolution, cell size (C{meter}) or C{0}.
+           @kwarg resolution: Optional resolution (C{meter}), C{0} for default.
            @kwarg name: Optional name (C{str}).
 
            @raise MGRSError: Invalid B{C{zone}}, B{C{EN}}, B{C{easting}},
@@ -183,7 +184,7 @@ class Mgrs(_NamedBase):
         '''(INTERNAL) Get the grid 2-tuple (easting, northing) in C{meter}.
 
            @note: Raises AssertionError, IndexError or KeyError: Invalid
-                  C{zone} number,r C{EN} letter or I{polar} region letter.
+                  C{zone} number, C{EN} letter or I{polar} region letter.
         '''
         EN = self.EN
         if self.isUTM:
@@ -258,26 +259,31 @@ class Mgrs(_NamedBase):
 
     @property
     def resolution(self):
-        '''Get the resolution (C{meter}).
+        '''Get the MGRS resolution (C{meter}, power of 10)
+           or C{0} if undefined.
         '''
         return self._resolution
 
     @resolution.setter  # PYCHOK setter!
     def resolution(self, resolution):
-        '''Set the resolution of this L{Mgrs} instance, as cell size (C{meter}, power of 10).
+        '''Set the MGRS resolution (C{meter}, power of 10)
+           or C{0} to undefine and disable UPS/UTM centering.
 
-           @raise MGRSError: Invalid B{C{resolution}}.
+           @raise MGRSError: Invalid B{C{resolution}}, over
+                             C{1.e+5} or under C{1.e-6}.
         '''
         if resolution:  # and resolution > 0
             try:
                 r = int(log10(resolution))
-                if 0 > r or r > 5:
+                if -6 > r or r > 5:
                     raise ValueError
-                self._resolution = 10**r
+                r = Meter(resolution=10**r)
             except (ValueError, TypeError):
                 raise MGRSError(resolution=resolution)
         else:
-            self._resolution = 0
+            r = 0
+        if self._resolution != r:
+            self._resolution = r
 
     @Property_RO
     def tilesize(self):
@@ -425,10 +431,11 @@ class Mgrs(_NamedBase):
                 b  = min(b, (3 if self.band == _W_ else 4))
                 n += b * _2000km
         if center:
-            c = self.resolution * _0_5
+            c = self.resolution
             if c:
-                e += c
-                n += c
+                c *= _0_5
+                e +=  c
+                n +=  c
         z =  self.zone
         h = _hemi(self.bandLatitude)  # _S_ if self.band < _N_ else _N_
         B =  self.band
@@ -523,7 +530,7 @@ class _RE(object):
     '''(INTERNAL) Lazily compiled C{re}gex-es to parse MGRS strings.
     '''
     _EN = '([A-Z]{2})'            # 2-letter grid tile designation
-    _en = '([0-9]+)'              # easting_northing digits, 2-10
+    _en = '([0-9]+)'              # easting_northing digits, 2-10+
     _pB = '([ABYZ]{1})'           # polar region letter, pseudo-zone 0
     _zB = '([0-9]{1,2}[C-X]{1})'  # zone number and band letter, no I|O
 
@@ -591,9 +598,10 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
 #           return (t,) + m[1:]
         raise ValueError(_SPACE_(repr(s), _invalid_))
 
-    def _s2m(g):  # e or n string to float meter
-        m = g + '00000'  # 5-digit precision
-        return float(m[:5])
+    def _s2m(g):  # e or n str to float meter
+        m =  g + '00000'
+        m = _DOT_(m[:5], m[5:11])
+        return float(m)
 
     def _MGRS(strMGRS, datum, Mgrs, name):
         m = _splituple(strMGRS.strip())
@@ -612,11 +620,11 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
             raise ValueError(_SPACE_(repr(m[0]), _invalid_))
         e, n = map(_s2m, m[2:])
 
-        p = max(map(len, m[2:]))  # precision 1..5
-        m = 10**(5 - p)  # resolution in meter
+        p = max(map(len, m[2:]))  # 2 = km, 5 = m, 7 = cm
+        m = 10**max(-6, 5 - p)  # resolution, meter
         if Mgrs is None:
             r = Mgrs4Tuple(zB, EN, e, n, name=name)
-            _ = r.toMgrs(resolution=m)  # for validation
+            _ = r.toMgrs(resolution=m)  # validate
         else:
             r = Mgrs(zB, EN, e, n, datum=datum, resolution=m, name=name)
         return r

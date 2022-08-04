@@ -26,7 +26,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.07.27'
+__version__ = '22.08.03'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -370,7 +370,7 @@ class UtmUpsBase(_NamedBase):
         notOverloaded(self, **kwds)
 
     def toMgrs(self, center=False):
-        '''Convert this UTM or ups coordinate to an MGRS grid reference.
+        '''Convert this UTM/UPS coordinate to an MGRS grid reference.
 
            @kwarg center: If C{True}, I{un}-center this UTM or UPS to
                           its C{lowerleft} (C{bool}) or by C{B{center}
