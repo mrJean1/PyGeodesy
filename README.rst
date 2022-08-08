@@ -5,8 +5,8 @@ PyGeodesy
 
 A pure Python implementation of ``geodesy`` tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
-exact, elliptic and approximate methods for geodetic (lat-/longitude) and
-geocentric (ECEF_ cartesian) coordinates.
+exact, elliptic, iterative and approximate methods for geodetic
+(lat-/longitude) and geocentric (ECEF_ cartesian) coordinates.
 
 Transcoded from `JavaScript originals`_ by *Chris Veness (C) 2005-2022*
 and from several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2022*
@@ -26,23 +26,22 @@ of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
 `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
-ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
-Stereographic), UTM_ (Exact_ and Universal Transverse Mercator) and
-`Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO Military Grid
-Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
+ECEF_ (Earth-Centered, Earth-Fixed cartesian), UTM_ (Universal Transverse
+Mercator and Exact_), UPS_ (Universal Polar Stereographic) and `Web Mercator`_
+(Pseudo-Mercator) coordinates, MGRS_ (Military Grid Reference System, UTM
+*and* UPS) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide `Albers equal-area`_ projections, equidistant_
-and other *azimuthal* projections, Lambert *conformal conic* projections
-and positions, functions to clip a path or polygon of *LatLon* points
-using the `Cohen-Sutherland`_, the `Liang-Barsky`_ and the
-`Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a
-path of *LatLon* points (or a `numpy array`_), including implementations
-of the `Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the
-`Reumann-Witkam`_ algorithms and modified versions of the former.  Other
-classes interpolate_ the Height_ of *LatLon* points and Geoid_ models
-or compute various Frechet_ or Hausdorff_ distances.
+Other modules provide `Albers equal-area`_ projections, equidistant_ and
+other *azimuthal* projections, Lambert *conformal conic* projections and
+positions, functions to clip a path or polygon of *LatLon* points using
+the `Cohen-Sutherland`_, the `Liang-Barsky`_ and the `Sutherland-Hodgman`_
+methods, functions to simplify_ or linearize a path of *LatLon* points (or
+a `numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
+the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
+versions of the former.  Other classes interpolate_ the Height_ of *LatLon*
+points and Geoid_ models or compute various Frechet_ or Hausdorff_ distances.
 
 Installation
 ============
@@ -74,13 +73,15 @@ Functions and ``LatLon`` methods ``circin6``, ``circum3``, ``circum4_``,
 
 Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal``
 classes ``EquidistantGeodSolve`` and ``GnomonicGeodSolve`` depend
-on *Karney*\'s C++ utility GeodSolve_ to be executable.
+on *Karney*\'s C++ utility GeodSolve_ to be executable and set with
+env variable ``PYGEODESY_GEODSOLVE``.
 
 To compare ``MGRS`` results from modules ``mgrs`` and ``testMgrs`` with
-*Karney*\'s C++ utility GeoConvert_, the latter must be executable.
+*Karney*\'s C++ utility GeoConvert_, the latter must be executable and
+set with env variable ``PYGEODESY_GEOCONVERT``.
 
 Module ``rhumbsolve`` needs *Karney*\'s C++ utility RhumbSolve_ to
-be executable.
+be executable and set with env variable ``PYGEODESY_RHUMBSOLVE``.
 
 Documentation
 =============
@@ -94,7 +95,7 @@ pygeodesy``.
 Tests
 =====
 
-The tests ran with Python 3.11.0b5 (with geographiclib_ 2.0), Python
+The tests ran with Python 3.11.0rc1 (with geographiclib_ 2.0), Python
 3.10.6 (with geographiclib_ 2.0, numpy_ 1.22.4, scipy_ 1.8.1, GeoConvert_
 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
@@ -107,7 +108,7 @@ line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
 Python versions.  The results of those tests are included in the distribution
 files.
 
-Python 3.11.0b5, 3.10.6 and 3.9.6 run on Apple M1 Silicon (``arm64``),
+Python 3.11.0rc1, 3.10.6 and 3.9.6 run on Apple M1 Silicon (``arm64``),
 *natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel
 *emulation* (\"``arm64_x86_64``\"), see function `pygeodesy.machine`_.
 
@@ -152,10 +153,7 @@ Monterey.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-Some function and method names differ from the JavaScript version.  In such
-cases documentation tag **JS name:** shows the original JavaScript name.
-
-*Last updated: Aug 04, 2022.*
+*Last updated: Aug 08, 2022.*
 
 License
 =======
@@ -236,7 +234,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
 .. _Liang-Barsky: https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html
 .. _McCabe: https://PyPI.org/project/mccabe
-.. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
+.. _MGRS: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1MGRS.html
 .. _MIT License: https://OpenSource.org/licenses/MIT
 .. _numpy: https://PyPI.org/project/numpy
 .. _numpy array: https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html

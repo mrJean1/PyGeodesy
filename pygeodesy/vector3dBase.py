@@ -27,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.06.16'
+__version__ = '22.08.05'
 
 
 class Vector3dBase(_NamedBase):
@@ -695,8 +695,6 @@ class Vector3dBase(_NamedBase):
            @arg theta: The angle of rotation (C{radians}).
 
            @return: New, rotated vector (L{Vector3d}).
-
-           @JSname: I{rotateAround}.
         '''
         p = self.unit().xyz  # point being rotated
         r = self.others(axis=axis).unit()  # axis being rotated around

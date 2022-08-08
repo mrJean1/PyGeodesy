@@ -36,9 +36,10 @@ from pygeodesy import anstr, basics, clips, DeprecationWarnings, interns, isint,
                       map2, NN, normDMS, pairs, printf, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
-_SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
-_SPACE_ = interns._SPACE_
-_TILDE_ = interns._TILDE_
+_SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
+_skipped_ = 'skipped'  # in .run
+_SPACE_   = interns._SPACE_
+_TILDE_   = interns._TILDE_
 
 __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
@@ -47,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.08.01'
+__version__ = '22.08.05'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -249,7 +250,8 @@ class TestsBase(object):
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.
         '''
-        r = passed  # or 'skipped'
+        n = 'all'
+        r = passed  # or _skipped_
         s = time() - self._time
         t = self.total
         w = DeprecationWarnings()
@@ -266,16 +268,15 @@ class TestsBase(object):
             if w:
                 w = '%s%s %s%s' % (a, w, DeprecationWarning.__name__,
                                          ('s' if w > 1 else ''))
-            r = '(%.1f%%) FAILED%s%s' % (100.0 * f / t, k, w or '')
+            p = f * 100.0 / t
+            r = '(%.1f%%) FAILED%s%s' % (p, k, w or '')
             n = '%s of %d' % (f, t)
         elif t:
-            n = 'all %d' % (t,)
-        else:
-            n = 'all'
+            n = '%s %d' % (n, t)
         k = self.skipped or NN
         if k:
-            k = ', %d skipped' % (k,)
-        r = '%s%s (%s) %s' % (r, k, self._versions, secs2str(s))
+            k = ', %d %s' % (k, _skipped_)
+        r = '%s%s (%s) %s' % (r, k, self.versions, secs2str(s))
         self.printf('%s %s tests %s', n, self._name, r, nl=nl)
 
     def skip(self, text=NN, n=1):
@@ -284,7 +285,7 @@ class TestsBase(object):
         self.skipped += n
         if text and self._verbose:
             t = 'test' if n < 2 else '%s tests' % (n,)
-            self.printf('%s skipped (%d): %s', t, self.skipped, text)
+            self.printf('%s %s (%d): %s', t, _skipped_, self.skipped, text)
 
     def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.
@@ -352,15 +353,12 @@ class TestsBase(object):
     def title(self, test, version, module=None):
         '''Print the title of the test suite.
         '''
+        z = m = NN
         if module:
             m = ' (module %s %s)' % (basename(module.__name__),
                                      module.__version__)
-        else:
-            m = NN
         if isLazy:
             z = ' isLazy=%s' % (isLazy,)
-        else:
-            z = NN
         self.printf('testing %s %s%s%s', test, version, m, z, nl=1)
 
     @property
@@ -374,6 +372,12 @@ class TestsBase(object):
         '''Set verbosity (C{bool}).
         '''
         self._verbose = bool(v)
+
+    @property_RO
+    def versions(self):
+        '''Get versions (C{str}).
+        '''
+        return self._versions or versions()
 
 
 class TestError(RuntimeError):  # ValueError's are often caught
@@ -499,10 +503,11 @@ def type2str(obj, attr, **renamed):
 
 
 def versions():
-    '''Get pygeodesy, Python versions, bits, machine, OS name and release.
+    '''Get pygeodesy, Python versions, bits, machine, OS name,
+       env variables and packages.
     '''
-    if not TestsBase._versions:
-
+    vs = TestsBase._versions
+    if not vs:
         from pygeodesy.interns import _pythonarchine
 
         vs = 'PyGeodesy', PyGeodesy_version, _pythonarchine(sep=_SPACE_)
@@ -547,9 +552,8 @@ def versions():
         if _W_opts:
             vs += _W_opts,
 
-        TestsBase._versions = _SPACE_.join(vs)
-
-    return TestsBase._versions
+        TestsBase._versions = vs = _SPACE_.join(vs)
+    return vs
 
 
 GeoConvert = _getenv_path('PYGEODESY_GEOCONVERT')

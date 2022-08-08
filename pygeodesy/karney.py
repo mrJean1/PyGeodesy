@@ -60,6 +60,8 @@ Karney-based functionality
   - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1LocalCartesian.html>}
 
+  - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}.
+
   - L{Rhumb}, L{RhumbLine} -- U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
     U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
     U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
@@ -137,7 +139,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.07.03'
+__version__ = '22.08.08'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_

@@ -1,139 +1,240 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ordinance Survey Grid References (OSGR) references.
+u'''Ordnance Survey Grid References (OSGR) references on the UK U{National Grid
+<https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf>}.
 
 Classes L{Osgr} and L{OSGRError} and functions L{parseOSGR} and L{toOsgr}.
 
-Pure Python implementation of OS Grid Reference functions using an
-ellipsoidal earth model, transcoded from JavaScript originals by
-I{(C) Chris Veness 2005-2016} published under the same MIT Licence**, see
-U{OS National Grid<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
-and U{Module osgridref
-<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-osgridref.html>}.
+A pure Python implementation, transcoded from I{Chris Veness}' JavaScript originals U{OS National Grid
+<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} and U{Module osgridref
+<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-osgridref.html>} and I{Charles Karney}'s
+C++ class U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}.
 
-OSGR provides geocoordinate references for UK mapping purposes, converted
-in 2015 to work with WGS84 datum by default or OSGB36 as option.
+OSGR provides geocoordinate references for UK mapping purposes, converted in 2015 to work with the C{WGS84}
+or the original C{OSGB36} datum.  In addition, this implementation includes both the OS recommended and the
+Krüger-based method to convert between OSGR and geodetic coordinates (with keyword argument C{kTM} of
+function L{toOsgr}, method L{Osgr.toLatLon} and method C{toOsgr} of any ellipsoidal C{LatLon} class).
 
-See U{Guide<https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>},
-U{Proposed Changes<https://www.OrdnanceSurvey.co.UK/blog/2014/09/proposed-changes-to-latitude-and-longitude-representation-on-paper-maps-tell-us-your-thoughts>},
-U{Confirmation<https://www.OrdnanceSurvey.co.UK/blog/2014/12/confirmation-on-changes-to-latitude-and-longitude>}
+See U{Transverse Mercator: Redfearn series<https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>},
+Karney's U{"Transverse Mercator with an accuracy of a few nanometers", 2011<https://Arxiv.org/pdf/1002.1417v3.pdf>}
+(building on U{"Konforme Abbildung des Erdellipsoids in der Ebene", 1912<https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>},
+U{"Die Mathematik der Gauß-Krueger-Abbildung", 2006<https://DE.WikiPedia.org/wiki/Gauß-Krüger-Koordinatensystem>},
+U{A Guide<https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>}
 and U{Ordnance Survey National Grid<https://WikiPedia.org/wiki/Ordnance_Survey_National_Grid>}.
-
-See also Karney U{'Transverse Mercator with an accuracy of a few nanometers'
-<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011 (building on Krüger
-U{'Konforme Abbildung des Erdellipsoids in der Ebene'
-<https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912), Seidel
-U{'Die Mathematik der Gauß-Krueger-Abbildung'
-<https://DE.WikiPedia.org/wiki/Gauß-Krüger-Koordinatensystem>}, 2006 and
-U{Transverse Mercator: Redfearn series
-<https://WikiPedia.org/wiki/Transverse_Mercator:_Redfearn_series>}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import halfs2, map1, _xsubclassof
+from pygeodesy.basics import halfs2, isbool, map1, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _parseX, _TypeError, _ValueError
-from pygeodesy.fmath import fdot, fpowers
-from pygeodesy.fsums import Fsum, fsum_
-from pygeodesy.interns import NN, _A_, _COMMA_, _COMMASPACE_, _DOT_, \
-                             _convergence_, _float, _latlon_, _no_, \
-                             _not_, _SPACE_, _1_0, _2_0, _6_0, \
-                             _24_0, _120_0, _720_0
-from pygeodesy.interns import _COLON_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
+                             _xkwds, _xkwds_get
+from pygeodesy.fmath import fdot, fpowers, Fsum
+# from pygeodesy.fsums import Fsum  # from .fmath
+from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
+                             _DOT_, _convergence_, _float, _latlon_, \
+                             _no_, _not_, _SPACE_, _splituple, _1_0, \
+                             _2_0, _6_0, _10_0, _24_0, _120_0, _720_0
+from pygeodesy.interns import _N_2_0  # PYCHOK used!
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, _xnamed
-from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
+from pygeodesy.namedTuples import EasNor2Tuple, LatLon2Tuple, \
+                                  LatLonDatum3Tuple
 from pygeodesy.props import Property_RO, property_RO
-from pygeodesy.streprs import enstr2, Fmt, _xzipairs, _0wd, _0wpF
-from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar, \
-                           _10um, _100km
+from pygeodesy.streprs import _EN_WIDE, enstr2, _enstr2m3, Fmt, \
+                              _resolution10, _xzipairs
+from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, \
+                            Phi_, Scalar, _10um, _100km
 from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.08.03'
-
-_A0 = Phi_(49)              # NatGrid true origin latitude, 49°N
-_B0 = Lam_(-2)              # NatGrid true origin longitude, 2°W
-_E0 = Easting(4 * _100km)   # Easting of true origin (C{meter})
-_N0 = Northing(  -_100km)   # Northing of true origin (C{meter})
-_F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
+__version__ = '22.08.08'
 
 _5040_0      = _float(5040)
-_OSGB36      =  Datums.OSGB36  # Airy130 ellipsoid
+_OSGR_       = 'OSGR'
 _no_toDatum_ = 'no .toDatum'
 _ord_A       =  ord(_A_)
 _TRIPS       =  33  # .toLatLon convergence
 
 
-def _ll2datum(ll, datum, name):
-    '''(INTERNAL) Convert datum if needed.
+class _kTM(object):
+    '''(INTERNAL) A C{KTransverseMercator} instance, as I{Karney}'s U{OSGBTM
+       <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8cpp_source.html>}.
     '''
-    if datum not in (None, ll.datum):
-        try:
-            ll = ll.toDatum(datum)
-        except AttributeError:
-            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_toDatum_, datum.name))
-    return ll
+    @Property_RO
+    def kTM(self):
+        return _MODS.ktm.KTransverseMercator(_NG.datum, lon0=0, k0=_NG.k0)
+
+    def forward2(self, latlon):
+        '''Convert C{latlon} to (easting, norting), as I{Karney}'s U{Forward
+           <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}.
+        '''
+        t = self.kTM.forward(latlon.lat, latlon.lon, lon0=_NG.lon0)
+        e = t.easting  + _NG.eas0
+        n = t.northing +  self.northOffset
+        return e, n
+
+    @Property_RO
+    def northOffset(self):
+        return _NG.nor0 - self.kTM.forward(_NG.lat0, 0).northing
+
+    def reverse(self, osgr):
+        '''Convert C{osgr} to (ellipsoidal} latlon, as I{Karney}'s U{Reverse
+           <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}.
+        '''
+        r = osgr._latlonTM
+        if r is None:
+            x =  osgr.easting  - _NG.eas0
+            y =  osgr.northing -  self.northOffset
+            t =  self.kTM.reverse(x, y, lon0=_NG.lon0)
+            r = _LLEB(t.lat, t.lon, datum=_NG.datum, name=osgr.name)
+            osgr._latlonTM = r
+        return r
+
+_kTM = _kTM()  # PYCHOK singleton
 
 
-def _M(Mabcd, a):
-    '''(INTERNAL) Compute meridional arc.
+class _NG(object):
+    '''Ordnance Survey National Grid parameters.
     '''
-    a_ = a - _A0
-    _a = a + _A0
-    return fdot(Mabcd, a_, -sin(a_)     * cos(_a),
-                            sin(a_ * 2) * cos(_a * 2),
-                           -sin(a_ * 3) * cos(_a * 3))
+    @Property_RO
+    def a0(self):  # equatoradius scaled
+        return self.ellipsoid.a * self.k0
+
+    @Property_RO
+    def datum(self):  # datum, Airy130 ellipsoid
+        return Datums.OSGB36
+
+    @Property_RO
+    def eas0(self):  # False origin easting (C{meter})
+        return Easting(4 * _100km)
+
+    @Property_RO
+    def easX(self):  # False easting extent (C{meter})
+        return Easting(7 * _100km)
+
+    @Property_RO
+    def ellipsoid(self):  # ellipsoid, Airy130
+        return self.datum.ellipsoid
+
+    @Property_RO
+    def k0(self):  # central scale (C{float})
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGR.html>
+        _0_9998268 = float(9998268 - 10000000) / 10000000
+        return Scalar(_10_0**_0_9998268)  # 0.9996012717...
+
+    @Property_RO
+    def lam0(self):  # True origin longitude C{radians}
+        return Lam_(self.lon0)
+
+    @Property_RO
+    def lat0(self):  # True origin latitude, 49°N
+        return Lat(49.0)
+
+    @Property_RO
+    def lon0(self):  # True origin longitude, 2°W
+        return Lon(_N_2_0)
+
+    def Mabcd0(self, a):  # meridional arc scaled
+        a_ = a - _NG.phi0
+        _a = a + _NG.phi0
+        E  = self.ellipsoid
+        r  = fdot(E.Mabcd, a_, -sin(a_)     * cos(_a),
+                                sin(a_ * 2) * cos(_a * 2),
+                               -sin(a_ * 3) * cos(_a * 3))
+        return r * E.b * self.k0
+
+    @Property_RO
+    def nor0(self):  # False origin northing (C{meter})
+        return Northing(-_100km)
+
+    @Property_RO
+    def norX(self):  # False northing extent (C{meter})
+        return Northing(13 * _100km)
+
+    def nurho2(self, sa):  # get (nu, rho)
+        E = self.ellipsoid
+        s = E.e2s2(sa)  # r, v = E.roc2_(sa, .k0)
+        v = self.a0 / sqrt(s)  # nu
+        r = v * E.e21 / s  # rho = v * E.e21 / pow(s, 1.5)
+        return v, r  # PYCHOK   == v * E.e21 / (s * sqrt(s))
+
+    def nu_rho2(self, sa):  # get (nu, nu / rho)
+        E = self.ellipsoid
+        s = E.e2s2(sa)  # r, v = E.roc2_(sa, .k0); r = v / r
+        v = self.a0 / sqrt(s)  # nu
+        r = s * E._1_e21  # nu / rho == v / (v * E.e21 / s)
+        return v, r  # PYCHOK        == s / E.e21 == s * E._1_e21
+
+    @Property_RO
+    def phi0(self):  # True origin latitude C{radians}
+        return Phi_(self.lat0)
+
+_NG = _NG()  # PYCHOK singleton
 
 
 class OSGRError(_ValueError):
-    '''Ordinance Survey Grid References (OSGR) parse or other L{Osgr} issue.
+    '''Error raised for a L{parseOSGR}, L{Osgr} or other OSGR issue.
     '''
     pass
 
 
 class Osgr(_NamedBase):
-    '''Ordinance Survey Grid References (OSGR) coordinate.
+    '''Ordnance Survey Grid References (OSGR) coordinates on
+       the U{National Grid<https://www.OrdnanceSurvey.co.UK/
+       documents/resources/guide-to-nationalgrid.pdf>}.
     '''
-    _datum    = _OSGB36  # default datum (L{Datum})
-    _easting  =  0       # Easting (C{meter})
-    _latlon   =  None    # cached B{C{_toLatlon}}
-    _northing =  0       # Nothing (C{meter})
+    _datum      = _NG.datum  # default datum (L{Datum})
+    _easting    =  0         # Easting (C{meter})
+    _latlon     =  None      # cached B{C{_toLatlon}}
+    _latlonTM   =  None      # cached B{C{_toLatlon kTM}}
+    _northing   =  0         # Nothing (C{meter})
+    _resolution =  0         # from L{parseOSGR} (C{meter})
 
-    def __init__(self, easting, northing, datum=None, name=NN):
-        '''New L{Osgr} National Grid Reference.
+    def __init__(self, easting, northing, datum=None, name=NN,
+                                          resolution=0):
+        '''New L{Osgr} coordinate.
 
-           @arg easting: Easting from OS false easting (C{meter}).
-           @arg northing: Northing from from OS false northing (C{meter}).
+           @arg easting: Easting from the OS C{National Grid}
+                         origin (C{meter}).
+           @arg northing: Northing from the OS C{National Grid}
+                          origin (C{meter}).
            @kwarg datum: Default datum (C{Datums.OSGB36}).
            @kwarg name: Optional name (C{str}).
+           @kwarg resolution: Optional resolution (C{meter}),
+                              C{0} for default.
 
            @raise OSGRError: Invalid or negative B{C{easting}} or
                              B{C{northing}} or B{C{datum}} not
-                             C{Datums.OSBG36}.
+                             C{Datums.OSGB36}.
 
            @example:
 
             >>> from pygeodesy import Osgr
             >>> r = Osgr(651409, 313177)
         '''
-        self._easting  = Easting( easting,  Error=OSGRError, osgr=True)
-        self._northing = Northing(northing, Error=OSGRError, osgr=True)
-
-        if datum not in (None, _OSGB36):
+        if datum:
             try:
-                if _ellipsoidal_datum(datum) != _OSGB36:
+                if _ellipsoidal_datum(datum, raiser=True) != Osgr._datum:
                     raise ValueError
             except (TypeError, ValueError):
                 raise OSGRError(datum=datum)
+
+        self._easting  = Easting( easting,  Error=OSGRError, high=_NG.easX)
+        self._northing = Northing(northing, Error=OSGRError, high=_NG.norX)
+
         if name:
             self.name = name
+        if resolution:
+            self._resolution = _resolution10(resolution, Error=OSGRError)
+
+    def __str__(self):
+        return self.toStr(AB=True, sep=_SPACE_)
 
     @Property_RO
     def datum(self):
@@ -147,6 +248,12 @@ class Osgr(_NamedBase):
         '''
         return self._easting
 
+    @Property_RO
+    def falsing0(self):
+        '''Get the C{OS National Grid} falsing (L{EasNor2Tuple}).
+        '''
+        return EasNor2Tuple(_NG.eas0, _NG.nor0, name=_OSGR_)
+
     @property_RO
     def iteration(self):
         '''Get the most recent C{Osgr.toLatLon} iteration number
@@ -155,13 +262,19 @@ class Osgr(_NamedBase):
         return self._iteration
 
     @Property_RO
+    def latlon0(self):
+        '''Get the C{OS National Grid} origin (L{LatLon2Tuple}).
+        '''
+        return LatLon2Tuple(_NG.lat, _NG.lon0, name=_OSGR_)
+
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
         return self._northing
 
     def parse(self, strOSGR, name=NN):
-        '''Parse a string to a similar L{Osgr} instance.
+        '''Parse an OSGR reference to a similar L{Osgr} instance.
 
            @arg strOSGR: The OSGR reference (C{str}), see function L{parseOSGR}.
            @kwarg name: Optional instance name (C{str}), overriding this name.
@@ -172,239 +285,310 @@ class Osgr(_NamedBase):
         '''
         return parseOSGR(strOSGR, Osgr=self.classof, name=name or self.name)
 
-    def toLatLon(self, LatLon=None, datum=_WGS84):
-        '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
+    @property_RO
+    def resolution(self):
+        '''Get the OSGR resolution (C{meter}, power of 10) or C{0} if undefined.
+        '''
+        return self._resolution
+
+    def toLatLon(self, LatLon=None, datum=_WGS84, kTM=False, **LatLon_kwds):
+        '''Convert this L{Osgr} coordinate to an (ellipsoidal) geodetic
            point.
-
-           While OS grid references are based on the OSGB36 datum, the
-           I{Ordnance Survey} have deprecated the use of OSGB36 for
-           lat-/longitude coordinates (in favour of WGS84). Hence, this
-           method returns WGS84 by default with OSGB36 as an option,
-           U{see<https://www.OrdnanceSurvey.co.UK/blog/2014/12/2>}.
-
-           I{Note formulation implemented here due to Thomas, Redfearn,
-           etc. is as published by OS, but is inferior to Krüger as
-           used by e.g. Karney 2011.}
 
            @kwarg LatLon: Optional ellipsoidal class to return the
                           geodetic point (C{LatLon}) or C{None}.
            @kwarg datum: Optional datum to convert to (L{Datum},
                          L{Ellipsoid}, L{Ellipsoid2}, L{Ellipsoid2}
                          or L{a_f2Tuple}).
+           @kwarg kTM: If C{True} use I{Karney}'s Krüger method from
+                       module L{ktm}, otherwise use the Ordnance
+                       Survey formulation (C{bool}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if C{B{LatLon} is None}.
 
-           @return: The geodetic point (B{C{LatLon}}) or a
-                    L{LatLonDatum3Tuple}C{(lat, lon, datum)}
-                    if B{C{LatLon}} is C{None}.
+           @return: A B{C{LatLon}} instance or if B{C{LatLon}} is C{None}
+                    a L{LatLonDatum3Tuple}C{(lat, lon, datum)}.
+
+           @note: While OS grid references are based on the OSGB36 datum,
+                  the Ordnance Survey have deprecated the use of OSGB36 for
+                  lat-/longitude coordinates (in favour of WGS84).  Hence,
+                  this method returns WGS84 by default with OSGB36 as an
+                  option, U{see<https://www.OrdnanceSurvey.co.UK/blog/2014/12/2>}.
+
+           @note: The formulation implemented here due to Thomas, Redfearn,
+                  etc. is as published by the Ordnance Survey, but is
+                  inferior to Krüger as used by e.g. Karney 2011.
 
            @raise OSGRError: No convergence.
 
-           @raise TypeError: If B{C{LatLon}} is not ellipsoidal or
-                             B{C{datum}} is invalid or conversion failed.
+           @raise TypeError: If B{C{LatLon}} is not ellipsoidal or B{C{datum}}
+                             is invalid or conversion to B{C{datum}} failed.
 
            @example:
 
-            >>> from pygeodesy import ellipsoidalVincenty as eV
+            >>> from pygeodesy import Datums, ellipsoidalVincenty as eV, Osgr
             >>> g = Osgr(651409.903, 313177.270)
             >>> p = g.toLatLon(eV.LatLon)  # 52°39′28.723″N, 001°42′57.787″E
+            >>> p = g.toLatLon(eV.LatLon, kTM=True)  # 52°39′28.723″N, 001°42′57.787″E
             >>> # to obtain (historical) OSGB36 lat-/longitude point
             >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
-        if self._latlon:
-            return self._latlon3(LatLon, datum)
+        if kTM:
+            r = _kTM.reverse(self)
 
-        E = self.datum.ellipsoid  # _Datums_OSGB36.ellipsoid, Airy130
-        a_F0 = E.a * _F0
-        b_F0 = E.b * _F0
+        elif self._latlon is None:
+            NG = _NG
 
-        e, n = self.easting, self.northing
-        n_N0 = n - _N0
+            a0 = NG.a0
+            e0 =     self.easting  - NG.eas0
+            n0 = m = self.northing - NG.nor0
 
-        a, m = _A0, n_N0
-        A = Fsum(a)
-        for self._iteration in range(1, _TRIPS):
-            a = A.fsum_(m / a_F0)
-            m = n_N0 - b_F0 * _M(E.Mabcd, a)  # meridional arc
-            if abs(m) < _10um:
-                break
+            M  = NG.Mabcd0
+            a  = NG.phi0
+            A_ = Fsum(a).fsum_
+            for self._iteration in range(1, _TRIPS):
+                a = A_(m / a0)
+                m = n0 - M(a)  # meridional arc
+                if abs(m) < _10um:
+                    break
+            else:
+                t = _DOT_(Fmt.PAREN(self.classname, self.toStr(prec=3)),
+                                    self.toLatLon.__name__)
+                raise OSGRError(_no_(_convergence_), txt=t)
+
+            sa, ca = sincos2(a)
+            v,  r  = NG.nurho2(sa)
+
+            vr = v / r  # == s / E.e21 == s * E._1_e21
+            x2 = vr - _1_0  # η2
+            ta = tan(a)
+
+            v3, v5, v7 = fpowers(v, 7, alts=3)  # PYCHOK false!
+            ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
+
+            d1, d2, d3, d4, d5, d6, d7 = fpowers(e0, 7)  # PYCHOK false!
+
+            t = ta / r
+            a = Fsum(a,
+                    -d2 * t / (  _2_0 * v),
+                     d4 * t / ( _24_0 * v3) * Fsum(5, x2, 3 * ta2, -9 * ta2 * x2),
+                    -d6 * t / (_720_0 * v5) * Fsum(61,   90 * ta2, 45 * ta4)).fsum()
+
+            t = _1_0 / ca
+            T = Fsum(61, 662 * ta2, 1320 * ta4, 720 * ta6)
+            b = Fsum(NG.lam0,
+                     d1 * t /            v,
+                    -d3 * t / (   _6_0 * v3) * Fsum(vr,     ta2,      ta2),
+                     d5 * t / ( _120_0 * v5) * Fsum(5, 28 * ta2, 24 * ta4),
+                    -d7 * t / (_5040_0 * v7) * T).fsum()
+
+            r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
+            r._iteration = self._iteration  # only ellipsoidal LatLon
+            self._latlon = r
         else:
-            t = _DOT_(Fmt.PAREN(self.classname, self.toStr(prec=-3)),
-                                self.toLatLon.__name__)
-            raise OSGRError(_no_(_convergence_), txt=t)
-        sa, ca = sincos2(a)
+            r = self._latlon
 
-        s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
-        v = a_F0 / sqrt(s)  # nu
-        r = v * E.e21 / s  # rho = a_F0 * E.e21 / pow(s, 1.5) == a_F0 * E.e21 / (s * sqrt(s))
+        return _ll2LatLon3(r, LatLon, datum, LatLon_kwds)
 
-        vr = v / r  # == s / E.e21 == s * E._1_e21
-        x2 = vr - _1_0  # η2
-        ta = tan(a)
-
-        v3, v5, v7 = fpowers(v, 7, alts=3)  # PYCHOK false!
-        ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
-
-        d1, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
-
-        t = ta / r
-        a = fsum_(a,
-                 -d2 * t / (  _2_0 * v),
-                  d4 * t / ( _24_0 * v3) * fsum_(5, x2, 3 * ta2, -9 * ta2 * x2),
-                 -d6 * t / (_720_0 * v5) * fsum_(61, 90 * ta2, 45 * ta4))
-
-        t = _1_0 / ca
-        b = fsum_(_B0,
-                   d1 * t /            v,
-                  -d3 * t / (   _6_0 * v3) * fsum_(vr, ta2, ta2),
-                   d5 * t / ( _120_0 * v5) * fsum_(5,   28 * ta2,   24 * ta4),
-                  -d7 * t / (_5040_0 * v7) * fsum_(61, 662 * ta2, 1320 * ta4, 720 * ta6))
-
-        r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
-        r._iteration = self._iteration  # only ellipsoidal LatLon
-        self._latlon = r
-        return self._latlon3(LatLon, datum)
-
-    def _latlon3(self, LatLon, datum):
-        '''(INTERNAL) Convert cached latlon to C{LatLon}
+    @Property_RO
+    def scale0(self):
+        '''Get the C{OS National Grid} central scale (C{scalar}).
         '''
-        ll = self._latlon
-        if LatLon is None:
-            r = _ll2datum(ll, datum, LatLonDatum3Tuple.__name__)
-            r =  LatLonDatum3Tuple(r.lat, r.lon, r.datum)
-        else:  # must be ellipsoidal
-            _xsubclassof(_LLEB, LatLon=LatLon)
-            r = _ll2datum(ll, datum, LatLon.__name__)
-            r =  LatLon(r.lat, r.lon, datum=r.datum)
-        r._iteration = ll._iteration
-        return _xnamed(r, nameof(ll))
+        return _NG.k0
 
-    def toRepr(self, prec=5, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this OSGR coordinate.
+    def toRepr(self, GD=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **prec):  # PYCHOK expected
+        '''Return a string representation of this L{Osgr} coordinate.
 
-           @kwarg prec: Number of digits (C{int}), see method L{Osgr.toStr}.
+           @kwarg GD: If C{bool} in- or exclude the 2-letter grid designation, if C{None}
+                      use the DEPRECATED definition of C{B{prec}}, negative and C{B{prec}=5}.
            @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Separator to join (C{str}).
+           @kwarg sep: Separator to join (C{str}) or C{None} to return an unjoined 2- or
+                       3-C{tuple} of C{str}s.
+           @kwarg prec: Precison C{B{prec}=0}, the number of I{decimal} digits (C{int}) or
+                        if negative, the number of I{units to drop}, like MGRS U{PRECISION
+                        <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
 
-           @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
-                    "[OSGR:meter,meter]" if B{C{prec}} is non-positive.
+           @return: This OSGR as (C{str}), C{"[G:GD, E:meter, N:meter]"} or if C{B{GD}=False}
+                    C{"[OSGR:easting,northing]"} or C{B{GD}=False} and C{B{prec} > 0} if
+                    C{"[OSGR:easting.d,northing.d]"}.
 
-           @note: OSGR grid references are truncated, not rounded (unlike UTM).
+           @note: OSGR easting and northing are truncated, not rounded.
+
+           @raise OSGRError: If C{B{GD}=False} and C{B{prec} < -4} or if C{B{GD}} not
+                             C{None}, C{True} or C{False}.
 
            @raise ValueError: Invalid B{C{prec}}.
         '''
-        t = self.toStr(prec=prec, sep=None)
-        if prec > 0:
+        GD, prec = _GD_prec(GD, sep=sep, **prec)
+
+        if GD:
+            t =  self.toStr(GD=True, prec=prec, sep=None)
             t = _xzipairs('GEN', t, sep=sep, fmt=fmt)
         else:
-            t = _COLON_(Osgr.__name__.upper(), t)
+            t = _COLON_(_OSGR_, self.toStr(GD=False, prec=prec))
             if fmt:
                 t = fmt % (t,)
         return t
 
-    def toStr(self, prec=5, sep=_SPACE_):  # PYCHOK expected
-        '''Return a string representation of this OSGR coordinate.
+    def toStr(self, GD=None, sep=NN, **prec):  # PYCHOK expected
+        '''Return this L{Osgr} coordinate as a string.
 
-           @kwarg prec: The number of digits (C{int}).
-           @kwarg sep: Optional separator to join (C{str}) or C{None}
-                       to return an unjoined C{tuple} of C{str}s.
+           @kwarg GD: If C{bool} in- or exclude the 2-letter grid designation, if C{None}
+                      use the DEPRECATED definition of C{B{prec}}, negative and C{B{prec}=5}.
+           @kwarg sep: Separator to join (C{str}) or C{None} to return an unjoined 2- or
+                       3-C{tuple} of C{str}s.
+           @kwarg prec: Precison C{B{prec}=0}, the number of I{decimal} digits (C{int}) or
+                        if negative, the number of I{units to drop}, like MGRS U{PRECISION
+                        <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
 
-           @return: This OSGR as C{"EN easting northing"} or as
-                    C{"easting,northing"} if B{C{prec}} is non-positive
-                    (C{str}).
+           @return: This OSGR as (C{str}), C{"GD meter meter"} or if C{B{GD}=False}
+                    C{"easting,northing"} or if C{B{GD}=False} and C{B{prec} > 0}
+                    C{"easting.d,northing.d"}
 
-           @note: OSGR grid references are truncated, not rounded (unlike UTM).
+           @note: OSGR easting and northing are truncated, not rounded.
+
+           @raise OSGRError: If C{B{GD}=False} and C{B{prec} < -4} or if C{B{GD}} not
+                             C{None}, C{True} or C{False}.
 
            @raise ValueError: Invalid B{C{prec}}.
 
            @example:
 
             >>> r = Osgr(651409, 313177)
-            >>> str(r)  # TG 5140 1317
-            >>> r.toStr(prec=0)  # 651409,313177
+            >>> str(r)  # 'TG 5140 1317'
+            >>> r.toStr()  # 'TG5140913177'
+            >>> r.toStr(GD=False)  # '651409,313177'
         '''
         def _i2c(i):
             if i > 7:
                 i += 1
             return chr(_ord_A + i)
 
-        e, n, s = self._easting, self._northing, _COMMA_
-        if prec > 0:
-            E, e = divmod(e, _100km)
-            N, n = divmod(n, _100km)
+        GD, prec = _GD_prec(GD, sep=sep, **prec)
+
+        if GD:
+            E, e = divmod(self.easting,  _100km)
+            N, n = divmod(self.northing, _100km)
             E, N = int(E), int(N)
             if 0 > E or E > 6 or \
                0 > N or N > 12:
-                return NN
+                raise OSGRError(E=E, e=e, N=N, n=n, prec=prec, sep=sep)
             N  =  19 - N
             EN = _i2c( N - (N % 5) + (E + 10) // 5) + \
                  _i2c((N * 5) % 25 + (E % 5))
-            t = enstr2(e, n, prec - 5, EN)
+            t = enstr2(e, n, prec, EN)
             s = sep
 
-        elif -6 < prec < 0:
-            w = 6 + 1 - prec
-            t = [_0wpF(w, -prec, t) for t in (e, n)]
+        elif prec <= -_EN_WIDE:
+            raise OSGRError(GD=GD, prec=prec, sep=sep)
         else:
-            t = [_0wd(6, int(t)) for t in (e, n)]
+            t = enstr2(self.easting, self.northing, prec, dot=True,
+                                                    wide=_EN_WIDE + 1)
+            s = sep if sep is None else (sep or _COMMA_)
 
-        return tuple(t) if s is None else s.join(t)
+        return t if s is None else s.join(t)
 
 
-def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
-    '''Parse a string representing an OSGR grid reference,
-       consisting of C{"[grid] easting northing"}.
+def _GD_prec(GD, **sep_prec):
+    '''(INTERNAL) Handle C{prec} backward compatibility.
+    '''
+    if GD is None:  # old C{prec} 5+ or neg
+        prec = _xkwds_get(sep_prec, prec=_EN_WIDE)
+        GD   =  prec > 0
+        prec = (prec - _EN_WIDE) if GD else -prec
+    elif isbool(GD):
+        prec = _xkwds_get(sep_prec, prec=0)
+    else:
+        raise OSGRError(GD=GD, **sep_prec)
+    return GD, prec
 
-       Accepts standard OS Grid References like 'SU 387 148',
-       with or without whitespace separators, from 2- up to
-       10-digit references (1 m × 1 m square), or all-numeric,
-       comma-separated references in meters, for example
-       '438700,114800'.
+
+def _ll2datum(ll, datum, name):
+    '''(INTERNAL) Convert datum if needed.
+    '''
+    if datum:
+        try:
+            if ll.datum != datum:
+                ll = ll.toDatum(datum)
+        except AttributeError:
+            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_toDatum_, datum.name))
+    return ll
+
+
+def _ll2LatLon3(ell, LatLon, datum, LatLon_kwds):
+    '''(INTERNAL) Convert C{ll} to C{LatLon}
+    '''
+    if LatLon is None:
+        r = _ll2datum(ell, datum, LatLonDatum3Tuple.__name__)
+        r =  LatLonDatum3Tuple(r.lat, r.lon, r.datum)
+    else:  # must be ellipsoidal
+        _xsubclassof(_LLEB, LatLon=LatLon)
+        r = _ll2datum(ell, datum, LatLon.__name__)
+        r =  LatLon(r.lat, r.lon, datum=r.datum, **LatLon_kwds)
+    if r._iteration != ell._iteration:
+        r._iteration = ell._iteration
+    return _xnamed(r, nameof(ell))
+
+
+def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
+    '''Parse a string representing an OS Grid Reference, consisting
+       of C{"[GD] easting northing"}.
+
+       Accepts standard OS Grid References like "SU 387 148", with
+       or without whitespace separators, from 2- up to 22-digit
+       references, or all-numeric, comma-separated references in
+       meters, for example "438700,114800".
 
        @arg strOSGR: An OSGR coordinate (C{str}).
-       @kwarg Osgr: Optional class to return the OSGR
-                    coordinate (L{Osgr}) or C{None}.
+       @kwarg Osgr: Optional class to return the OSGR coordinate
+                    (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
+       @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
+                         arguments, ignored if C{B{Osgr} is None}.
 
-       @return: The OSGR coordinate (B{C{Osgr}}) or an
-                L{EasNor2Tuple}C{(easting, northing)} if
-                B{C{Osgr}} is C{None}.
+       @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is
+                C{None} an L{EasNor2Tuple}C{(easting, northing)}.
 
        @raise OSGRError: Invalid B{C{strOSGR}}.
 
        @example:
 
-        >>> g = parseOSGR('TG 51409 13177')
-        >>> str(g)  # TG 51409 13177
-        >>> g = parseOSGR('TG5140913177')
-        >>> str(g)  # TG 51409 13177
-        >>> g = parseOSGR('TG51409 13177')
-        >>> str(g)  # TG 51409 13177
-        >>> g = parseOSGR('651409,313177')
-        >>> str(g)  # TG 51409 13177
-        >>> g.toStr(prec=0)  # 651409,313177
+        >>> r = parseOSGR('TG5140913177')
+        >>> str(r)  # 'TG 51409 13177'
+        >>> r = parseOSGR('TG 51409 13177')
+        >>> r.toStr()  # 'TG5140913177'
+        >>> r = parseOSGR('651409,313177')
+        >>> r.toStr(sep=' ')  # 'TG 51409 13177'
+        >>> r.toStr(GD=False)  # '651409,313177'
     '''
     def _c2i(G):
         g = ord(G.upper()) - _ord_A
         if g > 7:
             g -= 1
+        if g < 0 or g > 25:
+            raise ValueError
         return g
 
-    def _s2f(g):
-        return float(g.strip())
-
-    def _s2i(G, g):
-        m = g + '00000'  # std to meter
-        return int(str(G) + m[:5])
-
     def _OSGR(strOSGR, Osgr, name):
-        s = strOSGR.strip()
-        g = s.split(_COMMA_)
-        if len(g) == 2:  # "easting,northing"
-            if len(s) < 13:
-                raise ValueError
-            e, n = map(_s2f, g)
+        s = _splituple(strOSGR.strip())
+        p =  len(s)
+        if not (p and s[0]):
+            raise ValueError
+        g = s[0]
+        if p == 2 and g[0].isdigit():  # "easting,northing"
+            e, n, m = _enstr2m3(*s, wide=_EN_WIDE + 1)
 
-        else:  # "GR easting northing"
-            g, s = s[:2], s[2:].strip()
+        else:
+            if p == 1:  # "GReastingnorthing"
+                s = halfs2(g[2:])
+                g = g[:2]
+            elif p == 2:  # "GReasting northing"
+                s = g[2:], s[1]  # for backward ...
+                g = g[:2]  # ... compatibility
+            elif p != 3:
+                raise ValueError
+            else:  # "GR easting northing"
+                s = s[1:]
 
             e, n = map(_c2i, g)
             n, m = divmod(n, 5)
@@ -414,31 +598,32 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
                0 > N or N > 12:
                 raise ValueError
 
-            g = s.split()
-            if len(g) == 1:  # no whitespace
-                e, n = halfs2(s)
-            elif len(g) == 2:
-                e, n = g
-            else:
-                raise ValueError
+            e, n, m = _enstr2m3(*s, wide=_EN_WIDE)
+            e +=  E * _100km
+            n +=  N * _100km
 
-            e = _s2i(E, e)
-            n = _s2i(N, n)
-
-        return EasNor2Tuple(e, n, name=name) if Osgr is None else \
-               _xnamed(Osgr(e, n), name)
+        if Osgr is None:
+            _ = _MODS.osgr.Osgr(e, n, resolution=m)  # validate
+            r =  EasNor2Tuple(e, n, name=name)
+        else:
+            r =  Osgr(e, n, name=name,
+                         **_xkwds(Osgr_kwds, resolution=m))
+        return r
 
     return _parseX(_OSGR, strOSGR, Osgr, name,
                           strOSGR=strOSGR, Error=OSGRError)
 
 
-def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
-                                         **Osgr_kwds):
+def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
+                                                    **Osgr_kwds):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
                     C{LatLon} point.
        @kwarg lon: Optional longitude in degrees (scalar or C{None}).
+       @kwarg kTM: If C{True} use I{Karney}'s Krüger method from
+                   module L{ktm}, otherwise use the Ordnance
+                   Survey formulation (C{bool}).
        @kwarg datum: Optional datum to convert B{C{lat, lon}} from
                      (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
                      L{a_f2Tuple}).
@@ -448,22 +633,23 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
        @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
                          arguments, ignored if C{B{Osgr} is None}.
 
-       @return: The OSGR coordinate (B{C{Osgr}}) or an
-                L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
-                is C{None}.
+       @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is C{None}
+                an L{EasNor2Tuple}C{(easting, northing)}.
 
        @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
 
        @raise TypeError: Non-ellipsoidal B{C{latlon}} or invalid
                          B{C{datum}}, B{C{Osgr}}, B{C{Osgr_kwds}}
-                         argument or conversion failed.
+                         or conversion to C{Datums.OSGB36} failed.
 
        @example:
 
         >>> p = LatLon(52.65798, 1.71605)
-        >>> r = toOsgr(p)  # TG 51409 13177
+        >>> r = toOsgr(p)  # [G:TG, E:51409, N:13177]
         >>> # for conversion of (historical) OSGB36 lat-/longitude:
         >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
+        >>> # alternatively and using Krüger
+        >>> r = p.toOsgr(kTM=True)  # [G:TG, E:51409, N:13177]
     '''
     if not isinstance(latlon, _LLEB):
         # XXX fix failing _LLEB.toDatum()
@@ -473,47 +659,52 @@ def toOsgr(latlon, lon=None, datum=_WGS84, Osgr=Osgr, name=NN,
     elif not name:  # use latlon.name
         name = nameof(latlon)
 
-    # if necessary, convert to OSGB36 first
-    ll = _ll2datum(latlon, _OSGB36, _latlon_)
-    try:
-        a, b = ll.philam
-    except AttributeError:
-        a, b = map1(radians, ll.lat, ll.lon)
-    sa, ca = sincos2(a)
+    NG = _NG
+    # if needed, convert latlon to OSGB36 first
+    ll = _ll2datum(latlon, NG.datum, _latlon_)
 
-    E = _OSGB36.ellipsoid
+    if kTM:
+        e, n = _kTM.forward2(ll)
 
-    s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0); r = v / r
-    v = E.a * _F0 / sqrt(s)  # nu
-    r = s * E._1_e21  # nu / rho == v / (v * E.e21 / s) == s / E.e21 == s * E._1_e21
+    else:
+        try:
+            a, b = ll.philam
+        except AttributeError:
+            a, b = map1(radians, ll.lat, ll.lon)
 
-    x2 = r - _1_0  # η2
-    ta = tan(a)
+        sa, ca = sincos2(a)
+        v,  r  = NG.nu_rho2(sa)
 
-    ca3, ca5 = fpowers(ca, 5, alts=3)  # PYCHOK false!
-    ta2, ta4 = fpowers(ta, 4, alts=2)  # PYCHOK false!
+        x2 = r - _1_0  # η2
+        ta = tan(a)
 
-    d1, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
+        ca3, ca5 = fpowers(ca, 5, alts=3)  # PYCHOK false!
+        ta2, ta4 = fpowers(ta, 4, alts=2)  # PYCHOK false!
 
-    t = fsum_(-18 * ta2, 5, ta4, 14 * x2, -58 * ta2 * x2)
-    e = fsum_(_E0,
-               d1 * v          * ca,
-               d3 * v /   _6_0 * ca3 * (r - ta2),
-               d5 * v / _120_0 * ca5 * t)
+        d1, d2, d3, d4, d5, d6 = fpowers(b - NG.lam0, 6)  # PYCHOK false!
 
-    t = v * sa
-    n = fsum_(_N0,
-              _F0 * E.b * _M(E.Mabcd, a),
-               d2 * t /   _2_0 * ca,
-               d4 * t /  _24_0 * ca3 * fsum_(5, -ta2,   9 * x2),
-               d6 * t / _720_0 * ca5 * fsum_(61, ta4, -58 * ta2))
+        T = Fsum(-18 * ta2, 5, ta4, 14 * x2, -58 * ta2 * x2)
+        e = Fsum(NG.eas0,
+                 d1 * v          * ca,
+                 d3 * v /   _6_0 * ca3 * Fsum(r, -ta2),
+                 d5 * v / _120_0 * ca5 * T).fsum()
+
+        t = v * sa
+        n = Fsum(NG.nor0,
+                 NG.Mabcd0(a),
+                 d2 * t /   _2_0 * ca,
+                 d4 * t /  _24_0 * ca3 * Fsum(5, -ta2,   9 * x2),
+                 d6 * t / _720_0 * ca5 * Fsum(61, ta4, -58 * ta2)).fsum()
 
     if Osgr is None:
         r = EasNor2Tuple(e, n)
     else:
-        r = Osgr(e, n, datum=_OSGB36, **Osgr_kwds)
+        r = Osgr(e, n, **Osgr_kwds)  # datum=NG.datum
         if lon is None and isinstance(latlon, _LLEB):
-            r._latlon = latlon  # XXX weakref(latlon)?
+            if kTM:
+                r._latlonTM = latlon  # XXX weakref(latlon)?
+            else:
+                r._latlon = latlon  # XXX weakref(latlon)?
     return _xnamed(r, name or nameof(latlon))
 
 # **) MIT License

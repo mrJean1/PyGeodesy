@@ -403,7 +403,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.08.02'
+__version__ = '22.08.08'
 
 
 def _ALL_OTHER(*objs):
@@ -500,7 +500,7 @@ def _lazy_import2(package_name):  # MCCABE 14
               and call C{importlib.import_module(<module>.<name>, ...)}
               without causing a C{ModuleNotFoundError}.
 
-       @see: The original U{modutil<https://PyPi.org/project/modutil>},
+       @see: The original U{modutil<https://PyPI.org/project/modutil>},
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
              U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
     '''
@@ -694,7 +694,7 @@ if __name__ == '__main__':
     printf('%.8f import vs %.8f _ALL_MODS: %.3fX, %s', t1, t2, t2 / t1, v)
 
 # % python3.11 -W ignore -m pygeodesy.lazily
-# 0.31956017 import vs 0.52837638 _ALL_MODS: 1.653X, Python 3.11.0b5
+# 0.31956017 import vs 0.52837638 _ALL_MODS: 1.653X, Python 3.11.0rc1
 
 # % python3.10 -W ignore -m pygeodesy.lazily
 # 0.31828208 import vs 0.58981700 _ALL_MODS: 1.853X, Python 3.10.5

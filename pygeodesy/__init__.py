@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical
-earth models using precision trigonometric, vector-based, exact, elliptic and approximate
+u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical earth
+models using precision trigonometric, vector-based, exact, elliptic, iterative and approximate
 methods for geodetic (lat-/longitude) and geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>}
 cartesian) coordinates.
 
@@ -29,17 +29,15 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>},
-U{ECEF<https://WikiPedia.org/wiki/ECEF>} (Earth-Centered, Earth-Fixed cartesian),
-U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
-(Universal Polar Stereographic), U{UTM
-<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}
-and Universal Transverse Mercator) and U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>}
-(Pseudo-Mercator) coordinates, U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>}
-(NATO Military Grid Reference System) and U{OSGR
-<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British Ordinance Survery
-Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.Fr>} (Terrestrial Reference Frames)
-and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
+U{ECEF<https://WikiPedia.org/wiki/ECEF>} (Earth-Centered, Earth-Fixed cartesian), U{UTM
+<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (Universal Transverse Mercator
+and U{Exact<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}),
+U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>} (Universal Polar
+Stereographic) and U{Web Mercator<https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
+U{MGRS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1MGRS.html>} (Military Grid Reference
+System, UTM I{and} UPS) and U{OSGR<https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>} (British
+Ordinance Survery Grid Reference) grid references, U{TRF<http://ITRF.ENSG.IGN.Fr>} (Terrestrial Reference
+Frames) and modules to encode and decode U{EPSG<https://EPSG.org>}, U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and U{Garefs (GARS)
 <https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
@@ -93,14 +91,16 @@ and C{trilaterate5} require U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
-<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable.
+<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable and set with
+env variable C{PYGEODESY_GEODSOLVE}.
 
 To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s C++ utility
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must
-be executable.
+be executable and set with env variable C{PYGEODESY_GEOCONVERT}.
 
 Module L{rhumbsolve} needs I{Karney}'s C++ utility U{RhumbSolve
-<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable.
+<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} to be executable and set with
+env variable C{PYGEODESY_RHUMBSOLVE}.
 
 Documentation
 =============
@@ -114,7 +114,7 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests ran with Python 3.11.0b5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python
+The tests ran with Python 3.11.0rc1 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python
 3.10.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.22.4,
 U{scipy<https://PyPI.org/project/scipy>} 1.8.1, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
@@ -132,8 +132,8 @@ C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests ar
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.6, 3.9.6
 and 2.7.18.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.11.0b5, 3.10.6 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on Intel
-(C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}"), see function L{pygeodesy.machine}.
+Python 3.11.0rc1, 3.10.6 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
+Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}"), see function L{pygeodesy.machine}.
 
 The tests also ran with Python 3.10.6 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
 11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17 (all
@@ -154,11 +154,11 @@ or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyP
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS
-X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista3.2<https://OMZ-Software.com/pythonista>}
-(with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10
-and/or iPhone12, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2
-and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and with 32-bit
-Python 2.6.6 on Windows XP SP3.
+X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}
+3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6,
+iPhone10 and/or iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3,
+11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro
+and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -176,11 +176,8 @@ For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U
 In Python 2, symbols L{S_DEG}, L{S_MIN}, L{S_SEC}, L{S_RAD} and L{S_SEP} may be multi-byte, non-ascii
 characters and if so, I{not} C{unicode}.
 
-Some function and method names differ from the JavaScript version.  In such cases documentation tag
-B{JS name:} shows the original JavaScript name.
-
-Env vars
-========
+Env variables
+=============
 
 The following environment variables are observed by C{PyGeodesy}:
 
@@ -241,7 +238,6 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.}
 
 @newfield example: Example, Examples
-@newfield JSname: JS name, JS names
 
 @var EPS:    System's M{epsilon} ≈ 2.22044604925e-16 (C{float}).
 @var EPS0:   M{EPS**2}    ≈ 4.9e-32 for near-zero comparison
@@ -568,7 +564,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.08.04'
+__version__ = '22.08.08'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

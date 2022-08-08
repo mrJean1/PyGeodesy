@@ -33,7 +33,9 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.08.03'
+__version__ = '22.08.05'
+
+_negative_falsed_ = 'negative, falsed'
 
 
 class _NamedUnit(_Named):
@@ -657,7 +659,7 @@ class Distance_(Float_):
 class Easting(Float):
     '''Named C{float} representing an easting, conventionally in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_easting_, Error=UnitError, falsed=False, osgr=False, **name_arg):
+    def __new__(cls, arg=None, name=_easting_, Error=UnitError, falsed=False, high=None, **name_arg):
         '''New named C{Easting} or C{Easting of Point} instance.
 
            @arg cls: This class (C{Easting} or sub-class).
@@ -666,7 +668,7 @@ class Easting(Float):
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
-           @kwarg osgr: Check B{C{arg}} as an OSGR easting (C{bool}).
+           @kwarg osgr: Check B{C{arg}} over B{C{high}} easting (C{scalar}).
            @kwarg name_arg: Optional C{name=arg} keyword argument,
                             inlieu of B{C{name}} and B{C{arg}}.
 
@@ -677,10 +679,10 @@ class Easting(Float):
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
-        if osgr and (self < 0 or self > 700e3):  # like Veness
+        if high and (self < 0 or self > high):  # like Veness
             raise _Error(cls, arg, name=name, Error=Error)
         elif falsed and self < 0:
-            raise _Error(cls, arg, name=name, Error=Error, txt='negative, falsed')
+            raise _Error(cls, arg, name=name, Error=Error, txt=_negative_falsed_)
         return self
 
 
@@ -944,7 +946,7 @@ class Meter3(Float_):
 class Northing(Float):
     '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_northing_, Error=UnitError, falsed=False, osgr=False, **name_arg):
+    def __new__(cls, arg=None, name=_northing_, Error=UnitError, falsed=False, high=None, **name_arg):
         '''New named C{Northing} or C{Northing of point} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
@@ -953,7 +955,7 @@ class Northing(Float):
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
-           @kwarg osgr: Check B{C{arg}} as an OSGR northing (C{bool}).
+           @kwarg high: Check B{C{arg}} over B{C{high}} northing (C{scalar}).
            @kwarg name_arg: Optional C{name=arg} keyword argument,
                             inlieu of B{C{name}} and B{C{arg}}.
 
@@ -964,10 +966,10 @@ class Northing(Float):
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
-        if osgr and (self < 0 or self > 1300e3):  # like Veness
+        if high and (self < 0 or self > high):
             raise _Error(cls, arg, name=name, Error=Error)
         elif falsed and self < 0:
-            raise _Error(cls, arg, name=name, Error=Error, txt='negative, falsed')
+            raise _Error(cls, arg, name=name, Error=Error, txt=_negative_falsed_)
         return self
 
 

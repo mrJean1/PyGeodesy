@@ -7,7 +7,7 @@ u'''Floating point and other formatting utilities.
 
 from pygeodesy.basics import isint, isscalar, istuplist, _zip
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
-                             _ValueError
+                             _ValueError, _xkwds_get
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
                              _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
                              _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
@@ -16,10 +16,14 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
-__all__ = _ALL_LAZY.streprs
-__version__ = '22.08.01'
+from math import log10
 
-_OKd_ = '._-'  # acceptable name characters
+__all__ = _ALL_LAZY.streprs
+__version__ = '22.08.07'
+
+_EN_PREC =  6     # max MGRS/OSGR precision, 1 micrometer
+_EN_WIDE =  5     # number of MGRS/OSGR units, log10(_100km)
+_OKd_    = '._-'  # acceptable name characters
 
 
 class _Fmt(str):  # in .streprs
@@ -199,8 +203,8 @@ def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights
             setattr(inst, NN(_UNDER_, n), v)
 
 
-def enstr2(easting, northing, prec, *extras):
-    '''Return an easting, northing string representations.
+def enstr2(easting, northing, prec, *extras, **wide_dot):
+    '''Return an MGRS/OSGR easting, northing string representations.
 
        @arg easting: Easting from false easting (C{meter}).
        @arg northing: Northing from from false northing (C{meter}).
@@ -208,23 +212,51 @@ def enstr2(easting, northing, prec, *extras):
                   negative, the number of I{units to drop}, like MGRS U{PRECISION
                   <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
        @arg extras: Optional leading items (C{str}s).
+       @kwarg wide_dot: Optional keword argument C{B{wide}=%d} for the number of I{unit digits}
+                        (C{int}) and C{B{dot}=False} (C{bool}) to insert a decimal point.
 
-       @return: B{C{extras}} + 2-tuple C{(str(B{easting}), str(B{northing}))}.
+       @return: B{C{extras}} + 2-tuple C{(str(B{easting}), str(B{northing}))} or
+                + 2-tuple C{("", "")} for C{B{prec} <= -B{wide}}.
 
-       @raise ValueError: Invalid B{C{prec}}.
+       @raise ValueError: Invalid B{C{easting}}, B{C{northing}} or B{C{prec}}.
 
        @note: The B{C{easting}} and B{C{northing}} values are I{truncated, not rounded}.
     '''
+    t = extras
     try:  # like .dms.compassPoint
-        p = int(prec)
-        w = 5 + p
-        if w < 0:  # or w > 11?
-            raise ValueError
-        p = _10_0**p  # truncate
-        return extras + (_0wd(w, int(easting  * p)),
-                         _0wd(w, int(northing * p)))
+        p = min(int(prec), _EN_PREC)
+        w = p + _xkwds_get(wide_dot, wide=_EN_WIDE)
+        if w > 0:
+            f  = _10_0**p  # truncate
+            d  = (-p) if p > 0 and _xkwds_get(wide_dot, dot=False) else 0
+            t += (_0wdot(w, int(easting  * f), d),
+                  _0wdot(w, int(northing * f), d))
+        else:  # prec <= -_EN_WIDE
+            t += (NN, NN)
     except (TypeError, ValueError) as x:
         raise _ValueError(easting=easting, northing=northing, prec=prec, txt=str(x))
+    return t
+
+enstr2.__doc__  %= (_EN_WIDE,)  # PYCHOK expected
+
+
+def _enstr2m3(estr, nstr, wide=_EN_WIDE):  # in .mgrs, .osgr
+    '''(INTERNAL) Convert east- and northing C{str}s to meter and resolution.
+    '''
+    def _s2m2(s, m):  # e or n str to float meter
+        if _DOT_ in s:
+            m  = 1  # meter
+        else:
+            s += _0_ * wide
+            s  = _DOT_(s[:wide], s[wide:wide+_EN_PREC])
+        return float(s), m
+
+    e, m = _s2m2(estr, 0)
+    n, m = _s2m2(nstr, m)
+    if not m:
+        p = max(len(estr), len(nstr))  # 2 = km, 5 = m, 7 = cm
+        m = 10**max(-_EN_PREC, wide - p)  # resolution, meter
+    return e, n, m
 
 
 def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None):
@@ -383,6 +415,18 @@ def reprs(objs, prec=6, fmt=Fmt.F, ints=False):
     return tuple(_streprs(prec, objs, fmt, ints, False, repr)) if objs else ()
 
 
+def _resolution10(resolution, Error=ValueError):  # in .mgrs, .osgr
+    '''(INTERNAL) Validate C{resolution} in C{meter}.
+    '''
+    try:
+        r = int(log10(resolution))
+        if _EN_WIDE < r or r < -_EN_PREC:
+            raise ValueError
+    except (ValueError, TypeError):
+        raise Error(resolution=resolution)
+    return _MODS.units.Meter(resolution=10**r)
+
+
 def _streprs(prec, objs, fmt, ints, force, strepr):
     '''(INTERNAL) Helper for C{fstr}, C{pairs}, C{reprs} and C{strs}
     '''
@@ -451,6 +495,15 @@ def _0wd(*w_i):  # in .osgr, .wgrs
     '''(INTERNAL) Int formatter'.
     '''
     return '%0*d' % w_i
+
+
+def _0wdot(w, f, dot=0):
+    '''(INTERNAL) Int and Float formatter'.
+    '''
+    s = _0wd(w, int(f))
+    if dot:
+        s = _DOT_(s[:dot], s[dot:])
+    return s
 
 
 def _0wpF(*w_p_f):  # in .dms, .osgr

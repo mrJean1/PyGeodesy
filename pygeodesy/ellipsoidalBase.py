@@ -33,7 +33,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.07.19'
+__version__ = '22.08.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -645,10 +645,17 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @Property_RO
     def _osgr(self):
-        '''(INTERNAL) Get this C{LatLon} point to an OSGR coordinate (L{Osgr}).
+        '''(INTERNAL) Get this C{LatLon} point as an OSGR coordinate (L{Osgr}),
+           based on the OS recommendation.
         '''
-        osgr = _MODS.osgr
-        return osgr.toOsgr(self, datum=self.datum, Osgr=osgr.Osgr, name=self.name)
+        return _MODS.osgr.toOsgr(self, datum=self.datum, kTM=False, name=self.name)
+
+    @Property_RO
+    def _osgrTM(self):
+        '''(INTERNAL) Get this C{LatLon} point as an OSGR coordinate (L{Osgr})
+           based on I{Karney}'s Krüger implementation.
+        '''
+        return _MODS.osgr.toOsgr(self, datum=self.datum, kTM=True, name=self.name)
 
     def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
                                                   sep=_COMMA_, name=NN):
@@ -806,17 +813,23 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self.toUtmUps(center=center, pole=pole).toMgrs(center=False)
 
-    def toOsgr(self, **toOsgr_kwds):
+    def toOsgr(self, kTM=False, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
 
+           @kwarg kTM: If C{True} use I{Karney}'s Krüger method from module
+                       L{ktm}, otherwise I{Ordinance Survery}'s recommended
+                       formulation (C{bool}).
            @kwarg toOsgr_kwds: Optional L{pygeodesy.toOsgr} keyword arguments.
 
            @return: The OSGR coordinate (L{Osgr}).
 
            @see: Function L{pygeodesy.toOsgr}.
         '''
-        return self._osgr if not toOsgr_kwds else _MODS.osgr.toOsgr(
-               self, **_xkwds(toOsgr_kwds, name=self.name))
+        if toOsgr_kwds:
+            r = _MODS.osgr.toOsgr(self, **_xkwds(toOsgr_kwds, name=self.name))
+        else:
+            r =  self._osgrTM if kTM else self._osgr
+        return r
 
     def toRefFrame(self, reframe2, height=None, name=NN):
         '''Convert this point to an other reference frame.

@@ -45,7 +45,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.07.08'
+__version__ = '22.08.07'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -237,8 +237,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> a = LatLon(49.66618, 3.45063)
             >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
             >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
-
-           @JSname: I{destinationPoint}.
         '''
         _xinstanceof(Ned, delta=delta)
 
@@ -359,8 +357,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #             >>> p1 = LatLon(52.205, 0.119)
 #             >>> p2 = LatLon(48.857, 2.351)
 #             >>> b = p1.bearingTo(p2)  # 156.2
-#
-#            @JSname: I{bearingTo}.
 #         '''
 #         self.others(other)
 #
@@ -392,8 +388,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> p = LatLon(52.205, 0.119)
             >>> q = LatLon(48.857, 2.351)
             >>> p = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7073°E
-
-           @JSname: I{intermediatePointTo}.
         '''
         self.others(other)
 
@@ -707,8 +701,6 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
 
        @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
                           or B{C{elevation}}.
-
-       @JSname: I{fromDistanceBearingElevation}.
     '''
     if True:  # use new Aer class
         n, e, d, _ = _Aer(bearing, elevation, distance).xyz4

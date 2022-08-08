@@ -204,7 +204,7 @@ class Frechet(_Named):
            @raise FrechetError: Insufficient number of B{C{points}} or an
                                 invalid B{C{point}} or B{C{fraction}}.
 
-           @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
+           @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit
                                   <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
         '''
         n2, ps2 = self._points2(points)

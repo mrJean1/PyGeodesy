@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.07.08'
+__version__ = '22.08.05'
 
 _paths_ = 'paths'
 
@@ -223,8 +223,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p = LatLon(51.4778, -0.0015)
             >>> q = p.destination(7794, 300.7)
             >>> q.toStr()  # 51.513546°N, 000.098345°W
-
-           @JSname: I{destinationPoint}.
         '''
         a = _angular(distance, radius)
         sa, ca, sb, cb = sincos2_(a, Bearing_(bearing))
@@ -347,8 +345,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p1 = LatLon(52.205, 0.119)
             >>> p2 = LatLon(48.857, 2.351)
             >>> b = p1.initialBearingTo(p2)  # 156.2
-
-           @JSname: I{bearingTo}.
         '''
         self.others(other)
         # see <https://MathForum.org/library/drmath/view/55417.html>
@@ -378,8 +374,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p = LatLon(52.205, 0.119)
             >>> q = LatLon(48.857, 2.351)
             >>> i = p.intermediateChordTo(q, 0.25)  # 51.3723°N, 000.7072°E
-
-           @JSname: I{intermediatePointOnChordTo}, I{intermediatePointDirectlyTo}.
         '''
         self.others(other)
 
@@ -415,8 +409,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p = LatLon(52.205, 0.119)
             >>> q = LatLon(48.857, 2.351)
             >>> i = p.intermediateTo(q, 0.25)  # 51.3721°N, 000.7074°E
-
-           @JSname: I{intermediatePointTo}.
         '''
         q = self.others(other).toNvector()
         p = self.toNvector()
@@ -483,8 +475,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
             >>> p = LatLon(45.1, 1.1)
             >>> inside = p.isenclosedBy(b)  # True
-
-           @JSname: I{enclosedBy}.
         '''
         # sum subtended angles of each edge (using n0, the
         # normal vector to this point for sign of α)
@@ -526,8 +516,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                     C{False} otherwise.
 
            @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
-
-           @JSname: I{isBetween}.
         '''
         n0 = self.toNvector()
         n1 = self.others(point1=point1).toNvector()
@@ -616,8 +604,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
             >>> s = LatLon(51.0, 2.1)
             >>> p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
-
-           @JSname: I{nearestPointOnSegment}.
         '''
         if wrap:  # wrap=True throws C{NotImplementedError} always.
             notImplemented(self, wrap=wrap)
@@ -734,8 +720,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             >>> p = LatLon(45, 45)
             >>> n = p.toNvector()
             >>> n.toStr()  # [0.50, 0.50, 0.70710]
-
-           @JSname: I{toVector}.
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector)
         return LatLonNvectorBase.toNvector(self, **kwds)

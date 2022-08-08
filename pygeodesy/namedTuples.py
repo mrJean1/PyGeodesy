@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             property_RO, Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.06.30'
+__version__ = '22.08.05'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -143,17 +143,15 @@ class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
     _Units_ = ( Degrees2,    Degrees,     Degrees,     Degrees)
 
 
-class EasNor2Tuple(_NamedTuple):  # .css.py, .osgr.py, .ups.py, .utm.py, .utmupsBase.py
-    '''2-Tuple C{(easting, northing)}, both in C{meter},
-       conventionally.
+class EasNor2Tuple(_NamedTuple):  # .css, .osgr, .ups, .utm, .utmupsBase
+    '''2-Tuple C{(easting, northing)}, both in C{meter}, conventionally.
     '''
     _Names_ = (_easting_, _northing_)
     _Units_ = ( Easting,   Northing)
 
 
 class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
-    '''3-Tuple C{(easting, northing, height)}, all in C{meter},
-       conventionally.
+    '''3-Tuple C{(easting, northing, height)}, all in C{meter}, conventionally.
     '''
     _Names_ = (_easting_, _northing_, _height_)
     _Units_ = ( Easting,   Northing,   Height)

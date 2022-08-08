@@ -3,17 +3,16 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-
 from base import clips, coverage, isiOS, NN, PyGeodesy_dir, \
-                 PythonX, secs2str, test_dir, _TILDE_, tilde, \
-                 versions, _W_opts  # PYCHOK expected
+                 PythonX, secs2str, test_dir, _skipped_, _TILDE_, \
+                 tilde, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
 
 from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '22.08.02'
+__version__ = '22.08.05'
 
 if isiOS:  # MCCABE 14
 
@@ -68,7 +67,7 @@ if isiOS:  # MCCABE 14
 
 else:  # non-iOS
     from base import isPython37
-    from subprocess import PIPE, STDOUT, Popen
+    from subprocess import PIPE, Popen, STDOUT
 
     Popen_kwds = dict(creationflags=0, executable=sys.executable,
                     # shell=True,
@@ -159,7 +158,7 @@ def _run(prefix, test, *opts):  # MCCABE 13
                 raise SystemExit
 
         elif _failedonly:
-            for t in _testlines(r):
+            for t in _testlines(r, False):
                 if ', KNOWN' not in t:
                     print(t)
 
@@ -167,7 +166,7 @@ def _run(prefix, test, *opts):  # MCCABE 13
             print(r + NL)
 
         elif x:
-            for t in _testlines(r):
+            for t in _testlines(r, True):
                 print(t)
 
     else:
@@ -181,11 +180,11 @@ def _run(prefix, test, *opts):  # MCCABE 13
     _FailX += x  # failures, excluding KNOWN ones
 
 
-def _testlines(r):
+def _testlines(r, skipped):
     '''(INTERNAL) Yield test lines.
     '''
     for t in r.split(NL):
-        if 'FAILED,' in t or 'passed' in t or 'skipped' in t:
+        if 'FAILED,' in t or 'passed' in t or (skipped and _skipped_ in t):
             yield t.rstrip()
     yield NN
 

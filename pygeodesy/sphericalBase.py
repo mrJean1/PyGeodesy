@@ -39,7 +39,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.07.03'
+__version__ = '22.08.05'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -238,8 +238,6 @@ class LatLonSphericalBase(LatLonBase):
            @return: Maximum latitude (C{degrees90}).
 
            @raise ValueError: Invalid B{C{bearing}}.
-
-           @JSname: I{maxLatitude}.
         '''
         m = acos1(abs(sin(Bearing_(bearing)) * cos(self.phi)))
         return degrees90(m)
@@ -255,8 +253,6 @@ class LatLonSphericalBase(LatLonBase):
            @see: Method L{maxLat} for more details.
 
            @raise ValueError: Invalid B{C{bearing}}.
-
-           @JSname: I{minLatitude}.
         '''
         return -self.maxLat(bearing)
 
@@ -367,8 +363,6 @@ class LatLonSphericalBase(LatLonBase):
 
             >>> p = LatLon(51.127, 1.338)
             >>> q = p.rhumbDestination(40300, 116.7)  # 50.9642°N, 001.8530°E
-
-           @JSname: I{rhumbDestinationPoint}
         '''
         if exact:  # use series, always
             r = LatLonBase.rhumbDestination(self, distance, bearing, exact=False,

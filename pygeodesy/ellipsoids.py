@@ -100,11 +100,11 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.08.01'
+__version__ = '22.08.04'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
-# see U{WGS84_f()<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>}
+# see U{WGS84_f<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>}
 _f__WGS84 = Float(f_=_1_0 / (1000000000 / 298257223563))  # 298.25722356299997 vs 298.257223563
 
 
@@ -471,7 +471,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/GeocentricLatitude<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Geocentric latitude
                  <https://WikiPedia.org/wiki/Latitude#Geocentric_latitude>}, and
-                 U{Snyder<<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
+                 U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
         '''
         if self.f:
             f = self.a2_b2 if inverse else self.b2_a2
@@ -618,8 +618,8 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the I{authalic} earth radius I{squared} (C{meter} I{squared}).
 
 
-           @see: Properties L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation 60
-                 <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area()
+           @see: Properties L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation (60)
+                 <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html>},
                  U{Authalic radius<https://WikiPedia.org/wiki/Earth_radius#Authalic_radius>}, U{Surface area
                  <https://WikiPedia.org/wiki/Ellipsoid>} and U{surface area
@@ -1122,8 +1122,8 @@ class Ellipsoid(_NamedEnumItem):
 
     def _Kseries(self, *AB8Ks):
         '''(INTERNAL) Compute the 4-, 6- or 8-th order I{Krüger} Alpha
-           or Beta series coefficients per I{Karney}'s U{equations 35
-           and 36<https://Arxiv.org/pdf/1002.1417v3.pdf>}.
+           or Beta series coefficients per I{Karney}'s U{equations (35)
+           and (36)<https://ArXiv.org/pdf/1002.1417v3.pdf>}.
 
            @arg AB8Ks: 8-Tuple of 8-th order I{Krüger} Alpha or Beta series
                        coefficient tuples.

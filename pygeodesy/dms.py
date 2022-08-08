@@ -77,7 +77,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.07.04'
+__version__ = '22.08.05'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -260,8 +260,6 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):
        @return: Compass degrees per the specified B{C{form}} (C{str}).
 
        @see: Function L{pygeodesy.toDMS}.
-
-       @JSname: I{toBrng}.
     '''
     return _toDMS(_umod_360(bearing), form, prec, sep, 1, NN, s_D_M_S)
 
@@ -448,8 +446,6 @@ def latDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
        @return: Degrees in the specified form (C{str}).
 
        @see: Functions L{pygeodesy.toDMS} and L{pygeodesy.lonDMS}.
-
-       @JSname: I{toLat}.
     '''
     p = _S_ if deg < 0 else _N_
     return _toDMS(deg, form, prec, sep, 2, p, s_D_M_S)
@@ -552,8 +548,6 @@ def lonDMS(deg, form=F_DMS, prec=None, sep=S_SEP, **s_D_M_S):
        @return: Degrees in the specified form (C{str}).
 
        @see: Functions L{pygeodesy.toDMS} and L{pygeodesy.latDMS}.
-
-       @JSname: I{toLon}.
     '''
     p = _W_ if deg < 0 else _E_
     return _toDMS(deg, form, prec, sep, 3, p, s_D_M_S)

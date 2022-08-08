@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.07.08'
+__version__ = '22.08.05'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -250,8 +250,6 @@ class LatLon(LatLonSphericalBase):
             >>> p1 = LatLon(51.4778, -0.0015)
             >>> p2 = p1.destination(7794, 300.7)
             >>> p2.toStr()  # '51.5135°N, 000.0983°W'
-
-           @JSname: I{destinationPoint}.
         '''
         a, b =  self.philam
         r, t = _angular(distance, radius), Bearing_(bearing)
@@ -346,8 +344,6 @@ class LatLon(LatLonSphericalBase):
             >>> p1 = LatLon(52.205, 0.119)
             >>> p2 = LatLon(48.857, 2.351)
             >>> b = p1.initialBearingTo(p2)  # 156.2
-
-           @JSname: I{bearingTo}.
         '''
         self.others(other)
 
@@ -384,8 +380,6 @@ class LatLon(LatLonSphericalBase):
             >>> p1 = LatLon(52.205, 0.119)
             >>> p2 = LatLon(48.857, 2.351)
             >>> p = p1.intermediateTo(p2, 0.25)  # 51.3721°N, 000.7073°E
-
-           @JSname: I{intermediatePointTo}.
         '''
         f = Scalar(fraction=fraction)  # not high=_1_0
         if isnear0(f):  # PYCHOK no cover

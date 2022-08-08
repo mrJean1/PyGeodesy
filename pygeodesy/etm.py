@@ -90,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.07.22'
+__version__ = '22.08.04'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -1134,8 +1134,7 @@ if __name__ == '__main__':  # MCCABE 13
 
     from sys import argv, exit as _exit
 
-    # mimick some of I{Karney}'s utility U{TransverseMercatorProj
-    # <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorProj.1.html>}
+    # mimick some of I{Karney}'s utility C{TransverseMercatorProj}
     _f = _r = _s = _t = False
     _as = argv[1:]
     while _as and _as[0].startswith(_DASH_):

@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.07.12'
+__version__ = '22.08.05'
 
 
 class LatLonBase(_NamedBase):
@@ -1061,8 +1061,6 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{distance}}, B{C{azimuth}},
                               B{C{radius}} or B{C{height}}.
-
-           @JSname: I{rhumbDestinationPoint}
         '''
         r, D = self._rhumb2(exact, radius)
         d = r.Direct(self.lat, self.lon, azimuth, distance)

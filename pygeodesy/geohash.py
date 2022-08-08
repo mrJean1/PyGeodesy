@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '22.05.14'
+__version__ = '22.08.05'
 
 
 class _GH(object):
@@ -809,8 +809,6 @@ def neighbors(geohash):
 
        @raise TypeError: The B{C{geohash}} is not a L{Geohash},
                          C{LatLon} or C{str}.
-
-       @JSname: I{neighbours}.
     '''
     return _2Geohash(geohash).neighbors
 

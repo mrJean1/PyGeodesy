@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.06.20'
+__version__ = '22.08.07'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -66,6 +66,7 @@ class Tests(_TestsLL, _TestsV):
             self.test('toLcc',    p.toLcc(name=n), '5639901 4612638')
             self.test('toOsgr',   p.toOsgr(), 'TQ 38876 77320')
             self.test('toOsgr',   p.toOsgr(name=n), 'TQ 38876 77320')
+            self.test('toOsgrTM', p.toOsgr(kTM=True), 'TQ 38876 77320')
 #           self.test('toUps',    p.toUps(), '00 N 2000000 1333272')
 #           self.test('toUps',    p.toUps(falsed=False), '00 N 2000000 1333272')
             self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')

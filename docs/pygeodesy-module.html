@@ -60,9 +60,10 @@
 <h1 class="epydoc">Package pygeodesy</h1><p class="nomargin-top"></p>
 <p>A pure Python implementation of geodesy tools for various ellipsoidal 
   and spherical earth models using precision trigonometric, vector-based, 
-  exact, elliptic and approximate methods for geodetic (lat-/longitude) and
-  geocentric (<a href="https://WikiPedia.org/wiki/ECEF" 
-  target="_top">ECEF</a> cartesian) coordinates.</p>
+  exact, elliptic, iterative and approximate methods for geodetic 
+  (lat-/longitude) and geocentric (<a 
+  href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a> cartesian) 
+  coordinates.</p>
   <p>Transcoded from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2022</i> and from several <a 
@@ -103,16 +104,17 @@
   target="_top">Cassini-Soldner</a>, <a 
   href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a> 
   (Earth-Centered, Earth-Fixed cartesian), <a 
-  href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
-  target="_top">UPS</a> (Universal Polar Stereographic), <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
-  target="_top">UTM</a> (<a 
+  target="_top">UTM</a> (Universal Transverse Mercator and <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html"
-  target="_top">Exact</a> and Universal Transverse Mercator) and <a 
+  target="_top">Exact</a>), <a 
+  href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
+  target="_top">UPS</a> (Universal Polar Stereographic) and <a 
   href="https://WikiPedia.org/wiki/Web_Mercator" target="_top">Web 
   Mercator</a> (Pseudo-Mercator) coordinates, <a 
-  href="https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
-  target="_top">MGRS</a> (NATO Military Grid Reference System) and <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1MGRS.html"
+  target="_top">MGRS</a> (Military Grid Reference System, UTM <i>and</i> 
+  UPS) and <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html" 
   target="_top">OSGR</a> (British Ordinance Survery Grid Reference) grid 
   references, <a href="http://ITRF.ENSG.IGN.Fr" target="_top">TRF</a> 
@@ -213,16 +215,19 @@
     class="link">GnomonicGeodSolve</a> depend on <i>Karney</i>'s C++ 
     utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html" 
-    target="_top">GeodSolve</a> to be executable.</p>
+    target="_top">GeodSolve</a> to be executable and set with env variable 
+    <code>PYGEODESY_GEODSOLVE</code>.</p>
     <p>To compare <code>MGRS</code> results from modules <a 
     href="pygeodesy.mgrs-module.html" class="link">mgrs</a> and 
     <code>testMgrs</code> with <i>Karney</i>'s C++ utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html" 
-    target="_top">GeoConvert</a>, the latter must be executable.</p>
+    target="_top">GeoConvert</a>, the latter must be executable and set 
+    with env variable <code>PYGEODESY_GEOCONVERT</code>.</p>
     <p>Module <a href="pygeodesy.rhumbsolve-module.html" 
     class="link">rhumbsolve</a> needs <i>Karney</i>'s C++ utility <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html" 
-    target="_top">RhumbSolve</a> to be executable.</p>
+    target="_top">RhumbSolve</a> to be executable and set with env variable
+    <code>PYGEODESY_RHUMBSOLVE</code>.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -235,7 +240,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.0b5 (with <a 
+    <p>The tests ran with Python 3.11.0rc1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0), Python 3.10.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -273,7 +278,7 @@
     4.5.4 using Python 3.10.6, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0b5, 3.10.6 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.0rc1, 3.10.6 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;), see function <a 
@@ -317,10 +322,10 @@
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista3.2</a> (with geographiclib 1.50 or 1.49 and 
+    target="_top">Pythonista</a> 3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
     and/or iPhone12, with <a href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
+    target="_top">Pythonista</a> 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
     on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 
     10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.</p>
   <h1 class="heading">Notes</h1>
@@ -346,10 +351,7 @@
     class="link">S_RAD</a> and <a href="pygeodesy-module.html#S_SEP" 
     class="link">S_SEP</a> may be multi-byte, non-ascii characters and if 
     so, <i>not</i> <code>unicode</code>.</p>
-    <p>Some function and method names differ from the JavaScript version.  
-    In such cases documentation tag <b>JS name:</b> shows the original 
-    JavaScript name.</p>
-  <h1 class="heading">Env vars</h1>
+  <h1 class="heading">Env variables</h1>
     <p>The following environment variables are observed by 
     <code>PyGeodesy</code>:</p>
     <ul>
@@ -500,7 +502,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.08.04
+        22.08.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -632,7 +634,9 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Named tuples.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal and spherical 
         <code>Nvector</code>s.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) references.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordnance Survey Grid References (OSGR) references on the UK <a 
+        href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
+        target="_top">National Grid</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points-module.html">pygeodesy.points</a></strong>: <em class="summary">Utilities for point lists, tuples, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Mutable, immutable and caching/memoizing properties and deprecation
         decorators.</em>    </li>
@@ -3408,8 +3412,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.osgr.OSGRError-class.html" class="summary-name">OSGRError</a><br />
-      Ordinance Survey Grid References (OSGR) parse or other <a 
-        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> issue.
+      Error raised for a <a href="pygeodesy.osgr-module.html#parseOSGR" 
+        class="link">parseOSGR</a>, <a 
+        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> or 
+        other OSGR issue.
     </td>
   </tr>
 <tr>
@@ -3429,7 +3435,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.osgr.Osgr-class.html" class="summary-name">Osgr</a><br />
-      Ordinance Survey Grid References (OSGR) coordinate.
+      Ordnance Survey Grid References (OSGR) coordinates on the <a 
+        href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
+        target="_top">National Grid</a>.
     </td>
   </tr>
 <tr>
@@ -6190,8 +6198,9 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#enstr2" class="summary-sig-name">enstr2</a>(<span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">prec</span>,
-        <span class="summary-sig-arg">*extras</span>)</span><br />
-      Return an easting, northing string representations.</td>
+        <span class="summary-sig-arg">*extras</span>,
+        <span class="summary-sig-arg">**wide_dot</span>)</span><br />
+      Return an MGRS/OSGR easting, northing string representations.</td>
           <td align="right" valign="top">
             
             
@@ -7629,7 +7638,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f910061c8d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fad38381cd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9727,9 +9736,10 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Parse a string representing an OSGR grid reference, consisting of 
-      <code>&quot;[grid] easting northing&quot;</code>.</td>
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**Osgr_kwds</span>)</span><br />
+      Parse a string representing an OS Grid Reference, consisting of 
+      <code>&quot;[GD] easting northing&quot;</code>.</td>
           <td align="right" valign="top">
             
             
@@ -11039,6 +11049,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toOsgr" class="summary-sig-name">toOsgr</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">kTM</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
@@ -11841,7 +11852,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.4'"><code class="variable-quote">'</code><code class="variable-string">22.8.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.8'"><code class="variable-quote">'</code><code class="variable-string">22.8.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13588,9 +13599,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.dms-module.html#toDMS" 
         class="link">pygeodesy.toDMS</a>.
-      </p>
-      <p><strong>JS name:</strong>
-        <i>toBrng</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -16196,14 +16204,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">enstr2</span>&nbsp;(<span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
         <span class="sig-arg">prec</span>,
-        <span class="sig-arg">*extras</span>)</span>
+        <span class="sig-arg">*extras</span>,
+        <span class="sig-arg">**wide_dot</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return an easting, northing string representations.</p>
+  <p>Return an MGRS/OSGR easting, northing string representations.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -16214,13 +16223,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION"
           target="_top">PRECISION</a>.</li>
         <li><strong class="pname"><code>extras</code></strong> - Optional leading items (<code>str</code>s).</li>
+        <li><strong class="pname"><code>wide_dot</code></strong> - Optional keword argument <code><b>wide</b>=5</code> for the 
+          number of <i>unit digits</i> (<code>int</code>) and 
+          <code><b>dot</b>=False</code> (<code>bool</code>) to insert a 
+          decimal point.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><b><code>extras</code></b> + 2-tuple <code>(str(<b>easting</b>), 
-          str(<b>northing</b>))</code>.</dd>
+          str(<b>northing</b>))</code> or + 2-tuple <code>(&quot;&quot;, 
+          &quot;&quot;)</code> for <code><b>prec</b> &lt;= 
+          -<b>wide</b></code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>easting</code></b>, <b><code>northing</code></b> 
+        or <b><code>prec</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -19209,7 +19225,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f910061c8d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fad38381cd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21204,9 +21220,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         href="pygeodesy.dms-module.html#lonDMS" 
         class="link">pygeodesy.lonDMS</a>.
       </p>
-      <p><strong>JS name:</strong>
-        <i>toLat</i>.
-      </p>
 </div></td></tr></table>
 </div>
 <a name="latlon2n_xyz"></a>
@@ -21501,9 +21514,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         class="link">pygeodesy.toDMS</a> and <a 
         href="pygeodesy.dms-module.html#latDMS" 
         class="link">pygeodesy.latDMS</a>.
-      </p>
-      <p><strong>JS name:</strong>
-        <i>toLon</i>.
       </p>
 </div></td></tr></table>
 </div>
@@ -23414,19 +23424,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>&nbsp;(<span class="sig-arg">strOSGR</span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Parse a string representing an OSGR grid reference, consisting of 
-  <code>&quot;[grid] easting northing&quot;</code>.</p>
-  <p>Accepts standard OS Grid References like 'SU 387 148', with or without
-  whitespace separators, from 2- up to 10-digit references (1 m &#215; 1 m 
-  square), or all-numeric, comma-separated references in meters, for 
-  example '438700,114800'.</p>
+  <p>Parse a string representing an OS Grid Reference, consisting of 
+  <code>&quot;[GD] easting northing&quot;</code>.</p>
+  <p>Accepts standard OS Grid References like &quot;SU 387 148&quot;, with 
+  or without whitespace separators, from 2- up to 22-digit references, or 
+  all-numeric, comma-separated references in meters, for example 
+  &quot;438700,114800&quot;.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -23435,12 +23446,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
+        <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
+          ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
+        <dd>An (<b><code>Osgr</code></b>) instance or if 
+          <b><code>Osgr</code></b> is <code>None</code> an <a 
           href="pygeodesy.namedTuples.EasNor2Tuple-class.html" 
-          class="link">EasNor2Tuple</a><code>(easting, northing)</code> if 
-          <b><code>Osgr</code></b> is <code>None</code>.</dd>
+          class="link">EasNor2Tuple</a><code>(easting, northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - Invalid <b><code>strOSGR</code></b>.</li>
@@ -23448,15 +23461,13 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG 51409 13177'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG5140913177'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'TG51409 13177'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>g = parseOSGR(<span class="py-string">'651409,313177'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>str(g)  <span class="py-comment"># TG 51409 13177</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>g.toStr(prec=0)  <span class="py-comment"># 651409,313177</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = parseOSGR(<span class="py-string">'TG5140913177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>str(r)  <span class="py-comment"># 'TG 51409 13177'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = parseOSGR(<span class="py-string">'TG 51409 13177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>r.toStr()  <span class="py-comment"># 'TG5140913177'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = parseOSGR(<span class="py-string">'651409,313177'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>r.toStr(sep=<span class="py-string">' '</span>)  <span class="py-comment"># 'TG 51409 13177'</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r.toStr(GD=False)  <span class="py-comment"># '651409,313177'</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -26245,6 +26256,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toOsgr</span>&nbsp;(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">kTM</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
@@ -26262,6 +26274,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or <code>None</code>).</li>
+        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code> use <i>Karney</i>'s Kr&#252;ger method from 
+          module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
+          otherwise use the Ordnance Survey formulation 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert <b><code>lat, lon</code></b> from (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -26278,24 +26294,27 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The OSGR coordinate (<b><code>Osgr</code></b>) or an <a 
+        <dd>An (<b><code>Osgr</code></b>) instance or if 
+          <b><code>Osgr</code></b> is <code>None</code> an <a 
           href="pygeodesy.namedTuples.EasNor2Tuple-class.html" 
-          class="link">EasNor2Tuple</a><code>(easting, northing)</code> if 
-          <b><code>Osgr</code></b> is <code>None</code>.</dd>
+          class="link">EasNor2Tuple</a><code>(easting, northing)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - Invalid <b><code>latlon</code></b> or <b><code>lon</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>latlon</code></b> or invalid 
         <b><code>datum</code></b>, <b><code>Osgr</code></b>, 
-        <b><code>Osgr_kwds</code></b> argument or conversion failed.</li>
+        <b><code>Osgr_kwds</code></b> or conversion to 
+        <code>Datums.OSGB36</code> failed.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.65798, 1.71605)
-<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(p)  <span class="py-comment"># TG 51409 13177</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(p)  <span class="py-comment"># [G:TG, E:51409, N:13177]</span>
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># for conversion of (historical) OSGB36 lat-/longitude:</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)</pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># alternatively and using Kr&#252;ger</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>r = p.toOsgr(kTM=True)  <span class="py-comment"># [G:TG, E:51409, N:13177]</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -28146,7 +28165,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Aug  3 20:45:34 2022
+    Generated by Epydoc 3.0.1 on Mon Aug  8 14:14:48 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

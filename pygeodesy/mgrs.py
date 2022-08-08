@@ -6,11 +6,12 @@ u'''Military Grid Reference System (MGRS/NATO) references.
 Classes L{Mgrs}, L{Mgrs4Tuple} and L{Mgrs6Tuple} and functions L{parseMGRS}
 and L{toMgrs}.
 
-Pure Python implementation of MGRS, UTM and UPS conversion functions using an
-ellipsoidal earth model, in part transcoded from JavaScript originals by I{(C)
-Chris Veness 2014-2016} published under the same MIT Licence**, see U{MGRS
-<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and U{Module
-mgrs<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>}.
+Pure Python implementation of MGRS, UTM and UPS conversions covering the entire
+I{ellipsoidal} earth, transcoded from I{Chris Veness}' JavaScript originals U{MGRS
+<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} and U{Module mgrs
+<https://www.Movable-Type.co.UK/scripts/geodesy/docs/module-mgrs.html>} and from
+I{Charles Karney}'s C++ class U{MGRS<https://GeographicLib.SourceForge.io/C++/doc/
+classGeographicLib_1_1MGRS.html>}.
 
 MGRS references comprise a grid zone designation (GZD), a 100 km grid (square)
 tile identification and an easting and northing (in C{meter}).  The GZD consists
@@ -39,23 +40,20 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, _A_, _AtoZnoIO_, _band_, _B_, _COMMASPACE_, \
-                             _datum_, _DOT_, _easting_, _invalid_, _northing_, \
-                             _not_, _SPACE_, _splituple, _W_, _Y_, _Z_, _zone_, \
-                             _0_, _0_5
+                             _datum_, _easting_, _invalid_, _northing_, _not_, \
+                             _SPACE_, _splituple, _W_, _Y_, _Z_, _zone_, _0_, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
-from pygeodesy.streprs import enstr2, Fmt, _xzipairs
-from pygeodesy.units import Easting, Meter, Northing, Str, _100km
+from pygeodesy.streprs import enstr2, _enstr2m3, Fmt, _resolution10, _xzipairs
+from pygeodesy.units import Easting, Northing, Str, _100km
 from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 
-from math import log10
-
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.08.03'
+__version__ = '22.08.07'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -142,7 +140,7 @@ class Mgrs(_NamedBase):
             self.resolution = resolution
 
     def __str__(self):
-        return self.toStr(sep=_SPACE_)
+        return self.toStr(sep=_SPACE_)  # for backward compatibility
 
     @property_RO
     def band(self):
@@ -273,13 +271,7 @@ class Mgrs(_NamedBase):
                              C{1.e+5} or under C{1.e-6}.
         '''
         if resolution:  # and resolution > 0
-            try:
-                r = int(log10(resolution))
-                if -6 > r or r > 5:
-                    raise ValueError
-                r = Meter(resolution=10**r)
-            except (ValueError, TypeError):
-                raise MGRSError(resolution=resolution)
+            r = _resolution10(resolution, Error=MGRSError)
         else:
             r = 0
         if self._resolution != r:
@@ -315,12 +307,12 @@ class Mgrs(_NamedBase):
         u = self.toUtmUps(center=center)
         return u.toLatLon(LatLon=LatLon, **toLatLon_kwds)
 
-    def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
+    def toRepr(self, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **prec):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
-           @kwarg prec: Precisio (C{int}), see method L{Mgrs.toStr}.
            @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Separator between name:values (C{str}).
+           @kwarg prec: Precision (C{int}), see method L{Mgrs.toStr}.
 
            @return: This Mgrs as "[Z:[dd]B, G:EN, E:easting, N:northing]"
                     (C{str}), with C{B{sep} ", "}.
@@ -330,7 +322,7 @@ class Mgrs(_NamedBase):
 
            @raise ValueError: Invalid B{C{prec}}.
         '''
-        t = self.toStr(prec=prec, sep=None)
+        t = self.toStr(sep=None, **prec)
         return _xzipairs('ZGEN', t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=0, sep=NN):  # PYCHOK expected
@@ -339,11 +331,13 @@ class Mgrs(_NamedBase):
            @kwarg prec: Precision, the number of I{decimal} digits (C{int}) or if
                         negative, the number of I{units to drop}, like MGRS U{PRECISION
                         <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html#PRECISION>}.
-           @kwarg sep: Optional separator to join (C{str}) or C{None}
-                       to return an unjoined C{tuple} of C{str}s.
+           @kwarg sep: Optional separator to join (C{str}) or C{None} to return an unjoined
+                       3-C{tuple} of C{str}s.
 
-           @return: This Mgrs as "[dd]B EN easting northing" (C{str})
-                    with C{B{sep} " "}.
+           @return: This Mgrs as 4-tuple C{("dd]B", "EN", "easting", "northing")} if C{B{sep}=NN}
+                    or "[dd]B EN easting northing" (C{str}) with C{B{sep} " "}.
+
+           @note: Both C{easting} and C{northing} strings are C{NN} or missing if C{B{prec} <= -5}.
 
            @note: MGRS grid references are truncated, not rounded (unlike UTM/UPS).
 
@@ -361,7 +355,7 @@ class Mgrs(_NamedBase):
         '''
         zB = self.zoneB
         t  = enstr2(self._easting, self._northing, prec, zB, self.EN)
-        return t if sep is None else sep.join(t)
+        return t if sep is None else sep.join(t).rstrip()
 
     def toUps(self, Ups=Ups, center=False):
         '''Convert this MGRS grid reference to a UPS coordinate.
@@ -598,11 +592,6 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
 #           return (t,) + m[1:]
         raise ValueError(_SPACE_(repr(s), _invalid_))
 
-    def _s2m(g):  # e or n str to float meter
-        m =  g + '00000'
-        m = _DOT_(m[:5], m[5:11])
-        return float(m)
-
     def _MGRS(strMGRS, datum, Mgrs, name):
         m = _splituple(strMGRS.strip())
         if len(m) == 1:  # [01]BEN1234512345'
@@ -618,10 +607,8 @@ def parseMGRS(strMGRS, datum=_WGS84, Mgrs=Mgrs, name=NN):
         zB, EN = m[0].upper(), m[1].upper()
         if zB[-1:] in 'IO':
             raise ValueError(_SPACE_(repr(m[0]), _invalid_))
-        e, n = map(_s2m, m[2:])
+        e, n, m = _enstr2m3(*m[2:])
 
-        p = max(map(len, m[2:]))  # 2 = km, 5 = m, 7 = cm
-        m = 10**max(-6, 5 - p)  # resolution, meter
         if Mgrs is None:
             r = Mgrs4Tuple(zB, EN, e, n, name=name)
             _ = r.toMgrs(resolution=m)  # validate

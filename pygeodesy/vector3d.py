@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.07.03'
+__version__ = '22.08.04'
 
 
 class Vector3d(Vector3dBase):
@@ -380,7 +380,7 @@ class Vector3d(Vector3dBase):
 
            @raise UnitError: Invalid B{C{radius}}, B{C{radius2}} or B{C{radius3}}.
 
-           @note: Package U{numpy<https://pypi.org/project/numpy>} is required,
+           @note: Package U{numpy<https://PyPI.org/project/numpy>} is required,
                   version 1.10 or later.
 
            @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration

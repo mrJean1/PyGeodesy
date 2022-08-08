@@ -22,7 +22,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '22.07.07'
+__version__ = '22.08.04'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -203,8 +203,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
              <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME BOUNDARIES},
-             U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
-             U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
+             U{Circle-Circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
+             U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,

@@ -5,21 +5,20 @@ u'''I{Karney}'s Universal Polar Stereographic (UPS) projection.
 
 Classes L{Ups} and L{UPSError} and functions L{parseUPS5}, L{toUps8} and L{upsZoneBand5}.
 
-A pure Python implementation, partially transcoded from C++ class U{PolarStereographic
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
-by I{Charles Karney}.
+A pure Python implementation, partially transcoded from I{Karney}'s C++ class U{PolarStereographic
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}.
 
-The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>} system
-is used in conjuction with U{UTM<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} for locations on the polar regions of the
-earth.  UPS covers areas south of 79.5°S and north of 83.5°N, slightly overlapping the UTM
-range from 80°S to 84°N by 30' at each end.
+The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>} system is used
+in conjuction with U{UTM<https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}
+for locations on the polar regions of the earth.  UPS covers areas south of 79.5°S and north of 83.5°N,
+slightly overlapping the UTM range from 80°S to 84°N by 30' at each end.
 
-Env variable C{PYGEODESY_UPS_POLES} determines the UPS zones for latitude 90°S and 90°N.
-By default, the encoding follows U{Appendix B-3 of DMA TM8358.1<https://web.Archive.org/
-web/20161226192038/http://earth-info.nga.mil/GandG/publications/tm8358.1/pdf/TM8358_1.pdf>},
-using only zones C{'B'} respectively C{'Z'} and digraph C{'AN'}.  If C{PYGEODESY_UPS_POLES}
-is set to anything other than C{"std"}, zones C{'A'} and C{'Y'} are used for negative, west
-longitudes at latitude 90°S respectively 90°N (for backward compatibility).
+Env variable C{PYGEODESY_UPS_POLES} determines the UPS zones I{at} latitude 90°S and 90°N.  By default,
+the encoding follows I{Karney}'s and U{Appendix B-3 of DMA TM8358.1<https://Web.Archive.org/web/
+20161226192038/http://earth-info.nga.mil/GandG/publications/tm8358.1/pdf/TM8358_1.pdf>}, using only
+zones C{'B'} respectively C{'Z'} and digraph C{'AN'}.  If C{PYGEODESY_UPS_POLES} is set to anything
+other than C{"std"}, zones C{'A'} and C{'Y'} are used for negative, west longitudes I{at} latitude
+90°S respectively 90°N (for backward compatibility).
 '''
 
 # from pygeodesy.basics import neg as _neg  # from .dms
@@ -47,7 +46,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.07.31'
+__version__ = '22.08.05'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
