@@ -51,9 +51,10 @@ from pygeodesy.units import Easting, Northing, Str, _100km
 from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
+# from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.08.07'
+__version__ = '22.08.10'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -134,7 +135,7 @@ class Mgrs(_NamedBase):
         self._easting  = Easting(easting,   Error=MGRSError)
         self._northing = Northing(northing, Error=MGRSError)
         if datum not in (None, Mgrs._datum):
-            self._datum = _ellipsoidal_datum(datum, name=name)  # XXX raiser=True
+            self._datum = _ellipsoidal_datum(datum, name=name)  # XXX raiser=_datum_
 
         if resolution:
             self.resolution = resolution

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Base L{geodesicx} classes, functions and constants.
+u'''(INTERNAL) Private L{geodesicx} base class, functions and constants.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2022)
 and licensed under the MIT/X11 License.  For more information, see the
@@ -18,7 +18,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, \
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.06.01'
+__version__ = '22.08.10'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

@@ -3,30 +3,25 @@
 
 u'''Datums and transformations thereof.
 
-Classes L{Datum} and L{Transform} and registries L{Datums} and
-L{Transforms}, respectively.
+Classes L{Datum} and L{Transform} and registries L{Datums} and L{Transforms}, respectively.
 
-Pure Python implementation of geodesy tools for ellipsoidal earth models,
-including datums and ellipsoid parameters for different geographic coordinate
-systems and methods for converting between them and to cartesian coordinates.
-Transcoded from JavaScript originals by I{(C) Chris Veness 2005-2016} and
-published under the same MIT Licence**, see U{latlon-ellipsoidal.js
+Pure Python implementation of geodesy tools for ellipsoidal earth models, including datums
+and ellipsoid parameters for different geographic coordinate systems and methods for
+converting between them and to cartesian coordinates.  Transcoded from JavaScript originals by
+I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**, see U{latlon-ellipsoidal.js
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
-Historical geodetic datums: a latitude/longitude point defines a geographic
-location on or above/below the earth’s surface, measured in degrees from
-the equator and the International Reference Meridian and meters above the
-ellipsoid, and based on a given datum.  The datum is based on a reference
-ellipsoid and tied to geodetic survey reference points.
+Historical geodetic datums: a latitude/longitude point defines a geographic location on or
+above/below the earth’s surface, measured in degrees from the equator, from the International
+Reference Meridian, in meters above the ellipsoid and based on a given datum.  The datum in turn
+is based on a reference ellipsoid and tied to geodetic survey reference points.
 
-Modern geodesy is generally based on the WGS84 datum (as used for instance
-by GPS systems), but previously various reference ellipsoids and datum
-references were used.
+Modern geodesy is generally based on the WGS84 datum (as used for instance by GPS systems),
+but previously various reference ellipsoids and datum references were used.
 
-The UK Ordnance Survey National Grid References are still based on the otherwise
-historical OSGB36 datum, q.v. U{Ordnance Survey 'A guide to coordinate systems
-in Great Britain', Section 6<https://www.OrdnanceSurvey.co.UK/docs/support/
-guide-coordinate-systems-great-britain.pdf>}.
+The UK Ordnance Survey National Grid References are still based on the otherwise historical
+OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
+<https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>}.
 
 @var Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
 @var Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
@@ -70,17 +65,15 @@ guide-coordinate-systems-great-britain.pdf>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, istuplist, neg_, _xinstanceof
-from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, \
-                                 Ellipsoids, Vector3Tuple
+from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
 # from pygeodesy.errors import _IsnotError  # from .fmath
 from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
-from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
-                             _cartesian_, _Clarke1866_, _Clarke1880IGN_, \
-                             _COMMASPACE_, _DOT_, _ellipsoid_, _ellipsoidal_, \
-                             _float as _F, _GRS80_, _Intl1924_, _Krassovski1940_, \
-                             _NAD27_, _Krassowsky1940_, _NAD83_, _name_, _s_, \
-                             _Sphere_, _spherical_, _sx_, _sy_, _sz_, _transform_, \
-                             _tx_, _ty_, _tz_, _under_name, _WGS72_, _WGS84_, \
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
+                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _ellipsoid_, \
+                             _ellipsoidal_, _float as _F, _GRS80_, _Intl1924_, _Krassovski1940_, \
+                             _NAD27_, _Krassowsky1940_, _NAD83_, _name_, _s_, _Sphere_, \
+                             _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, \
+                             _UNDER_, _under_name, _WGS72_, _WGS84_, \
                              _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
@@ -93,21 +86,23 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.08.01'
+__version__ = '22.08.10'
 
-_BD72_       = 'BD72'
-_DHDN_       = 'DHDN'
-_ED50_       = 'ED50'
-_GDA2020_    = 'GDA2020'
-_Identity_   = 'Identity'
-_Inverse_    = 'Inverse'
-_Irl1965_    = 'Irl1965'
-_Irl1975_    = 'Irl1975'
-_MGI_        = 'MGI'
-_NTF_        = 'NTF'
-_OSGB36_     = 'OSGB36'
-_Potsdam_    = 'Potsdam'
-_TokyoJapan_ = 'TokyoJapan'
+_a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
+_BD72_        = 'BD72'
+_DHDN_        = 'DHDN'
+_earth_       = 'earth'
+_ED50_        = 'ED50'
+_GDA2020_     = 'GDA2020'
+_Identity_    = 'Identity'
+_Inverse_     = 'Inverse'
+_Irl1965_     = 'Irl1965'
+_Irl1975_     = 'Irl1975'
+_MGI_         = 'MGI'
+_NTF_         = 'NTF'
+_OSGB36_      = 'OSGB36'
+_Potsdam_     = 'Potsdam'
+_TokyoJapan_  = 'TokyoJapan'
 
 _r_s1 = radians(1 / _3600_0)  # 1 degree second to radians
 
@@ -451,30 +446,35 @@ def _En2(earth, name):
     return E, n
 
 
-def _ellipsoid(earth, name=NN):  # in .trf
-    '''(INTERNAL) Create an L{Ellipsoid} or L{Ellipsoid2} from L{Datum} or C{a_f2Tuple}.
+def _a_ellipsoid(a_ellipsoid, f=None, name=NN, raiser=_a_ellipsoid_):  # in .karney, .trf, ...
+    '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}},
+       an L{Ellipsoid} or L{Ellipsoid2} from L{Datum} or C{a_f2Tuple}.
     '''
-    E, _ = _En2(earth, name)
-    if not E:
-        _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, earth=earth)
+    if f is None:
+        E, _ = _En2(a_ellipsoid, name)
+        if raiser and not E:
+            _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, **{raiser: a_ellipsoid})
+    else:
+        E =  Ellipsoid2(a_ellipsoid, f, name=name)
     return E
 
 
-def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=False):
+def _ellipsoidal_datum(earth, Error=TypeError, name=NN, raiser=NN):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2},
        C{a_f2Tuple}, 2-tuple or 2-list B{C{earth}} model.
 
-       @kwarg raiser: If C{True}, raise an B{C{Error}} if not ellipsoidal.
+       @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not ellipsoidal.
     '''
     if isinstance(earth, Datum):
         d = earth
     else:
         E, n = _En2(earth, name)
         if not E:
-            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, earth=earth)
+            n = raiser or _earth_
+            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, **{n: earth})
         d = Datum(E, transform=Transforms.Identity, name=n)
     if raiser and not d.isEllipsoidal:
-        raise _IsnotError(_ellipsoidal_, earth=earth, Error=Error)
+        raise _IsnotError(_ellipsoidal_, Error=Error, **{raiser: earth})
     return d
 
 
@@ -490,11 +490,11 @@ def _mean_radius(radius, *lats):
     return r
 
 
-def _spherical_datum(earth, Error=TypeError, name=NN, raiser=False):
+def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2},
        C{a_f2Tuple}, 2-tuple, 2-list B{C{earth}} model or C{scalar} radius.
 
-       @kwarg raiser: If C{True}, raise an B{C{Error}} if not spherical.
+       @kwarg raiser: If not C{NN}, raise an B{C{Error}} if not spherical.
     '''
     if isscalar(earth):
         E = Datums.Sphere.ellipsoid
@@ -508,7 +508,7 @@ def _spherical_datum(earth, Error=TypeError, name=NN, raiser=False):
     else:
         d = _ellipsoidal_datum(earth, Error=Error, name=name)
     if raiser and not d.isSpherical:
-        raise _IsnotError(_spherical_, earth=earth, Error=Error)
+        raise _IsnotError(_spherical_, Error=Error, **{raiser: earth})
     return d
 
 

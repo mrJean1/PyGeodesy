@@ -26,18 +26,18 @@ and U{Ordnance Survey National Grid<https://WikiPedia.org/wiki/Ordnance_Survey_N
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import halfs2, isbool, map1, _xsubclassof
+from pygeodesy.basics import halfs2, isbool, isfloat, map1, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
-from pygeodesy.dms import parseDMS2
+# from pygeodesy.dms import parseDMS2   # _MODS
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
                              _xkwds, _xkwds_get
 from pygeodesy.fmath import fdot, fpowers, Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
-                             _DOT_, _convergence_, _float, _latlon_, \
-                             _no_, _not_, _SPACE_, _splituple, _1_0, \
-                             _2_0, _6_0, _10_0, _24_0, _120_0, _720_0
+                             _DOT_, _convergence_, _ellipsoidal_, _float, \
+                             _latlon_, _no_, _not_, _SPACE_, _splituple, \
+                             _1_0, _2_0, _6_0, _10_0, _24_0, _120_0, _720_0
 from pygeodesy.interns import _N_2_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, _xnamed
@@ -45,7 +45,7 @@ from pygeodesy.namedTuples import EasNor2Tuple, LatLon2Tuple, \
                                   LatLonDatum3Tuple
 from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import _EN_WIDE, enstr2, _enstr2m3, Fmt, \
-                              _resolution10, _xzipairs
+                              _resolution10, unstr, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, \
                             Phi_, Scalar, _10um, _100km
 from pygeodesy.utily import degrees90, degrees180, sincos2
@@ -53,57 +53,20 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.08.08'
+__version__ = '22.08.10'
 
 _5040_0      = _float(5040)
+_equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
-_no_toDatum_ = 'no .toDatum'
 _ord_A       =  ord(_A_)
 _TRIPS       =  33  # .toLatLon convergence
-
-
-class _kTM(object):
-    '''(INTERNAL) A C{KTransverseMercator} instance, as I{Karney}'s U{OSGBTM
-       <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8cpp_source.html>}.
-    '''
-    @Property_RO
-    def kTM(self):
-        return _MODS.ktm.KTransverseMercator(_NG.datum, lon0=0, k0=_NG.k0)
-
-    def forward2(self, latlon):
-        '''Convert C{latlon} to (easting, norting), as I{Karney}'s U{Forward
-           <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}.
-        '''
-        t = self.kTM.forward(latlon.lat, latlon.lon, lon0=_NG.lon0)
-        e = t.easting  + _NG.eas0
-        n = t.northing +  self.northOffset
-        return e, n
-
-    @Property_RO
-    def northOffset(self):
-        return _NG.nor0 - self.kTM.forward(_NG.lat0, 0).northing
-
-    def reverse(self, osgr):
-        '''Convert C{osgr} to (ellipsoidal} latlon, as I{Karney}'s U{Reverse
-           <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}.
-        '''
-        r = osgr._latlonTM
-        if r is None:
-            x =  osgr.easting  - _NG.eas0
-            y =  osgr.northing -  self.northOffset
-            t =  self.kTM.reverse(x, y, lon0=_NG.lon0)
-            r = _LLEB(t.lat, t.lon, datum=_NG.datum, name=osgr.name)
-            osgr._latlonTM = r
-        return r
-
-_kTM = _kTM()  # PYCHOK singleton
 
 
 class _NG(object):
     '''Ordnance Survey National Grid parameters.
     '''
     @Property_RO
-    def a0(self):  # equatoradius scaled
+    def a0(self):  # equatoradius, scaled
         return self.ellipsoid.a * self.k0
 
     @Property_RO
@@ -115,18 +78,30 @@ class _NG(object):
         return Easting(4 * _100km)
 
     @Property_RO
-    def easX(self):  # False easting extent (C{meter})
+    def easX(self):  # easting [0..extent] (C{meter})
         return Easting(7 * _100km)
 
     @Property_RO
     def ellipsoid(self):  # ellipsoid, Airy130
         return self.datum.ellipsoid
 
+    def forward2(self, latlon):  # convert C{latlon} to (easting, norting), as I{Karney}'s
+        # U{Forward<https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}
+        t = self.kTM.forward(latlon.lat, latlon.lon, lon0=self.lon0)
+        e = t.easting  + self.eas0
+        n = t.northing + self.nor0ffset
+        return e, n
+
     @Property_RO
-    def k0(self):  # central scale (C{float})
-        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGR.html>
+    def k0(self):  # central scale (C{float}), like I{Karney}'s CentralScale
+        # <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>
         _0_9998268 = float(9998268 - 10000000) / 10000000
         return Scalar(_10_0**_0_9998268)  # 0.9996012717...
+
+    @Property_RO
+    def kTM(self):  # the L{KTransverseMercator} instance, like I{Karney}'s OSGBTM
+        # <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8cpp_source.html>
+        return _MODS.ktm.KTransverseMercator(self.datum, lon0=0, k0=self.k0)
 
     @Property_RO
     def lam0(self):  # True origin longitude C{radians}
@@ -140,9 +115,9 @@ class _NG(object):
     def lon0(self):  # True origin longitude, 2°W
         return Lon(_N_2_0)
 
-    def Mabcd0(self, a):  # meridional arc scaled
-        a_ = a - _NG.phi0
-        _a = a + _NG.phi0
+    def Mabcd0(self, a):  # meridional arc, scaled
+        a_ = a - self.phi0
+        _a = a + self.phi0
         E  = self.ellipsoid
         r  = fdot(E.Mabcd, a_, -sin(a_)     * cos(_a),
                                 sin(a_ * 2) * cos(_a * 2),
@@ -154,26 +129,38 @@ class _NG(object):
         return Northing(-_100km)
 
     @Property_RO
-    def norX(self):  # False northing extent (C{meter})
+    def nor0ffset(self):  # like I{Karney}'s computenorthoffset
+        # <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8cpp_source.html>
+        return self.nor0 - self.kTM.forward(self.lat0, 0).northing
+
+    @Property_RO
+    def norX(self):  # northing [0..extent] (C{meter})
         return Northing(13 * _100km)
 
-    def nurho2(self, sa):  # get (nu, rho)
+    def nu_rho_eta4(self, sa, rho):  # get (nu, rho, nu / rho, eta2)
         E = self.ellipsoid
         s = E.e2s2(sa)  # r, v = E.roc2_(sa, .k0)
         v = self.a0 / sqrt(s)  # nu
-        r = v * E.e21 / s  # rho = v * E.e21 / pow(s, 1.5)
-        return v, r  # PYCHOK   == v * E.e21 / (s * sqrt(s))
-
-    def nu_rho2(self, sa):  # get (nu, nu / rho)
-        E = self.ellipsoid
-        s = E.e2s2(sa)  # r, v = E.roc2_(sa, .k0); r = v / r
-        v = self.a0 / sqrt(s)  # nu
-        r = s * E._1_e21  # nu / rho == v / (v * E.e21 / s)
-        return v, r  # PYCHOK        == s / E.e21 == s * E._1_e21
+        # rho = v * E.e21 / s**1.5 == v * E.e21 / (s * sqrt(s))
+        r = (v * E.e21 / s) if rho else None
+        # nu / rho == v / (v * E.e21 / s) == s / E.e21 == ...
+        s *= E._1_e21  # ... s * E._1_e21 == s * E.a2_b2
+        return v, r, s, (s - _1_0)  # η2
 
     @Property_RO
     def phi0(self):  # True origin latitude C{radians}
         return Phi_(self.lat0)
+
+    def reverse(self, osgr):  # convert C{osgr} to (ellipsoidal} LatLon, as I{Karney}'s
+        # U{Reverse<https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>}
+        r = osgr._latlonTM
+        if r is None:
+            x =  osgr.easting  - self.eas0
+            y =  osgr.northing - self.nor0ffset
+            t =  self.kTM.reverse(x, y, lon0=self.lon0)
+            r = _LLEB(t.lat, t.lon, datum=self.datum, name=osgr.name)
+            osgr._latlonTM = r
+        return r
 
 _NG = _NG()  # PYCHOK singleton
 
@@ -189,7 +176,7 @@ class Osgr(_NamedBase):
        the U{National Grid<https://www.OrdnanceSurvey.co.UK/
        documents/resources/guide-to-nationalgrid.pdf>}.
     '''
-    _datum      = _NG.datum  # default datum (L{Datum})
+    _datum      = _NG.datum  # default datum (L{Datums.OSGB36})
     _easting    =  0         # Easting (C{meter})
     _latlon     =  None      # cached B{C{_toLatlon}}
     _latlonTM   =  None      # cached B{C{_toLatlon kTM}}
@@ -204,26 +191,22 @@ class Osgr(_NamedBase):
                          origin (C{meter}).
            @arg northing: Northing from the OS C{National Grid}
                           origin (C{meter}).
-           @kwarg datum: Default datum (C{Datums.OSGB36}).
+           @kwarg datum: Override default datum (C{Datums.OSGB36}).
            @kwarg name: Optional name (C{str}).
            @kwarg resolution: Optional resolution (C{meter}),
                               C{0} for default.
 
            @raise OSGRError: Invalid or negative B{C{easting}} or
-                             B{C{northing}} or B{C{datum}} not
-                             C{Datums.OSGB36}.
-
-           @example:
-
-            >>> from pygeodesy import Osgr
-            >>> r = Osgr(651409, 313177)
+                             B{C{northing}} or B{C{datum}} not an
+                             C{Datums.OSGB36} equivalent.
         '''
-        if datum:
+        if datum:  # PYCHOK no cover
             try:
-                if _ellipsoidal_datum(datum, raiser=True) != Osgr._datum:
-                    raise ValueError
-            except (TypeError, ValueError):
-                raise OSGRError(datum=datum)
+                self._datum = _ellipsoidal_datum(datum)
+                if self.datum != _NG.datum:
+                    raise ValueError(_not_(_NG.datum.name, _equivalent_))
+            except (TypeError, ValueError) as x:
+                raise OSGRError(datum=datum, txt=str(x))
 
         self._easting  = Easting( easting,  Error=OSGRError, high=_NG.easX)
         self._northing = Northing(northing, Error=OSGRError, high=_NG.norX)
@@ -234,7 +217,7 @@ class Osgr(_NamedBase):
             self._resolution = _resolution10(resolution, Error=OSGRError)
 
     def __str__(self):
-        return self.toStr(AB=True, sep=_SPACE_)
+        return self.toStr(GD=True, sep=_SPACE_)
 
     @Property_RO
     def datum(self):
@@ -291,7 +274,7 @@ class Osgr(_NamedBase):
         '''
         return self._resolution
 
-    def toLatLon(self, LatLon=None, datum=_WGS84, kTM=False, **LatLon_kwds):
+    def toLatLon(self, LatLon=None, datum=_WGS84, kTM=False, eps=_10um, **LatLon_kwds):
         '''Convert this L{Osgr} coordinate to an (ellipsoidal) geodetic
            point.
 
@@ -303,6 +286,7 @@ class Osgr(_NamedBase):
            @kwarg kTM: If C{True} use I{Karney}'s Krüger method from
                        module L{ktm}, otherwise use the Ordnance
                        Survey formulation (C{bool}).
+           @kwarg eps: Tolerance for OS convergence (C{meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if C{B{LatLon} is None}.
 
@@ -333,37 +317,36 @@ class Osgr(_NamedBase):
             >>> # to obtain (historical) OSGB36 lat-/longitude point
             >>> p = g.toLatLon(eV.LatLon, datum=Datums.OSGB36)  # 52°39′27.253″N, 001°43′04.518″E
         '''
+        NG = _NG
         if kTM:
-            r = _kTM.reverse(self)
+            r = NG.reverse(self)
 
         elif self._latlon is None:
-            NG = _NG
-
-            a0 = NG.a0
             e0 =     self.easting  - NG.eas0
             n0 = m = self.northing - NG.nor0
 
             M  = NG.Mabcd0
+            a0 = NG.a0
             a  = NG.phi0
             A_ = Fsum(a).fsum_
             for self._iteration in range(1, _TRIPS):
                 a = A_(m / a0)
                 m = n0 - M(a)  # meridional arc
-                if abs(m) < _10um:
+                if abs(m) < eps:
                     break
-            else:
-                t = _DOT_(Fmt.PAREN(self.classname, self.toStr(prec=3)),
-                                    self.toLatLon.__name__)
-                raise OSGRError(_no_(_convergence_), txt=t)
+            else:  # PYCHOK no cover
+                t =  str(self)
+                t =  Fmt.PAREN(self.classname, repr(t))
+                t = _DOT_(t, self.toLatLon.__name__)
+                t =  unstr(t, eps=eps, kTM=kTM)
+                raise OSGRError(_no_(_convergence_), abs(m), txt=t)
 
+            ta     = tan(a)  # sa / ca
             sa, ca = sincos2(a)
-            v,  r  = NG.nurho2(sa)
 
-            vr = v / r  # == s / E.e21 == s * E._1_e21
-            x2 = vr - _1_0  # η2
-            ta = tan(a)
+            v, r, v_r, n2 = NG.nu_rho_eta4(sa, True)
 
-            v3, v5, v7 = fpowers(v, 7, alts=3)  # PYCHOK false!
+            v3,  v5,  v7  = fpowers(v, 7, alts=3)  # PYCHOK false!
             ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
 
             d1, d2, d3, d4, d5, d6, d7 = fpowers(e0, 7)  # PYCHOK false!
@@ -371,14 +354,14 @@ class Osgr(_NamedBase):
             t = ta / r
             a = Fsum(a,
                     -d2 * t / (  _2_0 * v),
-                     d4 * t / ( _24_0 * v3) * Fsum(5, x2, 3 * ta2, -9 * ta2 * x2),
+                     d4 * t / ( _24_0 * v3) * Fsum(5, n2, 3 * ta2, -9 * ta2 * n2),
                     -d6 * t / (_720_0 * v5) * Fsum(61,   90 * ta2, 45 * ta4)).fsum()
 
             t = _1_0 / ca
             T = Fsum(61, 662 * ta2, 1320 * ta4, 720 * ta6)
             b = Fsum(NG.lam0,
                      d1 * t /            v,
-                    -d3 * t / (   _6_0 * v3) * Fsum(vr,     ta2,      ta2),
+                    -d3 * t / (   _6_0 * v3) * Fsum(v_r,    ta2,      ta2),
                      d5 * t / ( _120_0 * v5) * Fsum(5, 28 * ta2, 24 * ta4),
                     -d7 * t / (_5040_0 * v7) * T).fsum()
 
@@ -399,8 +382,9 @@ class Osgr(_NamedBase):
     def toRepr(self, GD=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **prec):  # PYCHOK expected
         '''Return a string representation of this L{Osgr} coordinate.
 
-           @kwarg GD: If C{bool} in- or exclude the 2-letter grid designation, if C{None}
-                      use the DEPRECATED definition of C{B{prec}}, negative and C{B{prec}=5}.
+           @kwarg GD: If C{bool}, in- or exclude the 2-letter grid designation and get
+                      the new B{C{prec}} behavior, otherwise if C{None}, default to the
+                      DEPRECATED definition C{B{prec}=5} I{for backward compatibility}.
            @kwarg fmt: Enclosing backets format (C{str}).
            @kwarg sep: Separator to join (C{str}) or C{None} to return an unjoined 2- or
                        3-C{tuple} of C{str}s.
@@ -412,14 +396,14 @@ class Osgr(_NamedBase):
                     C{"[OSGR:easting,northing]"} or C{B{GD}=False} and C{B{prec} > 0} if
                     C{"[OSGR:easting.d,northing.d]"}.
 
-           @note: OSGR easting and northing are truncated, not rounded.
+           @note: OSGR easting and northing values are truncated, not rounded.
 
-           @raise OSGRError: If C{B{GD}=False} and C{B{prec} < -4} or if C{B{GD}} not
-                             C{None}, C{True} or C{False}.
+           @raise OSGRError: If C{B{GD} not in (None, True, False)} or if C{B{prec} < -4}
+                             and C{B{GD}=False}.
 
            @raise ValueError: Invalid B{C{prec}}.
         '''
-        GD, prec = _GD_prec(GD, sep=sep, **prec)
+        GD, prec = _GD_prec2(GD, fmt=fmt, sep=sep, **prec)
 
         if GD:
             t =  self.toStr(GD=True, prec=prec, sep=None)
@@ -433,8 +417,9 @@ class Osgr(_NamedBase):
     def toStr(self, GD=None, sep=NN, **prec):  # PYCHOK expected
         '''Return this L{Osgr} coordinate as a string.
 
-           @kwarg GD: If C{bool} in- or exclude the 2-letter grid designation, if C{None}
-                      use the DEPRECATED definition of C{B{prec}}, negative and C{B{prec}=5}.
+           @kwarg GD: If C{bool}, in- or exclude the 2-letter grid designation and get
+                      the new B{C{prec}} behavior, otherwise if C{None}, default to the
+                      DEPRECATED definition C{B{prec}=5} I{for backward compatibility}.
            @kwarg sep: Separator to join (C{str}) or C{None} to return an unjoined 2- or
                        3-C{tuple} of C{str}s.
            @kwarg prec: Precison C{B{prec}=0}, the number of I{decimal} digits (C{int}) or
@@ -445,10 +430,10 @@ class Osgr(_NamedBase):
                     C{"easting,northing"} or if C{B{GD}=False} and C{B{prec} > 0}
                     C{"easting.d,northing.d"}
 
-           @note: OSGR easting and northing are truncated, not rounded.
+           @note: OSGR easting and northing values are truncated, not rounded.
 
-           @raise OSGRError: If C{B{GD}=False} and C{B{prec} < -4} or if C{B{GD}} not
-                             C{None}, C{True} or C{False}.
+           @raise OSGRError: If C{B{GD} not in (None, True, False)} or if C{B{prec}
+                             < -4} and C{B{GD}=False}.
 
            @raise ValueError: Invalid B{C{prec}}.
 
@@ -464,7 +449,7 @@ class Osgr(_NamedBase):
                 i += 1
             return chr(_ord_A + i)
 
-        GD, prec = _GD_prec(GD, sep=sep, **prec)
+        GD, prec = _GD_prec2(GD, sep=sep, **prec)
 
         if GD:
             E, e = divmod(self.easting,  _100km)
@@ -489,17 +474,17 @@ class Osgr(_NamedBase):
         return t if s is None else s.join(t)
 
 
-def _GD_prec(GD, **sep_prec):
+def _GD_prec2(GD, **prec_et_al):
     '''(INTERNAL) Handle C{prec} backward compatibility.
     '''
     if GD is None:  # old C{prec} 5+ or neg
-        prec = _xkwds_get(sep_prec, prec=_EN_WIDE)
+        prec = _xkwds_get(prec_et_al, prec=_EN_WIDE)
         GD   =  prec > 0
         prec = (prec - _EN_WIDE) if GD else -prec
     elif isbool(GD):
-        prec = _xkwds_get(sep_prec, prec=0)
+        prec = _xkwds_get(prec_et_al, prec=0)
     else:
-        raise OSGRError(GD=GD, **sep_prec)
+        raise OSGRError(GD=GD, **prec_et_al)
     return GD, prec
 
 
@@ -510,8 +495,8 @@ def _ll2datum(ll, datum, name):
         try:
             if ll.datum != datum:
                 ll = ll.toDatum(datum)
-        except AttributeError:
-            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_toDatum_, datum.name))
+        except (AttributeError, TypeError, ValueError) as x:
+            raise _TypeError(txt=str(x), datum=datum.name, **{name: ll})
     return ll
 
 
@@ -572,10 +557,10 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
     def _OSGR(strOSGR, Osgr, name):
         s = _splituple(strOSGR.strip())
         p =  len(s)
-        if not (p and s[0]):
+        if not p:
             raise ValueError
         g = s[0]
-        if p == 2 and g[0].isdigit():  # "easting,northing"
+        if p == 2 and isfloat(g):  # "easting,northing"
             e, n, m = _enstr2m3(*s, wide=_EN_WIDE + 1)
 
         else:
@@ -651,11 +636,14 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
         >>> # alternatively and using Krüger
         >>> r = p.toOsgr(kTM=True)  # [G:TG, E:51409, N:13177]
     '''
-    if not isinstance(latlon, _LLEB):
-        # XXX fix failing _LLEB.toDatum()
-        latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
-    elif lon is not None:
-        raise OSGRError(lon=lon, txt=_not_(None))
+    if lon is not None:
+        try:
+            lat, lon = _MODS.dms.parseDMS2(latlon, lon)
+            latlon   = _LLEB(lat, lon, datum=datum)
+        except Exception as x:
+            raise OSGRError(latlon=latlon, lon=lon, datum=datum, txt=str(x))
+    elif not isinstance(latlon, _LLEB):
+        raise _TypeError(latlon=latlon, txt=_not_(_ellipsoidal_))
     elif not name:  # use latlon.name
         name = nameof(latlon)
 
@@ -664,7 +652,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
     ll = _ll2datum(latlon, NG.datum, _latlon_)
 
     if kTM:
-        e, n = _kTM.forward2(ll)
+        e, n = NG.forward2(ll)
 
     else:
         try:
@@ -672,28 +660,27 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
         except AttributeError:
             a, b = map1(radians, ll.lat, ll.lon)
 
+        ta     = tan(a)  # sa / ca
         sa, ca = sincos2(a)
-        v,  r  = NG.nu_rho2(sa)
 
-        x2 = r - _1_0  # η2
-        ta = tan(a)
+        v, _, v_r, n2 = NG.nu_rho_eta4(sa, False)
 
         ca3, ca5 = fpowers(ca, 5, alts=3)  # PYCHOK false!
         ta2, ta4 = fpowers(ta, 4, alts=2)  # PYCHOK false!
 
         d1, d2, d3, d4, d5, d6 = fpowers(b - NG.lam0, 6)  # PYCHOK false!
 
-        T = Fsum(-18 * ta2, 5, ta4, 14 * x2, -58 * ta2 * x2)
+        T = Fsum(-18 * ta2, 5, ta4, 14 * n2, -58 * ta2 * n2)
         e = Fsum(NG.eas0,
                  d1 * v          * ca,
-                 d3 * v /   _6_0 * ca3 * Fsum(r, -ta2),
+                 d3 * v /   _6_0 * ca3 * (v_r - ta2),
                  d5 * v / _120_0 * ca5 * T).fsum()
 
         t = v * sa
         n = Fsum(NG.nor0,
                  NG.Mabcd0(a),
                  d2 * t /   _2_0 * ca,
-                 d4 * t /  _24_0 * ca3 * Fsum(5, -ta2,   9 * x2),
+                 d4 * t /  _24_0 * ca3 * Fsum(5, -ta2,   9 * n2),
                  d6 * t / _720_0 * ca5 * Fsum(61, ta4, -58 * ta2)).fsum()
 
     if Osgr is None:

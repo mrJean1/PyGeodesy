@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base class L{LatLonBase} for elliposiodal, spherical and
-N-vectorial C{LatLon}s.
+u'''(INTERNAL) Private base class L{LatLonBase} for elliposiodal, spherical
+and N-vectorial C{LatLon}s.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{https://www.Movable-Type.co.UK/scripts/latlong.html},
@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.08.05'
+__version__ = '22.08.10'
 
 
 class LatLonBase(_NamedBase):

@@ -1,14 +1,14 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Module with base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumbsolve}.
+u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumbsolve}.
 '''
 
 from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, \
                              _enquote, _EQUAL_, _not_, _SPACE_
-from pygeodesy.karney import Caps, _CapsBase, _ellipsoid, _EWGS84, GDict, \
+from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, _EWGS84, GDict, \
                              Precision_, unroll180
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
 from pygeodesy.named import callername, notOverloaded
@@ -20,7 +20,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.08.02'
+__version__ = '22.08.10'
 
 _Error_    = 'Error'
 _ERROR_    = 'ERROR'
@@ -311,7 +311,7 @@ class _SolveBase(_SolveLineSolveBase):
            @raise TypeError: Invalid B{C{a_ellipsoid}} or B{C{f}}.
         '''
         if a_ellipsoid not in (self._E, None):  # NOT self.ellipsoid
-            self._E = _ellipsoid(a_ellipsoid, f, name=name)
+            self._E = _a_ellipsoid(a_ellipsoid, f, name=name)
         if name:
             self.name = name
         if path:

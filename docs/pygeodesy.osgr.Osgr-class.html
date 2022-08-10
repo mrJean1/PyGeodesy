@@ -153,6 +153,7 @@
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">kTM</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">1e-05</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Convert this <a href="pygeodesy.osgr.Osgr-class.html" 
       class="link">Osgr</a> coordinate to an (ellipsoidal) geodetic point.</td>
@@ -376,7 +377,7 @@
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>northing</code></strong> - Northing from the OS <code>National Grid</code> origin 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Default datum (<code>Datums.OSGB36</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Override default datum (<code>Datums.OSGB36</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>resolution</code></strong> - Optional resolution (<code>meter</code>), <code>0</code> for 
           default.</li>
@@ -384,19 +385,14 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - Invalid or negative <b><code>easting</code></b> or 
-        <b><code>northing</code></b> or <b><code>datum</code></b> not 
-        <code>Datums.OSGB36</code>.</li>
+        <b><code>northing</code></b> or <b><code>datum</code></b> not an 
+        <code>Datums.OSGB36</code> equivalent.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy <span class="py-keyword">import</span> Osgr
-<span class="py-prompt">&gt;&gt;&gt; </span>r = Osgr(651409, 313177)</pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="__str__"></a>
 <div>
@@ -469,6 +465,7 @@
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">kTM</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">1e-05</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -497,6 +494,7 @@
           module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
           otherwise use the Ordnance Survey formulation 
           (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for OS convergence (<code>meter</code>).</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
@@ -564,10 +562,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>GD</code></strong> - If <code>bool</code> in- or exclude the 2-letter grid 
-          designation, if <code>None</code> use the DEPRECATED definition 
-          of <code><b>prec</b></code>, negative and 
-          <code><b>prec</b>=5</code>.</li>
+        <li><strong class="pname"><code>GD</code></strong> - If <code>bool</code>, in- or exclude the 2-letter grid 
+          designation and get the new <b><code>prec</code></b> behavior, 
+          otherwise if <code>None</code>, default to the DEPRECATED 
+          definition <code><b>prec</b>=5</code> <i>for backward 
+          compatibility</i>.</li>
         <li><strong class="pname"><code>fmt</code></strong> - Enclosing backets format (<code>str</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>) or <code>None</code> to 
           return an unjoined 2- or 3-<code>tuple</code> of 
@@ -586,9 +585,8 @@
           if <code>&quot;[OSGR:easting.d,northing.d]&quot;</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - If <code><b>GD</b>=False</code> and <code><b>prec</b> &lt; 
-        -4</code> or if <code><b>GD</b></code> not <code>None</code>, 
-        <code>True</code> or <code>False</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - If <code><b>GD</b> not in (None, True, False)</code> or if 
+        <code><b>prec</b> &lt; -4</code> and <code><b>GD</b>=False</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -596,7 +594,7 @@
     </dt>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        OSGR easting and northing are truncated, not rounded.
+        OSGR easting and northing values are truncated, not rounded.
       </p>
 </div></td></tr></table>
 </div>
@@ -622,10 +620,11 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>GD</code></strong> - If <code>bool</code> in- or exclude the 2-letter grid 
-          designation, if <code>None</code> use the DEPRECATED definition 
-          of <code><b>prec</b></code>, negative and 
-          <code><b>prec</b>=5</code>.</li>
+        <li><strong class="pname"><code>GD</code></strong> - If <code>bool</code>, in- or exclude the 2-letter grid 
+          designation and get the new <b><code>prec</code></b> behavior, 
+          otherwise if <code>None</code>, default to the DEPRECATED 
+          definition <code><b>prec</b>=5</code> <i>for backward 
+          compatibility</i>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>) or <code>None</code> to 
           return an unjoined 2- or 3-<code>tuple</code> of 
           <code>str</code>s.</li>
@@ -643,9 +642,8 @@
           <code>&quot;easting.d,northing.d&quot;</code></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - If <code><b>GD</b>=False</code> and <code><b>prec</b> &lt; 
-        -4</code> or if <code><b>GD</b></code> not <code>None</code>, 
-        <code>True</code> or <code>False</code>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - If <code><b>GD</b> not in (None, True, False)</code> or if 
+        <code><b>prec</b> &lt; -4</code> and <code><b>GD</b>=False</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
@@ -653,7 +651,7 @@
     </dt>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        OSGR easting and northing are truncated, not rounded.
+        OSGR easting and northing values are truncated, not rounded.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -913,7 +911,7 @@ if undefined.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  8 14:14:53 2022
+    Generated by Epydoc 3.0.1 on Wed Aug 10 12:23:38 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

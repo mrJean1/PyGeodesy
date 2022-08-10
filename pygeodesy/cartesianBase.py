@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base classes for elliposiodal, spherical and N-/vectorial
+u'''(INTERNAL) Private base classes for elliposiodal, spherical and N-/vectorial
 C{Cartesian}s.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.07.12'
+__version__ = '22.08.10'
 
 
 class CartesianBase(Vector3d):

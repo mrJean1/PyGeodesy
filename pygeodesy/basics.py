@@ -28,7 +28,7 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.08.02'
+__version__ = '22.08.10'
 
 _below_               = 'below'
 _cannot_              = 'cannot'
@@ -247,6 +247,21 @@ def isfinite(obj):
             return isfinite(obj.real) and isfinite(obj.imag)
         P = _MODS.streprs.Fmt.PAREN
         raise _xError(x, P(isfinite.__name__, obj))
+
+
+def isfloat(obj):
+    '''Check whether an object is a C{float} or float C{str}.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is a C{float},
+                C{False} otherwise.
+    '''
+    try:
+        return isinstance(      obj,  float) or (isstr(obj)
+           and isinstance(float(obj), float))
+    except (TypeError, ValueError):
+        return False
 
 
 try:

@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Veness}' 3-D vector base class C{Vector3dBase}.
+u'''(INTERNAL) Private, 3-D vector base class C{Vector3dBase}.
 
-Pure Python implementation of vector-based functions by I{(C) Chris Veness
+A pure Python implementation of vector-based functions by I{(C) Chris Veness
 2011-2015} published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
@@ -27,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.08.05'
+__version__ = '22.08.10'
 
 
 class Vector3dBase(_NamedBase):

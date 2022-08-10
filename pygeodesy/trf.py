@@ -49,7 +49,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 '''
 
 from pygeodesy.basics import map1, _xinstanceof, _zip
-from pygeodesy.datums import _ellipsoid, Transform
+from pygeodesy.datums import _a_ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
 from pygeodesy.errors import _IsnotError, TRFError
 from pygeodesy.interns import NN, _COMMASPACE_, _cartesian_, _conversion_, \
@@ -68,7 +68,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.08.01'
+__version__ = '22.08.09'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -142,7 +142,7 @@ class RefFrame(_NamedEnumItem):
 
            @raise TypeError: Invalid B{C{ellipsoid}}.
         '''
-        self._ellipsoid = _ellipsoid(ellipsoid, name=name)
+        self._ellipsoid = _a_ellipsoid(ellipsoid, name=name, raiser=_ellipsoid_)
         self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
 

@@ -1,15 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base classes for elliposiodal and spherical C{Nvector}s.
+u'''(INTERNAL) Private elliposiodal and spherical C{Nvector} base classes
+L{LatLonNvectorBase} and L{NvectorBase} and function L{sumOf}.
 
-Classes L{LatLonNvectorBase} for C{n-vectorial} ellipsoidal and spherical
-C{LatLon}s, class L{NvectorBase} for C{Cartesian}s and function L{sumOf}.
-
-Pure Python implementation of C{n-vector}-based geodesy tools for
-ellipsoidal earth models, transcoded from JavaScript originals by
-I{(C) Chris Veness 2005-2016} and published under the same MIT Licence**,
-see U{Vector-based geodesy
+Pure Python implementation of C{n-vector}-based geodesy tools for ellipsoidal
+earth models, transcoded from JavaScript originals by I{(C) Chris Veness 2005-2016}
+and published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
@@ -40,7 +37,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.07.07'
+__version__ = '22.08.10'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

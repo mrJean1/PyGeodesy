@@ -338,7 +338,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.10.4, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.10.6, both in 64-bit on macOS 
     12.5 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -502,7 +502,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.08.08
+        22.08.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -519,7 +519,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Albers Equal-Area projections.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal-module.html">pygeodesy.azimuthal</a></strong>: <em class="summary">Equidistant, Equal-Area, and other Azimuthal projections.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Some, basic definitions, functions and dependencies.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
+    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
@@ -540,10 +540,10 @@
         radians.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary"><i>Geocentric</i> Earth-Centered, Earth-Fixed (ECEF) coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Web-services-based elevations and geoid heights.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal geodesy base classes 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Private ellipsoidal base classes 
         <code>CartesianEllipsoidalBase</code> and 
         <code>LatLonEllipsoidalBase</code>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBaseDI-module.html">pygeodesy.ellipsoidalBaseDI</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal direct/inverse geodesy base class 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBaseDI-module.html">pygeodesy.ellipsoidalBaseDI</a></strong>: <em class="summary">(INTERNAL) Private, ellipsoidal Direct/Inverse geodesy base class 
         <code>LatLonEllipsoidalBaseDI</code> and functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalExact-module.html">pygeodesy.ellipsoidalExact</a></strong>: <em class="summary">Exact ellipsoidal geodesy using <i>Karney</i>'s Exact Geodesic.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalGeodSolve-module.html">pygeodesy.ellipsoidalGeodSolve</a></strong>: <em class="summary">Exact ellipsoidal geodesy, intended <i>for testing purposes 
@@ -592,8 +592,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxarea-module.html">pygeodesy.geodesicx.gxarea</a></strong>: <em class="summary">Slightly enhanced versions of <i>Karney</i>'s Python classes <a 
         href="https://GeographicLib.SourceForge.io/1.52/python/code.html#module-geographiclib.polygonarea"
         target="_top">PolygonArea</a> and <code>Accumulator</code>.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">Base <a href="pygeodesy.geodesicx-module.html" 
-        class="link">geodesicx</a> classes, functions and constants.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxbases-module.html" onclick="show_private();">pygeodesy.geodesicx.gxbases</a></strong>: <em class="summary">(INTERNAL) Private <a href="pygeodesy.geodesicx-module.html" 
+        class="link">geodesicx</a> base class, functions and constants.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx.gxline-module.html">pygeodesy.geodesicx.gxline</a></strong>: <em class="summary">A Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
         target="_top">GeodesicLineExact</a>.</em>    </li>
@@ -617,7 +617,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ktm-module.html">pygeodesy.ktm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html"
         target="_top">TransverseMercator</a> based on <i>Kr&#252;ger</i> series.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) Private base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
         N-vectorial <code>LatLon</code>s.</em>    </li>
@@ -632,8 +632,14 @@
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Nameable class instances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Named tuples.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal and spherical 
-        <code>Nvector</code>s.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Private elliposiodal and spherical <code>Nvector</code> 
+        base classes <a 
+        href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
+        class="link">LatLonNvectorBase</a> and <a 
+        href="pygeodesy.nvectorBase.NvectorBase-class.html" 
+        class="link">NvectorBase</a> and function <a 
+        href="pygeodesy.nvectorBase-module.html#sumOf" 
+        class="link">sumOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordnance Survey Grid References (OSGR) references on the UK <a 
         href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
         target="_top">National Grid</a>.</em>    </li>
@@ -673,12 +679,18 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html"
         target="_top">RhumbLine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Simplify or linearize a path.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.solveBase-module.html">pygeodesy.solveBase</a></strong>: <em class="summary">(INTERNAL) Module with base classes for <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.solveBase-module.html">pygeodesy.solveBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for <a 
         href="pygeodesy.geodsolve-module.html" 
         class="link">pygeodesy.geodsolve</a> and <a 
         href="pygeodesy.rhumbsolve-module.html" 
         class="link">pygeodesy.rhumbsolve</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical geodesy bases.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Private spherical base classes 
+        <code>CartesianSphericalBase</code> and 
+        <code>LatLonSphericalBase</code> for <a 
+        href="pygeodesy.sphericalNvector-module.html" 
+        class="link">sphericalNvector</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html" 
+        class="link">sphericalTrigonometry</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector-module.html">pygeodesy.sphericalNvector</a></strong>: <em class="summary">Spherical, <code>N-vector</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
@@ -689,7 +701,13 @@
     <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Various utility functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmups-module.html">pygeodesy.utmups</a></strong>: <em class="summary"><i>Karney</i>'s UTM and UPS utilities.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) ETM, Epsg, Mgrs, UTM and UPS bases.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase-module.html">pygeodesy.utmupsBase</a></strong>: <em class="summary">(INTERNAL) Private class <code>UtmUpsBase</code>, functions and 
+        constants for <a href="pygeodesy.epsg-module.html" 
+        class="link">epsg</a>, <a href="pygeodesy.etm-module.html" 
+        class="link">etm</a>, <a href="pygeodesy.mgrs-module.html" 
+        class="link">mgrs</a>, <a href="pygeodesy.ups-module.html" 
+        class="link">ups</a> and <a href="pygeodesy.utm-module.html" 
+        class="link">utm</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d-module.html">pygeodesy.vector2d</a></strong>: <em class="summary">2- or 3-D vectorial functions <a 
         href="pygeodesy.vector2d-module.html#circin6" 
         class="link">circin6</a>, <a 
@@ -710,7 +728,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Extended 3-D vector class <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
         class="link">Vector3d</a> and functions.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3dBase-module.html">pygeodesy.vector3dBase</a></strong>: <em class="summary"><i>Veness</i>' 3-D vector base class <code>Vector3dBase</code>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3dBase-module.html">pygeodesy.vector3dBase</a></strong>: <em class="summary">(INTERNAL) Private, 3-D vector base class 
+        <code>Vector3dBase</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.wgrs-module.html">pygeodesy.wgrs</a></strong>: <em class="summary">World Geographic Reference System (WGRS) en-/decoding.</em>    </li>
   </ul></td></tr>
@@ -7638,7 +7657,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fad38381cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f83e0935cd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8302,6 +8321,24 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
       Check a finite <code>scalar</code> or <code>complex</code> value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isfloat" class="summary-sig-name">isfloat</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check whether an object is a <code>float</code> or float 
+      <code>str</code>.</td>
           <td align="right" valign="top">
             
             
@@ -11852,7 +11889,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.8'"><code class="variable-quote">'</code><code class="variable-string">22.8.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.11'"><code class="variable-quote">'</code><code class="variable-string">22.8.11</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19225,7 +19262,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fad38381cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f83e0935cd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20601,6 +20638,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar and non-complex <b><code>obj</code></b>.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isfloat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfloat</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether an object is a <code>float</code> or float 
+  <code>str</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is a 
+          <code>float</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -28165,7 +28229,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug  8 14:14:48 2022
+    Generated by Epydoc 3.0.1 on Wed Aug 10 12:23:34 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

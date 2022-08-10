@@ -1,12 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Spherical geodesy bases.
+u'''(INTERNAL) Private spherical base classes C{CartesianSphericalBase} and
+C{LatLonSphericalBase} for L{sphericalNvector} and L{sphericalTrigonometry}.
 
-Base classes C{CartesianSphericalBase} and C{LatLonSphericalBase}
-imported by L{sphericalNvector} or L{sphericalTrigonometry}.
-
-Pure Python implementation of geodetic (lat-/longitude) functions,
+A pure Python implementation of geodetic (lat-/longitude) functions,
 transcoded in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
 and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
@@ -23,7 +21,7 @@ from pygeodesy.fmath import favg, fdot, hypot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _concentric_, _datum_, _distant_, \
                              _exceed_PI_radians_, _name_, _near_, \
-                             _too_, _0_0, _0_5, _1_0, _180_0
+                             _radius_, _too_, _0_0, _0_5, _1_0, _180_0
 from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
                                 _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -39,7 +37,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.08.05'
+__version__ = '22.08.10'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -192,7 +190,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise TypeError: If B{C{datum}} invalid or not not spherical.
         '''
-        d = _spherical_datum(datum, name=self.name, raiser=True)
+        d = _spherical_datum(datum, name=self.name, raiser=_datum_)
         if self._datum != d:
             _update_all(self)
             self._datum = d
@@ -371,7 +369,7 @@ class LatLonSphericalBase(LatLonBase):
             if radius in (None, self._radius):
                 d, r = self.datum, radius
             else:
-                d = _spherical_datum(radius, raiser=True)  # spherical only
+                d = _spherical_datum(radius, raiser=_radius_)  # spherical only
                 r =  d.ellipsoid.equatoradius
             r = _angular(distance, r, low=_0_0)  # distance=0 from .rhumbMidpointTo
 
@@ -494,7 +492,7 @@ class LatLonSphericalBase(LatLonBase):
                                            -b2, b1, b2 - b1) / f
 
             d = self.datum if radius in (None, self._radius) else \
-               _spherical_datum(radius, name=self.name, raiser=True)
+               _spherical_datum(radius, name=self.name, raiser=_radius_)
             h = self._havg(other) if height is None else Height(height)
             r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h)
         return r

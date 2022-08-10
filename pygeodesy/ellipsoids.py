@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.08.04'
+__version__ = '22.08.10'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -741,13 +741,13 @@ class Ellipsoid(_NamedEnumItem):
         return Float(e=sqrt(self.e2abs) if self.e2 else _0_0)
 
     @deprecated_Property_RO
-    def e12(self):  # see property L{_e2_
+    def e12(self):  # see property ._e12
         '''DEPRECATED, use property C{e21}.'''
         return self.e21
 
 #   @Property_RO
 #   def _e12(self):  # see property ._elliptic_e12
-#       # (INTERNAL) until e12 above can be replaced.
+#       # (INTERNAL) until e12 above can be replaced with e21.
 #       return self.e2 / (_1_0 - self.e2)  # see I{Karney}'s Ellipsoid._e12 = e2 / (1 - e2)
 
     @Property_RO
@@ -771,7 +771,7 @@ class Ellipsoid(_NamedEnumItem):
         return self._assert((_1_0 - self.f)**2, e21=_1_0 - self.e2, f0=_1_0)
 
 #   _e2m   = e21  # see I{Karney}'s Ellipsoid._e2m = 1 - _e2
-    _1_e21 = a2_b2  # M{1 / e21} == M{1 / (1 - e**2)}
+    _1_e21 = a2_b2  # == M{1 / e21} == M{1 / (1 - e**2)}
 
     @Property_RO
     def e22(self):

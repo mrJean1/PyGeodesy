@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Ellipsoidal direct/inverse geodesy base class
-C{LatLonEllipsoidalBaseDI} and functions.
+u'''(INTERNAL) Private, ellipsoidal Direct/Inverse geodesy base
+class C{LatLonEllipsoidalBaseDI} and functions.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -30,7 +30,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.07.08'
+__version__ = '22.08.10'
 
 _polar__    = 'polar?'
 _tolerance_ = 'tolerance'

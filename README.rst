@@ -147,13 +147,13 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.4, both in 64-bit on macOS 12.5
+and with Flake8_ using Python 3.10.6, both in 64-bit on macOS 12.5
 Monterey.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Aug 08, 2022.*
+*Last updated: Aug 11, 2022.*
 
 License
 =======

@@ -302,6 +302,7 @@ pygeodesy.utmupsValidateOK	pygeodesy-module.html#utmupsValidateOK
 pygeodesy.m2yard	pygeodesy-module.html#m2yard
 pygeodesy.boundsOf	pygeodesy-module.html#boundsOf
 pygeodesy.excessLHuilier	pygeodesy-module.html#excessLHuilier
+pygeodesy.isfloat	pygeodesy-module.html#isfloat
 pygeodesy.simplify1	pygeodesy-module.html#simplify1
 pygeodesy.hausdorff_	pygeodesy-module.html#hausdorff_
 pygeodesy.acre2ha	pygeodesy-module.html#acre2ha
@@ -592,6 +593,7 @@ pygeodesy.basics.isnon0	pygeodesy.basics-module.html#isnon0
 pygeodesy.basics.clips	pygeodesy.basics-module.html#clips
 pygeodesy.basics.str2ub	pygeodesy.basics-module.html#str2ub
 pygeodesy.basics.copysign0	pygeodesy.basics-module.html#copysign0
+pygeodesy.basics.isfloat	pygeodesy.basics-module.html#isfloat
 pygeodesy.basics._xdup	pygeodesy.basics-module.html#_xdup
 pygeodesy.basics._xcopy	pygeodesy.basics-module.html#_xcopy
 pygeodesy.basics._ELLIPSIS4_	pygeodesy.basics-module.html#_ELLIPSIS4_
@@ -679,6 +681,7 @@ pygeodesy.css.__package__	pygeodesy.css-module.html#__package__
 pygeodesy.css._xzipairs	pygeodesy.streprs-module.html#_xzipairs
 pygeodesy.css._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.datums	pygeodesy.datums-module.html
+pygeodesy.datums._earth_	pygeodesy.datums-module.html#_earth_
 pygeodesy.datums._F	pygeodesy.interns-module.html#_float
 pygeodesy.datums._DHDN_	pygeodesy.datums-module.html#_DHDN_
 pygeodesy.datums.neg_	pygeodesy.basics-module.html#neg_
@@ -692,7 +695,6 @@ pygeodesy.datums._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.datums.Transforms	pygeodesy.datums-module.html#Transforms
 pygeodesy.datums._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.datums.Datums	pygeodesy.datums-module.html#Datums
-pygeodesy.datums._ellipsoid	pygeodesy.datums-module.html#_ellipsoid
 pygeodesy.datums._Inverse_	pygeodesy.datums-module.html#_Inverse_
 pygeodesy.datums._ED50_	pygeodesy.datums-module.html#_ED50_
 pygeodesy.datums.isscalar	pygeodesy.basics-module.html#isscalar
@@ -700,11 +702,13 @@ pygeodesy.datums._Identity_	pygeodesy.datums-module.html#_Identity_
 pygeodesy.datums._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.datums.istuplist	pygeodesy.basics-module.html#istuplist
 pygeodesy.datums._BD72_	pygeodesy.datums-module.html#_BD72_
+pygeodesy.datums._a_ellipsoid_	pygeodesy.datums-module.html#_a_ellipsoid_
 pygeodesy.datums._NTF_	pygeodesy.datums-module.html#_NTF_
 pygeodesy.datums._MGI_	pygeodesy.datums-module.html#_MGI_
 pygeodesy.datums._GDA2020_	pygeodesy.datums-module.html#_GDA2020_
 pygeodesy.datums._Potsdam_	pygeodesy.datums-module.html#_Potsdam_
 pygeodesy.datums._Irl1975_	pygeodesy.datums-module.html#_Irl1975_
+pygeodesy.datums._a_ellipsoid	pygeodesy.datums-module.html#_a_ellipsoid
 pygeodesy.datums.__package__	pygeodesy.datums-module.html#__package__
 pygeodesy.datums._lazy	pygeodesy.named-module.html#_lazyNamedEnumItem
 pygeodesy.datums._mean_radius	pygeodesy.datums-module.html#_mean_radius
@@ -1648,12 +1652,11 @@ pygeodesy.geodesicx.gx._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.geodesicx.gx._sincos2d	pygeodesy.karney-module.html#_sincos2d
 pygeodesy.geodesicx.gx._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.geodesicx.gx._norm180	pygeodesy.karney-module.html#_norm180
-pygeodesy.geodesicx.gx._atan2d	pygeodesy.karney-module.html#_atan2d
+pygeodesy.geodesicx.gx._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos12
 pygeodesy.geodesicx.gx._cbrt	pygeodesy.karney-module.html#_cbrt
 pygeodesy.geodesicx.gx.isnan	pygeodesy.basics-module.html#isnan
 pygeodesy.geodesicx.gx._atan2d_reverse	pygeodesy.utily-module.html#atan2d
 pygeodesy.geodesicx.gx._xnC4	pygeodesy.geodesicx.gxbases-module.html#_xnC4
-pygeodesy.geodesicx.gx._ellipsoid	pygeodesy.karney-module.html#_ellipsoid
 pygeodesy.geodesicx.gx.fsum_	pygeodesy.fsums-module.html#fsum_
 pygeodesy.geodesicx.gx._THR1	pygeodesy.geodesicx.gx-module.html#_THR1
 pygeodesy.geodesicx.gx.unroll180	pygeodesy.utily-module.html#unroll180
@@ -1674,7 +1677,8 @@ pygeodesy.geodesicx.gx._atan12	pygeodesy.geodesicx.gx-module.html#_atan12
 pygeodesy.geodesicx.gx._Astroid	pygeodesy.geodesicx.gx-module.html#_Astroid
 pygeodesy.geodesicx.gx.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.geodesicx.gx._sincos2de	pygeodesy.karney-module.html#_sincos2de
-pygeodesy.geodesicx.gx._sincos12	pygeodesy.geodesicx.gxbases-module.html#_sincos12
+pygeodesy.geodesicx.gx._a_ellipsoid	pygeodesy.datums-module.html#_a_ellipsoid
+pygeodesy.geodesicx.gx._atan2d	pygeodesy.karney-module.html#_atan2d
 pygeodesy.geodesicx.gx.__package__	pygeodesy.geodesicx.gx-module.html#__package__
 pygeodesy.geodesicx.gx._sincos2	pygeodesy.karney-module.html#_sincos2
 pygeodesy.geodesicx.gx.fsum1_	pygeodesy.fsums-module.html#fsum1_
@@ -2316,7 +2320,6 @@ pygeodesy.karney._tand	pygeodesy.karney-module.html#_tand
 pygeodesy.karney.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.karney.callername	pygeodesy.named-module.html#callername
 pygeodesy.karney._fix90	pygeodesy.karney-module.html#_fix90
-pygeodesy.karney._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.karney._xImportError	pygeodesy.basics-module.html#_xImportError
 pygeodesy.karney._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.karney.classname	pygeodesy.named-module.html#classname
@@ -2332,7 +2335,6 @@ pygeodesy.karney._atan2d	pygeodesy.karney-module.html#_atan2d
 pygeodesy.karney._cbrt	pygeodesy.karney-module.html#_cbrt
 pygeodesy.karney.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.karney._unsigned2	pygeodesy.karney-module.html#_unsigned2
-pygeodesy.karney._ellipsoid	pygeodesy.karney-module.html#_ellipsoid
 pygeodesy.karney.neg	pygeodesy.basics-module.html#neg
 pygeodesy.karney._wrapped	pygeodesy.karney-module.html#_wrapped
 pygeodesy.karney.Caps	pygeodesy.karney-module.html#Caps
@@ -2358,6 +2360,7 @@ pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
 pygeodesy.karney.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.karney.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.karney._sum2_	pygeodesy.karney-module.html#_sum2_
+pygeodesy.karney._a_ellipsoid	pygeodesy.datums-module.html#_a_ellipsoid
 pygeodesy.karney.__package__	pygeodesy.karney-module.html#__package__
 pygeodesy.karney._raiseX	pygeodesy.karney-module.html#_raiseX
 pygeodesy.karney._sincos2	pygeodesy.karney-module.html#_sincos2
@@ -2754,7 +2757,6 @@ pygeodesy.nvectorBase._bearing_	pygeodesy.nvectorBase-module.html#_bearing_
 pygeodesy.nvectorBase._MODS	pygeodesy.nvectorBase-module.html#_MODS
 pygeodesy.osgr	pygeodesy.osgr-module.html
 pygeodesy.osgr._xkwds	pygeodesy.errors-module.html#_xkwds
-pygeodesy.osgr._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.osgr._resolution10	pygeodesy.streprs-module.html#_resolution10
 pygeodesy.osgr._ord_A	pygeodesy.osgr-module.html#_ord_A
 pygeodesy.osgr._ll2datum	pygeodesy.osgr-module.html#_ll2datum
@@ -2764,21 +2766,22 @@ pygeodesy.osgr._parseX	pygeodesy.errors-module.html#_parseX
 pygeodesy.osgr._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.osgr.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.osgr._enstr2m3	pygeodesy.streprs-module.html#_enstr2m3
+pygeodesy.osgr.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.osgr.nameof	pygeodesy.named-module.html#nameof
+pygeodesy.osgr._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.osgr._TRIPS	pygeodesy.osgr-module.html#_TRIPS
 pygeodesy.osgr._xzipairs	pygeodesy.streprs-module.html#_xzipairs
 pygeodesy.osgr._splituple	pygeodesy.interns-module.html#_splituple
 pygeodesy.osgr.__all__	pygeodesy.osgr-module.html#__all__
-pygeodesy.osgr._kTM	pygeodesy.osgr-module.html#_kTM
+pygeodesy.osgr._equivalent_	pygeodesy.osgr-module.html#_equivalent_
 pygeodesy.osgr._NG	pygeodesy.osgr-module.html#_NG
 pygeodesy.osgr._5040_0	pygeodesy.osgr-module.html#_5040_0
-pygeodesy.osgr.parseDMS2	pygeodesy.dms-module.html#parseDMS2
-pygeodesy.osgr._no_toDatum_	pygeodesy.osgr-module.html#_no_toDatum_
 pygeodesy.osgr.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.osgr._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.osgr._ll2LatLon3	pygeodesy.osgr-module.html#_ll2LatLon3
 pygeodesy.osgr.fpowers	pygeodesy.fmath-module.html#fpowers
-pygeodesy.osgr._GD_prec	pygeodesy.osgr-module.html#_GD_prec
+pygeodesy.osgr.isfloat	pygeodesy.basics-module.html#isfloat
+pygeodesy.osgr._GD_prec2	pygeodesy.osgr-module.html#_GD_prec2
 pygeodesy.osgr._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
 pygeodesy.osgr.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.osgr._float	pygeodesy.interns-module.html#_float
@@ -3022,7 +3025,7 @@ pygeodesy.solveBase.fstrzs	pygeodesy.streprs-module.html#fstrzs
 pygeodesy.solveBase.printf	pygeodesy.lazily-module.html#printf
 pygeodesy.solveBase._cmd_stdin_	pygeodesy.solveBase-module.html#_cmd_stdin_
 pygeodesy.solveBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
-pygeodesy.solveBase._ellipsoid	pygeodesy.karney-module.html#_ellipsoid
+pygeodesy.solveBase._a_ellipsoid	pygeodesy.datums-module.html#_a_ellipsoid
 pygeodesy.solveBase.ub2str	pygeodesy.basics-module.html#_NOP
 pygeodesy.solveBase._text_True	pygeodesy.solveBase-module.html#_text_True
 pygeodesy.solveBase._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
@@ -3236,7 +3239,6 @@ pygeodesy.trf._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.trf._reframeTransforms2	pygeodesy.trf-module.html#_reframeTransforms2
 pygeodesy.trf._GDA94_	pygeodesy.trf-module.html#_GDA94_
 pygeodesy.trf._ITRF92_	pygeodesy.trf-module.html#_ITRF92_
-pygeodesy.trf._ellipsoid	pygeodesy.datums-module.html#_ellipsoid
 pygeodesy.trf._Inverse	pygeodesy.trf-module.html#_Inverse
 pygeodesy.trf._Forward	pygeodesy.trf-module.html#_Forward
 pygeodesy.trf._ITRF93_	pygeodesy.trf-module.html#_ITRF93_
@@ -3253,6 +3255,7 @@ pygeodesy.trf._2Transform	pygeodesy.trf-module.html#_2Transform
 pygeodesy.trf._WGS84g1674_	pygeodesy.trf-module.html#_WGS84g1674_
 pygeodesy.trf._ITRF88_	pygeodesy.trf-module.html#_ITRF88_
 pygeodesy.trf._ITRF96_	pygeodesy.trf-module.html#_ITRF96_
+pygeodesy.trf._a_ellipsoid	pygeodesy.datums-module.html#_a_ellipsoid
 pygeodesy.trf._WGS84g1150_	pygeodesy.trf-module.html#_WGS84g1150_
 pygeodesy.trf.trfXform	pygeodesy.trf-module.html#trfXform
 pygeodesy.trf.__package__	pygeodesy.trf-module.html#__package__

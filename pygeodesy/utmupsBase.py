@@ -1,9 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) ETM, Epsg, Mgrs, UTM and UPS bases.
-
-Base class C{UtmUpsBase} and private functions and constants.
+u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
+for L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
 
 from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
@@ -26,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.08.03'
+__version__ = '22.08.10'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -177,7 +176,7 @@ class UtmUpsBase(_NamedBase):
             self._band1(band)
 
         if datum not in (None, self._datum):
-            self._datum = _ellipsoidal_datum(datum)  # raiser=True, name=band
+            self._datum = _ellipsoidal_datum(datum)  # raiser=_datum_, name=band
 
         if not falsed:
             self._falsed = False

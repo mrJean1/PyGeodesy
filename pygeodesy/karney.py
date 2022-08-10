@@ -119,8 +119,7 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, neg, unsigned0, \
                              _xgeographiclib, _xImportError, _xversion_info, \
                              _xinstanceof, _zip, isodd  # PYCHOK shared
-from pygeodesy.datums import Ellipsoid2, _ellipsoidal_datum, _WGS84
-# from pygeodesy.ellipsoids import Ellipsoid2  # from .datums
+from pygeodesy.datums import _a_ellipsoid, _WGS84
 from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
                              _or  # PYCHOK shared
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
@@ -139,41 +138,11 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.08.08'
+__version__ = '22.08.10'
 
-_EWGS84     = _WGS84.ellipsoid  # PYCHOK used!
+_EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
 _perimeter_ = 'perimeter'
-
-
-class _Lat(Lat):
-    '''(INTERNAL) Latitude B{C{lat}}.
-    '''
-    def __init__(self, *lat, **Error_name):
-        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
-        Lat.__new__(_Lat, *lat, **kwds)
-
-
-class _Lon(Lon):
-    '''(INTERNAL) Longitude B{C{lon}}.
-    '''
-    def __init__(self, *lon, **Error_name):
-        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
-        Lon.__new__(_Lon, *lon, **kwds)
-
-
-def _ellipsoid(a_ellipsoid, f=None, name=NN, raiser=True):  # in .geodesicx.gx, .geodsolve, .rhumbx
-    '''(INTERNAL) Get an ellipsoid from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}.
-    '''
-    return Ellipsoid2(a_ellipsoid, f, name=name) if f is not None else \
-          _ellipsoidal_datum(a_ellipsoid, name=name, raiser=raiser).ellipsoid
-
-
-def _raiseX(inst, x, *args):  # PYCHOK no cover
-    '''(INTERNAL) Throw a C{GeodesicError} for C{geographiclib} issue B{C{x}} .
-    '''
-    n = _DOT_(classname(inst), callername(up=2, underOK=True))
-    raise GeodesicError(unstr(n, *args), txt=str(x))
 
 
 class _GTuple(_NamedTuple):  # in .testNamedTuples
@@ -190,6 +159,22 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
         if self._iteration is not None:
             r._iteration = self._iteration
         return r
+
+
+class _Lat(Lat):
+    '''(INTERNAL) Latitude B{C{lat}}.
+    '''
+    def __init__(self, *lat, **Error_name):
+        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
+        Lat.__new__(_Lat, *lat, **kwds)
+
+
+class _Lon(Lon):
+    '''(INTERNAL) Longitude B{C{lon}}.
+    '''
+    def __init__(self, *lon, **Error_name):
+        kwds = _xkwds(Error_name, clip=0, Error=GeodesicError)
+        Lon.__new__(_Lon, *lon, **kwds)
 
 
 class Area3Tuple(_NamedTuple):  # in .geodesicx.gxarea
@@ -495,7 +480,7 @@ class _Wrapped(object):
                    @kwarg name: Optional name (C{str}).
                 '''
                 if a_ellipsoid not in (Geodesic._E, None):  # spherical OK
-                    self._E = _ellipsoid(a_ellipsoid, f, name=name, raiser=False)
+                    self._E = _a_ellipsoid(a_ellipsoid, f, name=name)  # raiser=NN
                 try:
                     _Geodesic.__init__(self, *self.ellipsoid.a_f)
                 except (TypeError, ValueError) as x:
@@ -881,6 +866,13 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
     for c in cs[i+1:j]:
         s, t = _s2_(s * x, t * x, c)
     return s  # + t
+
+
+def _raiseX(inst, x, *args):  # PYCHOK no cover
+    '''(INTERNAL) Throw a C{GeodesicError} for C{geographiclib} issue B{C{x}} .
+    '''
+    n = _DOT_(classname(inst), callername(up=2, underOK=True))
+    raise GeodesicError(unstr(n, *args), txt=str(x))
 
 
 def _remainder(x, y):

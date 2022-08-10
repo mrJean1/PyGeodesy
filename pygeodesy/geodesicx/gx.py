@@ -37,6 +37,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 from pygeodesy.basics import isnan, _xinstanceof, _xor, unsigned0
+# from pygeodesy.datums import _a_ellipsoid  # from .karney
 from pygeodesy.fsums import fsum_, fsum1_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _TINY, _xnC4
@@ -47,7 +48,7 @@ from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, _2__PI, \
                              _N_1_0, _1_0, _1_75, _N_2_0, _2_0, _3_0, _4_0, _6_0, \
                              _8_0, _16_0, _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
-                             _ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
+                             _a_ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
                              _hypot, _K_2_0, _norm2, _norm180, _polynomial, \
                              _signBit, _sincos2, _sincos2d, _sincos2de
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
@@ -59,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.07.07'
+__version__ = '22.08.09'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -150,7 +151,7 @@ class GeodesicExact(_GeodesicBase):
            @raise GeodesicError: Invalid B{C{C4order}}.
         '''
         if a_ellipsoid not in (GeodesicExact._E, None):
-            self._E = _ellipsoid(a_ellipsoid, f, name=name)
+            self._E = _a_ellipsoid(a_ellipsoid, f, name=name)
 
         if name:
             self.name = name
