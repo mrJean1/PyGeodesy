@@ -300,8 +300,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
                                  'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
-                                 'sincos2', 'sincos2_', 'sincos2d', 'sincos2d_',
-                                 'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m',
+                                 'sincos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3',
+                                 'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
                                  'yard2m'),
@@ -403,7 +403,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.08.10'
+__version__ = '22.08.16'
 
 
 def _ALL_OTHER(*objs):

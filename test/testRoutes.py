@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '21.02.11'  # '18.10.12'
+__version__ = '21.08.18'  # '18.10.12'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17109,7 +17109,7 @@ class Tests(TestsBase):
                    4.00413688487425e7, 2*4.00413688487425e7),
                    known=True, radius=R_KM, adjust=False)
         # spherical areaOf requires spherical LatLon
-        self.test7(sphericalTrigonometry.areaOf, (13552524.810,  # 13552524.8096748
+        self.test7(sphericalTrigonometry.areaOf, (241480413.388,  # 13552524.8096748
                    1.338, 1.289, 125942.444, 118897.757,
                    40105639.197, 80211278.393),  # 2*40105639.197 == .394
                    LL=sphericalTrigonometry.LatLon, radius=R_KM)

@@ -10,18 +10,18 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0
-from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, PI, PI2, PI_2, R_M, \
+from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0, isneg0
+from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, NINF, PI, PI2, PI_2, R_M, \
                              _edge_, _float as _F, _radians_, _semi_circular_, \
                              _SPACE_, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
-                             _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+                             _10_0, _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.07.08'
+__version__ = '22.08.18'
 
 # read constant name "_M_UNIT" as "meter per unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -710,6 +710,26 @@ def sincos2d_(*degs):
         yield c
 
 
+def sincostan3(rad):
+    '''Return the C{sine}, C{cosine} and C{tangent} of an angle in C{radians}.
+
+       @arg rad: Angle (C{radians}).
+
+       @return: 3-Tuple (C{sin(B{rad})}, C{cos(B{rad})}, C{tan(B{rad})}).
+
+       @see: Function L{sincos2}.
+    '''
+    rad %= PI2  # see ._wrap comments
+    if rad:
+        s, c = sincos2(rad)
+        t = (s / c) if c else (NINF if s < 0
+                         else  (INF if s > 0 else s))
+    else:  # sin(-0.0) == tan(-0.0) = -0.0
+        c = _1_0
+        s =  t = NEG0 if isneg0(rad) else _0_0
+    return s, c, t
+
+
 def tan_2(rad, **semi):  # edge=1
     '''Compute the tangent of half angle.
 
@@ -787,6 +807,23 @@ def toise2m(toises):
     return Float(toises=toises) * _M_TOISE
 
 
+def truncate(x, ndigits=None):
+    '''Truncate to the given number of digits.
+
+       @arg x: Value to truncate (C{scalar}).
+       @kwarg ndigits: Number of digits (C{int}),
+                       aka I{precision}.
+
+       @return: Truncated B{C{x}} (C{float}).
+
+       @see: Python function C{round}.
+    '''
+    if isint(ndigits):
+        p = _10_0**ndigits
+        x = int(x * p) / p
+    return x
+
+
 def unroll180(lon1, lon2, wrap=True):
     '''Unroll longitudinal delta and wrap longitude in degrees.
 
@@ -857,7 +894,7 @@ def _wrap(angle, wrap, modulo):
     a = float(angle)
     if not (wrap - modulo) <= a < wrap:
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
-        # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
+        # math.fmod(-1.5, 360)  == -1.5, but -1.5 % 360 == 358.5
         a %= modulo
         if a > wrap:
             a -= modulo

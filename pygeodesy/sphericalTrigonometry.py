@@ -21,7 +21,7 @@ from pygeodesy.basics import copysign0, isnear0, isnear1, isnon0, isscalar, \
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
-                             _xkwds, _xkwds_get
+                             _xkwds, _xkwds_get, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, fmean, hypot
 from pygeodesy.fsums import Fsum, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.08.05'
+__version__ = '22.08.19'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -61,34 +61,6 @@ _path_     = 'path'
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
     raise _AssertionError(EPS4=EPS4, PI=PI, PI_EPS4=_PI_EPS4)
-
-
-def _destination2(a, b, r, t):
-    '''(INTERNAL) Destination lat- and longitude in C{radians}.
-
-       @arg a: Latitude (C{radians}).
-       @arg b: Longitude (C{radians}).
-       @arg r: Angular distance (C{radians}).
-       @arg t: Bearing (compass C{radians}).
-
-       @return: 2-Tuple (phi, lam) of (C{radians}, C{radiansPI}).
-    '''
-    # see <https://www.EdWilliams.org/avform.htm#LL>
-    sa, ca, sr, cr, st, ct = sincos2_(a, r, t)
-    ca *= sr
-
-    a = asin1(ct * ca + cr * sa)
-    d = atan2(st * ca,  cr - sa * sin(a))
-    # note, in EdWilliams.org/avform.htm W is + and E is -
-    return a, (b + d)  # (mod(b + d + PI, PI2) - PI)
-
-
-def _r2m(r, radius):
-    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
-    '''
-    if radius is not None:  # not in (None, _0_0)
-        r *= R_M if radius is R_M else Radius(radius)
-    return r
 
 
 class Cartesian(CartesianSphericalBase):
@@ -398,12 +370,12 @@ class LatLon(LatLonSphericalBase):
                 sb1, cb1, sb2, cb2 = sincos2_(a1, a2, b1, b2)
 
                 t = f * r
-                A = sin(r - t)  # / sr  superflous
-                B = sin(    t)  # / sr  superflous
+                a = sin(r - t)  # / sr  superflous
+                b = sin(    t)  # / sr  superflous
 
-                x = A * ca1 * cb1 + B * ca2 * cb2
-                y = A * ca1 * sb1 + B * ca2 * sb2
-                z = A * sa1       + B * sa2
+                x = a * ca1 * cb1 + b * ca2 * cb2
+                y = a * ca1 * sb1 + b * ca2 * sb2
+                z = a * sa1       + b * sa2
 
                 a = atan2(z, hypot(x, y))
                 b = atan2(y, x)
@@ -634,31 +606,29 @@ class LatLon(LatLonSphericalBase):
            @see: Functions L{pygeodesy.equirectangular_} and L{pygeodesy.nearestOn5}
                  and method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
-        try:  # remove kwarg B{C{within}} if present
-            within = options.pop('within')
-            if not within:
-                notImplemented(self, within=within)
+        # remove kwarg B{C{within}} if present
+        within = _xkwds_pop(options, within=True)
+        if not within:
+            notImplemented(self, within=within)
 
-#           # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
-#           wrap = options.get('wrap', False)
-#           a = self.alongTrackDistanceTo(point1, point2, radius=radius, wrap=wrap)
-#           if abs(a) < EPS or (within and a < EPS):
-#               return point1
-#           d = point1.distanceTo(point2, radius=radius, wrap=wrap)
-#           if isnear0(d):
-#               return point1  # or point2
-#           elif abs(d - a) < EPS or (a + EPS) > d:
+#       # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
+#       wrap = _xkwds_get(options, wrap=False)
+#       a = self.alongTrackDistanceTo(point1, point2, radius=radius, wrap=wrap)
+#       if abs(a) < EPS or (within and a < EPS):
+#           return point1
+#       d = point1.distanceTo(point2, radius=radius, wrap=wrap)
+#       if isnear0(d):
+#           return point1  # or point2
+#       elif abs(d - a) < EPS or (a + EPS) > d:
+#           return point2
+#       f = a / d
+#       if within:
+#           if f > EPS1:
 #               return point2
-#           f = a / d
-#           if within:
-#               if f > EPS1:
-#                   return point2
-#               elif f < EPS:
-#                   return point1
-#           return point1.intermediateTo(point2, f, wrap=wrap)
+#           elif f < EPS:
+#               return point1
+#       return point1.intermediateTo(point2, f, wrap=wrap)
 
-        except KeyError:
-            pass
         # without kwarg B{C{within}}, use backward compatible .nearestOn3
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
                                                **options)[0]
@@ -869,40 +839,58 @@ def areaOf(points, radius=R_M, wrap=True):
     '''
     Ps = _T00.PointsIter(points, loop=1)
     p1 = p2 = Ps[0]
+    a1,  b1 = p1.philam
+    ta1, z1 = tan_2(a1), None
 
     A = Fsum()  # mean phi
-
     E = Fsum()  # see L{pygeodesy.excessKarney_}
-    a1, b1 = p1.philam
-    ta1 = tan_2(a1)
-
     # ispolar: Summation of course deltas around pole is 0° rather than normally ±360°
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     # XXX duplicate of function C{points.ispolar} to avoid copying all iterated points
     D = Fsum()
-    z1 = _0_0  # z1, _ = _bearingTo2(p2, p1, wrap=wrap)
-
     for i, p2 in Ps.enumerate(closed=True):
         a2, b2 = p2.philam
         db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
         ta2 = tan_2(a2)
         A += a2
-        E += atan2(tan_2(db, points=i) * (ta1 + ta2), _1_0 + ta1 * ta2)
+        E += atan2(tan_2(db, points=i) * (ta1 + ta2),
+                                   _1_0 + ta1 * ta2)
         ta1, b1 = ta2, b2
 
         if not p2.isequalTo(p1, eps=EPS):
             z, z2 = _bearingTo2(p1, p2, wrap=wrap)
-            D.fadd_(wrap180(z - z1),  # (z - z1 + 540) % 360 - 180
-                    wrap180(z2 - z))  # (z2 - z + 540) % 360 - 180
+            if z1 is not None:
+                D += wrap180(z - z1)  # (z - z1 + 540) ...
+            D += wrap180(z2 - z)  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
 
-    r = abs(E.fmul(_2_0).fsum())
-    if abs(D.fsum()) < _90_0:  # ispolar(points)
-        r = abs(r - PI2)
+    R = abs(E * _2_0)
+    if abs(D) < _90_0:  # ispolar(points)
+        R = abs(R - PI2)
     if radius:
-        a  =  degrees(A.fsum() / len(A))  # mean lat
-        r *= _mean_radius(radius, a)**2
-    return r
+        a  =  degrees(A.fover(len(A)))  # mean lat
+        R *= _mean_radius(radius, a)**2
+    return float(R)
+
+
+def _destination2(a, b, r, t):
+    '''(INTERNAL) Destination lat- and longitude in C{radians}.
+
+       @arg a: Latitude (C{radians}).
+       @arg b: Longitude (C{radians}).
+       @arg r: Angular distance (C{radians}).
+       @arg t: Bearing (compass C{radians}).
+
+       @return: 2-Tuple (phi, lam) of (C{radians}, C{radiansPI}).
+    '''
+    # see <https://www.EdWilliams.org/avform.htm#LL>
+    sa, ca, sr, cr, st, ct = sincos2_(a, r, t)
+    ca *= sr
+
+    a = asin1(ct * ca + cr * sa)
+    d = atan2(st * ca,  cr - sa * sin(a))
+    # note, in EdWilliams.org/avform.htm W is + and E is -
+    return a, (b + d)  # (mod(b + d + PI, PI2) - PI)
 
 
 def _int3d2(start, end, wrap, _i_, Vector, hs):
@@ -1292,12 +1280,13 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @note: This perimeter is based on the L{pygeodesy.haversine} formula.
+       @note: Distances are based on function L{pygeodesy.vincentys_}.
 
        @see: Functions L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
-    def _rads(Ps, closed, wrap):  # angular edge lengths in radians
+    def _rads(points, closed, wrap):  # angular edge lengths in radians
+        Ps = _T00.PointsIter(points, loop=1)
         a1, b1 = Ps[0].philam
         for i, p in Ps.enumerate(closed=closed):
             a2, b2 = p.philam
@@ -1305,8 +1294,16 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
-    r = fsum(_rads(_T00.PointsIter(points, loop=1), closed, wrap), floats=True)
-    return r if radius is None else (Radius(radius) * r)
+    r = fsum(_rads(points, closed, wrap), floats=True)
+    return _r2m(r, radius)
+
+
+def _r2m(r, radius):
+    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
+    '''
+    if radius is not None:  # not in (None, _0_0)
+        r *= R_M if radius is R_M else Radius(radius)
+    return r
 
 
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,

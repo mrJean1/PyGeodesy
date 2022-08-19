@@ -33,14 +33,15 @@ from pygeodesy.interns import INT0, NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
                              _0_0, _1_0, _N_1_0
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
-from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO
+from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
+                             Property_RO, property_RO
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Float, Int
 
 from math import ceil as _ceil, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.06.07'
+__version__ = '22.08.18'
 
 _eq_ = _EQUAL_ * 2  # _DEQUAL_
 _ge_ = '>='
@@ -227,8 +228,8 @@ class Fsum(_Named):
         if len(xs) > 1:
             self._facc(_2floats(xs, origin=1))
         elif xs:  # len(xs) == 1
-            self._ps.append(_2float(xs=xs[0]))
-            self._n = 1
+            self._ps = [_2float(xs=xs[0])]
+            self._n  = 1
 
     def __abs__(self):
         '''Return this instance' absolute value as an L{Fsum}.
@@ -785,9 +786,9 @@ class Fsum(_Named):
         '''
         return self._facc(xs)
 
-    def _facc_up(self):
-        '''(INTERNAL) Update the C{partials}, by removing and
-           re-adding the final C{partial}.
+    def _facc_update(self):
+        '''(INTERNAL) Update the C{partials}, by removing
+           and re-accumulating the final C{partial}.
         '''
         while len(self._ps) > 1:
             p = self._ps.pop()
@@ -849,7 +850,7 @@ class Fsum(_Named):
                 if other is self:  # self *= 2
                     self._n    += len(self._ps)  # like ._mul_scalar
                     self._ps[:] = self._ps_x(op, 2)
-                    self._facc_up()
+                    self._facc_update()
                 else:
                     self._facc(other._ps)
         elif not isscalar(other):
@@ -987,7 +988,7 @@ class Fsum(_Named):
         '''
         if self._ps:
             self._ps[:] = map(neg, self._ps)
-            self._facc_up()
+            self._facc_update()
         return self
 
     def fover(self, over):
@@ -1085,7 +1086,7 @@ class Fsum(_Named):
         '''(INTERNAL) Overwrite this instance with an other or a C{scalar}.
         '''
         if other is self:
-            pass  # from ._pow_scalar
+            pass  # from ._ftruediv, ._mul- and ._pow_scalar
         elif isinstance(other, Fsum):
             self._n     = other._n
             self._ps[:] = other._ps
@@ -1307,7 +1308,7 @@ class Fsum(_Named):
                 f = _Fsum(0)
                 f._n     = self._n  # also in ._fadd
                 f._ps[:] = self._ps_x(op, factor)
-                f._facc_up()
+                f._facc_update()
             else:
                 f = self
         else:  # to allow setting f._n
@@ -1593,6 +1594,8 @@ class Fsum(_Named):
         '''(INTERNAL) Return a C{ZeroDivisionError}.
         '''
         return self._Error(op, other, _ZeroDivisionError, **txt)
+
+_allPropertiesOf_n(3, Fsum, Property_RO)  # PYCHOK assert, see Fsum._update
 
 
 class _Fsum(Fsum):

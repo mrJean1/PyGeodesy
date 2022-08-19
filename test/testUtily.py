@@ -4,22 +4,23 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.07.08'
+__version__ = '22.08.18'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import EPS, PI, PI2, PI_2, \
+from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
                       acre2ha, acre2m2, atan2d, chain2m, cot_, cotd_, \
                       degrees90, degrees180, degrees360, degrees2m, \
                       fathom2m, ft2m, furlong2m, \
                       grades400, degrees2grades, grades2degrees, grades2radians, \
-                      isPoints2, m2chain, m2degrees, m2fathom, m2ft, m2furlong, \
-                      m2toise, m2yard, radiansPI, radiansPI2, radiansPI_2, \
-                      sincos2, sincos2d, tan_2, unroll180, \
+                      isPoints2, map1, \
+                      m2chain, m2degrees, m2fathom, m2ft, m2furlong, m2toise, m2yard, \
+                      radiansPI, radiansPI2, radiansPI_2, \
+                      sincos2, sincos2d, sincostan3, tan_2, unroll180, \
                       wrap90, wrap180, wrap360, wrapPI, wrapPI2, wrapPI_2, \
                       toise2m, yard2m, fstr  # DEPRECATED, use fstr
 
-from math import cos, radians, sin
+from math import cos, radians, sin, tan
 
 if geographiclib:
     from geographiclib.geomath import Math
@@ -230,6 +231,15 @@ class Tests(TestsBase):
             t = str(x)
             t = t[:t.find('(')+9] + t[t.find(')'):]
             self.test('tan_2_semi', t, 'PI[1] edge (3.141592): semi-circular')
+
+        def _fin(x):
+            return (NEG0 if x < 0 else 0.0) if abs(x) < 3e-16 else (
+                   (NINF if x < 0 else INF) if abs(x) > 5e+15 else x)
+
+        f = sincostan3.__name__ + '(%+.4f)'
+        for a in (0, NEG0, PI_2, -PI_2, PI, -PI, PI3_2, -PI_2, PI2, -PI2):
+            t = map1(_fin, sin(a), cos(a), tan(a))
+            self.test(f % (a,), sincostan3(a), t, known=True)  # =a in (PI3_2, PI2)
 
 
 if __name__ == '__main__':

@@ -124,7 +124,7 @@ U{scipy<https://PyPI.org/project/scipy>} 1.8.1, U{GeoConvert<https://GeographicL
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 12.5 Monterey and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 12.5.1 Monterey and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
@@ -168,7 +168,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.6, both in 64-bit on macOS 12.5 Monterey.
+using Python 3.10.6, both in 64-bit on macOS 12.5.1 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -564,7 +564,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.08.11'
+__version__ = '22.08.22'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

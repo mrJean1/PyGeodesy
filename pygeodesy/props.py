@@ -9,72 +9,121 @@ C{PYGEODESY_WARNINGS} to a non-empty string I{AND} run C{python}
 with command line option C{-X dev} or with one of the C{-W}
 choices, see function L{DeprecationWarnings} below.
 '''
+from pygeodesy.basics import isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
-from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, MISSING, _N_A_, _NL_, \
-                             _SPACE_, _UNDER_
+from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, _DNL_, \
+                             _DOT_, _EQUALSPACED_, _immutable_, \
+                             _invalid_, _N_A_, _not_, _SPACE_, _UNDER_
+# from pygeodesy.named import callname  # from _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _FOR_DOCS, _PYTHON_X_DEV, _sys
+# from pygeodesy.streprs import Fmt  # from _MODS
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.08.01'
+__version__ =  '22.08.15'
 
-_DEPRECATED_ = 'DEPRECATED'
-_dont_use_   = _DEPRECATED_ + ", don't use."
-_has_been_   = 'has been'
-_NLNL_       = _NL_ * 2
-_Warnings    =  0
-_W_DEV       = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
-                and _getenv('PYGEODESY_WARNINGS', NN)
+_DEPRECATED_  = 'DEPRECATED'
+_dont_use_    = _DEPRECATED_ + ", don't use."
+_has_been_    = 'has been'
+_not_an_inst_ = _not_(_an_, 'instance')
+_Warnings     =  0
+_W_DEV        = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
+                 and _getenv('PYGEODESY_WARNINGS', NN)
+
+
+def _allPropertiesOf(Clas_or_inst, *Bases):
+    '''(INTERNAL) Yield all C{R/property/_RO}s at C{Clas_or_inst}
+       as specified in the C{Bases} arguments.
+    '''
+    if isclass(Clas_or_inst):
+        S = Clas_or_inst,  # just this Clas
+    else:  # class and super-classes of inst
+        try:
+            S = Clas_or_inst.__class__.__mro__[:-1]  # not object
+        except AttributeError:
+            raise
+            S = ()  # not an inst
+    B = Bases or _PropertyBase
+    for C in S:
+        for n, p in C.__dict__.items():
+            if isinstance(p, B) and p.name == n:
+                yield p
+
+
+def _allPropertiesOf_n(n, Clas_or_inst, *Bases):
+    '''(INTERNAL) Assert the number of C{R/property/_RO}s at C{Clas_or_inst}.
+    '''
+    t = tuple(p.name for p in _allPropertiesOf(Clas_or_inst, *Bases))
+    if len(t) != n:
+        raise _AssertionError(_COMMASPACE_.join(t), Clas_or_inst,
+                          txt=_COMMASPACE_(len(t), _not_(n)))
+    return t
 
 
 def _hasProperty(inst, name, *Classes):
     '''(INTERNAL) Check whether C{inst} has a C{P/property/_RO} by this C{name}.
     '''
-    ps = Classes if Classes else _PropertyBase
-    for c in inst.__class__.__mro__[:-1]:
-        p = c.__dict__.get(name, None)
-        if isinstance(p, ps) and p.name == name:
+    Ps = Classes if Classes else _PropertyBase
+    for C in inst.__class__.__mro__[:-1]:
+        p = C.__dict__.get(name, None)
+        if p and isinstance(p, Ps) and p.name == name:
             return True
     return False
 
 
 def _update_all(inst, *attrs, **Base):
-    '''(INTERNAL) Zap all I{cached} L{property_RO}s, L{Property_RO}s
-       and the named C{attrs} from an instance' C{__dict__}.
+    '''(INTERNAL) Zap all I{cached} L{property_RO}s, L{Property}s,
+       L{Property_RO}s and the named C{attrs} of an instance.
 
        @return: The number of updates (C{int}), if any.
     '''
+    if isclass(inst):
+        raise _AssertionError(inst, txt=_not_an_inst_)
     try:
         d = inst.__dict__
     except AttributeError:
-        d = {}
+        return 0
     u = len(d)
     if u:
-        try:
-            S =  inst.__class__.__mro__[:-1]  # not object
-            B = _xkwds_get(Base, Base=_PropertyBase)
-        except AttributeError:
-            S = ()
-        for C in S:  # class and super classes
-            for n, p in C.__dict__.items():
-                if n in d and isinstance(p, B) and p.name == n:
-                    p._update(inst, C)
-        _p = d.pop  # remove specified attributes
+        B = _xkwds_get(Base, Base=_PropertyBase)
+        for p in _allPropertiesOf(inst, B):
+            p._update(inst)  # d.pop(p.name, None)
+
+        _pop = d.pop  # remove attributes from inst.__dict__
         for a in attrs:  # PYCHOK no cover
-            if hasattr(inst, a):
-                _p(a, None)
-            else:
+            if _pop(a, MISSING) is MISSING and not hasattr(inst, a):
                 n = _MODS.named.classname(inst, prefixed=True)
                 a = _DOT_(n, _SPACE_(a, _invalid_))
                 raise _AssertionError(a, txt=repr(inst))
         u -= len(d)
         if u:
             inst._updates += u
-    return u  # updated
+    return u  # updates
+
+
+def _update_all_from(inst, other, **Base):
+    '''(INTERNAL) Update all I{cached} L{Property}s and
+       L{Property_RO}s of instance C{inst} from C{other}.
+
+       @return: The number of updates (C{int}), if any.
+    '''
+    if isclass(inst):
+        raise _AssertionError(inst, txt=_not_an_inst_)
+    try:
+        u = len(other.__dict__)
+    except AttributeError:
+        return 0
+    if u:
+        B = _xkwds_get(Base, Base=_PropertyBase)
+        for p in _allPropertiesOf(inst, B):
+            p._update_from(inst, other)
+            u += 1
+    if u:
+        inst._updates += u
+    return u  # updates
 
 
 class _PropertyBase(property):
@@ -123,7 +172,7 @@ class _PropertyBase(property):
 
     def _update_from(self, inst, other):
         '''(INTERNAL) Copy a I{cached/memoized} C{inst.__dict__[name]} item
-           if present, otherwise zap it.
+           from C{other.__dict__[name]} if present, otherwise zap it.
         '''
         n = self.name  # name, NOT _name
         v = other.__dict__.get(n, MISSING)
@@ -504,7 +553,7 @@ def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     '''
     from warnings import warn
 
-    line =  doc.split(_NLNL_, 1)[0].strip()
+    line =  doc.split(_DNL_, 1)[0].strip()
     name = _MODS.streprs.Fmt.CURLY(L=name)
     text = _SPACE_(kind, name, _has_been_, *line.split())
     kwds = _xkwds(stacklevel, stacklevel=3)

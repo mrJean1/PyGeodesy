@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.07.09'
+__version__ = '22.08.17'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -932,7 +932,7 @@ def _DeatanhE(x, y, E):
 
 def _DfEt(tx, ty, eF):  # tangents
     # eF = Elliptic(-E.e12)  # -E.e2 / (1 - E.e2)
-    x, y, r = atan(tx), atan(ty), _1_0
+    r,  x,  y, = _1_0, atan(tx), atan(ty)
     d = x - y
     if (x * y) > 0:
         # See U{DLMF<https://DLMF.NIST.gov/19.11>}: 19.11.2 and 19.11.4

@@ -29,7 +29,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.07.11'
+__version__ = '22.08.12'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -37,7 +37,7 @@ _PB_        = 'PB'
 _PC_        = 'PC'
 _pointH_    = 'pointH'
 _pointP_    = 'pointP'
-_R3_        = 'R3'
+_R3__       = 'R3 '
 _radA_      = 'radA'
 _radB_      = 'radB'
 _radC_      = 'radC'
@@ -117,10 +117,10 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
                   (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
                     force C{z=INT0} (C{bool}).
-       @kwarg Clas: Optional class to return the survey and auxiliary point
-                    or C{None} for B{C{pointA}}'s (sub-)class.
+       @kwarg Clas: Optional class to return the survey point or C{None} for
+                    B{C{pointA}}'s (sub-)class.
        @kwarg Clas_kwds: Optional additional keyword argument for the survey
-                         and auxiliary point instance.
+                         point instance.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
@@ -202,10 +202,10 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
                   B{C{pointC}} (C{degrees}, non-negative).
        @kwarg useZ: If C{True}, use and interpolate the Z component, otherwise
                     force C{z=INT0} (C{bool}).
-       @kwarg Clas: Optional class to return the survey point or C{None} for
-                    B{C{pointA}}'s (sub-)class.
+       @kwarg Clas: Optional class to return the survey and auxiliary point
+                    or C{None} for B{C{pointA}}'s (sub-)class.
        @kwarg Clas_kwds: Optional additional keyword argument for the survey
-                         point instance.
+                         and auxiliary point instance.
 
        @note: Typically, B{C{pointC}} is between B{C{pointA}} and B{C{pointB}}.
 
@@ -258,20 +258,21 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
         zb, b = _azi_len2(C, A, PI2)
         zc, c = _azi_len2(A, B, 0)
 
-#       d = c * sin(PI - rb) / srH  # B.minus(H).length
-        d = c * sin(PI - ra) / srH  # A.minus(H).length
-        r = zc + PI - rb  # zh = zc + (PI - rb)
+#       d =  c * sin(PI - rb) / srH  # B.minus(H).length
+        d =  c * sin(PI - ra) / srH  # A.minus(H).length
+        r =  zc + PI - rb  # zh = zc + (PI - rb)
         H = _cV3(d, r, A, B, C, useZ, Vector3d)
 
         zh, _ = _azi_len2(C, H, PI2)
 
-#       d = a * sin(za - zh) / sin(rb)  # B.minus(P).length
-        d = b * sin(zb - zh) / sra  # A.minus(P).length
-        r = zh - ra  # zb - PI + (PI - ra - (zb - zh))
+#       d =  a * sin(za - zh) / sin(rb)  # B.minus(P).length
+        d =  b * sin(zb - zh) / sra  # A.minus(P).length
+        r =  zh - ra  # zb - PI + (PI - ra - (zb - zh))
         P = _cV3(d, r, A, B, C, useZ, clas, **kwds)
 
-        H = clas(H.x, H.y, H.z, **kwds)
-        a = B.minus(C).length
+        H =  clas(H.x, H.y, H.z, **kwds)
+        a =  B.minus(C).length
+
         return Collins5Tuple(P, H, a, b, c, name=collins5.__name__)
 
     except (TypeError, ValueError) as x:
@@ -331,7 +332,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
         d = fsum1_(c12 * s23, s12 * c23)
         if isnear0(d):
             raise ValueError(_or(_colinear_, _coincident_))
-        cot31 = fsum1_(s12 * s23, -c12 * c23) / d
+        cot31 = Fsum(_1_0, s12 * s23, -c12 * c23, _N_1_0).fover(d)
 
         x1_, y1_, _ = B1.minus(B2).xyz
         x3_, y3_, _ = B3.minus(B2).xyz
@@ -350,6 +351,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
             raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
         K = Fsum(x3_ * x1_,  cot31 * (y3_ * x1_),
                  y3_ * y1_, -cot31 * (x3_ * y1_))
+
         x = (B2.x * d + K * Y12_23).fover(d)
         y = (B2.y * d - K * X12_23).fover(d)
         z = _zidw(B1, B2, B3, x, y) if useZ else INT0
@@ -393,7 +395,7 @@ def snellius3(a, b, degC, alpha, beta):
         if min(k, r) < 0:
             raise ValueError(_or(_coincident_, _colinear_))
 
-        sa, _, sb, _ = sincos2_(ra, rb)
+        sa, sb = sin(ra), sin(rb)
         p = atan2(a * sa, b * sb)
         sp, cp, sr, cr = sincos2_(PI_4 - p, r)
         w = atan2(sp * sr, cp * cr)
@@ -417,7 +419,7 @@ def snellius3(a, b, degC, alpha, beta):
 
 
 def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
-                                      useZ=False, Clas=None, **Clas_kwds):
+                                             useZ=False, Clas=None, **Clas_kwds):
     '''3-Point resection using U{Tienstra<https://WikiPedia.org/wiki/Tienstra_formula>}'s formula.
 
        @arg pointA: First point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}, C{Vector4Tuple} or
@@ -509,9 +511,9 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         y =  Fdot(ks, A.y, B.y, C.y).fover(k)
         z = _zidw(A, B, C, x, y) if useZ else INT0
 
+        n    = tienstra7.__name__
         clas = Clas or pointA.classof
-        n = tienstra7.__name__
-        P = clas(x, y, z, **_xkwds(Clas_kwds, name=n))
+        P    = clas(x, y, z, **_xkwds(Clas_kwds, name=n))
         return Tienstra7Tuple(P, dA, dB, dC, a, b, c, name=n)
 
     except (TypeError, ValueError) as x:
@@ -764,7 +766,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
        @raise TriangleError: Invalid B{C{a}}, B{C{b}} or B{C{c}} or negative B{C{alpha}} or
                              B{C{beta}} or B{C{R3}} not C{callable}.
 
-       @see: U{Wildberger, Norman J.<https://math.sc.chula.AC.TH/cjm/content/
+       @see: U{Wildberger, Norman J.<https://math.sc.Chula.ac.TH/cjm/content/
              survey-article-greek-geometry-rational-trigonometry-and-snellius-–-pothenot-surveying>},
              U{Devine Proportions, page 252<http://www.ms.LT/derlius/WildbergerDivineProportions.pdf>}
              and function L{pygeodesy.snellius3}.
@@ -772,12 +774,12 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
     def _s(x):
         return sin(x)**2
 
-    def _vpa(r1, r3, q2, q3_r3):
+    def _vpa(r1, r3, q2, q3, s3):
         r = r1 * r3 * _4_0
-        n = float(r - Fsum(r1, r3, -q2).fpow(2))
+        n = (r - Fsum(r1, r3, -q2).fpow(2)).fover(s3)
         if n < 0 or isnear0(r):
             raise ValueError(_coincident_)
-        return sqrt((n / r) * q3_r3) if n else _0_0
+        return sqrt((n / r) * q3) if n else _0_0
 
     try:
         a, b, c, da, db = map1(float, a, b, c, alpha, beta)
@@ -792,28 +794,27 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         q1, q2, q3 = q = a**2, b**2, c**2
         if min(q) < EPS02:
             raise ValueError(_coincident_)
-        q3_s3 = q3 / s3
 
-        r1 = s2 * q3_s3  # s2!
-        r2 = s1 * q3_s3  # s1!
+        r1 = s2 * q3 / s3  # s2!
+        r2 = s1 * q3 / s3  # s1!
         Qs = Fsum(*q)  # == hypot2_(a, b, c)
-        ss = fsum1(s, floats=True)
-        s += float(Qs * _0_5),  # tuple!
-        C0 = Fdot(s, q1, q2, q3, -ss)
+        Ss = Fsum(*s)  # == fsum1(s, floats=True)
+        s += Qs * _0_5,  # tuple!
+        C0 = Fdot(s, q1, q2, q3, -Ss)
         r3 = C0.fover(-s3)
-        d0 = float(Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2 / s3))
+        d0 = Qs.fpow(2).fsub_(hypot2_(*q) * _2_0).fmul(s1 * s2).fover(s3)
         if d0 > EPS02:  # > c0
             d0 = sqrt(d0)
             if not callable(R3):
-                raise ValueError(_SPACE_(_R3_, _not_(callable.__name__)))
-            r3 = R3(float(d0 + C0), -float(d0 - C0))  # XXX min or max
+                raise ValueError(_R3__ + _not_(callable.__name__))
+            r3 = R3(float(C0 + d0), float(C0 - d0))  # XXX min or max
         elif d0 < 0:
             raise ValueError(_negative_)
 
-        pa = _vpa(r1, r3, q2, q3_s3)
-        pb = _vpa(r2, r3, q1, q3_s3)
-        pc = favg(_triSide2(b, pa, ra).a,
-                  _triSide2(a, pb, rb).a)
+        pa = _vpa(r1, r3, q2, q3, s3)
+        pb = _vpa(r2, r3, q1, q3, s3)
+        pc =  favg(_triSide2(b, pa, ra).a,
+                   _triSide2(a, pb, rb).a)
         return Survey3Tuple(pa, pb, pc, name=wildberger3.__name__)
 
     except (TypeError, ValueError) as x:

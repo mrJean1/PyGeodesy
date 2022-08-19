@@ -128,14 +128,14 @@ _a12_                 = 'a12'                # PYCHOK expected
 _area_                = 'area'               # PYCHOK expected
 _Airy1830_            = 'Airy1830'           # PYCHOK expected
 _AiryModified_        = 'AiryModified'       # PYCHOK expected
+_ambiguous_           = 'ambiguous'          # PYCHOK expected
+_AMPERSAND_      = Str_('&')                 # PYCHOK expected
 _an_                  = 'an'                 # PYCHOK expected
+_and_                 = 'and'                # PYCHOK expected
+# _AND_               = _AMPERSAND_          # PYCHOK expected
 _angle_               = 'angle'              # PYCHOK expected
 _antipodal_           = 'antipodal'          # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
-_ambiguous_           = 'ambiguous'          # PYCHOK expected
-_AMPERSAND_      = Str_('&')                 # PYCHOK expected
-_and_                 = 'and'                # PYCHOK expected
-# _AND_               = _AMPERSAND_          # PYCHOK expected
 _arg_                 = 'arg'                # PYCHOK expected
 _at_                  = 'at'                 # PYCHOK expected
 _AT_             = Str_('@')                 # PYCHOK expected
@@ -195,6 +195,7 @@ _ecef_                = 'ecef'               # PYCHOK expected
 _edge_                = 'edge'               # PYCHOK expected
 _elevation_           = 'elevation'          # PYCHOK expected
 _ELLIPSIS_       = Str_('...')               # PYCHOK expected
+_ELLIPSIS4_      = Str_('....')              # PYCHOK expected
 # _ELLIPSISPACED_ = Str_(' ... ')            # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
 _ellipsoid_           = 'ellipsoid'          # PYCHOK expected
 _ellipsoidal_         = 'ellipsoidal'        # PYCHOK expected
@@ -300,6 +301,7 @@ _NINF_                = 'NINF'               # PYCHOK expected
 _NL_             = Str_('\n')                # PYCHOK expected
 _NLATvar_        = Str_(_NL_ + '@var ')      # PYCHOK expected
 _NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK expected
+# _NLNL_              = _DNL_                # PYCHOK expected
 _NN_                  = 'NN'                 # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
 _north_               = 'north'              # PYCHOK expected
@@ -430,6 +432,7 @@ _SW_                  = _S_  + _W_           # PYCHOK negative ones
 
 _DDOT_           = Str_(_DOT_   * 2)         # PYCHOK expected
 # _DEQUAL_       = Str_(_EQUAL_ * 2)         # PYCHOK expected
+_DNL_            = Str_(_NL_    * 2)         # PYCHOK expected
 # _DSTAR_        = Str_(_STAR_  * 2)         # PYCHOK expected
 _DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK expected
 
@@ -521,11 +524,9 @@ _8_0    = _float(   8)       # PYCHOK expected
 _9_0    = _float(   9)       # PYCHOK expected
 _10_0   = _float(  10)       # PYCHOK expected
 _16_0   = _float(  16)       # PYCHOK expected
-_24_0   = _float(  24)       # PYCHOK expected
 _32_0   = _float(  32)       # PYCHOK expected
 _60_0   = _float(  60)       # PYCHOK expected
 _90_0   = _float(  90)       # PYCHOK expected
-_120_0  = _float( 120)       # PYCHOK expected
 _180_0  = _float( 180)       # PYCHOK expected
 _270_0  = _float( 270)       # PYCHOK expected
 _360_0  = _float( 360)       # PYCHOK expected
@@ -785,7 +786,7 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # in .lazily
-__version__ = '22.08.01'
+__version__ = '22.08.16'
 
 
 # **) MIT License

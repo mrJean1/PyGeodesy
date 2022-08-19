@@ -434,10 +434,10 @@ def _c(a, b0, b1, Cn):
        @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
              cpython/blob/main/Objects/complexobject.c>}.
 
-       @note: Python function C{cmath.fsum} is mentioned in Note 4
-              of the comments before CPython function U{math_fsum
-              <https://GitHub.com/python/cpython/blob/main/Modules/
-              mathmodule.c>}, but is no longer available.
+       @note: Python function C{cmath.fsum} is no longer available,
+              but stil mentioned in Note 4 of the comments before
+              CPython function U{math_fsum<https://GitHub.com/python/
+              cpython/blob/main/Modules/mathmodule.c>}
     '''
     r = fsum1_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn, floats=True)
     j = fsum1_(a.real * b0.imag,  a.imag * b0.real, -b1.imag,     floats=True)

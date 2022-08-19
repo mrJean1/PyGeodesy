@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.22'
+__version__ = '22.08.12'
 
 from base import isWindows, TestsBase
 
@@ -27,7 +27,7 @@ class Tests(TestsBase):
         self.test(cassini.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
 
         t = collins5(A, C, B, 109.5125, 115.0889)  # note B center, alpha and beta definition
-        self.test(collins5.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
+        self.test(collins5.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
         self.test(collins5.__name__, t.pointH.toStr(prec=4), '(1830.5948, 2576.2429, 0)')
         r = fstr(t[2:], prec=4)
         self.test(collins5.__name__, r, '1581.1388, 1562.0499, 2121.3203')
@@ -36,40 +36,40 @@ class Tests(TestsBase):
         self.test(collins5.__name__, t.pointH.toRepr(prec=4), 'Cartesian_(1830.5948, 2576.2429, 0)')
         self.test(collins5.__name__, fstr(t[2:], prec=4), r)
         self.test(collins5.__name__, fstr(t[2:], prec=4), r)
-        self.test(collins.__name__, C_(A).collins(C, B, 109.5125, 115.0889), t)  # DEPRECATED
+        self.test(collins.__name__, C_(A).collins(C, B, 109.5125, 115.0889), t, nl=1)  # DEPRECATED
 
         p = pierlot(C, B, A, 115.0889, 109.5125)  # note CCW order, alpha and beta definition
-        self.test(pierlot.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
+        self.test(pierlot.__name__, p.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
         p = C_(C).pierlot(B, A, 115.0889, 109.5125)
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
         p = C_(C).pierlot(B, A, 115.0889, 109.5125, useZ=True)  # _zidw coverage
         self.test(pierlot.__name__, p.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0.0)')
 
         t = tienstra7(A, B, C, 115.0889, None, 109.5125)  # note alpha, beta and gamma definition
-        self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)')
+        self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2128.3903, 5578.1443, 0)', nl=1)
         r = fstr(t[1:], prec=4)
         self.test(tienstra7.__name__, r, '47.9357, 84.8896, 47.1747, 1581.1388, 2121.3203, 1562.0499')
         t = C_(A).tienstra7(B, C, 115.0889, None, 109.5125)
         self.test(tienstra7.__name__, t.pointP.toRepr(prec=4), 'Cartesian_(2128.3903, 5578.1443, 0)')
         self.test(tienstra7.__name__, fstr(t[1:], prec=4), r)
-        self.test(tienstra.__name__, C_(A).tienstra(B, C, 115.0889, None, 109.5125), t)  # DEPRECATED
+        self.test(tienstra.__name__, C_(A).tienstra(B, C, 115.0889, None, 109.5125), t, nl=1)  # DEPRECATED
 
         p = cassini(A, C, B, 109.3, 115.1)  # note B center, alpha and beta definition
-        self.test(cassini.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)')
+        self.test(cassini.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)
 
         t = collins5(A, C, B, 109.3, 115.1)  # note B center, alpha and beta definition
-        self.test(collins5.__name__, t.pointP.toStr(prec=4), '(2129.3018, 5575.8016, 0)')
+        self.test(collins5.__name__, t.pointP.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)
         self.test(collins5.__name__, t.pointH.toStr(prec=4), '(1835.1911, 2563.0708, 0)')
         self.test(collins5.__name__, fstr(t[2:], prec=4), '1581.1388, 1562.0499, 2121.3203')
-        self.test(collins.__name__, collins(A, C, B, 109.3, 115.1), t)  # DEPRECATED
+        self.test(collins.__name__, collins(A, C, B, 109.3, 115.1), t, nl=1)  # DEPRECATED
 
         p = pierlot(C, B, A, 115.1, 109.3)  # note CCW order, alpha and beta definition
-        self.test(pierlot.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)')
+        self.test(pierlot.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)
 
         t = tienstra7(A, B, C, 115.1, 135.6, 109.3)  # note alpha, beta and gamma definition
-        self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2129.3018, 5575.8016, 0)')
+        self.test(tienstra7.__name__, t.pointP.toStr(prec=4), '(2129.3018, 5575.8016, 0)',nl=1)
         self.test(tienstra7.__name__, fstr(t[1:], prec=4), '47.9357, 84.8896, 47.1747, 1581.1388, 2121.3203, 1562.0499')
-        self.test(tienstra.__name__, tienstra(A, B, C, 115.1, beta=135.6, gamma=109.3), t)  # DEPRECATED
+        self.test(tienstra.__name__, tienstra(A, B, C, 115.1, beta=135.6, gamma=109.3), t, nl=1)  # DEPRECATED
 
     def testSnellius(self):
         n = snellius3.__name__
@@ -80,7 +80,7 @@ class Tests(TestsBase):
         self.test(triSide4.__name__, t, '(10.0, 30.0, 0.785398, 8.840862)', nl=1)
 
         t = snellius3(10, 30, 45, degrees(rA), degrees(rA / 2))
-        self.test(n, t, '(17.54582, 38.564239, 46.317675)')
+        self.test(n, t, '(17.54582, 38.564239, 46.317675)', nl=1)
 
         rA, rB, rC, _ = triAngle4(320, 435, 598)
         t = snellius3(320, 435, degrees(rC), 30, 15)
@@ -124,7 +124,7 @@ class Tests(TestsBase):
         self.test(n, t, '(567.480866, 847.344375, 832.446688)')
 
         t = wildberger3(1716, 924, 1056, 0.0000001, 14.5)
-        self.test(n, t, '(4064.197323, 3652.539342, 4988.197355)')
+        self.test(n, t, '(4064.197353, 3652.539342, 4988.197355)')
 
 
 if __name__ == '__main__':

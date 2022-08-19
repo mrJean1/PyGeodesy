@@ -32,12 +32,12 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
                              _xkwds, _xkwds_get
-from pygeodesy.fmath import fdot, fpowers, Fsum
+from pygeodesy.fmath import Fdot, fpowers, Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
-                             _DOT_, _convergence_, _ellipsoidal_, _float, \
-                             _latlon_, _no_, _not_, _SPACE_, _splituple, \
-                             _1_0, _2_0, _6_0, _10_0, _24_0, _120_0, _720_0
+from pygeodesy.interns import MISSING, NN, _A_, _COLON_, _COMMA_, \
+                             _COMMASPACE_, _DOT_, _convergence_, \
+                             _ellipsoidal_, _latlon_, _no_, _not_, \
+                             _SPACE_, _splituple, _1_0, _10_0
 from pygeodesy.interns import _N_2_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, _xnamed
@@ -48,14 +48,13 @@ from pygeodesy.streprs import _EN_WIDE, enstr2, _enstr2m3, Fmt, \
                               _resolution10, unstr, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, \
                             Phi_, Scalar, _10um, _100km
-from pygeodesy.utily import degrees90, degrees180, sincos2
+from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 
-from math import cos, radians, sin, sqrt, tan
+from math import cos, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.08.10'
+__version__ = '22.08.18'
 
-_5040_0      = _float(5040)
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
 _ord_A       =  ord(_A_)
@@ -68,6 +67,10 @@ class _NG(object):
     @Property_RO
     def a0(self):  # equatoradius, scaled
         return self.ellipsoid.a * self.k0
+
+    @Property_RO
+    def b0(self):  # polaradius, scaled
+        return self.ellipsoid.b * self.k0
 
     @Property_RO
     def datum(self):  # datum, Airy130 ellipsoid
@@ -95,7 +98,7 @@ class _NG(object):
     @Property_RO
     def k0(self):  # central scale (C{float}), like I{Karney}'s CentralScale
         # <https://GeographicLib.SourceForge.io/C++/doc/OSGB_8hpp_source.html>
-        _0_9998268 = float(9998268 - 10000000) / 10000000
+        _0_9998268 = (9998268 - 10000000) / 10000000
         return Scalar(_10_0**_0_9998268)  # 0.9996012717...
 
     @Property_RO
@@ -115,14 +118,22 @@ class _NG(object):
     def lon0(self):  # True origin longitude, 2°W
         return Lon(_N_2_0)
 
+    @Property_RO
+    def Mabcd(self):  # meridional coefficients (a, b, c, d)
+        n, n2, n3 = fpowers(self.ellipsoid.n, 3)
+        M = (Fsum(4,  4 * n,  5 * n2,  5 * n3) / 4,
+             Fsum(   24 * n, 24 * n2, 21 * n3) / 8,
+             Fsum(           15 * n2, 15 * n3) / 8,
+                                     (35 * n3 / 24))
+        return M
+
     def Mabcd0(self, a):  # meridional arc, scaled
-        a_ = a - self.phi0
-        _a = a + self.phi0
-        E  = self.ellipsoid
-        r  = fdot(E.Mabcd, a_, -sin(a_)     * cos(_a),
-                                sin(a_ * 2) * cos(_a * 2),
-                               -sin(a_ * 3) * cos(_a * 3))
-        return r * E.b * self.k0
+        c = a + self.phi0
+        s = a - self.phi0
+        R = Fdot(self.Mabcd, s, -sin(s)     * cos(c),
+                                 sin(s * 2) * cos(c * 2),
+                                -sin(s * 3) * cos(c * 3))
+        return float(R * self.b0)
 
     @Property_RO
     def nor0(self):  # False origin northing (C{meter})
@@ -137,15 +148,15 @@ class _NG(object):
     def norX(self):  # northing [0..extent] (C{meter})
         return Northing(13 * _100km)
 
-    def nu_rho_eta4(self, sa, rho):  # get (nu, rho, nu / rho, eta2)
-        E = self.ellipsoid
-        s = E.e2s2(sa)  # r, v = E.roc2_(sa, .k0)
-        v = self.a0 / sqrt(s)  # nu
-        # rho = v * E.e21 / s**1.5 == v * E.e21 / (s * sqrt(s))
-        r = (v * E.e21 / s) if rho else None
+    def nu_rho_eta3(self, sa):  # 3-tuple (nu, nu / rho, eta2)
+        E = self.ellipsoid  # rho, nu = E.roc2_(sa)  # .k0?
+        s = E.e2s2(sa)  # == 1 - E.e2 * sa**2
+        v = self.a0 / sqrt(s)  # == nu, transverse roc
+        # rho = .a0 * E.e21 / s**1.5 == v * E.e21 / s
+        # r = v * E.e21 / s  # == rho, meridional roc
         # nu / rho == v / (v * E.e21 / s) == s / E.e21 == ...
         s *= E._1_e21  # ... s * E._1_e21 == s * E.a2_b2
-        return v, r, s, (s - _1_0)  # η2
+        return v, s, (s - _1_0)  # η2 = nu / rho - 1
 
     @Property_RO
     def phi0(self):  # True origin latitude C{radians}
@@ -325,13 +336,13 @@ class Osgr(_NamedBase):
             e0 =     self.easting  - NG.eas0
             n0 = m = self.northing - NG.nor0
 
-            M  = NG.Mabcd0
+            _M = NG.Mabcd0
             a0 = NG.a0
             a  = NG.phi0
-            A_ = Fsum(a).fsum_
+            _A = Fsum(a).fsum_
             for self._iteration in range(1, _TRIPS):
-                a = A_(m / a0)
-                m = n0 - M(a)  # meridional arc
+                a = _A(m / a0)
+                m = n0 - _M(a)  # meridional arc
                 if abs(m) < eps:
                     break
             else:  # PYCHOK no cover
@@ -341,29 +352,25 @@ class Osgr(_NamedBase):
                 t =  unstr(t, eps=eps, kTM=kTM)
                 raise OSGRError(_no_(_convergence_), abs(m), txt=t)
 
-            ta     = tan(a)  # sa / ca
-            sa, ca = sincos2(a)
+            sa, ca, ta = sincostan3(a)
+            v, v_r, n2 = NG.nu_rho_eta3(sa)
 
-            v, r, v_r, n2 = NG.nu_rho_eta4(sa, True)
+            ta2 = ta**2
+            ta4 = ta2**2
 
-            v3,  v5,  v7  = fpowers(v, 7, alts=3)  # PYCHOK false!
-            ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
+            ta *= v_r / 2
+            d   = e0 / v
+            d2  = d**2
 
-            d1, d2, d3, d4, d5, d6, d7 = fpowers(e0, 7)  # PYCHOK false!
+            a = (d2 * ta * (-1 +  # Horner-like
+                 d2 / 12 * (Fsum( 5,  3 * ta2, -9 * ta2 * n2, n2) -
+                 d2 / 30 *  Fsum(61, 90 * ta2, 45 * ta4)))).fsum_(a)
 
-            t = ta / r
-            a = Fsum(a,
-                    -d2 * t / (  _2_0 * v),
-                     d4 * t / ( _24_0 * v3) * Fsum(5, n2, 3 * ta2, -9 * ta2 * n2),
-                    -d6 * t / (_720_0 * v5) * Fsum(61,   90 * ta2, 45 * ta4)).fsum()
-
-            t = _1_0 / ca
-            T = Fsum(61, 662 * ta2, 1320 * ta4, 720 * ta6)
-            b = Fsum(NG.lam0,
-                     d1 * t /            v,
-                    -d3 * t / (   _6_0 * v3) * Fsum(v_r,    ta2,      ta2),
-                     d5 * t / ( _120_0 * v5) * Fsum(5, 28 * ta2, 24 * ta4),
-                    -d7 * t / (_5040_0 * v7) * T).fsum()
+            b = (d  / ca * (1 -  # Horner-like
+                 d2 /  6 * (Fsum(v_r,  2 * ta2) -
+                 d2 / 20 * (Fsum( 5,  28 * ta2,   24 * ta4) +
+                 d2 / 42 *  Fsum(61, 662 * ta2, 1320 * ta4,
+                                     720 * ta2 * ta4))))).fsum_(NG.lam0)
 
             r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
             r._iteration = self._iteration  # only ellipsoidal LatLon
@@ -500,19 +507,19 @@ def _ll2datum(ll, datum, name):
     return ll
 
 
-def _ll2LatLon3(ell, LatLon, datum, LatLon_kwds):
+def _ll2LatLon3(ll, LatLon, datum, LatLon_kwds):
     '''(INTERNAL) Convert C{ll} to C{LatLon}
     '''
     if LatLon is None:
-        r = _ll2datum(ell, datum, LatLonDatum3Tuple.__name__)
+        r = _ll2datum(ll, datum, LatLonDatum3Tuple.__name__)
         r =  LatLonDatum3Tuple(r.lat, r.lon, r.datum)
     else:  # must be ellipsoidal
         _xsubclassof(_LLEB, LatLon=LatLon)
-        r = _ll2datum(ell, datum, LatLon.__name__)
+        r = _ll2datum(ll, datum, LatLon.__name__)
         r =  LatLon(r.lat, r.lon, datum=r.datum, **LatLon_kwds)
-    if r._iteration != ell._iteration:
-        r._iteration = ell._iteration
-    return _xnamed(r, nameof(ell))
+    if r._iteration != ll._iteration:
+        r._iteration = ll._iteration
+    return _xnamed(r, nameof(ll))
 
 
 def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
@@ -599,8 +606,8 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN, **Osgr_kwds):
                           strOSGR=strOSGR, Error=OSGRError)
 
 
-def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
-                                                    **Osgr_kwds):
+def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCCABE 14
+                                               **prec_Osgr_kwds):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
@@ -615,11 +622,16 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
        @kwarg Osgr: Optional class to return the OSGR coordinate
                     (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
-       @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
-                         arguments, ignored if C{B{Osgr} is None}.
+       @kwarg prec_Osgr_kwds: Optional L{truncate} precision
+                              C{B{prec}=ndigits} and/or additional
+                              B{C{Osgr}} keyword arguments, ignored
+                              if C{B{Osgr} is None}.
 
        @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is C{None}
                 an L{EasNor2Tuple}C{(easting, northing)}.
+
+       @note: If L{isint{C{(B{prec})} both easting and northing are
+              L{truncate}d to the given number of digits.
 
        @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
 
@@ -636,6 +648,9 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
         >>> # alternatively and using Krüger
         >>> r = p.toOsgr(kTM=True)  # [G:TG, E:51409, N:13177]
     '''
+    def _prec_kwds2(prec=MISSING, **kwds):
+        return prec, kwds
+
     if lon is not None:
         try:
             lat, lon = _MODS.dms.parseDMS2(latlon, lon)
@@ -648,7 +663,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
         name = nameof(latlon)
 
     NG = _NG
-    # if needed, convert latlon to OSGB36 first
+    # convert latlon to OSGB36 first
     ll = _ll2datum(latlon, NG.datum, _latlon_)
 
     if kTM:
@@ -660,39 +675,94 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
         except AttributeError:
             a, b = map1(radians, ll.lat, ll.lon)
 
-        ta     = tan(a)  # sa / ca
-        sa, ca = sincos2(a)
+        sa, ca, ta = sincostan3(a)
+        v, v_r, n2 = NG.nu_rho_eta3(sa)
 
-        v, _, v_r, n2 = NG.nu_rho_eta4(sa, False)
+        m0  = NG.Mabcd0(a)
+        b  -= NG.lam0
+        t   = b * sa * v / 2
+        d   = b * ca
+        d2  = d**2
 
-        ca3, ca5 = fpowers(ca, 5, alts=3)  # PYCHOK false!
-        ta2, ta4 = fpowers(ta, 4, alts=2)  # PYCHOK false!
+        ta2 = -(ta**2)
+        ta4 =   ta2**2
 
-        d1, d2, d3, d4, d5, d6 = fpowers(b - NG.lam0, 6)  # PYCHOK false!
+        e = (d  *  v * (1 +  # Horner-like
+             d2 /  6 * (Fsum(v_r, ta2) +
+             d2 / 20 *  Fsum(5,  18 * ta2, ta4, 14 * n2,
+                            58 * n2 * ta2)))).fsum_(NG.eas0)
 
-        T = Fsum(-18 * ta2, 5, ta4, 14 * n2, -58 * ta2 * n2)
-        e = Fsum(NG.eas0,
-                 d1 * v          * ca,
-                 d3 * v /   _6_0 * ca3 * (v_r - ta2),
-                 d5 * v / _120_0 * ca5 * T).fsum()
+        n = (d  *  t * (1 +  # Horner-like
+             d2 / 12 * (Fsum( 5, ta2,  9 * n2) +
+             d2 / 30 *  Fsum(61, ta4, 58 * ta2)))).fsum_(m0, NG.nor0)
 
-        t = v * sa
-        n = Fsum(NG.nor0,
-                 NG.Mabcd0(a),
-                 d2 * t /   _2_0 * ca,
-                 d4 * t /  _24_0 * ca3 * Fsum(5, -ta2,   9 * n2),
-                 d6 * t / _720_0 * ca5 * Fsum(61, ta4, -58 * ta2)).fsum()
+    p, kwds = _prec_kwds2(**prec_Osgr_kwds)
+    if p is not MISSING:
+        e = truncate(e, p)
+        n = truncate(n, p)
 
     if Osgr is None:
-        r = EasNor2Tuple(e, n)
+        _ = _MODS.osgr.Osgr(e, n)  # validate
+        r =  EasNor2Tuple(e, n)
     else:
-        r = Osgr(e, n, **Osgr_kwds)  # datum=NG.datum
+        r = Osgr(e, n, **kwds)  # datum=NG.datum
         if lon is None and isinstance(latlon, _LLEB):
             if kTM:
                 r._latlonTM = latlon  # XXX weakref(latlon)?
             else:
                 r._latlon = latlon  # XXX weakref(latlon)?
     return _xnamed(r, name or nameof(latlon))
+
+
+if __name__ == '__main__':
+
+    from pygeodesy.lazily import printf
+    from random import random, seed
+    from time import localtime
+
+    seed(localtime().tm_yday)
+
+    def _rnd(X, n):
+        X -= 2
+        d = set()
+        while len(d) < n:
+            r = 1 + int(random() * X)
+            if r not in d:
+                d.add(r)
+                yield r
+
+    D  = _NG.datum
+    i  = t = 0
+    t1 = t2 = 0, 0, 0, 0
+    for e in _rnd(_NG.easX, 256):
+        for n in _rnd(_NG.norX, 512):
+            p  = False
+            t += 1
+
+            g = Osgr(e, n)
+            v = g.toLatLon(kTM=False, datum=D)
+            k = g.toLatLon(kTM=True,  datum=D)
+            d = max(abs(v.lat - k.lat), abs(v.lon - k.lon))
+            if d > t1[2]:
+                t1 = e, n, d, t
+                p  = True
+
+            ll = _LLEB((v.lat + k.lat) / 2,
+                       (v.lon + k.lon) / 2, datum=D)
+            v  =  ll.toOsgr(kTM=False)
+            k  =  ll.toOsgr(kTM=True)
+            d  =  max(abs(v.easting  - k.easting),
+                      abs(v.northing - k.northing))
+            if d > t2[2]:
+                t2 = ll.lat, ll.lon, d, t
+                p  = True
+
+            if p:
+                i += 1
+                printf('%5d: %s  %s', i,
+                       'll(%.2f, %.2f) %.3e %d' % t2,
+                       'en(%d, %d) %.3e %d' % t1)
+    printf('%d total %s', t, D.name)
 
 # **) MIT License
 #
@@ -715,3 +785,32 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % python3 -m pygeodesy.osgr
+#     1: ll(53.42, -0.59) 4.672e-07 1  en(493496, 392519) 2.796e-11 1
+#     2: ll(60.86, -0.28) 2.760e-05 2  en(493496, 1220986) 2.509e-10 2
+#     3: ll(61.41, -0.25) 3.045e-05 13  en(493496, 1281644) 2.774e-10 13
+#     4: ll(61.41, -0.25) 3.045e-05 13  en(493496, 1192797) 3.038e-10 20
+#     5: ll(61.41, -0.25) 3.045e-05 13  en(493496, 1192249) 3.073e-10 120
+#     6: ll(61.55, -0.24) 3.120e-05 160  en(493496, 1192249) 3.073e-10 120
+#     7: ll(61.55, -0.24) 3.122e-05 435  en(493496, 1192249) 3.073e-10 120
+#     8: ll(61.57, -0.24) 3.130e-05 473  en(493496, 1192249) 3.073e-10 120
+#     9: ll(58.66, -8.56) 8.084e-04 513  en(19711, 993800) 3.020e-06 513
+#    10: ll(52.83, -7.65) 8.156e-04 518  en(19711, 993800) 3.020e-06 513
+#    11: ll(51.55, -7.49) 8.755e-04 519  en(19711, 993800) 3.020e-06 513
+#    12: ll(60.20, -8.87) 9.439e-04 521  en(19711, 1165686) 4.318e-06 521
+#    13: ll(60.45, -8.92) 9.668e-04 532  en(19711, 1194002) 4.588e-06 532
+#    14: ll(61.17, -9.08) 1.371e-03 535  en(19711, 1274463) 5.465e-06 535
+#    15: ll(61.31, -9.11) 1.463e-03 642  en(19711, 1290590) 5.663e-06 642
+#    16: ll(61.35, -9.12) 1.488e-03 807  en(19711, 1294976) 5.718e-06 807
+#    17: ll(61.38, -9.13) 1.510e-03 929  en(19711, 1298667) 5.765e-06 929
+#    18: ll(61.11, -9.24) 1.584e-03 11270  en(10307, 1268759) 6.404e-06 11270
+#    19: ll(61.20, -9.26) 1.650e-03 11319  en(10307, 1278686) 6.545e-06 11319
+#    20: ll(61.23, -9.27) 1.676e-03 11383  en(10307, 1282514) 6.600e-06 11383
+#    21: ll(61.36, -9.30) 1.776e-03 11437  en(10307, 1297037) 6.816e-06 11437
+#    22: ll(61.38, -9.30) 1.789e-03 11472  en(10307, 1298889) 6.844e-06 11472
+#    23: ll(61.25, -9.39) 1.885e-03 91137  en(4367, 1285831) 7.392e-06 91137
+#    24: ll(61.32, -9.40) 1.944e-03 91207  en(4367, 1293568) 7.519e-06 91207
+#    25: ll(61.34, -9.41) 1.963e-03 91376  en(4367, 1296061) 7.561e-06 91376
+#    26: ll(61.37, -9.41) 1.986e-03 91595  en(4367, 1298908) 7.608e-06 91595
+# 131072 total OSGB36

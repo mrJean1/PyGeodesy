@@ -33,7 +33,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.08.10'
+__version__ = '22.08.15'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -648,14 +648,14 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as an OSGR coordinate (L{Osgr}),
            based on the OS recommendation.
         '''
-        return _MODS.osgr.toOsgr(self, datum=self.datum, kTM=False, name=self.name)
+        return _MODS.osgr.toOsgr(self, kTM=False, name=self.name)  # datum=self.datum
 
     @Property_RO
     def _osgrTM(self):
         '''(INTERNAL) Get this C{LatLon} point as an OSGR coordinate (L{Osgr})
            based on I{Karney}'s Krüger implementation.
         '''
-        return _MODS.osgr.toOsgr(self, datum=self.datum, kTM=True, name=self.name)
+        return _MODS.osgr.toOsgr(self, kTM=True, name=self.name)  # datum=self.datum
 
     def parse(self, strllh, height=0, datum=None, epoch=None, reframe=None,
                                                   sep=_COMMA_, name=NN):
@@ -826,7 +826,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @see: Function L{pygeodesy.toOsgr}.
         '''
         if toOsgr_kwds:
-            r = _MODS.osgr.toOsgr(self, **_xkwds(toOsgr_kwds, name=self.name))
+            r = _MODS.osgr.toOsgr(self, kTM=kTM, **_xkwds(toOsgr_kwds, name=self.name))
         else:
             r =  self._osgrTM if kTM else self._osgr
         return r

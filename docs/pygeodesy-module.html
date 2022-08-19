@@ -267,7 +267,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 12.5 Monterey and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 12.5.1 Monterey and in
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -339,7 +339,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.6, both in 64-bit on macOS 
-    12.5 Monterey.</p>
+    12.5.1 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -502,7 +502,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.08.11
+        22.08.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -7657,7 +7657,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f83e0935cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8f68807250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8147,7 +8147,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isclass" class="summary-sig-name">isclass</a>(<span class="summary-sig-arg">obj</span>)</span><br />
       Return <code>True</code> if <b><code>obj</code></b> is a 
-      <code>class</code>.</td>
+      <code>class</code> or <code>type</code>.</td>
           <td align="right" valign="top">
             
             
@@ -10647,6 +10647,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sincostan3" class="summary-sig-name">sincostan3</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Return the <code>sine</code>, <code>cosine</code> and 
+      <code>tangent</code> of an angle in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#snellius3" class="summary-sig-name">snellius3</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">degC</span>,
@@ -11090,7 +11108,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">**Osgr_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**prec_Osgr_kwds</span>)</span><br />
       Convert a lat-/longitude point to an OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -11396,6 +11414,24 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Trilaterate three spheres, each given as a (3-D) center and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#truncate" class="summary-sig-name">truncate</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Truncate to the given number of digits.</td>
           <td align="right" valign="top">
             
             
@@ -11889,7 +11925,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.11'"><code class="variable-quote">'</code><code class="variable-string">22.8.11</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.22'"><code class="variable-quote">'</code><code class="variable-string">22.8.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13850,10 +13886,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>pointC</code></b> (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey and auxiliary point or 
-          <code>None</code> for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey and auxiliary
-          point instance.</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
+          for <b><code>pointA</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey point 
+          instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The survey point, an instance of <b><code>Clas</code></b> or if 
@@ -14776,10 +14812,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use and interpolate the Z component, 
           otherwise force <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey point or <code>None</code> 
-          for <b><code>pointA</code></b>'s (sub-)class.</li>
-        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey point 
-          instance.</li>
+        <li><strong class="pname"><code>Clas</code></strong> - Optional class to return the survey and auxiliary point or 
+          <code>None</code> for <b><code>pointA</code></b>'s (sub-)class.</li>
+        <li><strong class="pname"><code>Clas_kwds</code></strong> - Optional additional keyword argument for the survey and auxiliary
+          point instance.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Collins5Tuple-class.html" 
@@ -19262,7 +19298,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f83e0935cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8f68807250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20305,7 +20341,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Return <code>True</code> if <b><code>obj</code></b> is a 
-  <code>class</code>.</p>
+  <code>class</code> or <code>type</code>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -25219,6 +25255,37 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="sincostan3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sincostan3</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>sine</code>, <code>cosine</code> and 
+  <code>tangent</code> of an angle in <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (<code>sin(<b>rad</b>)</code>, 
+          <code>cos(<b>rad</b>)</code>, <code>tan(<b>rad</b>)</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#sincos2" 
+        class="link">sincos2</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="snellius3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -26324,63 +26391,58 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">**Osgr_kwds</span>)</span>
+        <span class="sig-arg">**prec_Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert a lat-/longitude point to an OSGR coordinate.</p>
+  <pre class="literalblock">
+Convert a lat-/longitude point to an OSGR coordinate.
+
+@arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
+             C{LatLon} point.
+@kwarg lon: Optional longitude in degrees (scalar or C{None}).
+@kwarg kTM: If C{True} use I{Karney}'s Kr&#252;ger method from
+            module L{ktm}, otherwise use the Ordnance
+            Survey formulation (C{bool}).
+@kwarg datum: Optional datum to convert B{C{lat, lon}} from
+              (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+              L{a_f2Tuple}).
+@kwarg Osgr: Optional class to return the OSGR coordinate
+             (L{Osgr}) or C{None}.
+@kwarg name: Optional B{C{Osgr}} name (C{str}).
+@kwarg prec_Osgr_kwds: Optional L{truncate} precision
+                       C{B{prec}=ndigits} and/or additional
+                       B{C{Osgr}} keyword arguments, ignored
+                       if C{B{Osgr} is None}.
+
+@return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is C{None}
+         an L{EasNor2Tuple}C{(easting, northing)}.
+
+@note: If L{isint{C{(B{prec})} both easting and northing are
+       L{truncate}d to the given number of digits.
+
+@raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
+
+@raise TypeError: Non-ellipsoidal B{C{latlon}} or invalid
+                  B{C{datum}}, B{C{Osgr}}, B{C{Osgr_kwds}}
+                  or conversion to C{Datums.OSGB36} failed.
+
+@example:
+
+ &gt;&gt;&gt; p = LatLon(52.65798, 1.71605)
+ &gt;&gt;&gt; r = toOsgr(p)  # [G:TG, E:51409, N:13177]
+ &gt;&gt;&gt; # for conversion of (historical) OSGB36 lat-/longitude:
+ &gt;&gt;&gt; r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
+ &gt;&gt;&gt; # alternatively and using Kr&#252;ger
+ &gt;&gt;&gt; r = p.toOsgr(kTM=True)  # [G:TG, E:51409, N:13177]
+
+</pre>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
-          <code>LatLon</code> point.</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or <code>None</code>).</li>
-        <li><strong class="pname"><code>kTM</code></strong> - If <code>True</code> use <i>Karney</i>'s Kr&#252;ger method from 
-          module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
-          otherwise use the Ordnance Survey formulation 
-          (<code>bool</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert <b><code>lat, lon</code></b> from (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
-          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-          class="link">Ellipsoid</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
-          class="link">Ellipsoid2</a> or <a 
-          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
-          class="link">a_f2Tuple</a>).</li>
-        <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
-          href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
-          <code>None</code>.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <b><code>Osgr</code></b> name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Osgr_kwds</code></strong> - Optional, additional <b><code>Osgr</code></b> keyword arguments, 
-          ignored if <code><b>Osgr</b> is None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>An (<b><code>Osgr</code></b>) instance or if 
-          <b><code>Osgr</code></b> is <code>None</code> an <a 
-          href="pygeodesy.namedTuples.EasNor2Tuple-class.html" 
-          class="link">EasNor2Tuple</a><code>(easting, northing)</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.osgr.OSGRError-class.html">OSGRError</a></strong></code> - Invalid <b><code>latlon</code></b> or <b><code>lon</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-ellipsoidal <b><code>latlon</code></b> or invalid 
-        <b><code>datum</code></b>, <b><code>Osgr</code></b>, 
-        <b><code>Osgr_kwds</code></b> or conversion to 
-        <code>Datums.OSGB36</code> failed.</li>
-    </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.65798, 1.71605)
-<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(p)  <span class="py-comment"># [G:TG, E:51409, N:13177]</span>
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># for conversion of (historical) OSGB36 lat-/longitude:</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-comment"># alternatively and using Kr&#252;ger</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>r = p.toOsgr(kTM=True)  <span class="py-comment"># [G:TG, E:51409, N:13177]</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toUps8"></a>
 <div>
@@ -27194,6 +27256,36 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="truncate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">truncate</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">ndigits</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Truncate to the given number of digits.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value to truncate (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>ndigits</code></strong> - Number of digits (<code>int</code>), aka <i>precision</i>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Truncated <b><code>x</code></b> (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Python function <code>round</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="tyr3d"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -27890,7 +27982,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
-        href="https://math.sc.chula.AC.TH/cjm/content/survey-article-greek-geometry-rational-trigonometry-and-snellius-&#8211;-pothenot-surveying"
+        href="https://math.sc.Chula.ac.TH/cjm/content/survey-article-greek-geometry-rational-trigonometry-and-snellius-&#8211;-pothenot-surveying"
         target="_top">Wildberger, Norman J.</a>, <a 
         href="http://www.ms.LT/derlius/WildbergerDivineProportions.pdf" 
         target="_top">Devine Proportions, page 252</a> and function <a 
@@ -28229,7 +28321,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Aug 10 12:23:34 2022
+    Generated by Epydoc 3.0.1 on Fri Aug 19 08:33:31 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

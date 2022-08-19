@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.07.08
+        22.08.18
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -914,6 +914,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincostan3" class="summary-sig-name">sincostan3</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Return the <code>sine</code>, <code>cosine</code> and 
+      <code>tangent</code> of an angle in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>,
         <span class="summary-sig-arg">**semi</span>)</span><br />
       Compute the tangent of half angle.</td>
@@ -988,6 +1006,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#toise2m" class="summary-sig-name">toise2m</a>(<span class="summary-sig-arg">toises</span>)</span><br />
       Convert French <a href="https://WikiPedia.org/wiki/Toise" 
       target="_top">toises</a> to meter.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#truncate" class="summary-sig-name">truncate</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Truncate to the given number of digits.</td>
           <td align="right" valign="top">
             
             
@@ -2541,6 +2577,37 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="sincostan3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sincostan3</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>sine</code>, <code>cosine</code> and 
+  <code>tangent</code> of an angle in <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (<code>sin(<b>rad</b>)</code>, 
+          <code>cos(<b>rad</b>)</code>, <code>tan(<b>rad</b>)</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#sincos2" 
+        class="link">sincos2</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="tan_2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2695,6 +2762,36 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#fathom2m" 
         class="link">fathom2m</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="truncate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">truncate</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">ndigits</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Truncate to the given number of digits.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value to truncate (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>ndigits</code></strong> - Number of digits (<code>int</code>), aka <i>precision</i>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Truncated <b><code>x</code></b> (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Python function <code>round</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2981,7 +3078,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Aug 10 12:23:35 2022
+    Generated by Epydoc 3.0.1 on Fri Aug 19 08:33:31 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

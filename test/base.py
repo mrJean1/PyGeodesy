@@ -48,7 +48,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.08.05'
+__version__ = '22.08.18'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -136,10 +136,9 @@ class RandomLatLon(object):
             self._ndigits = ndigits
 
         if self._random is None:
-            import random
-            y, m, d = gmtime()[:3]
-            random.seed((y * 13 + m) * 32 + d)
-            RandomLatLon._random = random.random
+            from random import random, seed
+            seed(gmtime().tm_yday)
+            RandomLatLon._random = random
 
     def __call__(self, **LatLon_kwds):
         lat = self._random_round(self._lat)

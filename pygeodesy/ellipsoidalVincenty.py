@@ -78,7 +78,7 @@ from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.07.14'
+__version__ = '22.08.18'
 
 _antipodal__ = _antipodal_ + _SPACE_
 _limit_      = 'limit'  # PYCHOK used!
@@ -395,7 +395,10 @@ def _r3(a, f):
 def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
-    return _MODS.ellipsoidalKarney.areaOf(points, datum=datum, wrap=wrap)
+    try:
+        return _MODS.ellipsoidalKarney.areaOf(points, datum=datum, wrap=wrap)
+    except ImportError:
+        return _MODS.ellipsoidalExact.areaOf(points, datum=datum, wrap=wrap)
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,

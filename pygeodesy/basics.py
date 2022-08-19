@@ -14,13 +14,14 @@ if not division:
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _AttributeError, _ImportError, _TypeError, \
-                             _TypesError, _ValueError, _xError, _xkwds_get
+from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
+                             _TypeError, _TypesError, _ValueError, _xError, \
+                             _xkwds_get
 from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
-                             _by_, _DOT_, _enquote, _EQUAL_, _in_, _INF_, \
-                             _invalid_, _N_A_, _name_, _NAN_, _NINF_, _SPACE_, \
-                             _splituple, _UNDER_, _version_, _0_0, _0_5, \
-                             _1_0, _360_0
+                             _by_, _DOT_, _ELLIPSIS4_, _enquote, _EQUAL_, \
+                             _in_, _INF_, _invalid_, _N_A_, _name_, _NAN_, \
+                             _NINF_, _SPACE_, _splituple, _UNDER_, _version_, \
+                             _0_0, _0_5, _1_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys_version_info2
 
@@ -28,11 +29,10 @@ from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.08.10'
+__version__ = '22.08.14'
 
 _below_               = 'below'
 _cannot_              = 'cannot'
-_ELLIPSIS4_           = '....'
 _INF_NAN_NINF         = {INF: _INF_, NAN: _NAN_, NINF: _NINF_}
 _odd_                 = 'odd'
 _required_            = 'required'
@@ -170,15 +170,17 @@ def isbool(obj):
        @return: C{True} if B{C{obj}} is C{bool}ean,
                 C{False} otherwise.
     '''
-    return isinstance(obj, bool)  # and (obj is True
-#                                     or obj is False)
+    return isinstance(obj, bool)  # and (obj is False
+#                                     or obj is True)
 
+if isbool(1) or isbool(0):  # PYCHOK assert
+    raise _AssertionError(isbool=1)
 
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
     from inspect import isclass as _isclass
 
     def isclass(obj):
-        '''Return C{True} if B{C{obj}} is a C{class}.
+        '''Return C{True} if B{C{obj}} is a C{class} or C{type}.
 
            @see: Python's C{inspect.isclass}.
         '''
@@ -666,8 +668,8 @@ def _xdup(inst, **items):
     d = _xcopy(inst, deep=False)
     for n, v in items.items():
         if not hasattr(d, n):
-            from pygeodesy.named import classname
-            t = _SPACE_(_DOT_(classname(inst), n), _invalid_)
+            t = _MODS.named.classname(inst)
+            t = _SPACE_(_DOT_(t, n), _invalid_)
             raise _AttributeError(txt=t, this=inst, **items)
         setattr(d, n, v)
     return d

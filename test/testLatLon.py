@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.07.09'
+__version__ = '22.08.18'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -435,7 +435,7 @@ class Tests(TestsBase):
         c = p.compassAngleTo(q, adjust=True)
         self.test('compassAngleTo', c, 31.0, fmt='%.0f')
         c = p.compassAngleTo(q, adjust=False)
-        self.test('compassAngleTo', c, 45.0, fmt='%.0f')
+        self.test('compassAngleTo', c, 45.0, fmt='%.0f', nt=1)
 
         # check return types
         self.testReturnType(p.boundsOf(2, 4),       Bounds2Tuple, 'boundsOf')
@@ -490,7 +490,7 @@ class Tests(TestsBase):
             t = p1.trilaterate5(d, p2, d, p3, d, area=True)  # overlap
             self.test(n + 'min', t.min, '313.671' if Sph
                                   else ('305.091' if geographiclib
-                                  else  '311.234'), prec=3, known= 300 < t.min <  320)
+                                  else  '311.234'), prec=3, known= 300 < t.min <  320, nl=1)
             p = t.minPoint
             self.test(n + 'point', p.toStr(F_D, prec=8), '42.66937229°N, 002.48639477°E' if Sph
                                                    else ('42.66933643°N, 002.48620262°E' if geographiclib
@@ -576,7 +576,7 @@ class Tests(TestsBase):
         try:  # need numpy
             k = (isPyPy and isPython2) or Sph or not X
             t = repr(p1.radii11(p2, p3))
-            self.test('radii11', t, t, known=k)
+            self.test('radii11', t, t, known=k, nl=1)
 
             n = 'circum4 (%s) .' % (LatLon.__module__,)
             t = p1.circum4_(p2, p3)
@@ -619,6 +619,15 @@ class Tests(TestsBase):
 
         except ImportError as x:
             self.skip(str(x), n=22)
+
+        try:  # courtesy of theirix <https://GitHub.com/mrJean1/PyGeodesy/issues/71>
+            a = module.areaOf
+            b = LatLon(22, 10),  LatLon(20, 10), LatLon(20, 11), LatLon(21, 11)
+            r = a(reversed(b))
+            f = a(b)  # ccw
+            self.test('area cw/ccw', (r / f), 1.0, nl=1)
+        except AttributeError:  # no areaOf
+            pass
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

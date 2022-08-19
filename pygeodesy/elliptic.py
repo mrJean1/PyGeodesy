@@ -86,7 +86,7 @@ from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
 from pygeodesy.karney import _ALL_LAZY, _signBit
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _Named, _NamedTuple, unstr
-from pygeodesy.props import Property_RO, _update_all
+from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 # from pygeodesy.streprs import unstr  # from .named
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
@@ -95,7 +95,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.07.08'
+__version__ = '22.08.13'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -338,9 +338,9 @@ class Elliptic(_Named):
 
            @return: sqrt(1 − k2 sin(2φ)) (C{float}).
         '''
-        k2, kp2 = self.k2, self.kp2
-        s = (_1_0 - k2 * sn**2) if k2 < 0 else (
-             (kp2 + k2 * cn**2) if k2 > 0 else kp2)
+        k2 = self.k2
+        s  = (_1_0 - k2 * sn**2) if k2 < 0 else (self.kp2
+                 + ((k2 * cn**2) if k2 > 0 else _0_0))
         return sqrt(s) if s else _0_0
 
     def fE(self, phi_or_sn, cn=None, dn=None):
@@ -588,7 +588,7 @@ class Elliptic(_Named):
                   that these conditions are met to enable accuracy to be
                   maintained, e.g., when C{k} is very close to unity.
         '''
-        _update_all(self, _Named.iteration._uname)
+        _update_all(self, _Named.iteration._uname, Base=Property_RO)
 
         self._k2  = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
         self._kp2 = Scalar_(kp2=((_1_0 - k2) if kp2 is None else kp2), Error=EllipticError)
@@ -810,6 +810,8 @@ class Elliptic(_Named):
                  U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
         '''
         return _RJ(None, x, y, z, p)
+
+_allPropertiesOf_n(15, Elliptic)  #  # PYCHOK assert, see Elliptic.reset
 
 
 class EllipticError(_ValueError):
