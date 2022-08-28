@@ -41,12 +41,12 @@ from pygeodesy.basics import isnan, _xinstanceof, _xor, unsigned0
 from pygeodesy.fsums import fsum_, fsum1_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _TINY, _xnC4
-from pygeodesy.geodesicx.gxline import _GeodesicLineExact, pairs, _update_glXs
+from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _update_glXs
 from pygeodesy.interns import EPS, EPS0, EPS02, MANT_DIG, NAN, NN, PI, _2__PI, \
-                             _COMMASPACE_, _convergence_, _DOT_, _EPSqrt, _no_, \
-                             _SQRT2_2, _UNDER_, _0_0, _0_001, _0_01, _0_1, _0_5, \
-                             _N_1_0, _1_0, _1_75, _N_2_0, _2_0, _3_0, _4_0, _6_0, \
-                             _8_0, _16_0, _90_0, _180_0, _1000_0
+                             _COMMASPACE_, _DOT_, _EPSqrt,  _SQRT2_2, _UNDER_, \
+                             _0_0, _0_001, _0_01, _0_1, _0_5, _N_1_0, _1_0, \
+                             _1_75, _N_2_0, _2_0, _3_0, _4_0, _6_0, _8_0, \
+                             _16_0, _90_0, _180_0, _1000_0
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
                              _a_ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
                              _hypot, _K_2_0, _norm2, _norm180, _polynomial, \
@@ -54,13 +54,13 @@ from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182,
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO
-# from pygeodesy.streprs import pairs  # from .geodesicx.gxline
+from pygeodesy.streprs import Fmt, pairs
 from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.08.09'
+__version__ = '22.08.23'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1211,7 +1211,7 @@ class GeodesicExact(_GeodesicBase):
             TOLv = _TOL0
 
         else:
-            raise GeodesicError(_no_(_convergence_), _MAXIT2, txt=repr(self))  # self.toRepr()
+            raise GeodesicError(Fmt.no_convergence(v, TOLv), txt=repr(self))  # self.toRepr()
 
         p.set_(iter=i, trip=tripb)  # like .geodsolve._GDictInvoke: iter NOT iteration!
         return sig12, salp1, calp1, salp2, calp2, domg12

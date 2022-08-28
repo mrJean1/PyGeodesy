@@ -69,9 +69,9 @@ from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1_
 from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
-                             _COMMASPACE_, _convergence_, _DASH_, _1_EPS, \
-                             _K0_UTM, _near_, _no_, _SPACE_, _spherical_, \
-                             _usage, _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+                             _COMMASPACE_, _DASH_, _1_EPS, _K0_UTM, \
+                             _near_, _SPACE_, _spherical_, _usage, \
+                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
                              _4_0, _90_0, _180_0
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
                              _tand, _unsigned2
@@ -81,7 +81,7 @@ from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, _update_all, \
                             property_doc_
-from pygeodesy.streprs import fstr, pairs, unstr
+from pygeodesy.streprs import Fmt, fstr, pairs, unstr
 from pygeodesy.units import Degrees, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
 from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
@@ -90,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.08.09'
+__version__ = '22.08.24'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -659,8 +659,8 @@ class ExactTransverseMercator(_NamedBase):
         self._iteration = i
         if r:  # PYCHOK no cover
             i = callername(up=2, underOK=True)
-            t = unstr(i, taup, lam, C=C, tol2=tol2)
-            raise ETMError(_no_(_convergence_), d2, txt=t)
+            t = unstr(i, taup, lam, u, v, C=C)
+            raise ETMError(Fmt.no_convergence(d2, tol2), txt=t)
         return u, v
 
     @property_doc_(''' raise an L{ETMError} for convergence failures (C{bool}).''')
@@ -1144,7 +1144,7 @@ if __name__ == '__main__':  # MCCABE 13
         elif '-forward'.startswith(_a):
             _f, _r = True, False
         elif '-reverse'.startswith(_a):
-            _f. _r = False, True
+            _f, _r = False, True
         elif '-series'.startswith(_a):
             _s, _t = True, False
         elif _a == '-t':

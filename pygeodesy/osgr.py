@@ -35,9 +35,9 @@ from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
 from pygeodesy.fmath import Fdot, fpowers, Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.interns import MISSING, NN, _A_, _COLON_, _COMMA_, \
-                             _COMMASPACE_, _DOT_, _convergence_, \
-                             _ellipsoidal_, _latlon_, _no_, _not_, \
-                             _SPACE_, _splituple, _1_0, _10_0
+                             _COMMASPACE_, _DOT_, _ellipsoidal_, \
+                             _latlon_, _not_, _SPACE_, _splituple, \
+                             _1_0, _10_0
 from pygeodesy.interns import _N_2_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, _xnamed
@@ -53,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.08.18'
+__version__ = '22.08.23'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -350,7 +350,7 @@ class Osgr(_NamedBase):
                 t =  Fmt.PAREN(self.classname, repr(t))
                 t = _DOT_(t, self.toLatLon.__name__)
                 t =  unstr(t, eps=eps, kTM=kTM)
-                raise OSGRError(_no_(_convergence_), abs(m), txt=t)
+                raise OSGRError(Fmt.no_convergence(m), txt=t)
 
             sa, ca, ta = sincostan3(a)
             v, v_r, n2 = NG.nu_rho_eta3(sa)
@@ -630,7 +630,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCC
        @return: An (B{C{Osgr}}) instance or if B{C{Osgr}} is C{None}
                 an L{EasNor2Tuple}C{(easting, northing)}.
 
-       @note: If L{isint{C{(B{prec})} both easting and northing are
+       @note: If L{isint}C{(B{prec})} both easting and northing are
               L{truncate}d to the given number of digits.
 
        @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.

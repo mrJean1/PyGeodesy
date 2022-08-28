@@ -33,7 +33,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
-import sys as _sys  # in .props
+import sys as _sys  # in .fsums.Fsum.__sizeof__, .props
 
 _a_l_l_                 = '__all__'
 _FOR_DOCS               = _getenv('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...

@@ -149,6 +149,7 @@ _b_                   = 'b'                  # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
 _BACKSLASH_      = Str_('\\')                # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
+# _BANG_         = Str_('!')                 # PYCHOK expected
 _BAR_            = Str_('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
 _Bessel1841_          = 'Bessel1841'         # PYCHOK expected
@@ -392,6 +393,7 @@ _tbd_                 = 'tbd'                # PYCHOK expected
 _TILDE_               = '~'                  # PYCHOK expected
 _till_                = 'till'               # PYCHOK expected
 _to_                  = 'to'                 # PYCHOK expected
+_tolerance_   = _Prefix('tolerance')         # PYCHOK expected
 _too_         = _Prefix('too')               # PYCHOK expected
 _transform_           = 'transform'          # PYCHOK expected
 _tx_                  = 'tx'                 # PYCHOK expected
@@ -786,7 +788,7 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # in .lazily
-__version__ = '22.08.16'
+__version__ = '22.08.24'
 
 
 # **) MIT License

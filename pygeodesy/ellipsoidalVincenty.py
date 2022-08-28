@@ -38,8 +38,7 @@ Here's an example usage of C{ellipsoidalVincenty}:
     >>> Newport_RI.distanceTo(Cleveland_OH)
     866,455.4329158525  # meter
 
-You can change the ellipsoid model used by the Vincenty formulae
-as follows:
+To change the ellipsoid model used by the Vincenty formulae use:
 
     >>> from pygeodesy import Datums
     >>> from pygeodesy.ellipsoidalVincenty import LatLon
@@ -52,19 +51,16 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isnear0  # from .ellipsoidalBaseDI
+# from pygeodesy.basics import isnear0  # from .fmath
 # from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn, \
                                      _WGS84
-from pygeodesy.ellipsoidalBaseDI import fsum_, isnear0, LatLonEllipsoidalBaseDI, \
-                                       _TOL_M, _intersection3, _intersections2
+from pygeodesy.ellipsoidalBaseDI import _intersection3, _intersections2, \
+                                         LatLonEllipsoidalBaseDI, _TOL_M
 from pygeodesy.errors import _and, _ValueError, _xkwds
-from pygeodesy.fmath import fpolynomial, hypot, hypot1
-# from pygeodesy.fsums import fsum_  # from .ellipsoidalBaseDI
-from pygeodesy.interns import EPS, NN, \
-                             _ambiguous_, _antipodal_, _COLONSPACE_, \
-                             _convergence_, _no_, _SPACE_, _to_, \
-                             _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
+from pygeodesy.fmath import Fpolynomial, hypot, hypot1, isnear0
+from pygeodesy.interns import EPS, _ambiguous_, _antipodal_, _COLONSPACE_, _to_, \
+                             _SPACE_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
                                   Distance3Tuple
@@ -73,15 +69,15 @@ from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
 # from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import Number_, Scalar_
-from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180
+from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180, wrap180
 
 from math import atan2, cos, degrees, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.08.18'
+__version__ = '22.08.24'
 
-_antipodal__ = _antipodal_ + _SPACE_
-_limit_      = 'limit'  # PYCHOK used!
+_antipodal_to_ = _SPACE_(_antipodal_, _to_)
+_limit_        = 'limit'  # PYCHOK used!
 
 
 class VincentyError(_ValueError):
@@ -216,34 +212,35 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit.
+                                 limits.
         '''
         E = self.ellipsoid()
+        f = E.f
 
-        c1, s1, t1 = _r3(self.lat, E.f)
+        s1, c1, t1 = _rsct3(self.phi, f)
 
         i = radians(bearing)  # initial bearing (forward azimuth)
         si, ci = sincos2(i)
         s12 = atan2(t1, ci) * _2_0
 
-        sa = c1 * si
-        c2a = _1_0 - sa**2
-        if c2a < EPS:
-            c2a = _0_0
-            A, B = _1_0, _0_0
-        else:  # e22 == (a / b)**2 - 1
-            A, B = _p2(c2a * E.e22)
+        sa  =  c1 * si
+        ca2 = _1_0 - sa**2
+        if ca2 < EPS:
+            ca2 = _0_0
 
+        A,  B = _p2(ca2 * E.e22)  # e22 == (a / b)**2 -
         s = d = distance / (E.b * A)
         for i in range(1, self._iterations):  # 1-origin
             ss, cs = sincos2(s)
             c2sm = cos(s12 + s)
-            s_, s = s, (d + _ds(B, cs, ss, c2sm))
-            if abs(s - s_) < self._epsilon:
+            s_, s = s, _Ds(B, cs, ss, c2sm, d)
+            t = abs(s - s_)
+            if t < self._epsilon:
                 self._iteration = i
                 break
         else:
-            raise VincentyError(self._no_convergence(), txt=repr(self))  # self.toRepr()
+            t = self._no_convergence(t)
+            raise VincentyError(t, txt=repr(self))  # self.toRepr()
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -251,9 +248,9 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
         if llr:
             a = atan2d(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t))
-            b = atan2d(ss * si, c1 * cs - s1 * ss * ci)
-            d = degrees(_dl(E.f, c2a, sa, s, cs, ss, c2sm))
-            t = Destination3Tuple(a, fsum_(b, self.lon, -d), r)
+            b = atan2d(ss * si,  c1 * cs - s1 * ss * ci) + self.lon
+            d = degrees(_Dl(f, ca2, sa, s, cs, ss, c2sm))
+            t = Destination3Tuple(a, wrap180(b - d), r)
             r = self._Direct2Tuple(self.classof, height, t)
         else:
             r = Destination2Tuple(None, r, name=self.name)
@@ -269,13 +266,14 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
-                                 limit and/or if this and the B{C{other}}
+                                 limits and/or if this and the B{C{other}}
                                  point are coincident or near-antipodal.
         '''
         E = self.ellipsoids(other)
+        f = E.f
 
-        c1, s1, _ = _r3(self.lat, E.f)
-        c2, s2, _ = _r3(other.lat, E.f)
+        s1, c1, _ = _rsct3( self.phi, f)
+        s2, c2, _ = _rsct3(other.phi, f)
 
         c1c2, s1c2 = c1 * c2, s1 * c2
         c1s2, s1s2 = c1 * s2, s1 * s2
@@ -297,17 +295,19 @@ class LatLon(LatLonEllipsoidalBaseDI):
             cs = s1s2 + c1c2 * cll
             s  = atan2(ss, cs)
 
-            sa  = c1c2 * sll / ss
-            c2a = _1_0 - sa**2
-            ll_ = ll
-            if isnear0(c2a):
-                c2a = _0_0  # equatorial line
-                ll = dl + E.f * sa * s
+            sa  =  c1c2 * sll / ss
+            ca2 = _1_0 - sa**2
+            ll_ =  ll
+            ll  =  dl
+            if isnear0(ca2):
+                ca2 = _0_0  # equatorial line
+                ll += f * sa * s
             else:
-                c2sm = cs - 2 * s1s2 / c2a
-                ll = dl + _dl(E.f, c2a, sa, s, cs, ss, c2sm)
+                c2sm =  cs - 2 * s1s2 / ca2
+                ll  += _Dl(f, ca2, sa, s, cs, ss, c2sm)
 
-            if abs(ll - ll_) < self._epsilon:
+            c = abs(ll - ll_)
+            if c < self._epsilon:
                 self._iteration = i
                 break
 #           # omitted and applied only after failure to converge below, see footnote
@@ -316,11 +316,12 @@ class LatLon(LatLonEllipsoidalBaseDI):
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError(_ambiguous_, self._is_to(other, True))
         else:
-            raise VincentyError(self._no_convergence(), txt=self._is_to(other))
+            t = self._is_to(other, self.isantipodeTo(other, eps=self.epsilon))
+            raise VincentyError(self._no_convergence(c), txt=t)
 
-        if c2a:  # e22 == (a / b)**2 - 1
-            A, B = _p2(c2a * E.e22)
-            s = A * (s - _ds(B, cs, ss, c2sm))
+        if ca2:  # e22 == (a / b)**2 - 1
+            A, B = _p2(ca2 * E.e22)
+            s = -A * _Ds(B, cs, ss, c2sm, -s)
 
         b = E.b
 #       if self.height or other.height:
@@ -328,67 +329,75 @@ class LatLon(LatLonEllipsoidalBaseDI):
         d = b * s
 
         if azis:  # forward and reverse azimuth
-            sll, cll = sincos2(ll)
-            f = atan2b(c2 * sll,  c1s2 - s1c2 * cll)
-            r = atan2b(c1 * sll, -s1c2 + c1s2 * cll)
+            s, c = sincos2(ll)
+            f = atan2b(c2 * s,  c1s2 - s1c2 * c)
+            r = atan2b(c1 * s, -s1c2 + c1s2 * c)
         else:
             f = r = _0_0
         return Distance3Tuple(d, f, r, name=self.name)
 
-    def _is_to(self, other, *anti):
+    def _is_to(self, other, anti):
         '''(INTERNAL) Return I{'<self> [antipodal] to <other>'} text (C{str}).
         '''
-        t = _antipodal__ if anti or self.isantipodeTo(other, eps=self.epsilon) else NN
-        return _SPACE_(repr(self), NN(t, _to_), repr(other))
+        t = _antipodal_to_ if anti else _to_
+        return _SPACE_(repr(self), t, repr(other))
 
-    def _no_convergence(self):
-        '''(INTERNAL) Return I{'no convergence: ...'} text (C{str}).
+    def _no_convergence(self, d):
+        '''(INTERNAL) Return I{'no convergence (..): ...'} text (C{str}).
         '''
         t = (Fmt.PARENSPACED(*t) for t in ((LatLon.epsilon.name,    self.epsilon),
                                            (LatLon.iterations.name, self.iterations)))
-        return _COLONSPACE_(_no_(_convergence_), _and(*t))
+        return _COLONSPACE_(Fmt.no_convergence(d), _and(*t))
 
 
 def _c2sm2(c2sm):
-    '''(INTERNAL) 2 * c2sm**2 - 1.
+    '''(INTERNAL) C{2 * c2sm**2 - 1}.
     '''
     return _2_0 * c2sm**2 - _1_0
 
 
-def _dl(f, c2a, sa, s, cs, ss, c2sm):
-    '''(INTERNAL) Dl.
+def _Dl(f, ca2, sa, s, cs, ss, c2sm):
+    '''(INTERNAL) C{Dl}.
     '''
-    C = f / _16_0 * c2a * (f * (_4_0 - _3_0 * c2a) + _4_0)
-    return (_1_0 - C) * f * sa * (s + C * ss * (c2sm +
-                                      C * cs * _c2sm2(c2sm)))
+    if f and sa:
+        C = f / _16_0 * ca2 * (f * (_4_0 - _3_0 * ca2) + _4_0)
+        return (_1_0 - C) * f * sa * (s + C * ss * (c2sm +
+                                          C * cs * _c2sm2(c2sm)))
+    return _0_0
 
 
-def _ds(B, cs, ss, c2sm):
-    '''(INTERNAL) Ds.
+def _Ds(B, cs, ss, c2sm, d):
+    '''(INTERNAL) C{Ds - d}.
     '''
-    if B:
+    if B and ss:
         c2sm2 = _c2sm2(c2sm)
         ss2 = (_4_0 * ss**2 - _3_0) * (c2sm2 * _2_0 - _1_0)
         B  *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
                            B / _6_0 *  c2sm  * ss2))
-    return B
+        d  += B
+    return d
 
 
 def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
     '''(INTERNAL) Compute A, B polynomials.
     '''
-    A = fpolynomial(u2, 16384, 4096, -768, 320, -175) / 16384
-    B = fpolynomial(u2,     0,  256, -128,  74,  -47) / 1024
-    return A, B
+    if u2:
+        A = Fpolynomial(u2, 16384, 4096, -768, 320, -175).fover(16384)
+        B = Fpolynomial(u2,     0,  256, -128,  74,  -47).fover( 1024)
+        return A, B
+    return _1_0, _0_0
 
 
-def _r3(a, f):
-    '''(INTERNAL) Reduced cos, sin, tan.
+def _rsct3(a, f):
+    '''(INTERNAL) Reduced C{(sin(B{a}), cos(B{a}), tan(B{a}))}.
     '''
-    t = (_1_0 - f) * tan(radians(a))
-    c =  _1_0 / hypot1(t)
-    s =   t * c
-    return c, s, t
+    if a:
+        t = (_1_0 - f) * tan(a)
+        if t:
+            c = _1_0 / hypot1(t)
+            s =  t * c
+            return s, c, t
+    return _0_0, _1_0, _0_0
 
 
 @deprecated_function

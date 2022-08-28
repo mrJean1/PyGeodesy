@@ -25,12 +25,14 @@ from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE
                              _name_, _not_, _O_, _other_, _s_, _SPACE_, _std_, \
                              _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
-from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
-                            property_doc_, property_RO, _update_all
+from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
+                            _hasProperty, property_doc_, property_RO, \
+                            _update_all, _update_attrs
+
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.06.24'
+__version__ = '22.08.27'
 
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
@@ -149,7 +151,7 @@ class _Named(object):
     _iteration   = None   # iteration number (C{int}) or C{None}
     _name        = NN     # name (C{str})
     _classnaming = False  # prefixed (C{bool})
-    _updates     = 0      # cached Property/property updates
+#   _updates     = 0      # OBSOLETE Property/property updates
 
     def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -210,7 +212,10 @@ class _Named(object):
         '''Set the class naming for C{[module.].class} names (C{bool}),
            to C{True} to include the module name.
         '''
-        self._classnaming = bool(prefixed)
+        b = bool(prefixed)
+        if self._classnaming != b:
+            self._classnaming = b
+            _update_attrs(self, *_Named_Property_ROs)
 
     def classof(self, *args, **kwds):
         '''Create another instance of this very class.
@@ -233,7 +238,7 @@ class _Named(object):
         '''
         c = _xcopy(self, deep=deep)
         if name:
-            c._name = name  # # c.rename(name) _update_all!
+            c.rename(name)
         return c
 
     def _DOT_(self, *names):
@@ -244,7 +249,7 @@ class _Named(object):
     def dup(self, name=NN, **items):
         '''Duplicate this instance, replacing some items.
 
-           @kwarg name: Optional new name (C{str}).
+           @kwarg name: Optional, non-empty name (C{str}).
            @kwarg items: Attributes to be changed (C{any}).
 
            @return: The duplicate (C{This class} or sub-class thereof).
@@ -328,7 +333,7 @@ class _Named(object):
         m, n = self._name, str(name)
         if n != m:
             self._name = n
-            _update_all(self)
+            _update_attrs(self, *_Named_Property_ROs)
         return m
 
     def toRepr(self, **unused):  # PYCHOK no cover
@@ -369,6 +374,8 @@ class _Named(object):
 
         inst.rename(self.name)
         return inst
+
+_Named_Property_ROs = _allPropertiesOf_n(5, _Named, Property_RO)  # PYCHOK once
 
 
 class _NamedBase(_Named):
@@ -452,21 +459,18 @@ class _NamedBase(_Named):
 #           s = super(self.__class__, self).__str__()
 #       return s
 
-    def _update(self, updated, *attrs, **prop_ROs):
+    def _update(self, updated, *attrs, **Property_RO_setters):
         '''(INTERNAL) Zap cached instance attributes and overwrite L{Property_RO} values.
         '''
-        if updated:
-            _update_all(self, *attrs)
-        if prop_ROs:
-            d, u = self.__dict__, 0
-            for n, v in prop_ROs.items():
-                if _hasProperty(self, n, Property_RO):
-                    d[n] = v
-                    u   += 1
-                else:
+        u = _update_all(self, *attrs) if updated else 0
+        if Property_RO_setters:
+            # double-check that setters are Property_RO's
+            for n, v in Property_RO_setters.items():
+                if not _hasProperty(self, n, Property_RO):
                     raise _AssertionError(n, v, txt=repr(self))
-            if u:
-                self._updates += u
+            self.__dict__.update(Property_RO_setters)
+            u += len(Property_RO_setters)
+        return u
 
 
 class _NamedDict(_Dict, _Named):

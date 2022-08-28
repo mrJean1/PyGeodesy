@@ -9,21 +9,23 @@ from pygeodesy.basics import isint, isscalar, istuplist, _zip
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError, _xkwds_get
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
-                             _EQUAL_, _H_, _N_, _name_, _not_, _PERCENT_, \
-                             _scalar_, _SPACE_, _STAR_, _UNDER_, _0_, \
+                             _EQUAL_, _H_, _N_, _name_, _not_, _not_scalar_, \
+                             _PERCENT_, _SPACE_, _STAR_, _UNDER_, _0_, \
                              _0_0, _10_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
-                              _EQUALSPACED_, _exceeds_, _f_, _F_, _g_  # PYCHOK used!
+                              _EQUALSPACED_, _exceeds_, _f_, _F_, _g_, \
+                              _no_, _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.08.07'
+__version__ = '22.08.24'
 
-_EN_PREC =  6     # max MGRS/OSGR precision, 1 micrometer
-_EN_WIDE =  5     # number of MGRS/OSGR units, log10(_100km)
-_OKd_    = '._-'  # acceptable name characters
+_EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
+_EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
+_OKd_       = '._-'        # acceptable name characters
+_threshold_ = 'threshold'  # PYCHOK used !
 
 
 class _Fmt(str):  # in .streprs
@@ -107,17 +109,17 @@ class Fmt(object):
     CURLY       = _Fmt('{%s}')  # BRACES
     distant     = _Fmt(_distant_('(%.3g)'))
     DOT         = _Fmt('.%s')   # == NN(_DOT_, n)
-    e           = Fstr(_e_)
-    E           = Fstr(_E_)
+    e           =  Fstr(_e_)
+    E           =  Fstr(_E_)
     EPS0        = _Fmt(_SPACE_(_EPS0_, '(%g)'))
     EQUAL       = _Fmt(_EQUAL_(NN, '%s'))
     EQUALSPACED = _Fmt(_EQUALSPACED_(NN, '%s'))
     exceeds_eps = _Fmt(_exceeds_('eps', '(%g)'))
-    f           = Fstr(_f_)
-    F           = Fstr(_F_)
-    g           = Fstr(_g_)
-    G           = Fstr('G')
-    h           = Fstr('%+.*f')  # height, .streprs.hstr
+    f           =  Fstr(_f_)
+    F           =  Fstr(_F_)
+    g           =  Fstr(_g_)
+    G           =  Fstr('G')
+    h           =  Fstr('%+.*f')  # height, .streprs.hstr
     limit       = _Fmt(' %s limit')  # .units
     LOPEN       = _Fmt('(%s]')  # left-open range (L, R]
     PAREN       = _Fmt('(%s)')
@@ -128,12 +130,21 @@ class Fmt(object):
     SQUARE      = _Fmt('[%s]')  # BRACKETS
     TAG         =  ANGLE
     TAGEND      = _Fmt('</%s>')
+    tolerance   = _Fmt(_tolerance_('(%g)'))
     zone        = _Fmt('%02d')  # .epsg, .mgrs, .utmupsBase
 
     def __init__(self):
         for n, a in self.__class__.__dict__.items():
             if isinstance(a, (Fstr, _Fmt)):
                 setattr(a, _name_, n)
+
+    def no_convergence(self, _d, *tol, **thresh):
+        t = Fmt.convergence(abs(_d))
+        if tol:
+            t = _COMMASPACE_(t, Fmt.tolerance(tol[0]))
+            if thresh and _xkwds_get(thresh, thresh=False):
+                t = t.replace(_tolerance_, _threshold_)
+        return _no_(t)
 
 Fmt          = Fmt()  # PYCHOK singleton
 Fmt.__name__ = Fmt.__class__.__name__
@@ -447,7 +458,7 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
     else:
         raise _ValueError(fmt=fmt, txt=_not_(repr(_Fspec_)))
 
-    for o in objs:
+    for i, o in enumerate(objs):
         if force or isinstance(o, float):
             t = fmt % (float(o),)
             if ints and (isint(o, both=True) or  # for ...
@@ -459,7 +470,8 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
         elif strepr:
             t = strepr(o)
         else:
-            raise _IsnotError(_scalar_, floats=o)
+            t = Fmt.PARENSPACED(Fmt.SQUARE(objs=i), o)
+            raise TypeError(_SPACE_(t, _not_scalar_))
         yield t
 
 
@@ -487,7 +499,9 @@ def unstr(named, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    t = reprs(args, fmt=Fmt.g) + pairs(sorted(kwds.items()), fmt=Fmt.g)
+    t = reprs(args, fmt=Fmt.g) if args else ()
+    if kwds:
+        t += pairs(sorted(kwds.items()), fmt=Fmt.g)
     return Fmt.PAREN(named, _COMMASPACE_.join(t))
 
 

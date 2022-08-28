@@ -21,7 +21,7 @@ from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import hypot, hypot1, sqrt3
 from pygeodesy.fsums import Fmt, Fsum, fsum1_
 from pygeodesy.interns import EPS0, EPS02, NN, _EPSqrt as _TOL, _datum_, \
-                             _gamma_, _lat_, _lat1_, _lat2_, _lon_, _no_, \
+                             _gamma_, _lat_, _lat1_, _lat2_, _lon_, \
                              _scale_, _x_, _y_, _0_0, _0_5, _1_0, _N_1_0, \
                              _2_0, _N_2_0, _3_0, _90_0, _N_90_0
 from pygeodesy.karney import _diff182, _norm180, _signBit
@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.07.12'
+__version__ = '22.08.23'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -195,7 +195,7 @@ class _AlbersBase(_NamedBase):
                 if abs(d) < tol:
                     break
             else:
-                raise AlbersError(iteration=_NUMIT0, txt=_no_(Fmt.convergence(tol)))
+                raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
 
         self._txi0  = txi0 =  self._txif(ta0)
         self._scxi0 =         hypot1(txi0)
@@ -302,16 +302,16 @@ class _AlbersBase(_NamedBase):
         if ((abs(x) + abs(y)) * e2) < _0_5:
             e = z = _1_0
             k = 1
-            C_  = Fsum().fsum_
-            S2_ = Fsum().fsum2_
             T   = Fsum()  # Taylor expansion
-            T_  = T.fsum_
+            _T  = T.fsum_
+            _C  = Fsum().fsum_
+            _S2 = Fsum().fsum2_
             for _ in range(_TERMS):  # 15 terms
-                T *= y; p = T_(z); z *= x  # PYCHOK ;
-                T *= y; t = T_(z); z *= x  # PYCHOK ;
+                T *= y; p = _T(z); z *= x  # PYCHOK ;
+                T *= y; t = _T(z); z *= x  # PYCHOK ;
                 e *= e2
                 k += 2
-                s, d = S2_(e * C_(p, t) / k)
+                s, d = _S2(e * _C(p, t) / k)
                 if not d:
                     break
         elif (_1_0 - x):
@@ -495,9 +495,9 @@ class _AlbersBase(_NamedBase):
         if den:
             drho = fsum1_(x * nx, y_ * nrho0 * _N_2_0, y_ * ny) * k0 / den
         # dsxia = scxi0 * dsxi
-        dsxia = -self._scxi0 * (nrho0 * _2_0 + n0 * drho) * drho / self._qZa2
-        t = _1_0 - dsxia * (txi0 * _2_0 + dsxia)
-        txi = (txi0 + dsxia) / (sqrt(t) if t > EPS02 else EPS0)
+        dsxia =  -self._scxi0 * (nrho0 * _2_0 + n0 * drho) * drho / self._qZa2
+        t     =  _1_0 - dsxia * (txi0  * _2_0 + dsxia)
+        txi   = (txi0 + dsxia) / (sqrt(t) if t > EPS02 else EPS0)
 
         ta  = self._tanf(txi)
         lat = atand(ta * self._sign)
@@ -567,19 +567,19 @@ class _AlbersBase(_NamedBase):
         qx = self._qx
 
         ta    = txi
-        Ta2_  = Fsum(ta).fsum2_
+        _Ta2  = Fsum(ta).fsum2_
         _txif = self._txif
         for self._iteration in range(1, _NUMIT):  # max 2, mean 1.99
             # dtxi/dta = (scxi / sca)^3 * 2 * (1 - e^2) / (qZ * (1 - e^2 * sa^2)^2)
-            ta2  =  ta**2
-            sca2 =  ta2 + _1_0
-            eta2 = (_1_0 - e2 * ta2 / sca2)**2
-            txia = _txif(ta)
-            s3qx =  sqrt3(sca2 * _1_x21(txia)) * qx
-            ta, d = Ta2_((txi - txia) * s3qx * eta2)
+            ta2   =  ta**2
+            sca2  =  ta2 + _1_0
+            eta2  = (_1_0 - e2 * ta2 / sca2)**2
+            txia  = _txif(ta)
+            s3qx  =  sqrt3(sca2 * _1_x21(txia)) * qx
+            ta, d = _Ta2((txi - txia) * s3qx * eta2)
             if abs(d) < tol:
                 return ta
-        raise AlbersError(iteration=_NUMIT, txt=_no_(Fmt.convergence(tol)))
+        raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
 
     def _txif(self, ta):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-xi from tan-phi}.
@@ -615,7 +615,7 @@ class AlbersEqualArea(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise AlbertError: Invalid B{C{lat}}, B{C{k0}} or no convergence.
+           @raise AlbersError: Invalid B{C{lat}}, B{C{k0}} or no convergence.
         '''
         self._lat1 = self._lat2 = lat = _Lat(lat1=lat)
         args = tuple(sincos2d(lat)) * 2 + (_Ks(k0=k0), datum, name)
@@ -637,7 +637,7 @@ class AlbersEqualArea2(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise AlbertError: Invalid B{C{lat1}}m B{C{lat2}}, B{C{k1}}
+           @raise AlbersError: Invalid B{C{lat1}}m B{C{lat2}}, B{C{k1}}
                                or no convergence.
         '''
         self._lat1, self._lat2 = lats = _Lat(lat1=lat1), _Lat(lat2=lat2)
@@ -663,7 +663,7 @@ class AlbersEqualArea4(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise AlbertError: Negative B{C{clat1}} or B{C{clat2}}, B{C{slat1}}
+           @raise AlbersError: Negative B{C{clat1}} or B{C{clat2}}, B{C{slat1}}
                                and B{C{slat2}} have opposite signs (hemispheres),
                                invalid B{C{k1}} or no convergence.
         '''

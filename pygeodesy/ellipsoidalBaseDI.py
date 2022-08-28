@@ -11,13 +11,13 @@ from pygeodesy.basics import isnear0, isnear1, isscalar, issubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
                                       property_RO, _TOL_M
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
-                             _ValueError, _xellipsoidal, _xError, _xkwds_not
+                             _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.formy import opposing, _radical2
-from pygeodesy.interns import EPS, PI, PI2, PI_4, _antipodal_, _COMMASPACE_, \
-                             _concentric_, _exceed_PI_radians_, _near_, _no_, \
-                             _SPACE_, _too_, _0_0, _0_5, _1_5, _3_0
+from pygeodesy.interns import EPS, PI, PI2, PI_4, _antipodal_, _concentric_, \
+                             _exceed_PI_radians_, _near_, _SPACE_, _too_, \
+                             _0_0, _0_5, _1_5, _3_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
@@ -30,13 +30,12 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.08.10'
+__version__ = '22.08.23'
 
-_polar__    = 'polar?'
-_tolerance_ = 'tolerance'
-_too_low_   = _too_('low')
-_B2END      = _1_5  # _intersect3 bearing to pseudo-end point factor
-_TRIPS      =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
+_polar__  = 'polar?'
+_too_low_ = _too_('low')
+_B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
+_TRIPS    =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
 
 
 class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
@@ -404,8 +403,8 @@ class _Tol(object):
         if lats:
             lat = fmean_(lat, *lats)
         self._lat = lat
-        self._m   = max(EPS, tol_m)
         self._r   = max(EPS, E.rocMean(lat))
+        self._m   = max(EPS, tol_m)
         self._deg = max(EPS, degrees(self._m / self._r))  # avoid m2degrees!
 
     @property_RO
@@ -433,10 +432,10 @@ class _Tol(object):
     def mError(self, m, Error=_ValueError):
         '''Compose an error with B{C{m}}eter minimum.
         '''
-        t = _SPACE_(_tolerance_, Fmt.PAREN(Fmt.g(self.meter)), _too_low_)
+        t = _SPACE_(Fmt.tolerance(self.meter), _too_low_)
         if m2km(m) > self.meter:
-            t = _COMMASPACE_(t, _antipodal_, _near_(_polar__))
-        return Error(_no_(Fmt.convergence(m)), txt=t)
+            t = _or(t, _antipodal_, _near_(_polar__))
+        return Error(Fmt.no_convergence(m), txt=t)
 
     @property_RO
     def meter(self):

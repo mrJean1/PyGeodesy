@@ -9,7 +9,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, copysign0, _isfinite, isint, isnear0, \
                               isscalar, len2, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError
+                             _xError, _xkwds_get
 from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_, unstr
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NAN, PI, PI_2, PI_4, \
                              _few_, _h_, _negative_, _not_scalar_, _singular_, \
@@ -22,7 +22,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.07.07'
+__version__ = '22.08.24'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -31,12 +31,13 @@ _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
 class Fdot(Fsum):
     '''Precision dot product.
     '''
-    def __init__(self, a, *b):
+    def __init__(self, a, *b, **name):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
            for i=0..len(a))}.
 
            @arg a: Iterable, list, tuple, etc. (C{scalar}s).
            @arg b: Other values (C{scalar}s), all positional.
+           @kwarg name: Optional name (C{str}).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -44,20 +45,21 @@ class Fdot(Fsum):
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self)
+        Fsum.__init__(self, **name)
         self.fadd(_map_a_x_b(a, b, Fdot))
 
 
 class Fhorner(Fsum):
     '''Precision polynomial evaluation using the Horner form.
     '''
-    def __init__(self, x, *cs):
+    def __init__(self, x, *cs, **name):
         '''New L{Fhorner} evaluation of the polynomial
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
            @arg x: Polynomial argument (C{scalar}).
            @arg cs: Polynomial coeffients (C{scalar}s), all
                     positional.
+           @kwarg name: Optional name (C{str}).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -67,7 +69,7 @@ class Fhorner(Fsum):
 
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
-        Fsum.__init__(self, *cs[-1:])
+        Fsum.__init__(self, *cs[-1:], **name)
         if len(cs) > 1:
             x  = _2float(x=x)
             a_ =  self.fadd_
@@ -83,13 +85,14 @@ class Fhorner(Fsum):
 class Fpolynomial(Fsum):
     '''Precision polynomial evaluation.
     '''
-    def __init__(self, x, *cs):
+    def __init__(self, x, *cs, **name):
         '''New L{Fpolynomial} evaluation of the polynomial
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
            @arg x: Polynomial argument (C{scalar}).
            @arg cs: Polynomial coeffients (C{scalar}s), all
                     positional.
+           @kwarg name: Optional name (C{str}).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -99,7 +102,7 @@ class Fpolynomial(Fsum):
 
            @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, *cs[:1])
+        Fsum.__init__(self, *cs[:1], **name)
         n = len(cs) - 1
         if n > 0:
             self.fadd(_map_a_x_b(cs[1:], fpowers(x, n), Fpolynomial))
@@ -417,13 +420,14 @@ def fmean_(*xs):
     return fmean(xs)
 
 
-def fpolynomial(x, *cs):
+def fpolynomial(x, *cs, **over):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
-       i=0..len(cs))}.
+       i=0..len(cs)) [/ over]}.
 
        @arg x: Polynomial argument (C{scalar}).
        @arg cs: Polynomial coeffients (C{scalar}s), all
                 positional.
+       @kwarg over: Optional, final divisor (C{scalar}
 
        @return: Polynomial value (C{float}).
 
@@ -435,8 +439,9 @@ def fpolynomial(x, *cs):
 
        @see: Function L{fhorner} and class L{Fpolynomial}.
     '''
-    p = Fpolynomial(x, *cs)
-    return p.fsum()
+    p =  Fpolynomial(x, *cs)
+    d = _xkwds_get(over, over=0) if over else 0
+    return p.fover(d) if d else p.fsum()
 
 
 def fpowers(x, n, alts=0):

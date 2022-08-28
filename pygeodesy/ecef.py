@@ -69,9 +69,9 @@ from pygeodesy.errors import _IndexError, LenError, _ValueError, \
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
-                             _a_, _C_, _convergence_, _datum_, _ellipsoid_, \
-                             _f_, _h_, _height_, _lat_, _lon_, _M_, _name_, \
-                             _no_, _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
+                             _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, \
+                             _height_, _lat_, _lon_, _M_, _name_, \
+                             _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
                              _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, \
                              _6_0, _90_0
 from pygeodesy.interns import _N_2_0  # PYCHOK used!
@@ -81,7 +81,7 @@ from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO
-from pygeodesy.streprs import unstr
+from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, Scalar
 from pygeodesy.utily import atan2d, degrees90, degrees180, \
                             sincos2, sincos2_, sincos2d_
@@ -89,7 +89,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.07.04'
+__version__ = '22.08.23'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -662,23 +662,23 @@ class EcefSudano(_EcefBase):
         #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
         # N / D = (z * ca + (E.e2 * E.a - h) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
-        S = Fsum(sa)
+        _S2 = Fsum(sa).fsum2_
         for C in range(1, _TRIPS):
             ca2 = _1_0 - sa**2
             if ca2 < EPS_2:  # PYCHOK no cover
                 ca = _0_0
                 break
             ca = sqrt(ca2)
-            t = e / E.e2s2(sa) - h / ca2
-            if abs(t) < EPS_2:
+            r = e / E.e2s2(sa) - h / ca2
+            if abs(r) < EPS_2:
                 break
             a = None
-            sa, t = S.fsum2_(-(z * ca + d * sa) / t)
-            if abs(t) < EPS:
+            sa, r = _S2(-(z * ca + d * sa) / r)
+            if abs(r) < EPS:
                 break
         else:
             t = unstr(self.reverse.__name__, x=x, y=y, z=z)
-            raise EcefError(t, txt=_no_(_convergence_))
+            raise EcefError(Fmt.no_convergence(r, EPS), txt=t)
 
         if a is None:
             a = copysign0(asin(sa), z)

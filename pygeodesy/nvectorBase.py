@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.08.10'
+__version__ = '22.08.23'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -563,7 +563,7 @@ class LatLonNvectorBase(LatLonBase):
         if d < eps:  # min is max, minPoint is maxPoint
             return Trilaterate5Tuple(d, t, d, t, 1)  # n = 1
         t = _SPACE_(_no_(_intersection_), Fmt.PAREN(min.__name__, Fmt.f(d, prec=3)))
-        raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
+        raise IntersectionError(area=area, eps=eps, radius=radius, wrap=wrap, txt=t)
 
 
 def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):

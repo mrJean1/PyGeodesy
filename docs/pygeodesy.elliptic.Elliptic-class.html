@@ -812,7 +812,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; D(&#966;, k) / (2 D(k)) - &#966; (<code>float</code>).</dd>
@@ -846,7 +846,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; E(&#966;, k) / (2 E(k)) - &#966; (<code>float</code>).</dd>
@@ -913,7 +913,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; F(&#966;, k) / (2 K(k)) - &#966; (<code>float</code>).</dd>
@@ -947,7 +947,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; G(&#966;, k) / (2 G(k)) - &#966; (<code>float</code>).</dd>
@@ -981,7 +981,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; H(&#966;, k) / (2 H(k)) - &#966; (<code>float</code>).</dd>
@@ -1015,7 +1015,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>sn</code></strong> - sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Periodic function &#960; &#928;(&#966;, &#945;2, k) / (2 &#928;(&#945;2, k)) - &#966; 
@@ -1051,7 +1051,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>D(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
@@ -1087,7 +1087,7 @@
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>sqrt(1 &#8722; k2 sin(2&#966;)) (<code>float</code>).</dd>
+        <dd>sqrt(1 &#8722; k2 * sin(2&#966;)) (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1115,7 +1115,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>E(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
@@ -1213,7 +1213,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>F(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
@@ -1249,7 +1249,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>G(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
@@ -1297,7 +1297,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>H(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
@@ -1344,7 +1344,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
         <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 * sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>&#928;(&#966;, &#945;2, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
@@ -1938,7 +1938,7 @@ target="_top">defined</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug 19 08:33:32 2022
+    Generated by Epydoc 3.0.1 on Sat Aug 27 20:35:01 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

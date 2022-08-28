@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.08.07'
+__version__ = '22.08.24'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -463,7 +463,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(0, 180, datum=d)
         try:
-            m, t, fmt = p.distanceTo(q), '20003931.46', '%.2f'
+            m, t, fmt = p.distanceTo(q), '20003931.46', '%.2f'  # '20001517.12',
         except VincentyError as x:
             m, t, fmt = str(x), 'ambiguous, ...', '%s'
         self.test(_i('distanceTo/equatorial', p), m, t, fmt=fmt, known=True)

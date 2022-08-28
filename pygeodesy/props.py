@@ -23,7 +23,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.08.15'
+__version__ =  '22.08.27'
 
 _DEPRECATED_  = 'DEPRECATED'
 _dont_use_    = _DEPRECATED_ + ", don't use."
@@ -63,15 +63,12 @@ def _allPropertiesOf_n(n, Clas_or_inst, *Bases):
     return t
 
 
-def _hasProperty(inst, name, *Classes):
+def _hasProperty(inst, name, *Classes):  # in .named._NamedBase._update
     '''(INTERNAL) Check whether C{inst} has a C{P/property/_RO} by this C{name}.
     '''
-    Ps = Classes if Classes else _PropertyBase
-    for C in inst.__class__.__mro__[:-1]:
-        p = C.__dict__.get(name, None)
-        if p and isinstance(p, Ps) and p.name == name:
-            return True
-    return False
+    p = getattr(inst.__class__, name, None)  # walks __class__.__mro__
+    return bool(p and isinstance(p, Classes or _PropertyBase)
+                  and p.name == name)
 
 
 def _update_all(inst, *attrs, **Base):
@@ -92,37 +89,53 @@ def _update_all(inst, *attrs, **Base):
         for p in _allPropertiesOf(inst, B):
             p._update(inst)  # d.pop(p.name, None)
 
-        _pop = d.pop  # remove attributes from inst.__dict__
+        if attrs:
+            _update_attrs(inst, *attrs)  # remove attributes from inst.__dict__
+        u -= len(d)
+    return u  # updates
+
+
+# def _update_all_from(inst, other, **Base):
+#     '''(INTERNAL) Update all I{cached} L{Property}s and
+#        L{Property_RO}s of instance C{inst} from C{other}.
+#
+#        @return: The number of updates (C{int}), if any.
+#     '''
+#     if isclass(inst):
+#         raise _AssertionError(inst, txt=_not_an_inst_)
+#     try:
+#         d = inst.__dict__
+#         f = other.__dict__
+#     except AttributeError:
+#         return 0
+#     u = len(f)
+#     if u:
+#         u = len(d)
+#         B = _xkwds_get(Base, Base=_PropertyBase)
+#         for p in _allPropertiesOf(inst, B):
+#             p._update_from(inst, other)
+#         u -= len(d)
+#     return u  # updates
+
+
+def _update_attrs(inst, *attrs):
+    '''(INTERNAL) Zap all named C{attrs} of an instance.
+
+       @return: The number of updates (C{int}), if any.
+    '''
+    try:
+        d = inst.__dict__
+    except AttributeError:
+        return 0
+    u = len(d)
+    if u:
+        _p = d.pop  # zap attrs from inst.__dict__
         for a in attrs:  # PYCHOK no cover
-            if _pop(a, MISSING) is MISSING and not hasattr(inst, a):
+            if _p(a, MISSING) is MISSING and not hasattr(inst, a):
                 n = _MODS.named.classname(inst, prefixed=True)
                 a = _DOT_(n, _SPACE_(a, _invalid_))
                 raise _AssertionError(a, txt=repr(inst))
         u -= len(d)
-        if u:
-            inst._updates += u
-    return u  # updates
-
-
-def _update_all_from(inst, other, **Base):
-    '''(INTERNAL) Update all I{cached} L{Property}s and
-       L{Property_RO}s of instance C{inst} from C{other}.
-
-       @return: The number of updates (C{int}), if any.
-    '''
-    if isclass(inst):
-        raise _AssertionError(inst, txt=_not_an_inst_)
-    try:
-        u = len(other.__dict__)
-    except AttributeError:
-        return 0
-    if u:
-        B = _xkwds_get(Base, Base=_PropertyBase)
-        for p in _allPropertiesOf(inst, B):
-            p._update_from(inst, other)
-            u += 1
-    if u:
-        inst._updates += u
     return u  # updates
 
 

@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.08.10'
+__version__ = '22.08.24'
 
 
 class LatLonBase(_NamedBase):
@@ -752,7 +752,7 @@ class LatLonBase(_NamedBase):
     def lam(self):
         '''Get the longitude (B{C{radians}}).
         '''
-        return self.philam.lam
+        return radians(self.lon)
 
     @property_doc_(''' the latitude (C{degrees90}).''')
     def lat(self):
@@ -920,14 +920,13 @@ class LatLonBase(_NamedBase):
     def phi(self):
         '''Get the latitude (B{C{radians}}).
         '''
-        return self.philam.phi
+        return radians(self.lat)
 
     @Property_RO
     def philam(self):
         '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return PhiLam2Tuple(radians(self.lat),
-                            radians(self.lon), name=self.name)
+        return PhiLam2Tuple(self.phi, self.lam, name=self.name)
 
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.

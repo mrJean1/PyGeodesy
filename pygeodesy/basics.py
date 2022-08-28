@@ -286,16 +286,16 @@ def isint(obj, both=False):
        @kwarg both: If C{true}, check C{float} and L{Fsum}
                     type and value (C{bool}).
 
-       @return: C{True} if B{C{obj}} is C{int} or an integer
+       @return: C{True} if B{C{obj}} is C{int} or I{integer}
                 C{float} or L{Fsum}, C{False} otherwise.
 
-       @note: C{isint(True)} or C{isint(False)} returns
+       @note: Both C{isint(True)} and C{isint(False)} return
               C{False} (and no longer C{True}).
     '''
     if isinstance(obj, _Ints) and not isbool(obj):
         return True
-    elif both:  # and isinstance(obj, (float, Fsum)):  # NOT _Scalars!
-        try:
+    elif both:  # and isinstance(obj, (float, Fsum)) ...
+        try:  # ... NOT , Scalars) to include Fsum!
             return obj.is_integer()
         except AttributeError:
             pass  # XXX float(int(obj)) == obj?

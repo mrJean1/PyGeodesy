@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.07.18'
+__version__ = '22.08.27'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -343,13 +343,18 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
        @kwarg name_values: One or more C{B{name}=value} pairs overriding
                            any B{C{name_value}} positional arguments.
     '''
+    def _fmtuple(pairs):
+        return tuple(fmt_name_value % t for t in pairs)
+
     if name_values:
-        t = _or(*sorted(fmt_name_value % t for t in name_values.items()))
-    elif len(name_value) > 1:
-        t = _or(*sorted(fmt_name_value % t for t in zip(name_value[0::2],
-                                                        name_value[1::2])))
+        t = _fmtuple(sorted(name_values.items()))
     else:
-        t = str(name_value[0]) if name_value else _SPACE_(_name_value_, MISSING)
+        t = ()
+    if len(name_value) > 1:
+        t = _fmtuple(zip(name_value[0::2], name_value[1::2])) + t
+    elif name_value:
+        t = (str(name_value[0]),) + t
+    t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
     if txt is not None:
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
@@ -425,8 +430,8 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
                    usually nouns (C{str}).
        @kwarg name_value_Error: One C{B{name}=value} pair and
                                 optionally, an C{B{Error}=...}
-                                keyword argument to override
-                                the default C{B{Error}=TypeError}.
+                                keyword argument to override the
+                                default C{B{Error}=TypeError}.
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''

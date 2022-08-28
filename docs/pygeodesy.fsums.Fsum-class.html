@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li class="private">, _Fsum</li>  </ul>
+<li><a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li class="private">, elliptic._Deferred_Fsum</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -86,11 +86,11 @@
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
         <li>
-        Accumulated values may be other <a 
-        href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
-        <code>scalar</code> instances with <code>scalar</code> meaning type
-        <code>float</code>, <code>int</code> or any <code>type</code> 
-        convertible into a single-instance <code>float</code>.
+        Accumulated values may be <a href="pygeodesy.fsums.Fsum-class.html"
+        class="link">Fsum</a> or <code>scalar</code> instances with 
+        <code>scalar</code> meaning type <code>float</code>, 
+        <code>int</code> or any <code>type</code> convertible to a single 
+        <code>float</code>, having method <code>__float__</code>.
         </li>
         <li>
         Handling of exceptions and of values <code>inf</code>, 
@@ -126,7 +126,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**name_NN</span>)</span><br />
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
       for precision floating point <i>running</i> summation.</td>
           <td align="right" valign="top">
@@ -580,8 +580,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return the <i>total</i> number of values accumulated 
-      (<code>int</code>).</td>
+      Return the <i>total</i> number accumulations (<code>int</code>).</td>
           <td align="right" valign="top">
             
             
@@ -1112,7 +1111,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#as_integer_ratio" class="summary-sig-name">as_integer_ratio</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this instance as the integer ratio.</td>
+      Return this instance as the ratio of 2 integers.</td>
           <td align="right" valign="top">
             
             
@@ -1283,7 +1282,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fint2" class="summary-sig-name">fint2</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fint2" class="summary-sig-name">fint2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Return this instance' current running sum as <code>int</code> and the
       <i>integer</i> residual.</td>
           <td align="right" valign="top">
@@ -1437,7 +1437,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#fsum2" class="summary-sig-name">fsum2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span><br />
+        <span class="summary-sig-arg">xs</span>=<span class="summary-sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       Add more <code>scalar</code> or <a 
       href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
       instances and return the current precision running sum and the 
@@ -1579,9 +1580,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" class="summary-sig-name">RESIDUAL</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*raiser</span>)</span><br />
       Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-      class="link">ResidualError</a> exceptions for this instance, 
-      overriding the default from env var 
-      <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
+      class="link">ResidualError</a>s for this instance, overriding the 
+      default from env variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1616,10 +1616,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'g'</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">**prec_sep_fmt_lenc</span>)</span><br />
       Return this <code>Fsum</code> instance as representation.</td>
           <td align="right" valign="top">
             
@@ -1637,10 +1634,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'g'</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">**prec_sep_fmt_lenc</span>)</span><br />
       Return this <code>Fsum</code> instance as string.</td>
           <td align="right" valign="top">
             
@@ -1739,7 +1733,7 @@
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html#residual" class="summary-name">residual</a><br />
       Get this instance' residual (<code>float</code> or <code>int</code>),
-      the sum of the <code>partials</code> less the precision running sum 
+      the <code>sum(partials)</code> less the precision running sum 
       <code>fsum</code>.
     </td>
   </tr>
@@ -1779,7 +1773,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**name_NN</span>)</span>
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1795,7 +1789,9 @@
         <li><strong class="pname"><code>xs</code></strong> - No, one or more initial values (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
-        <li><strong class="pname"><code>name_NN</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          (<code>str</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -2983,7 +2979,7 @@
     </td>
   </tr></table>
   
-  <p>Return this instance as the integer ratio.</p>
+  <p>Return this instance as the ratio of 2 integers.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(numerator, denominator)</code> both 
@@ -3294,7 +3290,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fint2</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fint2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3304,6 +3301,10 @@
   <p>Return this instance' current running sum as <code>int</code> and the 
   <i>integer</i> residual.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a><code>(fsum, residual)</code> with 
@@ -3589,7 +3590,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>)</span>
+        <span class="sig-arg">xs</span>=<span class="sig-default"><code class="variable-group">(</code><code class="variable-group">)</code></span>,
+        <span class="sig-arg">**name</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3606,6 +3608,7 @@
         <li><strong class="pname"><code>xs</code></strong> - Iterable, list, tuple, etc. (<code>scalar</code> or <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
           instances).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -3799,8 +3802,8 @@
   </tr></table>
   
   <p>Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-  class="link">ResidualError</a> exceptions for this instance, overriding 
-  the default from env var <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
+  class="link">ResidualError</a>s for this instance, overriding the default
+  from env variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3808,7 +3811,7 @@
           href="pygeodesy.fsums.ResidualError-class.html" 
           class="link">ResidualError</a>s for division and exponention, if 
           <code>False</code> don't, if <code>None</code> restore the 
-          default setting (<code>bool</code>) and if omitted, maintain the 
+          default setting (<code>bool</code>) or if omitted, keep the 
           current setting.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -3851,10 +3854,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'g'</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">**prec_sep_fmt_lenc</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3865,15 +3865,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
-          (0..9). Trailing zero decimals are stripped for 
-          <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec_sep_fmt_lenc</code></strong> - Optional keyword arguments for method <a 
+          href="pygeodesy.named._NamedTuple-class.html#toRepr" 
+          class="link">Fsum2Tuple.toRepr</a> plus 
+          <code><b>lenc</b>=True</code> (<code>bool</code>) to in-/exclude 
+          the current <code>[len]</code> of this <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          enclosed in <i>[brackets]</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This instance (<code>str</code>).</dd>
+        <dd>This instance (<code>repr</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
     </dt>
@@ -3888,10 +3889,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'g'</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">**prec_sep_fmt_lenc</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -3902,15 +3900,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
-          (0..9). Trailing zero decimals are stripped for 
-          <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator to join (<code>str</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec_sep_fmt_lenc</code></strong> - Optional keyword arguments for method <a 
+          href="pygeodesy.named._NamedTuple-class.html#toStr" 
+          class="link">Fsum2Tuple.toStr</a> plus 
+          <code><b>lenc</b>=True</code> (<code>bool</code>) to in-/exclude 
+          the current <code>[len]</code> of this <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
+          enclosed in <i>[brackets]</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This instance (<code>repr</code>).</dd>
+        <dd>This instance (<code>str</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -4136,13 +4135,13 @@ always).
 <tr><td>
   <h3 class="epydoc">residual</h3>
   <p>Get this instance' residual (<code>float</code> or <code>int</code>), 
-  the sum of the <code>partials</code> less the precision running sum 
+  the <code>sum(partials)</code> less the precision running sum 
   <code>fsum</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">residual(<span class="summary-sig-arg">self</span>)</span>
         - Get this instance' residual (<code>float</code> or <code>int</code>), the 
-sum of the <code>partials</code> less the precision running sum 
+<code>sum(partials)</code> less the precision running sum 
 <code>fsum</code>.
     </dd>
     <dt>Set method:</dt>
@@ -4201,7 +4200,7 @@ sum of the <code>partials</code> less the precision running sum
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug 19 08:33:32 2022
+    Generated by Epydoc 3.0.1 on Sat Aug 27 20:35:02 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

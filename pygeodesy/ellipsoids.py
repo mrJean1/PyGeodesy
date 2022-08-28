@@ -100,7 +100,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.08.16'
+__version__ = '22.08.23'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -920,26 +920,26 @@ class Ellipsoid(_NamedEnumItem):
             T = t * (self._exp_es_atanh_1 if a > 70 else self._1_e21)
             if abs(T * _EPSqrt) < _2_0:  # handles +/- INF and NAN
                 s = (a * _TOL) if a > _1_0 else _TOL
-                for T, _, d in self._es_tauf3(t, T):
+                for T, _, d in self._es_tauf3(t, T):  # max 2
                     if abs(d) < s:
                         break
             t = Scalar(tauf=T)
         return t
 
     def _es_tauf3(self, taup, T, N=9):  # in .utm.Utm._toLLEB
-        '''(INTERNAL) Yield a 3-tuple C{(T, iteration, delta)} for at most
+        '''(INTERNAL) Yield a 3-tuple C{(τi, iteration, delta)} for at most
            B{C{N}} Newton iterations, converging rapidly except when C{delta}
            toggles on +/-1.12e-16 or +/-4.47e-16, see C{.utm.Utm._toLLEB}.
         '''
-        e = self._1_e21
-        _F2_ = Fsum(T).fsum2_  # τ0
+        e    = self._1_e21
+        _F2  = Fsum(T).fsum2_  # τ0
         _h1  = hypot1
         _tf2 = self._es_taupf2
-        for i in range(1, N + 1):  # max 2, mean 1.999, 1.963 or 1.954
+        for i in range(1, N + 1):
             a, h = _tf2(T)
             d = (taup - a) * (e + T**2) / (_h1(a) * h)
             # = (taup - a) / hypot1(a) / ((e + T**2) / h)
-            T, d = _F2_(d)  # τi, (τi - τi-1)
+            T, d = _F2(d)  # τi, (τi - τi-1)
             yield T, i, d
 
     def es_taupf(self, tau):
