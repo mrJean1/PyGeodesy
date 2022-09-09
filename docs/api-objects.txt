@@ -915,6 +915,7 @@ pygeodesy.ecef._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.ecef.sincos2d_	pygeodesy.utily-module.html#sincos2d_
 pygeodesy.ecef.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ecef.sincos2_	pygeodesy.utily-module.html#sincos2_
+pygeodesy.ecef.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.ecef.neg	pygeodesy.basics-module.html#neg
 pygeodesy.ecef.issubclassof	pygeodesy.basics-module.html#issubclassof
 pygeodesy.ecef.fsum_	pygeodesy.fsums-module.html#fsum_
@@ -6590,7 +6591,7 @@ pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.named._NamedBase.__str__	pygeodesy.named._NamedBase-class.html#__str__
+pygeodesy.ecef._EcefBase._isYou	pygeodesy.ecef._EcefBase-class.html#_isYou
 pygeodesy.ecef._EcefBase.datum	pygeodesy.ecef._EcefBase-class.html#datum
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
@@ -6598,6 +6599,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.ecef._EcefBase.equatoradius	pygeodesy.ecef._EcefBase-class.html#equatoradius
 pygeodesy.ecef._EcefBase._E	pygeodesy.ecef._EcefBase-class.html#_E
+pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.ecef._EcefBase.__init__	pygeodesy.ecef._EcefBase-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
@@ -6607,12 +6609,13 @@ pygeodesy.ecef._EcefBase._Matrix	pygeodesy.ecef._EcefBase-class.html#_Matrix
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.ecef._EcefBase.flattening	pygeodesy.ecef._EcefBase-class.html#flattening
+pygeodesy.ecef._EcefBase.toStr	pygeodesy.ecef._EcefBase-class.html#toStr
 pygeodesy.ecef._EcefBase.forward	pygeodesy.ecef._EcefBase-class.html#forward
-pygeodesy.ecef._EcefBase._isYou	pygeodesy.ecef._EcefBase-class.html#_isYou
+pygeodesy.named._NamedBase.__str__	pygeodesy.named._NamedBase-class.html#__str__
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
-pygeodesy.ecef._EcefBase.toStr	pygeodesy.ecef._EcefBase-class.html#toStr
+pygeodesy.ecef.EcefSudano.epsilon	pygeodesy.ecef.EcefSudano-class.html#epsilon
 pygeodesy.ecef._EcefBase._datum	pygeodesy.ecef._EcefBase-class.html#_datum
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
@@ -6630,7 +6633,7 @@ pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.ecef._EcefBase._Geocentrics	pygeodesy.ecef._EcefBase-class.html#_Geocentrics
 pygeodesy.ecef._EcefBase._forward	pygeodesy.ecef._EcefBase-class.html#_forward
-pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
+pygeodesy.ecef.EcefSudano._epsilon	pygeodesy.ecef.EcefSudano-class.html#_epsilon
 pygeodesy.ecef._EcefBase.equatorialRadius	pygeodesy.ecef._EcefBase-class.html#equatorialRadius
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
