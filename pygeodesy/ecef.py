@@ -60,32 +60,29 @@ providing conversion to and from I{local} cartesian cordinates in a I{local tang
 plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
-from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, \
-                             neg, map1, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, neg, \
+                             map1, _xinstanceof, _xsubclassof
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
-from pygeodesy.errors import _IndexError, LenError, _ValueError, \
-                             _TypesError, _xdatum, _xkwds
+from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
+                             _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
-from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS_2, NN, PI, PI_2, \
-                             _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, \
-                             _height_, _lat_, _lon_, _M_, _name_, \
-                             _singular_, _SPACE_, _x_, _xyz_, _y_, _z_, \
-                             _0_0, _0_5, _1_0, _1_0_T, _2_0, _3_0, _4_0, \
-                             _6_0, _90_0
+from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, NN, PI, PI_2, \
+                             _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, _height_, \
+                             _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
+                             _x_, _xyz_, _y_, _z_, _0_0, _0_5, _1_0, _1_0_T, \
+                             _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.interns import _N_2_0, _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
-                            _Pass, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, unstr
-from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, \
-                            Scalar, Scalar_
-from pygeodesy.utily import atan2d, degrees90, degrees180, \
-                            sincos2, sincos2_, sincos2d_
+from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, Scalar, Scalar_
+from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
+                            sincos2d_
 
 from math import asin, atan2, cos, degrees, radians, sqrt
 
@@ -94,7 +91,7 @@ __version__ = '22.09.09'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
-_TRIPS    =  27  # 8..9 sufficient, EcefSudano.reverse
+_TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
 
 
 class EcefError(_ValueError):
@@ -625,23 +622,23 @@ class EcefSudano(_EcefBase):
        <https://www.ResearchGate.net/publication/
        3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
     '''
-    _epsilon = EPS
+    _tol = EPS2
 
     @property_doc_(''' the convergence tolerance (C{float}).''')
-    def epsilon(self):
+    def tolerance(self):
         '''Get the convergence tolerance (C{float}).
         '''
-        return self._epsilon
+        return self._tol
 
-    @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, tol):
+    @tolerance.setter  # PYCHOK setter!
+    def tolerance(self, tol):
         '''Set the convergence tolerance (C{scalar}).
 
            @raise TypeError: Non-scalar B{C{tol}}.
 
            @raise ValueError: Out-of-bounds B{C{tol}}.
         '''
-        self._epsilon = Scalar_(tol, low=EPS, name=_tolerance_)
+        self._tol = Scalar_(tol, low=EPS, name=_tolerance_)
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
@@ -680,7 +677,7 @@ class EcefSudano(_EcefBase):
         #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
         # N / D = (z * ca + (E.e2 * E.a - h) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
-        eps  = self.epsilon
+        tol  = self.tolerance
         _S2_ = Fsum(sa).fsum2_
         for C in range(1, _TRIPS):
             ca2 = _1_0 - sa**2
@@ -693,11 +690,11 @@ class EcefSudano(_EcefBase):
                 break
             a = None
             sa, r = _S2_(-z * ca / r, -d * sa / r)
-            if abs(r) < eps:
+            if abs(r) < tol:
                 break
         else:
             t = unstr(self.reverse.__name__, x=x, y=y, z=z)
-            raise EcefError(Fmt.no_convergence(r, eps), txt=t)
+            raise EcefError(Fmt.no_convergence(r, tol), txt=t)
 
         if a is None:
             a = copysign0(asin(sa), z)
