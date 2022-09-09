@@ -6,13 +6,16 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '22.03.07'
+__version__ = '22.09.02'
+
+from base import GeodSolve, TestsBase, type2str
+
+from pygeodesy import itemsorted, Property, Property_RO, property_RO, \
+                      SciPyWarning, Str_
 
 from inspect import isclass
 from os.path import basename
 
-from base import GeodSolve, TestsBase, type2str
-from pygeodesy import Property, Property_RO, property_RO, SciPyWarning, Str_
 _No_Copy_OK = set((Property, Property_RO, property_RO, SciPyWarning, Str_))
 
 
@@ -34,7 +37,7 @@ class Tests(TestsBase):
                     if not a.startswith('_'):
                         a += type2str(C, a)
                         attrs[a] = attrs.get(a, ()) + (n,)
-        for a, m in sorted(attrs.items()):
+        for a, m in itemsorted(attrs):
             m = ', '.join(sorted(m))
             self.test(a, m, m)  # passes always
 

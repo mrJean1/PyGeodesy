@@ -15,14 +15,13 @@ or any other non-empty string.
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
                              _COLONSPACE_, _COMMASPACE_, _datum_, \
                              _ellipsoidal_, _EQUAL_, _incompatible_, \
-                             _invalid_, _len_, _name_, _no_, _not_, \
-                             _or_, _SPACE_, _specified_, _UNDER_, \
-                             _value_, _vs_
+                             _invalid_, _len_, _name_, _no_, _not_, _or_, \
+                             _SPACE_, _specified_, _UNDER_, _value_, _vs_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.08.27'
+__version__ = '22.09.02'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -186,7 +185,7 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
                             (C{keyword arguments}).
         '''
         x  = _xkwds_pop(lens_txt, txt=_invalid_)
-        ns, vs = zip(*sorted(lens_txt.items()))
+        ns, vs = zip(*itemsorted(lens_txt))
         ns = _COMMASPACE_.join(ns)
         t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
         vs = _vs__.join(map(str, vs))
@@ -347,7 +346,7 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
         return tuple(fmt_name_value % t for t in pairs)
 
     if name_values:
-        t = _fmtuple(sorted(name_values.items()))
+        t = _fmtuple(itemsorted(name_values))
     else:
         t = ()
     if len(name_value) > 1:
@@ -446,6 +445,25 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
     _error_chain(e)
     _error_under(e)
     return e
+
+
+def itemsorted(adict, *args, **asorted_reverse):
+    '''Return the items of C{B{adict}} sorted I{alphabetically, case-insensitively}
+       and in I{ascending} order.
+
+       @arg args: Optional argument(s) for method C{B{adict}.items(B*{args})}.
+       @kwarg asorted_reverse: Use keyword argument C{B{asorted}=False} for
+                      I{case-sensitive} sorting and C{B{reverse}=True} for
+                      results in C{descending} order.
+    '''
+    def _un(item):
+        return item[0].lower()
+
+    # see .rhumb.Rhumb and ._RhumbLine
+    a, r = _xkwds_get_(asorted_reverse, asorted=True, reverse=False) \
+                    if asorted_reverse  else   (True,         False)
+    items = adict.items(*args) if args else adict.items()
+    return sorted(items, reverse=r, key=_un if a else None)
 
 
 def limiterrors(raiser=None):
@@ -644,10 +662,10 @@ def _xkwds_get(kwds, **name_default):
 
 
 def _xkwds_get_(kwds, **names_defaults):
-    '''(INTERNAL) Yield each C{kwds} value by C{name} or its C{default}
-       in I{alphabetically sorted} order.
+    '''(INTERNAL) Yield each C{kwds} value or its C{default}
+       in I{case-insensitive, alphabetical} order.
     '''
-    for n, d in sorted(names_defaults.items()):
+    for n, d in itemsorted(names_defaults):
         yield kwds.get(n, d)
 
 

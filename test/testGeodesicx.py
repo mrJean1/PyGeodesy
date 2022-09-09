@@ -5,25 +5,15 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.04.14'
+__version__ = '22.09.02'
 
-from base import GeodSolve, geographiclib, isPython2, TestsBase
+from base import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
-from pygeodesy import classname, Ellipsoid, GDict, GeodesicLineExact, map2, NN
+from pygeodesy import classname, Ellipsoid, GDict, GeodesicLineExact, \
+                      itemsorted, map2, NN
 from pygeodesy.interns import DIG, _DOT_
 
 _G = '%%.%sg' % (DIG,)
-
-
-def _fLate(f):
-    t = 'proLate' if f < 0 else \
-        ('obLate' if f > 0 else 'sphere')
-    return 'f(%.1f)%s' % (f, t)
-
-
-def _key2(t2):
-    n, v = t2
-    return n.lower(), v
 
 
 def _t3(n_p_a):
@@ -33,7 +23,7 @@ def _t3(n_p_a):
 class Tests(TestsBase):
 
     def testDiffs(self, name, r, rx, nl, e=1e-13):
-        for n, v in sorted(r.items(), key=_key2):
+        for n, v in itemsorted(r):
             x = rx.get(n, None)
             if x is not None:
                 k = (abs(v - x) / (x or 1)) < e  # rel error

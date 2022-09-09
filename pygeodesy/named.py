@@ -16,14 +16,15 @@ standard Python C{namedtuple}s.
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
                              issubclassof, len2, _xcopy, _xdup, _zip
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _IsnotError, LenError, _NameError, \
-                             _NotImplementedError, _TypeError, _TypesError, \
-                             _ValueError, UnitError, _xkwds, _xkwds_popitem
-from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
-                             _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
-                             _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
-                             _name_, _not_, _O_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _valid_, _vs_
+                             _IndexError, _IsnotError, itemsorted, LenError, \
+                             _NameError, _NotImplementedError, _TypeError, \
+                             _TypesError, _ValueError, UnitError, \
+                             _xkwds, _xkwds_popitem
+from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
+                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
+                             _dunder_name, _EQUAL_, _EQUALSPACED_, _exists_, \
+                             _I_, _immutable_, _name_, _NL_, _NN_, _not_, _O_, \
+                             _other_, _s_, _SPACE_, _std_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
                             _hasProperty, property_doc_, property_RO, \
@@ -32,8 +33,9 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.08.27'
+__version__ = '22.09.03'
 
+_COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
 _del_               = 'del'
 _item_              = 'item'
@@ -130,19 +132,25 @@ class _Dict(dict):
         '''
         dict.update(self, items)
 
-    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
+    def toRepr(self, **prec_fmt):  # PYCHOK signature
         '''Like C{repr(dict)} but with C{name} prefix and with
-           C{floats} formatting by C{fstr}.
+           C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
         n = self.get(_name_, classname(self))
-        return Fmt.PAREN(n, _COMMASPACE_.join(sorted(t)))
+        return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
-    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
-        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+    def toStr(self, **prec_fmt):  # PYCHOK signature
+        '''Like C{str(dict)} but with C{floats} formatted by
+           function L{pygeodesy.fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLONSPACE_)
-        return Fmt.CURLY(_COMMASPACE_.join(sorted(t)))
+        return Fmt.CURLY(self._toT(_COLONSPACE_, **prec_fmt))
+
+    def _toT(self, sep, **kwds):
+        '''(INTERNAL) Helper for C{.toRepr} and C{.toStr}, also
+           in C{_NamedDict} below.
+        '''
+        kwds = _xkwds(kwds, prec=6, fmt=Fmt.F, sep=sep)
+        return _COMMASPACE_.join(pairs(itemsorted(self), **kwds))
 
 
 class _Named(object):
@@ -271,6 +279,13 @@ class _Named(object):
         '''
         return self._iteration
 
+    def methodname(self, which):
+        '''Get a method C{[module.]class.method} name of this object (C{str}).
+
+           @arg which: The method (C{callable}).
+        '''
+        return _DOT_(self.classname, which.__name__ if callable(which) else _NN_)
+
     @property_doc_(''' the name (C{str}).''')
     def name(self):
         '''Get the name (C{str}).
@@ -351,6 +366,15 @@ class _Named(object):
         '''DEPRECATED, use method C{toRepr}.'''
         return self.toRepr(**kwds)
 
+    def _unstr(self, which, *args, **kwds):
+        '''(INTERNAL) Return the string representation of a method
+           invokation of this instance: C{str(self).method(...)}
+
+           @see: Function L{pygeodesy.unstr}.
+        '''
+        n = _DOT_(self, which.__name__ if callable(which) else _NN_)
+        return unstr(n, *args, **kwds)
+
     def _xnamed(self, inst, name=NN, force=False):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
@@ -368,6 +392,8 @@ class _Named(object):
            @arg inst: The instance (C{_Named}).
 
            @return: The B{C{inst}}, named if not named before.
+
+           @raise TypeError: Not C{isinstance(B{inst}, _Named)}.
         '''
         if not isinstance(inst, _Named):
             raise _IsnotError(_valid_, inst=inst)
@@ -530,18 +556,17 @@ class _NamedDict(_Dict, _Named):
             raise KeyError(_EQUAL_(Fmt.SQUARE(self.classname, key), repr(value)))
         _Dict.__setitem__(self, key, value)
 
-    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
+    def toRepr(self, **prec_fmt):  # PYCHOK signature
         '''Like C{repr(dict)} but with C{name} prefix and with
-           C{floats} formatting by C{fstr}.
+           C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
-        return Fmt.PAREN(self.name, _COMMASPACE_.join(sorted(t)))
+        return Fmt.PAREN(self.name, self._toT(_EQUAL_, **prec_fmt))
 
-    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK signature
-        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+    def toStr(self, **prec_fmt):  # PYCHOK signature
+        '''Like C{str(dict)} but with C{floats} formatted by
+           function L{pygeodesy.fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLONSPACE_)
-        return Fmt.CURLY(_COMMASPACE_.join(sorted(t)))
+        return Fmt.CURLY(self._toT(_COLONSPACE_, **prec_fmt))
 
 
 class _NamedEnum(_NamedDict):
@@ -622,27 +647,29 @@ class _NamedEnum(_NamedDict):
         # getattr needed to instantiate L{_LazyNamedEnumItem}
         return getattr(self, name, dflt)
 
-    def items(self, all=False):
+    def items(self, all=False, asorted=False):
         '''Yield all or only the I{registered} items.
 
            @kwarg all: Use C{True} to yield {all} items or C{False}
                        for only the currently I{registered} ones.
+           @kwarg asorted: If C{True}, yield the items sorted in
+                           I{alphabetical, case-insensitive} order.
         '''
-        if all:
-            # instantiate any remaining L{_LazyNamedEnumItem}s,
-            # removing the L{_LazyNamedEnumItem} from the class
+        if all:  # instantiate any remaining L{_LazyNamedEnumItem} ...
+            # ... and remove the L{_LazyNamedEnumItem} from the class
             for n in tuple(n for n, p in self.__class__.__dict__.items()
                                       if isinstance(p, _LazyNamedEnumItem)):
                 _ = getattr(self, n)
-        return _Dict.items(self)
 
-    def keys(self, all=False):
-        '''Yield the keys of all or only the I{registered} items.
+        return itemsorted(_Dict, self) if asorted else _Dict.items(self)
 
-           @kwarg all: Use C{True} to yield {all} item keys or C{False}
-                       for only the currently I{registered} ones.
+    def keys(self, **all_asorted):
+        '''Yield the keys (C{str}) of all or only the I{registered} items,
+           optionally sorted I{alphabetically} and I{case-insensitively}.
+
+           @kwarg all_asorted: See method C{items}..
         '''
-        for k, _ in self.items(all=all):
+        for k, _ in self.items(**all_asorted):
             yield k
 
     def popitem(self):
@@ -700,25 +727,25 @@ class _NamedEnum(_NamedDict):
 
     pop = unregister
 
-    def toRepr(self, prec=6, fmt=Fmt.F, sep=',\n', **all):  # PYCHOK _NamedDict
-        '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
+    def toRepr(self, prec=6, fmt=Fmt.F, sep=_COMMANL_, **all_asorted):  # PYCHOK _NamedDict
+        '''Like C{repr(dict)} but C{name}s optionally sorted and
+           C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        t = sorted((self._DOT_(n), v) for n, v in self.items(**all))
+        t = ((self._DOT_(n), v) for n, v in self.items(**all_asorted))
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLONSPACE_))
 
-    def toStr(self, *unused, **all):  # PYCHOK _NamedDict
-        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+    def toStr(self, *unused, **all_asorted):  # PYCHOK _NamedDict
+        '''Return a string with all C{name}s, optionally sorted.
         '''
-        return self._DOT_(_COMMASPACEDOT_.join(sorted(self.keys(**all))))
+        return self._DOT_(_COMMASPACEDOT_.join(self.keys(**all_asorted)))
 
-    def values(self, all=False):
-        '''Yield the value of all or only the I{registered} items.
+    def values(self, **all_asorted):
+        '''Yield the value (C{type}) of all or only the I{registered} items,
+           optionally sorted I{alphabetically} and I{case-insensitively}.
 
-           @kwarg all: Use C{True} to yield {all} item values or
-                       C{False} for only the currently registered
-                       ones.
+           @kwarg all_asorted: See method C{items}.
         '''
-        for _, v in self.items(all=all):
+        for _, v in self.items(**all_asorted):
             yield v
 
     def _zapitem(self, name, item):

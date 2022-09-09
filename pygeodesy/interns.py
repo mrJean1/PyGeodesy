@@ -149,7 +149,7 @@ _b_                   = 'b'                  # PYCHOK expected
 _B_                   = 'B'                  # PYCHOK expected
 _BACKSLASH_      = Str_('\\')                # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
-# _BANG_         = Str_('!')                 # PYCHOK expected
+_BANG_           = Str_('!')                 # PYCHOK expected
 _BAR_            = Str_('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
 _Bessel1841_          = 'Bessel1841'         # PYCHOK expected
@@ -252,7 +252,7 @@ _kind_                = 'kind'               # PYCHOK expected
 _knots_               = 'knots'              # PYCHOK expected
 _Krassovski1940_      = 'Krassovski1940'     # PYCHOK expected
 _Krassowsky1940_      = 'Krassowsky1940'     # PYCHOK expected
-#_LANGLE_             = '<'                  # PYCHOK expected
+_LANGLE_              = '<'                  # PYCHOK expected
 _lam_                 = 'lam'                # PYCHOK expected
 _lat_                 = 'lat'                # PYCHOK expected
 _lat0_                = 'lat0'               # PYCHOK expected
@@ -355,7 +355,7 @@ _radius_              = 'radius'             # PYCHOK expected
 _radius1_             = 'radius1'            # PYCHOK expected
 _radius2_             = 'radius2'            # PYCHOK expected
 _range_        = _Range('range')             # PYCHOK expected
-#_RANGLE_             = '>'                  # PYCHOK expected
+_RANGLE_              = '>'                  # PYCHOK expected
 _RCURLY_              = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK expected
 _reframe_             = 'reframe'            # PYCHOK expected
@@ -435,6 +435,7 @@ _SW_                  = _S_  + _W_           # PYCHOK negative ones
 _DDOT_           = Str_(_DOT_   * 2)         # PYCHOK expected
 # _DEQUAL_       = Str_(_EQUAL_ * 2)         # PYCHOK expected
 _DNL_            = Str_(_NL_    * 2)         # PYCHOK expected
+# _DSLASH_       = Str_(_SLASH_ * 2)         # PYCHOK expected
 # _DSTAR_        = Str_(_STAR_  * 2)         # PYCHOK expected
 _DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK expected
 
@@ -788,8 +789,24 @@ __all__ = (_DIG_,
            _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
             Str_.__name__,  # classes
             float_.__name__, machine.__name__)  # in .lazily
-__version__ = '22.08.24'
+__version__ = '22.09.03'
 
+if __name__ == '__main__':
+
+    from pygeodesy.errors import itemsorted
+    from pygeodesy.lazily import printf
+
+    t = b = 0
+    for n, v in itemsorted(locals(), asorted=False, reverse=True):
+        if n.startswith(_UNDER_) and n.endswith(_UNDER_) and \
+                                 not n.startswith(_DUNDER_):
+            t += 1
+            b += len(v)
+            m  = n[1:-1]
+            if m != v and m.replace(_UNDER_, _SPACE_) != v:
+                printf('%4d: %s = %r', t, n, v)
+    n = len(locals())
+    printf('%4d (%d) names, %s chars total, %.2f chars avg', t, n, b, float(b) / t, nl=1)
 
 # **) MIT License
 #

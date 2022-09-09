@@ -4,11 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.04.23'
+__version__ = '22.09.03'
 
-from base import isWindows, TestsBase
+from base import endswith, isWindows, randoms, startswith, TestsBase
 
-from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
+from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fn_rt, Fpowers, Fsqrt, Fsum, \
+                      cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
                       fatan, fatan1, fatan2, fhorner, fmath, fpolynomial, fpowers, \
                       fsum_, hypot, hypot_, hypot2_, norm_, signOf, sqrt3, sqrt_a
 
@@ -37,7 +38,7 @@ class Tests(TestsBase):
             b = x / 1024.0 * (256 + x * (-128 + x * (74 - 47 * x)))
             self.test('fpolynomialB', p, b)
             h = fhorner(x, 0, 256, -128, 74, -47) / 1024.0
-            self.test('fhornerB', h, p)
+            self.test('fhornerB', h, p, nt=1)
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)
@@ -50,18 +51,20 @@ class Tests(TestsBase):
         p = fpowers(2, 10, 3)  # PYCHOK false!
         self.test('fpowers', len(p), 4)
         self.test('fpowers', p[0], 2**3)
-        self.test('fpowers', p[3], 2**9)
+        self.test('fpowers', p[3], 2**9, nt=1)
 
-        for _, E in sorted(Ellipsoids.items()):
-            Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
-            Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 16384, 4096, 256, 64, 25) / 16384)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
+        for _, E in Ellipsoids.items(all=True, asorted=True):
+            a_n = E.a / (1 + E.n)
+            n2  = E.n**2
+            Ah = a_n * fhorner(n2, 1, 1./4, 1./64, 1./256, 25./16384)
+            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
+            Ah = a_n * (fhorner(n2, 16384, 4096, 256, 64, 25) / 16384)
+            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
 
-            Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384, 49./65536)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
-            Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
+            Ah = a_n * fhorner(n2, 1, 1./4, 1./64, 1./256, 25./16384, 49./65536)
+            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-8)
+            Ah = a_n * (fhorner(n2, 65536, 16384, 1024, 256, 100, 49) / 65536)
+            self.test(E.name, Ah, E.A, prec=9, known=abs(Ah - E.A) < 1e-8, nt=1)
 
         # cffk <https://Bugs.Python.org/issue43088> and <https://Bugs.Python.org/file49783/hypot_bug.py>
         x  = 0.6102683302836215
@@ -123,6 +126,62 @@ class Tests(TestsBase):
         self.test('fatan ', t,  '0.134%', fmt='%.3f%%', known=True)
         self.test('fatan1', t1, '2.834%', fmt='%.3f%%', known=True)
         self.test('fatan2', t2, '0.321%', fmt='%.3f%%', known=True)
+
+        f = Fsum(3)
+        n = Fhypot.__name__
+        self.test(n, Fhypot(f, 4.0), '(5.0, 0)', known=endswith, nl=1)
+        f = -f
+        self.test(n, Fhypot(f, -4, 8), '(9.43398, 0)', known=endswith)
+        self.test(n, Fhypot(f, Fsum(-4, 8)), '(5.0, 0)', known=endswith)
+        self.test(n, Fhypot(f, -4, 8, power=-1), '(-2.18182, 0)', known=endswith)
+        self.test(n, Fhypot(f, Fsum(-4, 8), power=-1), '(-12, 0)', known=endswith)
+        f = Fsum(-1)
+        self.test(n, Fhypot(f, -1), '(1.41421, 0)', known=endswith)
+        self.test(n, Fhypot(f, -1, power=-1), '(-0.5, 0)', known=endswith)
+        try:
+            self.test(n, Fhypot(f, INF, f, f, power=-1), ValueError.__name__)
+        except Exception as x:
+            self.test(n, str(x), ' not finite', known=endswith)
+        try:
+            self.test(n, Fhypot(f, -1, power=0), ZeroDivisionError.__name__)
+        except Exception as x:
+            self.test(n, str(x), ' float division by zero', known=endswith)
+
+        f = Fsum(3)
+        n = Fsqrt.__name__
+        r = Fn_rt.__name__
+        self.test(n, Fsqrt(f, 6), '(3.0, 0)', known=endswith, nl=1)
+        self.test(n, Fcbrt(20, 4, f), '(3.0, 0)', known=endswith)
+        f = -f
+        self.test(n, Fsqrt(f, -4, 9),       '(1.41421, 0)', known=endswith)
+        self.test(n, Fsqrt(f, Fsum(-4, 9)), '(1.41421, 0)', known=endswith)
+        self.test(r, Fn_rt(-1, f, -4, 9), '(0.5, 0)', known=endswith)
+        self.test(r, Fn_rt(-1, f, Fsum(-4, 9)), '(0.5, 0)', known=endswith)
+        f = Fsum(-1)
+        try:
+            self.test(n, Fsqrt(f, -1), ValueError.__name__)
+        except Exception as x:
+            self.test(n, str(x), "fmath.Fsqrt(<fsums.Fsum[1] (-1, 0) ", known=startswith)
+        try:
+            self.test(r, Fn_rt(0, f, -1), ValueError.__name__)
+        except Exception as x:
+            self.test(n, str(x), ' float division by zero', known=endswith)
+        self.test(r, Fn_rt(-1, f, -3), '(-0.25, 0)', known=endswith)
+
+        i = 0
+        while i < 9:
+            t = randoms(i)
+            F = Fsum(*t)
+            s = fsum_(F, *t)
+            if s > 0:
+                i += 1
+                n  = str(i)
+                h  = hypot_(F, *t)
+                c  = fsum_(F**3, *(_**3 for _ in t))
+                self.test(Fhypot.__name__  + n, float(Fhypot( F, *t, RESIDUAL=EPS)), h,       fmt='%.9g', nl=1)
+                self.test(Fpowers.__name__ + n, float(Fpowers(3, F, *t)),            c,       fmt='%.9g')
+                self.test(Fsqrt.__name__   + n, float(Fsqrt(  F, *t, RESIDUAL=EPS)), sqrt(s), fmt='%.9g')
+                self.test(Fcbrt.__name__   + n, float(Fcbrt(  F, *t, RESIDUAL=EPS)), cbrt(s), fmt='%.9g')
 
 
 if __name__ == '__main__':

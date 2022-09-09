@@ -13,9 +13,11 @@ from inspect import isclass, isfunction, ismethod, ismodule
 from os import X_OK, access, getenv  # environ
 from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
+from random import gauss, random, seed, shuffle
 import sys
-from time import gmtime, time
+from time import localtime, time
 
+seed(localtime().tm_yday)
 try:
     if float(getenv('PYGEODESY_COVERAGE', '0')) > 0:
         import coverage
@@ -48,7 +50,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'nix_ver', 'secs2str',  # functions
            'tilde', 'type2str', 'versions')
-__version__ = '22.08.18'
+__version__ = '22.09.02'
 
 try:
     geographiclib = basics._xgeographiclib(basics, 1, 50)
@@ -125,7 +127,6 @@ except ImportError:
 class RandomLatLon(object):
     '''Random LatLon(lat, lon) generator.
     '''
-    _random  = None
     _ndigits = None
 
     def __init__(self, LatLon, lat_=170, lon_=350, ndigits=None):  # +/- ranges
@@ -135,18 +136,13 @@ class RandomLatLon(object):
         if ndigits and isint(ndigits):
             self._ndigits = ndigits
 
-        if self._random is None:
-            from random import random, seed
-            seed(gmtime().tm_yday)
-            RandomLatLon._random = random
-
     def __call__(self, **LatLon_kwds):
         lat = self._random_round(self._lat)
         lon = self._random_round(self._lon)
         return self._LatLon(lat, lon, **LatLon_kwds)
 
     def _random_round(self, scale):
-        r = (self._random() - 0.5) * scale
+        r = (random() - 0.5) * scale
         n =  self._ndigits
         if n is not None:
             r = round(r, n)  # ndigits=None
@@ -386,6 +382,12 @@ class TestError(RuntimeError):  # ValueError's are often caught
         RuntimeError.__init__(self, fmt % args)
 
 
+def _fLate(f):
+    t = 'proLate' if f < 0 else \
+        ('obLate' if f > 0 else 'sphere')
+    return 'f(%.1f)%s' % (f, t)
+
+
 def _getenv_path(envar):
     '''(INTERNAL) Get and validate the path of an executable.
     '''
@@ -439,6 +441,25 @@ def _name_version(path):
         except (IndexError, IOError, OSError):
             pass
     return ()
+
+
+# <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
+#        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
+def randoms(n):
+    '''Return a (lon) list of random floats.
+    '''
+    t  = [7, 1e100, -9e-20, -7, -1e100, 8e-20]
+    t *= max(1, min(n, 10))
+    s  = 0
+    _a = t.append
+    _g = gauss
+    _r = random
+    for _ in range(20):
+        v  = _g(0, _r())**7 - s
+        s += v
+        _a(v)
+    shuffle(t)
+    return t
 
 
 def secs2str(secs):

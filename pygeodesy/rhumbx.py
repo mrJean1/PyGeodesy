@@ -23,16 +23,16 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isnan, neg, _xinstanceof, _zip
 # from pygeodesy.datums import _spherical_datum  # in Rhumb.ellipsoid.setter
-from pygeodesy.errors import IntersectionError, _ValueError, _xdatum, _xkwds
+from pygeodesy.errors import IntersectionError, itemsorted, _ValueError, \
+                            _xdatum, _xkwds
 # from pygeodesy.etm import ExactTransverseMercator  # in ._RhumbLine.xTM
 from pygeodesy.fmath import euclid, favg, fsum1_, hypot, hypot1
 # from pygeodesy.fsums import fsum1_
 from pygeodesy.interns import INT0, NAN, NN, PI_2, _azi12_, _coincident_, \
-                             _COMMASPACE_, _ellipsoidal_, _EPSqrt as _TOL, \
-                             _intersection_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                             _no_, _not_, _s12_, _S12_, _under_name, \
-                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0, _180_0, \
-                             _720_0, _0_0s  # PYCHOK used!
+                             _COMMASPACE_, _EPSqrt as _TOL, _intersection_, \
+                             _lat1_, _lat2_, _lon1_, _lon2_, _no_, _s12_, \
+                             _S12_, _under_name, _0_0, _0_5, _1_0, _2_0, _4_0, \
+                             _90_0, _180_0, _720_0, _0_0s
 from pygeodesy.karney import _a12_, _atan2d, Caps, _CapsBase as _RhumbBase, \
                              _diff182, Direct9Tuple, _EWGS84, _fix90, GDict, \
                              _GTuple, Inverse10Tuple, _norm180
@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.08.23'
+__version__ = '22.09.02'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -468,7 +468,7 @@ class Rhumb(_RhumbBase):
         '''
         d = dict(ellipsoid=self.ellipsoid, RAorder=self.RAorder,
                      exact=self.exact,     TMorder=self.TMorder)
-        return sep.join(pairs(d, prec=prec))
+        return sep.join(pairs(itemsorted(d, asorted=False), prec=prec))
 
 
 class RhumbError(_ValueError):
@@ -761,7 +761,7 @@ class _RhumbLine(_RhumbBase):
         d = dict(rhumb=self.rhumb, lat1=self.lat1, lon1=self.lon1,
                                    azi12=self.azi12, exact=self.exact,
                                    TMorder=self.TMorder, xTM=self.xTM)
-        return sep.join(pairs(d, prec=prec))
+        return sep.join(pairs(itemsorted(d, asorted=False), prec=prec))
 
     @property_RO
     def TMorder(self):

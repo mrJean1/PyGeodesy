@@ -182,6 +182,8 @@ Env variables
 The following environment variables are observed by C{PyGeodesy}:
 
  - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
+ - C{PYGEODESY_FSUM_PARTIALS} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
+ - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
  - C{PYGEODESY_GEOCONVERT} - see module L{pygeodesy.mgrs}.
  - C{PYGEODESY_GEODSOLVE} - see module L{pygeodesy.geodsolve}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{pygeodesy.isLazy}.
@@ -200,7 +202,6 @@ The following environment variables are observed by C{PyGeodesy}:
 plus during development:
 
  - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
- - C{PYGEODESY_FSUM_RESIDUAL} - see module L{pygeodesy.fsums} and class L{pygeodesy.Fsum}.
  - C{PYGEODESY_GEOGRAPHICLIB} - see module L{pygeodesy.karney}.
  - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{pygeodesy.DeprecationWarnings}.
  - C{PYGEODESY_XPACKAGES} - see module L{pygeodesy.basics}.
@@ -564,7 +565,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.08.28'
+__version__ = '22.09.09'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

@@ -6,12 +6,12 @@ u'''Floating point and other formatting utilities.
 '''
 
 from pygeodesy.basics import isint, isscalar, istuplist, _zip
-from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
-                             _ValueError, _xkwds_get
+from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, \
+                             _TypeError, _ValueError, _xkwds_get, _xkwds_pop
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
-                             _EQUAL_, _H_, _N_, _name_, _not_, _not_scalar_, \
-                             _PERCENT_, _SPACE_, _STAR_, _UNDER_, _0_, \
-                             _0_0, _10_0
+                             _ELLIPSIS_, _EQUAL_, _H_, _N_, _name_, _not_, \
+                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, \
+                             _UNDER_, _0_, _0_0, _10_0
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
                               _EQUALSPACED_, _exceeds_, _f_, _F_, _g_, \
                               _no_, _tolerance_  # PYCHOK used!
@@ -20,7 +20,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.08.24'
+__version__ = '22.09.02'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -394,7 +394,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
     '''
     try:
         if isinstance(items, dict):
-            items = sorted(items.items())
+            items = itemsorted(items)
         elif not isinstance(items, (list, tuple)):
             items = tuple(items)
         # can't unzip empty items tuple, list, etc.
@@ -495,13 +495,16 @@ def unstr(named, *args, **kwds):
 
        @arg named: Function, method or class name (C{str}).
        @arg args: Optional positional arguments.
-       @kwarg kwds: Optional keyword arguments.
+       @kwarg kwds: Optional keyword arguments, except
+                    C{B{_ELLIPSIS}=False}.
 
        @return: Representation (C{str}).
     '''
     t = reprs(args, fmt=Fmt.g) if args else ()
+    if kwds and _xkwds_pop(kwds, _ELLIPSIS=False):
+        t += _ELLIPSIS_,
     if kwds:
-        t += pairs(sorted(kwds.items()), fmt=Fmt.g)
+        t += pairs(itemsorted(kwds), fmt=Fmt.g)
     return Fmt.PAREN(named, _COMMASPACE_.join(t))
 
 

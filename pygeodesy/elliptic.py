@@ -96,7 +96,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.08.24'
+__version__ = '22.09.07'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -160,10 +160,10 @@ class _Deferred_Fsum(Fsum):
     '''
     name = NN  # pre-named, overridden below
 
-    def _update(self, **other_setters):  # PYCHOK don't ...
+    def _update(self, **other):  # PYCHOK don't ...
         # ... waste time zapping non-existing Property/_ROs
-        if other_setters or len(self.__dict__) > 2:
-            Fsum._update(self, **other_setters)
+        if other or len(self.__dict__) > 2:
+            Fsum._update(self, **other)
 
 _Deferred_Fsum.name = _Deferred_Fsum.__name__  # PYCHOK once
 

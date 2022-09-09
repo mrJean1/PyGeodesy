@@ -86,7 +86,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.08.10'
+__version__ = '22.09.02'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -597,7 +597,7 @@ if __name__ == '__main__':
 
     # __doc__ of this file, force all into registery
     for r in (Datums, Transforms):
-        t = [NN] + r.toRepr(all=True).split(_NL_)
+        t = [NN] + r.toRepr(all=True, asorted=True).split(_NL_)
         print(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License

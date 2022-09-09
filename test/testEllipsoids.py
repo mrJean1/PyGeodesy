@@ -4,14 +4,14 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '22.04.13'
+__version__ = '22.09.02'
 
 from base import TestsBase
 
 from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
-                      a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, \
-                      circle4, ellipsoids, f_2f, fstr, hypot_, n2e2, \
-                      n2f, PI_2, R_M, sincos2d
+                      a_b2f_, a_b2f2, a_b2n, a_f2Tuple, \
+                      b_f2a, b_f_2a, circle4, ellipsoids, f_2f, fstr, \
+                      hypot_, n2e2, n2f, PI_2, R_M, sincos2d
 
 
 class Tests(TestsBase):
@@ -25,7 +25,7 @@ class Tests(TestsBase):
         e = Ellipsoids.unregister('TestEllipsoid')
         self.test(e.name, e, E)
 
-        # to show WGS84 and NAD83 are identical up to 3 decimals
+        # WGS84 and GRS80/NAD83 are identical up to 3 decimals
         for E in (Ellipsoids.WGS84, Ellipsoids.GRS80):  # NAD83
             self.subtitle(ellipsoids, E.name)
             self.test('R1', E.R1, R_M, fmt='%.4f')
@@ -156,34 +156,35 @@ class Tests(TestsBase):
         self.subtitle(ellipsoids, 'Flattenings')
 
         self.test('_TOL', _TOL, _TOL)
-        for n, E in Ellipsoids.items():  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             if E.f and E.f_:
                 e = E.f_ - 1 / E.f
-                self.test(n + '.f_ - 1 / .f', e, e if abs(e) < _TOL else _TOL)
+                self.test(n + '.f_ - 1 / .f', e, e if abs(e) < _TOL else _TOL, nl=1)
                 e = E.f - 1 / E.f_
                 self.test(n + '.f - 1 / .f_', e, e if abs(e) < _TOL else _TOL)  # PYCHOK attr
 
         self.subtitle(ellipsoids, Ellipsoid2.__name__)
-        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             n  = '_2_' + n
             E2 = Ellipsoid2(E.a, E.f, name=n)
-            self.test(n, E2.toStr(name=None), E.toStr(name=None))
+            self.test(n, E2.toStr(name=None, prec=7), E.toStr(name=None, prec=7))
 
         self.subtitle(ellipsoids, a_f2Tuple.__name__)
-        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             n = 'a_b_' + n
             a_f = a_f2Tuple(E.a, E.f, name=n)
             E2 = Ellipsoid(a_f.a, a_f.b)  # PYCHOK a
-            self.test(n, E2.toStr(name=None), E.toStr(name=None))
+            self.test(n, E2.toStr(name=None, prec=7), E.toStr(name=None, prec=7))
         n  = '_a_f_ellipsoid'
         E  = Ellipsoids.WGS84
         E2 = E.a_f.ellipsoid(name=n)
         self.test(n, E2.toStr(name=None), E.toStr(name=None))
 
         self.subtitle(ellipsoids, 'Functions')
-        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+        t = 0
+        for _, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             f_ = a_b2f_(E.a, E.b)
-            self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=abs(f_ - E.f_) < _TOL)
+            self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=abs(f_ - E.f_) < _TOL, nl=1)
             f2 = a_b2f2(E.a, E.b)
             self.test('%s(%s)' % (a_b2f2.__name__, E.name), f2, E.f2, fmt='%.8f', known=abs(f2 - E.f2) < _TOL)
             n = a_b2n(E.a, E.b)
@@ -198,6 +199,8 @@ class Tests(TestsBase):
             self.test('%s(%s)' % (n2e2.__name__, E.name), e2, E.e2, fmt='%.8f', known=abs(e2 - E.e2) < _TOL)
             f = n2f(E.n)
             self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
+            t += 1
+        self.test('total', t, 45, nl=1)
 
         t = P.roc1_.__name__ + ' '
         for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),

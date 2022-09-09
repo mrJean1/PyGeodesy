@@ -361,6 +361,18 @@
         class="link">pygeodesy.errors</a>.
       </li>
       <li>
+        <code>PYGEODESY_FSUM_PARTIALS</code> - see module <a 
+        href="pygeodesy.fsums-module.html" class="link">pygeodesy.fsums</a>
+        and class <a href="pygeodesy.fsums.Fsum-class.html" 
+        class="link">pygeodesy.Fsum</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_FSUM_RESIDUAL</code> - see module <a 
+        href="pygeodesy.fsums-module.html" class="link">pygeodesy.fsums</a>
+        and class <a href="pygeodesy.fsums.Fsum-class.html" 
+        class="link">pygeodesy.Fsum</a>.
+      </li>
+      <li>
         <code>PYGEODESY_GEOCONVERT</code> - see module <a 
         href="pygeodesy.mgrs-module.html" class="link">pygeodesy.mgrs</a>.
       </li>
@@ -434,12 +446,6 @@
         <code>epydoc</code>.
       </li>
       <li>
-        <code>PYGEODESY_FSUM_RESIDUAL</code> - see module <a 
-        href="pygeodesy.fsums-module.html" class="link">pygeodesy.fsums</a>
-        and class <a href="pygeodesy.fsums.Fsum-class.html" 
-        class="link">pygeodesy.Fsum</a>.
-      </li>
-      <li>
         <code>PYGEODESY_GEOGRAPHICLIB</code> - see module <a 
         href="pygeodesy.karney-module.html" 
         class="link">pygeodesy.karney</a>.
@@ -502,7 +508,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.08.28
+        22.09.09
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1786,6 +1792,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.fmath.Fcbrt-class.html" class="summary-name">Fcbrt</a><br />
+      Precision cubic root of summation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.fstats.Fcook-class.html" class="summary-name">Fcook</a><br />
       <a href="https://www.JohnDCook.com/blog/skewness_kurtosis" 
         target="_top">Cook</a>'s <code>RunningStats</code> computing the 
@@ -1822,6 +1836,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.fmath.Fhypot-class.html" class="summary-name">Fhypot</a><br />
+      Precision hypotenuse of summation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.fstats.Flinear-class.html" class="summary-name">Flinear</a><br />
       <a href="https://www.JohnDCook.com/blog/running_regression" 
         target="_top">Cook</a>'s <code>RunningRegression</code> computing 
@@ -1844,6 +1866,14 @@
         <a href="pygeodesy.units.Float_-class.html" class="summary-name">Float_</a><br />
       Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limit.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fn_rt-class.html" class="summary-name">Fn_rt</a><br />
+      Precision n-th root of summation.
     </td>
   </tr>
 <tr>
@@ -1876,6 +1906,14 @@
     </td><td class="summary">
         <a href="pygeodesy.fmath.Fpolynomial-class.html" class="summary-name">Fpolynomial</a><br />
       Precision polynomial evaluation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fpowers-class.html" class="summary-name">Fpowers</a><br />
+      Precision summation or powers, optimized for <code>power=2</code>.
     </td>
   </tr>
 <tr>
@@ -2104,6 +2142,14 @@
       A rectangular pyramid, typically representing a camera's 
         <i>field-of-view</i> (fov) and the intersection with (or projection
         to) a <i>local tangent plane</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fsqrt-class.html" class="summary-name">Fsqrt</a><br />
+      Precision square root of summation.
     </td>
   </tr>
 <tr>
@@ -5090,8 +5136,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x3</span>)</span><br />
-      Compute the cube root <i class="math">x3**(1/3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cube root <i class="math">x**(1/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -5107,8 +5153,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x3</span>)</span><br />
-      Compute the cube root <i>squared</i> <i class="math">x3**(2/3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -7658,7 +7704,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f85481a2250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff630463ad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8658,6 +8704,27 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#istuplist" class="summary-sig-name">istuplist</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
       Check for tuple or list types and minumal length.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#itemsorted" class="summary-sig-name">itemsorted</a>(<span class="summary-sig-arg">adict</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**asorted_reverse</span>)</span><br />
+      Return the items of <code><b>adict</b></code> sorted 
+      <i>alphabetically, case-insensitively</i> and in <i>ascending</i> 
+      order.</td>
           <td align="right" valign="top">
             
             
@@ -10730,8 +10797,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x2</span>)</span><br />
-      Compute the square root iff <code><b>x2</b> &gt;</code> EPS02.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt0" class="summary-sig-name">sqrt0</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the square root iff <code><b>x</b> &gt;</code> EPS02.</td>
           <td align="right" valign="top">
             
             
@@ -10747,9 +10814,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x2</span>)</span><br />
-      Compute the square root, <i>cubed</i> <i class="math">sqrt(x2)**3</i>
-      or <i class="math">sqrt(x2**3)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
+      or <i class="math">sqrt(x**3)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -11926,7 +11993,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.8.28'"><code class="variable-quote">'</code><code class="variable-string">22.8.28</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.9'"><code class="variable-quote">'</code><code class="variable-string">22.9.9</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11962,10 +12029,10 @@ ids.WGS84, transform=Transforms.WGS84)">Conics.WRF_Lb: Conic(name='WRF_Lb', lat0
     </td><td class="summary">
         <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra\
 nsform=Transforms.OSGB36),
-Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
-form=Transforms.WGS84),
 Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor\
-m=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
+m=Transforms.WGS84),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
+form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined datums (<code>enum-like</code>).
     </td>
   </tr>
@@ -12043,15 +12110,15 @@ m=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code 
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
-56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322\
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669\
-14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470\
-808, R3=6370453.30994572, Rbiaxial=6366919.065224, Rtriaxial=6372243.4\
-5317691),
-Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
+        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
 8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771\
-...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637\
+1008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
+8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081\
+81919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.1458234\
+1, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6\
+...">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined ellipsoids (<code>enum-like</code>).
     </td>
   </tr>
@@ -13928,18 +13995,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>&nbsp;(<span class="sig-arg">x3</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the cube root <i class="math">x3**(1/3)</i>.</p>
+  <p>Compute the cube root <i class="math">x**(1/3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x3</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cubic root (<code>float</code>).</dd>
@@ -13958,19 +14025,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>&nbsp;(<span class="sig-arg">x3</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the cube root <i>squared</i> <i 
-  class="math">x3**(2/3)</i>.</p>
+  <p>Compute the cube root <i>squared</i> <i class="math">x**(2/3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x3</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Cube root <i>squared</i> (<code>float</code>).</dd>
@@ -19301,7 +19367,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f85481a2250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff630463ad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21124,6 +21190,38 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd><code>True</code> if <b><code>obj</code></b> is 
           <code>tuple</code> or <code>list</code> with <code>len</code> at 
           least <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="itemsorted"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">itemsorted</span>&nbsp;(<span class="sig-arg">adict</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**asorted_reverse</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the items of <code><b>adict</b></code> sorted 
+  <i>alphabetically, case-insensitively</i> and in <i>ascending</i> 
+  order.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - Optional argument(s) for method 
+          <code><b>adict</b>.items(B*{args})</code>.</li>
+        <li><strong class="pname"><code>asorted_reverse</code></strong> - Use keyword argument <code><b>asorted</b>=False</code> for 
+          <i>case-sensitive</i> sorting and 
+          <code><b>reverse</b>=True</code> for results in 
+          <code>descending</code> order.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -25487,25 +25585,25 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x2</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt0</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the square root iff <code><b>x2</b> &gt;</code> EPS02.</p>
+  <p>Compute the square root iff <code><b>x</b> &gt;</code> EPS02.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x2</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Square root (<code>float</code>) or <code>0.0</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Any <code><b>x2</b> &lt;</code> EPS02 <i>including</i> 
-        <code><b>x2</b> &lt; 0</code> returns <code>0.0</code>.
+        Any <code><b>x</b> &lt;</code> EPS02 <i>including</i> 
+        <code><b>x</b> &lt; 0</code> returns <code>0.0</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -25516,25 +25614,25 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>&nbsp;(<span class="sig-arg">x2</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>&nbsp;(<span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the square root, <i>cubed</i> <i class="math">sqrt(x2)**3</i> 
-  or <i class="math">sqrt(x2**3)</i>.</p>
+  <p>Compute the square root, <i>cubed</i> <i class="math">sqrt(x)**3</i> 
+  or <i class="math">sqrt(x**3)</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x2</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Cubed square root (<code>float</code>).</dd>
+        <dd>Square root <i>cubed</i> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x2</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -27514,7 +27612,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>named</code></strong> - Function, method or class name (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments, except 
+          <code><b>_ELLIPSIS</b>=False</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Representation (<code>str</code>).</dd>
@@ -28249,10 +28348,10 @@ ids.WGS84, transform=Transforms.WGS84)
       <dd><table><tr><td><pre class="variable">
 Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 nsform=Transforms.OSGB36),
-Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-form=Transforms.WGS84),
 Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-m=Transforms.WGS84)
+m=Transforms.WGS84),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.WGS84)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -28270,14 +28369,14 @@ m=Transforms.WGS84)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-808, R3=6370453.30994572, Rbiaxial=6366919.065224, Rtriaxial=6372243.4<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-5317691),
 Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+1008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+8, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.081<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+81919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.1458234<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+1, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -28338,7 +28437,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 27 20:35:00 2022
+    Generated by Epydoc 3.0.1 on Thu Sep  8 18:42:57 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

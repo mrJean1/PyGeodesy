@@ -208,7 +208,8 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#items" class="summary-sig-name">items</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">asorted</span>=<span class="summary-sig-default">False</span>)</span><br />
       Yield all or only the <i>registered</i> items.</td>
           <td align="right" valign="top">
             
@@ -226,8 +227,10 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#keys" class="summary-sig-name">keys</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Yield the keys of all or only the <i>registered</i> items.</td>
+        <span class="summary-sig-arg">**all_asorted</span>)</span><br />
+      Yield the keys (<code>str</code>) of all or only the 
+      <i>registered</i> items, optionally sorted <i>alphabetically</i> and 
+      <i>case-insensitively</i>.</td>
           <td align="right" valign="top">
             
             
@@ -318,9 +321,11 @@ new empty dictionary
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">**all</span>)</span><br />
-      Like <code>repr(dict)</code> but with <code>name</code> and 
-      <code>floats</code> formatting by <code>fstr</code>.</td>
+        <span class="summary-sig-arg">**all_asorted</span>)</span><br />
+      Like <code>repr(dict)</code> but <code>name</code>s optionally sorted
+      and <code>floats</code> formatted by function <a 
+      href="pygeodesy.streprs-module.html#fstr" 
+      class="link">pygeodesy.fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -338,9 +343,8 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*unused</span>,
-        <span class="summary-sig-arg">**all</span>)</span><br />
-      Like <code>str(dict)</code> but with <code>floats</code> formatting 
-      by <code>fstr</code>.</td>
+        <span class="summary-sig-arg">**all_asorted</span>)</span><br />
+      Return a string with all <code>name</code>s, optionally sorted.</td>
           <td align="right" valign="top">
             
             
@@ -357,8 +361,10 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#values" class="summary-sig-name">values</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Yield the value of all or only the <i>registered</i> items.</td>
+        <span class="summary-sig-arg">**all_asorted</span>)</span><br />
+      Yield the value (<code>type</code>) of all or only the 
+      <i>registered</i> items, optionally sorted <i>alphabetically</i> and 
+      <i>case-insensitively</i>.</td>
           <td align="right" valign="top">
             
             
@@ -414,6 +420,7 @@ new empty dictionary
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -654,7 +661,8 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">items</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">all</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">asorted</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -667,6 +675,8 @@ new empty dictionary
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} items or <code>False</code> 
           for only the currently <i>registered</i> ones.</li>
+        <li><strong class="pname"><code>asorted</code></strong> - If <code>True</code>, yield the items sorted in <i>alphabetical, 
+          case-insensitive</i> order.</li>
     </ul></dd>
     <dt>Returns: list of D's (key, value) pairs, as 2-tuples</dt>
     <dt>Overrides:
@@ -683,19 +693,20 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">keys</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**all_asorted</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Yield the keys of all or only the <i>registered</i> items.</p>
+  <p>Yield the keys (<code>str</code>) of all or only the <i>registered</i>
+  items, optionally sorted <i>alphabetically</i> and 
+  <i>case-insensitively</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} item keys or 
-          <code>False</code> for only the currently <i>registered</i> ones.</li>
+        <li><strong class="pname"><code>all_asorted</code></strong> - See method <code>items</code>..</li>
     </ul></dd>
     <dt>Returns: list of D's keys</dt>
     <dt>Overrides:
@@ -836,15 +847,17 @@ new empty dictionary
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
         <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">**all</span>)</span>
+        <span class="sig-arg">**all_asorted</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Like <code>repr(dict)</code> but with <code>name</code> and 
-  <code>floats</code> formatting by <code>fstr</code>.</p>
+  <p>Like <code>repr(dict)</code> but <code>name</code>s optionally sorted 
+  and <code>floats</code> formatted by function <a 
+  href="pygeodesy.streprs-module.html#fstr" 
+  class="link">pygeodesy.fstr</a>.</p>
   <dl class="fields">
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toRepr">_Named.toRepr</a>
@@ -861,15 +874,14 @@ new empty dictionary
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*unused</span>,
-        <span class="sig-arg">**all</span>)</span>
+        <span class="sig-arg">**all_asorted</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Like <code>str(dict)</code> but with <code>floats</code> formatting by
-  <code>fstr</code>.</p>
+  <p>Return a string with all <code>name</code>s, optionally sorted.</p>
   <dl class="fields">
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">_Named.toStr</a>
@@ -885,19 +897,20 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">values</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**all_asorted</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Yield the value of all or only the <i>registered</i> items.</p>
+  <p>Yield the value (<code>type</code>) of all or only the 
+  <i>registered</i> items, optionally sorted <i>alphabetically</i> and 
+  <i>case-insensitively</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} item values or 
-          <code>False</code> for only the currently registered ones.</li>
+        <li><strong class="pname"><code>all_asorted</code></strong> - See method <code>items</code>.</li>
     </ul></dd>
     <dt>Returns: list of D's values</dt>
     <dt>Overrides:
@@ -938,7 +951,7 @@ new empty dictionary
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 27 20:35:02 2022
+    Generated by Epydoc 3.0.1 on Thu Sep  8 18:43:00 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

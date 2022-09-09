@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li class="private">, elliptic._Deferred_Fsum</li>  </ul>
+<li><a href="pygeodesy.fmath.Fn_rt-class.html">fmath.Fn_rt</a></li><li>, <a href="pygeodesy.fmath.Fdot-class.html">fmath.Fdot</a></li><li>, <a href="pygeodesy.fmath.Fhorner-class.html">fmath.Fhorner</a></li><li>, <a href="pygeodesy.fmath.Fhypot-class.html">fmath.Fhypot</a></li><li>, <a href="pygeodesy.fmath.Fpolynomial-class.html">fmath.Fpolynomial</a></li><li>, <a href="pygeodesy.fmath.Fpowers-class.html">fmath.Fpowers</a></li><li class="private">, elliptic._Deferred_Fsum</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -126,7 +126,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*xs</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
+        <span class="summary-sig-arg">**name_RESIDUAL</span>)</span><br />
       New <a href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
       for precision floating point <i>running</i> summation.</td>
           <td align="right" valign="top">
@@ -164,8 +164,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#__add__" class="summary-sig-name">__add__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Return the sum <code><b>self</b> + <b>other</b></code> as an <a 
-      href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</td>
+      Return the <code>Fsum(<b>self</b>, <b>other</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1534,14 +1533,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="is_math_fsum"></a><span class="summary-sig-name">is_math_fsum</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return <code>True</code> if functions <a 
+          <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#is_math_fsum" class="summary-sig-name">is_math_fsum</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return whether functions <a 
       href="pygeodesy.fsums.Fsum-class.html#fsum" class="link">fsum</a>, <a
       href="pygeodesy.fsums.Fsum-class.html#fsum_" class="link">fsum_</a>, 
       <a href="pygeodesy.fsums-module.html#fsum1" class="link">fsum1</a> 
       and <a href="pygeodesy.fsums-module.html#fsum1_" 
-      class="link">fsum1_</a> are all based on Python's 
-      <code>math.fsum</code>, <code>False</code> otherwise.</td>
+      class="link">fsum1_</a> plus partials summation are based on Python's
+      <code>math.fsum</code> or not.</td>
           <td align="right" valign="top">
             
             
@@ -1578,10 +1577,11 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" class="summary-sig-name">RESIDUAL</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*raiser</span>)</span><br />
-      Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-      class="link">ResidualError</a>s for this instance, overriding the 
-      default from env variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
+        <span class="summary-sig-arg">*threshold</span>)</span><br />
+      Get and set this instance' <i>ratio</i> for raising <a 
+      href="pygeodesy.fsums.ResidualError-class.html" 
+      class="link">ResidualError</a>s, overriding the default from env 
+      variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1652,6 +1652,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -1773,7 +1774,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*xs</span>,
-        <span class="sig-arg">**name</span>)</span>
+        <span class="sig-arg">**name_RESIDUAL</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -1786,20 +1787,24 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xs</code></strong> - No, one or more initial values (<code>scalar</code> or <a 
+        <li><strong class="pname"><code>xs</code></strong> - No, one or more initial values (each <code>scalar</code> or an <a
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          instances).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> for the <a 
+          instance).</li>
+        <li><strong class="pname"><code>name_RESIDUAL</code></strong> - Optional <code><b>name</b>=NN</code> for this <a 
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> 
-          (<code>str</code>).</li>
+          (<code>str</code>) and <code><b>RESIDUAL</b>=None</code> for the 
+          <a href="pygeodesy.fsums.ResidualError-class.html" 
+          class="link">ResidualError</a> threshold.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.fsums.Fsum-class.html#fadd" 
-        class="link">Fsum.fadd</a>.
+        Methods <a href="pygeodesy.fsums.Fsum-class.html#fadd" 
+        class="link">Fsum.fadd</a> and <a 
+        href="pygeodesy.fsums.Fsum-class.html#RESIDUAL" 
+        class="link">Fsum.RESIDUAL</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1819,8 +1824,7 @@
     </td>
   </tr></table>
   
-  <p>Return the sum <code><b>self</b> + <b>other</b></code> as an <a 
-  href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</p>
+  <p>Return the <code>Fsum(<b>self</b>, <b>other</b>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3306,11 +3310,11 @@
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+        <dd>An <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a><code>(fsum, residual)</code> with 
           <code>fsum</code> an <code>int</code> and <i>integer</i> 
           <code>residual</code> a <code>float</code> or <code>INT0</code> 
-          if the <code>fsum</code> is considered <i>exact</i>.</dd>
+          if the <code>fsum</code> is considered to be <i>exact</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -3694,11 +3698,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This <code>integer</code> sum if this instance 
-          <code>is_integer</code> or this <code>float</code> sum if the 
-          residual is zero or ignored.</dd>
+          <code>is_integer</code>, otherwise return the <code>float</code> 
+          sum if the residual is zero or if 
+          <code><b>raiser</b>=False</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.fsums.ResidualError-class.html">ResidualError</a></strong></code> - Non-zero residual and <code><b>raiser</b>=True</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -3734,6 +3739,36 @@
         class="link">Fsum.fint2</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="is_math_fsum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_math_fsum</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return whether functions <a 
+  href="pygeodesy.fsums.Fsum-class.html#fsum" class="link">fsum</a>, <a 
+  href="pygeodesy.fsums.Fsum-class.html#fsum_" class="link">fsum_</a>, <a 
+  href="pygeodesy.fsums-module.html#fsum1" class="link">fsum1</a> and <a 
+  href="pygeodesy.fsums-module.html#fsum1_" class="link">fsum1_</a> plus 
+  partials summation are based on Python's <code>math.fsum</code> or 
+  not.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>2</code> if all functions and partials summation are based 
+          on <code>math.fsum</code>, <code>True</code> if only the 
+          functions are based on <code>math.fsum</code> (and partials 
+          summation is not) or <code>False</code> if none are.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="pow"></a>
 <div>
@@ -3794,30 +3829,41 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">RESIDUAL</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*raiser</span>)</span>
+        <span class="sig-arg">*threshold</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Do or don't raise <a href="pygeodesy.fsums.ResidualError-class.html" 
-  class="link">ResidualError</a>s for this instance, overriding the default
-  from env variable <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
+  <p>Get and set this instance' <i>ratio</i> for raising <a 
+  href="pygeodesy.fsums.ResidualError-class.html" 
+  class="link">ResidualError</a>s, overriding the default from env variable
+  <code>PYGEODESY_FSUM_RESIDUAL</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
+        <li><strong class="pname"><code>threshold</code></strong> - If <code>scalar</code>, the <i>ratio</i> to exceed for raising <a
           href="pygeodesy.fsums.ResidualError-class.html" 
-          class="link">ResidualError</a>s for division and exponention, if 
-          <code>False</code> don't, if <code>None</code> restore the 
-          default setting (<code>bool</code>) or if omitted, keep the 
+          class="link">ResidualError</a>s in division and exponention, if 
+          <code>None</code> restore the default set with env variable 
+          <code>PYGEODESY_FSUM_RESIDUAL</code> or if omitted, keep the 
           current setting.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The previous <code>RESIDUAL</code> setting (<code>bool</code>).</dd>
+        <dd>The previous <code>RESIDUAL</code> setting (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>threshold</code></b>.</li>
+    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        A <a href="pygeodesy.fsums.ResidualError-class.html" 
+        class="link">ResidualError</a> is thrown if the non-zero 
+        <i>ratio</i> <code>residual</code> / <code>fsum</code> exceeds the 
+        <b><code>threshold</code></b>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="signOf"></a>
 <div>
@@ -4200,7 +4246,7 @@ always).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 27 20:35:02 2022
+    Generated by Epydoc 3.0.1 on Thu Sep  8 18:42:59 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

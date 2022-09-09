@@ -178,10 +178,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
                                  'MGRSError', 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
-                                 'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
+                                 'crosserrors', 'exception_chaining', 'itemsorted', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
-                          fmath=('Fdot', 'Fhorner', 'Fpolynomial',
+                          fmath=('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fn_rt', 'Fcbrt', 'Fsqrt',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                  'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
@@ -403,7 +403,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.08.16'
+__version__ = '22.09.02'
 
 
 def _ALL_OTHER(*objs):

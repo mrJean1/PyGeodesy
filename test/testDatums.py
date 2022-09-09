@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '22.07.01'
+__version__ = '22.09.02'
 
 from base import TestsBase
 
@@ -15,7 +15,7 @@ from pygeodesy.datums import _spherical_datum
 
 class Tests(TestsBase):
 
-    def testDatums(self):
+    def testDatum(self):
         # datum module tests
         E = Ellipsoid(1000, 1000, 0, name='TestEllipsiod')
         self.test('ellipsoid', E is Ellipsoids.TestEllipsiod, True)
@@ -43,12 +43,24 @@ class Tests(TestsBase):
         S = Datums.Sphere
         self.test(S.name, _spherical_datum(R_M) is S, True)
 
+    def testDatums(self):
+        n = 0
+        for _, d in Datums.items(all=True, asorted=True):
+            self.test(d.name, d, d, nl=1)
+            e = d.ellipsoid
+            self.test(e.name, e, e)
+            t = d.transform
+            self.test(t.name, t, t)
+            n += 1
+        self.test('total', n, 18, nl=1)
+
 
 if __name__ == '__main__':
 
     from pygeodesy import datums  # private
 
     t = Tests(__file__, __version__, datums)
+    t.testDatum()
     t.testDatums()
     t.results()
     t.exit()

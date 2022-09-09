@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.02.11'
+__version__ = '22.09.02'
 
 from base import TestsBase
 
@@ -68,9 +68,9 @@ class Tests(TestsBase):
         lb = toLcc(ll, conic=Conics.Snyder)
         self.test('toLcc2', lb.toStr(prec=1), '1894410.9 1564649.5')
         self.test('toLcc2', lb.toRepr(), '[E:1894411, N:1564649]')
-        self.test('toLcc2', lb.conic.name2, 'Snyder.NAD27')
+        self.test('toLcc2', lb.conic.name2, 'Snyder.NAD27', nt=1)
 
-        for n, c in sorted(Conics.items()):
+        for n, c in Conics.items(all=True, asorted=True):
             d = abs(c.par1 - c.par2)
             if d > 0:  # test corners of the conic
                 for ll in (LatLon(c.par1, c.lon0 - d, datum=c.datum),
@@ -84,7 +84,7 @@ class Tests(TestsBase):
 #                   self.test(n, lb, '')
                     ll_ = lb.toLatLon(LatLon)
                     self.test(n, ll, str(ll_))
-                    self.test(n, ll.datum.name, ll_.datum.name)
+                    self.test(n, ll.datum.name, ll_.datum.name, nt=1)
 
 
 if __name__ == '__main__':

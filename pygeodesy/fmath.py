@@ -9,11 +9,13 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, copysign0, _isfinite, isint, isnear0, \
                               isscalar, len2, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_get
-from pygeodesy.fsums import _2float, Fmt, Fsum, fsum, fsum1_, unstr
+                             _xError, _xkwds_get, _xkwds_pop
+from pygeodesy.fsums import _2float, _2powers, Fsum, fsum, fsum1_, _pow_op_, \
+                             Fmt, unstr
 from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NAN, PI, PI_2, PI_4, \
                              _few_, _h_, _negative_, _not_scalar_, _singular_, \
-                             _too_, _0_0, _0_5, _1_0, _1_3rd, _2_3rd, _N_1_0, _1_5
+                             _too_, _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
+                             _2_0, _2_3rd, _3_0
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_
@@ -22,10 +24,10 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.08.24'
+__version__ = '22.09.03'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
+_0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
 
 
 class Fdot(Fsum):
@@ -82,6 +84,29 @@ class Fhorner(Fsum):
             # assert self._ps is ps
 
 
+class Fhypot(Fsum):
+    '''Precision hypotenuse of summation.
+    '''
+    def __init__(self, *xs, **power_name_RESIDUAL):
+        '''New L{Fhypot} hypotenuse of (the I{power} of) several
+           C{scalar} or C{Fsum} values.
+
+           @arg xs: One or more values to include (each C{scalar}
+                    or an C{Fsum} instance).
+           @kwarg power_name_RESIDUAL: Optional exponent and root
+                        order C{B{power}=2}, C{B{name}=NN} and
+                        C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+        '''
+        try:
+            p = _xkwds_pop(power_name_RESIDUAL, power=2)
+            Fsum.__init__(self, **power_name_RESIDUAL)
+            if xs:
+                self._facc(_2powers(p, xs), up=False)  # PYCHOK None
+            self._fset(self._fpow(_1_0 / p, _pow_op_), asis=True)
+        except Exception as X:
+            raise self._ErrorX(X, xs, power=p)
+
+
 class Fpolynomial(Fsum):
     '''Precision polynomial evaluation.
     '''
@@ -108,20 +133,89 @@ class Fpolynomial(Fsum):
             self.fadd(_map_a_x_b(cs[1:], fpowers(x, n), Fpolynomial))
 
 
+class Fpowers(Fsum):
+    '''Precision summation or powers, optimized for C{power=2}.
+    '''
+    def __init__(self, power, *xs, **name_RESIDUAL):
+        '''New L{Fpowers} sum of (the I{power} of) several C{scalar}
+           or C{Fsum} values.
+
+           @arg power: The exponent (C{scalar} or C{Fsum}).
+           @arg xs: One or more values to include (each C{scalar}
+                    or an C{Fsum} instance).
+           @kwarg power_name_RESIDUAL: Optional exponent and root
+                        order C{B{power}=2}, C{B{name}=NN} and
+                        C{B{RESIDUAL}=None}, see L{Fsum.__init__}.
+        '''
+        try:
+            Fsum.__init__(self, **name_RESIDUAL)
+            if xs:
+                self._facc(_2powers(power, xs), up=False)  # PYCHOK None
+        except Exception as X:
+            raise self._ErrorX(X, xs, power=power)
+
+
+class Fn_rt(Fsum):
+    '''Precision n-th root of summation.
+    '''
+    def __init__(self, root, *xs, **name_RESIDUAL):
+        '''New L{Fn_rt} root of the precision sum of several
+           C{scalar} or C{Fsum} values.
+
+           @arg root: The order (C{scalar} or C{Fsum}).
+           @arg xs: Values to include (each C{scalar} or an
+                    C{Fsum} instance).
+           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+        '''
+        try:
+            Fsum.__init__(self, *xs, **name_RESIDUAL)
+            self._fset(self._fpow(_1_0 / root, _pow_op_), asis=True)
+        except Exception as X:
+            raise self._ErrorX(X, xs, root=root)
+
+
+class Fcbrt(Fn_rt):
+    '''Precision cubic root of summation.
+    '''
+    def __init__(self, *xs, **name_RESIDUAL):
+        '''New L{Fcbrt} cubic root of the precision sum of
+           several C{scalar} or C{Fsum} values.
+
+           @arg xs: Values to include (each C{scalar} or an
+                    C{Fsum} instance).
+           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+        '''
+        Fn_rt.__init__(self, _3_0, *xs, **name_RESIDUAL)
+
+
+class Fsqrt(Fn_rt):
+    '''Precision square root of summation.
+    '''
+    def __init__(self, *xs, **name_RESIDUAL):
+        '''New L{Fsqrt} square root of the precision sum of
+           several C{scalar} or C{Fsum} values.
+
+           @arg xs: Values to include (each C{scalar} or an
+                    C{Fsum} instance).
+           @kwarg name_RESIDUAL: See L{Fsum.__init__}.
+        '''
+        Fn_rt.__init__(self, _2_0, *xs, **name_RESIDUAL)
+
+
 try:
     from math import cbrt  # Python 3.11+
 
-    def cbrt2(x3):
-        '''Compute the cube root I{squared} M{x3**(2/3)}.
+    def cbrt2(x):
+        '''Compute the cube root I{squared} M{x**(2/3)}.
         '''
-        return cbrt(x3)**2  # cbrt(-0.0*2) == -0.0
+        return cbrt(x)**2  # cbrt(-0.0*2) == -0.0
 
 except ImportError:  # Python 3.10-
 
-    def cbrt(x3):
-        '''Compute the cube root M{x3**(1/3)}.
+    def cbrt(x):
+        '''Compute the cube root M{x**(1/3)}.
 
-           @arg x3: Value (C{scalar}).
+           @arg x: Value (C{scalar}).
 
            @return: Cubic root (C{float}).
 
@@ -130,18 +224,18 @@ except ImportError:  # Python 3.10-
         # <https://archive.lib.MSU.edu/crcmath/math/math/r/r021.htm>
         # simpler and more accurate than Ken Turkowski's CubeRoot, see
         # <https://People.FreeBSD.org/~lstewart/references/apple_tr_kt32_cuberoot.pdf>
-        return _copysign(pow(fabs(x3), _1_3rd), x3)  # cbrt(-0.0) == -0.0
+        return _copysign(pow(fabs(x), _1_3rd), x)  # cbrt(-0.0) == -0.0
 
-    def cbrt2(x3):  # PYCHOK attr
-        '''Compute the cube root I{squared} M{x3**(2/3)}.
+    def cbrt2(x):  # PYCHOK attr
+        '''Compute the cube root I{squared} M{x**(2/3)}.
 
-           @arg x3: Value (C{scalar}).
+           @arg x: Value (C{scalar}).
 
            @return: Cube root I{squared} (C{float}).
 
            @see: Functions L{cbrt} and L{sqrt3}.
         '''
-        return pow(fabs(x3), _2_3rd)  # XXX pow(fabs(x3), _1_3rd)**2
+        return pow(fabs(x), _2_3rd)  # XXX pow(fabs(x), _1_3rd)**2
 
 
 def euclid(x, y):
@@ -192,7 +286,7 @@ def facos1(x):
         r = PI_2
     elif a < EPS1:
         H = Fhorner(-a, 1.5707288, 0.2121144, 0.0742610, 0.0187293)
-        r = H.fmul(sqrt(_1_0 - a)).fsum()
+        r = float(H * sqrt(_1_0 - a))
         if x < 0:
             r = PI - r
     else:
@@ -235,8 +329,8 @@ def fatan1(x):
     # Eq (9): PI_4 * x - x * (abs(x) - 1) * (0.2447 + 0.0663 * abs(x)), for -1 < x < 1
     #         PI_4 * x - (x**2 - x) * (0.2447 + 0.0663 * x), for 0 < x - 1
     #         x * (1.0300981633974482 + x * (-0.1784 - x * 0.0663))
-    h = Fhorner(x, _0_0, 1.0300982, -0.1784, -0.0663)
-    return h.fsum()
+    H = Fhorner(x, _0_0, 1.0300982, -0.1784, -0.0663)
+    return float(H)
 
 
 def fatan2(y, x):
@@ -343,8 +437,8 @@ def fhorner(x, *cs):
 
        @see: Function L{fpolynomial} and class L{Fhorner}.
     '''
-    h = Fhorner(x, *cs)
-    return h.fsum()
+    H = Fhorner(x, *cs)
+    return float(H)
 
 
 def fidw(xs, ds, beta=2):
@@ -439,9 +533,9 @@ def fpolynomial(x, *cs, **over):
 
        @see: Function L{fhorner} and class L{Fpolynomial}.
     '''
-    p =  Fpolynomial(x, *cs)
+    P =  Fpolynomial(x, *cs)
     d = _xkwds_get(over, over=0) if over else 0
-    return p.fover(d) if d else p.fsum()
+    return P.fover(d) if d else float(P)
 
 
 def fpowers(x, n, alts=0):
@@ -575,8 +669,8 @@ def fremainder(x, y):
         try:
             r = _remainder(x, y) if x else x
         except Exception as e:
-            t = fremainder.__name__
-            raise _xError(e, unstr(t, x, y))
+            n = fremainder.__name__
+            raise _xError(e, unstr(n, x, y))
     else:  # handle x INF and NINF as NAN
         r = NAN
     return r
@@ -762,33 +856,33 @@ def norm_(*xs):
         raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
 
 
-def sqrt0(x2):
-    '''Compute the square root iff C{B{x2} >} L{EPS02}.
+def sqrt0(x):
+    '''Compute the square root iff C{B{x} >} L{EPS02}.
 
-       @arg x2: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
        @return: Square root (C{float}) or C{0.0}.
 
-       @note: Any C{B{x2} <} L{EPS02} I{including} C{B{x2} < 0}
+       @note: Any C{B{x} <} L{EPS02} I{including} C{B{x} < 0}
               returns C{0.0}.
     '''
-    return sqrt(x2) if x2 > EPS02 else (_0_0 if x2 < EPS02 else EPS0)
+    return sqrt(x) if x > EPS02 else (_0_0 if x < EPS02 else EPS0)
 
 
-def sqrt3(x2):
-    '''Compute the square root, I{cubed} M{sqrt(x2)**3} or M{sqrt(x2**3)}.
+def sqrt3(x):
+    '''Compute the square root, I{cubed} M{sqrt(x)**3} or M{sqrt(x**3)}.
 
-       @arg x2: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
-       @return: Cubed square root (C{float}).
+       @return: Square root I{cubed} (C{float}).
 
-       @raise ValueError: Negative B{C{x2}}.
+       @raise ValueError: Negative B{C{x}}.
 
        @see: Functions L{cbrt} and L{cbrt2}.
     '''
-    if x2 < 0:
-        raise _ValueError(x2=x2, txt=_negative_)
-    return pow(x2, _1_5) if x2 else _0_0
+    if x < 0:
+        raise _ValueError(x=x, txt=_negative_)
+    return pow(x, _1_5) if x else _0_0
 
 
 def sqrt_a(h, b):

@@ -4,12 +4,12 @@
 u'''Some basic C{rhumbx} vs C++ C{RhumbSolve} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.06.08'
+__version__ = '22.09.02'
 
-from base import RhumbSolve, startswith, TestsBase
+from base import _fLate, RhumbSolve, startswith, TestsBase
 
 from pygeodesy import NN, Caps, classname, Ellipsoid, GDict, \
-                      latDMS, lonDMS, parseDMS, parseDMS2, \
+                      itemsorted, latDMS, lonDMS, parseDMS, parseDMS2, \
                       Rhumb, RhumbLine, RhumbLineSolve, R_M, \
                       Fwelford, fremainder, pairs
 from pygeodesy.interns import _COMMASPACE_, DIG, _DOT_
@@ -18,21 +18,10 @@ _C = ':'
 _G = '%%.%sg' % (DIG,)
 
 
-def _fLate(f):
-    t = 'proLate' if f < 0 else \
-        ('obLate' if f > 0 else 'sphere')
-    return 'f(%.1f) %s' % (f, t)
-
-
-def _key2(t2):
-    n, v = t2
-    return n.lower(), v
-
-
 class Tests(TestsBase):
 
     def testDiffs(self, name, r, rx, nl, e=1e-13):
-        for n, v in sorted(r.items(), key=_key2):
+        for n, v in itemsorted(r):
             x = rx.get(n, None)
             if x is not None:
                 k = int(v) == int(x) or \

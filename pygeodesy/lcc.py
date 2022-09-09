@@ -31,8 +31,8 @@ from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import hypot
 from pygeodesy.interns import EPS, EPS02, NN, PI_2, _COMMASPACE_, _ellipsoidal_, \
                              _float as _F, _GRS80_, _k0_, _lat0_, _lon0_, _m_, \
-                             _NAD83_, _NTF_, _SPACE_, _WGS84_, _0_0, _0_5, \
-                             _1_0, _2_0, _90_0
+                             _NAD83_, _NTF_, _SPACE_, _WGS84_, \
+                             _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
@@ -48,7 +48,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.08.01'
+__version__ = '22.09.02'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -666,7 +666,7 @@ if __name__ == '__main__':
     from pygeodesy.interns import _NL_, _NLATvar_
 
     # __doc__ of this file, force all into registery
-    t = _NL_ + Conics.toRepr(all=True)
+    t = _NL_ + Conics.toRepr(all=True, asorted=True)
     print(_NLATvar_.join(t.split(_NL_)))
 
 # **) MIT License
