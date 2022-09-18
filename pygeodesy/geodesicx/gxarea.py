@@ -17,8 +17,8 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isodd, unsigned0  # from .karney
-from pygeodesy.interns import NAN, NN, _COMMASPACE_, \
-                             _0_0, _0_5, _720_0
+from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
+from pygeodesy.interns import NN, _COMMASPACE_
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, isodd, \
                             _norm180, _remainder, _sum2_, unsigned0
 from pygeodesy.lazily import _ALL_DOCS, printf
@@ -29,7 +29,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod
 
 __all__ = ()
-__version__ = '22.06.24'
+__version__ = '22.09.12'
 
 
 class GeodesicAreaExact(_NamedBase):

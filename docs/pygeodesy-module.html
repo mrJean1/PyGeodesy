@@ -267,7 +267,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 12.5.1 Monterey and in
+    target="_top">RhumbSolve</a> 1.51), all on macOS 12.6 Monterey and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -318,7 +318,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
+    on macOS 12.1-5 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -339,7 +339,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.6, both in 64-bit on macOS 
-    12.5.1 Monterey.</p>
+    12.6 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -403,6 +403,10 @@
         <a href="pygeodesy.mgrs-module.html" 
         class="link">pygeodesy.mgrs</a>.
       </li>
+    </ul>
+    <p>and these to control standard or <i>named</i> 
+    <code>repr</code>esentations:</p>
+    <ul>
       <li>
         <code>PYGEODESY_BEARING_STD_REPR</code> - see method <a 
         href="pygeodesy.units.Bearing-class.html" 
@@ -420,12 +424,12 @@
       </li>
       <li>
         <code>PYGEODESY_FLOAT_STD_REPR</code> - see method <a 
-        href="pygeodesy.units.Float-class.html" 
+        href="pygeodesy.unitsBase.Float-class.html" 
         class="link">pygeodesy.Float</a><code>.__repr__</code>.
       </li>
       <li>
         <code>PYGEODESY_INT_STD_REPR</code> - see method <a 
-        href="pygeodesy.units.Int-class.html" 
+        href="pygeodesy.unitsBase.Int-class.html" 
         class="link">pygeodesy.Int</a><code>.__repr__</code>.
       </li>
       <li>
@@ -434,8 +438,13 @@
         class="link">pygeodesy.Meter</a><code>.__repr__</code>.
       </li>
       <li>
+        <code>PYGEODESY_RADIANS_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Radians-class.html" 
+        class="link">pygeodesy.Radians</a><code>.__repr__</code>.
+      </li>
+      <li>
         <code>PYGEODESY_STR_STD_REPR</code> - see method <a 
-        href="pygeodesy.units.Str-class.html" 
+        href="pygeodesy.unitsBase.Str-class.html" 
         class="link">pygeodesy.Str</a><code>.__repr__</code>.
       </li>
     </ul>
@@ -473,14 +482,14 @@
     <p>and:</p>
     <ul>
       <li>
-        <code>PYGEODESY_INIT__ALL__</code> - to avoid importing all 
-        <code>pygeodesy</code> modules unnecessarily (in Python 2 or with 
-        <code>PYGEODESY_LAZY_IMPORT</code> turned off), set env variable 
+        <code>PYGEODESY_INIT__ALL__</code> - Set env variable 
         <code>PYGEODESY_INIT__ALL__</code> to anything other than 
-        <code>&quot;__all__&quot;</code>.  However, importing 
-        <code>pygeodesy</code> items must then be qualified with the module
-        name, for example <code> from pygeodesy.ellipsoidalExact import 
-        LatLon </code>
+        <code>&quot;__all__&quot;</code> to avoid importing all 
+        <code>pygeodesy</code> modules unnecessarily (in Python 2 or with 
+        <code>PYGEODESY_LAZY_IMPORT</code> turned off in Python 3).  
+        However, to import a <code>pygeodesy</code> item, the item name 
+        must be qualified with the <code>module</code> name, for example 
+        <code> from pygeodesy.ellipsoidalExact import LatLon </code>
       </li>
     </ul>
   <h1 class="heading">License</h1>
@@ -508,7 +517,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.09.09
+        22.09.19
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -528,6 +537,32 @@
     <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.constants-module.html">pygeodesy.constants</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>int</code> constants 
+        across <code>pygeodesy</code> modules and related functions <a 
+        href="pygeodesy.constants-module.html#float_" 
+        class="link">pygeodesy.float_</a>, <a 
+        href="pygeodesy.constants-module.html#isclose" 
+        class="link">pygeodesy.isclose</a>, <a 
+        href="pygeodesy.constants-module.html#isfinite" 
+        class="link">pygeodesy.isfinite</a>, <a 
+        href="pygeodesy.constants-module.html#isinf" 
+        class="link">pygeodesy.isinf</a>, <a 
+        href="pygeodesy.constants-module.html#isint0" 
+        class="link">pygeodesy.isint0</a>, <a 
+        href="pygeodesy.constants-module.html#isnan" 
+        class="link">pygeodesy.isnan</a>, <a 
+        href="pygeodesy.constants-module.html#isnear0" 
+        class="link">pygeodesy.isnear0</a>, <a 
+        href="pygeodesy.constants-module.html#isnear1" 
+        class="link">pygeodesy.isnear1</a>, <a 
+        href="pygeodesy.constants-module.html#isneg0" 
+        class="link">pygeodesy.isneg0</a>, <a 
+        href="pygeodesy.constants-module.html#isninf" 
+        class="link">pygeodesy.isninf</a>, <a 
+        href="pygeodesy.constants-module.html#isnon0" 
+        class="link">pygeodesy.isnon0</a> and <a 
+        href="pygeodesy.constants-module.html#remainder" 
+        class="link">pygeodesy.remainder</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Datums and transformations thereof.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED constants, classes, functions, methods, etc.</em>
@@ -613,9 +648,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and geoid height interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations of <code>LatLon</code> points.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>str</code>ing 
-        constants, <code>intern</code>'ed across <code>pygeodesy</code> 
-        modules.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single <code>str</code>ing constants, <code>intern</code>'ed across
+        <code>pygeodesy</code> modules and function <a 
+        href="pygeodesy.interns-module.html#machine" 
+        class="link">pygeodesy.machine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Charles F.F. Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib" 
@@ -701,8 +737,17 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various <code>Float</code>, <code>Int</code> and 
-        <code>Str</code>ing units.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various units, all sub-classes of <code>Float</code>, 
+        <code>Int</code> and <code>Str</code> from basic 
+        <code>float</code>, <code>int</code> respectively <code>str</code> 
+        to named units as <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>, <a href="pygeodesy.units.Feet-class.html"
+        class="link">Feet</a>, <a href="pygeodesy.units.Meter-class.html" 
+        class="link">Meter</a>, <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a>,
+        etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase-module.html">pygeodesy.unitsBase</a></strong>: <em class="summary">Basic <code>Float</code>, <code>Int</code> and <code>Str</code>ing 
+        units classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary"><i>Karney</i>'s Universal Polar Stereographic (UPS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Various utility functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
@@ -1855,7 +1900,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.units.Float-class.html" class="summary-name">Float</a><br />
+        <a href="pygeodesy.unitsBase.Float-class.html" class="summary-name">Float</a><br />
       Named <code>float</code>.
     </td>
   </tr>
@@ -2898,7 +2943,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.units.Int-class.html" class="summary-name">Int</a><br />
+        <a href="pygeodesy.unitsBase.Int-class.html" class="summary-name">Int</a><br />
       Named <code>int</code>.
     </td>
   </tr>
@@ -3699,7 +3744,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.units.Radius-class.html" class="summary-name">Radius</a><br />
+        <a href="pygeodesy.unitsBase.Radius-class.html" class="summary-name">Radius</a><br />
       Named <code>float</code> representing a radius, conventionally in 
         <code>meter</code>.
     </td>
@@ -3946,8 +3991,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.units.Str-class.html" class="summary-name">Str</a><br />
-      Named <code>str</code>.
+        <a href="pygeodesy.unitsBase.Str-class.html" class="summary-name">Str</a><br />
+      Named, callable <code>str</code>.
     </td>
   </tr>
 <tr>
@@ -4170,7 +4215,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.UtmUps4Tuple-class.html" class="summary-name">UtmUps4Tuple</a><br />
-      OBSOLETE, expect a <a 
+      DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.
@@ -4810,7 +4855,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the area of a polygon.</td>
           <td align="right" valign="top">
@@ -4830,7 +4875,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#areaof" class="summary-sig-name">areaof</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#areaOf" 
@@ -5209,7 +5254,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#circin6" class="summary-sig-name">circin6</a>(<span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the <i>inscribed</i> aka <i>In- 
       circle</i> of a (2- or 3-D) triangle.</td>
@@ -5250,7 +5295,7 @@
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">circum</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the smallest circle <i>through</i> or
       <i>containing</i> three (2- or 3-D) points.</td>
@@ -5786,7 +5831,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
@@ -6033,7 +6078,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert an angle to a distance along the equator or along the 
       parallel at an other (geodetic) latitude.</td>
@@ -6333,7 +6378,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Compute the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
@@ -6442,7 +6487,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Approximate the <code>Euclidean</code> distance between two 
@@ -6546,7 +6591,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the surface area of a (spherical) quadrilateral bounded by a 
       segment of a great circle, two meridians and the equator using <a 
@@ -6616,7 +6661,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the surface area of a (spherical) quadrilateral bounded by a 
       segment of a great circle, two meridians and the equator.</td>
@@ -7126,7 +7171,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (spherical) points using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula"
@@ -7170,7 +7215,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">*fs</span>,
         <span class="summary-sig-arg">**sets</span>)</span><br />
-      Get scalars as <code>float</code> or <i>intern</i> 
+      Get scalars as <code>float</code> or <i>intern</i>'ed 
       <code>float</code>.</td>
           <td align="right" valign="top">
             
@@ -7704,7 +7749,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fad58548cd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f94700e18d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -7731,7 +7776,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (spherical) points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
@@ -7775,7 +7820,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#heightOf" class="summary-sig-name">heightOf</a>(<span class="summary-sig-arg">angle</span>,
         <span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
       Determine the height above the (spherical) earth' surface after 
       traveling along a straight line at a given tilt.</td>
           <td align="right" valign="top">
@@ -7794,7 +7839,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#horizon" class="summary-sig-name">horizon</a>(<span class="summary-sig-arg">height</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">refraction</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine the distance to the horizon from a given altitude above the
       (spherical) earth.</td>
@@ -8037,7 +8082,7 @@
         <span class="summary-sig-arg">end1</span>,
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection point of two lines, each defined by two 
@@ -8065,6 +8110,25 @@
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection of two spheres or circles, each defined by a
       (3-D) center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isDEPRECATED"></a><span class="summary-sig-name">isDEPRECATED</span>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Return <code>True</code> if <code><b>obj</b></code> is a 
+      <code>DEPRECATED</code> class, method or function, <code>False</code>
+      if not or <code>None</code> if undetermined.</td>
           <td align="right" valign="top">
             
             
@@ -8135,7 +8199,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
       Check whether two points are antipodal, on diametrically opposite 
       sides of the earth.</td>
           <td align="right" valign="top">
@@ -8157,7 +8221,7 @@
         <span class="summary-sig-arg">lam1</span>,
         <span class="summary-sig-arg">phi2</span>,
         <span class="summary-sig-arg">lam2</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
       Check whether two points are antipodal, on diametrically opposite 
       sides of the earth.</td>
           <td align="right" valign="top">
@@ -8232,7 +8296,7 @@
           <td><span class="summary-sig"><a name="isclose"></a><span class="summary-sig-name">isclose</span>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">rel_tol</span>=<span class="summary-sig-default">1e-12</span>,
-        <span class="summary-sig-arg">abs_tol</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
+        <span class="summary-sig-arg">abs_tol</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
       Like <code>math.isclose</code>, but with defaults such that 
       <code>isclose(0, EPS0)</code> is <code>True</code> by default.</td>
           <td align="right" valign="top">
@@ -8253,7 +8317,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iscolinearWith" class="summary-sig-name">iscolinearWith</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Check whether a point is colinear with two other (2- or 3-D) points.</td>
           <td align="right" valign="top">
@@ -8457,7 +8521,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isint0" class="summary-sig-name">isint0</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check for INT0 or <code>int(0)</code> value.</td>
+      Check for <a href="pygeodesy.constants-module.html#INT0" 
+      class="link">INT0</a> or <code>int(0)</code> value.</td>
           <td align="right" valign="top">
             
             
@@ -8509,8 +8574,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear0" class="summary-sig-name">isnear0</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
-      Is <b><code>x</code></b> near zero?</td>
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
+      Is <b><code>x</code></b> near zero within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -8527,8 +8592,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear1" class="summary-sig-name">isnear1</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
-      Is <b><code>x</code></b> near one?</td>
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
+      Is <b><code>x</code></b> near one within a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -8545,7 +8610,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Check for NEG0, negative <code>0.0</code>.</td>
+      Check for <a href="pygeodesy.constants-module.html#NEG0" 
+      class="link">NEG0</a>, negative <code>0.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -8562,7 +8628,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isninf" class="summary-sig-name">isninf</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Check for NINF, negative <code>INF</code>.</td>
+      Check for <a href="pygeodesy.constants-module.html#NINF" 
+      class="link">NINF</a>, negative <code>INF</code>.</td>
           <td align="right" valign="top">
             
             
@@ -8579,8 +8646,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.93038065763e-32</span>)</span><br />
-      Is <b><code>x</code></b> non-zero?</td>
+        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
+      Is <b><code>x</code></b> non-zero with a tolerance?</td>
           <td align="right" valign="top">
             
             
@@ -9024,7 +9091,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert a distance to an angle along the equator or along the 
       parallel at an other (geodetic) latitude.</td>
@@ -9116,7 +9183,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert a distance to an angle along the equator or along the 
       parallel at an other (geodetic) latitude.</td>
@@ -9994,7 +10061,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#perimeterOf" class="summary-sig-name">perimeterOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the perimeter of a path or polygon.</td>
           <td align="right" valign="top">
@@ -10015,7 +10082,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#perimeterof" class="summary-sig-name">perimeterof</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#perimeterOf" 
@@ -10236,7 +10303,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
       Convert an angle to a distance along the equator or along the 
       parallel at an other (geodetic) latitude.</td>
@@ -10426,7 +10493,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
-        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
@@ -10484,7 +10551,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify1" class="summary-sig-name">simplify1</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       Basic simplification of a path of <code>LatLon</code> points.</td>
@@ -10505,7 +10572,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10529,7 +10596,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDP" class="summary-sig-name">simplifyRDP</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10552,7 +10619,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10575,7 +10642,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyRW" class="summary-sig-name">simplifyRW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10598,7 +10665,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10621,7 +10688,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -10759,7 +10826,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#soddy4" class="summary-sig-name">soddy4</a>(<span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">point3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
       Return the radius and center of the <code>inner</code> <i>Soddy</i> 
       circle of a (2- or 3-D) triangle.</td>
@@ -11479,7 +11546,7 @@
         <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">center3</span>,
         <span class="summary-sig-arg">radius3</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Trilaterate three spheres, each given as a (3-D) center and a radius.</td>
           <td align="right" valign="top">
@@ -11793,7 +11860,7 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (spherical) points using <a 
       href="https://WikiPedia.org/wiki/Great-circle_distance" 
@@ -11993,7 +12060,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.9'"><code class="variable-quote">'</code><code class="variable-string">22.9.9</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.19'"><code class="variable-quote">'</code><code class="variable-string">22.9.19</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12040,7 +12107,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
+        <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.220446049250313e-16">2.220446049250313e-16</code><br />
       System's <i class="math">epsilon</i> &#8776; 2.22044604925e-16 
       (<code>float</code>).
     </td>
@@ -12049,7 +12116,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS0"></a><span class="summary-name">EPS0</span> = <code title="4.93038065763e-32">4.93038065763e-32</code><br />
+        <a name="EPS0"></a><span class="summary-name">EPS0</span> = <code title="4.930380657631324e-32">4.930380657631324e-32</code><br />
       <i class="math">EPS**2</i>    &#8776; 4.9e-32 for near-zero comparison
     </td>
   </tr>
@@ -12057,7 +12124,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS02"></a><span class="summary-name">EPS02</span> = <code title="2.43086534291e-63">2.43086534291e-63</code><br />
+        <a name="EPS02"></a><span class="summary-name">EPS02</span> = <code title="2.4308653429145085e-63">2.4308653429145085e-63</code><br />
       <i class="math">EPS**4</i>    &#8776; 2.4e-63 for near-zero squared 
       comparison
     </td>
@@ -12066,7 +12133,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
+        <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="0.9999999999999998">0.9999999999999998</code><br />
       <i class="math">1 - EPS</i>   &#8776; 0.9999999999999998 
       (<code>float</code>).
     </td>
@@ -12075,15 +12142,14 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS_2</i>   DEPRECATED, do not use.
+        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="0.9999999999999999">0.9999999999999999</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="4.4408920985e-16">4.4408920985e-16</code><br />
+        <a name="EPS2"></a><span class="summary-name">EPS2</span> = <code title="4.440892098500626e-16">4.440892098500626e-16</code><br />
       <i class="math">EPS * 2</i>   &#8776; 4.440892098501e-16 
       (<code>float</code>).
     </td>
@@ -12092,7 +12158,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197e-16">8.881784197e-16</code><br />
+        <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197001252e-16">8.881784197001252e-16</code><br />
       <i class="math">EPS * 4</i>   &#8776; 8.881784197001e-16 
       (<code>float</code>).
     </td>
@@ -12101,7 +12167,7 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code><br />
+        <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.1102230246251565e-16">1.1102230246251565e-16</code><br />
       <i class="math">EPS / 2</i>   &#8776; 1.110223024625e-16 
       (<code>float</code>).
     </td>
@@ -12429,9 +12495,9 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     </td><td class="summary">
         <a name="INF"></a><span class="summary-name">INF</span> = <code title="inf">inf</code><br />
       Infinity (<code>float</code>), see functions <a 
-      href="pygeodesy.basics-module.html#isinf" 
-      class="link">pygeodesy.isinf</a>, <a 
-      href="pygeodesy.basics-module.html#isfinite" 
+      href="pygeodesy.constants-module.html#isinf" 
+      class="link">pygeodesy.isinf</a> and <a 
+      href="pygeodesy.constants-module.html#isfinite" 
       class="link">pygeodesy.isfinite</a> and <code>NINF</code>.
     </td>
   </tr>
@@ -12442,7 +12508,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
         <a name="INT0"></a><span class="summary-name">INT0</span> = <code title="0">0</code><br />
       <code>int(0)</code>, missing Z-components, <code>if 
       <b>z</b>=<b>INT0</b></code>, see functions <a 
-      href="pygeodesy.basics-module.html#isint0" 
+      href="pygeodesy.constants-module.html#isint0" 
       class="link">pygeodesy.isint0</a>, <a 
       href="pygeodesy.vector2d-module.html#meeus2" 
       class="link">pygeodesy.meeus2</a>
@@ -12452,8 +12518,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code><br />
-      DEPRECATED, use <code>MANT_DIG</code>.
+        <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code>
     </td>
   </tr>
 <tr>
@@ -12469,7 +12534,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="MAX"></a><span class="summary-name">MAX</span> = <code title="1.79769313486e+308">1.79769313486e+308</code><br />
+        <a name="MAX"></a><span class="summary-name">MAX</span> = <code title="1.7976931348623157e+308">1.7976931348623157e+308</code><br />
       System's <i class="math">float max</i> &#8776; 1.798e+308 
       (<code>float</code>).
     </td>
@@ -12478,7 +12543,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="MIN"></a><span class="summary-name">MIN</span> = <code title="2.22507385851e-308">2.22507385851e-308</code><br />
+        <a name="MIN"></a><span class="summary-name">MIN</span> = <code title="2.2250738585072014e-308">2.2250738585072014e-308</code><br />
       System's <i class="math">float min</i> &#8776; 2.225e-308 
       (<code>float</code>).
     </td>
@@ -12489,7 +12554,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     </td><td class="summary">
         <a name="NAN"></a><span class="summary-name">NAN</span> = <code title="nan">nan</code><br />
       Not-A-Number (<code>float</code>), see function <a 
-      href="pygeodesy.basics-module.html#isnan" 
+      href="pygeodesy.constants-module.html#isnan" 
       class="link">pygeodesy.isnan</a>.
     </td>
   </tr>
@@ -12499,7 +12564,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     </td><td class="summary">
         <a name="NEG0"></a><span class="summary-name">NEG0</span> = <code title="-0.0">-0.0</code><br />
       Negative 0.0 (<code>float</code>), see function <a 
-      href="pygeodesy.basics-module.html#isneg0" 
+      href="pygeodesy.constants-module.html#isneg0" 
       class="link">pygeodesy.isneg0</a>.
     </td>
   </tr>
@@ -12509,7 +12574,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     </td><td class="summary">
         <a name="NINF"></a><span class="summary-name">NINF</span> = <code title="-inf">-inf</code><br />
       Negative infinity (<code>float</code>), see function <a 
-      href="pygeodesy.basics-module.html#isninf" 
+      href="pygeodesy.constants-module.html#isninf" 
       class="link">pygeodesy.isninf</a> and <code>INF</code>.
     </td>
   </tr>
@@ -12526,15 +12591,14 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'"><code class="variable-quote">'</code><code class="variable-string">OK</code><code class="variable-quote">'</code></code><br />
-      DEPRECATED, do not use.
+        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'">'OK'</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.14159265359">3.14159265359</code><br />
+        <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.141592653589793">3.141592653589793</code><br />
       Constant <i class="math">math.pi</i> (<code>float</code>).
     </td>
   </tr>
@@ -12542,7 +12606,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
+        <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.283185307179586">6.283185307179586</code><br />
       Two PI, <i class="math">PI * 2</i>, aka <i>Tau</i> 
       (<code>float</code>).
     </td>
@@ -12551,7 +12615,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI3"></a><span class="summary-name">PI3</span> = <code title="9.42477796077">9.42477796077</code><br />
+        <a name="PI3"></a><span class="summary-name">PI3</span> = <code title="9.42477796076938">9.42477796076938</code><br />
       Three PI, <i class="math">PI * 3</i> (<code>float</code>).
     </td>
   </tr>
@@ -12559,7 +12623,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI3_2"></a><span class="summary-name">PI3_2</span> = <code title="4.71238898038">4.71238898038</code><br />
+        <a name="PI3_2"></a><span class="summary-name">PI3_2</span> = <code title="4.71238898038469">4.71238898038469</code><br />
       One and a half PI, <i class="math">PI * 3 / 2</i> 
       (<code>float</code>).
     </td>
@@ -12568,7 +12632,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI4"></a><span class="summary-name">PI4</span> = <code title="12.5663706144">12.5663706144</code><br />
+        <a name="PI4"></a><span class="summary-name">PI4</span> = <code title="12.566370614359172">12.566370614359172</code><br />
       Four PI, <i class="math">PI * 4</i> (<code>float</code>).
     </td>
   </tr>
@@ -12576,7 +12640,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
+        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.5707963267948966">1.5707963267948966</code><br />
       Half PI, <i class="math">PI / 2</i> (<code>float</code>).
     </td>
   </tr>
@@ -12584,7 +12648,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code><br />
+        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.7853981633974483">0.7853981633974483</code><br />
       Quarter PI, <i class="math">PI / 4</i> (<code>float</code>).
     </td>
   </tr>
@@ -12608,7 +12672,7 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.008771415">6371.008771415</code><br />
+        <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.0087714149995">6371.0087714149995</code><br />
       Mean (spherical) earth radius (<code>km</code>, kilometer).
     </td>
   </tr>
@@ -12642,6 +12706,14 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     </td><td class="summary">
         <a name="R_NM"></a><span class="summary-name">R_NM</span> = <code title="3440.06953100162">3440.06953100162</code><br />
       Mean (spherical) earth radius (<code>NM</code>, nautical miles).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="R_QM"></a><span class="summary-name">R_QM</span> = <code title="6372797.560856">6372797.560856</code><br />
+      Earth' (triaxial) quadratic mean radius (<code>meter</code>)
     </td>
   </tr>
 <tr>
@@ -13371,7 +13443,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -13426,7 +13498,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">areaof</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -14133,7 +14205,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circin6</span>&nbsp;(<span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">point3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -14254,7 +14326,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">point3</span>,
         <span class="sig-arg">circum</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -15478,7 +15550,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -15635,7 +15707,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd><code>cot(<b>rad</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.basics-module.html#isnear0" 
+        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(sin(<b>rad</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -15701,7 +15773,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd><code>cot(<b>deg</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.basics-module.html#isnear0" 
+        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(sin(<b>deg</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -15944,7 +16016,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -16504,7 +16576,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -16740,7 +16812,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -17004,7 +17076,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -17154,7 +17226,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18124,7 +18196,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18258,7 +18330,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Get scalars as <code>float</code> or <i>intern</i> 
+  <p>Get scalars as <code>float</code> or <i>intern</i>'ed 
   <code>float</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -19367,7 +19439,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fad58548cd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f94700e18d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19434,7 +19506,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -19575,7 +19647,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">heightOf</span>&nbsp;(<span class="sig-arg">angle</span>,
         <span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19619,7 +19691,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">horizon</span>&nbsp;(<span class="sig-arg">height</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">refraction</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -20069,7 +20141,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
@@ -20300,7 +20372,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20340,7 +20412,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lam1</span>,
         <span class="sig-arg">phi2</span>,
         <span class="sig-arg">lam2</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20471,7 +20543,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">iscolinearWith</span>&nbsp;(<span class="sig-arg">point</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -20825,7 +20897,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for INT0 or <code>int(0)</code> value.</p>
+  <p>Check for <a href="pygeodesy.constants-module.html#INT0" 
+  class="link">INT0</a> or <code>int(0)</code> value.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -20834,9 +20907,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is INT0, 
-          <code>int(0)</code> or <code>float(0)</code>, <code>False</code> 
-          otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is <a 
+          href="pygeodesy.constants-module.html#INT0" 
+          class="link">INT0</a>, <code>int(0)</code> or 
+          <code>float(0)</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -20848,26 +20922,26 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear0</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">eps0</span>=<span class="sig-default">4.93038065763e-32</span>)</span>
+        <span class="sig-arg">eps0</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near zero?</p>
+  <p>Is <b><code>x</code></b> near zero within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-zero (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-zero tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>abs(<b>x</b>) &lt; <b>eps0</b></code>,
           <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.basics-module.html#isnon0" 
+        Function <a href="pygeodesy.constants-module.html#isnon0" 
         class="link">isnon0</a>.
       </p>
 </div></td></tr></table>
@@ -20880,25 +20954,25 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear1</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">eps0</span>=<span class="sig-default">4.93038065763e-32</span>)</span>
+        <span class="sig-arg">eps0</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> near one?</p>
+  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-zero (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 1)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.basics-module.html#isnear0" 
+        Function <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">isnear0</a>.
       </p>
 </div></td></tr></table>
@@ -20917,7 +20991,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for NEG0, negative <code>0.0</code>.</p>
+  <p>Check for <a href="pygeodesy.constants-module.html#NEG0" 
+  class="link">NEG0</a>, negative <code>0.0</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -20943,7 +21018,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for NINF, negative <code>INF</code>.</p>
+  <p>Check for <a href="pygeodesy.constants-module.html#NINF" 
+  class="link">NINF</a>, negative <code>INF</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -20963,26 +21039,26 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isnon0</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">eps0</span>=<span class="sig-default">4.93038065763e-32</span>)</span>
+        <span class="sig-arg">eps0</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Is <b><code>x</code></b> non-zero?</p>
+  <p>Is <b><code>x</code></b> non-zero with a tolerance?</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-zero (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps0</code></strong> - Non-zero tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>abs(<b>x</b>) &gt; <b>eps0</b></code>,
           <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.basics-module.html#isnear0" 
+        Function <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">isnear0</a>.
       </p>
 </div></td></tr></table>
@@ -21855,7 +21931,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -22041,7 +22117,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2radians</span>&nbsp;(<span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -23966,7 +24042,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -24021,7 +24097,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterof</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -24447,7 +24523,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">radians2m</span>&nbsp;(<span class="sig-arg">rad</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -24793,7 +24869,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>&nbsp;(<span class="sig-arg">value</span>,
-        <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">low</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
@@ -24873,7 +24949,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify1</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
@@ -24921,7 +24997,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">pipe</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -24951,7 +25027,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDP</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -25006,7 +25082,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -25061,7 +25137,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRW</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">pipe</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -25112,7 +25188,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -25170,7 +25246,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -25456,7 +25532,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">soddy4</span>&nbsp;(<span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">point3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>,
         <span class="sig-arg">useZ</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -25804,7 +25880,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd><code>tan(<b>deg</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <a href="pygeodesy.basics-module.html#isnear0" 
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(cos(<b>deg</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -27304,7 +27380,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">radius2</span>,
         <span class="sig-arg">center3</span>,
         <span class="sig-arg">radius3</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">**Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -27889,7 +27965,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">lon1</span>,
         <span class="sig-arg">lat2</span>,
         <span class="sig-arg">lon2</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -28437,7 +28513,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:41 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:35 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

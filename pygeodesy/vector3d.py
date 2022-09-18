@@ -7,16 +7,17 @@ Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf},
 L{trilaterate2d2} and L{trilaterate3d2}.
 '''
 
-from pygeodesy.basics import isnear0, isscalar, len2
+from pygeodesy.basics import isscalar, len2
+from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
+                               _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xError, _xkwds, _xkwds_popitem
 from pygeodesy.fmath import euclid, fdot, fsum, fsum1_, hypot
 # from pygeodesy.fsums import fsum, fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
-from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, INT0, MISSING, NN, \
-                             _COMMA_, _concentric_, _datum_, _h_, _height_, \
-                             _intersection_, _name_, _near_, _negative_, \
-                             _no_, _too_, _z_, _0_0, _1_0
+from pygeodesy.interns import MISSING, NN, _COMMA_, _concentric_, _datum_, \
+                             _h_, _height_, _intersection_, _name_, _near_, \
+                             _negative_, _no_, _too_, _z_
 from pygeodesy.iters import Fmt, PointsIter
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _xnamed, _xotherError
@@ -31,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.08.04'
+__version__ = '22.09.14'
 
 
 class Vector3d(Vector3dBase):

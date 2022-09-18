@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.05.14'
+__version__ = '22.09.10'
 
 from base import GeodSolve, TestsBase
 
@@ -142,6 +142,7 @@ class Tests(TestsBase):
         self.test('case', t.C, 2 if Karney else (7 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
+        # <https://Books.Google.com/books?id=fW4foWASY6wC> page 27
         t = g.forward(parse3llh('34 0 0.00174N, 117 20 0.84965W, 251.702'))  # near LA, CA
         self.test('forward', fstr(t[0:3], prec=6), '-2430601.827685, -4702442.703125, 3546587.358103')
         t = g.reverse(t)

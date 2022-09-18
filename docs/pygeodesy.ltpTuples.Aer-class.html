@@ -61,13 +61,15 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Aer</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+        
-           |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
-               |    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+
-                   |
-                  <strong class="uidshort">Aer</strong>
+  object --+            
+           |            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+               |        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+                   |    
+        <a href="pygeodesy.ltpTuples._NamedAerNed-class.html">_NamedAerNed</a> --+
+                       |
+                      <strong class="uidshort">Aer</strong>
 </pre>
 
 <hr />
@@ -145,27 +147,14 @@
       
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Aer-class.html#toXyz" class="summary-sig-name">toXyz</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
-      Get the local <i>X, Y, Z</i> (XYZ) components.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">_NamedAerNed</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toAer">toAer</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toEnu">toEnu</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toNed">toNed</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toXyz">toXyz</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
@@ -260,15 +249,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ltpTuples.Aer-class.html#ltp" class="summary-name">ltp</a><br />
-      Get the <i>local tangent plane</i> (<a 
-      href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Aer-class.html#north" class="summary-name">north</a><br />
       Get the North component (<code>meter</code>).
     </td>
@@ -301,29 +281,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ltpTuples.Aer-class.html#xyz" class="summary-name">xyz</a><br />
-      Get the <i>local</i> <code>(X, Y, Z)</code> coordinates (<a 
-      href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-      class="link">Vector3Tuple</a><code>(x, y, z)</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Aer-class.html#xyz4" class="summary-name">xyz4</a><br />
       Get the <code>(x, y, z, ltp)</code> components (<a 
       href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
       class="link">Xyz4Tuple</a>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ltpTuples.Aer-class.html#xyzLocal" class="summary-name">xyzLocal</a><br />
-      Get this AER as an <a href="pygeodesy.ltpTuples.XyzLocal-class.html" 
-      class="link">XyzLocal</a>.
     </td>
   </tr>
 <tr>
@@ -344,6 +305,11 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">_NamedAerNed</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#ltp">ltp</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#xyzLocal">xyzLocal</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
@@ -489,49 +455,6 @@
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="toXyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toXyz</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**Xyz_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Get the local <i>X, Y, Z</i> (XYZ) components.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Xyz</code></strong> - Class to return XYZ (<a 
-          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
-          class="link">XyzLocal</a>, <a 
-          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
-          <a href="pygeodesy.ltpTuples.Ned-class.html" 
-          class="link">Ned</a>, <a 
-          href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>) 
-          or <code>None</code>.</li>
-        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
-          ignored if <code><b>Xyz</b> is None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>XYZ as an <b><code>Xyz</code></b> instance or if <code><b>Xyz</b>
-          is None</code>, an <a 
-          href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
-          class="link">Xyz4Tuple</a><code>(x, y, z, ltp)</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Xyz</code></b>.</li>
-    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -693,32 +616,6 @@ class="link">Aer4Tuple</a>).
   </dl>
 </td></tr></table>
 </div>
-<a name="ltp"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ltp</h3>
-  <p>Get the <i>local tangent plane</i> (<a 
-  href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">ltp(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>local tangent plane</i> (<a href="pygeodesy.ltp.Ltp-class.html" 
-class="link">Ltp</a>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="north"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -815,34 +712,6 @@ class="link">Ltp</a>).
   </dl>
 </td></tr></table>
 </div>
-<a name="xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">xyz</h3>
-  <p>Get the <i>local</i> <code>(X, Y, Z)</code> coordinates (<a 
-  href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-  class="link">Vector3Tuple</a><code>(x, y, z)</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>local</i> <code>(X, Y, Z)</code> coordinates (<a 
-href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-class="link">Vector3Tuple</a><code>(x, y, z)</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="xyz4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -858,32 +727,6 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
         - Get the <code>(x, y, z, ltp)</code> components (<a 
 href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
 class="link">Xyz4Tuple</a>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="xyzLocal"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">xyzLocal</h3>
-  <p>Get this AER as an <a href="pygeodesy.ltpTuples.XyzLocal-class.html" 
-  class="link">XyzLocal</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyzLocal(<span class="summary-sig-arg">self</span>)</span>
-        - Get this AER as an <a href="pygeodesy.ltpTuples.XyzLocal-class.html" 
-class="link">XyzLocal</a>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -977,7 +820,7 @@ class="link">XyzLocal</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:43 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:38 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

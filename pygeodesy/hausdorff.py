@@ -67,29 +67,31 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
+from pygeodesy.constants import INF, NINF, _0_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _IsnotError, PointsError
-from pygeodesy.fmath import hypot2
+# from pygeodesy.fmath import hypot2  # from .formy
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            thomas_, vincentys_, _scale_rad
-from pygeodesy.interns import INF, NINF, NN, _datum_, _distanceTo_, _i_, _j_, \
-                             _points_, _units_, _0_0
-from pygeodesy.iters import points2
+                            hypot2, thomas_, vincentys_, _scale_rad, unrollPI
+from pygeodesy.interns import NN, _datum_, _distanceTo_, _i_, _j_, _points_, _units_
+# from pygeodesy.iters import points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
-from pygeodesy.props import Property_RO, property_doc_
+from pygeodesy.points import points2, Property_RO, property_doc_
+# from pygeodesy.props import Property_RO, property_doc_  # from .points
 from pygeodesy.streprs import _boolkwds, Fmt
-from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
-                           _Str_radians, _Str_radians2, _xUnit, _xUnits
-from pygeodesy.utily import unrollPI
+from pygeodesy.units import Float, Number_, _xUnit, _xUnits
+from pygeodesy.unitsBase import _Str_degrees, _Str_meter, _Str_NN, \
+                                _Str_radians, _Str_radians2
+# from pygeodesy.utily import unrollPI  # from .formy
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '22.06.25'
+__version__ = '22.09.15'
 
 
 class HausdorffError(PointsError):

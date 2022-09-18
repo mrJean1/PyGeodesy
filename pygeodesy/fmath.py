@@ -6,16 +6,17 @@ u'''Utilities using precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, copysign0, _isfinite, isint, isnear0, \
-                              isscalar, len2, remainder as _remainder
+from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
+from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
+                               _isfinite, isnear0, remainder as _remainder, \
+                               _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, _2_0, \
+                               _2_3rd, _3_0
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
-from pygeodesy.fsums import _2float, _2powers, Fsum, fsum, fsum1_, _pow_op_, \
+from pygeodesy.fsums import _2float, _Powers, Fsum, fsum, fsum1_, _pow_op_, \
                              Fmt, unstr
-from pygeodesy.interns import EPS0, EPS02, EPS1, MISSING, NAN, PI, PI_2, PI_4, \
-                             _few_, _h_, _negative_, _not_scalar_, _singular_, \
-                             _too_, _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
-                             _2_0, _2_3rd, _3_0
+from pygeodesy.interns import MISSING, _few_, _h_, _negative_, _not_scalar_, \
+                             _singular_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import Int_
@@ -24,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.09.03'
+__version__ = '22.09.14'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -101,7 +102,7 @@ class Fhypot(Fsum):
             p = _xkwds_pop(power_name_RESIDUAL, power=2)
             Fsum.__init__(self, **power_name_RESIDUAL)
             if xs:
-                self._facc(_2powers(p, xs), up=False)  # PYCHOK None
+                self._facc(_Powers(p, xs), up=False)  # PYCHOK None
             self._fset(self._fpow(_1_0 / p, _pow_op_), asis=True)
         except Exception as X:
             raise self._ErrorX(X, xs, power=p)
@@ -150,7 +151,7 @@ class Fpowers(Fsum):
         try:
             Fsum.__init__(self, **name_RESIDUAL)
             if xs:
-                self._facc(_2powers(power, xs), up=False)  # PYCHOK None
+                self._facc(_Powers(power, xs), up=False)  # PYCHOK None
         except Exception as X:
             raise self._ErrorX(X, xs, power=power)
 

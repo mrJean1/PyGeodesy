@@ -174,7 +174,7 @@ class Tests(TestsBase):
 
         v = Nvector(0.500, 0.500, 0.707)
         p = v.toLatLon()
-        self.test('toLatLon', p, '44.995674°N, 045.0°E')  # 45.0°N, 45.0°E
+        self.test('toLatLon', p, '44.995674°N, 045.0°E', nl=1)  # 45.0°N, 45.0°E
         c = p.toNvector()
         self.test('toNvector', c, '(0.50004, 0.50004, 0.70705)')  # 0.500, 0.500, 0.707
         self.test('isequalTo', c.isequalTo(v), False)
@@ -220,7 +220,7 @@ class Tests(TestsBase):
 
         if module is sphericalNvector:  # coverage
             c = p.toCartesian()
-            self.test('toCartesian', c, '[3185744.919, 3185744.919, 4504643.315]')
+            self.test('toCartesian', c, '[3185744.919, 3185744.919, 4504643.315]', nl=1)
             self.test('toLatLon',  c.toLatLon(), p, known=True)  # '44.995674°N, 045.0°E, -0.00m'
             self.test('toNvector', c.toNvector(), '(0.50004, 0.50004, 0.70705, -0.00)', known=True)
 
@@ -228,7 +228,7 @@ class Tests(TestsBase):
             # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
             p = LatLon(1, 1)
             i = p.intersection(LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
-            self.test('intersection', i, '02.499372°N, 002.5°E')
+            self.test('intersection', i, '02.499372°N, 002.5°E', nl=1, n1=1)
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)
@@ -248,7 +248,7 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'iswithin'):
             # courtesy of Paulius Šarka (psarka) Aug 30, 2017
             p = LatLon(1, 1).iswithin(LatLon(2, 2), LatLon(2, 2))
-            self.test('iswithin', p, False)
+            self.test('iswithin', p, False, nl=1)
             p = LatLon(2, 2).iswithin(LatLon(2, 2), LatLon(2, 2))
             self.test('iswithin', p, True)
 
@@ -258,7 +258,7 @@ class Tests(TestsBase):
 
             s = LatLon(41.0, 0.0)
             p = s.nearestOn(s1, s2, within=True)
-            self.test('nearestOn', p.toStr(F_D, prec=3), '51.0°N, 001.0°E')
+            self.test('nearestOn', p.toStr(F_D, prec=3), '51.0°N, 001.0°E', nl=1)
             p = s.nearestOn(s1, s2, within=False)
             self.test('nearestOn', p.toStr(F_D, prec=3), '50.987°N, 000.298°W')
 
@@ -302,7 +302,7 @@ class Tests(TestsBase):
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             p = LatLon(1, 1).nearestOn6(b, height=0)
             self.test('neareston6', p, '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4773243.784965, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))' if Sph
-                                  else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))')
+                                  else '(LatLon(45°00′00.0″N, 001°00′00.0″E), 4755443.4294, 0.0, 1, LatLon(45°00′00.0″N, 001°00′00.0″E), LatLon(45°00′00.0″N, 001°00′00.0″E))', nl=1)
             p = LatLon(45.5, 2.5).nearestOn6(b, height=0)
             self.test('neareston6', p, '(LatLon(45°30′03.93″N, 002°00′00.0″E), 38968.531578, 1.501091, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))' if Sph
                                   else '(LatLon(45°30′03.94″N, 002°00′00.0″E), 39078.729285, 1.501072, 2, LatLon(45°00′00.0″N, 002°00′00.0″E), LatLon(46°00′00.0″N, 002°00′00.0″E))')
@@ -310,7 +310,7 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017
             p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-            self.test('BasseC', p, '47.3038°N, 002.5721°W')
+            self.test('BasseC', p, '47.3038°N, 002.5721°W', nl=1)
             s = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
             self.test('BasseH', s, '47.311067°N, 002.528617°W')
             t = p.triangulate(7, s, 295)
@@ -322,7 +322,7 @@ class Tests(TestsBase):
             p = LatLon(37.418436, -121.963477)
             t = p.trilaterate(265.710701754, LatLon(37.417243, -121.961889), 234.592423446,
                                              LatLon(37.418692, -121.960194), 54.8954278262)
-            self.test('trilaterate', t, '37.419078°N, 121.960579°W')
+            self.test('trilaterate', t, '37.419078°N, 121.960579°W', nl=1)
             self.test('trilaterate', isinstance(t, LatLon), True)
 
             # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
@@ -351,6 +351,12 @@ class Tests(TestsBase):
                 self.test('trilaterate', t.toStr(F_D, prec=8), IntersectionError.__name__)
             except IntersectionError as x:
                 self.test('trilaterate', str(x), str(x))
+
+        if hasattr(LatLon, 'destinationNed'):
+            # courtesy of PatrikHudak <https://GitHub.com/mrJean1/PyGeodesy/issues/72>
+            from pygeodesy import Ned  # in .ltpTuples
+            d = LatLon(49.66618, 3.45063).destinationNed(Ned(-86126, -78900, 1069))
+            self.test('destinationNed', d.toStr(), "48°53′12.01″N, 002°22′29.0″E, +0.20m", nl=1)
 
         self.testNvectorBase(module)
 

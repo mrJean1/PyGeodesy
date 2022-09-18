@@ -124,7 +124,7 @@ U{scipy<https://PyPI.org/project/scipy>} 1.8.1, U{GeoConvert<https://GeographicL
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 12.5.1 Monterey and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 12.6 Monterey and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
@@ -152,7 +152,7 @@ with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-1
 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python
 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-4 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-5 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS
 X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}
 3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6,
@@ -168,7 +168,7 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>},
 U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.6, both in 64-bit on macOS 12.5.1 Monterey.
+using Python 3.10.6, both in 64-bit on macOS 12.6 Monterey.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -191,12 +191,15 @@ The following environment variables are observed by C{PyGeodesy}:
  - C{PYGEODESY_RHUMBSOLVE} - see module L{pygeodesy.rhumbsolve}.
  - C{PYGEODESY_UPS_POLES} - see modules L{pygeodesy.ups} and L{pygeodesy.mgrs}.
 
+and these to control standard or I{named} C{repr}esentations:
+
  - C{PYGEODESY_BEARING_STD_REPR} - see method L{pygeodesy.Bearing}C{.__repr__}.
  - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool}C{.__repr__}.
  - C{PYGEODESY_DEGREES_STD_REPR} - see method L{pygeodesy.Degrees}C{.__repr__}.
  - C{PYGEODESY_FLOAT_STD_REPR} - see method L{pygeodesy.Float}C{.__repr__}.
  - C{PYGEODESY_INT_STD_REPR} - see method L{pygeodesy.Int}C{.__repr__}.
  - C{PYGEODESY_METER_STD_REPR} - see method L{pygeodesy.Meter}C{.__repr__}.
+ - C{PYGEODESY_RADIANS_STD_REPR} - see method L{pygeodesy.Radians}C{.__repr__}.
  - C{PYGEODESY_STR_STD_REPR} - see method L{pygeodesy.Str}C{.__repr__}.
 
 plus during development:
@@ -209,10 +212,11 @@ plus during development:
 
 and:
 
- - C{PYGEODESY_INIT__ALL__} - to avoid importing all C{pygeodesy} modules unnecessarily (in Python 2
-   or with C{PYGEODESY_LAZY_IMPORT} turned off), set env variable C{PYGEODESY_INIT__ALL__} to anything
-   other than C{"__all__"}.  However, importing C{pygeodesy} items must then be qualified with the
-   module name, for example C{ from pygeodesy.ellipsoidalExact import LatLon }
+ - C{PYGEODESY_INIT__ALL__} - Set env variable C{PYGEODESY_INIT__ALL__} to anything
+   other than C{"__all__"} to avoid importing all C{pygeodesy} modules unnecessarily
+   (in Python 2 or with C{PYGEODESY_LAZY_IMPORT} turned off in Python 3).  However,
+   to import a C{pygeodesy} item, the item name must be qualified with the C{module}
+   name, for example C{ from pygeodesy.ellipsoidalExact import LatLon }
 
 License
 =======
@@ -244,7 +248,6 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var EPS0:   M{EPS**2}    ≈ 4.9e-32 for near-zero comparison
 @var EPS02:  M{EPS**4}    ≈ 2.4e-63 for near-zero squared comparison
 @var EPS1:   M{1 - EPS}   ≈ 0.9999999999999998 (C{float}).
-@var EPS1_2: M{1 - EPS_2}   DEPRECATED, do not use.
 @var EPS2:   M{EPS * 2}   ≈ 4.440892098501e-16 (C{float}).
 @var EPS_2:  M{EPS / 2}   ≈ 1.110223024625e-16 (C{float}).
 @var EPS4:   M{EPS * 4}   ≈ 8.881784197001e-16 (C{float}).
@@ -286,17 +289,15 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" I{without} symbol, I{without} suffix (C{str}).
 
 @var DIG:      System's M{float decimal digits} = 15 (C{int}).
-@var INF:      Infinity (C{float}), see functions L{pygeodesy.isinf}, L{pygeodesy.isfinite} and C{NINF}.
+@var INF:      Infinity (C{float}), see functions L{pygeodesy.isinf} and L{pygeodesy.isfinite} and C{NINF}.
 @var INT0:     C{int(0)}, missing Z-components, C{if B{z}=B{INT0}}, see functions L{pygeodesy.isint0}, L{pygeodesy.meeus2}
 @var MANT_DIG: System's M{float mantissa bits} = 53 (C{int}).
-@var MANTIS:   DEPRECATED, use C{MANT_DIG}.
 @var MAX:      System's M{float max} ≈ 1.798e+308 (C{float}).
 @var MIN:      System's M{float min} ≈ 2.225e-308 (C{float}).
 @var NAN:      Not-A-Number (C{float}), see function L{pygeodesy.isnan}.
 @var NEG0:     Negative 0.0 (C{float}), see function L{pygeodesy.isneg0}.
 @var NINF:     Negative infinity (C{float}), see function L{pygeodesy.isninf} and C{INF}.
 @var NN:       Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
-@var OK:       DEPRECATED, do not use.
 
 @var PI:    Constant M{math.pi} (C{float}).
 @var PI2:   Two PI, M{PI * 2}, aka I{Tau} (C{float}).
@@ -306,14 +307,15 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var PI4:   Four PI, M{PI * 4} (C{float}).
 @var PI_4:  Quarter PI, M{PI / 4} (C{float}).
 
-@var R_M:  Mean (spherical) earth radius (C{meter}).
 @var R_MA: Equatorial earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_MB: Polar earth radius (C{meter}), WGS84, EPSG:3785.
+@var R_M:  Mean (spherical) earth radius (C{meter}).
 @var R_KM: Mean (spherical) earth radius (C{km}, kilometer).
 @var R_NM: Mean (spherical) earth radius (C{NM}, nautical miles).
 @var R_SM: Mean (spherical) earth radius (C{SM}, statute miles).
 @var R_FM: Former FAI-Sphere earth radius (C{meter}).
 @var R_GM: Average earth radius, distance to geoid surface (C{meter})
+@var R_QM: Earth' (triaxial) quadratic mean radius (C{meter})
 @var R_VM: Aviation/Navigation earth radius (C{meter}).
 
 @var S_DEG: Degrees symbol, default C{"°"}
@@ -377,6 +379,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.basics                as basics                 # PYCHOK exported
     import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK exported
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
+    import pygeodesy.constants             as constants              # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.deprecated.datum      as datum                  # PYCHOK DEPRECATED
     import pygeodesy.datums                as datums                 # PYCHOK exported
@@ -436,6 +439,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.streprs               as streprs                # PYCHOK exported
     import pygeodesy.trf                   as trf                    # PYCHOK exported
     import pygeodesy.units                 as units                  # PYCHOK exported
+    import pygeodesy.unitsBase             as unitsBase              # PYCHOK exported
     import pygeodesy.ups                   as ups                    # PYCHOK exported
     import pygeodesy.utily                 as utily                  # PYCHOK exported
     import pygeodesy.utm                   as utm                    # PYCHOK exported
@@ -457,6 +461,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
 #   from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
+    from pygeodesy.constants             import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
     from pygeodesy.datums                import *  # PYCHOK __all__
     from pygeodesy.deprecated            import *  # PYCHOK __all__
@@ -515,6 +520,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
     from pygeodesy.units                 import *  # PYCHOK __all__
+    from pygeodesy.unitsBase             import *  # PYCHOK __all__
     from pygeodesy.ups                   import *  # PYCHOK __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
@@ -565,7 +571,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.09.09'
+__version__ = '22.09.19'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

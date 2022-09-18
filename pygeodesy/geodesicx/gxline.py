@@ -33,11 +33,11 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.fsums import fsum_, fsum1_
+from pygeodesy.constants import NAN, _0_0, _1_0, _180_0, _2__PI
+from pygeodesy.fsums import _COMMASPACE_, fsum_, fsum1_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _TINY
-from pygeodesy.interns import NAN, _COMMASPACE_, _0_0, _1_0, _180_0, \
-                             _2__PI  # PYCHOK used!
+# from pygeodesy.interns import _COMMASPACE_  # from .fsums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, _copysign, GDict, \
                              _fix90, _K_2_0, _norm2, _norm180, \
@@ -49,7 +49,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '22.05.23'
+__version__ = '22.09.12'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 

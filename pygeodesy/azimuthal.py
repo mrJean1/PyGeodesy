@@ -42,17 +42,19 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnon0, _umod_360, _xinstanceof
-from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datums import _spherical_datum, _WGS84
+# from pygeodesy.basics import _xinstanceof  # from .datums
+from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, \
+                               _EPStol, _umod_360, _0_0, _0_1, \
+                               _0_5, _1_0, _N_1_0, _2_0
+from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
+                               _spherical_datum, _WGS84, _xinstanceof
+# from pygeodesy.datums import _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import euclid, Fsum, hypot
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # from latlonBase
-from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
-                             _azimuth_, _datum_, _lat_, _lon_, \
-                             _scale_, _SPACE_, _x_, _y_, \
-                             _0_0, _0_1, _0_5, _1_0, _N_1_0, _2_0
+from pygeodesy.interns import NN, _azimuth_, _datum_, _lat_, _lon_, \
+                             _scale_, _SPACE_, _x_, _y_
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import antipode, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -69,7 +71,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.08.23'
+__version__ = '22.09.14'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'

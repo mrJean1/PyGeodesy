@@ -11,6 +11,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 '''
 
 from pygeodesy.basics import isscalar, isstr, _xinstanceof
+from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, R_M, _0_0, _0_5, _1_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _incompatible, IntersectionError, _TypeError, \
@@ -20,9 +21,8 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, hartzell, haversine, isantipode, \
                             latlon2n_xyz, _spherical_datum, thomas_, vincentys
-from pygeodesy.interns import EPS, EPS0, EPS1, EPS4, NN, R_M, _COMMASPACE_, \
-                             _concentric_, _height_, _intersection_, _m_, \
-                             _no_, _overlap_, _point_, _0_0, _0_5, _1_0
+from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
+                             _intersection_, _m_, _no_, _overlap_, _point_
 from pygeodesy.iters import PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, notOverloaded
@@ -41,7 +41,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.08.24'
+__version__ = '22.09.12'
 
 
 class LatLonBase(_NamedBase):

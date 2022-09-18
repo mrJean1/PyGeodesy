@@ -61,21 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Radians2</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+            
-               |            
-           float --+        
-                   |        
-  object --+       |        
-           |       |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
-               |   |        
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
-                   |        
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
-                       |    
-                  <a href="pygeodesy.units.Float_-class.html">Float_</a> --+
-                           |
-                          <strong class="uidshort">Radians2</strong>
+          object --+            
+                   |            
+               float --+        
+                       |        
+      object --+       |        
+               |       |        
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+                   |   |        
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+                       |        
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
+                           |    
+                      <a href="pygeodesy.units.Float_-class.html">Float_</a> --+
+                               |
+                              <strong class="uidshort">Radians2</strong>
 </pre>
 
 <hr />
@@ -92,11 +92,11 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -185,10 +185,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.units.Radians2-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
         <span class="summary-sig-arg">arg</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">radians2</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
-        <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      See <a href="pygeodesy.units.Float_-class.html" 
-      class="link">Float_</a>.</td>
+        <span class="summary-sig-arg">**Error_name_arg</span>)</span><br />
+      New <a href="pygeodesy.units.Radians2-class.html" 
+      class="link">Radians2</a> instance, see <a 
+      href="pygeodesy.units.Float_-class.html" class="link">Float_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -213,9 +213,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -252,8 +252,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>&nbsp;(<span class="sig-arg">cls</span>,
         <span class="sig-arg">arg</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">radians2</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
-        <span class="sig-arg">**name_arg</span>)</span>
+        <span class="sig-arg">**Error_name_arg</span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
   </td><td align="right" valign="top"
@@ -261,8 +260,9 @@
     </td>
   </tr></table>
   
-  <p>See <a href="pygeodesy.units.Float_-class.html" 
-  class="link">Float_</a>.</p>
+  <p>New <a href="pygeodesy.units.Radians2-class.html" 
+  class="link">Radians2</a> instance, see <a 
+  href="pygeodesy.units.Float_-class.html" class="link">Float_</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -325,7 +325,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

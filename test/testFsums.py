@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.09.08'
+__version__ = '22.09.15'
 
 from base import endswith, isPython2, randoms, startswith, TestsBase
 
@@ -296,8 +296,8 @@ class Tests(TestsBase):
 
         s, r = t.toUnits()
         t = t.__class__.__name__
-        self.test(t, (s.name, s, s.__class__), "('fsum', 5.0, <class 'pygeodesy.units.Float'>)")
-        self.test(t, (r.name, r, r.__class__), "('residual', 0, <class 'pygeodesy.units.Int'>)")
+        self.test(t, (s.name, s, s.__class__), "('fsum', 5.0, <class 'pygeodesy.unitsBase.Float'>)")
+        self.test(t, (r.name, r, r.__class__), "('residual', 0, <class 'pygeodesy.unitsBase.Int'>)")
 
         self.test('fmul(x)', x.fmul(x),          '25.0', prec=1)
         self.test('fmul(F)', x.fmul(Fsum(2.5)),  '62.5', prec=1)

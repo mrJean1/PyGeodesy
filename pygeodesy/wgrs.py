@@ -12,13 +12,13 @@ but with modified C{precision} and extended with C{height} and C{radius}.  See
 also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
-
 # from pygeodesy.basics import isstr  # from .named
+from pygeodesy.constants import _float, _off90, _0_001, _0_5, \
+                                _1_0, _2_0, _60_0, _1000_0
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.interns import NN, _AtoZnoIO_, _float, _height_, \
-                             _radius_, _SPACE_, _0to9_, _0_5, _0_001, \
-                             _1_0, _2_0, _60_0, _90_EPS_2, _1000_0
+from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
+                             _height_, _radius_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import isstr, nameof, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
@@ -31,7 +31,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '22.05.14'
+__version__ = '22.09.17'
 
 _Base    =  10
 _BaseLen =  4
@@ -43,7 +43,7 @@ _LatOrig = -90
 _LatTile = _AtoZnoIO_.tillM
 _LonOrig = -180
 _LonTile = _AtoZnoIO_
-_M_      =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
+_60B     =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
 _MaxPrec =  11
 _Radius_ =  Radius.__name__
 _Tile    =  15  # tile size in degrees
@@ -51,24 +51,24 @@ _Tile    =  15  # tile size in degrees
 _MaxLen  = _BaseLen + 2 * _MaxPrec
 _MinLen  = _BaseLen - 2
 
-_LatOrig_M_ = _LatOrig * _M_
-_LonOrig_M_ = _LonOrig * _M_
+_LatOrig_60B = _LatOrig * _60B
+_LonOrig_60B = _LonOrig * _60B
 
 _float_Tile   = _float(_Tile)
 _LatOrig_Tile = _float(_LatOrig) / _Tile
 _LonOrig_Tile = _float(_LonOrig) / _Tile
 
 
-def _2divmod3(x, Orig_M_):
+def _divmod3(x, _Orig_60B):
     '''(INTERNAL) Convert B{C{x}} to 3_tuple C{(tile, modulo, fraction)}/
     '''
-    i = int(floor(x * _M_))
-    i, x = divmod(i - Orig_M_, _M_)
+    i = int(floor(x * _60B))
+    i, x = divmod(i - _Orig_60B, _60B)
     xt, xd = divmod(i, _Tile)
     return xt, xd, x
 
 
-def _2fllh(lat, lon, height=None):
+def _fllh3(lat, lon, height=None):
     '''(INTERNAL) Convert lat, lon, height.
     '''
     # lat, lon = parseDMS2(lat, lon)
@@ -76,7 +76,7 @@ def _2fllh(lat, lon, height=None):
             Lon(lon, Error=WGRSError), height)
 
 
-def _2geostr2(georef):
+def _geostr2(georef):
     '''(INTERNAL) Check a georef string.
     '''
     try:
@@ -86,13 +86,13 @@ def _2geostr2(georef):
              or geostr[:3] == _INV_ \
              or not geostr.isalnum():
             raise ValueError
-        return geostr, _2Precision(p - 1)
+        return geostr, _Precision(p - 1)
 
     except (AttributeError, TypeError, ValueError) as x:
         raise WGRSError(Georef.__name__, georef, txt=str(x))
 
 
-def _2Precision(precision):
+def _Precision(precision):
     '''(INTERNAL) Return a L{Precision_} instance.
     '''
     return Precision_(precision, Error=WGRSError, low=0, high=_MaxPrec)
@@ -130,11 +130,11 @@ class Georef(Str):
         ll = p = None
 
         if isinstance(cll, Georef):
-            g, p = _2geostr2(str(cll))
+            g, p = _geostr2(str(cll))
 
         elif isstr(cll):
-            if ',' in cll:
-                lat, lon, h = _2fllh(*parse3llh(cll, height=None))
+            if _COMMA_ in cll:
+                lat, lon, h = _fllh3(*parse3llh(cll, height=None))
                 g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
                 ll = lat, lon  # original lat, lon
             else:
@@ -142,7 +142,7 @@ class Georef(Str):
 
         else:  # assume LatLon
             try:
-                lat, lon, h = _2fllh(cll.lat, cll.lon)
+                lat, lon, h = _fllh3(cll.lat, cll.lon)
             except AttributeError:
                 raise _xStrError(Georef, cll=cll)  # Error=WGRSError
             h  = getattr(cll, _height_, h)
@@ -257,7 +257,7 @@ def decode3(georef, center=True):
             raise _Error(i)
         return k
 
-    g, precision = _2geostr2(georef)
+    g, precision = _geostr2(georef)
     lon = _index(_LonTile, g, 0) + _LonOrig_Tile
     lat = _index(_LatTile, g, 1) + _LatOrig_Tile
 
@@ -347,13 +347,13 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
         f = Scalar_(m, name=name, Error=WGRSError)
         return NN(name[0].upper(), int(m2_(f * K) + _0_5))
 
-    p = _2Precision(precision)
+    p = _Precision(precision)
 
-    lat, lon, _ = _2fllh(lat, lon)
-    lat = _90_EPS_2(lat)
+    lat, lon, _ = _fllh3(lat, lon)
+    lat = _off90(lat)
 
-    xt, xd, x = _2divmod3(lon, _LonOrig_M_)
-    yt, yd, y = _2divmod3(lat, _LatOrig_M_)
+    xt, xd, x = _divmod3(lon, _LonOrig_60B)
+    yt, yd, y = _divmod3(lat, _LatOrig_60B)
 
     g = _LonTile[xt], _LatTile[yt]
     if p > 0:

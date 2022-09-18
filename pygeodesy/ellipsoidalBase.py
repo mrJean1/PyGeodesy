@@ -13,6 +13,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _xinstanceof  # from .datums
+from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
 from pygeodesy.cartesianBase import CartesianBase, _ellipsoidal_  # PYCHOK used!
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
                             _spherical_datum, _WGS84, _xinstanceof
@@ -20,9 +21,8 @@ from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
                              _ValueError, _xellipsoidal, _xError, _xkwds, \
                              _xkwds_get, _xkwds_not
 # from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
-from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, _COMMA_, \
-                             _conversion_, _datum_, _DOT_, _no_, _reframe_, \
-                             _SPACE_, _0_0, _0_5
+from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _datum_, \
+                             _DOT_, _no_, _reframe_, _SPACE_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5, Vector3Tuple
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # from ._MODS
@@ -33,7 +33,7 @@ from pygeodesy.props import deprecated_method, Property_RO, \
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.08.15'
+__version__ = '22.09.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

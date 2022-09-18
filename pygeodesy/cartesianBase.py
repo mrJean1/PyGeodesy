@@ -10,13 +10,13 @@ U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}..
 '''
 
-from pygeodesy.basics import isnear0, _xinstanceof
-from pygeodesy.datums import Datum, _spherical_datum, _WGS84
+# from pygeodesy.basics import _xinstanceof  # from .datums
+from pygeodesy.constants import EPS0, isnear0, _1_0, _N_1_0, _2_0, _4_0, _6_0
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84, _xinstanceof
 from pygeodesy.errors import _IsnotError, _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, hypot_, hypot2, sqrt  # hypot
 from pygeodesy.fsums import Fmt, fsum_
-from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _height_, _not_, \
-                             _1_0, _N_1_0, _2_0, _4_0, _6_0
+from pygeodesy.interns import NN, _COMMASPACE_, _height_, _not_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Height, LatLon4Tuple, Vector4Tuple, \
@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.08.10'
+__version__ = '22.09.14'
 
 
 class CartesianBase(Vector3d):
@@ -332,6 +332,9 @@ class CartesianBase(Vector3d):
     def _n_xyzh4(self, datum):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
         '''
+        def _ErrorEPS0(x):
+            return _ValueError(origin=self, txt=Fmt.PARENTSPACED(EPS0=x))
+
         _xinstanceof(Datum, datum=datum)
         # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
         #        latlon-nvector-ellipsoidal.js.html#line309>,
@@ -347,28 +350,28 @@ class CartesianBase(Vector3d):
         s = (p * q * E.e4) / (_4_0 * r**3)
         t = cbrt(fsum_(_1_0, s, sqrt(s * (_2_0 + s))))
         if isnear0(t):
-            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+            raise _ErrorEPS0(t)
 
         u = r * fsum_(_1_0, t, _1_0 / t)
         v = sqrt(u**2 + E.e4 * q)
         t = v * _2_0
         if t < EPS0:  # isnear0
-            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+            raise _ErrorEPS0(t)
         w = E.e2 * fsum_(u, v, -q) / t
 
         k = sqrt(fsum_(u, v, w**2)) - w
         if isnear0(k):
-            raise _ValueError(origin=self, txt=Fmt.EPS0(k))
+            raise _ErrorEPS0(k)
         t = k + E.e2
         if isnear0(t):
-            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+            raise _ErrorEPS0(t)
         e = k / t
 #       d = e * hypot(x, y)
 
 #       tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
         t = hypot_(x * e, y * e, z)  # == 1 / tmp
         if t < EPS0:  # isnear0
-            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+            raise _ErrorEPS0(t)
         h = fsum_(k, E.e2, _N_1_0) / k * t
         s = e / t  # == e * tmp
         return Vector4Tuple(x * s, y * s, z / t, h, name=self.name)

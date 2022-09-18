@@ -62,17 +62,17 @@ which maintains accuracy near C{phi = pi/2}.  Such changes are noted in the code
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, map1, neg, neg_, _xinstanceof
+from pygeodesy.basics import map1, neg, neg_, _xinstanceof
+from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
+                               _1_EPS, isnear0, _0_0, _0_1, _0_5, \
+                               _1_0, _2_0, _3_0, _4_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import _ALL_LAZY, Elliptic
 # from pygeodesy.errors import _incompatible  # from .named
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2
 from pygeodesy.fsums import Fsum, fsum1_
-from pygeodesy.interns import EPS, EPS02, NN, PI_2, PI_4, \
-                             _COMMASPACE_, _DASH_, _1_EPS, _K0_UTM, \
-                             _near_, _SPACE_, _spherical_, _usage, \
-                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
-                             _4_0, _90_0, _180_0
+from pygeodesy.interns import NN, _COMMASPACE_, _DASH_, _near_, _SPACE_, \
+                             _spherical_, _usage
 from pygeodesy.karney import _copyBit, _diff182, _fix90, _norm2, _norm180, \
                              _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY  # from .elliptic
@@ -90,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.08.24'
+__version__ = '22.09.14'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)

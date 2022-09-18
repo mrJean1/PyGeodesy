@@ -12,6 +12,7 @@ I{OR} set env var C{PYTHONDEVMODE} to C{1} or any non-empyty
 string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
 or any other non-empty string.
 '''
+
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
                              _COLONSPACE_, _COMMASPACE_, _datum_, \
                              _ellipsoidal_, _EQUAL_, _incompatible_, \
@@ -21,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.09.02'
+__version__ = '22.09.17'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -438,10 +439,8 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
     n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
                           _name_value_, MISSING)  # XXX else tuple(...)
     v = _MODS.streprs.Fmt.PAREN(repr(v))
-    t = _or(*nouns) or _specified_
-    if len(nouns) > 1:
-        t = _an(t)
-    e = Error(_SPACE_(n, v, _not_, t))
+    t = _an(_or(*nouns)) if nouns else _specified_
+    e =  Error(_SPACE_(n, v, _not_, t))
     _error_chain(e)
     _error_under(e)
     return e

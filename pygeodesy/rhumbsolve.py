@@ -8,11 +8,9 @@ as an (exact) rhumb or rhumb line, but intended I{for testing purposes only}.
 Set env variable C{PYGEODESY_RHUMBSOLVE} to the (fully qualified) path
 of the C{RhumbSolve} executable.
 '''
-
 # from pygeodesy.basics import _xinstanceof  # from .karney
-# from pygeodesy.interns import NN  # from .karney
-from pygeodesy.interns import NAN, NN, _azi12_, _lat2_, _lon2_, _s12_, _S12_, \
-                             _UNDER_, _90_0, _180_0, _N_180_0, _not_  # PYCHOK used!
+from pygeodesy.constants import _180_0, _N_180_0,  _90_0  # PYCHOK used!
+from pygeodesy.interns import NN, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
 from pygeodesy.karney import GDict, _norm180, _sincos2d, _xinstanceof, wrap360
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv, printf
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -22,7 +20,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '22.07.09'
+__version__ = '22.09.12'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 

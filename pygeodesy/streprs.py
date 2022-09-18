@@ -2,28 +2,27 @@
 # -*- coding: utf-8 -*-
 
 u'''Floating point and other formatting utilities.
-
 '''
 
-from pygeodesy.basics import isint, isscalar, istuplist, _zip
-from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, \
+from pygeodesy.basics import _0_0, isint, isscalar, istuplist, _zip
+# from pygeodesy.constants import _0_0
+from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, _or, \
                              _TypeError, _ValueError, _xkwds_get, _xkwds_pop
-from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, _E_, \
-                             _ELLIPSIS_, _EQUAL_, _H_, _N_, _name_, _not_, \
-                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, \
-                             _UNDER_, _0_, _0_0, _10_0
-from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
-                              _EQUALSPACED_, _exceeds_, _f_, _F_, _g_, \
-                              _no_, _tolerance_  # PYCHOK used!
+from pygeodesy.interns import NN, _0_, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
+                             _E_, _ELLIPSIS_, _EQUAL_, _H_, _N_, _name_, _not_, \
+                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, _UNDER_
+from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
+                              _exceeds_, _f_, _F_, _g_, _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
-from math import log10
+from math import log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.09.02'
+__version__ = '22.09.17'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
+_eps_       = 'eps'        # PYCHOK used!
 _OKd_       = '._-'        # acceptable name characters
 _threshold_ = 'threshold'  # PYCHOK used !
 
@@ -98,6 +97,15 @@ class Fstr(str):
         return self(arg, prec=prec)
 
 
+class _Sub(str):
+    '''(INTERNAL) Class list formatter.
+    '''
+    # see .ellipsoidalNvector.LatLon.deltaTo
+    def __call__(self, *Classes):
+        t = _or(*(C.__name__ for C in Classes))
+        return  str.__mod__(self, t or MISSING)
+
+
 class Fmt(object):
     '''Formatting options.
     '''
@@ -111,10 +119,9 @@ class Fmt(object):
     DOT         = _Fmt('.%s')   # == NN(_DOT_, n)
     e           =  Fstr(_e_)
     E           =  Fstr(_E_)
-    EPS0        = _Fmt(_SPACE_(_EPS0_, '(%g)'))
     EQUAL       = _Fmt(_EQUAL_(NN, '%s'))
     EQUALSPACED = _Fmt(_EQUALSPACED_(NN, '%s'))
-    exceeds_eps = _Fmt(_exceeds_('eps', '(%g)'))
+    exceeds_eps = _Fmt(_exceeds_(_eps_, '(%g)'))
     f           =  Fstr(_f_)
     F           =  Fstr(_F_)
     g           =  Fstr(_g_)
@@ -128,6 +135,7 @@ class Fmt(object):
     ROPEN       = _Fmt('[%s)')  # right-open range [L, R)
 #   SPACE       = _Fmt(' %s')   # == _SPACE_(n, v)
     SQUARE      = _Fmt('[%s]')  # BRACKETS
+    sub_class   = _Sub('%s (sub-)class')
     TAG         =  ANGLE
     TAGEND      = _Fmt('</%s>')
     tolerance   = _Fmt(_tolerance_('(%g)'))
@@ -137,6 +145,12 @@ class Fmt(object):
         for n, a in self.__class__.__dict__.items():
             if isinstance(a, (Fstr, _Fmt)):
                 setattr(a, _name_, n)
+
+    def __call__(self, obj, prec=9):
+        '''Return C{str(B{obj})} or C{repr(B{obj})}.
+        '''
+        return str(obj) if isint(obj) else next(
+              _streprs(prec, (obj,), Fmt.g, False, False, repr))
 
     def no_convergence(self, _d, *tol, **thresh):
         t = Fmt.convergence(abs(_d))
@@ -238,7 +252,7 @@ def enstr2(easting, northing, prec, *extras, **wide_dot):
         p = min(int(prec), _EN_PREC)
         w = p + _xkwds_get(wide_dot, wide=_EN_WIDE)
         if w > 0:
-            f  = _10_0**p  # truncate
+            f  =  10**p  # truncate
             d  = (-p) if p > 0 and _xkwds_get(wide_dot, dot=False) else 0
             t += (_0wdot(w, int(easting  * f), d),
                   _0wdot(w, int(northing * f), d))
@@ -430,7 +444,7 @@ def _resolution10(resolution, Error=ValueError):  # in .mgrs, .osgr
     '''(INTERNAL) Validate C{resolution} in C{meter}.
     '''
     try:
-        r = int(log10(resolution))
+        r = int(_log10(resolution))
         if _EN_WIDE < r or r < -_EN_PREC:
             raise ValueError
     except (ValueError, TypeError):

@@ -9,31 +9,28 @@ to a comma-separated list of package names to be excluded from import.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
-division = 1 / 2  # .albers, .azimuthal, etc., .utily
+division = 1 / 2  # .albers, .azimuthal, .constants, etc., .utily
 if not division:
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImportError, \
-                             _TypeError, _TypesError, _ValueError, _xError, \
-                             _xkwds_get
-from pygeodesy.interns import EPS0, INF, INT0, MISSING, NAN, NEG0, NINF, NN, \
-                             _by_, _DOT_, _ELLIPSIS4_, _enquote, _EQUAL_, \
-                             _in_, _INF_, _invalid_, _N_A_, _name_, _NAN_, \
-                             _NINF_, _SPACE_, _splituple, _UNDER_, _version_, \
-                             _0_0, _0_5, _1_0, _360_0
+                             _TypeError, _TypesError, _ValueError, _xkwds_get
+from pygeodesy.interns import MISSING, NN, _by_, _DOT_, _ELLIPSIS4_, _enquote, \
+                             _EQUAL_, _in_, _invalid_, _N_A_, _name_, _SPACE_, \
+                             _splituple, _UNDER_, _version_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
                              _getenv, _sys_version_info2
 
 from copy import copy as _copy, deepcopy as _deepcopy
-from math import copysign as _copysign, isinf, isnan
+from math import copysign as _copysign
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.08.14'
+__version__ = '22.09.16'
 
+_0_0                  = 0.0  # see .constants
 _below_               = 'below'
 _cannot_              = 'cannot'
-_INF_NAN_NINF         = {INF: _INF_, NAN: _NAN_, NINF: _NINF_}
 _odd_                 = 'odd'
 _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
@@ -189,27 +186,6 @@ else:
     from inspect import isclass  # PYCHOK re-import
 
 
-try:
-    from math import isclose as _isclose
-except ImportError:  # Python 3.4-
-
-    def _isclose(a, b, rel_tol=1e-9, abs_tol=0):
-        '''Mimick Python 3.5+ C{math.isclose}.
-        '''
-        t, d = abs_tol, abs(a - b)
-        if d > t:
-            r = max(abs(a), abs(b)) * rel_tol
-            t = max(r, t)
-        return d <= t
-
-
-def isclose(a, b, rel_tol=1e-12, abs_tol=EPS0):
-    '''Like C{math.isclose}, but with defaults such
-       that C{isclose(0, EPS0)} is C{True} by default.
-    '''
-    return _isclose(a, b, rel_tol=rel_tol, abs_tol=abs_tol)
-
-
 def iscomplex(obj):
     '''Check whether an object is C{complex}.
 
@@ -220,35 +196,6 @@ def iscomplex(obj):
     '''
     # hasattr('conjugate'), hasattr('real') and hasattr('imag')
     return isinstance(obj, complex)  # numbers.Complex?
-
-
-try:
-    from math import isfinite as _isfinite  # in .ellipsoids, .fsums, .karney
-except ImportError:  # Python 3.1-
-
-    def _isfinite(x):
-        '''Mimick Python 3.2+ C{math.isfinite}.
-        '''
-        return not (isinf(x) or isnan(x))
-
-
-def isfinite(obj):
-    '''Check a finite C{scalar} or C{complex} value.
-
-       @arg obj: Value (C{scalar} or C{complex}).
-
-       @return: C{False} if B{C{obj}} is C{INF}, C{NINF}
-                or C{NAN}, C{True} otherwise.
-
-       @raise TypeError: Non-scalar and non-complex B{C{obj}}.
-    '''
-    try:
-        return (obj not in _INF_NAN_NINF) and _isfinite(obj)
-    except Exception as x:
-        if iscomplex(obj):  # _isfinite(complex) thows TypeError
-            return isfinite(obj.real) and isfinite(obj.imag)
-        P = _MODS.streprs.Fmt.PAREN
-        raise _xError(x, P(isfinite.__name__, obj))
 
 
 def isfloat(obj):
@@ -276,8 +223,6 @@ except AttributeError:  # Python 2-
         return bool(obj and obj.replace(_UNDER_, NN).isalnum()
                         and not obj[:1].isdigit())
 
-# from math import isinf
-
 
 def isint(obj, both=False):
     '''Check for C{int} type or an integer C{float} value.
@@ -302,19 +247,6 @@ def isint(obj, both=False):
     return False
 
 
-def isint0(obj, both=False):
-    '''Check for L{INT0} or C{int(0)} value.
-
-       @arg obj: The object (any C{type}).
-       @kwarg both: If C{true}, also check C{float(0)} (C{bool}).
-
-       @return: C{True} if B{C{obj}} is L{INT0}, C{int(0)} or
-                C{float(0)}, C{False} otherwise.
-    '''
-    return (obj is INT0 or obj is int(0) or bool(both and
-       (not obj) and isint(obj, both=True))) and not isbool(obj)
-
-
 try:
     from keyword import iskeyword  # Python 2.7+
 except ImportError:
@@ -323,72 +255,6 @@ except ImportError:
         '''Not Implemented.  Return C{False}, always.
         '''
         return False
-
-# from math import isnan
-
-
-def isnear0(x, eps0=EPS0):
-    '''Is B{C{x}} near zero?
-
-       @arg x: Value (C{scalar}).
-       @kwarg eps0: Near-zero (C{EPS0}).
-
-       @return: C{True} if C{abs(B{x}) < B{eps0}},
-                C{False} otherwise.
-
-       @see: Function L{isnon0}.
-    '''
-    return eps0 > x > -eps0
-
-
-def isnear1(x, eps0=EPS0):
-    '''Is B{C{x}} near one?
-
-       @arg x: Value (C{scalar}).
-       @kwarg eps0: Near-zero (C{EPS0}).
-
-       @return: C{isnear0(B{x} - 1)}.
-
-       @see: Function L{isnear0}.
-    '''
-    return isnear0(x - _1_0, eps0=eps0)
-
-
-def isneg0(x):
-    '''Check for L{NEG0}, negative C{0.0}.
-
-       @arg x: Value (C{scalar}).
-
-       @return: C{True} if B{C{x}} is C{NEG0} or C{-0.0},
-                C{False} otherwise.
-    '''
-    return x in (_0_0, NEG0) and _copysign(1, x) < 0
-#                            and str(x).startswith(_MINUS_)
-
-
-def isninf(x):
-    '''Check for L{NINF}, negative C{INF}.
-
-       @arg x: Value (C{scalar}).
-
-       @return: C{True} if B{C{x}} is C{NINF} or C{-inf},
-                C{False} otherwise.
-    '''
-    return x is NINF or ((not isfinite(x)) and x < 0)
-
-
-def isnon0(x, eps0=EPS0):
-    '''Is B{C{x}} non-zero?
-
-       @arg x: Value (C{scalar}).
-       @kwarg eps0: Near-zero (C{EPS0}).
-
-       @return: C{True} if C{abs(B{x}) > B{eps0}},
-                C{False} otherwise.
-
-       @see: Function L{isnear0}.
-    '''
-    return eps0 <= x or x <= -eps0  # not isnear0
 
 
 def isodd(x):
@@ -523,33 +389,12 @@ def neg_(*xs):
     return tuple(map(neg, xs))  # like map1
 
 
-try:
-    from math import remainder
-except ImportError:  # Python 3.6-
-    from math import fmod as _fmod
-
-    def remainder(x, y):
-        '''Mimick Python 3.7+ C{math.remainder}.
-        '''
-        if isnan(y):
-            x =  NAN
-        elif x and not isnan(x):
-            y =  abs(y)
-            x = _fmod(x, y)
-            h = _0_5 * y
-            if x < -h:
-                x += y
-            elif x >= h:
-                x -= y
-        return x  # keep signed 0.0
-
-
 def signBit(x):
     '''Return C{signbit(B{x})}, like C++.
 
        @return: C{True} if C{B{x} < 0} or C{NEG0} (C{bool}).
     '''
-    return x < 0 or isneg0(x)
+    return x < 0 or _MODS.constants.isneg0(x)
 
 
 def _signOf(x, off):
@@ -626,12 +471,6 @@ def splice(iterable, n=2, **fill):
             yield t[slice(i, None, n)]
     else:
         yield t
-
-
-def _umod_360(deg):
-    '''(INTERNAL) Non-negative C{deg} modulo 360, basic C{.utily.wrap360}.
-    '''
-    return (deg % _360_0) or _0_0
 
 
 def unsigned0(x):

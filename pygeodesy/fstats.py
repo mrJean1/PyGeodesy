@@ -8,11 +8,11 @@ L{pygeodesy.Fsum}, precision floating point summation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, _xinstanceof, _xsubclassof, _zip
+from pygeodesy.constants import _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _xError
 from pygeodesy.fmath import hypot2, sqrt
 from pygeodesy.fsums import _2float, Fmt, Fsum
-from pygeodesy.interns import NN, _iadd_, _invalid_, _other_, _SPACE_, \
-                             _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
+from pygeodesy.interns import NN, _iadd_, _invalid_, _other_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
                              property_RO
@@ -22,7 +22,7 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from math import sqrt  # pow  from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '22.06.15'
+__version__ = '22.09.12'
 
 _Float  =  Fsum, float
 _Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta

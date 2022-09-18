@@ -61,25 +61,25 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Bool</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-             int --+    
-                   |    
-  object --+       |    
-           |       |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-               |   |    
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+    
-                   |    
-                 <a href="pygeodesy.units.Int-class.html">Int</a> --+
-                       |
-      object --+       |
-               |       |
-    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |
-                   |   |
-          <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+
-                       |
-                      <strong class="uidshort">Bool</strong>
+          object --+        
+                   |        
+                 int --+    
+                       |    
+      object --+       |    
+               |       |    
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
+                   |   |    
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
+                       |    
+           <a href="pygeodesy.unitsBase.Int-class.html">unitsBase.Int</a> --+
+                           |
+          object --+       |
+                   |       |
+        <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |
+                       |   |
+    <a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+
+                           |
+                          <strong class="uidshort">Bool</strong>
 </pre>
 
 <hr />
@@ -137,7 +137,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.units.Bool-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">std</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return the representation of this <code>Bool</code>.</td>
+      Return a representation of this <code>Bool</code>.</td>
           <td align="right" valign="top">
             
             
@@ -167,9 +167,9 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Int-class.html">Int</a></code></b>:
-      <code><a href="pygeodesy.units.Int-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Int-class.html#__str__">__str__</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Int-class.html">unitsBase.Int</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Int-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Int-class.html#__str__">__str__</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>int</code></b>:
       <code>__abs__</code>,
@@ -263,7 +263,7 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
         <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      New named <code>bool</code> instance.</td>
+      New <code>Bool</code> instance.</td>
           <td align="right" valign="top">
             
             
@@ -290,9 +290,9 @@
       <code>numerator</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -338,7 +338,7 @@
     </td>
   </tr></table>
   
-  <p>New named <code>bool</code> instance.</p>
+  <p>New <code>Bool</code> instance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -405,7 +405,7 @@
     </td>
   </tr></table>
   
-  <p>Return the representation of this <code>Bool</code>.</p>
+  <p>Return a representation of this <code>Bool</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -480,7 +480,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:38 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

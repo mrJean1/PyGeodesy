@@ -10,19 +10,20 @@ iterated items.
 '''
 
 from pygeodesy.basics import issubclassof, len2, map2
+# from pygeodesy.constants import _1_0  # from .utily
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _ValueError
-from pygeodesy.interns import NN, _few_, _points_, _too_, _0_, _1_0
+from pygeodesy.interns import NN, _0_, _few_, _points_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import Fmt, _Named, property_RO
 from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 # from pygeodesy.props import property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Int, Radius
-from pygeodesy.utily import degrees2m, wrap90, wrap180
+from pygeodesy.utily import degrees2m, wrap90, wrap180, _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '21.09.26'
+__version__ = '22.09.14'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes

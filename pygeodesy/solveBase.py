@@ -5,9 +5,10 @@ u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.r
 '''
 
 from pygeodesy.basics import map2, ub2str, _zip
+from pygeodesy.constants import DIG
 from pygeodesy.errors import _AssertionError, _xkwds_get
-from pygeodesy.interns import DIG, NN, _0_, _BACKSLASH_, _COMMASPACE_, \
-                             _enquote, _EQUAL_, _not_, _SPACE_
+from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
+                             _EQUAL_, _not_, _SPACE_
 from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, _EWGS84, GDict, \
                              Precision_, unroll180
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
@@ -20,7 +21,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.08.10'
+__version__ = '22.09.12'
 
 _Error_    = 'Error'
 _ERROR_    = 'ERROR'

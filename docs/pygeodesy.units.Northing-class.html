@@ -61,19 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Northing</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-           float --+    
-                   |    
-  object --+       |    
-           |       |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-               |   |    
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+    
-                   |    
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+
-                       |
-                      <strong class="uidshort">Northing</strong>
+          object --+        
+                   |        
+               float --+    
+                       |    
+      object --+       |    
+               |       |    
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
+                   |   |    
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
+                       |    
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+
+                           |
+                          <strong class="uidshort">Northing</strong>
 </pre>
 
 <hr />
@@ -90,11 +90,11 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -187,8 +187,7 @@
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      New named <code>Northing</code> or <code>Northing of point</code> 
-      instance.</td>
+      New <code>Northing</code> or <code>Northing of point</code> instance.</td>
           <td align="right" valign="top">
             
             
@@ -213,9 +212,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -263,7 +262,7 @@
     </td>
   </tr></table>
   
-  <p>New named <code>Northing</code> or <code>Northing of point</code> 
+  <p>New <code>Northing</code> or <code>Northing of point</code> 
   instance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -277,8 +276,8 @@
           class="link">UnitError</a>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - The <b><code>arg</code></b> value includes false origin 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>high</code></strong> - Check <b><code>arg</code></b> over <b><code>high</code></b> 
-          northing (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>high</code></strong> - Optional upper <b><code>arg</code></b> northing limit 
+          (<code>scalar</code> or <code>None</code>).</li>
         <li><strong class="pname"><code>name_arg</code></strong> - Optional <code>name=arg</code> keyword argument, inlieu of 
           <b><code>name</code></b> and <b><code>arg</code></b>.</li>
     </ul></dd>
@@ -286,8 +285,8 @@
         <dd>A <code>Northing</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or negative, falsed 
-        <b><code>arg</code></b>.</li>
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b>, above <b><code>high</code></b> or 
+        negative, falsed <b><code>arg</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
@@ -327,7 +326,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

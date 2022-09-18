@@ -57,20 +57,21 @@ See module L{datums} for L{Datum} and L{Transform} information and other details
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _isfinite, isint
+from pygeodesy.basics import copysign0, isint
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, R_M, R_MA, R_FM, \
+                               _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
+                               _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
+                               _0_25, _3_0  # PYCHOK used!
 from pygeodesy.errors import _AssertionError, _ValueError, _xkwds_not
 from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, Fsum, hypot, hypot_, \
                             hypot1, hypot2, sqrt3
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, INF, NINF, NN, PI4, PI_2, R_M, _a_, \
-                             _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _Clarke1866_, \
-                             _Clarke1880IGN_, _DOT_, _1_EPS, _EPSqrt, _EPStol as _TOL, _f_, \
-                             _float as _F, _floatuple as _T, _GRS80_, _height_, _Intl1924_, \
-                             _incompatible_, _invalid_, _Krassovski1940_, _Krassowsky1940_, \
-                             _meridional_, _lat_, _negative_, _not_finite_, _null_, _vs_, \
-                             _prime_vertical_, _radius_, _Sphere_, _SPACE_, _SQRT2_2, \
-                             _WGS72_, _WGS84_, _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
-from pygeodesy.interns import _0_25, _3_0, _0_0s  # PYCHOK used!
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, \
+                             _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
+                             _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
+                             _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
+                             _null_, _vs_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, \
+                             _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
@@ -79,28 +80,12 @@ from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
-from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, m2SM, \
-                            m2radians, radians2m, sincos2d
+from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
-R_M  = Radius(R_M = R_M)           # mean (spherical) earth radius (C{meter})
-R_MA = Radius(R_MA=_F(6378137.0))  # equatorial earth radius (C{meter}), WGS84, EPSG:3785
-R_MB = Radius(R_MB=_F(6356752.3))  # polar earth radius (C{meter}), WGS84, EPSG:3785
-R_KM = Radius(R_KM=_F(m2km(R_M)))  # mean (spherical) earth radius (C{KM}, kilo meter)
-R_NM = Radius(R_NM=_F(m2NM(R_M)))  # mean (spherical) earth radius (C{NM}, nautical miles)
-R_SM = Radius(R_SM=_F(m2SM(R_M)))  # mean (spherical) earth radius (C{SM}, statute miles)
-# See <https://www.EdWilliams.org/avform.htm>,
-# <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
-# <https://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
-# based on International Standard Nautical Mile of 1,852 meter (1' latitude)
-R_FM = Radius(R_FM=_F(6371000.0))        # former FAI Sphere earth radius (C{meter})
-R_GM = Radius(R_GM=_F(6371230.0))        # Avg. radius, distance to geoid surface (C{meter})
-R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{meter})
-# R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
-
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.09.02'
+__version__ = '22.09.16'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1331,8 +1316,10 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: C{Rtriaxial}
         '''
-        b = (sqrt((_1_0 + self.b2_a2) * _0_5) * self.a) if self.f else self.a
-        return Radius(Rbiaxial=b)
+        a, b = self.a, self.b
+        q = (sqrt((_1_0 + self.b2_a2) * _0_5) * a) if a > b else (
+            (sqrt((_1_0 + self.a2_b2) * _0_5) * b) if a < b else a)
+        return Radius(Rbiaxial=q)
 
     Requatorial = a  # for consistent naming
 
@@ -1636,8 +1623,10 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: C{Rbiaxial}
         '''
-        t = (sqrt((_3_0 + self.b2_a2) * _0_25) * self.a) if self.f else self.a
-        return Radius(Rtriaxial=t)
+        a, b = self.a, self.b
+        q = (sqrt((_3_0 + self.b2_a2)        * _0_25) * a) if a > b else (
+            (sqrt((_3_0 * self.a2_b2 + _1_0) * _0_25) * b) if a < b else a)
+        return Radius(Rtriaxial=q)
 
     def toStr(self, prec=8, name=NN, **unused):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
@@ -2225,7 +2214,7 @@ if __name__ == '__main__':
 # BetaKs  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 # KsOrder 8
 
-# Ellipsoids._Prolate: name='_Prolate', a=6356752.3142451793, b=6378137, f_=-297.257223563, f=-0.0033640898, f2=-0.0033528107, n=-0.0016792204, e=0.0820944379, e2=-0.0067394967, e22=-0.00669438, e32=-0.0033584313, A=6367449.1458234144, L=10035500.5204500332, R1=6363880.5428301189, R2=6363878.9413582645, R3=6363872.5644020075, Rbiaxial=6367453.6345163304, Rtriaxial=6362105.2243882548
+# Ellipsoids._Prolate: name='_Prolate', a=6356752.3142451793, b=6378137, f_=-297.257223563, f=-0.0033640898, f2=-0.0033528107, n=-0.0016792204, e=0.0820944379, e2=-0.0067394967, e22=-0.00669438, e32=-0.0033584313, A=6367449.1458234144, L=10035500.5204500332, R1=6363880.5428301189, R2=6363878.9413582645, R3=6363872.5644020075, Rbiaxial=6367453.6345163295, Rtriaxial=6362105.2243882557
 # e=8.2094437949696e-02, f_=-2.97257223563e+02, f=-3.3640898209765e-03, n=-1.6792203863837e-03 (0.0e+00)
 # AlphaKs -0.00084149152514366627, 0.00000076653480614871, -0.00000000120934503389, 0.0000000000024576225, -0.00000000000000578863, 0.00000000000000001502, -0.00000000000000000004, 0.0
 # BetaKs  -0.00084149187224351817, 0.00000005842735196773, -0.0000000001680487236, 0.00000000000021706261, -0.00000000000000038002, 0.00000000000000000073, -0.0, 0.0

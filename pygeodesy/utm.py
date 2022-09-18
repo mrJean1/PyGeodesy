@@ -34,15 +34,15 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 '''
 
 from pygeodesy.basics import len2, map2, neg  # splice
+from pygeodesy.constants import EPS, EPS0, _K0_UTM, _0_0, _0_0001
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
                             _xkwds_get
 from pygeodesy.fmath import fdot3, hypot, hypot1
-from pygeodesy.interns import EPS, EPS0, MISSING, NN, \
-                             _by_, _COMMASPACE_, _K0_UTM, _N_, _NS_, \
-                             _outside_, _range_, _S_, _SPACE_, _UTM_, \
-                             _V_, _X_, _zone_, _0_0, _0_0001
+from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
+                             _NS_, _outside_, _range_, _S_, _SPACE_, \
+                             _UTM_, _V_, _X_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -63,7 +63,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.08.23'
+__version__ = '22.09.12'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N

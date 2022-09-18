@@ -102,14 +102,25 @@ class Tests(TestsBase):
             self.testUnit(U, 1901, known=True)
 
         self.subtitle(units)  # courtesy of JaapZee at Gmail
-        self.test(Bearing.__name__,  Bearing(361), 1.0)
+        self.test(Bearing.__name__,  Bearing(361), 1.0, nl=1)
         self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
 
-        self.test(Lam_.__name__, Lam_(361, clip=0), 6.3, fmt='%.2f')
+        self.test(Lam_.__name__, Lam_(361, clip=0), 6.3, fmt='%.2f', nl=1)
         self.test(Phi_.__name__, Phi_(361, clip=0), 6.3, fmt='%.2f')
 
-        self.test(FIx.__name__, FIx(1),   Int(1), known=True)
+        self.test(FIx.__name__, FIx(1),   Int(1), known=True, nl=1)
         self.test(FIx.__name__, FIx(1.5), Float(1.5),)
+
+        s = Str(Dash='-')
+        self.test(s.name, s, '-', nl=1)
+        self.test(s.name, s.toStr(), '-')
+        self.test(s.name, repr(s), repr('-'), nl=1)
+        self.test(s.name, s.toRepr(std=False), "Dash ('-')")
+        t = s('c', 'a', 'l', 'l', name='Join_d')
+        self.test(t.name, t, 'c-a-l-l', nl=1)
+        self.test(t.name, t.toStr(), 'c-a-l-l')
+        self.test(t.name, repr(t), repr('c-a-l-l'), nl=1)
+        self.test(t.name, t.toRepr(std=False), "Join_d ('c-a-l-l')")
 
 
 if __name__ == '__main__':

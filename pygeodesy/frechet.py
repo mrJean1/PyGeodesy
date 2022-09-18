@@ -82,14 +82,14 @@ than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
 from pygeodesy.basics import isscalar, _xinstanceof
+from pygeodesy.constants import EPS, EPS1, INF, NINF
 from pygeodesy.datums import Datum, _WGS84
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
-                            cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            thomas_, vincentys_, _scale_rad
-from pygeodesy.interns import EPS, EPS1, INF, NINF, NN, _datum_, _distanceTo_, \
-                             _DOT_, _n_, _points_, _units_
+                            cosineLaw_, euclidean_, flatPolar_, haversine_, thomas_, \
+                            vincentys_, _scale_rad
+from pygeodesy.interns import NN, _datum_, _distanceTo_, _DOT_, _n_, _points_, _units_
 from pygeodesy.iters import points2 as _points2
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
@@ -97,15 +97,16 @@ from pygeodesy.namedTuples import PhiLam2Tuple
 from pygeodesy.points import _fractional
 from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import _boolkwds, Fmt
-from pygeodesy.units import FIx, Float, Number_, _Str_degrees, _Str_meter, \
-                           _Str_NN, _Str_radians, _Str_radians2, _xUnit, _xUnits
+from pygeodesy.units import FIx, Float, Number_, _xUnit, _xUnits
+from pygeodesy.unitsBase import _Str_degrees, _Str_meter, _Str_NN, \
+                                _Str_radians, _Str_radians2
 from pygeodesy.utily import unrollPI
 
 from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '22.06.25'
+__version__ = '22.09.15'
 
 
 def _fraction(fraction, n):

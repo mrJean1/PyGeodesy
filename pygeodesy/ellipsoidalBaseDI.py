@@ -7,7 +7,9 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, isnear1, isscalar, issubclassof
+from pygeodesy.basics import isscalar, issubclassof
+from pygeodesy.constants import EPS, PI, PI2, PI_4, isnear0, isnear1, \
+                               _0_0, _0_5, _1_5, _3_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
                                       property_RO, _TOL_M
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
@@ -15,9 +17,8 @@ from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsum_
 from pygeodesy.formy import opposing, _radical2
-from pygeodesy.interns import EPS, PI, PI2, PI_4, _antipodal_, _concentric_, \
-                             _exceed_PI_radians_, _near_, _SPACE_, _too_, \
-                             _0_0, _0_5, _1_5, _3_0
+from pygeodesy.interns import _antipodal_, _concentric_, _exceed_PI_radians_, \
+                              _near_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Intersection3Tuple, NearestOn2Tuple, \
@@ -30,7 +31,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.08.23'
+__version__ = '22.09.14'
 
 _polar__  = 'polar?'
 _too_low_ = _too_('low')

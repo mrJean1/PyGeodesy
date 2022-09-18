@@ -12,21 +12,22 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnear0, isnon0, map1, _umod_360
+# from pygeodesy.basics import map1  # from .nvectorBase
 from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
+from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, R_MA, \
+                               _umod_360, isnear0, isnon0, _0_0, \
+                               _0_5, _1_0, _180_0
 from pygeodesy.datums import Datums, _spherical_datum
-from pygeodesy.ellipsoids import R_M, R_MA
 # from pygeodesy.errors import IntersectionError  # from .latlonBase
 from pygeodesy.fmath import favg, fdot, hypot
-from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
-                             _concentric_, _datum_, _distant_, \
-                             _exceed_PI_radians_, _name_, _near_, \
-                             _radius_, _too_, _0_0, _0_5, _1_0, _180_0
+from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
+                             _distant_, _exceed_PI_radians_, _name_, \
+                             _near_, _radius_, _too_
 from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
                                 _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
+from pygeodesy.nvectorBase import map1, NvectorBase, _xattrs  # streprs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
 from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_, \
@@ -37,7 +38,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.08.10'
+__version__ = '22.09.14'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*

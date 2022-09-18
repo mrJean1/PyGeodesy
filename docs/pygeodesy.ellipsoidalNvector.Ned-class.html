@@ -61,15 +61,17 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Ned</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+            
-           |            
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
-               |        
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
-                   |    
-       <a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a> --+
-                       |
-                      <strong class="uidshort">Ned</strong>
+    object --+                
+             |                
+  <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+                 |            
+  <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                     |        
+<a href="pygeodesy.ltpTuples._NamedAerNed-class.html">ltpTuples._NamedAerNed</a> --+    
+                         |    
+             <a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a> --+
+                             |
+                            <strong class="uidshort">Ned</strong>
 </pre>
 
 <hr />
@@ -133,8 +135,13 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a></code></b>:
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#to3ned">to3ned</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toVector3d">toVector3d</a></code>,
-      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toXyz">toXyz</a></code>
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toVector3d">toVector3d</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">ltpTuples._NamedAerNed</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toAer">toAer</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toEnu">toEnu</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toNed">toNed</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#toXyz">toXyz</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
@@ -187,18 +194,20 @@
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#elevation">elevation</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#groundrange">groundrange</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#length">length</a></code>,
-      <code><a href="pygeodesy.ltpTuples.Ned-class.html#ltp">ltp</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#ned">ned</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#ned4">ned4</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#north">north</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#slantrange">slantrange</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#up">up</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#x">x</a></code>,
-      <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyz">xyz</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyz4">xyz4</a></code>,
-      <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyzLocal">xyzLocal</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#y">y</a></code>,
       <code><a href="pygeodesy.ltpTuples.Ned-class.html#z">z</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">ltpTuples._NamedAerNed</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#ltp">ltp</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.ltpTuples._NamedAerNed-class.html#xyzLocal">xyzLocal</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -298,8 +307,6 @@
   
   <p>DEPRECATED, use class <a href="pygeodesy.ltpTuples.Ned-class.html" 
   class="link">pygeodesy.Ned</a>.</p>
-  <p>Return a string representation of this NED vector as length, bearing 
-  and elevation.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -309,7 +316,8 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This Ned as &quot;[L:f, B:degrees360, E:degrees90]&quot; 
-          (<code>str</code>).</dd>
+          (<code>str</code>) with length or slantrange <code>L</code>, 
+          bearing or azimuth <code>B</code> and elevation <code>E</code>.</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_method</code></li>
@@ -352,7 +360,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:42 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:36 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

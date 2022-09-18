@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.08.01
+        22.09.16
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -168,7 +168,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.UtmUps4Tuple-class.html" class="summary-name">UtmUps4Tuple</a><br />
-      OBSOLETE, expect a <a 
+      DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.
@@ -311,7 +311,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#areaof" class="summary-sig-name">areaof</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#areaOf" 
@@ -645,6 +645,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="isDEPRECATED"></a><span class="summary-sig-name">isDEPRECATED</span>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Return <code>True</code> if <code><b>obj</b></code> is a 
+      <code>DEPRECATED</code> class, method or function, <code>False</code>
+      if not or <code>None</code> if undetermined.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#isenclosedby" class="summary-sig-name">isenclosedby</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -775,7 +794,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#perimeterof" class="summary-sig-name">perimeterof</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#perimeterOf" 
@@ -816,7 +835,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
-        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
         <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
@@ -840,7 +859,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#simplify2" class="summary-sig-name">simplify2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">pipe</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -982,14 +1001,21 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code>
+        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="0.9999999999999999">0.9999999999999999</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'"><code class="variable-quote">'</code><code class="variable-string">OK</code><code class="variable-quote">'</code></code>
+        <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'">'OK'</code>
     </td>
   </tr>
 </table>
@@ -1037,7 +1063,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">areaof</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1666,7 +1692,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterof</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1719,7 +1745,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>&nbsp;(<span class="sig-arg">value</span>,
-        <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">low</span>=<span class="sig-default">2.220446049250313e-16</span>,
         <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
@@ -1756,7 +1782,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplify2</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">pipe</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
@@ -1951,7 +1977,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:41 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:35 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

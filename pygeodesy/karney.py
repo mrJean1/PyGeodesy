@@ -116,16 +116,17 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
 
-from pygeodesy.basics import _copysign, _isfinite as _math_isfinite, neg, unsigned0, \
-                             _xgeographiclib, _xImportError, _xversion_info, \
-                             _xinstanceof, _zip, isodd  # PYCHOK shared
+from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
+                             _xImportError, _xversion_info, _xinstanceof, \
+                             _zip,  isodd  # PYCHOK shared
+from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
+                               _180_0, _N_180_0, _360_0
 from pygeodesy.datums import _a_ellipsoid, _WGS84
 from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
                              _or  # PYCHOK shared
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
-from pygeodesy.interns import NAN, NN, _2_, _a12_, _area_, _azi2_, _DOT_, _lat2_, \
-                             _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
-                             _0_0, _180_0, _N_180_0, _360_0, _1_16th
+from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _DOT_, _lat2_, \
+                             _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
                            _NamedTuple, _Pass
@@ -138,7 +139,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.08.10'
+__version__ = '22.09.14'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_

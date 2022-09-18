@@ -11,19 +11,19 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 '''
 
 from pygeodesy.basics import len2, map1
+from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
 from pygeodesy.fsums import fsum, fsum_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _spherical_datum
-from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
-                             _bearing_, _coincident_, _COMMASPACE_, \
-                             _distance_, _intersection_, _no_, _NorthPole_, \
-                             _points_, _pole_, _SPACE_, _SouthPole_, \
-                             _1_, _2_, _3_, _2_0, _N_2_0
-from pygeodesy.latlonBase import LatLonBase
-from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
+from pygeodesy.interns import MISSING, NN, _1_, _2_, _3_, _bearing_, \
+                             _coincident_, _COMMASPACE_, _distance_, \
+                             _intersection_, _no_, _NorthPole_, _points_, \
+                             _pole_, _SPACE_, _SouthPole_
+from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
+# from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import notImplemented, _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
@@ -31,13 +31,13 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
-from pygeodesy.utily import sincos2d
-from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, _xyzhdn3
+# from pygeodesy.utily import sincos2d  # from vector3d
+from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, sincos2d, _xyzhdn3
 
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.08.23'
+__version__ = '22.09.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

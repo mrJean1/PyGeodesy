@@ -10,18 +10,19 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _isfinite, isint, isnan, isnear0, isneg0
-from pygeodesy.interns import EPS, EPS0, INF, NAN, NEG0, NINF, PI, PI2, PI_2, R_M, \
-                             _edge_, _float as _F, _radians_, _semi_circular_, \
-                             _SPACE_, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
-                             _10_0, _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+from pygeodesy.basics import copysign0, isint
+from pygeodesy.constants import EPS, EPS0, INF, NAN, NEG0, NINF, PI, PI2, PI_2, R_M, \
+                               _float as _F, _isfinite, isnan, isnear0, isneg0, \
+                               _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, _N_1_0, _2__PI, \
+                               _10_0, _90_0, _N_90_0, _180_0, _N_180_0, _360_0, _400_0
+from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.units import Degrees, Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '22.08.18'
+__version__ = '22.09.14'
 
 # read constant name "_M_UNIT" as "meter per unit"
 _M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
@@ -31,8 +32,8 @@ _M_FOOT_FR   = _F(   0.3248406)  # French Pied-du-Roi or pied (1 / 3.07843292987
 _M_FOOT_INTL = _F(   0.3048)     # Int'l (1 / 3.2808398950131 = 10_000 / (254 * 12))
 _M_FOOT_USRV = _F(   0.3048006096012192)  # US Survey (1200 / 3937)
 _M_FURLONG   = _F( 201.168)      # 220 * yard2m(1) == 10 * m2chain(1)
-_M_NM        = _F(1852.0)        # nautical mile
-_M_SM        = _F(1609.344)      # statute mile
+# _M_NM      = _F(1852.0)        # nautical mile
+# _M_SM      = _F(1609.344)      # statute mile
 _M_TOISE     = _F(   1.9490436)  # French toise, 6 pieds (6 / 3.0784329298739)
 _M_YARD_UK   = _F(   0.9144)     # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
 

@@ -17,17 +17,17 @@ and U{Implementation Practice Web Mercator Map Projection
 '''
 
 from pygeodesy.basics import isscalar, issubclassof
-from pygeodesy.datums import _ellipsoidal_datum
+from pygeodesy.constants import PI_2, R_M, R_MA, R_MB
+from pygeodesy.datums import _ALL_LAZY, _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.ellipsoids import R_M, R_MA, R_MB
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
-from pygeodesy.interns import NN, PI_2, _COMMASPACE_, _easting_, \
+from pygeodesy.interns import NN, _COMMASPACE_, _easting_, \
                              _ellipsoidal_, _northing_, _radius_, \
                              _SPACE_, _splituple
 from pygeodesy.interns import _x_, _y_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY
+# from pygeodesy.lazily import _ALL_LAZY  from .datums
 from pygeodesy.named import _NamedBase, _NamedTuple
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.props import deprecated_method, Property_RO
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '22.06.26'
+__version__ = '22.09.12'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

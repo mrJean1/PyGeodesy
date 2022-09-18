@@ -5,19 +5,20 @@ u'''2- or 3-D vectorial functions L{circin6}, L{circum3}, L{circum4_},
 L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11} and L{soddy4}.
 '''
 
-from pygeodesy.basics import isnear0, len2, map1, map2, _xnumpy
+from pygeodesy.basics import len2, map1, map2, _xnumpy
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
+                               _EPS4e8, isnear0, _0_0, _0_5, _1_0, _1_0_1T, \
+                               _N_1_0, _2_0, _N_2_0, _4_0
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fdot, hypot, hypot2_
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.interns import EPS, EPS0, EPS02, EPS4, INF, INT0, NN, \
-                             _EPS4e8, _a_, _and_, _b_, _c_, _center_, _coincident_, \
+from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _radius_, \
-                             _rIn_, _s_, _SPACE_, _too_, _0_0, _0_5, \
-                             _1_0, _N_1_0, _1_0_T, _2_0, _N_2_0, _4_0
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Fmt, _NamedTuple, _Pass
+                             _rIn_, _s_, _SPACE_, _too_
+# from pygeodesy.lazily import _ALL_LAZY  # from .named
+from pygeodesy.named import _ALL_LAZY, Fmt, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Float, Int, Meter, Radius, Radius_
@@ -28,7 +29,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.07.07'
+__version__ = '22.09.15'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -269,7 +270,7 @@ def circum4_(*points, **Vector_and_kwds):
     A, b = [], []
     for i, p in enumerate(ps):
         v = _otherV3d(useZ=True, i=i, points=p)
-        A.append(v.times(_2_0).xyz + _1_0_T)
+        A.append(v.times(_2_0).xyz + _1_0_1T)
         b.append(v.length2)
 
     with _numpy(n, circum4_) as np:
@@ -651,7 +652,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
               Radius_(radius3=r3, low=eps)]
 
     # get null_space Z, pseudo-inverse A and vector B, once
-    A = [(_1_0_T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
+    A = [(_1_0_1T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
     with _numpy(None, trilaterate3d2) as np:
         Z, _ = _null_space2(np, A, eps)
         A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse

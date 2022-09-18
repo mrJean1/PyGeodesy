@@ -13,24 +13,24 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 <https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 '''
 
-from pygeodesy.basics import isstr
-from pygeodesy.dms import parse3llh  # parseDMS2
+# from pygeodesy.basics import isstr  # from .dms
+from pygeodesy.constants import _off90, _1_over, _0_5, \
+                                _1_0  # PYCHOK used!
+from pygeodesy.dms import Fmt, isstr, parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
-from pygeodesy.interns import NN, _AtoZnoIO_, _floatuple, \
-                             _0to9_, _0_5, _90_EPS_2
-from pygeodesy.interns import _1_0  # PYCHOK used!
+from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import nameof
+from pygeodesy.named import nameof, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
-from pygeodesy.props import Property_RO
-from pygeodesy.streprs import Fmt
+# from pygeodesy.props import Property_RO  # from .named
+# from pygeodesy.streprs import Fmt  # from .dms
 from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
                             Str, _xStrError
 
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '22.05.14'
+__version__ = '22.09.14'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -45,20 +45,20 @@ _MaxLen = _MinLen + _MaxPrec
 
 _M1 = _M2 = 2
 _M3 =  3
-_M_ = _M1 * _M2 * _M3
+_M4 = _M1 * _M2 * _M3
 
-_LatOrig_M_   = _LatOrig * _M_
+_LatOrig_M4   = _LatOrig * _M4
 _LatOrig_M1   = _LatOrig * _M1
-_LonOrig_M_   = _LonOrig * _M_
+_LonOrig_M4   = _LonOrig * _M4
 _LonOrig_M1_1 = _LonOrig * _M1 - 1
 
-_Resolutions  = _floatuple(*(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_)))
+_Resolutions  = _1_over(_M1), _1_over(_M1 * _M2), _1_over(_M4)
 
 
-def _2divmod2(ll, Orig_M_):
-    x = int(floor(ll * _M_)) - Orig_M_
-    i = (x * _M1) // _M_
-    x -= i * _M_ // _M1
+def _2divmod2(ll, _Orig_M4):
+    x = int(floor(ll * _M4)) - _Orig_M4
+    i = (x * _M1) // _M4
+    x -= i * _M4 // _M1
     return i, x
 
 
@@ -137,7 +137,7 @@ class Garef(Str):
             g, p = _2garstr2(str(cll))
 
         elif isstr(cll):
-            if ',' in cll:
+            if _COMMA_ in cll:
                 ll = _2fll(*parse3llh(cll))
                 g  =  encode(*ll, precision=precision)  # PYCHOK false
             else:
@@ -286,10 +286,10 @@ def encode(lat, lon, precision=1):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon = _2fll(lat, lon)
-    lat = _90_EPS_2(lat)
+    lat = _off90(lat)
 
-    ix, x = _2divmod2(lon, _LonOrig_M_)
-    iy, y = _2divmod2(lat, _LatOrig_M_)
+    ix, x = _2divmod2(lon, _LonOrig_M4)
+    iy, y = _2divmod2(lat, _LatOrig_M4)
 
     g = _str(_Digits, ix + 1, _LonLen) + _str(_Letters, iy, _LatLen)
     if p > 0:

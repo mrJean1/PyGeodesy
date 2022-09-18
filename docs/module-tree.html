@@ -73,6 +73,32 @@
     <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.constants-module.html">pygeodesy.constants</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>int</code> constants 
+        across <code>pygeodesy</code> modules and related functions <a 
+        href="pygeodesy.constants-module.html#float_" 
+        class="link">pygeodesy.float_</a>, <a 
+        href="pygeodesy.constants-module.html#isclose" 
+        class="link">pygeodesy.isclose</a>, <a 
+        href="pygeodesy.constants-module.html#isfinite" 
+        class="link">pygeodesy.isfinite</a>, <a 
+        href="pygeodesy.constants-module.html#isinf" 
+        class="link">pygeodesy.isinf</a>, <a 
+        href="pygeodesy.constants-module.html#isint0" 
+        class="link">pygeodesy.isint0</a>, <a 
+        href="pygeodesy.constants-module.html#isnan" 
+        class="link">pygeodesy.isnan</a>, <a 
+        href="pygeodesy.constants-module.html#isnear0" 
+        class="link">pygeodesy.isnear0</a>, <a 
+        href="pygeodesy.constants-module.html#isnear1" 
+        class="link">pygeodesy.isnear1</a>, <a 
+        href="pygeodesy.constants-module.html#isneg0" 
+        class="link">pygeodesy.isneg0</a>, <a 
+        href="pygeodesy.constants-module.html#isninf" 
+        class="link">pygeodesy.isninf</a>, <a 
+        href="pygeodesy.constants-module.html#isnon0" 
+        class="link">pygeodesy.isnon0</a> and <a 
+        href="pygeodesy.constants-module.html#remainder" 
+        class="link">pygeodesy.remainder</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner (CSS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Datums and transformations thereof.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED constants, classes, functions, methods, etc.</em>
@@ -158,9 +184,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and geoid height interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations of <code>LatLon</code> points.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>str</code>ing 
-        constants, <code>intern</code>'ed across <code>pygeodesy</code> 
-        modules.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single <code>str</code>ing constants, <code>intern</code>'ed across
+        <code>pygeodesy</code> modules and function <a 
+        href="pygeodesy.interns-module.html#machine" 
+        class="link">pygeodesy.machine</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.iters-module.html">pygeodesy.iters</a></strong>: <em class="summary">Iterators with options.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary"><i>Charles F.F. Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib" 
@@ -246,8 +273,17 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various <code>Float</code>, <code>Int</code> and 
-        <code>Str</code>ing units.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various units, all sub-classes of <code>Float</code>, 
+        <code>Int</code> and <code>Str</code> from basic 
+        <code>float</code>, <code>int</code> respectively <code>str</code> 
+        to named units as <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>, <a href="pygeodesy.units.Feet-class.html"
+        class="link">Feet</a>, <a href="pygeodesy.units.Meter-class.html" 
+        class="link">Meter</a>, <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a>,
+        etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase-module.html">pygeodesy.unitsBase</a></strong>: <em class="summary">Basic <code>Float</code>, <code>Int</code> and <code>Str</code>ing 
+        units classes.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups-module.html">pygeodesy.ups</a></strong>: <em class="summary"><i>Karney</i>'s Universal Polar Stereographic (UPS) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utily-module.html">pygeodesy.utily</a></strong>: <em class="summary">Various utility functions.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utm-module.html">pygeodesy.utm</a></strong>: <em class="summary"><i>Veness</i>' Universal Transverse Mercator (UTM) projection.</em>    </li>
@@ -317,7 +353,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:40 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:35 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

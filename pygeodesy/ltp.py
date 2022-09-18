@@ -11,16 +11,16 @@ L{LocalError} and L{Attitude} and L{Frustum}.
       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 
-from pygeodesy.basics import isscalar, issubclassof, map1, _umod_360
+from pygeodesy.basics import isscalar, issubclassof, map1
+from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_5, _2_0, _90_0, \
+                               _180_0,  _N_1_0  # PYCHOK used!
 from pygeodesy.datums import _WGS84, _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _TypesError, _ValueError, _xkwds
 # from pygeodesy.fmath import fdot  # from .vector3d
 from pygeodesy.fsums import fsum_, fsum1_
-from pygeodesy.interns import EPS, INT0, NN, _COMMASPACE_, _ecef_, _height_, \
-                             _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, \
-                             _too_, _0_, _0_0, _0_5, _2_0, _90_0, _180_0, \
-                             _N_1_0  # PYCHOK used!
+from pygeodesy.interns import NN, _0_, _COMMASPACE_, _ecef_, _height_, _invalid_, \
+                             _lat0_, _lon0_, _ltp_, _M_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from .streprs
 from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
                                _NamedBase, _XyzLocals4, _XyzLocals5, Xyz4Tuple
@@ -33,7 +33,7 @@ from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wra
 from pygeodesy.vector3d import fdot, Vector3d, Vector3Tuple
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.07.12'
+__version__ = '22.09.14'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -444,8 +444,8 @@ class LocalCartesian(_NamedBase):
            @return: C{True} if equal, C{False} otherwise.
         '''
         return other is self or (isinstance(other, self.__class__) and
-                               self.ecef == other.ecef and
-                               self._t0  == other._t0)
+                                     other.ecef == self.ecef and
+                                     other._t0  == self._t0)
 
     @Property_RO
     def datum(self):
@@ -670,8 +670,8 @@ class Ltp(LocalCartesian):
         '''
         _xinstanceof(_EcefBase, ecef=ecef)
         if ecef != self._ecef:  # PYCHOK no cover
-            self._ecef = ecef
             self.reset(self._t0)
+            self._ecef = ecef
 
 
 def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):

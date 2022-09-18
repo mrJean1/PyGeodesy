@@ -10,16 +10,15 @@ L{triAngle4}, L{triSide}, L{triSide2} and L{triSide4}.
        <http://www.Telecom.ULg.ac.Be/publi/publications/pierlot/Pierlot2014ANewThree>}.
 '''
 
-from pygeodesy.basics import isnear0, map1
+from pygeodesy.basics import map1, _ALL_LAZY
+from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, isnear0, \
+                               _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, _360_0
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xkwds
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import Fsum, fsum_, fsum1, fsum1_
-from pygeodesy.interns import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
-                             _a_, _A_, _b_, _B_, _c_, _C_, _coincident_, \
-                             _colinear_, _d_, _invalid_, _negative_, _not_, \
-                             _rIn_, _SPACE_, _0_0, _0_5, _1_0, _N_1_0, _2_0, \
-                             _N_2_0, _4_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import _a_, _A_, _b_, _B_, _c_, _C_, _coincident_, _colinear_, \
+                              _d_, _invalid_, _negative_, _not_, _rIn_, _SPACE_
+# from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import Fmt, _NamedTuple, _Pass
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Degrees, Distance, Radians
@@ -29,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.08.12'
+__version__ = '22.09.14'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'

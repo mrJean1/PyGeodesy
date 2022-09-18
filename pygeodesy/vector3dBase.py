@@ -8,13 +8,14 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isnear0, isnear1, isscalar, istuplist, \
-                             map1, _zip
+from pygeodesy.basics import copysign0, isscalar, istuplist, map1, _zip
+from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
+                                isnear0, isnear1, _1_0
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
 from pygeodesy.fmath import euclid_, fdot, fsum1_, hypot_, hypot2_
 # from pygeodesy.fsums import fsum1_  # from .fmath
-from pygeodesy.interns import EPS, EPS0, INT0, NN, PI, PI2, _coincident_, \
-                             _colinear_, _COMMASPACE_, _float0, _y_, _z_, _1_0
+from pygeodesy.interns import NN, _coincident_, _colinear_, _COMMASPACE_, \
+                             _y_, _z_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 from pygeodesy.namedTuples import Vector3Tuple
@@ -27,7 +28,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.08.10'
+__version__ = '22.09.14'
 
 
 class Vector3dBase(_NamedBase):

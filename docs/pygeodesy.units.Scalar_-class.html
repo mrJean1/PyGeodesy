@@ -61,21 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Scalar_</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+            
-               |            
-           float --+        
-                   |        
-  object --+       |        
-           |       |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
-               |   |        
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
-                   |        
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
-                       |    
-                  <a href="pygeodesy.units.Float_-class.html">Float_</a> --+
-                           |
-                          <strong class="uidshort">Scalar_</strong>
+          object --+            
+                   |            
+               float --+        
+                       |        
+      object --+       |        
+               |       |        
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+                   |   |        
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+                       |        
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
+                           |    
+                      <a href="pygeodesy.units.Float_-class.html">Float_</a> --+
+                               |
+                              <strong class="uidshort">Scalar_</strong>
 </pre>
 
 <hr />
@@ -92,11 +92,11 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -187,8 +187,10 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">**high_Error_name_arg</span>)</span><br />
-      See <a href="pygeodesy.units.Float_-class.html" 
-      class="link">Float_</a>.</td>
+      New <a href="pygeodesy.units.Scalar_-class.html" 
+      class="link">Scalar_</a> instance, see <a 
+      href="pygeodesy.units.Scalar-class.html" class="link">Scalar</a> and 
+      <a href="pygeodesy.units.Float_-class.html" class="link">Float_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -213,9 +215,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -261,8 +263,10 @@
     </td>
   </tr></table>
   
-  <p>See <a href="pygeodesy.units.Float_-class.html" 
-  class="link">Float_</a>.</p>
+  <p>New <a href="pygeodesy.units.Scalar_-class.html" 
+  class="link">Scalar_</a> instance, see <a 
+  href="pygeodesy.units.Scalar-class.html" class="link">Scalar</a> and <a 
+  href="pygeodesy.units.Float_-class.html" class="link">Float_</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -325,7 +329,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

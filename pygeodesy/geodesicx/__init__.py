@@ -15,13 +15,14 @@ Also, compare C{GeodesicExact} and C{GeodesicLineExact} to I{standard} classes C
 respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographiclib
 <https://GeographicLib.SourceForge.io/C++/doc/other.html#python>}.
 '''
+
 from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
 from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # PYCHOK exported
 from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '22.05.14'
+__version__ = '22.09.15'
 
 # **) MIT License
 #

@@ -4,7 +4,7 @@
 # Test some of the errors.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '22.09.17'
 
 from base import isPython3, TestsBase
 
@@ -47,11 +47,11 @@ class Tests(TestsBase):
         self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None) not an int or float')")
 
         e = IsnotError('scalar', _None=None)
-        self.test(IsnotError.__name__, e, '_None (None) not scalar')
-        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None) not scalar')")
+        self.test(IsnotError.__name__, e, '_None (None) not a scalar')
+        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None) not a scalar')")
         e = IsnotError('scalar', Error=LimitError, _None=None)
-        self.test(IsnotError.__name__, e, '_None (None) not scalar: invalid')
-        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "LimitError('_None (None) not scalar: invalid')")
+        self.test(IsnotError.__name__, e, '_None (None) not a scalar: invalid')
+        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "LimitError('_None (None) not a scalar: invalid')")
 
         try:
             raise LenError(LenError, a=1, b=2, c=3, d=4)

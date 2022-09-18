@@ -73,18 +73,19 @@ See:
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import len2  # from .fmath
+from pygeodesy.constants import EPS, R_M, _1_0
 from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.fmath import len2, sqrt0
 from pygeodesy.formy import equirectangular_
-from pygeodesy.interns import EPS, R_M, _small_, _too_, _1_0
+from pygeodesy.interns import _small_, _too_
 from pygeodesy.iters import isNumpy2, isTuple2
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.units import _1mm
+# from pygeodesy.lazily import _ALL_LAZY  # from .units
+from pygeodesy.units import _ALL_LAZY, _1mm
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '22.01.17'
+__version__ = '22.09.12'
 
 
 # try:

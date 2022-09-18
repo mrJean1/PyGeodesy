@@ -25,10 +25,13 @@ each 2+tuple in a sequence of such 2+tuples using the C{ilat} lat- and
 C{ilon} longitude index in each 2+tuple.
 '''
 
-from pygeodesy.basics import isclass, isint, isnear0, isnear1, isscalar, \
-                             issequence, issubclassof, map1, _Sequence, \
-                             _umod_360, _xcopy, _xdup, _xinstanceof
-from pygeodesy.datums import _spherical_datum
+from pygeodesy.basics import isclass, isint, isscalar, issequence, \
+                             issubclassof, map1, _Sequence, _xcopy, \
+                             _xdup, _xinstanceof
+from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
+                               _umod_360, _0_0, _0_5, _1_0, _3_0, _90_0, \
+                               _N_90_0, _180_0, _360_0
+# from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2, S_DEG, S_DMS, \
                           S_MIN, S_SEC, S_SEP
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
@@ -36,14 +39,12 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
-from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz
-from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, \
-                             _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
-                             _ELLIPSIS_, _height_, _immutable_, _lat_, \
-                             _lon_, _near_, _not_, _point_, _SPACE_, \
-                             _UNDER_, _valid_, _0_0, _0_5, _1_0, _3_0, \
-                             _90_0, _N_90_0, _180_0, _360_0
-from pygeodesy.interns import _tolerance_  # PYCHOK used!
+from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz, \
+                            _spherical_datum
+from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
+                             _ELLIPSIS_, _height_, _immutable_, _lat_, _lon_, \
+                             _near_, _not_, _point_, _SPACE_, _UNDER_, \
+                             _valid_,  _tolerance_  # PYCHOK used!
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -63,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.09.09'
+__version__ = '22.09.14'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'

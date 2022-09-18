@@ -963,10 +963,6 @@
     <li> <strong class="uidlink"><a href="pygeodesy.named._NamedBase-class.html">pygeodesy.named._NamedBase</a></strong>:
       <em class="summary">(INTERNAL) Base class with name.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer-class.html">pygeodesy.ltpTuples.Aer</a></strong>:
-      <em class="summary">Local <code>Azimuth-Elevation-Range</code> (AER) in a <i>local 
-        tangent plane</i>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Attitude-class.html">pygeodesy.ltp.Attitude</a></strong>:
       <em class="summary">The orientation of a plane or camera in space.</em>
     </li>
@@ -1124,16 +1120,6 @@
       <em class="summary">Military Grid Reference System (MGRS/NATO) references, with method 
         to convert to UTM coordinates.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned-class.html">pygeodesy.ltpTuples.Ned</a></strong>:
-      <em class="summary">Local <code>North-Eeast-Down</code> (NED) location in a <i>local 
-        tangent plane</i>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
-      <em class="summary">DEPRECATED, use class <a href="pygeodesy.ltpTuples.Ned-class.html" 
-        class="link">pygeodesy.Ned</a>.</em>
-    </li>
-    </ul>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr.Osgr-class.html">pygeodesy.osgr.Osgr</a></strong>:
       <em class="summary">Ordnance Survey Grid References (OSGR) coordinates on the <a 
         href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
@@ -1191,13 +1177,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1213,6 +1192,13 @@
         class="link">Cartesian</a> to <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -1625,6 +1611,26 @@
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformation</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples._NamedAerNed-class.html">pygeodesy.ltpTuples._NamedAerNed</a></strong>:
+      <em class="summary">(INTERNAL) Base class for classes <code>Aer</code> and 
+        <code>Ned</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Aer-class.html">pygeodesy.ltpTuples.Aer</a></strong>:
+      <em class="summary">Local <code>Azimuth-Elevation-Range</code> (AER) in a <i>local 
+        tangent plane</i>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Ned-class.html">pygeodesy.ltpTuples.Ned</a></strong>:
+      <em class="summary">Local <code>North-Eeast-Down</code> (NED) location in a <i>local 
+        tangent plane</i>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
+      <em class="summary">DEPRECATED, use class <a href="pygeodesy.ltpTuples.Ned-class.html" 
+        class="link">pygeodesy.Ned</a>.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -2289,7 +2295,7 @@
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
-      <em class="summary">OBSOLETE, expect a <a 
+      <em class="summary">DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.</em>
@@ -2362,14 +2368,14 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units._NamedUnit-class.html">pygeodesy.units._NamedUnit</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase._NamedUnit-class.html">pygeodesy.unitsBase._NamedUnit</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>units</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Bool-class.html">pygeodesy.units.Bool</a></strong>:
       <em class="summary">Named <code>bool</code>, a sub-class of <code>int</code> like 
         Python's <code>bool</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Float-class.html">pygeodesy.units.Float</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Float-class.html">pygeodesy.unitsBase.Float</a></strong>:
       <em class="summary">Named <code>float</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Degrees-class.html">pygeodesy.units.Degrees</a></strong>:
@@ -2521,7 +2527,7 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Radius-class.html">pygeodesy.units.Radius</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Radius-class.html">pygeodesy.unitsBase.Radius</a></strong>:
       <em class="summary">Named <code>float</code> representing a radius, conventionally in 
         <code>meter</code>.</em>
     </li>
@@ -2531,7 +2537,7 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Int-class.html">pygeodesy.units.Int</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Int-class.html">pygeodesy.unitsBase.Int</a></strong>:
       <em class="summary">Named <code>int</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Bool-class.html">pygeodesy.units.Bool</a></strong>:
@@ -2560,8 +2566,8 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Str-class.html">pygeodesy.units.Str</a></strong>:
-      <em class="summary">Named <code>str</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Str-class.html">pygeodesy.unitsBase.Str</a></strong>:
+      <em class="summary">Named, callable <code>str</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Band-class.html">pygeodesy.units.Band</a></strong>:
       <em class="summary">Named <code>str</code> representing a UTM/UPS band letter, 
@@ -2589,8 +2595,8 @@
     <li> <strong class="uidlink">str</strong>:
       <em class="summary">str(object='') -&gt; string</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Str-class.html">pygeodesy.units.Str</a></strong>:
-      <em class="summary">Named <code>str</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Str-class.html">pygeodesy.unitsBase.Str</a></strong>:
+      <em class="summary">Named, callable <code>str</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Band-class.html">pygeodesy.units.Band</a></strong>:
       <em class="summary">Named <code>str</code> representing a UTM/UPS band letter, 
@@ -2660,7 +2666,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink">float</strong>:
       <em class="summary">float(x) -&gt; floating point number</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Float-class.html">pygeodesy.units.Float</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Float-class.html">pygeodesy.unitsBase.Float</a></strong>:
       <em class="summary">Named <code>float</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Degrees-class.html">pygeodesy.units.Degrees</a></strong>:
@@ -2812,7 +2818,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Radius-class.html">pygeodesy.units.Radius</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Radius-class.html">pygeodesy.unitsBase.Radius</a></strong>:
       <em class="summary">Named <code>float</code> representing a radius, conventionally in 
         <code>meter</code>.</em>
     </li>
@@ -2827,7 +2833,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink">int</strong>:
       <em class="summary">int(x=0) -&gt; int or long int(x, base=10) -&gt; int or long</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Int-class.html">pygeodesy.units.Int</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.unitsBase.Int-class.html">pygeodesy.unitsBase.Int</a></strong>:
       <em class="summary">Named <code>int</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Bool-class.html">pygeodesy.units.Bool</a></strong>:
@@ -3494,7 +3500,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         arguments.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
-      <em class="summary">OBSOLETE, expect a <a 
+      <em class="summary">DEPRECATED and OBSOLETE, expect a <a 
         href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.</em>
@@ -3612,7 +3618,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:40 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:35 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

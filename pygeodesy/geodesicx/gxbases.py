@@ -9,8 +9,9 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 # from pygeodesy.basics import isodd  # from .karney
+from pygeodesy.constants import MIN as _MIN, _0_0, _2_0
 # from pygeodesy.errors import _or  # from .karney
-from pygeodesy.interns import MIN as _MIN, _not_, _0_0, _2_0
+from pygeodesy.interns import _not_
 from pygeodesy.karney import _CapsBase, GeodesicError, \
                               isodd, _hypot, _or, _sum2_
 # from pygeodesy.props import Property  # from .karney
@@ -18,7 +19,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, \
 from math import sqrt, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.08.10'
+__version__ = '22.09.12'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}

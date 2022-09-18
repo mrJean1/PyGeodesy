@@ -61,21 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Band</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+            
-           |            
-  basestring --+        
-               |        
-             str --+    
-                   |    
-  object --+       |    
-           |       |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-               |   |    
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+    
-                   |    
-                 <a href="pygeodesy.units.Str-class.html">Str</a> --+
-                       |
-                      <strong class="uidshort">Band</strong>
+      object --+            
+               |            
+      basestring --+        
+                   |        
+                 str --+    
+                       |    
+      object --+       |    
+               |       |    
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
+                   |   |    
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
+                       |    
+           <a href="pygeodesy.unitsBase.Str-class.html">unitsBase.Str</a> --+
+                           |
+                          <strong class="uidshort">Band</strong>
 </pre>
 
 <hr />
@@ -92,11 +92,13 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Str-class.html">Str</a></code></b>:
-      <code><a href="pygeodesy.units.Str-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Str-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.units.Str-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.units.Str-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Str-class.html">unitsBase.Str</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Str-class.html#__call__">__call__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Str-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Str-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Str-class.html#join_">join_</a></code>,
+      <code><a href="pygeodesy.unitsBase.Str-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.unitsBase.Str-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>str</code></b>:
       <code>__add__</code>,
@@ -199,7 +201,9 @@
         <span class="summary-sig-arg">arg</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">band</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">**Error_name_arg</span>)</span><br />
-      See <a href="pygeodesy.units.Str-class.html" class="link">Str</a>.</td>
+      New <a href="pygeodesy.units.Band-class.html" class="link">Band</a> 
+      instance, see <a href="pygeodesy.unitsBase.Str-class.html" 
+      class="link">Str</a>.</td>
           <td align="right" valign="top">
             
             
@@ -220,9 +224,9 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -267,7 +271,9 @@
     </td>
   </tr></table>
   
-  <p>See <a href="pygeodesy.units.Str-class.html" class="link">Str</a>.</p>
+  <p>New <a href="pygeodesy.units.Band-class.html" class="link">Band</a> 
+  instance, see <a href="pygeodesy.unitsBase.Str-class.html" 
+  class="link">Str</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -281,8 +287,8 @@
           <b><code>name</code></b> and <b><code>arg</code></b>.</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
-        <dd>A <a href="pygeodesy.units.Str-class.html" class="link">Str</a> 
-          instance.</dd>
+        <dd>A <a href="pygeodesy.unitsBase.Str-class.html" 
+          class="link">Str</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b>.</li>
@@ -325,7 +331,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:38 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

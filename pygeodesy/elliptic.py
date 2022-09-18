@@ -75,32 +75,29 @@ U{22<https://DLMF.NIST.gov/22>}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, map2, neg
+from pygeodesy.constants import EPS, _EPStol as _TolJAC, INF, PI, PI_2, PI_4, \
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _1_64th, _2_0, \
+                               _N_2_0, _3_0, _4_0, _6_0, _8_0, _180_0, _360_0
 from pygeodesy.errors import _ValueError, _xkwds_pop
 from pygeodesy.fmath import fdot, Fsum, hypot1
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
-                             _DOT_, _EPStol as _TolJAC, _f_, \
-                             _SPACE_, _0_0, _0_125, _0_25, _0_5, \
-                             _1_0, _2_0, _N_2_0, _3_0, _4_0, \
-                             _6_0, _8_0, _180_0, _360_0
+from pygeodesy.interns import NN, _DOT_, _f_, _SPACE_
 from pygeodesy.karney import _ALL_LAZY, _signBit
 # from pygeodesy.lazily import _ALL_LAZY  # from .karney
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented
-from pygeodesy.props import _allPropertiesOf_n, Property_RO, \
-                            _update_all, property_RO
+from pygeodesy.props import _allPropertiesOf_n, Property_RO, property_RO, \
+                            _update_all
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
 
-from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
-                 sqrt, tanh
+from math import asinh, atan, atan2, ceil, cosh, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.09.07'
+__version__ = '22.09.12'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
-_1_64th      = _1_0 / 64  # pow(2.0, -6)
 _TolRD       =  pow(EPS * 0.002, _0_125)  # 8th root: quadquadratic?, octic?, ocrt?
 _TolRF       =  pow(EPS * 0.030, _0_125)  # 4th root: biquadratic, quartic, qurt?
 _TolRG0      = _TolJAC  * 2.7

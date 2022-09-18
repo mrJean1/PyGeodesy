@@ -34,19 +34,20 @@ to a normalised version of an (ECEF) cartesian coordinate.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, _xinstanceof
+from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
+                               _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
 # from pygeodesy.errors import _xkwds  # from .named
 from pygeodesy.fmath import fmean, fsum
 # from pygeodesy.fsums import fsum  # from .fmath
-from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, \
-                             _Nv00_, _other_, _point_, _points_, \
-                             _pole_, _0_0, _0_5, _1_0
+from pygeodesy.interns import _end_, _Nv00_, _other_, _point_, \
+                              _points_, _pole_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xkwds
-from pygeodesy.namedTuples import NearestOn3Tuple
+# from pygeodesy.namedTuples import NearestOn3Tuple  # from .points
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
                                   sumOf as _sumOf, _triangulate, _trilaterate
-from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.points import NearestOn3Tuple, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      Datums, LatLonSphericalBase
@@ -56,7 +57,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.08.05'
+__version__ = '22.09.12'
 
 _paths_ = 'paths'
 

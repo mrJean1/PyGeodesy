@@ -10,17 +10,19 @@ inside the C{pygeodesy} package.
 Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
 bases}.  Likewise for C{datum} and C{nvector}.
 '''
-from pygeodesy.interns import EPS, EPS_2, NAN, NN, R_M, _azi12_, _COMMASPACE_, \
-                             _convergence_, _down_, _east_, _easting_, _end_, \
-                             _float, _hemipole_, _lat_, _lat1_, _lat2_, _lon_, \
-                             _lon1_, _lon2_, _negative_, _north_, _northing_, \
-                             _s_, _s12_, _S12_, _scale_, _scalar_, _sep_, _SPACE_, \
-                             _start_, _sx_, _sy_, _sz_, _tx_,  _ty_,  _tz_, \
-                             _UNDER_, _value_, _zone_, _1_0
+
+from pygeodesy.constants import EPS, EPS_2, MANT_DIG, NAN, R_M, _float, _1_0
+from pygeodesy.interns import NN, _azi12_, _COMMASPACE_,  _convergence_, \
+                             _DEPRECATED_, _down_, _east_, _easting_, _end_, \
+                             _hemipole_, _lat_, _lat1_, _lat2_, _lon_, _lon1_, \
+                             _lon2_, _negative_, _north_, _northing_, _s_, \
+                             _s12_, _S12_, _scalar_, _scale_, _sep_, _SPACE_, \
+                             _start_, _sx_, _sy_, _sz_, _tx_, _ty_, _tz_, \
+                             _UNDER_, _value_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, isLazy
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.props import deprecated_class, deprecated_function, deprecated_method
-from pygeodesy.units import Degrees, Easting, Float, Lat, Lon, Meter, Northing, \
+from pygeodesy.units import Degrees, Easting, Float, Int, Lat, Lon, Meter, Northing, \
                             Number_, Scalar, Scalar_, Str
 if isLazy:  # XXX force import of all deprecated modules
     import pygeodesy.deprecated.bases as bases, \
@@ -29,11 +31,30 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.08.01'
+__version__ = '22.09.16'
 
-EPS1_2 = _1_0 - EPS_2  # DEPRECATED
-OK     = 'OK'          # DEPRECATED
 _WGS84 = _UTM = object()
+
+
+class _Deprecated_Float(Float):
+    '''DEPRECATED, don't use.'''
+    pass
+
+EPS1_2 = _Deprecated_Float(EPS1_2=_1_0 - EPS_2)  # PYCHOK floats
+
+
+class _Deprecated_Int(Int):
+    '''DEPRECATED, don't use.'''
+    pass
+
+MANTIS = _Deprecated_Int(MANTIS=MANT_DIG)  # PYCHOK ints
+
+
+class _Deprecated_Str(Str):
+    '''DEPRECATED, don't use.'''
+    pass
+
+OK = _Deprecated_Str(OK='OK')  # PYCHOK strs
 
 
 class _DeprecatedNamedTuple(_NamedTuple):
@@ -213,7 +234,7 @@ class Transform7Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
 
 
 class UtmUps4Tuple(_DeprecatedNamedTuple):  # PYCHOK no cover
-    '''OBSOLETE, expect a L{UtmUps5Tuple} from method C{Mgrs.toUtm(utm=None)}.
+    '''DEPRECATED and OBSOLETE, expect a L{UtmUps5Tuple} from method C{Mgrs.toUtm(utm=None)}.
 
        4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
        C{str}, C{meter} and C{meter}.
@@ -371,6 +392,16 @@ def hypot3(x, y, z):  # PYCHOK no cover
 def inStr(inst, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.instr}.'''
     return _MODS.streprs.instr(inst, *args, **kwds)
+
+
+def isDEPRECATED(obj):
+    '''Return C{True} if C{B{obj}} is a C{DEPRECATED} class, method
+       or function, C{False} if not or C{None} if undetermined.
+    '''
+    try:  # XXX inspect.getdoc(obj)
+        return bool(obj.__doc__.lstrip().startswith(_DEPRECATED_))
+    except AttributeError:
+        return None
 
 
 @deprecated_function

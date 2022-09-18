@@ -67,15 +67,15 @@ C{>>> hs = hinterpolator.height(lats, lons)}
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
+from pygeodesy.constants import EPS, PI, PI2, PI_2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMASPACE_, _cubic_, \
-                             _datum_, _distanceTo_, _knots_, _len_, _linear_, \
-                             _scipy_, _0_0, _90_0, _180_0
+from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _datum_, _distanceTo_, \
+                             _knots_, _len_, _linear_, _scipy_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_, Property_RO
@@ -85,7 +85,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.06.24'
+__version__ = '22.09.12'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'

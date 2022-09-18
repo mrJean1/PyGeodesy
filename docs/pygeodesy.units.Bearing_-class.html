@@ -61,21 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Bearing_</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+            
-               |            
-           float --+        
-                   |        
-  object --+       |        
-           |       |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
-               |   |        
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
-                   |        
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
-                       |    
-                 <a href="pygeodesy.units.Radians-class.html">Radians</a> --+
-                           |
-                          <strong class="uidshort">Bearing_</strong>
+          object --+            
+                   |            
+               float --+        
+                       |        
+      object --+       |        
+               |       |        
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+                   |   |        
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+                       |        
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
+                           |    
+                     <a href="pygeodesy.units.Radians-class.html">Radians</a> --+
+                               |
+                              <strong class="uidshort">Bearing_</strong>
 </pre>
 
 <hr />
@@ -97,9 +97,9 @@
       <code><a href="pygeodesy.units.Radians-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.units.Radians-class.html#toStr">toStr</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -190,9 +190,11 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">bearing</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**Error_name_arg</span>)</span><br />
-      See <a href="pygeodesy.units.Bearing-class.html" 
-      class="link">Bearing</a> and <a 
-      href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</td>
+      New <a href="pygeodesy.units.Bearing_-class.html" 
+      class="link">Bearing_</a> instance, see <a 
+      href="pygeodesy.units.Bearing-class.html" class="link">Bearing</a> 
+      and <a href="pygeodesy.units.Radians-class.html" 
+      class="link">Radians</a>.</td>
           <td align="right" valign="top">
             
             
@@ -217,9 +219,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -265,9 +267,10 @@
     </td>
   </tr></table>
   
-  <p>See <a href="pygeodesy.units.Bearing-class.html" 
-  class="link">Bearing</a> and <a href="pygeodesy.units.Radians-class.html"
-  class="link">Radians</a>.</p>
+  <p>New <a href="pygeodesy.units.Bearing_-class.html" 
+  class="link">Bearing_</a> instance, see <a 
+  href="pygeodesy.units.Bearing-class.html" class="link">Bearing</a> and <a
+  href="pygeodesy.units.Radians-class.html" class="link">Radians</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -292,7 +295,9 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>abs(arg)</code></b> 
-        below <b><code>low</code></b> or above <b><code>high</code></b>.</li>
+        outside the <b><code>clip</code></b> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
@@ -332,7 +337,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:38 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

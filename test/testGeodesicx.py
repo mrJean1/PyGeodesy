@@ -5,13 +5,13 @@ u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
     and Python C{geographiclib} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.09.02'
+__version__ = '22.09.12'
 
 from base import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
-from pygeodesy import classname, Ellipsoid, GDict, GeodesicLineExact, \
+from pygeodesy import classname, DIG, Ellipsoid, GDict, GeodesicLineExact, \
                       itemsorted, map2, NN
-from pygeodesy.interns import DIG, _DOT_
+from pygeodesy.interns import _DOT_
 
 _G = '%%.%sg' % (DIG,)
 

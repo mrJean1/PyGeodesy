@@ -4,8 +4,8 @@
 u'''Ellipsoidal, C{N-vector}-based geodesy.
 
 Ellipsoidal classes geodetic (lat-/longitude) L{LatLon}, geocentric
-(ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf},
-L{sumOf} and L{toNed}.
+(ECEF) L{Cartesian}, DEPRECATED L{Ned} and L{Nvector} and functions
+L{meanOf}, L{sumOf} and DEPRECATED L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
@@ -24,17 +24,19 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _xinstanceof  # from .ltpTuples
+from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
+# from pygeodesy.dms import toDMS  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
                                       LatLonEllipsoidalBase, _nearestOn
-# from pygeodesy.errors import _xkwds  # from .ltpTuples
+from pygeodesy.errors import _IsnotError, _xkwds
 # from pygeodesy.fmath import fdot  # from .nvectorBase
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, sincos2d_, \
-                               _xinstanceof, _xkwds, _xnamed
+# from pygeodesy.ltp import Ltp  # _MODS
+from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
+                                sincos2d_, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
 from pygeodesy.nvectorBase import fdot, NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
@@ -45,7 +47,33 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.08.07'
+__version__ = '22.09.18'
+
+
+class Ned(_Ned):
+    '''DEPRECATED, use class L{pygeodesy.Ned}.'''
+
+    def __init__(self, north, east, down, name=NN):
+        deprecated_class(self.__class__)
+        _Ned.__init__(self, north, east, down, name=name)
+
+    @deprecated_method  # PYCHOK expected
+    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):
+        '''DEPRECATED, use class L{pygeodesy.Ned}.
+
+           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
+           @kwarg fmt: Enclosing backets format (C{str}).
+           @kwarg sep: Separator between NEDs (C{str}).
+
+           @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str})
+                    with length or slantrange C{L}, bearing or azimuth C{B}
+                    and elevation C{E}.
+        '''
+        dms = _MODS.dms
+        t = (fstr(self.slantrange, prec=3 if prec is None else prec),
+             dms.toDMS(self.azimuth,   form=dms.F_D, prec=prec, ddd=0),
+             dms.toDMS(self.elevation, form=dms.F_D, prec=prec, ddd=0))
+        return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -155,20 +183,22 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         a = (-PI_2 - a) if a < 0 else (PI_2 - a)
 #         return a * float(radius)
 
-    def deltaTo(self, other):
+    def deltaTo(self, other, Ned=Ned):
         '''Calculate the local delta from this to an other point.
 
-           The delta is returned as a North-East-Down (NED) vector.
-
-           Note, this is a linear delta, unrelated to a geodesic
-           on the ellipsoid.  The points need not be defined on
-           the same datum.
+           @note: This is a linear delta, I{unrelated} to a geodesic
+                  on the ellipsoid.
 
            @arg other: The other point (L{LatLon}).
+           @kwarg Ned: Class to use (L{pygeodesy.Ned} or
+                       L{pygeodesy.Ned4Tuple}), overriding the
+                       default DEPRECATED L{Ned}.
 
-           @return: Delta of this point (L{Ned}).
+           @return: Delta from this to the other point (B{C{Ned}}).
 
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+           @raise TypeError: The B{C{other}} point is not L{LatLon} or
+                             B{C{Ned}} is not L{pygeodesy.Ned} nor
+                             L{pygeodesy.Ned4Tuple} nor DEPRECATED L{Ned}.
 
            @raise ValueError: If ellipsoids are incompatible.
 
@@ -187,8 +217,15 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         dc = other.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
-        nv, ev, dv = self._rotation3
-        return Ned(dc.dot(nv), dc.dot(ev), dc.dot(dv), name=self.name)
+        n, e, d = map(dc.dot, self._rotation3)
+        if issubclassof(Ned, _Ned):
+            r =  Ned(n, e, d, name=self.name)
+        elif issubclassof(Ned, Ned4Tuple):
+            t = _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum))
+            r =  Ned(n, e, d, t, name=self.name)
+        else:
+            raise _IsnotError(Fmt.sub_class(_Ned, Ned4Tuple), Ned=Ned)
+        return r
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
 #         '''Return the destination point after traveling from this
@@ -230,7 +267,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{LatLon}).
 
-           @raise TypeError: If B{C{delta}} is not L{Ned}.
+           @raise TypeError: If B{C{delta}} is not L{pygeodesy.Ned} or
+                             DEPRECATED L{Ned}.
 
            @example:
 
@@ -238,7 +276,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
             >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
         '''
-        _xinstanceof(Ned, delta=delta)
+        _xinstanceof(_Ned, delta=delta)
 
         nv, ev, dv = self._rotation3
         # convert NED delta to standard coordinate frame of n-vector
@@ -446,33 +484,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         kwds = _xkwds(Nvector_and_kwds, Nvector=Nvector, datum=self.datum)
         return LatLonNvectorBase.toNvector(self, **kwds)
-
-
-class Ned(_Ned):
-    '''DEPRECATED, use class L{pygeodesy.Ned}.'''
-
-    def __init__(self, north, east, down, name=NN):
-        deprecated_class(self.__class__)
-        _Ned.__init__(self, north, east, down, name=name)
-
-    @deprecated_method  # PYCHOK expected
-    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):
-        '''DEPRECATED, use class L{pygeodesy.Ned}.
-
-           Return a string representation of this NED vector as
-           length, bearing and elevation.
-
-           @kwarg prec: Number of (decimal) digits, unstripped (C{int}).
-           @kwarg fmt: Enclosing backets format (C{str}).
-           @kwarg sep: Separator between NEDs (C{str}).
-
-           @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
-        '''
-        dms = _MODS.dms
-        t = (fstr(self.slantrange, prec=3 if prec is None else prec),
-             dms.toDMS(self.azimuth,   form=dms.F_D, prec=prec, ddd=0),
-             dms.toDMS(self.elevation, form=dms.F_D, prec=prec, ddd=0))
-        return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
 
 _Nvll = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})

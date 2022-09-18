@@ -81,17 +81,17 @@ courtesy of SBFRF.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import len2, map1, map2, isodd, ub2str as _ub2str
+from pygeodesy.constants import EPS, _float as _F, _0_0, _1_0, _180_0, _360_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
-from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _DOT_, _E_, _float as _F, _height_, _in_, _kind_, \
-                             _knots_, _lat_, _linear_, _lon_, _mean_, _N_, \
-                             _n_a_, _not_, _numpy_, _on_, _outside_, _S_, _s_, \
-                             _scipy_, _SPACE_, _stdev_, _supported_, _tbd_, \
-                             _W_, _width_, _4_, _0_0, _1_0, _180_0, _360_0
+from pygeodesy.interns import NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
+                             _DOT_, _E_, _height_, _in_, _kind_, _knots_, \
+                             _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, _not_, \
+                             _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
+                             _SPACE_, _stdev_, _supported_, _tbd_, _W_, _width_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.05.14'
+__version__ = '22.09.12'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

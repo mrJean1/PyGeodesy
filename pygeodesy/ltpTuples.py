@@ -11,15 +11,17 @@ L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 '''
 
 from pygeodesy.basics import issubclassof, _xinstanceof
+from pygeodesy.constants import _0_0, _90_0, _N_90_0
 from pygeodesy.dms import F_D, toDMS
 from pygeodesy.errors import _TypesError, _xkwds
 from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, _height_, \
-                             _lat_, _lon_, _ltp_, _M_, _name_, _north_, _up_, \
-                             _x_, _xyz_, _y_, _z_, _0_0, _90_0, _N_90_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
+                             _lat_, _lon_, _ltp_, _M_, _name_, _north_, \
+                             _up_, _x_, _xyz_, _y_, _z_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
+                            _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
                             Property_RO, property_RO
@@ -32,7 +34,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.07.12'
+__version__ = '22.09.18'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -93,14 +95,95 @@ def _xyz2aer4(inst):
     return Aer4Tuple(A, E, R, inst.ltp, name=inst.name)
 
 
-class Aer(_NamedBase):
+class _NamedAerNed(_NamedBase):
+    '''(INTERNAL) Base class for classes C{Aer} and C{Ned}.
+    '''
+    _ltp =  None  # local tangent plane (C{Ltp}), origin
+
+    @Property_RO
+    def ltp(self):
+        '''Get the I{local tangent plane} (L{Ltp}).
+        '''
+        return self._ltp
+
+    def toAer(self, Aer=None, **Aer_kwds):
+        '''Get the I{local} I{Azimuth, Elevation, slant Range} (AER) components.
+
+           @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
+           @kwarg Aer_kwds: Optional, additional B{L{Aer}} keyword
+                            arguments, ignored if B{C{Aer}} is C{None}.
+
+           @return: AER as an L{Aer} instance or if C{B{Aer} is None},
+                    an L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
+        '''
+        return self.xyz4._toXyz(Aer, Aer_kwds)
+
+    def toEnu(self, Enu=None, **Enu_kwds):
+        '''Get the I{local} I{East, North, Up} (ENU) components.
+
+           @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
+           @kwarg Enu_kwds: Optional, additional B{L{Enu}} keyword
+                            arguments, ignored if C{B{Enu} is None}.
+
+           @return: ENU as an L{Enu} instance or if C{B{Enu} is None},
+                    an L{Enu4Tuple}C{(east, north, up, ltp)}.
+        '''
+        return self.xyz4._toXyz(Enu, Enu_kwds)
+
+    def toNed(self, Ned=None, **Ned_kwds):
+        '''Get the I{local} I{North, East, Down} (NED) components.
+
+           @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
+           @kwarg Ned_kwds: Optional, additional B{L{Ned}} keyword
+                            arguments, ignored if B{C{Ned}} is C{None}.
+
+           @return: NED as an L{Ned} instance or if C{B{Ned} is None},
+                    an L{Ned4Tuple}C{(north, east, down, ltp)}.
+        '''
+        return self.xyz4._toXyz(Ned, Ned_kwds)
+
+    def toXyz(self, Xyz=None, **Xyz_kwds):
+        '''Get the local I{X, Y, Z} (XYZ) components.
+
+           @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
+                       L{Ned}, L{Aer}) or C{None}.
+           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
+                            arguments, ignored if C{B{Xyz} is None}.
+
+           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
+                    an L{Xyz4Tuple}C{(x, y, z, ltp)}.
+
+           @raise TypeError: Invalid B{C{Xyz}}.
+        '''
+        return self.xyz4._toXyz(Xyz, Xyz_kwds)
+
+    @Property_RO
+    def xyz(self):
+        '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
+        '''
+        return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
+
+    @property_RO
+    def xyz4(self):
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''
+        notOverloaded(self)
+
+    @Property_RO
+    def xyzLocal(self):
+        '''Get this AER or NED as an L{XyzLocal}.
+        '''
+        return XyzLocal(self.xyz4, name=self.name)
+
+
+class Aer(_NamedAerNed):
     '''Local C{Azimuth-Elevation-Range} (AER) in a I{local tangent plane}.
     '''
-    _azimuth     = _0_0   # bearing from North (C{degrees360})
-    _elevation   = _0_0   # tilt, pitch from horizon (C{degrees}).
-    _ltp         =  None  # local tangent plane (C{Ltp}), origin
-    _slantrange  = _0_0   # distance (C{Meter})
-    _toStr       = _aer_
+    _azimuth    = _0_0   # bearing from North (C{degrees360})
+    _elevation  = _0_0   # tilt, pitch from horizon (C{degrees}).
+#   _ltp        =  None  # local tangent plane (C{Ltp}), origin
+    _slantrange = _0_0   # distance (C{Meter})
+    _toStr      = _aer_
 
     def __init__(self, aer, elevation=_0_0, slantrange=_0_0, ltp=None, name=NN):
         '''New L{Aer}.
@@ -173,12 +256,6 @@ class Aer(_NamedBase):
         return _er2gr(self._elevation, self._slantrange)
 
     @Property_RO
-    def ltp(self):
-        '''Get the I{local tangent plane} (L{Ltp}).
-        '''
-        return self._ltp
-
-    @Property_RO
     def north(self):
         '''Get the North component (C{meter}).
         '''
@@ -219,21 +296,6 @@ class Aer(_NamedBase):
         _, t = _toStr2(self, **prec_fmt_sep)
         return t
 
-    def toXyz(self, Xyz=None, **Xyz_kwds):
-        '''Get the local I{X, Y, Z} (XYZ) components.
-
-           @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
-                       L{Ned}, L{Aer}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
-
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
-                    an L{Xyz4Tuple}C{(x, y, z, ltp)}.
-
-           @raise TypeError: Invalid B{C{Xyz}}.
-        '''
-        return self.xyz4._toXyz(Xyz, Xyz_kwds)
-
     @Property_RO
     def up(self):
         '''Get the Up component (C{meter}).
@@ -247,12 +309,6 @@ class Aer(_NamedBase):
         return self.xyz4.x
 
     @Property_RO
-    def xyz(self):
-        '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
-        '''
-        return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
-
-    @Property_RO
     def xyz4(self):
         '''Get the C{(x, y, z, ltp)} components (L{Xyz4Tuple}).
         '''
@@ -260,12 +316,6 @@ class Aer(_NamedBase):
         R = self._slantrange
         r = cE * R  # ground range
         return Xyz4Tuple(sA * r, cA * r, sE * R, self.ltp, name=self.name)
-
-    @Property_RO
-    def xyzLocal(self):
-        '''Get this AER as an L{XyzLocal}.
-        '''
-        return XyzLocal(self.xyz4, name=self.name)
 
     @Property_RO
     def y(self):
@@ -329,14 +379,14 @@ class Attitude4Tuple(_NamedTuple):
         return _MODS.ltp.Attitude(self).tyr3d
 
 
-class Ned(_NamedBase):
+class Ned(_NamedAerNed):
     '''Local C{North-Eeast-Down} (NED) location in a I{local tangent plane}.
 
        @see: L{Enu} and L{Ltp}.
     '''
     _down  = _0_0   # down, -XyzLocal.z (C{meter}).
     _east  = _0_0   # east, XyzLocal.y (C{meter}).
-    _ltp   =  None  # local tangent plane (C{Ltp}), origin
+#   _ltp   =  None  # local tangent plane (C{Ltp}), origin
     _north = _0_0   # north, XyzLocal.x (C{meter})
     _toStr = _ned_
 
@@ -418,12 +468,6 @@ class Ned(_NamedBase):
         '''DEPRECATED, use C{slantrange}.'''
         return self.slantrange
 
-    @Property_RO
-    def ltp(self):
-        '''Get the I{local tangent plane} (L{Ltp}).
-        '''
-        return self._ltp
-
     @deprecated_Property_RO
     def ned(self):
         '''DEPRECATED, use property C{ned4}.'''
@@ -483,21 +527,6 @@ class Ned(_NamedBase):
         '''DEPRECATED, use property L{xyz}.'''
         return self.xyz
 
-    def toXyz(self, Xyz=None, **Xyz_kwds):
-        '''Get the local I{X, Y, Z} (XYZ) components.
-
-           @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu},
-                       L{Ned}, L{Aer}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
-
-           @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
-                    an L{Xyz4Tuple}C{(x, y, z, ltp)}.
-
-           @raise TypeError: Invalid B{C{Xyz}}.
-        '''
-        return self.xyz4._toXyz(Xyz, Xyz_kwds)
-
     @Property_RO
     def up(self):
         '''Get the Up component (C{meter}).
@@ -511,22 +540,10 @@ class Ned(_NamedBase):
         return Meter(x=self._east)  # 2nd arg, E
 
     @Property_RO
-    def xyz(self):
-        '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
-        '''
-        return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
-
-    @Property_RO
     def xyz4(self):
         '''Get the C{(x, y, z, ltp)} components (L{Xyz4Tuple}).
         '''
         return Xyz4Tuple(self.x, self.y, self.z, self.ltp, name=self.name)
-
-    @Property_RO
-    def xyzLocal(self):
-        '''Get this NED as an L{XyzLocal}.
-        '''
-        return XyzLocal(self.xyz4, name=self.name)
 
     @Property_RO
     def y(self):
@@ -1203,6 +1220,8 @@ class Footprint5Tuple(_NamedTuple):
             p =  tuple(Xyz4Tuple(t.x, t.y, t.z, p) for t in self)
         return Footprint5Tuple(t.xyzLocal for t in p)
 
+
+__all__ += _ALL_DOCS(_NamedAerNed)
 
 # **) MIT License
 #

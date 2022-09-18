@@ -61,21 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Radians_</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+            
-               |            
-           float --+        
-                   |        
-  object --+       |        
-           |       |        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
-               |   |        
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
-                   |        
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
-                       |    
-                 <a href="pygeodesy.units.Radians-class.html">Radians</a> --+
-                           |
-                          <strong class="uidshort">Radians_</strong>
+          object --+            
+                   |            
+               float --+        
+                       |        
+      object --+       |        
+               |       |        
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+                   |   |        
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+        
+                       |        
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+    
+                           |    
+                     <a href="pygeodesy.units.Radians-class.html">Radians</a> --+
+                               |
+                              <strong class="uidshort">Radians_</strong>
 </pre>
 
 <hr />
@@ -97,9 +97,9 @@
       <code><a href="pygeodesy.units.Radians-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.units.Radians-class.html#toStr">toStr</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -191,9 +191,9 @@
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">0.0</span>,
-        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">6.28318530718</span>,
+        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">6.283185307179586</span>,
         <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      New named <code>Radians</code> instance.</td>
+      New <code>Radians_</code> instance.</td>
           <td align="right" valign="top">
             
             
@@ -218,9 +218,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -260,7 +260,7 @@
         <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.UnitError'&gt;</span>,
         <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">low</span>=<span class="sig-default">0.0</span>,
-        <span class="sig-arg">high</span>=<span class="sig-default">6.28318530718</span>,
+        <span class="sig-arg">high</span>=<span class="sig-default">6.283185307179586</span>,
         <span class="sig-arg">**name_arg</span>)</span>
     <br /><em class="fname">Static Method</em>
   </h3>
@@ -269,7 +269,7 @@
     </td>
   </tr></table>
   
-  <p>New named <code>Radians</code> instance.</p>
+  <p>New <code>Radians_</code> instance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -294,10 +294,8 @@
         <dd>A <code>Radians_</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>abs(deg)</code></b> 
-        outside the <b><code>clip</code></b> range and <a 
-        href="pygeodesy.errors-module.html#rangerrors" 
-        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>arg</code></b> below 
+        <b><code>low</code></b> or above <b><code>high</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
@@ -337,7 +335,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

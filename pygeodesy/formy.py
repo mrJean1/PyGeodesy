@@ -6,7 +6,10 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isnon0 as _isnon0, _umod_360
+from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
+                               _umod_360, isnon0 as _isnon0, _0_0, _0_125, \
+                               _0_25, _0_5, _1_0, _2_0, _4_0, _32_0, _90_0, \
+                               _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
@@ -14,10 +17,8 @@ from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum_, unstr
-from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
-                             _distant_, _inside_, _near_, _null_, _opposite_, \
-                             _outside_, _too_, _0_0, _0_125, _0_25, _0_5, \
-                             _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
+from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
+                             _opposite_, _outside_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
@@ -33,7 +34,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.07.07'
+__version__ = '22.09.14'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'

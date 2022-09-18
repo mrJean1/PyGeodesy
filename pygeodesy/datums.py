@@ -65,16 +65,16 @@ OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, istuplist, neg_, _xinstanceof
+from pygeodesy.constants import _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
 # from pygeodesy.errors import _IsnotError  # from .fmath
 from pygeodesy.fmath import fdot, fmean, Fmt, _IsnotError
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_, _cartesian_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _ellipsoid_, \
-                             _ellipsoidal_, _float as _F, _GRS80_, _Intl1924_, _Krassovski1940_, \
-                             _NAD27_, _Krassowsky1940_, _NAD83_, _name_, _s_, _Sphere_, \
+                             _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
+                             _Krassowsky1940_, _NAD27_, _NAD83_, _name_, _s_, _Sphere_, \
                              _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, \
-                             _UNDER_, _under_name, _WGS72_, _WGS84_, \
-                             _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
+                             _UNDER_, _under_name, _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy, Property_RO
@@ -86,7 +86,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.09.02'
+__version__ = '22.09.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'

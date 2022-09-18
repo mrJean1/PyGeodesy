@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.08.05'
+__version__ = '22.09.15'
 
 
 def _c2(*names):
@@ -55,7 +55,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'bearing', 'bank', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
-             'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'conformal', 'conic', 'contact-triangle',
+             'clip', 'Cohen', 'Cohen-Sutherland', 'Collins',
+             'conformal', 'conic', 'constants', 'contact-triangle',
              'Cook', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
@@ -79,8 +80,9 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'oblate', 'orthographic', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'POV',
-             'precision-running-summation', 'precision-summation', 'prolate', 'Pseudo-Mercator',
-             'PyGeodesy', 'PyInstaller', 'PyPy',
+             'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
+             'precision-running-summation', 'precision-square=root', 'precision-summation',
+             'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'Rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',

@@ -16,8 +16,10 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, isnear0, isnear1, isnon0, isscalar, \
-                             map1, signOf
+from pygeodesy.basics import copysign0, isscalar, map1, signOf
+from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
+                                isnear0, isnear1, isnon0, _0_0, _0_5, \
+                                _1_0, _2_0, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _ValueError, IntersectionError, _xError, \
@@ -27,11 +29,9 @@ from pygeodesy.fsums import Fsum, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, opposing_, _radical2, \
                             vincentys_
-from pygeodesy.interns import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
-                             _coincident_, _colinear_, _concentric_, _convex_, \
-                             _end_, _infinite_, _invalid_, _LatLon_, _near_, \
-                             _not_, _null_, _points_, _SPACE_, _too_, _1_, _2_, \
-                             _0_0, _0_5, _1_0, _2_0, _90_0
+from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _concentric_, \
+                              _convex_, _end_, _infinite_, _invalid_, _LatLon_, \
+                              _near_, _not_, _null_, _points_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.08.19'
+__version__ = '22.09.14'
 
 _parallel_ = 'parallel'
 _path_     = 'path'

@@ -9,12 +9,14 @@ C{PYGEODESY_WARNINGS} to a non-empty string I{AND} run C{python}
 with command line option C{-X dev} or with one of the C{-W}
 choices, see function L{DeprecationWarnings} below.
 '''
+
 from pygeodesy.basics import isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
-from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, _DNL_, \
-                             _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, _N_A_, _not_, _SPACE_, _UNDER_
+from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
+                             _DEPRECATED_, _DNL_, _DOT_, _EQUALSPACED_, \
+                             _immutable_, _invalid_, _N_A_, _not_, \
+                             _SPACE_, _UNDER_
 # from pygeodesy.named import callname  # from _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _FOR_DOCS, _PYTHON_X_DEV, _sys
@@ -23,9 +25,8 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ =  '22.08.27'
+__version__ =  '22.09.16'
 
-_DEPRECATED_  = 'DEPRECATED'
 _dont_use_    = _DEPRECATED_ + ", don't use."
 _has_been_    = 'has been'
 _not_an_inst_ = _not_(_an_, 'instance')

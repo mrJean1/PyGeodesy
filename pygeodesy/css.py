@@ -8,15 +8,14 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import istuplist, neg, _umod_360, _xinstanceof, \
-                            _xsubclassof
+from pygeodesy.basics import istuplist, neg, _xinstanceof, _xsubclassof
+from pygeodesy.constants import _umod_360, _0_0, _0_5, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _ValueError, _xdatum, _xellipsoidal, _xkwds
 from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _easting_, _lat_, _lon_, _m_, _name_, \
-                             _northing_, _reciprocal_, _SPACE_, \
-                             _0_0, _0_5, _90_0
+                             _northing_, _reciprocal_, _SPACE_
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
                              _norm180, _signBit, _sincos2d
@@ -31,7 +30,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.07.13'
+__version__ = '22.09.14'
 
 
 def _CS0(cs0):

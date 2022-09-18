@@ -60,20 +60,20 @@ providing conversion to and from I{local} cartesian cordinates in a I{local tang
 plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
-from pygeodesy.basics import copysign0, isnon0, isscalar, issubclassof, neg, \
-                             map1, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
+                            _xinstanceof, _xsubclassof
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, PI, PI_2, \
+                               _0_0, _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, \
+                               _6_0, _90_0, isnon0,  _N_2_0  # PYCHOK used!
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
-from pygeodesy.interns import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, NN, PI, PI_2, \
-                             _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, _height_, \
-                             _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
-                             _x_, _xyz_, _y_, _z_, _0_0, _0_5, _1_0, _1_0_T, \
-                             _2_0, _3_0, _4_0, _6_0, _90_0
-from pygeodesy.interns import _N_2_0, _tolerance_  # PYCHOK used!
+from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, \
+                             _height_, _lat_, _lon_, _M_, _name_, _singular_, \
+                             _SPACE_, _x_, _xyz_, _y_, _z_,  _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -87,7 +87,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.09.09'
+__version__ = '22.09.17'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -203,8 +203,8 @@ class _EcefBase(_NamedBase):
 
            @return: C{True} if equal, C{False} otherwise.
         '''
-        return other is self or (isinstance(other, _EcefBase) and
-                                 other.ellipsoid == self.ellipsoid)
+        return other is self or (isinstance(other, self.__class__) and
+                                other.ellipsoid == self.ellipsoid)
 
     @Property_RO
     def equatoradius(self):
@@ -533,17 +533,17 @@ class EcefFarrell21(_EcefBase):
         e2 = E.e2
         e4 = E.e4
 
-        try:
+        try:  # names as page 29
             z2 = z**2
             ez = (_1_0 - e2) * z2  # E.e2s2(z)
 
             p  = hypot(x, y)
             p2 = p**2
-            F  = 54 * b2 * z2
             G  = p2 + ez - e2 * (a2 - b2)  # p2 + ez - e4 * a2
-            c  = e4 * F * p2 / G**3
-            s  = cbrt(_1_0 + c + sqrt(c**2 + c + c))
-            P  = F / (_3_0 * fsum_(_1_0, s, _1_0 / s)**2 * G**2)
+            F  = b2 * z2 * 54
+            c  = e4 * p2 * F / G**3
+            s  = cbrt(_1_0 + c + sqrt(c**2 + c * 2))
+            P  = F / (_3_0 * (fsum_(_1_0, s, _1_0 / s) * G)**2)
             Q  = sqrt(_1_0 + _2_0 * e4 * P)
             Q1 = Q + _1_0
             r0 = P * e2 * p / Q1 - sqrt(fsum_(a2 * (Q1 / Q) * _0_5,
@@ -554,6 +554,7 @@ class EcefFarrell21(_EcefBase):
 
             h = hypot(r, z) * (_1_0 - v)
             t = atan2(z + e_**2 * v * z, p)
+            # note, phi and lam are swapped on page 29
 
         except (ValueError, ZeroDivisionError) as e:
             raise EcefError(x=x, y=y, z=z, txt=str(e))
@@ -606,7 +607,11 @@ class EcefFarrell22(_EcefBase):
                       p - E.e2  * a * c**3)
 
             s, c = sincos2(t)
-            h = p / c - E.roc1_(s)  # E.a / sqrt(1 - e2 * s**2)
+            if c:  # E.roc1_(s) = E.a / sqrt(1 - E.e2 * s**2)
+                h = p / c - (E.roc1_(s) if s else a)
+            else:  # polar
+                h = abs(z) - b
+            # note, phi and lam are swapped on page 30
 
         except (ValueError, ZeroDivisionError) as e:
             raise EcefError(x=x, y=y, z=z, txt=str(e))
@@ -1019,7 +1024,7 @@ class EcefMatrix(_NamedTuple):
             if len(xyz0) != len(xyz):
                 raise LenError(self.unrotate, xyz0=len(xyz0), xyz=len(xyz))
 
-            _xyz = _1_0_T + xyz
+            _xyz = _1_0_1T + xyz
             # x' = x0 + M[0] * x + M[1] * y + M[2] * z
             # y' = y0 + M[3] * x + M[4] * y + M[5] * z
             # z' = z0 + M[6] * x + M[7] * y + M[8] * z

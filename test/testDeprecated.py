@@ -4,16 +4,16 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.05.27'
+__version__ = '22.09.16'
 
 from base import TestsBase
 
-from pygeodesy import R_MA, map2, \
+from pygeodesy import R_MA, deprecated, isDEPRECATED, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
                       HeightIDWequirectangular, HeightIDWeuclidean, \
                       HeightIDWhaversine, \
                       anStr, areaof, bounds, clipStr, decodeEPSG2, encodeEPSG, \
-                      equirectangular3, fStr, hypot3, isenclosedby, \
+                      equirectangular3, fStr, hypot3, isenclosedby, map2, \
                       nearestOn3, nearestOn4, parseUTM, perimeterof, polygon,\
                       simplify2, toUtm, utmZoneBand2
 from testRoutes import RdpFFI
@@ -91,19 +91,25 @@ class Tests(TestsBase):
         self.test('toUtm', len(t), 6)
 
         t = utmZoneBand2('50°52′10″N', '115°39′03″W')
-        self.test('utmZoneBand2', t, "(11, 'U')")
+        self.test('utmZoneBand2', t, "(11, 'U')", nt=1)
+
+    def testDEPRECATED(self, *known):
+
+        for n in deprecated.__all__:
+            v = getattr(deprecated, n)
+            self.test('%s(%s)' % (isDEPRECATED.__name__, n), isDEPRECATED(v), True, known=v in known)
 
 
 if __name__ == '__main__':
 
-    from pygeodesy import deprecated, LatLon_, \
-                          ellipsoidalVincenty, sphericalTrigonometry
+    from pygeodesy import LatLon_, ellipsoidalVincenty, sphericalTrigonometry
 
     t = Tests(__file__, __version__, deprecated)
     try:
         t.testDeprecated(LatLon_)
         t.testDeprecated(ellipsoidalVincenty.LatLon)
         t.testDeprecated(sphericalTrigonometry.LatLon)
+        t.testDEPRECATED(isDEPRECATED)
     except DeprecationWarning:
         t.skip(DeprecationWarning.__name__, n=87 - t.total)
     t.results()

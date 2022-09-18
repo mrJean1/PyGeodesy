@@ -25,16 +25,18 @@ L{Fsum.RESIDUAL}, L{Fsum.pow}, L{Fsum.__ipow__} and L{Fsum.__itruediv__}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import iscomplex, _isfinite, isinf, isint, isnan, \
-                             isscalar, map1, neg, signOf, _signOf
+from pygeodesy.basics import iscomplex, isint, isscalar, map1, neg, \
+                             signOf, _signOf
+from pygeodesy.constants import INT0, _isfinite, isinf, isnan, \
+                               _0_0, _1_0, _N_1_0
 from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
                             _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
                             _ZeroDivisionError
-from pygeodesy.interns import INT0, NN, _arg_, _BANG_, _COMMASPACE_, _DASH_, \
-                             _EQUAL_, _from_, _iadd_, _LANGLE_, _negative_, \
-                             _not_finite_, _not_scalar_, _PERCENT_, _PLUS_, \
-                             _RANGLE_, _SLASH_, _SPACE_, _STAR_, _UNDER_, \
-                             _0_0, _1_0, _N_1_0
+from pygeodesy.interns import NN, _arg_, _BANG_, _COMMASPACE_, _DASH_, \
+                             _EQUAL_, _exceeds_, _from_, _iadd_, _LANGLE_, \
+                             _negative_, _not_finite_, _not_scalar_, \
+                             _PERCENT_, _PLUS_, _R_, _RANGLE_, _SLASH_, \
+                             _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys, _sys_version_info2
 from pygeodesy.named import _Named, _NamedTuple, _NotImplemented, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
@@ -45,27 +47,29 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used!
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.09.08'
+__version__ = '22.09.14'
 
-_add_op_      = _PLUS_
-_eq_op_       = _EQUAL_ * 2  # _DEQUAL_
-_floordiv_op_ = _SLASH_ * 2  # _DSLASH_
-_fset_op_     = _EQUAL_
-_ge_op_       = _RANGLE_ + _EQUAL_
-_gt_op_       = _RANGLE_
-_integer_     = 'integer'
-_le_op_       = _LANGLE_ + _EQUAL_
-_lt_op_       = _LANGLE_
-_mod_op_      = _PERCENT_
-_mul_op_      = _STAR_
-_ne_op_       = _BANG_ + _EQUAL_
-_non_zero_    = 'non-zero'
-_pow_op_      = _STAR_ * 2  # _DSTAR_, in .fmath
-_sub_op_      = _DASH_
-_truediv_op_  = _SLASH_
-_divmod_op_   = _floordiv_op_ + _mod_op_
+_add_op_       = _PLUS_
+_eq_op_        = _EQUAL_ * 2  # _DEQUAL_
+_COMMASPACE_R_ = _COMMASPACE_ + _R_
+_exceeds_R_    = _SPACE_ + _exceeds_(_R_)
+_floordiv_op_  = _SLASH_ * 2  # _DSLASH_
+_fset_op_      = _EQUAL_
+_ge_op_        = _RANGLE_ + _EQUAL_
+_gt_op_        = _RANGLE_
+_integer_      = 'integer'
+_le_op_        = _LANGLE_ + _EQUAL_
+_lt_op_        = _LANGLE_
+_mod_op_       = _PERCENT_
+_mul_op_       = _STAR_
+_ne_op_        = _BANG_ + _EQUAL_
+_non_zero_     = 'non-zero'
+_pow_op_       = _STAR_ * 2  # _DSTAR_, in .fmath
+_sub_op_       = _DASH_
+_truediv_op_   = _SLASH_
+_divmod_op_    = _floordiv_op_ + _mod_op_
 
-_pos_self     = _1_0.__pos__() is _1_0
+_pos_self      = _1_0.__pos__() is _1_0
 
 
 def _2float(index=None, **name_value):
@@ -110,31 +114,7 @@ def _2floats(xs, origin=0, primed=False, sub=False, floats=False):
         yield _N_1_0
 
 
-def _2partialsum(ps):  # PYCHOK used!
-    '''(INTERNAL) Partials summation udating C{ps}, I{overridden below}.
-    '''
-    i   =  len(ps) - 1  # len(ps) > 2
-    s   =  ps[i]
-    _2s = _2sum
-    while i > 0:
-        i -= 1
-        s, r = _2s(s, ps[i])
-        if r:  # sum(ps) became inexact
-            ps[i:] = [s, r] if s else [r]
-            if i > 0:
-                p = ps[i-1]  # round half-even
-                if (p > 0 and r > 0) or \
-                   (p < 0 and r < 0):  # signs match
-                    r *= 2
-                    t  = s + r
-                    if r == (t - s):
-                        s = t
-            break
-        ps[i:] = [s]
-    return s
-
-
-def _2powers(power, xs, origin=1):  # in .fmath
+def _Powers(power, xs, origin=1):  # in .fmath
     '''(INTERNAL) Yield each C{xs} as C{float(x**power)}.
     '''
     i   =  None
@@ -160,6 +140,30 @@ def _2powers(power, xs, origin=1):  # in .fmath
         raise E(i, txt=t)
 
 
+def _psum(ps):  # PYCHOK used!
+    '''(INTERNAL) Partials summation updating C{ps}, I{overridden below}.
+    '''
+    i   =  len(ps) - 1  # len(ps) > 2
+    s   =  ps[i]
+    _2s = _2sum
+    while i > 0:
+        i -= 1
+        s, r = _2s(s, ps[i])
+        if r:  # sum(ps) became inexact
+            ps[i:] = [s, r] if s else [r]
+            if i > 0:
+                p = ps[i-1]  # round half-even
+                if (p > 0 and r > 0) or \
+                   (p < 0 and r < 0):  # signs match
+                    r *= 2
+                    t  = s + r
+                    if r == (t - s):
+                        s = t
+            break
+        ps[i:] = [s]
+    return s
+
+
 def _2scalar(other, _raiser=None):
     '''(INTERNAL) Return B{C{other}} as C{int}, C{float} or C{as-is}.
     '''
@@ -169,7 +173,7 @@ def _2scalar(other, _raiser=None):
             s, r = other._fprs2
             if r:  # PYCHOK no cover
                 if _raiser and _raiser(r, s):
-                    raise ValueError(_2stresidual(_non_zero_, r))
+                    raise ValueError(_stresidual(_non_zero_, r))
                 s = other  # L{Fsum} as-is
     else:
         s = other  # C{type} as-is
@@ -178,7 +182,7 @@ def _2scalar(other, _raiser=None):
     return s
 
 
-def _2strcomplex(s, *args):
+def _strcomplex(s, *args):
     '''(INTERNAL) C{Complex} 2- or 3-arg C{pow} error C{str}.
     '''
     c =  iscomplex.__name__[2:]
@@ -187,19 +191,15 @@ def _2strcomplex(s, *args):
     return unstr(t, *args)
 
 
-def _2stresidual(prefix, residual, **name_values):
+def _stresidual(prefix, residual, **name_values):
     '''(INTERNAL) Residual error C{str}.
     '''
-    def _fmt(s):
-        return str(s) if isint(s) and abs(s) < 1e+9 else (
-               Fmt.g(s, prec=9) if isscalar(s) else repr(s))
-
     p = _SPACE_(prefix, Fsum.residual.name)
-    t =  Fmt.PARENSPACED(p, _fmt(residual))
+    t =  Fmt.PARENSPACED(p, Fmt(residual))
     for n, v in itemsorted(name_values):
         n =  n.replace(_UNDER_, _SPACE_)
-        n =  Fmt.PARENSPACED(n, _fmt(v))
-        t = _COMMASPACE_(t, n)
+        p =  Fmt.PARENSPACED(n, Fmt(v))
+        t = _COMMASPACE_(t, p)
     return t
 
 
@@ -209,7 +209,8 @@ def _2sum(a, b):  # by .testFmath
     s = a + b
     if not _isfinite(s):
         u = unstr(_2sum.__name__, a, b)
-        raise _OverflowError(u, s, txt=_not_finite_)
+        t = Fmt.PARENSPACED(_not_finite_, s)
+        raise _OverflowError(u, txt=t)
     r = (a - (s - b)) if abs(a) <  abs(b) else \
         (b - (s - a))  # abs(a) >= abs(b)
     return s, r
@@ -240,6 +241,7 @@ class Fsum(_Named):
     _n         = 0
 #   _ps        = []  # partial sums
 #   _px        = 0
+    _ratio     = None
     _RESIDUAL  = max(float(_getenv('PYGEODESY_FSUM_RESIDUAL', _0_0)), _0_0)
 
     def __init__(self, *xs, **name_RESIDUAL):
@@ -762,9 +764,7 @@ class Fsum(_Named):
         '''
         # for x in xs:
         #     assert isscalar(x)
-        f = Fsum()  # not Fsum(*xs) in order to ...
-        f._n = self._n + len(xs)
-        f._ps[:] = xs  # ... preserve C{type(x)}s
+        f = self._Fsum(self._n + len(xs), *xs)
         if self.name:
             f._name = self.name  # .rename calls _update_attrs
         return f
@@ -781,12 +781,13 @@ class Fsum(_Named):
     def _copy_n(self, which):
         '''(INTERNAL) Negated copy for I{monadic} C{__abs__} and C{__neg__}.
         '''
-        f = Fsum(_0_0)
-        f._name = which.__name__  # .rename calls _update_attrs
-        f._n = self._n
         if self._ps:
+            f = self._Fsum(self._n)
             f._ps[:] = self._ps_n()
 #           f._facc_up(up=False)
+        else:
+            f = self._Fsum(self._n, _0_0)
+        f._name = which.__name__  # .rename calls _update_attrs
         return f
 
     def _copy_r2(self, other, which):
@@ -795,12 +796,17 @@ class Fsum(_Named):
         return other._copy_2(which) if isinstance(other, Fsum) else \
                Fsum(other, name=which.__name__)  # see ._copy_2
 
+    def _copy_RESIDUAL(self, other):
+        '''(INTERNAL) Copy C{other._RESIDUAL}.
+        '''
+        R = other._RESIDUAL
+        if R is not Fsum._RESIDUAL:
+            self._RESIDUAL = R
+
     def _copy_up(self, _fprs2=False):
         '''(INTERNAL) Minimal, anonymous copy.
         '''
-        f = Fsum()  # NN
-        f._n = self._n
-        f._ps[:] = self._ps
+        f = self._Fsum(self._n, *self._ps)
         if _fprs2:  # only the ._fprs2 2-tuple
             Fsum._fprs2._update_from(f, self)
         return f
@@ -977,7 +983,7 @@ class Fsum(_Named):
         '''
         i, r = self._fint2
         if r and raiser:
-            t = _2stresidual(_integer_, r)
+            t = _stresidual(_integer_, r)
             raise ResidualError(_integer_, i, txt=t)
         n = name or self.fint.__name__
         return Fsum(name=n)._fset(i, asis=True)
@@ -1102,7 +1108,7 @@ class Fsum(_Named):
         ps = self._ps
         n = len(ps) - 1
         if n > 1:
-            s = _2partialsum(ps)
+            s = _psum(ps)
         elif n > 0:  # len(ps) == 2
             s, p = _2sum(*ps) if ps[1] else ps
             ps[:] = ([p, s] if s else [p]) if p else [s]
@@ -1139,6 +1145,7 @@ class Fsum(_Named):
         elif isinstance(other, Fsum):
             self._n     = other._n
             self._ps[:] = other._ps
+            self._copy_RESIDUAL(other)
             # use or zap the C{Property_RO} values
             Fsum._fint2._update_from(self, other)
             Fsum._fprs ._update_from(self, other)
@@ -1195,6 +1202,16 @@ class Fsum(_Named):
         elif self._finite(other, op):
             self._facc_(-other)
         return self
+
+    def _Fsum(self, n, *ps):
+        '''(INTERNAL) New L{Fsum} instance.
+        '''
+        f = Fsum()
+        f._n = n
+        if ps:
+            f._ps[:] = ps
+        f._copy_RESIDUAL(self)
+        return f
 
     def fsum(self, xs=()):
         '''Add more C{scalar} or L{Fsum} instances and summate.
@@ -1322,7 +1339,7 @@ class Fsum(_Named):
         if r:
             s, r = self._fprs2
             if r and raiser:  # PYCHOK no cover
-                t = _2stresidual(_non_zero_, r)
+                t = _stresidual(_non_zero_, r)
                 raise ResidualError(int_float=s, txt=t)
             s = float(s)  # redundant
         return s
@@ -1353,7 +1370,7 @@ class Fsum(_Named):
                     none are.
         '''
         f = Fsum._math_fsum
-        return 2 if _2partialsum is f else bool(f)
+        return 2 if _psum is f else bool(f)
 
     def _mul_Fsum(self, other, op=_mul_op_):
         '''(INTERNAL) Return C{B{self} * Fsum B{other}} as L{Fsum}.
@@ -1417,7 +1434,7 @@ class Fsum(_Named):
             if not iscomplex(s):
                 return self._finite(s)  # 0**INF == 0.0, 1**INF==1.0
             # neg**frac == complex in Python 3+, but ValueError in 2-
-            E, t = _ValueError, _2strcomplex(s, b, x)  # PYCHOK no cover
+            E, t = _ValueError, _strcomplex(s, b, x)  # PYCHOK no cover
         except Exception as x:
             E, t = _xError2(x)
         raise self._Error(op, other, E, txt=t)
@@ -1428,7 +1445,7 @@ class Fsum(_Named):
         b, r = self._fprs2 if mod is None else self._fint2
         if r and self._raiser(r, b):
             t = _non_zero_ if mod is None else _integer_
-            E, t = ResidualError, _2stresidual(t, r, mod=mod)
+            E, t = ResidualError, _stresidual(t, r, mod=mod)
         else:
             try:  # b, other, mod all C{int}, unless C{mod} is C{None}
                 x = _2scalar(other, _raiser=self._raiser)
@@ -1436,7 +1453,7 @@ class Fsum(_Named):
                 if not iscomplex(s):
                     return self._finite(s)
                 # neg**frac == complex in Python 3+, but ValueError in 2-
-                E, t = _ValueError, _2strcomplex(s, b, x, mod)  # PYCHOK no cover
+                E, t = _ValueError, _strcomplex(s, b, x, mod)  # PYCHOK no cover
             except Exception as x:
                 E, t = _xError2(x)
                 t = _COMMASPACE_(Fmt.PARENSPACED(mod=mod), t)
@@ -1504,7 +1521,9 @@ class Fsum(_Named):
         elif not isscalar(x):  # assert ...
             raise self._TypeError(op, other, txt=_not_scalar_)
         elif r and self._raiser(r, s):  # non-zero residual**fractional
-            raise self._ResidualError(op, other, r, fractional_power=x)
+            # raise self._ResidualError(op, other, r, fractional_power=x)
+            t = _stresidual(_non_zero_, r, fractional_power=x)
+            raise self._Error(op, other, ResidualError, txt=t)
         # assert isscalar(s) and isscalar(x)
         return self._copy_0(s)._pow_2(x, other, op)
 
@@ -1566,9 +1585,10 @@ class Fsum(_Named):
         return self._fprs2.residual
 
     def _raiser(self, r, s):
-        '''(INTERNAL) Does relative residual C{r / s} exceed threshold?
+        '''(INTERNAL) Does the ratio C{r / s} exceed threshold?
         '''
-        return fabs((r / s) if s else r) > self._RESIDUAL
+        self._ratio = t = fabs((r / s) if s else r)
+        return t > self._RESIDUAL
 
     def RESIDUAL(self, *threshold):
         '''Get and set this instance' I{ratio} for raising L{ResidualError}s,
@@ -1599,10 +1619,12 @@ class Fsum(_Named):
             self._RESIDUAL = t
         return r
 
-    def _ResidualError(self, op, other, residual, **name_values):
-        '''(INTERNAL) Non-zero B{C{residual}} and C{name=value, ...} error.
+    def _ResidualError(self, op, other, residual):
+        '''(INTERNAL) Non-zero B{C{residual}} etc.
         '''
-        t = _2stresidual(_non_zero_, residual, **name_values)
+        t = _stresidual(_non_zero_, residual, ratio=self._ratio,
+                                            RESIDUAL=self._RESIDUAL)
+        t =  t.replace(_COMMASPACE_R_, _exceeds_R_)
         return self._Error(op, other, ResidualError, txt=t)
 
     def signOf(self, res=True):
@@ -1731,7 +1753,7 @@ try:
     Fsum._math_fsum = _fsum
 
     if _getenv('PYGEODESY_FSUM_PARTIALS', _fsum.__name__) == _fsum.__name__:
-        _2partialsum = _fsum  # PYCHOK redef
+        _psum = _fsum  # PYCHOK redef
 
 except ImportError:
 

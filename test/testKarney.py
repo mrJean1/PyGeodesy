@@ -5,12 +5,12 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.05.08'
+__version__ = '22.09.12'
 
 from base import GeodSolve, geographiclib, TestsBase
 
 from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
-from pygeodesy.interns import _0_0, _360_0
+from pygeodesy.constants import _0_0, _360_0
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,

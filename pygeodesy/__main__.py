@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '22.06.30'
+__version__ = '22.09.12'
 
 
 def _main():  # PYCHOK no cover
@@ -15,7 +15,8 @@ def _main():  # PYCHOK no cover
     try:
         from pygeodesy import _isfrozen, pygeodesy_abspath, version
         from pygeodesy.basics import _xgeographiclib, _xnumpy, _xscipy
-        from pygeodesy.interns import _COMMASPACE_, _floats, _pygeodesy_abspath_, \
+        from pygeodesy.constants import _floats
+        from pygeodesy.interns import _COMMASPACE_, _pygeodesy_abspath_, \
                                       _pythonarchine, _SPACE_, _usage, _version_
         from pygeodesy.lazily import _a_l_l_, _all_imports, isLazy, printf
         from pygeodesy.streprs import Fmt

@@ -9,26 +9,27 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '21.08.12'
+__version__ = '21.09.17'
 
 if __name__ == '__main__':
 
-    from base import GeodSolve, geographiclib, TestsBase
+    from base import GeodSolve, geographiclib, startswith, TestsBase
 
     from pygeodesy import Datums, F_D, ellipsoidalExact, \
                           ellipsoidalNvector, ellipsoidalVincenty, \
-                          sphericalNvector, sphericalTrigonometry
+                          sphericalNvector, sphericalTrigonometry, \
+                          EcefVeness, Ned, Ned4Tuple
 
     class Examples(TestsBase):  # overload test()
         def test(self, ex, name, *args, **kwds):
             name = 'Example %s %s' % (ex, name)
             TestsBase.test(self, name, *args, **kwds)
 
-    def destination(m, x):
+    def destination(m, x, **nl):
         a = m.LatLon(80, -90)  # +++
         b = a.destination(1000, 200)
         n = '%s(%s)' % (destination.__name__, m.__name__)
-        t.test(8, n, b.toStr(F_D), x)
+        t.test(8, n, b.toStr(F_D), x, **nl)
 
     t = Examples(__file__, __version__)
 
@@ -42,11 +43,20 @@ if __name__ == '__main__':
     t.test(1, 'bearing', delta.bearing, 45.109, fmt='%.3f')  # 45.109°
     t.test(1, 'length', delta.length, 470357.384, fmt='%.3f')  # 470357.384 m
 
+    delta = a.deltaTo(b, Ned=Ned)  # kwarg Ned, new in pygeodesy 22.09.17+
+    t.test(1, 'delta', delta, '[331730.863, 332998.501, 17398.304]', nl=1)
+    t.test(1, 'delta', delta.__class__, Ned)
+    delta = a.deltaTo(b, Ned=Ned4Tuple)
+    t.test(1, 'delta', delta, '(331730.863099, 332998.501491, 17398.304211, Ltp(lat0=1.0, lon0=2.0, height0=3.0, ',
+                               known=startswith)
+    t.test(1, 'delta', delta.__class__, Ned4Tuple)
+    t.test(1, 'delta', delta.ltp.ecef.__class__, EcefVeness)
+
 # Example 2: B and delta to C*
     n = ellipsoidalNvector.Nvector(1, 2, 3, 400, Datums.WGS72)
 #   t.test(2, 'Nvector', n.toStr(prec=3), '[1.0, 2.0, 3.0, +400.00]')
     b = n.toLatLon()
-    t.test(2, 'LatLon', b.toStr(F_D, prec=3), '53.301°N, 063.435°E, +400.00m')
+    t.test(2, 'LatLon', b.toStr(F_D, prec=3), '53.301°N, 063.435°E, +400.00m', nl=1)
     t.test(2, 'toNvector', b.toNvector().toStr(prec=3), '(0.267, 0.535, 0.802, +400.00)')
     delta = ellipsoidalNvector.Ned(3000, 2000, 100)
     t.test(2, 'delta', delta, '[3000.0, 2000.0, 100.0]')  # ++
@@ -66,24 +76,24 @@ if __name__ == '__main__':
     c = ellipsoidalNvector.Cartesian(0.9*6371e3, -1.0*6371e3, 1.1*6371e3)
 #   t.test(3, 'Cartesian', c, '[5733900.0, -6371000.0, 7008100.0]')
     p = c.toLatLon()
-    t.test(3, 'toLatLon', p.toStr(F_D, prec=3), '39.379°N, 048.013°W, +4702059.83m')
+    t.test(3, 'toLatLon', p.toStr(F_D, prec=3), '39.379°N, 048.013°W, +4702059.83m', nl=1)
 
 # Example 4: Geodetic latitude to ECEF-vector
     p = ellipsoidalNvector.LatLon(1, 2, 3)
     c = p.toCartesian()
-    t.test(4, 'toCartesian', c.toStr(prec=3), '[6373290.277, 222560.201, 110568.827]')
+    t.test(4, 'toCartesian', c.toStr(prec=3), '[6373290.277, 222560.201, 110568.827]', nl=1)
 
 # Example 5: Surface distance
     a = sphericalNvector.LatLon(88, 0)
     b = sphericalNvector.LatLon(89, -170)
     dist = a.distanceTo(b)
-    t.test(5, 'distanceTo', dist, 332457, fmt='%.0f')  # 332,457 m == 332.5 km
+    t.test(5, 'distanceTo', dist, 332457, fmt='%.0f', nl=1)  # 332,457 m == 332.5 km
 
 # Example 6: Interpolated position
     a = sphericalNvector.LatLon(89, 0)
     b = sphericalNvector.LatLon(89, 180)
     p = a.intermediateChordTo(b, 0.6)
-    t.test(6, 'intermediateChordTo', p.toStr(F_D), '89.799981°N, 180.0°E')
+    t.test(6, 'intermediateChordTo', p.toStr(F_D), '89.799981°N, 180.0°E', nl=1)
     p = a.intermediateTo(b, 0.6)
     t.test(6, 'intermediateTo', p.toStr(F_D), '89.8°N, 180.0°E')
 
@@ -99,11 +109,11 @@ if __name__ == '__main__':
               sphericalNvector.LatLon(60,  10),
               sphericalNvector.LatLon(50, -20)]
     mean = sphericalNvector.meanOf(points)  # XXX meanOf
-    t.test(7, 'meanOf', mean.toStr(F_D, prec=4), '67.2362°N, 006.9175°W')
+    t.test(7, 'meanOf', mean.toStr(F_D, prec=4), '67.2362°N, 006.9175°W', nl=1)
 #   t.test(7, 'meanOfLatLon', mean.__class__, "<class 'sphericalNvector.LatLon'>")  # ++
 
 # Example 8: A and azimuth/distance to B
-    destination(sphericalNvector,      '79.991549°N, 090.017698°W')
+    destination(sphericalNvector,      '79.991549°N, 090.017698°W', nl=1)
     destination(sphericalTrigonometry, '79.991549°N, 090.017698°W')
     destination(ellipsoidalVincenty,   '79.991584°N, 090.017621°W')
     if geographiclib:
@@ -120,18 +130,18 @@ if __name__ == '__main__':
     b1 = sphericalNvector.LatLon(50, 60)
     b2 = sphericalNvector.LatLon(70, 80)
     c = sphericalNvector.intersection(a1, a2, b1, b2)
-    t.test(9, 'intersection', c, '40.318643°N, 055.901868°E')
+    t.test(9, 'intersection', c, '40.318643°N, 055.901868°E', nl=1)
 
 # Example 10: Cross track distance
     a1 = sphericalNvector.LatLon( 0, 0)
     a2 = sphericalNvector.LatLon(10, 0)
     b = sphericalNvector.LatLon(1, 0.1)
     c = b.crossTrackDistanceTo(a1, a2)
-    t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f')  # 11,118 m == 11.12 km
+    t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f', nl=1)  # 11,118 m == 11.12 km
 
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-nvector-ellipsoidal.js>
     d = ellipsoidalNvector.toNed(116809.178, 222.493, -0.5416)
-    TestsBase.test(t, 'toNed', d.toStr(prec=1), '[-78901.1, -86126.6, 1104.1]')  # [N:-86126.6, E:-78901.1, D:1104.1]'
+    TestsBase.test(t, 'toNed', d.toStr(prec=1), '[-78901.1, -86126.6, 1104.1]', nl=1)  # [N:-86126.6, E:-78901.1, D:1104.1]'
     TestsBase.test(t, 'bearing',   d.bearing, '227.507',  fmt='%.3f')  # '222.493'
     TestsBase.test(t, 'elevation', d.elevation, '-0.5416', fmt='%.4f')
     TestsBase.test(t, 'length',    d.length, '116809.178',  fmt='%.3f')

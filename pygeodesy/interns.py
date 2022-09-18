@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-u'''Single-instance C{float} and C{str}ing constants, C{intern}'ed
-across C{pygeodesy} modules.
-
-Functions L{pygeodesy.float_} and L{pygeodesy.machine}.
+u'''Single C{str}ing constants, C{intern}'ed across C{pygeodesy}
+modules and function L{pygeodesy.machine}.
 '''
-from math import pi as PI, sqrt
-
 _COMMASPACE_ = ', '   # overriden below
 _pl2List     =  None  # cached _platform2 lists
 _Py3List     =  None  # cached _pythonarchine lists
@@ -30,7 +26,7 @@ class _Int(int):
 class Str_(str):
     '''Extended, I{callable} C{str} class, not nameable.
 
-       @see: Nameable, non-callable class L{pygeodesy.Str}.
+       @see: Nameable and callable class L{pygeodesy.Str}.
     '''
     def join_(self, *args):
         '''Join all positional B{C{args}} like C{self.join(B{args})}.
@@ -180,8 +176,8 @@ _decode3_             = 'decode3'            # PYCHOK expected
 _deg_                 = 'deg'                # PYCHOK expected
 _degrees_             = 'degrees'            # PYCHOK expected
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
+_DEPRECATED_          = 'DEPRECATED'         # PYCHOK expected
 _DEQUALSPACED_   = Str_(' == ')              # PYCHOK expected
-_DIG_                 = 'DIG'                # PYCHOK expected
 _distance_            = 'distance'           # PYCHOK expected
 _distanceTo_          = 'distanceTo'         # PYCHOK expected
 _distant_     = _Prefix('distant')           # PYCHOK expected
@@ -204,13 +200,6 @@ _enabled_             = 'enabled'            # PYCHOK expected
 _encode_              = 'encode'             # PYCHOK expected
 _end_                 = 'end'                # PYCHOK expected
 _epoch_               = 'epoch'              # PYCHOK expected
-_EPS_                 = 'EPS'                # PYCHOK expected
-_EPS0_                = 'EPS0'               # PYCHOK expected
-_EPS02_               = 'EPS02'              # PYCHOK expected
-_EPS1_                = 'EPS1'               # PYCHOK expected
-_EPS2_                = 'EPS2'               # PYCHOK expected
-_EPS_2_               = 'EPS_2'              # PYCHOK expected
-_EPS4_                = 'EPS4'               # PYCHOK expected
 _EQUAL_          = Str_('=')                 # PYCHOK expected
 _EQUALSPACED_    = Str_(' = ')               # PYCHOK expected
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
@@ -240,7 +229,6 @@ _INF_                 = 'INF'                # PYCHOK expected
 _infinite_            = 'infinite'           # PYCHOK _not_finite_
 _initial_             = 'initial'            # PYCHOK expected
 _inside_              = 'inside'             # PYCHOK expected
-_INT0_                = 'INT0'               # PYCHOK expected
 _intersection_        = 'intersection'       # PYCHOK expected
 _Intl1924_            = 'Intl1924'           # PYCHOK expected
 _invalid_             = 'invalid'            # PYCHOK expected
@@ -296,9 +284,7 @@ _name_                = 'name'               # PYCHOK expected
 _NAN_                 = 'NAN'                # PYCHOK expected
 _near_          = _Dash('near')              # PYCHOK expected
 _nearestOn2_          = 'nearestOn2'         # PYCHOK expected
-_NEG0_                = 'NEG0'               # PYCHOK expected
 _negative_            = 'negative'           # PYCHOK expected
-_NINF_                = 'NINF'               # PYCHOK expected
 _NL_             = Str_('\n')                # PYCHOK expected
 _NLATvar_        = Str_(_NL_ + '@var ')      # PYCHOK expected
 _NLHASH_         = Str_(_NL_ + '# ')         # PYCHOK expected
@@ -327,13 +313,6 @@ _PERCENT_             = '%'                  # PYCHOK expected
 _PERCENTDOTSTAR_      = '%.*'                # PYCHOK _DOT_(_PERCENT_, _STAR_)
 _perimeterOf_         = 'perimeterOf'        # PYCHOK expected
 _phi_                 = 'phi'                # PYCHOK expected
-_PI_                  = 'PI'                 # PYCHOK expected
-_PI2_                 = 'PI2'                # PYCHOK expected
-_PI_2_                = 'PI_2'               # PYCHOK expected
-_PI3_                 = 'PI3'                # PYCHOK expected
-_PI3_2_               = 'PI3_2'              # PYCHOK expected
-_PI4_                 = 'PI4'                # PYCHOK expected
-_PI_4_                = 'PI_4'               # PYCHOK expected
 _PLUS_           = Str_('+')                 # PYCHOK expected
 _PLUSMINUS_           = _PLUS_ + _MINUS_     # PYCHOK expected
 _point_               = 'point'              # PYCHOK expected
@@ -349,6 +328,7 @@ _QUOTE1_              = "'"                  # PYCHOK expected
 _QUOTE2_              = '"'                  # PYCHOK expected
 # _QUOTE3_            = "'''"                # PYCHOK expected
 # _QUOTE6_            = '"""'                # PYCHOK expected
+_R_                   = 'R'                  # PYCHOK expected
 _radians_             = 'radians'            # PYCHOK expected
 _radians2_            = 'radians2'           # PYCHOK SQUARED
 _radius_              = 'radius'             # PYCHOK expected
@@ -450,197 +430,12 @@ def _dunder_name(inst, *dflt):
     return dflt[0] if dflt else inst.__class__.__name__
 
 
-def float_(*fs, **sets):
-    '''Get scalars as C{float} or I{intern} C{float}.
-
-       @arg fs: One more values (C{scalar}), all positional.
-       @kwarg sets: Use keyword argument C{B{sets}=True} to
-                    C{intern} each B{C{fs}}, otherwise don't.
-
-       @return: Single C{float} if only one B{C{fs}} is given,
-                otherwise a tuple of C{float}s.
-
-       @raise TypeError: Some B{C{fs}} not C{scalar}.
-    '''
-    _f = _floats.setdefault if sets.get(_sets_, False) else \
-         _floats.get
-    fl = []
-    try:
-        for i, f in enumerate(fs):
-            f = float(f)
-            fl.append(_f(f, f))
-    except Exception as x:
-        from pygeodesy.lazily import _ALL_MODS
-        _E, t = _ALL_MODS.errors._xError2(x)
-        _fs_i = _ALL_MODS.streprs.Fmt.SQUARE(fs=i)
-        raise _E(_fs_i, f, txt=t)
-    return fl[0] if len(fl) == 1 else tuple(fl)
-
-
-def _float(f):  # in .datums, .ellipsoids, ...
-    '''(INTERNAL) Cache initial C{float}s.
-    '''
-    f = float(f)
-    return _floats.setdefault(f, f)  # PYCHOK del _floats
-
-
-def _float0(f):  # in .resections, .vector3dBase, ...
-    '''(INTERNAL) Return C{float(B{f})} or C{INT0}.
-    '''
-    if f:
-        f =  float(f)
-        f = _floats.get(f, f)
-    elif f is not INT0:
-        f = _0_0
-    return f
-
-
-def _floatuple(*fs):
-    '''(INTERNAL) Cache a tuple of C{float}s.
-    '''
-    return tuple(map(_float, fs))
-
-
-_floats = {}      # PYCHOK floats cache, in .__main__
-# _float = float  # PYCHOK expected
-# del _floats     # XXX zap floats cache never
-
-_0_0    = _float(   0)       # PYCHOK expected
-_0_0001 = _float(   0.0001)  # PYCHOK expected
-_0_001  = _float(   0.001)   # PYCHOK expected
-_0_01   = _float(   0.01)    # PYCHOK expected
-_0_1    = _float(   0.1)     # PYCHOK expected
-_0_125  = _float(   0.125)   # PYCHOK expected
-_0_25   = _float(   0.25)    # PYCHOK expected
-_0_26   = _float(   0.26)    # PYCHOK expected
-_0_5    = _float(   0.5)     # PYCHOK expected
-_1_0    = _float(   1)       # PYCHOK expected
-_1_0_T  = _1_0,              # PYCHOK 1-tuple
-_1_5    = _float(   1.5)     # PYCHOK expected
-_1_75   = _float(   1.75)    # PYCHOK expected
-_2_0    = _float(   2)       # PYCHOK expected
-_3_0    = _float(   3)       # PYCHOK expected
-_4_0    = _float(   4)       # PYCHOK expected
-_5_0    = _float(   5)       # PYCHOK expected
-_6_0    = _float(   6)       # PYCHOK expected
-_8_0    = _float(   8)       # PYCHOK expected
-_9_0    = _float(   9)       # PYCHOK expected
-_10_0   = _float(  10)       # PYCHOK expected
-_16_0   = _float(  16)       # PYCHOK expected
-_32_0   = _float(  32)       # PYCHOK expected
-_60_0   = _float(  60)       # PYCHOK expected
-_90_0   = _float(  90)       # PYCHOK expected
-_180_0  = _float( 180)       # PYCHOK expected
-_270_0  = _float( 270)       # PYCHOK expected
-_360_0  = _float( 360)       # PYCHOK expected
-_400_0  = _float( 400)       # PYCHOK expected
-_720_0  = _float( 720)       # PYCHOK expected
-_1000_0 = _float(1000)       # PYCHOK expected
-_3600_0 = _float(3600)       # PYCHOK expected
-
-_N_0_0    =  float( '-0.0')  # PYCHOK not _float!
-_N_1_0    = _float(  -1)     # PYCHOK expected
-_N_2_0    = _float(  -2)     # PYCHOK expected
-_N_90_0   = _float( -90)     # PYCHOK expected
-_N_180_0  = _float(-180)     # PYCHOK expected
-
-try:
-    from sys import float_info as _float_info
-    DIG      =        _float_info.dig        # PYCHOK system's float decimal digits
-    EPS      = _float(_float_info.epsilon)   # PYCHOK system's EPSilon
-    MANT_DIG =        _float_info.mant_dig   # PYCHOK system's float mantissa bits
-    MAX      = _float(_float_info.max)       # PYCHOK system's MAX float 1.7976931348623157e+308
-#   MAX_EXP  =        _float_info.max_exp    # PYTHON system's max base 2 exponent
-    MIN      = _float(_float_info.min)       # PYCHOK system's MIN float 2.2250738585072014e-308
-#   MIN_EXP  =        _float_info.min_exp    # PYTHON system's min base 2 exponent
-#   RADIX    =        _float_info.radix      # PYTHON system's float base
-    del               _float_info
-except ImportError:  # PYCHOK no cover
-    DIG      =  15    # PYCHOK system's 64-bit float decimal digits
-    EPS      = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
-    MANT_DIG =  53    # PYCHOK float mantissa bits ≈ 53 (C{int})
-    MAX      = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
-#   MAX_EXP  =  1024  # 308 base 10
-    MIN      = _float(pow(_2_0, -1021))  # PYCHOK ≈ 10**-308
-#   MIN_EXP  = -1021  # -307 base 10
-#   RADIX    =  2     # base
-
-EPS0      = _float(EPS**2)          # PYCHOK near-zero comparison 4.930381e-32, or EPS or EPS_2, see function L{isnear0}
-EPS02     = _float(EPS**4)          # PYCHOK near-zero-squared comparison 2.430865e-63
-EPS_2     = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
-EPS1      = _float(_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
-EPS2      = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
-EPS4      = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
-# _1EPS   = _float(_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
-_1_EPS    = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
-# _2_EPS  = _float(_2_0 / EPS)      # PYCHOK = 9007199254740992.0
-_EPS4e8   = _float(EPS4 * 1e8)      # PYCHOK ≈ 8.881784197001e-08
-_EPSmin   = _float(sqrt(MIN))       # PYCHOK = 1.49166814624e-154
-_EPSqrt   = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
-_EPStol   = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
-
-# <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1__90    = _float(_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI    = _float(_2_0 /  PI)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
-
-_1_16th   = _float(_1_0 / _16_0)    # PYCHOK in .ellipsoids, .karney
-_1_3rd    = _float(_1_0 /  _3_0)    # PYCHOK in .fmath
-_2_3rd    = _float(_2_0 /  _3_0)    # PYCHOK in .fmath
-
-_K0_UTM   = _float( 0.9996)         # PYCHOK in .etm, .ktm, .utm, UTM scale, central meridian
-# sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
-# 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
-# _1SQRT2 = _float(sqrt(_2_0) + 1)
-_SQRT2_2  = _float(sqrt(_0_5))      # PYCHOK = 0.7071067811865476 == sqrt(2) / 2
-
-try:
-    from math import inf as INF, nan as NAN  # PYCHOK in Python 3+
-except ImportError:  # Python 2-
-    INF = _float(_INF_)      # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-    NAN = _float(_NAN_)      # PYCHOK Not-A-Number, see function L{isnan}
-
-INT0    = _Int(0)            # PYCHOK unique int(0) instance, see .fsums, useZ=False
-NEG0    = _N_0_0             # PYCHOK NEGative 0.0, see function L{isneg0}
-NINF    = _float(-INF)       # PYCHOK Negative INFinity
-
-PI2     = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI_2    = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
-PI3     = _float(PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
-PI3_2   = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
-PI4     = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
-PI_4    = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
-
-R_M     = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
-
-_0_0sts = {}  # tuples of 4, 5, 6, 7, 8 or 9 zeros
-
-
-def _0_0s(n):
-    '''(INTERNAL) Get a I{cached} tuple of B{C{n}} zeros.
-    '''
-    try:  # t = _0_0s.setdefault(n, ...)
-        t = _0_0sts[n]
-    except KeyError:
-        t = (_0_0,) * n
-        if n < 10:
-            _0_0sts[n] = t
-    return t
-
-
 def _enquote(strs, quote=_QUOTE2_):  # in .basics
     '''(INTERNAL) Enquote a string containing whitespace.
     '''
     if len(strs.split()) > 1:
         strs = NN(quote, strs, quote)
     return strs
-
-
-def _90_EPS_2(lat):
-    '''(INTERNAL) Off -90.0 for .gars and .wgrs.
-    '''
-    if lat == _90_0:
-        lat -= _90_0 * EPS_2
-    return lat
 
 
 def _load_lib(name):
@@ -779,17 +574,10 @@ def _version2(version, n=2):
     return t[:n]
 
 
-MANTIS  =   MANT_DIG  # DEPRECATED, use C{MANT_DIG}.
-__all__ = (_DIG_,
-           _EPS_, _EPS0_, _EPS02_, _EPS1_, _EPS2_, _EPS_2_, _EPS4_,
-           _INF_, _INT0_,
-           'MANTIS',  # DEPRECATED
-           _MANT_DIG_, _MAX_, _MIN_,  # do NOT include _MISSING_!
-           _NAN_, _NEG0_, _NINF_, _NN_,
-           _PI_, _PI2_, _PI_2_, _PI3_, _PI3_2_, _PI4_, _PI_4_,
+__all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
-            float_.__name__, machine.__name__)  # in .lazily
-__version__ = '22.09.03'
+            machine.__name__)  # in .lazily
+__version__ = '22.09.16'
 
 if __name__ == '__main__':
 

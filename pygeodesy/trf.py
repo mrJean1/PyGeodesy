@@ -49,16 +49,16 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 '''
 
 from pygeodesy.basics import map1, _xinstanceof, _zip
+from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, \
+                                _0_01, _0_1, _0_26, _0_5, _1_0
 from pygeodesy.datums import _a_ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
-from pygeodesy.errors import _IsnotError, TRFError
+from pygeodesy.errors import _ALL_LAZY, _IsnotError, TRFError
 from pygeodesy.interns import NN, _COMMASPACE_, _cartesian_, _conversion_, \
                              _ellipsoid_, _ellipsoidal_, _epoch_, _exists_, \
-                             _float as _F, _GRS80_, _NAD83_, _name_, _no_, _s_, \
-                             _SPACE_, _sx_, _sy_, _sz_, _to_, _tx_, _ty_, _tz_, \
-                             _WGS84_, _0_0, _0_001, _0_01, _0_1, _0_26, _0_5, \
-                             _1_0, _0_0s
-from pygeodesy.lazily import _ALL_LAZY
+                             _GRS80_, _NAD83_, _name_, _no_, _s_, _SPACE_, \
+                             _sx_, _sy_, _sz_, _to_, _tx_, _ty_, _tz_, _WGS84_
+# from pygeodesy.lazily import _ALL_LAZY  # from .errors
 from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, _NamedEnum, \
                            _NamedEnumItem, _NamedDict as _XD, _NamedTuple
 # from pygeodesy.props import Property_RO  # from .ellipsoids
@@ -68,7 +68,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.08.09'
+__version__ = '22.09.15'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -203,7 +203,7 @@ RefFrames._assert(
     GDA94      = _lazy(_GDA94_,      _F(1994), _GRS80_),  # Australia
     ITRF2000   = _lazy(_ITRF2000_,   _F(1997), _GRS80_),
     ITRF2005   = _lazy(_ITRF2005_,   _F(2000), _GRS80_),
-    ITRF2008   = _lazy(_ITRF2008_,   _F(2005), _GRS80_),  # aks ITRF08
+    ITRF2008   = _lazy(_ITRF2008_,   _F(2005), _GRS80_),  # aka ITRF08
     ITRF2014   = _lazy(_ITRF2014_,   _F(2010), _GRS80_),
     ITRF90     = _lazy(_ITRF90_,     _F(1988), _GRS80_),
     ITRF91     = _lazy(_ITRF91_,     _F(1988), _GRS80_),
@@ -536,12 +536,13 @@ _trfX(_ITRF90_,   _WGS84_,    epoch=_F(1984),
 if __name__ == '__main__':
 
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_, _STAR_
+    from time import localtime
 
     D = date2epoch.__name__
     E = epoch2date.__name__
-    y = 2021
+    y = localtime()[0]
     for m in range(1, 13):
-        for d in (1, _mDays[m] - 1, _mDays[m]):
+        for d in (1, 15, _mDays[m] - 1, _mDays[m]):
             f = '%s(%d,%3d,%3d)' % (D, y, m, d)
             e = date2epoch(y, m, d)
             t = epoch2date(e)
@@ -579,39 +580,51 @@ if __name__ == '__main__':
 
 # % python -m pygeodesy.trf
 #
-# date2epoch(2021,  1,  1) = 2021.003, epoch2date(2021.003) = 2021,  1,  1
-# date2epoch(2021,  1, 30) = 2021.082, epoch2date(2021.082) = 2021,  1, 30
-# date2epoch(2021,  1, 31) = 2021.085, epoch2date(2021.085) = 2021,  1, 31
-# date2epoch(2021,  2,  1) = 2021.087, epoch2date(2021.087) = 2021,  2,  2 *
-# date2epoch(2021,  2, 28) = 2021.161, epoch2date(2021.161) = 2021,  2, 28
-# date2epoch(2021,  2, 29) = 2021.164, epoch2date(2021.164) = 2021,  3,  1 *
-# date2epoch(2021,  3,  1) = 2021.167, epoch2date(2021.167) = 2021,  3,  2 *
-# date2epoch(2021,  3, 30) = 2021.246, epoch2date(2021.246) = 2021,  3, 31 *
-# date2epoch(2021,  3, 31) = 2021.249, epoch2date(2021.249) = 2021,  4,  1 *
-# date2epoch(2021,  4,  1) = 2021.251, epoch2date(2021.251) = 2021,  4,  1
-# date2epoch(2021,  4, 29) = 2021.328, epoch2date(2021.328) = 2021,  4, 29
-# date2epoch(2021,  4, 30) = 2021.331, epoch2date(2021.331) = 2021,  4, 30
-# date2epoch(2021,  5,  1) = 2021.333, epoch2date(2021.333) = 2021,  5,  1
-# date2epoch(2021,  5, 30) = 2021.413, epoch2date(2021.413) = 2021,  5, 30
-# date2epoch(2021,  5, 31) = 2021.415, epoch2date(2021.415) = 2021,  6,  1 *
-# date2epoch(2021,  6,  1) = 2021.418, epoch2date(2021.418) = 2021,  6,  2 *
-# date2epoch(2021,  6, 29) = 2021.495, epoch2date(2021.495) = 2021,  6, 30 *
-# date2epoch(2021,  6, 30) = 2021.497, epoch2date(2021.497) = 2021,  7,  1 *
-# date2epoch(2021,  7,  1) = 2021.500, epoch2date(2021.500) = 2021,  7,  1
-# date2epoch(2021,  7, 30) = 2021.579, epoch2date(2021.579) = 2021,  7, 30
-# date2epoch(2021,  7, 31) = 2021.582, epoch2date(2021.582) = 2021,  7, 31
-# date2epoch(2021,  8,  1) = 2021.585, epoch2date(2021.585) = 2021,  8,  1
-# date2epoch(2021,  8, 30) = 2021.664, epoch2date(2021.664) = 2021,  8, 31 *
-# date2epoch(2021,  8, 31) = 2021.667, epoch2date(2021.667) = 2021,  9,  1 *
-# date2epoch(2021,  9,  1) = 2021.669, epoch2date(2021.669) = 2021,  9,  2 *
-# date2epoch(2021,  9, 29) = 2021.746, epoch2date(2021.746) = 2021,  9, 30 *
-# date2epoch(2021,  9, 30) = 2021.749, epoch2date(2021.749) = 2021, 10,  1 *
-# date2epoch(2021, 10,  1) = 2021.751, epoch2date(2021.751) = 2021, 10,  1
-# date2epoch(2021, 10, 30) = 2021.831, epoch2date(2021.831) = 2021, 10, 30
-# date2epoch(2021, 10, 31) = 2021.833, epoch2date(2021.833) = 2021, 10, 31
-# date2epoch(2021, 11,  1) = 2021.836, epoch2date(2021.836) = 2021, 11,  1
-# date2epoch(2021, 11, 29) = 2021.913, epoch2date(2021.913) = 2021, 11, 29
-# date2epoch(2021, 11, 30) = 2021.915, epoch2date(2021.915) = 2021, 12,  1 *
-# date2epoch(2021, 12,  1) = 2021.918, epoch2date(2021.918) = 2021, 12,  2 *
-# date2epoch(2021, 12, 30) = 2021.997, epoch2date(2021.997) = 2021, 12, 31 *
-# date2epoch(2021, 12, 31) = 2022.000, epoch2date(2022.000) = 2022,  1,  1 *
+# date2epoch(2022,  1,  1) = 2022.003, epoch2date(2022.003) = 2022,  1,  1
+# date2epoch(2022,  1, 15) = 2022.041, epoch2date(2022.041) = 2022,  1, 15
+# date2epoch(2022,  1, 30) = 2022.082, epoch2date(2022.082) = 2022,  1, 30
+# date2epoch(2022,  1, 31) = 2022.085, epoch2date(2022.085) = 2022,  1, 31
+# date2epoch(2022,  2,  1) = 2022.087, epoch2date(2022.087) = 2022,  2,  2 *
+# date2epoch(2022,  2, 15) = 2022.126, epoch2date(2022.126) = 2022,  2, 16 *
+# date2epoch(2022,  2, 28) = 2022.161, epoch2date(2022.161) = 2022,  2, 28
+# date2epoch(2022,  2, 29) = 2022.164, epoch2date(2022.164) = 2022,  3,  1 *
+# date2epoch(2022,  3,  1) = 2022.167, epoch2date(2022.167) = 2022,  3,  2 *
+# date2epoch(2022,  3, 15) = 2022.205, epoch2date(2022.205) = 2022,  3, 16 *
+# date2epoch(2022,  3, 30) = 2022.246, epoch2date(2022.246) = 2022,  3, 31 *
+# date2epoch(2022,  3, 31) = 2022.249, epoch2date(2022.249) = 2022,  4,  1 *
+# date2epoch(2022,  4,  1) = 2022.251, epoch2date(2022.251) = 2022,  4,  1
+# date2epoch(2022,  4, 15) = 2022.290, epoch2date(2022.290) = 2022,  4, 15
+# date2epoch(2022,  4, 29) = 2022.328, epoch2date(2022.328) = 2022,  4, 29
+# date2epoch(2022,  4, 30) = 2022.331, epoch2date(2022.331) = 2022,  4, 30
+# date2epoch(2022,  5,  1) = 2022.333, epoch2date(2022.333) = 2022,  5,  1
+# date2epoch(2022,  5, 15) = 2022.372, epoch2date(2022.372) = 2022,  5, 15
+# date2epoch(2022,  5, 30) = 2022.413, epoch2date(2022.413) = 2022,  5, 30
+# date2epoch(2022,  5, 31) = 2022.415, epoch2date(2022.415) = 2022,  6,  1 *
+# date2epoch(2022,  6,  1) = 2022.418, epoch2date(2022.418) = 2022,  6,  2 *
+# date2epoch(2022,  6, 15) = 2022.456, epoch2date(2022.456) = 2022,  6, 16 *
+# date2epoch(2022,  6, 29) = 2022.495, epoch2date(2022.495) = 2022,  6, 30 *
+# date2epoch(2022,  6, 30) = 2022.497, epoch2date(2022.497) = 2022,  7,  1 *
+# date2epoch(2022,  7,  1) = 2022.500, epoch2date(2022.500) = 2022,  7,  1
+# date2epoch(2022,  7, 15) = 2022.538, epoch2date(2022.538) = 2022,  7, 16 *
+# date2epoch(2022,  7, 30) = 2022.579, epoch2date(2022.579) = 2022,  7, 30
+# date2epoch(2022,  7, 31) = 2022.582, epoch2date(2022.582) = 2022,  7, 31
+# date2epoch(2022,  8,  1) = 2022.585, epoch2date(2022.585) = 2022,  8,  1
+# date2epoch(2022,  8, 15) = 2022.623, epoch2date(2022.623) = 2022,  8, 15
+# date2epoch(2022,  8, 30) = 2022.664, epoch2date(2022.664) = 2022,  8, 31 *
+# date2epoch(2022,  8, 31) = 2022.667, epoch2date(2022.667) = 2022,  9,  1 *
+# date2epoch(2022,  9,  1) = 2022.669, epoch2date(2022.669) = 2022,  9,  2 *
+# date2epoch(2022,  9, 15) = 2022.708, epoch2date(2022.708) = 2022,  9, 16 *
+# date2epoch(2022,  9, 29) = 2022.746, epoch2date(2022.746) = 2022,  9, 30 *
+# date2epoch(2022,  9, 30) = 2022.749, epoch2date(2022.749) = 2022, 10,  1 *
+# date2epoch(2022, 10,  1) = 2022.751, epoch2date(2022.751) = 2022, 10,  1
+# date2epoch(2022, 10, 15) = 2022.790, epoch2date(2022.790) = 2022, 10, 15
+# date2epoch(2022, 10, 30) = 2022.831, epoch2date(2022.831) = 2022, 10, 30
+# date2epoch(2022, 10, 31) = 2022.833, epoch2date(2022.833) = 2022, 10, 31
+# date2epoch(2022, 11,  1) = 2022.836, epoch2date(2022.836) = 2022, 11,  1
+# date2epoch(2022, 11, 15) = 2022.874, epoch2date(2022.874) = 2022, 11, 15
+# date2epoch(2022, 11, 29) = 2022.913, epoch2date(2022.913) = 2022, 11, 29
+# date2epoch(2022, 11, 30) = 2022.915, epoch2date(2022.915) = 2022, 12,  1 *
+# date2epoch(2022, 12,  1) = 2022.918, epoch2date(2022.918) = 2022, 12,  2 *
+# date2epoch(2022, 12, 15) = 2022.956, epoch2date(2022.956) = 2022, 12, 16 *
+# date2epoch(2022, 12, 30) = 2022.997, epoch2date(2022.997) = 2022, 12, 31 *
+# date2epoch(2022, 12, 31) = 2023.000, epoch2date(2023.000) = 2023,  1,  1 *

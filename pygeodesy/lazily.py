@@ -127,11 +127,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
-                                 'isbool', 'isclass', 'isclose', 'iscomplex', 'isfinite', 'isfloat',
-                                 'isidentifier', 'isinf', 'isint', 'isint0', 'iskeyword',
-                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0', 'isodd',
+                                 'isbool', 'isclass', 'iscomplex', 'isfloat',
+                                 'isidentifier', 'isint', 'iskeyword', 'isodd',
                                  'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
-                                 'len2', 'map1', 'map2', 'neg', 'neg_', 'remainder',
+                                 'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                    cartesianBase=(),  # module only
                            clipy=('ClipError',
@@ -139,14 +138,21 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
+                      constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
+                                 'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
+                                 'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
+                                 'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_QM', 'R_VM',
+                                 'float_', 'isclose', 'isfinite', 'isinf', 'isint0',
+                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0',
+                                 'remainder'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
-                     deprecated=('EPS1_2', 'OK',  # DEPRECATED constants
+                     deprecated=('EPS1_2', 'MANTIS', 'OK',  # DEPRECATED constants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
                                  'ClipCS3Tuple', 'EcefCartesian', 'EasNorExact4Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3',  # DEPRECATED classes
                                  'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
-                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
+                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isDEPRECATED', 'isenclosedby', 'joined', 'joined_',
                                  'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
                                  'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
@@ -167,8 +173,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
               ellipsoidalKarney=(),  # module only
              ellipsoidalNvector=(),  # module only
             ellipsoidalVincenty=('VincentyError',),  # nothing else
-                     ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_GM', 'R_VM',
-                                 'a_f2Tuple', 'Circle4Tuple', 'Curvature2Tuple',
+                     ellipsoids=('a_f2Tuple', 'Circle4Tuple', 'Curvature2Tuple',
                                  'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
                                  'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32', 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
                                  'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
@@ -284,11 +289,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'date2epoch', 'epoch2date', 'trfXform'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
-                                 'Feet', 'FIx', 'Float', 'Float_', 'Height', 'Int', 'Int_',
+                                 'Feet', 'FIx', 'Float_', 'Height', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
                                  'Meter', 'Meter_', 'Meter2', 'Meter3', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
-                                 'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
+                                 'Radius_', 'Scalar', 'Scalar_', 'Zone'),
+                      unitsBase=('Float', 'Int', 'Radius', 'Str'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
                                  'chain2m', 'circle4', 'cot', 'cot_', 'cotd', 'cotd_',
@@ -403,7 +409,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.09.02'
+__version__ = '22.09.16'
 
 
 def _ALL_OTHER(*objs):

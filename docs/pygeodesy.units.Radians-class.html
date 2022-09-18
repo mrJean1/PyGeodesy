@@ -61,19 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Radians</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-           float --+    
-                   |    
-  object --+       |    
-           |       |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-               |   |    
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+    
-                   |    
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+
-                       |
-                      <strong class="uidshort">Radians</strong>
+          object --+        
+                   |        
+               float --+    
+                       |    
+      object --+       |    
+               |       |    
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
+                   |   |    
+<a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a> --+    
+                       |    
+         <a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a> --+
+                           |
+                          <strong class="uidshort">Radians</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -101,11 +101,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.units.Radians-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">std</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return a representation of this <code>Float</code>.</td>
+        <span class="summary-sig-arg">std</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**prec_fmt_ints</span>)</span><br />
+      Return a representation of this <code>Radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -125,7 +123,7 @@
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Format this <code>Float</code> as <code>str</code>.</td>
+      Return this <code>Degrees</code> as standard <code>str</code>.</td>
           <td align="right" valign="top">
             
             
@@ -137,9 +135,9 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
-      <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase.Float-class.html">unitsBase.Float</a></code></b>:
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.unitsBase.Float-class.html#__str__">__str__</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -232,7 +230,8 @@
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**name_arg</span>)</span><br />
-      New named <code>Radians</code> instance.</td>
+      New <code>Radians</code> instance, see <a 
+      href="pygeodesy.unitsBase.Float-class.html" class="link">Float</a>.</td>
           <td align="right" valign="top">
             
             
@@ -257,9 +256,9 @@
       <code>imag</code>,
       <code>real</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a></code></b>:
-      <code><a href="pygeodesy.units._NamedUnit-class.html#std_repr">std_repr</a></code>,
-      <code><a href="pygeodesy.units._NamedUnit-class.html#units">units</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.unitsBase._NamedUnit-class.html">unitsBase._NamedUnit</a></code></b>:
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#std_repr">std_repr</a></code>,
+      <code><a href="pygeodesy.unitsBase._NamedUnit-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -307,7 +306,8 @@
     </td>
   </tr></table>
   
-  <p>New named <code>Radians</code> instance.</p>
+  <p>New <code>Radians</code> instance, see <a 
+  href="pygeodesy.unitsBase.Float-class.html" class="link">Float</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -332,7 +332,9 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>abs(arg)</code></b> 
-        below <b><code>low</code></b> or above <b><code>high</code></b>.</li>
+        outside the <b><code>clip</code></b> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">pygeodesy.rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
@@ -348,29 +350,34 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">8</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">std</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">std</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**prec_fmt_ints</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return a representation of this <code>Float</code>.</p>
+  <p>Return a representation of this <code>Radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>std</code></strong> - Use the standard <code>repr</code> or the named representation 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>std</code></strong> - If <code>True</code> return the standard <code>repr</code>, 
+          otherwise the named representation (<code>bool</code>).</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a href="pygeodesy.units.Radians-class.html#toStr" 
+        class="link">Radians.toStr</a>, <a 
+        href="pygeodesy.unitsBase.Float-class.html#toRepr" 
+        class="link">Float.toRepr</a> and function <a 
+        href="pygeodesy.dms-module.html#toDMS" 
+        class="link">pygeodesy.toDMS</a> for more documentation.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toStr"></a>
 <div>
@@ -389,14 +396,17 @@
     </td>
   </tr></table>
   
-  <p>Format this <code>Float</code> as <code>str</code>.</p>
+  <p>Return this <code>Degrees</code> as standard <code>str</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.streprs-module.html#fstr" 
+        class="link">pygeodesy.fstr</a> for keyword argument details.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -430,7 +440,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Sep  9 11:13:44 2022
+    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:39 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

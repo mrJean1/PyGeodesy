@@ -43,13 +43,13 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isint, isodd, neg, neg_
+from pygeodesy.constants import INF, _K0_UTM, NINF, PI, PI_2, _0_0s, \
+                               _0_0, _1_0, _90_0, _180_0
 # from pygeodesy.datums import _spherical_datum  # in KTransverseMercator.ellipsoid.setter
 from pygeodesy.errors import _or, _ValueError, _xkwds_get
-from pygeodesy.fmath import fsum1_ , hypot, hypot1
+from pygeodesy.fmath import fsum1_, hypot, hypot1
 # from pygeodesy.fsums import fsum1_  # from .fmath
-from pygeodesy.interns import INF, NINF, NN, PI, PI_2, _COMMASPACE_, \
-                             _K0_UTM, _not_, _singular_, _0_0, _1_0, \
-                             _90_0, _180_0, _0_0s
+from pygeodesy.interns import NN, _COMMASPACE_, _not_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _EWGS84, _fix90, \
                              _NamedBase, _norm180, _polynomial, _unsigned2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _pairs
@@ -65,7 +65,7 @@ from cmath import phase
 from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.07.08'
+__version__ = '22.09.15'
 
 
 class KTMError(_ValueError):

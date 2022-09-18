@@ -4,15 +4,15 @@
 u'''Some basic C{rhumbx} vs C++ C{RhumbSolve} tests.
 '''
 __all__ = ('Tests',)
-__version__ = '22.09.02'
+__version__ = '22.09.12'
 
 from base import _fLate, RhumbSolve, startswith, TestsBase
 
-from pygeodesy import NN, Caps, classname, Ellipsoid, GDict, \
+from pygeodesy import NN, Caps, classname, DIG, Ellipsoid, GDict, \
                       itemsorted, latDMS, lonDMS, parseDMS, parseDMS2, \
                       Rhumb, RhumbLine, RhumbLineSolve, R_M, \
                       Fwelford, fremainder, pairs
-from pygeodesy.interns import _COMMASPACE_, DIG, _DOT_
+from pygeodesy.interns import _COMMASPACE_, _DOT_
 
 _C = ':'
 _G = '%%.%sg' % (DIG,)

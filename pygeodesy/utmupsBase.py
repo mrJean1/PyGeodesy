@@ -7,14 +7,14 @@ for L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 
 from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
                             _xinstanceof, _xsubclassof
+from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xkwds, _xkwds_not
-from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _float, _invalid_, \
-                             _N_, _n_a_, _not_, _NS_, _PLUS_, _SPACE_, \
-                             _Y_, _Z_, _0_0, _0_5, _N_90_0, _180_0
+from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _invalid_, _n_a_, \
+                             _not_, _N_, _NS_, _PLUS_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.08.10'
+__version__ = '22.09.12'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
