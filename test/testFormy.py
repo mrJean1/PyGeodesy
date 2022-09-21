@@ -4,19 +4,19 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '22.06.20'
+__version__ = '22.09.21'
 
 from base import TestsBase
 
-from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
+from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
                       excessAbc, excessGirard, excessLHuilier, excessKarney, \
                       excessQuad, flatLocal, flatPolar, formy, hartzell, \
                       haversine, heightOf, horizon, hubeny, IntersectionError, \
-                      intersections2, isantipode, isantipode_, LatLon_, \
-                      latlonDMS, LimitError, limiterrors, map1, parseDMS, \
-                      radical2, thomas, Vector3d as V3, vincentys
+                      intersections2, isantipode, isantipode_, isnormal, isnormal_, \
+                      LatLon_, latlonDMS, LimitError, limiterrors, map1, normal, \
+                      parseDMS, radical2, thomas, Vector3d as V3, vincentys
 
 from math import degrees, radians
 
@@ -53,7 +53,7 @@ class Tests(TestsBase):
         # allow 0.4% margin
         self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4)
         # same as flatLocal
-        self.test('hubeny', hubeny, flatLocal)
+        self.test('hubeny' + t, hubeny, flatLocal, nt=1)
 
     def testDistances2(self, t, lat1, lon1, lat2, lon2, x=0, **datum):
         # allow 0.1% margin
@@ -71,7 +71,7 @@ class Tests(TestsBase):
         # allow 0.4% margin
         self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4, **datum)
         # same as flatLocal
-        self.test('hubeny', hubeny, flatLocal)
+        self.test('hubeny' + t, hubeny, flatLocal, nt=1)
 
     def testFormy(self):
 
@@ -98,13 +98,25 @@ class Tests(TestsBase):
         self.test('excessKarney',   degrees(excessKarney(70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
         self.test('excessQuad',     degrees(excessQuad(  70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
 
-        self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
-        self.test('isantipode2', isantipode(-89, -179,  89,  1), True)
-        self.test('isantipode3', isantipode(-89, -179, -89, -1), False)
+        self.test('isantipode1', isantipode( 89,  179, -89,  -1), True)
+        self.test('isantipode2', isantipode(-89, -179,  89,   1), True)
+        self.test('isantipode3', isantipode(-89, -179, -89,  -1), False)
+        self.test('isantipode4', isantipode(  0,  -45, -0., 135), True)
 
-        self.test('isantipode4', isantipode_(*map1(radians,  89,  179, -89, -1)), True)
-        self.test('isantipode5', isantipode_(*map1(radians, -89, -179,  89,  1)), True)
-        self.test('isantipode6', isantipode_(*map1(radians, -89, -179, -89, -1)), False)
+        self.test('isantipode5', isantipode_(*map1(radians,  89,  179, -89,  -1)), True)
+        self.test('isantipode6', isantipode_(*map1(radians, -89, -179,  89,   1)), True)
+        self.test('isantipode7', isantipode_(*map1(radians, -89, -179, -89,  -1)), False)
+        self.test('isantipode8', isantipode_(*map1(radians,   0,  -45, -0., 135)), True)
+
+        self.test('isnormal1', isnormal( 90, -180), True)
+        self.test('isnormal2', isnormal(-99,  180), False)
+        self.test('isnormal3', isnormal(-0.,  180), True)
+        self.test('isnormal4', isnormal(-89,  179, eps=1), True)
+
+        self.test('isnormal5', isnormal_( PI_2, -PI), True)
+        self.test('isnormal6', isnormal_(-PI,    PI), False)
+        self.test('isnormal7', isnormal_(-0.,    PI), True)
+        self.test('isnormal8', isnormal_(-PI_2+0.1, PI-0.1, eps=0.1), True)
 
         pov, los = V3(1e7, 1e7, 1e7), V3(-0.7274, -0.3637, -0.5819)
         self.test('hartzell',    hartzell(pov, los).toStr(prec=6),                '(1125440.234789, 5562720.117395, 2900596.195524)')
@@ -121,6 +133,11 @@ class Tests(TestsBase):
         self.test('horizon10Km',  horizon(10000), '357099.672', fmt='%.3f')
         self.test('horizon30Kft', horizon(10000, refraction=True), '392310.704', fmt='%.3f')
         self.test('horizon10Kft', horizon( 3000, refraction=True), '214877.422', fmt='%.3f')
+
+        self.test('normal1', normal(-89,  179), (-89.0,  179.0))
+        self.test('normal2', normal( 99,    0), ( 81.0,  180.0))
+        self.test('normal3', normal( 99, -199), ( 81.0,  -19.0))
+        self.test('normal4', normal(-99,  180), (-81.0,    0.0), nt=1)
 
         #              lat          lon
         Auckland   = -36.8485,    174.7633
@@ -150,7 +167,7 @@ class Tests(TestsBase):
                                  parseDMS('17  5 21.296'), parseDMS('85 31 54.631'),
                                  x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
 
-        self.test(intersections2.__name__, intersections2.__module__, formy.__name__, nl=1)
+        self.test(intersections2.__name__, intersections2.__module__, formy.__name__)
         for datum in (None, R_M, Datums.WGS84):
             self.testIntersections2(datum)
 

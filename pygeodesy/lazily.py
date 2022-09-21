@@ -142,8 +142,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
                                  'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
                                  'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_QM', 'R_VM',
-                                 'float_', 'isclose', 'isfinite', 'isinf', 'isint0',
-                                 'isnan', 'isnear0', 'isnear1', 'isneg0', 'isninf', 'isnon0',
+                                 'float_', 'float0', 'isclose', 'isfinite', 'isinf', 'isint0',
+                                 'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg0', 'isninf', 'isnon0',
                                  'remainder'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('EPS1_2', 'MANTIS', 'OK',  # DEPRECATED constants
@@ -202,8 +202,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'hartzell', 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
-                                 'intersections2', 'isantipode', 'isantipode_',
-                                 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
+                                 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
+                                 'latlon2n_xyz', 'normal', 'normal_', 'n_xyz2latlon', 'n_xyz2philam',
                                  'opposing', 'opposing_', 'philam2n_xyz',
                                  'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
@@ -409,7 +409,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.09.16'
+__version__ = '22.09.21'
 
 
 def _ALL_OTHER(*objs):

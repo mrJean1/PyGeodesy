@@ -20,7 +20,8 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, hartzell, haversine, isantipode, \
-                            latlon2n_xyz, _spherical_datum, thomas_, vincentys
+                            isnormal, normal, philam2n_xyz, \
+                            _spherical_datum, thomas_, vincentys
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _m_, _no_, _overlap_, _point_
 from pygeodesy.iters import PointsIter, points2
@@ -29,7 +30,7 @@ from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
-                            property_doc_, property_RO, _update_all
+                            property_RO, _update_all
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, \
                             Scalar, Scalar_
@@ -41,7 +42,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.09.12'
+__version__ = '22.09.21'
 
 
 class LatLonBase(_NamedBase):
@@ -500,7 +501,7 @@ class LatLonBase(_NamedBase):
 
            @arg other: The other point (C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None} for the
-                          major radius of this point's datum/ellipsoid.
+                          equatorial radius of this point's datum/ellipsoid.
            @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -528,9 +529,8 @@ class LatLonBase(_NamedBase):
            Geographical_distance#Polar_coordinate_flat-Earth_formula>}formula.
 
            @arg other: The other point (C{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}) or C{None}
-                          for the mean radius of this point's datum
-                          ellipsoid.
+           @kwarg radius: Mean earth radius (C{meter}) or C{None} for the
+                          mean radius of this point's datum ellipsoid.
            @kwarg wrap: Wrap and L{pygeodesy.unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -610,7 +610,7 @@ class LatLonBase(_NamedBase):
         '''
         return _MODS.fmath.favg(self.height, other.height, f=f)
 
-    @property_doc_(''' the height (C{meter}).''')
+    @Property
     def height(self):
         '''Get the height (C{meter}).
         '''
@@ -689,7 +689,7 @@ class LatLonBase(_NamedBase):
                     tolerance, C{False} otherwise.
         '''
         return isantipode(self.lat,  self.lon,
-                          other.lat, other.lon, eps=eps)
+                         other.lat, other.lon, eps=eps)
 
     @Property_RO
     def isEllipsoidal(self):
@@ -743,6 +743,16 @@ class LatLonBase(_NamedBase):
         return self.height == other.height and self.isequalTo(other, eps=eps)
 
     @Property_RO
+    def isnormal(self):
+        '''Return C{True} if this point is normal (C{bool}),
+           meaning C{abs(lat) <= 90} and C{abs(lon) <= 180}.
+
+           @see: Functions L{pygeodesy.isnormal} and
+                 L{pygeodesy.normal}.
+        '''
+        return isnormal(self.lat, self.lon, eps=0)
+
+    @Property_RO
     def isSpherical(self):
         '''Check whether this point is spherical (C{bool} or C{None} if unknown).
         '''
@@ -754,7 +764,7 @@ class LatLonBase(_NamedBase):
         '''
         return radians(self.lon)
 
-    @property_doc_(''' the latitude (C{degrees90}).''')
+    @Property
     def lat(self):
         '''Get the latitude (C{degrees90}).
         '''
@@ -834,7 +844,7 @@ class LatLonBase(_NamedBase):
         '''
         return self.latlon.to3Tuple(self.height)
 
-    @property_doc_(''' the longitude (C{degrees180}).''')
+    @Property
     def lon(self):
         '''Get the longitude (C{degrees180}).
         '''
@@ -909,6 +919,19 @@ class LatLonBase(_NamedBase):
         s = r(s).toLatLon(**kwds) if s is not c else p
         e = r(e).toLatLon(**kwds) if e is not c else p
         return t.dup(closest=p, start=s, end=e)
+
+    def normal(self):
+        '''Normalize this point to C{abs(lat) <= 90} and C{abs(lon) <= 180}.
+
+           @return: C{True} if this point was I{normal}, C{False}
+                    if it wasn't (but is now).
+
+           @see: Property L{isnormal} and function L{pygeodesy.normal}.
+        '''
+        n = self.isnormal
+        if not n:
+            self.latlon = normal(self.lat, self.lon)
+        return n
 
     @Property_RO
     def _N_vector(self):
@@ -1355,7 +1378,7 @@ class LatLonBase(_NamedBase):
         '''
         r = self._vector3tuple
         if Vector is not None:
-            r = self._xnamed(Vector(r.x, r.y, r.z, **Vector_kwds))
+            r = Vector(*r, **_xkwds(Vector_kwds, name=self.name))
         return r
 
     def toVector3d(self):
@@ -1385,7 +1408,7 @@ class LatLonBase(_NamedBase):
     def _vector3tuple(self):
         '''(INTERNAL) Cache for L{toVector}.
         '''
-        return latlon2n_xyz(self.lat, self.lon, name=self.name)
+        return philam2n_xyz(self.phi, self.lam, name=self.name)
 
     def vincentysTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using
@@ -1428,11 +1451,18 @@ class LatLonBase(_NamedBase):
         return self.xyz.to4Tuple(self.height)
 
 
-def _isequalTo(point1, point2, eps=EPS):  # in .ellipsoidalBaseDI._intersect3._on
+def _isequalTo(point1, point2, eps=EPS):  # in .ellipsoidalBaseDI._intersect3._on, .formy
     '''(INTERNAL) Compare point lat-/lon without type.
     '''
-    return max(abs(point1.lat - point2.lat),
-               abs(point1.lon - point2.lon)) < eps
+    return abs(point1.lat - point2.lat) <= eps and \
+           abs(point1.lon - point2.lon) <= eps
+
+
+def _isequalTo_(point1, point2, eps=EPS):  # PYCHOK in .formy
+    '''(INTERNAL) Compare point phi-/lam without type.
+    '''
+    return abs(point1.phi - point2.phi) <= eps and \
+           abs(point1.lam - point2.lam) <= eps
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
@@ -1441,8 +1471,8 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
        perimeter intersection of three circles.
 
        @note: The B{C{radius}} is only needed for both the n-vectorial
-              and sphericalTrigonometry C{LatLon.distanceTo} methods and
-              silently ignored by the C{ellipsoidalExact} C{-GeodSolve},
+              and C{sphericalTrigonometry.LatLon.distanceTo} methods and
+              silently ignored by the C{ellipsoidalExact}, C{-GeodSolve},
               C{-Karney} and C{-Vincenty.LatLon.distanceTo} methods.
     '''
     r1 = Distance_(distance1=d1)
@@ -1480,8 +1510,8 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
         p1, r1, p2, r2, p3, r3 = p2, r2, p3, r3, p1, r1  # rotate
 
     if t:  # get min, max, points and count ...
-        t = tuple(sorted(t))
-        n = len(t),  # as tuple
+        t =  tuple(sorted(t))
+        n = (len(t),)  # as tuple
         # ... or for a single trilaterated result,
         # min *is* max, min- *is* maxPoint and n=1
         return Trilaterate5Tuple(t[0] + t[-1] + n)  # *(t[0] + ...)

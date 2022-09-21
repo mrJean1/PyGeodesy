@@ -22,8 +22,8 @@ other than C{"std"}, zones C{'A'} and C{'Y'} are used for negative, west longitu
 '''
 
 # from pygeodesy.basics import neg as _neg  # from .dms
-from pygeodesy.constants import EPS, EPS0, _EPSmin as _Tol90, _0_0, \
-                               _0_5, _1_0, _2_0, _90_0
+from pygeodesy.constants import EPS, EPS0, _EPSmin as _Tol90, \
+                                isnear90, _0_0, _0_5, _1_0, _2_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, _neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
@@ -37,7 +37,7 @@ from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
 from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
-from pygeodesy.units import Meter, Lat, Scalar, Scalar_
+from pygeodesy.units import Float, Float_, Meter, Lat
 from pygeodesy.utily import degrees90, degrees180, sincos2d
 from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
                                 _to3zBhp, _to3zll, _UPS_BANDS as _Bands, \
@@ -47,23 +47,18 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.09.12'
+__version__ = '22.09.20'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
-_K0_UPS  =  Scalar(0.994)  # central UPS scale factor
-_K1_UPS  =  Scalar(_1_0)   # rescale point scale factor
-
-
-def _isnear90(a):
-    # Return C{True} is a is near 90 (degrees)
-    return abs(a - _90_0) < _Tol90
+_K0_UPS  =  Float(_K0_UPS= 0.994)  # scale factor at central meridian
+_K1_UPS  =  Float(_K1_UPS=_1_0)    # rescale point scale factor
 
 
 def _scale(E, rho, tau):
     # compute the point scale factor, ala Karney
     t = hypot1(tau)
-    return Scalar((rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
+    return Float(scale=(rho / E.a) * t * sqrt0(E.e21 + E.e2 / t**2))
 
 
 def _toBand(lat, lon):  # see utm._toBand
@@ -203,14 +198,14 @@ class Ups(UtmUpsBase):
 
            @raise UPSError: Invalid B{C{scale}}.
         '''
-        s0 = Scalar_(scale0=scale0, Error=UPSError, low=EPS)  # <= 1.003 or 1.0016?
+        s0 = Float_(scale0=scale0, Error=UPSError, low=EPS)  # <= 1.003 or 1.0016?
         u  = toUps8(abs(Lat(lat)), _0_0, datum=self.datum, Ups=_Ups_K1)
         k  = s0 / u.scale
         if self.scale0 != k:
             _update_all(self)
             self._band = NN  # force re-compute
             self._latlon = self._utm = None
-            self._scale0 = Scalar(scale0=k)
+            self._scale0 = Float(scale0=k)
 
     def toLatLon(self, LatLon=None, unfalse=True, **LatLon_kwds):
         '''Convert this UPS coordinate to an (ellipsoidal) geodetic point.
@@ -433,7 +428,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     S = p == _S_  # at south[pole]
 
     a = -lat if S else lat
-    P = _isnear90(a)  # at pole
+    P = isnear90(a, eps90=_Tol90)  # at pole
 
     t = tan(radians(a))
     T = E.es_taupf(t)
@@ -501,7 +496,7 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''
     z, lat, lon = _to3zll(*parseDMS2(lat, lon))
-    if _BZ_UPS and lon < 0 and _isnear90(abs(lat)):  # DMA TM8358.1 only ...
+    if _BZ_UPS and lon < 0 and isnear90(abs(lat), eps90=_Tol90):  # DMA TM8358.1 only ...
         lon = 0  # ... zones B and Z at 90°S and 90°N, see also GeoConvert
 
     if lat < _UPS_LAT_MIN:  # includes 30' overlap

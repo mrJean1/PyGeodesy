@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, sincos2d, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.09.12'
+__version__ = '22.09.20'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -407,19 +407,19 @@ class LatLonNvectorBase(LatLonBase):
        and spherical C{LatLon} classes.
     '''
 
-    def _update(self, updated, *attrs, **kwds):  # PYCHOK _Nv=None
+    def _update(self, updated, *attrs, **setters):  # PYCHOK _Nv=None
         '''(INTERNAL) Zap cached attributes if updated.
 
            @see: C{ellipsoidalNvector.LatLon} and C{sphericalNvector.LatLon}
                  for the special case of B{C{_Nv}}.
         '''
         if updated:
-            _Nv = _xkwds_pop(kwds, _Nv=None)
+            _Nv = _xkwds_pop(setters, _Nv=None)
             if _Nv is not None:
                 if _Nv._fromll is not None:
                     _Nv._fromll = None
                 self._Nv = None
-            LatLonBase._update(self, updated, *attrs)
+            LatLonBase._update(self, updated, *attrs, **setters)
 
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
 #       '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.

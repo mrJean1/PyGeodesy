@@ -856,6 +856,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Normalize this point to <code>abs(lat) &lt;= 90</code> and 
+      <code>abs(lon) &lt;= 180</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2" class="summary-sig-name">philam2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return this point's lat- and longitude in <code>radians</code>, 
@@ -1379,7 +1397,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#height" class="summary-name">height</a><br />
-      Class <code>property</code> with retrievable name.
+      Get the height (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -1412,6 +1430,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal" class="summary-name">isnormal</a><br />
+      Return <code>True</code> if this point is normal (<code>bool</code>),
+      meaning <code>abs(lat) &lt;= 90</code> and <code>abs(lon) &lt;= 
+      180</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#lam" class="summary-name">lam</a><br />
       Get the longitude (<b><code>radians</code></b>).
     </td>
@@ -1421,7 +1449,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#lat" class="summary-name">lat</a><br />
-      Class <code>property</code> with retrievable name.
+      Get the latitude (<code>degrees90</code>).
     </td>
   </tr>
 <tr>
@@ -1449,7 +1477,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#lon" class="summary-name">lon</a><br />
-      Class <code>property</code> with retrievable name.
+      Get the longitude (<code>degrees180</code>).
     </td>
   </tr>
 <tr>
@@ -2504,7 +2532,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the major radius of this point's datum/ellipsoid.</li>
+          the equatorial radius of this point's datum/ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">pygeodesy.unroll180</a> longitudes 
           (<code>bool</code>).</li>
@@ -2848,7 +2876,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
-          the major radius of this point's datum/ellipsoid.</li>
+          the equatorial radius of this point's datum/ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">pygeodesy.unroll180</a> longitudes 
           (<code>bool</code>).</li>
@@ -3164,6 +3192,36 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.vector3d-module.html#nearestOn6" 
         class="link">pygeodesy.nearestOn6</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="normal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normal</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Normalize this point to <code>abs(lat) &lt;= 90</code> and 
+  <code>abs(lon) &lt;= 180</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if this point was <i>normal</i>, 
+          <code>False</code> if it wasn't (but is now).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#isnormal" 
+        class="link">isnormal</a> and function <a 
+        href="pygeodesy.formy-module.html#normal" 
+        class="link">pygeodesy.normal</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -4193,7 +4251,7 @@ class="link">EcefKarney</a>), <i>lazily</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>Class <code>property</code> with retrievable name.</p>
+  <p>Get the height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
@@ -4203,6 +4261,10 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>)</span>
         - Set the height (<code>meter</code>).
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -4283,6 +4345,39 @@ class="link">EcefKarney</a>), <i>lazily</i>.
   </dl>
 </td></tr></table>
 </div>
+<a name="isnormal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isnormal</h3>
+  <p>Return <code>True</code> if this point is normal (<code>bool</code>), 
+  meaning <code>abs(lat) &lt;= 90</code> and <code>abs(lon) &lt;= 
+  180</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isnormal(<span class="summary-sig-arg">self</span>)</span>
+        - Return <code>True</code> if this point is normal (<code>bool</code>), 
+meaning <code>abs(lat) &lt;= 90</code> and <code>abs(lon) &lt;= 180</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#isnormal" 
+        class="link">pygeodesy.isnormal</a> and <a 
+        href="pygeodesy.formy-module.html#normal" 
+        class="link">pygeodesy.normal</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="lam"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4313,7 +4408,7 @@ class="link">EcefKarney</a>), <i>lazily</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lat</h3>
-  <p>Class <code>property</code> with retrievable name.</p>
+  <p>Get the latitude (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>)</span>
@@ -4323,6 +4418,10 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span>
         - Set the latitude (<code>str[N|S]</code> or <code>degrees</code>).
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -4391,7 +4490,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lon</h3>
-  <p>Class <code>property</code> with retrievable name.</p>
+  <p>Get the longitude (<code>degrees180</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>)</span>
@@ -4401,6 +4500,10 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lon</span>)</span>
         - Set the longitude (<code>str[E|W]</code> or <code>degrees</code>).
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -4581,7 +4684,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:38 2022
+    Generated by Epydoc 3.0.1 on Wed Sep 21 12:17:22 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

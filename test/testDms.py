@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '22.02.03'
+__version__ = '22.09.20'
 
 from base import TestsBase
 
@@ -93,9 +93,9 @@ class Tests(TestsBase):
             self.test('parseDMS', str(x), str(x))
         rangerrors(False)
         try:
-            self.test('parseDMS', parseDMS(-91, clip=90), RangeError.__name__)
+            self.test('parseDMS', parseDMS(-91, clip=90), -90.0)
         except RangeError as x:
-            self.test('parseDMS', str(x), str(x))
+            self.test('parseDMS', repr(x), -90.0)
         rangerrors(r)
 
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')

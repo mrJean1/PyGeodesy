@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.08.18'
+__version__ = '22.09.20'
 
 from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
@@ -70,15 +70,6 @@ class Tests(TestsBase):
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
-        self.test('isequalTo', p.isequalTo(q), False)
-
-        a = p.antipode()
-        self.test('antipode1', a, '52.205°S, 179.881°W')
-        self.test('antipode2', a.isantipodeTo(p), True)
-        b = a.antipode()
-        self.test('antipode3', b, '52.205°N, 000.119°E')
-        self.test('antipode4', a.isantipodeTo(b), True)
-        self.test('antipode5', b, p)
 
         if hasattr(LatLon, 'initialBearingTo'):
             b = p.initialBearingTo(q)

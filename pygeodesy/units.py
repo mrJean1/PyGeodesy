@@ -12,8 +12,8 @@ from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, \
                                _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _AssertionError, _IsnotError, RangeError, \
-                              TRFError, UnitError, _xkwds_popitem
+from pygeodesy.errors import _AssertionError, _IsnotError, LimitError, \
+                              RangeError, TRFError, UnitError, _xkwds_popitem
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, \
                              _feet_, _height_, _lam_, _lat_, \
@@ -30,7 +30,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.09.15'
+__version__ = '22.09.20'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -197,16 +197,16 @@ class Degrees(Float):
             name, arg = _xkwds_popitem(name_arg)
         try:
             d = Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
-                                   name=name, Error=Error)
+                                                  Error=Error,  name=name)
             if wrap:
                 w = wrap(d)
                 if w != d:
                     d = Float.__new__(cls, arg=w, name=name, Error=Error)
             return d
-        except RangeError as x:
-            t, E = str(x), type(x)
+        except (LimitError, RangeError) as x:
+            E, t = type(x), str(x)
         except (TypeError, ValueError) as x:
-            t, E = str(x), Error
+            E, t = Error, str(x)
         raise _Error(cls, arg, name=name, Error=E, txt=t)
 
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
@@ -301,11 +301,11 @@ class Radians(Float):
             name, arg = _xkwds_popitem(name_arg)
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
-                                      name=name, Error=Error)
-        except RangeError as x:
-            t, E = str(x), type(x)
+                                                     Error=Error,  name=name)
+        except (LimitError, RangeError) as x:
+            E, t = type(x), str(x)
         except (TypeError, ValueError) as x:
-            t, E = str(x), Error
+            E, t = Error, str(x)
         raise _Error(cls, arg, name=name, Error=E, txt=t)
 
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
@@ -667,6 +667,7 @@ class Meter(Float):
         return self.toRepr(std=self._std_repr)
 
 
+# _1Å   = Meter(     _Å= 1e-10)  # PyCHOK 1 Ångstrōm
 _1um    = Meter(   _1um= 1.e-6)  # PYCHOK 1 micrometer in .mgrs
 _10um   = Meter(  _10um= 1.e-5)  # PYCHOK 10 micrometer in .osgr
 _1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...

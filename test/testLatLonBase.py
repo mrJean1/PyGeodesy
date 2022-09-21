@@ -4,7 +4,7 @@
 # Test LatLon base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.07.01'
+__version__ = '22.09.21'
 
 from base import GeodSolve, TestsBase
 
@@ -31,6 +31,24 @@ class Tests(TestsBase):
         self.test('latlonheight', q.latlonheight, p.latlonheight)
         self.test('phimlam',       q.philam, p.philam)
         self.test('phimlamheight', q.philamheight, p.philamheight)
+
+        q = LatLon(48.857, 2.351)
+        self.test('isequalTo', p.isequalTo(q), False)
+
+        a = p.antipode()
+        self.test('antipode1', a, '52.205°S, 179.881°W')
+        self.test('antipode2', a.isantipodeTo(p), True)
+        b = a.antipode()
+        self.test('antipode3', b, '52.205°N, 000.119°E')
+        self.test('antipode4', a.isantipodeTo(b), True)
+        self.test('antipode5', b, p)
+
+        self.test('isnormal1', q.isnormal, True)
+        # XXX force lat, lon around clip/Limit-/RangeErrors
+        q._update(True, _lat=q.lat + 99, _lon=q.lon - 188)
+        self.test('isnormal2', q.isnormal, False)
+        self.test('normal1', q.normal(), False)
+        self.test('normal2', q.normal(), True)
 
         t = precision(F_DMS, 0)
         p = LatLon(51.4778, -0.0016)

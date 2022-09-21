@@ -61,7 +61,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 from pygeodesy.basics import copysign0, isodd, issequence, isstr, map2, \
                              neg as _neg  # in .ups
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
-from pygeodesy.errors import ParseError, _parseX, RangeError, _rangerrors, _TypeError, \
+from pygeodesy.errors import ParseError, _parseX, RangeError, rangerrors, _TypeError, \
                             _ValueError, _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
                              _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, \
@@ -78,7 +78,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.09.14'
+__version__ = '22.09.20'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -269,7 +269,7 @@ def _clip(angle, limit, units):
     '''(INTERNAL) Helper for C{clipDegrees} and C{clipRadians}.
     '''
     c = min(limit, max(-limit, angle))
-    if c != angle and _rangerrors:
+    if c != angle and rangerrors():
         t = _SPACE_(fstr(angle, prec=6, ints=True), _beyond_,
                     copysign0(limit, angle), units)
         raise RangeError(t, txt=None)

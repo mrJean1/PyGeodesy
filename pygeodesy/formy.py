@@ -7,14 +7,14 @@ u'''Formulary of basic geodesy functions and approximations.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _umod_360, isnon0 as _isnon0, _0_0, _0_125, \
-                               _0_25, _0_5, _1_0, _2_0, _4_0, _32_0, _90_0, \
-                               _180_0, _360_0
+                               _umod_360, float0, isnon0, remainder, _0_0, \
+                               _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
+                               _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.errors import _AssertionError, IntersectionError, \
-                              LimitError, _limiterrors, _ValueError
+                              LimitError, limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fdot, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum_, unstr
 from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
@@ -27,45 +27,60 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
 from pygeodesy.units import Degrees_, Distance, Distance_, Height, Lam_, Lat, \
                             Lon, Phi_, Radians, Radians_, Radius, Radius_, \
                             Scalar, _100km
-from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
-                            m2degrees, sincos2, sincos2_, tan_2, unroll180, \
-                            unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
+from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, \
+                            sincos2, sincos2_, sincos2d_, unroll180, unrollPI
 
-from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
+from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.09.14'
+__version__ = '22.09.21'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
 
 
-def antipode(lat, lon):
+def _anti2(a, b, n_2, n, n2):
+    '''(INTERNAL) Helper for C{antipode} and C{antipode_}.
+    '''
+    r = remainder(a, n) if fabs(a) > n_2 else a
+    if r == a:
+        r = -r
+        b += n
+    if fabs(b) > n:
+        b = remainder(b, n2)
+    return float0(r, b)
+
+
+def antipode(lat, lon, name=NN):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{degrees}.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
-       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: Functions L{antipode_} and L{normal} and U{Geosphere
+             <https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return LatLon2Tuple(-wrap90(lat), wrap180(lon + _180_0))
+    return LatLon2Tuple(*_anti2(lat, lon, _90_0, _180_0, _360_0), name=name)
 
 
-def antipode_(phi, lam):
+def antipode_(phi, lam, name=NN):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{radians}.
 
        @arg phi: Latitude (C{radians}).
        @arg lam: Longitude (C{radians}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
-       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: Functions L{antipode} and L{normal_} and U{Geosphere
+             <https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return PhiLam2Tuple(-wrapPI_2(phi), wrapPI(lam + PI))
+    return PhiLam2Tuple(*_anti2(phi, lam, PI_2, PI, PI2), name=name)
 
 
 def _area_or_(func_, lat1, lat2, radius, d_lon, unused):
@@ -226,7 +241,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
              Distance/AndoyerLambert.php>}.
     '''
     s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
-    if _isnon0(c1) and _isnon0(c2):
+    if isnon0(c1) and isnon0(c2):
         E = _ellipsoidal(datum, cosineAndoyerLambert_)
         if E.f:  # ellipsoidal
             r2 = atan2(E.b_a * s2, c2)
@@ -235,7 +250,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
             r = acos1(s1 * s2 + c1 * c2 * c21)
             if r:
                 sr, _, sr_2, cr_2 = sincos2_(r, r * _0_5)
-                if _isnon0(sr_2) and _isnon0(cr_2):
+                if isnon0(sr_2) and isnon0(cr_2):
                     s  = (sr + r) * ((s1 - s2) / sr_2)**2
                     c  = (sr - r) * ((s1 + s2) / cr_2)**2
                     r += (c - s) * E.f * _0_125
@@ -293,11 +308,11 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
              Distance/ForsytheCorrection.php>}.
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
-    if r and _isnon0(c1) and _isnon0(c2):
+    if r and isnon0(c1) and isnon0(c2):
         E = _ellipsoidal(datum, cosineForsytheAndoyerLambert_)
         if E.f:  # ellipsoidal
             sr, cr, s2r, _ = sincos2_(r, r * _2_0)
-            if _isnon0(sr) and abs(cr) < EPS1:
+            if isnon0(sr) and fabs(cr) < EPS1:
                 s = (s1 + s2)**2 / (1 + cr)
                 t = (s1 - s2)**2 / (1 - cr)
                 x = s + t
@@ -460,8 +475,8 @@ def equirectangular_(lat1, lon1, lat2, lon2,
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
 
-    if limit and _limiterrors \
-             and max(abs(d_lat), abs(d_lon)) > limit > 0:
+    if limit and limit > 0 and limiterrors() and (fabs(d_lat) > limit or
+                                                  fabs(d_lon) > limit):
         t = unstr(equirectangular_.__name__,
                   lat1, lon1, lat2, lon2, limit=limit)
         raise LimitError('delta exceeds limit', txt=t)
@@ -859,7 +874,7 @@ def flatPolar_(phi2, phi1, lam21):
     elif b > 0:
         b  = b / a  # /= chokes PyChecker
         c  = b * cos(lam21) * _2_0
-        c  = fsum_(_1_0, b**2, -abs(c))
+        c  = fsum_(_1_0, b**2, -fabs(c))
         a *= sqrt0(c)
     return a
 
@@ -1145,10 +1160,12 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
        @return: C{True} if points are antipodal within the
                 B{C{eps}} tolerance, C{False} otherwise.
 
-       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: Functions L{isantipode_} and L{antipode}.
     '''
-    return abs(wrap90(lat1) + wrap90(lat2)) < eps and \
-           abs(abs(wrap180(lon1) - wrap180(lon2)) % _360_0 - _180_0) < eps
+    return True if (fabs(lat1 + lat2) <= eps and
+                    fabs(lon1 + lon2) <= eps) else \
+          _MODS.latlonBase._isequalTo(antipode(lat1, lon1),
+                                        normal(lat2, lon2), eps=eps)
 
 
 def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
@@ -1164,14 +1181,48 @@ def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
        @return: C{True} if points are antipodal within the
                 B{C{eps}} tolerance, C{False} otherwise.
 
-       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+       @see: Functions L{isantipode} and L{antipode_}.
     '''
-    return abs(wrapPI_2(phi1) + wrapPI_2(phi2)) < eps and abs(
-           abs(wrapPI(lam1)   - wrapPI(lam2)) % PI2 - PI) < eps
+    return True if (fabs(phi1 + phi2) <= eps and
+                    fabs(lam1 + lam2) <= eps) else \
+          _MODS.latlonBase._isequalTo_(antipode_(phi1, lam1),
+                                         normal_(phi2, lam2), eps=eps)
+
+
+def isnormal(lat, lon, eps=0):
+    '''Check whether B{C{lat}} I{and} B{C{lon}} are within the I{normal}
+       range in C{degrees}.
+
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg eps: Optional tolerance below C{90} and C{180 degrees}.
+
+       @return: C{True} if C{(abs(B{lat}) + B{eps}) <= 90} and
+                C{(abs(B{lon}) + B{eps}) <= 180}, C{False} othwerwise.
+
+       @see: Functions L{isnormal_} and L{normal}.
+    '''
+    return (_90_0 - fabs(lat)) >= eps and (_180_0 - fabs(lon)) >= eps
+
+
+def isnormal_(phi, lam, eps=0):
+    '''Check whether B{C{phi}} I{and} B{C{lam}} are within the I{normal}
+       range in C{radians}.
+
+       @arg phi: Latitude (C{radians}).
+       @arg lam: Longitude (C{radians}).
+       @kwarg eps: Optional tolerance below C{PI/2} and C{PI radians}.
+
+       @return: C{True} if C{(abs(B{phi}) + B{eps}) <= PI/2} and
+                C{(abs(B{lam}) + B{eps}) <= PI}, C{False} othwerwise.
+
+       @see: Functions L{isnormal} and L{normal_}.
+    '''
+    return (PI_2 - fabs(phi)) >= eps and (PI - fabs(lam)) >= eps
 
 
 def latlon2n_xyz(lat, lon, name=NN):
-    '''Convert lat-, longitude to C{n-vector} (normal to the
+    '''Convert lat-, longitude to C{n-vector} (I{normal} to the
        earth's surface) X, Y and Z components.
 
        @arg lat: Latitude (C{degrees}).
@@ -1185,7 +1236,57 @@ def latlon2n_xyz(lat, lon, name=NN):
        @note: These are C{n-vector} x, y and z components,
               I{NOT} geocentric ECEF x, y and z coordinates!
     '''
-    return philam2n_xyz(radians(lat), radians(lon), name=name)
+    return _2n_xyz(name, *sincos2d_(lat, lon))
+
+
+def _normal2(a, b, n_2, n, n2):
+    '''(INTERNAL) Helper for C{normal} and C{normal_}.
+    '''
+    if fabs(b) > n:
+        b = remainder(b, n2)
+    r = remainder(a, n) if fabs(a) > n_2 else a
+    if r != a:
+        r  = -r
+        b -=  n if b > 0 else -n
+    return float0(r, b)
+
+
+def normal(lat, lon, name=NN):
+    '''Normalize a lat- I{and} longitude pair in C{degrees}.
+
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg name: Optional name (C{str}).
+
+       @return: L{LatLon2Tuple}C{(lat, lon)} with C{abs(lat) <= 90}
+                and C{abs(lon) <= 180}.
+
+       @see: Functions L{normal_} and L{isnormal}.
+    '''
+    return LatLon2Tuple(*_normal2(lat, lon, _90_0, _180_0, _360_0), name=name)
+
+
+def normal_(phi, lam, name=NN):
+    '''Normalize a lat- I{and} longitude pair in C{radians}.
+
+       @arg phi: Latitude (C{radians}).
+       @arg lam: Longitude (C{radians}).
+       @kwarg name: Optional name (C{str}).
+
+       @return: L{PhiLam2Tuple}C{(phi, lam)} with C{abs(phi) <= PI/2}
+                and C{abs(lam) <= PI}.
+
+       @see: Functions L{normal} and L{isnormal_}.
+    '''
+    return PhiLam2Tuple(*_normal2(phi, lam, PI_2, PI, PI2), name=name)
+
+
+def _2n_xyz(name, sa, ca, sb, cb):
+    '''(INTERNAL) Helper for C{latlon2n_xyz} and C{philam2n_xyz}.
+    '''
+    # Kenneth Gade eqn 3, but using right-handed
+    # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
+    return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
 
 
 def n_xyz2latlon(x, y, z, name=NN):
@@ -1200,8 +1301,7 @@ def n_xyz2latlon(x, y, z, name=NN):
 
        @see: Function L{n_xyz2philam}.
     '''
-    a, b = n_xyz2philam(x, y, z)  # PYCHOK PhiLam2Tuple
-    return LatLon2Tuple(degrees90(a), degrees180(b), name=name)
+    return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), name=name)
 
 
 def n_xyz2philam(x, y, z, name=NN):
@@ -1258,7 +1358,7 @@ def opposing_(radians1, radians2, margin=None):
 
 
 def philam2n_xyz(phi, lam, name=NN):
-    '''Convert lat-, longitude to C{n-vector} (normal to the
+    '''Convert lat-, longitude to C{n-vector} (I{normal} to the
        earth's surface) X, Y and Z components.
 
        @arg phi: Latitude (C{radians}).
@@ -1272,10 +1372,7 @@ def philam2n_xyz(phi, lam, name=NN):
        @note: These are C{n-vector} x, y and z components,
               I{NOT} geocentric ECEF x, y and z coordinates!
     '''
-    # Kenneth Gade eqn 3, but using right-handed
-    # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-    sa, ca, sb, cb = sincos2_(phi, lam)
-    return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
+    return _2n_xyz(name, *sincos2_(phi, lam))
 
 
 def _radical2(d, r1, r2):  # in .ellipsoidalBaseDI, .sphericalTrigonometry, .vector3d
@@ -1330,7 +1427,7 @@ class Radical2Tuple(_NamedTuple):
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = abs(lat1 + lat2) * _0_5
-    return cos(radians(m)) if m < _90_0 else _0_0
+    return cos(radians(m)) if m < 90 else _0_0
 
 
 def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
@@ -1395,7 +1492,7 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
              Distance/ThomasFormula.php>}.
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
-    if r and _isnon0(c1) and _isnon0(c2):
+    if r and isnon0(c1) and isnon0(c2):
         E = _ellipsoidal(datum, thomas_)
         if E.f:
             r1 = atan2(E.b_a * s1, c1)
@@ -1407,10 +1504,10 @@ def thomas_(phi2, phi1, lam21, datum=_WGS84):
 
             h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
             u = _1_0 - h
-            if _isnon0(u) and _isnon0(h):
+            if isnon0(u) and isnon0(h):
                 r = atan(sqrt0(h / u)) * _2_0  # == acos(1 - 2 * h)
                 sr, cr = sincos2(r)
-                if _isnon0(sr):
+                if isnon0(sr):
                     u = 2 * (sj * ck)**2 / u
                     h = 2 * (sk * cj)**2 / h
                     x = u + h

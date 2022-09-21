@@ -33,7 +33,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.09.03'
+__version__ = '22.09.20'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -485,17 +485,19 @@ class _NamedBase(_Named):
 #           s = super(self.__class__, self).__str__()
 #       return s
 
-    def _update(self, updated, *attrs, **Property_RO_setters):
-        '''(INTERNAL) Zap cached instance attributes and overwrite L{Property_RO} values.
+    def _update(self, updated, *attrs, **setters):
+        '''(INTERNAL) Zap cached instance attributes and overwrite C{__dict__} or L{Property_RO} values.
         '''
         u = _update_all(self, *attrs) if updated else 0
-        if Property_RO_setters:
+        if setters:
+            d = self.__dict__
             # double-check that setters are Property_RO's
-            for n, v in Property_RO_setters.items():
-                if not _hasProperty(self, n, Property_RO):
+            for n, v in setters.items():
+                if n in d or _hasProperty(self, n, Property_RO):
+                    d[n] = v
+                else:
                     raise _AssertionError(n, v, txt=repr(self))
-            self.__dict__.update(Property_RO_setters)
-            u += len(Property_RO_setters)
+            u += len(setters)
         return u
 
 

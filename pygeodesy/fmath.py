@@ -9,8 +9,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _isfinite, isnear0, remainder as _remainder, \
-                               _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, _2_0, \
-                               _2_3rd, _3_0
+                               _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
+                               _2_0, _2_3rd, _3_0
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
 from pygeodesy.fsums import _2float, _Powers, Fsum, fsum, fsum1_, _pow_op_, \
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.09.14'
+__version__ = '22.09.21'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -834,7 +834,7 @@ def norm2(x, y):
     '''
     h = hypot(x, y)
     try:
-        return x / h, y / h
+        return (x / h, y / h) if h else (_0_0, _0_0)
     except Exception as e:
         raise _xError(e, x=x, y=y, h=h)
 
@@ -852,7 +852,7 @@ def norm_(*xs):
     h = hypot_(*xs)
     try:
         for i, x in enumerate(xs):
-            yield x / h
+            yield (x / h) if h else _0_0
     except Exception as e:
         raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
 

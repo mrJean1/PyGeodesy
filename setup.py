@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.09.15'
+__version__ = '22.09.20'
 
 
 def _c2(*names):
@@ -81,7 +81,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
-             'precision-running-summation', 'precision-square=root', 'precision-summation',
+             'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'Rhumb', 'RhumbSolve',

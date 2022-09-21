@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.09.16'
+__version__ = '22.09.20'
 
 
 def _Float(**name_arg):
@@ -72,6 +72,13 @@ def _float(f):  # in .datums, .ellipsoids, ...
     '''
     f = float(f)
     return _floats.setdefault(f, f)  # PYCHOK del _floats
+
+
+def float0(*xs):
+    '''Yield as C{B{x}s} as a non-NEG0 C{float}.
+    '''
+    for x in xs:
+        yield float(x) or _0_0
 
 
 def _float0(f):  # in .resections, .vector3dBase, ...
@@ -176,7 +183,7 @@ EPS4      = _Float( EPS4   = EPS * _4_0)     # PYCHOK ≈ 8.881784197001e-16
 # _1EPS   = _Float(_1EPS   =_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
 _1_EPS    = _Float(_1_EPS  =_1_0 / EPS)      # PYCHOK = 4503599627370496.0
 # _2_EPS  = _Float(_2_EPS  =_2_0 / EPS)      # PYCHOK = 9007199254740992.0
-_EPS4e8   = _Float(_EPS4e8 = EPS4 * 1e8)     # PYCHOK ≈ 8.881784197001e-08
+_EPS4e8   = _Float(_EPS4e8 = EPS4 * 1.e8)    # PYCHOK ≈ 8.881784197001e-08
 _EPSmin   = _Float(_EPSmin = sqrt(MIN))      # PYCHOK = 1.49166814624e-154
 _EPSqrt   = _Float(_EPSqrt = sqrt(EPS))      # PYCHOK = 1.49011611938e5-08
 _EPStol   = _Float(_EPStol =_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
@@ -191,7 +198,7 @@ _1_64th   = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
 _1_3rd    = _Float(_1_3rd  =_1_0 /  _3_0)  # PYCHOK in .fmath
 _2_3rd    = _Float(_2_3rd  =_2_0 /  _3_0)  # PYCHOK in .fmath
 
-_K0_UTM   = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale, central meridian
+_K0_UTM   = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2 = _Float(_1SQRT2 =sqrt(_2_0) + 1)
@@ -313,17 +320,30 @@ def isnear0(x, eps0=EPS0):
     return bool(eps0 > x > -eps0)
 
 
-def isnear1(x, eps0=EPS0):
+def isnear1(x, eps1=EPS0):
     '''Is B{C{x}} near one within a tolerance?
 
        @arg x: Value (C{scalar}).
-       @kwarg eps0: Near-one tolerance (C{EPS0}).
+       @kwarg eps1: Near-one tolerance (C{EPS0}).
 
        @return: C{isnear0(B{x} - 1)}.
 
        @see: Function L{isnear0}.
     '''
-    return isnear0(x - _1_0, eps0=eps0)
+    return isnear0(x - _1_0, eps0=eps1)
+
+
+def isnear90(x, eps90=EPS0):
+    '''Is B{C{x}} near one within a tolerance?
+
+       @arg x: Value (C{scalar}).
+       @kwarg eps90: Near-90 tolerance (C{EPS0}).
+
+       @return: C{isnear0(B{x} - 90)}.
+
+       @see: Function L{isnear0}.
+    '''
+    return isnear0(x - _90_0, eps0=eps90)
 
 
 def isneg0(x):

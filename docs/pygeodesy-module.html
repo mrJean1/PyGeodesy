@@ -242,7 +242,7 @@
   <h1 class="heading">Tests</h1>
     <p>The tests ran with Python 3.11.0rc1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0), Python 3.10.6 (with <a 
+    target="_top">geographiclib</a> 2.0), Python 3.10.7 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4, 
@@ -275,16 +275,16 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.10.6, 3.9.6 and 2.7.18.  The complete coverage 
+    4.5.4 using Python 3.10.7, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0rc1, 3.10.6 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.0rc1, 3.10.7 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;), see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>.</p>
-    <p>The tests also ran with Python 3.10.6 (and <a 
+    <p>The tests also ran with Python 3.10.7 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -298,7 +298,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.10.1-5, 3.9.1, 3.8.7, 
+    <p>Previously, the tests were run with Python 3.10.1-6, 3.9.1, 3.8.7, 
     3.7.1, 2.7.15, <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.1 
     (Python 3.6.9) and <a href="https://PyPy.org" target="_top">PyPy</a> 
     7.1.1 (Python 2.7.13) (and <a 
@@ -338,7 +338,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.10.6, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.10.7, both in 64-bit on macOS 
     12.6 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -517,7 +517,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.09.19
+        22.09.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4816,7 +4816,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>)</span><br />
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -4835,7 +4836,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode_" class="summary-sig-name">antipode_</a>(<span class="summary-sig-arg">phi</span>,
-        <span class="summary-sig-arg">lam</span>)</span><br />
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
       point in <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -7213,6 +7215,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="float0"></a><span class="summary-sig-name">float0</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Yield as <code><b>x</b>s</code> as a non-NEG0 <code>float</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">*fs</span>,
         <span class="summary-sig-arg">**sets</span>)</span><br />
       Get scalars as <code>float</code> or <i>intern</i>'ed 
@@ -7749,7 +7768,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f94700e18d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f85a0179350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8592,7 +8611,25 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear1" class="summary-sig-name">isnear1</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
+        <span class="summary-sig-arg">eps1</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
+      Is <b><code>x</code></b> near one within a tolerance?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnear90" class="summary-sig-name">isnear90</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">eps90</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
       Is <b><code>x</code></b> near one within a tolerance?</td>
           <td align="right" valign="top">
             
@@ -8648,6 +8685,48 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isnon0" class="summary-sig-name">isnon0</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">eps0</span>=<span class="summary-sig-default">4.930380657631324e-32</span>)</span><br />
       Is <b><code>x</code></b> non-zero with a tolerance?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnormal" class="summary-sig-name">isnormal</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Check whether <b><code>lat</code></b> <i>and</i> 
+      <b><code>lon</code></b> are within the <i>normal</i> range in 
+      <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isnormal_" class="summary-sig-name">isnormal_</a>(<span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Check whether <b><code>phi</code></b> <i>and</i> 
+      <b><code>lam</code></b> are within the <i>normal</i> range in 
+      <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -8905,8 +8984,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert lat-, longitude to <code>n-vector</code> (normal to the 
-      earth's surface) X, Y and Z components.</td>
+      Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
+      the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
             
             
@@ -9653,6 +9732,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Normalize a lat- <i>and</i> longitude pair in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#normal_" class="summary-sig-name">normal_</a>(<span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Normalize a lat- <i>and</i> longitude pair in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#notImplemented" class="summary-sig-name">notImplemented</a>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
@@ -10105,8 +10222,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
         <span class="summary-sig-arg">lam</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert lat-, longitude to <code>n-vector</code> (normal to the 
-      earth's surface) X, Y and Z components.</td>
+      Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
+      the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
             
             
@@ -12060,7 +12177,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.19'"><code class="variable-quote">'</code><code class="variable-string">22.9.19</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.22'"><code class="variable-quote">'</code><code class="variable-string">22.9.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13374,7 +13491,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>&nbsp;(<span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>)</span>
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13388,13 +13506,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        Functions <a href="pygeodesy.formy-module.html#antipode_" 
+        class="link">antipode_</a> and <a 
+        href="pygeodesy.formy-module.html#normal" class="link">normal</a> 
+        and <a 
         href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
@@ -13408,7 +13530,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode_</span>&nbsp;(<span class="sig-arg">phi</span>,
-        <span class="sig-arg">lam</span>)</span>
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13422,13 +13545,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        Functions <a href="pygeodesy.formy-module.html#antipode" 
+        class="link">antipode</a> and <a 
+        href="pygeodesy.formy-module.html#normal_" class="link">normal_</a>
+        and <a 
         href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
         target="_top">Geosphere</a>.
       </p>
@@ -19439,7 +19566,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f94700e18d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f85a0179350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20395,9 +20522,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>eps</code></b> tolerance, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
-        target="_top">Geosphere</a>.
+        Functions <a href="pygeodesy.formy-module.html#isantipode_" 
+        class="link">isantipode_</a> and <a 
+        href="pygeodesy.formy-module.html#antipode" 
+        class="link">antipode</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -20435,9 +20563,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>eps</code></b> tolerance, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
-        target="_top">Geosphere</a>.
+        Functions <a href="pygeodesy.formy-module.html#isantipode" 
+        class="link">isantipode</a> and <a 
+        href="pygeodesy.formy-module.html#antipode_" 
+        class="link">antipode_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -20954,7 +21083,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear1</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">eps0</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
+        <span class="sig-arg">eps1</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20966,10 +21095,41 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps0</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
+        <li><strong class="pname"><code>eps1</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>isnear0(<b>x</b> - 1)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.constants-module.html#isnear0" 
+        class="link">isnear0</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isnear90"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnear90</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">eps90</span>=<span class="sig-default">4.930380657631324e-32</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>x</code></b> near one within a tolerance?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>eps90</code></strong> - Near-90 tolerance (<code>EPS0</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>isnear0(<b>x</b> - 90)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.constants-module.html#isnear0" 
@@ -21060,6 +21220,85 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">isnear0</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isnormal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnormal</span>&nbsp;(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether <b><code>lat</code></b> <i>and</i> 
+  <b><code>lon</code></b> are within the <i>normal</i> range in 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance below <code>90</code> and <code>180 
+          degrees</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>(abs(<b>lat</b>) + <b>eps</b>) &lt;= 
+          90</code> and <code>(abs(<b>lon</b>) + <b>eps</b>) &lt;= 
+          180</code>, <code>False</code> othwerwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#isnormal_" 
+        class="link">isnormal_</a> and <a 
+        href="pygeodesy.formy-module.html#normal" class="link">normal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isnormal_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isnormal_</span>&nbsp;(<span class="sig-arg">phi</span>,
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether <b><code>phi</code></b> <i>and</i> 
+  <b><code>lam</code></b> are within the <i>normal</i> range in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Optional tolerance below <code>PI/2</code> and <code>PI 
+          radians</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code>(abs(<b>phi</b>) + <b>eps</b>) &lt;= 
+          PI/2</code> and <code>(abs(<b>lam</b>) + <b>eps</b>) &lt;= 
+          PI</code>, <code>False</code> othwerwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#isnormal" 
+        class="link">isnormal</a> and <a 
+        href="pygeodesy.formy-module.html#normal_" 
+        class="link">normal_</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -21515,7 +21754,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert lat-, longitude to <code>n-vector</code> (normal to the 
+  <p>Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to the
   earth's surface) X, Y and Z components.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -23047,6 +23286,84 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="normal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normal</span>&nbsp;(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Normalize a lat- <i>and</i> longitude pair in 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> with 
+          <code>abs(lat) &lt;= 90</code> and <code>abs(lon) &lt;= 
+          180</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#normal_" 
+        class="link">normal_</a> and <a 
+        href="pygeodesy.formy-module.html#isnormal" 
+        class="link">isnormal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="normal_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normal_</span>&nbsp;(<span class="sig-arg">phi</span>,
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Normalize a lat- <i>and</i> longitude pair in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+          class="link">PhiLam2Tuple</a><code>(phi, lam)</code> with 
+          <code>abs(phi) &lt;= PI/2</code> and <code>abs(lam) &lt;= 
+          PI</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#normal" 
+        class="link">normal</a> and <a 
+        href="pygeodesy.formy-module.html#isnormal_" 
+        class="link">isnormal_</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="notImplemented"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -24132,7 +24449,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Convert lat-, longitude to <code>n-vector</code> (normal to the 
+  <p>Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to the
   earth's surface) X, Y and Z components.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -28513,7 +28830,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep 18 15:47:35 2022
+    Generated by Epydoc 3.0.1 on Wed Sep 21 12:17:20 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

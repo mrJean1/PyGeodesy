@@ -24,7 +24,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import issubclassof, _xinstanceof
+from pygeodesy.basics import issubclassof, map2, _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _spherical_datum, _WGS84
 # from pygeodesy.dms import toDMS  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _TOL_M, \
@@ -47,7 +47,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.09.18'
+__version__ = '22.09.20'
 
 
 class Ned(_Ned):
@@ -136,12 +136,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''
     _Nv = None  # cached toNvector (L{Nvector})
 
-    def _update(self, updated, *attrs):  # PYCHOK args
+    def _update(self, updated, *attrs, **setters):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:
             LatLonNvectorBase._update(self, updated, _Nv=self._Nv)  # special case
-            LatLonEllipsoidalBase._update(self, updated, *attrs)
+            LatLonEllipsoidalBase._update(self, updated, *attrs, **setters)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return the (signed) distance from this point to the great
@@ -217,15 +217,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         dc = other.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
-        n, e, d = map(dc.dot, self._rotation3)
-        if issubclassof(Ned, _Ned):
-            r =  Ned(n, e, d, name=self.name)
-        elif issubclassof(Ned, Ned4Tuple):
-            t = _MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum))
-            r =  Ned(n, e, d, t, name=self.name)
-        else:
+        ned_ = map2(dc.dot, self._rotation3)
+        if issubclassof(Ned, Ned4Tuple):
+            ned_ += (_MODS.ltp.Ltp(self, ecef=self.Ecef(self.datum)),)
+        elif not issubclassof(Ned, _Ned):
             raise _IsnotError(Fmt.sub_class(_Ned, Ned4Tuple), Ned=Ned)
-        return r
+        return Ned(*ned_, name=self.name)
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
 #         '''Return the destination point after traveling from this

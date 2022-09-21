@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.09.12'
+__version__ = '22.09.20'
 
 _paths_ = 'paths'
 
@@ -118,12 +118,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     '''
     _Nv = None  # cached_toNvector L{Nvector})
 
-    def _update(self, updated, *attrs):  # PYCHOK args
+    def _update(self, updated, *attrs, **setters):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:  # reset caches
             LatLonNvectorBase._update(self, updated, _Nv=self._Nv)  # special case
-            LatLonSphericalBase._update(self, updated, *attrs)
+            LatLonSphericalBase._update(self, updated, *attrs, **setters)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from the start to the closest
