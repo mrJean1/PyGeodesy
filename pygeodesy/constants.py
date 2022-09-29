@@ -4,8 +4,8 @@ u'''Single-instance C{float} and C{int} constants across C{pygeodesy}
 modules and related functions L{pygeodesy.float_}, L{pygeodesy.isclose},
 L{pygeodesy.isfinite}, L{pygeodesy.isinf}, L{pygeodesy.isint0},
 L{pygeodesy.isnan}, L{pygeodesy.isnear0}, L{pygeodesy.isnear1},
-L{pygeodesy.isneg0}, L{pygeodesy.isninf}, L{pygeodesy.isnon0}
-and L{pygeodesy.remainder}.
+L{pygeodesy.isnear90}, L{pygeodesy.isneg0}, L{pygeodesy.isninf},
+L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.09.20'
+__version__ = '22.09.25'
 
 
 def _Float(**name_arg):
@@ -135,6 +135,7 @@ _16_0    = _float(  16)       # PYCHOK expected
 _32_0    = _float(  32)       # PYCHOK expected
 _60_0    = _float(  60)       # PYCHOK expected
 _90_0    = _float(  90)       # PYCHOK expected
+_100_0   = _float( 100)       # PYCHOK expected
 _180_0   = _float( 180)       # PYCHOK expected
 _270_0   = _float( 270)       # PYCHOK expected
 _360_0   = _float( 360)       # PYCHOK expected
@@ -215,6 +216,7 @@ PI2   = _Float(PI2  =_pi * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
 PI_2  = _Float(PI_2 =_pi / _2_0)  # PYCHOK Half PI, M{PI / 2}
 PI3   = _Float(PI3  =_pi * _3_0)  # PYCHOK Three PI, M{PI * 3}
 PI3_2 = _Float(PI3_2=_pi * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
+PI_3  = _Float(PI_3 =_pi / _3_0)  # PYCHOK One third PI, M{PI / 3}
 PI4   = _Float(PI4  =_pi * _4_0)  # PYCHOK Four PI, M{PI * 4}
 PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
@@ -414,6 +416,12 @@ def _umod_360(deg):
     '''(INTERNAL) Non-negative C{deg} modulo 360, basic C{.utily.wrap360}.
     '''
     return (deg % _360_0) or _0_0
+
+
+def _umod_PI2(rad):
+    '''(INTERNAL) Non-negative C{rad} modulo PI2, basic C{.utily.wrapPI2}.
+    '''
+    return (rad % PI2) or _0_0
 
 
 if __name__ == '__main__':

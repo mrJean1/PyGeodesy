@@ -462,8 +462,7 @@
       <li>
         <code>PYGEODESY_WARNINGS</code> - see module <a 
         href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
-        and function <a 
-        href="pygeodesy.props-module.html#DeprecationWarnings" 
+        and function <a href="pygeodesy-module.html#DeprecationWarnings" 
         class="link">pygeodesy.DeprecationWarnings</a>.
       </li>
       <li>
@@ -517,7 +516,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.09.22
+        22.09.29
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -536,7 +535,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Some, basic definitions, functions and dependencies.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon against a box or region.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.constants-module.html">pygeodesy.constants</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>int</code> constants 
         across <code>pygeodesy</code> modules and related functions <a 
         href="pygeodesy.constants-module.html#float_" 
@@ -555,6 +554,8 @@
         class="link">pygeodesy.isnear0</a>, <a 
         href="pygeodesy.constants-module.html#isnear1" 
         class="link">pygeodesy.isnear1</a>, <a 
+        href="pygeodesy.constants-module.html#isnear90" 
+        class="link">pygeodesy.isnear90</a>, <a 
         href="pygeodesy.constants-module.html#isneg0" 
         class="link">pygeodesy.isneg0</a>, <a 
         href="pygeodesy.constants-module.html#isninf" 
@@ -595,7 +596,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Ellipsoidal and spherical earth models.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary"><i>Karney</i>'s elliptic functions and integrals.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg-module.html">pygeodesy.epsg</a></strong>: <em class="summary">European Petroleum Survey Group (EPSG) en-/decoding.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.errors-module.html">pygeodesy.errors</a></strong>: <em class="summary">Errors, exceptions and exception chaining.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.errors-module.html">pygeodesy.errors</a></strong>: <em class="summary">Errors, exceptions, exception formatting and exception chaining.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s <code>Exact Transverse 
         Mercator</code> (ETM) projection.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fmath-module.html">pygeodesy.fmath</a></strong>: <em class="summary">Utilities using precision floating point summation.</em>    </li>
@@ -1190,6 +1191,78 @@
         class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html"
         target="_top">CassiniSoldner</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLV-class.html" class="summary-name">ChLV</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">pygeodesy.EcefKarney</a>'s Earth-Centered, Earth-Fixed
+        (ECEF) methods.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" class="summary-name">ChLV9Tuple</a><br />
+      9-Tuple <code>(Y, X, h_, lat, lon, height, ltp, ecef, M)</code> 
+        with <i><b>unfalsed</b> Swiss (Y, X, h_)</i> coordinates and 
+        height, all in <code>meter</code>, <code>ltp</code> either a <a 
+        href="pygeodesy.ltp.ChLV-class.html" class="link">ChLV</a>, <a 
+        href="pygeodesy.ltp.ChLVa-class.html" class="link">ChLVa</a> or <a 
+        href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> 
+        instance and <code>ecef</code> (<a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a> <i>at Bern, Ch</i>, otherwise like <a 
+        href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+        class="link">Local9Tuple</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" class="summary-name">ChLVEN2Tuple</a><br />
+      2-Tuple <code>(E_LV95, N_LV95)</code> with <i><b>falsed</b> Swiss 
+        LV95</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(2_600_000, 1_200_000)</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLVa-class.html" class="summary-name">ChLVa</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Approximate</a> formulas, pp 13-14.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.ChLVe-class.html" class="summary-name">ChLVe</a><br />
+      Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html" class="summary-name">ChLVyx2Tuple</a><br />
+      2-Tuple <code>(y_LV03, x_LV03)</code> with <i><b>falsed</b> Swiss 
+        LV03</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(600_000, 200_000)</code>.
     </td>
   </tr>
 <tr>
@@ -4394,23 +4467,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#DeprecationWarnings" class="summary-sig-name">DeprecationWarnings</a>()</span><br />
-      Have any <code>DeprecationWarning</code>s been reported or raised?</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a name="EcefCartesian"></a><span class="summary-sig-name">EcefCartesian</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       DEPRECATED, use class <a 
@@ -6531,7 +6587,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#exception_chaining" class="summary-sig-name">exception_chaining</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get the previous exception's or exception chaining setting.</td>
+      Get an error's <i>cause</i> or the exception chaining setting.</td>
           <td align="right" valign="top">
             
             
@@ -7768,7 +7824,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f85a0179350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd08066f350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8148,6 +8204,23 @@
       Return <code>True</code> if <code><b>obj</b></code> is a 
       <code>DEPRECATED</code> class, method or function, <code>False</code>
       if not or <code>None</code> if undetermined.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isError" class="summary-sig-name">isError</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check a (caught) exception.</td>
           <td align="right" valign="top">
             
             
@@ -9812,7 +9885,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#opposing" class="summary-sig-name">opposing</a>(<span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">bearing2</span>,
-        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">90.0</span>)</span><br />
       Compare the direction of two bearings given in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -9831,7 +9904,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#opposing_" class="summary-sig-name">opposing_</a>(<span class="summary-sig-arg">radians1</span>,
         <span class="summary-sig-arg">radians2</span>,
-        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">1.5707963267948966</span>)</span><br />
       Compare the direction of two bearings given in <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -12177,7 +12250,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.22'"><code class="variable-quote">'</code><code class="variable-string">22.9.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.9.29'"><code class="variable-quote">'</code><code class="variable-string">22.9.29</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12218,6 +12291,13 @@ m=Transforms.WGS84),
 Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
 form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined datums (<code>enum-like</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="DeprecationWarnings"></a><span class="summary-name">DeprecationWarnings</span> = <code title="DeprecationWarnings()">DeprecationWarnings()</code>
     </td>
   </tr>
 <tr>
@@ -12765,6 +12845,14 @@ Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.3142451\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="PI_3"></a><span class="summary-name">PI_3</span> = <code title="1.0471975511965976">1.0471975511965976</code><br />
+      One third PI, <i class="math">PI / 3</i> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.7853981633974483">0.7853981633974483</code><br />
       Quarter PI, <i class="math">PI / 4</i> (<code>float</code>).
     </td>
@@ -12944,35 +13032,6 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
-<a name="DeprecationWarnings"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">DeprecationWarnings</span>()</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Have any <code>DeprecationWarning</code>s been reported or raised?</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>The number of <code>DeprecationWarning</code>s (<code>int</code>)
-          so far or <code>None</code> if not enabled.</dd>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        To get <code>DeprecationWarning</code>s if any, run 
-        <code>python</code> with env var <code>PYGEODESY_WARNINGS</code> 
-        set to a non-empty string <i>AND</i> use <code>python[3]</code> 
-        command line option <code>-X dev</code>, <code>-W always</code> or 
-        <code>-W error</code>, etc.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="UtmUps"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -17085,7 +17144,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Get the previous exception's or exception chaining setting.</p>
+  <p>Get an error's <i>cause</i> or the exception chaining setting.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17096,13 +17155,13 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
           available.  If <b><code>error</code></b> is not 
-          <code>None</code>, return the previous, chained error or 
-          <code>None</code> otherwise.</dd>
+          <code>None</code>, return it's error <i>cause</i> or 
+          <code>None</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Set env var <code>PYGEODESY_EXCEPTION_CHAINING</code> to any 
-        non-empty value prior to <code>import pygeodesy</code> to enable 
-        exception chaining for <code>pygeodesy</code> errors.
+        To enable exception chaining for <code>pygeodesy</code> errors, set
+        env var <code>PYGEODESY_EXCEPTION_CHAINING</code> to any non-empty 
+        value prior to <code>import pygeodesy</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -19566,7 +19625,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f85a0179350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd08066f350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20406,6 +20465,34 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         target="_top">Circle-Circle</a> Intersection.
       </p>
 </div></td></tr></table>
+</div>
+<a name="isError"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isError</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check a (caught) exception.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The exception C({Exception}).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is a 
+          <code>pygeodesy</code> error, <code>False</code> if 
+          <b><code>obj</code></b> is a standard Python error of 
+          <code>None</code> if neither.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="isNumpy2"></a>
 <div>
@@ -23429,7 +23516,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing</span>&nbsp;(<span class="sig-arg">bearing1</span>,
         <span class="sig-arg">bearing2</span>,
-        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">margin</span>=<span class="sig-default">90.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23443,8 +23530,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing1</code></strong> - First bearing (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>bearing2</code></strong> - Second bearing (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>degrees</code>), default 
-          <code>90</code>.</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if both bearings point in opposite, 
@@ -23466,7 +23552,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">opposing_</span>&nbsp;(<span class="sig-arg">radians1</span>,
         <span class="sig-arg">radians2</span>,
-        <span class="sig-arg">margin</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">margin</span>=<span class="sig-default">1.5707963267948966</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23480,8 +23566,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>radians1</code></strong> - First bearing (<code>radians</code>).</li>
         <li><strong class="pname"><code>radians2</code></strong> - Second bearing (<code>radians</code>).</li>
-        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>radians</code>), default 
-          <code>PI_2</code>.</li>
+        <li><strong class="pname"><code>margin</code></strong> - Optional, interior angle bracket (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if both bearings point in opposite, 
@@ -28830,7 +28915,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 21 12:17:20 2022
+    Generated by Epydoc 3.0.1 on Thu Sep 29 18:50:11 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

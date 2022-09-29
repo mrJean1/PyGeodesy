@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Errors, exceptions and exception chaining.
+u'''Errors, exceptions, exception formatting and exception chaining.
 
 Error, exception classes and functions to format PyGeodesy errors,
 including the setting of I{exception chaining} in Python 3+.
@@ -10,7 +10,7 @@ By default, I{exception chaining} is turned I{off}.  To enable
 I{exception chaining}, use command line option C{python -X dev}
 I{OR} set env var C{PYTHONDEVMODE} to C{1} or any non-empyty
 string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
-or any other non-empty string.
+or to any other non-empty string.
 '''
 
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.09.17'
+__version__ = '22.09.25'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'
@@ -43,116 +43,115 @@ try:
 
     _exception_chaining = False  # turned off
 
-    def _error_chain(inst, other=None):
+    def _error_cause(inst, cause=None):
         '''(INTERNAL) Set or avoid Python 3+ exception chaining.
 
            Setting C{inst.__cause__ = None} is equivalent to syntax
            C{raise Error(...) from None} to avoid exception chaining.
 
-           @arg inst: An error instance (C{Exception}).
-           @kwarg other: The previous error instance (C{Exception}) or
-                         C{None} to avoid exception chaining.
+           @arg inst: An error instance (caught C{Exception}).
+           @kwarg cause: A previous error instance (caught C{Exception})
+                         or C{None} to avoid exception chaining.
 
            @see: Alex Martelli, et.al., "Python in a Nutshell", 3rd Ed., page 163,
                  O'Reilly, 2017, U{PEP-3134<https://www.Python.org/dev/peps/pep-3134>},
-                 U{here <https://StackOverflow.com/questions/17091520/how-can-i-more-
+                 U{here<https://StackOverflow.com/questions/17091520/how-can-i-more-
                  easily-suppress-previous-exceptions-when-i-raise-my-own-exception>}
                  and U{here<https://StackOverflow.com/questions/1350671/
                  inner-exception-with-traceback-in-python>}.
         '''
-        inst.__cause__ = other  # None, no exception chaining
+        inst.__cause__ = cause  # None, no exception chaining
         return inst
 
 except AttributeError:  # Python 2+
 
-    def _error_chain(inst, **unused):  # PYCHOK expected
+    def _error_cause(inst, **unused):  # PYCHOK expected
         return inst  # no-op
 
 
 class _AssertionError(AssertionError):
-    '''(INTERNAL) Format an C{AssertionError} without exception chaining.
+    '''(INTERNAL) Format an C{AssertionError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(AssertionError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(AssertionError, self, args, **kwds)
 
 
 class _AttributeError(AttributeError):
-    '''(INTERNAL) Format an C{AttributeError} without exception chaining.
+    '''(INTERNAL) Format an C{AttributeError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(AttributeError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(AttributeError, self, args, **kwds)
 
 
 class _ImportError(ImportError):
-    '''(INTERNAL) Format an C{ImportError} without exception chaining.
+    '''(INTERNAL) Format an C{ImportError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(ImportError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(ImportError, self, args, **kwds)
 
 
 class _IndexError(IndexError):
-    '''(INTERNAL) Format an C{IndexError} without exception chaining.
+    '''(INTERNAL) Format an C{IndexError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(IndexError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(IndexError, self, args, **kwds)
 
 
 class _KeyError(KeyError):
-    '''(INTERNAL) Format a C{KeyError} without exception chaining.
+    '''(INTERNAL) Format a C{KeyError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(KeyError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):  # txt=_invalid_
+        _error_init(KeyError, self, args, **kwds)
 
 
 class _NameError(NameError):
-    '''(INTERNAL) Format a C{NameError} without exception chaining.
+    '''(INTERNAL) Format a C{NameError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(NameError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(NameError, self, args, **kwds)
 
 
 class _NotImplementedError(NotImplementedError):
-    '''(INTERNAL) Format a C{NotImplementedError} without exception chaining.
+    '''(INTERNAL) Format a C{NotImplementedError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(NotImplementedError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(NotImplementedError, self, args, **kwds)
 
 
 class _OverflowError(OverflowError):
-    '''(INTERNAL) Format an C{OverflowError} without exception chaining.
+    '''(INTERNAL) Format an C{OverflowError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
-        _error_init(OverflowError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):  # txt=_invalid_
+        _error_init(OverflowError, self, args, **kwds)
 
 
 class _TypeError(TypeError):
-    '''(INTERNAL) Format a C{TypeError} without exception chaining.
+    '''(INTERNAL) Format a C{TypeError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):
-        _error_init(TypeError, self, name_value, fmt_name_value='type(%s) (%r)',
-                                               **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(TypeError, self, args, fmt_name_value='type(%s) (%r)', **kwds)
 
 
 class _TypesError(_TypeError):
-    '''(INTERNAL) Format a C{TypeError} without exception chaining.
+    '''(INTERNAL) Format a C{TypeError} with/-out exception chaining.
     '''
-    def __init__(self, name, value, *Types):
+    def __init__(self, name, value, *Types, **kwds):
         t = _not_(_an(_or(*(t.__name__ for t in Types))))
-        _TypeError.__init__(self, name, value, txt=t)
+        _TypeError.__init__(self, name, value, txt=t, **kwds)
 
 
 class _ValueError(ValueError):
-    '''(INTERNAL) Format a C{ValueError} without exception chaining.
+    '''(INTERNAL) Format a C{ValueError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_invalid_
-        _error_init(ValueError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):  # ..., cause=None, txt=_invalid_, ...
+        _error_init(ValueError, self, args, **kwds)
 
 
 class _ZeroDivisionError(ZeroDivisionError):
-    '''(INTERNAL) Format a C{ZeroDivisionError} without exception chaining.
+    '''(INTERNAL) Format a C{ZeroDivisionError} with/-out exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_invalid_
-        _error_init(ZeroDivisionError, self, name_value, **txt_name_values)
+    def __init__(self, *args, **kwds):
+        _error_init(ZeroDivisionError, self, args, **kwds)
 
 
 class CrossError(_ValueError):
@@ -165,7 +164,7 @@ class CrossError(_ValueError):
 class IntersectionError(_ValueError):  # in .ellipsoidalBaseDI, .formy, ...
     '''Error raised for path or circle intersection issues.
     '''
-    def __init__(self, *args, **kwds):  # txt=_invalid_
+    def __init__(self, *args, **kwds):
         '''New L{IntersectionError}.
         '''
         if args:
@@ -185,13 +184,13 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
-        x  = _xkwds_pop(lens_txt, txt=_invalid_)
-        ns, vs = zip(*itemsorted(lens_txt))
+        x, txt = _xkwds_pop_(lens_txt, cause=None, txt=_invalid_)
+        ns, vs =  zip(*itemsorted(lens_txt))  # unzip
         ns = _COMMASPACE_.join(ns)
         t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
         vs = _vs__.join(map(str, vs))
         t  = _SPACE_(t, _len_, vs)
-        _ValueError.__init__(self, t, txt=x)
+        _ValueError.__init__(self, t, txt=txt, cause=x)
 
 
 class LimitError(_ValueError):
@@ -327,44 +326,52 @@ def crosserrors(raiser=None):
     return t
 
 
-def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
-                                         txt=_invalid_, **name_values):  # by .lazily
+def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=_invalid_,
+                                   cause=None, **kwds):  # by .lazily
     '''(INTERNAL) Format an error text and initialize an C{Error} instance.
 
        @arg Error: The error super-class (C{Exception}).
-       @arg inst: Sub-class instance to be initialized (C{_Exception}).
-       @arg name_value: Either just a value or several name, value, ...
-                        positional arguments (C{str}, any C{type}), in
-                        particular for name conflicts with keyword
-                        arguments of C{error_init} or which can't be
-                        used as C{name=value} keyword arguments.
+       @arg inst: Sub-class instance to be __init__-ed (C{_Exception}).
+       @arg args: Either just a value or several name, value, ...
+                  positional arguments (C{str}, any C{type}), in
+                  particular for name conflicts with keyword
+                  arguments of C{error_init} or which can't be
+                  given as C{name=value} keyword arguments.
        @kwarg fmt_name_value: Format for (name, value) (C{str}).
        @kwarg txt: Optional explanation of the error (C{str}).
-       @kwarg name_values: One or more C{B{name}=value} pairs overriding
-                           any B{C{name_value}} positional arguments.
+       @kwarg cause: Optional, caught error (L{Exception}), for
+                     exception chaining (supported in Python 3+).
+       @kwarg kwds: Additional C{B{name}=value} pairs, if any.
     '''
     def _fmtuple(pairs):
         return tuple(fmt_name_value % t for t in pairs)
 
-    if name_values:
-        t = _fmtuple(itemsorted(name_values))
-    else:
-        t = ()
-    if len(name_value) > 1:
-        t = _fmtuple(zip(name_value[0::2], name_value[1::2])) + t
-    elif name_value:
-        t = (str(name_value[0]),) + t
+    t, n = (), len(args)
+    if n > 2:
+        s = _MODS.basics.isodd(n)
+        t = _fmtuple(zip(args[0::2], args[1::2]))
+        if s:  # XXX _xzip(..., strict=s)
+            t += args[-1:]
+    elif n == 2:
+        t = (fmt_name_value % args),
+    elif n:  # == 1
+        t =  str(args[0]),
+
+    if kwds:
+        t += _fmtuple(itemsorted(kwds))
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
     if txt is not None:
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
+        if txt is _invalid_ and cause is not None:
+            txt = str(cause)  # i.e. txt not overridden
+        t = C(t, txt or _invalid_)
 #       x =  str(txt) or _invalid_
-        t =  C(t, txt or _invalid_)
-#   else:
-#       x = NN  # XXX or t?
+#   else:  # LenError, _xzip, .dms, .heights, .vector2d
+#       x =  NN  # XXX or t?
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
-    _error_chain(inst)  # no Python 3+ exception chaining
+    _error_cause(inst, cause=cause if _exception_chaining else None)
     _error_under(inst)
 
 
@@ -378,72 +385,73 @@ def _error_under(inst):
 
 
 def exception_chaining(error=None):
-    '''Get the previous exception's or exception chaining setting.
+    '''Get an error's I{cause} or the exception chaining setting.
 
        @kwarg error: An error instance (C{Exception}) or C{None}.
 
        @return: If C{B{error} is None}, return C{True} if exception
                 chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
-                B{C{error}} is not C{None}, return the previous,
-                chained error or C{None} otherwise.
+                B{C{error}} is not C{None}, return it's error
+                I{cause} or C{None}.
 
-       @note: Set env var C{PYGEODESY_EXCEPTION_CHAINING} to any
-              non-empty value prior to C{import pygeodesy} to
-              enable exception chaining for C{pygeodesy} errors.
+       @note: To enable exception chaining for C{pygeodesy} errors,
+              set env var C{PYGEODESY_EXCEPTION_CHAINING} to any
+              non-empty value prior to C{import pygeodesy}.
     '''
     return _exception_chaining if error is None else \
             getattr(error, '__cause__', None)
 
 
 def _incompatible(this):
-    '''(INTERNAL) Format an incompatible text.
+    '''(INTERNAL) Format an C{"incompatible with ..."} text.
     '''
     return _SPACE_(_incompatible_, _with_, this)
 
 
-def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=value [, ...]
+def _InvalidError(Error=_ValueError, **txt_name_values_cause):  # txt=_invalid_, name=value [, ...]
     '''(INTERNAL) Create an C{Error} instance.
 
        @kwarg Error: The error class or sub-class (C{Exception}).
        @kwarg txt_name_values: One or more C{B{name}=value} pairs
-                               and optionally, a C{B{txt}=...}
-                               keyword argument to override the
-                               default C{B{txt}='invalid'}
+                  and optionally, keyword argument C{B{txt}=str}
+                  to override the default C{B{txt}='invalid'} and
+                  C{B{cause}=None} for exception chaining.
 
        @return: An B{C{Error}} instance.
     '''
-    try:
-        e =  Error(**txt_name_values)
-    except TypeError:  # std *Error takes no keyword arguments
-        e = _ValueError(**txt_name_values)
-        e =  Error(str(e))
-        _error_chain(e)
-        _error_under(e)
-    return e
+    return _XError(Error, **txt_name_values_cause)
 
 
-def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeError]
+def isError(obj):
+    '''Check a (caught) exception.
+
+       @arg obj: The exception C({Exception}).
+
+       @return: C{True} if B{C{obj}} is a C{pygeodesy} error,
+                C{False} if B{C{obj}} is a standard Python error
+                of C{None} if neither.
+    '''
+    return True  if isinstance(obj, _XErrors)   else (
+           False if isinstance(obj,  Exception) else None)
+
+
+def _IsnotError(*nouns, **name_value_Error_cause):  # name=value [, Error=TypeError, cause=None]
     '''Create a C{TypeError} for an invalid C{name=value} type.
 
-       @arg nouns: One or more expected class or type names,
-                   usually nouns (C{str}).
-       @kwarg name_value_Error: One C{B{name}=value} pair and
-                                optionally, an C{B{Error}=...}
-                                keyword argument to override the
-                                default C{B{Error}=TypeError}.
+       @arg nouns: One or more expected class or type names, usually nouns (C{str}).
+       @kwarg name_value_Error_cause: One C{B{name}=value} pair and optionally,
+                   keyword argument C{B{Error}=TypeError} to override the default
+                   and C{B{cause}=None} for exception chaining.
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
-    Error = _xkwds_pop(name_value_Error, Error=TypeError)
-    n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
-                          _name_value_, MISSING)  # XXX else tuple(...)
-    v = _MODS.streprs.Fmt.PAREN(repr(v))
-    t = _an(_or(*nouns)) if nouns else _specified_
-    e =  Error(_SPACE_(n, v, _not_, t))
-    _error_chain(e)
-    _error_under(e)
-    return e
+    x, Error = _xkwds_pop_(name_value_Error_cause, cause=None, Error=TypeError)
+    n, v =  _xkwds_popitem(name_value_Error_cause) if name_value_Error_cause \
+                    else (_name_value_, MISSING)  # XXX else tuple(...)
+    n = _MODS.streprs.Fmt.PARENSPACED(n, repr(v))
+    t = _not_(_an(_or(*nouns)) if nouns else _specified_)
+    return _XError(Error, n, txt=t, cause=x)
 
 
 def itemsorted(adict, *args, **asorted_reverse):
@@ -491,28 +499,21 @@ def _parseX(parser, *args, **name_values_Error):  # name=value[, ..., Error=Pars
     '''(INTERNAL) Invoke a parser and handle exceptions.
 
        @arg parser: The parser (C{callable}).
-       @arg args: Any parser positional arguments (any C{type}s).
-       @kwarg name_values_Error: One or more C{B{name}=value} pairs
-                                 and optionally, an C{B{Error}=...}
-                                 keyword argument to override the
-                                 default C{B{Error}=ParseError}.
+       @arg args: Any B{C{parser}} arguments (any C{type}s).
+       @kwarg name_values_Error: Any C{B{name}=value} pairs and
+                   optionally, C{B{Error}=ParseError} keyword
+                   argument to override the default.
 
        @return: Parser result.
 
-       @raise ParseError: Or the specified C{B{Error}=...}.
-
-       @raise RangeError: If that error occurred.
+       @raise ParseError: Or the specified C{B{Error}}.
     '''
     try:
         return parser(*args)
-
-    except RangeError as x:
-        E, t = type(x), str(x)
     except Exception as x:
-        if _exception_chaining:
-            raise
-        E, t = ParseError, str(x)
-    raise _InvalidError(**_xkwds(name_values_Error, Error=E, txt=t))
+        E = _xkwds_pop(name_values_Error, Error=type(x) if isError(x) else
+                                                ParseError)
+        raise _XError(E, **_xkwds(name_values_Error, cause=x))
 
 
 def rangerrors(raiser=None):
@@ -533,11 +534,11 @@ def rangerrors(raiser=None):
 
 def _SciPyIssue(x, *extras):  # PYCHOK no cover
     if isinstance(x, (RuntimeWarning, UserWarning)):
-        X = SciPyWarning
+        Error = SciPyWarning
     else:
-        X = SciPyError  # PYCHOK not really
+        Error = SciPyError  # PYCHOK not really
     t = _SPACE_(str(x).strip(), *extras)
-    return _error_chain(X(t), other=x)
+    return Error(t, cause=x)
 
 
 def _xdatum(datum1, datum2, Error=None):
@@ -571,6 +572,21 @@ def _xellipsoidal(**name_value):
     raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
 
 
+def _XError(Error, *args, **kwds):
+    '''(INTERNAL) Format an C{Error} or C{_Error}.
+    '''
+    try:  # C{_Error} style
+        return Error(*args, **kwds)
+    except TypeError:  # no keyword arguments
+        pass
+    e = _ValueError(*args, **kwds)
+    E =  Error(str(e))
+    if _exception_chaining:
+        _error_cause(E, cause=e.__cause__)  # PYCHOK OK
+    return E
+
+
+_XErrors = _TypeError, _ValueError
 # map certain C{Exception} classes to the C{_Error}
 _X2Error = {AssertionError:      _AssertionError,
             AttributeError:      _AttributeError,
@@ -583,25 +599,16 @@ _X2Error = {AssertionError:      _AssertionError,
             TypeError:           _TypeError,
             ValueError:          _ValueError,
             ZeroDivisionError:   _ZeroDivisionError}
-_xErrors = _TypeError, _TypeError, _ValueError
 
 
 def _xError(x, *args, **kwds):
-    '''(INTERNAL) Embellish an exception.
+    '''(INTERNAL) Embellish a (caught) exception.
 
-       @arg x: The exception instance (usually, C{_Error}).
+       @arg x: The exception (usually, C{_Error}).
        @arg args: Embelishments (C{any}).
-       @arg kwds: Embelishments (C{any}).
+       @kwarg kwds: Embelishments (C{any}).
     '''
-    X = x.__class__
-    t = str(x)
-    try:  # C{_Error} style
-        return X(txt=t, *args, **kwds)
-    except TypeError:  # no keyword arguments
-        pass
-    # not an C{_Error}, format as C{_Error}
-    t = str(_ValueError(txt=t, *args, **kwds))
-    return x if _exception_chaining else X(t)
+    return _XError(type(x), *args, **_xkwds(kwds, cause=x))
 
 
 def _xError2(x):  # in .fsums
@@ -609,9 +616,9 @@ def _xError2(x):  # in .fsums
 
        @arg x: The exception instance (usually, C{Exception}).
     '''
-    X =  x.__class__
+    X =  type(x)
     E = _X2Error.get(X, X)
-    if E is X and not isinstance(x, _xErrors):
+    if E is X and not isError(x):
         E = _NotImplementedError
         t =  repr(x)
     else:
@@ -628,7 +635,6 @@ try:
         return (dflts | kwds) if kwds else dflts
 
 except AttributeError:
-
     from copy import copy as _copy
 
     def _xkwds(kwds, **dflts):  # PYCHOK expected
@@ -656,7 +662,6 @@ def _xkwds_get(kwds, **name_default):
     if len(name_default) == 1:
         for n, d in name_default.items():
             return kwds.get(n, d)
-
     raise _xkwds_Error(_xkwds_get, kwds, name_default)
 
 
@@ -678,9 +683,17 @@ def _xkwds_pop(kwds, **name_default):
     '''(INTERNAL) Pop a C{kwds} value by C{name}, or the C{default}.
     '''
     if len(name_default) == 1:
-        return kwds.pop(*name_default.popitem())
-
+        for n, d in name_default.items():
+            return kwds.pop(n, d)
     raise _xkwds_Error(_xkwds_pop, kwds, name_default)
+
+
+def _xkwds_pop_(kwds, **names_defaults):
+    '''(INTERNAL) Pop and yield each C{kwds} value or its C{default}
+       in I{case-insensitive, alphabetical} order.
+    '''
+    for n, d in itemsorted(names_defaults):
+        yield kwds.pop(n, d)
 
 
 def _xkwds_popitem(name_value):
@@ -688,8 +701,20 @@ def _xkwds_popitem(name_value):
     '''
     if len(name_value) == 1:  # XXX TypeError
         return name_value.popitem()  # XXX AttributeError
-
     raise _xkwds_Error(_xkwds_popitem, (), name_value, txt=_value_)
+
+
+def _xzip(*args, **strict):  # PYCHOK no cover
+    '''(INTERNAL) Standard C{zip(..., strict=True)}.
+    '''
+    s = _xkwds_get(strict, strict=True)
+    if s:
+        _zip = _MODS.basics._zip
+        if _zip is zip:  # < (3, 10)
+            t = _MODS.streprs.unstr(_xzip.__name__, *args, strict=s)
+            raise _NotImplementedError(t, txt=None)
+        return _zip(*args)
+    return zip(*args)
 
 # **) MIT License
 #

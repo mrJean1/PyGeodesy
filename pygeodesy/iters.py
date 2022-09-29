@@ -23,7 +23,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, wrap90, wrap180, _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -116,7 +116,7 @@ class _BaseIter(_Named):
                 return t[index]
         except IndexError as x:
             t = Fmt.SQUARE(self.name, index)
-            raise _IndexError(str(x), txt=t)
+            raise _IndexError(str(x), txt=t, cause=x)
 
     def __iter__(self):  # PYCHOK no cover
         '''Make this iterator C{iterable}.

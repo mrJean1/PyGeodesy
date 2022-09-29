@@ -32,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 
 class Vector3d(Vector3dBase):
@@ -813,7 +813,7 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
         if n != 3:
             raise _ValueError(len=n)
     except (TypeError, ValueError) as x:
-        raise VectorError(str3d=str3d, txt=str(x))
+        raise VectorError(str3d=str3d, cause=x)
     return _xnamed((Vector3Tuple(v) if Vector is None else  # *v
                     Vector(*v, **Vector_kwds)), parse3d.__name__)
 

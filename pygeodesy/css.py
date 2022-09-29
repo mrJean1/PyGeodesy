@@ -30,7 +30,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 
 def _CS0(cs0):
@@ -284,7 +284,7 @@ class CassiniSoldner(_NamedBase):
                 lat0, lon0 = latlon0.lat, latlon0.lon
                 self._datumatch(latlon0)
             except (AttributeError, TypeError, ValueError) as x:
-                raise CSSError(latlon0=latlon0, txt=str(x))
+                raise CSSError(latlon0=latlon0, cause=x)
         self.reset(lat0, lon0)
 
     @Property_RO

@@ -34,7 +34,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.09.18'
+__version__ = '22.09.29'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -1167,6 +1167,115 @@ class Local9Tuple(_NamedTuple):
 
 _XyzLocals4 =  XyzLocal, Enu, Ned, Aer  # PYCHOK in .ltp
 _XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
+
+
+class ChLV9Tuple(Local9Tuple):
+    '''9-Tuple C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with I{B{unfalsed} Swiss
+       (Y, X, h_)} coordinates and height, all in C{meter}, C{ltp} either a L{ChLV},
+       L{ChLVa} or L{ChLVe} instance and C{ecef} (L{EcefKarney} I{at Bern, Ch},
+       otherwise like L{Local9Tuple}.
+    '''
+    _Names_ = ('Y', 'X', 'h_') + Local9Tuple._Names_[3:]
+
+    @Property_RO
+    def E_LV95(self):
+        '''Get the I{falsed Swiss E_LV95} coordinate (C{meter}).
+        '''
+        return self.EN2_LV95.E_LV95
+
+    @Property_RO
+    def EN2_LV95(self):
+        '''Get the I{falsed Swiss (E_LV95, N_LV95)} coordinates (L{ChLVEN2Tuple}).
+        '''
+        return ChLVEN2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, True))
+
+    @Property_RO
+    def h_LV03(self):
+        '''Get the I{Swiss height} (C{meter}).
+        '''
+        return self.h_
+
+    @Property_RO
+    def h_LV95(self):
+        '''Get the I{Swiss height} (C{meter}).
+        '''
+        return self.h_
+
+    @property_RO
+    def isChLV(self):
+        '''Is this an L{ChLV}-generated L{ChLV9Tuple}?.
+        '''
+        return self.ltp.__class__ is _MODS.ltp.ChLV
+
+    @property_RO
+    def isChLVa(self):
+        '''Is this an L{ChLVa}-generated L{ChLV9Tuple}?.
+        '''
+        return self.ltp.__class__ is _MODS.ltp.ChLVa
+
+    @property_RO
+    def isChLVe(self):
+        '''Is this an L{ChLVe}-generated L{ChLV9Tuple}?.
+        '''
+        return self.ltp.__class__ is _MODS.ltp.ChLVe
+
+    @Property_RO
+    def N_LV95(self):
+        '''Get the I{falsed Swiss N_LV95} coordinate (C{meter}).
+        '''
+        return self.EN2_LV95.N_LV95
+
+    @Property_RO
+    def x(self):
+        '''Get the I{local x, Swiss Y} coordinate (C{meter}).
+        '''
+        return self.Y
+
+    @Property_RO
+    def x_LV03(self):
+        '''Get the I{falsed Swiss x_LV03} coordinate (C{meter}).
+        '''
+        return self.yx2_LV03.x_LV03
+
+    @Property_RO
+    def y(self):
+        '''Get the I{local y, Swiss X} coordinate (C{meter}).
+        '''
+        return self.X
+
+    @Property_RO
+    def y_LV03(self):
+        '''Get the I{falsed Swiss y_LV03} coordinate (C{meter}).
+        '''
+        return self.yx2_LV03.y_LV03
+
+    @Property_RO
+    def yx2_LV03(self):
+        '''Get the I{falsed Swiss (y_LV03, x_LV03)} coordinates (L{ChLVyx2Tuple}).
+        '''
+        return ChLVyx2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, False))
+
+    @Property_RO
+    def z(self):
+        '''Get the I{local z, Swiss h_} coordinate (C{meter}).
+        '''
+        return self.h_
+
+
+class ChLVEN2Tuple(_NamedTuple):
+    '''2-Tuple C{(E_LV95, N_LV95)} with I{B{falsed} Swiss LV95} coordinates,
+       both in C{meter} with origin C{Bern, Ch} at C{(2_600_000, 1_200_000)}.
+    '''
+    _Names_ = ('E_LV95', 'N_LV95')
+    _Units_ = ( Meter,    Meter)
+
+
+class ChLVyx2Tuple(_NamedTuple):
+    '''2-Tuple C{(y_LV03, x_LV03)} with I{B{falsed} Swiss LV03} coordinates,
+       both in C{meter} with origin C{Bern, Ch} at C{(600_000, 200_000)}.
+    '''
+    _Names_ = ('y_LV03', 'x_LV03')
+    _Units_ = ( Meter,    Meter)
 
 
 class Footprint5Tuple(_NamedTuple):

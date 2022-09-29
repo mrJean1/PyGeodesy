@@ -106,7 +106,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '22.09.15'
+__version__ = '22.09.24'
 
 
 def _fraction(fraction, n):
@@ -223,7 +223,7 @@ class Frechet(_Named):
             return _frechet_(self._n1, f1, n2, f2, dF, self.units)
         except TypeError as x:
             t = _DOT_(self.classname, self.discrete.__name__)
-            raise FrechetError(t, txt=str(x))
+            raise FrechetError(t, cause=x)
 
     def distance(self, point1, point2):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.

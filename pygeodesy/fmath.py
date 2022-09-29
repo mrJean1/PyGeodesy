@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.09.21'
+__version__ = '22.09.26'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -60,8 +60,8 @@ class Fhorner(Fsum):
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
            @arg x: Polynomial argument (C{scalar}).
-           @arg cs: Polynomial coeffients (C{scalar}s), all
-                    positional.
+           @arg cs: Polynomial coeffients (C{scalar} or C{Fsum}
+                    instances), all positional.
            @kwarg name: Optional name (C{str}).
 
            @raise OverflowError: Partial C{2sum} overflow.

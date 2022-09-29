@@ -43,15 +43,15 @@ class Tests(TestsBase):
         e = InvalidError(two=2, Error=ValueError)  # coverage
 
         e = IsnotError(int.__name__, float.__name__, _None=None)
-        self.test(IsnotError.__name__, e, '_None (None) not an int or float')
-        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None) not an int or float')")
+        self.test(IsnotError.__name__, e, '_None (None): not an int or float')
+        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None): not an int or float')")
 
         e = IsnotError('scalar', _None=None)
-        self.test(IsnotError.__name__, e, '_None (None) not a scalar')
-        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None) not a scalar')")
+        self.test(IsnotError.__name__, e, '_None (None): not a scalar')
+        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None): not a scalar')")
         e = IsnotError('scalar', Error=LimitError, _None=None)
-        self.test(IsnotError.__name__, e, '_None (None) not a scalar: invalid')
-        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "LimitError('_None (None) not a scalar: invalid')")
+        self.test(IsnotError.__name__, e, '_None (None): not a scalar')
+        self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "LimitError('_None (None): not a scalar')")
 
         try:
             raise LenError(LenError, a=1, b=2, c=3, d=4)

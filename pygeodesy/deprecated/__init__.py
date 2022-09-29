@@ -31,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.09.16'
+__version__ = '22.09.23'
 
 _WGS84 = _UTM = object()
 
@@ -293,8 +293,8 @@ def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
 @deprecated_function
 def collins(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds):
     '''DEPRECATED, use function L{pygeodesy.collins5}.'''
-    from pygeodesy.resections import collins5  # _MODS.resections.collins5
-    return collins5(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds)
+    return _MODS.resections.collins5(pointA, pointB, pointC, alpha, beta,
+                                   **useZ_Clas_and_kwds)
 
 
 @deprecated_function
@@ -464,8 +464,7 @@ def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):  # PY
 @deprecated_function
 def polygon(points, closed=True, base=None):  # PYCHOK no cover
     '''DEPRECATED, use function L{points2}.'''
-    from pygeodesy.deprecated.bases import points2  # PYCHOK import
-    return points2(points, closed=closed, base=base)
+    return _MODS.deprecated.bases.points2(points, closed=closed, base=base)
 
 
 @deprecated_function

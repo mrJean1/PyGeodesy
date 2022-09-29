@@ -7,7 +7,7 @@ u'''Formulary of basic geodesy functions and approximations.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
-                               _umod_360, float0, isnon0, remainder, _0_0, \
+                               _umod_PI2, float0, isnon0, remainder, _0_0, \
                                _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
                                _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.09.21'
+__version__ = '22.09.23'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -142,7 +142,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
 
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
-    return (atan2(y, x) + r) % PI2  # wrapPI2
+    return _umod_PI2(atan2(y, x) + r)  # .utily.wrapPI2
 
 
 def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometry.areaOf
@@ -1319,42 +1319,44 @@ def n_xyz2philam(x, y, z, name=NN):
     return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), name=name)
 
 
-def opposing(bearing1, bearing2, margin=None):
+def _opposes(d, m, n, n2):
+    '''(INETNAL) Helper for C{opposing} and C{opposing_}.
+    '''
+    d = d % n2  # -20 % 360 == 340, -1 % PI2 == PI2 - 1
+    return False if d < m or d > (n2 - m) else (
+           True if (n - m) < d < (n  + m) else None)
+
+
+def opposing(bearing1, bearing2, margin=_90_0):
     '''Compare the direction of two bearings given in C{degrees}.
 
        @arg bearing1: First bearing (compass C{degrees}).
        @arg bearing2: Second bearing (compass C{degrees}).
-       @kwarg margin: Optional, interior angle bracket (C{degrees}),
-                      default C{90}.
+       @kwarg margin: Optional, interior angle bracket (C{degrees}).
 
        @return: C{True} if both bearings point in opposite, C{False} if
                 in similar or C{None} if in perpendicular directions.
 
        @see: Function L{opposing_}.
     '''
-    m =  Degrees_(margin=margin, low=EPS0, high=_90_0) if margin else _90_0
-    d = _umod_360(bearing2 - bearing1)  # -20 % 360 == 340
-    return False if      d < m or d > (_360_0 - m) else (
-           True if (_180_0 - m) < d < (_180_0 + m) else None)
+    m = Degrees_(margin=margin, low=EPS0, high=_90_0)
+    return _opposes(bearing2 - bearing1, m,_180_0, _360_0)
 
 
-def opposing_(radians1, radians2, margin=None):
+def opposing_(radians1, radians2, margin=PI_2):
     '''Compare the direction of two bearings given in C{radians}.
 
        @arg radians1: First bearing (C{radians}).
        @arg radians2: Second bearing (C{radians}).
-       @kwarg margin: Optional, interior angle bracket (C{radians}),
-                      default C{PI_2}.
+       @kwarg margin: Optional, interior angle bracket (C{radians}).
 
        @return: C{True} if both bearings point in opposite, C{False} if
                 in similar or C{None} if in perpendicular directions.
 
        @see: Function L{opposing}.
     '''
-    m =  Radians_(margin=margin, low=EPS0, high=PI_2) if margin else PI_2
-    r = (radians2 - radians1) % PI2  # note -1 % PI2 == PI2 - 1
-    return False if  r < m or r > (PI2 - m) else (
-           True if (PI - m) < r < (PI  + m) else None)
+    m = Radians_(margin=margin, low=EPS0, high=PI_2)
+    return _opposes(radians2 - radians1, m, PI, PI2)
 
 
 def philam2n_xyz(phi, lam, name=NN):

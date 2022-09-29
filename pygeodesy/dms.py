@@ -64,10 +64,9 @@ from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.errors import ParseError, _parseX, RangeError, rangerrors, _TypeError, \
                             _ValueError, _xkwds, _xkwds_get
 from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
-                             _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _invalid_, _MINUS_, \
-                             _N_, _NE_, _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, _PLUS_, \
-                             _PLUSMINUS_, _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, \
-                             _SPACE_, _SW_, _W_
+                             _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _MINUS_, _N_, _NE_, \
+                             _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, _PLUS_, _PLUSMINUS_, \
+                             _QUOTE1_, _QUOTE2_, _radians_, _S_, _SE_, _SPACE_, _SW_, _W_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
 
@@ -78,7 +77,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.09.20'
+__version__ = '22.09.24'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -175,7 +174,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
-        raise _ValueError(deg=deg, form=form, prec=prec, txt=str(x))
+        raise _ValueError(deg=deg, form=form, prec=prec, cause=x)
 
     if form[:1] in _PLUSMINUS_:  # signed
         sign = _MINUS_ if deg < 0 else (
@@ -374,10 +373,10 @@ def compassPoint(bearing, prec=3):
             # non-negative, otherwise int(b + copysign0(_0_5, b))
             w *= int(_umod_360(bearing) * m / _360_0 + _0_5) % m
             return _WINDS[w]
-        t = _invalid_
+
+        raise  ValueError
     except (IndexError, TypeError, ValueError) as x:
-        t =  str(x)
-    raise _ValueError(bearing=bearing, prec=prec, txt=t)
+        raise _ValueError(bearing=bearing, prec=prec, cause=x)
 
 
 def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
@@ -400,7 +399,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     try:
         deg = float(deg)
     except (TypeError, ValueError) as x:
-        raise _ValueError(deg=deg, prec=prec, txt=str(x))
+        raise _ValueError(deg=deg, prec=prec, cause=x)
 
     d, s = abs(deg), s_D
     if d < 1:
@@ -788,10 +787,9 @@ def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180, **s_D_M_S):
        @see: Functions L{pygeodesy.parseDDDMMSS}, L{pygeodesy.parseDMS},
              L{pygeodesy.parse3llh} and L{pygeodesy.toDMS}.
     '''
-    from pygeodesy.namedTuples import LatLon2Tuple  # avoid circluar import
-
-    return LatLon2Tuple(parseDMS(strLat, suffix=_NS_, sep=sep, clip=clipLat, **s_D_M_S),
-                        parseDMS(strLon, suffix=_EW_, sep=sep, clip=clipLon, **s_D_M_S))
+    return _MODS.namedTuples.LatLon2Tuple(
+            parseDMS(strLat, suffix=_NS_, sep=sep, clip=clipLat, **s_D_M_S),
+            parseDMS(strLon, suffix=_EW_, sep=sep, clip=clipLon, **s_D_M_S))
 
 
 def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S):
@@ -832,7 +830,6 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
         >>> parse3llh('000°00′05.31″W, 51° 28′ 40.12″ N')
         (51.4778°N, 000.0015°W, 0)
     '''
-    from pygeodesy.namedTuples import LatLon3Tuple  # avoid circluar import
 
     def _3llh(strllh, height, sep):
         ll = strllh.strip().split(sep)
@@ -846,8 +843,9 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180, **s_D_M_S)
         a, b = [_.strip() for _ in ll]  # PYCHOK false
         if a[-1:] in _EW_ or b[-1:] in _NS_:
             a, b = b, a
-        return LatLon3Tuple(parseDMS(a, suffix=_NS_, clip=clipLat, **s_D_M_S),
-                            parseDMS(b, suffix=_EW_, clip=clipLon, **s_D_M_S), h)
+        return _MODS.namedTuples.LatLon3Tuple(
+                parseDMS(a, suffix=_NS_, clip=clipLat, **s_D_M_S),
+                parseDMS(b, suffix=_EW_, clip=clipLon, **s_D_M_S), h)
 
     return _parseX(_3llh, strllh, height, sep, strllh=strllh)
 
@@ -900,9 +898,8 @@ def precision(form, prec=None):
     except KeyError:
         raise _ValueError(form=form)
 
-    if prec is not None:
-        from pygeodesy.units import Precision_
-        _F_prec[form] = Precision_(prec=prec, low=-9, high=9)
+    if prec is not None:  # set as default
+        _F_prec[form] = _MODS.units.Precision_(prec=prec, low=-9, high=9)
 
     return p
 

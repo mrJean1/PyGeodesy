@@ -28,7 +28,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 
 class Vector3dBase(_NamedBase):
@@ -483,7 +483,7 @@ class Vector3dBase(_NamedBase):
         try:
             return self._times(_1_0 / d)
         except (ValueError, ZeroDivisionError) as x:
-            raise VectorError(divisor=divisor, txt=str(x))
+            raise VectorError(divisor=divisor, cause=x)
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -852,7 +852,7 @@ class Vector3dBase(_NamedBase):
             self._y, \
             self._z = map1(_float0, x_xyz, *y_z) if y_z else x_xyz.xyz
         except (AttributeError, TypeError, ValueError) as x:
-            raise VectorError(txt=str(x), **_xyzkwds(y_z, x_xyz=x_xyz))
+            raise VectorError(cause=x, **_xyzkwds(y_z, x_xyz=x_xyz))
         return self
 
     @Property_RO
@@ -899,7 +899,7 @@ def _other_x_y_z3(other_x, y_z):
         return map1(_float0, other_x, *y_z) if y_z else \
                (other_x.x, other_x.y, other_x.z)  # not .xyz!
     except (AttributeError, TypeError, ValueError) as x:
-        raise _InvalidError(txt=str(x), **_xyzkwds(y_z, other_x=other_x))
+        raise _InvalidError(cause=x, **_xyzkwds(y_z, other_x=other_x))
 
 
 def _xyzkwds(y_z, **xyz):  # PYCHOK no cover

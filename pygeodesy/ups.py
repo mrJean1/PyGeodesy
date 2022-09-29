@@ -47,7 +47,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.09.20'
+__version__ = '22.09.24'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -120,7 +120,7 @@ class Ups(UtmUpsBase):
             if z != _UPS_ZONE or (B and (B not in _Bands)):
                 raise ValueError
         except (TypeError, ValueError) as x:
-            raise UPSError(zone=zone, pole=pole, band=band, txt=str(x))
+            raise UPSError(zone=zone, pole=pole, band=band, cause=x)
         self._pole = p
         UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
                                                      convergence=convergence, scale=scale)

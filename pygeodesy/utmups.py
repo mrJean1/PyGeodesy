@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, map1, _to4lldn, _to3zBhp, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '22.05.14'
+__version__ = '22.09.24'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
@@ -103,7 +103,7 @@ def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
         return u
 
     except (UTMError, UPSError) as x:
-        raise UTMUPSError(strUTMUPS=strUTMUPS, txt=str(x))
+        raise UTMUPSError(strUTMUPS=strUTMUPS, cause=x)
 
 
 def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,

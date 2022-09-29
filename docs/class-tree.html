@@ -84,7 +84,7 @@
       <em class="summary">Inappropriate argument value (of correct type).</em>
     <ul>
     <li> <strong class="uidlink">pygeodesy.errors._ValueError</strong>:
-      <em class="summary">(INTERNAL) Format a <code>ValueError</code> without exception 
+      <em class="summary">(INTERNAL) Format a <code>ValueError</code> with/-out exception 
         chaining.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersError-class.html">pygeodesy.albers.AlbersError</a></strong>:
@@ -440,6 +440,32 @@
     </ul>
     </li>
     </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.ltp._ChLV</strong>:
+      <em class="summary">(INTERNAL) Base class for <code>ChLV*</code> classes.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLV-class.html">pygeodesy.ltp.ChLV</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">pygeodesy.EcefKarney</a>'s Earth-Centered, Earth-Fixed
+        (ECEF) methods.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLVa-class.html">pygeodesy.ltp.ChLVa</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Approximate</a> formulas, pp 13-14.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLVe-class.html">pygeodesy.ltp.ChLVe</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11.</em>
     </li>
     </ul>
     </li>
@@ -1047,14 +1073,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1066,6 +1084,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1109,10 +1135,33 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLVa-class.html">pygeodesy.ltp.ChLVa</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Approximate</a> formulas, pp 13-14.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLVe-class.html">pygeodesy.ltp.ChLVe</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using the <a 
+        href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Ltp-class.html">pygeodesy.ltp.Ltp</a></strong>:
       <em class="summary">A <i>local tangent plan</i> LTP, a sub-class of 
         <code>LocalCartesian</code> with configurable ECEF converter and 
         without optional rotation matrix.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp.ChLV-class.html">pygeodesy.ltp.ChLV</a></strong>:
+      <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
+        projection coordinates using <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">pygeodesy.EcefKarney</a>'s Earth-Centered, Earth-Fixed
+        (ECEF) methods.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -1177,13 +1226,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1199,6 +1241,13 @@
         class="link">Cartesian</a> to <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
     </li>
     </ul>
     </li>
@@ -1741,6 +1790,16 @@
         lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
         lonE)</code> corner lat- and longitudes.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html">pygeodesy.ltpTuples.ChLVEN2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <i><b>falsed</b> Swiss 
+        LV95</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(2_600_000, 1_200_000)</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html">pygeodesy.ltpTuples.ChLVyx2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <i><b>falsed</b> Swiss 
+        LV03</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(600_000, 200_000)</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Circin6Tuple-class.html">pygeodesy.vector2d.Circin6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(radius, center, deltas, cA, cB, cC)</code> with the 
         <code>radius</code>, the trilaterated <code>center</code> and 
@@ -1969,12 +2028,14 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon3Tuple-class.html">pygeodesy.namedTuples.LatLon3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
         <code>degrees180</code> and <code>meter</code>, conventionally.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon4Tuple-class.html">pygeodesy.namedTuples.LatLon4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <code>meter</code>
         and <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css.LatLonAziRk4Tuple-class.html">pygeodesy.css.LatLonAziRk4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, azimuth, reciprocal)</code>, all in 
@@ -1986,22 +2047,26 @@
       <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
         <code>degrees180</code> and <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html">pygeodesy.namedTuples.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.</em>
     </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html">pygeodesy.namedTuples.LatLonPrec3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(lat, lon, precision)</code> in <code>degrees</code>,
         <code>degrees</code> and <code>int</code>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonPrec5Tuple-class.html">pygeodesy.namedTuples.LatLonPrec5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, precision, height, radius)</code> in 
         <code>degrees</code>, <code>degrees</code>, <code>int</code> and 
         <code>height</code> or <code>radius</code> in <code>meter</code> 
         (or <code>None</code> if missing).</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">pygeodesy.ltpTuples.Local9Tuple</a></strong>:
       <em class="summary">9-Tuple <code>(x, y, z, lat, lon, height, ltp, ecef, M)</code> with
@@ -2017,6 +2082,21 @@
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
         class="link">EcefMatrix</a>) or <code>None</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html">pygeodesy.ltpTuples.ChLV9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(Y, X, h_, lat, lon, height, ltp, ecef, M)</code> 
+        with <i><b>unfalsed</b> Swiss (Y, X, h_)</i> coordinates and 
+        height, all in <code>meter</code>, <code>ltp</code> either a <a 
+        href="pygeodesy.ltp.ChLV-class.html" class="link">ChLV</a>, <a 
+        href="pygeodesy.ltp.ChLVa-class.html" class="link">ChLVa</a> or <a 
+        href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> 
+        instance and <code>ecef</code> (<a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a> <i>at Bern, Ch</i>, otherwise like <a 
+        href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+        class="link">Local9Tuple</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Meeus2Tuple-class.html">pygeodesy.vector2d.Meeus2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
@@ -2946,6 +3026,16 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
         lonE)</code> corner lat- and longitudes.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html">pygeodesy.ltpTuples.ChLVEN2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <i><b>falsed</b> Swiss 
+        LV95</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(2_600_000, 1_200_000)</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html">pygeodesy.ltpTuples.ChLVyx2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <i><b>falsed</b> Swiss 
+        LV03</i> coordinates, both in <code>meter</code> with origin 
+        <code>Bern, Ch</code> at <code>(600_000, 200_000)</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Circin6Tuple-class.html">pygeodesy.vector2d.Circin6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(radius, center, deltas, cA, cB, cC)</code> with the 
         <code>radius</code>, the trilaterated <code>center</code> and 
@@ -3174,12 +3264,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon3Tuple-class.html">pygeodesy.namedTuples.LatLon3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
         <code>degrees180</code> and <code>meter</code>, conventionally.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon4Tuple-class.html">pygeodesy.namedTuples.LatLon4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <code>meter</code>
         and <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css.LatLonAziRk4Tuple-class.html">pygeodesy.css.LatLonAziRk4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, azimuth, reciprocal)</code>, all in 
@@ -3191,22 +3283,26 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
         <code>degrees180</code> and <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html">pygeodesy.namedTuples.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.</em>
     </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html">pygeodesy.namedTuples.LatLonPrec3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(lat, lon, precision)</code> in <code>degrees</code>,
         <code>degrees</code> and <code>int</code>.</em>
-    </li>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonPrec5Tuple-class.html">pygeodesy.namedTuples.LatLonPrec5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, precision, height, radius)</code> in 
         <code>degrees</code>, <code>degrees</code>, <code>int</code> and 
         <code>height</code> or <code>radius</code> in <code>meter</code> 
         (or <code>None</code> if missing).</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">pygeodesy.ltpTuples.Local9Tuple</a></strong>:
       <em class="summary">9-Tuple <code>(x, y, z, lat, lon, height, ltp, ecef, M)</code> with
@@ -3222,6 +3318,21 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         rotation matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
         class="link">EcefMatrix</a>) or <code>None</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html">pygeodesy.ltpTuples.ChLV9Tuple</a></strong>:
+      <em class="summary">9-Tuple <code>(Y, X, h_, lat, lon, height, ltp, ecef, M)</code> 
+        with <i><b>unfalsed</b> Swiss (Y, X, h_)</i> coordinates and 
+        height, all in <code>meter</code>, <code>ltp</code> either a <a 
+        href="pygeodesy.ltp.ChLV-class.html" class="link">ChLV</a>, <a 
+        href="pygeodesy.ltp.ChLVa-class.html" class="link">ChLVa</a> or <a 
+        href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> 
+        instance and <code>ecef</code> (<a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a> <i>at Bern, Ch</i>, otherwise like <a 
+        href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+        class="link">Local9Tuple</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Meeus2Tuple-class.html">pygeodesy.vector2d.Meeus2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(radius, Type)</code> with <code>radius</code> and 
@@ -3618,7 +3729,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 21 12:17:19 2022
+    Generated by Epydoc 3.0.1 on Thu Sep 29 18:50:11 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

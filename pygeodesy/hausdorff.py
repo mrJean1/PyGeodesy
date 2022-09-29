@@ -91,7 +91,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '22.09.15'
+__version__ = '22.09.24'
 
 
 class HausdorffError(PointsError):
@@ -214,7 +214,7 @@ class Hausdorff(_Named):
             try:
                 Random(seed)
             except (TypeError, ValueError) as x:
-                raise HausdorffError(seed=seed, txt=str(x))
+                raise HausdorffError(seed=seed, cause=x)
             self._seed = seed
         else:
             self._seed = None

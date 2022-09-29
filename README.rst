@@ -153,7 +153,7 @@ Monterey.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Sep 22, 2022.*
+*Last updated: Sep 29, 2022.*
 
 License
 =======

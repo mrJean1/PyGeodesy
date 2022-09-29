@@ -44,10 +44,10 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_property_RO, \
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 from pygeodesy.units import Float, Int
 
-from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used!
+from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -836,7 +836,7 @@ class Fsum(_Named):
         '''
         E, t = _xError2(X)
         n = unstr(self.named3, *xs[:3], _ELLIPSIS=len(xs) > 3, **kwds)
-        return E(n, txt=t)
+        return E(n, txt=t, cause=X)
 
     def _facc(self, xs, up=True):  # from .elliptic._Defer.Fsum
         '''(INTERNAL) Accumulate more known C{scalar}s.

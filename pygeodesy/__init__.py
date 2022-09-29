@@ -304,6 +304,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var PI_2:  Half PI, M{PI / 2} (C{float}).
 @var PI3:   Three PI, M{PI * 3} (C{float}).
 @var PI3_2: One and a half PI, M{PI * 3 / 2} (C{float}).
+@var PI_3:  One third PI, M{PI / 3} (C{float}).
 @var PI4:   Four PI, M{PI * 4} (C{float}).
 @var PI_4:  Quarter PI, M{PI / 4} (C{float}).
 
@@ -571,7 +572,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.09.22'
+__version__ = '22.09.29'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

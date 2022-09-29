@@ -64,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1567,7 +1567,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
         try:
             y0, x0 = map1(float, *point[:2])
         except (IndexError, TypeError, ValueError) as x:
-            raise _ValueError(point=point, txt=str(x))
+            raise _ValueError(point=point, cause=x)
 
     if wrap:
         x0, y0 = wrap180(x0), wrap90(y0)

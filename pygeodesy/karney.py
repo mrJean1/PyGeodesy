@@ -139,7 +139,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -873,7 +873,7 @@ def _raiseX(inst, x, *args):  # PYCHOK no cover
     '''(INTERNAL) Throw a C{GeodesicError} for C{geographiclib} issue B{C{x}} .
     '''
     n = _DOT_(classname(inst), callername(up=2, underOK=True))
-    raise GeodesicError(unstr(n, *args), txt=str(x))
+    raise GeodesicError(unstr(n, *args), cause=x)
 
 
 def _remainder(x, y):

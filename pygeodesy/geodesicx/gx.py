@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -312,7 +312,7 @@ class GeodesicExact(_GeodesicBase):
             _C4_xx = _DOT_(_MODS.geodesicx.__name__, NN('_C4_', nC4))
             _coeffs = _MODS.getattr(_C4_xx, NN('_coeffs_', nC4))
         except (AttributeError, ImportError, TypeError) as x:
-            raise GeodesicError(nC4=nC4, txt=str(x))
+            raise GeodesicError(nC4=nC4, cause=x)
         n = _xnC4(nC4=nC4)
         if len(_coeffs) != n:  # double check
             raise GeodesicError(_coeffs=len(_coeffs), _xnC4=n, nC4=nC4)

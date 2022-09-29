@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.09.15'
+__version__ = '22.09.24'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -604,7 +604,7 @@ class _RhumbLine(_RhumbBase):
                     return _LL2T(p.lat, p.lon, iteration=i,  # PYCHOK p...
                                  name=self.intersection2.__name__)
         except Exception as x:
-            raise IntersectionError(_no_(_intersection_), txt=str(x))
+            raise IntersectionError(_no_(_intersection_), cause=x)
         t = unstr(self.intersection2.__name__, tol=tol, **eps)
         raise IntersectionError(Fmt.no_convergence(d), txt=t)
 

@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ltpTuples.ChLV9Tuple</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ltpTuples-module.html">Module&nbsp;ltpTuples</a> ::
+        Class&nbsp;ChLV9Tuple
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class ChLV9Tuple</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+   object --+            
+            |            
+        tuple --+        
+                |        
+   object --+   |        
+            |   |        
+ <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+                |        
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+    
+                    |    
+          <a href="pygeodesy.ltpTuples.Local9Tuple-class.html">Local9Tuple</a> --+
+                        |
+                       <strong class="uidshort">ChLV9Tuple</strong>
+</pre>
+
+<hr />
+<p>9-Tuple <code>(Y, X, h_, lat, lon, height, ltp, ecef, M)</code> with 
+  <i><b>unfalsed</b> Swiss (Y, X, h_)</i> coordinates and height, all in 
+  <code>meter</code>, <code>ltp</code> either a <a 
+  href="pygeodesy.ltp.ChLV-class.html" class="link">ChLV</a>, <a 
+  href="pygeodesy.ltp.ChLVa-class.html" class="link">ChLVa</a> or <a 
+  href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> instance and
+  <code>ecef</code> (<a href="pygeodesy.ecef.EcefKarney-class.html" 
+  class="link">EcefKarney</a> <i>at Bern, Ch</i>, otherwise like <a 
+  href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+  class="link">Local9Tuple</a>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">Local9Tuple</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toAer">toAer</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toCartesian">toCartesian</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toEnu">toEnu</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toLatLon">toLatLon</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toNed">toNed</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#toXyz">toXyz</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
+      <code>__add__</code>,
+      <code>__contains__</code>,
+      <code>__eq__</code>,
+      <code>__ge__</code>,
+      <code>__getattribute__</code>,
+      <code>__getitem__</code>,
+      <code>__getnewargs__</code>,
+      <code>__getslice__</code>,
+      <code>__gt__</code>,
+      <code>__hash__</code>,
+      <code>__iter__</code>,
+      <code>__le__</code>,
+      <code>__len__</code>,
+      <code>__lt__</code>,
+      <code>__mul__</code>,
+      <code>__ne__</code>,
+      <code>__rmul__</code>,
+      <code>count</code>,
+      <code>index</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__init__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Static Methods</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__new__">__new__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#E_LV95" class="summary-name">E_LV95</a><br />
+      Get the <i>falsed Swiss E_LV95</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#EN2_LV95" class="summary-name">EN2_LV95</a><br />
+      Get the <i>falsed Swiss (E_LV95, N_LV95)</i> coordinates (<a 
+      href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" 
+      class="link">ChLVEN2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#h_LV03" class="summary-name">h_LV03</a><br />
+      Get the <i>Swiss height</i> (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#h_LV95" class="summary-name">h_LV95</a><br />
+      Get the <i>Swiss height</i> (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#isChLV" class="summary-name">isChLV</a><br />
+      Is this an <a href="pygeodesy.ltp.ChLV-class.html" 
+      class="link">ChLV</a>-generated <a 
+      href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+      class="link">ChLV9Tuple</a>?.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#isChLVa" class="summary-name">isChLVa</a><br />
+      Is this an <a href="pygeodesy.ltp.ChLVa-class.html" 
+      class="link">ChLVa</a>-generated <a 
+      href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+      class="link">ChLV9Tuple</a>?.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#isChLVe" class="summary-name">isChLVe</a><br />
+      Is this an <a href="pygeodesy.ltp.ChLVe-class.html" 
+      class="link">ChLVe</a>-generated <a 
+      href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+      class="link">ChLV9Tuple</a>?.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#N_LV95" class="summary-name">N_LV95</a><br />
+      Get the <i>falsed Swiss N_LV95</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#x" class="summary-name">x</a><br />
+      Get the <i>local x, Swiss Y</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#x_LV03" class="summary-name">x_LV03</a><br />
+      Get the <i>falsed Swiss x_LV03</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#y" class="summary-name">y</a><br />
+      Get the <i>local y, Swiss X</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#y_LV03" class="summary-name">y_LV03</a><br />
+      Get the <i>falsed Swiss y_LV03</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#yx2_LV03" class="summary-name">yx2_LV03</a><br />
+      Get the <i>falsed Swiss (y_LV03, x_LV03)</i> coordinates (<a 
+      href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html" 
+      class="link">ChLVyx2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html#z" class="summary-name">z</a><br />
+      Get the <i>local z, Swiss h_</i> coordinate (<code>meter</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html">Local9Tuple</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#azimuth">azimuth</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#down">down</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#east">east</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#elevation">elevation</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#groundrange">groundrange</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#lam">lam</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#north">north</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#phi">phi</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#slantrange">slantrange</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#up">up</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Local9Tuple-class.html#xyzLocal">xyzLocal</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="E_LV95"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">E_LV95</h3>
+  <p>Get the <i>falsed Swiss E_LV95</i> coordinate 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">E_LV95(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss E_LV95</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="EN2_LV95"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">EN2_LV95</h3>
+  <p>Get the <i>falsed Swiss (E_LV95, N_LV95)</i> coordinates (<a 
+  href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" 
+  class="link">ChLVEN2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">EN2_LV95(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss (E_LV95, N_LV95)</i> coordinates (<a 
+href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" 
+class="link">ChLVEN2Tuple</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="h_LV03"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">h_LV03</h3>
+  <p>Get the <i>Swiss height</i> (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">h_LV03(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>Swiss height</i> (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="h_LV95"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">h_LV95</h3>
+  <p>Get the <i>Swiss height</i> (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">h_LV95(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>Swiss height</i> (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isChLV"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isChLV</h3>
+  <p>Is this an <a href="pygeodesy.ltp.ChLV-class.html" 
+  class="link">ChLV</a>-generated <a 
+  href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+  class="link">ChLV9Tuple</a>?.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isChLV(<span class="summary-sig-arg">self</span>)</span>
+        - Is this an <a href="pygeodesy.ltp.ChLV-class.html" 
+class="link">ChLV</a>-generated <a 
+href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+class="link">ChLV9Tuple</a>?.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isChLVa"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isChLVa</h3>
+  <p>Is this an <a href="pygeodesy.ltp.ChLVa-class.html" 
+  class="link">ChLVa</a>-generated <a 
+  href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+  class="link">ChLV9Tuple</a>?.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isChLVa(<span class="summary-sig-arg">self</span>)</span>
+        - Is this an <a href="pygeodesy.ltp.ChLVa-class.html" 
+class="link">ChLVa</a>-generated <a 
+href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+class="link">ChLV9Tuple</a>?.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isChLVe"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isChLVe</h3>
+  <p>Is this an <a href="pygeodesy.ltp.ChLVe-class.html" 
+  class="link">ChLVe</a>-generated <a 
+  href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+  class="link">ChLV9Tuple</a>?.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isChLVe(<span class="summary-sig-arg">self</span>)</span>
+        - Is this an <a href="pygeodesy.ltp.ChLVe-class.html" 
+class="link">ChLVe</a>-generated <a 
+href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+class="link">ChLV9Tuple</a>?.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="N_LV95"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">N_LV95</h3>
+  <p>Get the <i>falsed Swiss N_LV95</i> coordinate 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">N_LV95(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss N_LV95</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="x"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">x</h3>
+  <p>Get the <i>local x, Swiss Y</i> coordinate (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>local x, Swiss Y</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="x_LV03"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">x_LV03</h3>
+  <p>Get the <i>falsed Swiss x_LV03</i> coordinate 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">x_LV03(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss x_LV03</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="y"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">y</h3>
+  <p>Get the <i>local y, Swiss X</i> coordinate (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>local y, Swiss X</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="y_LV03"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">y_LV03</h3>
+  <p>Get the <i>falsed Swiss y_LV03</i> coordinate 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">y_LV03(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss y_LV03</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="yx2_LV03"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">yx2_LV03</h3>
+  <p>Get the <i>falsed Swiss (y_LV03, x_LV03)</i> coordinates (<a 
+  href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html" 
+  class="link">ChLVyx2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">yx2_LV03(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>falsed Swiss (y_LV03, x_LV03)</i> coordinates (<a 
+href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html" 
+class="link">ChLVyx2Tuple</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="z"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">z</h3>
+  <p>Get the <i>local z, Swiss h_</i> coordinate (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">z(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>local z, Swiss h_</i> coordinate (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Sep 29 18:50:14 2022
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

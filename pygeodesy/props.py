@@ -7,32 +7,33 @@ deprecation decorators.
 To enable C{DeprecationWarning}s from C{PyGeodesy}, set env var
 C{PYGEODESY_WARNINGS} to a non-empty string I{AND} run C{python}
 with command line option C{-X dev} or with one of the C{-W}
-choices, see function L{DeprecationWarnings} below.
+choices, see callable L{DeprecationWarnings} below.
 '''
 
 from pygeodesy.basics import isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xkwds, _xkwds_get
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
-                             _DEPRECATED_, _DNL_, _DOT_, _EQUALSPACED_, \
+                             _DEPRECATED_, _DOT_, _EQUALSPACED_, \
                              _immutable_, _invalid_, _N_A_, _not_, \
-                             _SPACE_, _UNDER_
+                             _SPACE_, _UNDER_,  _DNL_  # PYCHOK used!
 # from pygeodesy.named import callname  # from _MODS, avoid circular
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
-                             _FOR_DOCS, _PYTHON_X_DEV, _sys
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
+                             _FOR_DOCS, _WARNINGS_X_DEV
 # from pygeodesy.streprs import Fmt  # from _MODS
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '22.09.16'
+__version__ = '22.09.23'
 
+_class_       = 'class'
 _dont_use_    = _DEPRECATED_ + ", don't use."
-_has_been_    = 'has been'
+_function_    = 'function'
+_get_and_set_ = 'get and set'
+_has_been_    = 'has been'  # PYCHOK used!
+_method_      = 'method'
 _not_an_inst_ = _not_(_an_, 'instance')
-_Warnings     =  0
-_W_DEV        = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
-                 and _getenv('PYGEODESY_WARNINGS', NN)
 
 
 def _allPropertiesOf(Clas_or_inst, *Bases):
@@ -362,7 +363,7 @@ def property_doc_(doc):
     def _documented_property(method):
         '''(INTERNAL) Return the documented C{property}.
         '''
-        t = 'get and set' if doc.startswith(_SPACE_) else NN
+        t = _get_and_set_ if doc.startswith(_SPACE_) else NN
         return _NamedProperty(method, None, None, NN('Property to ', t, doc))
 
     return _documented_property
@@ -397,9 +398,9 @@ def deprecated_class(cls_or_class):
 
        @note: NOT a decorator!
     '''
-    if _W_DEV:
+    if _WARNINGS_X_DEV:
         q = _DOT_(cls_or_class.__module__, cls_or_class.__name__)
-        _throwarning('class', q, cls_or_class.__doc__)
+        _throwarning(_class_, q, cls_or_class.__doc__)
 
 
 def deprecated_function(call):
@@ -409,9 +410,9 @@ def deprecated_function(call):
 
        @return: The B{C{call}} DEPRECATED.
     '''
-    return _deprecated(call, 'function', _DOT_(
+    return _deprecated(call, _function_, _DOT_(
                        call.__module__, call.__name__)) if \
-           _W_DEV else call
+           _WARNINGS_X_DEV else call
 
 
 def deprecated_method(call):
@@ -421,17 +422,17 @@ def deprecated_method(call):
 
        @return: The B{C{call}} DEPRECATED.
     '''
-    return _deprecated(call, 'method', NN) if _W_DEV else call
+    return _deprecated(call, _method_, NN) if _WARNINGS_X_DEV else call
 
 
 def _deprecated_module(name):  # PYCHOK no cover
     '''(INTERNAL) Callable within a DEPRECATED module.
     '''
-    if _W_DEV:
+    if _WARNINGS_X_DEV:
         _throwarning('module', name, _dont_use_)
 
 
-if _W_DEV:
+if _WARNINGS_X_DEV:
     class deprecated_property(_PropertyBase):
         '''Decorator for a DEPRECATED C{property} or C{Property}.
         '''
@@ -510,7 +511,7 @@ def _deprecated_RO(method, _RO):
     '''
     doc = _docof(method)
 
-    if _W_DEV:
+    if _WARNINGS_X_DEV:
 
         class _Deprecated_RO(_PropertyBase):
             __doc__ = doc
@@ -526,20 +527,6 @@ def _deprecated_RO(method, _RO):
         return _Deprecated_RO(method)
     else:  # PYCHOK no cover
         return _RO(method, doc=doc)
-
-
-def DeprecationWarnings():
-    '''Have any C{DeprecationWarning}s been reported or raised?
-
-       @return: The number of C{DeprecationWarning}s (C{int}) so
-                far or C{None} if not enabled.
-
-       @note: To get C{DeprecationWarning}s if any, run C{python}
-              with env var C{PYGEODESY_WARNINGS} set to a non-empty
-              string I{AND} use C{python[3]} command line option
-              C{-X dev}, C{-W always} or C{-W error}, etc.
-    '''
-    return _Warnings if _W_DEV else None
 
 
 def _docof(obj):
@@ -562,20 +549,51 @@ def _qualified(inst, name):
     return q
 
 
-def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
-    '''(INTERNAL) Report or raise a C{DeprecationWarning}.
+class DeprecationWarnings(object):
+    '''(INTERNAL) Handle C{DeprecationWaring}s.
     '''
-    from warnings import warn
+    _Warnings = 0
 
-    line =  doc.split(_DNL_, 1)[0].strip()
-    name = _MODS.streprs.Fmt.CURLY(L=name)
-    text = _SPACE_(kind, name, _has_been_, *line.split())
-    kwds = _xkwds(stacklevel, stacklevel=3)
-    # XXX invoke warn or raise DeprecationWarning(text)
-    warn(text, category=DeprecationWarning, **kwds)
+    def __call__(self):  # for backward compatibility
+        '''Have any C{DeprecationWarning}s been reported or raised?
 
-    global _Warnings
-    _Warnings += 1
+           @return: The number of C{DeprecationWarning}s (C{int}) so
+                    far or C{None} if not enabled.
+
+           @note: To get C{DeprecationWarning}s if any, run C{python}
+                  with env var C{PYGEODESY_WARNINGS} set to a non-empty
+                  string I{AND} use C{python[3]} command line option
+                  C{-X dev}, C{-W always} or C{-W error}, etc.
+        '''
+        return self.Warnings
+
+    def throw(self, kind, name, doc, **stacklevel):  # stacklevel=3
+        '''Report or raise a C{DeprecationWarning}.
+        '''
+        line =  doc.split(_DNL_, 1)[0].strip()
+        name = _MODS.streprs.Fmt.CURLY(L=name)
+        text = _SPACE_(kind, name, _has_been_, *line.split())
+        kwds = _xkwds(stacklevel, stacklevel=3)
+        # XXX invoke warn or raise DeprecationWarning(text)
+        self._warn(text, category=DeprecationWarning, **kwds)
+        self._Warnings += 1
+
+    @Property_RO
+    def _warn(self):
+        '''Get Python's C{warnings.warn}.
+        '''
+        from warnings import warn
+        return warn
+
+    @property_RO
+    def Warnings(self):
+        '''Get the number of C{DeprecationWarning}s (C{int}) so
+           far or C{None} if not enabled.
+        '''
+        return self._Warnings if _WARNINGS_X_DEV else None
+
+DeprecationWarnings = DeprecationWarnings()  # PYCHOK singleton
+_throwarning        = DeprecationWarnings.throw
 
 # **) MIT License
 #

@@ -33,7 +33,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.09.20'
+__version__ = '22.09.24'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -699,7 +699,7 @@ class _NamedEnum(_NamedDict):
             if not (n and isstr(n) and isidentifier(n)):
                 raise ValueError
         except (AttributeError, ValueError, TypeError) as x:
-            raise _NameError(_DOT_(_item_, _name_), item, txt=str(x))
+            raise _NameError(_DOT_(_item_, _name_), item, cause=x)
         if n in self:
             raise _NameError(self._DOT_(n), item, txt=_exists_)
         if not (self._item_Classes and isinstance(item, self._item_Classes)):

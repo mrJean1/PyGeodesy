@@ -4,7 +4,7 @@
 u'''Basic C{Float}, C{Int} and C{Str}ing units classes.
 '''
 
-from pygeodesy.errors import UnitError, _xkwds_popitem
+from pygeodesy.errors import UnitError, _XError, _xkwds_popitem
 from pygeodesy.interns import NN, _degrees_, _invalid_, _meter_, \
                              _radians_, _radians2_, _radius_, \
                              _UNDER_,  _std_  # PYCHOK used!
@@ -14,7 +14,7 @@ from pygeodesy.named import modulename, _Named, property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '22.09.15'
+__version__ = '22.09.25'
 
 
 class _NamedUnit(_Named):
@@ -81,10 +81,9 @@ class Float(float, _NamedUnit):
             self = float.__new__(cls, arg)
             if name:
                 _NamedUnit.name.fset(self, name)  # see _Named.name
-            return self
-
-        except (TypeError, ValueError) as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+        except Exception as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name, Error, x=x)
+        return self
 
     def __repr__(self):  # to avoid MRO(float)
         '''Return a representation of this C{Float}.
@@ -160,10 +159,9 @@ class Int(int, _NamedUnit):
             self = int.__new__(cls, arg)
             if name:
                 _NamedUnit.name.fset(self, name)  # see _Named.name
-            return self
-
-        except (TypeError, ValueError) as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+        except Exception as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name, Error, x=x)
+        return self
 
     def __repr__(self):  # to avoid MRO(int)
         '''Return a representation of this named C{int}.
@@ -240,10 +238,9 @@ class Str(str, _NamedUnit):
             self = str.__new__(cls, arg)
             if name:
                 _NamedUnit.name.fset(self, name)  # see _Named.name
-            return self
-
-        except (TypeError, ValueError) as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+        except Exception as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name, Error, x=x)
+        return self
 
     def __repr__(self):
         '''Return a representation of this C{Str}.
@@ -304,19 +301,26 @@ _Str_radians  = Str(_radians_)   # PYCHOK in .frechet, .hausdorff
 _Str_radians2 = Str(_radians2_)  # PYCHOK in .frechet, .hausdorff
 
 
-def _Error(clas, arg, name=NN, Error=UnitError, txt=_invalid_):
+def _Error(clas, arg, name, Error, txt=_invalid_, x=None):
     '''(INTERNAL) Return an error with explanation.
 
        @arg clas: The C{units} class or sub-class.
        @arg arg: The original C{unit} value.
-       @kwarg name: The instance name (C{str}).
-       @kwarg Error: Optional error, overriding the default L{UnitError}.
-       @kwarg txt: Optional explanation of the error (C{str}).
+       @arg name: The instance name (C{str}).
+       @arg Error: The Error class to use (C{Excetion}).
+       @kwarg txt: An explanation of the error )C{str}).
+       @kwarg x: Caught exception, used for exception
+                 chaining (iff enabled in Python3+).
 
        @returns: An B{C{Error}} instance.
     '''
+    if x is not None:  # caught exception, cause
+        if Error is UnitError:  # and isError(x)
+            Error = type(x)  # i.e. if not overridden
+        if txt is _invalid_:
+            txt = str(x)  # i.e. if not overridden
     n = name if name else modulename(clas).lstrip(_UNDER_)
-    return Error(n, arg, txt=txt)
+    return _XError(Error, n, arg, txt=txt, cause=x)
 
 
 __all__ += _ALL_DOCS(_NamedUnit)

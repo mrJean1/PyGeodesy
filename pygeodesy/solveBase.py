@@ -21,7 +21,7 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 _Error_    = 'Error'
 _ERROR_    = 'ERROR'
@@ -183,8 +183,7 @@ class _SolveLineSolveBase(_CapsBase):
             if len(r) < 6 or r[:5] in (_Error_, _ERROR_):
                 raise ValueError(r)
         except (IOError, OSError, TypeError, ValueError) as x:
-            raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin),
-                              txt=str(x))
+            raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)
         self._status = s
         return r
 

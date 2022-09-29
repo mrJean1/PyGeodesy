@@ -235,7 +235,7 @@ class LatLon3Tuple(_NamedTuple):
         return self._xtend(LatLon4Tuple, datum)
 
 
-class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.py
+class LatLon4Tuple(LatLon3Tuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.py
     '''4-Tuple C{(lat, lon, height, datum)} in C{degrees90},
        C{degrees180}, C{meter} and L{Datum}.
     '''
@@ -271,13 +271,13 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
     _Units_ = ( Lat,   Lon,  _Pass)
 
 
-class LatLonDatum5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmupsBase.py
+class LatLonDatum5Tuple(LatLonDatum3Tuple):  # .ups.py, .utm.py, .utmupsBase.py
     '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
        C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
        and C{float}.
     '''
-    _Names_ = (_lat_, _lon_, _datum_, _convergence_, _scale_)
-    _Units_ = ( Lat,   Lon,  _Pass,    Degrees,       Scalar)
+    _Names_ = LatLonDatum3Tuple._Names_ + (_convergence_, _scale_)
+    _Units_ = LatLonDatum3Tuple._Units_ + ( Degrees,       Scalar)
 
 
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
@@ -299,13 +299,13 @@ class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
         return self._xtend(LatLonPrec5Tuple, height, radius)
 
 
-class LatLonPrec5Tuple(_NamedTuple):  # .wgrs.py
+class LatLonPrec5Tuple(LatLonPrec3Tuple):  # .wgrs.py
     '''5-Tuple C{(lat, lon, precision, height, radius)} in C{degrees},
        C{degrees}, C{int} and C{height} or C{radius} in C{meter} (or
        C{None} if missing).
     '''
-    _Names_ = (_lat_, _lon_, _precision_, _height_, _radius_)
-    _Units_ = ( Lat,   Lon,   Precision_,  Height,   Radius)
+    _Names_ = LatLonPrec3Tuple._Names_ + (_height_, _radius_)
+    _Units_ = LatLonPrec3Tuple._Units_ + ( Height,   Radius)
 
 
 class NearestOn2Tuple(_NamedTuple):  # .ellipsoidalBaseDI.py

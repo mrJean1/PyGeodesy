@@ -13,8 +13,8 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xkwds, _xkwds_not
-from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _invalid_, _n_a_, \
-                             _not_, _N_, _NS_, _PLUS_, _SPACE_, _Y_, _Z_
+from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _n_a_, _not_, \
+                             _N_, _NS_, _PLUS_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -123,10 +123,9 @@ def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, 
                 elif not B:
                     return z, B, hp
 
-        t = _invalid_
+        raise ValueError  # _invalid_
     except (AttributeError, IndexError, TypeError, ValueError) as x:
-        t =  str(x)  # no Python 3+ exception chaining
-    raise Error(zone=zone, band=B, hemipole=hemipole, txt=t)
+        raise Error(zone=zone, band=B, hemipole=hemipole, cause=x)
 
 
 def _to3zll(lat, lon):  # imported by .ups, .utm

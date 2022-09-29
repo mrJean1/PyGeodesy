@@ -4,7 +4,7 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '22.09.23'
 
 from base import TestsBase
 
@@ -52,6 +52,8 @@ class Tests(TestsBase):
             self.test('Error', U('X', Error=TypeError), TypeError, known=known)
         except TypeError as x:
             self.test(n, x.__class__.__name__, TypeError.__name__)
+            x = str(x)
+            self.test(n, x, "'X'", known='X' in x)
 
         u.rename('Test')
         R = '%s (%r)' % (u.name, arg)

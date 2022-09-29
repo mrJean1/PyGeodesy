@@ -68,7 +68,7 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.09.15'
+__version__ = '22.09.24'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -234,10 +234,9 @@ def date2epoch(year, month, day):
         if y > 0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
             return Epoch(y + float(sum(_mDays[:m]) + d) / _366_0, low=0)
 
-        t = NN  # _invalid_
+        raise ValueError  # _invalid_
     except (TRFError, TypeError, ValueError) as x:
-        t = str(x)
-    raise TRFError(year=year, month=month, day=day, txt=t)
+        raise TRFError(year=year, month=month, day=day, cause=x)
 
 
 def epoch2date(epoch):

@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '22.09.14'
+__version__ = '22.09.29'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -93,7 +93,7 @@ def _2garstr2(garef):
         return garstr, _2Precision(n - _MinLen)
 
     except (AttributeError, TypeError, ValueError) as x:
-        raise GARSError(Garef.__name__, garef, txt=str(x))
+        raise GARSError(Garef.__name__, garef, cause=x)
 
 
 def _2Precision(precision):

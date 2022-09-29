@@ -58,7 +58,7 @@ See module L{datums} for L{Datum} and L{Transform} information and other details
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import copysign0, isint
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, R_M, R_MA, R_FM, \
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INF, NINF, PI4, PI_2, PI_3, R_M, R_MA, R_FM, \
                                _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, _SQRT2_2, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
@@ -85,7 +85,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.09.16'
+__version__ = '22.09.24'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -253,7 +253,7 @@ class Ellipsoid(_NamedEnumItem):
         except (TypeError, ValueError) as x:
             d = _xkwds_not(None, b=b, f_=f_, f=f)
             t =  instr(self, a=a, name=name, **d)
-            raise _ValueError(t, txt=str(x))
+            raise _ValueError(t, cause=x)
 
         self._a  = a
         self._b  = b
@@ -331,7 +331,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def a_f(self):
-        '''Get the I{equatorial} radius and I{flattening} (L{a_f2Tuple}).
+        '''Get the I{equatorial} radius and I{flattening} (L{a_f2Tuple}), see method C{toEllipsoid2}.
         '''
         return a_f2Tuple(self.a, self.f, name=self.name)
 
@@ -852,7 +852,7 @@ class Ellipsoid(_NamedEnumItem):
                     raise ValueError(_negative_)
             except (TypeError, ValueError) as x:
                 t = self._DOT_(Ellipsoid.e2s2.__name__)
-                raise _ValueError(t, s, txt=str(x))
+                raise _ValueError(t, s, cause=x)
         return r
 
     @Property_RO
@@ -1628,6 +1628,15 @@ class Ellipsoid(_NamedEnumItem):
             (sqrt((_3_0 * self.a2_b2 + _1_0) * _0_25) * b) if a < b else a)
         return Radius(Rtriaxial=q)
 
+    def toEllipsoid2(self, name=NN):
+        '''Get a copy of this ellipsoid as an L{Ellipsoid2}.
+
+           @kwarg name: Optional, unique name (C{str}).
+
+           @see: Property C{a_f}.
+        '''
+        return Ellipsoid2(self, None, name=name)
+
     def toStr(self, prec=8, name=NN, **unused):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
 
@@ -1649,7 +1658,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: C{R3}.
         '''
-        return Meter3(volume=self.a2 * self.b * (PI4 / _3_0))
+        return Meter3(volume=self.a2 * self.b * PI_3 * _4_0)
 
 
 class Ellipsoid2(Ellipsoid):
@@ -1669,7 +1678,11 @@ class Ellipsoid2(Ellipsoid):
            @note: C{abs(B{f}) < EPS} is forced to C{B{f}=0}, I{spherical}.
                   Negative C{B{f}} produces a I{prolate} ellipsoid.
         '''
-        Ellipsoid.__init__(self, a, f=f, name=name)
+        if f is None and isinstance(a, Ellipsoid):
+            Ellipsoid.__init__(self, a.a,   f =a.f,
+                                     b=a.b, f_=a.f_, name=name)
+        else:
+            Ellipsoid.__init__(self, a, f=f, name=name)
 
 
 def _spherical_a_b(a, b):
@@ -2102,7 +2115,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Fisher1968     = _lazy('Fisher1968',     *_T(6378150.0,    6356768.33724438,  298.3)),
 #   Fisher1968Mod  = _lazy('Fisher1968Mod',  *_T(6378155.0,   _0_0,               298.3)),
     GEM10C         = _lazy('GEM10C',         *_T(R_MA,         6356752.31424783,  298.2572236)),
-#   GPES           = _lazy('GPES',           *_T(6378135.0,    6356750.0,        _0_0)),  # "Gen. Purpose Earth Spheroid"
+    GPES           = _lazy('GPES',           *_T(6378135.0,    6356750.0,        _0_0)),  # "Gen. Purpose Earth Spheroid"
     GRS67          = _lazy('GRS67',          *_T(6378160.0,   _0_0,               298.247167427)),  # Lucerne b=6356774.516
 #   GRS67Truncated = _lazy('GRS67Truncated', *_T(6378160.0,   _0_0,               298.25)),
     GRS80          = _lazy(_GRS80_,          *_T(R_MA,         6356752.314140347, 298.257222101)),  # ITRS, ETRS89

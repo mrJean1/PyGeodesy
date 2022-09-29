@@ -24,9 +24,10 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS, \
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from math import copysign as _copysign
+import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.09.16'
+__version__ = '22.09.25'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
@@ -174,16 +175,15 @@ if isbool(1) or isbool(0):  # PYCHOK assert
     raise _AssertionError(isbool=1)
 
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
-    from inspect import isclass as _isclass
 
     def isclass(obj):
         '''Return C{True} if B{C{obj}} is a C{class} or C{type}.
 
            @see: Python's C{inspect.isclass}.
         '''
-        return _isclass(obj)
+        return _inspect.isclass(obj)
 else:
-    from inspect import isclass  # PYCHOK re-import
+    isclass = _inspect.isclass
 
 
 def iscomplex(obj):
@@ -481,6 +481,16 @@ def unsigned0(x):
     return x if x else _0_0
 
 
+def _xargs_names(callabl):
+    '''(INTERNAL) Get the C{callabl}'s args names.
+    '''
+    try:
+        args_kwds = _inspect.signature(callabl).parameters.keys()
+    except AttributeError:  # .signature new Python 3+
+        args_kwds = _inspect.getargspec(callabl).args
+    return tuple(args_kwds)
+
+
 def _xcopy(inst, deep=False):
     '''(INTERNAL) Copy an object, shallow or deep.
 
@@ -529,7 +539,7 @@ def _xImportError(x, where, **name):
     '''(INTERNAL) Embellish an C{ImportError}.
     '''
     t = _SPACE_(_required_, _by_, _xwhere(where, **name))
-    return _ImportError(_Xstr(x), txt=t)
+    return _ImportError(_Xstr(x), txt=t, cause=x)
 
 
 def _xinstanceof(*Types, **name_value_pairs):
@@ -640,7 +650,7 @@ def _xwhere(where, **name):
     return m
 
 
-if _sys_version_info2 < (3, 10):
+if _sys_version_info2 < (3, 10):  # see .errors
     _zip = zip  # PYCHOK exported
 else:  # Python 3.10+
 

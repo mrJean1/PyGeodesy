@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Clip a path or polygon.
+u'''Clip a path or polygon against a box or region.
 
 Clip a path or polygon of C{LatLon} points against a rectangular
 box or a (convex) clip region.
@@ -21,27 +21,32 @@ from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
-_fj_ = 'fj'
+_box_    = 'box'
+_clip_   = 'clip'
+_fj_     = 'fj'
+_region_ = 'region'
 
 
 class ClipError(_ValueError):
     '''Clip box or clip region issue.
     '''
-    def __init__(self, *name_n_corners, **txt):
+    def __init__(self, *name_n_corners, **txt_cause):
         '''New L{ClipError}.
 
            @arg name_n_corners: Either just a name (C{str}) or
                                 name, number, corners (C{str},
                                 C{int}, C{tuple}).
-           @kwarg txt: Optional explanation of the error (C{str}).
+           @kwarg txt_cause: Optional C{B{txt}=str} explanation
+                      of the error and C{B{cause}=None} for
+                      exception chaining.
         '''
         if len(name_n_corners) == 3:
             t, n, v = name_n_corners
-            n = _SPACE_(t, 'clip', 'box' if n == 2 else 'region')
+            n = _SPACE_(t, _clip_, _box_ if n == 2 else _region_)
             name_n_corners = n, v
-        _ValueError.__init__(self, *name_n_corners, **txt)
+        _ValueError.__init__(self, *name_n_corners, **txt_cause)
 
 
 def _box4(lowerleft, upperright, name):
@@ -55,7 +60,7 @@ def _box4(lowerleft, upperright, name):
         if xmin > xmax or ymin > ymax:
             raise ValueError
     except (AttributeError, TypeError, ValueError) as x:
-        raise ClipError(name, 2, (lowerleft, upperright), txt=str(x))
+        raise ClipError(name, 2, (lowerleft, upperright), cause=x)
     return xmin, ymin, xmax, ymax
 
 
@@ -402,7 +407,7 @@ class _SH(_Named):
             if areaOf(cs, adjust=True, radius=1, wrap=True) < EPS:
                 raise ValueError(NN(_near_, 'zero area'))
         except (PointsError, TypeError, ValueError) as x:
-            raise ClipError(name, n, cs, txt=str(x))
+            raise ClipError(name, n, cs, cause=x)
         self.name = name
 
     def clip2(self, points, closed, inull):  # MCCABE 14, clip points

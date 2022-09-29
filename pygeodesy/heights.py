@@ -85,7 +85,7 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
@@ -177,7 +177,7 @@ def _xyhs(lls, off=True, name=_llis_):
                   (max(_0_0, radiansPI( ll.lat +  _90_0)) - yf), ll.height
     except AttributeError as x:
         i = Fmt.SQUARE(name, i)
-        raise HeightError(i, ll, txt=str(x))
+        raise HeightError(i, ll, cause=x)
 
 
 def _xyhs3(atype, m, knots, off=True):
@@ -483,7 +483,7 @@ class _HeightIDW(_HeightBase):
             ds = self._distances(x, y)
             return fidw(self._hs, ds, beta=self._beta)
         except (TypeError, ValueError) as x:
-            raise HeightError(str(x))
+            raise HeightError(str(x), cause=x)
 
     @property
     def beta(self):
@@ -1021,7 +1021,7 @@ class HeightIDWkarney(_HeightIDW):
                     yield ll.lon, ll.lat
             except AttributeError as x:
                 i = Fmt.SQUARE(llis=i)
-                raise HeightError(i, ll, txt=str(x))
+                raise HeightError(i, ll, cause=x)
 
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))

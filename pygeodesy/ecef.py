@@ -17,54 +17,48 @@ classes L{EcefFarrell22} and L{EcefFarrell22} from I{Jay A. Farrell}'s U{Table 2
 Following is a copy of I{Karney}'s U{Detailed Description
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}.
 
-Convert between geodetic coordinates C{lat}-, C{lon}gitude and height C{h}
-(measured vertically from the surface of the ellipsoid) to geocentric C{x},
-C{y} and C{z} coordinates, also known as I{Earth-Centered, Earth-Fixed}
-(U{ECEF<https://WikiPedia.org/wiki/ECEF>}).
+Convert between geodetic coordinates C{lat}-, C{lon}gitude and height C{h} (measured vertically
+from the surface of the ellipsoid) to geocentric C{x}, C{y} and C{z} coordinates, also known as
+I{Earth-Centered, Earth-Fixed} (U{ECEF<https://WikiPedia.org/wiki/ECEF>}).
 
-The origin of geocentric coordinates is at the center of the earth.  The C{z}
-axis goes thru the North pole, C{lat} = 90°.  The C{x} axis goes thru C{lat}
-= 0°, C{lon} = 0°.
+The origin of geocentric coordinates is at the center of the earth.  The C{z} axis goes thru
+the North pole, C{lat} = 90°.  The C{x} axis goes thru C{lat} = 0°, C{lon} = 0°.
 
-The I{local (cartesian) origin} is at (C{lat0}, C{lon0}, C{height0}).  The I{local} C{x}
-axis points East, the I{local} C{y} axis points North and the I{local} C{z} axis is
-normal to the ellipsoid.  The plane C{z = -height0} is tangent to the ellipsoid, hence
-the alternate name I{local tangent plane}.
+The I{local (cartesian) origin} is at (C{lat0}, C{lon0}, C{height0}).  The I{local} C{x} axis points
+East, the I{local} C{y} axis points North and the I{local} C{z} axis is normal to the ellipsoid.  The
+plane C{z = -height0} is tangent to the ellipsoid, hence the alternate name I{local tangent plane}.
 
 Forward conversion from geodetic to geocentric (ECEF) coordinates is straightforward.
 
-For the reverse transformation we use Hugues Vermeille's U{Direct transformation
-from geocentric coordinates to geodetic coordinates
-<https://DOI.org/10.1007/s00190-002-0273-6>}, J. Geodesy (2002) 76, 451-454.
+For the reverse transformation we use Hugues Vermeille's U{Direct transformation from geocentric
+coordinates to geodetic coordinates <https://DOI.org/10.1007/s00190-002-0273-6>}, J. Geodesy
+(2002) 76, 451-454.
 
-Several changes have been made to ensure that the method returns accurate
-results for all finite inputs (even if h is infinite).  The changes are
-described in Appendix B of C. F. F. Karney U{Geodesics on an ellipsoid of
-revolution<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85, 105-117
-(U{preprint<https://ArXiv.org/abs/1102.1215v1>}).  Vermeille similarly updated
-his method in U{An analytical method to transform geocentric into geodetic
-coordinates<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85,
-105-117.  See U{Geocentric coordinates
-<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
+Several changes have been made to ensure that the method returns accurate results for all finite
+inputs (even if h is infinite).  The changes are described in Appendix B of C. F. F. Karney
+U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85,
+105-117 (U{preprint<https://ArXiv.org/abs/1102.1215v1>}).  Vermeille similarly updated his method
+in U{An analytical method to transform geocentric into geodetic coordinates
+<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85, 105-117.  See U{Geocentric
+coordinates <https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
 
-The errors in these routines are close to round-off.  Specifically, for points
-within 5,000 km of the surface of the ellipsoid (either inside or outside the
-ellipsoid), the error is bounded by 7 nm (7 nanometers) for the WGS84 ellipsoid.
-See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>}
-for further information on the errors.
+The errors in these routines are close to round-off.  Specifically, for points within 5,000 km of
+the surface of the ellipsoid (either inside or outside the ellipsoid), the error is bounded by 7
+nm (7 nanometers) for the WGS84 ellipsoid.  See U{Geocentric coordinates
+<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for further information on the errors.
 
-@see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s
-C++ class U{LocalCartesian
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
-providing conversion to and from I{local} cartesian cordinates in a I{local tangent
-plane} as opposed to I{geocentric} (ECEF) ones.
+@see: Module L{ltp} and class L{LocalCartesian}, a transcription of I{Charles Karney}'s C++ class
+U{LocalCartesian <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>},
+providing conversion to and from I{local} cartesian cordinates in a I{local tangent plane} as
+opposed to I{geocentric} (ECEF) ones.
 '''
 
 from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
                             _xinstanceof, _xsubclassof
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, PI, PI_2, \
-                               _0_0, _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, \
-                               _6_0, _90_0, isnon0,  _N_2_0  # PYCHOK used!
+                               _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, \
+                               _6_0, _60_0, _90_0, _100_0, isnon0, \
+                               _N_2_0  # PYCHOK used!
 from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum
 # from pygeodesy.ellipsoids import a_f2Tuple  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
@@ -78,7 +72,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property_RO, property_RO, property_doc_
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, Scalar, Scalar_
 from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
@@ -87,11 +81,12 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.09.17'
+__version__ = '22.09.26'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
 _TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
+_xyz_y_z  = _xyz_, _y_, _z_  # _xargs_names(_xyzn4)[:3]
 
 
 class EcefError(_ValueError):
@@ -118,37 +113,28 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, name=NN):  # in .lt
         if suffix:
             t = (_ + suffix for _ in t)
         d = dict(zip(t, (lat, lon, h)))
-        raise Error(txt=str(x), **d)
+        raise Error(cause=x, **d)
     return llhn
 
 
-def _sch3(y, x):
-    '''(INTERNAL) Compute sin, cos and hypotenuse.
-    '''
-    h = hypot(y, x)
-    if h > 0:  # EPS_2
-        s, c = y / h, x / h
-    else:
-        s, c = _0_0, _1_0
-    return s, c, h
-
-
-def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN):  # in .ltp
+def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,  # in .ltp
+                            _xyz_y_z_names=_xyz_y_z):
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:
         try:
             t = xyz.x, xyz.y, xyz.z, getattr(xyz, _name_, name)
             if not isinstance(xyz, Types):
-                raise _TypesError(_xyz_, xyz, *Types)
+                raise _TypesError(_xyz_y_z_names[0], xyz, *Types)
         except AttributeError:
             t = map1(float, xyz, y, z) + (name,)
 
     except (TypeError, ValueError) as x:
-        d = dict(zip((_xyz_, _y_, _z_), (xyz, y, z)))
-        raise Error(txt=str(x), **d)
-
+        d = dict(zip(_xyz_y_z_names, (xyz, y, z)))
+        raise Error(cause=x, **d)
     return t
+
+# assert _xyz_y_z == _xargs_names(_xyzn4)[:3]
 
 
 class _EcefBase(_NamedBase):
@@ -182,16 +168,16 @@ class _EcefBase(_NamedBase):
             elif isscalar(E) and isscalar(f):
                 E = a_f2Tuple(E, f)
             else:
-                raise ValueError
+                raise ValueError  # _invalid_
 
             d = _ellipsoidal_datum(E, name=name)
             E =  d.ellipsoid
             if E.a < EPS or E.f > EPS1:
-                raise ValueError
+                raise ValueError  # _invalid_
 
         except (TypeError, ValueError) as x:
             t = unstr(self.classname, a=a_ellipsoid, f=f)
-            raise EcefError(_SPACE_(t, _ellipsoid_), txt=str(x))
+            raise EcefError(_SPACE_(t, _ellipsoid_), cause=x)
 
         self._datum = d
         self._E = E
@@ -303,14 +289,16 @@ class _EcefBase(_NamedBase):
         try:  # like function C{_llhn4} above
             plhn = Phi(phi), Lam(lam), Height(height), name
         except (TypeError, ValueError) as x:
-            raise EcefError(phi=phi, lam=lam, height=height, txt=str(x))
+            raise EcefError(phi=phi, lam=lam, height=height, cause=x)
         return self._forward(*plhn, M=M, _philam=True)
 
-    @Property_RO
+    @property_RO
     def _Geocentrics(self):
         '''(INTERNAL) Valid geocentric classes.
         '''
-        return Ecef9Tuple, _MODS.cartesianBase.CartesianBase
+        t = Ecef9Tuple, _MODS.cartesianBase.CartesianBase
+        _EcefBase._Geocentrics = t  # overwrite the property
+        return t
 
     @Property_RO
     def _isYou(self):
@@ -343,155 +331,6 @@ class _EcefBase(_NamedBase):
            @return: This C{Ecef*} representation (C{str}).
         '''
         return self.attrs(_a_, _f_, _datum_, _name_, prec=prec)  # _ellipsoid_
-
-
-class EcefKarney(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
-       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
-       methods.
-
-       @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
-              at C{(lat, lon, h)}.  We can express C{v} as column vectors in one of two
-              ways, C{v1} in east, north, up coordinates (where the components are
-              relative to a local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
-              in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1} where C{M} is
-              the rotation matrix.
-    '''
-
-    @Property_RO
-    def hmax(self):
-        '''Get the distance or height limit (C{meter}, conventionally).
-        '''
-        return self.equatoradius / EPS_2  # self.equatoradius * _2_EPS, 12M lighyears
-
-    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
-        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
-
-           @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
-                     coordinate (C{meter}).
-           @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
-           @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
-           @kwarg name: Optional name (C{str}).
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
-                    geodetic coordinates C{(lat, lon, height)} for the given geocentric
-                    ones C{(x, y, z)}, case C{C}, optional C{M} (L{EcefMatrix}) and
-                    C{datum} if available.
-
-           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
-                             not C{scalar} for C{scalar} B{C{xyz}}.
-
-           @note: In general, there are multiple solutions and the result which minimizes
-                  C{height} is returned, i.e., C{(lat, lon)} corresponds to the closest
-                  point on the ellipsoid.  If there are still multiple solutions with
-                  different latitudes (applies only if C{z} = 0), then the solution with
-                  C{lat} > 0 is returned.  If there are still multiple solutions with
-                  different longitudes (applies only if C{x} = C{y} = 0) then C{lon} = 0
-                  is returned.  The returned C{height} value is not below M{−E.a * (1 −
-                  E.e2) / sqrt(1 − E.e2 * sin(lat)**2)}.  The returned C{lon} is in the
-                  range [−180°, 180°].  Like C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
-        '''
-        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
-
-        E = self.ellipsoid
-
-        sb, cb, R = _sch3(y, x)
-        h = hypot(R, z)  # distance to earth center
-        if h > self.hmax:  # PYCHOK no cover
-            # We are really far away (> 12M light years).  Treat the earth
-            # as a point and h, above as an acceptable approximation to the
-            # height.  This avoids overflow, e.g., in the computation of disc
-            # below.  It's possible that h has overflowed to INF, that's OK.
-            # Treat finite x, y, but R overflows to +INF by scaling by 2.
-            sb, cb, R = _sch3(y * _0_5, x * _0_5)
-            sa, ca, _ = _sch3(z * _0_5, R)
-            C = 1
-
-        elif E.e4:  # E.isEllipsoidal
-            # Treat prolate spheroids by swapping R and Z here and by
-            # switching the arguments to phi = atan2(...) at the end.
-            p = (R / E.a)**2
-            q = E.e21 * (z / E.a)**2
-            if E.isProlate:
-                p, q = q, p
-            r = p + q - E.e4
-            e = E.e4 * q
-            if e or r > 0:
-                # Avoid possible division by zero when r = 0 by multiplying
-                # equations for s and t by r^3 and r, respectively.
-                s = e * p / _4_0  # s = r^3 * s
-                u = r = r / _6_0
-                r2 = r**2
-                r3 = r * r2
-                t3 = s + r3
-                disc = s * (r3 + t3)
-                if disc < 0:
-                    # t is complex, but the way u is defined, the result is real.
-                    # There are three possible cube roots.  We choose the root
-                    # which avoids cancellation.  Note, disc < 0 implies r < 0.
-                    u += _2_0 * r * cos(atan2(sqrt(-disc), -t3) / _3_0)
-                else:
-                    # Pick the sign on the sqrt to maximize abs(T3).  This
-                    # minimizes loss of precision due to cancellation.  The
-                    # result is unchanged because of the way the t is used
-                    # in definition of u.
-                    if disc > 0:
-                        t3 += copysign0(sqrt(disc), t3)  # t3 = (r * t)^3
-                    # N.B. cbrt always returns the real root, cbrt(-8) = -2.
-                    t = cbrt(t3)  # t = r * t
-                    # t can be zero; but then r2 / t -> 0.
-                    if t:
-                        u = fsum_(u, t, r2 / t)
-                v = sqrt(e + u**2)  # guaranteed positive
-                # Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
-                # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
-                uv = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
-                # Need to guard against w going negative due to roundoff in uv - q.
-                w = max(_0_0, E.e2abs * (uv - q) / (_2_0 * v))
-                # Rearrange expression for k to avoid loss of accuracy due to
-                # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
-                k1 = k2 = uv / (sqrt(uv + w**2) + w)
-                if E.isProlate:
-                    k1 -= E.e2
-                else:
-                    k2 += E.e2
-                sa, ca, h = _sch3(z / k1, R / k2)
-                h *= k1 - E.e21
-                C  = 2
-
-            else:  # e = E.e4 * q == 0 and r <= 0
-                # This leads to k = 0 (oblate, equatorial plane) and k + E.e^2 = 0
-                # (prolate, rotation axis) and the generation of 0/0 in the general
-                # formulas for phi and h, using the general formula and division
-                # by 0 in formula for h.  Handle this case by taking the limits:
-                #   f > 0: z -> 0, k        ->  E.e2 * sqrt(q) / sqrt(E.e4 - p)
-                #   f < 0: r -> 0, k + E.e2 -> -E.e2 * sqrt(q) / sqrt(E.e4 - p)
-                q = E.e4 - p
-                if E.isProlate:
-                    p, q = q, p
-                    e = E.a
-                else:
-                    e = E.b2_a
-                sa, ca, h = _sch3(sqrt(q * E._1_e21), sqrt(p))
-                if z < 0:
-                    sa = neg(sa)  # for tiny negative z, not for prolate
-                h *= neg(e / E.e2abs)
-                C  = 3
-
-        else:  # E.e4 == 0, spherical case
-            # Dealing with underflow in the general case with E.e2 = 0 is
-            # difficult.  Origin maps to North pole, same as with ellipsoid.
-            sa, ca, _ = _sch3((z if h else _1_0), R)
-            h -= E.a
-            C  = 4
-
-        m = self._Matrix(sa, ca, sb, cb) if M else None
-        return Ecef9Tuple(x, y, z, atan2d(sa, ca),
-                                   atan2d(sb, cb), h,
-                                   C, m, self.datum,
-                                   name=name or self.name)
 
 
 class EcefFarrell21(_EcefBase):
@@ -557,7 +396,7 @@ class EcefFarrell21(_EcefBase):
             # note, phi and lam are swapped on page 29
 
         except (ValueError, ZeroDivisionError) as e:
-            raise EcefError(x=x, y=y, z=z, txt=str(e))
+            raise EcefError(x=x, y=y, z=z, cause=e)
 
         return Ecef9Tuple(x, y, z, degrees90(t), atan2d(y, x), h,
                                    1, None, self.datum,
@@ -614,10 +453,163 @@ class EcefFarrell22(_EcefBase):
             # note, phi and lam are swapped on page 30
 
         except (ValueError, ZeroDivisionError) as e:
-            raise EcefError(x=x, y=y, z=z, txt=str(e))
+            raise EcefError(x=x, y=y, z=z, cause=e)
 
         return Ecef9Tuple(x, y, z, degrees90(t), atan2d(y, x), h,
                                    1, None, self.datum,
+                                   name=name or self.name)
+
+
+class EcefKarney(_EcefBase):
+    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
+       Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
+       methods.
+
+       @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
+              at C{(lat, lon, h)}.  We can express C{v} as column vectors in one of two
+              ways, C{v1} in east, north, up coordinates (where the components are
+              relative to a local coordinate system at C{C(lat0, lon0, h0)}) or as C{v0}
+              in geocentric C{x, y, z} coordinates.  Then, M{v0 = M ⋅ v1} where C{M} is
+              the rotation matrix.
+    '''
+
+    @Property_RO
+    def hmax(self):
+        '''Get the distance or height limit (C{meter}, conventionally).
+        '''
+        return self.equatoradius / EPS_2  # self.equatoradius * _2_EPS, 12M lighyears
+
+    def reverse(self, xyz, y=None, z=None, M=False, name=NN):
+        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
+
+           @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
+                     coordinate (C{meter}).
+           @kwarg y: ECEF C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
+           @kwarg z: ECEF C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
+           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg name: Optional name (C{str}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
+                    geodetic coordinates C{(lat, lon, height)} for the given geocentric
+                    ones C{(x, y, z)}, case C{C}, optional C{M} (L{EcefMatrix}) and
+                    C{datum} if available.
+
+           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
+                             not C{scalar} for C{scalar} B{C{xyz}}.
+
+           @note: In general, there are multiple solutions and the result which minimizes
+                  C{height} is returned, i.e., C{(lat, lon)} corresponds to the closest
+                  point on the ellipsoid.  If there are still multiple solutions with
+                  different latitudes (applies only if C{z} = 0), then the solution with
+                  C{lat} > 0 is returned.  If there are still multiple solutions with
+                  different longitudes (applies only if C{x} = C{y} = 0) then C{lon} = 0
+                  is returned.  The returned C{height} value is not below M{−E.a * (1 −
+                  E.e2) / sqrt(1 − E.e2 * sin(lat)**2)}.  The returned C{lon} is in the
+                  range [−180°, 180°].  Like C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
+        '''
+        def norm3(y, x):
+            h = hypot(y, x)  # EPS0, EPS_2
+            return (y / h, x / h, h) if h > 0 else (_0_0, _1_0, h)
+
+        x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
+
+        E = self.ellipsoid
+
+        sb, cb, R = norm3(y, x)
+        h = hypot(R, z)  # distance to earth center
+        if h > self.hmax:  # PYCHOK no cover
+            # We are really far away (> 12M light years).  Treat the earth
+            # as a point and h, above as an acceptable approximation to the
+            # height.  This avoids overflow, e.g., in the computation of disc
+            # below.  It's possible that h has overflowed to INF, that's OK.
+            # Treat finite x, y, but R overflows to +INF by scaling by 2.
+            sb, cb, R = norm3(y * _0_5, x * _0_5)
+            sa, ca, _ = norm3(z * _0_5, R)
+            C = 1
+
+        elif E.e4:  # E.isEllipsoidal
+            # Treat prolate spheroids by swapping R and Z here and by
+            # switching the arguments to phi = atan2(...) at the end.
+            p = (R / E.a)**2
+            q = E.e21 * (z / E.a)**2
+            if E.isProlate:
+                p, q = q, p
+            r = p + q - E.e4
+            e = E.e4 * q
+            if e or r > 0:
+                # Avoid possible division by zero when r = 0 by multiplying
+                # equations for s and t by r^3 and r, respectively.
+                s = e * p / _4_0  # s = r^3 * s
+                u = r = r / _6_0
+                r2 = r**2
+                r3 = r * r2
+                t3 = s + r3
+                disc = s * (r3 + t3)
+                if disc < 0:
+                    # t is complex, but the way u is defined, the result is real.
+                    # There are three possible cube roots.  We choose the root
+                    # which avoids cancellation.  Note, disc < 0 implies r < 0.
+                    u += _2_0 * r * cos(atan2(sqrt(-disc), -t3) / _3_0)
+                else:
+                    # Pick the sign on the sqrt to maximize abs(T3).  This
+                    # minimizes loss of precision due to cancellation.  The
+                    # result is unchanged because of the way the t is used
+                    # in definition of u.
+                    if disc > 0:
+                        t3 += copysign0(sqrt(disc), t3)  # t3 = (r * t)^3
+                    # N.B. cbrt always returns the real root, cbrt(-8) = -2.
+                    t = cbrt(t3)  # t = r * t
+                    # t can be zero; but then r2 / t -> 0.
+                    if t:
+                        u = fsum_(u, t, r2 / t)
+                v = sqrt(e + u**2)  # guaranteed positive
+                # Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
+                # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
+                uv = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
+                # Need to guard against w going negative due to roundoff in uv - q.
+                w = max(_0_0, E.e2abs * (uv - q) / (_2_0 * v))
+                # Rearrange expression for k to avoid loss of accuracy due to
+                # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
+                k1 = k2 = uv / (sqrt(uv + w**2) + w)
+                if E.isProlate:
+                    k1 -= E.e2
+                else:
+                    k2 += E.e2
+                sa, ca, h = norm3(z / k1, R / k2)
+                h *= k1 - E.e21
+                C  = 2
+
+            else:  # e = E.e4 * q == 0 and r <= 0
+                # This leads to k = 0 (oblate, equatorial plane) and k + E.e^2 = 0
+                # (prolate, rotation axis) and the generation of 0/0 in the general
+                # formulas for phi and h, using the general formula and division
+                # by 0 in formula for h.  Handle this case by taking the limits:
+                #   f > 0: z -> 0, k        ->  E.e2 * sqrt(q) / sqrt(E.e4 - p)
+                #   f < 0: r -> 0, k + E.e2 -> -E.e2 * sqrt(q) / sqrt(E.e4 - p)
+                q = E.e4 - p
+                if E.isProlate:
+                    p, q = q, p
+                    e = E.a
+                else:
+                    e = E.b2_a
+                sa, ca, h = norm3(sqrt(q * E._1_e21), sqrt(p))
+                if z < 0:
+                    sa = neg(sa)  # for tiny negative z, not for prolate
+                h *= neg(e / E.e2abs)
+                C  = 3
+
+        else:  # E.e4 == 0, spherical case
+            # Dealing with underflow in the general case with E.e2 = 0 is
+            # difficult.  Origin maps to North pole, same as with ellipsoid.
+            sa, ca, _ = norm3((z if h else _1_0), R)
+            h -= E.a
+            C  = 4
+
+        m = self._Matrix(sa, ca, sb, cb) if M else None
+        return Ecef9Tuple(x, y, z, atan2d(sa, ca),
+                                   atan2d(sb, cb), h,
+                                   C, m, self.datum,
                                    name=name or self.name)
 
 
@@ -830,8 +822,8 @@ class EcefYou(_EcefBase):
                     ones C{(x, y, z)}, case C{C=1}, C{M=None} always and C{datum} if
                     available.
 
-           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
-                             not C{scalar} for C{scalar} B{C{xyz}}.
+           @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or
+                             B{C{z}} not C{scalar} for C{scalar} B{C{xyz}}.
         '''
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
 
@@ -1053,6 +1045,13 @@ class Ecef9Tuple(_NamedTuple):
 
     _IndexM = _Names_.index(_M_)  # for ._M_x_M
 
+    @property_RO
+    def _CartesianBase(self):
+        '''(INTERNAL) Get/cache class C{CartesianBase}.
+        '''
+        Ecef9Tuple._CartesianBase = C = _MODS.cartesianBase.CartesianBase  # overwrite property
+        return C
+
     @deprecated_method
     def convertDatum(self, datum2):  # for backward compatibility
         '''DEPRECATED, use method L{toDatum}.'''
@@ -1178,7 +1177,7 @@ class Ecef9Tuple(_NamedTuple):
         elif Cartesian is Vector3Tuple:
             r = self.xyz
         else:
-            _xsubclassof(_MODS.cartesianBase.CartesianBase, Cartesian=Cartesian)
+            _xsubclassof(self._CartesianBase, Cartesian=Cartesian)
             r = Cartesian(self, **_xkwds(Cartesian_kwds, name=self.name))
         return r
 
@@ -1194,7 +1193,7 @@ class Ecef9Tuple(_NamedTuple):
         if self.datum in (None, datum2):  # PYCHOK _Names_
             r = self.copy()
         else:
-            c = _MODS.cartesianBase.CartesianBase(self, datum=self.datum, name=self.name)  # PYCHOK _Names_
+            c = self._CartesianBase(self, datum=self.datum, name=self.name)  # PYCHOK _Names_
             # c.toLatLon converts datum, x, y, z, lat, lon, etc.
             # and returns another Ecef9Tuple iff LatLon is None
             r = c.toLatLon(datum=datum2, LatLon=None)

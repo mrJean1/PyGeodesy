@@ -49,6 +49,8 @@ _PYTHON_X_DEV           =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3
                           _getenv('PYTHONDEVMODE', NN))  # PYCHOK exported
 _sub_packages           = 'deprecated', 'geodesicx'
 _sys_version_info2      = _sys.version_info[:2]  # in .basics, .fmath, ...
+_WARNINGS_X_DEV         = _getenv('PYGEODESY_WARNINGS', NN) and (
+                          _PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy in .__init__
@@ -140,7 +142,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
                                  'INF', 'INT0', 'MANT_DIG', 'MAX', 'MIN', 'NAN', 'NEG0', 'NINF',
-                                 'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4',
+                                 'PI', 'PI2', 'PI3', 'PI3_2', 'PI_3', 'PI4', 'PI_2', 'PI_4',
                                  'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_QM', 'R_VM',
                                  'float_', 'float0', 'isclose', 'isfinite', 'isinf', 'isint0',
                                  'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg0', 'isninf', 'isnon0',
@@ -183,7 +185,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
                                  'MGRSError', 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
-                                 'crosserrors', 'exception_chaining', 'itemsorted', 'limiterrors', 'rangerrors'),
+                                 'crosserrors', 'exception_chaining', 'isError', 'itemsorted', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fn_rt', 'Fcbrt', 'Fsqrt',
@@ -244,9 +246,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      latlonBase=(),  # module only
                          lazily=('LazyImportError', 'isLazy', 'print_', 'printf'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
-                            ltp=('Attitude', 'AttitudeError', 'Frustum', 'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
-                      ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple',
-                                 'Local9Tuple', 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
+                            ltp=('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
+                                 'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
+                      ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple',
+                                 'ChLV9Tuple', 'ChLVEN2Tuple', 'ChLVyx2Tuple',
+                                 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
+                                 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename',
                                  'nameof', 'notImplemented', 'notOverloaded'),
@@ -353,7 +358,7 @@ class _ALL_MODS(object):
             n = _DOT_(_pygeodesy_, name)
             return self.getmodule(n)
         except ImportError as x:
-            raise LazyImportError(str(x), txt=_doesn_t_exist_)
+            raise LazyImportError(str(x), txt=_doesn_t_exist_, cause=x)
 
     def __setattr__(self, name, value):  # PYCHOK no cover
         t = _EQUALSPACED_(self._DOT_(name), repr(value))
@@ -409,7 +414,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.09.21'
+__version__ = '22.09.28'
 
 
 def _ALL_OTHER(*objs):
@@ -607,7 +612,7 @@ def _lazy_init2(package_name):
 
     except (AttributeError, ImportError) as x:
         isLazy = False  # failed
-        raise LazyImportError(_lazy_init2.__name__, package_name, txt=str(x))
+        raise LazyImportError(_lazy_init2.__name__, package_name, cause=x)
 
     return package, parent
 

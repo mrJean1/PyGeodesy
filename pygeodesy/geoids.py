@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -274,7 +274,7 @@ class _GeoidBase(_HeightBase):
             # XXX avoid str(LatLon()) degree symbols
             t = _lli_ if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
-            raise type(x)(t, lli, txt=str(x))
+            raise type(x)(t, lli, cause=x)
         except Exception as x:
             if scipy and self.scipy:
                 raise _SciPyIssue(x)
@@ -539,7 +539,7 @@ class _GeoidBase(_HeightBase):
             self._sizeB = _os_path.getsize(geoid)
             g = open(geoid, _rb_)
         except (IOError, OSError) as x:
-            raise GeoidError(geoid=geoid, txt=str(x))
+            raise GeoidError(geoid=geoid, cause=x)
 
         if datum not in (None, self._datum):
             self._datum = _ellipsoidal_datum(datum, name=name)
@@ -1653,7 +1653,7 @@ def egmGeoidHeights(GeoidHeights_dat):
     try:
         dat.seek(0, _SEEK_SET)  # reset
     except AttributeError as x:
-        raise GeoidError(GeoidHeights_dat=type(dat), txt=str(x))
+        raise GeoidError(GeoidHeights_dat=type(dat), cause=x)
 
     for t in dat.readlines():
         t = t.strip()

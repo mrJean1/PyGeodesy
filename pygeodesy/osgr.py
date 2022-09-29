@@ -52,7 +52,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -216,7 +216,7 @@ class Osgr(_NamedBase):
                 if self.datum != _NG.datum:
                     raise ValueError(_not_(_NG.datum.name, _equivalent_))
             except (TypeError, ValueError) as x:
-                raise OSGRError(datum=datum, txt=str(x))
+                raise OSGRError(datum=datum, cause=x)
 
         self._easting  = Easting( easting,  Error=OSGRError, high=_NG.easX)
         self._northing = Northing(northing, Error=OSGRError, high=_NG.norX)
@@ -502,7 +502,7 @@ def _ll2datum(ll, datum, name):
             if ll.datum != datum:
                 ll = ll.toDatum(datum)
         except (AttributeError, TypeError, ValueError) as x:
-            raise _TypeError(txt=str(x), datum=datum.name, **{name: ll})
+            raise _TypeError(cause=x, datum=datum.name, **{name: ll})
     return ll
 
 
@@ -655,7 +655,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr, name=NN,  # MCC
             lat, lon = _MODS.dms.parseDMS2(latlon, lon)
             latlon   = _LLEB(lat, lon, datum=datum)
         except Exception as x:
-            raise OSGRError(latlon=latlon, lon=lon, datum=datum, txt=str(x))
+            raise OSGRError(latlon=latlon, lon=lon, datum=datum, cause=x)
     elif not isinstance(latlon, _LLEB):
         raise _TypeError(latlon=latlon, txt=_not_(_ellipsoidal_))
     elif not name:  # use latlon.name

@@ -28,7 +28,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.09.14'
+__version__ = '22.09.24'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -155,7 +155,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
         if min(sa, sb) < 0:
             raise ValueError(_negative_)
         if fsum_(_360_0, -sa, -sb) < EPS0:
-            raise ValueError(_invalid_)
+            raise ValueError()
 
         H1 = _H(A, C,  sa)
         H2 = _H(B, C, -sb)
@@ -182,7 +182,7 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_k
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
-                             alpha=alpha, beta=beta, txt=str(x))
+                             alpha=alpha, beta=beta, cause=x)
 
 
 def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_kwds):
@@ -276,7 +276,7 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, Clas=None, **Clas_
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
-                             alpha=alpha, beta=beta, txt=str(x))
+                             alpha=alpha, beta=beta, cause=x)
 
 
 def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **Clas_kwds):
@@ -360,7 +360,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, Clas=None, **C
 
     except (TypeError, ValueError) as x:
         raise ResectionError(point1=point1, point2=point2, point3=point3,
-                             alpha12=alpha12, alpha23=alpha23, txt=str(x))
+                             alpha12=alpha12, alpha23=alpha23, cause=x)
 
 
 def snellius3(a, b, degC, alpha, beta):
@@ -414,7 +414,7 @@ def snellius3(a, b, degC, alpha, beta):
         return Survey3Tuple(pa, pb, pc, name=snellius3.__name__)
 
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, degC=degC, alpha=alpha, beta=beta, txt=str(x))
+        raise TriangleError(a=a, b=b, degC=degC, alpha=alpha, beta=beta, cause=x)
 
 
 def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
@@ -517,7 +517,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
 
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
-                             alpha=alpha, beta=beta, gamma=gamma, txt=str(x))
+                             alpha=alpha, beta=beta, gamma=gamma, cause=x)
 
 
 def triAngle(a, b, c):
@@ -540,7 +540,7 @@ def triAngle(a, b, c):
     try:
         return _triAngle(a, b, c)
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, c=c, tx=str(x))
+        raise TriangleError(a=a, b=b, c=c, tx=str(x), cause=x)
 
 
 def _triAngle(a, b, c):
@@ -613,7 +613,7 @@ def triAngle4(a, b, c):
         return TriAngle4Tuple(rA, rB, rC, r, name=triAngle4.__name__)
 
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, c=c, txt=str(x))
+        raise TriangleError(a=a, b=b, c=c, cause=x)
 
 
 def triSide(a, b, radC):
@@ -638,7 +638,7 @@ def triSide(a, b, radC):
     try:
         return _triSide(a, b, radC)
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, radC=radC, txt=str(x))
+        raise TriangleError(a=a, b=b, radC=radC, cause=x)
 
 
 def _triSide(a, b, radC):
@@ -682,7 +682,7 @@ def triSide2(b, c, radB):
     try:
         return _triSide2(b, c, radB)
     except (TypeError, ValueError) as x:
-        raise TriangleError(b=b, c=c, radB=radB, txt=str(x))
+        raise TriangleError(b=b, c=c, radB=radB, cause=x)
 
 
 def _triSide2(b, c, radB):
@@ -741,7 +741,7 @@ def triSide4(radA, radB, c):
                              name=triSide4.__name__)
 
     except (TypeError, ValueError) as x:
-        raise TriangleError(radA=radA, radB=radB, c=c, txt=str(x))
+        raise TriangleError(radA=radA, radB=radB, c=c, cause=x)
 
 
 def wildberger3(a, b, c, alpha, beta, R3=min):
@@ -817,7 +817,7 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         return Survey3Tuple(pa, pb, pc, name=wildberger3.__name__)
 
     except (TypeError, ValueError) as x:
-        raise TriangleError(a=a, b=b, c=c, alpha=alpha, beta=beta, R3=R3, txt=str(x))
+        raise TriangleError(a=a, b=b, c=c, alpha=alpha, beta=beta, R3=R3, cause=x)
 
 
 def _zidw(A, B, C, x, y):

@@ -12,8 +12,8 @@ from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, \
                                _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _AssertionError, _IsnotError, LimitError, \
-                              RangeError, TRFError, UnitError, _xkwds_popitem
+from pygeodesy.errors import _AssertionError, _IsnotError, TRFError, \
+                              UnitError, _xkwds_popitem
 from pygeodesy.interns import NN, _band_, _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, _EW_, \
                              _feet_, _height_, _lam_, _lat_, \
@@ -30,7 +30,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.09.20'
+__version__ = '22.09.24'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -63,7 +63,7 @@ class Float_(Float):
             txt = Fmt.limit(above=Fmt.g(high, prec=6, ints=isinstance(self, Epoch)))
         else:
             return self
-        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
+        raise _Error(cls, arg, name, Error, txt=txt)
 
 
 class Int_(Int):
@@ -94,7 +94,7 @@ class Int_(Int):
             txt = Fmt.limit(above=high)
         else:
             return self
-        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
+        raise _Error(cls, arg, name, Error, txt=txt)
 
 
 class Bool(Int, _NamedUnit):
@@ -122,8 +122,8 @@ class Bool(Int, _NamedUnit):
             name, arg = _xkwds_popitem(name_arg)
         try:
             b = bool(arg)
-        except (TypeError, ValueError) as x:  # XXX not ... as x:
-            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+        except Exception as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name, Error, x=x)
 
         self = Int.__new__(cls, b, name=name, Error=Error)
         self._bool_True_or_False = b
@@ -202,12 +202,9 @@ class Degrees(Float):
                 w = wrap(d)
                 if w != d:
                     d = Float.__new__(cls, arg=w, name=name, Error=Error)
-            return d
-        except (LimitError, RangeError) as x:
-            E, t = type(x), str(x)
-        except (TypeError, ValueError) as x:
-            E, t = Error, str(x)
-        raise _Error(cls, arg, name=name, Error=E, txt=t)
+        except Exception as x:
+            raise _Error(cls, arg, name, Error, x=x)
+        return d
 
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Degrees}.
@@ -263,7 +260,7 @@ class Degrees_(Degrees):
             txt = Fmt.limit(above=high)
         else:
             return self
-        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
+        raise _Error(cls, arg, name, Error, txt=txt)
 
 
 class Degrees2(Float):
@@ -302,11 +299,8 @@ class Radians(Float):
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
                                                      Error=Error,  name=name)
-        except (LimitError, RangeError) as x:
-            E, t = type(x), str(x)
-        except (TypeError, ValueError) as x:
-            E, t = Error, str(x)
-        raise _Error(cls, arg, name=name, Error=E, txt=t)
+        except Exception as x:
+            raise _Error(cls, arg, name, Error, x=x)
 
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Radians}.
@@ -357,7 +351,7 @@ class Radians_(Radians):
             txt = Fmt.limit(above=high)
         else:
             return self
-        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
+        raise _Error(cls, arg, name, Error, txt=txt)
 
 
 class Radians2(Float_):
@@ -436,9 +430,9 @@ class Easting(Float):
             name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if high and (self < 0 or self > high):  # like Veness
-            raise _Error(cls, arg, name=name, Error=Error)
+            raise _Error(cls, arg, name, Error)
         elif falsed and self < 0:
-            raise _Error(cls, arg, name=name, Error=Error, txt=_negative_falsed_)
+            raise _Error(cls, arg, name, Error, txt=_negative_falsed_)
         return self
 
 
@@ -453,8 +447,8 @@ class Epoch(Float_):  # in .ellipsoidalBase, .trf
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
-        return arg if isinstance(arg, Epoch) else \
-               Float_.__new__(cls, arg=arg, name=name, Error=Error, low=low, high=high)
+        return arg if isinstance(arg, Epoch) else Float_.__new__(cls,
+               arg=arg, name=name, Error=Error, low=low, high=high)
 
     def toRepr(self, std=False, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
         '''Return a representation of this C{Epoch}.
@@ -725,9 +719,9 @@ class Northing(Float):
             name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if high and (self < 0 or self > high):
-            raise _Error(cls, arg, name=name, Error=Error)
+            raise _Error(cls, arg, name, Error)
         elif falsed and self < 0:
-            raise _Error(cls, arg, name=name, Error=Error, txt=_negative_falsed_)
+            raise _Error(cls, arg, name, Error, txt=_negative_falsed_)
         return self
 
 

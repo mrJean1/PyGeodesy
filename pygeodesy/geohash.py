@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '22.09.12'
+__version__ = '22.09.24'
 
 
 class _GH(object):
@@ -136,7 +136,7 @@ def _2geostr(geohash):
                 raise ValueError
         return geostr
     except (AttributeError, TypeError, ValueError) as x:
-        raise GeohashError(Geohash.__name__, geohash, txt=str(x))
+        raise GeohashError(Geohash.__name__, geohash, cause=x)
 
 
 class Geohash(Str):
