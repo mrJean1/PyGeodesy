@@ -61,21 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class ChLVe</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-          object --+        
-                   |        
-               _ChLV --+    
-                       |    
-  object --+           |    
-           |           |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+       |    
-               |       |    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+   |    
-                   |   |    
-      <a href="pygeodesy.ltp.LocalCartesian-class.html">LocalCartesian</a> --+    
-                       |    
-                   <a href="pygeodesy.ltp.ChLVa-class.html">ChLVa</a> --+
-                           |
-                          <strong class="uidshort">ChLVe</strong>
+          object --+    
+                   |    
+               _ChLV --+
+                       |
+  object --+           |
+           |           |
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+       |
+               |       |
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+   |
+                   |   |
+      <a href="pygeodesy.ltp.LocalCartesian-class.html">LocalCartesian</a> --+
+                       |
+                      <strong class="uidshort">ChLVe</strong>
 </pre>
 
 <hr />
@@ -106,7 +104,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ltp.ChLVe-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">Bern</code><code class="variable-quote">'</code></span>)</span><br />
-      New <code>ChLVe</code> <i>Ellipsoidal approximate WGS84-Swiss</i> 
+      New <i>Approximate WGS84-Swiss</i> <a 
+      href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> 
       converter, centered at <i>Bern, Ch</i>.</td>
           <td align="right" valign="top">
             
@@ -151,7 +150,7 @@
         <span class="summary-sig-arg">h_</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      Convert I{Swiss} projection to WGS84 geodetic coordinates.</td>
+      Convert <i>Swiss</i> projection to WGS84 geodetic coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -261,13 +260,28 @@
     </td>
   </tr></table>
   
-  <p>New <code>ChLVe</code> <i>Ellipsoidal approximate WGS84-Swiss</i> 
-  converter, centered at <i>Bern, Ch</i>.</p>
+  <p>New <i>Approximate WGS84-Swiss</i> <a 
+  href="pygeodesy.ltp.ChLVe-class.html" class="link">ChLVe</a> converter, 
+  centered at <i>Bern, Ch</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>), overriding 
           <code>Bern.name</code>.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - If <b><code>latlonh0</code></b> not <code>LatLon</code>, <a 
+        href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+        class="link">LatLon4Tuple</a>, <a 
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> or <a 
+        href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a> or <b><code>latlonh0</code></b>, 
+        <b><code>lon0</code></b> or <b><code>height0</code></b> invalid, 
+        non-<code>scalar</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ecef</code></b> or not <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -306,31 +320,29 @@
           (<code>degrees</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, height, vertically above (or below) the surface of the 
           ellipsoid (<code>meter</code>) for <code>scalar</code> 
-          <b><code>latlonh</code></b>.</li>
-        <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
-          href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>, <i>iff avaialble</i> 
-          (<code>bool</code>).</li>
+          <b><code>latlonh</code></b> and <b><code>lon</code></b>.</li>
+        <li><strong class="pname"><code>M</code></strong> - Optionally (<code>bool</code>), return the <i>concatenated</i> 
+          rotation <a href="pygeodesy.ecef.EcefMatrix-class.html" 
+          class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
+          only, <code>None</code> otherwise.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
           class="link">ChLV9Tuple</a><code>(Y, X, h_, lat, lon, height, 
-          ltp, ecef, M)</code> with <i>unfalsed Swiss Y, X, h_</i> 
-          coordinates and height, the given <i>geodetic</i> 
-          <code>(lat</code>, <code>lon</code>, <code>height</code>, this 
-          <code>ChLV*</code> and <code>ecef</code> (<a 
+          ltp, ecef, M)</code> with the unfalsed <i>Swiss Y, X</i> 
+          coordinates, <i>Swiss h_</i> height, the given <i>geodetic</i> 
+          <code>lat</code>, <code>lon</code> and <code>height</code>, this 
+          <code>ChLV*</code> instance and <code>ecef</code> (<a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a>) <i>at Bern, Ch</i> and rotation 
-          matrix <code>M</code>.</dd>
+          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i> and rotation 
+          matrix <code>M</code>.  The returned <code>ltp</code> is this 
+          <code>ChLV</code>, <code>ChLVa</code> or <code>ChLVe</code> 
+          instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - If <b><code>latlonh</code></b> not <code>scalar</code>, 
-        <code>LatLon</code> or <a href="pygeodesy.ltp.Ltp-class.html" 
-        class="link">Ltp</a>, invalid or if <b><code>lon</code></b> not 
-        <code>scalar</code> for <code>scalar</code> 
-        <b><code>latlonh</code></b> or invalid or if 
-        <b><code>height</code></b> invalid.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid or non-<code>scalar</code> <b><code>latlonh</code></b>, 
+        <b><code>lon</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.ltp.LocalCartesian-class.html#forward">LocalCartesian.forward</a>
@@ -358,72 +370,43 @@
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Convert I{Swiss} projection to WGS84 geodetic coordinates.
-
-@arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, I{falsed Swiss
-           E_LV95} or I{y_LV03} coordinate (C{meter}).
-@kwarg n: I{Falsed Swiss N_LV85} or I{x_LV03} coordinate for C{scalar}
-          B{C{enh_}} and B{C{h_}} (C{meter}).
-@kwarg h_: I{Swiss h'} height for C{scalar} B{C{enh_}} and B{C{n}} (C{meter}).
-@kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix}, I{iff
-          avaialble} (C{bool}).
-@kwarg name: Optional name (C{str}).
-
-@return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with
-         the I{unfalsed Swiss (Y, X, h_)} coordinates and height, I{geodetic}
-         C{(lat, lon, height)}, this C{ChLV*} and C{ecef} (L{Ecef9Tuple})
-         I{at Bern, Ch} and with rotation matrix C{B{M}=None}.
-
-@note: The returned C{ltp} is this C{ChLV}, C{ChLVa} or C{ChLVe} instance.
-
-@raise LocalError: Invalid B{C{enh_}} or B{C{n}} or B{C{h_}} not C{scalar}
-                   for C{scalar} B{C{enh_}.
-
-</pre>
+  <p>Convert <i>Swiss</i> projection to WGS84 geodetic coordinates.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xyz</code></strong> - A <i>local</i> (<a href="pygeodesy.ltpTuples.XyzLocal-class.html"
-          class="link">XyzLocal</a>, <a 
-          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
-          <a href="pygeodesy.ltpTuples.Ned-class.html" 
-          class="link">Ned</a>, <a 
-          href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>, 
-          <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
-          class="link">Local9Tuple</a>) or local <code>x</code> coordinate 
-          (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Local <code>y</code> coordinate for <code>scalar</code> 
-          <b><code>xyz</code></b> and <b><code>z</code></b> 
+        <li><strong class="pname"><code>enh_</code></strong> - A Swiss projection (<a 
+          href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+          class="link">ChLV9Tuple</a>) or the <code>scalar</code>, falsed 
+          <i>Swiss E_LV95</i> or <i>y_LV03</i> easting 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Local <code>z</code> coordinate for <code>scalar</code> 
-          <b><code>xyz</code></b> and <b><code>y</code></b> 
+        <li><strong class="pname"><code>n</code></strong> - Falsed <i>Swiss N_LV85</i> or <i>x_LV03</i> northing for 
+          <code>scalar</code> <b><code>enh_</code></b> and 
+          <b><code>h_</code></b> (<code>meter</code>).</li>
+        <li><strong class="pname"><code>h_</code></strong> - <i>Swiss h'</i> height for <code>scalar</code> 
+          <b><code>enh_</code></b> and <b><code>n</code></b> 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
-          href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>, <i>iff avaialble</i> 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>M</code></strong> - Optionally (<code>bool</code>), return the <i>concatenated</i> 
+          rotation <a href="pygeodesy.ecef.EcefMatrix-class.html" 
+          class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
+          only, <code>None</code> otherwise.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
-          class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
-          ltp, ecef, M)</code> with <i>local</i> <code>x</code>, 
-          <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>,
-          <code>lon</code>, <code>height</code>, this <code>ltp</code>, an 
-          <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
-          class="link">Ecef9Tuple</a>) with the <i>geocentric</i> 
-          <code>x</code>, <code>y</code>, <code>z</code> (and 
-          <i>geodetic</i> <code>lat</code>, <code>lon</code>, 
-          <code>height</code>) and the <i>concatenated</i> rotation matrix 
-          <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>) if requested.</dd>
+        <dd>A <a href="pygeodesy.ltpTuples.ChLV9Tuple-class.html" 
+          class="link">ChLV9Tuple</a><code>(Y, X, h_, lat, lon, height, 
+          ltp, ecef, M)</code> with the unfalsed <i>Swiss Y, X</i> 
+          coordinates, <i>Swiss h_</i> height, the given <i>geodetic</i> 
+          <code>lat</code>, <code>lon</code> and <code>height</code>, this 
+          <code>ChLV*</code> instance and <code>ecef</code> (<a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i> and rotation 
+          matrix <code>M</code>.  The returned <code>ltp</code> is this 
+          <code>ChLV</code>, <code>ChLVa</code> or <code>ChLVe</code> 
+          instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid <b><code>xyz</code></b> or <code>scalar</code> 
-        <code>x</code> or <b><code>y</code></b> and/or 
-        <b><code>z</code></b> not <code>scalar</code> for 
-        <code>scalar</code> <b><code>xyz</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid or non-<code>scalar</code> <b><code>enh_</code></b>, 
+        <b><code>n</code></b> or <b><code>h_</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.ltp.LocalCartesian-class.html#reverse">LocalCartesian.reverse</a>
@@ -464,7 +447,7 @@ Convert I{Swiss} projection to WGS84 geodetic coordinates.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 29 18:50:14 2022
+    Generated by Epydoc 3.0.1 on Sat Oct  1 11:47:11 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

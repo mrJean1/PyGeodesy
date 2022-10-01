@@ -249,7 +249,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             ltp=('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
                                  'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
                       ltpTuples=('Aer', 'Aer4Tuple', 'Attitude4Tuple',
-                                 'ChLV9Tuple', 'ChLVEN2Tuple', 'ChLVyx2Tuple',
+                                 'ChLVEN2Tuple', 'ChLV9Tuple', 'ChLVYX2Tuple', 'ChLVyx2Tuple',
                                  'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple',
                                  'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
@@ -414,7 +414,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.09.28'
+__version__ = '22.09.30'
 
 
 def _ALL_OTHER(*objs):
