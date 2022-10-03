@@ -34,7 +34,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.09.30'
+__version__ = '22.10.02'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -1179,7 +1179,7 @@ class ChLV9Tuple(Local9Tuple):
 
     @Property_RO
     def E_LV95(self):
-        '''Get the I{falsed Swiss E_LV95} easting (C{meter}).
+        '''Get the B{falsed} I{Swiss E_LV95} easting (C{meter}).
         '''
         return self.EN2_LV95.E_LV95
 
@@ -1187,7 +1187,7 @@ class ChLV9Tuple(Local9Tuple):
     def EN2_LV95(self):
         '''Get the I{falsed Swiss (E_LV95, N_LV95)} easting and northing (L{ChLVEN2Tuple}).
         '''
-        return ChLVEN2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, True))
+        return ChLVEN2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, True), name=self.name)
 
     @Property_RO
     def h_LV03(self):
@@ -1221,7 +1221,7 @@ class ChLV9Tuple(Local9Tuple):
 
     @Property_RO
     def N_LV95(self):
-        '''Get the I{falsed Swiss N_LV95} northing (C{meter}).
+        '''Get the B{falsed} I{Swiss N_LV95} northing (C{meter}).
         '''
         return self.EN2_LV95.N_LV95
 
@@ -1233,7 +1233,7 @@ class ChLV9Tuple(Local9Tuple):
 
     @Property_RO
     def x_LV03(self):
-        '''Get the I{falsed Swiss x_LV03} northing (C{meter}).
+        '''Get the B{falsed} I{Swiss x_LV03} northing (C{meter}).
         '''
         return self.yx2_LV03.x_LV03
 
@@ -1245,15 +1245,21 @@ class ChLV9Tuple(Local9Tuple):
 
     @Property_RO
     def y_LV03(self):
-        '''Get the I{falsed Swiss y_LV03} easting (C{meter}).
+        '''Get the B{falsed} I{Swisss y_LV03} easting (C{meter}).
         '''
         return self.yx2_LV03.y_LV03
 
     @Property_RO
-    def yx2_LV03(self):
-        '''Get the I{falsed Swiss (y_LV03, x_LV03)} easting and northing (L{ChLVyx2Tuple}).
+    def YX(self):
+        '''Get the B{unfalsed} easting and northing (L{ChLVYX2Tuple}).
         '''
-        return ChLVyx2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, False))
+        return ChLVYX2Tuple(self.Y, self.X, name=self.name)
+
+    @Property_RO
+    def yx2_LV03(self):
+        '''Get the B{falsed} I{Swiss (y_LV03, x_LV03)} easting and northing (L{ChLVyx2Tuple}).
+        '''
+        return ChLVyx2Tuple(*_MODS.ltp.ChLV.false2(self.Y, self.X, False), name=self.name)
 
     @Property_RO
     def z(self):
@@ -1263,27 +1269,48 @@ class ChLV9Tuple(Local9Tuple):
 
 
 class ChLVYX2Tuple(_NamedTuple):
-    '''2-Tuple C{(Y, X)} with I{B{unfalsed} Swiss LV95} easting and norting
+    '''2-Tuple C{(Y, X)} with B{unfalsed} I{Swiss LV95} easting and norting
        in C{meter}.
     '''
     _Names_ = ('Y',   'X')
     _Units_ = ( Meter, Meter)
 
+    def false2(self, LV95=True):
+        '''Return the falsed C{Swiss LV95} or C{LV03} version of the projection.
+
+           @see: Function L{ChLV.false2} for more information.
+        '''
+        return _MODS.ltp.ChLV.false2(*self, LV95=LV95, name=self.name)
+
 
 class ChLVEN2Tuple(_NamedTuple):
-    '''2-Tuple C{(E_LV95, N_LV95)} with I{B{falsed} Swiss LV95} easting and
+    '''2-Tuple C{(E_LV95, N_LV95)} with B{falsed} I{Swiss LV95} easting and
        norting in C{meter} with origin at C{Bern, Ch} C{(2_600_000, 1_200_000)}.
     '''
     _Names_ = ('E_LV95', 'N_LV95')
-    _Units_ =  ChLVYX2Tuple._Units_
+    _Units_ = ChLVYX2Tuple._Units_
+
+    def unfalse2(self):
+        '''Return this projection as an B{unfalsed} L{ChLVYX2Tuple}.
+
+           @see: Function L{ChLV.unfalse2} for more information.
+        '''
+        return _MODS.ltp.ChLV.unfalse2(*self, LV95=True, name=self.name)
 
 
 class ChLVyx2Tuple(_NamedTuple):
-    '''2-Tuple C{(y_LV03, x_LV03)} with I{B{falsed} Swiss LV03} easting and
+    '''2-Tuple C{(y_LV03, x_LV03)} with B{falsed} I{Swiss LV03} easting and
        norting in C{meter} with origin at C{Bern, Ch} C{(600_000, 200_000)}.
     '''
     _Names_ = ('y_LV03', 'x_LV03')
-    _Units_ =  ChLVYX2Tuple._Units_
+    _Units_ = ChLVYX2Tuple._Units_
+
+    def unfalse2(self):
+        '''Return this projection as an B{unfalsed} L{ChLVYX2Tuple}.
+
+           @see: Function L{ChLV.unfalse2} for more information.
+        '''
+        return _MODS.ltp.ChLV.unfalse2(*self, LV95=False, name=self.name)
 
 
 class Footprint5Tuple(_NamedTuple):

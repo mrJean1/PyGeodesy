@@ -920,7 +920,7 @@ class Fsum(_Named):
         '''
         return self._facc(_2floats(xs, origin=1))
 
-    def _fadd(self, other, op):
+    def _fadd(self, other, op):  # in .fmath.Fhorner
         '''(INTERNAL) Apply C{B{self} += B{other}}.
         '''
         if isinstance(other, Fsum):

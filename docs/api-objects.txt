@@ -17068,7 +17068,7 @@ pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.ltp.ChLV._sLon	pygeodesy.ltp.ChLV-class.html#_sLon
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.ltp.ChLV.__init__	pygeodesy.ltp.ChLV-class.html#__init__
-pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
+pygeodesy.ltp.ChLV._ab_M	pygeodesy.ltp.ChLV-class.html#_ab_M
 pygeodesy.ltp.ChLV.isLV95	pygeodesy.ltp.ChLV-class.html#isLV95
 pygeodesy.ltp.ChLV._sLat	pygeodesy.ltp.ChLV-class.html#_sLat
 pygeodesy.ltp.LocalCartesian.__eq__	pygeodesy.ltp.LocalCartesian-class.html#__eq__
@@ -17078,6 +17078,7 @@ pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.ltp.ChLV._ab_d	pygeodesy.ltp.ChLV-class.html#_ab_d
 pygeodesy.ltp.LocalCartesian.toStr	pygeodesy.ltp.LocalCartesian-class.html#toStr
 pygeodesy.ltp.ChLV.forward	pygeodesy.ltp.ChLV-class.html#forward
+pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.ltp.ChLV.Bern	pygeodesy.ltp.ChLV-class.html#Bern
 pygeodesy.ltp.LocalCartesian.latlonheight0	pygeodesy.ltp.LocalCartesian-class.html#latlonheight0
 pygeodesy.ltp.LocalCartesian._ecef2local	pygeodesy.ltp.LocalCartesian-class.html#_ecef2local
@@ -17111,6 +17112,7 @@ pygeodesy.ltp.ChLV.false2	pygeodesy.ltp.ChLV-class.html#false2
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.ltp.LocalCartesian.lon0	pygeodesy.ltp.LocalCartesian-class.html#lon0
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
+pygeodesy.ltp.ChLV._s_ab	pygeodesy.ltp.ChLV-class.html#_s_ab
 pygeodesy.ltp.ChLVa	pygeodesy.ltp.ChLVa-class.html
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
@@ -17573,6 +17575,7 @@ pygeodesy.ltpTuples.Local9Tuple.up	pygeodesy.ltpTuples.Local9Tuple-class.html#up
 pygeodesy.ltpTuples.ChLV9Tuple.z	pygeodesy.ltpTuples.ChLV9Tuple-class.html#z
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._NamedTuple._kwdself	pygeodesy.named._NamedTuple-class.html#_kwdself
+pygeodesy.ltpTuples.ChLV9Tuple.YX	pygeodesy.ltpTuples.ChLV9Tuple-class.html#YX
 pygeodesy.ltpTuples.ChLV9Tuple.EN2_LV95	pygeodesy.ltpTuples.ChLV9Tuple-class.html#EN2_LV95
 pygeodesy.named._NamedTuple.__new__	pygeodesy.named._NamedTuple-class.html#__new__
 pygeodesy.ltpTuples.Local9Tuple.philamheight	pygeodesy.ltpTuples.Local9Tuple-class.html#philamheight
@@ -17599,6 +17602,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
+pygeodesy.ltpTuples.ChLVEN2Tuple.unfalse2	pygeodesy.ltpTuples.ChLVEN2Tuple-class.html#unfalse2
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.ltpTuples.ChLVEN2Tuple._Names_	pygeodesy.ltpTuples.ChLVEN2Tuple-class.html#_Names_
 pygeodesy.named._NamedTuple.__setattr__	pygeodesy.named._NamedTuple-class.html#__setattr__
@@ -17673,6 +17677,7 @@ pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedTuple.__delattr__	pygeodesy.named._NamedTuple-class.html#__delattr__
 pygeodesy.named._NamedTuple.__repr__	pygeodesy.named._NamedTuple-class.html#__repr__
+pygeodesy.ltpTuples.ChLVYX2Tuple.false2	pygeodesy.ltpTuples.ChLVYX2Tuple-class.html#false2
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.ltpTuples.ChLVYX2Tuple._Units_	pygeodesy.ltpTuples.ChLVYX2Tuple-class.html#_Units_
@@ -17689,6 +17694,7 @@ pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
+pygeodesy.ltpTuples.ChLVyx2Tuple.unfalse2	pygeodesy.ltpTuples.ChLVyx2Tuple-class.html#unfalse2
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.ltpTuples.ChLVyx2Tuple._Names_	pygeodesy.ltpTuples.ChLVyx2Tuple-class.html#_Names_
 pygeodesy.named._NamedTuple.__setattr__	pygeodesy.named._NamedTuple-class.html#__setattr__

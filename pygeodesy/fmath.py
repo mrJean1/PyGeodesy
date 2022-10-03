@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.09.26'
+__version__ = '22.10.02'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -75,13 +75,13 @@ class Fhorner(Fsum):
         Fsum.__init__(self, *cs[-1:], **name)
         if len(cs) > 1:
             x  = _2float(x=x)
-            a_ =  self.fadd_
-            _f =  self._finite
+            _a =  self._fadd    # (other, op)
+            _f =  self._finite  # (other, op)
             op =  Fhorner.__name__
             ps =  self._ps
             for c in reversed(cs[:-1]):  # multiply-accumulate
                 ps[:] = [_f(p * x, op) for p in ps]
-                a_(c)
+                _a(c, op)
             # assert self._ps is ps
 
 

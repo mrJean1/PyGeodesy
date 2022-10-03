@@ -465,7 +465,12 @@
       <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
         projection coordinates using the <a 
         href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
-        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11.</em>
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11 and <a
+        
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf"
+        target="_top">Bolliger, J.</a> pp 148-151 (also <a 
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste.htm" 
+        target="_top">GGGS</a>).</em>
     </li>
     </ul>
     </li>
@@ -1071,6 +1076,14 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1082,14 +1095,6 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1143,7 +1148,12 @@
       <em class="summary">Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
         projection coordinates using the <a 
         href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
-        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11.</em>
+        target="_top">Ellipsoidal approximate</a> formulas, pp 10-11 and <a
+        
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf"
+        target="_top">Bolliger, J.</a> pp 148-151 (also <a 
+        href="https://eMuseum.GGGS.CH/literatur-lv/liste.htm" 
+        target="_top">GGGS</a>).</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp.Ltp-class.html">pygeodesy.ltp.Ltp</a></strong>:
       <em class="summary">A <i>local tangent plan</i> LTP, a sub-class of 
@@ -1222,6 +1232,13 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1237,13 +1254,6 @@
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1787,16 +1797,16 @@
         lonE)</code> corner lat- and longitudes.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html">pygeodesy.ltpTuples.ChLVEN2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <i><b>falsed</b> Swiss 
+      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <b>falsed</b> <i>Swiss 
         LV95</i> easting and norting in <code>meter</code> with origin at 
         <code>Bern, Ch</code> <code>(2_600_000, 1_200_000)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVYX2Tuple-class.html">pygeodesy.ltpTuples.ChLVYX2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(Y, X)</code> with <i><b>unfalsed</b> Swiss LV95</i> 
+      <em class="summary">2-Tuple <code>(Y, X)</code> with <b>unfalsed</b> <i>Swiss LV95</i> 
         easting and norting in <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html">pygeodesy.ltpTuples.ChLVyx2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <i><b>falsed</b> Swiss 
+      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <b>falsed</b> <i>Swiss 
         LV03</i> easting and norting in <code>meter</code> with origin at 
         <code>Bern, Ch</code> <code>(600_000, 200_000)</code>.</em>
     </li>
@@ -3027,16 +3037,16 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         lonE)</code> corner lat- and longitudes.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html">pygeodesy.ltpTuples.ChLVEN2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <i><b>falsed</b> Swiss 
+      <em class="summary">2-Tuple <code>(E_LV95, N_LV95)</code> with <b>falsed</b> <i>Swiss 
         LV95</i> easting and norting in <code>meter</code> with origin at 
         <code>Bern, Ch</code> <code>(2_600_000, 1_200_000)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVYX2Tuple-class.html">pygeodesy.ltpTuples.ChLVYX2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(Y, X)</code> with <i><b>unfalsed</b> Swiss LV95</i> 
+      <em class="summary">2-Tuple <code>(Y, X)</code> with <b>unfalsed</b> <i>Swiss LV95</i> 
         easting and norting in <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html">pygeodesy.ltpTuples.ChLVyx2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <i><b>falsed</b> Swiss 
+      <em class="summary">2-Tuple <code>(y_LV03, x_LV03)</code> with <b>falsed</b> <i>Swiss 
         LV03</i> easting and norting in <code>meter</code> with origin at 
         <code>Bern, Ch</code> <code>(600_000, 200_000)</code>.</em>
     </li>
@@ -3733,7 +3743,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct  1 11:47:09 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:53 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
