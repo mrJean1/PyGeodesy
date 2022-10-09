@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.09.23'
+__version__ = '22.10.07'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -477,8 +477,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     if limit and limit > 0 and limiterrors() and (fabs(d_lat) > limit or
                                                   fabs(d_lon) > limit):
-        t = unstr(equirectangular_.__name__,
-                  lat1, lon1, lat2, lon2, limit=limit)
+        t = unstr(equirectangular_, lat1, lon1, lat2, lon2, limit=limit)
         raise LimitError('delta exceeds limit', txt=t)
 
     if adjust:  # scale delta lon
@@ -603,7 +602,8 @@ def excessLHuilier(a, b, c):
 
     s = fsum_(a, b, c) * _0_5
     r = tan_2(s) * tan_2(s - a) * tan_2(s - b) * tan_2(s - c)
-    return Radians(LHuilier=atan(sqrt(r)) * _4_0)
+    r = atan(sqrt(r)) if r > 0 else _0_0
+    return Radians(LHuilier=r * _4_0)
 
 
 def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
@@ -1033,7 +1033,7 @@ def heightOf(angle, distance, radius=R_M):
     if d > h:
         d, h = h, d
 
-    if d > EPS0:
+    if d > EPS0:  # and h > EPS0
         d = d / h  # /= h chokes PyChecker
         s = sin(Phi_(angle=angle, clip=_180_0))
         s = fsum_(_1_0, _2_0 * s * d, d**2)

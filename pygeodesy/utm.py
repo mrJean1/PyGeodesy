@@ -41,8 +41,8 @@ from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
                             _xkwds_get
 from pygeodesy.fmath import fdot3, hypot, hypot1
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
-                             _NS_, _outside_, _range_, _S_, _SPACE_, \
-                             _UTM_, _V_, _X_, _zone_
+                             _NS_, _outside_, _range_, _S_, _scale0_, \
+                             _SPACE_, _UTM_, _V_, _X_, _zone_, _UNDER
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _xnamed  # from .utmupsBase
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -60,10 +60,10 @@ from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
-from operator import mul
+from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.09.12'
+__version__ = '22.10.07'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -97,15 +97,15 @@ class _Kseries(object):
         n, j2 = len2(range(2, len(AB) * 2 + 1, 2))
 
         self._ab = AB
-        self._pq = map2(mul, j2, self._ab)
+        self._pq = map2(_mul, j2, AB)
 #       assert len(self._ab) == len(self._pq) == n
 
-        x2 = map2(mul, j2, (x,) * n)
+        x2 = map2(_mul, j2, (x,) * n)
         self._chx = map2(cosh, x2)
         self._shx = map2(sinh, x2)
 #       assert len(x2) == len(self._chx) == len(self._shx) == n
 
-        y2 = map2(mul, j2, (y,) * n)
+        y2 = map2(_mul, j2, (y,) * n)
         self._cy = map2(cos, y2)
         self._sy = map2(sin, y2)
         # self._sy, self._cy = splice(sincos2(*y2))  # PYCHOK false
@@ -249,17 +249,16 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, strict, Error, **cmoff):
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-#   _band        =  NN        # latitudinal band letter ('C'|..|'X', no 'I'|'O')
-    _Bands       = _Bands     # latitudinal Band letters (C{tuple})
-    _Error       =  UTMError  # or etm.ETMError
-#   _scale       =  None      # grid scale factor (C{scalar}) or C{None}
-    _scale0      = _K0_UTM    # central scale factor (C{scalar})
-    _zone        =  0         # longitudinal zone (C{int} 1..60)
+#   _band   =  NN        # latitudinal band letter ('C'|..|'X', no 'I'|'O')
+    _Bands  = _Bands     # latitudinal Band letters (C{tuple})
+    _Error  =  UTMError  # or etm.ETMError
+#   _scale  =  None      # grid scale factor (C{scalar}) or C{None}
+    _scale0 = _K0_UTM    # central scale factor (C{scalar})
+    _zone   =  0         # longitudinal zone (C{int} 1..60)
 
     def __init__(self, zone=31, hemisphere=_N_, easting=166022,  # PYCHOK expected
-                                                northing=0, band=NN,
-                                                datum=_WGS84, falsed=True,
-                                                convergence=None, scale=None, name=NN):
+                                northing=0, band=NN, datum=_WGS84, falsed=True,
+                                gamma=None, scale=None, name=NN, **convergence):
         '''New L{Utm} UTM coordinate.
 
            @kwarg zone: Longitudinal UTM zone (C{int}, 1..60) or zone with/-out
@@ -273,12 +272,13 @@ class Utm(UtmUpsBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
-           @kwarg convergence: Optional meridian convergence, bearing off grid North,
-                               clockwise from true North (C{degrees}) or C{None}.
+           @kwarg gamma: Optional meridian convergence, bearing off grid North,
+                         clockwise from true North (C{degrees}) or C{None}.
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
            @kwarg name: Optional name (C{str}).
+           @kwarg convergence: DEPRECATED, use keyword argument C{B{gamma}=None}.
 
-           @raise TypeError: Invalid B{C{datum}}.
+           @raise TypeError: Invalid or near-spherical B{C{datum}}.
 
            @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}}, B{C{easting}},
                             B{C{northing}}, B{C{band}}, B{C{convergence}} or
@@ -312,7 +312,7 @@ class Utm(UtmUpsBase):
 
         self._hemisphere = h
         UtmUpsBase.__init__(self, e, n, band=B, datum=datum, falsed=falsed,
-                                        convergence=convergence, scale=scale)
+                                        gamma=gamma, scale=scale, **convergence)
 
     def __eq__(self, other):
         return isinstance(other, Utm) and other.zone       == self.zone \
@@ -331,15 +331,12 @@ class Utm(UtmUpsBase):
     def _xcopy2(self, Xtm, name=NN):
         '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
 
-           @arg Xtm: Class to return the copy (C{Xtm=Etm},
-                     C{Xtm=Utm} or C{self.classof}).
+           @arg Xtm: Class to return the copy (C{Xtm=Etm}, C{Xtm=Utm} or
+                     C{self.classof}).
         '''
-        return Xtm(self.zone, self.hemisphere,
-                   self.easting, self.northing,
-                   band=self.band, datum=self.datum,
-                   falsed=self.falsed, scale=self.scale,
-                   convergence=self.convergence,
-                   name=name or self.name)
+        return Xtm(self.zone, self.hemisphere, self.easting, self.northing,
+                   band=self.band, datum=self.datum, falsed=self.falsed,
+                   gamma=self.gamma, scale=self.scale, name=name or self.name)
 
     @property_doc_(''' the I{latitudinal} band.''')
     def band(self):
@@ -425,7 +422,7 @@ class Utm(UtmUpsBase):
 
            @return: This UTM as (B{C{LatLon}}) or if B{C{LatLon}} is
                     C{None}, as L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)}.
+                    gamma, scale)}.
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon}} is not ellipsoidal.
 
@@ -478,8 +475,7 @@ class Utm(UtmUpsBase):
                 break
             p = d
         else:
-            n = self.toLatLon.__name__
-            t = unstr(n, eps=eps, unfalse=unfalse)
+            t = unstr(self.toLatLon, eps=eps, unfalse=unfalse)
             raise self._Error(Fmt.no_convergence(d), txt=t)
 
         a = atan(T)  # phi, lat
@@ -488,13 +484,13 @@ class Utm(UtmUpsBase):
             b += radians(_cmlon(self.zone))
         ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
 
-        # convergence and scale: Karney 2011 Eq 26, 27 and 28
+        # gamma and scale: Karney 2011 Eq 26, 27 and 28
         p = neg(K.ps(-1))
         q =     K.qs(0)
         s = hypot(p, q) * E.a / A0
-        ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
-        ll._iteration = i
+        ll._gamma = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
         ll._scale = (E.e2s(sin(a)) * H * hypot1(T) / s) if s else s  # INF?
+        ll._iteration = i
         self._latlon5args(ll, _toBand, unfalse, eps)
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
@@ -667,7 +663,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
 
        @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}} is
                 C{None} or not B{C{falsed}}, a L{UtmUps8Tuple}C{(zone,
-                hemipole, easting, northing, band, datum, convergence,
+                hemipole, easting, northing, band, datum, gamma,
                 scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or if
@@ -712,7 +708,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A0 = E.A * getattr(Utm, '_scale0', _K0_UTM)  # Utm is class or None
+    A0 = E.A * getattr(Utm, _UNDER(_scale0_), _K0_UTM)  # Utm is class or None
 
     K = _Kseries(E.AlphaKs, x, y)  # Krüger series
     y = K.ys(y) * A0  # ξ
@@ -721,16 +717,15 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     # convergence: Karney 2011 Eq 23, 24
     p_ = K.ps(1)
     q_ = K.qs(0)
-    c = degrees(atan(T_ / hypot1(T_) * tan(b)) + atan2(q_, p_))
-
+    g = degrees(atan(T_ / hypot1(T_) * tan(b)) + atan2(q_, p_))
     # scale: Karney 2011 Eq 25
     k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
     return _toXtm8(Utm, z, lat, x, y,
-                        B, d, c, k, f, name, latlon, EPS)
+                        B, d, g, k, f, name, latlon, EPS)
 
 
-def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
+def _toXtm8(Xtm, z, lat, x, y, B, d, g, k, f,  # PYCHOK 13+ args
                  name, latlon, eps, Error=UTMError):
     '''(INTERNAL) Helper for methods L{toEtm8} and L{toUtm8}.
     '''
@@ -738,13 +733,13 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
     if f:
         x, y = _false2(x, y, h)
     if Xtm is None:  # DEPRECATED
-        r = UtmUps8Tuple(z, h, x, y, B, d, c, k, Error=Error, name=name)
+        r = UtmUps8Tuple(z, h, x, y, B, d, g, k, Error=Error, name=name)
     else:
         r = _xnamed(Xtm(z, h, x, y, band=B, datum=d, falsed=f,
-                                    convergence=c, scale=k), name)
+                                            gamma=g, scale=k), name)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see ups.toUtm8
             r._latlon5args(latlon, _toBand, f, eps)  # XXX weakref(latlon)?
-            latlon._convergence = c
+            latlon._gamma = g
             latlon._scale = k
         elif not r._band:
             r._band = _toBand(lat)

@@ -38,7 +38,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import floor as _floor  # from .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.10.02'
+__version__ = '22.10.07'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -499,7 +499,8 @@ class LocalCartesian(_NamedBase):
                        B{C{latlonh}} (C{degrees}).
            @kwarg height: Optional height (C{meter}), vertically above (or below)
                           the surface of the ellipsoid.
-           @kwarg M: Optionally, return the rotation L{EcefMatrix} (C{bool}).
+           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
+                     iff available (C{bool}).
            @kwarg name: Optional name (C{str}).
 
            @return: A L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)}
@@ -599,8 +600,8 @@ class LocalCartesian(_NamedBase):
                      local C{x} coordinate (C{scalar}).
            @kwarg y: Local C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
            @kwarg z: Local C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
-           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
-                     I{iff avaialble} (C{bool}).
+           @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix}, iff
+                     available (C{bool}).
            @kwarg name: Optional name (C{str}).
 
            @return: An L{Local9Tuple}C{(x, y, z, lat, lon, height, ltp, ecef, M)} with
@@ -817,7 +818,7 @@ class ChLV(_ChLV, Ltp):
        L{pygeodesy.EcefKarney}'s Earth-Centered, Earth-Fixed (ECEF) methods.
 
        @see: U{Swiss projection formulas<https://www.SwissTopo.admin.CH/en/maps-data-online/
-             calculation-services.html>}, pp 7-9, U{NAVREF<https://www.SwissTopo.admin.CH/en/
+             calculation-services.html>}, page 7ff, U{NAVREF<https://www.SwissTopo.admin.CH/en/
              maps-data-online/calculation-services/navref.html>}, U{REFRAME<https://www.SwissTopo.admin.CH/
              en/maps-data-online/calculation-services/reframe.html>} and U{SwissTopo Scripts GPS WGS84
              <-> LV03<https://GitHub.com/ValentinMinder/Swisstopo-WGS84-LV03>}.
@@ -902,8 +903,7 @@ class ChLV(_ChLV, Ltp):
         elif ChLV.isLV03(e - 2.e6, n - 1.e6):  # _92_falsing = _95_ - _03_
             return True
         elif raiser:  # PYCHOK no cover
-            t = unstr(ChLV.isLV95.__name__, e=e, n=n)
-            raise LocalError(t)
+            raise LocalError(unstr(ChLV.isLV95, e=e, n=n))
         return None
 
     @staticmethod
@@ -927,7 +927,7 @@ class ChLV(_ChLV, Ltp):
 class ChLVa(_ChLV, LocalCartesian):
     '''Conversion between I{WGS84 geodetic} and I{Swiss} projection coordinates
        using the U{Approximate<https://www.SwissTopo.admin.CH/en/maps-data-online/
-       calculation-services.html>} formulas, pp 13-14.
+       calculation-services.html>} formulas, page 13.
 
        @see: Older U{references<https://GitHub.com/alphasldiallo/Swisstopo-WGS84-LV03>}.
     '''
@@ -980,6 +980,13 @@ class ChLVe(_ChLV, LocalCartesian):
        J.<https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf>}
        pp 148-151 (also U{GGGS<https://eMuseum.GGGS.CH/literatur-lv/liste.htm>}).
 
+       @note: Methods L{ChLVe.forward} and L{ChLVe.reverse} have an additional keyword
+              argument C{B{gamma}=False} to approximate the I{meridian convergence}.
+              If C{B{gamma}=True} a 2-tuple C{(t, gamma)} is returned with C{t} the
+              usual result (C{ChLV9Tuple}) and C{gamma}, the I{meridian convergence}
+              (decimal C{degrees}).  To convert C{gamma} to C{grades} or C{gons},
+              use function L{pygeodesy.degrees2grades}.
+
        @see: Older U{references<https://GitHub.com/alphasldiallo/Swisstopo-WGS84-LV03>}.
     '''
     def __init__(self, name=ChLV.Bern.name):
@@ -989,44 +996,56 @@ class ChLVe(_ChLV, LocalCartesian):
         '''
         LocalCartesian.__init__(self, latlonh0=ChLV.Bern, name=name)
 
-    def forward(self, latlonh, lon=None, height=0, M=None, name=NN):  # PYCHOK unused M
+    def forward(self, latlonh, lon=None, height=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
         # overloaded for the _ChLV.forward.__doc__
         lat, lon, h, name = _llhn4(latlonh, lon, height, name=name)
         a, b, h_ = _ChLV._llh2abh_3(lat, lon, h)
         F = Fhorner
 
-        Y1 = F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.003450, -0.007992)
-        Y3 = F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
-        Y5 = F(a,      0.019784,     -0.004277)
-        Y  = F(b, 0, Y1, 0, Y3, 0, Y5).fover(ChLV._ab_M)  # 1000 km!
+        B1 = F(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
+        B3 = F(a,    -44.232717,      4.291740, -0.309883,  0.013924)
+        B5 = F(a,      0.019784,     -0.004277)
+        Y  = F(b, 0, B1, 0, B3, 0, B5).fover(ChLV._ab_M)  # 1000 km!
 
-        X0 = F(a,    0,      308770.746371,  75.028131, 120.435227, 0.009488, 0.070332, -0.000010)
-        X2 = F(a, 3745.408911, -193.792707,  4.340858,   -0.376174, 0.004053)
-        X4 = F(a,   -0.734684,    0.144466, -0.011842)
-        X6 =         0.000488
-        X  = F(b, X0, 0, X2, 0, X4, 0, X6).fover(ChLV._ab_M)  # 1000 km!
+        B0 = F(a,    0,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
+        B2 = F(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
+        B4 = F(a,   -0.734684,    0.144466, -0.011842)
+        B6 =         0.000488
+        X  = F(b, B0, 0, B2, 0, B4, 0, B6).fover(ChLV._ab_M)  # 1000 km!
 
-        return self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
+        t = self._ChLV9Tuple(True, M, name, Y, X, h_, lat, lon, h)
+        if gamma:
+            U1 = F(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
+            U3 = F(a,    -412.991934,   64.106344, -2.679566, 0.123833)
+            U5 = F(a,       0.204129,   -0.037725)
+            t  = t, F(b, 0, U1, 0, U3, 0, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
+        return t
 
-    def reverse(self, enh_, n=None, h_=0, M=None, name=NN):
+    def reverse(self, enh_, n=None, h_=0, M=None, name=NN, gamma=False):  # PYCHOK gamma
         # overloaded for the _ChLV.reverse.__doc__
         Y, X, h_, name = self._YXh_n4(enh_, n, h_, name=name)
         a, b, h = _ChLV._YXh_2abh3(Y, X, h_)
         F = Fhorner
 
-        A1  = F(b, 47297.3056722,  7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
-        A3  = F(b,  -442.709889,   -255.02202,   -96.34947,  -30.0808)
-        A5  = F(b,     9.63495,       9.0243)
+        A1  = F(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
+        A3  = F(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
+        A5  = F(b,     9.63495,      9.0243)
         lon = F(a,  ChLV._sLon, A1, 0, A3, 0, A5).fover(ChLV._s_d)
-        #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / ChLV._s_ab
+        #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / ChLV._s_d
 
-        B0  = F(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
-        B2  = F(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
-        B4  = F(b,    24.42786,    13.20703,     4.7476)
-        B6  =         -0.4249
-        lat = F(a, B0, 0, B2, 0, B4, 0, B6).fover(ChLV._s_d)
+        A0  = F(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
+        A2  = F(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
+        A4  = F(b,    24.42786,    13.20703,     4.7476)
+        A6  =         -0.4249
+        lat = F(a, A0, 0, A2, 0, A4, 0, A6).fover(ChLV._s_d)
 
-        return self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
+        t = self._ChLV9Tuple(False, M, name, Y, X, h_, lat, lon, h)
+        if gamma:
+            U1 = F(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
+            U3 = F(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
+            U5 = F(b,     29.631,       27.873)
+            t  = t, F(a, 0, U1, 0, U3, 0, U5).fover(ChLV._s_ab)  # degrees
+        return t
 
 
 def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):

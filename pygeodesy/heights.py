@@ -75,7 +75,7 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import NN, _COMMASPACE_, _cubic_, _datum_, _distanceTo_, \
-                             _knots_, _len_, _linear_, _scipy_
+                             _knots_, _linear_, _NOTEQUAL_, _scipy_, _SPACE_, _STAR_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_, Property_RO
@@ -85,11 +85,12 @@ from pygeodesy.units import Float_, Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '22.09.24'
+__version__ = '22.10.06'
 
 _error_        = 'error'
 _insufficient_ = 'insufficient'
 _llis_         = 'llis'
+_smoothing_    = 'smoothing'
 
 
 class HeightError(PointsError):
@@ -106,7 +107,8 @@ def _alist(ais):
 def _allis2(llis, m=1, Error=HeightError):  # imported by .geoids
     # dtermine return type and convert lli C{LatLon}s to list
     if not isinstance(llis, tuple):  # llis are *args
-        raise _AssertionError('%s(%s): %r' % ('type_', '*llis', llis))
+        n = Fmt.PAREN(type_=_STAR_(NN, _llis_))
+        raise _AssertionError(n, txt=repr(llis))
 
     n = len(llis)
     if n == 1:  # convert single lli to 1-item list
@@ -129,7 +131,9 @@ def _ascalar(ais):  # imported by .geoids
     # return single float, not numpy.float64
     ais = list(ais)  # np.array, etc. to list
     if len(ais) != 1:
-        raise _AssertionError('%s(%r): %s != 1' % (_len_, ais, len(ais)))
+        n =  Fmt.PAREN(len=repr(ais))
+        t = _SPACE_(len(ais), _NOTEQUAL_, 1)
+        raise _AssertionError(n, txt=t)
     return float(ais[0])  # remove np.<type>
 
 
@@ -141,7 +145,7 @@ def _atuple(ais):
 def _axyllis4(atype, llis, m=1, off=True):
     # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
     # C{SciPy} sphericals and determine the return type
-    _as, llis = _allis2(llis, m=m)
+    _as, llis   = _allis2(llis, m=m)
     xis, yis, _ =  zip(*_xyhs(llis, off=off))  # PYCHOK unzip
     return _as, atype(xis), atype(yis), llis
 
@@ -1236,7 +1240,7 @@ class HeightSmoothBiSpline(_HeightBase):
         '''
         spi = self.scipy_interpolate
 
-        s = Float_(s, name='smoothing', Error=HeightError, low=4)
+        s = Float_(s, name=_smoothing_, Error=HeightError, low=4)
 
         xs, ys, hs = self._xyhs3(knots)
         try:

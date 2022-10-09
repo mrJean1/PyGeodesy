@@ -17,21 +17,21 @@ from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
                              _COLONSPACE_, _COMMASPACE_, _datum_, \
                              _ellipsoidal_, _EQUAL_, _incompatible_, \
                              _invalid_, _len_, _name_, _no_, _not_, _or_, \
-                             _SPACE_, _specified_, _UNDER_, _value_, _vs_
+                             _SPACE_, _specified_, _UNDER_, _value_, \
+                             _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
-__all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '22.09.25'
+__all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
+__version__ = '22.10.08'
 
 _default_    = 'default'
-_kwargs_     = 'kwargs'
+_kwargs_     = 'kwargs'  # XXX _kwds_?
 _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
 _vs__        = _SPACE_(NN, _vs_, NN)
-_with_       = 'with'
 
 try:
     _exception_chaining = None  # not available
@@ -326,7 +326,7 @@ def crosserrors(raiser=None):
     return t
 
 
-def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=_invalid_,
+def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
                                    cause=None, **kwds):  # by .lazily
     '''(INTERNAL) Format an error text and initialize an C{Error} instance.
 
@@ -363,9 +363,7 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=_invalid_,
 
     if txt is not None:
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
-        if txt is _invalid_ and cause is not None:
-            txt = str(cause)  # i.e. txt not overridden
-        t = C(t, txt or _invalid_)
+        t =  C(t, txt or (str(cause) if cause else _invalid_))
 #       x =  str(txt) or _invalid_
 #   else:  # LenError, _xzip, .dms, .heights, .vector2d
 #       x =  NN  # XXX or t?

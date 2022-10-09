@@ -32,9 +32,9 @@ from pygeodesy.constants import INT0, _isfinite, isinf, isnan, \
 from pygeodesy.errors import itemsorted, _OverflowError, _TypeError, \
                             _ValueError, _xError2, _xkwds_get, _xkwds_get_, \
                             _ZeroDivisionError
-from pygeodesy.interns import NN, _arg_, _BANG_, _COMMASPACE_, _DASH_, \
-                             _EQUAL_, _exceeds_, _from_, _iadd_, _LANGLE_, \
-                             _negative_, _not_finite_, _not_scalar_, \
+from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DASH_, _EQUAL_, \
+                             _exceeds_, _from_, _iadd_, _LANGLE_, _negative_, \
+                             _NOTEQUAL_, _not_finite_, _not_scalar_, \
                              _PERCENT_, _PLUS_, _R_, _RANGLE_, _SLASH_, \
                              _SPACE_, _STAR_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _getenv, _sys, _sys_version_info2
@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.09.24'
+__version__ = '22.10.09'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -62,14 +62,14 @@ _le_op_        = _LANGLE_ + _EQUAL_
 _lt_op_        = _LANGLE_
 _mod_op_       = _PERCENT_
 _mul_op_       = _STAR_
-_ne_op_        = _BANG_ + _EQUAL_
+_ne_op_        = _NOTEQUAL_
 _non_zero_     = 'non-zero'
 _pow_op_       = _STAR_ * 2  # _DSTAR_, in .fmath
 _sub_op_       = _DASH_
 _truediv_op_   = _SLASH_
 _divmod_op_    = _floordiv_op_ + _mod_op_
 
-_pos_self      = _1_0.__pos__() is _1_0
+_pos_self      = _1_0.__pos__() is _1_0  # in .vector3dBase
 
 
 def _2float(index=None, **name_value):
@@ -216,19 +216,19 @@ def _2sum(a, b):  # by .testFmath
     return s, r
 
 
-class Fsum(_Named):
-    '''Precision floating point I{running} summation similar to standard Python's C{math.fsum}.
+class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
+    '''Precision floating point I{running} summation.
 
-       Unlike C{math.fsum}, this class accumulates values and provides I{intermediate}
-       precision floating point summation.  Accumulation may continue after I{intermediate}
-       summuation, aka I{running} summation.
+       Unlike Python's C{math.fsum}, this class accumulates values and provides intermediate,
+       I{running} precision floating point summation.  Accumulation may continue after
+       intermediate, I{running} summuation.
 
        @note: Accumulated values may be L{Fsum} or C{scalar} instances with C{scalar} meaning
               type C{float}, C{int} or any C{type} convertible to a single C{float}, having
               method C{__float__}.
 
-       @note: Handling of exceptions and of values C{inf}, C{INF}, C{nan} and C{NAN} differs
-              from standard Python's C{math.fsum}.
+       @note: Handling of exceptions and C{inf}, C{INF}, C{nan} and C{NAN} differs from
+              Python's C{math.fsum}.
 
        @see: U{Hettinger<https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
              393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>}, U{Kahan
@@ -301,6 +301,18 @@ class Fsum(_Named):
            @see: Methods L{Fsum.__floor__} and property L{Fsum.ceil}.
         '''
         return self.ceil
+
+    def __cmp__(self, other):  # Python 2-
+        '''Compare this with an other instance or scalar.
+
+           @return: -1, 0 or +1 (C{int}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        s = self._cmp_0(other, self.cmp.__name__)
+        return -1 if s < 0 else (+1 if s > 0 else 0)
+
+    cmp = __cmp__
 
     def __divmod__(self, other):
         '''Return C{divmod(B{self}, B{other})} as 2-tuple C{(quotient,

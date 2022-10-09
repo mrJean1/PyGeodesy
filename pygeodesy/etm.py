@@ -90,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.09.14'
+__version__ = '22.10.05'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -126,47 +126,23 @@ class Etm(Utm):
     _Error   = ETMError  # see utm.UTMError
     _exactTM = None
 
-    def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
-                             datum=_WGS84, falsed=True,
-                             convergence=None, scale=None, name=NN):
-        '''New L{Etm} coordinate.
+    __init__ = Utm.__init__
+    '''New L{Etm} Exact Transverse Mercator coordinate, raising L{ETMError}s.
 
-           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone with/-out
-                      I{latitudinal} Band letter (C{str}, '01C'|..|'60X').
-           @arg hemisphere: Northern or southern hemisphere (C{str}, C{'N[orth]'}
-                            or C{'S[outh]'}).
-           @arg easting: Easting, see B{C{falsed}} (C{meter}).
-           @arg northing: Northing, see B{C{falsed}} (C{meter}).
-           @kwarg band: Optional, I{latitudinal} band (C{str}, 'C'|..|'X').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum}, L{Ellipsoid},
-                         L{Ellipsoid2} or L{a_f2Tuple}).
-           @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}} are
-                          C{falsed} (C{bool}).
-           @kwarg convergence: Optional meridian convergence, bearing off grid North,
-                               clockwise from true North (C{degrees}) or C{None}.
-           @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
-           @kwarg name: Optional name (C{str}).
+       @see: L{Utm.__init__} for more information.
 
-           @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or B{C{band}}
-                            or near-spherical B{C{datum}} or C{ellipsoid}.
+       @example:
 
-           @raise TypeError: Invalid or near-spherical B{C{datum}}.
-
-           @example:
-
-            >>> import pygeodesy
-            >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
-        '''
-        Utm.__init__(self, zone, hemisphere, easting, northing,
-                                 band=band, datum=datum, falsed=falsed,
-                                 convergence=convergence, scale=scale,
-                                 name=name)
-        self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
+        >>> import pygeodesy
+        >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
+    '''
 
     @property_doc_(''' the ETM projection (L{ExactTransverseMercator}).''')
     def exactTM(self):
         '''Get the ETM projection (L{ExactTransverseMercator}).
         '''
+        if self._exactTM is None:
+            self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
         return self._exactTM
 
     @exactTM.setter  # PYCHOK setter!
@@ -217,7 +193,7 @@ class Etm(Utm):
                            C{falsed} (C{bool}).
 
            @return: This ETM coordinate as (B{C{LatLon}}) or a
-                    L{LatLonDatum5Tuple}C{(lat, lon, datum, convergence,
+                    L{LatLonDatum5Tuple}C{(lat, lon, datum, gamma,
                     scale)} if B{C{LatLon}} is C{None}.
 
            @raise ETMError: No convergence transforming to lat- and longitude.
@@ -251,7 +227,7 @@ class Etm(Utm):
         lat, lon, g, k = xTM.reverse(e, n, lon0=lon0)
 
         ll = _LLEB(lat, lon, datum=d, name=self.name)  # utm._LLEB
-        ll._convergence = g
+        ll._gamma = g
         ll._scale = k
         self._latlon5args(ll, _toBand, unfalse, xTM)
 
@@ -488,7 +464,7 @@ class ExactTransverseMercator(_NamedBase):
                         the default if not C{None}.
            @kwarg name: Optional name (C{str}).
 
-           @return: L{Forward4Tuple}C{(easting, northing, convergence, scale)}.
+           @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)}.
 
            @see: C{void TMExact::Forward(real lon0, real lat, real lon,
                                          real &x, real &y,
@@ -509,7 +485,7 @@ class ExactTransverseMercator(_NamedBase):
                 if lat == 0:
                     _lat = True
 
-        # u,v = coordinates for the Thompson TM, Lee 54
+        # u, v = coordinates for the Thompson TM, Lee 54
         if lat == 90:
             u = self._Eu_cK
             v = self._iteration = self._zetaC = 0
@@ -524,6 +500,7 @@ class ExactTransverseMercator(_NamedBase):
         y, x, _ = self._sigma3(v,  *sncndn6)
         g, k    = self._zetaScaled(sncndn6, ll=False) \
                   if lat != 90 else (lon, self.k0)
+
         if backside:
             y, g = self._Eu_2cE_(y), (_180_0 - g)
         y *= self._k0_a
@@ -532,7 +509,6 @@ class ExactTransverseMercator(_NamedBase):
             y, g = neg_(y, g)
         if _lon:
             x, g = neg_(x, g)
-
         return Forward4Tuple(x, y, g, k, iteration=self._iteration,
                                          name=name or self.name)
 
@@ -692,7 +668,7 @@ class ExactTransverseMercator(_NamedBase):
 
         if self._datum or self._E:
             _i = ExactTransverseMercator.iteration._uname
-            _update_all(self, _i, '_sigmaC', '_zetaC')
+            _update_all(self, _i, '_sigmaC', '_zetaC')  # _UNDER
 
         self._E  = E
         self._mu = mu
@@ -707,7 +683,7 @@ class ExactTransverseMercator(_NamedBase):
                         the default if not C{None}.
            @kwarg name: Optional name (C{str}).
 
-           @return: L{Reverse4Tuple}C{(lat, lon, convergence, scale)}.
+           @return: L{Reverse4Tuple}C{(lat, lon, gamma, scale)}.
 
            @see: C{void TMExact::Reverse(real lon0, real x, real y,
                                          real &lat, real &lon,
@@ -727,7 +703,7 @@ class ExactTransverseMercator(_NamedBase):
             if backside:  # PYCHOK no cover
                 xi = self._Eu_2cE_(xi)
 
-        # u,v = coordinates for the Thompson TM, Lee 54
+        # u, v = coordinates for the Thompson TM, Lee 54
         if xi or eta != self._Ev_cKE:
             u, v = self._sigmaInv2(xi, eta)
         else:  # PYCHOK no cover
@@ -745,7 +721,6 @@ class ExactTransverseMercator(_NamedBase):
             lat, g = neg_(lat, g)
         if _lon:
             lon, g = neg_(lon, g)
-
         lon += self.lon0 if lon0 is None else _norm180(lon0)
         return Reverse4Tuple(lat, _norm180(lon), g, k,  # _norm180(lat)
                                    iteration=self._iteration,
@@ -1100,9 +1075,9 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
 
        @return: The ETM coordinate (B{C{Etm}}) or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, convergence, scale)} if B{C{Etm}} is
-                C{None} or not B{C{falsed}}.  The C{hemipole} is the
-                C{'N'|'S'} hemisphere.
+                band, datum, gamma, scale)} if B{C{Etm}} is C{None}
+                or not B{C{falsed}}.  The C{hemipole} is theC{'N'|'S'}
+                hemisphere.
 
        @raise ETMError: No convergence transforming to ETM east-
                              and northing.

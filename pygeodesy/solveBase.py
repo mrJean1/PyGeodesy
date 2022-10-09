@@ -8,7 +8,7 @@ from pygeodesy.basics import map2, ub2str, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.errors import _AssertionError, _xkwds_get
 from pygeodesy.interns import NN, _0_, _BACKSLASH_, _COMMASPACE_, _enquote, \
-                             _EQUAL_, _not_, _SPACE_
+                             _EQUAL_, _Error_, _not_, _SPACE_
 from pygeodesy.karney import Caps, _CapsBase, _a_ellipsoid, _EWGS84, GDict, \
                              Precision_, unroll180
 from pygeodesy.lazily import _ALL_DOCS, printf, _sys_version_info2
@@ -21,9 +21,8 @@ from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from subprocess import PIPE as _PIPE, Popen as _Popen, STDOUT as _STDOUT
 
 __all__ = ()  # nothing public
-__version__ = '22.09.24'
+__version__ = '22.10.04'
 
-_Error_    = 'Error'
 _ERROR_    = 'ERROR'
 _text_True =  dict() if _sys_version_info2 < (3, 7) else dict(text=True)
 

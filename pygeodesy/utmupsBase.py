@@ -12,20 +12,21 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
-                             _xkwds, _xkwds_not
-from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _n_a_, _not_, \
-                             _N_, _NS_, _PLUS_, _SPACE_, _Y_, _Z_
+                             _xkwds, _xkwds_get, _xkwds_not
+from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
+                             _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
+                             _scale_, _SPACE_, _Y_, _Z_, _UNDER
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, nameof, notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
-from pygeodesy.props import deprecated_method, property_doc_, \
-                            Property_RO, property_RO, _update_all
+from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
+                            deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap360
 
 __all__ = ()
-__version__ = '22.09.24'
+__version__ = '22.10.05'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -145,28 +146,28 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
-    _band        =  NN     # latitude band letter ('A..Z')
-    _Bands       =  NN     # valid Band letters, see L{Utm} and L{Ups}
-    _convergence =  None   # meridian conversion (C{degrees})
-    _datum       = _WGS84  # L{Datum}
-    _easting     = _0_0    # Easting, see B{C{falsed}} (C{meter})
-    _Error       =  None   # I{Must be overloaded}, see function C{notOverloaded}
-    _falsed      =  True   # falsed easting and northing (C{bool})
-    _hemisphere  =  NN     # hemisphere ('N' or 'S'), different from UPS pole
-    _latlon      =  None   # cached toLatLon (C{LatLon} or C{._toLLEB})
-    _northing    = _0_0    # Northing, see B{C{falsed}} (C{meter})
-    _scale       =  None   # grid or point scale factor (C{scalar}) or C{None}
-#   _scale0      = _K0     # central scale factor (C{scalar})
-    _ups         =  None   # cached toUps (L{Ups})
-    _utm         =  None   # cached toUtm (L{Utm})
+    _band       =  NN     # latitude band letter ('A..Z')
+    _Bands      =  NN     # valid Band letters, see L{Utm} and L{Ups}
+    _datum      = _WGS84  # L{Datum}
+    _easting    = _0_0    # Easting, see B{C{falsed}} (C{meter})
+    _Error      =  None   # I{Must be overloaded}, see function C{notOverloaded}
+    _falsed     =  True   # falsed easting and northing (C{bool})
+    _gamma      =  None   # meridian conversion (C{degrees})
+    _hemisphere =  NN     # hemisphere ('N' or 'S'), different from UPS pole
+    _latlon     =  None   # cached toLatLon (C{LatLon} or C{._toLLEB})
+    _northing   = _0_0    # Northing, see B{C{falsed}} (C{meter})
+    _scale      =  None   # grid or point scale factor (C{scalar}) or C{None}
+#   _scale0     = _K0     # central scale factor (C{scalar})
+    _ups        =  None   # cached toUps (L{Ups})
+    _utm        =  None   # cached toUtm (L{Utm})
 
     def __init__(self, easting, northing, band=NN, datum=None, falsed=True,
-                                          convergence=None, scale=None):
+                                          gamma=None, scale=None, **convergence):
         '''(INTERNAL) New L{UtmUpsBase}.
         '''
         E = self._Error
         if not E:
-            notOverloaded(self, callername='_Error')
+            notOverloaded(self, callername=_UNDER(_Error_))
 
         self._easting  = Easting(easting,   Error=E)
         self._northing = Northing(northing, Error=E)
@@ -180,8 +181,10 @@ class UtmUpsBase(_NamedBase):
         if not falsed:
             self._falsed = False
 
-        if convergence is not self._convergence:
-            self._convergence = Scalar(convergence=convergence, Error=E)
+        if convergence:  # for backward compatibility
+            gamma = _xkwds_get(convergence, convergence=gamma)
+        if gamma is not self._gamma:
+            self._gamma = Scalar(gamma=gamma, Error=E)
         if scale is not self._scale:
             self._scale = Scalar(scale=scale, Error=E)
 
@@ -197,7 +200,7 @@ class UtmUpsBase(_NamedBase):
         if band:
             _xinstanceof(str, band=band)
 #           if not self._Bands:
-#               notOverloaded(self, callername='_Bands')
+#               notOverloaded(self, callername=_UNDER('Bands'))
             if band not in self._Bands:
                 t = _or(*sorted(set(map(repr, self._Bands))))
                 raise self._Error(band=band, txt=_not_(t))
@@ -205,12 +208,10 @@ class UtmUpsBase(_NamedBase):
         elif self._band:  # reset
             self._band = NN
 
-    @property_RO
+    @deprecated_property_RO
     def convergence(self):
-        '''Get the meridian convergence (C{degrees}) or C{None}
-           if not available.
-        '''
-        return self._convergence
+        '''DEPRECATED, use property C{gamma}.'''
+        return self.gamma
 
     @property_doc_(''' the (ellipsoidal) datum of this coordinate.''')
     def datum(self):
@@ -240,7 +241,7 @@ class UtmUpsBase(_NamedBase):
         return EasNor2Tuple(self.easting, self.northing)
 
     def eastingnorthing2(self, falsed=True):
-        '''Return easting and northing, both falsed or unfalsed.
+        '''Return easting and northing, falsed or unfalsed.
 
            @kwarg falsed: If C{True} return easting and northing falsed
                           (C{bool}), otherwise unfalsed.
@@ -275,6 +276,13 @@ class UtmUpsBase(_NamedBase):
         '''
         notOverloaded(self)
 
+    @Property_RO
+    def gamma(self):
+        '''Get the meridian convergence (C{degrees}) or C{None}
+           if not available.
+        '''
+        return self._gamma
+
     @property_RO
     def hemisphere(self):
         '''Get the hemisphere (C{str}, 'N'|'S').
@@ -289,12 +297,12 @@ class UtmUpsBase(_NamedBase):
         ll = self._latlon
         if LatLon is None:
             r = LatLonDatum5Tuple(ll.lat, ll.lon, ll.datum,
-                                  ll.convergence, ll.scale)
+                                  ll.gamma, ll.scale)
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
             kwds = _xkwds(LatLon_kwds, datum=ll.datum)
             r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
-                               ll, '_convergence', '_scale')
+                               ll, _UNDER(_gamma_), _UNDER(_scale_))
         return _xnamed(r, ll.name)
 
     def _latlon5args(self, ll, _toBand, unfalse, *other):
@@ -399,8 +407,8 @@ class UtmUpsBase(_NamedBase):
         t = (z, hemipole) + _fstrENH2(self, prec, None)[0]
         if cs:
             prec = cs if isint(cs) else 8  # for backward compatibility
-            t += (_n_a_ if self.convergence is None else
-                    degDMS(self.convergence, prec=prec, pos=_PLUS_),
+            t += (_n_a_ if self.gamma is None else
+                    degDMS(self.gamma, prec=prec, pos=_PLUS_),
                   _n_a_ if self.scale is None else
                       fstr(self.scale, prec=prec))
         return t if sep is None else sep.join(t)
@@ -425,8 +433,9 @@ def _lowerleft(utmups, center):  # by .ellipsoidalBase._lowerleft
         else:
             return utmups  # unchanged
 
-    r = _xkwds_not(None, datum=utmups.datum, scale=utmups.scale,
-                         convergence=utmups.convergence)
+    r = _xkwds_not(None, datum=utmups.datum,
+                         gamma=utmups.gamma,
+                         scale=utmups.scale)
     return utmups.classof(utmups.zone, utmups.hemisphere,
                           utmups.easting - e, utmups.northing - n,
                           band=utmups.band, falsed=utmups.falsed, **r)

@@ -56,7 +56,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '22.09.24'
+__version__ = '22.10.04'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -298,8 +298,8 @@ class Mgrs(_NamedBase):
                                  and B{C{LatLon}} keyword arguments.
 
            @return: A B{C{LatLon}} instance or if C{B{LatLon} is None}
-                    a L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)}.
+                    a L{LatLonDatum5Tuple}C{(lat, lon, datum, gamma,
+                    scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 

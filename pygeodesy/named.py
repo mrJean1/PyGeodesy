@@ -22,9 +22,10 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _dunder_name, _EQUAL_, _EQUALSPACED_, _exists_, \
-                             _I_, _immutable_, _name_, _NL_, _NN_, _not_, _O_, \
-                             _other_, _s_, _SPACE_, _std_, _UNDER_, _valid_, _vs_
+                             _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
+                             _name_, _NL_, _NN_, _not_, _O_, _other_, _s_, \
+                             _SPACE_, _std_, _UNDER_, _valid_, _vs_, \
+                             _dunder_nameof, _UNDER
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
                             _hasProperty, property_doc_, property_RO, \
@@ -33,7 +34,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.09.24'
+__version__ = '22.10.07'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -41,7 +42,7 @@ _del_               = 'del'
 _item_              = 'item'
 _MRO_               = 'MRO'
 # __DUNDER gets mangled in class
-_name               = '_name'
+_name               = _UNDER(_name_)
 _Names_             = '_Names_'
 _registered_        = 'registered'  # PYCHOK used!
 _std_NotImplemented = _getenv('PYGEODESY_NOTIMPLEMENTED', NN).lower() == _std_
@@ -1199,7 +1200,7 @@ def nameof(inst):
 def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''(INTERNAL) Format an error message.
     '''
-    n = _DOT_(classname(inst, prefixed=True), _dunder_name(name, name))
+    n = _DOT_(classname(inst, prefixed=True), _dunder_nameof(name, name))
     m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
     return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
 

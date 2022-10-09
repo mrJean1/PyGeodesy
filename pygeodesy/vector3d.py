@@ -32,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.09.24'
+__version__ = '22.10.08'
 
 
 class Vector3d(Vector3dBase):
@@ -145,7 +145,7 @@ class Vector3d(Vector3dBase):
 
            @see: Function L{pygeodesy.circum4_} and methods L{circum3} and L{meeus2}.
         '''
-        return _MODS.vector2d.circum4_(self, *points, Vector=self.classof)
+        return _MODS.vector2d.circum4_(self, *points, useZ=True, Vector=self.classof)
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other (3-D) points are colinear.
@@ -168,17 +168,18 @@ class Vector3d(Vector3dBase):
         return _MODS.vector2d._iscolinearWith(v, point1, point2, eps=eps)
 
     def meeus2(self, point2, point3, circum=False):
-        '''Return the radius and I{Meeus}' Type of the smallest circle
-           I{through} or I{containing} this and two other (3-D) points.
+        '''Return the radius and I{Meeus}' Type of the smallest circle I{through}
+           or I{containing} this and two other (3-D) points.
 
            @arg point2: Second point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                         or C{Vector4Tuple}).
            @arg point3: Third point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
                         or C{Vector4Tuple}).
            @kwarg circum: If C{True} return the C{circumradius} and C{circumcenter}
-                          always, ignoring the I{Meeus}' Type I case (C{bool}).
+                          always, overriding I{Meeus}' Type II case (C{bool}).
 
-           @return: L{Meeus2Tuple}C{(radius, Type)}.
+           @return: L{Meeus2Tuple}C{(radius, Type)}, with C{Type} the C{circumcenter}
+                    iff C{B{circum}=True}.
 
            @raise IntersectionError: Coincident or colinear points, iff C{B{circum}=True}.
 
@@ -187,32 +188,28 @@ class Vector3d(Vector3dBase):
            @see: Function L{pygeodesy.meeus2} and methods L{circum3} and L{circum4_}.
         '''
         try:
-            r, t, _, _ = _MODS.vector2d._meeus4(self, point2, point3, circum=circum,
-                                                      clas=self.classof)
+            return _MODS.vector2d._meeus2(self, point2, point3, circum, clas=self.classof)
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3, circum=circum)
-        return _MODS.vector2d.Meeus2Tuple(r, t)
 
     def nearestOn(self, point1, point2, within=True):
         '''Locate the point between two points closest to this point.
 
-           @arg point1: Start point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
-                        or C{Vector4Tuple}).
-           @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
-                        or C{Vector4Tuple}).
-           @kwarg within: If C{True} return the closest point between
-                          the given points, otherwise the closest
-                          point on the extended line through both
-                          points (C{bool}).
+           @arg point1: Start point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
+                        C{Vector4Tuple}).
+           @arg point2: End point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
+                        C{Vector4Tuple}).
+           @kwarg within: If C{True} return the closest point between the given
+                          points, otherwise the closest point on the extended
+                          line through both points (C{bool}).
 
-           @return: Closest point, either B{C{point1}} or B{C{point2}} or an
-                    instance of this (sub-)class.
+           @return: Closest point, either B{C{point1}} or B{C{point2}} or an instance
+                    of this (sub-)class.
 
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
-           @see: Method L{sphericalTrigonometry.LatLon.nearestOn3} and
-                 U{3-D Point-Line Distance<https://MathWorld.Wolfram.com/
-                 Point-LineDistance3-Dimensional.html>}.
+           @see: Method L{sphericalTrigonometry.LatLon.nearestOn3} and U{3-D Point-Line
+                 Distance<https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html>}.
         '''
         return _nearestOn2(self, point1, point2, within=within).closest
 
@@ -317,8 +314,8 @@ class Vector3d(Vector3dBase):
            @arg center3: Center of the 3rd circle (C{Cartesian}, L{Vector3d},
                          C{Vector2Tuple}, C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius3: Radius of the 3rd circle (same C{units} as this C{x} and C{y}.
-           @kwarg eps: Check the trilaterated point I{delta} on all 3 circles (C{scalar})
-                       or C{None}.
+           @kwarg eps: Tolerance to check the trilaterated point I{delta} on all
+                       3 circles (C{scalar}) or C{None} for no checking.
            @kwarg z: Optional Z component of the trilaterated point (C{scalar}).
 
            @return: Trilaterated point, an instance of this (sub-)class with C{z=B{z}}.
@@ -363,7 +360,8 @@ class Vector3d(Vector3dBase):
                          C{Vector3Tuple} or C{Vector4Tuple}).
            @arg radius3: Radius of the 3rd sphere (same C{units} as this C{x}, C{y}
                          and C{z}).
-           @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
+           @kwarg eps: Pertubation tolerance (C{scalar}), same units as C{x}, C{y}
+                       and C{z} or C{None} for no pertubations.
 
            @return: 2-Tuple with two trilaterated points, each an instance of this
                     (sub-)class.  Both points are the same instance if all three
@@ -721,20 +719,20 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
        The closest point is either on and within the extent of a polygon edge or
        the nearest of that edge's end points.
 
-       @arg point: Reference point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple}
-                                    or C{Vector4Tuple}).
+       @arg point: Reference point (C{Cartesian}, L{Vector3d}, C{Vector3Tuple} or
+                   C{Vector4Tuple}).
        @arg points: The path or polygon points (C{Cartesian}, L{Vector3d},
                     C{Vector3Tuple} or C{Vector4Tuple}[]).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
-                               closest point and optional, additional B{C{Vector}}
-                               keyword arguments, otherwise B{C{point}}'s (sub-)class.
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the closest
+                               point and optional, additional B{C{Vector}} keyword
+                               arguments, otherwise B{C{point}}'s (sub-)class.
 
-       @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)} with
-                the C{closest}, the C{start} and the C{end} point each an instance
-                of the B{C{Vector}} keyword argument of if {B{Vector}=None} or not
-                specified, an instance of the B{C{point}}'s (sub-)class.
+       @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)} with the
+                C{closest}, the C{start} and the C{end} point each an instance of the
+                B{C{Vector}} keyword argument of if {B{Vector}=None} or not specified,
+                an instance of the reference B{C{point}}'s (sub-)class.
 
        @raise PointsError: Insufficient number of B{C{points}}
 
@@ -855,8 +853,8 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
        @arg x3: Center C{x} coordinate of the 3rd circle (C{scalar}).
        @arg y3: Center C{y} coordinate of the 3rd circle (C{scalar}).
        @arg radius3: Radius of the 3rd circle (C{scalar}).
-       @kwarg eps: Check the trilaterated point I{delta} on all 3
-                   circles (C{scalar}) or C{None}.
+       @kwarg eps: Tolerance to check the trilaterated point I{delta} on all
+                   3 circles (C{scalar}) or C{None} for no checking.
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
                                trilateration and optional, additional B{C{Vector}}
                                keyword arguments, otherwise (L{Vector3d}).
@@ -897,7 +895,8 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                      C{Vector3Tuple} or C{Vector4Tuple}).
        @arg radius3: Radius of the 3rd sphere (same C{units} as C{x}, C{y}
                      and C{z}).
-       @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
+       @kwarg eps: Pertubation tolerance (C{scalar}), same units as C{x},
+                   C{y} and C{z} or C{None} for no pertubations.
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
                                trilateration and optional, additional B{C{Vector}}
                                keyword arguments, otherwise B{C{center1}}'s

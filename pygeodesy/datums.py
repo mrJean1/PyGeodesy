@@ -74,7 +74,7 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _Bessel1841_,
                              _ellipsoidal_, _GRS80_, _Intl1924_, _Krassovski1940_, \
                              _Krassowsky1940_, _NAD27_, _NAD83_, _name_, _s_, _Sphere_, \
                              _spherical_, _sx_, _sy_, _sz_, _transform_, _tx_, _ty_, _tz_, \
-                             _UNDER_, _under_name, _WGS72_, _WGS84_
+                             _UNDER_, _WGS72_, _WGS84_, _UNDER
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy, Property_RO
@@ -86,7 +86,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.09.12'
+__version__ = '22.10.05'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -430,16 +430,16 @@ def _En2(earth, name):
     '''
     if isinstance(earth, (Ellipsoid, Ellipsoid2)):
         E =  earth
-        n = _under_name(name or E.name)
+        n = _UNDER(name or E.name)
     elif isinstance(earth, Datum):
         E =  earth.ellipsoid
-        n = _under_name(name or earth.name)
+        n = _UNDER(name or earth.name)
     elif isinstance(earth, a_f2Tuple):
-        n = _under_name(name or earth.name)
+        n = _UNDER(name or earth.name)
         E =  Ellipsoid(earth.a, earth.b, name=n)
     elif istuplist(earth, minum=2):
         a, f = earth[:2]
-        n = _under_name(name or getattr(earth, _name_, NN))
+        n = _UNDER(name or getattr(earth, _name_, NN))
         E =  Ellipsoid(a, f=f, name=n)
     else:
         E, n = None, NN
@@ -502,7 +502,7 @@ def _spherical_datum(earth, Error=TypeError, name=NN, raiser=NN):
             d =  Datums.Sphere
         else:
             r =  Radius_(earth, Error=Error)  # invalid datum
-            n = _under_name(name)
+            n = _UNDER(name)
             E =  Ellipsoid(r, r, name=n)
             d =  Datum(E, transform=Transforms.Identity, name=n)
     else:

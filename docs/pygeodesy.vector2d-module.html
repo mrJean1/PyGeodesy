@@ -75,7 +75,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.09.24
+        22.10.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -142,7 +142,7 @@
         <code>rB</code> and <code>rC</code>, the <code>circumradius</code> 
         <code>cR</code>, the <code>Incircle</code> radius <code>rIn</code> 
         aka <code>inradius</code>, the inner and outer <i>Soddy</i> circle 
-        radii <code>riS</code> and <code>roS</code> and the sides 
+        radii <code>riS</code> and <code>roS</code>, the sides 
         <code>a</code>, <code>b</code> and <code>c</code> and 
         semi-perimeter <code>s</code> of a triangle, all in 
         <code>meter</code> conventionally.
@@ -154,7 +154,7 @@
     </td><td class="summary">
         <a href="pygeodesy.vector2d.Soddy4Tuple-class.html" class="summary-name">Soddy4Tuple</a><br />
       4-Tuple <code>(radius, center, deltas, outer)</code> with 
-        <code>radius</code> and trilaterated <code>center</code> of the 
+        <code>radius</code> and (trilaterated) <code>center</code> of the 
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.
     </td>
@@ -179,8 +179,8 @@
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Return the radius and center of the <i>inscribed</i> aka <i>In- 
-      circle</i> of a (2- or 3-D) triangle.</td>
+      Return the radius and center of the <i>inscribed</i> aka 
+      <i>Incircle</i> of a (2- or 3-D) triangle.</td>
           <td align="right" valign="top">
             
             
@@ -220,7 +220,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector2d-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
-        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**useZ_Vector_and_kwds</span>)</span><br />
       Best-fit a sphere through three or more (3-D) points.</td>
           <td align="right" valign="top">
             
@@ -340,8 +340,8 @@
     </td>
   </tr></table>
   
-  <p>Return the radius and center of the <i>inscribed</i> aka <i>In- 
-  circle</i> of a (2- or 3-D) triangle.</p>
+  <p>Return the radius and center of the <i>inscribed</i> aka 
+  <i>Incircle</i> of a (2- or 3-D) triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -363,7 +363,7 @@
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
-          True</code> otherwise <a 
+          True</code> else <a 
           href="pygeodesy.vector3d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -391,10 +391,10 @@
         class="link">radii11</a> and <a 
         href="pygeodesy.vector2d-module.html#circum3" 
         class="link">circum3</a>, <a 
-        href="https://MathWorld.Wolfram.com/Incircle.html" 
-        target="_top">Incircle</a> and <a 
         href="https://MathWorld.Wolfram.com/ContactTriangle.html" 
-        target="_top">Contact Triangle</a>.
+        target="_top">Contact Triangle</a> and <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -440,7 +440,7 @@
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
-          True</code> otherwise <a 
+          True</code> else <a 
           href="pygeodesy.vector3d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -463,18 +463,17 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
-        target="_top">Jean Meeus, &quot;Astronomical Algorithms&quot;, 2nd 
-        Ed. 1998, page 127ff</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumradius.html" 
-        target="_top">circumradius</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum4_" 
+        Functions <a href="pygeodesy.vector2d-module.html#circum4_" 
         class="link">pygeodesy.circum4_</a> and <a 
         href="pygeodesy.vector2d-module.html#meeus2" 
-        class="link">pygeodesy.meeus2</a>.
+        class="link">pygeodesy.meeus2</a> and Meeus, J. <a 
+        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
+        target="_top"><i>Astronomical Algorithms</i></a>, 2nd Ed. 1998, 
+        page 127ff, <a 
+        href="https://MathWorld.Wolfram.com/Circumradius.html" 
+        target="_top">circumradius</a> and <a 
+        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
+        target="_top">circumcircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -486,7 +485,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**Vector_and_kwds</span>)</span>
+        <span class="sig-arg">**useZ_Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -501,10 +500,12 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center and optional, additional <b><code>Vector</code></b> 
-          keyword arguments, otherwise the first 
-          <b><code>points</code></b>' (sub-)class.</li>
+        <li><strong class="pname"><code>useZ_Vector_and_kwds</code></strong> - Keyword arguments <code><b>useZ</b>=True</code> 
+          (<code>bool</code>) to use the Z components, otherwise force all 
+          <code>z=INT0</code>, class <code><b>Vector</b>=None</code> to 
+          return the center point with optionally, additional 
+          n<b><code>Vector</code></b> keyword arguments, otherwise the 
+          first <b><code>points</code></b>' (sub-)class is used.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
@@ -522,19 +523,18 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
-        target="_top">Charles F. Jekel, &quot;Least Squares Sphere 
-        Fit&quot;, Sep 13, 2015</a> and <a 
+        Functions <a href="pygeodesy.vector2d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector2d-module.html#meeus2" 
+        class="link">pygeodesy.meeus2</a>, Jekel, Charles F. <a 
+        href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
+        target="_top"><i>Least Squares Sphere Fit</i></a> Sep 13, 2015, <a 
         href="https://hdl.handle.net/10019.1/98627" target="_top">Appendix 
         A</a>, <a 
         href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>, <a 
+        target="_top">numpy.linalg.lstsq</a> and <a 
         href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
-        target="_top">Eberly 6</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum3" 
-        class="link">pygeodesy.circum3</a> and <a 
-        href="pygeodesy.vector2d-module.html#meeus2" 
-        class="link">pygeodesy.meeus2</a>.
+        target="_top">Eberly 6</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -576,15 +576,17 @@
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the non-zero 
-          <code>circumradius</code> always, ignoring the <i>Meeus</i>' Type
-          I case (<code>bool</code>).</li>
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+          <code>circumcenter</code> always, overriding <i>Meeus</i>' Type 
+          II case (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Meeus2Tuple-class.html" 
-          class="link">Meeus2Tuple</a><code>(radius, Type)</code>.</dd>
+          class="link">Meeus2Tuple</a><code>(radius, Type)</code>, with 
+          <code>Type</code> the <code>circumcenter</code> iff 
+          <code><b>circum</b>=True</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or -colinear points, iff 
@@ -594,18 +596,17 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
-        target="_top">Jean Meeus, &quot;Astronomical Algorithms&quot;, 2nd 
-        Ed. 1998, page 127ff</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumradius.html" 
-        target="_top">circumradius</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum3" 
+        Functions <a href="pygeodesy.vector2d-module.html#circum3" 
         class="link">pygeodesy.circum3</a> and <a 
         href="pygeodesy.vector2d-module.html#circum4_" 
-        class="link">pygeodesy.circum4_</a>.
+        class="link">pygeodesy.circum4_</a> and Meeus, J. <a 
+        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
+        target="_top"><i>Astronomical Algorithms</i></a>, 2nd Ed. 1998, 
+        page 127ff, <a 
+        href="https://MathWorld.Wolfram.com/Circumradius.html" 
+        target="_top">circumradius</a> and <a 
+        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
+        target="_top">circumcircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -724,7 +725,8 @@
           class="link">Soddy4Tuple</a><code>(radius, center, deltas, 
           outer)</code>.  The <code>center</code>, an instance of 
           <b><code>point1</code></b>'s (sub-)class, is co-planar with the 
-          three given points.</dd>
+          three given points.  The <code>outer</code> <i>Soddy</i> radius 
+          may be <code>INF</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
@@ -739,7 +741,9 @@
         Functions <a href="pygeodesy.vector2d-module.html#radii11" 
         class="link">radii11</a> and <a 
         href="pygeodesy.vector2d-module.html#circum3" 
-        class="link">circum3</a>.
+        class="link">circum3</a> and <a 
+        href="https://MathWorld.Wolfram.com/SoddyCircles.html" 
+        target="_top">Soddy Circles</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -775,7 +779,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:54 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:57:01 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

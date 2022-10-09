@@ -5,7 +5,7 @@ u'''Test I{local tangent plane} (LTP) classes .
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.10.02'
+__version__ = '22.10.04'
 
 from base import startswith, TestsBase
 
@@ -242,15 +242,35 @@ class Tests(TestsBase):
                             (783515.164,  187452.333, 1595.183,  ( 9.84351348200287, 46.8129146868336, 1645.59174753912)),
                             (533184.98,   152611.74,   410.638,  ( 6.56789363190021, 46.5214647527993,  460.491580192)),
                             (700000,      100000,      600,      ( 8.73049738375132, 46.0441209510033,  650.012275829911))):
-            r = c.reverse(e, n, h_)  # LV03 falsed!
-            self.test('REFRAME' + str(i), (r.lon, r.lat, r.height), t, known=max(_absdiff(t, r.lon, r.lat)) < 0.01)  # 1 cm
+            r = c.reverse(e, n, h_, name='REFRAME' + str(i))  # LV03 falsed!
+            d = max(_absdiff(t, r.lon, r.lat))
+            self.test(r.name, (r.lon, r.lat, r.height), t, known=d < 0.005)  # 5 mm
+            d = ' %.3g m' % (d,)
+            self.test(r.name, d, d)
             i += 1
 
         # <https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf> p 151
-        c = ChLVe(name='Bolliger')
-        r = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True))
-        self.test(c.name + '.lat', latDMS(r.lat, prec=5),  "46°11′12.03969″N", nl=1)
-        self.test(c.name + '.lon', lonDMS(r.lon, prec=5), "009°07′57.29664″E")
+        if ChLV_ is ChLVe:
+            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger', gamma=True)
+        else:
+            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger'), None
+        self.test(r.name + '.lat', latDMS(r.lat, prec=5),  "46°11′12.03969″N", known=abs(r.lat - 46.18667769) < 0.007, nl=1)
+        self.test(r.name + '.lon', lonDMS(r.lon, prec=5), "009°07′57.29664″E", known=abs(r.lon -  9.13258239) < 0.007)
+        if g is not None:
+            self.test(r.name + '.gamma', g, g, nt=1)
+
+        # <https://www.SwissTopo.admin.ch/en/maps-data-online/calculation-services/navref.html>
+        for e, n, h_, t, m in ((623706.01,   96020.08,  1687.567, (46.015314107,  7.74720273,   1742.449),   'Zermatt'),
+                               (602030.68,  191775.03,   897.915, (46.878427446,  7.466218797,   953.0973),  'Zimmerwald'),
+                               (617306.3,   268507.30,   456.064, (47.568308647,  7.6695485844,  897.4060),  'Chrischona'),
+                               (776668.105, 265372.681, 1042.624, (47.5163201698, 9.7843787372, 3868.8599),  'Pfaender'),
+                               (497313.292, 145625.438, 1207.434, (46.4555740686, 6.1033162697, 2313.94497), 'La Givrine'),
+                               (722758.81,   87649.67,  1636.6,   (45.9311184445, 9.0216020471, 3855.4332),  'Monte Generoso')):
+            r = c.reverse(e, n, h_, name=m)
+            d = max(_absdiff(t, r.lat, r.lon))
+            self.test(r.name, (r.lat, r.lon, r.height), t, known=d < 0.005)  # 5 mm
+            d = ' %.3g m' % (d,)
+            self.test(r.name, d, d)
 
 
 if __name__ == '__main__':

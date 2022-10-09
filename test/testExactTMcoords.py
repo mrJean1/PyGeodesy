@@ -24,7 +24,7 @@ class _ExactTM(object):
     _scale0 = _ETM.k0
 
     def __init__(self, lat, lon, **unused):
-        self.easting, self.northing, self.convergence, self.scale = _ETM.forward(lat, lon)
+        self.easting, self.northing, self.gamma, self.scale = _ETM.forward(lat, lon)
 
     def toLatLon(self, **unused):
         lat, lon, _, _ = _ETM.reverse(self.easting, self.northing)

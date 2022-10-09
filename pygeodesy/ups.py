@@ -29,7 +29,8 @@ from pygeodesy.dms import degDMS, _neg, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
 from pygeodesy.interns import NN, _COMMASPACE_, _inside_, _N_, _pole_, \
-                             _range_, _S_, _SPACE_, _std_, _to_, _UTM_
+                             _range_, _S_, _scale0_, _SPACE_, _std_, \
+                             _to_, _UTM_, _UNDER
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -47,7 +48,7 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.09.24'
+__version__ = '22.10.05'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -84,9 +85,9 @@ class Ups(UtmUpsBase):
     _scale0 = _K0_UPS    # central scale factor (C{scalar})
 
     def __init__(self, zone=0, pole=_N_, easting=_Falsing,  # PYCHOK expected
-                                         northing=_Falsing, band=NN,
-                                         datum=_WGS84, falsed=True,
-                                         convergence=None, scale=None, name=NN):
+                                         northing=_Falsing, band=NN, datum=_WGS84,
+                                         falsed=True, gamma=None, scale=None,
+                                         name=NN, **convergence):
         '''New L{Ups} UPS coordinate.
 
            @kwarg zone: UPS zone (C{int}, zero) or zone with/-out I{polar} Band
@@ -100,11 +101,11 @@ class Ups(UtmUpsBase):
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: If C{True}, both B{C{easting}} and B{C{northing}}
                           are falsed (C{bool}).
-           @kwarg convergence: Optional, meridian convergence gamma
-                               to save (C{degrees}).
+           @kwarg gamma: Optional, meridian convergence to save (C{degrees}).
            @kwarg scale: Optional, computed scale factor k to save
                          (C{scalar}).
            @kwarg name: Optional name (C{str}).
+           @kwarg convergence: DEPRECATED, use keyword argument C{B{gamma}=None}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
@@ -123,7 +124,7 @@ class Ups(UtmUpsBase):
             raise UPSError(zone=zone, pole=pole, band=band, cause=x)
         self._pole = p
         UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
-                                                     convergence=convergence, scale=scale)
+                                                     gamma=gamma, scale=scale, **convergence)
 
     def __eq__(self, other):
         return isinstance(other, Ups) and other.zone     == self.zone \
@@ -219,7 +220,7 @@ class Ups(UtmUpsBase):
 
            @return: This UPS coordinate (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)}.
+                    gamma, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
@@ -243,12 +244,12 @@ class Ups(UtmUpsBase):
         t = E.es_tauf((_1_0 / t - t) * _0_5)
         a = atan(t)
         if self._pole == _N_:
-            b, c = atan2(x, -y), 1
+            b, g = atan2(x, -y), 1
         else:
-            a, b, c = _neg(a), atan2(x, y), -1
+            a, b, g = _neg(a), atan2(x, y), -1
         ll = _LLEB(degrees90(a), degrees180(b), datum=self._datum, name=self.name)
 
-        ll._convergence = b * c  # gamma
+        ll._gamma =  b * g
         ll._scale = _scale(E, r, t) if r > 0 else self.scale0
         self._latlon5args(ll, _toBand, unfalse)
 
@@ -400,9 +401,9 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
 
        @return: The UPS coordinate (B{C{Ups}}) or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, convergence, scale)} if B{C{Ups}} is
-                C{None}.  The C{hemipole} is the C{'N'|'S'} pole,
-                the UPS projection top/center.
+                band, datum, gamma, scale)} if B{C{Ups}} is C{None}.
+                The C{hemipole} is the C{'N'|'S'} pole, the UPS
+                projection top/center.
 
        @raise RangeError: If B{C{strict}} and B{C{lat}} outside the valid
                           UPS bands or if B{C{lat}} or B{C{lon}} outside
@@ -435,16 +436,16 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     r = (hypot1(T) - T) if T < 0 else (_0_0 if P else _1_0 /
         (hypot1(T) + T))
 
-    k0 = getattr(Ups, '_scale0', _K0_UPS)  # Ups is class or None
+    k0 = getattr(Ups, _UNDER(_scale0_), _K0_UPS)  # Ups is class or None
     r *= k0 * E.a * _2_0 / E.es_c
 
     k  = k0 if P else _scale(E, r, t)
-    c  = lon  # [-180, 180) from .upsZoneBand5
-    x, y = sincos2d(c)
+    g  = lon  # [-180, 180) from .upsZoneBand5
+    x, y = sincos2d(g)
     x *= r
     y *= r
     if S:
-        c = _neg(c)
+        g = _neg(g)
     else:
         y = _neg(y)
 
@@ -454,15 +455,15 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
 
     n = name or nameof(latlon)
     if Ups is None:
-        r = UtmUps8Tuple(z, p, x, y, B, d, c, k, Error=UPSError, name=n)
+        r = UtmUps8Tuple(z, p, x, y, B, d, g, k, Error=UPSError, name=n)
     else:
         if z != _UPS_ZONE and not strict:
             z = _UPS_ZONE  # ignore UTM zone
         r = Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
-                            convergence=c, scale=k, name=n)
+                                    gamma=g, scale=k, name=n)
         if isinstance(latlon, _LLEB) and d is latlon.datum:  # see utm._toXtm8
             r._latlon5args(latlon, _toBand, falsed)  # XXX weakref(latlon)?
-            latlon._convergence = c
+            latlon._gamma = g
             latlon._scale = k
         else:
             r._hemisphere = _hemi(lat)

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '22.05.30'
+__version__ = '22.10.09'
 
 from base import coverage, GeodSolve, numpy, TestsBase
 
@@ -15,6 +15,8 @@ from pygeodesy import EPS, EPS4, F_D, NEG0, \
                       soddy4, trilaterate2d2, trilaterate3d2, \
                       vector2d, vector3d, Vector3d as V3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
+
+from sys import getsizeof
 
 
 class Tests(TestsBase):
@@ -212,11 +214,14 @@ class Tests(TestsBase):
         self.test('sumOf', s.__class__.__name__, 'Nv')
         self.test('sumOf', s._name, 'sumOf')
         self.test('length', s.length, '52.7134151513', prec=10)
+        z = getsizeof(v)  # coverage
+        self.test('sizeof', z, 72, fmt='%d', known=True)
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)
         self.test('length', v.length, '52.2051356286', prec=10)
         self.test('length', c.length, '52.2051356286', prec=10)
+        self.test('sizeof', getsizeof(c), z, fmt='%d')
 
         if module is sphericalNvector:  # coverage
             c = p.toCartesian()

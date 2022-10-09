@@ -126,7 +126,8 @@ from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
                              _or  # PYCHOK shared
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _DOT_, _lat2_, \
-                             _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, _S12_
+                             _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, \
+                             _S12_, _UNDER
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
                            _NamedTuple, _Pass
@@ -139,7 +140,7 @@ from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
 from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.09.24'
+__version__ = '22.10.05'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -530,7 +531,7 @@ class _Wrapped(object):
             def f1(self):  # in .css.CassiniSoldner.reset
                 '''Get the geodesic's ellipsoid I{1 - flattening} (C{float}).
                 '''
-                return getattr(self, '_f1', self.ellipsoid.f1)
+                return getattr(self, _UNDER(Geodesic.f1.name), self.ellipsoid.f1)
 
             def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12,
                                                   outmask=_Geodesic.STANDARD):

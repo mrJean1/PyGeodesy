@@ -12,11 +12,10 @@ from pygeodesy.basics import copysign0, isscalar, istuplist, map1, _zip
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
                                 isnear0, isnear1, _1_0
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
-from pygeodesy.fmath import euclid_, fdot, fsum1_, hypot_, hypot2_
-# from pygeodesy.fsums import fsum1_  # from .fmath
-from pygeodesy.interns import NN, _coincident_, _colinear_, _COMMASPACE_, \
-                             _y_, _z_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys_version_info2
+from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
+from pygeodesy.fsums import fsum1_, _pos_self
+from pygeodesy.interns import NN, _coincident_, _colinear_, _COMMASPACE_, _y_, _z_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _sys, _sys_version_info2
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
@@ -28,10 +27,10 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.09.24'
+__version__ = '22.10.09'
 
 
-class Vector3dBase(_NamedBase):
+class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     '''(INTERNAL) Generic 3-D vector base class.
 
        In a geodesy context, these may be used to represent:
@@ -98,10 +97,12 @@ class Vector3dBase(_NamedBase):
         '''
         return bool(self.x or self.y or self.z)
 
-    def __cmp__(self, other):  # Python 2-
-        '''Compare this and an other vector
+    def __ceil__(self):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self)
 
-           @arg other: The other vector (L{Vector3d}).
+    def __cmp__(self, other):  # Python 2-
+        '''Compare this and an other vector (L{Vector3d}).
 
            @return: -1, 0 or +1 (C{int}).
 
@@ -127,6 +128,14 @@ class Vector3dBase(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.isequalTo(other, eps=EPS0)
+
+    def __float__(self):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self)
+
+    def __floor__(self):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self)
 
     def __floordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -163,6 +172,11 @@ class Vector3dBase(_NamedBase):
         '''
         return self.length > self.others(other).length
 
+    def __hash__(self):  # PYCHOK no cover
+        '''Return this instance' C{hash}.
+        '''
+        return hash(self.xyz)  # XXX id(self)?
+
     def __iadd__(self, other):
         '''Add this and an other vector I{in-place}, C{this += B{other}}.
 
@@ -171,6 +185,10 @@ class Vector3dBase(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self._xyz(self.plus(other))
+
+    def __ifloordiv__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __imatmul__(self, other):  # PYCHOK Python 3.5+
         '''Cross multiply this and an other vector I{in-place}, C{this @= B{other}}.
@@ -182,6 +200,10 @@ class Vector3dBase(_NamedBase):
            @see: Luciano Ramalho, "Fluent Python", page 397-398, O'Reilly 2016.
         '''
         return self._xyz(self.cross(other))
+
+    def __imod__(self, other):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __imul__(self, scalar):
         '''Multiply this vector by a scalar I{in-place}, C{this *= B{scalar}}.
@@ -196,6 +218,10 @@ class Vector3dBase(_NamedBase):
         '''Not implemented.'''
         return _NotImplemented(self)
 
+    def __ipow__(self, other, *mod):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, other, *mod)
+
     def __isub__(self, other):
         '''Subtract an other vector from this one I{in-place}, C{this -= B{other}}.
 
@@ -204,6 +230,11 @@ class Vector3dBase(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self._xyz(self.minus(other))
+
+#   def __iter__(self):
+#       '''Return an C{iter}ator over this vector's components.
+#       '''
+#       return iter(self.xyz)
 
     def __itruediv__(self, scalar):
         '''Divide this vector by a scalar I{in-place}, C{this /= B{scalar}}.
@@ -274,14 +305,21 @@ class Vector3dBase(_NamedBase):
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        return not self.__eq__(other)
+        return not self.isequalTo(other, eps=EPS0)
+
+    def __neg__(self):
+        '''Return the opposite of this vector.
+
+           @return: This instance negated (L{Vector3d})
+        '''
+        return self.classof(-self.x, -self.y, -self.z)
 
     def __pos__(self):  # PYCHOK no cover
-        '''Return this vector I{as-is}.
+        '''Return this vector I{as-is} or a copy.
 
            @return: This instance (L{Vector3d})
         '''
-        return self  # XXX self.copy()
+        return self if _pos_self else self.copy()
 
     def __pow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
@@ -292,6 +330,11 @@ class Vector3dBase(_NamedBase):
     def __rdivmod__ (self, other):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other)
+
+#   def __repr__(self):
+#       '''Return the default C{repr(this)}.
+#       '''
+#       return self.toRepr()
 
     def __rfloordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -336,6 +379,18 @@ class Vector3dBase(_NamedBase):
     def __rtruediv__(self, scalar):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, scalar)
+
+    def __sizeof__(self):  # PYCHOK not special in Python 2-
+        '''Return the current size of this vector in C{bytes}.
+        '''
+        # self._x, self._y, self._z, self._ll, ...
+        v = self.__dict__.values  # avoid recursion
+        return sum(map1(_sys.getsizeof, (o for o in v() if o is not self)))
+
+#   def __str__(self):
+#       '''Return the default C{str(self)}.
+#       '''
+#       return self.toStr()
 
     def __sub__(self, other):
         '''Subtract an other vector from this vector, C{this - B{other}}.
@@ -396,8 +451,8 @@ class Vector3dBase(_NamedBase):
         return a
 
     def apply(self, fun2, other_x, *y_z, **fun2_kwds):
-        '''Apply a 2-argument function component-pairwise to this and
-           an other vector.
+        '''Apply a 2-argument function pairwise to the components
+           of this and an other vector.
 
            @arg fun2: 2-Argument callable (C{any(scalar, scalar}),
                       return a C{scalar} or L{INT0} result.
@@ -421,9 +476,9 @@ class Vector3dBase(_NamedBase):
         else:
             _f2 = fun2
 
-        x_y_z = _other_x_y_z3(other_x, y_z)
-        x_y_z = (_f2(a, b) for a, b in _zip(self.xyz, x_y_z))  # strict=True
-        return self.classof(*x_y_z)
+        xyz = _other_x_y_z3(other_x, y_z)
+        xyz = (_f2(a, b) for a, b in _zip(self.xyz, xyz))  # strict=True
+        return self.classof(*xyz)
 
     def cross(self, other, raiser=None, eps0=EPS):  # raiser=NN
         '''Compute the cross product of this and an other vector.
@@ -687,28 +742,31 @@ class Vector3dBase(_NamedBase):
     def rotate(self, axis, theta):
         '''Rotate this vector around an axis by a specified angle.
 
-           See U{Rotation matrix from axis and angle<https://WikiPedia.org/wiki/
-           Rotation_matrix#Rotation_matrix_from_axis_and_angle>} and
-           U{Quaternion-derived rotation matrix<https://WikiPedia.org/wiki/
-           Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
-
            @arg axis: The axis being rotated around (L{Vector3d}).
            @arg theta: The angle of rotation (C{radians}).
 
            @return: New, rotated vector (L{Vector3d}).
+
+           @see: U{Rotation matrix from axis and angle<https://WikiPedia.org/wiki/
+                 Rotation_matrix#Rotation_matrix_from_axis_and_angle>} and
+                 U{Quaternion-derived rotation matrix<https://WikiPedia.org/wiki/
+                 Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
         '''
-        p = self.unit().xyz  # point being rotated
-        r = self.others(axis=axis).unit()  # axis being rotated around
-
         s, c = _MODS.utily.sincos2(theta)  # rotation angle
+        d = _1_0 - c
+        if d or s:
+            p = self.unit().xyz  # point being rotated
+            r = self.others(axis=axis).unit()  # axis being rotated around
 
-        ax, ay, az = r.xyz  # quaternion-derived rotation matrix
-        bx, by, bz = r.times(_1_0 - c).xyz
-        sx, sy, sz = r.times(s).xyz
+            ax, ay, az = r.xyz  # quaternion-derived rotation matrix
+            bx, by, bz = r.times(d).xyz
+            sx, sy, sz = r.times(s).xyz
 
-        x = fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy)
-        y = fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx)
-        z = fdot(p, az * bx - sy, az * by + sx, az * bz + c)
+            x = fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy)
+            y = fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx)
+            z = fdot(p, az * bx - sy, az * by + sx, az * bz + c)
+        else:  # unrotated
+            x, y, z = self.xyz
         return self.classof(x, y, z)
 
     @deprecated_method

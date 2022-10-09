@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.10.02'
+__version__ = '22.10.07'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -670,8 +670,7 @@ def fremainder(x, y):
         try:
             r = _remainder(x, y) if x else x
         except Exception as e:
-            n = fremainder.__name__
-            raise _xError(e, unstr(n, x, y))
+            raise _xError(e, unstr(fremainder, x, y))
     else:  # handle x INF and NINF as NAN
         r = NAN
     return r

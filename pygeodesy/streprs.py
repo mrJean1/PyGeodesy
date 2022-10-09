@@ -4,13 +4,14 @@
 u'''Floating point and other formatting utilities.
 '''
 
-from pygeodesy.basics import _0_0, isint, isscalar, istuplist, _zip
+from pygeodesy.basics import _0_0, isint, isscalar, isstr, istuplist, _zip
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, _or, \
                              _TypeError, _ValueError, _xkwds_get, _xkwds_pop
 from pygeodesy.interns import NN, _0_, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
                              _E_, _ELLIPSIS_, _EQUAL_, _H_, _N_, _name_, _not_, \
-                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, _UNDER_
+                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, _UNDER_, \
+                             _dunder_nameof
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
                               _exceeds_, _f_, _F_, _g_, _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -18,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.09.24'
+__version__ = '22.10.07'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -504,10 +505,10 @@ def strs(objs, prec=6, fmt=Fmt.F, ints=False):
     return tuple(_streprs(prec, objs, fmt, ints, False, str)) if objs else ()
 
 
-def unstr(named, *args, **kwds):
+def unstr(where, *args, **kwds):
     '''Return the string representation of an invokation.
 
-       @arg named: Function, method or class name (C{str}).
+       @arg where: Class, function, method (C{type}) or name (C{str}).
        @arg args: Optional positional arguments.
        @kwarg kwds: Optional keyword arguments, except
                     C{B{_ELLIPSIS}=False}.
@@ -519,7 +520,8 @@ def unstr(named, *args, **kwds):
         t += _ELLIPSIS_,
     if kwds:
         t += pairs(itemsorted(kwds), fmt=Fmt.g)
-    return Fmt.PAREN(named, _COMMASPACE_.join(t))
+    n = where if isstr(where) else _dunder_nameof(where)
+    return Fmt.PAREN(n, _COMMASPACE_.join(t))
 
 
 def _0wd(*w_i):  # in .osgr, .wgrs

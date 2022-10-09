@@ -505,7 +505,7 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHO
     r = _MODS.utm.toUtm8(latlon, lon=lon, datum=datum, Utm=U, name=name, falsed=cmoff)
     if isinstance(r, tuple):  # UtmUps8Tuple
         # no hemisphere/pole and datum
-        r = r.zone, r.easting, r.northing, r.band, r.convergence, r.scale
+        r = r.zone, r.easting, r.northing, r.band, r.gamma, r.scale
     return r
 
 

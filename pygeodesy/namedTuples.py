@@ -12,23 +12,22 @@ from pygeodesy.basics import map1, _xinstanceof
 # from pygeodesy.constants import INT0  # from .units
 from pygeodesy.errors import _ALL_LAZY, _MODS, _xkwds_not  # _xkwds
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, \
-                             _B_, _band_, _c_, _C_, _convergence_, _datum_, \
-                             _D_, _distance_, _E_, _easting_, _end_, _epoch_, \
-                             _fi_, _j_, _h_, _height_, _hemipole_, _initial_, \
-                             _lam_, _lat_, _lon_, _n_, _northing_, _number_, \
-                             _outside_, _phi_, _point_, _precision_, _radius_, \
-                             _points_, _reframe_, _scale_, _start_, _x_, _y_, \
-                             _z_, _zone_
+                             _B_, _band_, _c_, _C_, _datum_, _D_, _distance_, \
+                             _E_, _easting_, _end_, _epoch_, _fi_, _gamma_, \
+                             _height_, _j_, _h_, _hemipole_, _initial_, _lam_, \
+                             _lat_, _lon_, _n_, _northing_, _number_, _outside_, \
+                             _phi_, _point_, _precision_, _radius_, _points_, \
+                             _reframe_, _scale_, _start_, _x_, _y_, _z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
-from pygeodesy.named import _NamedTuple, _Pass, property_RO
-# from pygeodesy.props import property_RO  # from .named
+from pygeodesy.named import _NamedTuple, _Pass
+from pygeodesy.props import deprecated_property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             FIx, Height, Int, INT0, Lam, Lat, Lon, Meter, \
                             Meter2, Northing, Number_, Phi, Precision_, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.09.15'
+__version__ = '22.10.04'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -158,12 +157,23 @@ class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
     _Units_ = ( Easting,   Northing,   Height)
 
 
-class Forward4Tuple(_NamedTuple):
-    '''4-Tuple C{(easting, northing, convergence, scale)} in
-       C{meter}, C{meter}, C{degrees} and C{scalar}.
+class _Convergence(object):
+    '''(INTERNAL) DEPRECATED Property C{convergence}, use property C{gamma}.'''
+    @deprecated_property_RO
+    def convergence(self):
+        '''DEPRECATED, use property C{gamma}.
+        '''
+        return self.gamma  # PYCHOK self[.]
+
+
+class Forward4Tuple(_NamedTuple, _Convergence):
+    '''4-Tuple C{(easting, northing, gamma, scale)} in
+       C{meter}, C{meter}, meridian convergence C{gamma} at
+       point in C{degrees} and the C{scale} of projection
+       at point C{scalar}.
     '''
-    _Names_ = (_easting_, _northing_, _convergence_, _scale_)
-    _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
+    _Names_ = (_easting_, _northing_, _gamma_, _scale_)
+    _Units_ = ( Easting,   Northing,   Degrees, Scalar)
 
 
 class Intersection3Tuple(_NamedTuple):  # .css.py, .lcc.py
@@ -271,13 +281,12 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
     _Units_ = ( Lat,   Lon,  _Pass)
 
 
-class LatLonDatum5Tuple(LatLonDatum3Tuple):  # .ups.py, .utm.py, .utmupsBase.py
-    '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
-       C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
-       and C{float}.
+class LatLonDatum5Tuple(LatLonDatum3Tuple, _Convergence):  # .ups.py, .utm.py, .utmupsBase.py
+    '''5-Tuple C{(lat, lon, datum, gamma, scale)} in C{degrees90},
+       C{degrees180}, L{Datum}, C{degrees} and C{float}.
     '''
-    _Names_ = LatLonDatum3Tuple._Names_ + (_convergence_, _scale_)
-    _Units_ = LatLonDatum3Tuple._Units_ + ( Degrees,       Scalar)
+    _Names_ = LatLonDatum3Tuple._Names_ + (_gamma_, _scale_)
+    _Units_ = LatLonDatum3Tuple._Units_ + ( Degrees, Scalar)
 
 
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
@@ -470,14 +479,14 @@ class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     _Units_ = ( Number_, _Pass)
 
 
-class Reverse4Tuple(_NamedTuple):
-    '''4-Tuple C{(lat, lon, convergence, scale)} with C{lat}- and
-       C{lon}gitude in C{degrees}, I{gamma} meridian C{convergence}
-       at point in C{degrees180} and I{k} C{scale} of projection
-       at point C{scalar}.
+class Reverse4Tuple(_NamedTuple, _Convergence):
+    '''4-Tuple C{(lat, lon, gamma, scale)} with C{lat}- and
+       C{lon}gitude in C{degrees}, meridian convergence C{gamma}
+       at point in C{degrees} and the C{scale} of projection at
+       point C{scalar}.
     '''
-    _Names_ = (_lat_, _lon_, _convergence_, _scale_)
-    _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
+    _Names_ = (_lat_, _lon_, _gamma_, _scale_)
+    _Units_ = ( Lat,   Lon,   Degrees, Scalar)
 
 
 class Triangle7Tuple(_NamedTuple):
@@ -545,27 +554,27 @@ class UtmUps5Tuple(_NamedTuple):  # .mgrs.py, .ups.py, .utm.py, .utmups.py
         return _NamedTuple.__new__(cls, z, h, e, n, B, name=name)
 
 
-class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
+class UtmUps8Tuple(_NamedTuple, _Convergence):  # .ups.py, .utm.py, .utmups.py
     '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
-       convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
-       C{band} letter, C{Datum}, C{degrees} and C{scalar}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
-       is C{""} or the I{longitudinal} UTM band C{'C'|'D'|..|'W'|'X'}
-       or I{polar} UPS band C{'A'|'B'|'Y'|'Z'}.
+       gamma, scale)} as C{int}, C{str}, C{meter}, C{meter}, C{band}
+       letter, C{Datum}, C{degrees} and C{scalar}, where C{zone} is
+       C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
+       the UTM hemisphere or the UPS pole and C{band} is C{""} or
+       the I{longitudinal} UTM band C{'C'|'D'|..|'W'|'X'} or
+       I{polar} UPS band C{'A'|'B'|'Y'|'Z'}.
     '''
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
-               _band_,  _datum_, _convergence_, _scale_)
+               _band_,  _datum_, _gamma_, _scale_)
     _Units_ = ( Number_, Str,        Easting,   Northing,
-                Band,   _Pass,    Degrees,       Scalar)
+                Band,   _Pass,    Degrees, Scalar)
 
-    def __new__(cls, z, h, e, n, B, d, c, s, Error=None, name=NN):  # PYCHOK 11 args
+    def __new__(cls, z, h, e, n, B, d, g, s, Error=None, name=NN):  # PYCHOK 11 args
         if Error is not None:
             e = Easting( e, Error=Error)
             n = Northing(n, Error=Error)
-            c = Degrees(convergence=c, Error=Error)
+            g = Degrees(gamma=g, Error=Error)
             s = Scalar(scale=s, Error=Error)
-        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s, name=name)
+        return _NamedTuple.__new__(cls, z, h, e, n, B, d, g, s, name=name)
 
 
 class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py

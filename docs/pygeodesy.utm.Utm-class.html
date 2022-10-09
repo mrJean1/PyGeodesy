@@ -120,9 +120,10 @@
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">convergence</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**convergence</span>)</span><br />
       New <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> UTM 
       coordinate.</td>
           <td align="right" valign="top">
@@ -420,6 +421,7 @@
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#easting">easting</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#eastingnorthing">eastingnorthing</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed">falsed</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#gamma">gamma</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#hemisphere">hemisphere</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#northing">northing</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#scale">scale</a></code>,
@@ -465,9 +467,10 @@
         <span class="sig-arg">band</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">convergence</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">scale</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**convergence</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -498,15 +501,16 @@
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>falsed</code></strong> - If <code>True</code>, both <b><code>easting</code></b> and 
           <b><code>northing</code></b> are falsed (<code>bool</code>).</li>
-        <li><strong class="pname"><code>convergence</code></strong> - Optional meridian convergence, bearing off grid North, clockwise 
+        <li><strong class="pname"><code>gamma</code></strong> - Optional meridian convergence, bearing off grid North, clockwise 
           from true North (<code>degrees</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>scale</code></strong> - Optional grid scale factor (<code>scalar</code>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+        <li><strong class="pname"><code>convergence</code></strong> - DEPRECATED, use keyword argument <code><b>gamma</b>=None</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid or near-spherical <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.utm.UTMError-class.html">UTMError</a></strong></code> - Invalid <b><code>zone</code></b>, <b><code>hemishere</code></b>, 
         <b><code>easting</code></b>, <b><code>northing</code></b>, 
         <b><code>band</code></b>, <b><code>convergence</code></b> or 
@@ -694,8 +698,8 @@
         <dd>This UTM as (<b><code>LatLon</code></b>) or if 
           <b><code>LatLon</code></b> is <code>None</code>, as <a 
           href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html" 
-          class="link">LatLonDatum5Tuple</a><code>(lat, lon, datum, 
-          convergence, scale)</code>.</dd>
+          class="link">LatLonDatum5Tuple</a><code>(lat, lon, datum, gamma, 
+          scale)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or <b><code>LatLon</code></b> is 
@@ -1019,7 +1023,7 @@ always.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:57 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:57:04 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -76,7 +76,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_
+from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, Meter, \
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
@@ -85,7 +85,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.09.24'
+__version__ = '22.10.05'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -180,11 +180,17 @@ class Circle4Tuple(_NamedTuple):
 
 
 class Curvature2Tuple(_NamedTuple):
-    '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature,
-       both in C{meter}, conventionally.
+    '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature, both in
+       C{meter}, conventionally.
     '''
     _Names_ = (_meridional_, _prime_vertical_)
     _Units_ = ( Meter,        Meter)
+
+    @property_RO
+    def transverse(self):
+        '''Get this I{prime_vertical}, aka I{transverse} radius of curvature.
+        '''
+        return self.prime_vertical
 
 
 class Ellipsoid(_NamedEnumItem):
@@ -309,7 +315,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def a2_b(self):
-        '''Get the I{polar} meridional radius of curvature (C{meter}), M{a**2 / b}.
+        '''Get the I{polar} meridional (or polar) radius of curvature (C{meter}), M{a**2 / b}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -559,8 +565,7 @@ class Ellipsoid(_NamedEnumItem):
     def b2_a(self):
         '''Get the I{equatorial} meridional radius of curvature (C{meter}), M{b**2 / a}, see C{rocMeridional}C{(0)}.
 
-           @see: U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @see: U{Radii of Curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         return Radius(b2_a=self.b2 / self.a if self.f else self.b)
 
@@ -838,7 +843,7 @@ class Ellipsoid(_NamedEnumItem):
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
 
-           @arg s: S value (C{scalar}).
+           @arg s: Sine value (C{scalar}).
 
            @return: Result (C{float}).
 
@@ -917,14 +922,13 @@ class Ellipsoid(_NamedEnumItem):
            toggles on +/-1.12e-16 or +/-4.47e-16, see C{.utm.Utm._toLLEB}.
         '''
         e    = self._1_e21
-        _F2  = Fsum(T).fsum2_  # τ0
-        _h1  = hypot1
+        _F2_ = Fsum(T).fsum2_  # τ0
         _tf2 = self._es_taupf2
         for i in range(1, N + 1):
             a, h = _tf2(T)
-            d = (taup - a) * (e + T**2) / (_h1(a) * h)
+            d = (taup - a) * (e + T**2) / (hypot1(a) * h)
             # = (taup - a) / hypot1(a) / ((e + T**2) / h)
-            T, d = _F2(d)  # τi, (τi - τi-1)
+            T, d = _F2_(d)  # τi, (τi - τi-1)
             yield T, i, d
 
     def es_taupf(self, tau):
@@ -1465,27 +1469,27 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: Methods L{roc2_} and L{roc1_} and U{Local, flat earth
-                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
-                 and meridional and prime vertical U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @see: Methods L{roc2_} and L{roc1_}, U{Local, flat earth approximation
+                 <https://www.EdWilliams.org/avform.htm#flat>} and meridional and
+                 prime vertical U{Radii of Curvature<https://WikiPedia.org/wiki/
+                 Earth_radius#Radii_of_curvature>}.
         '''
         return self.roc2_(Phi_(lat), scaled=scaled)
 
     def roc2_(self, phi, scaled=False):
-        '''Compute the I{meridional} and I{prime-vertical}, I{normal}
-           radii of curvature of (geodetic) latitude.
+        '''Compute the I{meridional} and I{prime-vertical}, I{normal} radii of
+           curvature of (geodetic) latitude.
 
            @arg phi: Latitude (C{radians}).
            @kwarg scaled: Scale prime_vertical by C{cos(B{phi})} (C{bool}).
 
-           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
-                    the radii of curvature.
+           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with the
+                    radii of curvature.
 
            @raise ValueError: Invalid B{C{phi}}.
 
-           @see: Methods L{roc2} and L{roc1_} and U{Local, flat earth
-                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
+           @see: Methods L{roc2} and L{roc1_}, property L{rocEquatorial2}, U{Local,
+                 flat earth approximation<https://www.EdWilliams.org/avform.htm#flat>}
                  and the meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
@@ -1505,8 +1509,8 @@ class Ellipsoid(_NamedEnumItem):
                                Radius(rocPrimeVertical=n))
 
     def rocBearing(self, lat, bearing):
-        '''Compute the I{directional} radius of curvature
-           of (geodetic) latitude and compass direction.
+        '''Compute the I{directional} radius of curvature of (geodetic)
+           latitude and compass direction.
 
            @arg lat: Latitude (C{degrees90}).
            @arg bearing: Direction (compass C{degrees360}).
@@ -1518,8 +1522,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}} or B{C{bearing}}.
 
-           @see: U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+           @see: U{Radii of Curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         if self.f:
             s2, c2 = _s2_c2(Bearing_(bearing))
@@ -1534,6 +1537,18 @@ class Ellipsoid(_NamedEnumItem):
             b = self.b  # == self.a
         return Radius(rocBearing=b)
 
+    @Property_RO
+    def rocEquatorial2(self):
+        '''Get the I{meridional} and I{prime-vertical}, I{normal} radii of curvature
+           at the equator as L{Curvature2Tuple}C{(meridional, prime_vertical)}.
+
+           @see: Methods L{rocMeridional} and L{rocPrimeVertical}, properties L{b2_a},
+                 L{a2_b}, C{rocPolar} and polar and equatorial U{Radii of Curvature
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        return Curvature2Tuple(Radius(rocMeridional0=self.b2_a if self.f else self.a),
+                               Radius(rocPrimeVertical0=self.a))
+
     def rocGauss(self, lat):
         '''Compute the I{Gaussian} radius of curvature of (geodetic) latitude.
 
@@ -1543,8 +1558,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+           @see: Non-directional U{Radii of Curvature<https://WikiPedia.org/wiki/
+                 Earth_radius#Radii_of_curvature>}
         '''
         # using ...
         #    m, n = self.roc2_(Phi_(lat))
@@ -1565,8 +1580,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+           @see: Non-directional U{Radii of Curvature<https://WikiPedia.org/wiki/
+                 Earth_radius#Radii_of_curvature>}
         '''
         if self.f:
             m, n = self.roc2_(Phi_(lat))
@@ -1584,18 +1599,18 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: Methods L{roc2} and L{roc2_} and U{Local, flat earth
-                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
-                 and U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @see: Methods L{roc2} and L{roc2_}, U{Local, flat earth approximation
+                 <https://www.EdWilliams.org/avform.htm#flat>} and U{Radii of
+                 Curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        return self.roc2_(Phi_(lat)).meridional
+        return self.roc2_(Phi_(lat)).meridional if lat else \
+               self.rocEquatorial2.meridional
 
     rocPolar = a2_b  # synonymous
 
     def rocPrimeVertical(self, lat):
-        '''Compute the I{prime-vertical}, I{normal} radius of curvature
-           of (geodetic) latitude, aka the transverse radius of curvature.
+        '''Compute the I{prime-vertical}, I{normal} radius of curvature of
+           (geodetic) latitude, aka the I{transverse} radius of curvature.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1603,12 +1618,13 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: Methods L{roc2}, L{roc2_} and L{roc1_} and U{Local, flat earth
-                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
-                 and U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @see: Methods L{roc2}, L{roc2_} and L{roc1_}, U{Local, flat earth
+                 approximation<https://www.EdWilliams.org/avform.htm#flat>} and
+                 U{Radii of Curvature<https://WikiPedia.org/wiki/
+                 Earth_radius#Radii_of_curvature>}.
         '''
-        return self.roc2_(Phi_(lat)).prime_vertical
+        return self.roc2_(Phi_(lat)).prime_vertical if lat else \
+               self.rocEquatorial2.prime_vertical
 
     rocTransverse = rocPrimeVertical  # synonyms
 

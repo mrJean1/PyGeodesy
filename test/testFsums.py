@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.09.15'
+__version__ = '22.10.09'
 
 from base import endswith, isPython2, randoms, startswith, TestsBase
 

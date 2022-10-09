@@ -85,15 +85,15 @@ from pygeodesy.units import _ALL_LAZY, _1mm
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '22.09.12'
+__version__ = '22.10.05'
 
 
 # try:
 #     from collections import namedtuple
 #     _T2 = namedtuple('_T2', 'ix, h2')
 # except ImportError:
-#    class _T2(object):
-#        ...
+#     class _T2(object):
+#         ...
 # namedtuple (and .named._NamedTuple) can not be
 # used because (a) values can not be updated and
 # (b) it produces PyChecker warning "<string>:28:

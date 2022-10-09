@@ -101,8 +101,9 @@
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">convergence</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">gamma</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">scale</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**convergence</span>)</span><br />
       (INTERNAL) New <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html" 
       class="link">UtmUpsBase</a>.</td>
           <td align="right" valign="top">
@@ -156,7 +157,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#eastingnorthing2" class="summary-sig-name">eastingnorthing2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Return easting and northing, both falsed or unfalsed.</td>
+      Return easting and northing, falsed or unfalsed.</td>
           <td align="right" valign="top">
             
             
@@ -266,8 +267,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#convergence" class="summary-name">convergence</a><br />
-      Get the meridian convergence (<code>degrees</code>) or 
-      <code>None</code> if not available.
+      DEPRECATED, use property <code>gamma</code>.
     </td>
   </tr>
 <tr>
@@ -311,6 +311,15 @@
         <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed2" class="summary-name">falsed2</a><br />
       (INTERNAL) <i>Must be overloaded</i>, see function 
       <code>notOverloaded</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#gamma" class="summary-name">gamma</a><br />
+      Get the meridian convergence (<code>degrees</code>) or 
+      <code>None</code> if not available.
     </td>
   </tr>
 <tr>
@@ -385,8 +394,9 @@
         <span class="sig-arg">band</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">convergence</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">scale</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">gamma</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">scale</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**convergence</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -466,7 +476,7 @@
     </td>
   </tr></table>
   
-  <p>Return easting and northing, both falsed or unfalsed.</p>
+  <p>Return easting and northing, falsed or unfalsed.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -587,13 +597,11 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">convergence</h3>
-  <p>Get the meridian convergence (<code>degrees</code>) or 
-  <code>None</code> if not available.</p>
+  <p>DEPRECATED, use property <code>gamma</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
-        - Get the meridian convergence (<code>degrees</code>) or <code>None</code> if
-not available.
+        - DEPRECATED, use property <code>gamma</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -736,6 +744,32 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="gamma"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">gamma</h3>
+  <p>Get the meridian convergence (<code>degrees</code>) or 
+  <code>None</code> if not available.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">gamma(<span class="summary-sig-arg">self</span>)</span>
+        - Get the meridian convergence (<code>degrees</code>) or <code>None</code> if
+not available.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="hemisphere"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -864,7 +898,7 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:57 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:57:04 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

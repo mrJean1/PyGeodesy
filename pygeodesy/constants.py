@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.09.25'
+__version__ = '22.10.07'
 
 
 def _Float(**name_arg):
@@ -144,11 +144,12 @@ _720_0   = _float( 720)       # PYCHOK expected
 _1000_0  = _float(1000)       # PYCHOK expected
 _3600_0  = _float(3600)       # PYCHOK expected
 
-_N_0_0   =  float( '-0.0')  # PYCHOK NOT _float!
-_N_1_0   = _float(  -1)     # PYCHOK expected
-_N_2_0   = _float(  -2)     # PYCHOK expected
-_N_90_0  = _float( -90)     # PYCHOK expected
-_N_180_0 = _float(-180)     # PYCHOK expected
+_N_0_0   =  float(  '-0.0')  # PYCHOK NOT _float!
+_N_0_5   = _float(  -_0_5)   # PYCHOK expected
+_N_1_0   = _float(  -_1_0)   # PYCHOK expected
+_N_2_0   = _float(  -_2_0)   # PYCHOK expected
+_N_90_0  = _float( -_90_0)   # PYCHOK expected
+_N_180_0 = _float(-_180_0)   # PYCHOK expected
 
 _M_KM =       _1000_0     # meter per Kilo meter, see .utily
 _M_NM = _float(1852.0)    # meter per Nautical Mile
@@ -156,6 +157,7 @@ _M_SM = _float(1609.344)  # meter per Statute Mile
 
 try:
     from sys import float_info as _f_i
+    # @see: <https://NumPy.org/doc/stable/reference/generated/numpy.finfo.html>
     DIG      =  Int(  DIG     =_f_i.dig)       # PYCHOK system's float decimal digits
     EPS      = _Float(EPS     =_f_i.epsilon)   # PYCHOK system's EPSilon
     MANT_DIG =  Int(  MANT_DIG=_f_i.mant_dig)  # PYCHOK system's float mantissa bits

@@ -5,7 +5,8 @@ u'''Named, I{Local Tangent Plane} (LTP) tuples.
 
 Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
 and local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
-L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
+L{Ned4Tuple}, L{Aer4Tuple}, L{ChLV9Tuple}, L{ChLVEN2Tuple},
+L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 
 @see: References in module L{ltp}.
 '''
@@ -18,7 +19,7 @@ from pygeodesy.fmath import hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _down_, _east_, _ecef_, _elevation_, _height_, \
                              _lat_, _lon_, _ltp_, _M_, _name_, _north_, \
-                             _up_, _x_, _xyz_, _y_, _z_
+                             _up_, _X_, _x_, _xyz_, _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
                             _Pass, _xnamed
@@ -34,11 +35,12 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.10.02'
+__version__ = '22.10.04'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
 _enu_        = 'enu'
+_h__         = 'h_'
 _ned_        = 'ned'
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
@@ -1175,7 +1177,7 @@ class ChLV9Tuple(Local9Tuple):
        L{ChLVa} or L{ChLVe} instance and C{ecef} (L{EcefKarney} I{at Bern, Ch},
        otherwise like L{Local9Tuple}.
     '''
-    _Names_ = ('Y', 'X', 'h_') + Local9Tuple._Names_[3:]
+    _Names_ = (_Y_, _X_, _h__) + Local9Tuple._Names_[3:]
 
     @Property_RO
     def E_LV95(self):
@@ -1272,7 +1274,7 @@ class ChLVYX2Tuple(_NamedTuple):
     '''2-Tuple C{(Y, X)} with B{unfalsed} I{Swiss LV95} easting and norting
        in C{meter}.
     '''
-    _Names_ = ('Y',   'X')
+    _Names_ = (_Y_,   _X_)
     _Units_ = ( Meter, Meter)
 
     def false2(self, LV95=True):
@@ -1285,7 +1287,7 @@ class ChLVYX2Tuple(_NamedTuple):
 
 class ChLVEN2Tuple(_NamedTuple):
     '''2-Tuple C{(E_LV95, N_LV95)} with B{falsed} I{Swiss LV95} easting and
-       norting in C{meter} with origin at C{Bern, Ch} C{(2_600_000, 1_200_000)}.
+       norting in C{meter (2_600_000, 1_200_000)} and origin at C{Bern, Ch}.
     '''
     _Names_ = ('E_LV95', 'N_LV95')
     _Units_ = ChLVYX2Tuple._Units_
@@ -1300,7 +1302,7 @@ class ChLVEN2Tuple(_NamedTuple):
 
 class ChLVyx2Tuple(_NamedTuple):
     '''2-Tuple C{(y_LV03, x_LV03)} with B{falsed} I{Swiss LV03} easting and
-       norting in C{meter} with origin at C{Bern, Ch} C{(600_000, 200_000)}.
+       norting in C{meter (600_000, 200_000)} and origin at C{Bern, Ch}.
     '''
     _Names_ = ('y_LV03', 'x_LV03')
     _Units_ = ChLVYX2Tuple._Units_

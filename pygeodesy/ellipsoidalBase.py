@@ -28,12 +28,12 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # from ._MODS
 # from pygeodesy.named import notOverloaded  # from ._MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # from .latlonBase
-from pygeodesy.props import deprecated_method, Property_RO, \
-                            property_doc_, property_RO, _update_all
+from pygeodesy.props import deprecated_method, deprecated_property_RO, \
+                            Property_RO, property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.09.12'
+__version__ = '22.10.04'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -164,10 +164,10 @@ class CartesianEllipsoidalBase(CartesianBase):
 class LatLonEllipsoidalBase(LatLonBase):
     '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
     '''
-    _convergence    =  None   # UTM/UPS meridian convergence (C{degrees})
     _datum          = _WGS84  # L{Datum}
     _elevation2to   =  None   # _elevation2 timeout (C{secs})
     _epoch          =  None   # overriding .reframe.epoch (C{float})
+    _gamma          =  None   # UTM/UPS meridian convergence (C{degrees})
     _geoidHeight2to =  None   # _geoidHeight2 timeout (C{secs})
     _reframe        =  None   # reference frame (L{RefFrame})
     _scale          =  None   # UTM/UPS scale factor (C{float})
@@ -232,12 +232,10 @@ class LatLonEllipsoidalBase(LatLonBase):
             lla.datum = self.datum
         return lla
 
-    @property_RO
+    @deprecated_property_RO
     def convergence(self):
-        '''Get this point's UTM or UPS meridian convergence (C{degrees}) or
-           C{None} if not available or not converted from L{Utm} or L{Ups}.
-        '''
-        return self._convergence
+        '''DEPRECATED, use property C{gamma}.'''
+        return self.gamma
 
     @deprecated_method
     def convertDatum(self, datum2):
@@ -401,6 +399,13 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         etm = _MODS.etm
         return etm.toEtm8(self, datum=self.datum, Etm=etm.Etm)
+
+    @property_RO
+    def gamma(self):
+        '''Get this point's UTM or UPS meridian convergence (C{degrees}) or
+           C{None} if not available or not converted from L{Utm} or L{Ups}.
+        '''
+        return self._gamma
 
     @Property_RO
     def _geoidHeight2(self):

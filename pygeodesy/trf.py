@@ -50,7 +50,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 
 from pygeodesy.basics import map1, _xinstanceof, _zip
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, \
-                                _0_01, _0_1, _0_26, _0_5, _1_0
+                                _0_01, _0_1, _0_26, _0_5, _N_0_5, _1_0
 from pygeodesy.datums import _a_ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids, Fmt, Property_RO
 from pygeodesy.errors import _ALL_LAZY, _IsnotError, TRFError
@@ -68,18 +68,20 @@ from pygeodesy.units import Epoch, Float
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '22.09.24'
+__version__ = '22.10.07'
 
-_0_02  = _F(  0.02)
-_0_06  = _F(  0.06)
-_0_09  = _F(  0.09)
-_0_12  = _F(  0.12)
-_366_0 = _F(366)
+_0_02  =   0.02
+_0_06  =   0.06
+_0_09  =   0.09
+_0_12  =   0.12
+_366_0 = 366.0
 
 _Forward =  _0_001  # mm2m, ppb2ppM, mas2as
 _Inverse = -_0_001  # same, inverse transforms
 _mas     =  _mm = _ppb = Float  # as == arcseconds
 _mDays   =  (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
+_N_0_06  = -_0_06
+_N_0_1   = -_0_1
 
 _ETRF2000_   = 'ETRF2000'
 _GDA2020_    = 'GDA2020'
@@ -303,7 +305,7 @@ def _reframeTransforms2(rf2, rf, epoch):
     raise TRFError(_no_(_conversion_), txt=t)
 
 
-def _2Transform(n1_n2, epoch, _Direction):
+def _2Transform(n1_n2, epoch, _Forward_Inverse):
     '''(INTERNAL) Combine two Helmert transforms from TRF
        conversion C{_trfXs[n1_n2]} observed at B{C{epoch}}
        into a single datum L{Transform}.
@@ -314,7 +316,7 @@ def _2Transform(n1_n2, epoch, _Direction):
     '''
     X = _trfXs[n1_n2]
     e =  epoch - X.epoch  # fractional delta years
-    d =  dict((n, (p + r * e) * _Direction) for n, p, r in
+    d =  dict((n, (p + r * e) * _Forward_Inverse) for n, p, r in
               _zip(Helmert7Tuple._Names_, X.xform, X.rates))  # strict=True
     return Transform(**d)
 
@@ -357,45 +359,45 @@ _trfXs = dict()  # key is [(from_TRF, to_TRF)] 2-tuple
 # see U{Transformation Parameters ITRF2014<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
 _trfX(_ITRF2014_, _ITRF2008_, epoch=_F(2010),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2014/tp_14-08.php>
                               xform=_H(   1.6,      1.9,     2.4,   -0.02,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,     _0_0,   -_0_1,    0.03,     _0_0,     _0_0,      _0_0))
+                              rates=_H(  _0_0,     _0_0,  _N_0_1,    0.03,     _0_0,     _0_0,      _0_0))
 _trfX(_ITRF2014_, _ITRF2005_, epoch=_F(2010),
                               xform=_H(   2.6,     _1_0,    -2.3,    0.92,     _0_0,     _0_0,      _0_0),
-                              rates=_H(   0.3,     _0_0,   -_0_1,    0.03,     _0_0,     _0_0,      _0_0))
+                              rates=_H(   0.3,     _0_0,  _N_0_1,    0.03,     _0_0,     _0_0,      _0_0))
 _trfX(_ITRF2014_, _ITRF2000_, epoch=_F(2010),
                               xform=_H(   0.7,      1.2,   -26.1,    2.12,     _0_0,     _0_0,      _0_0),
                               rates=_H(  _0_1,     _0_1,    -1.9,    0.11,     _0_0,     _0_0,      _0_0))
 _trfX(_ITRF2014_, _ITRF97_,   epoch=_F(2010),
-                              xform=_H(   7.4,    -_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF96_,   epoch=_F(2010),
-                              xform=_H(   7.4,    -_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF94_,   epoch=_F(2010),
-                              xform=_H(   7.4,    -_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(   7.4,   _N_0_5,   -62.8,    3.8,      _0_0,     _0_0,      _0_26),
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF93_,   epoch=_F(2010),
                               xform=_H( -50.4,      3.3,   -60.2,    4.29,     -2.81,    -3.38,      0.4),
-                              rates=_H(  -2.8,    -_0_1,    -2.5,   _0_12,     -0.11,    -0.19,      0.07))
+                              rates=_H(  -2.8,   _N_0_1,    -2.5,   _0_12,     -0.11,    -0.19,      0.07))
 _trfX(_ITRF2014_, _ITRF92_,   epoch=_F(2010),
                               xform=_H(  15.4,      1.5,   -70.8,    3.09,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF91_,   epoch=_F(2010),
                               xform=_H(  27.4,     15.5,   -76.8,    4.49,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF90_,   epoch=_F(2010),
                               xform=_H(  25.4,     11.5,   -92.8,    4.79,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF89_,   epoch=_F(2010),
                               xform=_H(  30.4,     35.5,  -130.8,    8.19,     _0_0,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2014_, _ITRF88_,   epoch=_F(2010),
-                              xform=_H(  25.4,    -_0_5,  -154.8,   11.29,     _0_1,     _0_0,      _0_26),
-                              rates=_H(  _0_1,    -_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
+                              xform=_H(  25.4,   _N_0_5,  -154.8,   11.29,     _0_1,     _0_0,      _0_26),
+                              rates=_H(  _0_1,   _N_0_5,    -3.3,   _0_12,     _0_0,     _0_0,      _0_02))
 
 # see U{Transformation Parameters ITRF2008<http://ITRF.IGN.Fr/doc_ITRF/Transfo-ITRF2008_ITRFs.txt>}
 # _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2005),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2008/tp_08-05.php>
-#                               xform=_H(-_0_5,    -0.9,    -4.7,    0.94,     _0_0,     _0_0,      _0_0),
-#                               rates=_H(  0.3,    _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
+#                             xform=_H(_N_0_5,  s  -0.9,    -4.7,    0.94,     _0_0,     _0_0,      _0_0),
+#                             rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
 _trfX(_ITRF2008_, _ITRF2005_, epoch=_F(2000),
                               xform=_H(  -2.0,     -0.9,    -4.7,    0.94,     _0_0,     _0_0,      _0_0),
                               rates=_H(   0.3,     _0_0,    _0_0,   _0_0,      _0_0,     _0_0,      _0_0))
@@ -404,31 +406,31 @@ _trfX(_ITRF2008_, _ITRF2000_, epoch=_F(2000),
                               rates=_H(  _0_1,     _0_1,    -1.8,    0.08,     _0_0,     _0_0,      _0_0))
 _trfX(_ITRF2008_, _ITRF97_,   epoch=_F(2000),
                               xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF96_,   epoch=_F(2000),
                               xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF94_,   epoch=_F(2000),
                               xform=_H(   4.8,      2.6,   -33.2,    2.92,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF93_,   epoch=_F(2000),
                               xform=_H( -24.0,      2.4,   -38.6,    3.41,     -1.71,    -1.48,     -0.3),
-                              rates=_H(  -2.8,    -_0_1,    -2.4,   _0_09,     -0.11,    -0.19,      0.07))
+                              rates=_H(  -2.8,   _N_0_1,    -2.4,   _0_09,     -0.11,    -0.19,      0.07))
 _trfX(_ITRF2008_, _ITRF92_,   epoch=_F(2000),
                               xform=_H(  12.8,      4.6,   -41.2,    2.21,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF91_,   epoch=_F(2000),
                               xform=_H(  24.8,     18.6,   -47.2,    3.61,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF90_,   epoch=_F(2000),
                               xform=_H(  22.8,     14.6,   -63.2,    3.91,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF89_,   epoch=_F(2000),
                               xform=_H(  27.8,     38.6,  -101.2,    7.31,     _0_0,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2008_, _ITRF88_,   epoch=_F(2000),
                               xform=_H(  22.8,      2.6,  -125.2,   10.41,     _0_1,     _0_0,      _0_06),
-                              rates=_H(  _0_1,    -_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_1,   _N_0_5,    -3.2,   _0_09,     _0_0,     _0_0,      _0_02))
 
 _trfX(_ITRF2005_, _ITRF2000_, epoch=_F(2000),  # <http://ITRF.ENSG.IGN.Fr/ITRF_solutions/2005/tp_05-00.php>
                               xform=_H(  _0_1,     -0.8,    -5.8,    0.4,      _0_0,     _0_0,      _0_0),
@@ -436,31 +438,31 @@ _trfX(_ITRF2005_, _ITRF2000_, epoch=_F(2000),  # <http://ITRF.ENSG.IGN.Fr/ITRF_s
 
 _trfX(_ITRF2000_, _ITRF97_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF96_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF94_,   epoch=_F(1997),
                               xform=_H(   0.67,     0.61,   -1.85,   1.55,     _0_0,     _0_0,      _0_0),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF93_,   epoch=_F(1988),
                               xform=_H(  12.7,      6.5,   -20.9,    1.95,     -0.39,     0.8,      -1.14),
                               rates=_H(  -2.9,     -0.2,    -0.6,   _0_01,     -0.11,    -0.19,      0.07))
 _trfX(_ITRF2000_, _ITRF92_,   epoch=_F(1988),
                               xform=_H(   1.47,     1.35,   -1.39,   0.75,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF91_,   epoch=_F(1988),
                               xform=_H(   26.7,    27.5,   -19.9,    2.15,     _0_0,     _0_0,      -0.18),
                               rates=_H(   _0_0,    -0.6,    -1.4,   _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF90_,   epoch=_F(1988),
                               xform=_H(   2.47,     2.35,   -3.59,   2.45,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF89_,   epoch=_F(1988),
                               xform=_H(   2.97,     4.75,   -7.39,   5.85,     _0_0,     _0_0,      -0.18),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 _trfX(_ITRF2000_, _ITRF88_,   epoch=_F(1988),
                               xform=_H(   2.47,     1.15,   -9.79,   8.95,     _0_1,     _0_0,      -0.18),
-                              rates=_H(  _0_0,     -0.06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
+                              rates=_H(  _0_0,   _N_0_06,   -0.14,  _0_01,     _0_0,     _0_0,      _0_02))
 
 # see U{Boucher, C. & Altamimi, Z. "Memo: Specifications for reference frame fixing in the
 # analysis of a EUREF GPS campaign" (2011) <https://ETRS89.ENSG.IGN.Fr/memo-V8.pdf>} and

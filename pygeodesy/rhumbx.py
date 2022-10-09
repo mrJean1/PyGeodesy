@@ -32,7 +32,7 @@ from pygeodesy.fmath import euclid, favg, fsum1_, hypot, hypot1
 # from pygeodesy.fsums import fsum1_  # from .fmath
 from pygeodesy.interns import NN, _azi12_, _coincident_, _COMMASPACE_, \
                              _intersection_, _lat1_, _lat2_, _lon1_, _lon2_, \
-                             _no_, _s12_, _S12_, _under_name
+                             _no_, _s12_, _S12_, _UNDER
 from pygeodesy.karney import _a12_, _atan2d, Caps, _CapsBase as _RhumbBase, \
                              _diff182, Direct9Tuple, _EWGS84, _fix90, GDict, \
                              _GTuple, Inverse10Tuple, _norm180
@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.09.24'
+__version__ = '22.10.07'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -605,7 +605,7 @@ class _RhumbLine(_RhumbBase):
                                  name=self.intersection2.__name__)
         except Exception as x:
             raise IntersectionError(_no_(_intersection_), cause=x)
-        t = unstr(self.intersection2.__name__, tol=tol, **eps)
+        t = unstr(self.intersection2, tol=tol, **eps)
         raise IntersectionError(Fmt.no_convergence(d), txt=t)
 
     @property_RO
@@ -818,7 +818,7 @@ class RhumbLine(_RhumbLine):
            @kwarg name: Optional name (C{str}).
         '''
         if (caps & Caps.LINE_OFF):  # copy to avoid updates
-            rhumb = rhumb.copy(deep=False, name=_under_name(rhumb.name))
+            rhumb = rhumb.copy(deep=False, name=_UNDER(rhumb.name))
         _RhumbLine.__init__(self, rhumb, lat1, lon1, azi12, caps=caps, name=name)
 
 

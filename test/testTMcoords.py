@@ -8,7 +8,7 @@ also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('testTMcoords',)
-__version__ = '19.05.23'
+__version__ = '22.10.04'  # '19.05.23'
 
 from base import isiOS, TestsBase
 
@@ -310,7 +310,7 @@ class Tests(TestsBase):
         else:
             try:
                 u = toEtmUtmUps8(lat, lon, falsed=False, **EtmUtmUps)
-#               e2, n2, c2, s2 = u.easting, u.northing, u.convergence, u.scale
+#               e2, n2, c2, s2 = u.easting, u.northing, u.gamma, u.scale
 #               self.test(line + 'easting',     e2, e1, fmt=fmt, known=abs(e2 - e1) < eps1)
 #               self.test(line + 'northing',    n2, n1, fmt=fmt, known=abs(n2 - n1) < eps1)
 #               self.test(line + 'convergence', c2, c1, fmt=fmt, known=abs(c2 - c1) < 0.1)
@@ -324,8 +324,8 @@ class Tests(TestsBase):
                         m = r
                 self._max_fwd_err = m
 
-                for t, v, x in (('convergence', u.convergence, c1),
-                                ('scale',       u.scale,       s1)):
+                for t, v, x in (('gamma', u.gamma, c1),
+                                ('scale', u.scale,       s1)):
                     r = abs(v - x)
                     self.test(line + t, v, x, fmt=fmt, known=r < 0.1)
 

@@ -202,8 +202,10 @@ _end_                 = 'end'                # PYCHOK OK
 _epoch_               = 'epoch'              # PYCHOK OK
 _EQUAL_          = Str_('=')                 # PYCHOK OK
 _EQUALSPACED_    = Str_(' = ')               # PYCHOK OK
+_Error_               = 'Error'              # PYCHOK OK
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK OK
 _exceeds_     = _Prefix('exceeds')           # PYCHOK OK
+# _EXCLAMATION_       = _BANG_               # PYCHOK OK
 _exists_              = 'exists'             # PYCHOK OK
 _f_                   = 'f'                  # PYCHOK OK
 _F_                   = 'F'                  # PYCHOK OK
@@ -295,6 +297,7 @@ _north_               = 'north'              # PYCHOK OK
 _northing_            = 'northing'           # PYCHOK OK
 _NorthPole_           = 'NorthPole'          # PYCHOK OK
 _not_         = _Prefix('not')               # PYCHOK OK
+_NOTEQUAL_            = _BANG_ + _EQUAL_     # PYCHOK OK
 _not_finite_          = 'not finite'         # PYCHOK _not_(_finite_), _infinite_
 _not_scalar_          = 'not scalar'         # PYCHOK _not_(_scalar_)
 _NTF_                 = 'NTF'                # PYCHOK OK
@@ -349,6 +352,7 @@ _s12_                 = 's12'                # PYCHOK OK
 _S12_                 = 'S12'                # PYCHOK OK
 _scalar_              = 'scalar'             # PYCHOK OK
 _scale_               = 'scale'              # PYCHOK OK
+_scale0_              = 'scale0'             # PYCHOK OK
 _scipy_               = 'scipy'              # PYCHOK OK
 _semi_circular_       = 'semi-circular'      # PYCHOK OK
 _sep_                 = 'sep'                # PYCHOK OK
@@ -380,6 +384,12 @@ _tx_                  = 'tx'                 # PYCHOK OK
 _ty_                  = 'ty'                 # PYCHOK OK
 _tz_                  = 'tz'                 # PYCHOK OK
 _UNDER_          = Str_('_')                 # PYCHOK OK
+
+def _UNDER(name):  # PYCHOK in .datums, .rhumbx, .ups, .utm, .utmupsBase
+    '''(INTERNAL) Prefix C{name} with I{underscore}.
+    '''
+    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
+
 _units_               = 'units'              # PYCHOK OK
 _up_                  = 'up'                 # PYCHOK OK
 _UPS_                 = 'UPS'                # PYCHOK OK
@@ -394,6 +404,7 @@ _W_                   = 'W'                  # PYCHOK OK
 _WGS72_               = 'WGS72'              # PYCHOK OK
 _WGS84_               = 'WGS84'              # PYCHOK OK
 _width_               = 'width'              # PYCHOK OK
+_with_                = 'with'               # PYCHOK OK
 _x_                   = 'x'                  # PYCHOK OK
 _X_                   = 'X'                  # PYCHOK OK
 _xyz_                 = 'xyz'                # PYCHOK OK
@@ -420,7 +431,7 @@ _DNL_            = Str_(_NL_    * 2)         # PYCHOK OK
 _DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK OK
 
 
-def _dunder_name(inst, *dflt):
+def _dunder_nameof(inst, *dflt):
     '''(INTERNAL) Get the double_underscore __name__ attr.
     '''
     try:
@@ -541,12 +552,6 @@ def _sysctl_uint(name):
     return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
 
 
-def _under_name(name):  # in .datums
-    '''(INTERNAL) Prefix C{name} with I{underscore}.
-    '''
-    return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
-
-
 def _usage(file_py, *args):  # in .etm
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
@@ -577,7 +582,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '22.09.20'
+__version__ = '22.10.05'
 
 if __name__ == '__main__':
 

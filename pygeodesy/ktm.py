@@ -200,10 +200,10 @@ class KTransverseMercator(_NamedBase):
            @arg lon0: Central meridian of the projection (C{degrees180}).
            @kwarg name: Optional name (C{str}).
 
-           @return: L{Forward4Tuple}C{(easting, northing, convergence, scale)}
+           @return: L{Forward4Tuple}C{(easting, northing, gamma, scale)}
                     with C{easting} and C{northing} in C{meter}, unfalsed, the
-                    I{gamma} meridian C{convergence} at point in C{degrees180}
-                    and I{k} C{scale} of projection at point C{scalar}.  Any
+                    meridian convergence C{gamma} at point in C{degrees180}
+                    and the C{scale} of projection at point C{scalar}.  Any
                     value may be C{NAN}, C{NINF} or C{INF} for singularities.
 
            @raise KTMError: For singularities, iff property C{raiser} is
@@ -316,7 +316,7 @@ class KTransverseMercator(_NamedBase):
            @arg y: Northing of point (C{meter}).
            @arg lon0: Central meridian of the projection (C{degrees180}).
 
-           @return: L{Reverse4Tuple}C{(lat, lon, convergence, scale)} with
+           @return: L{Reverse4Tuple}C{(lat, lon, gamma, scale)} with
                     C{lat}- and C{lon}gitude in C{degrees}, I{unfalsed}.
         '''
         eta, _lon = _unsigned2(x / self._k0_a1)

@@ -240,13 +240,13 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.0rc1 (with <a 
+    <p>The tests ran with Python 3.11.0rc2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0), Python 3.10.7 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.22.4, 
-    <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.8.1,
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
+    <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.9.1,
     <a href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeoConvert</a> 1.51, <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
@@ -278,12 +278,12 @@
     4.5.4 using Python 3.10.7, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0rc1, 3.10.7 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.0rc2, 3.10.7 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
-    (&quot;<code>arm64_x86_64</code>&quot;), see function <a 
+    (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.interns-module.html#machine" 
-    class="link">pygeodesy.machine</a>.</p>
+    class="link">pygeodesy.machine</a>).</p>
     <p>The tests also ran with Python 3.10.7 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
@@ -303,9 +303,11 @@
     (Python 3.6.9) and <a href="https://PyPy.org" target="_top">PyPy</a> 
     7.1.1 (Python 2.7.13) (and <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.52 and <a 
+    target="_top">geographiclib</a> 1.52, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.3, 
-    1.16.4, 1.16.6, 1.19.0, 1.19.4 or 1.19.5) on <a 
+    1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and <a 
+    href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.1, 
+    1.4.1, 1.5.2 or 1.8.1) on <a 
     href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
     16.04</a>, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 
     3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
@@ -322,7 +324,7 @@
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista</a> 3.2 (with geographiclib 1.50 or 1.49 and 
+    target="_top">Pythonista</a>3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
     and/or iPhone12, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a> 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
@@ -516,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.10.02
+        22.10.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1229,8 +1231,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.ChLVEN2Tuple-class.html" class="summary-name">ChLVEN2Tuple</a><br />
       2-Tuple <code>(E_LV95, N_LV95)</code> with <b>falsed</b> <i>Swiss 
-        LV95</i> easting and norting in <code>meter</code> with origin at 
-        <code>Bern, Ch</code> <code>(2_600_000, 1_200_000)</code>.
+        LV95</i> easting and norting in <code>meter (2_600_000, 
+        1_200_000)</code> and origin at <code>Bern, Ch</code>.
     </td>
   </tr>
 <tr>
@@ -1250,7 +1252,7 @@
       Conversion between <i>WGS84 geodetic</i> and <i>Swiss</i> 
         projection coordinates using the <a 
         href="https://www.SwissTopo.admin.CH/en/maps-data-online/calculation-services.html"
-        target="_top">Approximate</a> formulas, pp 13-14.
+        target="_top">Approximate</a> formulas, page 13.
     </td>
   </tr>
 <tr>
@@ -1275,8 +1277,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.ChLVyx2Tuple-class.html" class="summary-name">ChLVyx2Tuple</a><br />
       2-Tuple <code>(y_LV03, x_LV03)</code> with <b>falsed</b> <i>Swiss 
-        LV03</i> easting and norting in <code>meter</code> with origin at 
-        <code>Bern, Ch</code> <code>(600_000, 200_000)</code>.
+        LV03</i> easting and norting in <code>meter (600_000, 
+        200_000)</code> and origin at <code>Bern, Ch</code>.
     </td>
   </tr>
 <tr>
@@ -2027,9 +2029,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.namedTuples.Forward4Tuple-class.html" class="summary-name">Forward4Tuple</a><br />
-      4-Tuple <code>(easting, northing, convergence, scale)</code> in 
-        <code>meter</code>, <code>meter</code>, <code>degrees</code> and 
-        <code>scalar</code>.
+      4-Tuple <code>(easting, northing, gamma, scale)</code> in 
+        <code>meter</code>, <code>meter</code>, meridian convergence 
+        <code>gamma</code> at point in <code>degrees</code> and the 
+        <code>scale</code> of projection at point <code>scalar</code>.
     </td>
   </tr>
 <tr>
@@ -2289,8 +2292,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.fsums.Fsum-class.html" class="summary-name">Fsum</a><br />
-      Precision floating point <i>running</i> summation similar to 
-        standard Python's <code>math.fsum</code>.
+      Precision floating point <i>running</i> summation.
     </td>
   </tr>
 <tr>
@@ -3222,7 +3224,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html" class="summary-name">LatLonDatum5Tuple</a><br />
-      5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
+      5-Tuple <code>(lat, lon, datum, gamma, scale)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.
@@ -3821,7 +3823,7 @@
         <code>rB</code> and <code>rC</code>, the <code>circumradius</code> 
         <code>cR</code>, the <code>Incircle</code> radius <code>rIn</code> 
         aka <code>inradius</code>, the inner and outer <i>Soddy</i> circle 
-        radii <code>riS</code> and <code>roS</code> and the sides 
+        radii <code>riS</code> and <code>roS</code>, the sides 
         <code>a</code>, <code>b</code> and <code>c</code> and 
         semi-perimeter <code>s</code> of a triangle, all in 
         <code>meter</code> conventionally.
@@ -3902,12 +3904,11 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.namedTuples.Reverse4Tuple-class.html" class="summary-name">Reverse4Tuple</a><br />
-      4-Tuple <code>(lat, lon, convergence, scale)</code> with 
+      4-Tuple <code>(lat, lon, gamma, scale)</code> with 
         <code>lat</code>- and <code>lon</code>gitude in 
-        <code>degrees</code>, <i>gamma</i> meridian 
-        <code>convergence</code> at point in <code>degrees180</code> and 
-        <i>k</i> <code>scale</code> of projection at point 
-        <code>scalar</code>.
+        <code>degrees</code>, meridian convergence <code>gamma</code> at 
+        point in <code>degrees</code> and the <code>scale</code> of 
+        projection at point <code>scalar</code>.
     </td>
   </tr>
 <tr>
@@ -4057,7 +4058,7 @@
     </td><td class="summary">
         <a href="pygeodesy.vector2d.Soddy4Tuple-class.html" class="summary-name">Soddy4Tuple</a><br />
       4-Tuple <code>(radius, center, deltas, outer)</code> with 
-        <code>radius</code> and trilaterated <code>center</code> of the 
+        <code>radius</code> and (trilaterated) <code>center</code> of the 
         <i>inner</i> <i>Soddy</i> circle and the radius of the 
         <code>outer</code> <i>Soddy</i> circle.
     </td>
@@ -4330,7 +4331,7 @@
     </td><td class="summary">
         <a href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" class="summary-name">UtmUps8Tuple</a><br />
       8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
-        convergence, scale)</code> as <code>int</code>, <code>str</code>, 
+        gamma, scale)</code> as <code>int</code>, <code>str</code>, 
         <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
         <code>Datum</code>, <code>degrees</code> and <code>scalar</code>, 
         where <code>zone</code> is <code>1..60</code> for UTM or 
@@ -5328,8 +5329,8 @@
         <span class="summary-sig-arg">point3</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>,
         <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Return the radius and center of the <i>inscribed</i> aka <i>In- 
-      circle</i> of a (2- or 3-D) triangle.</td>
+      Return the radius and center of the <i>inscribed</i> aka 
+      <i>Incircle</i> of a (2- or 3-D) triangle.</td>
           <td align="right" valign="top">
             
             
@@ -5387,7 +5388,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#circum4_" class="summary-sig-name">circum4_</a>(<span class="summary-sig-arg">*points</span>,
-        <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**useZ_Vector_and_kwds</span>)</span><br />
       Best-fit a sphere through three or more (3-D) points.</td>
           <td align="right" valign="top">
             
@@ -7838,7 +7839,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9eb07016d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9ec00ef7d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11919,7 +11920,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#unstr" class="summary-sig-name">unstr</a>(<span class="summary-sig-arg">named</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#unstr" class="summary-sig-name">unstr</a>(<span class="summary-sig-arg">where</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an invokation.</td>
@@ -12264,7 +12265,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.2'"><code class="variable-quote">'</code><code class="variable-string">22.10.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.10'"><code class="variable-quote">'</code><code class="variable-string">22.10.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14413,8 +14414,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return the radius and center of the <i>inscribed</i> aka <i>In- 
-  circle</i> of a (2- or 3-D) triangle.</p>
+  <p>Return the radius and center of the <i>inscribed</i> aka 
+  <i>Incircle</i> of a (2- or 3-D) triangle.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -14436,7 +14437,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
-          True</code> otherwise <a 
+          True</code> else <a 
           href="pygeodesy.vector3d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -14464,10 +14465,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         class="link">radii11</a> and <a 
         href="pygeodesy.vector2d-module.html#circum3" 
         class="link">circum3</a>, <a 
-        href="https://MathWorld.Wolfram.com/Incircle.html" 
-        target="_top">Incircle</a> and <a 
         href="https://MathWorld.Wolfram.com/ContactTriangle.html" 
-        target="_top">Contact Triangle</a>.
+        target="_top">Contact Triangle</a> and <a 
+        href="https://MathWorld.Wolfram.com/Incircle.html" 
+        target="_top">Incircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -14557,7 +14558,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for function <a 
           href="pygeodesy.vector3d-module.html#trilaterate3d2" 
           class="link">pygeodesy.trilaterate3d2</a> if <code><b>useZ</b> is
-          True</code> otherwise <a 
+          True</code> else <a 
           href="pygeodesy.vector3d-module.html#trilaterate2d2" 
           class="link">pygeodesy.trilaterate2d2</a>.</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
@@ -14580,18 +14581,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
-        target="_top">Jean Meeus, &quot;Astronomical Algorithms&quot;, 2nd 
-        Ed. 1998, page 127ff</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumradius.html" 
-        target="_top">circumradius</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum4_" 
+        Functions <a href="pygeodesy.vector2d-module.html#circum4_" 
         class="link">pygeodesy.circum4_</a> and <a 
         href="pygeodesy.vector2d-module.html#meeus2" 
-        class="link">pygeodesy.meeus2</a>.
+        class="link">pygeodesy.meeus2</a> and Meeus, J. <a 
+        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
+        target="_top"><i>Astronomical Algorithms</i></a>, 2nd Ed. 1998, 
+        page 127ff, <a 
+        href="https://MathWorld.Wolfram.com/Circumradius.html" 
+        target="_top">circumradius</a> and <a 
+        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
+        target="_top">circumcircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -14603,7 +14603,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">circum4_</span>&nbsp;(<span class="sig-arg">*points</span>,
-        <span class="sig-arg">**Vector_and_kwds</span>)</span>
+        <span class="sig-arg">**useZ_Vector_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14618,10 +14618,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center and optional, additional <b><code>Vector</code></b> 
-          keyword arguments, otherwise the first 
-          <b><code>points</code></b>' (sub-)class.</li>
+        <li><strong class="pname"><code>useZ_Vector_and_kwds</code></strong> - Keyword arguments <code><b>useZ</b>=True</code> 
+          (<code>bool</code>) to use the Z components, otherwise force all 
+          <code>z=INT0</code>, class <code><b>Vector</b>=None</code> to 
+          return the center point with optionally, additional 
+          n<b><code>Vector</code></b> keyword arguments, otherwise the 
+          first <b><code>points</code></b>' (sub-)class is used.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
@@ -14639,19 +14641,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
-        target="_top">Charles F. Jekel, &quot;Least Squares Sphere 
-        Fit&quot;, Sep 13, 2015</a> and <a 
+        Functions <a href="pygeodesy.vector2d-module.html#circum3" 
+        class="link">pygeodesy.circum3</a> and <a 
+        href="pygeodesy.vector2d-module.html#meeus2" 
+        class="link">pygeodesy.meeus2</a>, Jekel, Charles F. <a 
+        href="https://Jekel.me/2015/Least-Squares-Sphere-Fit/" 
+        target="_top"><i>Least Squares Sphere Fit</i></a> Sep 13, 2015, <a 
         href="https://hdl.handle.net/10019.1/98627" target="_top">Appendix 
         A</a>, <a 
         href="https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html"
-        target="_top">numpy.linalg.lstsq</a>, <a 
+        target="_top">numpy.linalg.lstsq</a> and <a 
         href="https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf"
-        target="_top">Eberly 6</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum3" 
-        class="link">pygeodesy.circum3</a> and <a 
-        href="pygeodesy.vector2d-module.html#meeus2" 
-        class="link">pygeodesy.meeus2</a>.
+        target="_top">Eberly 6</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -19639,7 +19640,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9eb07016d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9ec00ef7d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22692,15 +22693,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Vector3d</a>, <code>Vector3Tuple</code>, 
           <code>Vector4Tuple</code> or <code>Vector2Tuple</code> if 
           <code><b>useZ</b>=False</code>).</li>
-        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the non-zero 
-          <code>circumradius</code> always, ignoring the <i>Meeus</i>' Type
-          I case (<code>bool</code>).</li>
+        <li><strong class="pname"><code>circum</code></strong> - If <code>True</code> return the <code>circumradius</code> and 
+          <code>circumcenter</code> always, overriding <i>Meeus</i>' Type 
+          II case (<code>bool</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Meeus2Tuple-class.html" 
-          class="link">Meeus2Tuple</a><code>(radius, Type)</code>.</dd>
+          class="link">Meeus2Tuple</a><code>(radius, Type)</code>, with 
+          <code>Type</code> the <code>circumcenter</code> iff 
+          <code><b>circum</b>=True</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Near-coincident or -colinear points, iff 
@@ -22710,18 +22713,17 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
-        target="_top">Jean Meeus, &quot;Astronomical Algorithms&quot;, 2nd 
-        Ed. 1998, page 127ff</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumradius.html" 
-        target="_top">circumradius</a>, <a 
-        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
-        target="_top">circumcircle</a> and functions <a 
-        href="pygeodesy.vector2d-module.html#circum3" 
+        Functions <a href="pygeodesy.vector2d-module.html#circum3" 
         class="link">pygeodesy.circum3</a> and <a 
         href="pygeodesy.vector2d-module.html#circum4_" 
-        class="link">pygeodesy.circum4_</a>.
+        class="link">pygeodesy.circum4_</a> and Meeus, J. <a 
+        href="http://www.Agopax.IT/Libri_astronomia/pdf/Astronomical%20Algorithms.pdf"
+        target="_top"><i>Astronomical Algorithms</i></a>, 2nd Ed. 1998, 
+        page 127ff, <a 
+        href="https://MathWorld.Wolfram.com/Circumradius.html" 
+        target="_top">circumradius</a> and <a 
+        href="https://MathWorld.Wolfram.com/Circumcircle.html" 
+        target="_top">circumcircle</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -23223,7 +23225,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>start</code> and the <code>end</code> point each an 
           instance of the <b><code>Vector</code></b> keyword argument of if
           {<b>Vector</b>=None} or not specified, an instance of the 
-          <b><code>point</code></b>'s (sub-)class.</dd>
+          reference <b><code>point</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
@@ -25990,7 +25992,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Soddy4Tuple</a><code>(radius, center, deltas, 
           outer)</code>.  The <code>center</code>, an instance of 
           <b><code>point1</code></b>'s (sub-)class, is co-planar with the 
-          three given points.</dd>
+          three given points.  The <code>outer</code> <i>Soddy</i> radius 
+          may be <code>INF</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
@@ -26005,7 +26008,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         Functions <a href="pygeodesy.vector2d-module.html#radii11" 
         class="link">radii11</a> and <a 
         href="pygeodesy.vector2d-module.html#circum3" 
-        class="link">circum3</a>.
+        class="link">circum3</a> and <a 
+        href="https://MathWorld.Wolfram.com/SoddyCircles.html" 
+        target="_top">Soddy Circles</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -26848,10 +26853,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>The ETM coordinate (<b><code>Etm</code></b>) or a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
-          northing, band, datum, convergence, scale)</code> if 
+          northing, band, datum, gamma, scale)</code> if 
           <b><code>Etm</code></b> is <code>None</code> or not 
-          <b><code>falsed</code></b>.  The <code>hemipole</code> is the 
-          <code>'N'|'S'</code> hemisphere.</dd>
+          <b><code>falsed</code></b>.  The <code>hemipole</code> is 
+          the<code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - No convergence transforming to ETM east- and northing.</li>
@@ -27103,8 +27108,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>The UPS coordinate (<b><code>Ups</code></b>) or a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
-          northing, band, datum, convergence, scale)</code> if 
-          <b><code>Ups</code></b> is <code>None</code>.  The 
+          northing, band, datum, gamma, scale)</code> if 
+          <b><code>Ups</code></b> is <code>None</code>. The 
           <code>hemipole</code> is the <code>'N'|'S'</code> pole, the UPS 
           projection top/center.</dd>
     <dt>Raises:</dt>
@@ -27217,7 +27222,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>falsed</code></b>, a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
-          northing, band, datum, convergence, scale)</code>.  The 
+          northing, band, datum, gamma, scale)</code>.  The 
           <code>hemipole</code> is the <code>'N'|'S'</code> hemisphere.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -27296,7 +27301,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>Ups</code></b>) or a <a 
           href="pygeodesy.namedTuples.UtmUps8Tuple-class.html" 
           class="link">UtmUps8Tuple</a><code>(zone, hemipole, easting, 
-          northing, band, datum, convergence, scale)</code> if 
+          northing, band, datum, gamma, scale)</code> if 
           <b><code>Utm</code></b> respectively <b><code>Ups</code></b> is 
           <code>None</code> or <b><code>cmoff</code></b> is 
           <code>False</code>.</dd>
@@ -27749,8 +27754,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>y3</code></strong> - Center <code>y</code> coordinate of the 3rd circle 
           (<code>scalar</code>).</li>
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Check the trilaterated point <i>delta</i> on all 3 circles 
-          (<code>scalar</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance to check the trilaterated point <i>delta</i> on all 3 
+          circles (<code>scalar</code>) or <code>None</code> for no 
+          checking.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
           trilateration and optional, additional <b><code>Vector</code></b>
           keyword arguments, otherwise (<a 
@@ -27827,8 +27833,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd sphere (same <code>units</code> as 
           <code>x</code>, <code>y</code> and <code>z</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
-          <code>y</code>, and <code>z</code>.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Pertubation tolerance (<code>scalar</code>), same units as 
+          <code>x</code>, <code>y</code> and <code>z</code> or 
+          <code>None</code> for no pertubations.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
           trilateration and optional, additional <b><code>Vector</code></b>
           keyword arguments, otherwise <b><code>center1</code></b>'s 
@@ -28089,7 +28096,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">unstr</span>&nbsp;(<span class="sig-arg">named</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unstr</span>&nbsp;(<span class="sig-arg">where</span>,
         <span class="sig-arg">*args</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -28102,7 +28109,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>named</code></strong> - Function, method or class name (<code>str</code>).</li>
+        <li><strong class="pname"><code>where</code></strong> - Class, function, method (<code>type</code>) or name 
+          (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments, except 
           <code><b>_ELLIPSIS</b>=False</code>.</li>
@@ -28929,7 +28937,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:54 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:57:01 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

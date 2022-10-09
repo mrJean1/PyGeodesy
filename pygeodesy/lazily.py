@@ -24,12 +24,11 @@ imported by that top-level module.
 '''
 from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _by_, _COLONSPACE_, \
-                             _COMMASPACE_, _doesn_t_exist_, _DOT_, \
-                             _dunder_name, _enabled_, _EQUALSPACED_, \
-                             _from_, _immutable_, _isclockwise_, \
+                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
+                             _EQUALSPACED_, _from_, _immutable_, _isclockwise_, \
                              _ispolar_, _module_, _NL_, _no_, _not_, _or_, \
                              _perimeterOf_, _Python_, _pygeodesy_abspath_, \
-                             _SPACE_, _UNDER_, _version_
+                             _SPACE_, _UNDER_, _version_, _dunder_nameof
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
 from os.path import basename as _basename
@@ -414,7 +413,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.09.30'
+__version__ = '22.10.07'
 
 
 def _ALL_OTHER(*objs):
@@ -422,12 +421,12 @@ def _ALL_OTHER(*objs):
     '''
     _interns = _ALL_MODS.interns  # from pygeodesy import interns
 
-    def _dun(o):
-        n = _dunder_name(o).rsplit(_DOT_, 1)[-1]
+    def _interned(o):  # get base name
+        n = _dunder_nameof(o).rsplit(_DOT_, 1)[-1]
         i =  NN(_UNDER_, n, _UNDER_)  # intern'd
         return getattr(_interns, i, n)
 
-    return tuple(map(_dun, objs))
+    return tuple(map(_interned, objs))  # map2
 
 
 if _FOR_DOCS:
@@ -667,7 +666,7 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
     except Exception as x:
         _E, t = _ALL_MODS.errors._xError2(x)
         unstr = _ALL_MODS.streprs.unstr
-        raise _E(t, txt=unstr(printf.__name__, fmt, *args, **
+        raise _E(t, txt=unstr(printf, fmt, *args, **
                         nl_nt_prefix_end_file_flush_sep_kwds))
     n = f.write(NN(b, t, e))
     if fl:

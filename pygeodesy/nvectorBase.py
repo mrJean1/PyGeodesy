@@ -19,9 +19,9 @@ from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
 from pygeodesy.fsums import fsum, fsum_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _spherical_datum
 from pygeodesy.interns import MISSING, NN, _1_, _2_, _3_, _bearing_, \
-                             _coincident_, _COMMASPACE_, _distance_, \
+                             _coincident_, _COMMASPACE_, _distance_, _h_, \
                              _intersection_, _no_, _NorthPole_, _points_, \
-                             _pole_, _SPACE_, _SouthPole_
+                             _pole_, _SPACE_, _SouthPole_, _UNDER
 from pygeodesy.latlonBase import LatLonBase, _ALL_DOCS, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import notImplemented, _xother3
@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, sincos2d, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.09.20'
+__version__ = '22.10.05'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -378,7 +378,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @return: Normalized vector (C{Nvector}).
         '''
-        return _xattrs(Vector3d.unit(self, ll=ll), '_h')
+        return _xattrs(Vector3d.unit(self, ll=ll), _UNDER(_h_))
 
     @Property_RO
     def xyzh(self):

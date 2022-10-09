@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, map1, _to4lldn, _to3zBhp, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '22.09.24'
+__version__ = '22.10.04'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
@@ -128,7 +128,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
 
        @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
                 or a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, convergence, scale)} if B{C{Utm}} respectively
+                band, datum, gamma, scale)} if B{C{Utm}} respectively
                 B{C{Ups}} is C{None} or B{C{cmoff}} is C{False}.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands

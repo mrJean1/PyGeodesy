@@ -92,9 +92,9 @@ from pygeodesy.interns import NN, _4_, _COLONSPACE_, _COMMASPACE_, _cubic_, \
                              _lat_, _linear_, _lon_, _mean_, _N_, _n_a_, _not_, \
                              _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
                              _SPACE_, _stdev_, _supported_, _tbd_, _W_, _width_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
-from pygeodesy.namedTuples import LatLon3Tuple
+# from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
 from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
@@ -112,7 +112,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.09.24'
+__version__ = '22.10.06'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -148,6 +148,7 @@ class _GeoidBase(_HeightBase):
     _sizeB    =  0     # geoid file size in bytes
     _smooth   =  0     # used only for RectBivariateSpline
     _stdev    =  None  # fixed in GeoidKarney
+    _u2B      =  0     # np.itemsize or undefined
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -433,8 +434,16 @@ class _GeoidBase(_HeightBase):
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
         notOverloaded(self, lat, lon)
 
+    @property_RO
+    def _LL3T(self):
+        '''(INTERNAL) Get L{LatLon3Tuple} once.
+        '''
+        T = _MODS.namedTuples.LatLon3Tuple
+        _GeoidBase._LL3T = T  # overwrite poperty_RO
+        return T
+
     def _llh3(self, lat, lon):
-        return LatLon3Tuple(lat, lon, self._hGeoid(lat, lon), name=self.name)
+        return self._LL3T(lat, lon, self._hGeoid(lat, lon), name=self.name)
 
     def _llh3LL(self, llh, LatLon):
         return llh if LatLon is None else self._xnamed(LatLon(*llh))
@@ -633,6 +642,12 @@ class _GeoidBase(_HeightBase):
             attrs( 'cropped', 'dtype', _endian_, 'hits', _knots_, 'nBytes',
                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
+
+    @Property_RO
+    def u2B(self):
+        '''Get the PGM itemsize in bytes (C{int}).
+        '''
+        return self._u2B
 
     @Property_RO
     def _upperleft(self):
@@ -1205,12 +1220,6 @@ class GeoidKarney(_GeoidBase):
             return b  # position
         raise GeoidError('closed file: %r' % (p.egm,))  # IOError
 
-    @Property_RO
-    def u2B(self):
-        '''Get the PGM itemsize in bytes (C{int}).
-        '''
-        return self._u2B
-
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
@@ -1235,7 +1244,6 @@ class GeoidPGM(_GeoidBase):
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
     _endian = '>u2'
-    _u2B    =  0  # np.itemsize
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
                                 kind=3, name=NN, smooth=0):
@@ -1342,12 +1350,6 @@ class GeoidPGM(_GeoidBase):
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
 
-    @Property_RO
-    def u2B(self):
-        '''Get the PGM itemsize in bytes (C{int}).
-        '''
-        return self._u2B
-
 
 class _Gpars(_Named):
     '''(INTERNAL) Basic geoid parameters.
@@ -1412,20 +1414,20 @@ class _PGM(_Gpars):
         return parseDMS2(lat, lon)
 
     # PGM file attributes, CamelCase but not .istitle()
-    AREA_OR_POINT    = str
-    DateTime         = str
-    Description      = str  # 'WGS84 EGM96, 5-minute grid'
-    Geoid            = str  # 'file in PGM format for the GeographicLib::Geoid class'
-    MaxBilinearError = float
-    MaxCubicError    = float
-    Offset           = float
+    AREA_OR_POINT    =  str
+    DateTime         =  str
+    Description      =  str  # 'WGS84 EGM96, 5-minute grid'
+    Geoid            =  str  # 'file in PGM format for the GeographicLib::Geoid class'
+    MaxBilinearError =  float
+    MaxCubicError    =  float
+    Offset           =  float
     Origin           = _llstr2floats
-    Pixel            = 0
-    RMSBilinearError = float
-    RMSCubicError    = float
-    Scale            = float
-    URL              = str  # 'https://Earth-Info.NGA.mil/GandG/wgs84/...'
-    Vertical_Datum   = str
+    Pixel            =  0
+    RMSBilinearError =  float
+    RMSCubicError    =  float
+    Scale            =  float
+    URL              =  str  # 'https://Earth-Info.NGA.mil/GandG/wgs84/...'
+    Vertical_Datum   =  str
 
     def __init__(self, g, pgm=NN, itemsize=0, sizeB=0):  # MCCABE 22
         '''(INTERNAL) New C{_PGM} parsed C{egm*.pgm} geoid dataset.
@@ -1668,13 +1670,13 @@ __all__ += _ALL_DOCS(_GeoidBase)
 
 if __name__ == '__main__':
 
-    import sys
+    from pygeodesy.lazily import printf, _sys
 
     _crop     = ()
     _GeoidEGM = GeoidKarney
     _kind     = 3
 
-    geoids = sys.argv[1:]
+    geoids = _sys.argv[1:]
     while geoids:
         geoid = geoids.pop(0)
 
@@ -1692,8 +1694,8 @@ if __name__ == '__main__':
 
         elif geoid[-4:].lower() in ('.pgm',):
             g = _GeoidEGM(geoid, crop=_crop, kind=_kind)
-            print('\n%s\n' % (g.toStr(),))
-            print('%r\n' % (g.pgm,))
+            printf(g.toStr(), nt=1, nl=1)
+            printf(repr(g.pgm), nt=1)
             # <https://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>:
             # The height of the EGM96 geoid at Timbuktu
             #    echo 16:46:33N 3:00:34W | GeoidEval
@@ -1708,9 +1710,9 @@ if __name__ == '__main__':
             for ll in (ll, (16.776, -3.009),):
                 try:
                     h, ll = g.height(*ll), fstr(ll, prec=6)
-                    print('%s.height(%s): %.4F vs %s' % (t, ll, h, k))
+                    printf('%s.height(%s): %.4F vs %s', t, ll, h, k)
                 except (GeoidError, RangeError) as x:
-                    print(_COLONSPACE_(t, str(x)))
+                    printf(_COLONSPACE_(t, str(x)))
 
         elif geoid[-4:].lower() in ('.bin',):
             g = GeoidG2012B(geoid, kind=_kind)

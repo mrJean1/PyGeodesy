@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.09.26'
+__version__ = '22.10.07'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -690,7 +690,7 @@ class EcefSudano(_EcefBase):
             if abs(r) < tol:
                 break
         else:
-            t = unstr(self.reverse.__name__, x=x, y=y, z=z)
+            t = unstr(self.reverse, x=x, y=y, z=z)
             raise EcefError(Fmt.no_convergence(r, tol), txt=t)
 
         if a is None:

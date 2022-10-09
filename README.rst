@@ -95,8 +95,8 @@ pygeodesy``.
 Tests
 =====
 
-The tests ran with Python 3.11.0rc1 (with geographiclib_ 2.0), Python
-3.10.7 (with geographiclib_ 2.0, numpy_ 1.22.4, scipy_ 1.8.1, GeoConvert_
+The tests ran with Python 3.11.0rc2 (with geographiclib_ 2.0), Python
+3.10.7 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_
 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
 and Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
@@ -108,9 +108,9 @@ line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
 Python versions.  The results of those tests are included in the distribution
 files.
 
-Python 3.11.0rc1, 3.10.7 and 3.9.6 run on Apple M1 Silicon (``arm64``),
+Python 3.11.0rc2, 3.10.7 and 3.9.6 run on Apple M1 Silicon (``arm64``),
 *natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel
-*emulation* (\"``arm64_x86_64``\"), see function `pygeodesy.machine`_.
+*emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.7,
 3.9.6 and 2.7.18.  The complete coverage report in HTML and a PDF summary
@@ -127,20 +127,20 @@ on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 3.10.1-6, 3.9.1, 3.8.7, 3.7.1,
 2.7.15, PyPy_ 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and
-geographiclib_ 1.52 and numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4
-or 1.19.5) on `Ubuntu 16.04`_, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6,
-3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_
-1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and
-scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0
-(Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3)
-on macOS 12.1-5 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3,
-10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS
-10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite,
-with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0)
-on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12,
-with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all
-in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and 32-bit
-Python 2.6.6 on Windows XP SP3.
+geographiclib_ 1.52, numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4,
+1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on `Ubuntu 16.04`_,
+with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3,
+2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0, 1.16.5, 1.16.2, 1.15.2,
+1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_ 1.5.0), PyPy_ 7.3.0 (Python
+2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and `Intel-Python`_
+3.5.3 (and numpy_ 1.11.3) on macOS 12.1-5 Monterey, 11.0-5.2-6.1 Big Sur
+(aka 10.16), 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6
+High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X
+10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and
+numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
+iPhone12, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on
+iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro
+and 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -153,7 +153,7 @@ Monterey.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Oct 02, 2022.*
+*Last updated: Oct 10, 2022.*
 
 License
 =======

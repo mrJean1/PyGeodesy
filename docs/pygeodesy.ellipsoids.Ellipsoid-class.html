@@ -752,7 +752,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPrimeVertical" class="summary-sig-name">rocPrimeVertical</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Compute the <i>prime-vertical</i>, <i>normal</i> radius of curvature 
-      of (geodetic) latitude, aka the transverse radius of curvature.</td>
+      of (geodetic) latitude, aka the <i>transverse</i> radius of 
+      curvature.</td>
           <td align="right" valign="top">
             
             
@@ -771,7 +772,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocTransverse" class="summary-sig-name">rocTransverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Compute the <i>prime-vertical</i>, <i>normal</i> radius of curvature 
-      of (geodetic) latitude, aka the transverse radius of curvature.</td>
+      of (geodetic) latitude, aka the <i>transverse</i> radius of 
+      curvature.</td>
           <td align="right" valign="top">
             
             
@@ -908,7 +910,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" class="summary-name">a2_b</a><br />
-      Get the <i>polar</i> meridional radius of curvature 
+      Get the <i>polar</i> meridional (or polar) radius of curvature 
       (<code>meter</code>), <i class="math">a**2 / b</i>.
     </td>
   </tr>
@@ -1579,8 +1581,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" class="summary-name">rocEquatorial2</a><br />
+      Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
+      radii of curvature at the equator as <a 
+      href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
+      class="link">Curvature2Tuple</a><code>(meridional, 
+      prime_vertical)</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a><br />
-      Get the <i>polar</i> meridional radius of curvature 
+      Get the <i>polar</i> meridional (or polar) radius of curvature 
       (<code>meter</code>), <i class="math">a**2 / b</i>.
     </td>
   </tr>
@@ -2241,7 +2255,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>s</code></strong> - S value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>s</code></strong> - Sine value (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Result (<code>float</code>).</dd>
@@ -2713,7 +2727,7 @@
         Methods <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
         class="link">roc2_</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc1_" 
-        class="link">roc1_</a> and <a 
+        class="link">roc1_</a>, <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and meridional 
         and prime vertical <a 
@@ -2760,7 +2774,9 @@
         Methods <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2" 
         class="link">roc2</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc1_" 
-        class="link">roc1_</a> and <a 
+        class="link">roc1_</a>, property <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocEquatorial2" 
+        class="link">rocEquatorial2</a>, <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and the 
         meridional and prime vertical <a 
@@ -2840,7 +2856,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        Non-directional <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
         target="_top">Radii of Curvature</a>
       </p>
@@ -2876,7 +2892,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
+        Non-directional <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
         target="_top">Radii of Curvature</a>
       </p>
@@ -2915,7 +2931,7 @@
         Methods <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2" 
         class="link">roc2</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
-        class="link">roc2_</a> and <a 
+        class="link">roc2_</a>, <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
@@ -2939,7 +2955,8 @@
   </tr></table>
   
   <p>Compute the <i>prime-vertical</i>, <i>normal</i> radius of curvature 
-  of (geodetic) latitude, aka the transverse radius of curvature.</p>
+  of (geodetic) latitude, aka the <i>transverse</i> radius of 
+  curvature.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2958,7 +2975,7 @@
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
         class="link">roc2_</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc1_" 
-        class="link">roc1_</a> and <a 
+        class="link">roc1_</a>, <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
@@ -2982,7 +2999,8 @@
   </tr></table>
   
   <p>Compute the <i>prime-vertical</i>, <i>normal</i> radius of curvature 
-  of (geodetic) latitude, aka the transverse radius of curvature.</p>
+  of (geodetic) latitude, aka the <i>transverse</i> radius of 
+  curvature.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -3001,7 +3019,7 @@
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_" 
         class="link">roc2_</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#roc1_" 
-        class="link">roc1_</a> and <a 
+        class="link">roc1_</a>, <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
@@ -3191,13 +3209,13 @@ f)</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a2_b</h3>
-  <p>Get the <i>polar</i> meridional radius of curvature 
+  <p>Get the <i>polar</i> meridional (or polar) radius of curvature 
   (<code>meter</code>), <i class="math">a**2 / b</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> meridional radius of curvature (<code>meter</code>), 
-<i class="math">a**2 / b</i>.
+        - Get the <i>polar</i> meridional (or polar) radius of curvature 
+(<code>meter</code>), <i class="math">a**2 / b</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5246,19 +5264,64 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
       </p>
 </div></td></tr></table>
 </div>
+<a name="rocEquatorial2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">rocEquatorial2</h3>
+  <p>Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> 
+  radii of curvature at the equator as <a 
+  href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
+  class="link">Curvature2Tuple</a><code>(meridional, 
+  prime_vertical)</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">rocEquatorial2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>meridional</i> and <i>prime-vertical</i>, <i>normal</i> radii of
+curvature at the equator as <a 
+href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" 
+class="link">Curvature2Tuple</a><code>(meridional, prime_vertical)</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocMeridional" 
+        class="link">rocMeridional</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#rocPrimeVertical" 
+        class="link">rocPrimeVertical</a>, properties <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#b2_a" 
+        class="link">b2_a</a>, <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" 
+        class="link">a2_b</a>, <code>rocPolar</code> and polar and 
+        equatorial <a 
+        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="rocPolar"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rocPolar</h3>
-  <p>Get the <i>polar</i> meridional radius of curvature 
+  <p>Get the <i>polar</i> meridional (or polar) radius of curvature 
   (<code>meter</code>), <i class="math">a**2 / b</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>polar</i> meridional radius of curvature (<code>meter</code>), 
-<i class="math">a**2 / b</i>.
+        - Get the <i>polar</i> meridional (or polar) radius of curvature 
+(<code>meter</code>), <i class="math">a**2 / b</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5406,7 +5469,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  2 23:26:55 2022
+    Generated by Epydoc 3.0.1 on Sun Oct  9 17:57:02 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
