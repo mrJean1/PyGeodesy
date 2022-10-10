@@ -90,7 +90,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.10.05'
+__version__ = '22.10.10'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -196,10 +196,9 @@ class Etm(Utm):
                     L{LatLonDatum5Tuple}C{(lat, lon, datum, gamma,
                     scale)} if B{C{LatLon}} is C{None}.
 
-           @raise ETMError: No convergence transforming to lat- and longitude.
-
-           @raise ETMError: This ETM coordinate's C{exacTM} and C{datum}
-                            incompatible.
+           @raise ETMError: This ETM coordinate's C{exacTM} and this C{datum}
+                            incompatible or no convergence transforming to
+                            lat- and longitude.
 
            @raise TypeError: Invalid or non-ellipsoidal B{C{LatLon}}.
 
@@ -240,10 +239,9 @@ class Etm(Utm):
 
 
 class ExactTransverseMercator(_NamedBase):
-    '''A Python version of Karney's U{TransverseMercatorExact
-       <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html>}
-       C++ class, a numerically exact transverse Mercator projection, here referred to as
-       C{TMExact}.
+    '''Pure Python version of Karney's C++ class U{TransverseMercatorExact
+       <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html>},
+       a numerically exact transverse Mercator projection, further referred to as C{TMExact}.
     '''
     _datum     =  None    # Datum
     _E         =  None    # Ellipsoid
@@ -268,13 +266,11 @@ class ExactTransverseMercator(_NamedBase):
            @kwarg name: Optional name for the projection (C{str}).
            @kwarg raiser: If C{True}, throw an L{ETMError} for convergence failures (C{bool}).
 
-           @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid} or invalid
-                            B{C{lon0}} or B{C{k0}}.
-
-           @raise TypeError: Invalid or near-spherical B{C{datum}}.
+           @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid} or invalid B{C{lon0}}
+                            or B{C{k0}}.
 
            @see: U{Constructor TransverseMercatorExact<https://GeographicLib.SourceForge.io/
-                 html/classGeographicLib_1_1TransverseMercatorExact.html} for more details,
+                 html/classGeographicLib_1_1TransverseMercatorExact.html>} for more details,
                  especially on B{X{extendp}}.
 
            @note: For all 255.5K U{TMcoords.dat<https://Zenodo.org/record/32470>} tests (with
@@ -303,12 +299,9 @@ class ExactTransverseMercator(_NamedBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set the datum and ellipsoid (L{Datum}, L{Ellipsoid},
-           L{Ellipsoid2} or L{a_f2Tuple}).
+        '''Set the datum and ellipsoid (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
 
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid}.
-
-           @raise TypeError: Invalid or near-spherical B{C{datum}}.
         '''
         d = _ellipsoidal_datum(datum, name=self.name)  # raiser=_datum_)
         self._reset(d)
@@ -470,7 +463,7 @@ class ExactTransverseMercator(_NamedBase):
                                          real &x, real &y,
                                          real &gamma, real &k)}.
 
-           @raise ETMError: No convergence, thrown if property C{raiser} set,
+           @raise ETMError: No convergence, thrown if property C{raiser} set.
         '''
         lat    = _fix90(lat)
         lon, _ = _diff182((self.lon0 if lon0 is None else lon0), lon)
