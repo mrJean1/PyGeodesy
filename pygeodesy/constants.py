@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.10.07'
+__version__ = '22.10.18'
 
 
 def _Float(**name_arg):
@@ -238,6 +238,7 @@ R_QM  = _Radius(R_QM=6372797.560856)   # PYCHOK earth' quadratic mean radius (C{
 # Rtri= _Radius(Rtri=6372797.5559594)  # PYCHOK Rtriaxial quadratic mean radius (C{meter}), WGS84
 # Rbi = _Radius(Rbi =6367453.6345163)  # PYCHOK Rbiaxial quadratic mean radius (C{meter}), WGS84
 R_VM  = _Radius(R_VM=6366707.0194937)  # PYCHOK aViation/naVigation earth radius (C{meter})
+# R_AU=  Meter( R_AU=149597870700.0)   # PYCHOK <https://WikiPedia.org/wiki/Astronomical_unit>
 
 _INF_NAN_NINF = INF, NAN, NINF
 

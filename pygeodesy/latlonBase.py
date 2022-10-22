@@ -42,7 +42,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.09.21'
+__version__ = '22.10.12'
 
 
 class LatLonBase(_NamedBase):
@@ -1315,7 +1315,7 @@ class LatLonBase(_NamedBase):
                                 keyword arguments, ignored if
                                 C{B{Nvector} is None}.
 
-           @return: A B{C{Nvector}} or an L{Vector4Tuple}C{(x, y, z, h)}
+           @return: A B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
                     if B{C{Nvector}} is C{None}.
 
            @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
@@ -1511,7 +1511,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
 
     if t:  # get min, max, points and count ...
         t =  tuple(sorted(t))
-        n = (len(t),)  # as tuple
+        n = (len(t),)  # as 1-tuple
         # ... or for a single trilaterated result,
         # min *is* max, min- *is* maxPoint and n=1
         return Trilaterate5Tuple(t[0] + t[-1] + n)  # *(t[0] + ...)

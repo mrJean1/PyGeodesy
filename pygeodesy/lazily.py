@@ -291,9 +291,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
+                      triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'JacobiError', 'Jacobi2Tuple', 'TriaxialError',
+                                 'Triaxial', 'JacobiConformal'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
-                                 'Feet', 'FIx', 'Float_', 'Height', 'Int_',
+                                 'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
                                  'Meter', 'Meter_', 'Meter2', 'Meter3', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
@@ -413,7 +415,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.10.07'
+__version__ = '22.10.18'
 
 
 def _ALL_OTHER(*objs):

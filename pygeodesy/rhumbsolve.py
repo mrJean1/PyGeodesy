@@ -20,7 +20,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.rhumbsolve
-__version__ = '22.09.12'
+__version__ = '22.10.11'
 
 _PYGEODESY_RHUMBSOLVE_ = 'PYGEODESY_RHUMBSOLVE'  # PYCHOK used!
 
@@ -92,7 +92,7 @@ class RhumbSolve(_RhumbSolveBase):
               executable for I{every} method call.
     '''
 #   def Area(self, polyline=False, name=NN):
-#       '''Set up an L{RhumbArea} to compute area and
+#       '''Set up a L{RhumbArea} to compute area and
 #          perimeter of a polygon.
 #
 #          @kwarg polyline: If C{True} perimeter only, otherwise
@@ -161,7 +161,7 @@ class RhumbSolve(_RhumbSolveBase):
                               iteration=r._iteration)
 
     def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
-        '''Set up an L{RhumbLineSolve} to compute several points
+        '''Set up a L{RhumbLineSolve} to compute several points
            on a single rhumb line.
 
            @arg lat1: Latitude of the first point (C{degrees}).

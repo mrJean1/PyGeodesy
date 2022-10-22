@@ -25,7 +25,7 @@ from pygeodesy.solveBase import _LineSolveBase, _SolveBase
 # from pygeodesy.utily import wrap360  # from .karney
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '22.07.09'
+__version__ = '22.10.11'
 
 _PYGEODESY_GEODSOLVE_ = 'PYGEODESY_GEODSOLVE'  # PYCHOK used!
 
@@ -118,7 +118,7 @@ class GeodesicSolve(_GeodesicSolveBase):
     '''
 
     def Area(self, polyline=False, name=NN):
-        '''Set up an L{GeodesicAreaExact} to compute area and
+        '''Set up a L{GeodesicAreaExact} to compute area and
            perimeter of a polygon.
 
            @kwarg polyline: If C{True} perimeter only, otherwise
@@ -159,7 +159,7 @@ class GeodesicSolve(_GeodesicSolveBase):
                               iteration=r._iteration)
 
     def Line(self, lat1, lon1, azi1, caps=Caps.ALL):
-        '''Set up an L{GeodesicLineSolve} to compute several points
+        '''Set up a L{GeodesicLineSolve} to compute several points
            on a single geodesic.
 
            @arg lat1: Latitude of the first point (C{degrees}).

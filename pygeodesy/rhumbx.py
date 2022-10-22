@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.10.07'
+__version__ = '22.10.11'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -472,7 +472,7 @@ class Rhumb(_RhumbBase):
 
 
 class RhumbError(_ValueError):
-    '''Raised for an L{Rhumb} or L{RhumbLine} issue.
+    '''Raised for a L{Rhumb} or L{RhumbLine} issue.
     '''
     pass
 

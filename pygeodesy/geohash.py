@@ -39,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '22.09.24'
+__version__ = '22.10.11'
 
 
 class _GH(object):
@@ -188,7 +188,7 @@ class Geohash(Str):
         return self.philam
 
     def adjacent(self, direction, name=NN):
-        '''Determine the adjacent cell in given compass direction.
+        '''Determine the adjacent cell in the given compass direction.
 
            @arg direction: Compass direction ('N', 'S', 'E' or 'W').
            @kwarg name: Optional name (C{str}), otherwise the name

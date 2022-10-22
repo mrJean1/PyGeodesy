@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.09.14'
+__version__ = '22.10.11'
 
 
 class CartesianBase(Vector3d):
@@ -684,8 +684,8 @@ class CartesianBase(Vector3d):
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
                                arguments, ignored if C{B{Vector} is None}.
 
-           @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
-                    if B{C{Vector}} is C{None}.
+           @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)} if
+                    B{C{Vector}} is C{None}.
 
            @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
         '''

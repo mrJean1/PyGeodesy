@@ -10,6 +10,8 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, issubclassof, map1, _xargs_names
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
@@ -38,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import floor as _floor  # from .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.10.07'
+__version__ = '22.10.18'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -472,7 +474,7 @@ class LocalCartesian(_NamedBase):
            @arg Xyz_kwds: B{C{Xyz}} keyword arguments, ignored if C{B{Xyz} is None}.
 
            @return: An C{B{Xyz}(x, y, z, ltp, **B{Xyz_kwds}} instance or if
-                    C{B{Xyz} is None}, an L{Local9Tuple}C{(x, y, z, lat, lon,
+                    C{B{Xyz} is None}, a L{Local9Tuple}C{(x, y, z, lat, lon,
                     height, ltp, ecef, M)} with this C{ltp}, B{C{ecef}}
                     (L{Ecef9Tuple}) converted to this C{datum} and C{M=None},
                     always.

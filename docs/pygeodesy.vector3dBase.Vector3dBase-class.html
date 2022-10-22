@@ -1275,6 +1275,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#minus_" class="summary-sig-name">minus_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other_x</span>,
+        <span class="summary-sig-arg">*y_z</span>)</span><br />
+      Subtract separate X, Y and Z components from this vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#negate" class="summary-sig-name">negate</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return this vector in opposite direction.</td>
           <td align="right" valign="top">
@@ -1349,6 +1368,25 @@
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#sum" class="summary-sig-name">sum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
       Add this vector and an other vector.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#plus_" class="summary-sig-name">plus_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other_x</span>,
+        <span class="summary-sig-arg">*y_z</span>)</span><br />
+      Sum of this vector and separate X, Y and Z components.</td>
           <td align="right" valign="top">
             
             
@@ -2976,6 +3014,51 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="minus_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">minus_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other_x</span>,
+        <span class="sig-arg">*y_z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Subtract separate X, Y and Z components from this vector.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other_x</code></strong> - X component (<code>scalar</code>) or a vector's X, Y, and Z 
+          components (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z components (<code>scalar</code>, <code>scalar</code>), 
+          ignored if <b><code>other_x</code></b> is not 
+          <code>scalar</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, vectiorial vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="negate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3122,6 +3205,51 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Incompatible <b><code>other</code></b> <code>type</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="plus_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">plus_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other_x</span>,
+        <span class="sig-arg">*y_z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Sum of this vector and separate X, Y and Z components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other_x</code></strong> - X component (<code>scalar</code>) or a vector's X, Y, and Z 
+          components (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z components (<code>scalar</code>, <code>scalar</code>), 
+          ignored if <b><code>other_x</code></b> is not 
+          <code>scalar</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, vectiorial vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3643,7 +3771,7 @@ z**2)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 10 11:54:58 2022
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:14 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

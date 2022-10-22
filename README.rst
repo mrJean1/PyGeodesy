@@ -96,7 +96,7 @@ Tests
 =====
 
 The tests ran with Python 3.11.0rc2 (with geographiclib_ 2.0), Python
-3.10.7 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_
+3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_
 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10
 (with geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2)
 and Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
@@ -108,15 +108,15 @@ line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
 Python versions.  The results of those tests are included in the distribution
 files.
 
-Python 3.11.0rc2, 3.10.7 and 3.9.6 run on Apple M1 Silicon (``arm64``),
+Python 3.11.0rc2, 3.10.8 and 3.9.6 run on Apple M1 Silicon (``arm64``),
 *natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel
 *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.7,
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.8,
 3.9.6 and 2.7.18.  The complete coverage report in HTML and a PDF summary
 are included in the distribution files.
 
-The tests also ran with Python 3.10.7 (and geographiclib_ 2.0) on
+The tests also ran with Python 3.10.8 (and geographiclib_ 2.0) on
 `Debian 11`_ in 64-bit only and with Python 3.9.6, 3.8.0 and 2.7.17
 (all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in 64-
 and/or 32-bit.
@@ -125,7 +125,7 @@ A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.10.1-6, 3.9.1, 3.8.7, 3.7.1,
+Previously, the tests were run with Python 3.10.1-7, 3.9.1, 3.8.7, 3.7.1,
 2.7.15, PyPy_ 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and
 geographiclib_ 1.52, numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4,
 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on `Ubuntu 16.04`_,
@@ -147,13 +147,13 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.7, both in 64-bit on macOS 12.6
+and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 12.6
 Monterey.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Oct 10, 2022.*
+*Last updated: Oct 22, 2022.*
 
 License
 =======

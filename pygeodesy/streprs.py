@@ -13,7 +13,7 @@ from pygeodesy.interns import NN, _0_, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
                              _not_scalar_, _PERCENT_, _SPACE_, _STAR_, _UNDER_, \
                              _dunder_nameof
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
-                              _exceeds_, _f_, _F_, _g_, _tolerance_  # PYCHOK used!
+                              _exceeds_, _f_, _F_, _g_,  _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import log10 as _log10

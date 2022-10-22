@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
 from math import acos, atan, atan2, degrees, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.10.07'
+__version__ = '22.10.11'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -697,7 +697,7 @@ def gnomonic(lat0, lon0, datum=_WGS84, exact=False, geodsolve=False, name=NN):
                      L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
                      radius (C{meter}).
        @kwarg exact: Return a L{GnomonicExact} instance.
-       @kwarg geodsolve: Return an L{GnomonicGeodSolve} instance.
+       @kwarg geodsolve: Return a L{GnomonicGeodSolve} instance.
        @kwarg name: Optional name for the projection (C{str}).
 
        @return: A L{GnomonicExact}, L{GnomonicGeodSolve},

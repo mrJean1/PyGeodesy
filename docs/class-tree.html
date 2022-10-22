@@ -169,6 +169,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.errors.IntersectionError-class.html">pygeodesy.errors.IntersectionError</a></strong>:
       <em class="summary">Error raised for path or circle intersection issues.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiError-class.html">pygeodesy.triaxials.JacobiError</a></strong>:
+      <em class="summary">Raised for <a href="pygeodesy.triaxials.JacobiConformal-class.html"
+        class="link">JacobiConformal</a> issues.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ktm.KTMError-class.html">pygeodesy.ktm.KTMError</a></strong>:
       <em class="summary">Error raised for <a 
         href="pygeodesy.ktm.KTransverseMercator-class.html" 
@@ -274,7 +278,7 @@
         <code>residual</code>, <i>integer</i> or otherwise.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.rhumbx.RhumbError-class.html">pygeodesy.rhumbx.RhumbError</a></strong>:
-      <em class="summary">Raised for an <a href="pygeodesy.rhumbx.Rhumb-class.html" 
+      <em class="summary">Raised for a <a href="pygeodesy.rhumbx.Rhumb-class.html" 
         class="link">Rhumb</a> or <a 
         href="pygeodesy.rhumbx.RhumbLine-class.html" 
         class="link">RhumbLine</a> issue.</em>
@@ -288,6 +292,10 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.TriangleError-class.html">pygeodesy.errors.TriangleError</a></strong>:
       <em class="summary">Error raised for triangle, inter- or resection issues.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.TriaxialError-class.html">pygeodesy.triaxials.TriaxialError</a></strong>:
+      <em class="summary">Raised for <a href="pygeodesy.triaxials.Triaxial-class.html" 
+        class="link">Triaxial</a> issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ups.UPSError-class.html">pygeodesy.ups.UPSError</a></strong>:
       <em class="summary">Universal Polar Stereographic (UPS) parse or other <a 
@@ -1216,6 +1224,19 @@
         href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
         target="_top">National Grid</a>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial-class.html">pygeodesy.triaxials.Triaxial</a></strong>:
+      <em class="summary">Triaxial ellipsoid with semi-axes <code>a</code>, <code>b</code> 
+        and <code>c</code>, oriented such that the large principal ellipse 
+        <code>ab</code> is the equator <i>Z</i>=0, <i>beta</i>=0, while the
+        small principal ellipse <code>ac</code> is the prime meridian, 
+        <i>Y</i>=0, <i>omega</i>=0.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiConformal-class.html">pygeodesy.triaxials.JacobiConformal</a></strong>:
+      <em class="summary">This is a conformal projection of the ellipsoid to a plane in which
+        the grid lines are straight, see Jacobi, C.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">pygeodesy.utmupsBase.UtmUpsBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a href="pygeodesy.utm.Utm-class.html" 
         class="link">Utm</a> and <a href="pygeodesy.ups.Ups-class.html" 
@@ -1268,6 +1289,15 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1280,15 +1310,6 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1658,47 +1679,53 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef._EcefBase-class.html">pygeodesy.ecef._EcefBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.ecef.EcefFarrell21-class.html" 
+        class="link">EcefFarrell21</a>, <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a>, <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
         class="link">EcefKarney</a>, <a 
+        href="pygeodesy.ecef.EcefSudano-class.html" 
+        class="link">EcefSudano</a>, <a 
         href="pygeodesy.ecef.EcefVeness-class.html" 
         class="link">EcefVeness</a> and <a 
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefFarrell21-class.html">pygeodesy.ecef.EcefFarrell21</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.1</a>, page 29.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefFarrell22-class.html">pygeodesy.ecef.EcefFarrell22</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.2</a>, page 30.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefKarney-class.html">pygeodesy.ecef.EcefKarney</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Karney</i>'s 
         C++ <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html"
         target="_top">Geocentric</a> methods.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefSudano-class.html">pygeodesy.ecef.EcefSudano</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
         <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
         target="_top">paper</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefVeness-class.html">pygeodesy.ecef.EcefVeness</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Chris 
         Veness</i>' JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
         target="_top">LatLonEllipsoidal, Cartesian</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefYou-class.html">pygeodesy.ecef.EcefYou</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformation</a>.</em>
@@ -1822,6 +1849,19 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bearing2Tuple-class.html">pygeodesy.namedTuples.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
         <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
+        longitude <code>beta</code> and <code>omega</code> both in 
+        <code>Radians</code> (or <code>Degrees</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html">pygeodesy.triaxials.BetaOmega3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
+        lat- and longitude <code>beta</code> and <code>omega</code> both in
+        <code>Radians</code> (or <code>Degrees</code>) and the 
+        <code>height</code>, rather the (signed) <i>distance</i> to the 
+        triaxial's surface (measured along the radial line to the 
+        triaxial's center) in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bounds2Tuple-class.html">pygeodesy.namedTuples.Bounds2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
@@ -2067,6 +2107,11 @@
         <code>point</code>, <code>-1</code> if before the start, 
         <code>+1</code> if after the end and <code>0</code> if on or 
         between the start and end point of the first line.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Jacobi2Tuple-class.html">pygeodesy.triaxials.Jacobi2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
+        and <code>y</code> projection, both in <code>Radians</code> (or 
+        <code>Degrees</code>).</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -2577,6 +2622,11 @@
         <code>float</code> index into a <code>list</code> or 
         <code>tuple</code> of <code>points</code>, typically.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Height_-class.html">pygeodesy.units.Height_</a></strong>:
+      <em class="summary">Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a height, conventionally in 
+        <code>meter</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter2-class.html">pygeodesy.units.Meter2</a></strong>:
       <em class="summary">Named <code>float</code> representing an area in <code>meter 
         squared</code>.</em>
@@ -2868,6 +2918,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>float</code> index into a <code>list</code> or 
         <code>tuple</code> of <code>points</code>, typically.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Height_-class.html">pygeodesy.units.Height_</a></strong>:
+      <em class="summary">Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a height, conventionally in 
+        <code>meter</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter2-class.html">pygeodesy.units.Meter2</a></strong>:
       <em class="summary">Named <code>float</code> representing an area in <code>meter 
         squared</code>.</em>
@@ -3062,6 +3117,19 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bearing2Tuple-class.html">pygeodesy.namedTuples.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
         <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
+        longitude <code>beta</code> and <code>omega</code> both in 
+        <code>Radians</code> (or <code>Degrees</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html">pygeodesy.triaxials.BetaOmega3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
+        lat- and longitude <code>beta</code> and <code>omega</code> both in
+        <code>Radians</code> (or <code>Degrees</code>) and the 
+        <code>height</code>, rather the (signed) <i>distance</i> to the 
+        triaxial's surface (measured along the radial line to the 
+        triaxial's center) in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bounds2Tuple-class.html">pygeodesy.namedTuples.Bounds2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
@@ -3307,6 +3375,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>point</code>, <code>-1</code> if before the start, 
         <code>+1</code> if after the end and <code>0</code> if on or 
         between the start and end point of the first line.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Jacobi2Tuple-class.html">pygeodesy.triaxials.Jacobi2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
+        and <code>y</code> projection, both in <code>Radians</code> (or 
+        <code>Degrees</code>).</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -3779,7 +3852,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 10 11:54:47 2022
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:03 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

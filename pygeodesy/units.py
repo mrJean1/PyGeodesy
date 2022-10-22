@@ -27,10 +27,10 @@ from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
 from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
                                  Radius, Str  # PYCHOK shared .namedTuples
-from math import radians
+from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.09.24'
+__version__ = '22.10.18'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -206,6 +206,16 @@ class Degrees(Float):
             raise _Error(cls, arg, name, Error, x=x)
         return d
 
+    def toDegrees(self):
+        '''Convert C{Degrees} to C{Degrees}.
+        '''
+        return self
+
+    def toRadians(self):
+        '''Convert C{Degrees} to C{Radians}.
+        '''
+        return Radians(radians(self), name=self.name)
+
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Degrees}.
 
@@ -302,6 +312,16 @@ class Radians(Float):
         except Exception as x:
             raise _Error(cls, arg, name, Error, x=x)
 
+    def toDegrees(self):
+        '''Convert C{Radians} to C{Degrees}.
+        '''
+        return Degrees(degrees(self), name=self.name)
+
+    def toRadians(self):
+        '''Convert C{Radians} to C{Radians}.
+        '''
+        return self
+
     def toRepr(self, std=False, **prec_fmt_ints):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Radians}.
 
@@ -314,7 +334,7 @@ class Radians(Float):
         return Float.toRepr(self, std=std, **prec_fmt_ints)
 
     def toStr(self, prec=8, fmt=F__F, ints=False):  # PYCHOK prec=8, ...
-        '''Return this C{Degrees} as standard C{str}.
+        '''Return this C{Radians} as standard C{str}.
 
            @see: Function L{pygeodesy.fstr} for keyword argument details.
         '''
@@ -569,6 +589,15 @@ class Height(Float):  # here to avoid circular import
         '''New L{Height} instance, see L{Float}.
         '''
         return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
+
+
+class Height_(Float_):  # here to avoid circular import
+    '''Named C{float} with optional C{low} and C{high} limits representing a height, conventionally in C{meter}.
+    '''
+    def __new__(cls, arg=None, name=_height_, **low_high_Error_name_arg):
+        '''New L{Height} instance, see L{Float}.
+        '''
+        return Float_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
 
 
 class Lam(Radians):

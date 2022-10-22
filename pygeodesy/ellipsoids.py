@@ -15,6 +15,7 @@ See module L{datums} for L{Datum} and L{Transform} information and other details
 @var Ellipsoids.Australia1966: Ellipsoid(name='Australia1966', a=6378160, b=6356774.71919531, f_=298.25, f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367471.84853228, L=10002001.39064442, R1=6371031.5730651, R2=6371029.9824858, R3=6371023.59124344, Rbiaxial=6367476.337459, Rtriaxial=6372820.40754721)
 @var Ellipsoids.Bessel1841: Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.962818, f_=299.1528128, f=0.00334277, f2=0.00335398, n=0.00167418, e=0.08169683, e2=0.00667437, e22=0.00671922, e32=0.00334836, A=6366742.52023395, L=10000855.76443237, R1=6370291.09093933, R2=6370289.51012659, R3=6370283.15821523, Rbiaxial=6366746.98155108, Rtriaxial=6372074.29334012)
 @var Ellipsoids.BesselModified: Ellipsoid(name='BesselModified', a=6377492.018, b=6356173.5087127, f_=299.1528128, f=0.00334277, f2=0.00335398, n=0.00167418, e=0.08169683, e2=0.00667437, e22=0.00671922, e32=0.00334836, A=6366837.22474766, L=10001004.52593463, R1=6370385.84823756, R2=6370384.26740131, R3=6370377.91539546, Rbiaxial=6366841.68613115, Rtriaxial=6372169.07716325)
+@var Ellipsoids.CGCS2000: Ellipsoid(name='CGCS2000', a=6378137, b=6356752.31414036, f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.14577105, L=10001965.72923046, R1=6371008.77138012, R2=6371007.18088352, R3=6371000.78997414, Rbiaxial=6367453.63446401, Rtriaxial=6372797.55593326)
 @var Ellipsoids.Clarke1866: Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, f_=294.97869821, f=0.00339008, f2=0.00340161, n=0.00169792, e=0.08227185, e2=0.00676866, e22=0.00681478, e32=0.00339582, A=6367399.68916978, L=10001888.04298286, R1=6370998.86666667, R2=6370997.240633, R3=6370990.70659881, Rbiaxial=6367404.2783313, Rtriaxial=6372807.62791066)
 @var Ellipsoids.Clarke1880: Ellipsoid(name='Clarke1880', a=6378249.145, b=6356514.86954978, f_=293.465, f=0.00340756, f2=0.00341921, n=0.00170669, e=0.0824834, e2=0.00680351, e22=0.00685012, e32=0.00341337, A=6367386.64398051, L=10001867.55164747, R1=6371004.38651659, R2=6371002.74366963, R3=6370996.1419165, Rbiaxial=6367391.2806777, Rtriaxial=6372822.52526083)
 @var Ellipsoids.Clarke1880IGN: Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515, f_=293.46602129, f=0.00340755, f2=0.0034192, n=0.00170668, e=0.08248326, e2=0.00680349, e22=0.00685009, e32=0.00341336, A=6367386.73667336, L=10001867.69724907, R1=6371004.46666667, R2=6371002.82383112, R3=6370996.22212395, Rbiaxial=6367391.37333829, Rtriaxial=6372822.59907505)
@@ -26,6 +27,7 @@ See module L{datums} for L{Datum} and L{Transform} information and other details
 @var Ellipsoids.Everest1975: Ellipsoid(name='Everest1975', a=6377299.151, b=6356098.14512013, f_=300.8017255, f=0.00332445, f2=0.00333554, n=0.00166499, e=0.08147298, e2=0.00663785, e22=0.0066822, e32=0.00332997, A=6366703.06049924, L=10000793.78122603, R1=6370232.14904004, R2=6370230.58551983, R3=6370224.30324826, Rbiaxial=6366707.47293076, Rtriaxial=6372005.51267879)
 @var Ellipsoids.Fisher1968: Ellipsoid(name='Fisher1968', a=6378150, b=6356768.33724438, f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367463.65604381, L=10001988.52191361, R1=6371022.77908146, R2=6371021.18903735, R3=6371014.79995035, Rbiaxial=6367468.14345752, Rtriaxial=6372811.30979281)
 @var Ellipsoids.GEM10C: Ellipsoid(name='GEM10C', a=6378137, b=6356752.31424783, f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.14582474, L=10001965.7293148, R1=6371008.77141594, R2=6371007.18091936, R3=6371000.79001005, Rbiaxial=6367453.63451765, Rtriaxial=6372797.55596006)
+@var Ellipsoids.GPES: Ellipsoid(name='GPES', a=6378135, b=6378135, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6378135, L=10018751.02980197, R1=6378135, R2=6378135, R3=6378135, Rbiaxial=6378135, Rtriaxial=6378135)
 @var Ellipsoids.GRS67: Ellipsoid(name='GRS67', a=6378160, b=6356774.51609071, f_=298.24716743, f=0.00335292, f2=0.0033642, n=0.00167928, e=0.08182057, e2=0.00669461, e22=0.00673973, e32=0.00335854, A=6367471.74706533, L=10002001.2312605, R1=6371031.50536357, R2=6371029.91475409, R3=6371023.52339015, Rbiaxial=6367476.23607738, Rtriaxial=6372820.3568989)
 @var Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, b=6356752.31414035, f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367449.14577104, L=10001965.72923046, R1=6371008.77138012, R2=6371007.18088351, R3=6371000.78997414, Rbiaxial=6367453.634464, Rtriaxial=6372797.55593326)
 @var Ellipsoids.Helmert1906: Ellipsoid(name='Helmert1906', a=6378200, b=6356818.16962789, f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367513.57227074, L=10002066.93013953, R1=6371072.7232093, R2=6371071.13315272, R3=6371064.74401563, Rbiaxial=6367518.05971963, Rtriaxial=6372861.26794141)
@@ -43,6 +45,7 @@ See module L{datums} for L{Datum} and L{Transform} information and other details
 @var Ellipsoids.OSU86F: Ellipsoid(name='OSU86F', a=6378136.2, b=6356751.51693008, f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367448.3471653, L=10001964.47478349, R1=6371007.97231003, R2=6371006.38181364, R3=6370999.99090513, Rbiaxial=6367452.83585765, Rtriaxial=6372796.75662978)
 @var Ellipsoids.OSU91A: Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367448.44699773, L=10001964.63159991, R1=6371008.07219827, R2=6371006.48170186, R3=6371000.09079324, Rbiaxial=6367452.93569015, Rtriaxial=6372796.85654607)
 @var Ellipsoids.Plessis1817: Ellipsoid(name='Plessis1817', a=6376523, b=6355862.93325557, f_=308.64, f=0.00324002, f2=0.00325055, n=0.00162264, e=0.08043347, e2=0.00646954, e22=0.00651167, e32=0.00324527, A=6366197.15710739, L=9999999.11003639, R1=6369636.31108519, R2=6369634.82608583, R3=6369628.85999668, Rbiaxial=6366201.34758009, Rtriaxial=6371364.26393357)
+@var Ellipsoids.PZ90: Ellipsoid(name='PZ90', a=6378136, b=6356751.36174571, f_=298.2578393, f=0.0033528, f2=0.00336408, n=0.00167922, e=0.08181911, e2=0.00669437, e22=0.00673948, e32=0.00335842, A=6367448.16955443, L=10001964.19579298, R1=6371007.78724857, R2=6371006.1967588, R3=6370999.80587691, Rbiaxial=6367452.65822809, Rtriaxial=6372796.56780569)
 @var Ellipsoids.SGS85: Ellipsoid(name='SGS85', a=6378136, b=6356751.30156878, f_=298.257, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181922, e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367448.13949125, L=10001964.14856985, R1=6371007.76718959, R2=6371006.17669087, R3=6370999.78577297, Rbiaxial=6367452.62819019, Rtriaxial=6372796.55279934)
 @var Ellipsoids.SoAmerican1969: Ellipsoid(name='SoAmerican1969', a=6378160, b=6356774.71919531, f_=298.25, f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367471.84853228, L=10002001.39064442, R1=6371031.5730651, R2=6371029.98248581, R3=6371023.59124344, Rbiaxial=6367476.337459, Rtriaxial=6372820.40754721)
 @var Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=6371008.771415, Rbiaxial=6371008.771415, Rtriaxial=6371008.771415)
@@ -85,7 +88,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.10.05'
+__version__ = '22.10.22'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -512,7 +515,7 @@ class Ellipsoid(_NamedEnumItem):
             lat = self._beta(Lat(lat), inverse=inverse)
         return _aux(lat, inverse, Ellipsoid.auxParametric)
 
-    auxReduced = auxParametric  # synonyms
+    auxReduced = auxParametric  # synonymous
 
     def auxRectifying(self, lat, inverse=False):
         '''Compute the I{rectifying} auxiliary latitude or the I{inverse} thereof.
@@ -870,7 +873,7 @@ class Ellipsoid(_NamedEnumItem):
         return Float(es=copysign0(self.e, self.f))  # see .ups
 
     def es_atanh(self, x):
-        '''Compute  M{es * atanh(es * x)} or M{-es * atan(es * x)}
+        '''Compute M{es * atanh(es * x)} or M{-es * atan(es * x)}
            for I{oblate} respectively I{prolate} ellipsoids where
            I{es} is the I{signed} (1st) eccentricity.
 
@@ -1018,8 +1021,8 @@ class Ellipsoid(_NamedEnumItem):
         return _MODS.geodsolve.GeodesicSolve(self, name=self.name)
 
     def height4(self, xyz, normal=True):
-        '''Compute the height of a cartesian above or below and the projection
-           on this ellipsoid's surface.
+        '''Compute the projection on and the height of a cartesian above or below
+           this ellipsoid's surface.
 
            @arg xyz: The cartesian (C{Cartesian}, L{Ecef9Tuple}, L{Vector3d},
                      L{Vector3Tuple} or L{Vector4Tuple}).
@@ -1061,7 +1064,7 @@ class Ellipsoid(_NamedEnumItem):
                 v = v.times_(t, t, 0)  # force z=0.0
                 h = x - a  # equatorial
             else:  # normal in 1st quadrant
-                x, y, i = _normal3(x, y, self)
+                x, y, i = _normalTo3(x, y, self)
                 t, v = v, v.times_(x, x, y)
                 h = t.minus(v).length
 
@@ -1247,6 +1250,11 @@ class Ellipsoid(_NamedEnumItem):
 #       d = (n + _1_0) / self.a
 #       return Float(Q=Fhorner(n**2, _1_0, _0_25, _1_16th, _0_25).fover(d) if d else self.b)
 
+#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
+#       # Q = (1 - 3/4 * e'2 + 45/64 * e'4 - 175/256 * e'6 + 11025/16384 * e'8) * rocPolar
+#       #   = (4 + e'2 * (-3 + e'2 * (45/16 + e'2 * (-175/64 + e'2 * 11025/4096)))) * rocPolar / 4
+#       return Fhorner(self.e22, 4, -3, 45 / 16, -175 / 64, 11025 / 4096).fover(4 / self.rocPolar)
+
     @deprecated_Property_RO
     def quarteradius(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{L} or method C{Llat}.'''
@@ -1254,7 +1262,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def R1(self):
-        '''Get the I{mean} earth radius per I{IUGG} (C{meter}), M{(2 * a + b) / 3}.
+        '''Get the I{mean} earth radius per I{IUGG} (C{meter}), M{(2 * a + b) / 3 == a * (1 - f / 3)}.
 
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}
                  and method C{Rgeometric}.
@@ -1274,6 +1282,13 @@ class Ellipsoid(_NamedEnumItem):
         return Radius(R2=sqrt(self.c2) if self.f else self.a)
 
     Rauthalic = R2
+
+#   @Property_RO
+#   def R2(self):
+#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
+#       # R2 = (1 - 2/3 * e'2 + 26/45 * e'4 - 100/189 * e'6 + 7034/14175 * e'8) * rocPolar
+#       #    = (3 + e'2 * (-2 + e'2 * (26/15 + e'2 * (-100/63 + e'2 * 7034/4725)))) * rocPolar / 3
+#       return Fhorner(self.e22, 3, -2, 26 / 15, -100 / 63, 7034 / 4725).fover(3 / self.rocPolar)
 
     @Property_RO
     def R2x(self):
@@ -1626,7 +1641,7 @@ class Ellipsoid(_NamedEnumItem):
         return self.roc2_(Phi_(lat)).prime_vertical if lat else \
                self.rocEquatorial2.prime_vertical
 
-    rocTransverse = rocPrimeVertical  # synonyms
+    rocTransverse = rocPrimeVertical  # synonymous
 
     @deprecated_Property_RO
     def Rs(self):  # PYCHOK no cover
@@ -1660,7 +1675,7 @@ class Ellipsoid(_NamedEnumItem):
            @kwarg name: Override name (C{str}) or C{None} to exclude
                         this ellipsoid's name.
 
-           @return: Ellipsoid attributes (C{str}).
+           @return: This C{Ellipsoid}'s attributes (C{str}).
         '''
         E = self.__class__
         return self._instr(name, prec, _a_, E.b.name, E.f_.name, _f_, E.f2.name, E.n.name,
@@ -2057,8 +2072,10 @@ def n2f_(n):
     return f2f_(n2f(n))
 
 
-def _normal3(px, py, E):  # in .height4 above
+def _normalTo3(px, py, E):  # in .height4 above
     '''(INTERNAL) Nearest point on a 2-D ellipse in 1st quadrant.
+
+       @see: Functions C{.triaxial._normalTo4} and C{-To5}.
     '''
     a, b = E.a, E.b
     if min(px, py, a, b) < EPS0:
@@ -2107,6 +2124,7 @@ Ellipsoids = Ellipsoids(Ellipsoid)  # PYCHOK singleton
 # <https://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
 # <https://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
+# <https://GSSC.ESA.int/navipedia/index.php/Reference_Frames_in_GNSS>
 # <https://kb.OSU.edu/dspace/handle/1811/77986>
 # <https://www.IBM.com/docs/en/db2/11.5?topic=systems-supported-spheroids>
 Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
@@ -2118,6 +2136,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Bessel1841     = _lazy(_Bessel1841_,     *_T(6377397.155,  6356078.962818,    299.152812797)),
     BesselModified = _lazy('BesselModified', *_T(6377492.018, _0_0,               299.1528128)),
 #   BesselNamibia  = _lazy('BesselNamibia',  *_T(6377483.865, _0_0,               299.1528128)),
+    CGCS2000       = _lazy('CGCS2000',       *_T(R_MA,        _0_0,               298.257222101)),  # BeiDou Coord System (BDC)
 #   Clarke1858     = _lazy('Clarke1858',     *_T(6378293.639, _0_0,               294.260676369)),
     Clarke1866     = _lazy(_Clarke1866_,     *_T(6378206.4,    6356583.8,         294.978698214)),
     Clarke1880     = _lazy('Clarke1880',     *_T(6378249.145,  6356514.86954978,  293.465)),
@@ -2135,7 +2154,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     GRS67          = _lazy('GRS67',          *_T(6378160.0,   _0_0,               298.247167427)),  # Lucerne b=6356774.516
 #   GRS67Truncated = _lazy('GRS67Truncated', *_T(6378160.0,   _0_0,               298.25)),
     GRS80          = _lazy(_GRS80_,          *_T(R_MA,         6356752.314140347, 298.257222101)),  # ITRS, ETRS89
-#   Hayford1924    = _lazy('Hayford1924',    *_T(6378388.0,    6356911.94612795, _0_0)),  # aka Intl1924 f_=297
+#   Hayford1924    = _lazy('Hayford1924',    *_T(6378388.0,    6356911.94612795,  None)),  # aka Intl1924 f_=297
     Helmert1906    = _lazy('Helmert1906',    *_T(6378200.0,    6356818.16962789,  298.3)),
 #   Hough1960      = _lazy('Hough1960',      *_T(6378270.0,   _0_0,               297.0)),
     IERS1989       = _lazy('IERS1989',       *_T(6378136.0,   _0_0,               298.257)),  # b=6356751.302
@@ -2155,6 +2174,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     OSU91A         = _lazy('OSU91A',         *_T(6378136.3,    6356751.6165948,   298.2572236)),
 #   Plessis1817    = _lazy('Plessis1817',    *_T(6397523.0,    6355863.0,         153.56512242)),  # XXX incorrect?
     Plessis1817    = _lazy('Plessis1817',    *_T(6376523.0,    6355862.93325557,  308.64)),  # XXX IGN France 1972
+    PZ90           = _lazy('PZ90',           *_T(6378136.0,   _0_0,               298.257839303)),  # GLOSNASS PZ-90 and PZ-90.11
     SGS85          = _lazy('SGS85',          *_T(6378136.0,    6356751.30156878,  298.257)),  # Soviet Geodetic System
     SoAmerican1969 = _lazy('SoAmerican1969', *_T(6378160.0,    6356774.71919531,  298.25)),  # South American
     Struve1860     = _lazy('Struve1860',     *_T(6378298.3,    6356657.14266956,  294.73)),

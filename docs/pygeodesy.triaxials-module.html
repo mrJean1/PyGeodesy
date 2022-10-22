@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.triaxials</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;triaxials
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.triaxials-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module triaxials</h1><p class="nomargin-top"></p>
+<p>Class <a href="pygeodesy.triaxials.JacobiConformal-class.html" 
+  class="link">JacobiConformal</a>, Jacobi's conformal projection of a 
+  triaxial ellipsoid, trancoded from <i>Charles Karney</i>'s C++ class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
+  target="_top">JacobiConformal</a> to pure Python, class <a 
+  href="pygeodesy.triaxials.Triaxial-class.html" class="link">Triaxial</a> 
+  and classes <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+  class="link">BetaOmega3Tuple</a>,<a 
+  href="pygeodesy.triaxials.JacobiError-class.html" 
+  class="link">JacobiError</a>, <a 
+  href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
+  class="link">Jacobi2Tuple</a> and <a 
+  href="pygeodesy.triaxials.TriaxialError-class.html" 
+  class="link">TriaxialError</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#Geodesics_on_a_triaxial_ellipsoid"
+        target="_top">Geodesics on a triaxial ellipsoid</a> and <a 
+        href="https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf"
+        target="_top">Triaxial coordinate systems and their geometrical 
+        interpretation</a>.
+      </p>
+      <p><strong>Version:</strong>
+        22.10.22
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
+      2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
+        longitude <code>beta</code> and <code>omega</code> both in 
+        <code>Radians</code> (or <code>Degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
+      3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
+        lat- and longitude <code>beta</code> and <code>omega</code> both in
+        <code>Radians</code> (or <code>Degrees</code>) and the 
+        <code>height</code>, rather the (signed) <i>distance</i> to the 
+        triaxial's surface (measured along the radial line to the 
+        triaxial's center) in <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiError-class.html" class="summary-name">JacobiError</a><br />
+      Raised for <a href="pygeodesy.triaxials.JacobiConformal-class.html"
+        class="link">JacobiConformal</a> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
+      2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
+        and <code>y</code> projection, both in <code>Radians</code> (or 
+        <code>Degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
+      Raised for <a href="pygeodesy.triaxials.Triaxial-class.html" 
+        class="link">Triaxial</a> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial-class.html" class="summary-name">Triaxial</a><br />
+      Triaxial ellipsoid with semi-axes <code>a</code>, <code>b</code> 
+        and <code>c</code>, oriented such that the large principal ellipse 
+        <code>ab</code> is the equator <i>Z</i>=0, <i>beta</i>=0, while the
+        small principal ellipse <code>ac</code> is the prime meridian, 
+        <i>Y</i>=0, <i>omega</i>=0.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
+      This is a conformal projection of the ellipsoid to a plane in which
+        the grid lines are straight, see Jacobi, C.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.triaxials">_ALL_LAZY.triaxials</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:06 2022
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

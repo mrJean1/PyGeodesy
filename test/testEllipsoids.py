@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '22.09.23'
+__version__ = '22.10.12'
 
 from base import TestsBase
 
@@ -203,7 +203,7 @@ class Tests(TestsBase):
             f = n2f(E.n)
             self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
             t += 1
-        self.test('total', t, 46, nl=1)
+        self.test('total', t, 48, nl=1)
 
         t = P.roc1_.__name__ + ' '
         for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),

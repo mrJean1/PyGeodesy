@@ -34,7 +34,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.10.07'
+__version__ = '22.10.18'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -269,6 +269,17 @@ class _Named(object):
         if name:
             d.rename(name=name)
         return d
+
+    def _instr(self, name, prec, *attrs, **kwds):
+        '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}, C{Triaxial}.
+        '''
+        t = Fmt.EQUAL(_name_, repr(name or self.name)),
+        if attrs:
+            t += pairs(((a, getattr(self, a)) for a in attrs),
+                       prec=prec, ints=True)
+        if kwds:
+            t += pairs(kwds, prec=prec)
+        return _COMMASPACE_.join(t[1:] if name is None else t)
 
     @property_RO
     def iteration(self):  # see .karney.GDict
@@ -807,17 +818,6 @@ class _NamedEnumItem(_NamedBase):
 #          @return: C{True} if different, C{False} otherwise.
 #       '''
 #       return not self.__eq__(other)
-
-    def _instr(self, name, prec, *attrs, **kwds):
-        '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
-        '''
-        t = Fmt.EQUAL(_name_, repr(name or self.name)),
-        if attrs:
-            t += pairs(((a, getattr(self, a)) for a in attrs),
-                       prec=prec, ints=True)
-        if kwds:
-            t += pairs(kwds, prec=prec)
-        return _COMMASPACE_.join(t[1:] if name is None else t)
 
     @property_doc_(''' the I{registered} name (C{str}).''')
     def name(self):

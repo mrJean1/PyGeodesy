@@ -362,9 +362,9 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt=NN,
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
     if txt is not None:
+        x =  str(txt) or (str(cause) if cause else _invalid_)
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
-        t =  C(t, txt or (str(cause) if cause else _invalid_))
-#       x =  str(txt) or _invalid_
+        t =  C(t, x)
 #   else:  # LenError, _xzip, .dms, .heights, .vector2d
 #       x =  NN  # XXX or t?
     Error.__init__(inst, t)

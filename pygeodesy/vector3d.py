@@ -32,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.10.08'
+__version__ = '22.10.12'
 
 
 class Vector3d(Vector3dBase):
@@ -595,7 +595,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
     m = c2.minus(c1)
     d = m.length
     if d < max(r2 - r1, EPS):
-        raise IntersectionError(_near_(_concentric_))
+        raise IntersectionError(_near_(_concentric_))  # XXX ConcentricError?
 
     o = fsum1_(-d, r1, r2)  # overlap == -(d - (r1 + r2))
     # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
@@ -937,7 +937,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
 
 
 def _xyzhdn3(xyz, height, datum, ll):  # in .cartesianBase, .nvectorBase
-    '''(INTERNAL) Get an C{(h, d, name)} 3-tuple.
+    '''(INTERNAL) Get a C{(h, d, name)} 3-tuple.
     '''
     h = height or getattr(xyz, _height_, None) \
                or getattr(xyz, _h_, None) \

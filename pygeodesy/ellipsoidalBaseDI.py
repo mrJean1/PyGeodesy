@@ -31,7 +31,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.09.14'
+__version__ = '22.10.12'
 
 _polar__  = 'polar?'
 _too_low_ = _too_('low')
@@ -635,7 +635,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
     # measured along the ellipsoid's surface
     m = c1.distanceTo(c2, wrap=False)  # meter
     if m < max(r1 - r2, EPS):
-        raise IntersectionError(_near_(_concentric_))
+        raise IntersectionError(_near_(_concentric_))  # XXX ConcentricError?
     if fsum_(r1, r2, -m) < 0:
         raise IntersectionError(_too_(Fmt.distant(m)))
 

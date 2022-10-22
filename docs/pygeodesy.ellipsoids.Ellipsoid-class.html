@@ -402,10 +402,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#es_atanh" class="summary-sig-name">es_atanh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
-      Compute  <i class="math">es * atanh(es * x)</i> or <i 
-      class="math">-es * atan(es * x)</i> for <i>oblate</i> respectively 
-      <i>prolate</i> ellipsoids where <i>es</i> is the <i>signed</i> (1st) 
-      eccentricity.</td>
+      Compute <i class="math">es * atanh(es * x)</i> or <i class="math">-es
+      * atan(es * x)</i> for <i>oblate</i> respectively <i>prolate</i> 
+      ellipsoids where <i>es</i> is the <i>signed</i> (1st) eccentricity.</td>
           <td align="right" valign="top">
             
             
@@ -462,8 +461,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" class="summary-sig-name">height4</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">xyz</span>,
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Compute the height of a cartesian above or below and the projection 
-      on this ellipsoid's surface.</td>
+      Compute the projection on and the height of a cartesian above or 
+      below this ellipsoid's surface.</td>
           <td align="right" valign="top">
             
             
@@ -1428,7 +1427,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R1" class="summary-name">R1</a><br />
       Get the <i>mean</i> earth radius per <i>IUGG</i> 
-      (<code>meter</code>), <i class="math">(2 * a + b) / 3</i>.
+      (<code>meter</code>), <i class="math">(2 * a + b) / 3 == a * (1 - f /
+      3)</i>.
     </td>
   </tr>
 <tr>
@@ -1437,7 +1437,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rmean" class="summary-name">Rmean</a><br />
       Get the <i>mean</i> earth radius per <i>IUGG</i> 
-      (<code>meter</code>), <i class="math">(2 * a + b) / 3</i>.
+      (<code>meter</code>), <i class="math">(2 * a + b) / 3 == a * (1 - f /
+      3)</i>.
     </td>
   </tr>
 <tr>
@@ -2281,7 +2282,7 @@
     </td>
   </tr></table>
   
-  <p>Compute  <i class="math">es * atanh(es * x)</i> or <i class="math">-es
+  <p>Compute <i class="math">es * atanh(es * x)</i> or <i class="math">-es 
   * atan(es * x)</i> for <i>oblate</i> respectively <i>prolate</i> 
   ellipsoids where <i>es</i> is the <i>signed</i> (1st) eccentricity.</p>
   <dl class="fields">
@@ -2368,7 +2369,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the height of a cartesian above or below and the projection on
+  <p>Compute the projection on and the height of a cartesian above or below
   this ellipsoid's surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -3082,7 +3083,7 @@
           this ellipsoid's name.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Ellipsoid attributes (<code>str</code>).</dd>
+        <dd>This <code>Ellipsoid</code>'s attributes (<code>str</code>).</dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -4785,12 +4786,12 @@ a</i>, <code>0</code> for spherical, negative for prolate.
 <tr><td>
   <h3 class="epydoc">R1</h3>
   <p>Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>),
-  <i class="math">(2 * a + b) / 3</i>.</p>
+  <i class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
         - Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>), <i 
-class="math">(2 * a + b) / 3</i>.
+class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -4815,12 +4816,12 @@ class="math">(2 * a + b) / 3</i>.
 <tr><td>
   <h3 class="epydoc">Rmean</h3>
   <p>Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>),
-  <i class="math">(2 * a + b) / 3</i>.</p>
+  <i class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
         - Get the <i>mean</i> earth radius per <i>IUGG</i> (<code>meter</code>), <i 
-class="math">(2 * a + b) / 3</i>.
+class="math">(2 * a + b) / 3 == a * (1 - f / 3)</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -5469,7 +5470,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 10 11:54:51 2022
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:07 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

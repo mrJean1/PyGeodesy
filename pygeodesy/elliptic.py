@@ -94,7 +94,7 @@ from pygeodesy.utily import sincos2, sincos2d
 from math import asinh, atan, atan2, ceil, cosh, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.09.12'
+__version__ = '22.10.16'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -177,8 +177,10 @@ class Elliptic(_Named):
     _k2      = 0
     _kp2     = 0
 
-    def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
+    def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None, name=NN):
         '''Constructor, specifying the C{modulus} and C{parameter}.
+
+           @kwarg name: Optional name (C{str}).
 
            @see: Method L{Elliptic.reset} for further details.
 
@@ -188,6 +190,9 @@ class Elliptic(_Named):
                   E(φ, k)} and C{H(φ, 0, k) = F(φ, k) - D(φ, k)}.
         '''
         self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
+
+        if name:
+            self.name = name
 
     @Property_RO
     def alpha2(self):
@@ -571,6 +576,8 @@ class Elliptic(_Named):
 
            @raise EllipticError: Invalid invokation or no convergence.
         '''
+        if dn is None and cn is not None:  # and isscalar(phi_or_sn)
+            dn = self.fDelta(phi_or_sn, cn)  # in .triaxial
         return self._fXa(phi_or_sn, cn, dn, self.alpha2,
                                             self.cPi, self.deltaPi)
 

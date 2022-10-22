@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '22.10.01'
+__version__ = '22.10.16'
 
 
 def _c2(*names):
@@ -52,14 +52,15 @@ def _version():
 
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
-             'bearing', 'bank', 'Barsky', 'Barth',
+             'bearing', 'bank', 'Barsky', 'Barth', 'beta',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins',
              'conformal', 'conic', 'constants', 'contact-triangle',
              'Cook', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
-             'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
+             'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid',
+             'ellipsoidal-latitude-beta', 'ellipsoidal-longitude-omega', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM', 'excess',
              'Farrell', 'Farrell-Barth', 'flattening', 'Field-Of-View', 'fmath',
@@ -71,32 +72,34 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
-             'Jarque-Bera', 'Jekel', 'Karney', 'Krueger', 'Krüger', 'kurtosis',
+             'Jacobi', 'Jacobi-Conformal', 'Jarque-Bera', 'Jekel',
+             'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'lstsq',
              'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
-             'oblate', 'orthographic', 'OSGB', 'OSGR', 'overlap',
+             'oblate', 'omega', 'orthographic', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'Point-Of-View', 'polar', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
-             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'Rhumb', 'RhumbSolve',
+             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
-             'tilt', 'TMcoords', 'TMExact', 'toise', 'Transverse', 'TransverseMercatorExact', 'TRF',
-             'triangle', 'triangulate', 'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
-             'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS', 'variance',
-             'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
-             'volume', ' volumetric',
+             'tilt', 'TMcoords', 'TMExact', 'toise', 'transverse', 'TransverseMercatorExact', 'TRF',
+             'triangle', 'triangulate', 'triaxial', 'triaxial-ellipsoid',
+             'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d',
+             'umbilic-point', 'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
+             'variance', 'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam',
+             'Visvalingam-Whyatt', 'volume', ' volumetric',
              'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam',
              'XYZ', 'yaw', 'You')
 

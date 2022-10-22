@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d
 from math import cos, radians
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '22.10.04'
+__version__ = '22.10.11'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -1205,19 +1205,19 @@ class ChLV9Tuple(Local9Tuple):
 
     @property_RO
     def isChLV(self):
-        '''Is this an L{ChLV}-generated L{ChLV9Tuple}?.
+        '''Is this a L{ChLV}-generated L{ChLV9Tuple}?.
         '''
         return self.ltp.__class__ is _MODS.ltp.ChLV
 
     @property_RO
     def isChLVa(self):
-        '''Is this an L{ChLVa}-generated L{ChLV9Tuple}?.
+        '''Is this a L{ChLVa}-generated L{ChLV9Tuple}?.
         '''
         return self.ltp.__class__ is _MODS.ltp.ChLVa
 
     @property_RO
     def isChLVe(self):
-        '''Is this an L{ChLVe}-generated L{ChLV9Tuple}?.
+        '''Is this a L{ChLVe}-generated L{ChLV9Tuple}?.
         '''
         return self.ltp.__class__ is _MODS.ltp.ChLVe
 

@@ -30,7 +30,7 @@ from contextlib import contextmanager
 from math import sqrt
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '22.10.09'
+__version__ = '22.10.12'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -426,27 +426,27 @@ class _numpy(object):
         # if needed, square A, pad with zeros
         A = np.resize(A, m * m).reshape(m, m)
 #       try:  # no np.linalg.null_space <https://docs.SciPy.org/doc/>
-#           N = scipy.linalg.null_space(A)  # XXX no scipy.linalg?
-#           return N, ...
+#           Z = scipy.linalg.null_space(A)  # XXX no scipy.linalg?
+#           return Z, ...
 #       except AttributeError:
 #           pass
         U, S, V = np.linalg.svd(A)
-        e = max(EPS, rcond) if rcond else (EPS * max(U.shape[0], V.shape[1]))
-        t = max(EPS, e * max(S))  # abs_tol, rel_tol * largest singular
+        s = max(EPS, rcond) if rcond else (EPS * max(U.shape[0], V.shape[1]))
+        t = max(EPS, float(np.max(S) * s))  # abs_tol, rel_tol * largest singular
         r = int(np.sum(S > t))  # rank
         if r == 3:  # get null_space
-            N = np.transpose(V[r:])
-            s = N.shape
+            Z = np.transpose(V[r:])
+            s = map2(int, Z.shape)
             if s != (m, 1):  # bad null_space shape
                 raise _Error(shape=s, m=m)
-            D = A.dot(N)
+            D = A.dot(Z)  # near-zeros-vector
             n = float(np.linalg.norm(D, INF))  # INF = max(abs(D)), 2 = hypot_(*D)
-            if n > t:  # norm not near-zero
-                raise _Error(norm=n, tol=t)
+            if n > t:  # largest exceed tol
+                raise _Error(dot=tuple(D.ravel()), norm=n, tol=t)
         else:  # coincident, colinear, concentric centers, ambiguous, etc.
-            N = None
-        # del A, u, s, v  # release numpy
-        return N, r
+            Z = None
+        # del A, S, U, V  # release numpy
+        return Z, r
 
     @Property_RO
     def pseudo_inverse(self):
@@ -613,7 +613,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
     def _abct4(x1, y1, r1, x2, y2, r2):
         a =  x2 - x1
         b =  y2 - y1
-        t = _trinear2far(r1, r2, hypot(a, b), coin)
+        t = _tri3near2far(r1, r2, hypot(a, b), coin)
         c = _0_0 if t else (hypot2_(r1, x2, y2) - hypot2_(r2, x1, y1))
         return a, b, c, t
 
@@ -662,7 +662,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
     return t
 
 
-def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
                                           **clas_Vector_and_kwds):
     # (INTERNAL) Intersect three spheres or circles, see L{pygeodesy.trilaterate3d2},
     # separated to allow callers to embellish any exceptions, like
@@ -679,65 +679,42 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,  # MCCABE 14
         n = trilaterate3d2.__name__
         return _nVc(v, **_xkwds(clas_Vector_and_kwds, name=n))
 
-    def _perturbe5(eps, r):
-        # perturbe radii to handle corner cases like this
-        # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
-        yield _0_0
-        if eps and eps > 0:
-            p = max(eps, EPS)
-            yield  p
-            m = min(p, r)
-            yield -m
-            q = max(eps * _4_0, _EPS4e8)
-            if q > p:
-                yield q
-                q = min(q, r)
-                if q > m:
-                    yield -q
-
     c2 = _otherV3d(center2=c2, NN_OK=False)
     c3 = _otherV3d(center3=c3, NN_OK=False)
-    rs = [r1, Radius_(radius2=r2, low=EPS),
-              Radius_(radius3=r3, low=EPS)]
+    rs = (r1, Radius_(radius2=r2, low=EPS),
+              Radius_(radius3=r3, low=EPS))
 
-    # get null_space N, pseudo-inverse A and vector B, once
-    A = [(_1_0_1T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]  # 3 x 4
-    with _numpy(trilaterate3d2, A=A) as _np:
-        N, _ = _np.null_space2(A, eps)
-        A    = _np.pseudo_inverse(A)  # Moore-Penrose pseudo-inverse
-    if N is None:  # coincident, colinear, concentric, etc.
-        raise _trilaterror(c1, r1, c2, r2, c3, r3, eps, coin)
-    N, n = _F3d2(N)
-    n2 =  n.length2
-    bs = [c.length2 for c in (c1, c2, c3)]
+    # get matrix A[3 x 4], its null_space Z and pseudo-invert A
+    A = [(_1_0_1T + c.times(_N_2_0).xyz) for c in (c1, c2, c3)]
+    with _numpy(trilaterate3d2, A=A, eps=eps) as _np:
+        Z, _ = _np.null_space2(A, eps)
+        if Z is not None:
+            Z, z = _F3d2(Z)  # [4 x 1]
+            z2 =  z.length2
+            A  = _np.pseudo_inverse(A)  # [4 x 3]
+            bs = [c.length2 for c in (c1, c2, c3)]
+            # perturbe radii and vector b slightly by eps and eps * 4
+            for p in _tri5perturb(eps, min(rs)):
+                b = [((r + p)**2 - b) for r, b in zip(rs, bs)]  # [3 x 1]
+                X, x = _F3d2(A.dot(b))
+                # quadratic polynomial, coefficients ordered (^0, ^1, ^2)
+                t = _np.real_roots(fdot(X, _N_1_0, *x.xyz),
+                                   fdot(Z, _N_0_5, *x.xyz) * _2_0, z2)
+                if t:
+                    v = _N3(t[0], x, z)
+                    if len(t) < 2:  # one intersection
+                        t = v, v
+                    elif abs(t[0] - t[1]) < eps:  # abutting
+                        t = v, v
+                    else:  # "lowest" intersection first (to avoid test failures)
+                        u = _N3(t[1], x, z)
+                        t = (u, v) if u.x < v.x else (v, u)
+                    return t
 
-    for p in _perturbe5(eps, min(rs)):
-        b = [((r + p)**2 - b) for r, b in zip(rs, bs)]  # 1 x 3 or 3 x 1
-        with _numpy(trilaterate3d2, p=p) as _np:
-            X, x = _F3d2(A.dot(b))
-            # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
-            t = _np.real_roots(fdot(X, _N_1_0, *x.xyz),
-                              (fdot(N, _N_0_5, *x.xyz) * _2_0), n2)
-            if t:
-                break
-    else:  # coincident, concentric, colinear, too distant, no intersection, etc.
-        raise _trilaterror(c1, r1, c2, r2, c3, r3, eps, coin)
+    # coincident, concentric, colinear, too distant, no intersection:
+    # create the explanation and and throw an IntersectionError
 
-    v = _N3(t[0], x, n)
-    if len(t) < 2:  # one intersection
-        t = v, v
-    elif abs(t[0] - t[1]) < eps:  # abutting
-        t = v, v
-    else:  # "lowest" intersection first (to avoid test failures)
-        u = _N3(t[1], x, n)
-        t = (u, v) if u.x < v.x else (v, u)
-    return t
-
-
-def _trilaterror(c1, r1, c2, r2, c3, r3, eps, coin):
-    # return IntersectionError with the cause of the error
-
-    def _no_intersection():
+    def _no_intersection(coin):
         t = _no_(_intersection_)
         if coin:
             def _reprs(*crs):
@@ -745,24 +722,45 @@ def _trilaterror(c1, r1, c2, r2, c3, r3, eps, coin):
 
             r =  repr(r1) if r1 == r2 == r3 else _reprs(r1, r2, r3)
             t = _SPACE_(t, _of_, _reprs(c1, c2, c3), _with_, _radius_, r)
+        elif Z is None:
+            t = _COMMASPACE_(t, _no_(_numpy.null_space2.__name__))
         return t
 
-    def _txt(c1, r1, c2, r2):
-        t = _trinear2far(r1, r2, c1.minus(c2).length, coin)
-        return _SPACE_(c1.name, _and_, c2.name, t) if t else t
-
-    t = _txt(c1, r1, c2, r2) or \
-        _txt(c1, r1, c3, r3) or \
-        _txt(c2, r2, c3, r3) or (
+    t = _tri4near2far(c1, r1, c2, r2, coin) or \
+        _tri4near2far(c1, r1, c3, r3, coin) or \
+        _tri4near2far(c2, r2, c3, r3, coin) or (
         _colinear_ if _iscolinearWith(c1, c2, c3, eps=eps) else
-        _no_intersection())
-    return IntersectionError(t, txt=None)
+        _no_intersection(coin))
+    raise IntersectionError(t, txt=None)
 
 
-def _trinear2far(r1, r2, h, coin):
+def _tri3near2far(r1, r2, h, coin):
     # check for near-coincident/-concentric or too distant spheres/circles
     return _too_(Fmt.distant(h)) if h > (r1 + r2) else (_near_(
            _coincident_ if coin else _concentric_) if h < abs(r1 - r2) else NN)
+
+
+def _tri4near2far(c1, r1, c2, r2, coin):
+    # check for near-coincident/-concentric or too distant spheres/circles
+    t = _tri3near2far(r1, r2, c1.minus(c2).length, coin)
+    return _SPACE_(c1.name, _and_, c2.name, t) if t else NN
+
+
+def _tri5perturb(eps, r):
+    # perturb the radii to handle this corner case
+    # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+    yield _0_0
+    if eps and eps > 0:
+        p = max(eps, EPS)
+        yield  p
+        m = min(p, r)
+        yield -m
+        q = max(eps * _4_0, _EPS4e8)
+        if q > p:
+            yield q
+            q = min(q, r)
+            if q > m:
+                yield -q
 
 # **) MIT License
 #

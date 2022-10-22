@@ -43,8 +43,7 @@ from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz, \
                             _spherical_datum
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
                              _ELLIPSIS_, _height_, _immutable_, _lat_, _lon_, \
-                             _near_, _not_, _point_, _SPACE_, _UNDER_, \
-                             _valid_,  _tolerance_  # PYCHOK used!
+                             _near_, _not_, _point_, _SPACE_, _UNDER_, _valid_
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -64,7 +63,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.09.24'
+__version__ = '22.10.12'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -475,11 +474,9 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def epsilon(self, tol):
         '''Set the tolerance for equality tests (C{scalar}).
 
-           @raise TypeError: Non-scalar B{C{tol}}.
-
-           @raise ValueError: Out-of-bounds B{C{tol}}.
+           @raise UnitError: Non-scalar or invalid B{C{tol}}.
         '''
-        self._epsilon = Scalar_(tol, name=_tolerance_)
+        self._epsilon = Scalar_(tolerance=tol)
 
     def _find(self, point, start_end):
         '''(INTERNAL) Find the first matching point index.

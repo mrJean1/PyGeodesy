@@ -105,19 +105,19 @@
   <p>Forward conversion from geodetic to geocentric (ECEF) coordinates is 
   straightforward.</p>
   <p>For the reverse transformation we use Hugues Vermeille's <a 
-  href="https://DOI.org/10.1007/s00190-002-0273-6" target="_top">Direct 
-  transformation from geocentric coordinates to geodetic coordinates</a>, 
-  J. Geodesy (2002) 76, 451-454.</p>
+  href="https://DOI.org/10.1007/s00190-002-0273-6" target="_top"><i>Direct 
+  transformation from geocentric coordinates to geodetic 
+  coordinates</i></a>, J. Geodesy (2002) 76, page 451-454.</p>
   <p>Several changes have been made to ensure that the method returns 
   accurate results for all finite inputs (even if h is infinite).  The 
   changes are described in Appendix B of C. F. F. Karney <a 
-  href="https://ArXiv.org/abs/1102.1215v1" target="_top">Geodesics on an 
-  ellipsoid of revolution</a>, Feb. 2011, 85, 105-117 (<a 
+  href="https://ArXiv.org/abs/1102.1215v1" target="_top"><i>Geodesics on an
+  ellipsoid of revolution</i></a>, Feb. 2011, 85, 105-117 (<a 
   href="https://ArXiv.org/abs/1102.1215v1" target="_top">preprint</a>).  
   Vermeille similarly updated his method in <a 
-  href="https://DOI.org/10.1007/s00190-010-0419-x" target="_top">An 
-  analytical method to transform geocentric into geodetic coordinates</a>, 
-  J. Geodesy (2011) 85, 105-117.  See <a 
+  href="https://DOI.org/10.1007/s00190-010-0419-x" target="_top"><i>An 
+  analytical method to transform geocentric into geodetic 
+  coordinates</i></a>, J. Geodesy (2011) 85, page 105-117.  See <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/geocentric.html" 
   target="_top">Geocentric coordinates</a> for more information.</p>
   <p>The errors in these routines are close to round-off.  Specifically, 
@@ -140,7 +140,7 @@
         as opposed to <i>geocentric</i> (ECEF) ones.
       </p>
       <p><strong>Version:</strong>
-        22.10.07
+        22.10.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -164,8 +164,14 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html" class="summary-name">_EcefBase</a><br />
       (INTERNAL) Base class for <a 
+        href="pygeodesy.ecef.EcefFarrell21-class.html" 
+        class="link">EcefFarrell21</a>, <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a>, <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
         class="link">EcefKarney</a>, <a 
+        href="pygeodesy.ecef.EcefSudano-class.html" 
+        class="link">EcefSudano</a>, <a 
         href="pygeodesy.ecef.EcefVeness-class.html" 
         class="link">EcefVeness</a> and <a 
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a>.
@@ -176,7 +182,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefFarrell21-class.html" class="summary-name">EcefFarrell21</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.1</a>, page 29.
@@ -187,7 +193,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefFarrell22-class.html" class="summary-name">EcefFarrell22</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.2</a>, page 30.
@@ -198,7 +204,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefKarney-class.html" class="summary-name">EcefKarney</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Karney</i>'s 
         C++ <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html"
@@ -210,7 +216,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefSudano-class.html" class="summary-name">EcefSudano</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
         <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
@@ -222,7 +228,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefVeness-class.html" class="summary-name">EcefVeness</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Chris 
         Veness</i>' JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
@@ -234,7 +240,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefYou-class.html" class="summary-name">EcefYou</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformation</a>.
@@ -314,7 +320,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 10 11:54:49 2022
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:05 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

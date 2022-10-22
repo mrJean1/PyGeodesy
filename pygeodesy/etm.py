@@ -10,7 +10,8 @@ classGeographicLib_1_1TransverseMercatorExact.html>}, abbreviated as C{TMExact} 
 Class L{ExactTransverseMercator} provides C{Exact Transverse Mercator} projections while
 instances of class L{Etm} represent ETM C{(easting, northing)} locations.  See also
 I{Karney}'s utility U{TransverseMercatorProj<https://GeographicLib.SourceForge.io/C++/doc/
-TransverseMercatorProj.1.html>}.
+TransverseMercatorProj.1.html>} and use C{"python[3] -m pygeodesy.etm ..."} to compared
+the results.
 
 Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
@@ -90,7 +91,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '22.10.10'
+__version__ = '22.10.12'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TAYTOL   =  pow(EPS, 0.6)
@@ -463,7 +464,8 @@ class ExactTransverseMercator(_NamedBase):
                                          real &x, real &y,
                                          real &gamma, real &k)}.
 
-           @raise ETMError: No convergence, thrown if property C{raiser} set.
+           @raise ETMError: No convergence, thrown iff property
+                            C{B{raiser}=True}.
         '''
         lat    = _fix90(lat)
         lon, _ = _diff182((self.lon0 if lon0 is None else lon0), lon)
@@ -682,7 +684,8 @@ class ExactTransverseMercator(_NamedBase):
                                          real &lat, real &lon,
                                          real &gamma, real &k)}
 
-           @raise ETMError: No convergence, thrown if property C{raiser} set,
+           @raise ETMError: No convergence, thrown iff property
+                            C{B{raiser}=True}.
         '''
         # undoes the steps in .forward.
         xi  = y / self._k0_a
@@ -1100,6 +1103,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
 
 if __name__ == '__main__':  # MCCABE 13
 
+    from pygeodesy.lazily import _ALL_MODS as _MODS, printf
     from sys import argv, exit as _exit
 
     # mimick some of I{Karney}'s utility C{TransverseMercatorProj}
@@ -1131,8 +1135,7 @@ if __name__ == '__main__':  # MCCABE 13
         _exit('%s ...: incomplete' % (_usage(*argv),))
 
     if _s:
-        from pygeodesy.ktm import KTransverseMercator
-        tm = KTransverseMercator()
+        tm = _MODS.ktm.KTransverseMercator()
     else:
         tm = ExactTransverseMercator(extendp=_t)
 
@@ -1142,9 +1145,9 @@ if __name__ == '__main__':  # MCCABE 13
         t = tm.reverse(*f2)
     else:
         t = tm.forward(*f2)
-        print(fstr(t, sep=_SPACE_))
+        printf(fstr(t, sep=_SPACE_))
         t = tm.reverse(t.easting, t.northing)
-    print(fstr(t, sep=_SPACE_))
+    printf(fstr(t, sep=_SPACE_))
 
 # **) MIT License
 #

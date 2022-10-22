@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.05.22'
+__version__ = '22.10.16'
 
 from base import TestsBase
 
@@ -78,10 +78,10 @@ class Tests(TestsBase):
             t = str(x)
         self.test('fPi(sn, None, dn)', t, 'invokation Elliptic.fPi(0, None, 1): invalid')
         try:
-            t = e.fPi(0, 1, None)
+            t = e.fH(0, 1, None)
         except EllipticError as x:
             t = str(x)
-        self.test('fPi(sn, dn, None)', t, 'invokation Elliptic.fPi(0, 1, None): invalid')
+        self.test('fPi(sn, dn, None)', t, 'invokation Elliptic.fH(0, 1, None): invalid')
 
         self.test('deltaD(sn, cn, dn)',  e.deltaD(sn, cn, dn),  '-0.3223642', fmt='%.7f', nl=1)
         self.test('deltaE(sn, cn, dn)',  e.deltaE(sn, cn, dn),   '0.0084191', fmt='%.7f')

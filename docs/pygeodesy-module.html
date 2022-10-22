@@ -242,7 +242,7 @@
   <h1 class="heading">Tests</h1>
     <p>The tests ran with Python 3.11.0rc2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0), Python 3.10.7 (with <a 
+    target="_top">geographiclib</a> 2.0), Python 3.10.8 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
@@ -275,16 +275,16 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.10.7, 3.9.6 and 2.7.18.  The complete coverage 
+    4.5.4 using Python 3.10.8, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0rc2, 3.10.7 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.0rc2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.interns-module.html#machine" 
     class="link">pygeodesy.machine</a>).</p>
-    <p>The tests also ran with Python 3.10.7 (and <a 
+    <p>The tests also ran with Python 3.10.8 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -298,7 +298,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.10.1-6, 3.9.1, 3.8.7, 
+    <p>Previously, the tests were run with Python 3.10.1-7, 3.9.1, 3.8.7, 
     3.7.1, 2.7.15, <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.1 
     (Python 3.6.9) and <a href="https://PyPy.org" target="_top">PyPy</a> 
     7.1.1 (Python 2.7.13) (and <a 
@@ -340,7 +340,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.10.7, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.10.8, both in 64-bit on macOS 
     12.6 Monterey.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.10.10
+        22.10.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -740,6 +740,22 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Class <a href="pygeodesy.triaxials.JacobiConformal-class.html" 
+        class="link">JacobiConformal</a>, Jacobi's conformal projection of 
+        a triaxial ellipsoid, trancoded from <i>Charles Karney</i>'s C++ 
+        class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
+        target="_top">JacobiConformal</a> to pure Python, class <a 
+        href="pygeodesy.triaxials.Triaxial-class.html" 
+        class="link">Triaxial</a> and classes <a 
+        href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
+        class="link">BetaOmega3Tuple</a>,<a 
+        href="pygeodesy.triaxials.JacobiError-class.html" 
+        class="link">JacobiError</a>, <a 
+        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
+        class="link">Jacobi2Tuple</a> and <a 
+        href="pygeodesy.triaxials.TriaxialError-class.html" 
+        class="link">TriaxialError</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various units, all sub-classes of <code>Float</code>, 
         <code>Int</code> and <code>Str</code> from basic 
         <code>float</code>, <code>int</code> respectively <code>str</code> 
@@ -1145,6 +1161,29 @@
       Named <code>float</code> representing a bearing in 
         <code>radians</code> from compass <code>degrees</code> from (true) 
         North.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
+      2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
+        longitude <code>beta</code> and <code>omega</code> both in 
+        <code>Radians</code> (or <code>Degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
+      3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
+        lat- and longitude <code>beta</code> and <code>omega</code> both in
+        <code>Radians</code> (or <code>Degrees</code>) and the 
+        <a href=pygeodesy.heights-module.html><code>height</code></a>, rather the (signed) <i>distance</i> to the 
+        triaxial's surface (measured along the radial line to the 
+        triaxial's center) in <code>meter</code>, conventionally.
     </td>
   </tr>
 <tr>
@@ -1675,7 +1714,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefFarrell21-class.html" class="summary-name">EcefFarrell21</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.1</a>, page 29.
@@ -1686,7 +1725,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefFarrell22-class.html" class="summary-name">EcefFarrell22</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
         target="_top">Table 2.2</a>, page 30.
@@ -1697,7 +1736,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefKarney-class.html" class="summary-name">EcefKarney</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Karney</i>'s 
         C++ <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html"
@@ -1717,7 +1756,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefSudano-class.html" class="summary-name">EcefSudano</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
         <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
@@ -1729,7 +1768,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefVeness-class.html" class="summary-name">EcefVeness</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcoded from <i>Chris 
         Veness</i>' JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
@@ -1741,7 +1780,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefYou-class.html" class="summary-name">EcefYou</a><br />
-      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformation</a>.
@@ -3019,6 +3058,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.units.Height_-class.html" class="summary-name">Height_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a height, conventionally in 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.trf.Helmert7Tuple-class.html" class="summary-name">Helmert7Tuple</a><br />
       7-Tuple <code>(tx, ty, tz, s, sx, sy, sz)</code> of Helmert 
         transform parameters with translations <code>tx</code>, 
@@ -3078,6 +3127,34 @@
         <code>salp2</code> and cosines <code>calp1</code>, 
         <code>calp2</code> of the initial <code>1</code> and final 
         <code>2</code> foward azimuths.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
+      2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
+        and <code>y</code> projection, both in <code>Radians</code> (or 
+        <code>Degrees</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
+      This is a conformal projection of the ellipsoid to a plane in which
+        the grid lines are straight, see Jacobi, C.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.JacobiError-class.html" class="summary-name">JacobiError</a><br />
+      Raised for <a href="pygeodesy.triaxials.JacobiConformal-class.html"
+        class="link">JacobiConformal</a> issues.
     </td>
   </tr>
 <tr>
@@ -3948,7 +4025,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.rhumbx.RhumbError-class.html" class="summary-name">RhumbError</a><br />
-      Raised for an <a href="pygeodesy.rhumbx.Rhumb-class.html" 
+      Raised for a <a href="pygeodesy.rhumbx.Rhumb-class.html" 
         class="link">Rhumb</a> or <a 
         href="pygeodesy.rhumbx.RhumbLine-class.html" 
         class="link">RhumbLine</a> issue.
@@ -4212,6 +4289,27 @@
     </td><td class="summary">
         <a href="pygeodesy.errors.TriangleError-class.html" class="summary-name">TriangleError</a><br />
       Error raised for triangle, inter- or resection issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial-class.html" class="summary-name">Triaxial</a><br />
+      Triaxial ellipsoid with semi-axes <code>a</code>, <code>b</code> 
+        and <code>c</code>, oriented such that the large principal ellipse 
+        <code>ab</code> is the equator <i>Z</i>=0, <i>beta</i>=0, while the
+        small principal ellipse <code>ac</code> is the prime meridian, 
+        <i>Y</i>=0, <i>omega</i>=0.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
+      Raised for <a href="pygeodesy.triaxials.Triaxial-class.html" 
+        class="link">Triaxial</a> issues.
     </td>
   </tr>
 <tr>
@@ -7814,6 +7912,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
       space with the surface of the earth.</td>
@@ -7839,7 +7938,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc96005f7d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f87508c4550&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8252,7 +8351,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isNumpy2" class="summary-sig-name">isNumpy2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <b><code>Numpy2LatLon</code></b> points wrapper.</td>
+      Check for a <b><code>Numpy2LatLon</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -8269,7 +8368,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isPoints2" class="summary-sig-name">isPoints2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <b><code>LatLon2psxy</code></b> points wrapper.</td>
+      Check for a <b><code>LatLon2psxy</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -8286,7 +8385,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isTuple2" class="summary-sig-name">isTuple2</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for an <b><code>Tuple2LatLon</code></b> points wrapper.</td>
+      Check for a <b><code>Tuple2LatLon</code></b> points wrapper.</td>
           <td align="right" valign="top">
             
             
@@ -12265,7 +12364,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.10'"><code class="variable-quote">'</code><code class="variable-string">22.10.10</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.22'"><code class="variable-quote">'</code><code class="variable-string">22.10.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19395,7 +19494,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>exact</code></strong> - Return a <a href="pygeodesy.azimuthal.GnomonicExact-class.html" 
           class="link">GnomonicExact</a> instance.</li>
-        <li><strong class="pname"><code>geodsolve</code></strong> - Return an <a 
+        <li><strong class="pname"><code>geodsolve</code></strong> - Return a <a 
           href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
           class="link">GnomonicGeodSolve</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
@@ -19567,6 +19666,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -19597,6 +19697,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
           <code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <code>LatLon</code> class for the intersection point 
           plus <code>LatLon</code> keyword arguments, include 
           <b><code>datum</code></b> if different from 
@@ -19618,11 +19719,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a 
-        href="https://StephenHartzell.medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
-        target="_top">Stephen Hartzell</a> and function <a 
-        href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b>.
+        Function <a href="pygeodesy.ltp-module.html#tyr3d" 
+        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and 
+        Hartzell's <a 
+        href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
+        target="_top"><i>Satellite Line-of-Sight Intersection with 
+        Earth</i></a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -19640,7 +19742,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc96005f7d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f87508c4550&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20523,14 +20625,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for an <b><code>Numpy2LatLon</code></b> points wrapper.</p>
+  <p>Check for a <b><code>Numpy2LatLon</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is an 
+        <dd><code>True</code> if <b><code>obj</code></b> is a 
           <b><code>Numpy2LatLon</code></b> instance, <code>False</code> 
           otherwise.</dd>
   </dl>
@@ -20550,14 +20652,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for an <b><code>LatLon2psxy</code></b> points wrapper.</p>
+  <p>Check for a <b><code>LatLon2psxy</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is an 
+        <dd><code>True</code> if <b><code>obj</code></b> is a 
           <b><code>LatLon2psxy</code></b> instance, <code>False</code> 
           otherwise.</dd>
   </dl>
@@ -20577,14 +20679,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Check for an <b><code>Tuple2LatLon</code></b> points wrapper.</p>
+  <p>Check for a <b><code>Tuple2LatLon</code></b> points wrapper.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is an 
+        <dd><code>True</code> if <b><code>obj</code></b> is a 
           <b><code>Tuple2LatLon</code></b> instance, <code>False</code> 
           otherwise.</dd>
   </dl>
@@ -28937,7 +29039,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 10 11:54:48 2022
+    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:05 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -30,17 +30,17 @@ plane C{z = -height0} is tangent to the ellipsoid, hence the alternate name I{lo
 
 Forward conversion from geodetic to geocentric (ECEF) coordinates is straightforward.
 
-For the reverse transformation we use Hugues Vermeille's U{Direct transformation from geocentric
-coordinates to geodetic coordinates <https://DOI.org/10.1007/s00190-002-0273-6>}, J. Geodesy
-(2002) 76, 451-454.
+For the reverse transformation we use Hugues Vermeille's U{I{Direct transformation from geocentric
+coordinates to geodetic coordinates}<https://DOI.org/10.1007/s00190-002-0273-6>}, J. Geodesy
+(2002) 76, page 451-454.
 
 Several changes have been made to ensure that the method returns accurate results for all finite
 inputs (even if h is infinite).  The changes are described in Appendix B of C. F. F. Karney
-U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85,
+U{I{Geodesics on an ellipsoid of revolution}<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85,
 105-117 (U{preprint<https://ArXiv.org/abs/1102.1215v1>}).  Vermeille similarly updated his method
-in U{An analytical method to transform geocentric into geodetic coordinates
-<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85, 105-117.  See U{Geocentric
-coordinates <https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
+in U{I{An analytical method to transform geocentric into geodetic coordinates}
+<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85, page 105-117.  See U{Geocentric
+coordinates<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>} for more information.
 
 The errors in these routines are close to round-off.  Specifically, for points within 5,000 km of
 the surface of the ellipsoid (either inside or outside the ellipsoid), the error is bounded by 7
@@ -67,7 +67,7 @@ from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsum_
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _h_, \
                              _height_, _lat_, _lon_, _M_, _name_, _singular_, \
-                             _SPACE_, _x_, _xyz_, _y_, _z_,  _tolerance_  # PYCHOK used!
+                             _SPACE_, _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -81,7 +81,7 @@ from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
 from math import asin, atan2, cos, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.10.07'
+__version__ = '22.10.12'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -138,7 +138,8 @@ def _xyzn4(xyz, y, z, Types, Error=EcefError, name=NN,  # in .ltp
 
 
 class _EcefBase(_NamedBase):
-    '''(INTERNAL) Base class for L{EcefKarney}, L{EcefVeness} and L{EcefYou}.
+    '''(INTERNAL) Base class for L{EcefFarrell21}, L{EcefFarrell22}, L{EcefKarney},
+       L{EcefSudano}, L{EcefVeness} and L{EcefYou}.
     '''
     _datum = None
     _E     = None
@@ -328,15 +329,15 @@ class _EcefBase(_NamedBase):
 
            @kwarg prec: Precision, number of decimal digits (0..9).
 
-           @return: This C{Ecef*} representation (C{str}).
+           @return: This C{Ecef*} (C{str}).
         '''
         return self.attrs(_a_, _f_, _datum_, _name_, prec=prec)  # _ellipsoid_
 
 
 class EcefFarrell21(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates based on I{Jay A. Farrell}'s U{Table
-       2.1<https://Books.Google.com/books?id=fW4foWASY6wC>}, page 29.
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF)
+       coordinates based on I{Jay A. Farrell}'s U{Table 2.1<https://Books.Google.com/
+       books?id=fW4foWASY6wC>}, page 29.
     '''
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
@@ -404,9 +405,9 @@ class EcefFarrell21(_EcefBase):
 
 
 class EcefFarrell22(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates based on I{Jay A. Farrell}'s U{Table
-       2.2<https://Books.Google.com/books?id=fW4foWASY6wC>}, page 30.
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF)
+       coordinates based on I{Jay A. Farrell}'s U{Table 2.2<https://Books.Google.com/
+       books?id=fW4foWASY6wC>}, page 30.
     '''
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
@@ -461,10 +462,9 @@ class EcefFarrell22(_EcefBase):
 
 
 class EcefKarney(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates transcoded from I{Karney}'s C++ U{Geocentric
-       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
-       methods.
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF)
+       coordinates transcoded from I{Karney}'s C++ U{Geocentric<https://GeographicLib.SourceForge.io/
+       C++/doc/classGeographicLib_1_1Geocentric.html>} methods.
 
        @note: On methods C{.forward} and C{.forwar_}, let C{v} be a unit vector located
               at C{(lat, lon, h)}.  We can express C{v} as column vectors in one of two
@@ -614,28 +614,11 @@ class EcefKarney(_EcefBase):
 
 
 class EcefSudano(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates based on I{John J. Sudano}'s U{paper
-       <https://www.ResearchGate.net/publication/
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
+       based on I{John J. Sudano}'s U{paper<https://www.ResearchGate.net/publication/
        3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
     '''
     _tol = EPS2
-
-    @property_doc_(''' the convergence tolerance (C{float}).''')
-    def tolerance(self):
-        '''Get the convergence tolerance (C{float}).
-        '''
-        return self._tol
-
-    @tolerance.setter  # PYCHOK setter!
-    def tolerance(self, tol):
-        '''Set the convergence tolerance (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{tol}}.
-
-           @raise ValueError: Out-of-bounds B{C{tol}}.
-        '''
-        self._tol = Scalar_(tol, low=EPS, name=_tolerance_)
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
@@ -705,29 +688,41 @@ class EcefSudano(_EcefBase):
         r._iteration = C
         return r
 
+    @property_doc_(''' the convergence tolerance (C{float}).''')
+    def tolerance(self):
+        '''Get the convergence tolerance (C{scalar}).
+        '''
+        return self._tol
+
+    @tolerance.setter  # PYCHOK setter!
+    def tolerance(self, tol):
+        '''Set the convergence tolerance (C{scalar}).
+
+           @raise EcefError: Non-scalar or invalid B{C{tol}}.
+        '''
+        self._tol = Scalar_(tolerance=tol, low=EPS, Error=EcefError)
+
 
 class EcefVeness(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates transcoded from I{Chris Veness}'
-       JavaScript classes U{LatLonEllipsoidal, Cartesian
-       <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
+       transcoded from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal, Cartesian<https://
+       www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
-       @see: U{A Guide to Coordinate Systems in Great Britain
-             <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>},
+       @see: U{I{A Guide to Coordinate Systems in Great Britain}<https://
+             www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>},
              section I{B) Converting between 3D Cartesian and ellipsoidal
              latitude, longitude and height coordinates}.
     '''
 
     def reverse(self, xyz, y=None, z=None, M=None, name=NN):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
-           transcoded from I{Chris Veness}' U{JavaScript
-           <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+           transcoded from I{Chris Veness}' U{JavaScript<https://www.Movable-Type.co.UK/
+           scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 
-           Uses B. R. Bowring’s formulation for μm precision in concise
-           form: U{'The accuracy of geodetic latitude and height equations'
-           <https://www.ResearchGate.net/publication/
-           233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>},
-           Survey Review, Vol 28, 218, Oct 1985.
+           Uses B. R. Bowring’s formulation for μm precision in concise form U{I{The accuracy
+           of geodetic latitude and height equations}<https://www.ResearchGate.net/publication/
+           233668213_The_Accuracy_of_Geodetic_Latitude_and_Height_Equations>}, Survey Review,
+           Vol 28, 218, Oct 1985.
 
            @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
                      coordinate (C{meter}).
@@ -743,13 +738,13 @@ class EcefVeness(_EcefBase):
            @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
                              not C{scalar} for C{scalar} B{C{xyz}}.
 
-           @see: Ralph M. Toms U{'An Efficient Algorithm for Geocentric to Geodetic
-                 Coordinate Conversion'<https://www.OSTI.gov/scitech/biblio/110235>},
-                 Sept 1995 and U{'An Improved Algorithm for Geocentric to Geodetic
-                 Coordinate Conversion'<https://www.OSTI.gov/scitech/servlets/purl/231228>},
+           @see: Toms, Ralph M. U{I{An Efficient Algorithm for Geocentric to Geodetic
+                 Coordinate Conversion}<https://www.OSTI.gov/scitech/biblio/110235>},
+                 Sept 1995 and U{I{An Improved Algorithm for Geocentric to Geodetic
+                 Coordinate Conversion}<https://www.OSTI.gov/scitech/servlets/purl/231228>},
                  Apr 1996, both from Lawrence Livermore National Laboratory (LLNL) and
-                 John J. Sudano U{An exact conversion from an Earth-centered coordinate
-                 system to latitude longitude and altitude<https://www.ResearchGate.net/
+                 Sudano, John J, U{I{An exact conversion from an Earth-centered coordinate
+                 system to latitude longitude and altitude}<https://www.ResearchGate.net/
                  publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
         '''
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, name=name)
@@ -789,15 +784,13 @@ class EcefVeness(_EcefBase):
 
 
 class EcefYou(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates using I{Rey-Jer You}'s U{transformation
-       <https://www.ResearchGate.net/publication/240359424>}.
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
+       using I{Rey-Jer You}'s U{transformation<https://www.ResearchGate.net/publication/240359424>}.
 
-       @see: W.E. Featherstone, S.J. (Sten) Claessens U{Closed-form transformation
-             between geodetic and ellipsoidal coordinates
-             <https://Espace.Curtin.edu.AU/bitstream/handle/20.500.11937/11589/115114_9021_geod2ellip_final.pdf>}
-             Studia Geophysica et Geodaetica, 2008, 52, 1-18 and U{PyMap3D
-             <https://PyPI.org/project/pymap3d>}.
+       @see: Featherstone, W.E., Claessens, S.J. U{I{Closed-form transformation between geodetic and
+             ellipsoidal coordinates}<https://Espace.Curtin.edu.AU/bitstream/handle/20.500.11937/
+             11589/115114_9021_geod2ellip_final.pdf>} Studia Geophysica et Geodaetica, 2008, 52,
+             pages 1-18 and U{PyMap3D <https://PyPI.org/project/pymap3d>}.
     '''
 
     def __init__(self, a_ellipsoid, f=None, name=NN):
@@ -1066,11 +1059,11 @@ class Ecef9Tuple(_NamedTuple):
     @Property_RO
     def lamVermeille(self):
         '''Get the longitude in C{radians [-PI*3/2..+PI*3/2]} after U{Vermeille
-           <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
+           <https://Search.ProQuest.com/docview/639493848>} (2004), page 95.
 
            @see: U{Karney<https://GeographicLib.SourceForge.io/C++/doc/geocentric.html>},
                  U{Vermeille<https://Search.ProQuest.com/docview/847292978>} 2011, pp 112-113, 116
-                 and U{Featherstone, et.al.<https://Search.ProQuest.com/docview/872827242>}, p 7.
+                 and U{Featherstone, et.al.<https://Search.ProQuest.com/docview/872827242>}, page 7.
         '''
         x, y = self.x, self.y
         if y > EPS0:

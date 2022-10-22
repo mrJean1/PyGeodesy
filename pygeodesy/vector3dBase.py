@@ -27,7 +27,7 @@ from pygeodesy.units import Float, Scalar
 from math import atan2
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.10.09'
+__version__ = '22.10.14'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -688,9 +688,28 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
-        return self.classof(self.x - other.x,
-                            self.y - other.y,
-                            self.z - other.z)
+        return self._minus(other.x, other.y, other.z)
+
+    def _minus(self, x, y, z):
+        '''(INTERNAL) Helper for methods C{.minus} and C{.minus_}.
+        '''
+        return self.classof(self.x - x, self.y - y, self.z - z)
+
+    def minus_(self, other_x, *y_z):
+        '''Subtract separate X, Y and Z components from this vector.
+
+           @arg other_x: X component (C{scalar}) or a vector's
+                         X, Y, and Z components (C{Cartesian},
+                         L{Ecef9Tuple}, C{Nvector}, L{Vector3d},
+                         L{Vector3Tuple}, L{Vector4Tuple}).
+           @arg y_z: Y and Z components (C{scalar}, C{scalar}),
+                     ignored if B{C{other_x}} is not C{scalar}.
+
+           @return: New, vectiorial vector (L{Vector3d}).
+
+           @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
+        '''
+        return self._minus(*_other_x_y_z3(other_x, y_z))
 
     def negate(self):
         '''Return this vector in opposite direction.
@@ -733,11 +752,30 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
-        return self.classof(self.x + other.x,
-                            self.y + other.y,
-                            self.z + other.z)
+        return self._plus(other.x, other.y, other.z)
 
     sum = plus  # alternate name
+
+    def _plus(self, x, y, z):
+        '''(INTERNAL) Helper for methods C{.plus} and C{.plus_}.
+        '''
+        return self.classof(self.x + x, self.y + y, self.z + z)
+
+    def plus_(self, other_x, *y_z):
+        '''Sum of this vector and separate X, Y and Z components.
+
+           @arg other_x: X component (C{scalar}) or a vector's
+                         X, Y, and Z components (C{Cartesian},
+                         L{Ecef9Tuple}, C{Nvector}, L{Vector3d},
+                         L{Vector3Tuple}, L{Vector4Tuple}).
+           @arg y_z: Y and Z components (C{scalar}, C{scalar}),
+                     ignored if B{C{other_x}} is not C{scalar}.
+
+           @return: New, vectiorial vector (L{Vector3d}).
+
+           @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
+        '''
+        return self._plus(*_other_x_y_z3(other_x, y_z))
 
     def rotate(self, axis, theta):
         '''Rotate this vector around an axis by a specified angle.

@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '22.10.04'
+__version__ = '22.10.11'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -255,7 +255,7 @@ class LatLon4Tuple(LatLon3Tuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.
 
 def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None,
                                        iteration=None, name=NN):
-    '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
+    '''(INTERNAL) Return a L{LatLon4Tuple} or a B{C{LatLon}} instance.
     '''
     if LatLon is None:  # ignore LatLon_kwds
         r = LatLon4Tuple(lat, lon, height, datum, name=name)

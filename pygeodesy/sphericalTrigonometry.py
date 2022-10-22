@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.09.14'
+__version__ = '22.10.12'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -1116,7 +1116,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
-        raise IntersectionError(_near_(_concentric_))
+        raise IntersectionError(_near_(_concentric_))  # XXX ConcentricError?
 
     r = eps if radius is None else (m2radians(
         eps, radius=radius) if eps else _0_0)

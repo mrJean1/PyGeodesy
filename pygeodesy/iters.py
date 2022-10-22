@@ -23,7 +23,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, wrap90, wrap180, _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '22.09.24'
+__version__ = '22.10.11'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -388,11 +388,11 @@ def _imdex2(closed, n):  # PYCHOK by .clipy
 
 
 def isNumpy2(obj):
-    '''Check for an B{C{Numpy2LatLon}} points wrapper.
+    '''Check for a B{C{Numpy2LatLon}} points wrapper.
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is an B{C{Numpy2LatLon}}
+       @return: C{True} if B{C{obj}} is a B{C{Numpy2LatLon}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Numpy2LatLon, ...))
@@ -400,11 +400,11 @@ def isNumpy2(obj):
 
 
 def isPoints2(obj):
-    '''Check for an B{C{LatLon2psxy}} points wrapper.
+    '''Check for a B{C{LatLon2psxy}} points wrapper.
 
        @arg obj: The object (any C{type}).
 
-       @return: C{True} if B{C{obj}} is an B{C{LatLon2psxy}}
+       @return: C{True} if B{C{obj}} is a B{C{LatLon2psxy}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (LatLon2psxy, ...))
@@ -412,11 +412,11 @@ def isPoints2(obj):
 
 
 def isTuple2(obj):
-    '''Check for an B{C{Tuple2LatLon}} points wrapper.
+    '''Check for a B{C{Tuple2LatLon}} points wrapper.
 
        @arg obj: The object (any).
 
-       @return: C{True} if B{C{obj}} is an B{C{Tuple2LatLon}}
+       @return: C{True} if B{C{obj}} is a B{C{Tuple2LatLon}}
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Tuple2LatLon, ...))
