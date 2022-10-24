@@ -22,12 +22,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, _update_all
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Scalar
-# from pygeodesy.utily import sincos2  # in Vector3dBase.rotate below
+from pygeodesy.utily import atan2, fabs, sincos2
 
-from math import atan2
+# from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.10.14'
+__version__ = '22.10.23'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -446,7 +446,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             s = -s
 
         a = atan2(s, self.dot(other))
-        if wrap and abs(a) > PI:
+        if wrap and fabs(a) > PI:
             a -= copysign0(PI2, a)
         return a
 
@@ -503,7 +503,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         z = fsum1_(self.x * other.y, -self.y * other.x)
 
         if raiser and self.crosserrors and eps0 > 0 \
-                  and max(map1(abs, x, y, z)) < eps0:
+                  and max(map1(fabs, x, y, z)) < eps0:
             t =  self.isequalTo(other, eps=eps0)
             t = _coincident_ if t else _colinear_
             r =  other._fromll or other
@@ -633,10 +633,10 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         self.others(other)
         n = 0
         for a, b in zip(self.xyz, other.xyz):
-            if abs(a + b) < eps and ((a < 0 and b > 0) or
-                                     (a > 0 and b < 0)):
+            if fabs(a + b) < eps and ((a < 0 and b > 0) or
+                                      (a > 0 and b < 0)):
                 n += 1  # conjugate
-            elif abs(a - b) > eps:
+            elif fabs(a - b) > eps:
                 return False  # unequal
         return bool(n >= minum)
 
@@ -660,7 +660,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             d = self.unit().minus(other.unit())
         else:
             d = self.minus(other)
-        return max(map(abs, d.xyz)) < eps
+        return max(map(fabs, d.xyz)) < eps
 
     @Property_RO
     def length(self):  # __dict__ value overwritten by Property_RO C{_united}
@@ -790,7 +790,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
                  U{Quaternion-derived rotation matrix<https://WikiPedia.org/wiki/
                  Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
         '''
-        s, c = _MODS.utily.sincos2(theta)  # rotation angle
+        s, c = sincos2(theta)  # rotation angle
         d = _1_0 - c
         if d or s:
             p = self.unit().xyz  # point being rotated
@@ -896,7 +896,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''(INTERNAL) Get normalized vector (L{Vector3d}).
         '''
         n = self.length
-        if n > EPS0 and abs(n - _1_0) > EPS0:
+        if n > EPS0 and fabs(n - _1_0) > EPS0:
             u = self._xnamed(self.dividedBy(n))
             u._update(False, length=_1_0, length2=_1_0, _united=u)
         else:

@@ -66,16 +66,17 @@ courtesy of SBFRF.
        C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
        C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
-@see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/
-      html/index.html>}, U{Geoid height<https://GeographicLib.SourceForge.io/
-      html/geoid.html>} and U{Installing the Geoid datasets<https://
-      GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}, U{SciPy
-      <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-      interpolation U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
-      reference/generated/scipy.interpolate.RectBivariateSpline.html>}
-      and U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/
-      scipy.interpolate.interp2d.html>} and the functions
-      L{elevations.elevation2} and L{elevations.geoidHeight2}.
+@see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/html/index.html>},
+      U{Geoid height<https://GeographicLib.SourceForge.io/html/geoid.html>} and U{Installing
+      the Geoid datasets<https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>},
+      U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} interpolation
+      U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
+      interpolate.RectBivariateSpline.html>} and U{interp2d<https://docs.SciPy.org/doc/scipy/
+      reference/generated/scipy.interpolate.interp2d.html>}, functions L{elevations.elevation2}
+      and L{elevations.geoidHeight2}, U{I{Ellispoid vs Orthometric Elevations}<https://
+      www.YouTube.com/watch?v=dX6a6kCk3Po>} and U{I{Pitfalls Related to Ellipsoid Height
+      and Height Above Mean Sea Level (AMSL)}<https://Wiki.ROS.org/mavros#mavros.2FPlugins.
+      Avoiding_Pitfalls_Related_to_Ellipsoid_Height_and_Height_Above_Mean_Sea_Level>}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -112,7 +113,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '22.10.06'
+__version__ = '22.10.23'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'

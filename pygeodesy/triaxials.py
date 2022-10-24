@@ -4,7 +4,7 @@
 u'''Class L{JacobiConformal}, Jacobi's conformal projection of a triaxial ellipsoid, trancoded
 from I{Charles Karney}'s C++ class U{JacobiConformal<https://GeographicLib.SourceForge.io/C++/
 doc/classGeographicLib_1_1JacobiConformal.html#details>} to pure Python, class L{Triaxial} and
-classes L{BetaOmega3Tuple},L{JacobiError}, L{Jacobi2Tuple} and L{TriaxialError}.
+classes L{BetaOmega2Tuple}, L{BetaOmega3Tuple}, L{JacobiError}, L{Jacobi2Tuple} and L{TriaxialError}.
 
 @see: U{Geodesics on a triaxial ellipsoid<https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#
       Geodesics_on_a_triaxial_ellipsoid>} and U{Triaxial coordinate systems and their geometrical
@@ -15,28 +15,28 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar  # from .fsums
 from pygeodesy.constants import EPS, EPS0, EPS02, PI2, PI_3, PI4, _0_0, _0_5, \
-                               _1_0, _3_0, _4_0, isfinite
+                               _1_0, _3_0, _4_0, isfinite, isnear1
 from pygeodesy.elliptic import Elliptic, Property_RO
 # from pygeodesy.errors import _ValueError  # from .fsums
 from pygeodesy.fmath import fdot, Fmt, hypot, hypot_, hypot2, hypot2_, norm2
 from pygeodesy.fsums import Fsum, fsum_, isscalar, _ValueError
-from pygeodesy.interns import NN, _distant_, _height_, _inside_, _near_, _not_, _null_, _opposite_, \
-                             _outside_, _spherical_, _too_, _x_, _y_
+from pygeodesy.interns import NN, _distant_, _height_, _inside_, _near_, _not_, _null_, \
+                             _opposite_, _outside_, _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
 # from pygeodesy.streprs import Fmt  # from .fmath
 from pygeodesy.units import Degrees, Height_, Meter, Meter2, Meter3, Radians, Radius, Scalar
-from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d, sincos2d_
+from pygeodesy.utily import asin1, atan2d, km2m, sincos2, sincos2d, sincos2d_
 from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '22.10.22'
+__version__ = '22.10.24'
 
 _not_ordered_ = _not_('ordered')
-_TRIPS        =  1074  # Eberly root finder
+_TRIPS        =  1074  # Eberly root finders
 
 
 class BetaOmega2Tuple(_NamedTuple):
@@ -431,7 +431,8 @@ class Triaxial(_NamedBase):  # _NamedEnumItem
            @kwarg normal: If C{True} the projection is the nearest point on this
                           triaxial's surface, otherwise the intersection of the
                           radial line to the center and this triaxial's surface.
-           @kwarg eps: Tolerance for root finding (C{scalar}).
+           @kwarg eps: Tolerance for root finding and validation (C{scalar}), use
+                       a negative value to skip validation.
 
            @return: L{Vector4Tuple}C{(x, y, z, h)} with the cartesian coordinates
                     C{x}, C{y} and C{z} of the projection on or the intersection
@@ -452,7 +453,7 @@ class Triaxial(_NamedBase):  # _NamedEnumItem
             x, y, z = self.forwardBetaOmega_(v.z, hypot(v.x, v.y), v.y, v.x)
             h, i = v.minus_(x, y, z).length, None
 
-        if h and hypot2_(v.x / self.a, v.y / self.b, v.z / self.c) < _1_0:
+        if h and self._sideOf(v.x, v.y, v.z, eps=0) < 0:  # XXX eps=fabs(eps)?
             h = -h  # below the surface
         return Vector4Tuple(x, y, z, h, iteration=i, name=self.height4.__name__)
 
@@ -477,6 +478,15 @@ class Triaxial(_NamedBase):  # _NamedEnumItem
         if a:
             s, c = norm2(s * self.b, c * a[0])
         return (s or _0_0), (c or _0_0)
+
+    def _normal3d(self, x, y, z):
+        '''(INTERNAL) Normal at C{(x, y, z)} on this triaxial's surface.
+        '''
+        # n = 2 * (x / a2, y / b2, z / c2)
+        #  == 2 * (x, y * a2 / b2, z * a2 / c2) / a2
+        #  == 2 * (x, y / _1e2ab, z / _1e2ac) / a2
+        #  == unit(x, y / _1e2ab, z / _1e2ac)
+        return Vector3d(x, y / self._1e2ab, z / self._1e2ac).unit()
 
     def reverseBetaOmega(self, x, y, z, name=NN):
         '''Convert cartesian to I{ellipsoidal} lat- and longitude, C{beta}, C{omega}
@@ -527,6 +537,13 @@ class Triaxial(_NamedBase):  # _NamedEnumItem
         b = atan2_(y, x)
         h = v.minus_(*forward_(z, d, y, x)).length
         return a, b, h
+
+    def _sideOf(self, x, y, z, eps=EPS):
+        '''(INTERNAL) Return C{e} = M{(x / a)**2 + (y / b)**2 + (z / c)**2 - 1}
+           iff C{abs(e) > B{eps}} else C{0}.
+        '''
+        e = hypot2_(x / self.a, y / self.b, z / self.c) - _1_0
+        return e if fabs(e) > eps else 0
 
     def _sqrt(self, x):
         '''(INTERNAL) Helper.
@@ -733,7 +750,7 @@ def _hartzell3d2(pov, los, a, b, c, Error):
     return v, h
 
 
-def _normalTo4(x, y, a, b, eps=EPS):
+def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
     '''(INTERNAL) Nearest point on and distance to a 2-D ellipse.
 
        @see: Function C{.ellipsoids._normalTo3} and U{Eberly<https://
@@ -741,17 +758,17 @@ def _normalTo4(x, y, a, b, eps=EPS):
     '''
     def _root2d(r, u, v, g, eps):
         # robust root finder
+        _1, __2 = _1_0, _0_5
+        _a, _h2 = fabs, hypot2
         u *=  r
-        t0 =  v - _1_0
-        t1 = _0_0 if g < 0 else (hypot(u, v) - _1_0)
-        _f =  fabs
-        _h =  hypot2
+        t0 =  v - _1
+        t1 = _0_0 if g < 0 else (hypot(u, v) - _1)
         for i in range(1, _TRIPS):
-            t =   (t0 + t1) * _0_5
-            e = _f(t0 - t1)
-            if e < eps or t in (t0, t1):
+            t =   (t0 + t1) * __2
+            e = _a(t0 - t1)
+            if t in (t0, t1) or e < eps:
                 break
-            g = _h(u / (t + r), v / (t + _1_0)) - _1_0
+            g = _h2(u / (t + r), v / (t + _1)) - _1
             if g > 0:
                 t0 = t
             elif g < 0:
@@ -763,7 +780,7 @@ def _normalTo4(x, y, a, b, eps=EPS):
             raise TriaxialError(Fmt.no_convergence(e, eps), txt=t)
         return t, i
 
-    if not (a >= b > 0 and eps > 0):
+    if not (a >= b > 0):
         raise TriaxialError(a=a, b=b, eps=eps)
 
     i = None
@@ -772,31 +789,35 @@ def _normalTo4(x, y, a, b, eps=EPS):
             u = fabs(x / a)
             v = fabs(y / b)
             g = hypot2(u, v) - _1_0
-            if g:  # on the ellipse
+            if g:
                 r = (a / b)**2
                 t, i = _root2d(r, u, v, g, eps)
-                a =  x / (t / r + _1_0)
-                b =  y / (t     + _1_0)
-                d =  hypot(a - x, b - y)
-            else:
+                a = x / (t / r + _1_0)
+                b = y / (t     + _1_0)
+                d = hypot(x - a, y - b)
+            else:  # on the ellipse
                 a, b, d = x, y, _0_0
         else:  # x == 0
-            a, b, d = _0_0, y, fabs(b - y)
+            if y < 0:
+                b = -b
+            a, d = x, fabs(y - b)
 
-    else:  # PYCHOK no cover
+    else:  # y == 0
         n =  a * x
         d = (a + b) * (a - b)
         if d > fabs(n):
             r  = n / d
             a *= r
             b *= sqrt(_1_0 - r**2)
-            d  = hypot(a - x, b)
+            d  = hypot(x - a, b)
         else:
-            a, b, d = x, _0_0, fabs(a - x)
+            if x < 0:
+                a = -a
+            b, d = y, fabs(x - a)
     return a, b, d, i
 
 
-def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 16
+def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
     '''(INTERNAL) Nearest point on and distance to a 3-D triaxial.
 
        @see: U{Eberly<https://www.GeometricTools.com/Documentation/
@@ -804,18 +825,18 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 16
     '''
     def _root3d(r, s, u, v, w, g, eps):
         # robust root finder
+        _1, __2 = _1_0, _0_5
+        _a, _h2 = fabs, hypot2_
         u *=  r
         v *=  s
-        t0 =  w - _1_0
-        t1 = _0_0 if g < 0 else (hypot_(u, v, z) - _1_0)
-        _f =  fabs
-        _h =  hypot2_
+        t0 =  w - _1
+        t1 = _0_0 if g < 0 else (hypot_(u, v, w) - _1)
         for i in range(1, _TRIPS):
-            t =   (t0 + t1) * _0_5
-            e = _f(t0 - t1)
-            if e < eps or t in (t0, t1):
+            t =   (t0 + t1) * __2
+            e = _a(t0 - t1)
+            if t in (t0, t1) or e < eps:
                 break
-            g = _h(u / (t + r), v / (t + s), w / (t + _1_0)) - _1_0
+            g = _h2(u / (t + r), v / (t + s), w / (t + _1)) - _1
             if g > 0:
                 t0 = t
             elif g < 0:
@@ -828,8 +849,13 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 16
         return t, i
 
     a, b, c = T.a, T.b, T.c
-    if not (a >= b >= c > 0 and eps > 0):
+    if not (a >= b >= c > 0):
         raise TriaxialError(a=a, b=b, c=c, eps=eps)
+
+    if eps > 0:
+        val = max(eps * 1e8, EPS)
+    else:  # no validation
+        val, eps = 0, -eps
 
     i = None
     if z:
@@ -843,20 +869,22 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 16
                     r = (a / c)**2
                     s = (b / c)**2
                     t, i = _root3d(r, s, u, v, w, g, eps)
-                    a =  x / (t / r + _1_0)
-                    b =  y / (t / s + _1_0)
-                    c =  z / (t     + _1_0)
-                    d =  hypot_(a - x, b - y, c - z)
+                    a = x / (t / r + _1_0)
+                    b = y / (t / s + _1_0)
+                    c = z / (t     + _1_0)
+                    d = hypot_(x - a, y - b, z - c)
                 else:  # on the ellipsoid
                     a, b, c, d = x, y, z, _0_0
             else:  # x == 0
-                a          = _0_0
+                a          =  x  # 0
                 b, c, d, i = _normalTo4(y, z, b, c, eps=eps)
         elif x:  # y == 0
-            b          = _0_0
+            b          =  y  # 0
             a, c, d, i = _normalTo4(x, z, a, c, eps=eps)
         else:  # x == y == 0
-            a, b, c, d = x, y, z, fabs(c - z)
+            if z < 0:
+                c = -c
+            a, b, d = x, y, fabs(z - c)
 
     else:  # z == 0
         t =  False
@@ -866,23 +894,34 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 16
             u =  n / d
             n =  b * y
             d = (b + c) * (b - c)
-            if d > fabs(n):  # PYCHOK no cover
+            if d > fabs(n):
                 v =  n / d
                 d = _1_0 - hypot2(u, v)
                 if d > 0:
                     a *= u
                     b *= v
                     c *= sqrt(d)
-                    d  = hypot_(a - x, b - y, c)
+                    d  = hypot_(x - a, y - b, c)
                     t  = True
         if not t:
-            c          = _0_0
+            c          =  z  # 0
             a, b, d, i = _normalTo4(x, y, a, b, eps=eps)
 
-    e = hypot2_(a / T.a, b / T.b, c / T.c) - _1_0
-    if fabs(e) > eps:
-        raise TriaxialError(x=a, y=b, z=c, d=d, triaxial=T,
-                            e=e, eps=eps, txt=_not_('on'))
+    if val > 0:  # validate
+        e = T._sideOf(a, b, c, eps=val)
+        if e:  # not near the ellipsoid's surface
+            raise TriaxialError(a=a, b=b, c=c, d=d,
+                                x=x, y=y, z=z, eps=val,
+                                sideOf=e, txt=T.toRepr())
+        if d:  # compare non-null delta and normal vector
+            m = Vector3d(x, y, z).minus_(a, b, c)
+            if m.euclid > val:
+                m = m.unit()
+                n = T._normal3d(a, b, c)
+                e = n.dot(m)  # n.negate().dot(m)
+                if not isnear1(fabs(e), eps1=val):
+                    raise TriaxialError(n=n, m=m, eps=val,
+                                        dot=e, txt=T.toRepr())
     return a, b, c, d, i
 
 
@@ -920,11 +959,7 @@ def _toRadians(inst, a, b, *c):
 
 if __name__ == '__main__':
 
-    from pygeodesy.lazily import printf
-
-    def _km2m(*abc):
-        for m in abc:
-            yield m * 1e3
+    from pygeodesy import printf, signBit
 
     # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in km    # Planet
     # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
@@ -940,8 +975,21 @@ if __name__ == '__main__':
                        ('Miranda',   240.4,       234.2,     232.9),    # Uranus
                        ('Moon',     1735.55,     1735.324,  1734.898),  # Earth
                        ('Tethys',    535.6,       528.2,     525.8)):   # Saturn
-        t = Triaxial(*_km2m(a, b, c), name=n)
+        t = Triaxial(km2m(a), km2m(b), km2m(c), name=n)
         printf('%r, area_p=%g', t, t.area_p())
+
+    t = Triaxial(3, 2, 1)  # Eberly
+    n = t.height4.__name__
+    s = signBit.__name__
+    for x in (-2, 0, 2):
+        for y in (-4, 0, 4):
+            for z in (-3, 0, 3):
+                p = t.height4(x, y, z)
+                printf('%s%s: %s, iteration %s', n, (x, y, z), p, p.iteration, nl=1)
+                e = NN if signBit(p.x) == signBit(x) and \
+                          signBit(p.y) == signBit(y) and \
+                          signBit(p.z) == signBit(z) else '!= !!!'
+                printf('%s%s: %s %s', s, (x, y, z), p, e)
 
 # **) MIT License
 #
@@ -964,3 +1012,17 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % python3 -m pygeodesy.triaxials
+
+# Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, area=93239507787.490386963, volume=2446253479595252), area_p=9.32123e+10
+# Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, area=4211301462766.580078125, volume=812633172614203904), area_p=4.2113e+12
+# Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, area=510065911057441.0625, volume=1083208241574987694080), area_p=5.10066e+14
+# Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, area=798618496278.596557617, volume=67094551514082248), area_p=7.98619e+11
+# Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, area=30663773697323.52734375, volume=15966575194402123776), area_p=3.06638e+13
+# Triaxial(name='Io', a=1829400, b=1819300, c=1815700, e2ab=0.011011391, e2bc=0.003953651, e2ac=0.014921506, area=41691875849096.7421875, volume=25313121117889765376), area_p=4.16919e+13
+# Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, area=144249140795107.4375, volume=162907283585817247744), area_p=1.44249e+14
+# Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, area=493855762247.692016602, volume=32587072869017956), area_p=4.93858e+11
+# Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, area=698880863325.756835938, volume=54926187094835456), area_p=6.98881e+11
+# Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, area=37838824729886.09375, volume=21886698675223740416), area_p=3.78388e+13
+# Triaxial(name='Tethys', a=535600, b=528200, c=525800, e2ab=0.027441672, e2bc=0.009066821, e2ac=0.036259685, area=3528073490771.394042969, volume=623086233855821440), area_p=3.52807e+12

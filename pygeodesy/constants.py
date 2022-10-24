@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.10.18'
+__version__ = '22.10.24'
 
 
 def _Float(**name_arg):
@@ -331,11 +331,11 @@ def isnear1(x, eps1=EPS0):
        @arg x: Value (C{scalar}).
        @kwarg eps1: Near-one tolerance (C{EPS0}).
 
-       @return: C{isnear0(B{x} - 1)}.
+       @return: C{isnear0(B{x} - 1, eps0=B{eps1})}.
 
        @see: Function L{isnear0}.
     '''
-    return isnear0(x - _1_0, eps0=eps1)
+    return bool(eps1 > (x - _1_0) > -eps1)
 
 
 def isnear90(x, eps90=EPS0):

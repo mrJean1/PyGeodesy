@@ -114,8 +114,8 @@ the test results (on macOS only) and the complete U{documentation<https://mrJean
 Tests
 =====
 
-The tests ran with Python 3.11.0rc2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python
-3.10.8 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3,
+The tests ran with Python 3.11.0 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.10.8
+(with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3,
 U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), Python 3.9.6, Python 3.8.10 (with U{geographiclib
@@ -132,7 +132,7 @@ C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests ar
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.8, 3.9.6
 and 2.7.18.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.11.0rc2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
+Python 3.11.0, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{pygeodesy.machine}).
 
 The tests also ran with Python 3.10.8 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
@@ -574,7 +574,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.10.22'
+__version__ = '22.10.24'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

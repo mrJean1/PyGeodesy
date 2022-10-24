@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.09.14
+        22.10.23
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -571,6 +571,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#km2m" class="summary-sig-name">km2m</a>(<span class="summary-sig-arg">km</span>)</span><br />
+      Convert kilo meter to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2chain" class="summary-sig-name">m2chain</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to <i>UK</i> chains.</td>
           <td align="right" valign="top">
@@ -769,6 +786,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#NM2m" class="summary-sig-name">NM2m</a>(<span class="summary-sig-arg">nm</span>)</span><br />
+      Convert nautical miles to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
@@ -917,6 +951,23 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincostan3" class="summary-sig-name">sincostan3</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Return the <code>sine</code>, <code>cosine</code> and 
       <code>tangent</code> of an angle in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#SM2m" class="summary-sig-name">SM2m</a>(<span class="summary-sig-arg">sm</span>)</span><br />
+      Convert statute miles to meter (m).</td>
           <td align="right" valign="top">
             
             
@@ -1919,6 +1970,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="km2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">km2m</span>&nbsp;(<span class="sig-arg">km</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert kilo meter to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>km</code></strong> - Value in kilo meter (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>km</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="m2chain"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2309,6 +2389,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="NM2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">NM2m</span>&nbsp;(<span class="sig-arg">nm</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert nautical miles to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>nm</code></strong> - Value in nautical miles (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>nm</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="radians2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2607,6 +2716,35 @@
         class="link">sincos2</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="SM2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">SM2m</span>&nbsp;(<span class="sig-arg">sm</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert statute miles to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sm</code></strong> - Value in statute miles (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>sm</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="tan_2"></a>
 <div>
@@ -3078,7 +3216,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:06 2022
+    Generated by Epydoc 3.0.1 on Mon Oct 24 16:14:40 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,13 +4,22 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.10.22'
+__version__ = '22.10.24'
 
-from base import startswith, TestsBase
+from base import random, startswith, TestsBase
 
-from pygeodesy import Ellipsoids, F_DMS, JacobiConformal, map2, PI_2, PI_4, Triaxial, triaxials, \
-                      Vector3d as V3, sincos2d_
+from pygeodesy import Ellipsoids, F_DMS, JacobiConformal, map2, PI_2, PI_4, \
+                      sincos2d_, signBit, Triaxial, triaxials, Vector3d as V3
 from math import radians
+
+
+def _r(s):
+    r = random()
+    if r < 0.05:
+        r = 0
+    elif r > 0.5:
+        r = -r
+    return r * s
 
 # <https://www.researchgate.net/profile/Maxim-Nyrtsov/publication/
 # 299693481_Jacobi_Conformal_Projection_of_the_Triaxial_Ellipsoid_New_Projection_for_Mapping_of_Small_Celestial_Bodies/links/57ee6b2308ae8da3ce499cfc/
@@ -80,6 +89,8 @@ class Tests(TestsBase):
     def testTriaxial(self, module):
         self.subtitle(module, Triaxial.__name__)
 
+        E = Ellipsoids.WGS84  # earth as testFormy
+
         # <http://OJS.BBWPublisher.com/index.php/JWA/article/view/74>
         n = Triaxial.__name__
         t = Triaxial(6378388, 6378318, 6356911.9461, name='Test')  # a - b = 70
@@ -121,7 +132,6 @@ class Tests(TestsBase):
         pov, los = V3(1e7, 1e7, 1e7), V3(-0.7274, -0.3637, -0.5819)
         self.test(n, t.hartzell(pov, los).toStr(prec=6), '(1125622.950901, 5562811.47545, 2900742.363389, 12200109.384877)', nl=1)
         self.test(n, t.hartzell(pov).toStr(prec=6),      '(3678403.581531, 3678403.581531, 3678403.581531, 10949326.181734)')
-        E = Ellipsoids.WGS84  # earth as testFormy
         e = Triaxial(E.a, E.a, E.b, name=E.name)
         self.test(n, e.hartzell(pov, los).toStr(prec=6), '(1125440.234789, 5562720.117395, 2900596.195524, 12200360.575077)')
         self.test(n, e.hartzell(pov).toStr(prec=6),      '(3678289.79469, 3678289.79469, 3678289.79469, 10949523.266323)')
@@ -138,7 +148,26 @@ class Tests(TestsBase):
         p = t.height4(2, 0, 3)
         self.test(n, p.toStr(prec=6), '(1.563196, 0.0, 0.853517, 2.190477)')
         p = t.height4(2, 4, 0)
-        self.test(n, p.toStr(prec=6), '(1.297504, 1.803267, 0.0, 2.306326)')
+        self.test(n, p.toStr(prec=6), '(1.297504, 1.803267, 0.0, 2.306326)', nt=1)
+
+        t = Triaxial(E.a + 35, E.a - 35, E.b)
+        a, b, c, _s = t.a * 2, t.b * 2, t.c * 2, signBit
+        for _ in range(256):
+            xyz = _r(a), _r(b), _r(c)
+            p = t.height4(*xyz)
+            s = '%s %s' % (str(p), p.iteration)
+            self.test(n + str(xyz), s, s)
+            sp = _s(p.x), _s(p.y), _s(p.z)
+            sxyz = map2(_s, xyz)
+            if sp != sxyz:
+                self.test(n + str(xyz), sp, sxyz)
+
+#       for xyz in ((0, 0, 0), (0, 0, 1), (0, 1, 0),
+#                   (0, 1, 1), (1, 0, 0), (1, 0, 1),
+#                   (1, 1, 0), (1, 1, 1)):
+#           p = t.height4(*xyz)
+#           s = '%s %s' % (str(p), p.iteration)
+#           self.test(n + str(xyz), s, s)
 
 
 if __name__ == '__main__':

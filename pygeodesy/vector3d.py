@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
                                _0_0, _1_0
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xError, _xkwds, _xkwds_popitem
-from pygeodesy.fmath import euclid, fdot, fsum, fsum1_, hypot
+from pygeodesy.fmath import euclid, fabs, fdot, fsum, fsum1_, hypot, sqrt
 # from pygeodesy.fsums import fsum, fsum1_  # from .fmath
 # from pygeodesy.formy import _radical2  # in _intersects2 below
 from pygeodesy.interns import MISSING, NN, _COMMA_, _concentric_, _datum_, \
@@ -29,10 +29,10 @@ from pygeodesy.utily import atan2b, sincos2d
 # from pygeodesy.vector2d import ....  # in .... below
 from pygeodesy.vector3dBase import Vector3dBase
 
-from math import sqrt
+# from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '22.10.12'
+__version__ = '22.10.23'
 
 
 class Vector3d(Vector3dBase):
@@ -443,7 +443,7 @@ def _intersect3d3(start1, end1, start2, end2, eps=EPS, useZ=False):  # MCCABE 16
     c  = s2.minus(s1)
 
     ab = a.cross(b)
-    d  = abs(c.dot(ab))
+    d  = fabs(c.dot(ab))
     e  = max(EPS0, eps or _0_0)
     if d > EPS0 and ab.length > e:  # PYCHOK no cover
         d = d / ab.length  # /= chokes PyChecker

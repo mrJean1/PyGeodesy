@@ -11,7 +11,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
                                _1_0, _1_0_1T, _N_1_0, _2_0, _N_2_0, _4_0
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
-from pygeodesy.fmath import fdot, hypot, hypot2_
+from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
 from pygeodesy.fsums import Fsum, fsum_, fsum1_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _concentric_, _COMMASPACE_, _few_, \
@@ -27,7 +27,7 @@ from pygeodesy.vector3d import iscolinearWith, nearestOn, _nearestOn2, _nVc, _ot
                                trilaterate2d2, trilaterate3d2, Vector3d  # PYCHOK unused
 
 from contextlib import contextmanager
-from math import sqrt
+# from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
 __version__ = '22.10.12'
@@ -440,7 +440,7 @@ class _numpy(object):
             if s != (m, 1):  # bad null_space shape
                 raise _Error(shape=s, m=m)
             D = A.dot(Z)  # near-zeros-vector
-            n = float(np.linalg.norm(D, INF))  # INF = max(abs(D)), 2 = hypot_(*D)
+            n = float(np.linalg.norm(D, INF))  # INF = max(fabs(D)), 2 = hypot_(*D)
             if n > t:  # largest exceed tol
                 raise _Error(dot=tuple(D.ravel()), norm=n, tol=t)
         else:  # coincident, colinear, concentric centers, ambiguous, etc.
@@ -651,7 +651,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
     if eps and eps > 0:  # check distances to center vs radius
         for x, y, r in ((x1, y1, r1), (x2, y2, r2), (x3, y3, r3)):
             d = hypot(x - t.x, y - t.y)
-            e = abs(d - r)
+            e = fabs(d - r)
             if e > eps:
                 t = _and(Float(delta=e).toRepr(), r.toRepr(),
                          Float(distance=d).toRepr(), t.toRepr())
@@ -704,7 +704,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
                     v = _N3(t[0], x, z)
                     if len(t) < 2:  # one intersection
                         t = v, v
-                    elif abs(t[0] - t[1]) < eps:  # abutting
+                    elif fabs(t[0] - t[1]) < eps:  # abutting
                         t = v, v
                     else:  # "lowest" intersection first (to avoid test failures)
                         u = _N3(t[1], x, z)
@@ -737,7 +737,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, coin=False,
 def _tri3near2far(r1, r2, h, coin):
     # check for near-coincident/-concentric or too distant spheres/circles
     return _too_(Fmt.distant(h)) if h > (r1 + r2) else (_near_(
-           _coincident_ if coin else _concentric_) if h < abs(r1 - r2) else NN)
+           _coincident_ if coin else _concentric_) if h < fabs(r1 - r2) else NN)
 
 
 def _tri4near2far(c1, r1, c2, r2, coin):

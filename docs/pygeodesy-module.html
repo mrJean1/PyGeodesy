@@ -240,7 +240,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.0rc2 (with <a 
+    <p>The tests ran with Python 3.11.0 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0), Python 3.10.8 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -278,7 +278,7 @@
     4.5.4 using Python 3.10.8, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0rc2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.0, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.10.22
+        22.10.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -748,8 +748,10 @@
         target="_top">JacobiConformal</a> to pure Python, class <a 
         href="pygeodesy.triaxials.Triaxial-class.html" 
         class="link">Triaxial</a> and classes <a 
+        href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
-        class="link">BetaOmega3Tuple</a>,<a 
+        class="link">BetaOmega3Tuple</a>, <a 
         href="pygeodesy.triaxials.JacobiError-class.html" 
         class="link">JacobiError</a>, <a 
         href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
@@ -4660,10 +4662,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#NM2m" class="summary-sig-name">NM2m</a>(<span class="summary-sig-arg">nm</span>)</span><br />
+      Convert nautical miles to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="RefFrameError"></a><span class="summary-sig-name">RefFrameError</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       DEPRECATED, use class <a href="pygeodesy.errors.TRFError-class.html" 
       class="link">TRFError</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#SM2m" class="summary-sig-name">SM2m</a>(<span class="summary-sig-arg">sm</span>)</span><br />
+      Convert statute miles to meter (m).</td>
           <td align="right" valign="top">
             
             
@@ -7938,7 +7974,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f87508c4550&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc2f842b8d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9132,6 +9168,23 @@
         <span class="summary-sig-arg">**sep</span>)</span><br />
       DEPRECATED, use <code>_SPACE_(...)</code>, <code>_SPACE_.join_</code>
       or <code><b>sep</b>.join</code>, sep=&quot; &quot;.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#km2m" class="summary-sig-name">km2m</a>(<span class="summary-sig-arg">km</span>)</span><br />
+      Convert kilo meter to meter (m).</td>
           <td align="right" valign="top">
             
             
@@ -12364,7 +12417,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.22'"><code class="variable-quote">'</code><code class="variable-string">22.10.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.24'"><code class="variable-quote">'</code><code class="variable-string">22.10.24</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13146,6 +13199,64 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="NM2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">NM2m</span>&nbsp;(<span class="sig-arg">nm</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert nautical miles to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>nm</code></strong> - Value in nautical miles (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>nm</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="SM2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">SM2m</span>&nbsp;(<span class="sig-arg">sm</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert statute miles to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>sm</code></strong> - Value in statute miles (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>sm</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="UtmUps"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -19742,7 +19853,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f87508c4550&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc2f842b8d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21302,7 +21413,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>eps1</code></strong> - Near-one tolerance (<code>EPS0</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>isnear0(<b>x</b> - 1)</code>.</dd>
+        <dd><code>isnear0(<b>x</b> - 1, eps0=<b>eps1</b>)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.constants-module.html#isnear0" 
@@ -21846,6 +21957,35 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_function</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="km2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">km2m</span>&nbsp;(<span class="sig-arg">km</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert kilo meter to meter (m).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>km</code></strong> - Value in kilo meter (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in meter (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>km</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -29039,7 +29179,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 22 11:04:05 2022
+    Generated by Epydoc 3.0.1 on Mon Oct 24 16:14:40 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
