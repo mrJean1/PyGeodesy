@@ -25,11 +25,11 @@ from pygeodesy.interns import NN, _AMPERSAND_, _COLONSPACE_, \
                              _n_a_, _no_, _RCURLY_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
-from pygeodesy.streprs import Fmt, fstr
+from pygeodesy.streprs import Fmt, fstr, lrstrip
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '22.07.31'
+__version__ = '22.10.28'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -69,7 +69,7 @@ except ImportError:
         # b'{"error": "No suitable Geoid model found for model 15"
         #   }'
         d = {}
-        for t in ngs.strip().lstrip(_LCURLY_).rstrip(_RCURLY_).split(_COMMA_):
+        for t in lrstrip(ngs.strip(), lrpairs={_LCURLY_: _RCURLY_}).split(_COMMA_):
             t = t.strip()
             j = t.strip(_QUOTE2_).split(_QUOTE2COLONSPACE_)
             if len(j) != 2:

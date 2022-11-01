@@ -9,9 +9,9 @@ from pygeodesy.basics import _0_0, isint, isscalar, isstr, istuplist, _zip
 from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, _or, \
                              _TypeError, _ValueError, _xkwds_get, _xkwds_pop
 from pygeodesy.interns import NN, _0_, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
-                             _E_, _ELLIPSIS_, _EQUAL_, _H_, _N_, _name_, _not_, \
-                             _not_scalar_, _PERCENT_, _SPACE_, _STAR_, _UNDER_, \
-                             _dunder_nameof
+                             _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, _N_, \
+                             _name_, _not_, _not_scalar_, _PERCENT_, _SPACE_, \
+                             _STAR_, _UNDER_, _dunder_nameof
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
                               _exceeds_, _f_, _F_, _g_,  _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -19,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.10.07'
+__version__ = '22.10.28'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -392,6 +392,25 @@ def instr(inst, *args, **kwds):
        @return: Representation (C{str}).
     '''
     return unstr(_MODS.named.classname(inst), *args, **kwds)
+
+
+def lrstrip(txt, lrpairs=_LR_PAIRS):
+    '''Left- I{and} right-strip parentheses, brackets, etc. from a string.
+
+       @arg txt: String to be stripped (C{str}).
+       @kwarg lrpairs: Parentheses, etc. to remove (C{dict} of one or several
+                       C{(Left, Right)} pairs).
+
+       @return: Stripped B{C{txt}} (C{str}).
+    '''
+    _e, _s, _n = str.endswith, str.startswith, len
+    while _n(txt) > 2:
+        for L, R in lrpairs.items():
+            if _e(txt, R) and _s(txt, L):
+                txt = txt[_n(L):-_n(R)]
+                break  # restart
+        else:
+            return txt
 
 
 def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):

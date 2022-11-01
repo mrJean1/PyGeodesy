@@ -6,11 +6,10 @@ u'''Errors, exceptions, exception formatting and exception chaining.
 Error, exception classes and functions to format PyGeodesy errors,
 including the setting of I{exception chaining} in Python 3+.
 
-By default, I{exception chaining} is turned I{off}.  To enable
-I{exception chaining}, use command line option C{python -X dev}
-I{OR} set env var C{PYTHONDEVMODE} to C{1} or any non-empyty
-string I{OR} set env var C{PYGEODESY_EXCEPTION_CHAINING=std}
-or to any other non-empty string.
+By default, I{exception chaining} is turned I{off}.  To enable I{exception
+chaining}, use command line option C{python -X dev} I{OR} set env variable
+C{PYTHONDEVMODE=1} or to any non-empyty string I{OR} set env variable
+C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 '''
 
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
@@ -23,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '22.10.08'
+__version__ = '22.10.29'
 
 _default_    = 'default'
 _kwargs_     = 'kwargs'  # XXX _kwds_?
@@ -49,8 +48,8 @@ try:
            Setting C{inst.__cause__ = None} is equivalent to syntax
            C{raise Error(...) from None} to avoid exception chaining.
 
-           @arg inst: An error instance (caught C{Exception}).
-           @kwarg cause: A previous error instance (caught C{Exception})
+           @arg inst: An error instance (I{caught} C{Exception}).
+           @kwarg cause: A previous error instance (I{caught} C{Exception})
                          or C{None} to avoid exception chaining.
 
            @see: Alex Martelli, et.al., "Python in a Nutshell", 3rd Ed., page 163,
@@ -184,8 +183,11 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
-        x, txt = _xkwds_pop_(lens_txt, cause=None, txt=_invalid_)
-        ns, vs =  zip(*itemsorted(lens_txt))  # unzip
+        def _ns_vs_txt_x(cause=None, txt=_invalid_, **kwds):
+            ns, vs = zip(*itemsorted(kwds))  # unzip
+            return ns, vs, txt, cause
+
+        ns, vs, txt, x = _ns_vs_txt_x(**lens_txt)
         ns = _COMMASPACE_.join(ns)
         t  = _MODS.streprs.Fmt.PAREN(where.__name__, ns)
         vs = _vs__.join(map(str, vs))

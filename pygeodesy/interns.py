@@ -222,7 +222,6 @@ _H_                   = 'H'                  # PYCHOK OK
 _height_              = 'height'             # PYCHOK OK
 _hemipole_            = 'hemipole'           # PYCHOK OK
 _i_                   = 'i'                  # PYCHOK OK
-_I_                   = 'I'                  # PYCHOK OK
 _iadd_                = '+='                 # PYCHOK OK
 _immutable_           = 'immutable'          # PYCHOK OK
 _in_                  = 'in'                 # PYCHOK OK
@@ -253,12 +252,12 @@ _LatLon_              = 'LatLon'             # PYCHOK OK
 _LCURLY_              = '{'                  # PYCHOK LBRACE
 _len_                 = 'len'                # PYCHOK OK
 _linear_              = 'linear'             # PYCHOK OK
-#_LPAREN_             = '('                  # PYCHOK OK
+_LPAREN_              = '('                  # PYCHOK OK
 _lon_                 = 'lon'                # PYCHOK OK
 _lon0_                = 'lon0'               # PYCHOK OK
 _lon1_                = 'lon1'               # PYCHOK OK
 _lon2_                = 'lon2'               # PYCHOK OK
-#_LSQUARE_            = '['                  # PYCHOK LBRACK
+_LSQUARE_             = '['                  # PYCHOK LBRACK
 _ltp_                 = 'ltp'                # PYCHOK OK
 _m_                   = 'm'                  # PYCHOK OK
 _M_                   = 'M'                  # PYCHOK OK
@@ -305,7 +304,6 @@ _null_                = 'null'               # PYCHOK OK
 _number_              = 'number'             # PYCHOK OK
 _numpy_               = 'numpy'              # PYCHOK OK
 _Nv00_                = 'Nv00'               # PYCHOK OK
-_O_                   = 'O'                  # PYCHOK letter "Oh", not zero
 _on_                  = 'on'                 # PYCHOK OK
 _opposite_            = 'opposite'           # PYCHOK OK
 _or_                  = 'or'                 # PYCHOK OK
@@ -344,8 +342,8 @@ _reciprocal_          = 'reciprocal'         # PYCHOK OK
 _reframe_             = 'reframe'            # PYCHOK OK
 _resolution_          = 'resolution'         # PYCHOK OK
 _rIn_                 = 'rIn'                # PYCHOK OK
-#_RPAREN_             = ')'                  # PYCHOK OK
-#_RSQUARE_            = ']'                  # PYCHOK RBRACK
+_RPAREN_              = ')'                  # PYCHOK OK
+_RSQUARE_             = ']'                  # PYCHOK RBRACK
 _s_                   = 's'                  # PYCHOK OK
 _S_                   = 'S'                  # PYCHOK OK
 _s12_                 = 's12'                # PYCHOK OK
@@ -414,21 +412,26 @@ _z_                   = 'z'                  # PYCHOK OK
 _Z_                   = 'Z'                  # PYCHOK OK
 _zone_                = 'zone'               # PYCHOK OK
 
-_EW_                  = _E_  + _W_           # PYCHOK common cardinals
-_NE_                  = _N_  + _E_           # PYCHOK positive ones
-_NS_                  = _N_  + _S_           # PYCHOK OK
-_NSEW_                = _NS_ + _EW_          # PYCHOK OK
-_NW_                  = _N_  + _W_           # PYCHOK OK
-_SE_                  = _S_  + _E_           # PYCHOK OK
-_SW_                  = _S_  + _W_           # PYCHOK negative ones
-# _NESW_              = _NE_ + _SW_          # PYCHOK clockwise
+_EW_       = _E_  + _W_   # PYCHOK common cardinals
+_NE_       = _N_  + _E_   # PYCHOK positive ones
+_NS_       = _N_  + _S_   # PYCHOK OK
+_NSEW_     = _NS_ + _EW_  # PYCHOK OK
+_NW_       = _N_  + _W_   # PYCHOK OK
+_SE_       = _S_  + _E_   # PYCHOK OK
+_SW_       = _S_  + _W_   # PYCHOK negative ones
+# _NESW_   = _NE_ + _SW_  # PYCHOK clockwise
 
-_DDOT_           = Str_(_DOT_   * 2)         # PYCHOK OK
-# _DEQUAL_       = Str_(_EQUAL_ * 2)         # PYCHOK OK
-_DNL_            = Str_(_NL_    * 2)         # PYCHOK OK
-# _DSLASH_       = Str_(_SLASH_ * 2)         # PYCHOK OK
-# _DSTAR_        = Str_(_STAR_  * 2)         # PYCHOK OK
-_DUNDER_         = Str_(_UNDER_ * 2)         # PYCHOK OK
+_DDOT_     = Str_(_DOT_   * 2)  # PYCHOK OK
+# _DEQUAL_ = Str_(_EQUAL_ * 2)  # PYCHOK OK
+_DNL_      = Str_(_NL_    * 2)  # PYCHOK OK
+# _DSLASH_ = Str_(_SLASH_ * 2)  # PYCHOK OK
+# _DSTAR_  = Str_(_STAR_  * 2)  # PYCHOK OK
+_DUNDER_   = Str_(_UNDER_ * 2)  # PYCHOK OK
+
+_LR_PAIRS  = {_LANGLE_:  _RANGLE_,
+              _LCURLY_:  _RCURLY_,
+              _LPAREN_:  _RPAREN_,
+              _LSQUARE_: _RSQUARE_}  # PYCHOK OK
 
 
 def _dunder_nameof(inst, *dflt):
@@ -582,7 +585,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '22.10.05'
+__version__ = '22.11.01'
 
 if __name__ == '__main__':
 

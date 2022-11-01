@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '22.05.12'
+__version__ = '22.10.28'
 
 from base import GeodSolve, TestsBase
 
@@ -147,7 +147,7 @@ class Tests(TestsBase):
         self.test('toStr', t, "name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')")
         self.test('str', str(r),t)
         t = r.toRepr()
-        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')")
+        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80'))")
         self.test('repr', repr(r), t)
 
         for y, m, d, x in ((2020,  1,  1, 2020.003),

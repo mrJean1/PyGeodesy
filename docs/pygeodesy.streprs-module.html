@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.10.07
+        22.10.28
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -206,6 +206,24 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instantiation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#lrstrip" class="summary-sig-name">lrstrip</a>(<span class="summary-sig-arg">txt</span>,
+        <span class="summary-sig-arg">lrpairs</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">(</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">)</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">&lt;</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">&gt;</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">[</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">]</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">{</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">}</code><code class="variable-quote">'</code><code class="variable-group">}</code></span>)</span><br />
+      Left- <i>and</i> right-strip parentheses, brackets, etc.</td>
           <td align="right" valign="top">
             
             
@@ -587,6 +605,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="lrstrip"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lrstrip</span>&nbsp;(<span class="sig-arg">txt</span>,
+        <span class="sig-arg">lrpairs</span>=<span class="sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">(</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">)</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">&lt;</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">&gt;</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">[</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">]</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">{</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">}</code><code class="variable-quote">'</code><code class="variable-group">}</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Left- <i>and</i> right-strip parentheses, brackets, etc. from a 
+  string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>txt</code></strong> - String to be stripped (<code>str</code>).</li>
+        <li><strong class="pname"><code>lrpairs</code></strong> - Parentheses, etc. to remove (<code>dict</code> of one or several 
+          <code>(Left, Right)</code> pairs).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Stripped <b><code>txt</code></b> (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="pairs"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -766,7 +813,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 24 18:24:24 2022
+    Generated by Epydoc 3.0.1 on Tue Nov  1 16:27:43 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

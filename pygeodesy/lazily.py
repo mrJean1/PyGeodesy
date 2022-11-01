@@ -178,6 +178,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
                                  'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32', 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
                                  'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
+                                 'e2f', 'e22f',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f', 'n2f_'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
@@ -288,11 +289,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                       solveBase=(),  # module only
-                        streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
+                        streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr',
+                                 'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
-                      triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'JacobiError', 'Jacobi2Tuple', 'TriaxialError',
-                                 'Triaxial', 'JacobiConformal'),
+                      triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple', 'JacobiConformal',
+                                 'Triaxial', 'Triaxial_', 'TriaxialError'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'Int_',
@@ -415,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.10.23'
+__version__ = '22.10.30'
 
 
 def _ALL_OTHER(*objs):

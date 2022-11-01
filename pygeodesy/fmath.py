@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
 from pygeodesy.units import Int_
 
 from math import fabs, sqrt  # pow
-from operator import mul as _mul
+from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
 __version__ = '22.10.17'

@@ -4,14 +4,15 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '22.10.12'
+__version__ = '22.10.28'
 
 from base import TestsBase
 
 from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
                       a_b2f_, a_b2f2, a_b2n, a_f2Tuple, \
-                      b_f2a, b_f_2a, circle4, ellipsoids, f_2f, fstr, \
+                      b_f2a, b_f_2a, circle4, e2f, ellipsoids, f_2f, fstr, \
                       hypot_, n2e2, n2f, PI_2, R_M, sincos2d
+from math import fabs
 
 
 class Tests(TestsBase):
@@ -133,7 +134,7 @@ class Tests(TestsBase):
                      (P.c2, 40498955180263.188), (P.area, 508924880289508.500),
                      (P.volume, 1079575530747445379072.000)):
             t = '%s [%s]' % (p.name, p.units)
-            self.test(t, p, e, fmt='%.3f', known=abs(p - e) < _TOL)
+            self.test(t, p, e, fmt='%.3f', known=fabs(p - e) < _TOL)
 
         for E, el, ob, pr in ((E, True, True, False),
                               (P, True, False, True),
@@ -159,9 +160,9 @@ class Tests(TestsBase):
         for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             if E.f and E.f_:
                 e = E.f_ - 1 / E.f
-                self.test(n + '.f_ - 1 / .f', e, e if abs(e) < _TOL else _TOL, nl=1)
+                self.test(n + '.f_ - 1 / .f', e, e if fabs(e) < _TOL else _TOL, nl=1)
                 e = E.f - 1 / E.f_
-                self.test(n + '.f - 1 / .f_', e, e if abs(e) < _TOL else _TOL)  # PYCHOK attr
+                self.test(n + '.f - 1 / .f_', e, e if fabs(e) < _TOL else _TOL)  # PYCHOK attr
 
         self.subtitle(ellipsoids, Ellipsoid2.__name__)
         for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
@@ -187,23 +188,25 @@ class Tests(TestsBase):
         t = 0
         for _, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
             f_ = a_b2f_(E.a, E.b)
-            self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=abs(f_ - E.f_) < _TOL, nl=1)
+            self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=fabs(f_ - E.f_) < _TOL, nl=1)
             f2 = a_b2f2(E.a, E.b)
-            self.test('%s(%s)' % (a_b2f2.__name__, E.name), f2, E.f2, fmt='%.8f', known=abs(f2 - E.f2) < _TOL)
+            self.test('%s(%s)' % (a_b2f2.__name__, E.name), f2, E.f2, fmt='%.8f', known=fabs(f2 - E.f2) < _TOL)
             n = a_b2n(E.a, E.b)
-            self.test('%s(%s)' % (a_b2n.__name__, E.name), n, E.n, fmt='%.8f', known=abs(n - E.n) < _TOL)
+            self.test('%s(%s)' % (a_b2n.__name__, E.name), n, E.n, fmt='%.8f', known=fabs(n - E.n) < _TOL)
             a = b_f2a(E.b, E.f)
-            self.test('%s(%s)' % (b_f2a.__name__, E.name), a, E.a, fmt='%.3f', known=abs(a - E.a) < _TOL)  # millimeter
+            self.test('%s(%s)' % (b_f2a.__name__, E.name), a, E.a, fmt='%.3f', known=fabs(a - E.a) < _TOL)  # millimeter
             a = b_f_2a(E.b, E.f_)
-            self.test('%s(%s)' % (b_f_2a.__name__, E.name), a, E.a, fmt='%.3f', known=abs(a - E.a) < _TOL)  # millimeter
+            self.test('%s(%s)' % (b_f_2a.__name__, E.name), a, E.a, fmt='%.3f', known=fabs(a - E.a) < _TOL)  # millimeter
             f = f_2f(E.f_)
-            self.test('%s(%s)' % (f_2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
+            self.test('%s(%s)' % (f_2f.__name__, E.name), f, E.f, fmt='%.8f', known=fabs(f - E.f) < _TOL)
+            f = e2f(E.e)
+            self.test('%s(%s)' % (e2f.__name__, E.name), f, E.f, fmt='%.8f', known=True)  # fabs(f - fabs(E.f)) < _TOL
             e2 = n2e2(E.n)
-            self.test('%s(%s)' % (n2e2.__name__, E.name), e2, E.e2, fmt='%.8f', known=abs(e2 - E.e2) < _TOL)
+            self.test('%s(%s)' % (n2e2.__name__, E.name), e2, E.e2, fmt='%.8f', known=fabs(e2 - E.e2) < _TOL)
             f = n2f(E.n)
-            self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
+            self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=fabs(f - E.f) < _TOL)
             t += 1
-        self.test('total', t, 48, nl=1)
+        self.test('total', t, 49, nl=1)
 
         t = P.roc1_.__name__ + ' '
         for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),
@@ -213,10 +216,10 @@ class Tests(TestsBase):
                 s, c = sincos2d(d)
                 n = E.roc1_(s)
                 h = E.roc1_(s, c)
-                e = abs(n - h)  # delta in meter
+                e = fabs(n - h)  # delta in meter
                 self.test(t + str(d), e, x, known=e < 1.864e-9)
                 n = E.roc2(d).prime_vertical
-                e = abs(n - h)  # delta in meter
+                e = fabs(n - h)  # delta in meter
                 self.test(t + str(d), e, x, known=e < 1.864e-9)
 
         n = circle4.__name__ + ' '

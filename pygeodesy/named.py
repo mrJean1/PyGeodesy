@@ -22,19 +22,17 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _at_, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _EQUAL_, _EQUALSPACED_, _exists_, _I_, _immutable_, \
-                             _name_, _NL_, _NN_, _not_, _O_, _other_, _s_, \
-                             _SPACE_, _std_, _UNDER_, _valid_, _vs_, \
-                             _dunder_nameof, _UNDER
+                             _EQUAL_, _EQUALSPACED_, _exists_, _immutable_, _name_, \
+                             _NL_, _NN_, _not_, _other_, _s_, _SPACE_, _std_, \
+                             _UNDER_, _valid_, _vs_,  _dunder_nameof, _UNDER
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3, _getenv
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, \
                             _hasProperty, property_doc_, property_RO, \
                             _update_all, _update_attrs
-
-from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
+from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.10.18'
+__version__ = '22.10.30'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -270,12 +268,19 @@ class _Named(object):
             d.rename(name=name)
         return d
 
-    def _instr(self, name, prec, *attrs, **kwds):
+    def _instr(self, name, prec, *attrs, **props_kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}, C{Triaxial}.
         '''
+        def _props_kwds(props=(), **kwds):
+            return props, kwds
+
         t = Fmt.EQUAL(_name_, repr(name or self.name)),
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
+                       prec=prec, ints=True)
+        props, kwds =_props_kwds(**props_kwds)
+        if props:
+            t += pairs(((p.name, getattr(self, p.name)) for p in props),
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
@@ -473,7 +478,7 @@ class _NamedBase(_Named):
 
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
-        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
+        t = lrstrip(self.toStr(**kwds))
 #       if self.name:
 #           t =  NN(Fmt.EQUAL(name=repr(self.name)), sep, t)
         return Fmt.PAREN(self.classname, t)  # XXX (self.named, t)
@@ -1224,7 +1229,7 @@ def notImplemented(inst, *args, **kwds):  # PYCHOK no cover
     '''
     n =  kwds.pop(callername.__name__, NN) or callername(up=2)
     t = _notError(inst, n, args, kwds)
-    raise _NotImplementedError(t, txt=notImplemented.__name__.replace(_I_, ' i'))
+    raise _NotImplementedError(t, txt=notImplemented.__name__.replace('I', ' i'))
 
 
 def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
@@ -1236,7 +1241,7 @@ def notOverloaded(inst, *args, **kwds):  # PYCHOK no cover
     '''
     n =  kwds.pop(callername.__name__, NN) or callername(up=2)
     t = _notError(inst, n, args, kwds)
-    raise _AssertionError(t, txt=notOverloaded.__name__.replace(_O_, ' o'))
+    raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
 
 
 def _Pass(arg, **unused):  # PYCHOK no cover

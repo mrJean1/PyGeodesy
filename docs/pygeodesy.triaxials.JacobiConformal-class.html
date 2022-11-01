@@ -61,22 +61,22 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class JacobiConformal</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+            
-           |            
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
-               |        
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
-                   |    
-            <a href="pygeodesy.triaxials.Triaxial-class.html">Triaxial</a> --+
-                       |
-                      <strong class="uidshort">JacobiConformal</strong>
+  object --+                
+           |                
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+               |            
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+        
+                   |        
+           <a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a> --+    
+                       |    
+                <a href="pygeodesy.triaxials.Triaxial-class.html">Triaxial</a> --+
+                           |
+                          <strong class="uidshort">JacobiConformal</strong>
 </pre>
 
 <hr />
-<p>This is a conformal projection of the ellipsoid to a plane in which 
-  the grid lines are straight, see Jacobi, C. G. J. <a 
-  href="https://Books.Google.com/books?id=ryEOAAAAQAAJ&amp;pg=PA212" 
-  target="_top"><i>Vorlesungen &#252;ber Dynamik</i></a>, page 212ff.</p>
+<p>This is a conformal projection of a triaxial ellipsoid to a plane in 
+  which the <code>X</code> and <code>Y</code> grid lines are straight.</p>
   <p>Ellipsoidal coordinates <i>beta</i> and <i>omega</i> are converted to 
   Jacobi Conformal <i>y</i> respectively <i>x</i> separately.  Jacobi's 
   coordinates have been multiplied by <code>sqrt(<b>a</b>**2 - <b>c</b>**2)
@@ -95,9 +95,12 @@
         <a href="pygeodesy.triaxials.Triaxial-class.html" 
         class="link">Triaxial</a>, C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
-        target="_top">JacobiConformal</a> and <a 
+        target="_top">JacobiConformal</a>, <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/jacobi.html" 
-        target="_top">Jacobi's conformal projection</a>.
+        target="_top">Jacobi's conformal projection</a> and Jacobi, C. G. 
+        J. <i><a 
+        href="https://Books.Google.com/books?id=ryEOAAAAQAAJ&amp;pg=PA212" 
+        target="_top">Vorlesungen &#252;ber Dynamik</a></i>, page 212ff,
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -229,17 +232,24 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial-class.html">Triaxial</a></code></b>:
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#__init__">__init__</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#area_p">area_p</a></code>,
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega">forwardBetaOmega</a></code>,
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega_">forwardBetaOmega_</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardCartesian">forwardCartesian</a></code>,
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon">forwardLatLon</a></code>,
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon_">forwardLatLon_</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#hartzell">hartzell</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#height4">height4</a></code>,
       <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega">reverseBetaOmega</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon">reverseLatLon</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseCartesian">reverseCartesian</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon">reverseLatLon</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a></code></b>:
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#area_p">area_p</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell">hartzell</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#normal3d">normal3d</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#sideOf">sideOf</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid">toEllipsoid</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
@@ -294,14 +304,16 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial-class.html">Triaxial</a></code></b>:
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#area">area</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#b">b</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#c">c</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#e2ab">e2ab</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#e2ac">e2ac</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#e2bc">e2bc</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#volume">volume</a></code>
+      <code><a href="pygeodesy.triaxials.Triaxial-class.html#area">area</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">Triaxial_</a></code></b>:
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#b">b</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#c">c</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ab">e2ab</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ac">e2ac</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2bc">e2bc</a></code>,
+      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#volume">volume</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -590,7 +602,7 @@ class="link">Jacobi2Tuple</a><code>(x, y)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 24 18:24:27 2022
+    Generated by Epydoc 3.0.1 on Tue Nov  1 16:27:45 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

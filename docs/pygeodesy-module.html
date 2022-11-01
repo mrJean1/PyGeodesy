@@ -267,7 +267,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 12.6 Monterey and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 13.0 Venture and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -320,7 +320,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 12.1-5 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
+    on macOS 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
     10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
     macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
@@ -341,7 +341,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.8, both in 64-bit on macOS 
-    12.6 Monterey.</p>
+    13.0 Venture.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.10.24
+        22.11.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -740,20 +740,20 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Class <a href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a>, Jacobi's conformal projection of 
-        a triaxial ellipsoid, trancoded from <i>Charles Karney</i>'s C++ 
-        class <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Triaxal ellipsoid classes <a 
+        href="pygeodesy.triaxials.JacobiConformal-class.html" 
+        class="link">JacobiConformal</a>, Jacobi's conformal projection, 
+        trancoded from <i>Charles Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
-        target="_top">JacobiConformal</a> to pure Python, class <a 
+        target="_top">JacobiConformal</a> to pure Python, <i>ordered</i> <a
         href="pygeodesy.triaxials.Triaxial-class.html" 
-        class="link">Triaxial</a> and classes <a 
+        class="link">Triaxial</a> and <i>unordered</i> <a 
+        href="pygeodesy.triaxials.Triaxial_-class.html" 
+        class="link">Triaxial_</a> and miscellaneous classes <a 
         href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
         class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
         class="link">BetaOmega3Tuple</a>, <a 
-        href="pygeodesy.triaxials.JacobiError-class.html" 
-        class="link">JacobiError</a>, <a 
         href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
         class="link">Jacobi2Tuple</a> and <a 
         href="pygeodesy.triaxials.TriaxialError-class.html" 
@@ -3146,17 +3146,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.triaxials.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
-      This is a conformal projection of the ellipsoid to a plane in which
-        the grid lines are straight, see Jacobi, C.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.triaxials.JacobiError-class.html" class="summary-name">JacobiError</a><br />
-      Raised for <a href="pygeodesy.triaxials.JacobiConformal-class.html"
-        class="link">JacobiConformal</a> issues.
+      This is a conformal projection of a triaxial ellipsoid to a plane 
+        in which the <code>X</code> and <code>Y</code> grid lines are 
+        straight.
     </td>
   </tr>
 <tr>
@@ -4298,11 +4290,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.triaxials.Triaxial-class.html" class="summary-name">Triaxial</a><br />
-      Triaxial ellipsoid with semi-axes <code>a</code>, <code>b</code> 
-        and <code>c</code>, oriented such that the large principal ellipse 
-        <code>ab</code> is the equator <i>Z</i>=0, <i>beta</i>=0, while the
-        small principal ellipse <code>ac</code> is the prime meridian, 
-        <i>Y</i>=0, <i>omega</i>=0.
+      <i>Ordered</i> triaxial ellipsoid.
     </td>
   </tr>
 <tr>
@@ -4312,6 +4300,14 @@
         <a href="pygeodesy.triaxials.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
       Raised for <a href="pygeodesy.triaxials.Triaxial-class.html" 
         class="link">Triaxial</a> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html" class="summary-name">Triaxial_</a><br />
+      <i>Unordered</i> triaxial ellipsoid and base class.
     </td>
   </tr>
 <tr>
@@ -6427,6 +6423,42 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#e22f" class="summary-sig-name">e22f</a>(<span class="summary-sig-arg">e2</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+      eccentricity squared</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#e2f" class="summary-sig-name">e2f</a>(<span class="summary-sig-arg">e</span>)</span><br />
+      Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+      eccentricity</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#egmGeoidHeights" class="summary-sig-name">egmGeoidHeights</a>(<span class="summary-sig-arg">GeoidHeights_dat</span>)</span><br />
       Generate geoid <a 
       href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
@@ -7974,7 +8006,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc32079b8d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb78824b050&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9320,6 +9352,24 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**s_D_M_S</span>)</span><br />
       Convert longitude to a string, optionally suffixed with E or W.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#lrstrip" class="summary-sig-name">lrstrip</a>(<span class="summary-sig-arg">txt</span>,
+        <span class="summary-sig-arg">lrpairs</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">(</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">)</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">&lt;</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">&gt;</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">[</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">]</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">{</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">}</code><code class="variable-quote">'</code><code class="variable-group">}</code></span>)</span><br />
+      Left- <i>and</i> right-strip parentheses, brackets, etc.</td>
           <td align="right" valign="top">
             
             
@@ -12417,7 +12467,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.10.24'"><code class="variable-quote">'</code><code class="variable-string">22.10.24</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.11.1'"><code class="variable-quote">'</code><code class="variable-string">22.11.1</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12434,7 +12484,7 @@
     </td><td class="summary">
         <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4\
 5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso\
-ids.WGS84, transform=Transforms.WGS84)">Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97<code class="variable-ellipsis">...</code></code><br />
+ids.WGS84, transform=Transforms.WGS84))">Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined conics (<code>enum-like</code>).
     </td>
   </tr>
@@ -16654,6 +16704,64 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="e22f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e22f</span>&nbsp;(<span class="sig-arg">e2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+  eccentricity squared</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>e2</code></strong> - The (1st) eccentricity <i>squared</i>, <i>signed</i> (NINF &lt; 
+          <code>float</code> &lt; 1)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">e2 / (sqrt(e2 - 1) + 1)</i>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="e2f"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2f</span>&nbsp;(<span class="sig-arg">e</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f</code>, the <i>flattening</i> for a given <i>1st 
+  eccentricity</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>e</code></strong> - The (1st) eccentricity (0 &lt;= <code>float</code> &lt; 1)</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The flattening (<code>float</code> or <code>0</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.ellipsoids-module.html#e22f" 
+        class="link">e22f</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="egmGeoidHeights"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -19853,7 +19961,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc32079b8d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb78824b050&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22376,6 +22484,35 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         class="link">pygeodesy.latDMS</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="lrstrip"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lrstrip</span>&nbsp;(<span class="sig-arg">txt</span>,
+        <span class="sig-arg">lrpairs</span>=<span class="sig-default"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">(</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">)</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">&lt;</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">&gt;</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">[</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">]</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">{</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">}</code><code class="variable-quote">'</code><code class="variable-group">}</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Left- <i>and</i> right-strip parentheses, brackets, etc. from a 
+  string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>txt</code></strong> - String to be stripped (<code>str</code>).</li>
+        <li><strong class="pname"><code>lrpairs</code></strong> - Parentheses, etc. to remove (<code>dict</code> of one or several 
+          <code>(Left, Right)</code> pairs).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Stripped <b><code>txt</code></b> (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="luneOf"></a>
 <div>
@@ -29070,7 +29207,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       <dd><table><tr><td><pre class="variable">
 Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ids.WGS84, transform=Transforms.WGS84)
+ids.WGS84, transform=Transforms.WGS84))
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -29179,7 +29316,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 24 18:24:24 2022
+    Generated by Epydoc 3.0.1 on Tue Nov  1 16:27:42 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
