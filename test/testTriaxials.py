@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.11.01'
+__version__ = '22.11.02'
 
 from base import random, startswith, TestsBase
 
@@ -155,24 +155,24 @@ class Tests(TestsBase):
         d = p.toDegrees(form=F_DMS)
         self.test(n, d, "('29°51′37.43″', '40°01′02.98″', 12918.032538)", known=True)  # (30°01′38.2729″, 40°01′05.2057″)
 
-        n = T.hartzell.__name__
+        n = T.hartzell4.__name__
         p = Vector3d(10.1e6, 10.2e6, 10.3e6)  # 10+ km
         v = Vector3d(-0.7274, -0.3637, -0.5819)
-        t = T.hartzell(p, v)
+        t = T.hartzell4(p, v)
         self.test(n, t.toStr(prec=6), '(884268.349816, 5592134.174908, 2927668.068131, 12669388.912805)', nl=1)
         self.test(n, T.sideOf(t), 0)
-        t = T.hartzell(p)
+        t = T.hartzell4(p)
         self.test(n, t.toStr(prec=6), '(3642143.609933, 3678204.437754, 3714265.265575, 11296443.179278)')
         self.test(n, T.sideOf(t), 0)
 
         e = Triaxial(E.a, E.a, E.b, name=E.name)
-        self.test(n, e.hartzell(p, v).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001, 12669647.302276)')
-        self.test(n, e.hartzell(p).toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
+        self.test(n, e.hartzell4(p, v).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001, 12669647.302276)')
+        self.test(n, e.hartzell4(p).toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
 
-        t = U.hartzell(p, v)
+        t = U.hartzell4(p, v)
         self.test(n, t.toStr(prec=6), '(5585791.305438, 2917519.825775, 871582.610876, 12686828.717519)', nl=1)
         self.test(n, U.sideOf(t), 0)
-        t = U.hartzell(p)
+        t = U.hartzell4(p)
         self.test(n, t.toStr(prec=6), '(3678286.263029, 3714347.893058, 3642224.632999, 11296301.449205)')
         self.test(n, U.sideOf(t, eps=EPS4), 0)
 

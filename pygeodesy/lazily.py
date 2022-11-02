@@ -294,7 +294,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
                       triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple', 'JacobiConformal',
-                                 'Triaxial', 'Triaxial_', 'TriaxialError'),
+                                 'Triaxial', 'Triaxial_', 'TriaxialError', 'hartzell4'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'Int_',
@@ -417,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '22.10.30'
+__version__ = '22.11.02'
 
 
 def _ALL_OTHER(*objs):

@@ -170,7 +170,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell" class="summary-sig-name">hartzell</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
@@ -240,7 +240,7 @@
         <span class="summary-sig-arg">x_xyz</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">4.440892098500626e-16</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">8.881784197001252e-16</span>)</span><br />
       Is a cartesian above, below or on the surface of this triaxial?</td>
           <td align="right" valign="top">
             
@@ -400,6 +400,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#isOrdered" class="summary-name">isOrdered</a><br />
+      Is this triaxial <i>ordered</i> and not <i>spherical</i> 
+      (<code>bool</code>)?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#isSpherical" class="summary-name">isSpherical</a><br />
+      Is this triaxial <i>spherical</i> (<code>bool</code>)?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.triaxials.Triaxial_-class.html#volume" class="summary-name">volume</a><br />
       Get the volume (<code>meter**3</code>), <i class="math">4 / 3 * PI * 
       a * b * c</i>.
@@ -535,14 +552,14 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="hartzell"></a>
+<a name="hartzell4"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell</span>&nbsp;(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
@@ -555,39 +572,10 @@
   <p>Compute the intersection of this triaxial's surface with a 
   Line-Of-Sight from a Point-Of-View in space.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside this triaxial (<code>Cartesian</code>, <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a> or <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to this triaxial (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) or <code>None</code> to point to this 
-          triaxial's center.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on this 
-          triaxial's surface.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, 
-        <b><code>pov</code></b> is inside this triaxial or 
-        <b><code>los</code></b> points outside this triaxial or points in 
-        an opposite direction.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pov</code></b> or <b><code>los</code></b>.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and 
-        <i>Hartzell</i>'s <a 
-        href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
-        target="_top"><i>Satellite Line-of-Sight Intersection with 
-        Earth</i></a>.
+        Function <a href="pygeodesy.triaxials-module.html#hartzell4" 
+        class="link">pygeodesy.hartzell4</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -713,7 +701,7 @@
         <span class="sig-arg">x_xyz</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">eps</span>=<span class="sig-default">4.440892098500626e-16</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">8.881784197001252e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1015,6 +1003,56 @@ as <b><code>a</code></b>).
   </dl>
 </td></tr></table>
 </div>
+<a name="isOrdered"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isOrdered</h3>
+  <p>Is this triaxial <i>ordered</i> and not <i>spherical</i> 
+  (<code>bool</code>)?</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isOrdered(<span class="summary-sig-arg">self</span>)</span>
+        - Is this triaxial <i>ordered</i> and not <i>spherical</i> 
+(<code>bool</code>)?
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isSpherical"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">isSpherical</h3>
+  <p>Is this triaxial <i>spherical</i> (<code>bool</code>)?</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
+        - Is this triaxial <i>spherical</i> (<code>bool</code>)?
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="volume"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1073,7 +1111,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov  1 19:41:21 2022
+    Generated by Epydoc 3.0.1 on Wed Nov  2 17:27:04 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

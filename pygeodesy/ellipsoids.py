@@ -76,8 +76,7 @@ from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
                              _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
                              _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
-                             _null_, _vs_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, \
-                             _WGS72_, _WGS84_
+                             _vs_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
@@ -91,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.10.30'
+__version__ = '22.11.02'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1048,12 +1047,13 @@ class Ellipsoid(_NamedEnumItem):
         '''
         v = _MODS.vector3d._otherV3d(xyz=xyz)
         r =  v.length
-        if r < EPS0:  # EPS
-            raise _ValueError(xyz=xyz, txt=_null_)
 
-        i = None
-        a, b = self.a, self.b
-        if self.isSpherical:
+        a, b, i = self.a, self.b, None
+        if r < EPS0:  # EPS
+            v =  v.times(_0_0)
+            h = -a
+
+        elif self.isSpherical:
             v = v.times(a / r)
             h = r - a
 
@@ -1073,10 +1073,8 @@ class Ellipsoid(_NamedEnumItem):
                 h = t.minus(v).length
 
         else:  # radial to ellipsoid's center
-            t = hypot_(a * v.z, b * v.x, b * v.y)
-            if t < EPS0:  # EPS
-                raise _ValueError(xyz=xyz, txt=_null_)
-            t = a * b / t
+            h = hypot_(a * v.z, b * v.x, b * v.y)
+            t = (a * b / h) if h > EPS0 else _0_0  # EPS
             v = v.times(t)
             h = r * (_1_0 - t)
 
@@ -1112,7 +1110,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def isSpherical(self):
-        '''Is this model I{spherical} (C{bool})?
+        '''Is this ellipsoid I{spherical} (C{bool})?
         '''
         return self.f == 0
 

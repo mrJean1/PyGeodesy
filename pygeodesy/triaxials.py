@@ -15,17 +15,18 @@ L{Jacobi2Tuple} and L{TriaxialError}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar, map1, _zip  # from .fsums, .namedTuples, .streprs
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS2, _EPS2e4, INT0, PI2, PI_3, PI4, \
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_1_0, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
-# from pygeodesy.ellipsois import Ellipsoid  # ._MODS
+from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
+# from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 # from pygeodesy.elliptic import Elliptic  # ._MODS
 # from pygeodesy.errors import _ValueError  # from .streprs
-from pygeodesy.fmath import fdot, fmean_, hypot, hypot_, hypot2, hypot2_, norm2
+from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, hypot2, hypot2_, norm2
 from pygeodesy.fsums import Fsum, fsum, fsum_, isscalar, Property_RO
 from pygeodesy.interns import NN, _a_, _b_, _c_, _distant_, _height_, _inside_, \
-                             _near_, _not_, _NOTEQUAL_, _null_, _opposite_, _outside_, \
-                             _SPACE_, _spherical_, _too_, _x_, _y_
+                             _invalid_, _near_, _not_, _NOTEQUAL_, _null_, _opposite_, \
+                             _outside_, _SPACE_, _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, map1, Vector3Tuple, Vector4Tuple
@@ -38,7 +39,7 @@ from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '22.11.01'
+__version__ = '22.11.02'
 
 _not_ordered_ = _not_('ordered')
 _TRIPS        =  256  # max 55, Eberly 1074?
@@ -168,7 +169,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
               longitude C{beta} and C{omega} are in C{Radians} by default (or in
               C{Degrees} if converted).
     '''
-    _ordered = False
+    _unordered = True
 
     def __init__(self, a_triax, b=None, c=None, name=NN):
         '''New I{unordered} L{Triaxial_}.
@@ -192,7 +193,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
             self.name = name
 
         a, b, c = self._abc3 = t
-        if not self._ordered:
+        if self._unordered:  # == not isinstance(self, Triaxial)
             s, _, t = sorted(t)
             if not (isfinite(t) and s > 0):
                 raise TriaxialError(a=a, b=b, c=c)  # txt=_invalid_
@@ -239,7 +240,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         c, b, a = sorted(self._abc3)
         if a > c:
             a = Triaxial(a, b, c).area if a > b else \
-                self._Ellipsoid(a, b=c).areax  # a == b
+                Ellipsoid(a, b=c).areax  # a == b
         else:  # a == c == b
             a = Meter2(area=a**2 * PI4)
         return a
@@ -323,51 +324,18 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         return (c / a)**2 if a != c else _1_0
 
     @Property_RO
-    def _Ellipsoid(self):
-        '''(INTERNAL) Get class L{Ellipsoid} once.
-        '''
-        return _MODS.ellipsoids.Ellipsoid
-
-    @Property_RO
     def _Elliptic(self):
         '''(INTERNAL) Get class L{Elliptic} once.
         '''
         return _MODS.elliptic.Elliptic
 
-    def hartzell(self, pov, los=None, name=NN):
+    def hartzell4(self, pov, los=None, name=NN):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight
            from a Point-Of-View in space.
 
-           @arg pov: Point-Of-View outside this triaxial (C{Cartesian}, L{Ecef9Tuple}
-                     or L{Vector3d}).
-           @kwarg los: Line-Of-Sight, I{direction} to this triaxial (L{Vector3d}) or
-                       C{None} to point to this triaxial's center.
-           @kwarg name: Optional name (C{str}).
-
-           @return: L{Vector4Tuple}C{(x, y, z, h)} on this triaxial's surface.
-
-           @raise TriaxialError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}} is
-                                 inside this triaxial or B{C{los}} points outside
-                                 this triaxial or points in an opposite direction.
-
-           @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
-
-           @see: Function L{pygeodesy.tyr3d} for B{C{los}} and I{Hartzell}'s U{I{Satellite
-                 Line-of-Sight Intersection with Earth}<https://StephenHartzell.Medium.com/
-                 satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+           @see: Function L{pygeodesy.hartzell4} for further details.
         '''
-        def _Error(txt):
-            return TriaxialError(pov=pov, los=los, triaxial=self, txt=txt)
-
-        v, h = self._hartzell2(pov, los, _Error)
-        return Vector4Tuple(v.x, v.y, v.z, h, name=name or self.hartzell.__name__)
-
-    def _hartzell2(self, pov, los, Error):
-        '''(INTERNAL) I{Unordered} helper for C{.hartzell}.
-        '''
-        a, b, c = self._abc3
-        return _hartzell3d2( pov, los, a, b, c, Error) if a >= b >= c else \
-               _hartzell3d2u(pov, los, a, b, c, Error)
+        return hartzell4(pov, los=los, tri_biax=self, name=name)
 
     def height4(self, x_xyz, y=None, z=None, normal=True, eps=EPS):
         '''Compute the projection on and the height of a cartesian above or below
@@ -397,19 +365,41 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         '''
         v = Vector3d(x_xyz, y, z) if isscalar(x_xyz) else _otherV3d(x_xyz=x_xyz)
 
-        x, y, z = v.xyz
-        if normal:  # perpendicular to triaxial
+        i, h = None, v.length
+        if h < EPS0:  # EPS
+            x = y = z = _0_0
+            h -= min(self._abc3)
+        elif self.isSpherical:
+            r, _, _ = self._abc3
+            x, y, z = v.times(r / h).xyz
+            h -= r
+        elif normal:  # perpendicular to triaxial
             a, b, c = self._abc3
-            o = self._ordered or a >= b > c
-            x, y, z, h, i = _normalTo5( x, y, z, self,  eps=eps) if o else \
+            x, y, z = v.xyz
+            x, y, z, h, i = _normalTo5( x, y, z, self,  eps=eps) if self.isOrdered else \
                             _normalTo5u(x, y, z, a,b,c, eps=eps)
         else:  # radially to triaxial's center
+            x, y, z = v.xyz
             x, y, z = self._radialTo3(z, hypot(x, y), y, x)
             h, i = v.minus_(x, y, z).length, None
 
-        if h and self.sideOf(v, eps=EPS0) < 0:
+        if h > 0 and self.sideOf(v, eps=EPS0) < 0:
             h = -h  # below the surface
         return Vector4Tuple(x, y, z, h, iteration=i, name=self.height4.__name__)
+
+    @Property_RO
+    def isOrdered(self):
+        '''Is this triaxial I{ordered} and not I{spherical} (C{bool})?
+        '''
+        a, b, c = self._abc3
+        return bool(a >= b > c)  # b > c!
+
+    @Property_RO
+    def isSpherical(self):
+        '''Is this triaxial I{spherical} (C{bool})?
+        '''
+        a, b, c = self._abc3
+        return bool(a == b == c)
 
     def normal3d(self, x, y, z, length=_1_0):
         '''Get a 3-D vector at a cartesian on, perpendicular to this triaxial's surface.
@@ -473,7 +463,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         x, y = r * cb, r * sb
         return x, y, z
 
-    def sideOf(self, x_xyz, y=None, z=None, eps=EPS2):
+    def sideOf(self, x_xyz, y=None, z=None, eps=EPS4):
         '''Is a cartesian above, below or on the surface of this triaxial?
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
@@ -494,7 +484,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
             yield _N_1_0
 
         t = (x_xyz, y, z) if isscalar(x_xyz) else _otherV3d(x_xyz=x_xyz).xyz
-        s = fsum(_x2_a2_1(t, self._abc3))
+        s = fsum(_x2_a2_1(t, self._abc3), floats=True)
         return s if s > eps or s < -eps else INT0
 
     def _sqrt(self, x):
@@ -522,7 +512,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         elif a != c:
             t = _SPACE_(_a_, _NOTEQUAL_, _b_, _NOTEQUAL_, _c_)
             raise TriaxialError(a=a, b=b, c=c, txt=t)
-        return self._Ellipsoid(a, b=b, name=name or self.name)
+        return Ellipsoid(a, b=b, name=name or self.name)
 
     def toStr(self, prec=9, name=NN, **unused):  # PYCHOK signature
         '''Return this C{Triaxial} as a string.
@@ -553,7 +543,7 @@ class Triaxial(Triaxial_):
 
        @see: L{Triaxial_} for more information.
     '''
-    _ordered = True
+    _unordered = False
 
     def __init__(self, a_triax, b=None, c=None, name=NN):
         '''New I{ordered} L{Triaxial}.
@@ -593,10 +583,10 @@ class Triaxial(Triaxial_):
             s2 = self.  e2ac  # sin(phi)**2 == 1 - c2
             s  = sqrt(s2)
             r  = asin1(s)  # phi == atan2(sqrt(c2), s)
-            b *= fsum_(aE.fE(r) * s, aE.fF(r) * c2 / s, c / a * c / b)
+            b *= fsum_(aE.fE(r) * s, aE.fF(r) * c2 / s, c / a * c / b, floats=True)
             a  = Meter2(area=a * b * PI2)
         else:  # a == b > c
-            a  = self._Ellipsoid(a, b=c).areax
+            a  = Ellipsoid(a, b=c).areax
         return a
 
     def _exyz3(self, u):
@@ -720,18 +710,12 @@ class Triaxial(Triaxial_):
         '''
         ca_x_sb = ca * sb
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
-        t = fsum_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
+        t = fsum_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2, floats=True)
         N = self.a / self._sqrt(t)  # prime vertical
         x = (h + N)               * ca * cb
         y = (h + N * self._1e2ab) * ca_x_sb
         z = (h + N * self._1e2ac) * sa
         return Vector3Tuple(x, y, z, name=name)
-
-    def _hartzell2(self, pov, los, Error):
-        '''(INTERNAL) I{Ordered} helper for C{.hartzell}.
-        '''
-        a, b, c = self._abc3
-        return _hartzell3d2(pov, los, a, b, c, Error)
 
     @Property_RO
     def _k2_kp2(self):
@@ -979,33 +963,41 @@ class TriaxialError(_ValueError):
     pass  # ...
 
 
-def _hartzell3d2(pov, los, a, b, c, Error):
-    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ..."
-
-       @note: Partially ordered C{a} >= C{b} and C{a} >= C{c}.
+def _hartzell3d2(pov, los, abc3, Error=TriaxialError):  # MCCABE 13 in .formy.hartzell
+    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...", I{unordered}.
     '''
-    if a < b or a < c:
-        raise TriaxialError(a=a, b=b, c=c, txt=_not_ordered_)
+    def _order2(a, b, c):
+        # @return: 2-Tuple ((a, b, c), un) ordered a >= b >= c
+        if a < b or b < c:
+            t = (a, 0), (b, 1), (c, 2)
+            return _zip(*reversed(sorted(t)))  # strict=True
+        else:  # a >= b >= c
+            return (a, b, c), None  # or ()
 
-    a2 = a**2
-    if a == b:
-        b2 = a2
-        p2 = _1_0
-    else:
-        b2 = b**2
-        p2 = b2 / a2
-    c2 = c**2
-    q2 = c2 / a2
+    def _order3d(un, v):
+        # @return: Vector3d(x, y, z) un/ordered
+        if un:
+            _, xyz = _zip(*sorted(_zip(un, v.xyz)))  # strict=True
+            v = Vector3d(*xyz)
+        return v
 
-    p3 = _otherV3d(pov=pov)
-    u3 = _otherV3d(los=los) if los else p3.negate()
+    (a, b, c), un = _order2(*abc3)
+    if not (isfinite(a) and c > 0):
+        raise Error(_invalid_)
+
+    a2     =   a**2  # largest, factored out
+    b2, p2 =  (b**2, (b / a)**2) if a != b else (a2, _1_0)
+    c2, q2 = ((c**2, (c / a)**2) if a != c else (a2, _1_0)) if b != c else (b2, _1_0)
+
+    p3 = _order3d(un, _otherV3d(pov=pov))
+    u3 = _order3d(un, _otherV3d(los=los)) if los else p3.negate()
     u3 =  u3.unit()  # unit vector, opposing signs
 
     x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
     ux, vy, wz = u3.times_(p3).xyz
     u2, v2, w2 = u3.x2y2z2  # u3.times_(u3).xyz
 
-    t = p2 * c2, c2, b2
+    t = (p2 * c2),  c2, b2
     m = fdot(t, u2, v2, w2)  # a2 factored out
     if m < EPS0:  # zero or near-null LOS vector
         raise Error(_near_(_null_))
@@ -1018,37 +1010,61 @@ def _hartzell3d2(pov, los, a, b, c, Error):
     elif r < 0:  # LOS pointing away from or missing the triaxial
         raise Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
 
-    n = fdot(t, ux, vy, wz)  # a2 factored out
-    d = (n + r) / m  # (n - r) / m for antipode
-    if d > 0:  # POV inside or LOS missing the triaxial
+    d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
+    if d > 0:  # POV inside or LOS missing, outside the triaxial
         raise Error(_inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_)
-    elif fsum_(x2, y2, z2) < d**2:  # d past triaxial's center
+    elif fsum_(x2, y2, z2, floats=True) < d**2:  # d past triaxial's center
         raise Error(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # Vector3d
-    h = p3.minus(v).length
-    return v, h
-
-
-def _hartzell3d2u(pov, los, a, b, c, Error):
-    '''(INTERNAL) I{Unordered} Hartzell's "Satellite Lin-of-Sight Intersection ..."
-    '''
-    def _order2(a, b, c):
-        # @return: 2-Tuple ((a, b, c), un) ordered a >= b >= c
-        t = (a, 0), (b, 1), (c, 2)
-        return _zip(*reversed(sorted(t)))  # strict=True
-
-    def _order3d(un, v):
-        # @return: Vector3d(x, y, z) un/ordered
-        _, xyz = _zip(*sorted(_zip(un, v.xyz)))  # strict=True
-        return Vector3d(*xyz)
-
-    (a, b, c), un = _order2(a, b, c)
-    pov = _order3d(un, _otherV3d(pov=pov))
-    if los:
-        los = _order3d(un, _otherV3d(los=los))
-    v, h = _hartzell3d2(pov, los, a, b, c, Error)
+    h = p3.minus(v).length  # distance to triaxial
     return _order3d(un, v), h
+
+
+E = _WGS84.ellipsoid
+_WGS84 = Triaxial(E.a + 35, E.a - 35, E.b, name=E.name + '+/-35')
+del E
+
+
+def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
+    '''Compute the intersection of a tri-/biaxial ellipsoid and a Line-Of-Sight
+       from a Point-Of-View in space.
+
+       @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple}
+                 or L{Vector3d}).
+       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Vector3d}) or
+                   C{None} to point to the tri-/biaxial's center.
+       @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal})
+                        or biaxial ellipsoid (L{Datum}, L{Ellipsoid}, L{Ellipsoid2},
+                        L{a_f2Tuple} or C{scalar} radius in C{meter}).
+       @kwarg name: Optional name (C{str}).
+
+       @return: L{Vector4Tuple}C{(x, y, z, h)} on the tri-/biaxial's surface, with C{h}
+                the distance from B{C{pov}} to C{(x, y, z)} along B{C{los}}.
+
+       @raise TriaxialError: Null B{C{pov}} or B{C{los}} vector, B{C{pov}} is inside
+                             the tri-/biaxial or B{C{los}} points outside the
+                             tri-/biaxial or points in an opposite direction.
+
+       @raise TypeError: Invalid B{C{pov}} or B{C{los}}.
+
+       @see: Function L{pygeodesy.hartzell}, L{pygeodesy.tyr3d} for B{C{los}} and
+             U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
+             Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+    '''
+    def _Error(txt):
+        return TriaxialError(pov=pov, los=los, tri_biax=tri_biax, txt=txt)
+
+    if isinstance(tri_biax, Triaxial_):
+        T = tri_biax
+    else:
+        D = tri_biax if isinstance(tri_biax, Datum) else \
+                  _spherical_datum(tri_biax, name=hartzell4.__name__)
+        E = D.ellipsoid
+        T = Triaxial_(E.a, E.a, E.b, name=E.name)
+
+    v, h = _hartzell3d2(pov, los, T._abc3, _Error)
+    return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
 
 
 def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
@@ -1245,14 +1261,14 @@ def _normalTo5u(x, y, z, a, b, c, eps=EPS):
         t = (a, 0, x), (b, 1, y), (c, 2, z)
         return _zip(*reversed(sorted(t)))  # strict=True
 
-    def _unorder(un, abcdi):
+    def _unorder5(un, abcdi):
         # @return: 5-Tuple (a, b, c, d, i), unordered
         un += 3, 4  # keep d and i in place
         return tuple(_zip(*sorted(_zip(un, abcdi))))[1]  # strict=True
 
     abc, un, xyzT = _order3(a, b, c, x, y, z)
     xyzT += Triaxial(*abc),
-    return _unorder(un, _normalTo5(*xyzT, eps=eps))
+    return _unorder5(un, _normalTo5(*xyzT, eps=eps))
 
 
 def _SinCos2(x):
@@ -1285,6 +1301,7 @@ if __name__ == '__main__':
         printf('# %r', t)
         if n == 'Earth':
             printf('# %r', JacobiConformal(t.a, t.b, t.c, name=n))
+    printf('# %r', _WGS84)
 
 # **) MIT License
 #
@@ -1310,15 +1327,16 @@ if __name__ == '__main__':
 
 # % python3 -m pygeodesy.triaxials
 
-# Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, volume=2446253479595252, area=93239507787.490386963, area_p=93212299402.670425415)
-# Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, volume=812633172614204032, area=4211301462766.580078125, area_p=4211301574065.829589844)
-# Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, volume=1083208241574987563008, area=510065911057441.0625, area_p=510065915922713.6875)
-# JacobiConformal(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, xyQ2=xyQ2(x=1.572084, y=4.249876), volume=1083208241574987563008, area=510065911057441.0625, area_p=510065915922713.6875)
-# Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596557617, area_p=798619018175.109863281)
-# Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, volume=15966575194402123776, area=30663773697323.52734375, area_p=30663773794562.45703125)
+# Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, volume=2446253479595252, area=93239507787.490371704, area_p=93212299402.670425415)
+# Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, volume=812633172614203904, area=4211301462766.580078125, area_p=4211301574065.829589844)
+# Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
+# JacobiConformal(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, xyQ2=xyQ2(x=1.572084, y=4.249876), volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
+# Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596679688, area_p=798619018175.109863281)
+# Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, volume=15966575194402123776, area=30663773697323.51953125, area_p=30663773794562.45703125)
 # Triaxial(name='Io', a=1829400, b=1819300, c=1815700, e2ab=0.011011391, e2bc=0.003953651, e2ac=0.014921506, volume=25313121117889765376, area=41691875849096.7421875, area_p=41691877397441.2109375)
-# Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, volume=162907283585817214976, area=144249140795107.4375, area_p=144249144150662.15625)
-# Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.692016602, area_p=493857714107.9375)
-# Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835448, area=698880863325.756835938, area_p=698881306767.950317383)
+# Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, volume=162907283585817247744, area=144249140795107.4375, area_p=144249144150662.15625)
+# Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.691894531, area_p=493857714107.9375)
+# Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835456, area=698880863325.756958008, area_p=698881306767.950317383)
 # Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, volume=21886698675223740416, area=37838824729886.09375, area_p=37838824733332.2265625)
 # Triaxial(name='Tethys', a=535600, b=528200, c=525800, e2ab=0.027441672, e2bc=0.009066821, e2ac=0.036259685, volume=623086233855821440, area=3528073490771.394042969, area_p=3528074261832.738769531)
+# Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.314245179, e2ab=0.00002195, e2bc=0.006683478, e2ac=0.006705281, volume=1083207319768789942272, area=510065621722018.125, area_p=510065626587483.3125)

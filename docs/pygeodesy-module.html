@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.11.01
+        22.11.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -7999,6 +7999,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">pov</span>,
+        <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.31<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Compute the intersection of a tri-/biaxial ellipsoid and a 
+      Line-Of-Sight from a Point-Of-View in space.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hausdorff_" class="summary-sig-name">hausdorff_</a>(<span class="summary-sig-arg">model</span>,
         <span class="summary-sig-arg">target</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>,
@@ -8006,7 +8027,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa138367050&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb9d86a30d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12467,7 +12488,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.11.1'"><code class="variable-quote">'</code><code class="variable-string">22.11.1</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.11.2'"><code class="variable-quote">'</code><code class="variable-string">22.11.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19938,9 +19959,85 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.ltp-module.html#tyr3d" 
-        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and 
-        Hartzell's <a 
+        Function <a href="pygeodesy.triaxials-module.html#hartzell4" 
+        class="link">pygeodesy.hartzell4</a>, <a 
+        href="pygeodesy.ltp-module.html#tyr3d" 
+        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and <a
+        
+        href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
+        target="_top"><i>Satellite Line-of-Sight Intersection with 
+        Earth</i></a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="hartzell4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">pov</span>,
+        <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tri_biax</span>=<span class="sig-default">Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.31<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of a tri-/biaxial ellipsoid and a 
+  Line-Of-Sight from a Point-Of-View in space.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>pov</code></strong> - Point-Of-View outside the tri-/biaxial (<code>Cartesian</code>, 
+          <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a> or <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>los</code></strong> - Line-Of-Sight, <i>direction</i> to the tri-/biaxial (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code> to point to the 
+          tri-/biaxial's center.</li>
+        <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a href="pygeodesy.triaxials.Triaxial-class.html" 
+          class="link">Triaxial</a>, <a 
+          href="pygeodesy.triaxials.Triaxial_-class.html" 
+          class="link">Triaxial_</a>, <a 
+          href="pygeodesy.triaxials.JacobiConformal-class.html" 
+          class="link">JacobiConformal</a>) or biaxial ellipsoid (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a> or <code>scalar</code> radius in 
+          <code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> on the 
+          tri-/biaxial's surface, with <code>h</code> the distance from 
+          <b><code>pov</code></b> to <code>(x, y, z)</code> along 
+          <b><code>los</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Null <b><code>pov</code></b> or <b><code>los</code></b> vector, 
+        <b><code>pov</code></b> is inside the tri-/biaxial or 
+        <b><code>los</code></b> points outside the tri-/biaxial or points 
+        in an opposite direction.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>pov</code></b> or <b><code>los</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#hartzell" 
+        class="link">pygeodesy.hartzell</a>, <a 
+        href="pygeodesy.ltp-module.html#tyr3d" 
+        class="link">pygeodesy.tyr3d</a> for <b><code>los</code></b> and <a
+        
         href="https://StephenHartzell.Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6"
         target="_top"><i>Satellite Line-of-Sight Intersection with 
         Earth</i></a>.
@@ -19961,7 +20058,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa138367050&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb9d86a30d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29316,7 +29413,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov  1 19:41:18 2022
+    Generated by Epydoc 3.0.1 on Wed Nov  2 17:27:01 2022
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -15,7 +15,7 @@ from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, limiterrors, _ValueError
-from pygeodesy.fmath import euclid, fdot, hypot, hypot2, sqrt0
+from pygeodesy.fmath import Fdot, euclid, fdot, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum_, unstr
 from pygeodesy.interns import NN, _distant_, _inside_, _near_, _null_, \
                              _opposite_, _outside_, _too_
@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.10.20'
+__version__ = '22.11.02'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -903,9 +903,9 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 
        @raise TypeError: Invalid B{C{pov}}, B{C{los}} or B{C{earth}}.
 
-       @see: Function L{pygeodesy.tyr3d} for B{C{los}} and Hartzell's U{I{Satellite
-             Line-of-Sight Intersection with Earth}<https://StephenHartzell.Medium.com/
-             satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
+       @see: Function L{pygeodesy.hartzell4}, L{pygeodesy.tyr3d} for B{C{los}} and
+             U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
+             Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
     def _Error(txt):
         return IntersectionError(pov=pov, los=los, earth=earth, txt=txt)
@@ -914,8 +914,8 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
            _spherical_datum(earth, name=hartzell.__name__)
     E = D.ellipsoid
 
-    if False:  # PYCHOK no cover
-        r, _ = _MODS.triaxials._hartzell3d2(pov, los, E.a, E.a, E.b, _Error)
+    if E.b > E.a:  # PYCHOK no cover
+        r, _ = _MODS.triaxials._hartzell3d2(pov, los, (E.a, E.a, E.b), _Error)
     else:
         a2 = b2 = E.a2  # earth' x, y, ...
         c2 = E.b2  # ... z semi-axis squared
@@ -945,14 +945,14 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
         elif r < 0:  # LOS pointing away from or missing the earth
             raise _Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
 
-        n = fdot(t, ux, vy, wz)  # a2 factored out
-        d = (n + r) / m  # (n - r) / m for antipode
-        if d > 0:  # POV inside or LOS missing the earth
+        d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
+        if d > 0:  # POV inside or LOS missing, outside the earth
             raise _Error(_inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_)
         elif fsum_(x2, y2, z2) < d**2:  # d past earth center
             raise _Error(_too_(_distant_))
 
         r = p3.minus(u3.times(d))
+#       h = p3.minus(r).length  # distance to ellipsoid
 
     r = _xnamed(r, name or hartzell.__name__)
     if LatLon_and_kwds:

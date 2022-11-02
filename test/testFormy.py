@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '22.09.21'
+__version__ = '22.11.02'
 
 from base import TestsBase
 
@@ -118,11 +118,14 @@ class Tests(TestsBase):
         self.test('isnormal7', isnormal_(-0.,    PI), True)
         self.test('isnormal8', isnormal_(-PI_2+0.1, PI-0.1, eps=0.1), True)
 
-        pov, los = V3(1e7, 1e7, 1e7), V3(-0.7274, -0.3637, -0.5819)
-        self.test('hartzell',    hartzell(pov, los).toStr(prec=6),                '(1125440.234789, 5562720.117395, 2900596.195524)')
-        self.test('hartzell',    hartzell(pov, los, LatLon=LatLon_).toStr(prec=6), "27.226919°N, 078.562403°E, -0.00, 'hartzell'")
-        self.test('hartzell',    hartzell(pov).toStr(prec=6),                     '(3678289.79469, 3678289.79469, 3678289.79469)')
-        self.test('hartzell',    hartzell(pov, LatLon=LatLon_).toStr(prec=6),      "35.446011°N, 045.0°E, -0.00, 'hartzell'")
+        pov = V3(10.1e6, 10.2e6, 10.3e6)  # 10+ km
+        los = V3(-0.7274, -0.3637, -0.5819)
+        self.test('hartzell', hartzell(pov, los).toStr(prec=6), '(884080.396945, 5592040.198472, 2927517.711001)')
+        ll = hartzell(pov, los, LatLon=LatLon_)
+        self.test('hartzell', ll.toStr(prec=6), "27.500482°N, 081.016111°E, +0.00, 'hartzell'", known=abs(ll.height) < 1e-6)
+        self.test('hartzell', hartzell(pov).toStr(prec=6), '(3642031.283571, 3678090.99925, 3714150.714929)')
+        ll = hartzell(pov, LatLon=LatLon_)
+        self.test('hartzell', ll.toStr(prec=6), "35.843738°N, 045.282243°E, +0.00, 'hartzell'", known=abs(ll.height) < 1e-6)
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')
