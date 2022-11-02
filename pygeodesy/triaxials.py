@@ -15,7 +15,7 @@ L{Jacobi2Tuple} and L{TriaxialError}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar, map1, _zip  # from .fsums, .namedTuples, .streprs
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS2, INT0, PI2, PI_3, PI4, \
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS2, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_1_0, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
 # from pygeodesy.ellipsois import Ellipsoid  # ._MODS
@@ -787,7 +787,7 @@ class Triaxial(Triaxial_):
         a, b, h = self._reverse3(x, y, z, atan2, v, self.forwardBetaOmega_)
         return BetaOmega3Tuple(Radians(beta=a), Radians(omega=b), h, name=name)
 
-    def reverseCartesian(self, x, y, z, h, normal=True, eps=EPS * 1e2, name=NN):
+    def reverseCartesian(self, x, y, z, h, normal=True, eps=_EPS2e4, name=NN):
         '''"Unproject" a cartesian on to a cartesion off this triaxial's surface.
 
            @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).

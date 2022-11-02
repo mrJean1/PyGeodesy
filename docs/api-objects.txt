@@ -730,7 +730,7 @@ pygeodesy.constants.isinf	pygeodesy.constants-module.html#isinf
 pygeodesy.constants.INF	pygeodesy.constants-module.html#INF
 pygeodesy.constants._10_0	pygeodesy.constants-module.html#_10_0
 pygeodesy.constants.isnear0	pygeodesy.constants-module.html#isnear0
-pygeodesy.constants._EPSmin	pygeodesy.constants-module.html#_EPSmin
+pygeodesy.constants._1000_0	pygeodesy.constants-module.html#_1000_0
 pygeodesy.constants._EPSqrt	pygeodesy.constants-module.html#_EPSqrt
 pygeodesy.constants._1_16th	pygeodesy.constants-module.html#_1_16th
 pygeodesy.constants._M_KM	pygeodesy.constants-module.html#_M_KM
@@ -777,6 +777,7 @@ pygeodesy.constants._2__PI	pygeodesy.constants-module.html#_2__PI
 pygeodesy.constants._32_0	pygeodesy.constants-module.html#_32_0
 pygeodesy.constants._M_SM	pygeodesy.constants-module.html#_M_SM
 pygeodesy.constants._90_0	pygeodesy.constants-module.html#_90_0
+pygeodesy.constants._EPS2e4	pygeodesy.constants-module.html#_EPS2e4
 pygeodesy.constants._1_0_1T	pygeodesy.constants-module.html#_1_0_1T
 pygeodesy.constants._float0	pygeodesy.constants-module.html#_float0
 pygeodesy.constants._1_3rd	pygeodesy.constants-module.html#_1_3rd
@@ -785,7 +786,7 @@ pygeodesy.constants._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.constants._umod_360	pygeodesy.constants-module.html#_umod_360
 pygeodesy.constants.isnear1	pygeodesy.constants-module.html#isnear1
 pygeodesy.constants.PI3_2	pygeodesy.constants-module.html#PI3_2
-pygeodesy.constants._1000_0	pygeodesy.constants-module.html#_1000_0
+pygeodesy.constants._EPSmin	pygeodesy.constants-module.html#_EPSmin
 pygeodesy.constants._1_over	pygeodesy.constants-module.html#_1_over
 pygeodesy.constants._270_0	pygeodesy.constants-module.html#_270_0
 pygeodesy.constants.PI_2	pygeodesy.constants-module.html#PI_2

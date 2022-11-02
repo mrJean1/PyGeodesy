@@ -186,15 +186,16 @@ EPS4      = _Float( EPS4   = EPS * _4_0)     # PYCHOK ≈ 8.881784197001e-16
 # _1EPS   = _Float(_1EPS   =_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
 _1_EPS    = _Float(_1_EPS  =_1_0 / EPS)      # PYCHOK = 4503599627370496.0
 # _2_EPS  = _Float(_2_EPS  =_2_0 / EPS)      # PYCHOK = 9007199254740992.0
+_EPS2e4   = _Float(_EPS2e4 = EPS2 * 1.e4)    # PYCHOK ≈ 4.440892098501e-12
 _EPS4e8   = _Float(_EPS4e8 = EPS4 * 1.e8)    # PYCHOK ≈ 8.881784197001e-08
 _EPSmin   = _Float(_EPSmin = sqrt(MIN))      # PYCHOK = 1.49166814624e-154
 _EPSqrt   = _Float(_EPSqrt = sqrt(EPS))      # PYCHOK = 1.49011611938e5-08
 _EPStol   = _Float(_EPStol =_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
 
-_89_999_  = _Float(_89_999_=EPS1 * _90_0)  # just below 90.0
+_89_999_  = _Float(_89_999_= EPS1 * _90_0)   # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1__90    = _Float(_1__90  =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI    = _Float(_2__PI  =_2_0 / _pi)    # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+_1__90    = _Float(_1__90  =_1_0 / _90_0)    # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+_2__PI    = _Float(_2__PI  =_2_0 / _pi)      # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
 _1_16th   = _Float(_1_16th =_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney
 _1_64th   = _Float(_1_64th =_1_0 /  64)    # PYCHOK in .elliptic, pow(2.0, -6)
