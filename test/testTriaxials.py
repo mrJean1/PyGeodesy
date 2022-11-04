@@ -236,7 +236,7 @@ class Tests(TestsBase):
             sp   = map2(_s, p[:3])
             sxyz = map2(_s, xyz)
             if sp != sxyz:
-                self.test(s, sp, sxyz, known=True)  # ???
+                self.test(s, sp, sxyz)
 
 #       for xyz in ((0, 0, 0), (0, 0, 1), (0, 1, 0),
 #                   (0, 1, 1), (1, 0, 0), (1, 0, 1),
