@@ -42,7 +42,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.10.12'
+__version__ = '22.11.03'
 
 
 class LatLonBase(_NamedBase):
@@ -633,9 +633,10 @@ class LatLonBase(_NamedBase):
         '''Compute the height above or below and the projection on this datum's
            ellipsoid surface.
 
-           @kwarg earth: A datum, ellipsoid or earth radius I{overriding} this
-                         datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
-                         or C{meter}, conventionally).
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius
+                         I{overriding} this datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
+                         L{JacobiConformal} or C{meter}, conventionally).
            @kwarg normal: If C{True} the projection is the nearest point on the
                           ellipsoid's surface, otherwise the intersection of the
                           radial line to the center and the ellipsoid's surface.
@@ -651,14 +652,16 @@ class LatLonBase(_NamedBase):
                     L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
                     and C{z} coordinates and height C{h} in C{meter}, conventionally.
 
+           @raise TriaxialError: No convergence in triaxial root finding.
+
            @raise TypeError: Invalid B{C{earth}}.
 
-           @see: L{Ellipsoid.height4} for more information.
+           @see: L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
+        c = self.toCartesian()
         if LatLon is None:
-            r = self.toCartesian().height4(earth=earth, normal=normal)
+            r = c.height4(earth=earth, normal=normal)
         else:
-            c = self.toCartesian()
             r = c.height4(earth=earth, normal=normal, Cartesian=c.classof, height=0)
             r = r.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, height=r.height))
         return r

@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.11.02'
+__version__ = '22.11.03'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -915,7 +915,10 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
     E = D.ellipsoid
 
     if E.b > E.a:  # PYCHOK no cover
-        r, _ = _MODS.triaxials._hartzell3d2(pov, los, (E.a, E.a, E.b), _Error)
+        try:
+            r, _ = _MODS.triaxials._hartzell3d2(pov, los, (E.a, E.a, E.b))
+        except Exception as x:
+            raise _Error(str(x))
     else:
         a2 = b2 = E.a2  # earth' x, y, ...
         c2 = E.b2  # ... z semi-axis squared
@@ -947,7 +950,7 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 
         d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
         if d > 0:  # POV inside or LOS missing, outside the earth
-            raise _Error(_inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_)
+            raise _Error(_outside_ if max(x2 - a2, y2 - b2, z2 - c2) > EPS else _inside_)
         elif fsum_(x2, y2, z2) < d**2:  # d past earth center
             raise _Error(_too_(_distant_))
 

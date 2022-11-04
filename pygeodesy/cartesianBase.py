@@ -31,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn3
 # from math import sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '22.10.11'
+__version__ = '22.11.03'
 
 
 class CartesianBase(Vector3d):
@@ -253,9 +253,10 @@ class CartesianBase(Vector3d):
         '''Compute the height of this cartesian above or below and the projection
            on this datum's ellipsoid surface.
 
-           @kwarg earth: A datum, ellipsoid or earth radius I{overriding} this
-                         datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
-                         or C{meter}, conventionally).
+           @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius
+                         I{overriding} this datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2}, L{a_f2Tuple}, L{Triaxial}, L{Triaxial_},
+                         L{JacobiConformal} or C{meter}, conventionally).
            @kwarg normal: If C{True} the projection is the nearest point on the
                           ellipsoid's surface, otherwise the intersection of the
                           radial line to the center and the ellipsoid's surface.
@@ -271,13 +272,19 @@ class CartesianBase(Vector3d):
                     L{Vector4Tuple}C{(x, y, z, h)} with the I{projection} C{x}, C{y}
                     and C{z} coordinates and height C{h} in C{meter}, conventionally.
 
+           @raise TriaxialError: No convergence in triaxial root finding.
+
            @raise TypeError: Invalid B{C{earth}}.
 
-           @see: L{Ellipsoid.height4} for more information.
+           @see: L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
         d = self.datum if earth is None else earth
-        r = self._height4 if normal and d == self.datum else \
-                       _spherical_datum(d).ellipsoid.height4(self, normal=normal)
+        if normal and d == self.datum:
+            r =  self._height4
+        elif isinstance(d, _MODS.triaxials.Triaxial_):
+            r =  d.height4(self, normal=normal)
+        else:
+            r = _spherical_datum(d).ellipsoid.height4(self, normal=normal)
         if Cartesian is not None:
             kwds = Cartesian_kwds.copy()
             h = kwds.pop(_height_, None)

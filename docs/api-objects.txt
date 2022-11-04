@@ -3373,7 +3373,6 @@ pygeodesy.triaxials.hypot2_	pygeodesy.fmath-module.html#hypot2_
 pygeodesy.triaxials.km2m	pygeodesy.utily-module.html#km2m
 pygeodesy.triaxials._not_ordered_	pygeodesy.triaxials-module.html#_not_ordered_
 pygeodesy.triaxials.hartzell4	pygeodesy.triaxials-module.html#hartzell4
-pygeodesy.triaxials._normalTo4u	pygeodesy.triaxials-module.html#_normalTo4u
 pygeodesy.triaxials._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.triaxials._TRIPS	pygeodesy.triaxials-module.html#_TRIPS
 pygeodesy.triaxials.sincos2d_	pygeodesy.utily-module.html#sincos2d_
@@ -3396,7 +3395,8 @@ pygeodesy.triaxials._SinCos2	pygeodesy.triaxials-module.html#_SinCos2
 pygeodesy.triaxials._hartzell3d2	pygeodesy.triaxials-module.html#_hartzell3d2
 pygeodesy.triaxials._otherV3d	pygeodesy.vector3d-module.html#_otherV3d
 pygeodesy.triaxials.hypot2	pygeodesy.fmath-module.html#hypot2
-pygeodesy.triaxials._normalTo5u	pygeodesy.triaxials-module.html#_normalTo5u
+pygeodesy.triaxials._order3	pygeodesy.triaxials-module.html#_order3
+pygeodesy.triaxials._order4	pygeodesy.triaxials-module.html#_order4
 pygeodesy.triaxials.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.triaxials.__package__	pygeodesy.triaxials-module.html#__package__
 pygeodesy.triaxials.map1	pygeodesy.basics-module.html#map1

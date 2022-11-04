@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.11.02'
+__version__ = '22.11.03'
 
 from base import random, startswith, TestsBase
 
@@ -170,10 +170,10 @@ class Tests(TestsBase):
         self.test(n, e.hartzell4(p).toStr(prec=6),    '(3642031.283571, 3678090.99925, 3714150.714929, 11296639.666827)')
 
         t = U.hartzell4(p, v)
-        self.test(n, t.toStr(prec=6), '(5585791.305438, 2917519.825775, 871582.610876, 12686828.717519)', nl=1)
+        self.test(n, t.toStr(prec=6), '(888679.181482, 5594339.590741, 2931196.612187, 12663325.092381)', nl=1)
         self.test(n, U.sideOf(t), 0)
         t = U.hartzell4(p)
-        self.test(n, t.toStr(prec=6), '(3678286.263029, 3714347.893058, 3642224.632999, 11296301.449205)')
+        self.test(n, t.toStr(prec=6), '(3642304.092727, 3678366.509487, 3714428.926247, 11296162.453809)')
         self.test(n, U.sideOf(t, eps=EPS4), 0)
 
         T = Triaxial(3, 2, 1)  # Eberly
@@ -202,33 +202,41 @@ class Tests(TestsBase):
                     self.test(b + xyz, map1(signBit, p.x, p.y, p.z),
                                        map1(signBit,   x,   y,   z), nt=1)
 
-        t  = T.height4(6, 5, 4)
+        a, b, c = 6, 5, 4
+        t  = T.height4(a, b, c)
         t += t.iteration,
+        x, y, z, d, i = t
         f  = module._normalTo5
-        s  = f(6, 5, 4, T)  # ordered
+        s  = f(a, b, c, T)  # ordered
         self.test(f.__name__, fstr(t, prec=3, ints=True), fstr(s, prec=3, ints=True))
-        f  = module._normalTo5u
-        u  = f(5, 6, 4, 2, 3, 1)  # swap x and y
-        s  = t[1], t[0], t[2], t[3], t[4]
+        u  = f(a, c, b, Triaxial_(T.a, T.c, T.b))
+        s  = x, z, y, d, i
         self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
-        u  = f(4, 5, 6, 1, 2, 3)  # swap x and z
-        s  = t[2], t[1], t[0], t[3], t[4]
+        u  = f(b, a, c, Triaxial_(T.b, T.a, T.c))
+        s  = y, x, z, d, i
         self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
-        u  = f(5, 4, 6, 2, 1, 3)  # swap x and z, then x and y
-        s  = t[1], t[2], t[0], t[3], t[4]
+        u  = f(b, c, a, Triaxial_(T.b, T.c, T.a))
+        s  = y, z, x, d, i
+        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        u  = f(c, a, b, Triaxial_(T.c, T.a, T.b))
+        s  = z, x, y, d, i
+        self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True))
+        u  = f(c, b, a, Triaxial_(T.c, T.b, T.a))
+        s  = z, y, x, d, i
         self.test(f.__name__, fstr(u, prec=3, ints=True), fstr(s, prec=3, ints=True), nt=1)
 
 #       n = U.height4.__name__
-        a, b, c, _s = U.a * 2, U.b * 2, U.c * 2, signBit
+        x, y, z, _s = U.a * 2, U.b * 2, U.c * 2, signBit
         for _ in range(256):
-            xyz = _r(a), _r(b), _r(c)
+            xyz = _r(x), _r(y), _r(z)
+            s = n + str(xyz)
             p = U.height4(*xyz)
-            s = '%s %s' % (str(p), p.iteration)
-            self.test(n + str(xyz), s, s)
-            sp = _s(p.x), _s(p.y), _s(p.z)
+            t = '%s %s' % (str(p), p.iteration)
+            self.test(s, t, t)
+            sp   = map2(_s, p[:3])
             sxyz = map2(_s, xyz)
             if sp != sxyz:
-                self.test(n + str(xyz), sp, sxyz)
+                self.test(s, sp, sxyz, known=True)  # ???
 
 #       for xyz in ((0, 0, 0), (0, 0, 1), (0, 1, 0),
 #                   (0, 1, 1), (1, 0, 0), (1, 0, 1),

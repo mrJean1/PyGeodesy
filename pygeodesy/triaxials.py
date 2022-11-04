@@ -25,8 +25,8 @@ from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, hypot2, hypot2_, norm2
 from pygeodesy.fsums import Fsum, fsum, fsum_, isscalar, Property_RO
 from pygeodesy.interns import NN, _a_, _b_, _c_, _distant_, _height_, _inside_, \
-                             _invalid_, _near_, _not_, _NOTEQUAL_, _null_, _opposite_, \
-                             _outside_, _SPACE_, _spherical_, _too_, _x_, _y_
+                             _near_, _not_, _NOTEQUAL_, _null_, _opposite_, _outside_, \
+                             _SPACE_, _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, map1, Vector3Tuple, Vector4Tuple
@@ -39,7 +39,7 @@ from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '22.11.02'
+__version__ = '22.11.03'
 
 _not_ordered_ = _not_('ordered')
 _TRIPS        =  256  # max 55, Eberly 1074?
@@ -373,18 +373,18 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
             r, _, _ = self._abc3
             x, y, z = v.times(r / h).xyz
             h -= r
-        elif normal:  # perpendicular to triaxial
-            a, b, c = self._abc3
+        else:
             x, y, z = v.xyz
-            x, y, z, h, i = _normalTo5( x, y, z, self,  eps=eps) if self.isOrdered else \
-                            _normalTo5u(x, y, z, a,b,c, eps=eps)
-        else:  # radially to triaxial's center
-            x, y, z = v.xyz
-            x, y, z = self._radialTo3(z, hypot(x, y), y, x)
-            h, i = v.minus_(x, y, z).length, None
-
-        if h > 0 and self.sideOf(v, eps=EPS0) < 0:
-            h = -h  # below the surface
+            if normal:  # perpendicular to triaxial
+                try:
+                    x, y, z, h, i = _normalTo5(x, y, z, self, eps=eps)
+                except Exception as e:
+                    raise TriaxialError(x=x, y=y, z=z, cause=e)
+            else:  # radially to triaxial's center
+                x, y, z = self._radialTo3(z, hypot(x, y), y, x)
+                h = v.minus_(x, y, z).length
+            if h > 0 and self.sideOf(v, eps=EPS0) < 0:
+                h = -h  # below the surface
         return Vector4Tuple(x, y, z, h, iteration=i, name=self.height4.__name__)
 
     @Property_RO
@@ -963,34 +963,21 @@ class TriaxialError(_ValueError):
     pass  # ...
 
 
-def _hartzell3d2(pov, los, abc3, Error=TriaxialError):  # MCCABE 13 in .formy.hartzell
+def _hartzell3d2(pov, los, abc3):  # MCCABE 13 in .formy.hartzell
     '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...", I{unordered}.
     '''
-    def _order2(a, b, c):
-        # @return: 2-Tuple ((a, b, c), un) ordered a >= b >= c
-        if a < b or b < c:
-            t = (a, 0), (b, 1), (c, 2)
-            return _zip(*reversed(sorted(t)))  # strict=True
-        else:  # a >= b >= c
-            return (a, b, c), None  # or ()
+    def _order3d(ijk, v, **reverse):  # reverse=False
+        # @return: Vector3d(x, y, z) un-/ordered
+        return Vector3d(*_order3(ijk, *v.xyz, **reverse)) if ijk else v
 
-    def _order3d(un, v):
-        # @return: Vector3d(x, y, z) un/ordered
-        if un:
-            _, xyz = _zip(*sorted(_zip(un, v.xyz)))  # strict=True
-            v = Vector3d(*xyz)
-        return v
+    a, b, c, ijk = _order4(*abc3)
 
-    (a, b, c), un = _order2(*abc3)
-    if not (isfinite(a) and c > 0):
-        raise Error(_invalid_)
+    a2     =  a**2  # largest, factored out
+    b2, p2 = (b**2, (b / a)**2) if b != a else (a2, _1_0)
+    c2, q2 =  c**2, (c / a)**2
 
-    a2     =   a**2  # largest, factored out
-    b2, p2 =  (b**2, (b / a)**2) if a != b else (a2, _1_0)
-    c2, q2 = ((c**2, (c / a)**2) if a != c else (a2, _1_0)) if b != c else (b2, _1_0)
-
-    p3 = _order3d(un, _otherV3d(pov=pov))
-    u3 = _order3d(un, _otherV3d(los=los)) if los else p3.negate()
+    p3 = _order3d(ijk, _otherV3d(pov=pov))
+    u3 = _order3d(ijk, _otherV3d(los=los)) if los else p3.negate()
     u3 =  u3.unit()  # unit vector, opposing signs
 
     x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
@@ -1000,7 +987,7 @@ def _hartzell3d2(pov, los, abc3, Error=TriaxialError):  # MCCABE 13 in .formy.ha
     t = (p2 * c2),  c2, b2
     m = fdot(t, u2, v2, w2)  # a2 factored out
     if m < EPS0:  # zero or near-null LOS vector
-        raise Error(_near_(_null_))
+        raise _ValueError(_near_(_null_))
 
     r = fsum_(b2 * w2,       c2 * v2,      -v2 * z2,      vy * wz * 2,
              -w2 * y2,       b2 * u2 * q2, -u2 * z2 * p2, ux * wz * 2 * p2,
@@ -1008,17 +995,17 @@ def _hartzell3d2(pov, los, abc3, Error=TriaxialError):  # MCCABE 13 in .formy.ha
     if r > 0:  # a2 factored out
         r = sqrt(r) * b * c  # == a * a * b * c / a2
     elif r < 0:  # LOS pointing away from or missing the triaxial
-        raise Error(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
+        raise _ValueError(_opposite_ if max(ux, vy, wz) > 0 else _outside_)
 
     d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
     if d > 0:  # POV inside or LOS missing, outside the triaxial
-        raise Error(_inside_ if min(x2 - a2, y2 - b2, z2 - c2) < EPS else _outside_)
+        raise _ValueError(_outside_ if max(x2 - a2, y2 - b2, z2 - c2) > EPS else _inside_)
     elif fsum_(x2, y2, z2, floats=True) < d**2:  # d past triaxial's center
-        raise Error(_too_(_distant_))
+        raise _ValueError(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # Vector3d
     h = p3.minus(v).length  # distance to triaxial
-    return _order3d(un, v), h
+    return _order3d(ijk, v, reverse=True), h
 
 
 E = _WGS84.ellipsoid
@@ -1052,9 +1039,6 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
              U{I{Satellite Line-of-Sight Intersection with Earth}<https://StephenHartzell.
              Medium.com/satellite-line-of-sight-intersection-with-earth-d786b4a6a9b6>}.
     '''
-    def _Error(txt):
-        return TriaxialError(pov=pov, los=los, tri_biax=tri_biax, txt=txt)
-
     if isinstance(tri_biax, Triaxial_):
         T = tri_biax
     else:
@@ -1063,12 +1047,15 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
         E = D.ellipsoid
         T = Triaxial_(E.a, E.a, E.b, name=E.name)
 
-    v, h = _hartzell3d2(pov, los, T._abc3, _Error)
+    try:
+        v, h = _hartzell3d2(pov, los, T._abc3)
+    except Exception as x:
+        raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
     return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
 
 
-def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
-    '''(INTERNAL) Nearest point on and distance to an I{ordered} 2-D ellipse.
+def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
+    '''(INTERNAL) Nearest point on and distance to a 2-D ellipse, I{unordered}.
 
        @see: Function C{pygeodesy.ellipsoids._normalTo3} and I{Eberly}'s U{Distance
              from a Point to ... an Ellipsoid ...<https://www.GeometricTools.com/
@@ -1082,9 +1069,8 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
         t0 =  v - _1
         t1 = _0_0 if g < 0 else (hypot(u, v) - _1)
         for i in range(1, _TRIPS):
-            t =   (t0 + t1) * __2
-            e = _a(t0 - t1)
-            if t in (t0, t1) or e < eps:
+            t = (t0 + t1) * __2
+            if t in (t0, t1) or _a(t0 - t1) < eps:
                 break
             g = _h2(u / (t + r), v / (t + _1)) - _1
             if g > 0:
@@ -1094,12 +1080,17 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
             else:
                 break
         else:  # PYCHOK no cover
+            e = _a(t0 - t1)
             t = _root2d.__name__
-            raise TriaxialError(Fmt.no_convergence(e, eps), txt=t)
+            raise _ValueError(Fmt.no_convergence(e, eps), txt=t)
         return t, i
 
-    if not (a >= b > 0):
-        raise TriaxialError(a=a, b=b, txt=_not_ordered_)
+    if a < b:
+        b, a, d, i = _normalTo4(y, x, b, a, eps=eps)
+        return a, b, d, i
+
+    if not (isfinite(a) and b > 0):
+        raise _ValueError(a=a, b=b)
 
     i = None
     if y:
@@ -1135,18 +1126,8 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 13
     return a, b, d, i
 
 
-def _normalTo4u(x, y, a, b, eps=EPS):  # PYCHOK no cover
-    '''(INTERNAL) Nearest point on and distance to an I{unordered} 2-D ellipse.
-    '''
-    if a < b:
-        b, a, d, i = _normalTo4(b, a, y, x, eps=eps)
-    else:
-        a, b, d, i = _normalTo4(a, b, x, y, eps=eps)
-    return a, b, d, i
-
-
-def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
-    '''(INTERNAL) Nearest point on and distance to an I{ordered} triaxial.
+def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
+    '''(INTERNAL) Nearest point on and distance to an I{unordered} triaxial.
 
        @see: I{Eberly}'s U{Distance from a Point to ... an Ellipsoid ...<https://
              www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
@@ -1160,9 +1141,8 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
         t0 =  w - _1
         t1 = _0_0 if g < 0 else (hypot_(u, v, w) - _1)
         for i in range(1, _TRIPS):
-            t =   (t0 + t1) * __2
-            e = _a(t0 - t1)
-            if t in (t0, t1) or e < eps:
+            t = (t0 + t1) * __2
+            if t in (t0, t1) or _a(t0 - t1) < eps:
                 break
             g = _h2(u / (t + r), v / (t + s), w / (t + _1)) - _1
             if g > 0:
@@ -1172,13 +1152,19 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
             else:
                 break
         else:  # PYCHOK no cover
+            e = _a(t0 - t1)
             t = _root3d.__name__
-            raise TriaxialError(Fmt.no_convergence(e, eps), txt=t)
+            raise _ValueError(Fmt.no_convergence(e, eps), txt=t)
         return t, i
 
-    a, b, c = T._abc3
-    if not (a >= b >= c > 0):
-        raise TriaxialError(a=a, b=b, c=c, triaxial=T, txt=_not_ordered_)
+    a, b, c, ijk = _order4(*T._abc3)
+    if ijk:
+        t = _order3(ijk, x, y, z) + (Triaxial_(a, b, c),)
+        a, b, c, d, i = _normalTo5(*t, eps=eps)
+        return _order3(ijk, a, b, c, reverse=True) + (d, i)
+
+    if not (isfinite(a) and c > 0):
+        raise _ValueError(a=a, b=b, c=c)
 
     if eps > 0:
         val = max(eps * 1e8, EPS)
@@ -1238,9 +1224,8 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
     if val > 0:  # validate
         e = T.sideOf(a, b, c, eps=val)
         if e:  # not near the ellipsoid's surface
-            raise TriaxialError(a=a, b=b, c=c, d=d,
-                                x=x, y=y, z=z, eps=val,
-                                sideOf=e, txt=T.toRepr())
+            raise _ValueError(a=a, b=b, c=c, d=d,
+                              sideOf=e, eps=val)
         if d:  # angle of delta and normal vector
             m = Vector3d(x, y, z).minus_(a, b, c)
             if m.euclid > val:
@@ -1248,27 +1233,43 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 23
                 n = T.normal3d(a, b, c)
                 e = n.dot(m)  # n.negate().dot(m)
                 if not isnear1(fabs(e), eps1=val):
-                    raise TriaxialError(n=n, m=m, eps=val,
-                                        dot=e, txt=T.toRepr())
+                    raise _ValueError(n=n, m=m,
+                                    dot=e, eps=val)
     return a, b, c, d, i
 
 
-def _normalTo5u(x, y, z, a, b, c, eps=EPS):
-    '''(INTERNAL) Nearest point on and distance to an I{unordered} 3-D, triaxial ellipsoid.
+def _order3(ijk, *abc, **reverse):  # reverse=False
+    '''(INTERNAL) Order or un-order C{a}, C{b} and C{c} by C{ijk}.
+
+       @return: 3-Tuple C{(a, b, c)} ordered by C{ijk} or
+                un-ordered by (reverse-ordered) C{ijk} if
+                C{B{reverse}=True}.
     '''
-    def _order3(a, b, c, x, y, z):
-        # @return: 3-Tuple ((a, b, c), un, (x, y, z)), ordered a >= b >= c
-        t = (a, 0, x), (b, 1, y), (c, 2, z)
-        return _zip(*reversed(sorted(t)))  # strict=True
+    def _kwds(reverse=False):
+        return reverse
 
-    def _unorder5(un, abcdi):
-        # @return: 5-Tuple (a, b, c, d, i), unordered
-        un += 3, 4  # keep d and i in place
-        return tuple(_zip(*sorted(_zip(un, abcdi))))[1]  # strict=True
+    if ijk:
+        if reverse and _kwds(**reverse):
+            _, _, _, ijk = _order4(*ijk, **reverse)
+        # abc = tuple(abc[i] for i in ijk)
+        abc = tuple(map(abc.__getitem__, ijk))
+    return abc
 
-    abc, un, xyzT = _order3(a, b, c, x, y, z)
-    xyzT += Triaxial(*abc),
-    return _unorder5(un, _normalTo5(*xyzT, eps=eps))
+
+def _order4(a, b, c, reverse=False):
+    '''(INTERNAL) Order or un-order C{a}, C{b} and C{c}.
+
+       @return: 4-Tuple C{(a, b, c, ijk)} with C{a} >= C{b} >= C{c}
+                and C{ijk} a 3-tuple with the original indices.
+    '''
+    i, j, k = 0, 1, 2
+    if a < b:
+        a, b, i, j = b, a, j, i
+    if a < c:
+        a, c, i, k = c, a, k, i
+    if b < c:
+        b, c, j, k = c, b, k, j
+    return a, b, c, ((k, j, i) if reverse else (None if i < j < k else (i, j, k)))
 
 
 def _SinCos2(x):
