@@ -356,7 +356,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

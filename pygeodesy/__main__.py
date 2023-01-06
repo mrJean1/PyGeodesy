@@ -55,7 +55,7 @@ _main()
 
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -75,11 +75,14 @@ _main()
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-# % python2 -m pygeodesy
-# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=None, ._isfrozen=False, ._floats=408 (Python 2.7.18, 64bit, geographiclib 1.50, numpy 1.16.6, scipy 1.2.2)
-
-# % python3.8 -m pygeodesy
-# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=53 (Python 3.8.6, 64bit, geographiclib 1.52, numpy 1.19.2, scipy 1.5.2)
+# python3 -m pygeodesy
+# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.11.0, 64bit, arm64, geographiclib 2.0)
 
 # % python3.9 -m pygeodesy
-# pygeodesy.version=21.6.30, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=53 (Python 3.9.5, 64bit, geographiclib 1.52)
+# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.9.6, 64bit, arm64)
+
+# % python3.8 -m pygeodesy
+# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=908 (Python 3.8.10, 64bit, arm64_x86_64, geographiclib 1.52, numpy 1.19.2, scipy 1.5.2)
+
+# % python2 -m pygeodesy
+# pygeodesy.version=23.1.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=None, ._isfrozen=False, ._floats=560, .__all__=908 (Python 2.7.18, 64bit, arm64_x86_64, geographiclib 1.50, numpy 1.16.6, scipy 1.2.2)

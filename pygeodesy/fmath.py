@@ -9,12 +9,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, copysign0, isint, isscalar, len2
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _1_3rd, _1_5, \
-                               _2_0, _2_3rd, _3_0, isnear0, isnear1, \
+                               _2_0, _N_2_0, _2_3rd, _3_0, isnear0, isnear1, \
                                _isfinite, remainder as _remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds_get, _xkwds_pop
-from pygeodesy.fsums import _2float, _Powers, Fsum, fsum, fsum1_, _pow_op_, \
-                             Fmt, unstr
+from pygeodesy.fsums import _2float, _Powers, Fsum, _fsum, fsum, fsum1_, \
+                            _pow_op_, Fmt, unstr
 from pygeodesy.interns import MISSING, _few_, _h_, _negative_, _not_scalar_, \
                              _singular_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _sys_version_info2
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 from operator import mul as _mul  # in .triaxials
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '22.10.17'
+__version__ = '22.11.04'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 = 0.414213562373095  # sqrt(_2_0) - _1_0
@@ -735,18 +735,14 @@ else:
 def _h_x2(xs):
     '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
     '''
-    def _x2s(xs, h):
-        yield _1_0
-        for x in xs:
-            if x:
-                yield (x / h)**2
-        yield _N_1_0
-
     if xs:
         n, xs = len2(xs)
         if n > 0:
-            h  = float(max(map(fabs, xs)))
-            x2 = fsum(_x2s(xs, h), floats=True) if h > EPS02 else _0_0
+            h = float(max(map(fabs, xs)))
+            if h < EPS0:
+                x2 = _0_0
+            else:  # math.fsum, see C{_hypot21_} below
+                x2 = _fsum(_x2_h2(_1_0, xs, h, _N_1_0))
             return h, x2
 
     raise _ValueError(xs=xs, txt=_too_(_few_))
@@ -801,6 +797,14 @@ def hypot2_(*xs):
     return (h**2 * x2) if x2 else _0_0
 
 
+def _hypot21_(*xs):  # PYCHOK in .triaxials
+    '''(INTERNAL) Compute M{sum(x**2 for x is xs) - 1}
+       with C{abs(x)} assumed to be near 1.
+    '''
+    # math.fsum, see C{_h_x2} above
+    return _fsum(_x2_h2(_1_0, xs, _0_0, _N_2_0))
+
+
 def _map_a_x_b(a, b, where):
     '''(INTERNAL) Yield B{C{a * b}}.
     '''
@@ -853,11 +857,15 @@ def norm_(*xs):
               or zero norm.
     '''
     h = hypot_(*xs)
-    try:
-        for i, x in enumerate(xs):
-            yield (x / h) if h else _0_0
-    except Exception as e:
-        raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
+    if h:
+        try:
+            for i, x in enumerate(xs):
+                yield x / h
+        except Exception as e:
+            raise _xError(e, Fmt.SQUARE(xs=i), x, _h_, h)
+    else:
+        for _ in xs:
+            yield _0_0
 
 
 def sqrt0(x):
@@ -927,9 +935,24 @@ def sqrt_a(h, b):
 
     return a
 
+
+def _x2_h2(s, xs, h, e):
+    '''(INTERNAL) Yield M{(x / h)**2 for x in xs}.
+    '''
+    yield s
+    if h in (_0_0, _1_0):
+        for x in xs:
+            if x:
+                yield x**2
+    else:
+        for x in xs:
+            if x:
+                yield (x / h)**2
+    yield e
+
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

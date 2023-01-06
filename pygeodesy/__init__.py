@@ -65,8 +65,8 @@ of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models or compute various U{F
 Installation
 ============
 
-To install PyGeodesy, type C{pip install PyGeodesy} or C{easy_install PyGeodesy} in a terminal
-or command window.
+To install PyGeodesy, type C{python[3] -m pip install PyGeodesy} or C{python[3] -m easy_install
+PyGeodesy} in a terminal or command window.
 
 Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI<https://PyPI.org/project/PyGeodesy>}
 or U{GitHub<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file, C{cd} to
@@ -114,7 +114,7 @@ test results (on macOS only) and the complete U{documentation<https://mrJean1.Gi
 Tests
 =====
 
-The tests ran with Python 3.11.0 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.10.8
+The tests ran with Python 3.11.1 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.10.8
 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3,
 U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
@@ -124,7 +124,7 @@ U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicL
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.0 Venture and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.0.1 Venture and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
@@ -220,7 +220,7 @@ and:
 License
 =======
 
-**) U{Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+**) U{Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -573,7 +573,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '22.11.03'
+__version__ = '23.01.06'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
@@ -582,7 +582,7 @@ del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import floor as _floor  # from .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '22.10.18'
+__version__ = '23.01.06'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -83,7 +83,7 @@ class Attitude(_NamedBase):
                                  B{C{roll}}.
 
            @see: U{Principal axes<https://WikiPedia.org/wiki/Aircraft_principal_axes>} and
-                 U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+                 U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
         if isscalar(alt_attitude):
             t = Attitude4Tuple(alt_attitude, tilt, yaw, roll)
@@ -169,7 +169,7 @@ class Attitude(_NamedBase):
            @return: A B{C{Vector}} instance or a L{Vector3Tuple}C{(x, y, z)} if
                     C{B{Vector}=None}.
 
-           @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+           @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
         try:
             x, y, z = map( float, x_xyz.xyz)
@@ -212,7 +212,7 @@ class Attitude(_NamedBase):
     def tyr3d(self):
         '''Get this attitude's (3-D) directional vector (L{Vector3d}).
 
-           @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}.
+           @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}.
         '''
         def _r2d(r):
             return fsum_(_N_1_0, *r)
@@ -1063,7 +1063,7 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **Vector_kwds):
        @return: A named B{C{Vector}} instance or if B{C{Vector}} is C{None},
                 a named L{Vector3Tuple}C{(x, y, z)}.
 
-       @see: U{Yaw, pitch, and roll rotations<http://Planning.CS.UIUC.edu/node102.html>}
+       @see: U{Yaw, pitch, and roll rotations<http://MSL.CS.UIUC.edu/planning/node102.html>}
              and function L{pygeodesy.hartzell} argument C{los}.
     '''
     d = Attitude4Tuple(_0_0, tilt, yaw, roll).tyr3d
@@ -1083,7 +1083,7 @@ def _xLtp(ltp, *dflt):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

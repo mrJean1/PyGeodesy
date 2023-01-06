@@ -169,9 +169,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#forwardCartesian" class="summary-sig-name">forwardCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**normal_eps</span>)</span><br />
       Project a cartesian on this triaxial.</td>
@@ -235,9 +235,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega" class="summary-sig-name">reverseBetaOmega</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert cartesian to <i>ellipsoidal</i> lat- and longitude, 
       <code>beta</code>, <code>omega</code> and height.</td>
@@ -257,14 +257,14 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseCartesian" class="summary-sig-name">reverseCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">h</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">4.440892098500626e-12</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      &quot;Unproject&quot; a cartesian on to a cartesion off this 
+      &quot;Unproject&quot; a cartesian on to a cartesion <i>off</i> this 
       triaxial's surface.</td>
           <td align="right" valign="top">
             
@@ -282,9 +282,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon" class="summary-sig-name">reverseLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert cartesian to <i>geodetic</i> lat-, longitude and height.</td>
           <td align="right" valign="top">
@@ -557,9 +557,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">forwardCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**normal_eps</span>)</span>
   </h3>
@@ -572,12 +572,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X coordinate along <code>a</code>-axis (<code>meter</code>, same 
-          units as the axes).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y coordinate along <code>b</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z coordinate along <code>c</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
         <li><strong class="pname"><code>normal_eps</code></strong> - Optional keyword arguments <code><b>normal</b>=True</code> and 
           <code><b>eps</b>=EPS</code>, see method <a 
@@ -691,9 +699,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseBetaOmega</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -706,12 +714,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X coordinate along <code>a</code>-axis (<code>meter</code>, same 
-          units as the axes).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y coordinate along <code>b</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z coordinate along <code>c</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -740,10 +756,10 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
-        <span class="sig-arg">h</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">4.440892098500626e-12</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
@@ -753,19 +769,27 @@
     </td>
   </tr></table>
   
-  <p>&quot;Unproject&quot; a cartesian on to a cartesion off this 
+  <p>&quot;Unproject&quot; a cartesian on to a cartesion <i>off</i> this 
   triaxial's surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X coordinate along <code>a</code>-axis (<code>meter</code>, same 
-          units as the axes).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y coordinate along <code>b</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z coordinate along <code>c</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>h</code></strong> - Height above or below this triaxial's surface 
-          (<code>meter</code>, same units as <b><code>x</code></b>).</li>
+          (<code>meter</code>, same units as the axes).</li>
         <li><strong class="pname"><code>normal</code></strong> - If <code>True</code> the height is <code>normal</code> to the 
           surface, otherwise <code>radially</code> to the center of this 
           triaxial (<code>bool</code>).</li>
@@ -775,6 +799,10 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TrialError</strong></code> - Cartesian <code>(x, y, z)</code> not on this triaxial's surface.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Methods <a 
@@ -793,9 +821,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reverseLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -807,12 +835,20 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X coordinate along <code>a</code>-axis (<code>meter</code>, same 
-          units as the axes).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y coordinate along <code>b</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z coordinate along <code>c</code>-axis (<code>meter</code>, same 
-          units as <b><code>x</code></b>).</li>
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -903,7 +939,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  3 20:20:13 2022
+    Generated by Epydoc 3.0.1 on Fri Jan  6 13:20:33 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

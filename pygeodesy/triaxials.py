@@ -16,14 +16,14 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import isscalar, map1, _zip  # from .fsums, .namedTuples, .streprs
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
-                               _0_0, _0_5, _1_0, _N_1_0, isfinite, isnear1, \
+                               _0_0, _0_5, _1_0, _N_2_0, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
 from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
 # from pygeodesy.elliptic import Elliptic  # ._MODS
 # from pygeodesy.errors import _ValueError  # from .streprs
-from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, hypot2, hypot2_, norm2
-from pygeodesy.fsums import Fsum, fsum, fsum_, isscalar, Property_RO
+from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, _hypot21_, norm2
+from pygeodesy.fsums import Fsum, fsum_, isscalar, Property_RO
 from pygeodesy.interns import NN, _a_, _b_, _c_, _distant_, _height_, _inside_, \
                              _near_, _not_, _NOTEQUAL_, _null_, _opposite_, _outside_, \
                              _SPACE_, _spherical_, _too_, _x_, _y_
@@ -39,7 +39,7 @@ from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '22.11.03'
+__version__ = '22.11.07'
 
 _not_ordered_ = _not_('ordered')
 _TRIPS        =  256  # max 55, Eberly 1074?
@@ -169,7 +169,8 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
               longitude C{beta} and C{omega} are in C{Radians} by default (or in
               C{Degrees} if converted).
     '''
-    _unordered = True
+    _ijk = _kji = None
+    _unordered  = True
 
     def __init__(self, a_triax, b=None, c=None, name=NN):
         '''New I{unordered} L{Triaxial_}.
@@ -363,26 +364,25 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
                  to ... an Ellipsoid ...<https://www.GeometricTools.com/Documentation/
                  DistancePointEllipseEllipsoid.pdf>}.
         '''
-        v = Vector3d(x_xyz, y, z) if isscalar(x_xyz) else _otherV3d(x_xyz=x_xyz)
+        v, r = _otherV3d_(x_xyz, y, z), self.isSpherical
 
         i, h = None, v.length
         if h < EPS0:  # EPS
             x = y = z = _0_0
-            h -= min(self._abc3)
-        elif self.isSpherical:
-            r, _, _ = self._abc3
+            h -= min(self._abc3)  # nearest
+        elif r:  # .isSpherical
             x, y, z = v.times(r / h).xyz
             h -= r
         else:
             x, y, z = v.xyz
-            if normal:  # perpendicular to triaxial
-                try:
+            try:
+                if normal:  # perpendicular to triaxial
                     x, y, z, h, i = _normalTo5(x, y, z, self, eps=eps)
-                except Exception as e:
-                    raise TriaxialError(x=x, y=y, z=z, cause=e)
-            else:  # radially to triaxial's center
-                x, y, z = self._radialTo3(z, hypot(x, y), y, x)
-                h = v.minus_(x, y, z).length
+                else:  # radially to triaxial's center
+                    x, y, z = self._radialTo3(z, hypot(x, y), y, x)
+                    h = v.minus_(x, y, z).length
+            except Exception as e:
+                raise TriaxialError(x=x, y=y, z=z, cause=e)
             if h > 0 and self.sideOf(v, eps=EPS0) < 0:
                 h = -h  # below the surface
         return Vector4Tuple(x, y, z, h, iteration=i, name=self.height4.__name__)
@@ -396,17 +396,18 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
 
     @Property_RO
     def isSpherical(self):
-        '''Is this triaxial I{spherical} (C{bool})?
+        '''Is this triaxial I{spherical} (C{Radius} or INT0)?
         '''
         a, b, c = self._abc3
-        return bool(a == b == c)
+        return a if a == b == c else INT0
 
-    def normal3d(self, x, y, z, length=_1_0):
+    def normal3d(self, x_xyz, y=None, z=None, length=_1_0):
         '''Get a 3-D vector at a cartesian on, perpendicular to this triaxial's surface.
 
-           @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).
-           @arg y: Y coordinate along C{b}-axis (C{meter}, same units as B{C{x}}).
-           @arg z: Z coordinate along C{c}-axis (C{meter}, same units as B{C{x}}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg length: Optional length and in-/outward direction (C{scalar}).
 
            @return: A C{Vector3d(x_, y_, z_)} normalized to B{C{length}}, pointing
@@ -419,9 +420,9 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         #  == 2 * (x, y * a2 / b2, z * a2 / c2) / a2  # iff ordered
         #  == 2 * (x, y / _1e2ab, z / _1e2ac) / a2
         #  == unit(x, y / _1e2ab, z / _1e2ac).times(length)
-        n = self._normal3d.times_(x, y, z)
+        n = self._normal3d.times_(*_otherV3d_(x_xyz, y, z).xyz)
         if n.length < EPS0:
-            raise TriaxialError(x=x, y=y, z=z, txt=_null_)
+            raise TriaxialError(x=x_xyz, y=y, z=z, txt=_null_)
         return n.times(length / n.length)
 
     @Property_RO
@@ -430,17 +431,69 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         '''
         d = max(self._abc3)
         t = tuple(((d / x)**2 if x != d else _1_0) for x in self._abc3)
-        return Vector3d(*t)
+        return Vector3d(*t, name=self.normal3d.__name__)
 
     def _norm2(self, s, c, *a):
         '''(INTERNAL) Normalize C{s} and C{c} iff not already.
         '''
-        if fabs(s) > _1_0 or fabs(c) > _1_0:  # or \
-            # fabs(fsum(s**2, c**2, _N_1_0)) > EPS:
+        if fabs(s) > _1_0 or fabs(c) > _1_0 or \
+           fabs(_hypot21_(s, c)) > EPS0:
             s, c = norm2(s, c)
         if a:
             s, c = norm2(s * self.b, c * a[0])
         return (s or _0_0), (c or _0_0)
+
+    def _order3(self, *abc, **reverse):  # reverse=False
+        '''(INTERNAL) Un-/Order C{a}, C{b} and C{c}.
+
+           @return: 3-Tuple C{(a, b, c)} ordered by or un-ordered
+                    (reverse-ordered) C{ijk} if C{B{reverse}=True}.
+        '''
+        ijk = self._order_ijk(**reverse)
+        return _getitems(abc, *ijk) if ijk else abc
+
+    def _order3d(self, v, **reverse):  # reverse=False
+        '''(INTERNAL) Un-/Order a C{Vector3d}.
+
+           @return: Vector3d(x, y, z) un-/ordered.
+        '''
+        ijk = self._order_ijk(**reverse)
+        return v.classof(*_getitems(v.xyz, *ijk)) if ijk else v
+
+    @Property_RO
+    def _ordered4(self):
+        '''(INTERNAL) Helper for C{_hartzell3d2} and C{_normalTo5}.
+        '''
+        def _order2(reverse, a, b, c):
+            '''(INTERNAL) Un-Order C{a}, C{b} and C{c}.
+
+               @return: 2-Tuple C{((a, b, c), ijk)} with C{a} >= C{b} >= C{c}
+                        and C{ijk} a 3-tuple with the initial indices.
+            '''
+            i, j, k = 0, 1, 2
+            if a < b:
+                a, b, i, j = b, a, j, i
+            if a < c:
+                a, c, i, k = c, a, k, i
+            if b < c:
+                b, c, j, k = c, b, k, j
+            # reverse (k, j, i) since (a, b, c) is reversed-sorted
+            ijk = (k, j, i) if reverse else (None if i < j < k else (i, j, k))
+            return (a, b, c), ijk
+
+        abc, T = self._abc3, self
+        if not self.isOrdered:
+            abc, ijk = _order2(False, *abc)
+            if ijk:
+                _, kji = _order2(True, *ijk)
+                T = Triaxial_(*abc)
+                T._ijk, T._kji = ijk, kji
+        return abc + (T,)
+
+    def _order_ijk(self, reverse=False):
+        '''(INTERNAL) Get the un-/order indices.
+        '''
+        return self._kji if reverse else self._ijk
 
     def _radialTo3(self, sbeta, cbeta, somega, comega):
         '''(INTERNAL) I{Unordered} helper for C{.height4}.
@@ -478,14 +531,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
 
            @see: Methods L{Triaxial.height4} and L{Triaxial.normal3d}.
         '''
-        def _x2_a2_1(xyz, abc):
-            for x, a in _zip(xyz, abc):  # strict=True
-                yield (x / a)**2
-            yield _N_1_0
-
-        t = (x_xyz, y, z) if isscalar(x_xyz) else _otherV3d(x_xyz=x_xyz).xyz
-        s = fsum(_x2_a2_1(t, self._abc3), floats=True)
-        return s if s > eps or s < -eps else INT0
+        return _sideOf(_otherV3d_(x_xyz, y, z).xyz, self._abc3, eps=eps)
 
     def _sqrt(self, x):
         '''(INTERNAL) Helper.
@@ -652,12 +698,13 @@ class Triaxial(Triaxial_):
         t = self._radialTo3(sbeta, cbeta, somega, comega)
         return Vector3Tuple(*t, name=name)
 
-    def forwardCartesian(self, x, y, z, name=NN, **normal_eps):
+    def forwardCartesian(self, x_xyz, y=None, z=None, name=NN, **normal_eps):
         '''Project a cartesian on this triaxial.
 
-           @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).
-           @arg y: Y coordinate along C{b}-axis (C{meter}, same units as B{C{x}}).
-           @arg z: Z coordinate along C{c}-axis (C{meter}, same units as B{C{x}}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg name: Optional name (C{str}).
            @kwarg normal_eps: Optional keyword arguments C{B{normal}=True} and
                               C{B{eps}=EPS}, see method L{Triaxial.height4}.
@@ -665,7 +712,7 @@ class Triaxial(Triaxial_):
            @see: Method L{Triaxial.height4} for further information and method
                  L{Triaxial.reverseCartesian} to reverse the projection.
         '''
-        t = self.height4(x, y, z, **normal_eps)
+        t = self.height4(x_xyz, y, z, **normal_eps)
         _ = t.rename(name)
         return t
 
@@ -683,7 +730,7 @@ class Triaxial(Triaxial_):
            @see: Method L{Triaxial.reverseLatLon} and U{Expressions (9-11)<https://
                  www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf>}.
         '''
-        return self._forward3(height, name, *sincos2d_(lat, lon))
+        return self._forwardLatLon3(height, name, *sincos2d_(lat, lon))
 
     def forwardLatLon_(self, slat, clat, slon, clon, height=0, name=NN):
         '''Convert I{geodetic} lat-, longitude and heigth to cartesian.
@@ -703,9 +750,9 @@ class Triaxial(Triaxial_):
         '''
         sa, ca = self._norm2(slat, clat)
         sb, cb = self._norm2(slon, clon)
-        return self._forward3(height, name, sa, ca, sb, cb)
+        return self._forwardLatLon3(height, name, sa, ca, sb, cb)
 
-    def _forward3(self, h, name, sa, ca, sb, cb):
+    def _forwardLatLon3(self, h, name, sa, ca, sb, cb):
         '''(INTERNAL) Helper for C{.forwardLatLon} and C{.forwardLatLon_}.
         '''
         ca_x_sb = ca * sb
@@ -750,13 +797,14 @@ class Triaxial(Triaxial_):
         z = self.c * sa * self._sqrt(z)
         return x, y, z
 
-    def reverseBetaOmega(self, x, y, z, name=NN):
+    def reverseBetaOmega(self, x_xyz, y=None, z=None, name=NN):
         '''Convert cartesian to I{ellipsoidal} lat- and longitude, C{beta}, C{omega}
            and height.
 
-           @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).
-           @arg y: Y coordinate along C{b}-axis (C{meter}, same units as B{C{x}}).
-           @arg z: Z coordinate along C{c}-axis (C{meter}, same units as B{C{x}}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg name: Optional name (C{str}).
 
            @return: A L{BetaOmega3Tuple}C{(beta, omega, height)} with C{beta} and
@@ -767,18 +815,19 @@ class Triaxial(Triaxial_):
                  and U{Expressions (21-22)<https://www.Topo.Auth.GR/wp-content/uploads/
                  sites/111/2021/12/09_Panou.pdf>}.
         '''
-        v = Vector3d(x, y, z)
-        a, b, h = self._reverse3(x, y, z, atan2, v, self.forwardBetaOmega_)
+        v = _otherV3d_(x_xyz, y, z)
+        a, b, h = self._reverseLatLon3(v, atan2, v, self.forwardBetaOmega_)
         return BetaOmega3Tuple(Radians(beta=a), Radians(omega=b), h, name=name)
 
-    def reverseCartesian(self, x, y, z, h, normal=True, eps=_EPS2e4, name=NN):
-        '''"Unproject" a cartesian on to a cartesion off this triaxial's surface.
+    def reverseCartesian(self, x_xyz, y=None, z=None, h=0, normal=True, eps=_EPS2e4, name=NN):
+        '''"Unproject" a cartesian on to a cartesion I{off} this triaxial's surface.
 
-           @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).
-           @arg y: Y coordinate along C{b}-axis (C{meter}, same units as B{C{x}}).
-           @arg z: Z coordinate along C{c}-axis (C{meter}, same units as B{C{x}}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @arg h: Height above or below this triaxial's surface (C{meter}, same units
-                   as B{C{x}}).
+                   as the axes).
            @kwarg normal: If C{True} the height is C{normal} to the surface, otherwise
                           C{radially} to the center of this triaxial (C{bool}).
            @kwarg eps: Tolerance for surface test (C{scalar}).
@@ -786,26 +835,30 @@ class Triaxial(Triaxial_):
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
 
+           @raise TrialError: Cartesian C{(x, y, z)} not on this triaxial's surface.
+
            @see: Methods L{Triaxial.forwardCartesian} and L{Triaxial.height4}.
         '''
-        v = Vector3d(x, y, z, name=name)
-        s = self.sideOf(v.x, v.y, v.z, eps=eps)
+        v = _otherV3d_(x_xyz, y, z, name=name)
+        s = _sideOf(v.xyz, self._abc3, eps=eps)
         if s:  # PYCHOK no cover
-            t = _SPACE_((_inside_ if s < 0 else _outside_), self)
-            raise TriaxialError(eps=eps, sideOf=s, x=x, y=y, z=z, txt=t)
+            t = _SPACE_((_inside_ if s < 0 else _outside_), self.toRepr())
+            raise TriaxialError(eps=eps, sideOf=s, x=v.x, y=v.y, z=v.z, txt=t)
+
         if h:
             if normal:
-                v = v.plus(self.normal3d(v.x, v.y, v.z, length=h))
+                v = v.plus(self.normal3d(*v.xyz, length=h))
             elif v.length > EPS0:
                 v = v.times(_1_0 + (h / v.length))
         return v.xyz  # Vector3Tuple
 
-    def reverseLatLon(self, x, y, z, name=NN):
+    def reverseLatLon(self, x_xyz, y=None, z=None, name=NN):
         '''Convert cartesian to I{geodetic} lat-, longitude and height.
 
-           @arg x: X coordinate along C{a}-axis (C{meter}, same units as the axes).
-           @arg y: Y coordinate along C{b}-axis (C{meter}, same units as B{C{x}}).
-           @arg z: Z coordinate along C{c}-axis (C{meter}, same units as B{C{x}}).
+           @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
+                       L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @kwarg y: Y component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
+           @kwarg z: Z component (C{scalar}), required if B{C{x_xyz}} if C{scalar}.
            @kwarg name: Optional name (C{str}).
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} with C{lat} and C{lon}
@@ -816,15 +869,17 @@ class Triaxial(Triaxial_):
                  and U{Expressions (4-5)<https://www.Topo.Auth.GR/wp-content/uploads/
                  sites/111/2021/12/09_Panou.pdf>}.
         '''
-        v  = Vector3d(x, y, z)
-        x *= self._1e2ac  # == 1 - e_sub_x**2
-        y *= self._1e2bc  # == 1 - e_sub_y**2
-        t  = self._reverse3(x, y, z, atan2d, v, self.forwardLatLon_)
+        v = _otherV3d_(x_xyz, y, z)
+        s =  v.times_(self._1e2ac,  # == 1 - e_sub_x**2
+                      self._1e2bc,  # == 1 - e_sub_y**2
+                     _1_0)
+        t = self._reverseLatLon3(s, atan2d, v, self.forwardLatLon_)
         return LatLon3Tuple(*t, name=name)
 
-    def _reverse3(self, x, y, z, atan2_, v, forward_):
+    def _reverseLatLon3(self, s, atan2_, v, forward_):
         '''(INTERNAL) Helper for C{.reverseBetOmg} and C{.reverseLatLon}.
         '''
+        x, y, z = s.xyz
         d = hypot( x, y)
         a = atan2_(z, d)
         b = atan2_(y, x)
@@ -963,22 +1018,28 @@ class TriaxialError(_ValueError):
     pass  # ...
 
 
-def _hartzell3d2(pov, los, abc3):  # MCCABE 13 in .formy.hartzell
-    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...", I{unordered}.
-    '''
-    def _order3d(ijk, v, **reverse):  # reverse=False
-        # @return: Vector3d(x, y, z) un-/ordered
-        return Vector3d(*_order3(ijk, *v.xyz, **reverse)) if ijk else v
+def _getitems(items, *indices):
+    '''(INTERNAL) Get the C{items} at the given I{indices}.
 
-    a, b, c, ijk = _order4(*abc3)
+       @return: C{Type(items[i] for i in indices)} with
+                C{Type = type(items)}, any C{type} having
+                the special method C{__getitem__}.
+    '''
+    return type(items)(map(items.__getitem__, indices))
+
+
+def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .formy.hartzell
+    '''(INTERNAL) Hartzell's "Satellite Lin-of-Sight Intersection ...", I{un- or ordered}.
+    '''
+    a, b, c, T = Tun._ordered4
 
     a2     =  a**2  # largest, factored out
     b2, p2 = (b**2, (b / a)**2) if b != a else (a2, _1_0)
     c2, q2 =  c**2, (c / a)**2
 
-    p3 = _order3d(ijk, _otherV3d(pov=pov))
-    u3 = _order3d(ijk, _otherV3d(los=los)) if los else p3.negate()
-    u3 =  u3.unit()  # unit vector, opposing signs
+    p3 = T._order3d(_otherV3d(pov=pov))
+    u3 = T._order3d(_otherV3d(los=los)) if los else p3.negate()
+    u3 =    u3.unit()  # unit vector, opposing signs
 
     x2, y2, z2 = p3.x2y2z2  # p3.times_(p3).xyz
     ux, vy, wz = u3.times_(p3).xyz
@@ -999,13 +1060,14 @@ def _hartzell3d2(pov, los, abc3):  # MCCABE 13 in .formy.hartzell
 
     d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
     if d > 0:  # POV inside or LOS missing, outside the triaxial
-        raise _ValueError(_outside_ if max(x2 - a2, y2 - b2, z2 - c2) > EPS else _inside_)
+        s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
+        raise _ValueError(_outside_ if s > 0 else _inside_)
     elif fsum_(x2, y2, z2, floats=True) < d**2:  # d past triaxial's center
         raise _ValueError(_too_(_distant_))
 
     v = p3.minus(u3.times(d))  # Vector3d
     h = p3.minus(v).length  # distance to triaxial
-    return _order3d(ijk, v, reverse=True), h
+    return T._order3d(v, reverse=True), h
 
 
 E = _WGS84.ellipsoid
@@ -1015,7 +1077,7 @@ del E
 
 def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
     '''Compute the intersection of a tri-/biaxial ellipsoid and a Line-Of-Sight
-       from a Point-Of-View in space.
+       from a Point-Of-View outside.
 
        @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple}
                  or L{Vector3d}).
@@ -1048,7 +1110,7 @@ def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
         T = Triaxial_(E.a, E.a, E.b, name=E.name)
 
     try:
-        v, h = _hartzell3d2(pov, los, T._abc3)
+        v, h = _hartzell3d2(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
     return Vector4Tuple(v.x, v.y, v.z, h, name=name or hartzell4.__name__)
@@ -1064,15 +1126,15 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
     def _root2d(r, u, v, g, eps):
         # robust root finder
         _1, __2 = _1_0, _0_5
-        _a, _h2 = fabs, hypot2
+        _a, _h2 = fabs, _hypot21_
         u *=  r
         t0 =  v - _1
-        t1 = _0_0 if g < 0 else (hypot(u, v) - _1)
+        t1 = _0_0 if g < 0 else _h2(u, v)
         for i in range(1, _TRIPS):
             t = (t0 + t1) * __2
             if t in (t0, t1) or _a(t0 - t1) < eps:
                 break
-            g = _h2(u / (t + r), v / (t + _1)) - _1
+            g = _h2(u / (t + r), v / (t + _1))
             if g > 0:
                 t0 = t
             elif g < 0:
@@ -1095,9 +1157,9 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
     i = None
     if y:
         if x:
-            u = fabs(x / a)
-            v = fabs(y / b)
-            g = hypot2(u, v) - _1_0
+            u =  fabs(x / a)
+            v =  fabs(y / b)
+            g = _hypot21_(u, v)
             if g:
                 r = (a / b)**2
                 t, i = _root2d(r, u, v, g, eps)
@@ -1126,8 +1188,8 @@ def _normalTo4(x, y, a, b, eps=EPS):  # MCCABE 14
     return a, b, d, i
 
 
-def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
-    '''(INTERNAL) Nearest point on and distance to an I{unordered} triaxial.
+def _normalTo5(x, y, z, Tun, eps=EPS):  # MCCABE 24
+    '''(INTERNAL) Nearest point on and distance to an I{un- or ordered} triaxial.
 
        @see: I{Eberly}'s U{Distance from a Point to ... an Ellipsoid ...<https://
              www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
@@ -1135,16 +1197,16 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
     def _root3d(r, s, u, v, w, g, eps):
         # robust root finder
         _1, __2 = _1_0, _0_5
-        _a, _h2 = fabs, hypot2_
+        _a, _h2 = fabs, _hypot21_
         u *=  r
         v *=  s
         t0 =  w - _1
-        t1 = _0_0 if g < 0 else (hypot_(u, v, w) - _1)
+        t1 = _0_0 if g < 0 else _h2(u, v, w)
         for i in range(1, _TRIPS):
             t = (t0 + t1) * __2
             if t in (t0, t1) or _a(t0 - t1) < eps:
                 break
-            g = _h2(u / (t + r), v / (t + s), w / (t + _1)) - _1
+            g = _h2(u / (t + r), v / (t + s), w / (t + _1))
             if g > 0:
                 t0 = t
             elif g < 0:
@@ -1157,11 +1219,11 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
             raise _ValueError(Fmt.no_convergence(e, eps), txt=t)
         return t, i
 
-    a, b, c, ijk = _order4(*T._abc3)
-    if ijk:
-        t = _order3(ijk, x, y, z) + (Triaxial_(a, b, c),)
+    a, b, c, T = Tun._ordered4
+    if Tun is not T:  # T is ordered, Tun isn't
+        t = T._order3(x, y, z) + (T,)
         a, b, c, d, i = _normalTo5(*t, eps=eps)
-        return _order3(ijk, a, b, c, reverse=True) + (d, i)
+        return T._order3(a, b, c, reverse=True) + (d, i)
 
     if not (isfinite(a) and c > 0):
         raise _ValueError(a=a, b=b, c=c)
@@ -1175,10 +1237,10 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
     if z:
         if y:
             if x:
-                u = fabs(x / a)
-                v = fabs(y / b)
-                w = fabs(z / c)
-                g = hypot2_(u, v, w) - _1_0
+                u =  fabs(x / a)
+                v =  fabs(y / b)
+                w =  fabs(z / c)
+                g = _hypot21_(u, v, w)
                 if g:
                     r = T._1e2ac  # (c / a)**2
                     s = T._1e2bc  # (c / b)**2
@@ -1210,11 +1272,11 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
             d = T._b2c2  # (b + c) * (b - c)
             if d > fabs(n):
                 v =  n / d
-                d = _1_0 - hypot2(u, v)
-                if d > 0:
+                n = _hypot21_(u, v)
+                if n < 0:
                     a *= u
                     b *= v
-                    c *= sqrt(d)
+                    c *= sqrt(-n)
                     d  = hypot_(x - a, y - b, c)
                     t  = True
         if not t:
@@ -1238,38 +1300,20 @@ def _normalTo5(x, y, z, T, eps=EPS):  # MCCABE 24
     return a, b, c, d, i
 
 
-def _order3(ijk, *abc, **reverse):  # reverse=False
-    '''(INTERNAL) Order or un-order C{a}, C{b} and C{c} by C{ijk}.
-
-       @return: 3-Tuple C{(a, b, c)} ordered by C{ijk} or
-                un-ordered by (reverse-ordered) C{ijk} if
-                C{B{reverse}=True}.
+def _otherV3d_(x_xyz, y, z, name=NN):
+    '''(INTERNAL) Get a Vector3d from C{x_xyz}, C{y} and C{z}.
     '''
-    def _kwds(reverse=False):
-        return reverse
-
-    if ijk:
-        if reverse and _kwds(**reverse):
-            _, _, _, ijk = _order4(*ijk, **reverse)
-        # abc = tuple(abc[i] for i in ijk)
-        abc = tuple(map(abc.__getitem__, ijk))
-    return abc
+    return Vector3d(x_xyz, y, z, name=name) if isscalar(x_xyz) else \
+          _otherV3d(x_xyz=x_xyz)
 
 
-def _order4(a, b, c, reverse=False):
-    '''(INTERNAL) Order or un-order C{a}, C{b} and C{c}.
+def _sideOf(xyz, abc, eps=EPS):  # in .formy
+    '''(INTERNAL) Helper for C{_hartzell3d2}, M{.sideOf} and M{.reverseCartesian}.
 
-       @return: 4-Tuple C{(a, b, c, ijk)} with C{a} >= C{b} >= C{c}
-                and C{ijk} a 3-tuple with the original indices.
+       @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0},
     '''
-    i, j, k = 0, 1, 2
-    if a < b:
-        a, b, i, j = b, a, j, i
-    if a < c:
-        a, c, i, k = c, a, k, i
-    if b < c:
-        b, c, j, k = c, b, k, j
-    return a, b, c, ((k, j, i) if reverse else (None if i < j < k else (i, j, k)))
+    s = _hypot21_(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
+    return s if s > eps or s < -eps else INT0
 
 
 def _SinCos2(x):

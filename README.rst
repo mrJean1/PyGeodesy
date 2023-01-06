@@ -46,8 +46,8 @@ points and Geoid_ models or compute various Frechet_ or Hausdorff_ distances.
 Installation
 ============
 
-To install PyGeodesy, type ``pip install PyGeodesy`` or ``easy_install
-PyGeodesy`` in a terminal or command window.
+To install PyGeodesy, type ``python[3] -m pip install PyGeodesy`` or
+``python[3] -m easy_install PyGeodesy`` in a terminal or command window.
 
 Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 ``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
@@ -95,13 +95,13 @@ pygeodesy``.
 Tests
 =====
 
-The tests ran with Python 3.11.0 (with geographiclib_ 2.0), Python 3.10.8
+The tests ran with Python 3.11.1 (with geographiclib_ 2.0), Python 3.10.8
 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_ 1.51,
 GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10 (with
 geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
 Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
 GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), all on macOS
-13.0 Venture and in 64-bit only.
+13.0.1 Venture and in 64-bit only.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command
 line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
@@ -152,7 +152,7 @@ and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 13 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Nov 03, 2022.*
+*Last updated: Jan 06, 2023.*
 
 License
 =======

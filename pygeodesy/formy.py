@@ -8,8 +8,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _umod_PI2, float0, isnon0, remainder, _0_0, \
-                               _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
-                               _32_0, _90_0, _180_0, _360_0
+                               _0_125, _0_25, _0_5, _1_0, _2_0, _N_2_0, \
+                               _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84
 # from pygeodesy.ellipsoids import Ellipsoid  # from .datums
@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.11.03'
+__version__ = '22.11.07'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -880,8 +880,8 @@ def flatPolar_(phi2, phi1, lam21):
 
 
 def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
-    '''Compute the intersection of a Line-Of-Sight from a Point-Of-View in
-       space with the surface of the earth.
+    '''Compute the intersection of the earth's surface and a Line-Of-Sight
+       from a Point-Of-View in space.
 
        @arg pov: Point-Of-View outside the earth (C{Cartesian}, L{Ecef9Tuple}
                  or L{Vector3d}).
@@ -916,7 +916,8 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 
     if E.b > E.a:  # PYCHOK no cover
         try:
-            r, _ = _MODS.triaxials._hartzell3d2(pov, los, (E.a, E.a, E.b))
+            t = _MODS.triaxials
+            r, _ = t._hartzell3d2(pov, los, t.Triaxial_(E.a, E.a, E.b))
         except Exception as x:
             raise _Error(str(x))
     else:
@@ -950,7 +951,8 @@ def hartzell(pov, los=None, earth=_WGS84, name=NN, **LatLon_and_kwds):
 
         d = Fdot(t, ux, vy, wz).fadd_(r).fover(m)  # -r for antipode, a2 factored out
         if d > 0:  # POV inside or LOS missing, outside the earth
-            raise _Error(_outside_ if max(x2 - a2, y2 - b2, z2 - c2) > EPS else _inside_)
+            s = fsum_(_1_0, x2 / a2, y2 / b2, z2 / c2, _N_2_0, floats=True)  # like _sideOf
+            raise _Error(_outside_ if s > 0 else _inside_)
         elif fsum_(x2, y2, z2) < d**2:  # d past earth center
             raise _Error(_too_(_distant_))
 
@@ -1599,7 +1601,7 @@ def vincentys_(phi2, phi1, lam21):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

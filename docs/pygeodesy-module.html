@@ -159,9 +159,9 @@
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
   target="_top">Hausdorff</a> distances.</p>
   <h1 class="heading">Installation</h1>
-    <p>To install PyGeodesy, type <code>pip install PyGeodesy</code> or 
-    <code>easy_install PyGeodesy</code> in a terminal or command 
-    window.</p>
+    <p>To install PyGeodesy, type <code>python[3] -m pip install 
+    PyGeodesy</code> or <code>python[3] -m easy_install PyGeodesy</code> in
+    a terminal or command window.</p>
     <p>Alternatively, download <code>PyGeodesy-yy.m.d.zip</code> from <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyPI</a> or <a 
     href="https://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
@@ -240,7 +240,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.11.0 (with <a 
+    <p>The tests ran with Python 3.11.1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0), Python 3.10.8 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -267,7 +267,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 13.0 Venture and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 13.0.1 Venture and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -495,7 +495,7 @@
     </ul>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
-    target="_top">Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights
+    target="_top">Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights
     Reserved.</a></p>
     <p><code>Permission is hereby granted, free of charge, to any person 
     obtaining a copy of this software and associated documentation files 
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        22.11.03
+        23.01.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -7982,8 +7982,8 @@
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
-      Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
-      space with the surface of the earth.</td>
+      Compute the intersection of the earth's surface and a Line-Of-Sight 
+      from a Point-Of-View in space.</td>
           <td align="right" valign="top">
             
             
@@ -8004,7 +8004,7 @@
         <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.31<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the intersection of a tri-/biaxial ellipsoid and a 
-      Line-Of-Sight from a Point-Of-View in space.</td>
+      Line-Of-Sight from a Point-Of-View outside.</td>
           <td align="right" valign="top">
             
             
@@ -8027,7 +8027,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff0e02cb0d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed40273250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12488,7 +12488,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'22.11.3'"><code class="variable-quote">'</code><code class="variable-string">22.11.3</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.1.6'"><code class="variable-quote">'</code><code class="variable-string">23.1.6</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19914,8 +19914,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Compute the intersection of a Line-Of-Sight from a Point-Of-View in 
-  space with the surface of the earth.</p>
+  <p>Compute the intersection of the earth's surface and a Line-Of-Sight 
+  from a Point-Of-View in space.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19988,7 +19988,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Compute the intersection of a tri-/biaxial ellipsoid and a 
-  Line-Of-Sight from a Point-Of-View in space.</p>
+  Line-Of-Sight from a Point-Of-View outside.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -20058,7 +20058,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff0e02cb0d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed40273250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28413,7 +28413,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="http://Planning.CS.UIUC.edu/node102.html" 
+        <a href="http://MSL.CS.UIUC.edu/planning/node102.html" 
         target="_top">Yaw, pitch, and roll rotations</a> and function <a 
         href="pygeodesy.formy-module.html#hartzell" 
         class="link">pygeodesy.hartzell</a> argument <code>los</code>.
@@ -29413,7 +29413,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  3 20:20:10 2022
+    Generated by Epydoc 3.0.1 on Fri Jan  6 13:20:29 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
