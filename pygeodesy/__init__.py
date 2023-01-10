@@ -15,11 +15,11 @@ There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Kar
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
 B{C{Cartesian}} class with methods and functions to compute distance, surface area,
-perimeter, initial and final bearing, intermediate and nearest points, circle intersections,
-path intersections, 3-point resections, rhumb and rhumb lines, trilateration (by intersection,
-by overlap and in 3d), conversions and unrolling, among other things.  For more information
-and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the
-descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+perimeter, initial and final bearing, intermediate and nearest points, circle intersections
+and secants, path intersections, 3-point resections, rhumb and rhumb lines, trilateration (by
+intersection, by overlap and in 3d), conversions and unrolling, among other things.  For more
+information and further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>},
+the descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
 U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
 U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
 the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
@@ -573,7 +573,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.01.06'
+__version__ = '23.01.09'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

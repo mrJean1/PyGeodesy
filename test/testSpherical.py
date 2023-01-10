@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.07.08'
+__version__ = '23.01.09'
 
 from base import isPython2, isWindows, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -137,6 +137,19 @@ class Tests(_TestsLL, _TestsV):
             ps = p.crossingParallels(LatLon(60, 30), 30)
             t = ', '.join(map(lonDMS, ps))
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
+
+        c, p = LatLon(5, 0), LatLon(0, 2)
+        for e, x in ((None,  '''(LatLon(04°15′07.82″N, 006°15′50.15″E), LatLon(01°14′59.64″S, 000°44′59.28″E))'''),
+                     (False, '''(LatLon(04°15′12.05″N, 006°15′26.13″E), LatLon(01°15′02.91″S, 000°44′56.74″E))'''),
+                     (True,  '''(LatLon(04°15′15.1″N, 006°15′29.19″E), LatLon(01°15′28.78″S, 000°44′30.85″E))''')):
+            t = c.intersecant2(700000, p, 45, exact=e)
+            self.test('intersecant2', t, x)
+            for i, s in enumerate(t):  # both secant points should be on the circle
+                d = c.distanceTo(s) if e is None else c.rhumbDistanceTo(s, exact=e)
+                self.test('intersecant2', int(d), '700000', known=True)
+            s, t = t
+            b = t.initialBearingTo(s) if e is None else t.rhumbAzimuthTo(s, exact=e)
+            self.test('intersecant2', int(b), 45, known=True)
 
         if hasattr(LatLon, 'intersections2') and Sph:
 

@@ -37,8 +37,9 @@ from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
+# from pygeodesy.errors import _xError  # from .fmath
 # from pygeodesy.errors import _xkwds  # from .named
-from pygeodesy.fmath import fmean, fsum
+from pygeodesy.fmath import fmean, fsum, _xError
 # from pygeodesy.fsums import fsum  # from .fmath
 from pygeodesy.interns import _end_, _Nv00_, _other_, _point_, \
                               _points_, _pole_
@@ -50,14 +51,14 @@ from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
 from pygeodesy.points import NearestOn3Tuple, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
-                                     Datums, LatLonSphericalBase
+                                     Datums, _intersecant2, LatLonSphericalBase
 from pygeodesy.units import Bearing, Bearing_, Height, Radius, Scalar
 from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '22.09.20'
+__version__ = '23.01.09'
 
 _paths_ = 'paths'
 
@@ -858,6 +859,47 @@ def areaOf(points, radius=R_M):
     return r if radius is None else (r * Radius(radius)**2)
 
 
+def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
+                                                 height=None, wrap=True):
+    '''Compute the intersections of a circle and a line.
+
+       @arg center: Center of the circle (L{LatLon}).
+       @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
+                    or a point on the circle (L{LatLon}).
+       @arg point: A point inside the circle (L{LatLon}).
+       @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
+                     a second point on the line (L{LatLon}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
+       @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+                     destination and distance, if C{False} use the basic
+                     rhumb methods (C{bool}) or if C{None} use the I{great
+                     circle} methods.
+       @kwarg height: Optional height for the intersection points (C{meter},
+                      conventionally) or C{None}.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+       @return: 2-Tuple of the intersection points (representing a chord),
+                each an instance of this class.  For a tangent line, each
+                point C{is} this very instance.
+
+       @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
+                                 too distance from the B{C{center}}.
+
+       @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
+                         B{C{circle}} or B{C{beaing}} invalid.
+
+       @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
+                          B{C{exact}} or B{C{height}}.
+    '''
+    c = _Nvll.others(center=center)
+    p = _Nvll.others(point=point)
+    try:
+        return _intersecant2(c, circle, p, bearing, radius=radius, exact=exact,
+                                                    height=height, wrap=wrap)
+    except (TypeError, ValueError) as x:
+        raise _xError(x, center=center, circle=circle, point=point, bearing=bearing, exact=exact)
+
+
 def intersection(start1, end1, start2, end2,
                  height=None, LatLon=LatLon, **LatLon_kwds):
     '''Locate the intersection of two paths each defined by two
@@ -1140,7 +1182,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes
                       areaOf,  # functions
-                      intersection, ispolar,
+                      intersecant2, intersection, ispolar,
                       meanOf,
                       nearestOn2, nearestOn3,
                       perimeterOf,

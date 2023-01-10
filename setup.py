@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.01.06'
+__version__ = '23.01.09'
 
 
 def _c2(*names):
@@ -53,7 +53,7 @@ def _version():
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth', 'beta',
-             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner',
+             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins',
              'conformal', 'conic', 'constants', 'contact-triangle',
@@ -89,7 +89,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
-             'scipy', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
+             'scipy', 'secant', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-triangle',
              'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',

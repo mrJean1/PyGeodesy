@@ -17,13 +17,13 @@ There are four modules for ellipsoidal earth models, *ellipsoidalExact*,
 *sphericalTrigonometry* and *-Nvector*.  Each module provides a geodetic
 LatLon_ and a geocentric Cartesian_ class with methods and functions to
 compute distance, surface area, perimeter, initial and final bearing,
-intermediate and nearest points, circle intersections, path intersections,
-3-point resections, rhumb and rhumb lines, trilateration (by intersection,
-by overlap and in 3d), conversions and unrolling, among other things.  For
-more information and further details see the documentation_, the descriptions
-of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
-`JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and
-`C++ GeographicLib`_.
+intermediate and nearest points, circle intersections and secants, path
+intersections, 3-point resections, rhumb and rhumb lines, trilateration
+(by intersection, by overlap and in 3d), conversions and unrolling, among
+other things.  For more information and further details see the documentation_,
+the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_
+geodesy, the original `JavaScript source`_ or docs_ and *Karney*\'s Python
+geographiclib_ and `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UTM_ (Universal Transverse
@@ -152,12 +152,12 @@ and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 13 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Jan 06, 2023.*
+*Last updated: Jan 09, 2023.*
 
 License
 =======
 
-``Copyright (C) 2016-2022 -- mrJean1 at Gmail -- All Rights Reserved.``
+``Copyright (C) 2016-2023 -- mrJean1 at Gmail -- All Rights Reserved.``
 
 ``Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

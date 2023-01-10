@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '22.10.31'
+__version__ = '23.01.09'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
@@ -222,6 +222,18 @@ except AttributeError:  # Python 2-
         '''
         return bool(obj and obj.replace(_UNDER_, NN).isalnum()
                         and not obj[:1].isdigit())
+
+
+def isinstanceof(obj, *classes):
+    '''Check an instance of one or several C{classes}.
+
+       @arg obj: The instance (C{any}).
+       @arg classes: One or more classes (C{class}).
+
+       @return: C{True} if B{C{obj}} is in instance of
+                one of the B{C{classes}}.
+    '''
+    return isinstance(obj, classes)
 
 
 def isint(obj, both=False):

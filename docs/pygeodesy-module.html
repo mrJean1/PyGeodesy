@@ -79,7 +79,7 @@
   module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, surface area, perimeter, initial and final bearing, 
-  intermediate and nearest points, circle intersections, path 
+  intermediate and nearest points, circle intersections and secants, path 
   intersections, 3-point resections, rhumb and rhumb lines, trilateration 
   (by intersection, by overlap and in 3d), conversions and unrolling, among
   other things.  For more information and further details see the <a 
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.01.06
+        23.01.09
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8027,7 +8027,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed40273250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb2c83a7350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -8780,6 +8780,24 @@
         <tr>
           <td><span class="summary-sig"><a name="isinf"></a><span class="summary-sig-name">isinf</span>(<span class="summary-sig-arg">x</span>)</span><br />
       Check if float x is infinite (positive or negative).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isinstanceof" class="summary-sig-name">isinstanceof</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">*classes</span>)</span><br />
+      Check an instance of one or several <code>classes</code>.</td>
           <td align="right" valign="top">
             
             
@@ -12488,7 +12506,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.1.6'"><code class="variable-quote">'</code><code class="variable-string">23.1.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.1.9'"><code class="variable-quote">'</code><code class="variable-string">23.1.9</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20058,7 +20076,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed40273250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb2c83a7350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21491,6 +21509,34 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is a 
           <code>float</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isinstanceof"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isinstanceof</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">*classes</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check an instance of one or several <code>classes</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>classes</code></strong> - One or more classes (<code>class</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is in instance of 
+          one of the <b><code>classes</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -29413,7 +29459,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan  6 13:20:29 2023
+    Generated by Epydoc 3.0.1 on Tue Jan 10 12:13:20 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -12,33 +12,33 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import map1  # from .nvectorBase
+from pygeodesy.basics import isbool, isinstanceof, map1
 from pygeodesy.cartesianBase import Bearing2Tuple, CartesianBase
 from pygeodesy.constants import EPS, PI, PI2, PI_2, R_M, R_MA, \
                                _umod_360, isnear0, isnon0, _0_0, \
                                _0_5, _1_0, _180_0
 from pygeodesy.datums import Datums, _spherical_datum
-# from pygeodesy.errors import IntersectionError  # from .latlonBase
-from pygeodesy.fmath import favg, fdot, hypot
+from pygeodesy.errors import IntersectionError, _ValueError, _xError
+from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
 from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
                              _distant_, _exceed_PI_radians_, _name_, \
                              _near_, _radius_, _too_
-from pygeodesy.latlonBase import IntersectionError, LatLonBase, \
-                                _trilaterate5  # PYCHOK passed
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import map1, NvectorBase, _xattrs  # streprs
+from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
-from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_, \
-                            Scalar_
+# from pygeodesy.streprs import Fmt  # from _MODS
+from pygeodesy.units import Bearing, Bearing_, Height, Radians_, \
+                            Radius, Radius_, Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
-                            sincos2, tanPI_2_2, wrap360, wrapPI
+                            sincos2, sincos2d, tanPI_2_2, wrap360, wrapPI
 
-from math import cos, log, sin, sqrt
+from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '22.09.24'
+__version__ = '23.01.09'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -220,6 +220,45 @@ class LatLonSphericalBase(LatLonBase):
         # .initialBearingTo is inside .-Nvector and .-Trigonometry
         b = other.initialBearingTo(self, wrap=wrap, raiser=raiser)
         return _umod_360(b + _180_0)
+
+    def intersecant2(self, circle, point, bearing, radius=R_M, exact=False,
+                                                   height=None, wrap=True):
+        '''Compute the intersections of a circle and a line.
+
+           @arg circle: Radius of the circle centered at this location
+                       (C{meter}, same units as B{C{radius}}) or a point
+                       on the circle (this C{LatLon}).
+           @arg point: An other point inside the circle (this C{LatLon}).
+           @arg bearing: Bearing at the B{C{point}} (compass C{degrees360})
+                         or a second point on the line (this C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}, conventionally).
+           @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+                         destination and distance, if C{False} use the basic
+                         rhumb methods (C{bool}) or if C{None} use the I{great
+                         circle} methods.
+           @kwarg height: Optional height for the intersection points (C{meter},
+                          conventionally) or C{None}.
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: 2-Tuple of the intersection points (representing a chord),
+                    each an instance of this class.  For a tangent line, each
+                    point C{is} this very instance.
+
+           @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
+                                     too distance from the center.
+
+           @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
+                             or B{C{bearing}} invalid.
+
+           @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
+                              B{C{exact}} or B{C{height}}.
+        '''
+        p = self.others(point=point)
+        try:
+            return _intersecant2(self, circle, p, bearing, radius=radius, exact=exact,
+                                                           height=height, wrap=wrap)
+        except (TypeError, ValueError) as x:
+            raise _xError(x, center=self, circle=circle, point=point, bearing=bearing, exact=exact)
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling
@@ -523,6 +562,55 @@ class LatLonSphericalBase(LatLonBase):
            @see: Function L{pygeodesy.toWm} in module L{webmercator} for details.
         '''
         return _MODS.webmercator.toWm(self, radius=radius)
+
+
+def _intersecant2(c, r, p, b, radius=R_M, exact=False,  # in .ellipsoidalBaseDI._intersecant2
+                              height=None, wrap=False):
+    # (INTERNAL) Intersect a circle and bearing, see L{intersecant2}
+    # above, separated to allow callers to embellish any exceptions
+
+    if not isinstanceof(r, c.__class__, p.__class__):
+        r = Radius_(circle=r)
+    elif exact is None:
+        r = c.distanceTo(r, radius=radius, wrap=wrap)
+    elif isbool(exact):
+        r = c.rhumbDistanceTo(r, radius=radius, exact=exact)
+    else:
+        raise _ValueError(exact=exact)
+
+    if not isinstanceof(b, c.__class__, p.__class__):
+        b = Bearing(b)
+    elif exact is None:
+        b = p.initialBearingTo(b, wrap=wrap)
+    else:
+        b = p.rhumbAzimuthTo(b, radius=radius, exact=exact)
+
+    if exact is None:
+        d = p.distanceTo(c, radius=radius, wrap=wrap)
+        a = p.initialBearingTo(c, wrap=wrap) if d > EPS else b
+    else:
+        d = p.rhumbDistanceTo(c, radius=radius, exact=exact)
+        a = wrap360(p.rhumbAzimuthTo( c, radius=radius, exact=exact)) if d > EPS else b
+
+    if d > r:
+        raise IntersectionError(_too_(_MODS.streprs.Fmt.distant(d)))
+    elif d < r:
+        if d > EPS:
+            s, c = sincos2d(b - a)
+            s  = sqrt_a(r, fabs(s * d))
+            c *= d
+        else:  # coincindent
+            s, c = r, 0
+        a = b + _180_0
+        if exact is None:
+            b = p.destination(s + c, b, radius=radius, height=height)
+            a = p.destination(s - c, a, radius=radius, height=height)
+        else:
+            b = p.rhumbDestination(s + c, b, radius=radius, height=height, exact=exact)
+            a = p.rhumbDestination(s - c, a, radius=radius, height=height, exact=exact)
+    else:
+        b = a = p  # tangent
+    return b, a  # in bearing direction first
 
 
 __all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)

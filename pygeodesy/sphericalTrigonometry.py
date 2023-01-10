@@ -40,7 +40,7 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
                              notImplemented, Fmt as _Fmt  # XXX shadowed
 from pygeodesy.props import deprecated_function, deprecated_method
-from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
+from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, _intersecant2, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '22.10.12'
+__version__ = '23.01.09'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -926,6 +926,47 @@ def _intdot(ds, a1, b1, a, b, wrap):
     return fdot(ds, db, a - a1)
 
 
+def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
+                                                 height=None, wrap=True):
+    '''Compute the intersections of a circle and a line.
+
+       @arg center: Center of the circle (L{LatLon}).
+       @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
+                    or a point on the circle (L{LatLon}).
+       @arg point: A point inside the circle (L{LatLon}).
+       @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
+                     a second point on the line (L{LatLon}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
+       @kwarg exact: If C{True} use the I{exact} rhumb methods for azimuth,
+                     destination and distance, if C{False} use the basic
+                     rhumb methods (C{bool}) or if C{None} use the I{great
+                     circle} methods.
+       @kwarg height: Optional height for the intersection points (C{meter},
+                      conventionally) or C{None}.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+       @return: 2-Tuple of the intersection points (representing a chord),
+                each an instance of this class.  For a tangent line, each
+                point C{is} this very instance.
+
+       @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
+                                 too distance from the B{C{center}}.
+
+       @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
+                         B{C{circle}} or B{C{beaing}} invalid.
+
+       @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
+                          B{C{exact}} or B{C{height}}.
+    '''
+    c = _T00.others(center=center)
+    p = _T00.others(point=point)
+    try:
+        return _intersecant2(c, circle, p, bearing, radius=radius, exact=exact,
+                                                    height=height, wrap=wrap)
+    except (TypeError, ValueError) as x:
+        raise _xError(x, center=center, circle=circle, point=point, bearing=bearing, exact=exact)
+
+
 def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
                                            LatLon=None, **LatLon_kwds):
     # (INTERNAL) Intersect two (spherical) path, see L{intersection}
@@ -1402,7 +1443,7 @@ def _t7Tuple(t, radius):
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
                       areaOf,  # functions
-                      intersection, intersections2, ispolar,
+                      intersecant2, intersection, intersections2, ispolar,
                       isPoleEnclosedBy,  # DEPRECATED, use ispolar
                       meanOf,
                       nearestOn2, nearestOn3,
