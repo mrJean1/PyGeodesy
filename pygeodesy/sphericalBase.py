@@ -38,7 +38,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.01.09'
+__version__ = '23.01.18'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -228,7 +228,7 @@ class LatLonSphericalBase(LatLonBase):
            @arg circle: Radius of the circle centered at this location
                        (C{meter}, same units as B{C{radius}}) or a point
                        on the circle (this C{LatLon}).
-           @arg point: An other point inside the circle (this C{LatLon}).
+           @arg point: An other point in- or outside the circle (this C{LatLon}).
            @arg bearing: Bearing at the B{C{point}} (compass C{degrees360})
                          or a second point on the line (this C{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}, conventionally).
@@ -244,8 +244,7 @@ class LatLonSphericalBase(LatLonBase):
                     each an instance of this class.  For a tangent line, each
                     point C{is} this very instance.
 
-           @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
-                                     too distance from the center.
+           @raise IntersectionError: The circle and line do not intersect.
 
            @raise TypeError: If B{C{point}} is not this C{LatLon} or B{C{circle}}
                              or B{C{bearing}} invalid.
@@ -592,24 +591,23 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,  # in .ellipsoidalBaseDI.
         d = p.rhumbDistanceTo(c, radius=radius, exact=exact)
         a = wrap360(p.rhumbAzimuthTo( c, radius=radius, exact=exact)) if d > EPS else b
 
-    if d > r:
-        raise IntersectionError(_too_(_MODS.streprs.Fmt.distant(d)))
-    elif d < r:
-        if d > EPS:
-            s, c = sincos2d(b - a)
-            s  = sqrt_a(r, fabs(s * d))
-            c *= d
-        else:  # coincindent
-            s, c = r, 0
-        a = b + _180_0
-        if exact is None:
-            b = p.destination(s + c, b, radius=radius, height=height)
-            a = p.destination(s - c, a, radius=radius, height=height)
-        else:
-            b = p.rhumbDestination(s + c, b, radius=radius, height=height, exact=exact)
-            a = p.rhumbDestination(s - c, a, radius=radius, height=height, exact=exact)
+    if d > EPS:
+        s, c = sincos2d(b - a)
+        s = sqrt_a(r, fabs(s * d))
+        if s > r:
+            raise IntersectionError(_too_(_MODS.streprs.Fmt.distant(s)))
+        elif (r - s) < EPS:
+            return p, p  # tangent
+        c *= d
+    else:  # coincindent
+        s, c = r, 0
+    a = b + _180_0
+    if exact is None:
+        b = p.destination(s + c, b, radius=radius, height=height)
+        a = p.destination(s - c, a, radius=radius, height=height)
     else:
-        b = a = p  # tangent
+        b = p.rhumbDestination(s + c, b, radius=radius, height=height, exact=exact)
+        a = p.rhumbDestination(s - c, a, radius=radius, height=height, exact=exact)
     return b, a  # in bearing direction first
 
 

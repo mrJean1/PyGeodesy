@@ -53,7 +53,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.01.09'
+__version__ = '23.01.18'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -909,13 +909,12 @@ def _int3d2(start, end, wrap, _i_, Vector, hs):
     if max(abs(db), abs(a2 - a1)) < EPS:
         raise _ValueError(_SPACE_(_path_ + _i_, _null_))
     # note, in EdWilliams.org/avform.htm W is + and E is -
-    b21, b12 = db * _0_5, -(b1 + b2) * _0_5
-
-    sb21, cb21, sb12, cb12, \
-    sa21,    _, sa12,    _ = sincos2_(b21, b12, a1 - a2, a1 + a2)
-
-    x = Vector(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
-               sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
+    sb21, cb21, sb12, cb12 = sincos2_(db * _0_5,
+                                    -(b1 + b2) * _0_5)
+    cb21 *= sin(a1 - a2)  # sa21
+    sb21 *= sin(a1 + a2)  # sa12
+    x = Vector(sb12 * cb21 - cb12 * sb21,
+               cb12 * cb21 + sb12 * sb21,
                cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
 
@@ -933,7 +932,7 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
        @arg center: Center of the circle (L{LatLon}).
        @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
                     or a point on the circle (L{LatLon}).
-       @arg point: A point inside the circle (L{LatLon}).
+       @arg point: A point in- or outside the circle (L{LatLon}).
        @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
                      a second point on the line (L{LatLon}).
        @kwarg radius: Mean earth radius (C{meter}, conventionally).
@@ -949,11 +948,10 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                 each an instance of this class.  For a tangent line, each
                 point C{is} this very instance.
 
-       @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
-                                 too distance from the B{C{center}}.
+       @raise IntersectionError: The circle and line do not intersect.
 
        @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
-                         B{C{circle}} or B{C{beaing}} invalid.
+                         B{C{circle}} or B{C{bearing}} invalid.
 
        @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
                           B{C{exact}} or B{C{height}}.

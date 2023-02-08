@@ -267,7 +267,7 @@
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
     target="_top">GeodSolve</a> 1.51 and <a 
     href="https://GeographicLib.SourceForge.io/html/utilities.html" 
-    target="_top">RhumbSolve</a> 1.51), all on macOS 13.0.1 Venture and in 
+    target="_top">RhumbSolve</a> 1.51), all on macOS 13.2 Venture and in 
     64-bit only.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -278,7 +278,7 @@
     4.5.4 using Python 3.10.8, 3.9.6 and 2.7.18.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.11.0, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
+    <p>Python 3.11.1, 3.10.8 and 3.9.6 ran on Apple M1 Silicon 
     (<code>arm64</code>), <i>natively</i>.  Python 3.8.10 and 2.7.18 ran on
     Intel (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
@@ -320,9 +320,9 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
-    10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, 
-    macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
+    on macOS 13.0.0-1 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 
+    10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra 
+    and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 
     Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a>3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
@@ -341,7 +341,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.10.8, both in 64-bit on macOS 
-    13.0 Venture.</p>
+    13.2 Venture.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -518,7 +518,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.01.09
+        23.02.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -537,7 +537,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Some, basic definitions, functions and dependencies.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Private base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon against a box or region.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Clip a path or polygon of <code>LatLon</code> points against a 
+        rectangular box or a (convex or arbitrary) clip region.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.constants-module.html">pygeodesy.constants</a></strong>: <em class="summary">Single-instance <code>float</code> and <code>int</code> constants 
         across <code>pygeodesy</code> modules and related functions <a 
         href="pygeodesy.constants-module.html#float_" 
@@ -1201,6 +1202,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.clipy.BooleanGH-class.html" class="summary-name">BooleanGH</a><br />
+      Polygon class providing <i>boolean</i> operations between two 
+        polygons based on <a href="pygeodesy.clipy-module.html#clipGH4" 
+        class="link">clipGH4</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.namedTuples.Bounds2Tuple-class.html" class="summary-name">Bounds2Tuple</a><br />
       2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
         lower-left and upper-right corner as <code>LatLon</code> instance.
@@ -1401,6 +1412,18 @@
     </td><td class="summary">
         <a href="pygeodesy.clipy.ClipError-class.html" class="summary-name">ClipError</a><br />
       Clip box or clip region issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.clipy.ClipGH4Tuple-class.html" class="summary-name">ClipGH4Tuple</a><br />
+      4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
+        the <a href="pygeodesy.clipy-module.html#clipGH4" 
+        class="link">clipGH4</a> result with the <code>lat</code>-, 
+        <code>lon</code>gitude, <a href=pygeodesy.heights-module.html><code>height</code></a> and <code>clipid</code>
+        of the polygon or polygonal clip.
     </td>
   </tr>
 <tr>
@@ -2856,6 +2879,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.clipy.HeightGH-class.html" class="summary-name">HeightGH</a><br />
+      Like <a href="pygeodesy.units.Height-class.html" 
+        class="link">Height</a> but to distnguish the interpolated height 
+        at an intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" class="summary-name">HeightIDWcosineAndoyerLambert</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
@@ -3309,6 +3343,16 @@
       DEPRECATED, used class <a 
         href="pygeodesy.namedTuples.Reverse4Tuple-class.html" 
         class="link">Reverse4Tuple</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.clipy.LatLonGH-class.html" class="summary-name">LatLonGH</a><br />
+      A point or intersection in <a 
+        href="pygeodesy.clipy.BooleanGH-class.html" 
+        class="link">BooleanGH</a> polygon.
     </td>
   </tr>
 <tr>
@@ -5641,6 +5685,30 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clipDegrees" class="summary-sig-name">clipDegrees</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">limit</span>)</span><br />
       Clip a lat- or longitude to the given range.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clipGH4" class="summary-sig-name">clipGH4</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">corners</span>,
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">xtend</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Clip a polygon against a clip region or box using the <a 
+      href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+      target="_top">Greiner-Hormann</a> algorithm, <a 
+      href="https://GitHub.com/helderco/univ-polyclip" 
+      target="_top">Correia</a>'s implementation modified and extended.</td>
           <td align="right" valign="top">
             
             
@@ -8001,7 +8069,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hartzell4" class="summary-sig-name">hartzell4</a>(<span class="summary-sig-arg">pov</span>,
         <span class="summary-sig-arg">los</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.31<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the intersection of a tri-/biaxial ellipsoid and a 
       Line-Of-Sight from a Point-Of-View outside.</td>
@@ -8027,7 +8095,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb2c83a7350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb360835450&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12506,7 +12574,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.1.9'"><code class="variable-quote">'</code><code class="variable-string">23.1.9</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.2.8'"><code class="variable-quote">'</code><code class="variable-string">23.2.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -13264,6 +13332,13 @@ z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
 Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 , rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined transforms (<code>enum-like</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Triaxials"></a><span class="summary-name">Triaxials</span> = <code title=""></code>
     </td>
   </tr>
 <tr>
@@ -15146,6 +15221,68 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="clipGH4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipGH4</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">corners</span>,
+        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">xtend</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clip a polygon against a clip region or box using the <a 
+  href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+  target="_top">Greiner-Hormann</a> algorithm, <a 
+  href="https://GitHub.com/helderco/univ-polyclip" 
+  target="_top">Correia</a>'s implementation modified and extended.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>corners</code></strong> - Three or more points defining a clip region 
+          (<code>LatLon</code>[]) or two points to specify a rectangular 
+          clip box.</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
+          href="pygeodesy.clipy.ClipError-class.html" 
+          class="link">ClipError</a> exceptions.</li>
+        <li><strong class="pname"><code>xtend</code></strong> - Cover degenerate cases (<code>bool</code>), but not (yet) based 
+          on <a 
+          href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+          target="_top">Forster-Hormann-Popa</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield a <a href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
+          class="link">ClipGH4Tuple</a><code>(lat, lon, height, 
+          clipid)</code> for each clipped point.  The result may consist of
+          several clips, each a closed polygon with a unique 
+          <code>clipid</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - Null <code>clipper</code>, an open polygon clip or an 
+        <i>unhandled</i> intersection.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://WikiPedia.org/wiki/Greiner&#8211;Hormann_clipping_algorithm"
+        target="_top">Greiner-Hormann</a>, <a 
+        href="https://Davis.WPI.edu/~matt/courses/clipping/" 
+        target="_top">Ionel Daniel Stroe</a>, <a 
+        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+        target="_top">Forster, Hormann and Popa</a> and <i>Correia</i>'s <a
+        href="https://GitHub.com/helderco/univ-polyclip" 
+        target="_top">univ-polyclip</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="clipLB6"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -15311,7 +15448,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
         non-convex or otherwise invalid clip box or region.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b> or 
+        <b><code>corners</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -19997,7 +20135,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hartzell4</span>&nbsp;(<span class="sig-arg">pov</span>,
         <span class="sig-arg">los</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">tri_biax</span>=<span class="sig-default">Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.31<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">tri_biax</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -20076,7 +20214,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb2c83a7350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb360835450&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29459,7 +29597,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jan 10 12:13:20 2023
+    Generated by Epydoc 3.0.1 on Wed Feb  8 07:31:08 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

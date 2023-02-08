@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '22.11.07'
+__version__ = '23.02.05'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -1120,7 +1120,7 @@ def intersections2(lat1, lon1, radius1,
 
        @raise TypeError: Invalid B{C{datum}}.
 
-       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}}
+       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}},
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
     if datum is None or euclidean(lat1, lon1, lat2, lon2, radius=R_M,

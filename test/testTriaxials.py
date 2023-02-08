@@ -4,12 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.11.03'
+__version__ = '2.02.06'
 
 from base import random, startswith, TestsBase
 
 from pygeodesy import EPS4, PI_2, PI_4, Ellipsoids, F_DMS, fstr, JacobiConformal, map1, map2, \
-                      signBit, sincos2d_, Triaxial, Triaxial_, triaxials, Vector3d
+                      signBit, sincos2d_, Triaxial, Triaxial_, Triaxials, triaxials, Vector3d
 from math import radians
 
 
@@ -275,6 +275,10 @@ class Tests(TestsBase):
         e = T.toEllipsoid()
         t = str(e)
         self.test(n, t, t)
+
+        self.test('Triaxials', len(Triaxials.items(all=True)), 12, nl=1)
+        for t in Triaxials.values(all=True):
+            self.test(t.name, t, getattr(Triaxials, t.name))
 
 
 if __name__ == '__main__':

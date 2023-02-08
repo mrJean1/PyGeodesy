@@ -409,6 +409,11 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.LatLonGH-class.html">pygeodesy.clipy.LatLonGH</a></strong>:
+      <em class="summary">A point or intersection in <a 
+        href="pygeodesy.clipy.BooleanGH-class.html" 
+        class="link">BooleanGH</a> polygon.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon_-class.html">pygeodesy.points.LatLon_</a></strong>:
       <em class="summary">Low-overhead <code>LatLon</code> class for <a 
         href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -829,6 +834,19 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy._GHcircular-class.html">pygeodesy.clipy._GHcircular</a></strong>:
+      <em class="summary">(INTERNAL) A <i>circular, doubly-linked</i> list of <a 
+        href="pygeodesy.clipy.LatLonGH-class.html" 
+        class="link">LatLonGH</a>s, representing the original points of a 
+        polygon plus -if any- the intersections with another.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.BooleanGH-class.html">pygeodesy.clipy.BooleanGH</a></strong>:
+      <em class="summary">Polygon class providing <i>boolean</i> operations between two 
+        polygons based on <a href="pygeodesy.clipy-module.html#clipGH4" 
+        class="link">clipGH4</a>.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights._HeightBase-class.html">pygeodesy.heights._HeightBase</a></strong>:
       <em class="summary">(INTERNAL) Interpolator base class.</em>
     <ul>
@@ -1116,14 +1134,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">Using the formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
-        ellipsoidal model of the earth to compute the geodesic distance and
-        bearings between two given points or the destination point given an
-        start point and (initial) bearing.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1135,6 +1145,14 @@
         target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty (1975)</i></a> for an (oblate) 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and (initial) bearing.</em>
     </li>
     </ul>
     </li>
@@ -1220,21 +1238,6 @@
         href="https://www.OrdnanceSurvey.co.UK/documents/resources/guide-to-nationalgrid.pdf"
         target="_top">National Grid</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial_-class.html">pygeodesy.triaxials.Triaxial_</a></strong>:
-      <em class="summary"><i>Unordered</i> triaxial ellipsoid and base class.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial-class.html">pygeodesy.triaxials.Triaxial</a></strong>:
-      <em class="summary"><i>Ordered</i> triaxial ellipsoid.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiConformal-class.html">pygeodesy.triaxials.JacobiConformal</a></strong>:
-      <em class="summary">This is a conformal projection of a triaxial ellipsoid to a plane 
-        in which the <code>X</code> and <code>Y</code> grid lines are 
-        straight.</em>
-    </li>
-    </ul>
-    </li>
-    </ul>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">pygeodesy.utmupsBase.UtmUpsBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a href="pygeodesy.utm.Utm-class.html" 
         class="link">Utm</a> and <a href="pygeodesy.ups.Ups-class.html" 
@@ -1287,15 +1290,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
       <em class="summary">Extended to convert <code>Karney</code>-based <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
@@ -1308,6 +1302,15 @@
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1779,6 +1782,21 @@
     <li> <strong class="uidlink"><a href="pygeodesy.datums.Transform-class.html">pygeodesy.datums.Transform</a></strong>:
       <em class="summary">Helmert transformation.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial_-class.html">pygeodesy.triaxials.Triaxial_</a></strong>:
+      <em class="summary"><i>Unordered</i> triaxial ellipsoid and base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial-class.html">pygeodesy.triaxials.Triaxial</a></strong>:
+      <em class="summary"><i>Ordered</i> triaxial ellipsoid.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiConformal-class.html">pygeodesy.triaxials.JacobiConformal</a></strong>:
+      <em class="summary">This is a conformal projection of a triaxial ellipsoid to a plane 
+        in which the <code>X</code> and <code>Y</code> grid lines are 
+        straight.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
     </ul>
     </li>
     <li> <strong class="uidlink">pygeodesy.triaxials._ToNamedBase</strong>:
@@ -1944,6 +1962,13 @@
         edge inside or on the clip box and the indices <code>i</code> and 
         <code>j</code> (<code>int</code>) of the edge start and end points 
         in the original path.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipGH4Tuple-class.html">pygeodesy.clipy.ClipGH4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
+        the <a href="pygeodesy.clipy-module.html#clipGH4" 
+        class="link">clipGH4</a> result with the <code>lat</code>-, 
+        <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
+        of the polygon or polygonal clip.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
@@ -2679,6 +2704,14 @@
     <li> <strong class="uidlink"><a href="pygeodesy.units.Height-class.html">pygeodesy.units.Height</a></strong>:
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.HeightGH-class.html">pygeodesy.clipy.HeightGH</a></strong>:
+      <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
+        class="link">Height</a> but to distnguish the interpolated height 
+        at an intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter-class.html">pygeodesy.units.Meter</a></strong>:
       <em class="summary">Named <code>float</code> representing a distance or length in 
@@ -2975,6 +3008,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.units.Height-class.html">pygeodesy.units.Height</a></strong>:
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.HeightGH-class.html">pygeodesy.clipy.HeightGH</a></strong>:
+      <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
+        class="link">Height</a> but to distnguish the interpolated height 
+        at an intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter-class.html">pygeodesy.units.Meter</a></strong>:
       <em class="summary">Named <code>float</code> representing a distance or length in 
@@ -3212,6 +3253,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         edge inside or on the clip box and the indices <code>i</code> and 
         <code>j</code> (<code>int</code>) of the edge start and end points 
         in the original path.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipGH4Tuple-class.html">pygeodesy.clipy.ClipGH4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
+        the <a href="pygeodesy.clipy-module.html#clipGH4" 
+        class="link">clipGH4</a> result with the <code>lat</code>-, 
+        <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
+        of the polygon or polygonal clip.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
@@ -3873,7 +3921,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jan 10 12:13:19 2023
+    Generated by Epydoc 3.0.1 on Wed Feb  8 07:31:07 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -32,7 +32,7 @@ from pygeodesy.props import _allPropertiesOf_n, deprecated_method, Property_RO, 
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '22.10.30'
+__version__ = '23.02.06'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -649,7 +649,7 @@ class _NamedEnum(_NamedDict):
            @return: The B{C{item}}'s name if found (C{str}), or C{{dflt}} if
                     there is no such I{registered} B{C{item}}.
         '''
-        for k, v in _Dict.items(self):  # XXX not self.items()
+        for k, v in self.items():  # or _Dict.items(self)
             if v is item:
                 return k
         return dflt
@@ -679,8 +679,7 @@ class _NamedEnum(_NamedDict):
             for n in tuple(n for n, p in self.__class__.__dict__.items()
                                       if isinstance(p, _LazyNamedEnumItem)):
                 _ = getattr(self, n)
-
-        return itemsorted(_Dict, self) if asorted else _Dict.items(self)
+        return itemsorted(self) if asorted else _Dict.items(self)
 
     def keys(self, **all_asorted):
         '''Yield the keys (C{str}) of all or only the I{registered} items,
@@ -790,17 +789,19 @@ def _lazyNamedEnumItem(name, *args, **kwds):
     def _fget(inst):
         # assert isinstance(inst, _NamedEnum)
         try:  # get the item from the instance' __dict__
-            item = inst.__dict__[name]
+            # item = inst.__dict__[name]  # ... or _Dict
+            item = inst[name]
         except KeyError:
             # instantiate an _NamedEnumItem, it self-registers
             item = inst._Lazy(*args, **_xkwds(kwds, name=name))
             # assert inst[name] is item  # MUST be registered
-            # store the item in the instance' __dict__
-            inst.__dict__[name] = item
+            # store the item in the instance' __dict__ ...
+            # inst.__dict__[name] = item  # ... or update the
+            inst.update({name: item})  # ... _Dict for Triaxials
             # remove the property from the registry class, such that
             # (a) the property no longer overrides the instance' item
             # in inst.__dict__ and (b) _NamedEnum.items(all=True) only
-            # sees un-instantiated ones to be instantiated
+            # sees any un-instantiated ones yet to be instantiated
             p = getattr(inst.__class__, name, None)
             if isinstance(p, _LazyNamedEnumItem):
                 delattr(inst.__class__, name)
@@ -877,7 +878,7 @@ class _NamedTuple(tuple, _Named):
 
        @note: Specify at least 2 item names.
     '''
-    _Units_    = ()    # .units classes
+    _Units_ = ()    # .units classes
     '''Tuple defining the C{units} of the value of each C{Named-Tuple} item.
 
        @note: The C{len(_Units_)} must match C{len(_Names_)}.

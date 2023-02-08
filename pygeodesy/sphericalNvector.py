@@ -58,7 +58,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.01.09'
+__version__ = '23.01.18'
 
 _paths_ = 'paths'
 
@@ -866,7 +866,7 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
        @arg center: Center of the circle (L{LatLon}).
        @arg circle: Radius of the circle (C{meter}, same units as B{C{radius}})
                     or a point on the circle (L{LatLon}).
-       @arg point: A point inside the circle (L{LatLon}).
+       @arg point: A point in- or outside the circle (L{LatLon}).
        @arg bearing: Bearing at the B{C{point}} (compass C{degrees360}) or
                      a second point on the line (L{LatLon}).
        @kwarg radius: Mean earth radius (C{meter}, conventionally).
@@ -882,11 +882,10 @@ def intersecant2(center, circle, point, bearing, radius=R_M, exact=False,
                 each an instance of this class.  For a tangent line, each
                 point C{is} this very instance.
 
-       @raise IntersectionError: The B{C{point}} is outside the B{C{circle}},
-                                 too distance from the B{C{center}}.
+       @raise IntersectionError: The circle and line do not intersect.
 
        @raise TypeError: If B{C{center}} or B{C{point}} not L{LatLon} or
-                         B{C{circle}} or B{C{beaing}} invalid.
+                         B{C{circle}} or B{C{bearing}} invalid.
 
        @raise ValueError: Invalid B{C{circle}}, B{C{bearing}}, B{C{radius}},
                           B{C{exact}} or B{C{height}}.

@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '22.10.12'
+__version__ = '23.01.21'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1734,7 +1734,7 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     #   x' = y * sin(a) + x * cos(a)
     #   y' = y * cos(a) - x * sin(a)
     #
-    # distance (w) along and perpendicular (h) to
+    # distance (w) along and (h) perpendicular to
     # a line thru point (dx, dy) and the origin:
     #   w = (y * dy + x * dx) / hypot(dx, dy)
     #   h = (y * dx - x * dy) / hypot(dx, dy)

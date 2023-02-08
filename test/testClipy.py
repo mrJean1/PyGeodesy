@@ -4,12 +4,12 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '23.02.07'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F__F_, boundsOf, \
-               clipCS4, ClipError, clipLB6, clipSH, clipSH3
+from pygeodesy import F_D, F__F_, BooleanGH, boundsOf, \
+               clipCS4, ClipError, clipGH4, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -204,6 +204,28 @@ class Tests(TestsBase):
             sh = ', '.join(ll.toStr(form=F__F_, prec=2) for ll in sh) or None
             i += 1
             self.test('clipSH' + str(i), sh, x)
+
+        t = LatLon(0, 0, height=1.),  LatLon(7, 5, height=2.), LatLon(0, 10, height=3.)  # (0, 0)
+        c = LatLon(10, 0, height=1.), LatLon(3, 5, height=2.), LatLon(10, 10, height=3.)  # (5, 0)
+        r = clipGH4(t, c, raiser=True)
+        self.test(clipGH4.__name__, tuple(r), '(ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0), ClipGH4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipGH4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0))', nl=1)
+
+        s = BooleanGH(t, name='subject')
+        c = BooleanGH(c, name='clipper')
+        for n, r, x in (('and',   s & c, 'BooleanGH[5]((lat=5, lon=3.5714286, height=1.71429), (lat=7, lon=5, height=2), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))'),
+                        ('or',    s | c, 'BooleanGH[7]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=10, lon=10, height=3), (lat=10, lon=0, height=1), (lat=5, lon=3.5714286, height=1.71429))'),
+                        ('minus', s - c, 'BooleanGH[6]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))'),
+                        ('rev_d', c - s, 'BooleanGH[6]((lat=5, lon=3.5714286, height=1.71429), (lat=10, lon=0, height=1), (lat=10, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=7, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))')):
+            self.test(n, repr(r), x)
+
+        s &= c
+        self.test('iand', repr(s), 'BooleanGH[5]((lat=5, lon=3.5714286, height=1.71429), (lat=7, lon=5, height=2), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))')
+        s = BooleanGH(t)
+        s |= c
+        self.test('ior', repr(s), 'BooleanGH[7]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=10, lon=10, height=3), (lat=10, lon=0, height=1), (lat=5, lon=3.5714286, height=1.71429))')
+
+        # s -= s
+        # self.test('isub', repr(s), '')
 
     def testClipSH_(self, text, sh, lls):
         self.test(text + 'len', len(sh), len(lls))

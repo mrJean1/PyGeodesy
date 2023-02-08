@@ -10,11 +10,24 @@ L{Jacobi2Tuple} and L{TriaxialError}.
 @see: U{Geodesics on a triaxial ellipsoid<https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#
       Geodesics_on_a_triaxial_ellipsoid>} and U{Triaxial coordinate systems and their geometrical
       interpretation<https://www.Topo.Auth.GR/wp-content/uploads/sites/111/2021/12/09_Panou.pdf>}.
+
+@var Triaxials.Amalthea: Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, volume=2446253479595252, area=93239507787.490371704, area_p=93212299402.670425415)
+@var Triaxials.Ariel: Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, volume=812633172614203904, area=4211301462766.580078125, area_p=4211301574065.829589844)
+@var Triaxials.Earth: Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
+@var Triaxials.Enceladus: Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596679688, area_p=798619018175.109863281)
+@var Triaxials.Europa: Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, volume=15966575194402123776, area=30663773697323.51953125, area_p=30663773794562.45703125)
+@var Triaxials.Io: Triaxial(name='Io', a=1829400, b=1819300, c=1815700, e2ab=0.011011391, e2bc=0.003953651, e2ac=0.014921506, volume=25313121117889765376, area=41691875849096.7421875, area_p=41691877397441.2109375)
+@var Triaxials.Mars: Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, volume=162907283585817247744, area=144249140795107.4375, area_p=144249144150662.15625)
+@var Triaxials.Mimas: Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.691894531, area_p=493857714107.9375)
+@var Triaxials.Miranda: Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835456, area=698880863325.756958008, area_p=698881306767.950317383)
+@var Triaxials.Moon: Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, volume=21886698675223740416, area=37838824729886.09375, area_p=37838824733332.2265625)
+@var Triaxials.Tethys: Triaxial(name='Tethys', a=535600, b=528200, c=525800, e2ab=0.027441672, e2bc=0.009066821, e2ac=0.036259685, volume=623086233855821440, area=3528073490771.394042969, area_p=3528074261832.738769531)
+@var Triaxials.WGS84_35: Triaxial(name='WGS84_35', a=6378172, b=6378102, c=6356752.314245179, e2ab=0.00002195, e2bc=0.006683478, e2ac=0.006705281, volume=1083207319768789942272, area=510065621722018.125, area_p=510065626587483.3125)
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isscalar, map1, _zip  # from .fsums, .namedTuples, .streprs
+# from pygeodesy.basics import isscalar, _zip  # from .fsums, .namedTuples, .streprs
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, PI2, PI_3, PI4, \
                                _0_0, _0_5, _1_0, _N_2_0, isfinite, isnear1, \
                                _4_0  # PYCHOK used!
@@ -25,24 +38,29 @@ from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, _hypot21_, norm2
 from pygeodesy.fsums import Fsum, fsum_, isscalar, Property_RO
 from pygeodesy.interns import NN, _a_, _b_, _c_, _distant_, _height_, _inside_, \
-                             _near_, _not_, _NOTEQUAL_, _null_, _opposite_, _outside_, \
-                             _SPACE_, _spherical_, _too_, _x_, _y_
+                             _near_, _not_, _NL_, _NLATvar_, _NOTEQUAL_, _null_, \
+                             _opposite_, _outside_, _SPACE_, _spherical_, _too_, \
+                             _x_, _y_,  _COMMA_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
-from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
-from pygeodesy.namedTuples import LatLon3Tuple, map1, Vector3Tuple, Vector4Tuple
+from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
+                            _NamedTuple, _Pass, _lazyNamedEnumItem as _lazy
+from pygeodesy.namedTuples import LatLon3Tuple, Vector3Tuple, Vector4Tuple
 # from pygeodesy.props import Property_RO  # from .fsums
 from pygeodesy.streprs import Fmt, _ValueError, _zip
 from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, Radians, Radius
-from pygeodesy.utily import asin1, atan2d, km2m, sincos2, sincos2d, sincos2d_
+from pygeodesy.utily import asin1, atan2d, km2m, m2km, sincos2, sincos2d, sincos2d_
 from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '22.11.07'
+__version__ = '23.02.07'
 
+_E            = _WGS84.ellipsoid
 _not_ordered_ = _not_('ordered')
-_TRIPS        =  256  # max 55, Eberly 1074?
+_TRIPS        =  537  # max 55, Eberly 1074?
+_WGS84_35abc  = _E.a + 35, _E.a - 35, _E.b
+del _E
 
 
 class _ToNamedBase(_NamedBase):
@@ -153,7 +171,7 @@ class Jacobi2Tuple(_NamedTuple, _ToNamedBase):
         return _ToNamedBase._toRadians(self, *self)
 
 
-class Triaxial_(_NamedBase):  # _NamedEnumItem
+class Triaxial_(_NamedEnumItem):
     '''I{Unordered} triaxial ellipsoid and base class.
 
        Triaxial ellipsoids with right-handed semi-axes C{a}, C{b} and C{c}, oriented
@@ -172,22 +190,23 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
     _ijk = _kji = None
     _unordered  = True
 
-    def __init__(self, a_triax, b=None, c=None, name=NN):
+    def __init__(self, a_triaxial, b=None, c=None, name=NN):
         '''New I{unordered} L{Triaxial_}.
 
-           @arg a_triax: C{X} semi-axis (C{scalar}, conventionally in C{meter})
-                         or an other L{Triaxial} or L{Triaxial_} instance.
+           @arg a_triaxial: C{X} semi-axis (C{scalar}, conventionally in C{meter})
+                            or an other L{Triaxial} or L{Triaxial_} instance.
            @kwarg b: C{Y} semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triax} is scalar}, ignored otherwise.
+                     if C{B{a_triaxial} is scalar}, ignored otherwise.
            @kwarg c: C{Z} semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triax} is scalar}, ignored otherwise.
+                     if C{B{a_triaxial} is scalar}, ignored otherwise.
            @kwarg name: Optional name (C{str}).
 
            @raise TriaxialError: Invalid semi-axis or -axes.
         '''
         try:
-            a = a_triax
-            t = a._abc3 if isinstance(a, Triaxial_) else map1(float, a, b, c)
+            a = a_triaxial
+            t = a._abc3 if isinstance(a, Triaxial_) else (
+                   Radius(a=a), Radius(b=b), Radius(c=c))
         except (TypeError, ValueError) as x:
             raise TriaxialError(a=a, b=b, c=c, cause=x)
         if name:
@@ -211,7 +230,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         '''Get the (largest) C{x} semi-axis (C{meter}, conventionally).
         '''
         a, _, _ = self._abc3
-        return Radius(a=a)
+        return a
 
     @Property_RO
     def _a2b2(self):
@@ -267,7 +286,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         '''Get the (middle) C{y} semi-axis (C{meter}, same units as B{C{a}}).
         '''
         _, b, _ = self._abc3
-        return Radius(b=b)
+        return b
 
     @Property_RO
     def _b2c2(self):
@@ -281,7 +300,7 @@ class Triaxial_(_NamedBase):  # _NamedEnumItem
         '''Get the (smallest) C{z} semi-axis (C{meter}, same units as B{C{a}}).
         '''
         _, _, c = self._abc3
-        return Radius(c=c)
+        return c
 
     @Property_RO
     def _c2_b2(self):
@@ -591,15 +610,15 @@ class Triaxial(Triaxial_):
     '''
     _unordered = False
 
-    def __init__(self, a_triax, b=None, c=None, name=NN):
+    def __init__(self, a_triaxial, b=None, c=None, name=NN):
         '''New I{ordered} L{Triaxial}.
 
-           @arg a_triax: Largest semi-axis (C{scalar}, conventionally in C{meter})
-                         or an other L{Triaxial} or L{Triaxial_} instance.
+           @arg a_triaxial: Largest semi-axis (C{scalar}, conventionally in C{meter})
+                            or an other L{Triaxial} or L{Triaxial_} instance.
            @kwarg b: Middle semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triax} is scalar}, ignored otherwise.
+                     if C{B{a_triaxial} is scalar}, ignored otherwise.
            @kwarg c: Smallest semi-axis (C{meter}, same units as B{C{a}}), required
-                     if C{B{a_triax} is scalar}, ignored otherwise.
+                     if C{B{a_triaxial} is scalar}, ignored otherwise.
            @kwarg name: Optional name (C{str}).
 
            @note: The semi-axes must be ordered as C{B{a} >= B{b} >= B{c} > 0} and
@@ -607,7 +626,7 @@ class Triaxial(Triaxial_):
 
            @raise TriaxialError: Semi-axes not ordered, spherical or invalid.
         '''
-        Triaxial_.__init__(self, a_triax, b=b, c=c, name=name)
+        Triaxial_.__init__(self, a_triaxial, b=b, c=c, name=name)
 
     @Property_RO
     def _a2b2_a2c2(self):
@@ -1018,6 +1037,38 @@ class TriaxialError(_ValueError):
     pass  # ...
 
 
+class Triaxials(_NamedEnum):
+    '''(INTERNAL) L{Triaxial} registry, I{must} be a sub-class
+       to accommodate the L{_LazyNamedEnumItem} properties.
+    '''
+    def _Lazy(self, *abc, **name):
+        '''(INTERNAL) Instantiate the C{Triaxial}.
+        '''
+        a, b, c = map(km2m, abc)
+        return Triaxial(a, b, c, **name)
+
+Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
+'''Some pre-defined L{Triaxial}s, all I{lazily} instantiated.'''
+# <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in km
+# <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
+# <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
+Triaxials._assert(                 # a (km)       b (km)     c (km)     planet
+    Amalthea  = _lazy('Amalthea',  125.0,        73.0,      64),      # Jupiter
+    Ariel     = _lazy('Ariel',     581.1,       577.9,     577.7),    # Uranus
+    Earth     = _lazy('Earth',    6378.173435, 6378.1039, 6356.7544),
+    Enceladus = _lazy('Enceladus', 256.6,       251.4,     248.3),    # Saturn
+    Europa    = _lazy('Europa',   1564.13,     1561.23,   1560.93),   # Jupiter
+    Io        = _lazy('Io',       1829.4,      1819.3,    1815.7),    # Jupiter
+    Mars      = _lazy('Mars',     3394.6,      3393.3,    3376.3),
+    Mimas     = _lazy('Mimas',     207.4,       196.8,     190.6),    # Saturn
+    Miranda   = _lazy('Miranda',   240.4,       234.2,     232.9),    # Uranus
+    Moon      = _lazy('Moon',     1735.55,     1735.324,  1734.898),  # Earth
+    Tethys    = _lazy('Tethys',    535.6,       528.2,     525.8),    # Saturn
+    WGS84_35  = _lazy('WGS84_35', *map(m2km, _WGS84_35abc)))
+
+del _WGS84_35abc
+
+
 def _getitems(items, *indices):
     '''(INTERNAL) Get the C{items} at the given I{indices}.
 
@@ -1068,11 +1119,6 @@ def _hartzell3d2(pov, los, Tun):  # MCCABE 13 in .formy.hartzell
     v = p3.minus(u3.times(d))  # Vector3d
     h = p3.minus(v).length  # distance to triaxial
     return T._order3d(v, reverse=True), h
-
-
-E = _WGS84.ellipsoid
-_WGS84 = Triaxial(E.a + 35, E.a - 35, E.b, name=E.name + '+/-35')
-del E
 
 
 def hartzell4(pov, los=None, tri_biax=_WGS84, name=NN):
@@ -1313,7 +1359,7 @@ def _sideOf(xyz, abc, eps=EPS):  # in .formy
        @return: M{sum((x / a)**2 for x, a in zip(xyz, abc)) - 1} or C{INT0},
     '''
     s = _hypot21_(*((x / a) for x, a in _zip(xyz, abc) if a))  # strict=True
-    return s if s > eps or s < -eps else INT0
+    return s if fabs(s) > eps else INT0
 
 
 def _SinCos2(x):
@@ -1328,25 +1374,9 @@ if __name__ == '__main__':
 
     from pygeodesy import printf
 
-    # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in km    # Planet
-    # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
-    # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
-    for n, a, b, c in (('Amalthea',  125.0,        73.0,      64),      # Jupiter
-                       ('Ariel',     581.1,       577.9,     577.7),    # Uranus
-                       ('Earth',    6378.173435, 6378.1039, 6356.7544),
-                       ('Enceladus', 256.6,       251.4,     248.3),    # Saturn
-                       ('Europa',   1564.13,     1561.23,   1560.93),   # Jupiter
-                       ('Io',       1829.4,      1819.3,    1815.7),    # Jupiter
-                       ('Mars',     3394.6,      3393.3,    3376.3),
-                       ('Mimas',     207.4,       196.8,     190.6),    # Saturn
-                       ('Miranda',   240.4,       234.2,     232.9),    # Uranus
-                       ('Moon',     1735.55,     1735.324,  1734.898),  # Earth
-                       ('Tethys',    535.6,       528.2,     525.8)):   # Saturn
-        t = Triaxial(km2m(a), km2m(b), km2m(c), name=n)
-        printf('# %r', t)
-        if n == 'Earth':
-            printf('# %r', JacobiConformal(t.a, t.b, t.c, name=n))
-    printf('# %r', _WGS84)
+    # __doc__ of this file, force all into registery
+    t = [NN] + Triaxials.toRepr(all=True, asorted=True).split(_NL_)
+    printf(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #
@@ -1369,19 +1399,3 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-
-# % python3 -m pygeodesy.triaxials
-
-# Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, volume=2446253479595252, area=93239507787.490371704, area_p=93212299402.670425415)
-# Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, volume=812633172614203904, area=4211301462766.580078125, area_p=4211301574065.829589844)
-# Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
-# JacobiConformal(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, xyQ2=xyQ2(x=1.572084, y=4.249876), volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
-# Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596679688, area_p=798619018175.109863281)
-# Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, volume=15966575194402123776, area=30663773697323.51953125, area_p=30663773794562.45703125)
-# Triaxial(name='Io', a=1829400, b=1819300, c=1815700, e2ab=0.011011391, e2bc=0.003953651, e2ac=0.014921506, volume=25313121117889765376, area=41691875849096.7421875, area_p=41691877397441.2109375)
-# Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, volume=162907283585817247744, area=144249140795107.4375, area_p=144249144150662.15625)
-# Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.691894531, area_p=493857714107.9375)
-# Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835456, area=698880863325.756958008, area_p=698881306767.950317383)
-# Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, volume=21886698675223740416, area=37838824729886.09375, area_p=37838824733332.2265625)
-# Triaxial(name='Tethys', a=535600, b=528200, c=525800, e2ab=0.027441672, e2bc=0.009066821, e2ac=0.036259685, volume=623086233855821440, area=3528073490771.394042969, area_p=3528074261832.738769531)
-# Triaxial(name='WGS84+/-35', a=6378172, b=6378102, c=6356752.314245179, e2ab=0.00002195, e2bc=0.006683478, e2ac=0.006705281, volume=1083207319768789942272, area=510065621722018.125, area_p=510065626587483.3125)

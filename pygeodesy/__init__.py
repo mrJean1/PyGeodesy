@@ -124,7 +124,7 @@ U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicL
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.0.1 Venture and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.2 Venture and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
@@ -132,7 +132,7 @@ C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests ar
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.8, 3.9.6
 and 2.7.18.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
-Python 3.11.0, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
+Python 3.11.1, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{pygeodesy.machine}).
 
 The tests also ran with Python 3.10.8 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
@@ -152,9 +152,9 @@ Previously, the tests were run with Python 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15
 <https://PyPI.org/project/numpy>} 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and
 U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9),
 U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python<https://software.Intel.com/
-en-us/distribution-for-python>} 3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 12.1-6
-Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6
-High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista
+en-us/distribution-for-python>} 3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 13.0.0-1
+Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6
+High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista
 <https://OMZ-Software.com/pythonista>}3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2,
 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>}
 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on
@@ -167,7 +167,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.8, both in 64-bit on macOS 13.0 Venture.
+using Python 3.10.8, both in 64-bit on macOS 13.2 Venture.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -573,7 +573,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.01.09'
+__version__ = '23.02.08'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

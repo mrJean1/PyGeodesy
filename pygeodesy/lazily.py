@@ -133,10 +133,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
-                   cartesianBase=(),  # module only
-                           clipy=('ClipError',
-                                 'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
-                                 'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
+                  cartesianBase=(),  # module only
+                          clipy=('BooleanGH', 'ClipError',
+                                 'ClipCS4Tuple', 'ClipGH4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple', 'HeightGH', 'LatLonGH',
+                                 'clipCS4', 'clipGH4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
@@ -294,7 +294,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             trf=('Helmert7Tuple', 'RefFrame', 'RefFrames',
                                  'date2epoch', 'epoch2date', 'trfXform'),
                       triaxials=('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple', 'JacobiConformal',
-                                 'Triaxial', 'Triaxial_', 'TriaxialError', 'hartzell4'),
+                                 'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'Int_',
@@ -417,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.01.09'
+__version__ = '23.02.07'
 
 
 def _ALL_OTHER(*objs):
