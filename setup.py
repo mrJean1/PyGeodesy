@@ -27,7 +27,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '23.01.09'
+__version__ = '23.02.09'
 
 
 def _c2(*names):
@@ -55,7 +55,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'boolean',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcirle', 'circumradius',
-             'clip', 'Cohen', 'Cohen-Sutherland', 'Collins',
+             'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'composite',
              'conformal', 'conic', 'constants', 'contact-triangle',
              'Cook', 'Correia', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',

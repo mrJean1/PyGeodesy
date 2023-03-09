@@ -19,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '22.10.28'
+__version__ = '23.02.22'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -263,7 +263,8 @@ def enstr2(easting, northing, prec, *extras, **wide_dot):
         raise _ValueError(easting=easting, northing=northing, prec=prec, cause=x)
     return t
 
-enstr2.__doc__  %= (_EN_WIDE,)  # PYCHOK expected
+if enstr2.__doc__:  # PYCHOK expected
+    enstr2.__doc__  %= (_EN_WIDE,)
 
 
 def _enstr2m3(estr, nstr, wide=_EN_WIDE):  # in .mgrs, .osgr

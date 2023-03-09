@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.booleans</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;booleans
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.booleans-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module booleans</h1><p class="nomargin-top"></p>
+<p><i>Boolean</i> operations on <i>composite</i> polygons and 
+  <i>clip</i>s.</p>
+  <p>Classes <a href="pygeodesy.booleans.BooleanFHP-class.html" 
+  class="link">BooleanFHP</a> and <a 
+  href="pygeodesy.booleans.BooleanGH-class.html" class="link">BooleanGH</a>
+  are <i>composites</i> and provide <i>boolean</i> operations 
+  <code>intersection</code>, <code>difference</code>, 
+  <code>reverse-difference</code> and <code>union</code>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Note:</strong>
+        A <i>clip</i> is defined as a single, usually closed polygon, a 
+        <i>composite</i> is a collection of one or more <i>clip</i>s.
+      </p>
+      <p><strong>See Also:</strong>
+        <a 
+        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+        target="_top">Forster-Hormann-Popa</a> and <a 
+        href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+        target="_top">Greiner-Hormann</a>.
+      </p>
+      <p><strong>Version:</strong>
+        23.03.09
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans._LatLonBase-class.html" class="summary-name">_LatLonBase</a><br />
+      (INTERNAL) Base class for <a 
+        href="pygeodesy.booleans.LatLonFHP-class.html" 
+        class="link">LatLonFHP</a> and <a 
+        href="pygeodesy.booleans.LatLonGH-class.html" 
+        class="link">LatLonGH</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans.LatLonFHP-class.html" class="summary-name">LatLonFHP</a><br />
+      A point or intersection in a <a 
+        href="pygeodesy.booleans.BooleanFHP-class.html" 
+        class="link">BooleanFHP</a> clip.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans.LatLonGH-class.html" class="summary-name">LatLonGH</a><br />
+      A point or intersection in a <a 
+        href="pygeodesy.booleans.BooleanGH-class.html" 
+        class="link">BooleanGH</a> clip.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans._CompositeFHP-class.html" class="summary-name">_CompositeFHP</a><br />
+      (INTERNAL) A list of <code>_Clips</code> representing a composite 
+        polygon of <a href="pygeodesy.booleans.LatLonFHP-class.html" 
+        class="link">LatLonFHP</a> points and mutual intersections.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans._CompositeGH-class.html" class="summary-name">_CompositeGH</a><br />
+      (INTERNAL) A <i>circular, doubly-linked</i> list of <a 
+        href="pygeodesy.booleans.LatLonGH-class.html" 
+        class="link">LatLonGH</a>s, representing the original points of a 
+        polygon plus -if any- the intersections with another.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans.BooleanFHP-class.html" class="summary-name">BooleanFHP</a><br />
+      <i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using <a 
+        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+        target="_top">Forster-Hormann-Popa</a>'s C++ implementation 
+        transcoded to pure Python.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.booleans.BooleanGH-class.html" class="summary-name">BooleanGH</a><br />
+      <i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using the <a 
+        href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+        target="_top">Greiner-Hormann</a> algorithm, <a 
+        href="https://GitHub.com/helderco/univ-polyclip" 
+        target="_top">Correia</a>'s implementation modified and extended.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.booleans">_ALL_LAZY.booleans</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Mar  9 16:32:19 2023
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

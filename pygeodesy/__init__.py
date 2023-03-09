@@ -46,20 +46,21 @@ Other modules provide U{Albers equal-area<https://GeographicLib.SourceForge.io/
 html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{equidistant
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
 and other I{azimuthal} projections, Lambert I{conformal conic} projections and
-positions, functions to clip a path or polygon of C{LatLon} points using the
-U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the
-U{Liang-Barsky<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>}
-and the U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
-methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a
-path of C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
-reference/generated/numpy.array.html>}), including implementations of the
-U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}
-the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
-U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>} algorithms
-and modified versions of the former.  Other classes U{interpolate
-<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} the L{height<pygeodesy.heights>}
-of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models or compute various U{Fréchet
-<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff
+positions, functions to clip paths or polygons of C{LatLon} points using the
+U{Cohen-Sutherland<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>},
+U{Forster-Hormann-Popa<https://www.ScienceDirect.com/science/article/pii/S259014861930007X>},
+U{Greiner-Hormann<http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>},
+U{Liang-Barsky<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>} and
+U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods,
+functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of C{LatLon}
+points (or a U{NumPy array<https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
+including implementations of the U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/
+Ramer-Douglas-Peucker_algorithm>}, the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/
+resources/hull:8338>} and the U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>}
+algorithms and modified versions of the former.  Other classes provide I{boolean} operations between
+(composite) polygons or U{interpolate <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
+the L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models or
+compute various U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff
 <https://WikiPedia.org/wiki/Hausdorff_distance>} distances.
 
 Installation
@@ -124,7 +125,7 @@ U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicL
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2, U{GeoConvert
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51, U{GeodSolve
 <https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
-<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.2 Venture and in 64-bit only.
+<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51), all on macOS 13.2.1 Venture and in 64-bit only.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
@@ -167,7 +168,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.10.8, both in 64-bit on macOS 13.2 Venture.
+using Python 3.10.8, both in 64-bit on macOS 13.2.1 Venture.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -377,6 +378,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
     import pygeodesy.deprecated.bases      as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
+    import pygeodesy.booleans              as booleans               # PYCHOK exported
     import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK exported
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.constants             as constants              # PYCHOK exported
@@ -460,6 +462,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.albers                import *  # PYCHOK __all__
     from pygeodesy.azimuthal             import *  # PYCHOK __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
+    from pygeodesy.booleans              import *  # PYCHOK __all__
 #   from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.constants             import *  # PYCHOK __all__
@@ -573,7 +576,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.02.08'
+__version__ = '23.03.09'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

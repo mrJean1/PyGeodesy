@@ -35,13 +35,15 @@ decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide `Albers equal-area`_ projections, equidistant_ and
 other *azimuthal* projections, Lambert *conformal conic* projections and
-positions, functions to clip a path or polygon of *LatLon* points using
-the `Cohen-Sutherland`_, the `Liang-Barsky`_ and the `Sutherland-Hodgman`_
-methods, functions to simplify_ or linearize a path of *LatLon* points (or
-a `numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
-the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
-versions of the former.  Other classes interpolate_ the Height_ of *LatLon*
-points and Geoid_ models or compute various Frechet_ or Hausdorff_ distances.
+positions, functions to clip paths or polygons of *LatLon* points using
+the `Cohen-Sutherland`_, `Forster-Hormann-Popa`_, `Greiner-Hormann`_,
+`Liang-Barsky`_ and `Sutherland-Hodgman`_ methods, functions to simplify_
+or linearize a path of *LatLon* points (or a `numpy array`_), including
+implementations of the `Ramer-Douglas-Peucker`_, `Visvalingam-Whyatt`_ and
+`Reumann-Witkam`_ algorithms and modified versions of the former.  Other
+classes provide *boolean* operations between (composite) polygons or
+interpolate_ the Height_ of *LatLon* points and Geoid_ models or compute
+various Frechet_ or Hausdorff_ distances.
 
 Installation
 ============
@@ -101,7 +103,7 @@ GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10 (with
 geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
 Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
 GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), all on macOS
-13.2 Venture and in 64-bit only.
+13.2.1 Ventura and in 64-bit only.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command
 line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
@@ -147,12 +149,12 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 13.2 Ventura.
+and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 13.2.1 Ventura.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Feb 8, 2023.*
+*Last updated: Mar 09, 2023.*
 
 License
 =======
@@ -212,6 +214,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _equidistant: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
 .. _Flake8: https://PyPI.org/project/flake8
+.. _Forster-Hormann-Popa: https://www.ScienceDirect.com/science/article/pii/S259014861930007X
 .. _Frechet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
 .. _GeoConvert: https://GeographicLib.SourceForge.io/html/utilities.html
@@ -221,6 +224,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System
 .. _GitHub: https://GitHub.com/mrJean1/PyGeodesy
+.. _Greiner-Hormann: http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf
 .. _Hausdorff: https://WikiPedia.org/wiki/Hausdorff_distance
 .. _Height: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.heights-module.html
 .. _Intel-Python: https://software.Intel.com/en-us/distribution-for-python

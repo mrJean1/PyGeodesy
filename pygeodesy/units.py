@@ -30,7 +30,7 @@ from pygeodesy.unitsBase import _Error, Float, Fmt, fstr, Int, _NamedUnit, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '22.10.18'
+__version__ = '23.03.09'
 
 _negative_falsed_ = 'negative, falsed'
 
@@ -598,6 +598,14 @@ class Height_(Float_):  # here to avoid circular import
         '''New L{Height} instance, see L{Float}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
+
+
+class HeightX(Height):
+    '''Like L{Height} but to distinguish the interpolated
+       height at an intersection from an original L{Height}
+       in L{ClipFHP4Tuple} and L{ClipGH4Tuple}.
+    '''
+    pass
 
 
 class Lam(Radians):

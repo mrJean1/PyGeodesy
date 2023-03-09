@@ -24,7 +24,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '22.10.24'
+__version__ = '23.03.03'
 
 
 def _Float(**name_arg):
@@ -372,7 +372,7 @@ def isninf(x):
        @return: C{True} if B{C{x}} is C{NINF} or C{-inf},
                 C{False} otherwise.
     '''
-    return x is NINF or ((not isfinite(x)) and x < 0)
+    return x is NINF or (x < 0 and not isfinite(x))
 
 
 def isnon0(x, eps0=EPS0):

@@ -4,12 +4,13 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '23.02.07'
+__version__ = '23.03.09'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F__F_, BooleanGH, boundsOf, \
-               clipCS4, ClipError, clipGH4, clipLB6, clipSH, clipSH3
+from pygeodesy import F_D, F__F_, boundsOf, clipCS4, \
+               ClipError, clipFHP4, ClipFHP4Tuple, \
+               clipGH4, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -24,6 +25,13 @@ def _llsTrue3(lls):
     for ll2 in lls:
         yield ll1, ll2, True
         ll1 = ll2
+
+
+def _4Ts(*cs):
+    for i, c in enumerate(cs):
+        for xy in c.split(','):
+            x, y = map(int, xy.strip().split())
+            yield ClipFHP4Tuple(y, x, 0, i)
 
 
 class Tests(TestsBase):
@@ -205,27 +213,68 @@ class Tests(TestsBase):
             i += 1
             self.test('clipSH' + str(i), sh, x)
 
-        t = LatLon(0, 0, height=1.),  LatLon(7, 5, height=2.), LatLon(0, 10, height=3.)  # (0, 0)
-        c = LatLon(10, 0, height=1.), LatLon(3, 5, height=2.), LatLon(10, 10, height=3.)  # (5, 0)
-        r = clipGH4(t, c, raiser=True)
-        self.test(clipGH4.__name__, tuple(r), '(ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0), ClipGH4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipGH4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0))', nl=1)
+        p = LatLon(0, 0, height=1.),  LatLon(7, 5, height=2.), LatLon(0, 10, height=3.)  # (0, 0)
+        q = LatLon(10, 0, height=1.), LatLon(3, 5, height=2.), LatLon(10, 10, height=3.)  # (5, 0)
 
-        s = BooleanGH(t, name='subject')
-        c = BooleanGH(c, name='clipper')
-        for n, r, x in (('and',   s & c, 'BooleanGH[5]((lat=5, lon=3.5714286, height=1.71429), (lat=7, lon=5, height=2), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))'),
-                        ('or',    s | c, 'BooleanGH[7]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=10, lon=10, height=3), (lat=10, lon=0, height=1), (lat=5, lon=3.5714286, height=1.71429))'),
-                        ('minus', s - c, 'BooleanGH[6]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))'),
-                        ('rev_d', c - s, 'BooleanGH[6]((lat=5, lon=3.5714286, height=1.71429), (lat=10, lon=0, height=1), (lat=10, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=7, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))')):
-            self.test(n, repr(r), x)
+        r = clipGH4(p, q, raiser=True)
+        self.test(clipGH4.__name__, tuple(r), '(ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0), ClipGH4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipGH4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0))', nl=1)
 
-        s &= c
-        self.test('iand', repr(s), 'BooleanGH[5]((lat=5, lon=3.5714286, height=1.71429), (lat=7, lon=5, height=2), (lat=5, lon=6.4285714, height=2.28571), (lat=3, lon=5, height=2), (lat=5, lon=3.5714286, height=1.71429))')
-        s = BooleanGH(t)
-        s |= c
-        self.test('ior', repr(s), 'BooleanGH[7]((lat=5, lon=3.5714286, height=1.71429), (lat=0, lon=0, height=1), (lat=0, lon=10, height=3), (lat=5, lon=6.4285714, height=2.28571), (lat=10, lon=10, height=3), (lat=10, lon=0, height=1), (lat=5, lon=3.5714286, height=1.71429))')
+        r = clipFHP4(p, q)
+        self.test(clipFHP4.__name__, tuple(r), '(ClipFHP4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipFHP4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipFHP4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0), ClipFHP4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0))', nl=1)
 
-        # s -= s
-        # self.test('isub', repr(s), '')
+        # see <https://www.sciencedirect.com/science/article/pii/S259014861930007X?via%3Dihub>, Figs <https://ars.els-cdn.com/content/image/1-s2.0-S259014861930007X-mmc1.zip>
+        p = LatLon(0, 0), LatLon(4, 2), LatLon(8, 2), LatLon(6, 7), LatLon(8, 10), LatLon(4, 12), LatLon(1, 12), LatLon(-2, 15), LatLon(0, 9)  # Fig 8
+        q = LatLon(6, 12), LatLon(6, 3), LatLon(2, 1), LatLon(-1,4), LatLon(3, 8), LatLon(-1, 12)
+        r = clipFHP4(p, q)
+        self.test('Fig 8', tuple(r), '(ClipFHP4Tuple(lat=4.0, lon=12.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=-1.0, lon=12.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=3.0, lon=8.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=5.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=3.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=2.0, lon=1.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=6.0, lon=3.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=6.0, lon=11.0, height=0.0, clipid=0))', nl=1)
+
+        p = LatLon(0, 0), LatLon(0, 6), LatLon(3, 3), LatLon(6, 6), LatLon(9, 3), LatLon(11, 1), LatLon(13, 3), LatLon(13, 0)  # Fig 14
+        q = LatLon(0, 0), LatLon(3, 3), LatLon(6, 0), LatLon(9, 3), LatLon(11, 5), LatLon(13, 3), LatLon(13, 6), LatLon(0, 6)
+        r = clipFHP4(p, q)
+        self.test('Fig 14', tuple(r), '(ClipFHP4Tuple(lat=3.0, lon=3.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=0.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=6.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=6.0, lon=6.0, height=0.0, clipid=1), ClipFHP4Tuple(lat=9.0, lon=3.0, height=0.0, clipid=1), ClipFHP4Tuple(lat=6.0, lon=0.0, height=0.0, clipid=1), ClipFHP4Tuple(lat=3.0, lon=3.0, height=0.0, clipid=1))')
+
+        p = LatLon(0, 0), LatLon(0, 4), LatLon(2, 4), LatLon(1, 3), LatLon(1, 1), LatLon(2, 0)  # Fig 15
+        q = LatLon(0, 4), LatLon(1, 3), LatLon(1, 1), LatLon(0, 0), LatLon(2, 0), LatLon(2, 4)
+        r = clipFHP4(p, q)
+        self.test('Fig 15', tuple(r), '(ClipFHP4Tuple(lat=1.0, lon=3.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=4.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=2.0, lon=4.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=2.0, lon=0.0, height=0.0, clipid=1), ClipFHP4Tuple(lat=0.0, lon=0.0, height=0.0, clipid=1), ClipFHP4Tuple(lat=1.0, lon=1.0, height=0.0, clipid=1))')
+
+        p = LatLon(0, 0), LatLon(0, 4), LatLon(4, 4), LatLon(4, 0)  # Fig 16
+        q = LatLon(2, 2), LatLon(0, 2), LatLon(0, 6), LatLon(-2, 6), LatLon(-2, -2), LatLon(0, -2)
+        r = clipFHP4(p, q)
+        self.test('Fig 16', tuple(r), '(ClipFHP4Tuple(lat=0.0, lon=0.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=1.0, lon=0.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=2.0, lon=2.0, height=0.0, clipid=0), ClipFHP4Tuple(lat=0.0, lon=2.0, height=0.0, clipid=0))')
+
+        p = _4Ts('-10 -10, 10 -10, 10 10, -10 10',  # Fig 18
+                 '-8 -8, 8 -8, 8 8, -8 8',
+                 '-6 6, -6 -6, 6 -6, 6 6',
+                 '4 4, 4 -4, -4 -4, -4 4',
+                 '20 -8, 20 8, 12 8, 12 -8',
+                 '14 -6, 14 6, 18 6, 18 -6')
+        q = _4Ts('-2 -2, -2 -12, -12 -12, -12 -2',
+                 '0 0, -14 0, -14 -14, 0 -14',
+                 '2 2, -16 2, -16 -16, 2 -16',
+                 '-4 4, -18 4, -18 18, -4 18',
+                 '-6 6, -16 6, -16 16, -6 16',
+                 '-8 8, -14 8, -14 14, -8 14',
+                 '-10 10, -12 10, -12 12, -10 12',
+                 '6 -8, 6 8, 20 8, 20 -8',
+                 '8 -6, 8 6, 18 6, 18 -6',
+                 '16 -4, 16 4, 10 4, 10 -4')
+        r = clipFHP4(p, q)
+        t = tuple((int(x), int(y), i) for y, x, _, i in r)
+        self.test('Fig 18', t, ' '.join('''((-10, -10, 0), (-10, -2, 0), (-8, -2, 0), (-8, -8, 0), (-2, -8, 0), (-2, -10, 0),
+                                            (2, -10, 1), (2, -8, 1), (0, -8, 1), (0, -10, 1),
+                                            (10, -6, 2), (8, -6, 2), (8, -8, 2), (10, -8, 2),
+                                            (10, 8, 3), (8, 8, 3), (8, 6, 3), (10, 6, 3),
+                                            (-6, 10, 4), (-6, 8, 4), (-4, 8, 4), (-4, 10, 4),
+                                            (-10, 10, 5), (-10, 8, 5), (-8, 8, 5), (-8, 10, 5),
+                                            (-10, 4, 6), (-8, 4, 6), (-8, 6, 6), (-10, 6, 6),
+                                            (-10, 0, 7), (-8, 0, 7), (-8, 2, 7), (-10, 2, 7),
+                                            (-6, 6, 8), (-4, 6, 8), (-4, 4, 8), (-6, 4, 8),
+                                            (-6, 0, 9), (-4, 0, 9), (-4, 2, 9), (-6, 2, 9),
+                                            (-6, -6, 10), (-2, -6, 10), (-2, -4, 10), (-4, -4, 10), (-4, -2, 10), (-6, -2, 10),
+                                            (2, -6, 11), (2, -4, 11), (0, -4, 11), (0, -6, 11),
+                                            (12, 8, 12), (20, 8, 12), (20, -8, 12), (12, -8, 12), (12, -6, 12), (18, -6, 12), (18, 6, 12), (12, 6, 12),
+                                            (12, -4, 13), (14, -4, 13), (14, 4, 13), (12, 4, 13))'''.split()))
 
     def testClipSH_(self, text, sh, lls):
         self.test(text + 'len', len(sh), len(lls))

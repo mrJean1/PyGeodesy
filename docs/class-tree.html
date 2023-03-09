@@ -129,7 +129,7 @@
       <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
         href="pygeodesy.css.Css-class.html" class="link">Css</a> issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipError-class.html">pygeodesy.clipy.ClipError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.ClipError-class.html">pygeodesy.errors.ClipError</a></strong>:
       <em class="summary">Clip box or clip region issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.CrossError-class.html">pygeodesy.errors.CrossError</a></strong>:
@@ -409,11 +409,6 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy.LatLonGH-class.html">pygeodesy.clipy.LatLonGH</a></strong>:
-      <em class="summary">A point or intersection in <a 
-        href="pygeodesy.clipy.BooleanGH-class.html" 
-        class="link">BooleanGH</a> polygon.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon_-class.html">pygeodesy.points.LatLon_</a></strong>:
       <em class="summary">Low-overhead <code>LatLon</code> class for <a 
         href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -451,6 +446,25 @@
     </ul>
     </li>
     </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.booleans._BooleanBase</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanFHP-class.html">pygeodesy.booleans.BooleanFHP</a></strong>:
+      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using <a 
+        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+        target="_top">Forster-Hormann-Popa</a>'s C++ implementation 
+        transcoded to pure Python.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanGH-class.html">pygeodesy.booleans.BooleanGH</a></strong>:
+      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using the <a 
+        href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+        target="_top">Greiner-Hormann</a> algorithm, <a 
+        href="https://GitHub.com/helderco/univ-polyclip" 
+        target="_top">Correia</a>'s implementation modified and extended.</em>
     </li>
     </ul>
     </li>
@@ -806,6 +820,42 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink">pygeodesy.booleans._CompositeBase</strong>:
+      <em class="summary">(INTERNAL) A list of <code>_Clips</code> representing a composite 
+        polygon of <code>LatLon</code> points and mutual intersections.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans._CompositeFHP-class.html">pygeodesy.booleans._CompositeFHP</a></strong>:
+      <em class="summary">(INTERNAL) A list of <code>_Clips</code> representing a composite 
+        polygon of <a href="pygeodesy.booleans.LatLonFHP-class.html" 
+        class="link">LatLonFHP</a> points and mutual intersections.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanFHP-class.html">pygeodesy.booleans.BooleanFHP</a></strong>:
+      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using <a 
+        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
+        target="_top">Forster-Hormann-Popa</a>'s C++ implementation 
+        transcoded to pure Python.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans._CompositeGH-class.html">pygeodesy.booleans._CompositeGH</a></strong>:
+      <em class="summary">(INTERNAL) A <i>circular, doubly-linked</i> list of <a 
+        href="pygeodesy.booleans.LatLonGH-class.html" 
+        class="link">LatLonGH</a>s, representing the original points of a 
+        polygon plus -if any- the intersections with another.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanGH-class.html">pygeodesy.booleans.BooleanGH</a></strong>:
+      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
+        between two <code>composite</code> polygons using the <a 
+        href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+        target="_top">Greiner-Hormann</a> algorithm, <a 
+        href="https://GitHub.com/helderco/univ-polyclip" 
+        target="_top">Correia</a>'s implementation modified and extended.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fstats._FstatsNamed-class.html">pygeodesy.fstats._FstatsNamed</a></strong>:
       <em class="summary">(INTERNAL) Base class.</em>
     <ul>
@@ -831,19 +881,6 @@
         (sample) variance and standard deviation.</em>
     </li>
     </ul>
-    </li>
-    </ul>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy._GHcircular-class.html">pygeodesy.clipy._GHcircular</a></strong>:
-      <em class="summary">(INTERNAL) A <i>circular, doubly-linked</i> list of <a 
-        href="pygeodesy.clipy.LatLonGH-class.html" 
-        class="link">LatLonGH</a>s, representing the original points of a 
-        polygon plus -if any- the intersections with another.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy.BooleanGH-class.html">pygeodesy.clipy.BooleanGH</a></strong>:
-      <em class="summary">Polygon class providing <i>boolean</i> operations between two 
-        polygons based on <a href="pygeodesy.clipy-module.html#clipGH4" 
-        class="link">clipGH4</a>.</em>
     </li>
     </ul>
     </li>
@@ -1044,6 +1081,25 @@
         class="link">pygeodesy.vincentys_</a>.</em>
     </li>
     </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans._LatLonBase-class.html">pygeodesy.booleans._LatLonBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.booleans.LatLonFHP-class.html" 
+        class="link">LatLonFHP</a> and <a 
+        href="pygeodesy.booleans.LatLonGH-class.html" 
+        class="link">LatLonGH</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.LatLonFHP-class.html">pygeodesy.booleans.LatLonFHP</a></strong>:
+      <em class="summary">A point or intersection in a <a 
+        href="pygeodesy.booleans.BooleanFHP-class.html" 
+        class="link">BooleanFHP</a> clip.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.booleans.LatLonGH-class.html">pygeodesy.booleans.LatLonGH</a></strong>:
+      <em class="summary">A point or intersection in a <a 
+        href="pygeodesy.booleans.BooleanGH-class.html" 
+        class="link">BooleanGH</a> clip.</em>
     </li>
     </ul>
     </li>
@@ -1290,13 +1346,6 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
@@ -1312,6 +1361,13 @@
         class="link">Nvector</a> and n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1963,12 +2019,21 @@
         <code>j</code> (<code>int</code>) of the edge start and end points 
         in the original path.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipFHP4Tuple-class.html">pygeodesy.clipy.ClipFHP4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
+        the <a href="pygeodesy.clipy-module.html#clipFHP4" 
+        class="link">clipFHP4</a> result with the <code>lat</code>-, 
+        <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
+        of the polygon or polygonal clip.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipGH4Tuple-class.html">pygeodesy.clipy.ClipGH4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
         the <a href="pygeodesy.clipy-module.html#clipGH4" 
         class="link">clipGH4</a> result with the <code>lat</code>-, 
         <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
         of the polygon or polygonal clip.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
@@ -2705,11 +2770,15 @@
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy.HeightGH-class.html">pygeodesy.clipy.HeightGH</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
-        class="link">Height</a> but to distnguish the interpolated height 
+        class="link">Height</a> but to distinguish the interpolated height 
         at an intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+        href="pygeodesy.units.Height-class.html" class="link">Height</a> in
+        <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
+        class="link">ClipFHP4Tuple</a> and <a 
+        href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
+        class="link">ClipGH4Tuple</a>.</em>
     </li>
     </ul>
     </li>
@@ -3009,11 +3078,15 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.clipy.HeightGH-class.html">pygeodesy.clipy.HeightGH</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
-        class="link">Height</a> but to distnguish the interpolated height 
+        class="link">Height</a> but to distinguish the interpolated height 
         at an intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
+        href="pygeodesy.units.Height-class.html" class="link">Height</a> in
+        <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
+        class="link">ClipFHP4Tuple</a> and <a 
+        href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
+        class="link">ClipGH4Tuple</a>.</em>
     </li>
     </ul>
     </li>
@@ -3254,12 +3327,21 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>j</code> (<code>int</code>) of the edge start and end points 
         in the original path.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipFHP4Tuple-class.html">pygeodesy.clipy.ClipFHP4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
+        the <a href="pygeodesy.clipy-module.html#clipFHP4" 
+        class="link">clipFHP4</a> result with the <code>lat</code>-, 
+        <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
+        of the polygon or polygonal clip.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipGH4Tuple-class.html">pygeodesy.clipy.ClipGH4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, clipid)</code> for each point of 
         the <a href="pygeodesy.clipy-module.html#clipGH4" 
         class="link">clipGH4</a> result with the <code>lat</code>-, 
         <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
         of the polygon or polygonal clip.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
       <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
@@ -3921,7 +4003,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Feb  8 07:31:07 2023
+    Generated by Epydoc 3.0.1 on Thu Mar  9 16:32:18 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

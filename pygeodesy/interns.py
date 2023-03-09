@@ -149,6 +149,7 @@ _BANG_           = Str_('!')                 # PYCHOK OK
 _BAR_            = Str_('|')                 # PYCHOK OK
 _bearing_             = 'bearing'            # PYCHOK OK
 _Bessel1841_          = 'Bessel1841'         # PYCHOK OK
+_box_                 = 'box'                # PYCHOK OK
 _by_                  = 'by'                 # PYCHOK OK
 _c_                   = 'c'                  # PYCHOK OK
 _C_                   = 'C'                  # PYCHOK OK
@@ -157,6 +158,7 @@ _center_              = 'center'             # PYCHOK OK
 # _CIRCUMFLEX_        = '^'                  # PYCHOK OK
 _Clarke1866_          = 'Clarke1866'         # PYCHOK OK
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK OK
+_clip_                = 'clip'               # PYCHOK OK
 _coincident_          = 'coincident'         # PYCHOK OK
 _colinear_            = 'colinear'           # PYCHOK OK
 _COLON_          = Str_(':')                 # PYCHOK OK
@@ -340,6 +342,7 @@ _RANGLE_              = '>'                  # PYCHOK OK
 _RCURLY_              = '}'                  # PYCHOK RBRACE
 _reciprocal_          = 'reciprocal'         # PYCHOK OK
 _reframe_             = 'reframe'            # PYCHOK OK
+_region_              = 'region'             # PYCHOK OK
 _resolution_          = 'resolution'         # PYCHOK OK
 _rIn_                 = 'rIn'                # PYCHOK OK
 _RPAREN_              = ')'                  # PYCHOK OK
@@ -585,7 +588,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '22.11.01'
+__version__ = '23.03.09'
 
 if __name__ == '__main__':
 

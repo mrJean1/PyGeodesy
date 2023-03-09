@@ -12,24 +12,25 @@ C{PYTHONDEVMODE=1} or to any non-empyty string I{OR} set env variable
 C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 '''
 
-from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _COLON_, \
-                             _COLONSPACE_, _COMMASPACE_, _datum_, \
-                             _ellipsoidal_, _EQUAL_, _incompatible_, \
-                             _invalid_, _len_, _name_, _no_, _not_, _or_, \
-                             _SPACE_, _specified_, _UNDER_, _value_, \
-                             _vs_, _with_
+from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, \
+                             _COLON_, _COLONSPACE_, _COMMASPACE_, _datum_, \
+                             _ellipsoidal_, _EQUAL_, _incompatible_, _invalid_, \
+                             _len_, _name_, _no_, _not_, _or_, _SPACE_, \
+                             _specified_, _UNDER_, _value_, _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _getenv, \
                              _pairs, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _UNDER
-__version__ = '22.10.29'
+__version__ = '23.03.09'
 
+_box_        = 'box'
 _default_    = 'default'
 _kwargs_     = 'kwargs'  # XXX _kwds_?
 _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # imported by .dms
+_region_     = 'region'
 _vs__        = _SPACE_(NN, _vs_, NN)
 
 try:
@@ -151,6 +152,26 @@ class _ZeroDivisionError(ZeroDivisionError):
     '''
     def __init__(self, *args, **kwds):
         _error_init(ZeroDivisionError, self, args, **kwds)
+
+
+class ClipError(_ValueError):
+    '''Clip box or clip region issue.
+    '''
+    def __init__(self, *name_n_corners, **txt_cause):
+        '''New L{ClipError}.
+
+           @arg name_n_corners: Either just a name (C{str}) or
+                                name, number, corners (C{str},
+                                C{int}, C{tuple}).
+           @kwarg txt_cause: Optional C{B{txt}=str} explanation
+                             of the error and C{B{cause}=None}
+                             for exception chaining.
+        '''
+        if len(name_n_corners) == 3:
+            t, n, v = name_n_corners
+            n = _SPACE_(t, _clip_, (_box_ if n == 2 else _region_))
+            name_n_corners = n, v
+        _ValueError.__init__(self, *name_n_corners, **txt_cause)
 
 
 class CrossError(_ValueError):

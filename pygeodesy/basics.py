@@ -27,7 +27,7 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.01.09'
+__version__ = '23.02.17'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
@@ -277,7 +277,7 @@ def isodd(x):
        @return: C{True} if B{C{x}} is odd,
                 C{False} otherwise.
     '''
-    return bool(int(x) & 1)
+    return bool(int(x) & 1)  # == bool(int(x) % 2)
 
 
 def isscalar(obj):
@@ -476,8 +476,8 @@ def splice(iterable, n=2, **fill):
             fill = _xkwds_get(fill, fill=MISSING)
             if fill is not MISSING:
                 m = len(t) % n
-                if m > 0:  # fill with same type
-                    t += type(t)((fill,)) * (n - m)
+                if m > 0:  # same type fill
+                    t = t + type(t)((fill,)) * (n - m)
         for i in range(n):
             # XXX t[i::n] chokes PyChecker
             yield t[slice(i, None, n)]

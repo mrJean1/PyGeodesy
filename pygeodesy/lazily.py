@@ -133,10 +133,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
+                       booleans=('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH'),
                   cartesianBase=(),  # module only
-                          clipy=('BooleanGH', 'ClipError',
-                                 'ClipCS4Tuple', 'ClipGH4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple', 'HeightGH', 'LatLonGH',
-                                 'clipCS4', 'clipGH4', 'clipLB6', 'clipSH', 'clipSH3'),
+                          clipy=('ClipCS4Tuple', 'ClipFHP4Tuple', 'ClipGH4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
+                                 'clipCS4', 'clipFHP4', 'clipGH4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
@@ -182,7 +182,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f', 'n2f_'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
-                         errors=('CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
+                         errors=('ClipError', 'CrossError', 'IntersectionError', 'NumPyError', 'LenError', 'LimitError',
                                  'MGRSError', 'ParseError', 'PointsError', 'RangeError', 'SciPyError', 'SciPyWarning',
                                  'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                  'crosserrors', 'exception_chaining', 'isError', 'itemsorted', 'limiterrors', 'rangerrors'),
@@ -297,7 +297,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
-                                 'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'Int_',
+                                 'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'HeightX', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
                                  'Meter', 'Meter_', 'Meter2', 'Meter3', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
@@ -417,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.02.07'
+__version__ = '23.03.09'
 
 
 def _ALL_OTHER(*objs):

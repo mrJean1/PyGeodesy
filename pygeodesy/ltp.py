@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import floor as _floor  # from .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.01.06'
+__version__ = '23.02.14'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -394,10 +394,11 @@ class LocalError(_ValueError):
 
 
 class LocalCartesian(_NamedBase):
-    '''Conversion between geodetic C{(lat, lon, height)} and I{local cartesian}
-       C{(x, y, z)} coordinates with I{geodetic} origin C{(lat0, lon0, height0)},
-       transcoded from I{Karney}'s C++ class U{LocalCartesian
-       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
+    '''Conversion between geodetic C{(lat, lon, height)} and I{local
+       cartesian} C{(x, y, z)} coordinates with I{geodetic} origin
+       C{(lat0, lon0, height0)}, transcoded from I{Karney}'s C++ class
+       U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
+       classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due
        North.  The plane C{z = -height0} is tangent to the ellipsoid.
@@ -495,7 +496,7 @@ class LocalCartesian(_NamedBase):
         '''Convert I{geodetic} C{(lat, lon, height)} to I{local} cartesian
            C{(x, y, z)}.
 
-           @arg latlonh: Either a C{LatLon}, a L{Ltp}, an L{Ecef9Tuple} or
+           @arg latlonh: Either a C{LatLon}, an L{Ltp}, an L{Ecef9Tuple} or
                          C{scalar} (geodetic) latitude (C{degrees}).
            @kwarg lon: Optional C{scalar} (geodetic) longitude for C{scalar}
                        B{C{latlonh}} (C{degrees}).
