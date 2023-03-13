@@ -27,7 +27,7 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _COMMASPACE_, _doesn_t_exist_, _DOT_, _enabled_, \
                              _EQUALSPACED_, _from_, _immutable_, _isclockwise_, \
                              _ispolar_, _module_, _NL_, _no_, _not_, _or_, \
-                             _perimeterOf_, _Python_, _pygeodesy_abspath_, \
+                             _pygeodesy_abspath_, _Python_, _QUOTE1_, _QUOTE2_, \
                              _SPACE_, _UNDER_, _version_, _dunder_nameof
 
 from os import getenv as _getenv  # in .errors, .geodsolve, .props, .units
@@ -273,7 +273,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Shape2Tuple', 'Tuple2LatLon',
                                  _areaOf_, 'boundsOf', 'centroidOf', 'fractional',
                                  _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
-                                 'luneOf', 'nearestOn5', _perimeterOf_, 'quadOf'),
+                                 'luneOf', 'nearestOn5', 'perimeterOf', 'quadOf'),
                           props=('Property', 'Property_RO', 'property_RO', 'property_doc_',
                                  'deprecated_class', 'deprecated_function', 'deprecated_method',
                                  'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
@@ -417,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.03.09'
+__version__ = '23.03.12'
 
 
 def _ALL_OTHER(*objs):
@@ -659,7 +659,7 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
 
        @return: Number of bytes written.
     '''
-    b, e, s, f, fl, p, kwds = _xprint6(**nl_nt_prefix_end_file_flush_sep_kwds)
+    p, e, s, f, fl, p, kwds = _xprint7(**nl_nt_prefix_end_file_flush_sep_kwds)
     try:
         if args:
             t = (fmt % args) if fmt else s.join(map(str, args))
@@ -672,13 +672,17 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
         unstr = _ALL_MODS.streprs.unstr
         raise _E(t, txt=unstr(printf, fmt, *args, **
                         nl_nt_prefix_end_file_flush_sep_kwds))
-    n = f.write(NN(b, t, e))
+    try:
+        n = f.write(NN(p, t, e))
+    except UnicodeEncodeError:  # XXX only Windows
+        t = t.replace('\u2032', _QUOTE1_).replace('\u2033', _QUOTE2_)
+        n = f.write(NN(p, t, e))
     if fl:
         f.flush()
     return n
 
 
-def _xprint6(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
+def _xprint7(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
                                             end=_NL_, flush=False, **kwds):
     '''(INTERNAL) Unravel the C{printf} and remaining keyword arguments.
     '''

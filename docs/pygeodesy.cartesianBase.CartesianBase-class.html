@@ -193,25 +193,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">datum2</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert this cartesian from one datum to an other.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#destinationXyz" class="summary-sig-name">destinationXyz</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">delta</span>,
         <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
@@ -406,6 +387,25 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Convert this cartesian from one datum to an other.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
       Convert this cartesian from one datum to an other.</td>
@@ -708,18 +708,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef" class="summary-name">Ecef</a><br />
-      Get the ECEF <i>class</i> (<a 
-      href="pygeodesy.ecef.EcefKarney-class.html" 
-      class="link">EcefKarney</a>), <i>lazily</i>.
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum" class="summary-name">datum</a><br />
+      Class <code>property</code> with retrievable name.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum" class="summary-name">datum</a><br />
-      Class <code>property</code> with retrievable name.
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef" class="summary-name">Ecef</a><br />
+      Get the ECEF <i>class</i> (<a 
+      href="pygeodesy.ecef.EcefKarney-class.html" 
+      class="link">EcefKarney</a>), <i>lazily</i>.
     </td>
   </tr>
 <tr>
@@ -1084,40 +1084,6 @@
         class="link">pygeodesy.collins5</a>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="convertDatum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">datum2</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert this cartesian from one datum to an other.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Datum to convert <i>from</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted point (<code>Cartesian</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>datum2</code></b> or <b><code>datum</code></b> invalid.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="destinationXyz"></a>
 <div>
@@ -1598,6 +1564,40 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="convertDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this cartesian from one datum to an other.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Datum to convert <i>from</i> (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted point (<code>Cartesian</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>datum2</code></b> or <b><code>datum</code></b> invalid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toEcef"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1932,6 +1932,29 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  <p>Class <code>property</code> with retrievable name.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get this cartesian's datum (<a href="pygeodesy.datums.Datum-class.html" 
+class="link">Datum</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum</span>)</span>
+        - Set this cartesian's <code>datum</code> <i>without conversion</i> (<a 
+href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>), 
+ellipsoidal or spherical.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Ecef"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1955,29 +1978,6 @@ class="link">EcefKarney</a>), <i>lazily</i>.
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
         - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="datum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">datum</h3>
-  <p>Class <code>property</code> with retrievable name.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get this cartesian's datum (<a href="pygeodesy.datums.Datum-class.html" 
-class="link">Datum</a>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">datum</span>)</span>
-        - Set this cartesian's <code>datum</code> <i>without conversion</i> (<a 
-href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>), 
-ellipsoidal or spherical.
     </dd>
   </dl>
 </td></tr></table>
@@ -2266,7 +2266,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 16:32:19 2023
+    Generated by Epydoc 3.0.1 on Sun Mar 12 19:51:50 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

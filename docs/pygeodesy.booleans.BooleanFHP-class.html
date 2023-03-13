@@ -65,7 +65,7 @@
            |            
 <a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
                |        
-  _CompositeBase --+    
+  <a href="pygeodesy.booleans._CompositeBase-class.html">_CompositeBase</a> --+    
                    |    
        <a href="pygeodesy.booleans._CompositeFHP-class.html">_CompositeFHP</a> --+
                        |
@@ -78,17 +78,20 @@
 
 <hr />
 <p><i>Composite</i> polygon class providing <i>boolean</i> operations 
-  between two <code>composite</code> polygons using <a 
+  between two <i>composite</i> polygons using the <a 
   href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
-  target="_top">Forster-Hormann-Popa</a>'s C++ implementation transcoded to
-  pure Python.</p>
+  target="_top">Forster-Hormann-Popa</a>'s C++ implementation, transcoded 
+  to pure Python.</p>
   <p>The supported operations between (composite) polygon A and B are:</p>
   <ul>
     <li>
-      C = A | B  or  A |= B,  union of A and B
+      C = A &amp; B  or  A &amp;= B,  intersection of A and B
     </li>
     <li>
-      C = A &amp; B  or  A &amp;= B,  intersection of A and B
+      C = A + B  or  A += B,  sum of the A and B clips
+    </li>
+    <li>
+      C = A | B  or  A |= B,  union of A and B
     </li>
   </ul>
 
@@ -116,9 +119,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.booleans.BooleanFHP-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lls</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**name_kind_eps</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.booleans.BooleanFHP-class.html" 
-      class="link">BooleanFHP</a>.</td>
+      class="link">BooleanFHP</a> operand for <i>boolean</i> operation.</td>
           <td align="right" valign="top">
             
             
@@ -184,13 +188,14 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>_CompositeBase</code></b>:
-      <code>__contains__</code>,
-      <code>__iter__</code>,
-      <code>__len__</code>,
-      <code>__repr__</code>,
-      <code>__str__</code>,
-      <code>clipids</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.booleans._CompositeBase-class.html">_CompositeBase</a></code></b>:
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#__contains__">__contains__</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#__iter__">__iter__</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#__len__">__len__</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#clipids">clipids</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#toLatLon">toLatLon</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
@@ -207,10 +212,13 @@
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>_BooleanBase</code></b>:
+      <code>__add__</code>,
       <code>__and__</code>,
+      <code>__iadd__</code>,
       <code>__iand__</code>,
       <code>__ior__</code>,
       <code>__or__</code>,
+      <code>__radd__</code>,
       <code>__rand__</code>,
       <code>__ror__</code>
       </p>
@@ -239,6 +247,10 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.booleans._CompositeBase-class.html">_CompositeBase</a></code></b>:
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#eps">eps</a></code>,
+      <code><a href="pygeodesy.booleans._CompositeBase-class.html#raiser">raiser</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
@@ -274,7 +286,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lls</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**name_kind_eps</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -283,23 +296,21 @@
   </tr></table>
   
   <p>New <a href="pygeodesy.booleans.BooleanFHP-class.html" 
-  class="link">BooleanFHP</a>.</p>
+  class="link">BooleanFHP</a> operand for <i>boolean</i> operation.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lls</code></strong> - The polygon points (iterable of 2 or more <code>LatLon</code>s, 
-          <a href="pygeodesy.booleans.LatLonFHP-class.html" 
-          class="link">LatLonFHP</a>s or <a 
+        <li><strong class="pname"><code>lls</code></strong> - The polygon points and clips (iterable of <a 
+          href="pygeodesy.booleans.LatLonFHP-class.html" 
+          class="link">LatLonFHP</a>s, <a 
           href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
-          class="link">ClipFHP4Tuple</a>s).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
+          class="link">ClipFHP4Tuple</a>s or other <code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw <a 
           href="pygeodesy.errors.ClipError-class.html" 
-          class="link">ClipError</a> exceptions for errors.</li>
-        <li><strong class="pname"><code>name_kind_eps</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and/or 
-          optional <code><b>kind</b>='corners'</code> of 
-          <b><code>lls</code></b> points (<code>str</code>) and 
-          <code><b>eps</b>=EPS</code> tolerance for duplicate removal 
-          (<code>str</code>).</li>
+          class="link">ClipError</a> exceptions (<code>bool</code>).</li>
+        <li><strong class="pname"><code>esp</code></strong> - Tolerance for eliminating null edges (<code>degrees</code>, same 
+          units as the <b><code>lls</code></b> coordinates).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -339,7 +350,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 16:32:19 2023
+    Generated by Epydoc 3.0.1 on Sun Mar 12 19:51:50 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

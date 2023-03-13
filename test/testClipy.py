@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '23.03.09'
+__version__ = '23.03.10'
 
 from base import TestsBase
 
@@ -260,7 +260,7 @@ class Tests(TestsBase):
                  '8 -6, 8 6, 18 6, 18 -6',
                  '16 -4, 16 4, 10 4, 10 -4')
         r = clipFHP4(p, q)
-        t = tuple((int(x), int(y), i) for y, x, _, i in r)
+        t = tuple((int(x), int(y), clipid) for y, x, _, clipid in r)
         self.test('Fig 18', t, ' '.join('''((-10, -10, 0), (-10, -2, 0), (-8, -2, 0), (-8, -8, 0), (-2, -8, 0), (-2, -10, 0),
                                             (2, -10, 1), (2, -8, 1), (0, -8, 1), (0, -10, 1),
                                             (10, -6, 2), (8, -6, 2), (8, -8, 2), (10, -8, 2),

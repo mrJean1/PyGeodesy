@@ -11,7 +11,8 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 '''
 
 from pygeodesy.basics import isscalar, isstr, _xinstanceof
-from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, R_M, _0_0, _0_5, _1_0
+from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
+                               _0_0, _0_5, _1_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _incompatible, IntersectionError, _TypeError, \
@@ -42,13 +43,14 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '22.11.03'
+__version__ = '23.03.12'
 
 
 class LatLonBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on spherical or
        ellipsoidal earth models.
     '''
+    _clipid = INT0  # polygonal clip, see .booleans
     _datum  = None  # L{Datum}, to be overriden
     _height = 0  # height (C{meter}), default
     _lat    = 0  # latitude (C{degrees})
@@ -268,6 +270,18 @@ class LatLonBase(_NamedBase):
         t = circum4_(c, Vector=c.classof, *(C(i=i, points=p) for i, p in enumerate(points)))
         c = t.center.toLatLon(LatLon=self.classof, name=t.name)
         return Circum4Tuple(t.radius, c, t.rank, t.residuals, name=c.name)
+
+    @property
+    def clipid(self):
+        '''Get the (polygonal) clip (C{int}).
+        '''
+        return self._clipid
+
+    @clipid.setter  # PYCHOK setter!
+    def clipid(self, clipid):
+        '''Get the (polygonal) clip (C{int}).
+        '''
+        self._clipid = int(clipid)
 
     @deprecated_method
     def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover

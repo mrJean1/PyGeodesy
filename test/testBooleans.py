@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '23.03.09'
+__version__ = '23.03.12'
 
 from base import TestsBase
 
@@ -52,6 +52,12 @@ class Tests(TestsBase):
 
         # s -= s
         # self.test('isub', repr(s), '')
+
+        b = BooleanFHP(p) + BooleanFHP(q)
+        self.test('sum', repr(b), 'BooleanFHP[2][6]((lat=0, lon=0, height=1), (lat=7, lon=5, height=2), (lat=0, lon=10, height=3), (lat=10, lon=0, height=1), (lat=3, lon=5, height=2), (lat=10, lon=10, height=3))')
+
+        b = tuple(b.toLatLon(LatLon))[:3]
+        self.test('toLatLon[3]', repr(b), '(LatLon(00°00′00.0″N, 000°00′00.0″E, +1.00m), LatLon(07°00′00.0″N, 005°00′00.0″E, +2.00m), LatLon(00°00′00.0″N, 010°00′00.0″E, +3.00m))', nl=1)
 
 
 if __name__ == '__main__':

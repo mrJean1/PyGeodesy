@@ -60,7 +60,7 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module clipy</h1><p class="nomargin-top"></p>
 <p>Clip a path or polygon of <code>LatLon</code> points against a 
-  rectangular box or a (convex or arbitrary) clip region.</p>
+  rectangular box or an arbitrary (convex) region.</p>
   <p>Box clip functions <a href="pygeodesy.clipy-module.html#clipCS4" 
   class="link">clipCS4</a> <i>Cohen-Sutherland</i> and <a 
   href="pygeodesy.clipy-module.html#clipLB6" class="link">clipLB6</a> 
@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.03.09
+        23.03.11
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -106,7 +106,7 @@
         the <a href="pygeodesy.clipy-module.html#clipFHP4" 
         class="link">clipFHP4</a> result with the <code>lat</code>-, 
         <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
-        of the polygon or polygonal clip.
+        of the polygon or clip.
     </td>
   </tr>
 <tr>
@@ -118,7 +118,7 @@
         the <a href="pygeodesy.clipy-module.html#clipGH4" 
         class="link">clipGH4</a> result with the <code>lat</code>-, 
         <code>lon</code>gitude, <code>height</code> and <code>clipid</code>
-        of the polygon or polygonal clip.
+        of the polygon or clip.
     </td>
   </tr>
 <tr>
@@ -167,7 +167,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.clipy-module.html#clipCS4" class="summary-sig-name">clipCS4</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">lowerleft</span>,
-        <span class="summary-sig-arg">upperright</span>,
+        <span class="summary-sig-arg">upperight</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
@@ -194,7 +194,7 @@
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
-      Clip a polygon against a clip region or box using <a 
+      Clip one or more polygons against a clip region or box using <a 
       href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
       target="_top">Forster-Hormann-Popa</a>'s C++ implementation 
       transcoded to pure Python.</td>
@@ -217,10 +217,11 @@
         <span class="summary-sig-arg">corners</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">xtend</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Clip a polygon against a clip region or box using the <a 
-      href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+        <span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">xtend</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
+      Clip one or more polygons against a clip region or box using the <a 
+      href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
       target="_top">Greiner-Hormann</a> algorithm, <a 
       href="https://GitHub.com/helderco/univ-polyclip" 
       target="_top">Correia</a>'s implementation modified and extended.</td>
@@ -241,7 +242,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.clipy-module.html#clipLB6" class="summary-sig-name">clipLB6</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">lowerleft</span>,
-        <span class="summary-sig-arg">upperright</span>,
+        <span class="summary-sig-arg">upperight</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
@@ -335,7 +336,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clipCS4</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">lowerleft</span>,
-        <span class="sig-arg">upperright</span>,
+        <span class="sig-arg">upperight</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -352,7 +353,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>lowerleft</code></strong> - Bottom-left corner of the clip box (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>upperright</code></strong> - Top-right corner of the clip box (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>upperight</code></strong> - Top-right corner of the clip box (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
         <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges if inside (<code>bool</code>).</li>
     </ul></dd>
@@ -362,8 +363,8 @@
           each edge of the <i>clipped</i> path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
-        <b><code>upperright</code></b> corners specify an invalid clip box.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and <b><code>upperight</code></b>
+        corners specify an invalid clip box.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
@@ -388,7 +389,7 @@
     </td>
   </tr></table>
   
-  <p>Clip a polygon against a clip region or box using <a 
+  <p>Clip one or more polygons against a clip region or box using <a 
   href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
   target="_top">Forster-Hormann-Popa</a>'s C++ implementation transcoded to
   pure Python.</p>
@@ -396,16 +397,18 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points and clips (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>corners</code></strong> - Three or more points defining a clip region 
-          (<code>LatLon</code>[]) or two points to specify a rectangular 
-          clip box.</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close each result clip (<code>bool</code>).</li>
-        <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges in result clips 
+        <li><strong class="pname"><code>corners</code></strong> - Three or more points defining the clip regions 
+          (<code>LatLon</code>[]) or two points to specify a single, 
+          rectangular clip box.</li>
+        <li><strong class="pname"><code>closed</code></strong> - If <code>True</code>, close each result clip (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inull</code></strong> - If <code>True</code>, retain null edges in result clips 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw <a 
           href="pygeodesy.errors.ClipError-class.html" 
-          class="link">ClipError</a> exceptions.</li>
-        <li><strong class="pname"><code>esp</code></strong> - Tolerance for eliminating null edges (<code>scalar</code>).</li>
+          class="link">ClipError</a> exceptions (<code>bool</code>).</li>
+        <li><strong class="pname"><code>esp</code></strong> - Tolerance for eliminating null edges (<code>degrees</code>, same 
+          units as the <b><code>points</code></b> and 
+          <b><code>corners</code></b> coordinates).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield a <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
@@ -415,8 +418,8 @@
           <code>clipid</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - No <b><code>points</code></b>, no <b><code>corners</code></b> or an
-        open clip.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - Insufficient <b><code>points</code></b> or 
+        <b><code>corners</code></b> or an open clip.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -441,16 +444,17 @@
         <span class="sig-arg">corners</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">inull</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">xtend</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">raiser</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">xtend</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Clip a polygon against a clip region or box using the <a 
-  href="http://www.inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
+  <p>Clip one or more polygons against a clip region or box using the <a 
+  href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
   target="_top">Greiner-Hormann</a> algorithm, <a 
   href="https://GitHub.com/helderco/univ-polyclip" 
   target="_top">Correia</a>'s implementation modified and extended.</p>
@@ -458,19 +462,20 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points and clips (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>corners</code></strong> - Three or more points defining a clip region 
-          (<code>LatLon</code>[]) or two points to specify a rectangular 
-          clip box.</li>
-        <li><strong class="pname"><code>closed</code></strong> - Optionally, close each result clip (<code>bool</code>).</li>
-        <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges in result clips 
+        <li><strong class="pname"><code>corners</code></strong> - Three or more points defining the clip regions 
+          (<code>LatLon</code>[]) or two points to specify a single, 
+          rectangular clip box.</li>
+        <li><strong class="pname"><code>closed</code></strong> - If <code>True</code>, close each result clip (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inull</code></strong> - If <code>True</code>, retain null edges in result clips 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code> throw <a 
+        <li><strong class="pname"><code>raiser</code></strong> - If <code>True</code>, throw <a 
           href="pygeodesy.errors.ClipError-class.html" 
-          class="link">ClipError</a> exceptions.</li>
-        <li><strong class="pname"><code>xtend</code></strong> - Cover degenerate cases (<code>bool</code>), but not (yet) based 
-          on <a 
-          href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
-          target="_top">Forster-Hormann-Popa</a>.</li>
+          class="link">ClipError</a> exceptions (<code>bool</code>).</li>
+        <li><strong class="pname"><code>xtend</code></strong> - If <code>True</code>, extend edges of <i>degenerate cases</i>, an
+          attempt to handle the latter (<code>bool</code>).</li>
+        <li><strong class="pname"><code>esp</code></strong> - Tolerance for eliminating null edges (<code>degrees</code>, same 
+          units as the <b><code>points</code></b> and 
+          <b><code>corners</code></b> coordinates).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield a <a href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
@@ -480,9 +485,9 @@
           <code>clipid</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - No <b><code>points</code></b>, no <b><code>corners</code></b>, an 
-        open clip, a <i>degenerate case</i> or <i>unhandled</i> 
-        intersection.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - Insufficient <b><code>points</code></b> or 
+        <b><code>corners</code></b>, an open clip, a <i>degenerate case</i>
+        or <i>unhandled</i> intersection.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -496,9 +501,7 @@
         href="https://WikiPedia.org/wiki/Greiner&#8211;Hormann_clipping_algorithm"
         target="_top">Greiner-Hormann</a>, <a 
         href="https://Davis.WPI.edu/~matt/courses/clipping/" 
-        target="_top">Ionel Daniel Stroe</a>, <a 
-        href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
-        target="_top">Forster, Hormann and Popa</a>, <i>Correia</i>'s <a 
+        target="_top">Ionel Daniel Stroe</a>, <i>Correia</i>'s <a 
         href="https://GitHub.com/helderco/univ-polyclip" 
         target="_top">univ-polyclip</a>, class <a 
         href="pygeodesy.booleans.BooleanGH-class.html" 
@@ -517,7 +520,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clipLB6</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">lowerleft</span>,
-        <span class="sig-arg">upperright</span>,
+        <span class="sig-arg">upperight</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -534,7 +537,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>lowerleft</code></strong> - Bottom-left corner of the clip box (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>upperright</code></strong> - Top-right corner of the clip box (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>upperight</code></strong> - Top-right corner of the clip box (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
         <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges if inside (<code>bool</code>).</li>
     </ul></dd>
@@ -544,8 +547,8 @@
           j)</code> for each edge of the <i>clipped</i> path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
-        <b><code>upperright</code></b> corners specify an invalid clip box.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and <b><code>upperight</code></b>
+        corners specify an invalid clip box.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
@@ -677,7 +680,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar  9 16:32:19 2023
+    Generated by Epydoc 3.0.1 on Sun Mar 12 19:51:50 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
