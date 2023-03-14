@@ -17,25 +17,28 @@ C{reverse-difference}, C{sum} and C{union}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, isscalar, issubclassof
-from pygeodesy.constants import EPS, EPS2, MAX, _0_0, _0_5, _1_0
+from pygeodesy.basics import isodd, isscalar, issubclassof, map2
+from pygeodesy.constants import EPS, EPS2, INT0, MAX, \
+                               _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _xkwds, _xkwds_get
 from pygeodesy.fmath import fabs, favg, hypot, hypot2
 from pygeodesy.interns import NN, _BANG_, _clip_, _COMMASPACE_, _DOT_, \
                              _e_, _ELLIPSIS_, _few_, _height_, _lat_, \
-                             _lon_, _name_, _scalar_, _SPACE_, _too_, \
-                             _X_, _x_,  _B_, _d_, _R_  # PYCHOK used!
+                             _lon_, _name_, _not_, _scalar_, _SPACE_, \
+                             _too_, _X_, _x_,  _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
-from pygeodesy.named import Fmt, _Named, pairs
+# from pygeodesy.latlonBase import LatLonBase  # from _MODS
+from pygeodesy.named import Fmt, _Named, pairs, unstr
+# from pygeodesy.points import boundsOf  # from _MODS
 from pygeodesy.props import Property_RO, property_RO
-# from pygeodesy.streprs import Fmt, pairs  # from .named
+# from pygeodesy.streprs import Fmt, pairs, unstr  # from .named
 from pygeodesy.units import Height, HeightX
 
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.03.12'
+__version__ = '23.03.14'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -45,6 +48,7 @@ _10EPS =  EPS * 10   # see ._2Abs
 
 _alpha_   = 'alpha'
 _boolean_ = 'boolean'
+_case_    = 'case'
 _clipid_  = 'clipid'
 _corners_ = 'corners'
 _open_    = 'open'
@@ -106,6 +110,14 @@ _RP2L = {(_RP.LEFT,  _RP.RIGHT): _L.CROSSING,
          (_RP.IS_Pm, _RP.LEFT):  _L.ON_RIGHT}
 
 
+def _alpha1(alpha):
+    # Return C{alpha} in C{[0..1]} range
+    if _EPS_0 < alpha < _1_EPS:
+        return max(_0_0, min(alpha, _1_0))
+    t = _not_(Fmt.SQUARE(_ELLIPSIS_(0, 1)))
+    raise ClipError(_alpha_, alpha, txt=t)
+
+
 def _alpha4(a):
     # Return 4-tuple (alpha, abs(alpha) near 0, 0 < alpha < 1, not 0 < alpha < 1)
     return (a, False, True,  False) if _0_EPS < a < _EPS_1 else (
@@ -129,18 +141,27 @@ def _min_max_eps(*xs):
     return (lo or _EPS_0), (hi or _0_EPS)
 
 
+def _other(this, other):
+    '''(INTERNAL) Check for compatible C{type}s.
+    '''
+    C = this.__class__
+    if isinstance(other, C):
+        return other
+    raise _IsnotError(C.__name__, other=other)
+
+
 def _outside(x1, x2, lo, hi):
     '''(INTERNAL) Is C{(x1, x2)} outside C{(lo, hi)}?
     '''
     return max(x1, x2) < lo or min(x1, x2) > hi
 
 
-class _LatLonBase(_Named):
+class _LatLonBool(_Named):
     '''(INTERNAL) Base class for L{LatLonFHP} and L{LatLonGH}.
     '''
     _alpha   = None       # point AND intersection else length
     _checked = False      # checked in phase 3 iff intersection
-    _clipid  = 0          # polygonal clip identifier, number
+    _clipid  = INT0       # (polygonal) clip identifier, number
     _dupof   = None       # original of a duplicate
 #   _e_x_str = NN         # shut up PyChecker
     _height  = Height(0)  # interpolated height, usually meter
@@ -181,8 +202,12 @@ class _LatLonBase(_Named):
         return max(fabs(self.x), fabs(self.y))
 
     def __eq__(self, other):
-        return other is self or (other and other.x == self.x
-                                       and other.y == self.y)
+        return other is self or bool(_other(self, other) and
+                                      other.x == self.x  and
+                                      other.y == self.y)
+
+    def __ne__(self, other):  # required for Python 2
+        return not self.__eq__(other)
 
     def __repr__(self):
         '''String C{repr} of this lat-/longitude.
@@ -211,7 +236,9 @@ class _LatLonBase(_Named):
         return NN(self.name, t)
 
     def __sub__(self, other):
-        return self.__class__(self.y - other.y, self.x - other.x)
+        _other(self, other)
+        return self.__class__(self.y - other.y,  # classof
+                              self.x - other.x)
 
     def _2A(self, p2, p3):
         # I{Signed} area of a triangle, I{doubled}.
@@ -259,7 +286,7 @@ class _LatLonBase(_Named):
 
     def _link(self, other):
         # Make this and an other point are neighbors.
-        # assert isinstance(other, self.__class__)
+        # assert _other(self, other)
         self._linked = other
         other._linked = self
 
@@ -275,7 +302,7 @@ class _LatLonBase(_Named):
         return Clas(self.lat, self.lon, self.height, clipid)
 
 
-class LatLonFHP(_LatLonBase):
+class LatLonFHP(_LatLonBool):
     '''A point or intersection in a L{BooleanFHP} clip.
     '''
     _en_ex  = None
@@ -296,17 +323,18 @@ class LatLonFHP(_LatLonBase):
                               ignored otherwise.
            @kwarg name: Optional name (C{str}).
         '''
-        _LatLonBase.__init__(self, lat_ll, *lon_h_clipid, **name)
+        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **name)
 
     def __add__(self, other):
+        _other(self, other)
         return self.__class__(self.y + other.y, self.x + other.x)
 
     def __mod__(self, other):  # cross product
+        _other(self, other)
         return self.x * other.y - self.y * other.x
 
     def __mul__(self, other):  # dot product
-        if not isinstance(other, self.__class__):
-            raise _IsnotError(self.__class__.__name__, other=other)
+        _other(self, other)
         return self.x * other.x + self.y * other.y
 
     def __rmul__(self, other):  # scalar product
@@ -434,7 +462,7 @@ class LatLonFHP(_LatLonBase):
         return T
 
 
-class LatLonGH(_LatLonBase):
+class LatLonGH(_LatLonBool):
     '''A point or intersection in a L{BooleanGH} clip.
     '''
     _entry  = None   # entry or exit iff intersection
@@ -452,7 +480,7 @@ class LatLonGH(_LatLonBase):
                               ignored otherwise.
            @kwarg name: Optional name (C{str}).
         '''
-        _LatLonBase.__init__(self, lat_ll, *lon_h_clipid, **name)
+        _LatLonBool.__init__(self, lat_ll, *lon_h_clipid, **name)
 
     def _check(self):
         # Check-mark this vertex and its link.
@@ -506,7 +534,6 @@ class _Clip(_Named):
     _LL        = None
     _len       = 0
     _pushback  = False
-    _Xs        = 0  # number of intersections
 
     def __init__(self, composite, clipid=0):
         # assert isinstance(composite, _CompositeBase)
@@ -522,8 +549,35 @@ class _Clip(_Named):
                 return True
         return False
 
+    def __eq__(self, other):
+        # Is this C{_Clip} equivalent to an C{other},
+        # i.e. has the same C{len}, the same points,
+        # etc. in the same order, possibly rotated?
+        c, f, r = _other(self, other), self._first, len(self)
+        if f and r == len(c) and self._bltr4 == c._bltr4:
+            for v in c:
+                if v == f:
+                    s, n = f, v
+                    for _ in range(r):
+                        s, n = s._next, n._next
+                        if n != s:
+                            break  # next v
+                    else:  # full rotation
+                        return True
+        return False
+
+    def __ge__(self, other):
+        return not self.__lt__(other)
+
+    def __gt__(self, other):
+        # Is this clip I{"greater"} than an C{other}?
+        return self._bltr4 > _other(self, other)._bltr4
+
+    def __hash__(self):  # PYCHOK no over
+        return hash(self._bltr4)
+
     def __iter__(self):
-        # Yield all points and intersections.
+        # Yield all points, duplicates and intersections.
         v = f = self._first
         while v:
             yield v
@@ -531,9 +585,19 @@ class _Clip(_Named):
             if v is f:
                 break
 
+    def __le__(self, other):
+        return not self.__gt__(other)
+
     def __len__(self):
         # Return the number of LatLons.
         return self._len
+
+    def __lt__(self, other):
+        # Is this clip I{"less"} than an C{other}?
+        return self._bltr4 < _other(self, other)._bltr4
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     _all = __iter__
 
@@ -571,12 +635,17 @@ class _Clip(_Named):
 #               p._linked = True  # to force errors
 #       return p
 
+    @Property_RO
+    def _bltr4(self):
+        # Get the bounds as 4-tuple C{(bottom, left, top, right)}.
+        return map2(float, _MODS.points.boundsOf(self, wrap=False))
+
     def _closed(self, raiser):  # PYCHOK unused
-        # End a clip, close it and check length.
+        # End a clip, un-close it and check C{len}.
         p, f = self._last, self._first
         if f and f._prev is p and p == f and \
                  p._next is f and p is not f:
-            # "un-close" the clip
+            # un-close the clip
             f._prev = p = p._prev
             p._next = f
             self._len -= 1
@@ -639,6 +708,9 @@ class _Clip(_Named):
         v._prev = p = n._prev
         p._next = n._prev = v
         self._len += 1
+        # zap cached C{Property_RO}s
+#       _Clip._bltr4._update(self)
+#       _Clip._ishole._update(self)
         return v
 
     def _intersection(self, unused, q, *p1_p2_alpha):
@@ -699,7 +771,7 @@ class _Clip(_Named):
         return None, None
 
     def _points(self):
-        # Yield all points in original order.
+        # Yield all points I{in original order}.
         for v in self:
             if v.ispoint:
                 yield v
@@ -739,7 +811,7 @@ class _ClipEdges(_Clip):  # PYCHOK no cover
         self._LL  = LL
 
     def _edges2(self, *unused):  # PYCHOK signature
-        # Yield C{LatLon[FHP|GH]} point pairs.
+        # Yield each edge as a C{LatLon[FHP|GH]} point pair.
         for cp in self._cps:
             self._composite = cp
             p2 = s = None
@@ -764,7 +836,7 @@ class _CompositeBase(_Named):
     _clips  =  ()   # tuple of C{_Clips}
     _eps    =  EPS  # null edges
     _kind   = _corners_
-    _LL     = _LatLonBase  # shut up PyChecker
+    _LL     = _LatLonBool  # shut up PyChecker
     _raiser =  False
     _xtend  =  False
 
@@ -786,14 +858,14 @@ class _CompositeBase(_Named):
                 c._id = ll._clipid  # keep clipid
                 lp = c._append(ll)
             elif ll._clipid != lp._clipid:  # new clip
-                c._closed(self._raiser)
+                c._closed(self.raiser)
                 c = _Clip(self, ll._clipid)
                 lp = c._append(ll)
             elif abs(ll - lp) > eps:  # PYCHOK lp
                 lp = c._append(ll)
             else:
                 c._dups += 1
-        c._closed(self._raiser)
+        c._closed(self.raiser)
 
     def __contains__(self, v):  # PYCHOK no cover
         # Is C{p} one of the clips' points?
@@ -802,11 +874,34 @@ class _CompositeBase(_Named):
                 return True
         return False
 
+    def __eq__(self, other):
+        '''Is this C{composite} equivalent to an C{other},
+           i.e. both contain I{equivalent} clips in the
+           same or a different order?  Clips are considered
+           I{equivalent} if they have the same points in
+           the same order, possibly rotated.
+        '''
+        cs = self._clips
+        if cs and isinstance(other, _CompositeBase) \
+              and len(other._clips) == len(cs):
+            try:
+                cs = list(sorted(cs))
+                for c in sorted(other._clips):
+                    cs.pop(cs.index(c))
+                if not cs:  # all clips match
+                    return True
+            except ValueError:  # from .index
+                pass
+        return False
+
     def __iter__(self):
         # Yield all points and intersections.
         for c in self._clips:
             for v in c:
                 yield v
+
+    def __ne__(self, other):  # needed for Python 2
+        return not self.__eq__(other)
 
     def __len__(self):
         # Return the total number of latlons.
@@ -868,7 +963,7 @@ class _CompositeBase(_Named):
         self._eps = eps
 
     def _10eps(self, **eps):
-        # Get eps for _LatLonBase._2Abs
+        # Get eps for _LatLonBool._2Abs
         e = _xkwds_get(eps, eps=self._eps)
         if e != EPS:
             e *= _10EPS / EPS
@@ -882,18 +977,18 @@ class _CompositeBase(_Named):
             for v in c._intersections():
                 yield v
 
-    @property_RO
-    def _left_right_eps(self):
-        # Get the left and right C{x} bounds, oversized.
-        return _min_max_eps(min(v.x for v in self),
-                            max(v.x for v in self))
-
     def _kwds(self, op, **more):
         # Get the kwds C{dict}.
         kwds = dict(raiser=self.raiser, eps=self.eps,
                       name=self.name or op.__name__)
         kwds.update(more)
         return kwds
+
+    @property_RO
+    def _left_right_eps(self):
+        # Get the left and right C{x} bounds, oversized.
+        return _min_max_eps(min(v.x for v in self),
+                            max(v.x for v in self))
 
     def _points(self):  # PYCHOK no cover
         # Yield all I{original} points,
@@ -937,6 +1032,19 @@ class _CompositeBase(_Named):
             if f and p != f and closed:  # close clip
                 yield f._toClas(C, clipid)
 
+    def _sum(self, other, op):
+        # Combine this and an C{other} composite
+        LL = self._LL
+        sp = self.copy(name=self.name or op.__name__)
+        sp._clips = ()  # new clips
+        for cp in (self, other):
+            for c in cp._clips:
+                _ap = _Clip(sp, c._id)._append
+                for v in c:
+                    if not v._dupof:
+                        _ap(LL(v))
+        return sp
+
     def toLatLon(self, LatLon, **LatLon_kwds):
         '''Yield all (non-duplicate) points and intersections
            as an instance of B{C{LatLon}}.
@@ -950,7 +1058,8 @@ class _CompositeBase(_Named):
            @note: For intersections, C{height} is an instance
                   of L{HeightX}, otherwise of L{Height}.
         '''
-        if not issubclassof(LatLon, _MODS.latlonBase.LatLonBase):
+        if not issubclassof(LatLon, _LatLonBool,
+                    _MODS.latlonBase.LatLonBase):
             raise _TypeError(LatLon=LatLon)
         if LatLon_kwds:
             _kwds = _xkwds
@@ -958,14 +1067,19 @@ class _CompositeBase(_Named):
             def _kwds(unused, **kwds):
                 return kwds
 
-        for i, c in enumerate(self._clips):
-            for v in c:
-                if not v._dupof:
-                    v = LatLon(v.lat, v.lon, **_kwds(LatLon_kwds,
-                               height=v.height))
-                    if v._clipid != i:
-                        v._clipid = i
-                    yield v
+        for v in self:
+            if not v._dupof:
+                ll = LatLon(v.lat, v.lon, **_kwds(LatLon_kwds,
+                            height=v.height))
+                if ll._clipid != v._clipid:
+                    ll._clipid = v._clipid
+                yield ll
+
+    def _update_all(self):
+        # Zap the I{cached} C{_Clip} properties.
+        map(_Clip._bltr4._update,  self._clips)
+        map(_Clip._ishole._update, self._clips)
+        return self
 
 
 class _CompositeEdges(_CompositeBase):  # PYCHOK no cover
@@ -1016,9 +1130,9 @@ class _CompositeFHP(_CompositeBase):
 
     def _clip(self, corners, Union=False, Clas=None,
                            **closed_inull_raiser_eps):
-        # Clip this polygon with another one, C{corners},
-        # using the Foster/Hormann/Popa's algorithm.
-        P = self
+        # Clip this composite with another one, C{corners},
+        # using Foster-Hormann-Popa's algorithm.
+        P = self._update_all()
         Q = self._class(corners, closed_inull_raiser_eps,
                                  eps=P._eps, raiser=False)
         P._reset(Union, name=_P_)
@@ -1253,7 +1367,7 @@ class _CompositeGH(_CompositeBase):
         # Core of Greiner/Hormann's algorithm, enhanced U{Correia's
         # <https://GitHub.com/helderco/univ-polyclip>} implementation***
         # and extended to optionally handle so-called "degenerate cases"
-        S = self
+        S = self._update_all()
         C = self._class(corners, closed_inull_raiser_xtend_eps,
                                  raiser=False, xtend=False)
         bt = C._bottom_top_eps
@@ -1426,12 +1540,6 @@ class _EdgeGH(object):
     def __str__(self):
         return 'edge(%s, %s)' % (self._s1, self._s2)
 
-    def _alpha1(self, alpha):
-        a = max(_0_0, min(alpha, _1_0))
-        if fabs(a - alpha) < _0_EPS:
-            return a
-        raise ClipError('alpha outside [0..1]: %.3f' % (alpha,))
-
     def _alpha2(self, x, y, dx, dy):
         # Return C{(alpha)}, see .points.nearestOn5
         a = (y * dy + x * dx) / self._hypot2
@@ -1440,7 +1548,7 @@ class _EdgeGH(object):
 
     def _error(self, n, c1, c2):
         t = _SPACE_(self._intersect4.__name__, _EdgeGH(c1, c2))
-        raise ClipError('unhandled case %s' % (n,), txt=t)
+        raise ClipError(_case_, n, txt=t)
 
     @Property_RO
     def _hypot0(self):
@@ -1509,12 +1617,12 @@ class _EdgeGH(object):
                         #  = hypot(sx, sy) / hypot(cx, cy)
                         if sa1 < 0:  # s1 is between c1 and c2
                             ca *= ca1 + sa1
-                            yield x, y, ca1, self._alpha1(ca)
+                            yield x, y, ca1, _alpha1(ca)
                         else:  # c1 is between s1 and s2
                             yield (x + sa1 * sx), (y + sa1 * sy), sa1, ca1
                         if sa2 > 1:  # s2 is between c1 and c2
                             ca *= sa2 - _1_0
-                            yield (x + sx), (y + sy), ca2, self._alpha1(ca2 - ca)
+                            yield (x + sx), (y + sy), ca2, _alpha1(ca2 - ca)
                         else:  # c2 is between s1 and s2
                             yield (x + sa2 * sx), (y + sa2 * sy), sa2, ca2
                     elif self._raiser and not _outside(sa1, sa2, _0_0, _1_EPS):
@@ -1531,10 +1639,8 @@ class _EdgeGH(object):
 #       # @see: U{Intersection point of two line segments
 #       #       <http://PaulBourke.net/geometry/pointlineplane/>}.
 #
-#       if _outside(c1.x, c2.x, *self._left_right_eps) or \
-#          _outside(c1.y, c2.y, *self._bottom_top_eps):
-#           sa = ca = None
-#       else:
+#       if not (_outside(c1.x, c2.x, *self._lr) or
+#               _outside(c1.y, c2.y, *self._bt)):
 #           x, sx, \
 #           y, sy = self._x_sx_y_sy
 #
@@ -1570,19 +1676,10 @@ class _EdgeGH(object):
 class _BooleanBase(object):
     # Shared C{Boolean[FHP|GH]} methods.
 
-    _kwds = {}  # shut up PyChecker
-
     def __add__(self, other):
         '''Sum: C{this + other} clips.
         '''
-        kwds = self._kwds(self.__add__)
-        bc = self.__class__(self, **kwds)
-        LL = bc._LL
-        for c in self._other(other)._clips:
-            b = _Clip(bc, c._id)
-            for v in c:
-                b._append(LL(v))
-        return bc
+        return self._sum(_other(self, other), self.__add__)  # PYCHOK OK
 
     def __and__(self, other):
         '''Intersection: C{this & other}.
@@ -1590,7 +1687,7 @@ class _BooleanBase(object):
         return self._boolean(other, False, False, self.__and__)  # PYCHOK OK
 
     def __iadd__(self, other):
-        '''In-place sum: C{this += other}.
+        '''In-place sum: C{this += other} clips.
         '''
         return self._inplace(self.__add__(other))
 
@@ -1610,19 +1707,27 @@ class _BooleanBase(object):
         return self._boolean(other, True, True, self.__or__)  # PYCHOK OK
 
     def __radd__(self, other):
-        '''Reverse sum: C{other + this}.
+        '''Reverse sum: C{other + this} clips.
         '''
-        return self._other(other).__add__(self)
+        return _other(self, other)._sum(self, self.__radd__)
 
     def __rand__(self, other):
         '''Reverse intersection: C{other & this}
         '''
-        return self._other(other).__and__(self)
+        return _other(self, other).__and__(self)
 
     def __ror__(self, other):
         '''Reverse union: C{other | this}
         '''
-        return self._other(other).__or__(self)
+        return _other(self, other).__or__(self)
+
+    def _boolean4(self, other, op):
+        # Set up a new C{Boolean[FHP|GH]}.
+        C = self.__class__
+        kwds = C._kwds(self, op)
+        a =  C(self, **kwds)
+        b = _other(self, other)
+        return a, b, C, kwds
 
     def _inplace(self, r):
         # Replace this with a L{Boolean*} result.
@@ -1634,12 +1739,6 @@ class _BooleanBase(object):
 #       if self._eps != r._eps:
 #           self._eps = r._eps
         return self
-
-    def _other(self, other):
-        B = self.__class__
-        if isinstance(other, B):
-            return other
-        raise TypeError('not %s: %r' % (B.__name__, other))
 
 
 class BooleanFHP(_CompositeFHP, _BooleanBase):
@@ -1655,6 +1754,8 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
         -  C = A + B  or  A += B,  sum of the A and B clips
 
         -  C = A | B  or  A |= B,  union of A and B
+
+        -  A == B,  equivalence, A and B clips match
 
        @see: Function L{clipFHP4} and class L{BooleanGH}.
     '''
@@ -1673,30 +1774,30 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
         _CompositeFHP.__init__(self, lls, raiser=raiser,
                                           eps=eps, name=name)
 
+    def __isub__(self, other):
+        '''In-place difference: C{this -= other}, N/A.
+        '''
+        raise self._ErrorOp(self.__isub__, other)
+
+    def __rsub__(self, other):
+        ''' Reverse difference: C{other - this}, N/A.
+        '''
+        raise self._ErrorOp(self.__rsub__, other)
+
+    def __sub__(self, other):
+        '''Difference: C{this - other}, N/A.
+        '''
+        raise self._ErrorOp(self.__sub__, other)
+
     def _boolean(self, other, Union, unused, op):
-        k = self._kwds(op)
-        P = BooleanFHP(self, **k)
-        Q = self._other(other)
-        r = P._clip(Q, Union=Union, **k)
-        return BooleanFHP(r, **k)
+        # One C{BooleanFHP} operation.
+        p, q, C, kwds = self._boolean4(other, op)
+        r = p._clip(q, Union=Union, **kwds)
+        return C(r, **kwds)
 
-    def _ErrorOp(self, op):
-        return NotImplementedError(_DOT_(self.named2, op.__name__))
-
-    def __isub__(self, unused):
-        '''In-place difference: C{this -= other}.
-        '''
-        raise self._ErrorOp(self.__isub__)
-
-    def __rsub__(self, unused):
-        ''' Reverse difference: C{other - this}
-        '''
-        raise self._ErrorOp(self.__rsub__)
-
-    def __sub__(self, unused):
-        '''Difference: C{this - other}.
-        '''
-        raise self._ErrorOp(self.__sub__)
+    def _ErrorOp(self, op, other):
+        n = _DOT_(self.named2, op.__name__)
+        return NotImplementedError(unstr(n, other))
 
 
 class BooleanGH(_CompositeGH, _BooleanBase):
@@ -1717,6 +1818,8 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         -  C = A + B  or  A += B,  sum of the A and B clips
 
         -  C = A | B  or  A |= B,  union of A and B
+
+        -  A == B,  equivalence, A and B clips match
 
        @note: To handle I{degenerate cases} like C{point-edge} and
               C{point-point} intersections, use class L{BooleanFHP}.
@@ -1741,11 +1844,10 @@ class BooleanGH(_CompositeGH, _BooleanBase):
                                          eps=eps, name=name)
 
     def _boolean(self, other, s_entry, c_entry, op):
-        k = self._kwds(op)
-        S = BooleanGH(self, **k)
-        C = self._other(other)
-        r = S._clip(C, s_entry, c_entry, **k)
-        return BooleanGH(r, **k)
+        # One C{BooleanGH} operation.
+        s, c, C, kwds = self._boolean4(other, op)
+        r = s._clip(c, s_entry, c_entry, **kwds)
+        return C(r, **kwds)
 
     def __isub__(self, other):
         '''In-place difference: C{this -= other}.
@@ -1755,7 +1857,7 @@ class BooleanGH(_CompositeGH, _BooleanBase):
     def __rsub__(self, other):
         ''' Reverse difference: C{other - this}
         '''
-        return self._other(other).__sub__(self)
+        return _other(self, other).__sub__(self)
 
     def __sub__(self, other):
         '''Difference: C{this - other}.
@@ -1763,9 +1865,9 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         return self._boolean(other, True, False, self.__sub__)
 
 
-__all__ += _ALL_DOCS(_Clip,
+__all__ += _ALL_DOCS(_BooleanBase, _Clip,
                      _CompositeBase, _CompositeFHP, _CompositeGH,
-                     _LatLonBase)
+                     _LatLonBool)
 
 # **) MIT License
 #

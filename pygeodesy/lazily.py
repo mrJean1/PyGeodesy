@@ -417,7 +417,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.03.12'
+__version__ = '23.03.14'
 
 
 def _ALL_OTHER(*objs):
@@ -659,7 +659,7 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
 
        @return: Number of bytes written.
     '''
-    p, e, s, f, fl, p, kwds = _xprint7(**nl_nt_prefix_end_file_flush_sep_kwds)
+    b, e, s, f, fl, p, kwds = _xprint7(**nl_nt_prefix_end_file_flush_sep_kwds)
     try:
         if args:
             t = (fmt % args) if fmt else s.join(map(str, args))
@@ -673,10 +673,10 @@ def printf(fmt, *args, **nl_nt_prefix_end_file_flush_sep_kwds):
         raise _E(t, txt=unstr(printf, fmt, *args, **
                         nl_nt_prefix_end_file_flush_sep_kwds))
     try:
-        n = f.write(NN(p, t, e))
+        n = f.write(NN(b, t, e))
     except UnicodeEncodeError:  # XXX only Windows
         t = t.replace('\u2032', _QUOTE1_).replace('\u2033', _QUOTE2_)
-        n = f.write(NN(p, t, e))
+        n = f.write(NN(b, t, e))
     if fl:
         f.flush()
     return n

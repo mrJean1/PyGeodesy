@@ -29,8 +29,8 @@ from pygeodesy.basics import isclass, isint, isscalar, issequence, \
                              issubclassof, map1, _Sequence, _xcopy, \
                              _xdup, _xinstanceof
 from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
-                               _umod_360, _0_0, _0_5, _1_0, _3_0, _90_0, \
-                               _N_90_0, _180_0, _360_0
+                               _umod_360, _0_0, _0_5, _1_0, _2_0, _6_0, \
+                               _90_0, _N_90_0, _180_0, _360_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2, S_DEG, S_DMS, \
                           S_MIN, S_SEC, S_SEP
@@ -63,7 +63,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.01.21'
+__version__ = '23.03.14'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -533,7 +533,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             yield point(_array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
-        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded}.
+        '''(INTERNAL) I{Must be overloaded}, see function C{notOverloaded in}.
 
            @arg attrs: Optional arguments.
         '''
@@ -1202,7 +1202,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
 
 
 def boundsOf(points, wrap=True, LatLon=None):
-    '''Determine the lower-left SW and upper-right NE corners of a
+    '''Determine the bottom-left SW and top-right NE corners of a
        path or polygon.
 
        @arg points: The path or polygon points (C{LatLon}[]).
@@ -1227,21 +1227,21 @@ def boundsOf(points, wrap=True, LatLon=None):
         >>> 45.0, 1.0, 46.0, 2.0
     '''
     Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
-    lox, loy, _ = hix, hiy, _ = Ps[0]
+    w, s, _ = e, n, _ = Ps[0]
 
     for x, y, _ in Ps.iterate(closed=False):  # [1:]
-        if lox > x:
-            lox = x
-        elif hix < x:
-            hix = x
+        if w > x:
+            w = x
+        elif e < x:
+            e = x
 
-        if loy > y:
-            loy = y
-        elif hiy < y:
-            hiy = y
+        if s > y:
+            s = y
+        elif n < y:
+            n = y
 
-    return Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
-           Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
+    return Bounds4Tuple(s, w, n, e) if LatLon is None else \
+           Bounds2Tuple(LatLon(s, w), LatLon(n, e))  # PYCHOK inconsistent
 
 
 def centroidOf(points, wrap=True, LatLon=None):
@@ -1290,11 +1290,11 @@ def centroidOf(points, wrap=True, LatLon=None):
         # Y.fadd_(t1 * y1, t1 * y2, t2 * y1, t2 * y2)
         x1, y1 = x2, y2
 
-    A = A.fmul(_3_0).fsum()  # 6.0 / 2.0
-    if isnear0(A):
+    a = A.fmul(_6_0).fover(_2_0)
+    if isnear0(a):
         raise _areaError(pts, near_=_near_)
-    Y, X = degrees90(Y.fdiv(A).fsum()), degrees180(X.fdiv(A).fsum())
-    return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
+    y, x = degrees90(Y.fover(a)), degrees180(X.fover(a))
+    return LatLon2Tuple(y, x) if LatLon is None else LatLon(y, x)
 
 
 def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
