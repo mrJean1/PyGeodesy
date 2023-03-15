@@ -292,7 +292,7 @@ class _LatLonBool(_Named):
 
     @property_RO
     def lon(self):
-        '''Get the longpitude (C{scalar}).
+        '''Get the longitude (C{scalar}).
         '''
         return self.x
 
