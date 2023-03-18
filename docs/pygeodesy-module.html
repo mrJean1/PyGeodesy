@@ -523,7 +523,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.03.14
+        23.03.18
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1210,8 +1210,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.booleans.BooleanFHP-class.html" class="summary-name">BooleanFHP</a><br />
-      <i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using <a 
         href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
         target="_top">Forster-Hormann-Popa</a>'s C++ implementation, 
         transcoded to pure Python.
@@ -1222,10 +1222,10 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.booleans.BooleanGH-class.html" class="summary-name">BooleanGH</a><br />
-      <i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm, <a 
+        target="_top">Greiner-Hormann</a> algorithm and <a 
         href="https://GitHub.com/helderco/univ-polyclip" 
         target="_top">Correia</a>'s implementation, modified and extended.
     </td>
@@ -3120,12 +3120,8 @@
         <a href="pygeodesy.units.HeightX-class.html" class="summary-name">HeightX</a><br />
       Like <a href="pygeodesy.units.Height-class.html" 
         class="link">Height</a> but to distinguish the interpolated height 
-        at an intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a> in
-        <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
-        class="link">ClipFHP4Tuple</a> and <a 
-        href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
-        class="link">ClipGH4Tuple</a>.
+        at a clip intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.
     </td>
   </tr>
 <tr>
@@ -3390,7 +3386,7 @@
         <a href="pygeodesy.booleans.LatLonFHP-class.html" class="summary-name">LatLonFHP</a><br />
       A point or intersection in a <a 
         href="pygeodesy.booleans.BooleanFHP-class.html" 
-        class="link">BooleanFHP</a> clip.
+        class="link">BooleanFHP</a> clip or composite.
     </td>
   </tr>
 <tr>
@@ -3400,7 +3396,7 @@
         <a href="pygeodesy.booleans.LatLonGH-class.html" class="summary-name">LatLonGH</a><br />
       A point or intersection in a <a 
         href="pygeodesy.booleans.BooleanGH-class.html" 
-        class="link">BooleanGH</a> clip.
+        class="link">BooleanGH</a> clip or composite.
     </td>
   </tr>
 <tr>
@@ -8171,7 +8167,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7c206d3d50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd5a842fa50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -12651,7 +12647,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.3.14'"><code class="variable-quote">'</code><code class="variable-string">23.3.14</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.3.18'"><code class="variable-quote">'</code><code class="variable-string">23.3.18</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20370,7 +20366,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7c206d3d50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd5a842fa50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29754,7 +29750,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 14 14:52:08 2023
+    Generated by Epydoc 3.0.1 on Sat Mar 18 12:28:03 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

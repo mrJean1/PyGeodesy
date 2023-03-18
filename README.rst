@@ -154,7 +154,7 @@ and with Flake8_ using Python 3.10.8, both in 64-bit on macOS 13.2.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Mar 14, 2023.*
+*Last updated: Mar 18, 2023.*
 
 License
 =======

@@ -43,7 +43,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.03.12'
+__version__ = '23.03.18'
 
 
 class LatLonBase(_NamedBase):
@@ -52,9 +52,9 @@ class LatLonBase(_NamedBase):
     '''
     _clipid = INT0  # polygonal clip, see .booleans
     _datum  = None  # L{Datum}, to be overriden
-    _height = 0  # height (C{meter}), default
-    _lat    = 0  # latitude (C{degrees})
-    _lon    = 0  # longitude (C{degrees})
+    _height = INT0  # height (C{meter}), default
+    _lat    = 0     # latitude (C{degrees})
+    _lon    = 0     # longitude (C{degrees})
 
     def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.

@@ -21,7 +21,7 @@ from pygeodesy.basics import isodd, isscalar, issubclassof, map2
 from pygeodesy.constants import EPS, EPS2, INT0, MAX, \
                                _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
-                            _xkwds, _xkwds_get
+                            _xkwds_get
 from pygeodesy.fmath import fabs, favg, hypot, hypot2
 from pygeodesy.interns import NN, _BANG_, _clip_, _COMMASPACE_, _DOT_, \
                              _e_, _ELLIPSIS_, _few_, _height_, _lat_, \
@@ -29,7 +29,7 @@ from pygeodesy.interns import NN, _BANG_, _clip_, _COMMASPACE_, _DOT_, \
                              _too_, _X_, _x_,  _B_, _d_, _R_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
 # from pygeodesy.latlonBase import LatLonBase  # from _MODS
-from pygeodesy.named import Fmt, _Named, pairs, unstr
+from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs
 # from pygeodesy.points import boundsOf  # from _MODS
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt, pairs, unstr  # from .named
@@ -38,7 +38,7 @@ from pygeodesy.units import Height, HeightX
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.03.14'
+__version__ = '23.03.18'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
@@ -46,18 +46,17 @@ _1_EPS = _1_0 + EPS  # over-one
 _EPS_1 = _1_0 - EPS  # near-one
 _10EPS =  EPS * 10   # see ._2Abs
 
-_alpha_   = 'alpha'
-_boolean_ = 'boolean'
-_case_    = 'case'
-_clipid_  = 'clipid'
-_corners_ = 'corners'
-_open_    = 'open'
-_P_       = 'P'
-_Q_       = 'Q'
+_alpha_     = 'alpha'
+_boolean_   = 'boolean'
+_case_      = 'case'
+_clipid_    = 'clipid'
+_corners_   = 'corners'
+_duplicate_ = 'duplicate'
+_open_      = 'open'
 
 
 def _Enum(txt, enum):  # PYCHOK unused
-    return txt  # NN(txt, _TILDE_, str(enum))
+    return txt  # NN(txt, _TILDE_, enum)
 
 
 class _L(object):
@@ -169,7 +168,7 @@ class _LatLonBool(_Named):
     _next    = None       # link to the next vertex
     _prev    = None       # link to the previous vertex
 
-    def __init__(self, lat_ll, lon=None, height=0, clipid=0, name=NN):
+    def __init__(self, lat_ll, lon=None, height=0, clipid=INT0, name=NN):
         '''New C{LatLon[FHP|GH]} from separate C{lat}, C{lon}, C{height}
            and C{clipid} scalars or from a previous C{LatLon[FHP|GH]},
            a C{Clip[FHP|GH]4Tuple} or some other C{LatLon} instance.
@@ -190,7 +189,7 @@ class _LatLonBool(_Named):
         else:
             self.y, self.x = lat_ll, lon
             h, c = height, clipid
-        # don't override defaults
+        # don't duplicate defaults
         if self._height != h:
             self._height = h
         if self._clipid != c:
@@ -212,8 +211,12 @@ class _LatLonBool(_Named):
     def __repr__(self):
         '''String C{repr} of this lat-/longitude.
         '''
-        t = _ELLIPSIS_(self._prev, self._next)
-        return _SPACE_(self, Fmt.ANGLE(t))
+        if self._prev or self._next:
+            t = _ELLIPSIS_(self._prev, self._next)
+            t = _SPACE_(self, Fmt.ANGLE(t))
+        else:
+            t =  str(self)
+        return t
 
     def __str__(self):
         '''String C{str} of this lat-/longitude.
@@ -264,7 +267,7 @@ class _LatLonBool(_Named):
         '''
         h = self._height
         return HeightX(h) if self.isintersection else (
-               Height(h)  if h else h)
+               Height(h)  if h else _LatLonBool._height)
 
     @property_RO
     def isintersection(self):
@@ -303,11 +306,10 @@ class _LatLonBool(_Named):
 
 
 class LatLonFHP(_LatLonBool):
-    '''A point or intersection in a L{BooleanFHP} clip.
+    '''A point or intersection in a L{BooleanFHP} clip or composite.
     '''
     _en_ex  = None
     _label  = None
-#   _prep2  = None, None  # shup up PyChecker
     _2split = None  # or C{._Clip}
     _2xing  = False
 
@@ -394,14 +396,15 @@ class LatLonFHP(_LatLonBool):
         return i
 
     def isinside(self, *composites):
-        '''Is this point inside I{combined} composites based on C{winding number}?
+        '''Is this point inside B{{composites}} based on C{winding number}?
 
-           @arg composites: One or more iterables or composites of clips and points
-                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
-                            L{LatLonGH}, L{LatLon_} or any other C{LatLon}).
+           @arg composites: One or more iterables or I{composites} of clips
+                            or points (L{ClipFHP4Tuple}, L{ClipGH4Tuple},
+                            L{LatLonFHP}, L{LatLonGH}, L{LatLon_} or any
+                            other C{LatLon}).
 
-           @see: U{Algorithm 6<https://www.ScienceDirect.com/science/article/pii/
-                 S0925772101000128>}.
+           @see: U{Algorithm 6<https://www.ScienceDirect.com/science/
+                 article/pii/S0925772101000128>}.
         '''
         self._isinside(_CompositeEdges(self.__class__, composites))
 
@@ -420,15 +423,14 @@ class LatLonFHP(_LatLonBool):
     @property_RO
     def _prev_next2(self):
         # Adjust 2-tuple (._prev, ._next) iff a I{duplicate} intersection
-        p, n = self._prev, self._next
+        p, n = self, self._next
         if self._isduplicate:
             p = self._dupof
             while p._isduplicate:
                 p = p._dupof
-            p = p._prev
             while n._isduplicate:
                 n = n._next
-        return p, n
+        return p._prev, n
 
 #   def _edge2(self):
 #       # Return the start and end point of the
@@ -463,7 +465,7 @@ class LatLonFHP(_LatLonBool):
 
 
 class LatLonGH(_LatLonBool):
-    '''A point or intersection in a L{BooleanGH} clip.
+    '''A point or intersection in a L{BooleanGH} clip or composite.
     '''
     _entry  = None   # entry or exit iff intersection
     _extend = False
@@ -471,7 +473,7 @@ class LatLonGH(_LatLonBool):
     def __init__(self, lat_ll, *lon_h_clipid, **name):
         '''New C{LatLonGH} from separate C{lat}, C{lon}, C{h}eight
            and C{clipid} scalars, or from a previous L{LatLonGH},
-           a L{ClipGH4Tuple} or some other C{LatLon} instance.
+           L{ClipGH4Tuple} or some other C{LatLon} instance.
 
            @arg lat_ll: Latitude (C{scalar}) or a lat/longitude
                         (L{LatLonGH}, C{LatLon} or L{ClipGH4Tuple}).
@@ -485,9 +487,9 @@ class LatLonGH(_LatLonBool):
     def _check(self):
         # Check-mark this vertex and its link.
         self._checked = True
-        b = self._linked
-        if b and not b._checked:
-            b._checked = True
+        k = self._linked
+        if k and not k._checked:
+            k._checked = True
 
     def _e_x_str(self, t):
         return t if self._entry is None else NN(t,
@@ -510,19 +512,20 @@ class LatLonGH(_LatLonBool):
         return r
 
     def isinside(self, *composites):
-        '''Is this point inside I{combined} composites based on C{odd-even rule}?
+        '''Is this point inside B{C{composites}} based on C{odd-even rule}?
 
-           @arg composites: One or more iterables or composites of clips and points
-                            (L{ClipFHP4Tuple}, L{ClipGH4Tuple}, L{LatLonFHP},
-                            L{LatLonGH}, L{LatLon_} or any other C{LatLon}).
+           @arg composites: One or more iterables or I{composites} of clips
+                            or points (L{ClipFHP4Tuple}, L{ClipGH4Tuple},
+                            L{LatLonFHP}, L{LatLonGH}, L{LatLon_} or any
+                            other C{LatLon}).
         '''
         self._isinside(_CompositeEdges(self.__class__, composites))
 
 
 class _Clip(_Named):
-    '''(INTERNAL) A I{doubly-linked} list representing a I{closed} polygon of
-       L{LatLonFHP} or L{LatLonGH} points, duplicates and intersections with
-       other C{_Clip}s.
+    '''(INTERNAL) A I{doubly-linked} list representing a I{closed}
+       polygon of L{LatLonFHP} or L{LatLonGH} points, duplicates
+       and intersections with other clips.
     '''
     _composite = None
     _dups      = 0
@@ -535,24 +538,30 @@ class _Clip(_Named):
     _len       = 0
     _pushback  = False
 
-    def __init__(self, composite, clipid=0):
+    def __init__(self, composite, clipid=INT0):
+        '''(INTERNAL) New C{_Clip}.
+        '''
         # assert isinstance(composite, _CompositeBase)
+        if clipid in composite._clipids:
+            raise ClipError(clipid=clipid, txt=_duplicate_)
         self._composite  = composite
         self._id         = clipid
         self._LL         = composite._LL
         composite._clips = composite._clips + (self,)
 
-    def __contains__(self, p):
-        # Is C{p} one of this clip's vertices?
+    def __contains__(self, point):
+        '''Is the B{C{point}} in this clip?
+        '''
         for v in self:
-            if v is p:  # or ==?
+            if v is point:  # or ==?
                 return True
         return False
 
     def __eq__(self, other):
-        # Is this C{_Clip} equivalent to an C{other},
-        # i.e. has the same C{len}, the same points,
-        # etc. in the same order, possibly rotated?
+        '''Is this clip I{equivalent} to an B{C{other}} clip,
+           do both have the same C{len}, the same points, in
+           the same order, possibly rotated?
+        '''
         c, f, r = _other(self, other), self._first, len(self)
         if f and r == len(c) and self._bltr4 == c._bltr4:
             for v in c:
@@ -562,22 +571,27 @@ class _Clip(_Named):
                         s, n = s._next, n._next
                         if n != s:
                             break  # next v
-                    else:  # full rotation
+                    else:  # equivalent
                         return True
         return False
 
     def __ge__(self, other):
+        '''See method C{__lt__}.
+        '''
         return not self.__lt__(other)
 
     def __gt__(self, other):
-        # Is this clip I{"greater"} than an C{other}?
+        '''Is this clip C{"above"} an B{C{other}} clip,
+           located or stretched farther North or East?
+        '''
         return self._bltr4 > _other(self, other)._bltr4
 
     def __hash__(self):  # PYCHOK no over
         return hash(self._bltr4)
 
     def __iter__(self):
-        # Yield all points, duplicates and intersections.
+        '''Yield the points, duplicates and intersections.
+        '''
         v = f = self._first
         while v:
             yield v
@@ -586,17 +600,25 @@ class _Clip(_Named):
                 break
 
     def __le__(self, other):
+        '''See method C{__gt__}.
+        '''
         return not self.__gt__(other)
 
     def __len__(self):
-        # Return the number of LatLons.
+        '''Return the number of points, duplicates and
+           intersections in this clip.
+        '''
         return self._len
 
     def __lt__(self, other):
-        # Is this clip I{"less"} than an C{other}?
+        '''Is this clip C{"below"} an B{C{other}} clip,
+           located or stretched farther South or West?
+        '''
         return self._bltr4 < _other(self, other)._bltr4
 
-    def __ne__(self, other):
+    def __ne__(self, other):  # required for Python 2
+        '''See method C{__eq__}.
+        '''
         return not self.__eq__(other)
 
     _all = __iter__
@@ -630,7 +652,7 @@ class _Clip(_Named):
 #       # duplicate of the one previously append[edup]'ed.
 #       y, x, p = v.y, v.x, self._last
 #       if p is None or y != p.y or x != p.x or clipid != p._clipid:
-#           p = self._append(y, x, v.height, clipid)
+#           p = self._append(y, x, v._height, clipid)
 #           if v._linked:
 #               p._linked = True  # to force errors
 #       return p
@@ -700,7 +722,7 @@ class _Clip(_Named):
         n = start._next
         if alpha:
             v._alpha  = alpha = alpha[0]
-            v._height = favg(v.height, end.height, f=alpha)
+            v._height = favg(v._height, end._height, f=alpha)
             # assert start is not end
             while n is not end and n._alpha < alpha:
                 n = n._next
@@ -735,6 +757,13 @@ class _Clip(_Named):
         v = self._first
         return v._isinside(self._composite, self) if v else False
 
+    @property_RO
+    def _nodups(self):
+        # Yield all non-duplicates.
+        for v in self:
+            if not v._dupof:
+                yield v
+
     def _noXings(self, Union):
         # Are all intersections non-CROSSINGs?
         Ls = _L.BOUNCINGs if Union else _L.CROSSINGs
@@ -751,9 +780,8 @@ class _Clip(_Named):
     def _point2(self, insert):
         # getNonIntersectionPoint and -Vertex
         if not (insert and self._noInters):
-            for p in self._points():
-                if not p.isintersection:  # or p._isduplicated?
-                    return p, None
+            for p in self._points(maybe=False):  # not p._isduplicated?
+                return p, None
             for n in self._intersections():
                 p, _ = n._prev_next2
                 k = p._linked
@@ -770,10 +798,10 @@ class _Clip(_Named):
                         return k, r
         return None, None
 
-    def _points(self):
-        # Yield all points I{in original order}.
+    def _points(self, maybe=True):
+        # Yield all points I{in original order}, meybe intersections too.
         for v in self:
-            if v.ispoint:
+            if v.ispoint and (maybe or not v.isintersection):
                 yield v
 
     def _remove2(self, v):
@@ -793,6 +821,12 @@ class _Clip(_Named):
             p = self._first = None
             self._len = 0
         return p, n
+
+    def _update_all(self):
+        # Zap the I{cached} properties.
+        _Clip._bltr4._update( self)
+        _Clip._ishole._update(self)
+        return self  # for _special_identicals
 
     def _Xings(self):
         # Yield all I{un-checked} CROSSING intersections.
@@ -831,7 +865,8 @@ class _ClipEdges(_Clip):  # PYCHOK no cover
 
 
 class _CompositeBase(_Named):
-    '''(INTERNAL) Base class for C{_CompositeFHP} and C{_CompositeGH}.
+    '''(INTERNAL) Base class for L{BooleanFHP} and L{BooleanGH}
+       (C{_CompositeFHP} and C{_CompositeGH}).
     '''
     _clips  =  ()   # tuple of C{_Clips}
     _eps    =  EPS  # null edges
@@ -841,7 +876,8 @@ class _CompositeBase(_Named):
     _xtend  =  False
 
     def __init__(self, lls, name=NN, kind=NN, eps=EPS):
-        # New L{_CompositeFHP} or L{_CompositeGH}.
+        '''(INTERNAL) See L{BooleanFHP} and L{BooleanGH}.
+        '''
         n = name or getattr(lls, _name_, NN)
         if n:
             self.name = n
@@ -867,19 +903,20 @@ class _CompositeBase(_Named):
                 c._dups += 1
         c._closed(self.raiser)
 
-    def __contains__(self, v):  # PYCHOK no cover
-        # Is C{p} one of the clips' points?
+    def __contains__(self, point):  # PYCHOK no cover
+        '''Is the B{C{point}} in one of the clips?
+        '''
         for c in self._clips:
-            if v in c:
+            if point in c:
                 return True
         return False
 
     def __eq__(self, other):
-        '''Is this C{composite} equivalent to an C{other},
-           i.e. both contain I{equivalent} clips in the
-           same or a different order?  Clips are considered
-           I{equivalent} if they have the same points in
-           the same order, possibly rotated.
+        '''Is this I{composite} equivalent to an B{C{other}},
+           i.e. do both contain I{equivalent} clips in the
+           same or a different order?  Two clips are
+           considered I{equivalent} if both have the same
+           points etc. in the same order, possibly rotated.
         '''
         cs = self._clips
         if cs and isinstance(other, _CompositeBase) \
@@ -888,23 +925,27 @@ class _CompositeBase(_Named):
                 cs = list(sorted(cs))
                 for c in sorted(other._clips):
                     cs.pop(cs.index(c))
-                if not cs:  # all clips match
+                if not cs:  # all match
                     return True
             except ValueError:  # from .index
                 pass
         return False
 
     def __iter__(self):
-        # Yield all points and intersections.
+        '''Yield all points, duplicates and intersections.
+        '''
         for c in self._clips:
             for v in c:
                 yield v
 
-    def __ne__(self, other):  # needed for Python 2
+    def __ne__(self, other):  # required for Python 2
+        '''See method C{__eq__}.
+        '''
         return not self.__eq__(other)
 
     def __len__(self):
-        # Return the total number of latlons.
+        '''Return the I{total} number of points.
+        '''
         return sum(map(len, self._clips)) if self._clips else 0
 
     def __repr__(self):
@@ -913,7 +954,7 @@ class _CompositeBase(_Named):
         c = len(self._clips)
         c = Fmt.SQUARE(c) if c > 1 else NN
         n = Fmt.SQUARE(len(self))
-        t = Fmt.PAREN(self)
+        t = Fmt.PAREN(self)  # XXX not unstr
         return NN(self.__class__.__name__, c, n, t)
 
     def __str__(self):
@@ -942,6 +983,10 @@ class _CompositeBase(_Named):
         '''Return a tuple with all C{clipid}s, I{ordered}.
         '''
         return tuple(self._clipids)
+
+#   def _clipidups(self, other):
+#       # Number common C{clipid}s between this and an C{other} composite
+#       return len(set(self._clipids).intersection(set(other._clipids)))
 
     def _edges3(self, **raiser):
         # Yield each I{original} edge as a 3-tuple
@@ -978,7 +1023,7 @@ class _CompositeBase(_Named):
                 yield v
 
     def _kwds(self, op, **more):
-        # Get the kwds C{dict}.
+        # Get all keyword arguments as C{dict}.
         kwds = dict(raiser=self.raiser, eps=self.eps,
                       name=self.name or op.__name__)
         kwds.update(more)
@@ -990,11 +1035,10 @@ class _CompositeBase(_Named):
         return _min_max_eps(min(v.x for v in self),
                             max(v.x for v in self))
 
-    def _points(self):  # PYCHOK no cover
-        # Yield all I{original} points,
-        # some may be intersection too.
+    def _points(self, maybe=True):  # PYCHOK no cover
+        # Yield all I{original} points, maybe intersections too.
         for c in self._clips:
-            for v in c._points():
+            for v in c._points(maybe=maybe):
                 yield v
 
     @property
@@ -1036,50 +1080,51 @@ class _CompositeBase(_Named):
         # Combine this and an C{other} composite
         LL = self._LL
         sp = self.copy(name=self.name or op.__name__)
-        sp._clips = ()  # new clips
+        sp._clips, sid = (), INT0  # new clips
         for cp in (self, other):
             for c in cp._clips:
-                _ap = _Clip(sp, c._id)._append
-                for v in c:
-                    if not v._dupof:
-                        _ap(LL(v))
+                _ap = _Clip(sp, sid)._append
+                for v in c._nodups:
+                    _ap(LL(v.y, v.x, v.height, sid))
+                sid += 1
         return sp
 
-    def toLatLon(self, LatLon, **LatLon_kwds):
+    def toLatLon(self, LatLon=None, closed=False, **LatLon_kwds):
         '''Yield all (non-duplicate) points and intersections
            as an instance of B{C{LatLon}}.
 
-           @kwarg LatLon: Class to use (C{LatLon}).
+           @kwarg LatLon: Class to use (C{LatLon}) or if C{None},
+                          L{LatLonFHP} or L{LatLonGH}.
+           @kwarg closed: If C{True}, close each clip (C{bool}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
-                               keyword arguments.
+                               keyword arguments, ignore if
+                               C{B{LatLon} is None}.
 
            @raise TypeError: Invalid B{C{LatLon}}.
 
            @note: For intersections, C{height} is an instance
                   of L{HeightX}, otherwise of L{Height}.
         '''
-        if not issubclassof(LatLon, _LatLonBool,
-                    _MODS.latlonBase.LatLonBase):
-            raise _TypeError(LatLon=LatLon)
-        if LatLon_kwds:
-            _kwds = _xkwds
+        if LatLon is None:
+            LL, kwds = self._LL, {}
+        elif issubclassof(LatLon, _LatLonBool,
+                  _MODS.latlonBase.LatLonBase):
+            LL, kwds = LatLon, LatLon_kwds
         else:
-            def _kwds(unused, **kwds):
-                return kwds
+            raise _TypeError(LatLon=LatLon)
 
-        for v in self:
-            if not v._dupof:
-                ll = LatLon(v.lat, v.lon, **_kwds(LatLon_kwds,
-                            height=v.height))
-                if ll._clipid != v._clipid:
-                    ll._clipid = v._clipid
+        for c in self._clips:
+            lf, cid = None, c._id
+            for v in c._nodups:
+                ll = LL(v.y, v.x, **kwds)
+                ll._height = v.height
+                if ll._clipid != cid:
+                    ll._clipid = cid
                 yield ll
-
-    def _update_all(self):
-        # Zap the I{cached} C{_Clip} properties.
-        map(_Clip._bltr4._update,  self._clips)
-        map(_Clip._ishole._update, self._clips)
-        return self
+                if lf is None:
+                    lf = ll
+            if closed and lf:
+                yield lf
 
 
 class _CompositeEdges(_CompositeBase):  # PYCHOK no cover
@@ -1097,8 +1142,9 @@ class _CompositeEdges(_CompositeBase):  # PYCHOK no cover
 
 
 class _CompositeFHP(_CompositeBase):
-    '''(INTERNAL) A list of C{_Clips} representing a I{composite}
-       of L{LatLonFHP} points, duplicates and intersections.
+    '''(INTERNAL) A list of clips representing a I{composite}
+       of L{LatLonFHP} points, duplicates and intersections
+       with an other I{composite}.
     '''
     _LL    = LatLonFHP
     _Union = False
@@ -1132,11 +1178,10 @@ class _CompositeFHP(_CompositeBase):
                            **closed_inull_raiser_eps):
         # Clip this composite with another one, C{corners},
         # using Foster-Hormann-Popa's algorithm.
-        P = self._update_all()
+        P = self
         Q = self._class(corners, closed_inull_raiser_eps,
                                  eps=P._eps, raiser=False)
-        P._reset(Union, name=_P_)
-        Q._reset(Union, name=_Q_)
+        P._Union = Q._Union = Union
 
         bt = Q._bottom_top_eps
         lr = Q._left_right_eps
@@ -1204,10 +1249,6 @@ class _CompositeFHP(_CompositeBase):
         for c in self._clips:
             for X in c._Xings():
                 yield self._resultX(X)
-
-    def _reset(self, Union=False, **unused):
-        if Union:
-            self._Union = True
 
     def _resultX(self, X):
         # Yield the result from an unchecked CROSSING.
@@ -1281,9 +1322,12 @@ class _CompositeFHP(_CompositeBase):
 
     def _special_identicals(self, other):
         # 3.5) Handle identicals
-        cds = dict((c._id, c) for c in other._identicals)
+        _u = _Clip._update_all
+        cds = dict((c._id, _u(c)) for c in other._identicals)
+        # assert len(cds) == len(other._identicals)
         if cds:
             for c in self._identicals:
+                c._update_all()
                 for v in c._intersections():
                     d = cds.get(v._linked._clipid, None)
                     if d and d._ishole is c._ishole:
@@ -1301,12 +1345,13 @@ class _CompositeFHP(_CompositeBase):
     def _splits_xings(self, other):  # MCCABE 15
         # 5) Handle split pairs and 6) crossing candidates
 
-        def _2A_dup2(p, P):
+        def _2A_dup2(p, P):  # PYCHOK unused
             p1, p2 = p._prev_next2
-            a2 = p1._2A(p, p2)
+            ap = p1._2A(p, p2)
             Pc = p._2split
             # assert Pc in P._clips
-            return a2, Pc._dup(p)
+            # assert p in Pc
+            return ap, Pc._dup(p)
 
         def _links2(ps, qs):  # PYCHOK P unused?
             # Yield each link as a 2-tuple(p, q)
@@ -1346,8 +1391,9 @@ class _CompositeFHP(_CompositeBase):
 
 
 class _CompositeGH(_CompositeBase):
-    '''(INTERNAL) A list of C{_Clips} representing a I{composite}
-       of L{LatLonGH} points, duplicates and intersections.
+    '''(INTERNAL) A list of clips representing a I{composite}
+       of L{LatLonGH} points, duplicates and intersections
+       with an other I{composite}.
     '''
     _LL    = LatLonGH
     _xtend = False
@@ -1367,7 +1413,7 @@ class _CompositeGH(_CompositeBase):
         # Core of Greiner/Hormann's algorithm, enhanced U{Correia's
         # <https://GitHub.com/helderco/univ-polyclip>} implementation***
         # and extended to optionally handle so-called "degenerate cases"
-        S = self._update_all()
+        S = self
         C = self._class(corners, closed_inull_raiser_xtend_eps,
                                  raiser=False, xtend=False)
         bt = C._bottom_top_eps
@@ -1434,13 +1480,13 @@ class _CompositeGH(_CompositeBase):
 
     @property
     def xtend(self):
-        '''Get the attempt to handle I{degenerate cases} (C{bool}).
+        '''Get the option to handle I{degenerate cases} (C{bool}).
         '''
         return self._xtend
 
     @xtend.setter  # PYCHOK setter!
     def xtend(self, xtend):
-        '''Set the attempt to handle I{degenerate cases} (C{bool}).
+        '''Set the option to handle I{degenerate cases} (C{bool}).
         '''
         self._xtend = bool(xtend)
 
@@ -1536,9 +1582,6 @@ class _EdgeGH(object):
             self._xtend = True
         elif raiser:
             self._raiser = True
-
-    def __str__(self):
-        return 'edge(%s, %s)' % (self._s1, self._s2)
 
     def _alpha2(self, x, y, dx, dy):
         # Return C{(alpha)}, see .points.nearestOn5
@@ -1742,20 +1785,20 @@ class _BooleanBase(object):
 
 
 class BooleanFHP(_CompositeFHP, _BooleanBase):
-    '''I{Composite} polygon class providing I{boolean} operations
-       between two I{composite} polygons using the U{Forster-Hormann-Popa
-       <https://www.ScienceDirect.com/science/article/pii/S259014861930007X>}'s
-       C++ implementation, transcoded to pure Python.
+    '''I{Composite} class providing I{boolean} operations between two
+       I{composites} using U{Forster-Hormann-Popa<https://www.ScienceDirect.com/
+       science/article/pii/S259014861930007X>}'s C++ implementation, transcoded
+       to pure Python.
 
        The supported operations between (composite) polygon A and B are:
 
         -  C = A & B  or  A &= B,  intersection of A and B
 
-        -  C = A + B  or  A += B,  sum of the A and B clips
+        -  C = A + B  or  A += B,  sum of A and B clips
 
         -  C = A | B  or  A |= B,  union of A and B
 
-        -  A == B,  equivalence, A and B clips match
+        -  A == B     or  A != B,  equivalent A and B clips
 
        @see: Function L{clipFHP4} and class L{BooleanGH}.
     '''
@@ -1775,19 +1818,16 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
                                           eps=eps, name=name)
 
     def __isub__(self, other):
-        '''In-place difference: C{this -= other}, N/A.
-        '''
-        raise self._ErrorOp(self.__isub__, other)
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __rsub__(self, other):
-        ''' Reverse difference: C{other - this}, N/A.
-        '''
-        raise self._ErrorOp(self.__rsub__, other)
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def __sub__(self, other):
-        '''Difference: C{this - other}, N/A.
-        '''
-        raise self._ErrorOp(self.__sub__, other)
+        '''Not implemented.'''
+        return _NotImplemented(self, other)
 
     def _boolean(self, other, Union, unused, op):
         # One C{BooleanFHP} operation.
@@ -1795,17 +1835,13 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
         r = p._clip(q, Union=Union, **kwds)
         return C(r, **kwds)
 
-    def _ErrorOp(self, op, other):
-        n = _DOT_(self.named2, op.__name__)
-        return NotImplementedError(unstr(n, other))
-
 
 class BooleanGH(_CompositeGH, _BooleanBase):
-    '''I{Composite} polygon class providing I{boolean} operations
-       between two I{composite} polygons using the U{Greiner-Hormann
-       <http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>}
-       algorithm, U{Correia<https://GitHub.com/helderco/univ-polyclip>}'s
-       implementation, modified and extended.
+    '''I{Composite} class providing I{boolean} operations between two
+       I{composites} using the U{Greiner-Hormann<http://www.Inf.USI.CH/
+       hormann/papers/Greiner.1998.ECO.pdf>} algorithm and U{Correia
+       <https://GitHub.com/helderco/univ-polyclip>}'s implementation,
+       modified and extended.
 
        The supported operations between (composite) polygon A and B are:
 
@@ -1815,11 +1851,11 @@ class BooleanGH(_CompositeGH, _BooleanBase):
 
         -  C = A & B  or  A &= B,  intersection of A and B
 
-        -  C = A + B  or  A += B,  sum of the A and B clips
+        -  C = A + B  or  A += B,  sum of A and B clips
 
         -  C = A | B  or  A |= B,  union of A and B
 
-        -  A == B,  equivalence, A and B clips match
+        -  A == B     or  A != B,  equivalent A and B clips
 
        @note: To handle I{degenerate cases} like C{point-edge} and
               C{point-point} intersections, use class L{BooleanFHP}.

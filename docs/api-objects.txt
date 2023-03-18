@@ -624,14 +624,13 @@ pygeodesy.basics._Bytes	pygeodesy.basics-module.html#_Bytes
 pygeodesy.basics.map1	pygeodesy.basics-module.html#map1
 pygeodesy.basics._NOP	pygeodesy.basics-module.html#_NOP
 pygeodesy.booleans	pygeodesy.booleans-module.html
-pygeodesy.booleans._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.booleans._L	pygeodesy.booleans-module.html#_L
 pygeodesy.booleans._open_	pygeodesy.booleans-module.html#_open_
 pygeodesy.booleans._other	pygeodesy.booleans-module.html#_other
 pygeodesy.booleans._Enum	pygeodesy.booleans-module.html#_Enum
-pygeodesy.booleans.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.booleans._RP2L	pygeodesy.booleans-module.html#_RP2L
 pygeodesy.booleans._IsnotError	pygeodesy.errors-module.html#_IsnotError
+pygeodesy.booleans._duplicate_	pygeodesy.booleans-module.html#_duplicate_
 pygeodesy.booleans.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.booleans.issubclassof	pygeodesy.basics-module.html#issubclassof
 pygeodesy.booleans._alpha_	pygeodesy.booleans-module.html#_alpha_
@@ -641,10 +640,10 @@ pygeodesy.booleans._alpha1	pygeodesy.booleans-module.html#_alpha1
 pygeodesy.booleans.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.booleans._alpha4	pygeodesy.booleans-module.html#_alpha4
 pygeodesy.booleans.isodd	pygeodesy.basics-module.html#isodd
+pygeodesy.booleans._NotImplemented	pygeodesy.named-module.html#_NotImplemented
 pygeodesy.booleans._10EPS	pygeodesy.booleans-module.html#_10EPS
 pygeodesy.booleans._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.booleans._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
-pygeodesy.booleans._P_	pygeodesy.booleans-module.html#_P_
 pygeodesy.booleans._clipid_	pygeodesy.booleans-module.html#_clipid_
 pygeodesy.booleans.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.booleans._1_EPS	pygeodesy.booleans-module.html#_1_EPS
@@ -653,7 +652,6 @@ pygeodesy.booleans._EPS_1	pygeodesy.booleans-module.html#_EPS_1
 pygeodesy.booleans._left_right_bottom_top_eps	pygeodesy.booleans-module.html#_left_right_bottom_top_eps
 pygeodesy.booleans._outside	pygeodesy.booleans-module.html#_outside
 pygeodesy.booleans.hypot2	pygeodesy.fmath-module.html#hypot2
-pygeodesy.booleans._Q_	pygeodesy.booleans-module.html#_Q_
 pygeodesy.booleans._case_	pygeodesy.booleans-module.html#_case_
 pygeodesy.booleans.map2	pygeodesy.basics-module.html#map2
 pygeodesy.booleans.fabs	pygeodesy.booleans-module.html#fabs
@@ -5456,7 +5454,6 @@ pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.booleans._BooleanBase.__ior__	pygeodesy.booleans._BooleanBase-class.html#__ior__
 pygeodesy.booleans._CompositeBase.__repr__	pygeodesy.booleans._CompositeBase-class.html#__repr__
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
-pygeodesy.booleans._CompositeFHP._reset	pygeodesy.booleans._CompositeFHP-class.html#_reset
 pygeodesy.booleans._CompositeBase._eps	pygeodesy.booleans._CompositeBase-class.html#_eps
 pygeodesy.booleans._CompositeFHP._special_identicals	pygeodesy.booleans._CompositeFHP-class.html#_special_identicals
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
@@ -5472,7 +5469,6 @@ pygeodesy.booleans._CompositeFHP._set_entry_exits	pygeodesy.booleans._CompositeF
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.booleans._CompositeBase.__len__	pygeodesy.booleans._CompositeBase-class.html#__len__
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
-pygeodesy.booleans._CompositeBase._update_all	pygeodesy.booleans._CompositeBase-class.html#_update_all
 pygeodesy.booleans.BooleanFHP._kind	pygeodesy.booleans.BooleanFHP-class.html#_kind
 pygeodesy.booleans._CompositeBase._intersections	pygeodesy.booleans._CompositeBase-class.html#_intersections
 pygeodesy.booleans._CompositeBase.__iter__	pygeodesy.booleans._CompositeBase-class.html#__iter__
@@ -5493,7 +5489,6 @@ pygeodesy.booleans._CompositeBase._points	pygeodesy.booleans._CompositeBase-clas
 pygeodesy.booleans.BooleanFHP.__init__	pygeodesy.booleans.BooleanFHP-class.html#__init__
 pygeodesy.booleans._CompositeFHP._identicals	pygeodesy.booleans._CompositeFHP-class.html#_identicals
 pygeodesy.booleans._CompositeBase._kwds	pygeodesy.booleans._CompositeBase-class.html#_kwds
-pygeodesy.booleans.BooleanFHP._ErrorOp	pygeodesy.booleans.BooleanFHP-class.html#_ErrorOp
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.booleans._CompositeBase._raiser	pygeodesy.booleans._CompositeBase-class.html#_raiser
@@ -5557,7 +5552,6 @@ pygeodesy.booleans._BooleanBase.__and__	pygeodesy.booleans._BooleanBase-class.ht
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.booleans._CompositeBase.__len__	pygeodesy.booleans._CompositeBase-class.html#__len__
 pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
-pygeodesy.booleans._CompositeBase._update_all	pygeodesy.booleans._CompositeBase-class.html#_update_all
 pygeodesy.booleans.BooleanGH._kind	pygeodesy.booleans.BooleanGH-class.html#_kind
 pygeodesy.booleans._CompositeBase._intersections	pygeodesy.booleans._CompositeBase-class.html#_intersections
 pygeodesy.booleans._CompositeGH._resultU	pygeodesy.booleans._CompositeGH-class.html#_resultU
@@ -5769,6 +5763,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.booleans._Clip._len	pygeodesy.booleans._Clip-class.html#_len
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
+pygeodesy.booleans._Clip._update_all	pygeodesy.booleans._Clip-class.html#_update_all
 pygeodesy.booleans._Clip._intersections	pygeodesy.booleans._Clip-class.html#_intersections
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
@@ -5781,6 +5776,7 @@ pygeodesy.booleans._Clip.__eq__	pygeodesy.booleans._Clip-class.html#__eq__
 pygeodesy.booleans._Clip._remove2	pygeodesy.booleans._Clip-class.html#_remove2
 pygeodesy.booleans._Clip._all	pygeodesy.booleans._Clip-class.html#_all
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
+pygeodesy.booleans._Clip._nodups	pygeodesy.booleans._Clip-class.html#_nodups
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
@@ -5806,20 +5802,20 @@ pygeodesy.booleans._CompositeBase.__str__	pygeodesy.booleans._CompositeBase-clas
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.booleans._CompositeBase.clipids	pygeodesy.booleans._CompositeBase-class.html#clipids
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
+pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.booleans._CompositeBase.raiser	pygeodesy.booleans._CompositeBase-class.html#raiser
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.booleans._CompositeBase._points	pygeodesy.booleans._CompositeBase-class.html#_points
-pygeodesy.booleans._CompositeBase._raiser	pygeodesy.booleans._CompositeBase-class.html#_raiser
+pygeodesy.booleans._CompositeBase.__init__	pygeodesy.booleans._CompositeBase-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.booleans._CompositeBase.__contains__	pygeodesy.booleans._CompositeBase-class.html#__contains__
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.booleans._CompositeBase._xtend	pygeodesy.booleans._CompositeBase-class.html#_xtend
-pygeodesy.booleans._CompositeBase.__init__	pygeodesy.booleans._CompositeBase-class.html#__init__
+pygeodesy.booleans._CompositeBase._raiser	pygeodesy.booleans._CompositeBase-class.html#_raiser
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.booleans._CompositeBase._class	pygeodesy.booleans._CompositeBase-class.html#_class
 pygeodesy.booleans._CompositeBase._LL	pygeodesy.booleans._LatLonBool-class.html
@@ -5827,7 +5823,6 @@ pygeodesy.booleans._CompositeBase.__len__	pygeodesy.booleans._CompositeBase-clas
 pygeodesy.booleans._CompositeBase.__ne__	pygeodesy.booleans._CompositeBase-class.html#__ne__
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
-pygeodesy.booleans._CompositeBase._update_all	pygeodesy.booleans._CompositeBase-class.html#_update_all
 pygeodesy.booleans._CompositeBase._kind	pygeodesy.booleans._CompositeBase-class.html#_kind
 pygeodesy.booleans._CompositeBase._intersections	pygeodesy.booleans._CompositeBase-class.html#_intersections
 pygeodesy.booleans._CompositeBase._left_right_eps	pygeodesy.booleans._CompositeBase-class.html#_left_right_eps
@@ -5844,7 +5839,7 @@ pygeodesy.booleans._CompositeBase._bottom_top_eps	pygeodesy.booleans._CompositeB
 pygeodesy.booleans._CompositeBase._10eps	pygeodesy.booleans._CompositeBase-class.html#_10eps
 pygeodesy.booleans._CompositeBase._clipids	pygeodesy.booleans._CompositeBase-class.html#_clipids
 pygeodesy.booleans._CompositeBase._clips	pygeodesy.booleans._CompositeBase-class.html#_clips
-pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
+pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
 pygeodesy.booleans._CompositeBase._kwds	pygeodesy.booleans._CompositeBase-class.html#_kwds
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.booleans._CompositeBase.eps	pygeodesy.booleans._CompositeBase-class.html#eps
@@ -5866,7 +5861,7 @@ pygeodesy.booleans._CompositeBase.__str__	pygeodesy.booleans._CompositeBase-clas
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.booleans._CompositeBase.clipids	pygeodesy.booleans._CompositeBase-class.html#clipids
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
+pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.booleans._CompositeBase.raiser	pygeodesy.booleans._CompositeBase-class.html#raiser
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
@@ -5874,7 +5869,7 @@ pygeodesy.named._Named._unstr	pygeodesy.named._Named-class.html#_unstr
 pygeodesy.booleans._CompositeFHP._presults	pygeodesy.booleans._CompositeFHP-class.html#_presults
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.booleans._CompositeBase._points	pygeodesy.booleans._CompositeBase-class.html#_points
-pygeodesy.booleans._CompositeBase._raiser	pygeodesy.booleans._CompositeBase-class.html#_raiser
+pygeodesy.booleans._CompositeFHP.__init__	pygeodesy.booleans._CompositeFHP-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
 pygeodesy.booleans._CompositeFHP._2splits	pygeodesy.booleans._CompositeFHP-class.html#_2splits
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
@@ -5885,7 +5880,7 @@ pygeodesy.booleans._CompositeFHP._set_entry_exits	pygeodesy.booleans._CompositeF
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.booleans._CompositeBase._xtend	pygeodesy.booleans._CompositeBase-class.html#_xtend
-pygeodesy.booleans._CompositeFHP.__init__	pygeodesy.booleans._CompositeFHP-class.html#__init__
+pygeodesy.booleans._CompositeBase._raiser	pygeodesy.booleans._CompositeBase-class.html#_raiser
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.booleans._CompositeBase._class	pygeodesy.booleans._CompositeBase-class.html#_class
 pygeodesy.booleans._CompositeFHP._LL	pygeodesy.booleans.LatLonFHP-class.html
@@ -5895,7 +5890,6 @@ pygeodesy.booleans._CompositeFHP._Union	pygeodesy.booleans._CompositeFHP-class.h
 pygeodesy.booleans._CompositeFHP._classify	pygeodesy.booleans._CompositeFHP-class.html#_classify
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
-pygeodesy.booleans._CompositeBase._update_all	pygeodesy.booleans._CompositeBase-class.html#_update_all
 pygeodesy.booleans._CompositeBase._kind	pygeodesy.booleans._CompositeBase-class.html#_kind
 pygeodesy.booleans._CompositeBase._intersections	pygeodesy.booleans._CompositeBase-class.html#_intersections
 pygeodesy.booleans._CompositeFHP._splits_xings	pygeodesy.booleans._CompositeFHP-class.html#_splits_xings
@@ -5913,7 +5907,7 @@ pygeodesy.booleans._CompositeBase._bottom_top_eps	pygeodesy.booleans._CompositeB
 pygeodesy.booleans._CompositeBase._10eps	pygeodesy.booleans._CompositeBase-class.html#_10eps
 pygeodesy.booleans._CompositeBase._clipids	pygeodesy.booleans._CompositeBase-class.html#_clipids
 pygeodesy.booleans._CompositeBase._clips	pygeodesy.booleans._CompositeBase-class.html#_clips
-pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
+pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
 pygeodesy.booleans._CompositeFHP._special_cases	pygeodesy.booleans._CompositeFHP-class.html#_special_cases
 pygeodesy.booleans._CompositeBase._kwds	pygeodesy.booleans._CompositeBase-class.html#_kwds
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
@@ -5927,7 +5921,6 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.named._Named.__matmul__	pygeodesy.named._Named-class.html#__matmul__
 pygeodesy.booleans._CompositeFHP._2xings	pygeodesy.booleans._CompositeFHP-class.html#_2xings
-pygeodesy.booleans._CompositeFHP._reset	pygeodesy.booleans._CompositeFHP-class.html#_reset
 pygeodesy.booleans._CompositeBase._eps	pygeodesy.booleans._CompositeBase-class.html#_eps
 pygeodesy.booleans._CompositeGH	pygeodesy.booleans._CompositeGH-class.html
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
@@ -5938,7 +5931,7 @@ pygeodesy.booleans._CompositeBase.__str__	pygeodesy.booleans._CompositeBase-clas
 pygeodesy.named._Named.__imatmul__	pygeodesy.named._Named-class.html#__imatmul__
 pygeodesy.booleans._CompositeBase.clipids	pygeodesy.booleans._CompositeBase-class.html#clipids
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
-pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
+pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
 pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.booleans._CompositeBase.raiser	pygeodesy.booleans._CompositeBase-class.html#raiser
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
@@ -5962,7 +5955,6 @@ pygeodesy.booleans._CompositeBase.__ne__	pygeodesy.booleans._CompositeBase-class
 pygeodesy.booleans._CompositeGH._presults	pygeodesy.booleans._CompositeGH-class.html#_presults
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
-pygeodesy.booleans._CompositeBase._update_all	pygeodesy.booleans._CompositeBase-class.html#_update_all
 pygeodesy.booleans._CompositeBase._kind	pygeodesy.booleans._CompositeBase-class.html#_kind
 pygeodesy.booleans._CompositeBase._intersections	pygeodesy.booleans._CompositeBase-class.html#_intersections
 pygeodesy.booleans._CompositeBase._left_right_eps	pygeodesy.booleans._CompositeBase-class.html#_left_right_eps
@@ -5980,7 +5972,7 @@ pygeodesy.booleans._CompositeBase._bottom_top_eps	pygeodesy.booleans._CompositeB
 pygeodesy.booleans._CompositeBase._10eps	pygeodesy.booleans._CompositeBase-class.html#_10eps
 pygeodesy.booleans._CompositeBase._clipids	pygeodesy.booleans._CompositeBase-class.html#_clipids
 pygeodesy.booleans._CompositeBase._clips	pygeodesy.booleans._CompositeBase-class.html#_clips
-pygeodesy.booleans._CompositeBase.toLatLon	pygeodesy.booleans._CompositeBase-class.html#toLatLon
+pygeodesy.booleans._CompositeBase._edges3	pygeodesy.booleans._CompositeBase-class.html#_edges3
 pygeodesy.booleans._CompositeBase.__contains__	pygeodesy.booleans._CompositeBase-class.html#__contains__
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.booleans._CompositeBase.eps	pygeodesy.booleans._CompositeBase-class.html#eps
@@ -11495,6 +11487,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -11655,6 +11648,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -11815,6 +11809,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -11975,6 +11970,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -12135,6 +12131,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -12295,6 +12292,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -12455,6 +12453,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -12615,6 +12614,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag
@@ -13999,6 +13999,7 @@ pygeodesy.fsums.Fsum.__itruediv__	pygeodesy.fsums.Fsum-class.html#__itruediv__
 pygeodesy.fsums.Fsum.__isub__	pygeodesy.fsums.Fsum-class.html#__isub__
 pygeodesy.fsums.Fsum.__rdivmod__	pygeodesy.fsums.Fsum-class.html#__rdivmod__
 pygeodesy.fsums.Fsum._Error	pygeodesy.fsums.Fsum-class.html#_Error
+pygeodesy.fsums.Fsum.__invert__	pygeodesy.fsums.Fsum-class.html#__invert__
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.fsums.Fsum.fpow	pygeodesy.fsums.Fsum-class.html#fpow
 pygeodesy.fsums.Fsum.imag	pygeodesy.fsums.Fsum-class.html#imag

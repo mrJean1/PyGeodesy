@@ -452,17 +452,17 @@
     <li> <strong class="uidlink"><a href="pygeodesy.booleans._BooleanBase-class.html">pygeodesy.booleans._BooleanBase</a></strong>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanFHP-class.html">pygeodesy.booleans.BooleanFHP</a></strong>:
-      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using <a 
         href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
         target="_top">Forster-Hormann-Popa</a>'s C++ implementation, 
         transcoded to pure Python.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanGH-class.html">pygeodesy.booleans.BooleanGH</a></strong>:
-      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm, <a 
+        target="_top">Greiner-Hormann</a> algorithm and <a 
         href="https://GitHub.com/helderco/univ-polyclip" 
         target="_top">Correia</a>'s implementation, modified and extended.</em>
     </li>
@@ -826,23 +826,27 @@
         class="link">LatLonFHP</a> or <a 
         href="pygeodesy.booleans.LatLonGH-class.html" 
         class="link">LatLonGH</a> points, duplicates and intersections with
-        other <code>_Clip</code>s.</em>
+        other clips.</em>
     <ul>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans._CompositeBase-class.html">pygeodesy.booleans._CompositeBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for <code>_CompositeFHP</code> and 
-        <code>_CompositeGH</code>.</em>
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.booleans.BooleanFHP-class.html" 
+        class="link">BooleanFHP</a> and <a 
+        href="pygeodesy.booleans.BooleanGH-class.html" 
+        class="link">BooleanGH</a> (<code>_CompositeFHP</code> and 
+        <code>_CompositeGH</code>).</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans._CompositeFHP-class.html">pygeodesy.booleans._CompositeFHP</a></strong>:
-      <em class="summary">(INTERNAL) A list of <code>_Clips</code> representing a 
-        <i>composite</i> of <a 
+      <em class="summary">(INTERNAL) A list of clips representing a <i>composite</i> of <a 
         href="pygeodesy.booleans.LatLonFHP-class.html" 
-        class="link">LatLonFHP</a> points, duplicates and intersections.</em>
+        class="link">LatLonFHP</a> points, duplicates and intersections 
+        with an other <i>composite</i>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanFHP-class.html">pygeodesy.booleans.BooleanFHP</a></strong>:
-      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using <a 
         href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
         target="_top">Forster-Hormann-Popa</a>'s C++ implementation, 
         transcoded to pure Python.</em>
@@ -850,16 +854,16 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans._CompositeGH-class.html">pygeodesy.booleans._CompositeGH</a></strong>:
-      <em class="summary">(INTERNAL) A list of <code>_Clips</code> representing a 
-        <i>composite</i> of <a 
+      <em class="summary">(INTERNAL) A list of clips representing a <i>composite</i> of <a 
         href="pygeodesy.booleans.LatLonGH-class.html" 
-        class="link">LatLonGH</a> points, duplicates and intersections.</em>
+        class="link">LatLonGH</a> points, duplicates and intersections with
+        an other <i>composite</i>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.BooleanGH-class.html">pygeodesy.booleans.BooleanGH</a></strong>:
-      <em class="summary"><i>Composite</i> polygon class providing <i>boolean</i> operations 
-        between two <i>composite</i> polygons using the <a 
+      <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
+        two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm, <a 
+        target="_top">Greiner-Hormann</a> algorithm and <a 
         href="https://GitHub.com/helderco/univ-polyclip" 
         target="_top">Correia</a>'s implementation, modified and extended.</em>
     </li>
@@ -1105,12 +1109,12 @@
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.LatLonFHP-class.html">pygeodesy.booleans.LatLonFHP</a></strong>:
       <em class="summary">A point or intersection in a <a 
         href="pygeodesy.booleans.BooleanFHP-class.html" 
-        class="link">BooleanFHP</a> clip.</em>
+        class="link">BooleanFHP</a> clip or composite.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.booleans.LatLonGH-class.html">pygeodesy.booleans.LatLonGH</a></strong>:
       <em class="summary">A point or intersection in a <a 
         href="pygeodesy.booleans.BooleanGH-class.html" 
-        class="link">BooleanGH</a> clip.</em>
+        class="link">BooleanGH</a> clip or composite.</em>
     </li>
     </ul>
     </li>
@@ -2784,12 +2788,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
         class="link">Height</a> but to distinguish the interpolated height 
-        at an intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a> in
-        <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
-        class="link">ClipFHP4Tuple</a> and <a 
-        href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
-        class="link">ClipGH4Tuple</a>.</em>
+        at a clip intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
     </li>
     </ul>
     </li>
@@ -3092,12 +3092,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.units.HeightX-class.html">pygeodesy.units.HeightX</a></strong>:
       <em class="summary">Like <a href="pygeodesy.units.Height-class.html" 
         class="link">Height</a> but to distinguish the interpolated height 
-        at an intersection from an original <a 
-        href="pygeodesy.units.Height-class.html" class="link">Height</a> in
-        <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
-        class="link">ClipFHP4Tuple</a> and <a 
-        href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
-        class="link">ClipGH4Tuple</a>.</em>
+        at a clip intersection from an original <a 
+        href="pygeodesy.units.Height-class.html" class="link">Height</a>.</em>
     </li>
     </ul>
     </li>
@@ -4014,7 +4010,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 14 14:52:07 2023
+    Generated by Epydoc 3.0.1 on Sat Mar 18 12:28:03 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

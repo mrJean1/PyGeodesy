@@ -75,8 +75,11 @@
 </dd></dl>
 
 <hr />
-<p>(INTERNAL) Base class for <code>_CompositeFHP</code> and 
-  <code>_CompositeGH</code>.</p>
+<p>(INTERNAL) Base class for <a 
+  href="pygeodesy.booleans.BooleanFHP-class.html" 
+  class="link">BooleanFHP</a> and <a 
+  href="pygeodesy.booleans.BooleanGH-class.html" class="link">BooleanGH</a>
+  (<code>_CompositeFHP</code> and <code>_CompositeGH</code>).</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -97,7 +100,10 @@
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">kind</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
-      x.__init__(...) initializes x; see help(type(x)) for signature</td>
+      (INTERNAL) See <a href="pygeodesy.booleans.BooleanFHP-class.html" 
+      class="link">BooleanFHP</a> and <a 
+      href="pygeodesy.booleans.BooleanGH-class.html" 
+      class="link">BooleanGH</a>.</td>
           <td align="right" valign="top">
             
             
@@ -114,7 +120,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__contains__"></a><span class="summary-sig-name">__contains__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">v</span>)</span></td>
+        <span class="summary-sig-arg">point</span>)</span><br />
+      Is the <b><code>point</code></b> in one of the clips?</td>
           <td align="right" valign="top">
             
             
@@ -132,7 +139,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.booleans._CompositeBase-class.html#__eq__" class="summary-sig-name">__eq__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Is this <code>composite</code> equivalent to an <code>other</code>, 
+      Is this <i>composite</i> equivalent to an <b><code>other</code></b>, 
       i.e.</td>
           <td align="right" valign="top">
             
@@ -149,7 +156,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__iter__"></a><span class="summary-sig-name">__iter__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a name="__iter__"></a><span class="summary-sig-name">__iter__</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Yield all points, duplicates and intersections.</td>
           <td align="right" valign="top">
             
             
@@ -166,7 +174,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__ne__"></a><span class="summary-sig-name">__ne__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span></td>
+        <span class="summary-sig-arg">other</span>)</span><br />
+      See method <code>__eq__</code>.</td>
           <td align="right" valign="top">
             
             
@@ -182,7 +191,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td><span class="summary-sig"><a name="__len__"></a><span class="summary-sig-name">__len__</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the <i>total</i> number of points.</td>
           <td align="right" valign="top">
             
             
@@ -250,7 +260,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.booleans._CompositeBase-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Yield all (non-duplicate) points and intersections as an instance of 
       <b><code>LatLon</code></b>.</td>
@@ -366,11 +377,13 @@
     </td>
   </tr></table>
   
-  <p>x.__init__(...) initializes x; see help(type(x)) for signature</p>
+  <p>(INTERNAL) See <a href="pygeodesy.booleans.BooleanFHP-class.html" 
+  class="link">BooleanFHP</a> and <a 
+  href="pygeodesy.booleans.BooleanGH-class.html" 
+  class="link">BooleanGH</a>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__init__
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
 </td></tr></table>
@@ -391,10 +404,10 @@
     </td>
   </tr></table>
   
-  <p>Is this <code>composite</code> equivalent to an <code>other</code>, 
-  i.e. both contain <i>equivalent</i> clips in the same or a different 
-  order?  Clips are considered <i>equivalent</i> if they have the same 
-  points in the same order, possibly rotated.</p>
+  <p>Is this <i>composite</i> equivalent to an <b><code>other</code></b>, 
+  i.e. do both contain <i>equivalent</i> clips in the same or a different 
+  order?  Two clips are considered <i>equivalent</i> if both have the same 
+  points etc. in the same order, possibly rotated.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -453,7 +466,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -466,9 +480,14 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>) or if <code>None</code>, <a 
+          href="pygeodesy.booleans.LatLonFHP-class.html" 
+          class="link">LatLonFHP</a> or <a 
+          href="pygeodesy.booleans.LatLonGH-class.html" 
+          class="link">LatLonGH</a>.</li>
+        <li><strong class="pname"><code>closed</code></strong> - If <code>True</code>, close each clip (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments.</li>
+          arguments, ignore if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -569,7 +588,7 @@ class="link">ClipError</a> exceptions (<code>bool</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 14 14:52:09 2023
+    Generated by Epydoc 3.0.1 on Sat Mar 18 12:28:04 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

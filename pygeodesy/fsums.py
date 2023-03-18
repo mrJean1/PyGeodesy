@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '22.10.09'
+__version__ = '23.03.16'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -451,6 +451,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase
         '''
         i, _ = self._fint2
         return i
+
+    def __invert__(self):  # PYCHOK no cover
+        '''Not implemented.'''
+        # Luciano Ramalho, "Fluent Python", 2nd Ed, page 567, O'Reilly, 2022
+        return _NotImplemented(self)
 
     def __ipow__(self, other, *mod):  # PYCHOK 2 vs 3 args
         '''Apply C{B{self} **= B{other}} to this instance.
