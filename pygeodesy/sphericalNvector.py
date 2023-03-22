@@ -53,12 +53,12 @@ from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      Datums, _intersecant2, LatLonSphericalBase
 from pygeodesy.units import Bearing, Bearing_, Height, Radius, Scalar
-from pygeodesy.utily import degrees360, sincos2, sincos2_, sincos2d
+from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, sincos2d
 
-from math import atan2
+# from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.01.18'
+__version__ = '23.03.19'
 
 _paths_ = 'paths'
 
@@ -257,7 +257,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        r = abs(self.toNvector().angleTo(other.toNvector(), wrap=wrap))
+        r = fabs(self.toNvector().angleTo(other.toNvector(), wrap=wrap))
         return r if radius is None else (Radius(radius) * r)
 
 #   @Property_RO
@@ -496,7 +496,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                              self.toNvector()), floats=True)  # normal vector
         # XXX are winding number optimisations equally applicable to
         # spherical surface?
-        return abs(s) > PI
+        return fabs(s) > PI
 
     @deprecated_method
     def isEnclosedBy(self, points):  # PYCHOK no cover
@@ -855,7 +855,7 @@ def areaOf(points, radius=R_M):
     s = fsum(_interangles(_Nvll.PointsIter(points, loop=2)), floats=True)
     # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
     # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-    r = abs(PI2 - abs(s))
+    r = fabs(PI2 - fabs(s))
     return r if radius is None else (r * Radius(radius)**2)
 
 

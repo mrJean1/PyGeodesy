@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d, sumOf as _sumOf, sincos2d, _xyzhdn3
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '22.10.05'
+__version__ = '23.03.19'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -652,7 +652,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
         i = X.dot(y)  # signed magnitude of x component of n1->n3
         Y = y.minus(X.times(i)).unit()  # unit vector in y direction
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
-        if abs(j) > EPS_2:
+        if fabs(j) > EPS_2:
             # courtesy of U{Carlos Freitas<https://GitHub.com/mrJean1/PyGeodesy/issues/33>}
             x = fsum_(r12, -r22, d**2) / (d * _2_0)  # n1->intersection x- and ...
             y = fsum_(r12, -r32, i**2, j**2, x * i * _N_2_0) / (j * _2_0)  # ... y-component
@@ -671,7 +671,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 kwds = _xkwds(LatLon_LatLon_kwds, height=h)
                 return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    # no intersection, d < EPS_2 or abs(j) < EPS_2 or z < EPS
+    # no intersection, d < EPS_2 or fabs(j) < EPS_2 or z < EPS
     t = _SPACE_(_no_, _intersection_, NN)
     raise IntersectionError(point1=point1, distance1=distance1,
                             point2=point2, distance2=distance2,

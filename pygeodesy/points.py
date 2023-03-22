@@ -60,10 +60,10 @@ from pygeodesy.units import Number_, Radius, Scalar, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
-from math import cos, fmod, radians, sin
+from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.03.14'
+__version__ = '23.03.19'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -226,8 +226,8 @@ class LatLon_(object):  # XXX in heights._HeightBase.height
         self.others(other)
 
         if eps:
-            return max(abs(self.lat - other.lat),
-                       abs(self.lon - other.lon)) < Scalar_(eps=eps)
+            return max(fabs(self.lat - other.lat),
+                       fabs(self.lon - other.lon)) < Scalar_(eps=eps)
         else:
             return self.lat == other.lat and \
                    self.lon == other.lon
@@ -703,8 +703,8 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         _array, _eps  = self._array, self._epsilon
         for i in self._range(*start_end):
             row = _array[i]
-            if abs(row[_ilat] - lat) <= _eps and \
-               abs(row[_ilon] - lon) <= _eps:
+            if fabs(row[_ilat] - lat) <= _eps and \
+               fabs(row[_ilon] - lon) <= _eps:
                 yield i
 
     def findall(self, latlon, *start_end):
@@ -940,8 +940,8 @@ class LatLon2psxy(_Basequence):
         _array, _eps = self._array, self._epsilon
         for i in self._range(*start_end):
             xi, yi, _ = _x_y_ll3(_array[i])
-            if abs(xi - x) <= _eps and \
-               abs(yi - y) <= _eps:
+            if fabs(xi - x) <= _eps and \
+               fabs(yi - y) <= _eps:
                 yield i
 
     def findall(self, xy, *start_end):
@@ -1141,7 +1141,7 @@ def _area2(points, adjust, wrap):
         # the top width by the cosine of the latitudinal
         # average and bottom width by some fudge factor
         def _adjust(w, h):
-            c = cos(h) if abs(h) < PI_2 else _0_0
+            c = cos(h) if fabs(h) < PI_2 else _0_0
             return w * h * (c + 1.2876) * _0_5
     else:
         def _adjust(w, h):  # PYCHOK expected
@@ -1198,7 +1198,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
              L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
     '''
     a, _ = _area2(points, adjust, wrap)
-    return abs(a) if radius is None else (abs(a) * Radius(radius)**2)
+    return fabs(a if radius is None else (Radius(radius)**2 * a))
 
 
 def boundsOf(points, wrap=True, LatLon=None):
@@ -1492,7 +1492,7 @@ def isconvex_(points, adjust=False, wrap=True):
         x21, x2 = unroll180(x1, x2, wrap=w)
         if a:
             y = radians(y1 + y2) * _0_5
-            x21 *= cos(y) if abs(y) < PI_2 else _0_0
+            x21 *= cos(y) if fabs(y) < PI_2 else _0_0
         return x21, x2
 
     c, s = crosserrors(), 0
@@ -1595,11 +1595,11 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     for i, p in Ps.enumerate(closed=True):
         dx, x2, y2 = _dxy3(x1, p.x, p.y, (wrap if i else False))
         # ignore duplicate and near-duplicate pts
-        if max(abs(dx), abs(y2 - y1)) > EPS:
+        if max(fabs(dx), fabs(y2 - y1)) > EPS:
             # determine if polygon edge (x1, y1)..(x2, y2) straddles
             # point (lat, lon) or is on boundary, but do not count
             # edges on boundary as more than one crossing
-            if abs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
+            if fabs(dx) < 180 and (x1 < x0 <= x2 or x2 < x0 <= x1):
                 m = not m
                 dy = (x0 - x1) * (y2 - y1) - (y0 - y1) * dx
                 if (dy > 0 and dx >= 0) or (dy < 0 and dx <= 0):
@@ -1648,7 +1648,7 @@ def ispolar(points, wrap=False):
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     s = fsum(_cds(points, wrap))
     # XXX fix (intermittant) edge crossing pole - eg (85,90), (85,0), (85,-90)
-    return abs(s) < 90  # "zero-ish"
+    return fabs(s) < 90  # "zero-ish"
 
 
 def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):

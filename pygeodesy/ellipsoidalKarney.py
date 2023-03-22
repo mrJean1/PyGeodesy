@@ -34,13 +34,15 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import _polygon, _xkwds
+from pygeodesy.karney import fabs, _polygon, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_method, Property_RO
 
+# from math import fabs  # from .karney
+
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '22.07.07'
+__version__ = '23.03.20'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -151,14 +153,14 @@ def areaOf(points, datum=_WGS84, wrap=True):
               C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}
               can be found by adding half the datum's ellipsoid surface area to the polygon's area.
     '''
-    return abs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap))
+    return fabs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap))
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection point of two paths, each defined
-       by two (ellipsoidal) points or by an (ellipsoidal) start point and a
-       bearing from North.
+       by two (ellipsoidal) points or by an (ellipsoidal) start point and an
+       initial bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
        @arg end1: End point of the first path (L{LatLon}) or the initial bearing

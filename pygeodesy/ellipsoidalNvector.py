@@ -38,7 +38,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
                                 sincos2d_, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
-from pygeodesy.nvectorBase import fdot, NorthPole, LatLonNvectorBase, \
+from pygeodesy.nvectorBase import fabs, fdot, NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO
@@ -46,8 +46,10 @@ from pygeodesy.streprs import Fmt, fstr, _xzipairs
 from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from pygeodesy.utily import sincos2d_  # from .ltpTuples
 
+# from math import fabs  # from .nvectorBase
+
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '22.09.20'
+__version__ = '23.03.19'
 
 
 class Ned(_Ned):
@@ -314,7 +316,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
         d = self.datum if radius is None else _spherical_datum(radius)
-        return abs(a) * d.ellipsoid.R1  # see .utily.radians2m
+        return fabs(a) * d.ellipsoid.R1  # see .utily.radians2m
 
     @Property_RO
     def Ecef(self):

@@ -68,10 +68,10 @@ from pygeodesy.units import Bearing, Easting, Lat_, Lon_, \
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, \
                             sincos2d, sincos2d_
 
-from math import acos, atan, atan2, degrees, sin, sqrt
+from math import acos, atan, atan2, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '22.10.11'
+__version__ = '23.03.21'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -164,6 +164,13 @@ class _AzimuthalBase(_NamedBase):
                                   name=name or self.name)
         return t
 
+    def _forwards(self, *lls):
+        '''(INTERNAL) One or more C{.forward} calls, see .ellipsoidalBaseDI.
+        '''
+        _fwd = self.forward
+        for ll in lls:
+            yield _fwd(ll.lat, ll.lon)
+
     @Property_RO
     def lat0(self):
         '''Get the center latitude (C{degrees90}).
@@ -246,7 +253,7 @@ class _AzimuthalBase(_NamedBase):
             if r > EPS0:
                 s += c0 * sc * (n / r)
             lat = degrees(asin1(s))
-            if lea or abs(c0) > EPS:
+            if lea or fabs(c0) > EPS:
                 d = atan2d(e * sc, r * c0 * cc - n * s0 * sc)
             else:
                 d = atan2d(e, (n if s0 < 0 else -n))
@@ -259,11 +266,11 @@ class _AzimuthalBase(_NamedBase):
             t = self._toLatLon(lat, lon, LatLon, LatLon_kwds, name)
         return t
 
-    def _reverse2(self, x, y):
+    def _reverse2(self, x_t, *y):
         '''(INTERNAL) See iterating functions .ellipsoidalBaseDI._intersect3,
            .ellipsoidalBaseDI._intersects2 and .ellipsoidalBaseDI._nearestOne.
         '''
-        t = self.reverse(x, y)  # LatLon=None
+        t = self.reverse(x_t, *y) if y else self.reverse(x_t.x, x_t.y)  # LatLon=None
         d = euclid(t.lat - self.lat0, t.lon - self.lon0)  # degrees
         return t, d
 
@@ -361,7 +368,7 @@ class Equidistant(_AzimuthalBase):
         '''
         def _k_t(c):
             k = _N_1_0 if c < 0 else _1_0
-            t =  abs(c) < EPS1
+            t =  fabs(c) < EPS1
             if t:
                 a = acos(c)
                 s = sin(a)
@@ -814,7 +821,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
         _S2 = Fsum(s).fsum2_
         for i in range(1, _TRIPS):
             r = P(s, m)
-            if abs(d) < a:
+            if fabs(d) < a:
                 break
             s, d = _S2(_d(r, q))
         else:  # PYCHOK no cover

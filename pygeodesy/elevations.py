@@ -25,11 +25,13 @@ from pygeodesy.interns import NN, _AMPERSAND_, _COLONSPACE_, \
                              _n_a_, _no_, _RCURLY_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
-from pygeodesy.streprs import Fmt, fstr, lrstrip
+from pygeodesy.streprs import fabs, Fmt, fstr, lrstrip
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
+# from math import fabs  # from .karney
+
 __all__ = _ALL_LAZY.elevations
-__version__ = '22.10.28'
+__version__ = '23.03.19'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -169,7 +171,7 @@ def elevation2(lat, lon, timeout=2.0):
             e = _xml('Elevation', x)
             try:
                 e = float(e)
-                if abs(e) < 1e6:
+                if fabs(e) < 1e6:
                     return Elevation2Tuple(e, _xml('Data_Source', x))
                 e = 'non-CONUS %.2F' % (e,)
             except (TypeError, ValueError):

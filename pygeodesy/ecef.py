@@ -78,10 +78,10 @@ from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Phi, Scalar, Scal
 from pygeodesy.utily import atan2d, degrees90, degrees180, sincos2, sincos2_, \
                             sincos2d_
 
-from math import asin, atan2, cos, degrees, radians, sqrt
+from math import asin, atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '22.10.12'
+__version__ = '23.03.19'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -450,7 +450,7 @@ class EcefFarrell22(_EcefBase):
             if c:  # E.roc1_(s) = E.a / sqrt(1 - E.e2 * s**2)
                 h = p / c - (E.roc1_(s) if s else a)
             else:  # polar
-                h = abs(z) - b
+                h = fabs(z) - b
             # note, phi and lam are swapped on page 30
 
         except (ValueError, ZeroDivisionError) as e:
@@ -647,7 +647,7 @@ class EcefSudano(_EcefBase):
         d = e - h
 
         a = atan2(z, h * E.e21)
-        sa, ca = sincos2(abs(a))
+        sa, ca = sincos2(fabs(a))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
         # replacing Rn from Eq (A-4) with n = E.a / ca:
         # N = ca**2 * ((z + E.e2 * n * sa) * ca - h * sa)
@@ -666,11 +666,11 @@ class EcefSudano(_EcefBase):
                 break
             ca = sqrt(ca2)
             r = e / E.e2s2(sa) - h / ca2
-            if abs(r) < EPS_2:
+            if fabs(r) < EPS_2:
                 break
             a = None
             sa, r = _S2_(-z * ca / r, -d * sa / r)
-            if abs(r) < tol:
+            if fabs(r) < tol:
                 break
         else:
             t = unstr(self.reverse, x=x, y=y, z=z)
@@ -678,9 +678,9 @@ class EcefSudano(_EcefBase):
 
         if a is None:
             a = copysign0(asin(sa), z)
-        h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
+        h = fsum_(h * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness',
         # since Sudano's Eq (7) doesn't provide the correct height
-        # h = (abs(z) + h - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
+        # h = (fabs(z) + h - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
 
         r = Ecef9Tuple(x, y, z, degrees90(a), atan2d(y, x), h,
                                 C, None, self.datum,
@@ -776,7 +776,7 @@ class EcefVeness(_EcefBase):
             C, lat, lon, h = 2, _0_0, atan2d(y, x), p - E.a
 
         else:  # polar lat, lon arbitrarily zero
-            C, lat, lon, h = 3, copysign0(_90_0, z), _0_0, abs(z) - E.b
+            C, lat, lon, h = 3, copysign0(_90_0, z), _0_0, fabs(z) - E.b
 
         return Ecef9Tuple(x, y, z, lat, lon, h,
                                    C, None,  # M=None
@@ -885,7 +885,7 @@ class EcefMatrix(_NamedTuple):
         if _more:  # all 9 matrix elements ...
             t += _more  # ... from .multiply
 
-        elif max(map(abs, t)) > _1_0:
+        elif max(map(fabs, t)) > _1_0:
             raise EcefError(unstr(EcefMatrix.__name__, *t))
 
         else:  # build matrix from the following quaternion operations

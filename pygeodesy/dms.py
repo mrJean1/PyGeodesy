@@ -70,14 +70,14 @@ from pygeodesy.interns import NN, _arg_, _COMMA_, _d_, _DASH_, _deg_, _degrees_,
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.streprs import Fmt, fstr, fstrzs, _0wpF
 
-from math import modf, radians
+from math import fabs, modf, radians
 try:
     from string import letters as _LETTERS
 except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '22.09.24'
+__version__ = '23.03.19'
 
 _beyond_      = 'beyond'
 _DDDMMSS_     = 'DDDMMSS'
@@ -198,7 +198,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff, s_D_M_S):  # MCCABE 13 in .units
         p = abs(z)
     w = p + (1 if p else 0)
     z = fstrzs if z > 1 else _fstrzs
-    d = abs(deg)
+    d = fabs(deg)
 
     if F is F_DMS:  # 'deg+min+sec', default
         D, M, S = _DMS3(form, **s_D_M_S)
@@ -401,7 +401,7 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
     except (TypeError, ValueError) as x:
         raise _ValueError(deg=deg, prec=prec, cause=x)
 
-    d, s = abs(deg), s_D
+    d, s = fabs(deg), s_D
     if d < 1:
         if s_M:
             d *= _60_0

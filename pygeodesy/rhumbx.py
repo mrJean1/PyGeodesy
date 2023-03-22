@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '22.10.11'
+__version__ = '23.03.19'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -1116,7 +1116,7 @@ if __name__ == '__main__':
     def _re(fmt, r3, x3):
         e3 = []
         for r, x in _zip(r3, x3):  # strict=True
-            e = abs(r - x) / abs(x)
+            e = fabs(r - x) / fabs(x)
             e3.append('%.g' % (e,))
         print((fmt % r3) + ' rel errors: ' + ', '.join(e3))
 

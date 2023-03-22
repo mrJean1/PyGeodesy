@@ -47,7 +47,7 @@ from pygeodesy.units import Float, Int
 from math import ceil as _ceil, fabs, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '23.03.16'
+__version__ = '23.03.19'
 
 _add_op_       = _PLUS_
 _eq_op_        = _EQUAL_ * 2  # _DEQUAL_
@@ -211,8 +211,8 @@ def _2sum(a, b):  # by .testFmath
         u = unstr(_2sum.__name__, a, b)
         t = Fmt.PARENSPACED(_not_finite_, s)
         raise _OverflowError(u, txt=t)
-    r = (a - (s - b)) if abs(a) <  abs(b) else \
-        (b - (s - a))  # abs(a) >= abs(b)
+    r = (a - (s - b)) if fabs(a) <  fabs(b) else \
+        (b - (s - a))  # fabs(a) >= fabs(b)
     return s, r
 
 

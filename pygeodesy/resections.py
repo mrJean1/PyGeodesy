@@ -25,10 +25,10 @@ from pygeodesy.units import Degrees, Distance, Radians
 from pygeodesy.utily import acos1, asin1, sincos2, sincos2_, sincos2d, sincos2d_
 from pygeodesy.vector3d import _otherV3d, Vector3d
 
-from math import cos, atan2, degrees, radians, sin, sqrt
+from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '22.09.24'
+__version__ = '23.03.19'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -401,11 +401,11 @@ def snellius3(a, b, degC, alpha, beta):
         x = k + w
         y = k - w
 
-        s = abs(sa)
-        if abs(sb) > s:
-            pc = abs(a * sin(y) / sb)
+        s = fabs(sa)
+        if fabs(sb) > s:
+            pc = fabs(a * sin(y) / sb)
         elif s:
-            pc = abs(b * sin(x) / sa)
+            pc = fabs(b * sin(x) / sa)
         else:
             raise ValueError(_or(_colinear_, _coincident_))
 
@@ -488,7 +488,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
             sc = fsum_(PI2, -sa, -sb)
         else:  # subtended angles must add to 360 degrees
             r = fsum1_(sa, sb, sc)
-            if abs(r - PI2) > EPS:
+            if fabs(r - PI2) > EPS:
                 raise ValueError(Fmt.EQUAL(sum=degrees(r)))
         if min(sa, sb, sc) < 0:
             raise ValueError(_negative_)
@@ -697,7 +697,7 @@ def _triSide2(b, c, radB):
         if cB < 0:
             a, rA = (b + c), PI
         else:
-            a, rA = abs(b - c), _0_0
+            a, rA = fabs(b - c), _0_0
     elif isnear0(b):
         raise ValueError(_invalid_)
     else:

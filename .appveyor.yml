@@ -9,18 +9,30 @@ environment:
 
   matrix:
     # <http://www.AppVeyor.com/docs/windows-images-software/#python>
+    - APPVEYOR_JOB_NAME: "Python311-64bit"
+      PYTHON: "C:\\Python311-x64"
+    - APPVEYOR_JOB_NAME: "Python311-64bit-isLazy-0"
+      PYTHON: "C:\\Python311-x64"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYGEODESY_LAZY_IMPORT: "0"
+
     - APPVEYOR_JOB_NAME: "Python27-64bit"
       PYTHON: "C:\\Python27-x64"
     - APPVEYOR_JOB_NAME: "Python27-32bit"
       PYTHON: "C:\\Python27"
-    # Python-26 no longer supported
 
-    - APPVEYOR_JOB_NAME: "Python39-64bit"
-      PYTHON: "C:\\Python39-x64"
-    - APPVEYOR_JOB_NAME: "Python39-64bit-isLazy-0"
-      PYTHON: "C:\\Python39-x64"
-      PYTHONDONTWRITEBYTECODE: "1"
+#   - APPVEYOR_JOB_NAME: "Python310"
+#     PYTHON: "C:\\Python310"
+    - APPVEYOR_JOB_NAME: "Python310-64bit-isLazy-0"
+      PYTHON: "C:\\Python310-x64"
       PYGEODESY_LAZY_IMPORT: "0"
+
+#   - APPVEYOR_JOB_NAME: "Python39-64bit"
+#     PYTHON: "C:\\Python39-x64"
+#   - APPVEYOR_JOB_NAME: "Python39-64bit"
+#     PYTHON: "C:\\Python39-x64"
+#     PYTHONDONTWRITEBYTECODE: "1"
+#     PYGEODESY_LAZY_IMPORT: "0"
 #   - APPVEYOR_JOB_NAME: "Python39-32bit"
 #     PYTHON: "C:\\Python39"
 #   - APPVEYOR_JOB_NAME: "Python39-32bit-isLazy-0"
@@ -28,36 +40,6 @@ environment:
 #     PYTHONDONTWRITEBYTECODE: "1"
 #     PYGEODESY_LAZY_IMPORT: "0"
 
-    - APPVEYOR_JOB_NAME: "Python38-64bit"
-      PYTHON: "C:\\Python38-x64"
-    - APPVEYOR_JOB_NAME: "Python38-64bit-isLazy-0"
-      PYTHON: "C:\\Python38-x64"
-      PYTHONDONTWRITEBYTECODE: "1"
-      PYGEODESY_LAZY_IMPORT: "0"
-#   - APPVEYOR_JOB_NAME: "Python38-32bit"
-#     PYTHON: "C:\\Python38"
-#   - APPVEYOR_JOB_NAME: "Python38-32bit-isLazy-0"
-#     PYTHON: "C:\\Python38"
-#     PYTHONDONTWRITEBYTECODE: "1"
-#     PYGEODESY_LAZY_IMPORT: "0"
-
-#   - APPVEYOR_JOB_NAME: "Python37-64bit"
-#     PYTHON: "C:\\Python37-x64"
-#   - APPVEYOR_JOB_NAME: "Python37-64bit-isLazy-0"
-#     PYTHON: "C:\\Python37-x64"
-#     PYTHONDONTWRITEBYTECODE: "1"
-#     PYGEODESY_LAZY_IMPORT: "0"
-#   - APPVEYOR_JOB_NAME: "Python37-32bit"
-#     PYTHON: "C:\\Python37"
-#   - APPVEYOR_JOB_NAME: "Python37-32bit-isLazy-0"
-#     PYTHON: "C:\\Python37"
-#     PYTHONDONTWRITEBYTECODE: "1"
-#     PYGEODESY_LAZY_IMPORT: "0"
-
-#   - APPVEYOR_JOB_NAME: "Python36-64bit"
-#     PYTHON: "C:\\Python36-x64"
-#   - APPVEYOR_JOB_NAME: "Python36-32bit"
-#     PYTHON: "C:\\Python36"
 
 install:
   # symlink python from a directory with a space

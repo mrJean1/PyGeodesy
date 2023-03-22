@@ -37,10 +37,10 @@ from pygeodesy.datums import Datum, Ellipsoid, _spherical_datum, _WGS84
 # from pygeodesy.errors import _ValueError  # from .streprs
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, _hypot21_, norm2
 from pygeodesy.fsums import Fsum, fsum_, isscalar, Property_RO
-from pygeodesy.interns import NN, _a_, _b_, _c_, _distant_, _height_, _inside_, \
-                             _near_, _not_, _NL_, _NLATvar_, _NOTEQUAL_, _null_, \
-                             _opposite_, _outside_, _SPACE_, _spherical_, _too_, \
-                             _x_, _y_,  _COMMA_  # PYCHOK used!
+from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _height_, \
+                             _inside_, _near_, _not_, _NL_, _NLATvar_, _NOTEQUAL_, \
+                             _null_, _opposite_, _outside_, _SPACE_, _spherical_, \
+                             _too_,  _x_, _y_,  _COMMA_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
                             _NamedTuple, _Pass, _lazyNamedEnumItem as _lazy
@@ -54,10 +54,11 @@ from pygeodesy.vector3d import _ALL_LAZY, _MODS, _otherV3d, Vector3d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '23.02.07'
+__version__ = '23.03.20'
 
 _E            = _WGS84.ellipsoid
 _not_ordered_ = _not_('ordered')
+_omega_       = 'omega'
 _TRIPS        =  537  # max 55, Eberly 1074?
 _WGS84_35abc  = _E.a + 35, _E.a - 35, _E.b
 del _E
@@ -90,7 +91,7 @@ class BetaOmega2Tuple(_NamedTuple, _ToNamedBase):
        longitude C{beta} and C{omega} both in C{Radians} (or
        C{Degrees}).
     '''
-    _Names_ = ('beta', 'omega')
+    _Names_ = (_beta_, _omega_)
     _Units_ = (_Pass,  _Pass)
 
     def toDegrees(self, **toDMS_kwds):
@@ -565,7 +566,7 @@ class Triaxial_(_NamedEnumItem):
            @return: An L{Ellipsoid} with north along this C{Z} axis if C{a == b},
                     this C{Y} axis if C{a == c} or this C{X} axis if C{b == c}.
 
-           @raise TriaxialError: This C{a} != C{b}, C{b} != C{c} and C{c} != C{a}.
+           @raise TriaxialError: This C{a != b}, C{b != c} and C{c != a}.
 
            @see: Method L{Ellipsoid.toTriaxial}.
         '''
@@ -648,7 +649,8 @@ class Triaxial(Triaxial_):
             s2 = self.  e2ac  # sin(phi)**2 == 1 - c2
             s  = sqrt(s2)
             r  = asin1(s)  # phi == atan2(sqrt(c2), s)
-            b *= fsum_(aE.fE(r) * s, aE.fF(r) * c2 / s, c / a * c / b, floats=True)
+            b *= fsum_(aE.fE(r) * s, c / a * c / b,
+                       aE.fF(r) * c2 / s, floats=True)
             a  = Meter2(area=a * b * PI2)
         else:  # a == b > c
             a  = Ellipsoid(a, b=c).areax

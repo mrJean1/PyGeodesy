@@ -36,10 +36,10 @@ from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
 
-from math import ldexp, log10, radians
+from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '22.10.11'
+__version__ = '23.03.19'
 
 
 class _GH(object):
@@ -716,8 +716,8 @@ def encode(lat, lon, precision=None):
         for p in range(1, _MaxPrec + 1):
             gh = encode(lat, lon, p)
             ll = map2(float, decode(gh))
-            if abs(lat - ll[0]) < EPS and \
-               abs(lon - ll[1]) < EPS:
+            if fabs(lat - ll[0]) < EPS and \
+               fabs(lon - ll[1]) < EPS:
                 return gh
         p = _MaxPrec
     else:

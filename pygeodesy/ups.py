@@ -45,10 +45,10 @@ from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
                                 _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                 _UPS_ZONE_STR, UtmUpsBase
 
-from math import atan, atan2, radians, tan
+from math import atan, atan2, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '22.10.05'
+__version__ = '23.03.19'
 
 _BZ_UPS  = _getenv('PYGEODESY_UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -200,7 +200,7 @@ class Ups(UtmUpsBase):
            @raise UPSError: Invalid B{C{scale}}.
         '''
         s0 = Float_(scale0=scale0, Error=UPSError, low=EPS)  # <= 1.003 or 1.0016?
-        u  = toUps8(abs(Lat(lat)), _0_0, datum=self.datum, Ups=_Ups_K1)
+        u  = toUps8(fabs(Lat(lat)), _0_0, datum=self.datum, Ups=_Ups_K1)
         k  = s0 / u.scale
         if self.scale0 != k:
             _update_all(self)
@@ -497,7 +497,7 @@ def upsZoneBand5(lat, lon, strict=True, name=NN):
        @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
     '''
     z, lat, lon = _to3zll(*parseDMS2(lat, lon))
-    if _BZ_UPS and lon < 0 and isnear90(abs(lat), eps90=_Tol90):  # DMA TM8358.1 only ...
+    if _BZ_UPS and lon < 0 and isnear90(fabs(lat), eps90=_Tol90):  # DMA TM8358.1 only ...
         lon = 0  # ... zones B and Z at 90°S and 90°N, see also GeoConvert
 
     if lat < _UPS_LAT_MIN:  # includes 30' overlap

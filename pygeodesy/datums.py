@@ -81,12 +81,12 @@ from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
 # from pygeodesy.namedTuples import Vector3Tuple  # from .ellipsoids
 # from pygeodesy.props import Property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .fmath
-from pygeodesy.units import Radius_
+from pygeodesy.units import radians, Radius_
 
-from math import radians
+# from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '22.10.05'
+__version__ = '23.03.19'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'

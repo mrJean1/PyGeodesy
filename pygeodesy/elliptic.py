@@ -91,10 +91,10 @@ from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
 
-from math import asinh, atan, atan2, ceil, cosh, floor, sin, sqrt, tanh
+from math import asinh, atan, atan2, ceil, cosh, fabs, floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '22.10.16'
+__version__ = '23.03.19'
 
 _delta_      = 'delta'
 _invokation_ = 'invokation'
@@ -379,7 +379,7 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid invokation or no convergence.
         '''
         def _fD(sn, cn, dn):
-            r = abs(sn)**3
+            r = fabs(sn)**3
             if r:
                 r = _RD(self, cn**2, dn**2, _1_0, _3_0 / r)
             return r
@@ -424,14 +424,14 @@ class Elliptic(_Named):
                     if k2:
                         ei -= _RD(self, cn2, dn2, _1_0, _3over(k2, sn2))
                 elif kp2 >= 0:  # <https://DLMF.NIST.gov/19.25.E10>
-                    ei = k2 * abs(cn) / dn
+                    ei = k2 * fabs(cn) / dn
                     if kp2:
                         ei += (_RD( self, cn2, _1_0,  dn2, _3over(k2, sn2)) +
                                _RF3(self, cn2,  dn2, _1_0)) * kp2
                 else:  # <https://DLMF.NIST.gov/19.25.E11>
-                    ei  =  dn / abs(cn)
+                    ei  =  dn / fabs(cn)
                     ei -= _RD(self, dn2, _1_0, cn2, _3over(kp2, sn2))
-                ei *= abs(sn)
+                ei *= fabs(sn)
             else:  # PYCHOK no cover
                 ei = _0_0
             return ei
@@ -449,7 +449,7 @@ class Elliptic(_Named):
 
            @raise EllipticError: No convergence.
         '''
-        if abs(deg) < _180_0:
+        if fabs(deg) < _180_0:
             e = _0_0
         else:  # PYCHOK no cover
             e    = ceil(deg / _360_0 - _0_5)
@@ -486,7 +486,7 @@ class Elliptic(_Named):
         for i in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = _sncndnPhi(phi)
             phi, e = _Phi2((y - fE(sn, cn, dn)) / dn)
-            if abs(e) < _TolJAC:
+            if fabs(e) < _TolJAC:
                 self._iteration += i
                 break
         else:  # PYCHOK no cover
@@ -507,7 +507,7 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid invokation or no convergence.
         '''
         def _fF(sn, cn, dn):
-            r = abs(sn)
+            r = fabs(sn)
             if r:
                 r *= _RF3(self, cn**2, dn**2, _1_0)
             return r
@@ -591,7 +591,7 @@ class Elliptic(_Named):
                 if aX:
                     z  =  cn2 + sn2 * self.alphap2
                     r += _RJ(self, cn2, dn2, _1_0, z, _3over(aX, sn2))
-                r *= abs(sn)
+                r *= fabs(sn)
             else:  # PYCHOK no cover
                 r = _0_0
             return r
@@ -605,7 +605,7 @@ class Elliptic(_Named):
         phi = sn = phi_or_sn
         if cn is dn is None:  # fX(phi) call
             sn, cn, dn = self._sncndnPhi(phi)
-            if abs(phi) >= PI:  # PYCHOK no cover
+            if fabs(phi) >= PI:  # PYCHOK no cover
                 return (deltaX(sn, cn, dn) + phi) * cX / PI_2
             # fall through
         elif cn is None or dn is None:
@@ -798,7 +798,7 @@ class Elliptic(_Named):
             mn.append((a, mc))
             c = (a + mc) * _0_5
             t = _TolJAC  *  a
-            if abs(a - mc) <= t:
+            if fabs(a - mc) <= t:
                 self._iteration += i  # accumulate
                 break
             mc *= a
@@ -928,7 +928,7 @@ class _Lxyz(list):
     def thresh(self, Tol):
         '''Return the convergence threshold.
         '''
-        return max(abs(self._a0 - x) for x in self) / Tol
+        return max(fabs(self._a0 - x) for x in self) / Tol
 
 
 def _horner(S, e1, E2, E3, E4, E5, *over):
@@ -1014,7 +1014,7 @@ def _RD(inst, x, y, z, *over):
     S = _Deferred()
     am, m = a, 1
     for i in range(_TRIPS):
-        if abs(am) > q:  # max 7 trips
+        if fabs(am) > q:  # max 7 trips
             _iterations(inst, i)
             break
         t = L[2]  # z0...n
@@ -1045,7 +1045,7 @@ def _RF2(inst, x, y):  # 2-arg version, z=0
         a, b = b, a
     for i in range(_TRIPS):
         t = _TolRG0 * a
-        if abs(a - b) <= t:  # max 4 trips
+        if fabs(a - b) <= t:  # max 4 trips
             _iterations(inst, i)
             return (PI / (a + b))
         a, b = ((a + b) * _0_5), sqrt(a * b)
@@ -1061,7 +1061,7 @@ def _RF3(inst, x, y, z):  # 3-arg version
     q =  L.thresh(_TolRF)
     am, m = a, 1
     for i in range(_TRIPS):
-        if abs(am) > q:  # max 6 trips
+        if fabs(am) > q:  # max 6 trips
             _iterations(inst, i)
             break
         a, _, _ = L.asr3(a)
@@ -1092,7 +1092,7 @@ def _RG2(inst, x, y):  # 2-args and I{doubled}
     a, b = sqrt(x), sqrt(y)
     if a < b:
         a, b = b, a
-    ab =  a - b  # abs(a - b)
+    ab =  a - b  # fabs(a - b)
     S  = _Deferred(_0_5 * (a + b)**2)
     m  = -1
     for i in range(_TRIPS):  # max 4 trips
@@ -1101,7 +1101,7 @@ def _RG2(inst, x, y):  # 2-args and I{doubled}
             _iterations(inst, i)
             return S.Fsum.fover((a + b) / PI_2)
         a, b = ((a + b) * _0_5), sqrt(a * b)
-        ab = abs(a - b)
+        ab = fabs(a - b)
         S += ab**2 * m
         m *= 2
     else:  # PYCHOK no cover
@@ -1135,7 +1135,7 @@ def _RJ(inst, x, y, z, p, *over):
     n =  neg(_xyzp(x, y, z, -p))
     am, m = a, 1
     for i in range(_TRIPS):
-        if abs(am) > q:  # max 7 trips
+        if fabs(am) > q:  # max 7 trips
             _iterations(inst, i)
             break
         a, s, _ = L.asr3(a)

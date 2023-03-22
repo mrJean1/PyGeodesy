@@ -20,7 +20,7 @@ from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
 from pygeodesy.datums import _WGS84, _xinstanceof
 from pygeodesy.ecef import _EcefBase, EcefKarney, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _TypesError, _ValueError, _xkwds
-from pygeodesy.fmath import fdot, Fhorner
+from pygeodesy.fmath import fabs, fdot, Fhorner
 from pygeodesy.fsums import _floor, Fsum, fsum_, fsum1_
 from pygeodesy.interns import NN, _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
                              _invalid_, _lat0_, _lon0_, _ltp_, _M_, _name_, _too_
@@ -37,10 +37,10 @@ from pygeodesy.units import Bearing, Degrees, Meter
 from pygeodesy.utily import cotd, sincos2d, sincos2d_, tand, tand_, wrap180, wrap360
 from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 
-# from math import floor as _floor  # from .fsums
+# from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '23.02.14'
+__version__ = '23.03.19'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -343,7 +343,7 @@ class Frustum(_NamedBase):
         r = Degrees(roll=r, wrap=wrap180)  # roll center
         x = (-a * tand(r, roll=r)) if r else _0_0
         y =   a * cotd(e, tilt=t)  # ground range
-        if abs(y) < EPS:
+        if fabs(y) < EPS:
             y = _0_0
 
         # center and corners, clockwise from upperleft, rolled

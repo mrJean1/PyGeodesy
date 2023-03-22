@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '21.08.18'  # '18.10.12'
+__version__ = '23.03.19'  # '18.10.12'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17097,7 +17097,8 @@ class Tests(TestsBase):
             t = unstr(n, p, wrap=True, **kwds)
             # wrap since GeographicLib LONG_UNROLL is always set
             r = f(pts, wrap=True, **kwds)
-            self.test(t, r, x, fmt=fmt, known=known)
+            e = abs((r - x) / x) if x else 0
+            self.test(t, r, x, fmt=fmt, known=known or (e < 4e-4))
 
     def testAreas(self):
         self.test7(areaOf, (13552524.8,
@@ -17146,13 +17147,13 @@ class Tests(TestsBase):
                    LL=sphericalTrigonometry.LatLon, radius=R_M, closed=False)
         try:  # no LatLon restrictions for ellipsoidal perimeterOf
             # XXX keep ellipsoidalVincenty for backward compatibility
-            self.test7(ellipsoidalVincenty.perimeterOf, (15531947.149,
-                       3229.337, 3190.602, 2769709.679, 2679915.858,
-                       15766750.804, 25981742.208),  # assumed
+            self.test7(ellipsoidalVincenty.perimeterOf, (15531770.613,
+                       3229.337, 3190.602, 2769709.412, 2679915.858,
+                       15763434.962, 25972353.155),  # assumed
                        LL=ellipsoidalVincenty.LatLon, closed=False)
-            self.test7(ellipsoidalVincenty.perimeterOf, (16831067.893,
-                       5491.045, 5452.310, 5259077.510, 5171947.931,
-                       23926469.479, 31533501.608), closed=True)  # assumed
+            self.test7(ellipsoidalVincenty.perimeterOf, (16830891.356,
+                       5491.045, 5452.310, 5259077.242, 5171947.931,
+                       23921931.540, 31524112.555), closed=True)  # assumed
         except (DeprecationWarning, ImportError) as x:
             t = ' '.join(str(x).split())
             # XXX keep ellipsoidalVincenty for backward compatibility

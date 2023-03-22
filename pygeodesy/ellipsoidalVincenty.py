@@ -10,25 +10,24 @@ L{intersections2}, L{nearestOn} and L{perimeterOf}.
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcoded from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see U{Vincenty geodesics
-<https://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More at
-U{geographiclib<https://PyPI.org/project/geographiclib>} and
+<https://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More
+at U{geographiclib<https://PyPI.org/project/geographiclib>} and
 U{GeoPy<https://PyPI.org/project/geopy>}.
 
 Calculate geodesic distance between two points using the U{Vincenty
 <https://WikiPedia.org/wiki/Vincenty's_formulae>} formulae and one of
 several ellipsoidal earth models.  The default model is WGS-84, the
-most accurate and widely used globally-applicable model for the earth
-ellipsoid.
+most widely used globally-applicable model for the earth ellipsoid.
 
 Other ellipsoids offering a better fit to the local geoid include Airy
-(1830) in the UK, Clarke (1880) in Africa, International 1924 in much of
-Europe, and GRS-67 in South America.  North America (NAD83) and Australia
-(GDA) use GRS-80, which is equivalent to the WGS-84 model.
+(1830) in the UK, Clarke (1880) in Africa, International 1924 in much
+of Europe, and GRS-67 in South America.  North America (NAD83) and
+Australia (GDA) use GRS-80, which is equivalent to the WGS-84 model.
 
-Great-circle distance uses a spherical model of the earth with the mean
-earth radius defined by the International Union of Geodesy and Geophysics
-(IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} meter or approx. 6371009
-meter (for WGS-84, resulting in an error of up to about 0.5%).
+Great-circle distance uses a I{spherical} model of the earth with the
+mean earth radius defined by the International Union of Geodesy and
+Geophysics (IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} or about
+6,371,009 meter (for WGS-84, resulting in an error of up to about 0.5%).
 
 Here's an example usage of C{ellipsoidalVincenty}:
 
@@ -51,14 +50,12 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import isnear0  # from .fmath
-from pygeodesy.constants import EPS, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
-# from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn, _WGS84
+from pygeodesy.constants import EPS, EPS0, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
 from pygeodesy.ellipsoidalBaseDI import _intersection3, _intersections2, \
                                          LatLonEllipsoidalBaseDI, _TOL_M
 from pygeodesy.errors import _and, _ValueError, _xkwds
-from pygeodesy.fmath import Fpolynomial, hypot, hypot1, isnear0
+from pygeodesy.fmath import Fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, _to_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.namedTuples import Destination2Tuple, Destination3Tuple, \
@@ -68,12 +65,12 @@ from pygeodesy.props import deprecated_function, deprecated_method, \
                             Property_RO, property_doc_
 # from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import Number_, Scalar_
-from pygeodesy.utily import atan2b, atan2d, sincos2, unroll180, wrap180
+from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap180
 
-from math import atan2, cos, degrees, radians, tan
+from math import atan2, cos, degrees, fabs, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '22.09.12'
+__version__ = '23.03.20'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 _limit_        = 'limit'  # PYCHOK used!
@@ -133,7 +130,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
     '''
     _epsilon    = 1e-12  # radians, about 6 um
 #   _iteration  = None   # iteration number from .named._NamedBase
-    _iterations = 101    # default max, 100 vs Veness' 500
+    _iterations = 201    # default max, 200 vs Veness' 1,000
 
     @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
@@ -177,18 +174,16 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
            @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
-        self._iterations = Number_(limit, name=_limit_, low=4, high=500) + 1
+        self._iterations = Number_(limit, name=_limit_, low=4, high=1000) + 1
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Vincenty}-based cartesian (ECEF)
            coordinates.
 
-           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
-                                        and other keyword arguments, ignored
-                                        if C{B{Cartesian} is None}.  Use
-                                        C{B{Cartesian}=...} to override this
-                                        L{Cartesian} class or specify
-                                        C{B{Cartesian} is None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} and other
+                            keyword arguments, ignored if C{B{Cartesian}=None}.  Use
+                            C{B{Cartesian}=...} to override this L{Cartesian} class
+                            or specify C{B{Cartesian}=None}.
 
            @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -216,43 +211,38 @@ class LatLon(LatLonEllipsoidalBaseDI):
         E = self.ellipsoid()
         f = E.f
 
-        s1, c1, t1 = _rsct3(self.phi, f)
+        sb, cb     =  sincos2d(bearing)
+        s1, c1, t1 = _sincostan3(self.phi, f)
 
-        i = radians(bearing)  # initial bearing (forward azimuth)
-        si, ci = sincos2(i)
-        s12 = atan2(t1, ci) * _2_0
-
-        sa  =  c1 * si
-        ca2 = _1_0 - sa**2
-        if ca2 < EPS:
-            ca2 = _0_0
-
-        A,  B = _p2(ca2 * E.e22)  # e22 == (a / b)**2 -
-        s = d = distance / (E.b * A)
+        eps     =  self.epsilon
+        s12     =  atan2(t1, cb) * _2_0
+        sa, ca2 = _sincos22(c1 * sb)
+        A,  B   = _AB2(ca2 * E.e22)  # e22 == (a / b)**2 - 1
+        s = d   =  distance / (A * E.b)
         for i in range(1, self._iterations):  # 1-origin
-            ss, cs = sincos2(s)
-            c2sm = cos(s12 + s)
-            s_, s = s, _Ds(B, cs, ss, c2sm, d)
-            t = abs(s - s_)
-            if t < self._epsilon:
+            ss, cs  = sincos2(s)
+            c2sm, e = cos(s12 + s), s
+            s = _Ds(B, cs, ss, c2sm, d)
+            e =  fabs(s - e)
+            if e < eps:
                 self._iteration = i
                 break
         else:
-            t = self._no_convergence(t)
+            t = self._no_convergence(e)
             raise VincentyError(t, txt=repr(self))  # self.toRepr()
 
-        t = s1 * ss - c1 * cs * ci
+        t = s1 * ss - c1 * cs * cb
         # final bearing (reverse azimuth +/- 180)
-        r = atan2b(sa, -t)
-
+        d = atan2b(sa, -t)
         if llr:
-            a = atan2d(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t))
-            b = atan2d(ss * si,  c1 * cs - s1 * ss * ci) + self.lon
-            d = degrees(_Dl(f, ca2, sa, s, cs, ss, c2sm))
-            t = Destination3Tuple(a, wrap180(b - d), r)
+            b = cb * ss
+            a = atan2d(s1 * cs + c1 * b, hypot(sa, t) * E.b_a)
+            b = atan2d(sb * ss, -s1 * b + c1 * cs) + self.lon \
+              - degrees(_Dl(f, ca2, sa, s, cs, ss, c2sm))
+            t = Destination3Tuple(a, wrap180(b), d)
             r = self._Direct2Tuple(self.classof, height, t)
         else:
-            r = Destination2Tuple(None, r, name=self.name)
+            r = Destination2Tuple(None, d, name=self.name)
         return r
 
     def _Inverse(self, other, wrap, azis=True):  # PYCHOK signature
@@ -271,55 +261,51 @@ class LatLon(LatLonEllipsoidalBaseDI):
         E = self.ellipsoids(other)
         f = E.f
 
-        s1, c1, _ = _rsct3( self.phi, f)
-        s2, c2, _ = _rsct3(other.phi, f)
+        s1, c1, _ = _sincostan3( self.phi, f)
+        s2, c2, _ = _sincostan3(other.phi, f)
 
         c1c2, s1c2 = c1 * c2, s1 * c2
         c1s2, s1s2 = c1 * s2, s1 * s2
 
-        dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
-        ll = dl = radians(dl)
+        eps  = self.epsilon
+        d, _ = unroll180(self.lon, other.lon, wrap=wrap)
+        dl = ll = radians(d)
         for i in range(1, self._iterations):  # 1-origin
             sll, cll = sincos2(ll)
 
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
-                if self.isantipodeTo(other, eps=self.epsilon):
+                if self.isantipodeTo(other, eps=eps):
                     t = self._is_to(other, True)
                     raise VincentyError(_ambiguous_, txt=t)
                 self._iteration = i
-                # return zeros like Karney, but unlike Veness
+                # return zeros like Karney, unlike Veness
                 return Distance3Tuple(_0_0, 0, 0)
 
-            cs = s1s2 + c1c2 * cll
-            s  = atan2(ss, cs)
-
-            sa  =  c1c2 * sll / ss
-            ca2 = _1_0 - sa**2
-            ll_ =  ll
-            ll  =  dl
-            if isnear0(ca2):
-                ca2 = _0_0  # equatorial line
-                ll += f * sa * s
-            else:
-                c2sm =  cs - 2 * s1s2 / ca2
-                ll  += _Dl(f, ca2, sa, s, cs, ss, c2sm)
-
-            c = abs(ll - ll_)
-            if c < self._epsilon:
+            cs   = s1s2 + c1c2 * cll
+            s, e = atan2(ss, cs), ll
+            sa, ca2 = _sincos22(c1c2 * sll / ss)
+            if ca2:
+                c2sm =  cs - _2_0 * s1s2 / ca2
+                ll   = _Dl(f, ca2, sa, s, cs, ss, c2sm, dl)
+            else:  # equatorial line
+                ll   =  dl + f * sa * s
+            e = fabs(ll - e)
+            if e < eps:
                 self._iteration = i
                 break
-#           # omitted and applied only after failure to converge below, see footnote
-#           # under Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
-#           # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
-#           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
-#              raise VincentyError(_ambiguous_, self._is_to(other, True))
+#           elif abs(ll) > PI and self.isantipodeTo(other, eps=eps):
+#               # omitted and applied *after* failure to converge below,
+#               # see footnote under Inverse <https://WikiPedia.org/wiki/
+#               # Vincenty's_formulae> and <https://GitHub.com/chrisveness/
+#               # geodesy/blob/master/latlon-ellipsoidal-vincenty.js>
+#               raise VincentyError(_ambiguous_, self._is_to(other, True))
         else:
-            t = self._is_to(other, self.isantipodeTo(other, eps=self.epsilon))
-            raise VincentyError(self._no_convergence(c), txt=t)
+            t = self._is_to(other, self.isantipodeTo(other, eps=eps))
+            raise VincentyError(self._no_convergence(e), txt=t)
 
         if ca2:  # e22 == (a / b)**2 - 1
-            A, B = _p2(ca2 * E.e22)
+            A,   B = _AB2(ca2 * E.e22)
             s = -A * _Ds(B, cs, ss, c2sm, -s)
 
         b = E.b
@@ -341,45 +327,16 @@ class LatLon(LatLonEllipsoidalBaseDI):
         t = _antipodal_to_ if anti else _to_
         return _SPACE_(repr(self), t, repr(other))
 
-    def _no_convergence(self, d):
+    def _no_convergence(self, e):
         '''(INTERNAL) Return I{'no convergence (..): ...'} text (C{str}).
         '''
         t = (Fmt.PARENSPACED(*t) for t in ((LatLon.epsilon.name,    self.epsilon),
                                            (LatLon.iterations.name, self.iterations)))
-        return _COLONSPACE_(Fmt.no_convergence(d), _and(*t))
+        return _COLONSPACE_(Fmt.no_convergence(e), _and(*t))
 
 
-def _c2sm2(c2sm):
-    '''(INTERNAL) C{2 * c2sm**2 - 1}.
-    '''
-    return _2_0 * c2sm**2 - _1_0
-
-
-def _Dl(f, ca2, sa, s, cs, ss, c2sm):
-    '''(INTERNAL) C{Dl}.
-    '''
-    if f and sa:
-        C = f / _16_0 * ca2 * (f * (_4_0 - _3_0 * ca2) + _4_0)
-        return (_1_0 - C) * f * sa * (s + C * ss * (c2sm +
-                                          C * cs * _c2sm2(c2sm)))
-    return _0_0
-
-
-def _Ds(B, cs, ss, c2sm, d):
-    '''(INTERNAL) C{Ds - d}.
-    '''
-    if B and ss:
-        c2sm2 = _c2sm2(c2sm)
-        ss2 = (_4_0 * ss**2 - _3_0) * (c2sm2 * _2_0 - _1_0)
-        B  *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
-                           B / _6_0 *  c2sm  * ss2))
-        d  += B
-    return d
-
-
-def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
-    '''(INTERNAL) Compute A, B polynomials.
-    '''
+def _AB2(u2):  # WGS84 e22 = 0.00673949674227643
+    # 2-Tuple C{(A, B)} polynomials
     if u2:
         A = Fpolynomial(u2, 16384, 4096, -768, 320, -175).fover(16384)
         B = Fpolynomial(u2,     0,  256, -128,  74,  -47).fover( 1024)
@@ -387,10 +344,43 @@ def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
     return _1_0, _0_0
 
 
-def _rsct3(a, f):
-    '''(INTERNAL) Reduced C{(sin(B{a}), cos(B{a}), tan(B{a}))}.
-    '''
-    if a:
+def _c2sm2(c2sm):
+    # C{2 * c2sm**2 - 1}
+    return c2sm**2 * _2_0 - _1_0
+
+
+def _Dl(f, ca2, sa, s, cs, ss, c2sm, dl=_0_0):
+    # C{Dl}
+    if f and sa:
+        C  = f * ca2 / _4_0
+        C *= f - C * _3_0 + _1_0
+        if C and ss:
+            s += C * ss * (c2sm +
+                 C * cs * _c2sm2(c2sm))
+        dl += (_1_0 - C) * f * sa * s
+    return dl
+
+
+def _Ds(B, cs, ss, c2sm, d):
+    # C{Ds - d}
+    if B and ss:
+        c2sm2 = _c2sm2(c2sm)
+        ss2 = (ss**2 * _4_0 - _3_0) * (c2sm2 * _2_0 - _1_0)
+        B  *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
+                           B / _6_0 *  c2sm  * ss2))
+        d  += B
+    return d
+
+
+def _sincos22(sa):
+    # 2-Tuple C{(sin(a), cos(a)**2)}
+    ca2 = _1_0 - sa**2
+    return sa, (_0_0 if ca2 < EPS0 else ca2)  # XXX EPS?
+
+
+def _sincostan3(a, f):
+    # I{Reduced} C{(sin(B{a}), cos(B{a}), tan(B{a}))}
+    if a:  # see L{sincostan3}
         t = (_1_0 - f) * tan(a)
         if t:
             c = _1_0 / hypot1(t)
@@ -400,20 +390,20 @@ def _rsct3(a, f):
 
 
 @deprecated_function
-def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
+def areaOf(points, **datum_wrap):
     '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
     try:
-        return _MODS.ellipsoidalKarney.areaOf(points, datum=datum, wrap=wrap)
+        return _MODS.ellipsoidalKarney.areaOf(points, **datum_wrap)
     except ImportError:
-        return _MODS.ellipsoidalExact.areaOf(points, datum=datum, wrap=wrap)
+        return _MODS.ellipsoidalExact.areaOf(points, **datum_wrap)
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection point of two paths, each defined
-       by two (ellipsoidal) points or by an (ellipsoidal) start point and a
-       bearing from North.
+       by two (ellipsoidal) points or by an (ellipsoidal) start point and an
+       initial bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
        @arg end1: End point of the first path (L{LatLon}) or the initial bearing
@@ -556,10 +546,13 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 
 
 @deprecated_function
-def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cover
+def perimeterOf(points, **closed_datum_wrap):
     '''DEPRECATED, use function L{ellipsoidalExact.perimeterOf} or L{ellipsoidalKarney.perimeterOf}.
     '''
-    return _MODS.ellipsoidalKarney.perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
+    try:
+        return _MODS.ellipsoidalKarney.perimeterOf(points, **closed_datum_wrap)
+    except ImportError:
+        return _MODS.ellipsoidalExact.perimeterOf(points, **closed_datum_wrap)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,

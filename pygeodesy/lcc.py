@@ -45,10 +45,10 @@ from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
-from math import atan, log, radians, sin, sqrt
+from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '22.09.12'
+__version__ = '23.03.19'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -256,7 +256,7 @@ class Conic(_NamedEnumItem):
             c._datum = d
             c._e = E.e
 
-            if abs(c._par1 - c._par2) < EPS:
+            if fabs(c._par1 - c._par2) < EPS:
                 m1 = c._mdef(c._phi0)
                 t1 = c._tdef(c._phi0)
                 t0 = t1
@@ -580,7 +580,7 @@ class Lcc(_NamedBase):
         x = c._xdef(t_)  # XXX c._lam0
         for self._iteration in range(10):  # max 4 trips
             p, x = x, c._xdef(t_ * c._pdef(x))
-            if abs(x - p) < 1e-9:  # XXX EPS too small?
+            if fabs(x - p) < 1e-9:  # XXX EPS too small?
                 break
         lat = degrees90(x)
         lon = degrees180((atan(e / n) + c._opt3) * c._1_n + c._lam0)

@@ -16,10 +16,10 @@ from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_
                               _exceeds_, _f_, _F_, _g_,  _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
-from math import log10 as _log10
+from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.02.22'
+__version__ = '23.03.19'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -154,7 +154,7 @@ class Fmt(object):
               _streprs(prec, (obj,), Fmt.g, False, False, repr))
 
     def no_convergence(self, _d, *tol, **thresh):
-        t = Fmt.convergence(abs(_d))
+        t = Fmt.convergence(fabs(_d))
         if tol:
             t = _COMMASPACE_(t, Fmt.tolerance(tol[0]))
             if thresh and _xkwds_get(thresh, thresh=False):
@@ -316,7 +316,7 @@ def _fstrENH2(inst, prec, m):  # in .css, .lcc, .utmupsBase
     t = inst.easting, inst.northing
     t = tuple(_streprs(prec, t, Fmt.F, False, True, None))
     T = _E_, _N_
-    if m is not None and abs(inst.height):  # abs(self.height) > EPS
+    if m is not None and fabs(inst.height):  # fabs(self.height) > EPS
         t +=  hstr(inst.height, prec=-2, m=m),
         T += _H_,
     return t, T

@@ -16,13 +16,15 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import _polygon, Property_RO, _xkwds
+from pygeodesy.karney import fabs, _polygon, Property_RO, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
 
+# from math import fabs  # from .karney
+
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '22.08.04'
+__version__ = '23.03.20'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -109,14 +111,14 @@ def areaOf(points, datum=_WGS84, wrap=True):
              L{ellipsoidalKarney.areaOf}, L{sphericalNvector.areaOf}
              and L{sphericalTrigonometry.areaOf}.
     '''
-    return abs(_polygon(datum.ellipsoid.geodsolve, points, True, False, wrap))
+    return fabs(_polygon(datum.ellipsoid.geodsolve, points, True, False, wrap))
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=True,
                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection point of two paths, each defined
-       by two (ellipsoidal) points or by an (ellipsoidal) start point and a
-       bearing from North.
+       by two (ellipsoidal) points or by an (ellipsoidal) start point and an
+       initial bearing from North.
 
        @arg start1: Start point of the first path (L{LatLon}).
        @arg end1: End point of the first path (L{LatLon}) or the initial bearing

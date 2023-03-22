@@ -82,10 +82,10 @@ from pygeodesy.iters import isNumpy2, isTuple2
 # from pygeodesy.lazily import _ALL_LAZY  # from .units
 from pygeodesy.units import _ALL_LAZY, _1mm
 
-from math import degrees, radians
+from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '22.10.05'
+__version__ = '23.03.19'
 
 
 # try:
@@ -252,7 +252,7 @@ class _Sy(object):
         if d21 > self.eps:
             d01, y01, x01, _ = self.d2yxu(i1, i0)
             if d01 > self.eps:
-                h2 = abs(y01 * x21 - x01 * y21)
+                h2 = fabs(y01 * x21 - x01 * y21)
                 # triangle height h = h2 / sqrt(d21) and
                 # the area = h * sqrt(d21) / 2 == h2 / 2
                 return h2  # double triangle area

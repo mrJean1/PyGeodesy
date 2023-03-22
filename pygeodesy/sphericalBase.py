@@ -26,10 +26,10 @@ from pygeodesy.interns import NN, _COMMA_, _concentric_, _datum_, \
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
-from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
+from pygeodesy.nvectorBase import NvectorBase, Fmt, _xattrs
 from pygeodesy.props import deprecated_method, property_doc_, \
                             property_RO, _update_all
-# from pygeodesy.streprs import Fmt  # from _MODS
+# from pygeodesy.streprs import Fmt, _xattrs  # from .nvectorBase
 from pygeodesy.units import Bearing, Bearing_, Height, Radians_, \
                             Radius, Radius_, Scalar_
 from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
@@ -38,7 +38,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees90, degrees180, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '23.01.18'
+__version__ = '23.03.22'
 
 
 def _angular(distance, radius, low=EPS):  # PYCHOK in .spherical*
@@ -276,7 +276,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @raise ValueError: Invalid B{C{bearing}}.
         '''
-        m = acos1(abs(sin(Bearing_(bearing)) * cos(self.phi)))
+        m = acos1(fabs(sin(Bearing_(bearing)) * cos(self.phi)))
         return degrees90(m)
 
     def minLat(self, bearing):
@@ -339,7 +339,7 @@ class LatLonSphericalBase(LatLonBase):
             # by latitude; the 'stretch factor' q becomes ill-
             # conditioned along E-W line (0/0); use an empirical
             # tolerance to avoid it
-            q  = (da / dp) if abs(dp) > EPS else cos(self.phi)
+            q  = (da / dp) if fabs(dp) > EPS else cos(self.phi)
             da = hypot(da, q * db)  # angular distance radians
         return da, db, dp
 
@@ -425,8 +425,8 @@ class LatLonSphericalBase(LatLonBase):
 
             dp = log(tanPI_2_2(a2) / tanPI_2_2(a1))
             # q becomes ill-conditioned on E-W course 0/0
-            q  = (da / dp) if abs(dp) > EPS else cos(a1)
-            b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
+            q  = (da / dp) if fabs(dp) > EPS else cos(a1)
+            b2 = (b1 + r * sb / q) if fabs(q) > EPS else b1
 
             h = self.height if height is None else Height(height)
             r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h)
@@ -513,7 +513,7 @@ class LatLonSphericalBase(LatLonBase):
             # see <https://MathForum.org/library/drmath/view/51822.html>
             a1, b1 = self.philam
             a2, b2 = other.philam
-            if abs(b2 - b1) > PI:
+            if fabs(b2 - b1) > PI:
                 b1 += PI2  # crossing anti-meridian
 
             a3 = favg(a1, a2)
@@ -563,7 +563,7 @@ class LatLonSphericalBase(LatLonBase):
         return _MODS.webmercator.toWm(self, radius=radius)
 
 
-def _intersecant2(c, r, p, b, radius=R_M, exact=False,  # in .ellipsoidalBaseDI._intersecant2
+def _intersecant2(c, r, p, b, radius=R_M, exact=False,
                               height=None, wrap=False):
     # (INTERNAL) Intersect a circle and bearing, see L{intersecant2}
     # above, separated to allow callers to embellish any exceptions
@@ -595,7 +595,7 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False,  # in .ellipsoidalBaseDI.
         s, c = sincos2d(b - a)
         s = sqrt_a(r, fabs(s * d))
         if s > r:
-            raise IntersectionError(_too_(_MODS.streprs.Fmt.distant(s)))
+            raise IntersectionError(_too_(Fmt.distant(s)))
         elif (r - s) < EPS:
             return p, p  # tangent
         c *= d

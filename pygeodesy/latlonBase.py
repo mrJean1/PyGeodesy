@@ -40,10 +40,10 @@ from pygeodesy.vector2d import _circin6,  Circin6Tuple, _circum3, Circum3Tuple, 
                                 circum4_, Circum4Tuple, _radii11ABC
 from pygeodesy.vector3d import nearestOn6, Vector3d
 
-from math import asin, cos, degrees, radians
+from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.03.18'
+__version__ = '23.03.19'
 
 
 class LatLonBase(_NamedBase):
@@ -133,9 +133,9 @@ class LatLonBase(_NamedBase):
         if radius is not None:
             r = Radius_(radius)
             c = cos(self.phi)
-            x = degrees(asin(x / r) / c) if abs(c) > EPS0 else _0_0  # XXX
+            x = degrees(asin(x / r) / c) if fabs(c) > EPS0 else _0_0  # XXX
             y = degrees(y / r)
-        x, y = abs(x), abs(y)
+        x, y = fabs(x), fabs(y)
 
         h  = self.height if height is None else Height(height)
         sw = self.classof(self.lat - y, self.lon - x, height=h)
@@ -1471,15 +1471,15 @@ class LatLonBase(_NamedBase):
 def _isequalTo(point1, point2, eps=EPS):  # in .ellipsoidalBaseDI._intersect3._on, .formy
     '''(INTERNAL) Compare point lat-/lon without type.
     '''
-    return abs(point1.lat - point2.lat) <= eps and \
-           abs(point1.lon - point2.lon) <= eps
+    return fabs(point1.lat - point2.lat) <= eps and \
+           fabs(point1.lon - point2.lon) <= eps
 
 
 def _isequalTo_(point1, point2, eps=EPS):  # PYCHOK in .formy
     '''(INTERNAL) Compare point phi-/lam without type.
     '''
-    return abs(point1.phi - point2.phi) <= eps and \
-           abs(point1.lam - point2.lam) <= eps
+    return fabs(point1.phi - point2.phi) <= eps and \
+           fabs(point1.lam - point2.lam) <= eps
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
@@ -1515,7 +1515,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
 
             else:  # check intersection
                 for c in ((c1,) if c1 is c2 else (c1, c2)):
-                    d = abs(r3 - p3.distanceTo(c, radius=radius, wrap=wrap))
+                    d = fabs(r3 - p3.distanceTo(c, radius=radius, wrap=wrap))
                     if d < eps:  # below margin
                         t.append((d, c))
                     m = min(m, d)

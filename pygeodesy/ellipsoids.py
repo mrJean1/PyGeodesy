@@ -72,7 +72,7 @@ from pygeodesy.errors import _AssertionError, _ValueError, _xkwds_not
 from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, Fsum, hypot, hypot_, \
                             hypot1, hypot2, sqrt3
 # from pygeodesy.fsums import Fsum  # from .fmath
-from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, \
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _beta_, \
                              _Clarke1866_, _Clarke1880IGN_, _DOT_, _f_, _GRS80_, _height_, \
                              _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
                              _Krassowsky1940_, _meridional_, _lat_, _negative_, _not_finite_, \
@@ -87,10 +87,10 @@ from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat
                             Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians2m, sincos2d
 
-from math import asinh, atan, atanh, cos, degrees, exp, radians, sin, sinh, sqrt, tan
+from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '22.11.02'
+__version__ = '23.03.20'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -144,7 +144,7 @@ class a_f2Tuple(_NamedTuple):
         '''
         a = Radius_(a=a)  # low=EPS, high=None
         f = Float_( f=f, low=None, high=EPS1)
-        if abs(f) < EPS:  # force spherical
+        if fabs(f) < EPS:  # force spherical
             f = _f_0_0
         return _NamedTuple.__new__(cls, a, f, **name)
 
@@ -180,7 +180,7 @@ class Circle4Tuple(_NamedTuple):
        the C{height} is the ellipsoid's (signed) polar radius and C{beta}
        equals C{lat}.
     '''
-    _Names_ = (_radius_, _height_, _lat_, 'beta')
+    _Names_ = (_radius_, _height_, _lat_, _beta_)
     _Units_ = ( Radius,   Height,   Lat,   Lat)
 
 
@@ -256,7 +256,7 @@ class Ellipsoid(_NamedEnumItem):
             if not _isfinite(b):
                 raise ValueError(_SPACE_(_b_, _not_finite_))
 
-            if abs(f) < EPS or a == b or not f_:  # spherical
+            if fabs(f) < EPS or a == b or not f_:  # spherical
                 b  =  a
                 f  = _f_0_0
                 f_ = _f__0_0
@@ -408,7 +408,7 @@ class Ellipsoid(_NamedEnumItem):
         '''(INTERNAL) Assert a C{name=value} vs C{val}.
         '''
         for n, v in name_value.items():
-            if abs(v - val) > eps:  # PYCHOK no cover
+            if fabs(v - val) > eps:  # PYCHOK no cover
                 t = (v, _vs_, val)
                 t = _SPACE_.join(strs(t, prec=12, fmt=Fmt.g))
                 t =  Fmt.EQUAL(self._DOT_(n), t)
@@ -535,7 +535,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             lat = Lat(lat)
-            if 0 < abs(lat) < _90_0:
+            if 0 < fabs(lat) < _90_0:
                 if inverse:
                     e = self._elliptic_e22
                     d = degrees90(e.fEinv(e.cE * lat / _90_0))
@@ -612,7 +612,6 @@ class Ellipsoid(_NamedEnumItem):
     def c2(self):
         '''Get the I{authalic} earth radius I{squared} (C{meter} I{squared}).
 
-
            @see: Properties L{c2x}, L{area}, L{R2}, L{Rauthalic}, I{Karney's} U{equation (60)
                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++ U{Ellipsoid.Area
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html>},
@@ -669,7 +668,7 @@ class Ellipsoid(_NamedEnumItem):
         lat = Lat(lat)
         if lat:
             b = lat
-            if abs(lat) < _90_0:
+            if fabs(lat) < _90_0:
                 if self.f:
                     b = self._beta(lat)
                 z, r = sincos2d(b)
@@ -756,7 +755,7 @@ class Ellipsoid(_NamedEnumItem):
     def e2abs(self):
         '''Get the I{unsigned, (1st) eccentricity squared} (C{float}).
         '''
-        return abs(self.e2)
+        return fabs(self.e2)
 
     @Property_RO
     def e21(self):
@@ -779,7 +778,7 @@ class Ellipsoid(_NamedEnumItem):
     def e22abs(self):
         '''Get the I{unsigned, 2nd eccentricity squared} (C{float}).
         '''
-        return abs(self.e22)
+        return fabs(self.e22)
 
     @Property_RO
     def e32(self):
@@ -792,7 +791,7 @@ class Ellipsoid(_NamedEnumItem):
     def e32abs(self):
         '''Get the I{unsigned, 3rd eccentricity squared} (C{float}).
         '''
-        return abs(self.e32)
+        return fabs(self.e32)
 
     @Property_RO
     def e4(self):
@@ -911,12 +910,12 @@ class Ellipsoid(_NamedEnumItem):
         '''
         t = Scalar(taup=taup)
         if self.f:  # .isEllipsoidal
-            a = abs(t)
+            a = fabs(t)
             T = t * (self._exp_es_atanh_1 if a > 70 else self._1_e21)
-            if abs(T * _EPSqrt) < _2_0:  # handles +/- INF and NAN
+            if fabs(T * _EPSqrt) < _2_0:  # handles +/- INF and NAN
                 s = (a * _TOL) if a > _1_0 else _TOL
                 for T, _, d in self._es_tauf3(t, T):  # max 2
-                    if abs(d) < s:
+                    if fabs(d) < s:
                         break
             t = Scalar(tauf=T)
         return t
@@ -1058,7 +1057,7 @@ class Ellipsoid(_NamedEnumItem):
             h = r - a
 
         elif normal:  # perpendicular to ellipsoid
-            x, y = hypot(v.x, v.y), abs(v.z)
+            x, y = hypot(v.x, v.y), fabs(v.z)
             if x < EPS0:  # PYCHOK no cover
                 z = copysign0(b, v.z)
                 v = Vector3Tuple(v.x, v.y, z)
@@ -1358,7 +1357,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         r, a = self.a, Phi_(lat)
         if a and self.f:
-            if abs(a) < PI_2:
+            if fabs(a) < PI_2:
                 s2, c2 = _s2_c2(a)
                 b2_a2_s2 = self.b2_a2 * s2
                 # R == sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
@@ -1420,7 +1419,7 @@ class Ellipsoid(_NamedEnumItem):
         # r = a - (a - b) * |lat| / 90
         r = self.a
         if self.f and lat:  # .isEllipsoidal
-            r -= (r - self.b) * abs(Lat(lat)) / _90_0
+            r -= (r - self.b) * fabs(Lat(lat)) / _90_0
             r  = Radius(Rlat=r)
         return r
 
@@ -1466,10 +1465,10 @@ class Ellipsoid(_NamedEnumItem):
             r =  self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
             n = (self.a / sqrt(r)) if r > EPS02 else _0_0
         elif ca:  # derived from EcefYou.forward
-            h = hypot(ca, self.b_a * sa) if sa else abs(ca)
+            h = hypot(ca, self.b_a * sa) if sa else fabs(ca)
             n = self.a / h
         elif sa:
-            n = self.a2_b / abs(sa)
+            n = self.a2_b / fabs(sa)
         else:
             n = self.a
         return n
@@ -1510,7 +1509,7 @@ class Ellipsoid(_NamedEnumItem):
                  and the meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        a = abs(Phi(phi))
+        a = fabs(Phi(phi))
         if self.f:
             r = self.e2s2(sin(a))
             if r > EPS02:
@@ -1732,19 +1731,19 @@ class Ellipsoid2(Ellipsoid):
 def _spherical_a_b(a, b):
     '''(INTERNAL) C{True} for spherical or invalid C{a} or C{b}.
     '''
-    return a < EPS or b < EPS or abs(a - b) < EPS
+    return a < EPS or b < EPS or fabs(a - b) < EPS
 
 
 def _spherical_f(f):
     '''(INTERNAL) C{True} for spherical or invalid C{f}.
     '''
-    return abs(f) < EPS or f > EPS1
+    return fabs(f) < EPS or f > EPS1
 
 
 def _spherical_f_(f_):
     '''(INTERNAL) C{True} for spherical or invalid C{f_}.
     '''
-    return abs(f_) < EPS or abs(f_) > _1_EPS
+    return fabs(f_) < EPS or fabs(f_) > _1_EPS
 
 
 def a_b2e(a, b):
@@ -1758,7 +1757,7 @@ def a_b2e(a, b):
 
        @note: The result is always I{non-negative} and C{0} for I{near-spherical} ellipsoids.
     '''
-    return Float(e=sqrt(abs(a_b2e2(a, b))))
+    return Float(e=sqrt(fabs(a_b2e2(a, b))))
 
 
 def a_b2e2(a, b):
@@ -1849,7 +1848,7 @@ def a_b2f2(a, b):
               for I{near-spherical} ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(f2=_0_0 if abs(t) < EPS else (t / b))
+    return Float(f2=_0_0 if fabs(t) < EPS else (t / b))
 
 
 def a_b2n(a, b):
@@ -1864,7 +1863,7 @@ def a_b2n(a, b):
               or C{0} for I{near-spherical} ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(n=_0_0 if abs(t) < EPS else (t / (a + b)))
+    return Float(n=_0_0 if fabs(t) < EPS else (t / (a + b)))
 
 
 def a_f2b(a, f):
@@ -1900,7 +1899,7 @@ def b_f2a(b, f):
        @return: The equatorial radius (C{float}), M{b / (1 - f)}.
     '''
     t = _1_0 - f
-    a = b if abs(t < EPS) else (b / t)
+    a = b if fabs(t < EPS) else (b / t)
     return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
@@ -1913,8 +1912,8 @@ def b_f_2a(b, f_):
        @return: The equatorial radius (C{float}), M{b * f_ / (f_ - 1)}.
     '''
     t = f_ - _1_0
-    a = b if _spherical_f_(f_) or abs(t - f_) < EPS \
-                               or abs(t) < EPS else (b * f_ / t)
+    a = b if _spherical_f_(f_) or fabs(t - f_) < EPS \
+                               or fabs(t) < EPS else (b * f_ / t)
     return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
@@ -2039,7 +2038,7 @@ def f2f2(f):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = _1_0 - f
-    return Float(f2=_0_0 if _spherical_f(f) else (INF if abs(t) < EPS
+    return Float(f2=_0_0 if _spherical_f(f) else (INF if fabs(t) < EPS
                                             else (f / t)))  # PYCHOK type
 
 
@@ -2075,8 +2074,8 @@ def n2e2(n):
        @see: U{Flattening<https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = (n + _1_0)**2
-    return Float(e2=_0_0 if abs(n) < EPS else
-                   (NINF if     t  < EPS else (_4_0 * n / t)))
+    return Float(e2=_0_0 if fabs(n) < EPS else
+                   (NINF if      t  < EPS else (_4_0 * n / t)))
 
 
 def n2f(n):
@@ -2091,7 +2090,7 @@ def n2f(n):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = n + _1_0
-    f = 0 if abs(n) < EPS else (NINF if t < EPS else (_2_0 * n / t))
+    f = 0 if fabs(n) < EPS else (NINF if t < EPS else (_2_0 * n / t))
     return _f_0_0 if _spherical_f(f) else Float(f=f)
 
 
@@ -2137,7 +2136,7 @@ def _normalTo3(px, py, E):  # in .height4 above
             break
         tx = tx / t  # /= chokes PyChecker
         ty = ty / t
-        if max(abs(sx - tx), abs(sy - ty)) < EPS:
+        if max(fabs(sx - tx), fabs(sy - ty)) < EPS:
             break
 
     tx *= a / px

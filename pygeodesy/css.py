@@ -18,7 +18,7 @@ from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _northing_, _reciprocal_, _SPACE_
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.karney import _atan2d, _copysign, _diff182, _norm2, \
-                             _norm180, _signBit, _sincos2d
+                             _norm180, _signBit, _sincos2d, fabs
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
@@ -29,8 +29,10 @@ from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Easting, Height, \
                             Lat_, Lon_, Northing, Scalar
 
+# from math import fabs  # from .karney
+
 __all__ = _ALL_LAZY.css
-__version__ = '22.09.24'
+__version__ = '23.03.19'
 
 
 def _CS0(cs0):
@@ -189,7 +191,7 @@ class CassiniSoldner(_NamedBase):
 
         lat  =  Lat_(lat, Error=CSSError)
         d, _ = _diff182(self.lon0, Lon_(lon, Error=CSSError))  # _2sum
-        D    =  abs(d)
+        D    =  fabs(d)
 
         r = g.Inverse(lat, -D, lat, D)
         z1, a = r.azi1, (r.a12 * _0_5)

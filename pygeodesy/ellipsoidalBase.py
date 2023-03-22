@@ -23,7 +23,7 @@ from pygeodesy.errors import _incompatible, _IsnotError, RangeError, TRFError, \
 # from pygeodesy.interns import _ellipsoidal_  # from .cartesianBase
 from pygeodesy.interns import MISSING, NN, _COMMA_, _conversion_, _datum_, \
                              _DOT_, _no_, _reframe_, _SPACE_
-from pygeodesy.latlonBase import LatLonBase, _trilaterate5, Vector3Tuple
+from pygeodesy.latlonBase import fabs, LatLonBase, _trilaterate5, Vector3Tuple
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # from ._MODS
 # from pygeodesy.named import notOverloaded  # from ._MODS
@@ -32,8 +32,10 @@ from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
 from pygeodesy.units import Epoch, _1mm as _TOL_M, Radius_
 
+# from math import fabs  # from .karney
+
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '22.10.04'
+__version__ = '23.03.19'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -704,14 +706,14 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         if adjust:  # Elevation2Tuple or GeoidHeight2Tuple
             m, t = meter_text2
-            if isinstance(m, float) and abs(m) > EPS:
+            if isinstance(m, float) and fabs(m) > EPS:
                 n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
                 if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
                     E = self.ellipsoid() if datum in (None, self.datum) else \
                        _spherical_datum(datum).ellipsoid
                     r = E.rocGauss(self.lat)
-                    if r > EPS0 and abs(r - n) > EPS:  # EPS1
+                    if r > EPS0 and fabs(r - n) > EPS:  # EPS1
                         m *= r / n
                         meter_text2 = meter_text2.classof(m, t)
         return self._xnamed(meter_text2)

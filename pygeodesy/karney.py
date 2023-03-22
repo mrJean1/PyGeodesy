@@ -140,10 +140,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, property_R
 from pygeodesy.units import Bearing as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_, \
                             Precision_, _1mm as _TOL_M  # PYCHOK shared
-from pygeodesy.utily import atan2d, sincos2d, tand, unroll180, wrap360
+from pygeodesy.utily import atan2d, fabs, sincos2d, tand, unroll180, wrap360
+
+# from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '22.10.24'
+__version__ = '23.03.19'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -572,7 +574,7 @@ class _Wrapped(object):
                 _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
                 r = self.Inverse(lat1, lon1, lat2, lon2)
                 # XXX self.DISTANCE needed for 'a12'?
-                return abs(r.a12)
+                return fabs(r.a12)
 
             def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
                 '''Return the distance in C{meter} and the forward and
@@ -717,8 +719,8 @@ def _around(x):  # in .utily.sincos2d
     except AttributeError:
         pass
     if x:
-        y = _1_16th - abs(x)
-        if y > 0:  # abs(x) < _1_16th
+        y = _1_16th - fabs(x)
+        if y > 0:  # fabs(x) < _1_16th
             x = _copysign(_1_16th - y, x)
     else:
         x = _0_0  # -0 to 0
@@ -794,7 +796,7 @@ def _fix90(deg):  # mimick Math.LatFix
     try:
         return _wrapped.Math.LatFix(deg)
     except AttributeError:
-        return NAN if abs(deg) > 90 else deg
+        return NAN if fabs(deg) > 90 else deg
 
 
 def _isfinite(x):  # mimick Math.AngNormalize
@@ -805,7 +807,7 @@ def _isfinite(x):  # mimick Math.AngNormalize
     try:
         return _wrapped.Math.isfinite(x)
     except AttributeError:
-        return _math_isfinite(x)  # and abs(x) <= _MAX
+        return _math_isfinite(x)  # and fabs(x) <= _MAX
 
 
 def _norm2(x, y):  # mimick Math.norm
@@ -844,17 +846,17 @@ def _polygon(geodesic, points, closed, line, wrap):
         raise _ValueError(wrap=wrap)
 
     gP = geodesic.Polygon(line)
-    pA = gP.AddPoint
+    _A = gP.AddPoint
 
     Ps = _MODS.iters.PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
     p0 =  Ps[0]
 
     # note, lon deltas are unrolled, by default
-    pA(p0.lat, p0.lon)
+    _A(p0.lat, p0.lon)
     for p in Ps.iterate(closed=closed):
-        pA(p.lat, p.lon)
+        _A(p.lat, p.lon)
     if closed and line and p != p0:
-        pA(p0.lat, p0.lon)
+        _A(p0.lat, p0.lon)
 
     # gP.Compute returns (number_of_points, perimeter, signed area)
     return gP.Compute(False, True)[1 if line else 2]

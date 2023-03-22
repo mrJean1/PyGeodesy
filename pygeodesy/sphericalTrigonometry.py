@@ -50,10 +50,10 @@ from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
-from math import asin, atan2, cos, degrees, radians, sin
+from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.01.18'
+__version__ = '23.03.19'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -165,7 +165,7 @@ class LatLon(LatLonSphericalBase):
         z = ca1 * sdb * ca2 * sa
 
         h = hypot(x, y)
-        if h < EPS or abs(z) > h:  # PYCHOK no cover
+        if h < EPS or fabs(z) > h:  # PYCHOK no cover
             return None  # great circle doesn't reach latitude
 
         m = atan2(-y, x) + b1  # longitude at max latitude
@@ -323,7 +323,7 @@ class LatLon(LatLonSphericalBase):
         a2, b2 = other.philam
 
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
-        if raiser and crosserrors() and max(abs(a2 - a1), abs(b2 - b1)) < EPS:
+        if raiser and crosserrors() and max(fabs(a2 - a1), fabs(b2 - b1)) < EPS:
             raise CrossError(_points_, self, txt=_coincident_)
 
         return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
@@ -614,12 +614,12 @@ class LatLon(LatLonSphericalBase):
 #       # UNTESTED - handle C{B{within}=False} and C{B{within}=True}
 #       wrap = _xkwds_get(options, wrap=False)
 #       a = self.alongTrackDistanceTo(point1, point2, radius=radius, wrap=wrap)
-#       if abs(a) < EPS or (within and a < EPS):
+#       if fabs(a) < EPS or (within and a < EPS):
 #           return point1
 #       d = point1.distanceTo(point2, radius=radius, wrap=wrap)
 #       if isnear0(d):
 #           return point1  # or point2
-#       elif abs(d - a) < EPS or (a + EPS) > d:
+#       elif fabs(d - a) < EPS or (a + EPS) > d:
 #           return point2
 #       f = a / d
 #       if within:
@@ -864,9 +864,9 @@ def areaOf(points, radius=R_M, wrap=True):
             D += wrap180(z2 - z)  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
 
-    R = abs(E * _2_0)
-    if abs(D) < _90_0:  # ispolar(points)
-        R = abs(R - PI2)
+    R = fabs(E * _2_0)
+    if fabs(D) < _90_0:  # ispolar(points)
+        R = fabs(R - PI2)
     if radius:
         a  =  degrees(A.fover(len(A)))  # mean lat
         R *= _mean_radius(radius, a)**2
@@ -906,7 +906,7 @@ def _int3d2(start, end, wrap, _i_, Vector, hs):
         a2, b2 = end.philam
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
-    if max(abs(db), abs(a2 - a1)) < EPS:
+    if max(fabs(db), fabs(a2 - a1)) < EPS:
         raise _ValueError(_SPACE_(_path_ + _i_, _null_))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     sb21, cb21, sb12, cb12 = sincos2_(db * _0_5,
@@ -977,7 +977,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     r12 = vincentys_(a2, a1, db)
-    if abs(r12) < EPS:  # [nearly] coincident points
+    if fabs(r12) < EPS:  # [nearly] coincident points
         a, b = favg(a1, a2), favg(b1, b2)
 
     # see <https://www.EdWilliams.org/avform.htm#Intersection>

@@ -8,7 +8,7 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, issubclassof
-from pygeodesy.constants import EPS, PI, PI2, PI_4, isnear0, isnear1, \
+from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _0_0, _0_5, _1_5, _3_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, Property_RO, \
                                       property_RO, _TOL_M
@@ -31,7 +31,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, wrap90, wrap180, wrap360
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '22.10.12'
+__version__ = '23.03.22'
 
 _polar__  = 'polar?'
 _too_low_ = _too_('low')
@@ -388,10 +388,12 @@ class _Box(object):
 class _Tol(object):
     '''Handle a tolerance in C{meter} as C{degrees} and C{meter}.
     '''
-    _deg = 0
-    _lat = 0
-    _m   = 0
-    _r   = 0
+    _deg  = 0    # tol in degrees
+    _lat  = 0
+    _m    = 0    # tol in meter
+    _min  = MAX  # degrees
+    _prev = None
+    _r    = 0
 
     def __init__(self, tol_m, E, lat, *lats):
         '''New L{_Tol}.
@@ -419,10 +421,19 @@ class _Tol(object):
         '''
         return self.radius * radians(deg) / PI2  # avoid degrees2m!
 
-    def degError(self, deg, Error=_ValueError):
-        '''Compose an error with C{deg}rees minimum.
+    def degError(self, Error=_ValueError):
+        '''Compose an error with the C{deg}rees minimum.
         '''
-        return self.mError(self.degrees2m(deg), Error=Error)
+        return self.mError(self.degrees2m(self._min), Error=Error)
+
+    def done(self, deg):
+        '''Check C{deg} vs. tolerance and previous value.
+        '''
+        if deg < self._deg or deg == self._prev:
+            return True
+        self._min  = min(self._min, deg)
+        self._prev = deg
+        return False
 
     @property_RO
     def lat(self):
@@ -449,6 +460,12 @@ class _Tol(object):
         '''Get the earth radius in C{meter}.
         '''
         return self._r
+
+    def reset(self):
+        '''Reset tolerances.
+        '''
+        self._min  = MAX
+        self._prev = None
 
 
 def _Equidistant00(equidistant, p1):
@@ -499,6 +516,9 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
                 e = _unrollon(s, e)
         return e, ll
 
+    def _llS(ll):  # return an C{_LLS} instance
+        return _LLS(ll.lat, ll.lon, height=ll.height)
+
     def _o(o, b, n, s, t, e):
         # determine C{o}utside before, on or after start point
         if not o:  # intersection may be on start
@@ -518,10 +538,8 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
     A = _Equidistant00(equidistant, s1)
 
     # gu-/estimate initial intersection, spherically ...
-    t = _si(_LLS(s1.lat, s1.lon, height=s1.height),
-           (_LLS(e1.lat, e1.lon, height=e1.height) if ll1 else e1),
-            _LLS(s2.lat, s2.lon, height=s2.height),
-           (_LLS(e2.lat, e2.lon, height=e2.height) if ll2 else e2),
+    t = _si(_llS(s1), (_llS(e1) if ll1 else e1),
+            _llS(s2), (_llS(e2) if ll2 else e2),
             height=height, wrap=False, LatLon=_LLS)  # unrolled already
     h, n = t.height, t.name
 
@@ -530,29 +548,21 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=True,  # MCCABE 16
     if not ll2:
         b2, e2 = _b_e(s2, e2, wrap, t)
 
-    # ... and iterate as Karney describes, @see:
-    # LatLonEllipsoidalBase.LatLon.intersections2
-    c = m = None  # force first d == c to False
+    # ... and iterate as Karney describes, for references
+    # @see: Function L{ellipsoidalKarney.intersection3}.
     for i in range(1, _TRIPS):
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
         # convert start and end points to projection
         # space and compute an intersection there
-        v, o1, o2 = _vi3(A.forward(s1.lat, s1.lon),
-                         A.forward(e1.lat, e1.lon),
-                         A.forward(s2.lat, s2.lon),
-                         A.forward(e2.lat, e2.lon),
-                         eps=e.meter, useZ=False)
+        v, o1, o2 = _vi3(*A._forwards(s1, e1, s2, e2),
+                          eps=e.meter, useZ=False)
         # convert intersection back to geodetic
-        t, d = A._reverse2(v.x, v.y)
-        # break if below tolerance or if unchanged
-        if d < e.degrees or d == c:
+        t, d = A._reverse2(v)
+        if e.done(d):  # below tol or unchanged?
             t._iteration = i
             break
-        if m is None or m > d:
-            m = d  # min tol in degrees
-        c = d
     else:
-        raise e.degError(m, Error=IntersectionError)
+        raise e.degError(Error=IntersectionError)
 
     # like .sphericalTrigonometry._intersect, if this intersection
     # is "before" the first point, use the antipodal intersection
@@ -614,6 +624,9 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
         return _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=c,
                                                    iteration=t.iteration, name=n)
 
+    def _llS(ll):  # return an C{_LLS} instance
+        return _LLS(ll.lat, ll.lon, height=ll.height)
+
     r1 = Radius_(radius1=radius1)
     r2 = Radius_(radius2=radius2)
 
@@ -643,45 +656,38 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=True,  # MCCABE 16
     e = _Tol(tol, E, favg(c1.lat, c2.lat, f=f))
 
     # gu-/estimate initial intersections, spherically ...
-    t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
-                  _LLS(c2.lat, c2.lon, height=c2.height), r2,
-                   radius=e.radius, height=height, wrap=False, too_d=m)  # unrolled already
+    t1, t2 = _si2(_llS(c1), r1, _llS(c2), r2, radius=e.radius,
+                   height=height, wrap=False, too_d=m)  # unrolled already
     h, n = t1.height, t1.name
 
-    # ... and iterate as Karney describes, @see:
-    # LatLonEllipsoidalBase.LatLon.intersections2
+    # ... and iterate as Karney describes, for references
+    # @see: Function L{ellipsoidalKarney.intersections2}.
     ts, ta = [], None
     for t in ((t1,) if t1 is t2 else (t1, t2)):
-        c = m = None  # force first d == c to False
         for i in range(1, _TRIPS):
             A.reset(t.lat, t.lon)  # gu-/estimate as origin
-            # convert centers to projection space
-            t1 = A.forward(c1.lat, c1.lon)
-            t2 = A.forward(c2.lat, c2.lon)
-            # compute intersections in projection space
+            # convert centers to projection space and
+            # compute the intersections there
+            t1, t2 = A._forwards(c1, c2)
             v1, v2 = _vi2(t1, r1,  # XXX * t1.scale?,
                           t2, r2,  # XXX * t2.scale?,
                           sphere=False, too_d=m)
             # convert intersections back to geodetic
-            t1, d1 = A._reverse2(v1.x, v1.y)
             if v1 is v2:  # abutting
-                t, d = t1, d1  # PYCHOK no cover
-            else:
-                t2, d2 = A._reverse2(v2.x, v2.y)
-                # consider only the closer intersection
+                t,  d  = A._reverse2(v1)
+            else:  # consider the closer intersection
+                t1, d1 = A._reverse2(v1)
+                t2, d2 = A._reverse2(v2)
                 t, d = (t1, d1) if d1 < d2 else (t2, d2)
-            # break if below tolerance or if unchanged
-            if d < e.degrees or d == c:
+            if e.done(d):  # below tol or unchanged?
                 t._iteration = i  # _NamedTuple._iteration
                 ts.append(t)
                 if v1 is v2:  # abutting
-                    ta = t  # PYCHOK no coves
+                    ta = t
                 break
-            c = d
-            if m is None or m > d:
-                m = d  # min tol in degrees
         else:
-            raise e.degError(m, Error=IntersectionError)
+            raise e.degError(Error=IntersectionError)
+        e.reset()
 
     if ta:  # abutting circles
         pass  # PYCHOK no cover
@@ -722,22 +728,21 @@ def _nearestOn2(p, point1, point2, within=True, height=None, wrap=True,
 
 def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
                                LatLon=None, **LatLon_kwds):
-    # Only function C{_nearestOn2} and method C{nearestOn8} above
+    # Only in function C{_nearestOn2} and method C{nearestOn8} above
     _LLS   = _MODS.sphericalNvector.LatLon
-    _vnOn2 = _MODS.vector3d._nearestOn2
     _V3d   = _MODS.vector3d.Vector3d
+    _vnOn2 = _MODS.vector3d._nearestOn2
 
-    def _v3d(t, h):
-        return _V3d(t.x, t.y, h)
+    def _llS(ll):  # return an C{_LLS} instance
+        return _LLS(ll.lat, ll.lon, height=ll.height)
 
     E =  p.ellipsoids(p2)
     e = _Tol(tol, E, p.lat, p1.lat, p2.lat)
 
     # gu-/estimate initial nearestOn, spherically ... wrap=False, only!
     # using sphericalNvector.LatLon.nearestOn for within=False support
-    t = _LLS(p.lat,  p.lon,  height=p.height).nearestOn(
-        _LLS(p1.lat, p1.lon, height=p1.height),
-        _LLS(p2.lat, p2.lon, height=p2.height), within=within, height=height)
+    t = _llS(p).nearestOn(_llS(p1), _llS(p2), within=within,
+                                              height=height)
     n, h = t.name, t.height
     if height is None:
         h1 = p1.height  # use heights as pseudo-Z in projection space
@@ -746,29 +751,24 @@ def _nearestOn3_(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
     else:  # ignore heights in distances, Z=0
         h0 = h1 = h2 = _0_0
 
-    # ... and iterate as Karney describes, @see:
-    # LatLonEllipsoidalBase.LatLon.intersections2
-    c = m = f = None  # force first d == c to False
-    # closest to origin, .z to interpolate height
-    vp = _V3d(_0_0, _0_0, h0)
+    # ... and iterate to find the closest (to the origin with .z
+    # to interpolate height) as Karney describes, for references
+    # @see: Function L{ellipsoidalKarney.nearestOn}.
+    vp, f = _V3d(_0_0, _0_0, h0), None
     for i in range(1, _TRIPS):
         A.reset(t.lat, t.lon)  # gu-/estimate as origin
-        # convert points to projection space
-        # and compute the nearest one there
-        v, f = _vnOn2(vp, _v3d(A.forward(p1.lat, p1.lon), h1),
-                          _v3d(A.forward(p2.lat, p2.lon), h2),
-                           within=within)
+        # convert points to projection space and compute
+        # the nearest one (and its height) there
+        s, t =  A._forwards(p1, p2)
+        v, f = _vnOn2(vp, _V3d(s.x, s.y, h1),
+                          _V3d(t.x, t.y, h2), within=within)
         # convert nearest one back to geodetic
-        t, d = A._reverse2(v.x, v.y)
-        # break if below tolerance or if unchanged
-        if d < e.degrees or d == c:
+        t, d = A._reverse2(v)
+        if e.done(d):  # below tol or unchanged?
             t._iteration = i  # _NamedTuple._iteration
             break
-        c = d
-        if m is None or m > d:
-            m = d  # min tol in degrees
     else:
-        raise e.degError(m)
+        raise e.degError()
 
     if height is None:
         h = v.z  # nearest

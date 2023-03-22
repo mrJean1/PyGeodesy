@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, m2degrees, tan_2, 
 from math import atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '23.02.05'
+__version__ = '23.03.19'
 
 _ratio_ = 'ratio'
 _xline_ = 'xline'
@@ -865,8 +865,8 @@ def flatPolar_(phi2, phi1, lam21):
              L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
              L{haversine_}, L{thomas_} and L{vincentys_}.
     '''
-    a = abs(PI_2 - phi1)  # co-latitude
-    b = abs(PI_2 - phi2)  # co-latitude
+    a = fabs(PI_2 - phi1)  # co-latitude
+    b = fabs(PI_2 - phi2)  # co-latitude
     if a < b:
         a, b = b, a
     if a < EPS0:
@@ -1041,7 +1041,7 @@ def heightOf(angle, distance, radius=R_M):
              <https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
     r = h = Radius(radius)
-    d = abs(Distance(distance))
+    d = fabs(Distance(distance))
     if d > h:
         d, h = h, d
 
@@ -1440,13 +1440,13 @@ class Radical2Tuple(_NamedTuple):
 
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
-    m = abs(lat1 + lat2) * _0_5
+    m = fabs(lat1 + lat2) * _0_5
     return cos(radians(m)) if m < 90 else _0_0
 
 
 def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
     # scale factor cos(mean of phis) for delta lam
-    m = abs(phi1 + phi2) * _0_5
+    m = fabs(phi1 + phi2) * _0_5
     return cos(m) if m < PI_2 else _0_0
 
 

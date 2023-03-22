@@ -34,10 +34,10 @@ from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, \
                             sincos2d, sincos2d_
 
-from math import atan, atan2, atanh, degrees, radians, sqrt
+from math import atan, atan2, atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '22.09.12'
+__version__ = '23.03.19'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -98,7 +98,7 @@ def _Lat(*lat, **Error_name_lat):
 def _tol(tol, x):
     '''(INTERNAL) Converge tolerance.
     '''
-    return tol * max(_1_0, abs(x))
+    return tol * max(_1_0, fabs(x))
 
 
 class _AlbersBase(_NamedBase):
@@ -163,7 +163,7 @@ class _AlbersBase(_NamedBase):
         ca1, ca2 = max(EPS0, ca1), max(EPS0, ca2)
         ta1, ta2 = sa1 / ca1, sa2 / ca2
 
-        par1 = abs(ta1 - ta2) < EPS02  # ta1 == ta2
+        par1 = fabs(ta1 - ta2) < EPS02  # ta1 == ta2
         if par1 or polar:
             C, ta0 = _1_0, ta2
         else:
@@ -193,7 +193,7 @@ class _AlbersBase(_NamedBase):
                 u_du = fsum1_(s1_qZ *  g, -D,  g * BA) \
                      / fsum1_(s1_qZ * dg, dD, dg * BA, g * dAB, floats=True)  # == u/du
                 ta0, d = Ta02_(-u_du * (sca0 * sca02))
-                if abs(d) < tol:
+                if fabs(d) < tol:
                     break
             else:
                 raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
@@ -248,7 +248,7 @@ class _AlbersBase(_NamedBase):
     def _atanhx1(self, x):
         '''(INTERNAL) Function M{atanh(sqrt(x)) / sqrt(x) - 1}.
         '''
-        s = abs(x)
+        s = fabs(x)
         if s < _0_5:  # for typical ...
             # x < E.e^2 = 2 * E.f use ...
             # x / 3 + x^2 / 5 + x^3 / 7 + ...
@@ -300,7 +300,7 @@ class _AlbersBase(_NamedBase):
         '''
         e2 = self.datum.ellipsoid.e2
 
-        if ((abs(x) + abs(y)) * e2) < _0_5:
+        if ((fabs(x) + fabs(y)) * e2) < _0_5:
             e = z = _1_0
             k = 1
             T   = Fsum()  # Taylor expansion
@@ -578,7 +578,7 @@ class _AlbersBase(_NamedBase):
             txia  = _txif(ta)
             s3qx  =  sqrt3(sca2 * _1_x21(txia)) * qx
             ta, d = _Ta2((txi - txia) * s3qx * eta2)
-            if abs(d) < tol:
+            if fabs(d) < tol:
                 return ta
         raise AlbersError(Fmt.no_convergence(d, tol), txt=str(self))
 
@@ -588,7 +588,7 @@ class _AlbersBase(_NamedBase):
         E = self.datum.ellipsoid
 
         ca2 = _1_x21(ta)
-        sa  =  sqrt(ca2) * abs(ta)  # enforce odd parity
+        sa  =  sqrt(ca2) * fabs(ta)  # enforce odd parity
 
         es1    =  E.e2 * sa
         es2m1  = _1_0 - sa * es1

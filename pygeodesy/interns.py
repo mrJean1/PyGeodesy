@@ -149,6 +149,7 @@ _BANG_           = Str_('!')                 # PYCHOK OK
 _BAR_            = Str_('|')                 # PYCHOK OK
 _bearing_             = 'bearing'            # PYCHOK OK
 _Bessel1841_          = 'Bessel1841'         # PYCHOK OK
+_beta_                = 'beta'               # PYCHOK OK
 _by_                  = 'by'                 # PYCHOK OK
 _c_                   = 'c'                  # PYCHOK OK
 _C_                   = 'C'                  # PYCHOK OK
@@ -585,7 +586,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.03.12'
+__version__ = '23.03.20'
 
 if __name__ == '__main__':
 

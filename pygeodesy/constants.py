@@ -17,14 +17,14 @@ from pygeodesy.interns import _INF_, _NAN_, _sets_, _UNDER_
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Fmt, Int, Radius
 
-from math import isinf, isnan, pi as _pi, sqrt
+from math import fabs, isinf, isnan, pi as _pi, sqrt
 try:
     from math import inf as _inf, nan as _nan  # PYCHOK Python 3+
 except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '23.03.12'
+__version__ = '23.03.19'
 
 
 def _Float(**name_arg):
@@ -75,7 +75,7 @@ def _float(f):  # in .datums, .ellipsoids, ...
 
 
 def float0(*xs):
-    '''Yield as C{B{x}s} as a non-NEG0 C{float}.
+    '''Yield C{B{x}s} as a non-NEG0 C{float}.
     '''
     for x in xs:
         yield float(x) or _0_0
@@ -257,9 +257,9 @@ except ImportError:  # Python 3.4-
     def _isclose(a, b, rel_tol=1e-9, abs_tol=0):
         '''Mimick Python 3.5+ C{math.isclose}.
         '''
-        t, d = abs_tol, abs(a - b)
+        t, d = abs_tol, fabs(a - b)
         if d > t:
-            r = max(abs(a), abs(b)) * rel_tol
+            r = max(fabs(a), fabs(b)) * rel_tol
             t = max(r, t)
         return d <= t
 
@@ -406,7 +406,7 @@ except ImportError:  # Python 3.6-
         if isnan(y):
             x =  NAN
         elif x and not isnan(x):
-            y =  abs(y)
+            y =  fabs(y)
             x = _fmod(x, y)
             h = _0_5 * y
             if x >= h:

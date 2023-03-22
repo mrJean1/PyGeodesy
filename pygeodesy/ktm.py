@@ -62,10 +62,10 @@ from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atand, sincos2, sincos2d_
 
 from cmath import phase
-from math import atan2, asinh, cos, cosh, degrees, sin, sinh, sqrt, tanh
+from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '22.09.15'
+__version__ = '23.03.19'
 
 
 class KTMError(_ValueError):
@@ -332,7 +332,7 @@ class KTransverseMercator(_NamedBase):
         if c > 0:
             r = hypot(h, c)
         else:  # PYCHOK no cover
-            r =  abs(h)
+            r =  fabs(h)
             c = _0_0
         E = self.ellipsoid
         if r:

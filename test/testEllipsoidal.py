@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.08.24'
+__version__ = '23.03.19'
 
 from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -262,7 +262,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('isSpherical', p.isSpherical, False)
 
         self.test('epsilon', p.epsilon, 1e-12)
-        self.test('iterations', p.iterations, 100)
+        self.test('iterations', p.iterations, 200)
 
         q = p.copy()
         self.test('copy', q.isequalTo(p), True)
@@ -271,9 +271,9 @@ class Tests(_TestsLL, _TestsV):
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
 
-        q.epsilon, q.iterations = EPS, 200
+        q.epsilon, q.iterations = EPS, 400
         self.test('epsilon', q.epsilon, EPS, fmt='%.12e')
-        self.test('iterations', q.iterations, 200)
+        self.test('iterations', q.iterations, 400)
         self.test('iteration', q.iteration, None)
 
         self.testKarneyVincenty(module, LatLon, d, X=X, GS=GS)

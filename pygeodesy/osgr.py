@@ -49,10 +49,10 @@ from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, \
                             Phi_, Scalar, _10um, _100km
 from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 
-from math import cos, radians, sin, sqrt
+from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '22.09.24'
+__version__ = '23.03.19'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -342,7 +342,7 @@ class Osgr(_NamedBase):
             for self._iteration in range(1, _TRIPS):
                 a = _A(m / a0)
                 m = n0 - _M(a)  # meridional arc
-                if abs(m) < eps:
+                if fabs(m) < eps:
                     break
             else:  # PYCHOK no cover
                 t =  str(self)
@@ -741,7 +741,7 @@ if __name__ == '__main__':
             g = Osgr(e, n)
             v = g.toLatLon(kTM=False, datum=D)
             k = g.toLatLon(kTM=True,  datum=D)
-            d = max(abs(v.lat - k.lat), abs(v.lon - k.lon))
+            d = max(fabs(v.lat - k.lat), fabs(v.lon - k.lon))
             if d > t1[2]:
                 t1 = e, n, d, t
                 p  = True
@@ -750,8 +750,8 @@ if __name__ == '__main__':
                        (v.lon + k.lon) / 2, datum=D)
             v  =  ll.toOsgr(kTM=False)
             k  =  ll.toOsgr(kTM=True)
-            d  =  max(abs(v.easting  - k.easting),
-                      abs(v.northing - k.northing))
+            d  =  max(fabs(v.easting  - k.easting),
+                      fabs(v.northing - k.northing))
             if d > t2[2]:
                 t2 = ll.lat, ll.lon, d, t
                 p  = True

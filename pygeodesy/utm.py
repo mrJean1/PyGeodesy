@@ -58,12 +58,12 @@ from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
                                  _UTM_LAT_MIN, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_OFF_MAX, UtmUpsBase, _xnamed
 
-from math import asinh, atan, atanh, atan2, cos, cosh, \
-                 degrees, radians, sin, sinh, tan, tanh
+from math import asinh, atan, atanh, atan2, cos, cosh, degrees, \
+                 fabs, radians, sin, sinh, tan, tanh
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '22.10.07'
+__version__ = '23.03.19'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -211,7 +211,7 @@ def _to4zBll(lat, lon, cmoff=True, strict=True, Error=RangeError):
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     x = lon - _cmlon(z)  # z before Norway/Svalbard
-    if abs(x) > _UTM_ZONE_OFF_MAX:
+    if fabs(x) > _UTM_ZONE_OFF_MAX:
         t = _SPACE_(_outside_, _UTM_, _zone_, str(z), _by_, degDMS(x, prec=6))
         raise Error(lon=degDMS(lon), txt=t)
 
@@ -471,7 +471,7 @@ class Utm(UtmUpsBase):
         for T, i, d in E._es_tauf3(T, T):  # max 5
             # d may toggle on +/-1.12e-16 or +/-4.47e-16,
             # see the references at C{Ellipsoid.es_tauf}
-            if abs(d) < eps or abs(d + p) < e:
+            if fabs(d) < eps or fabs(d + p) < e:
                 break
             p = d
         else:
