@@ -3,6 +3,8 @@
 # <http://GitHub.com/pypa/setuptools/blob/master/appveyor.yml>
 # <http://www.AppVeyor.com/docs/windows-images-software/#python>
 
+image: Visual Studio 2019
+
 environment:
 
   APPVEYOR: True
