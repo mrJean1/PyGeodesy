@@ -119,9 +119,8 @@ Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.8,
 are included in the distribution files.
 
 The tests also ran with Python 3.11.2 (and geographiclib_ 2.0) on
-`Debian 11`_ in 64-bit only and with Python 3.11, 3.10 and 2.7.17
-(all with geographiclib_ 1.52) on `Windows Server 2012R2`_ in 64-
-and/or 32-bit.
+`Debian 11`_ in 64-bit only and with Python 3.11.2, 3.10.10 and 2.7.18
+(all with geographiclib_ 1.52) on `Windows 10`_ in 64- and/or 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
@@ -141,20 +140,20 @@ with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3,
 X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and
 numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
 iPhone12, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on
-iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 10 Pro and
-32-bit Python 2.6.6 on Windows XP SP3.
+iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server
+2012R2, Windows 10 Pro and 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
 
-All Python source code has been statically checked_ with PyChecker_,
-PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.11.2, both in 64-bit on macOS 13.2.1 Ventura.
+All Python source code has been statically checked_ with PyChecker_, PyFlakes_,
+PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18 and with Flake8_
+using Python 3.11.2, both in 64-bit on macOS 13.2.1 Ventura.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Mar 22, 2023.*
+*Last updated: Mar 23, 2023.*
 
 License
 =======
@@ -265,4 +264,4 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Vincenty: https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html
 .. _Visvalingam-Whyatt: https://hydra.Hull.ac.UK/resources/hull:8338
 .. _Web Mercator: https://WikiPedia.org/wiki/Web_Mercator
-.. _Windows Server 2012R2: https://CI.AppVeyor.com/project/mrJean1/pygeodesy
+.. _Windows 10: https://CI.AppVeyor.com/project/mrJean1/pygeodesy

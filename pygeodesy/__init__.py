@@ -137,9 +137,9 @@ Python 3.11.2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{pygeodesy.machine}).
 
 The tests also ran with Python 3.11.2 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Debian
-11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11, 3.10 and 2.7.17 (all
-with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows Server 2012R2
-<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
+11<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only and with Python 3.11.2, 3.10.10 and 2.7.18
+(all with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10<https://CI.AppVeyor.com/
+project/mrJean1/pygeodesy>} in 64- and/or 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
@@ -159,7 +159,7 @@ High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yose
 <https://OMZ-Software.com/pythonista>}3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2,
 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>}
 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on
-Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
+Windows Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -168,7 +168,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.2, both in 64-bit on macOS 13.2.1 Venture.
+using Python 3.11.2, both in 64-bit on macOS 13.2.1 Ventura.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -576,7 +576,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.03.22'
+__version__ = '23.03.23'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

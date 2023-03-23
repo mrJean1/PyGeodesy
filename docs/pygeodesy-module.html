@@ -293,11 +293,12 @@
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 11</a> in 64-bit only and with Python 3.11, 3.10 
-    and 2.7.17 (all with <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">Debian 11</a> in 64-bit only and with Python 3.11.2, 
+    3.10.10 and 2.7.18 (all with <a 
+    href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.52) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-    target="_top">Windows Server 2012R2</a> in 64- and/or 32-bit.</p>
+    target="_top">Windows 10</a> in 64- and/or 32-bit.</p>
     <p>A single-File and single-Directory application with 
     <code>pygeodesy</code> has been bundled using <a 
     href="https://PyPI.org/project/pyinstaller" 
@@ -334,7 +335,8 @@
     and/or iPhone12, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a> 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
     on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 
-    10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.</p>
+    Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6 on Windows 
+    XP SP3.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -346,7 +348,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.11.2, both in 64-bit on macOS 
-    13.2.1 Venture.</p>
+    13.2.1 Ventura.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -523,7 +525,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.03.22
+        23.03.23
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -8167,7 +8169,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7facb85300d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe5785c90d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -11186,7 +11188,7 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Ramer-Douglas-Peucker (RDP) simplification of a path of 
+      <i>Ramer-Douglas-Peucker</i> (RDP) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -11209,8 +11211,8 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
-      <code>LatLon</code> points.</td>
+      Modified <i>Ramer-Douglas-Peucker</i> (RDPm) simplification of a path
+      of <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
             
@@ -11232,8 +11234,8 @@
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
-      points.</td>
+      <i>Reumann-Witkam</i> (RW) simplification of a path of 
+      <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
             
@@ -11255,7 +11257,7 @@
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Visvalingam-Whyatt (VW) simplification of a path of 
+      <i>Visvalingam-Whyatt</i> (VW) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -11278,7 +11280,7 @@
         <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified Visvalingam-Whyatt (VWm) simplification of a path of 
+      <i>Modified Visvalingam-Whyatt</i> (VWm) simplification of a path of 
       <code>LatLon</code> points.</td>
           <td align="right" valign="top">
             
@@ -12647,7 +12649,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.3.22'"><code class="variable-quote">'</code><code class="variable-string">23.3.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'23.3.23'"><code class="variable-quote">'</code><code class="variable-string">23.3.23</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20366,7 +20368,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7facb85300d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe5785c90d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26189,7 +26191,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </tr></table>
   
   <p>Basic simplification of a path of <code>LatLon</code> points.</p>
-  <p>Eliminates any points closer together than the given distance 
+  <p>Eliminates any points closer together than the given <i>distance</i> 
   tolerance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -26198,8 +26200,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -26267,10 +26269,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Ramer-Douglas-Peucker (RDP) simplification of a path of 
+  <p><i>Ramer-Douglas-Peucker</i> (RDP) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
-  given distance tolerance.</p>
+  given <i>distance</i> tolerance.</p>
   <p>This <code>RDP</code> method exhaustively searches for the point with 
   the largest distance, resulting in worst-case complexity <i 
   class="math">O(n**2)</i> where <i class="math">n</i> is the number of 
@@ -26282,9 +26284,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+          <i>perpendicular</i> distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -26322,10 +26325,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Modified Ramer-Douglas-Peucker (RDPm) simplification of a path of 
-  <code>LatLon</code> points.</p>
+  <p>Modified <i>Ramer-Douglas-Peucker</i> (RDPm) simplification of a path 
+  of <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or closer to an edge than the
-  given distance tolerance.</p>
+  given <i>distance</i> tolerance.</p>
   <p>This <code>RDPm</code> method stops at the first point farther than 
   the given distance tolerance, significantly reducing the run time (but 
   producing results different from the original <code>RDP</code> 
@@ -26337,9 +26340,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+          <i>perpendicular</i> distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -26377,10 +26381,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Reumann-Witkam (RW) simplification of a path of <code>LatLon</code> 
-  points.</p>
-  <p>Eliminates any points too close together or within the given pipe 
-  tolerance along an edge.</p>
+  <p><i>Reumann-Witkam</i> (RW) simplification of a path of 
+  <code>LatLon</code> points.</p>
+  <p>Eliminates any points too close together or within the given 
+  <i>pipe</i> tolerance along an edge.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -26388,9 +26392,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>pipe</code></strong> - Pipe radius, half-width (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - Optional, shortest or perpendicular distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code> use the <i>shortest</i> otherwise the 
+          <i>perpendicular</i> distance (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -26428,10 +26433,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Visvalingam-Whyatt (VW) simplification of a path of 
+  <p><i>Visvalingam-Whyatt</i> (VW) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance <i>squared</i>.</p>
+  exceeding the given <i>area</i> tolerance <i>squared</i>.</p>
   <p>This <code>VW</code> method exhaustively searches for the single point
   with the smallest triangular area, resulting in worst-case complexity <i 
   class="math">O(n**2)</i> where <i class="math">n</i> is the number of 
@@ -26445,8 +26450,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -26486,7 +26491,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Modified Visvalingam-Whyatt (VWm) simplification of a path of 
+  <p><i>Modified Visvalingam-Whyatt</i> (VWm) simplification of a path of 
   <code>LatLon</code> points.</p>
   <p>Eliminates any points too close together or with a triangular area not
   exceeding the given area tolerance <i>squared</i>.</p>
@@ -26503,8 +26508,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
           (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - Optionally return the simplified point indices instead of the 
-          simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code> return the simplified point indices instead 
+          of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">pygeodesy.equirectangular_</a>.</li>
@@ -29750,7 +29755,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Mar 22 11:04:07 2023
+    Generated by Epydoc 3.0.1 on Thu Mar 23 09:42:33 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
