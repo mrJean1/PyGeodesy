@@ -8,11 +8,13 @@ from base import clips, coverage, isiOS, NN, PyGeodesy_dir, \
                  tilde, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
 
-from os import access, environ, F_OK, linesep as NL
+from os import access, environ, F_OK, linesep as LS
 import sys
 
 __all__ = ('run2',)
-__version__ = '22.08.05'
+__version__ = '23.03.23'
+
+NL = '\n'  # pygeodesy.interns._NL_
 
 if isiOS:  # MCCABE 14
 
@@ -183,7 +185,8 @@ def _run(prefix, test, *opts):  # MCCABE 13
 def _testlines(r, skipped):
     '''(INTERNAL) Yield test lines.
     '''
-    for t in r.split(NL):
+
+    for t in r.split(LS if LS in r else NL):  # use NL on Windows, not LS
         if 'FAILED,' in t or 'passed' in t or (skipped and _skipped_ in t):
             yield t.rstrip()
     yield NN
