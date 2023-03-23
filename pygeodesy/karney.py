@@ -93,7 +93,7 @@ are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.or
 C{geodesic}, C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} or
 C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}.
 
-3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections and trilaterations
+3. All C{pygeodesy} functions and methods to compute I{ellipsoidal} intersections, nearest points and trilaterations
 
   - L{ellipsoidalExact.intersection3}, L{ellipsoidalExact.intersections2}, L{ellipsoidalExact.nearestOn},
     L{ellipsoidalExact.LatLon.intersection3}, L{ellipsoidalExact.LatLon.intersections2},
@@ -107,7 +107,9 @@ C++ utility U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve
     L{ellipsoidalVincenty.LatLon.intersection3}, L{ellipsoidalVincenty.LatLon.intersections2},
     L{ellipsoidalVincenty.LatLon.nearestOn}, L{ellipsoidalVincenty.LatLon.trilaterate5}
 
-are implementations of I{Karney}'s solution posted under U{The B{ellipsoidal} case
+  - L{RhumbLine.intersection2}, L{RhumbLine.nearestOn4}
+
+are iterative implementations of I{Karney}'s solution posted here under U{The B{ellipsoidal} case
 <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and in paper U{Geodesics
 on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section B{14. MARITIME BOUNDARIES}).
 
