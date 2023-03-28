@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test L{constants} module.
-'''
+# Test L{constants} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.15'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Float, Int, Radius, basics, constants, interns, \
                       float_, isinf, isint0, isnan, \

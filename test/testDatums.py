@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test datums, ellipsoids and transforms.
+# Test L{datums} and transforms.
 
 __all__ = ('Tests',)
-__version__ = '22.09.02'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Datum, Datums, Ellipsoid, Ellipsoids, \
                       R_M, Transform, Transforms

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test MGRS functions and methods.
+# Test L{mgrs} module.
 
 __all__ = ('Tests',)
-__version__ = '22.08.03'
+__version__ = '23.03.27'
 
-from base import basename, GeoConvert, RandomLatLon, startswith, TestsBase
+from bases import basename, GeoConvert, RandomLatLon, startswith, TestsBase
 
 from pygeodesy import mgrs, Mgrs, parseMGRS
 

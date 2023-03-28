@@ -17,9 +17,9 @@ from pygeodesy.constants import EPS, _0_0, _1_0
 from pygeodesy.errors import _AssertionError, ClipError, PointsError
 from pygeodesy.fmath import fabs, len2
 from pygeodesy.fsums import fsum_, Property_RO
-from pygeodesy.interns import NN, _convex_, _DOT_, _end_, _few_, _fi_, \
-                             _height_, _i_, _invalid_, _j_, _lat_, _lon_, \
-                             _near_, _not_, _points_, _start_, _too_
+from pygeodesy.interns import NN, _clipid_, _convex_, _DOT_, _end_, _few_, \
+                             _fi_, _height_, _i_, _invalid_, _j_, _lat_, \
+                             _lon_, _near_, _not_, _points_, _start_, _too_
 from pygeodesy.iters import _imdex2, points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _Named, _NamedTuple, _Pass
@@ -30,9 +30,8 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '23.03.11'
+__version__ = '23.03.25'
 
-_clipid_   = 'clipid'
 _fj_       = 'fj'
 _original_ = 'original'
 

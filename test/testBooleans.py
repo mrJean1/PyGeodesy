@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{booleans} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.18'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import BooleanFHP, BooleanGH
 
@@ -55,7 +55,9 @@ class Tests(TestsBase):
 
         b = BooleanFHP(p) + BooleanFHP(q)
         self.test('sum', repr(b), 'BooleanFHP[2][6]((lat=0, lon=0, height=1), (lat=7, lon=5, height=2), (lat=0, lon=10, height=3), (lat=10, lon=0, height=1, clipid=1), (lat=3, lon=5, height=2, clipid=1), (lat=10, lon=10, height=3, clipid=1))')
-        self.test('==', b == (BooleanFHP(q) + BooleanFHP(p)), True)
+        t = BooleanFHP(q) + BooleanFHP(p)
+        self.test('==', b == t, True)
+        self.test('equalTo', b.isequalTo(t, eps=1e-9), True)
 
         t = tuple(b.toLatLon(LatLon))[:3]
         self.test('toLatLon[0:3]', repr(t), '(LatLon(00°00′00.0″N, 000°00′00.0″E, +1.00m), LatLon(07°00′00.0″N, 005°00′00.0″E, +2.00m), LatLon(00°00′00.0″N, 010°00′00.0″E, +3.00m))', nl=1)

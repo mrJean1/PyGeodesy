@@ -9,23 +9,18 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 # from pygeodesy.basics import isodd  # from .karney
-from pygeodesy.constants import MIN as _MIN, _0_0, _2_0
-# from pygeodesy.errors import _or  # from .karney
-from pygeodesy.interns import _not_
-from pygeodesy.karney import _CapsBase, GeodesicError, \
-                              isodd, _hypot, _or, _sum2_
-# from pygeodesy.props import Property  # from .karney
+from pygeodesy.constants import _0_0, _2_0
+from pygeodesy.errors import _not_, _or
+# from pygeodesy.interns import _not_  # from .errors
+from pygeodesy.karney import _CapsBase, GeodesicError, isodd, _hypot, _sum2_
 
-from math import sqrt, ldexp as _ldexp
+from math import ldexp as _ldexp
 
 __all__ = ()
-__version__ = '22.09.12'
+__version__ = '23.03.25'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
-# underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
-_TINY = sqrt(_MIN)  # PYCHOK exported
-# assert (_TINY * EPS) > 0 and (_TINY + EPS) == EPS
 
 
 class _GeodesicBase(_CapsBase):  # in .geodsolve
@@ -51,18 +46,18 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     '''
     ar = _2_0 * (cx - sx) * (cx + sx)  # 2 * cos(2 * x)
     y0 = t0 = y1 = t1 = _0_0
-    i  = len(c4s)  # c4s = list(c4s)
-    if isodd(i):
-        i -= 1
-        y0 = c4s[i]  # c4s.pop()
+    n  = len(c4s)  # c4s = list(c4s)
+    if isodd(n):
+        n -= 1
+        y0 = c4s[n]  # c4s.pop()
     _s2_ = _sum2_
-    for i in range(i - 1, 0, -2):  # reversed
+    for n in range(n - 1, 0, -2):  # reversed
         # y1 = ar * y0 - y1 + c4s.pop()
         # y0 = ar * y1 - y0 + c4s.pop()
-        y1, t1 = _s2_(ar * y0, ar * t0, -y1, -t1, c4s[i])
-        y0, t0 = _s2_(ar * y1, ar * t1, -y0, -t0, c4s[i - 1])
+        y1, t1 = _s2_(ar * y0, ar * t0, -y1, -t1, c4s[n])
+        y0, t0 = _s2_(ar * y1, ar * t1, -y0, -t0, c4s[n - 1])
     s, _ = _s2_(cx *  y0, cx * t0, -cx * y1, -cx * t1)
-    return s  # cx * (y0  -     y1)
+    return s  # cx * (y0           -     y1)
 
 
 _f = float  # in _f2 and .geodesicx._C4_24, _27 and _30

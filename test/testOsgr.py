@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test OSGR functions and methods.
+# Test L{osgr} module.
 
 __all__ = ('Tests',)
-__version__ = '22.08.18'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, startswith, TestsBase
+from bases import GeodSolve, geographiclib, startswith, TestsBase
 
 from pygeodesy import F_D, F_DEG, F_DMS, fstr, Datums, \
                       Osgr, parseOSGR, toOsgr

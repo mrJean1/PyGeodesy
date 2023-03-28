@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '2.02.06'
+__version__ = '23.03.27'
 
-from base import random, startswith, TestsBase
+from bases import random, startswith, TestsBase
 
 from pygeodesy import EPS4, PI_2, PI_4, Ellipsoids, F_DMS, fstr, JacobiConformal, map1, map2, \
                       signBit, sincos2d_, Triaxial, Triaxial_, Triaxials, triaxials, Vector3d

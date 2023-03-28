@@ -33,9 +33,9 @@
 # Copyright (C) 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '20.09.09'  # '18.10.02'
+__version__ = '23.03.27'  # '18.10.02'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_D, F_DMS, classname, bearingDMS, CrossError, crosserrors
 

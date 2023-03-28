@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test datums, ellipsoids and transforms.
+# Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '23.02.07'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
                       a_b2f_, a_b2f2, a_b2n, a_f2Tuple, \

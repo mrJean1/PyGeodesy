@@ -8,7 +8,7 @@
 # <https://GitHub.com/milkbread/Visvalingam-Wyatt/blob/master/out.json>
 # <https://milkbread.GitHub.io/Visvalingam-Wyatt>
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import LatLon_, R_KM, R_M, \
                       ellipsoidalVincenty, sphericalTrigonometry, \
@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '23.03.19'  # '18.10.12'
+__version__ = '23.03.27'  # '18.10.12'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (

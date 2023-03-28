@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test Karney wrappers.
-'''
+# Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '22.09.12'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, TestsBase
+from bases import GeodSolve, geographiclib, TestsBase
 
 from pygeodesy import karney, LatLon_, NEG0, unroll180, wrap180
 from pygeodesy.constants import _0_0, _360_0

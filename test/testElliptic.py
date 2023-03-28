@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test Elliptic Python implementation.
-'''
+# Test L{elliptic} Python implementation.
 
 __all__ = ('Tests',)
-__version__ = '22.10.16'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Elliptic, EllipticError, Elliptic3Tuple, \
                       EPS, fstr, PI_2, PI_4, radians, Scalar, sincos2

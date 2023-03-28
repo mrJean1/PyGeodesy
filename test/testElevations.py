@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test elevations functions.
+# Test L{elevations} module.
 
 __all__ = ('Tests',)
-__version__ = '21.11.21'
+__version__ = '23.03.27'
 
-from base import isPython2, isPython3, TestsBase
+from bases import isPython2, isPython3, TestsBase
 
 from pygeodesy import elevation2, Datums, geoidHeight2
 

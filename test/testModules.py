@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test module attributes.
+# Test modules and attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.05.28'
+__version__ = '23.03.27'
 
-from base import isPyPy, TestsBase, type2str
+from bases import isPyPy, TestsBase, type2str
 
 
 class Tests(TestsBase):

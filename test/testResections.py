@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test module attributes.
+# Test L{resections} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.08'
+__version__ = '23.03.27'
 
-from base import isWindows, TestsBase
+from bases import isWindows, TestsBase
 
 from pygeodesy import EPS0, PI, PI_4, cassini, collins5, fstr, pierlot, snellius3, \
                       tienstra7, triAngle, triAngle4, triSide, triSide2, triSide4, \

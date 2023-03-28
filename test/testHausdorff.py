@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the Hausdorff distances.  Very slow with coverage!
+# Test L{hausdorff} distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '21.08.14'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, isPython3, isWindows, \
-                 TestsBase
+from bases import GeodSolve, geographiclib, isPython3, isWindows, \
+                  TestsBase
 
 from pygeodesy import Datums, fstr, hausdorff_, \
                       HausdorffCosineAndoyerLambert, \

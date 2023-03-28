@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test I{local tangent plane} (LTP) classes .
-'''
+# Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '22.10.04'
+__version__ = '23.03.27'
 
-from base import startswith, TestsBase
+from bases import startswith, TestsBase
 
 from pygeodesy import Aer, Attitude, ChLV, ChLVa, ChLVe, \
                       EcefFarrell21, EcefFarrell22, EcefKarney, \

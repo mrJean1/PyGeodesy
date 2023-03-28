@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test gars module.
+# Test L{gars} module.
 
 __all__ = ('Tests',)
-__version__ = '22.01.20'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import degDMS, fstr, gars, Garef, S_MIN
 

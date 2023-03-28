@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{utily} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.15'
+__version__ = '23.03.27'
 
-from base import TestsBase, geographiclib
+from bases import TestsBase, geographiclib
 
 from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
                       acre2ha, acre2m2, atan2d, chain2m, cot_, cotd_, \

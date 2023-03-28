@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the simplify functions.
+# Test L{points} module.
 
 __all__ = ('Tests',)
-__version__ = '21.12.30'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, isPython37, TestsBase
+from bases import GeodSolve, geographiclib, isPython37, TestsBase
 
 from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
                       Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \

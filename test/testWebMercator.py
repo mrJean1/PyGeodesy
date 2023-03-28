@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# Test Web Mercator classes functions and methods.
+# Test L{webmercator} module.
 
 __all__ = ('Tests',)
-__version__ = '22.04.22'
+__version__ = '23.03.27'
 
 from math import log, radians, tan
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_D, F_DMS, R_M, R_MA, Datums, LatLon_, \
                       fstr, toWm, webmercator, Wm

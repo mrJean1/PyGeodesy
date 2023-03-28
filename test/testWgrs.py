@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test wgrs module.
+# Test L{wgrs} module.
 
 __all__ = ('Tests',)
-__version__ = '21.01.10'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import degDMS, fstr, Georef, S_DEG, S_MIN, wgrs
 

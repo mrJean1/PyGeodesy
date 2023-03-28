@@ -1,19 +1,19 @@
 
 # -*- coding: utf-8 -*-
 
-'''NavLab examples
+# NavLab examples
 
-This page illustrates implementations of the examples from
-<https://www.NavLab.net/nvector>.  Values are chosen to match
-those used in nvector.readthedocs.org.  Tests marked with
+# This page illustrates implementations of the examples from
+# <https://www.NavLab.net/nvector>.  Values are chosen to match
+# those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
-'''
+
 __all__ = ()
-__version__ = '21.09.17'
+__version__ = '23.03.27'
 
 if __name__ == '__main__':
 
-    from base import GeodSolve, geographiclib, startswith, TestsBase
+    from bases import GeodSolve, geographiclib, startswith, TestsBase
 
     from pygeodesy import Datums, F_D, ellipsoidalExact, \
                           ellipsoidalNvector, ellipsoidalVincenty, \

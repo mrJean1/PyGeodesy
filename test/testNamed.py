@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test named module.
+# Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '22.10.28'
+__version__ = '23.03.27'
 
-from base import endswith, TestsBase
+from bases import endswith, TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
                       namedTuples, nameof, NN, ub2str
 
@@ -227,7 +227,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from base import isiOS
+    from bases import isiOS
 
     t = Tests(__file__, __version__)
 

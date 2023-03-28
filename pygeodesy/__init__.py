@@ -115,7 +115,8 @@ test results (on macOS only) and the complete U{documentation<https://mrJean1.Gi
 Tests
 =====
 
-The tests ran with Python 3.11.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0), Python 3.10.8
+The tests ran with Python 3.11.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy
+<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1), Python 3.10.8
 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0, U{numpy<https://PyPI.org/project/numpy>} 1.23.3,
 U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicLib.SourceForge.io/html/utilities.html>}
 1.51, U{GeodSolve<https://GeographicLib.SourceForge.io/html/utilities.html>} 1.51 and U{RhumbSolve
@@ -130,8 +131,8 @@ U{scipy<https://PyPI.org/project/scipy>} 1.9.1, U{GeoConvert<https://GeographicL
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and env variable
 C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.10.8, 3.9.6
-and 2.7.18.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.2.2 using only Python 3.11.2
+and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in the distribution files.
 
 Python 3.11.2, 3.10.8 and 3.9.6 ran on Apple M1 Silicon (C{arm64}), I{natively}.  Python 3.8.10 and 2.7.18 ran on
 Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{pygeodesy.machine}).
@@ -576,7 +577,7 @@ else:
     _init__all__ = False
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '23.03.23'
+__version__ = '23.03.28'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

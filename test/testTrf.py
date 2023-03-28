@@ -1,17 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test Terrestrial Reference Frame (TRF) implementation.
+# Test L{trf} I{Terrestrial Reference Frame} implementation.
 
-All tests transcoded from Chris Veness (C) 2006-2022 U{Geodesy tools for conversions between
-reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} JavaScript original
-<https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
-'''
+# All tests transcoded from Chris Veness (C) 2006-2022 U{Geodesy tools for conversions between
+# reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} JavaScript original
+# <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '22.10.28'
+__version__ = '23.03.27'
 
-from base import GeodSolve, TestsBase
+from bases import GeodSolve, TestsBase
 
 from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
 

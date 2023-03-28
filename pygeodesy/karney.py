@@ -127,8 +127,7 @@ from pygeodesy.basics import _copysign, neg, unsigned0, _xgeographiclib, \
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th, \
                                _180_0, _N_180_0, _360_0
 from pygeodesy.datums import _a_ellipsoid, _WGS84
-from pygeodesy.errors import _AssertionError, _ValueError, _xkwds, _xkwds_get, \
-                             _or  # PYCHOK shared
+from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
 from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _DOT_, _lat2_, \
                              _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, \
@@ -147,7 +146,7 @@ from pygeodesy.utily import atan2d, fabs, sincos2d, tand, unroll180, wrap360
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.03.19'
+__version__ = '23.03.25'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_

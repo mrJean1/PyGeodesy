@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test L{iters} module.
-'''
+# Test L{iters} module.
 
 __all__ = ('Tests',)
-__version__ = '21.09.30'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import NN, PointsError, PointsIter
 

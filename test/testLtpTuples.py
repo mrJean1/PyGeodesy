@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test I{local tangent plane} (LTP) classes, tuples and conversions.
-'''
+# Test L{ltpTuples} I{local tangent plane} classes, tuples and conversions.
 
 __all__ = ('Tests',)
-__version__ = '22.05.27'
+__version__ = '23.03.27'
 
-from base import startswith, TestsBase
+from bases import startswith, TestsBase
 
 from pygeodesy import Aer, Enu, fstr, Local9Tuple, Ltp, Ned, XyzLocal
 from pygeodesy.ellipsoidalKarney import Cartesian, LatLon

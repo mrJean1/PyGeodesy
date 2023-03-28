@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test UTM functions and methods.
+# Test L{utm} module.
 
 __all__ = ('Tests',)
 __version__ = '22.07.25'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Ellipsoids, EPS, F_DEG, F_DMS, fstr, parseUTM5, toUtm8, Utm
 

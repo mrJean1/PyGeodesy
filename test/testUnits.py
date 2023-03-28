@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test units module.
+# Test L{units} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.23'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Band, Bearing, Bearing_, Bool, \
                       Epoch, Epsg, FIx, Garef, Geohash, Georef, \

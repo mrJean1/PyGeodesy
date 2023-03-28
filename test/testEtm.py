@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test projection L{ExactTransverseMercator}.
-'''
+# Test L{etm} projection L{ExactTransverseMercator}.
 
 __all__ = ('Tests',)
-__version__ = '22.05.14'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import etm, ExactTransverseMercator
 

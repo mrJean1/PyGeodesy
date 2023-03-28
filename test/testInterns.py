@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test L{interns} module.
-'''
+# Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.15'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import clips, interns, NN
 

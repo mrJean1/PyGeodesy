@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-u'''Some basic C{ktm} L{KTransverseMercator} tests.
-'''
-__all__ = ('Tests',)
-__version__ = '22.06.15'
+# Some basic L{ktm} L{KTransverseMercator} tests.
 
-from base import TestsBase
+__all__ = ('Tests',)
+__version__ = '23.03.27'
+
+from bases import TestsBase
 
 from pygeodesy import fstr, hypot, NN, sincos2d
 from pygeodesy.interns import _SLASH_

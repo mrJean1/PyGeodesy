@@ -6,9 +6,9 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '22.09.02'
+__version__ = '23.03.27'
 
-from base import GeodSolve, TestsBase, type2str
+from bases import GeodSolve, TestsBase, type2str
 
 from pygeodesy import itemsorted, Property, Property_RO, property_RO, \
                       SciPyWarning, Str_

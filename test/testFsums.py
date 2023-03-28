@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '22.10.09'
+__version__ = '23.03.27'
 
-from base import endswith, isPython2, randoms, startswith, TestsBase
+from bases import endswith, isPython2, randoms, startswith, TestsBase
 
 from pygeodesy import Fsum, fsum, fsum_, fsums, NN, ResidualError
 

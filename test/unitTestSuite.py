@@ -3,15 +3,15 @@
 
 # Module to run all PyGeodesy tests as  python setup.py test
 
-from base import test_dir
 from run import run2
+from bases import test_dir
 
 from glob import glob
 from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '23.03.09'
+__version__ = '23.03.27'
 
 
 class TestSuite(unittest.TestCase):

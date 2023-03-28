@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test LatLon base classes.
+# Test L{LatLonBase} classes.
 
 __all__ = ('Tests',)
-__version__ = '22.09.21'
+__version__ = '23.03.27'
 
-from base import GeodSolve, TestsBase
+from bases import GeodSolve, TestsBase
 
 from pygeodesy import clips, F_D, F_DMS, precision
 

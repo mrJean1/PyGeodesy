@@ -1,17 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test ellipsoidal function with the C(GeodTest.dat} from
-U{C.F.F. Karney, GeographicLib<https://GeographicLib.SourceForge.io>},
-also available U{here<https://Zenodo.org/record/32156>}, file C{GeodTest.dat}.
-See also U{Geodesic calculations for an ellipsoid done right
-<https://GeographicLib.SourceForge.io/scripts/geod-calc.html>}.
-'''
+# Test ellipsoidal function with the C(GeodTest.dat} from U{C.F.F. Karney,
+# GeographicLib<https://GeographicLib.SourceForge.io>}, also available
+# U{here<https://Zenodo.org/record/32156>}, file C{GeodTest.dat}.
+# See also U{Geodesic calculations for an ellipsoid done right
+# <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>}.
 
 __all__ = ('Tests',)
-__version__ = '21.05.16'
+__version__ = '23.03.27'
 
-from base import geographiclib, TestsBase
+from bases import geographiclib, TestsBase
 
 from pygeodesy import ellipsoidalExact, ellipsoidalKarney, ellipsoidalVincenty, \
                       Ellipsoids, VincentyError

@@ -44,8 +44,8 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
 # from pygeodesy.datums import _a_ellipsoid  # from .karney
 from pygeodesy.fsums import fsum_, fsum1_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
-                                        _sincos12, _sin1cos2, _TINY, _xnC4
-from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _update_glXs
+                                        _sincos12, _sin1cos2, _xnC4
+from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _TINY, _update_glXs
 from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _UNDER_
 from pygeodesy.karney import _around, _atan2d, Caps, _cbrt, _copysign, _diff182, \
                              _a_ellipsoid, _EWGS84, GDict, GeodesicError, _fix90, \
@@ -60,7 +60,7 @@ from pygeodesy.utily import atan2d as _atan2d_reverse, unroll180, wrap360
 from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '22.10.05'
+__version__ = '23.03.25'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -493,15 +493,16 @@ class GeodesicExact(_GeodesicBase):
 
            @return: A L{GDict} ...
         '''
+        Cs = Caps
         if self._debug:  # PYCHOK no cover
-            outmask |= Caps._DEBUG_INVERSE & self._debug
-        outmask &=  Caps._OUT_MASK  # incl. _SALPs_CALPs and _DEBUG_
+            outmask |= Cs._DEBUG_INVERSE & self._debug
+        outmask &= Cs._OUT_MASK  # incl. _SALPs_CALPs and _DEBUG_
         # compute longitude difference carefully (with _diff182):
         # result is in [-180, +180] but -180 is only for west-going
         # geodesics, +180 is for east-going and meridional geodesics
         lon12, lon12s = _diff182(lon1, lon2)
         # see C{result} from geographiclib.geodesic.Inverse
-        if (outmask & Caps.LONG_UNROLL):  # == (lon1 + lon12) + lon12s
+        if (outmask & Cs.LONG_UNROLL):  # == (lon1 + lon12) + lon12s
             r = GDict(lon1=lon1, lon2=fsum_(lon1, lon12, lon12s))
         else:
             r = GDict(lon1=_norm180(lon1), lon2=_norm180(lon2))
@@ -585,7 +586,7 @@ class GeodesicExact(_GeodesicBase):
             # sig12 = sig2 - sig1
             sig12 = _atan12(sbet1, p.csig1, sbet2, p.csig2, sineg0=True)  # PYCHOK csig*
             s12x, m12x, _, \
-            M12,  M21 = self._Length5(sig12, outmask | Caps.REDUCEDLENGTH, p)
+            M12,  M21 = self._Length5(sig12, outmask | Cs.REDUCEDLENGTH, p)
             # Add the check for sig12 since zero length geodesics
             # might yield m12 < 0.  Test case was
             #    echo 20.001 0 20.001 0 | GeodSolve -i
@@ -631,7 +632,7 @@ class GeodesicExact(_GeodesicBase):
                     sig12, salp1, calp1, \
                            salp2, calp2, domg12 = self._Newton6(salp1, calp1, p)
                     s12x, m12x, _, M12, M21 = self._Length5(sig12, outmask, p)
-                    if (outmask & Caps.AREA):
+                    if (outmask & Cs.AREA):
                         # omg12 = lam12 - domg12
                         s, c = _sincos2(domg12)
                         somg12, comg12 = _sincos12(s, c, slam12, clam12)
@@ -642,7 +643,7 @@ class GeodesicExact(_GeodesicBase):
                     m12x = dnm**2 * s
                     s12x = dnm * sig12
                     M12  = M21 = c
-                    if (outmask & Caps.AREA):
+                    if (outmask & Cs.AREA):
                         somg12, comg12 = _sincos2(lam12 / (self.f1 * dnm))
 
         else:  # _meridian is False
@@ -650,19 +651,19 @@ class GeodesicExact(_GeodesicBase):
 
         r.set_(a12=a12 if _b else degrees(sig12))  # in [0, 180]
 
-        if (outmask & Caps.DISTANCE):
+        if (outmask & Cs.DISTANCE):
             r.set_(s12=unsigned0(s12x if _b else (self.b * s12x)))
 
-        if (outmask & Caps.REDUCEDLENGTH):
+        if (outmask & Cs.REDUCEDLENGTH):
             r.set_(m12=unsigned0(m12x if _b else (self.b * m12x)))
 
-        if (outmask & Caps.GEODESICSCALE):
+        if (outmask & Cs.GEODESICSCALE):
             if swap_:
                 M12, M21 = M21, M12
             r.set_(M12=unsigned0(M12),
                    M21=unsigned0(M21))
 
-        if (outmask & Caps.AREA):
+        if (outmask & Cs.AREA):
             S12 = self._InverseArea(_meridian, salp1, calp1,
                                                salp2, calp2,
                                                somg12, comg12, p)
@@ -670,7 +671,7 @@ class GeodesicExact(_GeodesicBase):
                 S12 = -S12
             r.set_(S12=unsigned0(S12))
 
-        if (outmask & (Caps.AZIMUTH | Caps._SALPs_CALPs)):
+        if (outmask & (Cs.AZIMUTH | Cs._SALPs_CALPs)):
             if swap_:
                 salp1, salp2 = salp2, salp1
                 calp1, calp2 = calp2, calp1
@@ -679,14 +680,14 @@ class GeodesicExact(_GeodesicBase):
             if _xor(swap_, lat_):
                 calp1, calp2 = -calp1, -calp2
 
-            if (outmask & Caps.AZIMUTH):
+            if (outmask & Cs.AZIMUTH):
                 r.set_(azi1=_atan2d(salp1, calp1),
-                       azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Caps.REVERSE2))
-            if (outmask & Caps._SALPs_CALPs):
+                       azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Cs.REVERSE2))
+            if (outmask & Cs._SALPs_CALPs):
                 r.set_(salp1=salp1, calp1=calp1,
                        salp2=salp2, calp2=calp2)
 
-        if (outmask & Caps._DEBUG_INVERSE):  # PYCHOK no cover
+        if (outmask & Cs._DEBUG_INVERSE):  # PYCHOK no cover
             E, eF = self.ellipsoid, self._eF
             p.set_(C=C, a=self.a, f=self.f, f1=self.f1,
                         e=E.e, e2=self.e2, ep2=self.ep2,
@@ -794,8 +795,9 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/C++/doc/python/code.html>}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, Caps._SALPs_CALPs)  # No need for AZIMUTH
-        C = (caps | Caps.DISTANCE) if (caps & Caps._DISTANCE_IN_OUT) else caps
+        Cs = Caps
+        r  = self._GDictInverse(lat1, lon1, lat2, lon2, Cs._SALPs_CALPs)  # No need for AZIMUTH
+        C  = (caps | Cs.DISTANCE) if (caps & Cs._DISTANCE_IN_OUT) else caps
         azi1 = _atan2d(r.salp1, r.calp1)
         return _GeodesicLineExact(self, lat1, lon1, azi1, C,  # ensure a12 is distance
                                   self._debug, r.salp1, r.calp1)._GenSet(True, r.a12)
@@ -1054,19 +1056,20 @@ class GeodesicExact(_GeodesicBase):
         '''
         s12b = m12b = m0 = M12 = M21 = NAN
 
+        Cs = Caps
         eF = self._eF
 
-        # outmask &= Caps._OUT_MASK
-        if (outmask & Caps.DISTANCE):
+        # outmask &= Cs._OUT_MASK
+        if (outmask & Cs.DISTANCE):
             # Missing a factor of self.b
             s12b = eF.cE * _2__PI * fsum1_(eF.deltaE(*p.sncndn2),
                                           -eF.deltaE(*p.sncndn1), sig12)
 
-        if (outmask & Caps._REDUCEDLENGTH_GEODESICSCALE):
+        if (outmask & Cs._REDUCEDLENGTH_GEODESICSCALE):
             m0x = -eF.k2 * eF.cD * _2__PI
             J12 = -m0x * fsum1_(eF.deltaD(*p.sncndn2),
                                -eF.deltaD(*p.sncndn1), sig12)
-            if (outmask & Caps.REDUCEDLENGTH):
+            if (outmask & Cs.REDUCEDLENGTH):
                 m0 = m0x
                 # Missing a factor of self.b.  Add parens around
                 # (csig1 * ssig2) and (ssig1 * csig2) to ensure
@@ -1074,7 +1077,7 @@ class GeodesicExact(_GeodesicBase):
                 m12b = fsum1_(p.dn2 * (p.csig1 * p.ssig2),
                              -p.dn1 * (p.ssig1 * p.csig2),
                                 J12 * (p.csig1 * p.csig2))
-            if (outmask & Caps.GEODESICSCALE):
+            if (outmask & Cs.GEODESICSCALE):
                 M12 = M21 = p.ssig1 * p.ssig2 + \
                             p.csig1 * p.csig2
                 t = (p.cbet1 - p.cbet2) * self.ep2 * \

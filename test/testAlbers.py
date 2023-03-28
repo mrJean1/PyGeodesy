@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test Albers Equal-Area projection.
+# Test L{albers} Equal-Area projections.
 
 __all__ = ('Tests',)
-__version__ = '21.01.28'
+__version__ = '23.03.27'
 
-from base import TestsBase  # RandomLatLon
+from bases import TestsBase  # RandomLatLon
 
 from pygeodesy import albers, AlbersError, AlbersEqualArea, \
                       AlbersEqualArea2, AlbersEqualArea4, \

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test ellipsoidal earth model functions and methods.
+# Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '23.03.19'
+__version__ = '23.03.27'
 
-from base import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
+from bases import coverage, GeodSolve, geographiclib, isPython35, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 

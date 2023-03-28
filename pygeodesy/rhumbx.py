@@ -51,7 +51,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .intersection2 belo
 from math import asinh, atan, cos, cosh, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.rhumbx
-__version__ = '23.03.19'
+__version__ = '23.03.25'
 
 _rls   = []  # instances of C{RbumbLine} to be updated
 _TRIPS = 65  # .intersection2, 18+
@@ -318,23 +318,23 @@ class Rhumb(_RhumbBase):
                   This position is extremely close to the actual pole and
                   allows the calculation to be carried out in finite terms.
         '''
-        r = GDict(name=self.name)
-        if (outmask & Caps.AZIMUTH_DISTANCE_AREA):
+        r, Cs = GDict(name=self.name), Caps
+        if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
             r.set_(lat1=lat1, lon1=lon1, lat2=lat2, lon2=lon2)
             E = self.ellipsoid
             psi1  = E.auxIsometric(lat1)
             psi2  = E.auxIsometric(lat2)
             psi12 = psi2 - psi1
             lon12, _ = _diff182(lon1, lon2)
-            if (outmask & Caps.AZIMUTH):
+            if (outmask & Cs.AZIMUTH):
                 r.set_(azi12=_atan2d(lon12, psi12))
-            if (outmask & Caps.DISTANCE):
+            if (outmask & Cs.DISTANCE):
                 a12 = hypot(lon12, psi12) * self._DIsometric2Rectifyingd(psi2, psi1)
                 s12 = a12 * E._L_90
                 r.set_(s12=s12, a12=copysign0(a12, s12))
-            if (outmask & Caps.AREA):
+            if (outmask & Cs.AREA):
                 r.set_(S12=self._S12d(lon12, psi2, psi1))
-            if ((outmask | self._debug) & Caps._DEBUG_INVERSE):  # PYCHOK no cover
+            if ((outmask | self._debug) & Cs._DEBUG_INVERSE):  # PYCHOK no cover
                 r.set_(a=E.a, f=E.f, f1=E.f1, L=E.L,
                        b=E.b, e=E.e, e2=E.e2, k2=self._eF.k2,
                        lon12=lon12, psi1=psi1, exact=self.exact,
@@ -561,7 +561,7 @@ class _RhumbLine(_RhumbBase):
     def intersection2(self, other, tol=_TOL, **eps):
         '''Iteratively find the intersection of this and an other rhumb line.
 
-           @arg other: The other rhumb line ({RhumbLine}).
+           @arg other: The other rhumb line (L{RhumbLine}).
            @kwarg tol: Tolerance for longitudinal convergence (C{degrees}).
            @kwarg eps: Tolerance for L{intersection3d3} (C{EPS}).
 
@@ -706,8 +706,8 @@ class _RhumbLine(_RhumbBase):
                   This position is extremely close to the actual pole and
                   allows the calculation to be carried out in finite terms.
         '''
-        r = GDict(name=self.name)
-        if (outmask & Caps.LATITUDE_LONGITUDE_AREA):
+        r, Cs = GDict(name=self.name), Caps
+        if (outmask & Cs.LATITUDE_LONGITUDE_AREA):
             E, R = self.ellipsoid, self.rhumb
             mu12 = s12  * self._calp / E._L_90
             mu2  = mu12 + self._mu1
@@ -717,7 +717,7 @@ class _RhumbLine(_RhumbBase):
                     mu2 = _norm180(_180_0 - mu2)
                 lat2x = E.auxRectifying(mu2, inverse=True)
                 lon2x = NAN
-                if (outmask & Caps.AREA):
+                if (outmask & Cs.AREA):
                     r.set_(S12=NAN)
             else:
                 psi2 = self._psi1
@@ -730,18 +730,18 @@ class _RhumbLine(_RhumbBase):
                 else:  # PYCHOK no cover
                     lat2x =  self.lat1
                     lon2x =  self._salp * s12 / self._r1rad
-                if (outmask & Caps.AREA):
+                if (outmask & Cs.AREA):
                     r.set_(S12=R._S12d(lon2x, self._psi1, psi2))
             r.set_(s12=s12, azi12=self.azi12, a12=s12 / E._L_90)
-            if (outmask & Caps.LATITUDE):
+            if (outmask & Cs.LATITUDE):
                 r.set_(lat2=lat2x, lat1=self.lat1)
-            if (outmask & Caps.LONGITUDE):
-                if (outmask & Caps.LONG_UNROLL) and not isnan(lat2x):
+            if (outmask & Cs.LONGITUDE):
+                if (outmask & Cs.LONG_UNROLL) and not isnan(lat2x):
                     lon2x +=  self.lon1
                 else:
                     lon2x  = _norm180(_norm180(self.lon1) + lon2x)
                 r.set_(lon2=lon2x, lon1=self.lon1)
-            if ((outmask | self._debug) & Caps._DEBUG_DIRECT_LINE):  # PYCHOK no cover
+            if ((outmask | self._debug) & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(a=E.a, f=E.f, f1=E.f1, L=E.L, exact=R.exact,
                        b=E.b, e=E.e, e2=E.e2, k2=R._eF.k2,
                        calp=self._calp, mu1 =self._mu1,  mu12=mu12,
@@ -974,7 +974,7 @@ def _Dgdinv(x, y):  # x, y are tangents
 
 
 def _Dlog(x, y):
-    d = (x - y) / _2_0
+    d = (x - y) * _0_5
     # Changed atanh(t / (x + y)) to asinh(t / (2 * sqrt(x*y))) to
     # avoid taking atanh(1) when x is large and y is 1.  This also
     # fixes bogus results being returned for the area when an endpoint

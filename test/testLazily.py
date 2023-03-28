@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the lazy import module lazily.
+# Test the lazy import module L{lazily}.
 
 __all__ = ('Tests',)
-__version__ = '22.06.27'
+__version__ = '23.03.27'
 
-from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
-                 PythonX, type2str
+from bases import TestsBase, ismacOS, isNix, isPython37, isWindows, \
+                  PythonX, type2str
 import pygeodesy
 
 lazily = pygeodesy.lazily

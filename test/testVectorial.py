@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test module attributes.
+# Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '22.10.09'
+__version__ = '23.03.27'
 
-from base import coverage, GeodSolve, numpy, TestsBase
+from bases import coverage, GeodSolve, numpy, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, \
                       circin6, circum3, circum4_, fstr, \

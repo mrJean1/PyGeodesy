@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test module attributes.
+# Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '22.09.20'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
+from bases import GeodSolve, geographiclib, isPyPy, isPython2, TestsBase
 
 from pygeodesy import F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
                       degrees, fstr, Height, isclockwise, isconvex, \

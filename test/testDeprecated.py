@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{deprecated} classes, functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '22.09.16'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import R_MA, deprecated, isDEPRECATED, \
                       HeightIDW, HeightIDW2, HeightIDW3, \

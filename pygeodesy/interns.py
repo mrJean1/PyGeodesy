@@ -159,6 +159,7 @@ _center_              = 'center'             # PYCHOK OK
 _Clarke1866_          = 'Clarke1866'         # PYCHOK OK
 _Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK OK
 _clip_                = 'clip'               # PYCHOK OK
+_clipid_              = 'clipid'             # PYCHOK OK
 _coincident_          = 'coincident'         # PYCHOK OK
 _colinear_            = 'colinear'           # PYCHOK OK
 _COLON_          = Str_(':')                 # PYCHOK OK
@@ -586,7 +587,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.03.20'
+__version__ = '23.03.25'
 
 if __name__ == '__main__':
 
@@ -595,8 +596,8 @@ if __name__ == '__main__':
 
     t = b = 0
     for n, v in itemsorted(locals(), asorted=False, reverse=True):
-        if n.startswith(_UNDER_) and n.endswith(_UNDER_) and \
-                                 not n.startswith(_DUNDER_):
+        if n.endswith(_UNDER_) and n.startswith(_UNDER_) and \
+                               not n.startswith(_DUNDER_):
             t += 1
             b += len(v)
             m  = n[1:-1]

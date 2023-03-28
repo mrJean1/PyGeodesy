@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.03'
+__version__ = '23.03.27'
 
-from base import endswith, isWindows, randoms, startswith, TestsBase
+from bases import endswith, isWindows, randoms, startswith, TestsBase
 
 from pygeodesy import EPS, Fcbrt, Fhypot, INF, Fn_rt, Fpowers, Fsqrt, Fsum, \
                       cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \

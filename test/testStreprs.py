@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test formatting functions.
+# Test L{streprs} module.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import INF, NEG0, NAN, \
                       anstr, fstr, fstrzs, instr, LatLon_, unstr

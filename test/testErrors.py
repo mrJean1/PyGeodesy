@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test some of the errors.
+# Test some of the L{errors}.
 
 __all__ = ('Tests',)
-__version__ = '22.09.17'
+__version__ = '23.03.27'
 
-from base import isPython3, TestsBase
+from bases import isPython3, TestsBase
 
 from pygeodesy import crosserrors, exception_chaining, LenError, \
                       LimitError, limiterrors, \

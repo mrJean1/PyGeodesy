@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{clipy} module.
 
 __all__ = ('Tests',)
-__version__ = '23.03.10'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_D, F__F_, boundsOf, clipCS4, \
                ClipError, clipFHP4, ClipFHP4Tuple, \

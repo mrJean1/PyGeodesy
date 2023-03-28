@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test some of the basics.
+# Test some of the L{basics}.
 
 __all__ = ('Tests',)
-__version__ = '22.06.24'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import EPS, EPS0, INF, INT0, NAN, NEG0, NINF, clips, halfs2, \
                       isclose, isfinite, isint, isint0, isneg0, isninf, isscalar, \

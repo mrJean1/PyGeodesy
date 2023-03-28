@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test namedTuples module.
+# Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '22.05.27'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 from pygeodesy import FIx, issubclassof
 from pygeodesy.albers import _Ks
 from pygeodesy.frechet import Frechet6Tuple

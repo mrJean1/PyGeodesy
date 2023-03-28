@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the simplify functions.
+# Test L{simplify} module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.06'
+__version__ = '23.03.27'
 
-from base import numpy, TestsBase, secs2str
+from bases import numpy, TestsBase, secs2str
 
 from pygeodesy import EPS, R_M, LatLon_, Numpy2LatLon, pairs, \
                       simplify1, simplifyRW, \

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test degrees, minutes, seconds functions.
+# Test L{dms} degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '22.09.20'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD,   F_D60, \
                       F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_,  F_D60_, \

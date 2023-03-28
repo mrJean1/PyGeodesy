@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test LCC functions and methods.
+# Test L{lcc} module.
 
 __all__ = ('Tests',)
-__version__ = '22.05.03'
+__version__ = '23.03.27'
 
-from base import GeodSolve, TestsBase, geographiclib
+from bases import GeodSolve, TestsBase, geographiclib
 
 from pygeodesy import CassiniSoldner, Css, CSSError, \
                       Ellipsoids, fstr, haversine, hypot, toCss

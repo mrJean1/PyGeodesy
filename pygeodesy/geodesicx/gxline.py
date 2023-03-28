@@ -33,25 +33,28 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # from .karney
-from pygeodesy.constants import NAN, _0_0, _1_0, _180_0, _2__PI
+from pygeodesy.constants import NAN, _EPSmin, _0_0, _1_0, _180_0, _2__PI
 from pygeodesy.fsums import _COMMASPACE_, fsum_, fsum1_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
-                                        _sincos12, _sin1cos2, _TINY
+                                        _sincos12, _sin1cos2
 # from pygeodesy.interns import _COMMASPACE_  # from .fsums
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, _copysign, GDict, \
                              _fix90, _K_2_0, _norm2, _norm180, \
                              _sincos2, _sincos2d, _xinstanceof
 from pygeodesy.props import Property_RO, _update_all
-from pygeodesy.streprs import pairs
+# from pygeodesy.streprs import pairs  # from _MODS
 from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
 
 from math import atan2, cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '22.09.12'
+__version__ = '23.03.25'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
+# underflow guard, we require _TINY * EPS > 0, _TINY + EPS == EPS
+_TINY = _EPSmin
+# assert (_TINY * EPS) > 0 and (_TINY + EPS) == EPS
 
 
 def _update_glXs(gX):  # see GeodesicExact.C4order and -._ef_reset_k2
@@ -84,8 +87,9 @@ class _GeodesicLineExact(_GeodesicBase):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
         '''
         _xinstanceof(gX, _MODS.geodesicx.GeodesicExact)
+        Cs = Caps
         if _debug:  # PYCHOK no cover
-            self._debug |= _debug & Caps._DEBUG_ALL
+            self._debug |= _debug & Cs._DEBUG_ALL
             # _CapsBase.debug._update(self)
         if salp1_calp1:
             salp1, calp1 = salp1_calp1
@@ -104,7 +108,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._salp1 = salp1
         self._calp1 = calp1
         # allow lat, azimuth and unrolling of lon
-        self._caps  = caps | Caps._LINE
+        self._caps  = caps | Cs._LINE
 
         sbet1, cbet1 = gX._sinf1cos2d(_around(lat1))
         self._dn1 = gX._dn(sbet1, cbet1)
@@ -129,7 +133,7 @@ class _GeodesicLineExact(_GeodesicBase):
         self._ssig1, self._csig1 = _norm2(sbet1, c)  # sig1 in (-pi, pi]
         # _norm2(somg1, comg1)  # no need to normalize!
         # _norm2(schi1?, cchi1)  # no need to normalize!
-        if not (caps & Caps.LINE_OFF):
+        if not (caps & Cs.LINE_OFF):
             _glXs.append(self)
         # no need to pre-compute other attrs based on _Caps.X.  All are
         # Property_RO's, computed once and cached/memoized until reset
@@ -268,13 +272,15 @@ class _GeodesicLineExact(_GeodesicBase):
                     C{lon1}, C{azi1} and arc length C{a12} always included,
                     except when C{a12=NAN}.
         '''
+
         r = GDict(a12=NAN, s12=NAN)  # note both a12 and s12, always
         if not (arcmode or self._caps_DISTANCE_IN):  # PYCHOK no cover
             return r  # Uninitialized or impossible distance requested
 
+        Cs = Caps
         if self._debug:  # PYCHOK no cover
-            outmask |= self._debug & Caps._DEBUG_DIRECT_LINE
-        outmask &= self._caps & Caps._OUT_MASK
+            outmask |= self._debug & Cs._DEBUG_DIRECT_LINE
+        outmask &= self._caps & Cs._OUT_MASK
 
         eF = self._eF
         gX = self.geodesic  # ._gX
@@ -314,7 +320,7 @@ class _GeodesicLineExact(_GeodesicBase):
         salp2 = salp0
         calp2 = calp0 * csig2  # no need to normalize
 
-        if (outmask & Caps.DISTANCE):
+        if (outmask & Cs.DISTANCE):
             if arcmode:  # or f_0_01
                 E2 = eF.deltaE(ssig2, csig2, dn2)
                 # AB1 = _E0 * (E2 - _E1)
@@ -326,18 +332,18 @@ class _GeodesicLineExact(_GeodesicBase):
                 s12 = s12_a12
             r.set_(s12=s12)
 
-        if (outmask & Caps._DEBUG_DIRECT_LINE):  # PYCHOK no cover
+        if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
             r.set_(sig12=sig12, dn2=dn2, b=gX.b, e2=gX.e2, f1=gX.f1,
                    E0b=self._E0b, E1=self._E1, E2=E2, eFk2=eF.k2, eFa2=eF.alpha2)
 
-        if (outmask & Caps.LONGITUDE):
+        if (outmask & Cs.LONGITUDE):
             schi1 = self._somg1
             cchi1 = self._cchi1
             schi2 = ssig2 * salp0
             cchi2 = gX.f1 * dn2 * csig2  # schi2 = somg2 without normalization
             lam12 = salp0 * self._H0e2_f1 * fsum1_(eF.deltaH(ssig2, csig2, dn2),
                                                    -self._H1, sig12)
-            if (outmask & Caps.LONG_UNROLL):
+            if (outmask & Cs.LONG_UNROLL):
                 t = _copysign(_1_0, salp0)  # east-going?
                 tchi1 = t * schi1
                 tchi2 = t * schi2
@@ -348,34 +354,34 @@ class _GeodesicLineExact(_GeodesicBase):
                 chi12 = atan2(*_sincos12(schi1, cchi1, schi2, cchi2))
                 lon2 = _norm180(self._lon1_norm180 + _norm180(degrees(chi12 - lam12)))
             r.set_(lon2=lon2)
-            if (outmask & Caps._DEBUG_DIRECT_LINE):  # PYCHOK no cover
+            if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(ssig2=ssig2, chi12=chi12, H0e2_f1=self._H0e2_f1,
                        csig2=csig2, lam12=lam12, H1=self._H1)
 
-        if (outmask & Caps.LATITUDE):
+        if (outmask & Cs.LATITUDE):
             r.set_(lat2=_atan2d(sbet2, gX.f1 * cbet2))
 
-        if (outmask & Caps.AZIMUTH):
-            r.set_(azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Caps.REVERSE2))
+        if (outmask & Cs.AZIMUTH):
+            r.set_(azi2=_atan2d_reverse(salp2, calp2, reverse=outmask & Cs.REVERSE2))
 
-        if (outmask & Caps._REDUCEDLENGTH_GEODESICSCALE):
+        if (outmask & Cs._REDUCEDLENGTH_GEODESICSCALE):
             dn1 = self._dn1
             J12 = self._D0k2 * fsum_(eF.deltaD(ssig2, csig2, dn2), -self._D1, sig12)
-            if (outmask & Caps._DEBUG_DIRECT_LINE):  # PYCHOK no cover
+            if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(ssig1=ssig1, dn1=dn1, D0k2=self._D0k2,
                        csig1=csig1, J12=J12, D1=self._D1)
-            if (outmask & Caps.REDUCEDLENGTH):
+            if (outmask & Cs.REDUCEDLENGTH):
                 # Add parens around (csig1 * ssig2) and (ssig1 * csig2) to
                 # ensure accurate cancellation in the case of coincident points.
                 r.set_(m12=gX.b * fsum1_(dn2 * (csig1 * ssig2),
                                         -dn1 * (ssig1 * csig2),
                                         -J12 * (csig1 * csig2)))
-            if (outmask & Caps.GEODESICSCALE):
+            if (outmask & Cs.GEODESICSCALE):
                 t = self._k2 * (ssig2 - ssig1) * (ssig2 + ssig1) / (dn2 + dn1)
                 r.set_(M12=csig12 + ssig1 * (t * ssig2 - csig2 * J12) / dn1,
                        M21=csig12 - ssig2 * (t * ssig1 - csig1 * J12) / dn2)
 
-        if (outmask & Caps.AREA):
+        if (outmask & Cs.AREA):
             A4 = salp0 * calp0
             if A4:
                 # tan(alp) = tan(alp0) * sec(sig)
@@ -403,7 +409,7 @@ class _GeodesicLineExact(_GeodesicBase):
                 # In fact, the calculation of {s,c}alp12 was already correct
                 # (following the IEEE rules for handling signed zeros).  So,
                 # the patch up code was unnecessary (as well as dangerous).
-            if (outmask & Caps._DEBUG_DIRECT_LINE):  # PYCHOK no cover
+            if (outmask & Cs._DEBUG_DIRECT_LINE):  # PYCHOK no cover
                 r.set_(salp12=salp12, salp0=salp0, B41=B41, A4=A4,
                        calp12=calp12, calp0=calp0, B42=B42, c2=gX.c2)
             S12 += gX.c2 * atan2(salp12, calp12)
@@ -411,7 +417,7 @@ class _GeodesicLineExact(_GeodesicBase):
 
         r.set_(a12=s12_a12 if arcmode else degrees(sig12),
                lat1=self.lat1,  # == _fix90(lat1)
-               lon1=self.lon1 if (outmask & Caps.LONG_UNROLL) else self._lon1_norm180,
+               lon1=self.lon1 if (outmask & Cs.LONG_UNROLL) else self._lon1_norm180,
                azi1=_norm180(self.azi1))
         return r
 
@@ -547,7 +553,7 @@ class _GeodesicLineExact(_GeodesicBase):
         d = dict(geodesic=self.geodesic,
                  lat1=self.lat1, lon1=self.lon1, azi1=self.azi1,
                  a13=self.a13, s13=self.s13)
-        return sep.join(pairs(d, prec=prec))
+        return sep.join(_MODS.streprs.pairs(d, prec=prec))
 
 
 __all__ += _ALL_DOCS(_GeodesicLineExact)

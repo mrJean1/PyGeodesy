@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test module attributes.
+# Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '22.05.14'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, isPython35, TestsBase
+from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
 from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, \
                 modulename, RefFrames, Transforms  # PYCHOK expected

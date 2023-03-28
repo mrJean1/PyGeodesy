@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Some basic C{rhumbx} vs C++ C{RhumbSolve} tests.
-'''
-__all__ = ('Tests',)
-__version__ = '22.09.12'
+# Some basic L{rhumbx} vs C++ C{RhumbSolve} tests.
 
-from base import _fLate, RhumbSolve, startswith, TestsBase
+__all__ = ('Tests',)
+__version__ = '23.03.27'
+
+from bases import _fLate, RhumbSolve, startswith, TestsBase
 
 from pygeodesy import NN, Caps, classname, DIG, Ellipsoid, GDict, \
                       itemsorted, latDMS, lonDMS, parseDMS, parseDMS2, \

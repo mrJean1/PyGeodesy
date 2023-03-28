@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the Frechet distances.  Very slow with coverage!
+# Test L{frechet} distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '21.08.14'
+__version__ = '23.03.27'
 
-from base import coverage, GeodSolve, geographiclib, \
-                 isPython3, isWindows, TestsBase
+from bases import coverage, GeodSolve, geographiclib, \
+                  isPython3, isWindows, TestsBase
 
 from pygeodesy import FrechetError, fstr, LatLon_, randomrangenerator
 

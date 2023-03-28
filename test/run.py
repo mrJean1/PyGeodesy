@@ -3,18 +3,19 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-from base import clips, coverage, isiOS, NN, PyGeodesy_dir, \
-                 PythonX, secs2str, test_dir, _skipped_, _TILDE_, \
-                 tilde, versions, _W_opts  # PYCHOK expected
+from bases import clips, coverage, isiOS, NN, PyGeodesy_dir, \
+                  PythonX, secs2str, test_dir, _skipped_, _TILDE_, \
+                  tilde, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
 
-from os import access, environ, F_OK, linesep as LS
+from os import access, environ, F_OK, linesep as LS, pathsep as PS
 import sys
 
 __all__ = ('run2',)
-__version__ = '23.03.23'
+__version__ = '23.03.28'
 
 NL = '\n'  # pygeodesy.interns._NL_
+P  = None  # Popen instance
 
 if isiOS:  # MCCABE 14
 
@@ -68,7 +69,7 @@ if isiOS:  # MCCABE 14
     PythonX_ = basename(PythonX)
 
 else:  # non-iOS
-    from base import isPython37
+    from bases import isPython37
     from subprocess import PIPE, Popen, STDOUT
 
     Popen_kwds = dict(creationflags=0, executable=sys.executable,
@@ -93,12 +94,19 @@ else:  # non-iOS
         '''Invoke one test module and return the
            exit status and stdout/-err output.
         '''
+        global P
         c = pythonC_ + (test,) + opts
-        p = Popen(c, **Popen_kwds)
-        r = ub2str(p.communicate()[0])  # no .strip()
+        P = Popen(c, **Popen_kwds)
+        r = ub2str(P.communicate()[0])  # no .strip()
         # the exit status reflects the number of
         # test failures in the tested module
-        return p.returncode, r
+        return P.returncode, r
+
+p = environ.get('PYTHONPATH', '')
+if p:  # prepend
+    p = PS + p
+environ['PYTHONPATH'] = PyGeodesy_dir + PS + test_dir + p
+del p
 
 # shorten Python path [-O]
 PythonX_ = clips(PythonX_, 32)
@@ -248,6 +256,8 @@ if __name__ == '__main__':  # MCCABE 19
             p, t = _prefix2(t)
             _run(p, *arg.split())
     except KeyboardInterrupt:
+        if P:
+            P.kill()
         _exit(NN, '^C', 9)
     except SystemExit:
         pass

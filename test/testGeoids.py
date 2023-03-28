@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-# Test the height interpolators.
+# Test L{geoids} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '22.01.11'
+__version__ = '23.03.27'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -12,7 +12,7 @@ import warnings  # PYCHOK expected
 # warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings('ignore')  # or 'error'
 
-from base import coverage, scipy, PyGeodesy_dir, TestsBase
+from bases import coverage, scipy, PyGeodesy_dir, TestsBase
 
 from pygeodesy import fstr, len2, egmGeoidHeights, Fwelford, \
                       GeoidError, GeoidG2012B, GeoidKarney, GeoidPGM, \

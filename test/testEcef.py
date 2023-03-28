@@ -1,13 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test Ecef conversions.
-'''
+# Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.10'
+__version__ = '23.03.27'
 
-from base import GeodSolve, TestsBase
+from bases import GeodSolve, TestsBase
 
 from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, Ellipsoids, \

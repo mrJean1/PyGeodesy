@@ -1,14 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Test projection L{ExactTransverseMercator} with the C(TMcoords.dat} from
-U{C.F.F. Karney, "Test data for the transverse Mercator projection (2009)"
-<https://GeographicLib.SourceForge.io/html/transversemercator.html>},
-also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
-'''
+# Test projection L{ExactTransverseMercator} with the C(TMcoords.dat} from
+# U{C.F.F. Karney, "Test data for the transverse Mercator projection (2009)"
+# <https://GeographicLib.SourceForge.io/html/transversemercator.html>},
+# also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 
 __all__ = ('testExactTMcoords',)
-__version__ = '20.10.12'
+__version__ = '23.03.27'
 
 from testTMcoords import testTMcoords
 

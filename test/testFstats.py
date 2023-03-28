@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{fstats} module.
 
 __all__ = ('Tests',)
-__version__ = '22.01.14'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import EPS0, Fcook, Flinear, fstats, Fsum, Fwelford
 

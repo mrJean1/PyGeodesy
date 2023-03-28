@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test azimuthal projections and intersections2 functions.
+# Test L{azimuthal} projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '22.06.20'
+__version__ = '23.03.27'
 
-from base import GeodSolve, geographiclib, TestsBase, RandomLatLon
+from bases import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
 from pygeodesy import Equidistant, EquidistantExact, EquidistantGeodSolve, \
                       EquidistantKarney, Gnomonic, GnomonicExact, \

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test LCC functions and methods.
+# Test L{lcc} module.
 
 __all__ = ('Tests',)
-__version__ = '22.09.02'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_D, F_DMS, Conic, Conics, Datums, Lcc, toLcc
 

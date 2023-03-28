@@ -1,13 +1,13 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
-    and Python C{geographiclib} tests.
-'''
-__all__ = ('Tests',)
-__version__ = '22.09.12'
+# Some basic C{geodsicx} vs C++ C{GeographicLib}, C{GeodSolve}
+# and Python C{geographiclib} tests.
 
-from base import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
+__all__ = ('Tests',)
+__version__ = '23.03.27'
+
+from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
 from pygeodesy import classname, DIG, Ellipsoid, GDict, GeodesicLineExact, \
                       itemsorted, map2, NN

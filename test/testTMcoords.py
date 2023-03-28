@@ -1,16 +1,15 @@
 
 # -*- coding: utf-8 -*-
 
-u'''For UTM/UPS tests using C(TMcoords.dat} from U{C.F.F. Karney,
-"Test data for the transverse Mercator projection (2009)"
-<https://GeographicLib.SourceForge.io/html/transversemercator.html>},
-also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
-'''
+# For UTM/UPS tests using C(TMcoords.dat} from U{C.F.F. Karney,
+# "Test data for the transverse Mercator projection (2009)"
+# <https://GeographicLib.SourceForge.io/html/transversemercator.html>},
+# also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 
 __all__ = ('testTMcoords',)
-__version__ = '22.10.04'  # '19.05.23'
+__version__ = '23.03.27'  # '19.05.23'
 
-from base import isiOS, TestsBase
+from bases import isiOS, TestsBase
 
 from pygeodesy import Ellipsoids, EPS, RangeError
 

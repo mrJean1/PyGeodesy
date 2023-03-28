@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test base classes.
+# Test L{epsg}.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import Epsg, epsg, toUtmUps8
 

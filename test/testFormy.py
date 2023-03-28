@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test formulary functions.
+# Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '22.11.02'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \

@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 
-# Test UTM functions and methods.
+# Test L{utmups} module.
 
 __all__ = ('Tests',)
-__version__ = '22.01.03'
+__version__ = '23.03.27'
 
-from base import TestsBase
+from bases import TestsBase
 
 from pygeodesy import F_DMS, parseUTMUPS5, toUps8, toUtmUps8, \
                       utmups, UtmUps, utmupsValidateOK

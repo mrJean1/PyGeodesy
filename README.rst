@@ -97,13 +97,13 @@ pygeodesy``.
 Tests
 =====
 
-The tests ran with Python 3.11.2 (with geographiclib_ 2.0), Python 3.10.8
-(with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1, GeoConvert_ 1.51,
-GeodSolve_ 1.51 and RhumbSolve_ 1.51), Python 3.9.6, Python 3.8.10 (with
-geographiclib_ 1.52, GeodSolve_ 1.51, numpy_ 1.19.2 and scipy_ 1.5.2) and
-Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2,
-GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51), all on macOS
-13.2.1 Ventura and in 64-bit only.
+The tests ran with Python 3.11.2 (with geographiclib_ 2.0, numpy_ 1.24.2
+and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3,
+scipy_ 1.9.1, GeoConvert_ 1.51, GeodSolve_ 1.51 and RhumbSolve_ 1.51),
+Python 3.9.6, Python 3.8.10 (with geographiclib_ 1.52, GeodSolve_ 1.51,
+numpy_ 1.19.2 and scipy_ 1.5.2) and Python 2.7.18 (with geographiclib_
+1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 1.51, GeodSolve_ 1.51 and
+RhumbSolve_ 1.51), all on macOS 13.2.1 Ventura and in 64-bit only.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command
 line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all
@@ -114,9 +114,9 @@ Python 3.11.2, 3.10.8 and 3.9.6 run on Apple M1 Silicon (``arm64``),
 *natively*.  Python 3.8.10 and 2.7.18 run on Intel (``x86_64``) or Intel
 *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.10.8,
-3.9.6 and 2.7.18.  The complete coverage report in HTML and a PDF summary
-are included in the distribution files.
+Test coverage has been measured with coverage_ 7.2.2 using only Python 3.11.2
+and 3.10.8.  The complete coverage report in HTML and a PDF summary are
+included in the distribution files.
 
 The tests also ran with Python 3.11.2 (and geographiclib_ 2.0) on
 `Debian 11`_ in 64-bit only and with Python 3.11.2, 3.10.10 and 2.7.18
@@ -153,7 +153,7 @@ using Python 3.11.2, both in 64-bit on macOS 13.2.1 Ventura.
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see
 module karney_.
 
-*Last updated: Mar 23, 2023.*
+*Last updated: Mar 28, 2023.*
 
 License
 =======
@@ -184,7 +184,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
+.. image:: https://Img.Shields.io/badge/coverage-95%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy
