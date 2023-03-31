@@ -31,7 +31,7 @@ if isLazy:  # XXX force import of all deprecated modules
     # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '22.09.23'
+__version__ = '23.03.29'
 
 _WGS84 = _UTM = object()
 
@@ -414,6 +414,12 @@ def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
 def joined(*words, **sep):  # PYCHOK no cover
     '''DEPRECATED, use C{NN(...)}, C{NN.join_} or C{B{sep}.join}.'''
     return sep.get(_sep_, NN).join(map(str, words))
+
+
+@deprecated_function
+def istuplist(obj, minum=0):  # PYCHOK no cover
+    '''DEPRECATED, use function L{islistuple}.'''
+    return _MODS.basics.islistuple(obj, minum=minum)
 
 
 @deprecated_function

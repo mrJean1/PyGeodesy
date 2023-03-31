@@ -4,14 +4,14 @@
 u'''Floating point and other formatting utilities.
 '''
 
-from pygeodesy.basics import _0_0, isint, isscalar, isstr, istuplist, _zip
+from pygeodesy.basics import _0_0, isint, islistuple, isscalar, isstr, _zip
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _AttributeError, _IsnotError, itemsorted, _or, \
                              _TypeError, _ValueError, _xkwds_get, _xkwds_pop
-from pygeodesy.interns import NN, _0_, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
-                             _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, _N_, \
-                             _name_, _not_, _not_scalar_, _PERCENT_, _SPACE_, \
-                             _STAR_, _UNDER_, _dunder_nameof
+from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
+                             _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
+                             _N_, _name_, _not_, _not_scalar_, _PERCENT_, \
+                             _SPACE_, _STAR_, _UNDER_, _dunder_nameof
 from pygeodesy.interns import _convergence_, _distant_, _e_, _EQUALSPACED_, _no_, \
                               _exceeds_, _f_, _F_, _g_,  _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
@@ -19,7 +19,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '23.03.19'
+__version__ = '23.03.30'
 
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
@@ -84,7 +84,7 @@ class Fstr(str):
             return _SPACE_(n, _PERCENT_, repr(arg))
 
         prec = 6  # default std %f and %F
-        if istuplist(arg):
+        if islistuple(arg):
             n = len(arg)
             if n == 1:
                 arg = arg[0]
@@ -430,7 +430,7 @@ def pairs(items, prec=6, fmt=Fmt.F, ints=False, sep=_EQUAL_):
     try:
         if isinstance(items, dict):
             items = itemsorted(items)
-        elif not isinstance(items, (list, tuple)):
+        elif not islistuple(items):
             items = tuple(items)
         # can't unzip empty items tuple, list, etc.
         n, v = _zip(*items) if items else ((), ())  # strict=True
@@ -496,9 +496,8 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
     for i, o in enumerate(objs):
         if force or isinstance(o, float):
             t = fmt % (float(o),)
-            if ints and (isint(o, both=True) or  # for ...
-                         # corner case testLcc lon0=-96.0
-                         t.rstrip(_0_).endswith(_DOT_)):
+            if ints and t.rstrip(_0to9_ if isint(o, both=True) else
+                                 _0_).endswith(_DOT_):
                 t = t.split(_DOT_)[0]
             elif prec > 1:
                 t = fstrzs(t, ap1z=fGg)

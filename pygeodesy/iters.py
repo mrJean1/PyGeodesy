@@ -9,12 +9,13 @@ the initial items, skipping of duplicate items and copying of the
 iterated items.
 '''
 
-from pygeodesy.basics import issubclassof, len2, map2
+from pygeodesy.basics import islistuple, issubclassof, len2, map2
 # from pygeodesy.constants import _1_0  # from .utily
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
-                             _ValueError
-from pygeodesy.interns import NN, _0_, _few_, _points_, _too_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+                             _TypeError, _ValueError
+from pygeodesy.interns import NN, _0_, _composite_, _few_, \
+                             _points_, _too_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import Fmt, _Named, property_RO
 from pygeodesy.namedTuples import Point3Tuple, Points2Tuple
 # from pygeodesy.props import property_RO  # from .named
@@ -23,7 +24,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, wrap90, wrap180, _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '22.10.11'
+__version__ = '23.03.30'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -48,14 +49,16 @@ class _BaseIter(_Named):
     def __init__(self, items, loop=0, dedup=False, Error=None, name=NN):
         '''New iterator over an iterable of B{C{items}}.
 
-           @arg items: Iterable (any C{type}).
-           @kwarg loop: Number of loop-back items, also initial enumerate
-                        and iterate index (non-negative C{int}).
+           @arg items: Iterable (any C{type}, except composites).
+           @kwarg loop: Number of loop-back items, also initial enumerate and
+                        iterate index (non-negative C{int}).
            @kwarg dedup: Skip duplicate items (C{bool}).
            @kwarg Error: Error to raise (L{LenError}).
            @kwarg name: Optional name (C{str}).
 
-           @raise Error: Insufficient number of B{C{items}}.
+           @raise Error: Invalid B{C{items}} or sufficient number of B{C{items}}.
+
+           @raise TypeError: Composite B{C{items}}.
         '''
         if dedup:
             self._dedup = True
@@ -64,8 +67,10 @@ class _BaseIter(_Named):
         if name:
             self.rename(name)
 
-        if isinstance(items, (list, tuple)):  # range in Python 2
+        if islistuple(items):  # range in Python 2
             self._items = items
+        elif _MODS.booleans.isBoolean(items):
+            raise _TypeError(points=_composite_)
 # XXX   if hasattr(items, 'next') or hasattr(items, '__length_hint__'):
 # XXX       # handle reversed, iter, etc. items types
         self._iter = iter(items)
@@ -477,8 +482,11 @@ def points2(points, closed=True, base=None, Error=PointsError):
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not B{C{base}}
-                         compatible.
+                         compatible or composite B{C{points}}.
     '''
+    if _MODS.booleans.isBoolean(points):
+        raise Error(points=points, txt=_composite_)
+
     n, points = len2(points)
 
     if closed:

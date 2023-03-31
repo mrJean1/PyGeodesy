@@ -7,7 +7,8 @@ L{pygeodesy.Fsum}, precision floating point summation.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, _xinstanceof, _xsubclassof, _zip
+from pygeodesy.basics import isodd, islistuple, _xinstanceof, \
+                            _xsubclassof, _zip
 from pygeodesy.constants import _0_0, _1_5, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _xError
 from pygeodesy.fmath import hypot2, sqrt
@@ -22,7 +23,7 @@ from pygeodesy.named import _Named, _NotImplemented, notOverloaded, \
 # from math import sqrt  # pow  from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '22.09.12'
+__version__ = '23.03.29'
 
 _Float  =  Fsum, float
 _Scalar = _Float + (int,)  # XXX basics._Ints is ABCMeta
@@ -186,7 +187,7 @@ class _FstatsBase(_FstatsNamed):
             self.fadd_(other)
         else:
             try:
-                if not isinstance(other, (list, tuple)):
+                if not islistuple(other):
                     raise TypeError(_SPACE_(_invalid_, _other_))
                 self.fadd(other)
             except Exception as x:
@@ -624,7 +625,7 @@ class Flinear(_FstatsNamed):
                     self._copy(self, other)
         else:
             try:
-                if not isinstance(other, (list, tuple)):
+                if not islistuple(other):
                     raise TypeError(_SPACE_(_invalid_, _other_))
                 elif isodd(len(other)):
                     raise ValueError(Fmt.PAREN(isodd=Fmt.PAREN(len=_other_)))

@@ -8,7 +8,7 @@
 # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-ellipsoidal-referenceframe-tests.js>
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '23.03.31'
 
 from bases import GeodSolve, TestsBase
 
@@ -99,7 +99,7 @@ class Tests(TestsBase):
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch=1899)
         except TRFError as x:
             t = str(x)
-        self.test(TRFError.__name__, t, "epoch (1899): below 1900 limit")
+        self.test(TRFError.__name__, t, "epoch (1899): below 1900.0 limit")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000).convertRefFrame('ITRF2000')

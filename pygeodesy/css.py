@@ -8,7 +8,7 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
 installed.
 '''
 
-from pygeodesy.basics import istuplist, neg, _xinstanceof, _xsubclassof
+from pygeodesy.basics import islistuple, neg, _xinstanceof, _xsubclassof
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -32,7 +32,7 @@ from pygeodesy.units import Bearing, Degrees, Easting, Height, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '23.03.19'
+__version__ = '23.03.29'
 
 
 def _CS0(cs0):
@@ -279,7 +279,7 @@ class CassiniSoldner(_NamedBase):
            @raise CSSError: Invalid B{C{latlon0}} or ellipsoid mismatch
                             of B{C{latlon0}} and this projection.
         '''
-        if istuplist(latlon0, 2):
+        if islistuple(latlon0, 2):
             lat0, lon0 = latlon0[:2]
         else:
             try:

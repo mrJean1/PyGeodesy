@@ -5,12 +5,12 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '22.09.12'
+__version__ = '23.03.29'
+
+from os.path import basename, dirname
 
 
 def _main():  # PYCHOK no cover
-
-    import os.path as os_path
 
     try:
         from pygeodesy import _isfrozen, pygeodesy_abspath, version
@@ -44,14 +44,20 @@ def _main():  # PYCHOK no cover
         _nv(_xnumpy, v)
         _nv(_xscipy, v)
 
-        x = os_path.basename(pygeodesy_abspath)
+        x = basename(pygeodesy_abspath)
         printf('%s%s (%s)', x, _COMMASPACE_.join(p), _COMMASPACE_.join(v))
 
     except ImportError:
+        from pygeodesy.interns import _usage
+        from pygeodesy.lazily import printf
         printf(_usage(__file__))
 
 
-_main()
+try:
+    _main()
+except ImportError:
+    from sys import executable as x
+    print('%s: %s %s %s' % ('usage', basename(x), '-m', basename(dirname(__file__))))
 
 # **) MIT License
 #

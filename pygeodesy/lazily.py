@@ -129,11 +129,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                          basics=('clips', 'copysign0', 'copytype', 'halfs2',
                                  'isbool', 'isclass', 'iscomplex', 'isfloat',
-                                 'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'isodd',
-                                 'isscalar', 'issequence', 'isstr', 'issubclassof', 'istuplist',
+                                 'isidentifier', 'isinstanceof', 'isint', 'iskeyword', 'islistuple', 'isodd',
+                                 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
-                       booleans=('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH'),
+                       booleans=('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
+                                 'isBoolean'),
                   cartesianBase=(),  # module only
                           clipy=('ClipCS4Tuple', 'ClipFHP4Tuple', 'ClipGH4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
                                  'clipCS4', 'clipFHP4', 'clipGH4', 'clipLB6', 'clipSH', 'clipSH3'),
@@ -153,8 +154,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LatLonExact4Tuple', 'Ned3Tuple', 'RefFrameError', 'Rhumb7Tuple', 'Transform7Tuple', 'UtmUps4Tuple',
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'collins',   # most of the DEPRECATED functions, ...
                                  'decodeEPSG2', 'encodeEPSG', 'equirectangular3', 'enStr2',   # ... except ellipsoidal, spherical flavors
-                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isDEPRECATED', 'isenclosedby', 'joined', 'joined_',
-                                 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
+                                 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3', 'inStr', 'isDEPRECATED', 'isenclosedby', 'istuplist',
+                                 'joined', 'joined_', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
                                  'scalar', 'simplify2', 'tienstra', 'toUtm', 'unsign0', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
@@ -417,7 +418,7 @@ class _ALL_MODS(object):
 _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '23.03.14'
+__version__ = '23.03.30'
 
 
 def _ALL_OTHER(*objs):

@@ -23,7 +23,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '23.03.20'
+__version__ = '23.03.30'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -90,14 +90,15 @@ class LatLon(LatLonEllipsoidalBaseDI):
 
 
 def areaOf(points, datum=_WGS84, wrap=True):
-    '''Compute the area of an (ellipsoidal) polygon.
+    '''Compute the area of an (ellipsoidal) polygon or composite.
 
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
+                    L{BooleanGH}).
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Area (C{meter} I{squared}, same units as the
-                B{C{datum}}'s ellipsoid axes).
+       @return: Area (C{meter} I{squared}, same units as the B{C{datum}}'s
+                ellipsoid axes).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -283,22 +284,24 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 
 
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
-    '''Compute the perimeter of an (ellipsoidal) polygon.
+    '''Compute the perimeter of an (ellipsoidal) polygon or composite.
 
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
+                    L{BooleanGH}).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Perimeter (C{meter}, same units as the
-                B{C{datum}}'s ellipsoid axes).
+       @return: Perimeter (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped,
-                          unrolled longitudes not supported.
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled
+                          longitudes not supported or C{B{closed}=False}
+                          with C{B{points}} a composite.
 
        @see: Functions L{pygeodesy.perimeterOf}, L{ellipsoidalGeodSolve.perimeterOf},
              L{ellipsoidalKarney.perimeterOf}, L{sphericalNvector.perimeterOf} and

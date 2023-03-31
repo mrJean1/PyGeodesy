@@ -8,7 +8,7 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import copysign0, isscalar, istuplist, map1, _zip
+from pygeodesy.basics import copysign0, islistuple, isscalar, map1, _zip
 from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _float0, \
                                 isnear0, isnear1, _1_0
 from pygeodesy.errors import CrossError, _InvalidError, _IsnotError, VectorError
@@ -27,7 +27,7 @@ from pygeodesy.utily import atan2, fabs, sincos2
 # from math import atan2, fabs  # from .utily
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '22.10.23'
+__version__ = '23.03.29'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -933,7 +933,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            C{Nvector}, L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple}
            or a C{tuple} or C{list} of 3+ C{scalar} values).
         '''
-        if istuplist(xyz, 3):
+        if islistuple(xyz, 3):
             self._xyz(*xyz[:3])
         else:
             self._xyz(xyz)

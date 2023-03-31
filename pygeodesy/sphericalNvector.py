@@ -37,17 +37,17 @@ from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
-# from pygeodesy.errors import _xError  # from .fmath
-# from pygeodesy.errors import _xkwds  # from .named
-from pygeodesy.fmath import fmean, fsum, _xError
+from pygeodesy.errors import _ValueError, _xError, _xkwds
+from pygeodesy.fmath import fmean, fsum
 # from pygeodesy.fsums import fsum  # from .fmath
-from pygeodesy.interns import _end_, _Nv00_, _other_, _point_, \
+from pygeodesy.interns import _composite_, _end_, _Nv00_, _other_, _point_, \
                               _points_, _pole_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import notImplemented, _xkwds
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
+# from pygeodesy.named import notImplemented  # from .nvectorBase
 # from pygeodesy.namedTuples import NearestOn3Tuple  # from .points
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
-                                  sumOf as _sumOf, _triangulate, _trilaterate
+                                  sumOf as _sumOf, _triangulate, _trilaterate, \
+                                  notImplemented
 from pygeodesy.points import NearestOn3Tuple, ispolar  # PYCHOK exported
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
@@ -58,7 +58,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, sincos2d
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '23.03.19'
+__version__ = '23.03.30'
 
 _paths_ = 'paths'
 
@@ -813,10 +813,11 @@ _Nvll = LatLon(_0_0, _0_0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M):
-    '''Calculate the area of a (spherical) polygon (with great circle
-       arcs joining consecutive points).
+    '''Calculate the area of a (spherical) polygon or composite
+       (with great circle arcs joining consecutive points).
 
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg points: The polygon points or clips (C{LatLon}[],
+                    L{BooleanFHP} or L{BooleanGH}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
        @return: Polygon area (C{meter} I{squared} , same units as
@@ -848,14 +849,17 @@ def areaOf(points, radius=R_M):
             yield gc.angleTo(gc1, vSign=n0)
             gc = gc1
 
-    # sum interior angles: depending on whether polygon is cw or ccw,
-    # angle between edges is π−α or π+α, where α is angle between
-    # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
-    # use Σ(π−|α|) as concave polygons would fail)
-    s = fsum(_interangles(_Nvll.PointsIter(points, loop=2)), floats=True)
-    # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
-    # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-    r = fabs(PI2 - fabs(s))
+    if _MODS.booleans.isBoolean(points):
+        r = points._sum2(LatLon, areaOf, radius=None)
+    else:
+        # sum interior angles: depending on whether polygon is cw or ccw,
+        # angle between edges is π−α or π+α, where α is angle between
+        # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
+        # use Σ(π−|α|) as concave polygons would fail)
+        s = fsum(_interangles(_Nvll.PointsIter(points, loop=2)), floats=True)
+        # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
+        # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
+        r = fabs(PI2 - fabs(s))
     return r if radius is None else (r * Radius(radius)**2)
 
 
@@ -1063,19 +1067,22 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
 
 
 def perimeterOf(points, closed=False, radius=R_M):
-    '''Compute the perimeter of a (spherical) polygon (with great circle
-       arcs joining consecutive points).
+    '''Compute the perimeter of a (spherical) polygon or composite
+       (with great circle arcs joining consecutive points).
 
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
-       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
-                or C{radians} if B{C{radius}} is C{None}).
+       @return: Polygon perimeter (C{meter}, same units as B{C{radius}} or
+                C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
+
+       @raise ValueError: Invalid B{C{radius}} or C{B{closed}=False} with
+                          C{B{points}} a composite.
 
        @see: Functions L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
@@ -1087,7 +1094,12 @@ def perimeterOf(points, closed=False, radius=R_M):
             yield v1.angleTo(v2)
             v1 = v2
 
-    r = fsum(_rads(_Nvll.PointsIter(points, loop=1), closed), floats=True)
+    if _MODS.booleans.isBoolean(points):
+        if not closed:
+            raise _ValueError(closed=closed, points=_composite_)
+        r = points._sum2(LatLon, perimeterOf, closed=True, radius=None)
+    else:
+        r = fsum(_rads(_Nvll.PointsIter(points, loop=1), closed), floats=True)
     return r if radius is None else (Radius(radius) * r)
 
 

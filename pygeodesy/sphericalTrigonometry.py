@@ -29,9 +29,10 @@ from pygeodesy.fsums import Fsum, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
                             excessGirard, excessLHuilier, opposing_, _radical2, \
                             vincentys_
-from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _concentric_, \
-                              _convex_, _end_, _infinite_, _invalid_, _LatLon_, \
-                              _near_, _not_, _null_, _points_, _SPACE_, _too_
+from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
+                              _concentric_, _convex_, _end_, _infinite_, \
+                              _invalid_, _LatLon_, _near_, _not_, _null_, \
+                              _points_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.named import notImplemented  # from .points
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -53,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '23.03.19'
+__version__ = '23.03.30'
 
 _parallel_ = 'parallel'
 _path_     = 'path'
@@ -802,24 +803,24 @@ _T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=True):
-    '''Calculate the area of a (spherical) polygon (with the points
-       joined by great circle arcs).
+    '''Calculate the area of a (spherical) polygon or composite
+       (with the pointsjoined by great circle arcs).
 
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg points: The polygon points or clips (L{LatLon}[], L{BooleanFHP}
+                    or L{BooleanGH}).
        @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
                       L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon area (C{meter} I{quared}, same units as
-                B{C{radius}} or C{radians} if B{C{radius}} is C{None}).
+       @return: Polygon area (C{meter} I{quared}, same units as B{C{radius}}
+                or C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{radius}} or semi-circular
-                          polygon edge.
+       @raise ValueError: Invalid B{C{radius}} or semi-circular polygon edge.
 
        @note: The area is based on I{Karney}'s U{'Area of a spherical
               polygon'<https://MathOverflow.net/questions/97711/
@@ -837,6 +838,9 @@ def areaOf(points, radius=R_M, wrap=True):
         >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         >>> areaOf(c)  # 6.18e9
     '''
+    if _MODS.booleans.isBoolean(points):
+        return points._sum2(LatLon, areaOf, radius=radius, wrap=wrap)
+
     Ps = _T00.PointsIter(points, loop=1)
     p1 = p2 = Ps[0]
     a1,  b1 = p1.philam
@@ -1302,10 +1306,11 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
 
 def perimeterOf(points, closed=False, radius=R_M, wrap=True):
-    '''Compute the perimeter of a (spherical) polygon (with great circle
-       arcs joining the points).
+    '''Compute the perimeter of a (spherical) polygon or composite
+       (with great circle arcs joining the points).
 
-       @arg points: The polygon points (L{LatLon}[]).
+       @arg points: The polygon points or clips (L{LatLon}[], L{BooleanFHP}
+                    or L{BooleanGH}).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
@@ -1317,7 +1322,8 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}} or C{B{closed}=False} with
+                          C{B{points}} a composite.
 
        @note: Distances are based on function L{pygeodesy.vincentys_}.
 
@@ -1333,7 +1339,12 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
-    r = fsum(_rads(points, closed, wrap), floats=True)
+    if _MODS.booleans.isBoolean(points):
+        if not closed:
+            raise _ValueError(closed=closed, points=_composite_)
+        r = points._sum2(LatLon, perimeterOf, closed=True, radius=radius, wrap=wrap)
+    else:
+        r = fsum(_rads(points, closed, wrap), floats=True)
     return _r2m(r, radius)
 
 

@@ -43,7 +43,7 @@ from pygeodesy.vector3d import nearestOn6, Vector3d
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '23.03.19'
+__version__ = '23.03.30'
 
 
 class LatLonBase(_NamedBase):
@@ -1001,7 +1001,7 @@ class LatLonBase(_NamedBase):
                           ignoring any duplicate or closing final
                           B{C{points}} (C{bool}).
 
-           @return: A L{Points2Tuple}C{(number, points)}, C{int}
+           @return: A L{Points2Tuple}C{(number, points)}, an C{int}
                     and C{list} or C{tuple}.
 
            @raise PointsError: Insufficient number of B{C{points}}.

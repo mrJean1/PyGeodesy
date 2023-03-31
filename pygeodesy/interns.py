@@ -166,6 +166,7 @@ _COLON_          = Str_(':')                 # PYCHOK OK
 _COLONSPACE_     = Str_(': ')                # PYCHOK OK
 _COMMA_          = Str_(',')                 # PYCHOK OK
 _COMMASPACE_     = Str_(_COMMASPACE_)        # PYCHOK OK
+_composite_           = 'composite'          # PYCHOK OK
 _concentric_          = 'concentric'         # PYCHOK OK
 _convergence_ = _Prefix('convergence')       # PYCHOK OK
 _conversion_          = 'conversion'         # PYCHOK OK
@@ -587,7 +588,7 @@ def _version2(version, n=2):
 __all__ = (_NN_,  # not MISSING!
             Str_.__name__,  # classes
             machine.__name__)  # in .lazily
-__version__ = '23.03.25'
+__version__ = '23.03.30'
 
 if __name__ == '__main__':
 

@@ -67,7 +67,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.02.17
+        23.03.29
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -333,6 +333,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#islistuple" class="summary-sig-name">islistuple</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Check for list or tuple <code>type</code> with a minumal length.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isodd" class="summary-sig-name">isodd</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Is <b><code>x</code></b> odd?</td>
           <td align="right" valign="top">
@@ -405,24 +423,6 @@
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
         <span class="summary-sig-arg">*Supers</span>)</span><br />
       Check whether a class is a sub-class of some other class(es).</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#istuplist" class="summary-sig-name">istuplist</a>(<span class="summary-sig-arg">obj</span>,
-        <span class="summary-sig-arg">minum</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Check for tuple or list types and minumal length.</td>
           <td align="right" valign="top">
             
             
@@ -891,6 +891,35 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="islistuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">islistuple</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">minum</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for list or tuple <code>type</code> with a minumal length.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>minum</code></strong> - Minimal <code>len</code> required C({int}).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>list</code>
+          or <code>tuple</code> with <code>len</code> at least 
+          <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isodd"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1030,35 +1059,6 @@
           <b><code>Sub</code></b> is not a class or if no 
           <b><code>Supers</code></b> are given or none of those are a 
           class.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="istuplist"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">istuplist</span>&nbsp;(<span class="sig-arg">obj</span>,
-        <span class="sig-arg">minum</span>=<span class="sig-default">0</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Check for tuple or list types and minumal length.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>minum</code></strong> - Minimal <code>len</code> required C({int}).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is 
-          <code>tuple</code> or <code>list</code> with <code>len</code> at 
-          least <b><code>minum</code></b>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1355,7 +1355,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 28 11:55:12 2023
+    Generated by Epydoc 3.0.1 on Fri Mar 31 10:52:41 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -87,7 +87,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        23.03.19
+        23.03.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -180,7 +180,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the area of a polygon.</td>
+      Approximate the area of a polygon or composite.</td>
           <td align="right" valign="top">
             
             
@@ -318,7 +318,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#isenclosedBy" class="summary-sig-name">isenclosedBy</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Determine whether a point is enclosed by a polygon.</td>
+      Determine whether a point is enclosed by a polygon or composite.</td>
           <td align="right" valign="top">
             
             
@@ -402,7 +402,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Approximate the perimeter of a path or polygon.</td>
+      Approximate the perimeter of a path, polygon.</td>
           <td align="right" valign="top">
             
             
@@ -478,11 +478,15 @@
     </td>
   </tr></table>
   
-  <p>Approximate the area of a polygon.</p>
+  <p>Approximate the area of a polygon or composite.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points or clips (<code>LatLon</code>[], <a 
+          href="pygeodesy.booleans.BooleanFHP-class.html" 
+          class="link">BooleanFHP</a> or <a 
+          href="pygeodesy.booleans.BooleanGH-class.html" 
+          class="link">BooleanGH</a>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
@@ -867,13 +871,17 @@
     </td>
   </tr></table>
   
-  <p>Determine whether a point is enclosed by a polygon.</p>
+  <p>Determine whether a point is enclosed by a polygon or composite.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The point (<code>LatLon</code> or 2-tuple <code>(lat, 
           lon)</code>).</li>
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The polygon points or clips (<code>LatLon</code>[], <a 
+          href="pygeodesy.booleans.BooleanFHP-class.html" 
+          class="link">BooleanFHP</a> or <a 
+          href="pygeodesy.booleans.BooleanGH-class.html" 
+          class="link">BooleanGH</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1086,11 +1094,15 @@
     </td>
   </tr></table>
   
-  <p>Approximate the perimeter of a path or polygon.</p>
+  <p>Approximate the perimeter of a path, polygon. or composite</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points or clips (<code>LatLon</code>[], <a 
+          href="pygeodesy.booleans.BooleanFHP-class.html" 
+          class="link">BooleanFHP</a> or <a 
+          href="pygeodesy.booleans.BooleanGH-class.html" 
+          class="link">BooleanGH</a>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
@@ -1104,7 +1116,9 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b> or 
+        <code><b>closed</b>=False</code> with <code><b>points</b></code> a 
+        composite.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1199,7 +1213,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Mar 28 11:55:12 2023
+    Generated by Epydoc 3.0.1 on Fri Mar 31 10:52:41 2023
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

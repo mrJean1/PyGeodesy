@@ -41,9 +41,10 @@ from pygeodesy.fmath import favg, fdot, Fsum, fsum, hypot
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
 from pygeodesy.formy import _bearingTo2, equirectangular_, latlon2n_xyz, \
                             _spherical_datum
-from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _DEQUALSPACED_, \
-                             _ELLIPSIS_, _height_, _immutable_, _lat_, _lon_, \
-                             _near_, _not_, _point_, _SPACE_, _UNDER_, _valid_
+from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
+                             _DEQUALSPACED_, _ELLIPSIS_, _height_, \
+                             _immutable_, _lat_, _lon_, _near_, _not_, \
+                             _point_, _SPACE_, _UNDER_, _valid_
 from pygeodesy.iters import LatLon2PsxyIter, PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import classname, nameof, notImplemented, notOverloaded, \
@@ -63,7 +64,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '23.03.19'
+__version__ = '23.03.30'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1172,9 +1173,10 @@ def _areaError(pts, near_=NN):  # imported by .ellipsoidalKarney
 
 
 def areaOf(points, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the area of a polygon.
+    '''Approximate the area of a polygon or composite.
 
-       @arg points: The polygon points (C{LatLon}[]).
+       @arg points: The polygon points or clips (C{LatLon}[],
+                    L{BooleanFHP} or L{BooleanGH}).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
@@ -1197,7 +1199,10 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @see: L{sphericalNvector.areaOf}, L{sphericalTrigonometry.areaOf},
              L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
     '''
-    a, _ = _area2(points, adjust, wrap)
+    if _MODS.booleans.isBoolean(points):
+        a = points._sum1(areaOf, adjust=adjust, radius=None, wrap=wrap)
+    else:
+        a, _ = _area2(points, adjust, wrap)
     return fabs(a if radius is None else (Radius(radius)**2 * a))
 
 
@@ -1532,10 +1537,11 @@ def isconvex_(points, adjust=False, wrap=True):
 
 
 def isenclosedBy(point, points, wrap=False):  # MCCABE 15
-    '''Determine whether a point is enclosed by a polygon.
+    '''Determine whether a point is enclosed by a polygon or composite.
 
        @arg point: The point (C{LatLon} or 2-tuple C{(lat, lon)}).
-       @arg points: The polygon points (C{LatLon}[]).
+       @arg points: The polygon points or clips (C{LatLon}[], L{BooleanFHP}
+                    or L{BooleanGH}).
        @kwarg wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
        @return: C{True} if B{C{point}} is inside the polygon, C{False}
@@ -1585,6 +1591,9 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             elif x >= x0_180:
                 x -= _360_0
             return (x - x1), x, y
+
+    if _MODS.booleans.isBoolean(points):
+        return points._encloses(y0, x0)
 
     Ps = LatLon2PsxyIter(points, wrap=wrap, loop=1)
     p  = Ps[0]
@@ -1792,9 +1801,10 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
 
 
 def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
-    '''Approximate the perimeter of a path or polygon.
+    '''Approximate the perimeter of a path, polygon. or composite
 
-       @arg points: The path or polygon points (C{LatLon}[]).
+       @arg points: The path or polygon points or clips (C{LatLon}[],
+                    L{BooleanFHP} or L{BooleanGH}).
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
                       by the cosine of the mean latitude (C{bool}).
@@ -1808,7 +1818,8 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}} or C{B{closed}=False} with
+                          C{B{points}} a composite.
 
        @note: This perimeter is based on the L{pygeodesy.equirectangular_}
               distance approximation and is ill-suited for regions exceeding
@@ -1830,7 +1841,13 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             yield hypot(dx, dy)
             p1 = p2
 
-    d = fsum(_degs(points, closed, wrap))
+    if _MODS.booleans.isBoolean(points):
+        if not closed:
+            raise _ValueError(closed=closed, points=_composite_)
+        d = points._sum1(perimeterOf, closed=True, adjust=adjust,
+                                      radius=radius, wrap=wrap)
+    else:
+        d = fsum(_degs(points, closed, wrap))
     return degrees2m(d, radius=radius)
 
 

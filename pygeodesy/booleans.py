@@ -18,17 +18,17 @@ C{reverse-difference}, C{sum} and C{union}.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, isscalar, issubclassof, map2
-from pygeodesy.constants import EPS, EPS2, INT0, MAX, \
-                               _0_0, _0_5, _1_0
+from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _xkwds_get
 from pygeodesy.fmath import fabs, favg, hypot, hypot2
+# from pygeodesy.fsums import fsum1  # from _MODS
 from pygeodesy.interns import NN, _BANG_, _clip_, _clipid_, _COMMASPACE_, \
-                             _DOT_, _e_, _ELLIPSIS_, _few_, _height_, \
-                             _lat_,_LatLon_, _lon_, _name_, _not_, \
-                             _scalar_,_SPACE_, _too_, _X_, _x_, \
+                             _composite_, _DOT_, _e_, _ELLIPSIS_, _few_, \
+                             _height_, _lat_,_LatLon_, _lon_, _name_, \
+                             _not_, _scalar_,_SPACE_, _too_, _X_, _x_, \
                              _B_, _d_, _R_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.latlonBase import LatLonBase  # from _MODS
 from pygeodesy.named import Fmt, _Named, _NotImplemented, pairs
 # from pygeodesy.points import boundsOf  # from _MODS
@@ -39,18 +39,17 @@ from pygeodesy.units import Height, HeightX
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '23.03.27'
+__version__ = '23.03.31'
 
 _0_EPS =  EPS  # near-zero, positive
 _EPS_0 = -EPS  # near-zero, negative
-_1_EPS = _1_0 + EPS  # near-one, over
-_EPS_1 = _1_0 - EPS  # near-one, under
-_10EPS =  EPS * 10   # see ._2Abs, ._10eps
+_1_EPS = _1_0 + EPS   # near-one, over
+_EPS_1 = _1_0 - EPS   # near-one, under
+_10EPS =  EPS * 10    # see ._2Abs, ._10eps
 
 _alpha_     = 'alpha'
 _boolean_   = 'boolean'
 _case_      = 'case'
-_composite_ = 'composite'
 _corners_   = 'corners'
 _duplicate_ = 'duplicate'
 _open_      = 'open'
@@ -532,18 +531,27 @@ class LatLonGH(_LatLonBool):
     def _isinside(self, composite, *bottom_top):
         # Is this vertex inside the composite? I{Odd-even rule}.
 
+        def _x(y, p1, p2):
+            # return C{x} at given C{y} on edge [p1,p2]
+            return (y - p1.y) / (p2.y - p1.y) * (p2.x - p1.x)
+
         # The I{odd-even} rule counts the number of edges
         # intersecting a ray emitted East-bound from this
         # point to infinity.  When I{odd} this point lies
         # inside, if I{even} outside.
-        r, y = False, self.y
+        i, y = False, self.y
         if not (bottom_top and _outside(y, y, *bottom_top)):
-            e   =  self.__class__(MAX, y, clipid=self.clipid)
-            _i4 = _EdgeGH(self, e)._intersect4
+            x = self.x
             for p1, p2, _ in composite._edges3():
-                for _ in _i4(p1, p2, False):
-                    r = not r
-        return r
+                if (p1.y < y) is not (p2.y < y):
+                    r = p2.x > x
+                    if p1.x < x:
+                        b = r and _x(y, p1, p2) > x
+                    else:
+                        b = r or  _x(y, p1, p2) > x
+                    if b:
+                        i = not i
+        return i
 
     def isinside(self, *composites):
         '''Is this point inside B{C{composites}} based on C{odd-even rule}?
@@ -696,8 +704,8 @@ class _Clip(_Named):
     def _closed(self, raiser):  # PYCHOK unused
         # End a clip, un-close it and check C{len}.
         p, f = self._last, self._first
-        if f and f._prev is p and p == f and \
-                 p._next is f and p is not f:
+        if f and f._prev is p and p is not f and \
+                 p._next is f and p == f:  # PYCHOK no cover
             # un-close the clip
             f._prev = p = p._prev
             p._next = f
@@ -1035,6 +1043,10 @@ class _CompositeBase(_Named):
             for p1, p2 in c._edges2(**raiser):
                 yield p1, p2, c
 
+    def _encloses(self, lat, lon):
+        # see function .points.isenclosedBy
+        return self._LL(lat, lon)._isinside(self)
+
     @property
     def eps(self):
         '''Get the null edges tolerance (C{degrees}, usually).
@@ -1165,6 +1177,21 @@ class _CompositeBase(_Named):
                     _ap(LL(v.y, v.x, v.height, sid))
                 sid += 1
         return sp
+
+    def _sum1(self, _a_p, *args, **kwds):  # in .karney, .points
+        # Sum the area or perimeter of all clips
+        return _MODS.fsums.fsum1((_a_p(c, *args, **kwds) for c in self._clips),
+                                  floats=True)
+
+    def _sum2(self, LL, _a_p, *args, **kwds):  # in .sphericalNvector, -Trigonometry
+        # Sum the area or perimeter of all clips
+
+        def _lls(clip):  # convert clip to LLs
+            for v in clip:
+                yield LL(v.lat, v.lon)  # datum=Sphere
+
+        return _MODS.fsums.fsum1((_a_p(_lls(c), *args, **kwds) for c in self._clips),
+                                  floats=True)
 
     def toLatLon(self, LatLon=None, closed=False, **LatLon_kwds):
         '''Yield all (non-duplicate) points and intersections
@@ -1980,6 +2007,18 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         '''Difference: C{this - other}.
         '''
         return self._boolean(other, True, False, self.__sub__)
+
+
+def isBoolean(obj):
+    '''Check for C{Boolean} composites.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is L{BooleanFHP},
+                L{BooleanGH} oe some other composite,
+                C{False} otherwise.
+    '''
+    return isinstance(obj, _CompositeBase)
 
 
 __all__ += _ALL_DOCS(_BooleanBase, _Clip,

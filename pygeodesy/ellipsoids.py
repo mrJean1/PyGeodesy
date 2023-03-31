@@ -90,7 +90,7 @@ from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '23.03.20'
+__version__ = '23.03.29'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -109,10 +109,10 @@ def _s2_c2(phi):
     '''
     if phi:
         s2 = sin(phi)**2
-        if s2 > 0:
+        if s2 > EPS:
             c2 = _1_0 - s2
-            if c2 > 0:
-                if c2 < _1_0:
+            if c2 > EPS:
+                if c2 < EPS1:
                     return s2, c2
             else:
                 return _1_0, _0_0  # phi == PI_2
@@ -248,8 +248,8 @@ class Ellipsoid(_NamedEnumItem):
                 b  = a_f_2b(a, f_)  # a * (f_ - 1) / f_
                 f  = f_2f(f_)
             else:  # only a, spherical
-                f = f_ = 0
-                b = a  # superfluous
+                f_ = f = 0
+                b  = a  # superfluous
 
             if not f < _1_0:  # sanity check, see .ecef.Ecef.__init__
                 raise ValueError(_SPACE_(_f_, _invalid_))
@@ -350,8 +350,7 @@ class Ellipsoid(_NamedEnumItem):
     def A(self):
         '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
 
-           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/
-                 a-highly-accurate-world-wide-algorithm-for-the-transverse...>}.
+           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/>}.
         '''
         A, n = self.a, self.n
         if n:
@@ -1420,7 +1419,7 @@ class Ellipsoid(_NamedEnumItem):
         r = self.a
         if self.f and lat:  # .isEllipsoidal
             r -= (r - self.b) * fabs(Lat(lat)) / _90_0
-            r  = Radius(Rlat=r)
+            r  =  Radius(Rlat=r)
         return r
 
     Rpolar = b  # for consistent naming
@@ -1601,7 +1600,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f:
             m, n = self.roc2_(Phi_(lat))
-            m *= _2_0 * n / (m + n)  # == 2 / (1 / m + 1 / n)
+            m *= n * _2_0 / (m + n)  # == 2 / (1 / m + 1 / n)
         else:
             m  = self.a
         return Radius(rocMean=m)

@@ -64,7 +64,7 @@ OSGB36 datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, istuplist, neg_, _xinstanceof
+from pygeodesy.basics import islistuple, isscalar, neg_, _xinstanceof
 from pygeodesy.constants import _float as _F, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3Tuple
 # from pygeodesy.errors import _IsnotError  # from .fmath
@@ -86,7 +86,7 @@ from pygeodesy.units import radians, Radius_
 # from math import radians  # from .units
 
 __all__ = _ALL_LAZY.datums
-__version__ = '23.03.19'
+__version__ = '23.03.29'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -437,7 +437,7 @@ def _En2(earth, name):
     elif isinstance(earth, a_f2Tuple):
         n = _UNDER(name or earth.name)
         E =  Ellipsoid(earth.a, earth.b, name=n)
-    elif istuplist(earth, minum=2):
+    elif islistuple(earth, minum=2):
         a, f = earth[:2]
         n = _UNDER(name or getattr(earth, _name_, NN))
         E =  Ellipsoid(a, f=f, name=n)

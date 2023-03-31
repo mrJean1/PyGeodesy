@@ -27,11 +27,12 @@ from math import copysign as _copysign
 import inspect as _inspect
 
 __all__ = _ALL_LAZY.basics
-__version__ = '23.02.17'
+__version__ = '23.03.29'
 
 _0_0                  = 0.0  # see .constants
 _below_               = 'below'
 _cannot_              = 'cannot'
+_list_tuple_types     = (list, tuple)
 _odd_                 = 'odd'
 _required_            = 'required'
 _PYGEODESY_XPACKAGES_ = 'PYGEODESY_XPACKAGES'
@@ -269,6 +270,18 @@ except ImportError:
         return False
 
 
+def islistuple(obj, minum=0):
+    '''Check for list or tuple C{type} with a minumal length.
+
+       @arg obj: The object (any C{type}).
+       @kwarg minum: Minimal C{len} required C({int}).
+
+       @return: C{True} if B{C{obj}} is C{list} or C{tuple} with
+                C{len} at least B{C{minum}}, C{False} otherwise.
+    '''
+    return type(obj) in _list_tuple_types and len(obj) >= (minum or 0)
+
+
 def isodd(x):
     '''Is B{C{x}} odd?
 
@@ -329,18 +342,6 @@ def issubclassof(Sub, *Supers):
         if t:
             return bool(issubclass(Sub, t))
     return None
-
-
-def istuplist(obj, minum=0):
-    '''Check for tuple or list types and minumal length.
-
-       @arg obj: The object (any C{type}).
-       @kwarg minum: Minimal C{len} required C({int}).
-
-       @return: C{True} if B{C{obj}} is C{tuple} or C{list} with
-                C{len} at least B{C{minum}}, C{False} otherwise.
-    '''
-    return type(obj) in (tuple, list) and len(obj) >= (minum or 0)
 
 
 def len2(items):

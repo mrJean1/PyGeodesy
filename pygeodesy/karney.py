@@ -129,8 +129,8 @@ from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, _1_16th,
 from pygeodesy.datums import _a_ellipsoid, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fremainder, norm2, hypot as _hypot, unstr  # PYCHOK shared
-from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _DOT_, _lat2_, \
-                             _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, \
+from pygeodesy.interns import NN, _2_, _a12_, _area_, _azi2_, _composite_, _DOT_, \
+                             _lat2_, _lon2_, _m12_, _M12_, _M21_, _number_, _s12_, \
                              _S12_, _UNDER
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _getenv
 from pygeodesy.named import callername, classname, _Dict, _NamedBase, \
@@ -146,7 +146,7 @@ from pygeodesy.utily import atan2d, fabs, sincos2d, tand, unroll180, wrap360
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '23.03.25'
+__version__ = '23.03.30'
 
 _EWGS84     = _WGS84.ellipsoid  # PYCHOK in .geodesicx.gx, .ktm, .rhumbx, .solveBase
 _K_2_0      = _getenv('PYGEODESY_GEOGRAPHICLIB', _2_) == _2_
@@ -845,6 +845,17 @@ def _polygon(geodesic, points, closed, line, wrap):
     '''
     if not wrap:  # capability LONG_UNROLL can't be off
         raise _ValueError(wrap=wrap)
+
+    if _MODS.booleans.isBoolean(points):
+        # recursive call for each boolean clip
+
+        def _a_p(clip, *args, **unused):
+            return _polygon(geodesic, clip, *args)
+
+        if not closed:  # closed only
+            raise _ValueError(closed=closed, points=_composite_)
+
+        return points._sum1(_a_p, closed, line, wrap)
 
     gP = geodesic.Polygon(line)
     _A = gP.AddPoint
